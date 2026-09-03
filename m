@@ -1,107 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341FB439F68
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 12:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB466423A80
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 13:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788438525; cv=none; b=aVLO7ZVX9LDU+YSwWxYcLyRD8k4yMB6WFL5pycjbxAyBW65gLTV0bwY1x6AsGE2hF8oywcmlswJd/QxnHBqmP8T+adLvoLqnFwIDRs2oLoOY0L7W2tpgwVzUDUDhE3R6143amQDE8BL80LZeE9rxcC7QER4I9fSib+okcg/xGek=
+	t=1788441400; cv=none; b=TLLj0hdj3EAKJ3VVEsZsAFmmEt+PBQu0Rd30rIhMF21+iEQJpzAZ15PsonvUjvbAp+1H3iSUNrlZu/a21HCFKB3OzejuDrf1cpkY0a0eehCXzU8NhMFMSOBZ5u9ELYVQI92wzi/j0eBFxooSag6lZfvKt358gmMPgBUxuUSGEh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788438525; c=relaxed/simple;
-	bh=T8LGIybHLxYOmOJZWdqzpCtnroH4lxedDR+iPt7QbMc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oLb7kmyqUQDutV2D/e/QguCGfqr6JbDlk3CcPHUZK7EC41Mt1yhNrv5OBt2RQJUFTHUp1WE+HnoxMtjs4D3fmbDC8/rDEHERoXbyVc+GdxyMIoqInFZikYmRjuAbv8Daymy0imdjclIzLN++8rIcwFE8DgA90nHDnWwmxCRUg5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOJvEqQ0; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788441400; c=relaxed/simple;
+	bh=XfAY/dZHTsqXVY4mLyR6AY5GGRW5FNCmoCd9yLOCUwU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RiZYGWCvE+7kHJUfc+pLNSv4/SHH23MxDob8UEnIfpnynhst4k+IxyU6nxEdt39699PVlHPnlniQ2puqz6wCjreVjbhpE5/K2UzOZYACOXXQoSaZXU67IjAafBlcNL1iFFnLd1GkmGMokdSPXlC94CTKFdC59hSswxBM8ls07TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ksB9jG1K; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOJvEqQ0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788438522; x=1819974522;
-  h=date:from:to:cc:subject:message-id;
-  bh=T8LGIybHLxYOmOJZWdqzpCtnroH4lxedDR+iPt7QbMc=;
-  b=JOJvEqQ0TkK3vnF04CoDcP/W2GfV6SEizUWXzwUzZUYETkAuUIIV44ot
-   Pyy/5jHfnIBvl4nqBPWa0yVcL4XONOb3mwSUj+2KRIkF+QZ6tmOCgDg3+
-   bSEyqpEIRsjVSW33yGRbCxd8ANZQ562fwqjuLwGCS3S8pb2KHwEDl1ijV
-   OhrIP9qWDY2jPfH+bQrBPabZ6ECM8LVBGf5Himgy5XdvfpYg63n98lXZF
-   P18LoAFAg5qrfJUdkzPqGMA7E1vZjK4YuoqdutBBxR/IRfMbQlpA7Z2m/
-   x1QmDyUAqQ+vuQRaHl+OH5FB7ZhVZcabDhu1denDVKVwINtXR5VH0g7zH
-   g==;
-X-CSE-ConnectionGUID: 0DrGPoNqTqCJ4s6JB8LidA==
-X-CSE-MsgGUID: pHyElI/WTxWWpiN+iAZsZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88941428"
-X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="88941428"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:28:41 -0700
-X-CSE-ConnectionGUID: 60RNIVXRQgSomjSEP0jhrg==
-X-CSE-MsgGUID: DB7VDl6xSrWXHLbFEP2Flw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="265365691"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 03 Sep 2026 05:28:39 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x26YW-000000004oE-4BPy;
-	Thu, 03 Sep 2026 12:28:36 +0000
-Date: Thu, 03 Sep 2026 20:28:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Hao-Yu Yang" <naup96721@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>,
- Eric Dumazet <edumazet@google.com>
-Subject: mm/mempolicy.c:488:6-25: WARNING: atomic_dec_and_test
- variation before object free at line 496.
-Message-ID: <202609032025.W5uNU0A3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ksB9jG1K"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 45AD11596;
+	Thu,  3 Sep 2026 06:16:18 -0700 (PDT)
+Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B178B3F7D8;
+	Thu,  3 Sep 2026 06:16:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788441382; bh=XfAY/dZHTsqXVY4mLyR6AY5GGRW5FNCmoCd9yLOCUwU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ksB9jG1K5Igbwua9Lq+7o89W3WiRuaXHMA7h/OT0RgqaHy/eYY9L9iOAJDlelPh0K
+	 vlsA9J+tdjeSwerzPHWoU/wMImxZqn9Euy9NDNnwS8Rk9UUzzDWr3r7gBDMjb1yeO5
+	 YBOB7zbvUkNThtcfEh5o0VDAiOg/fITDdeAJIyRE=
+Message-ID: <03055fbc-281f-4ed9-9282-4853d560e17f@arm.com>
+Date: Thu, 3 Sep 2026 14:16:19 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/resctrl/mpam_devices.c:1860:35-38: WARNING: Suspicious
+ code. resource_size is maybe missing with msc_res
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ kernel test robot <lkp@intel.com>, James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+ Zeng Heng <zengheng4@huawei.com>, Shaopeng Tan
+ <tan.shaopeng@jp.fujitsu.com>, Jonathan Cameron
+ <jonathan.cameron@huawei.com>, Gavin Shan <gshan@redhat.com>
+References: <202609030809.ObirDhR3-lkp@intel.com>
+ <555e6b9d-cff8-ef10-42e9-5e469550292b@linux.intel.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <555e6b9d-cff8-ef10-42e9-5e469550292b@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   940de590b839f71d6dc846160534bf202401b8b7
-commit: 190a8c48ff623c3d67cb295b4536a660db2012aa futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()
-date:   5 months ago
-config: s390-randconfig-r064-20260903 (https://download.01.org/0day-ci/archive/20260903/202609032025.W5uNU0A3-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
+Hi Ilpo,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 190a8c48ff62 ("futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609032025.W5uNU0A3-lkp@intel.com/
+On 03/09/2026 12:02, Ilpo Järvinen wrote:
+> On Thu, 3 Sep 2026, kernel test robot wrote:
+> 
+>> Hi Ben,
+>>
+>> First bad commit (maybe != root cause):
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>> head:   89a312991dc6e638a36adc43ccb91dbc25504c04
+>> commit: c544f00a473239835d22e7109b403314d8b85974 arm64: mpam: Drop the CONFIG_EXPERT restriction
+>> date:   5 months ago
+>> config: arm64-randconfig-r051-20260902 (https://download.01.org/0day-ci/archive/20260903/202609030809.ObirDhR3-lkp@intel.com/config)
+>> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c2cffa015e9549aafba9e514384b08204c7cc4b)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Fixes: c544f00a4732 ("arm64: mpam: Drop the CONFIG_EXPERT restriction")
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202609030809.ObirDhR3-lkp@intel.com/
+>>
+>> cocci warnings: (new ones prefixed by >>)
+>>>> drivers/resctrl/mpam_devices.c:1860:35-38: WARNING: Suspicious code. resource_size is maybe missing with msc_res
+>>
+>> vim +1860 drivers/resctrl/mpam_devices.c
+>>
+>> f04046f2577a5c James Morse 2025-11-19 @1860  		msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
+> 
+>> :::::: The code at line 1860 was first introduced by commit
+>> :::::: f04046f2577a5c76167333ca99d3903ee5331ba0 arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate
+>>
+>> :::::: TO: James Morse <james.morse@arm.com>
+>> :::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+> 
+> Hi all,
+> 
+> This report has some validity but the code doesn't look buggy as is, just 
+> off-by-one errors correcting each other. The variable is called "..._sz" 
+> (~ size), but the resource size calculation is off-by-one because trying Arm A-profile Architecture Hi 
+> to do it by hand instead of using the resource_size() helper.
+> 
+> The mapped_hwpage_sz value is only used for register write offset 
+> sanity checks, which use > countering the off-by-one error.
 
-cocci warnings: (new ones prefixed by >>)
->> mm/mempolicy.c:488:6-25: WARNING: atomic_dec_and_test variation before object free at line 496.
+Ah, yes, thanks for pointing this out. mapped_hwpage_sz is a misleading name as it really indicates
+the last byte mapped and so it is functionally correct when used with >.
 
-vim +488 mm/mempolicy.c
+> 
+> IMO, it would be better to use resource_size() and change those sanity 
+> checks to use >= instead of > but this doesn't look a major problem by 
+> any means.
 
-^1da177e4c3f415 Linus Torvalds   2005-04-16  484  
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  485  /* Slow path of a mpol destructor. */
-c36f6e6dff4d32e Hugh Dickins     2023-10-03  486  void __mpol_put(struct mempolicy *pol)
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  487  {
-c36f6e6dff4d32e Hugh Dickins     2023-10-03 @488  	if (!atomic_dec_and_test(&pol->refcnt))
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  489  		return;
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  490  	/*
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  491  	 * Required to allow mmap_lock_speculative*() access, see for example
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  492  	 * futex_key_to_node_opt(). All accesses are serialized by mmap_lock,
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  493  	 * however the speculative lock section unbound by the normal lock
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  494  	 * boundaries, requiring RCU freeing.
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  495  	 */
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13 @496  	kfree_rcu(pol, rcu);
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  497  }
-f634f10809ec3d5 Shivank Garg     2025-08-27  498  EXPORT_SYMBOL_FOR_MODULES(__mpol_put, "kvm");
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  499  
+Agreed. Looking back I fixed the functional bug in v6 (changed >= to >) of the original mpam driver
+posting but left it in a confusing state.
 
-:::::: The code at line 488 was first introduced by commit
-:::::: c36f6e6dff4d32ec8b6da8f553933727a57a7a4a mempolicy trivia: slightly more consistent naming
+Thanks,
 
-:::::: TO: Hugh Dickins <hughd@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+Ben
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+
