@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B2043C06F;
-	Thu,  3 Sep 2026 07:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73EF29B799
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 08:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788420914; cv=none; b=aEIXq1FIuv2GgS4ZtOt4QJVxrie+XKwl7Ir4hDyrn8X9HA0Jh2qdzAIzZTSPuK1G3um0CTghbdTcgvUtIMFkJw8CWRNU1klbRZ8zWzgJ0Kjw9G6xurvWHf1HW9vtSGtVVCpOjYfgAwAFet9FiDBY0q5pptjB1PzbM0VzmfGS/wM=
+	t=1788422955; cv=none; b=DYVtNEb0PEn8z16f68j45TJDhbQJu349S2zPAbvxyjX0zEoUapdUX/7d5Sz+QkQaunQG1Pz8zvI++GEEPNCTNyl8NEtNe3t2hY8515CoPAXbmwpHs1g04FOY4KgGzwidqMks4ZG/hC6bUTzkJ9dGS0PKisDwYkCbOud4lC2KSkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788420914; c=relaxed/simple;
-	bh=39Jx9KtDS8alLni2xt7CpfUzAqEr0FXk2RhxhmCdxPE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QfETp5LLm5lx8qEufIGGNislFJ2jbGntUMXk7jNm6V7sVbuw42KlRJUCNX2OxgmWDSkgq9/FpZjXGtTB3hRFj7sCQQBTRZKRmyUdCjDrvSKSoTsnmL+jTpRsh00uZK1j4OSin6KZ39b6d5UqQCjFMSvVpodN1hQhUthHNOHQkIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtqL1Dq1; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1788422955; c=relaxed/simple;
+	bh=qQdDrMQQOpfb7in/N+je8NHTJuXu/TB71ez8hj3iaB4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sVLxVMocjwpfM/SvCeDrrB0y2yMFFJV4FodPoBdmo24JADB6oIX8wa+C3CSTfYeE5iJOnuCOAjIO3BsWQ3LIJWfrXeu7a47hWQvd/AdyiZvIAI+ZZ2W/1jrwH2eAIf+wEGfpQunJKmh74nrJGgmkMEfpSazYlde3sMAw12BfVAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kPbySkzU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtqL1Dq1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kPbySkzU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788420912; x=1819956912;
+  t=1788422953; x=1819958953;
   h=date:from:to:cc:subject:message-id;
-  bh=39Jx9KtDS8alLni2xt7CpfUzAqEr0FXk2RhxhmCdxPE=;
-  b=BtqL1Dq1UUIBssUrql1Ol/0533gthbUzkusAp5HX58bPQJIPMexEIoTy
-   LEKXcZ510oAFTL/wkiWnwSxmonz4k1WOxbYDDUbyAWSGzZQyBQrqq8Me0
-   W4QJTS6GsZhEazQfoZtHCYjf1ZZ3CqDbOK/+EOSeoPDpglyLVwURoich0
-   Q6I2xKSOmptCa+fBwy3+5PsFvOP2SAC011vL3v/zV4ptRjTa3heJJQ+kT
-   Bt+p52EsnV5Xjqhxpl+5Z23dx3O8NvDD003oCc8QMrNnmHaXQNHSnzSuO
-   7oBXni92gT/TF1IxorW12EWb0gFCygQfF01qRvJJUPTapOGFNTYl3hnw2
-   A==;
-X-CSE-ConnectionGUID: lIpHllgpR+2722a85vyaSA==
-X-CSE-MsgGUID: bOK3X8mrTTeWhTe6tHldWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="92711847"
+  bh=qQdDrMQQOpfb7in/N+je8NHTJuXu/TB71ez8hj3iaB4=;
+  b=kPbySkzUcGTE0tDJ7qLUdhFLPgCG/tOK7EwdYnmvHyXeua1mjVz6lSOp
+   cWZNH3qRqUbwjFBkHP1tjoryXI+WnkqxAok+e73bBjQYNGquLwcFNe12y
+   yCiEpxn7PBCooo0xOaxXouQMnAVuInxSD1jqezzbcqYNAwWfXh6NEbkFs
+   spEB20Z0RdnzOr4+c+SELz9SquUlsccElNd0h+oI+gAFc4mgsiSJdheyg
+   tfSmSMyfhYJkBrf8S9LyRJNdH3tL0UAqx7/q42XTGKZozSuEPgnm6Pd0K
+   CMr8pMy7Vey0G9Wcy740ViWKPUI6FvQt7baVLJtBjN3c8ipUkpJMmzC8+
+   Q==;
+X-CSE-ConnectionGUID: 3DwJQBkVQ0e2R1iG4KXqOw==
+X-CSE-MsgGUID: kf5HVAa0TkCw6gA+6sAojA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="100253733"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="92711847"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 00:35:09 -0700
-X-CSE-ConnectionGUID: 49kDZtfySiiJC1KDq10zrQ==
-X-CSE-MsgGUID: l5cGXGY+SlStrJStJ6qeUg==
+   d="scan'208";a="100253733"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 01:09:13 -0700
+X-CSE-ConnectionGUID: 2sasvAdAT4uzvfkDcRwaBg==
+X-CSE-MsgGUID: 7SeLVU5VSFaj0uF8f7312g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="268308910"
+   d="scan'208";a="263470598"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 03 Sep 2026 00:35:07 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2026 01:09:11 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x21yT-000000004JO-1LdR;
-	Thu, 03 Sep 2026 07:35:05 +0000
-Date: Thu, 03 Sep 2026 15:34:21 +0800
+	id 1x22VQ-000000004Ma-22qb;
+	Thu, 03 Sep 2026 08:09:08 +0000
+Date: Thu, 03 Sep 2026 16:08:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: bui duc phuc <phucduc.bui@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-gpio@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [brgl:gpio/for-next 5/8] drivers/gpio/gpio-altera.c:224:11:
- warning: comparison between pointer and integer ('struct gpio_irq_chip *' and
- 'int')
-Message-ID: <202609031554.tpxA67sB-lkp@intel.com>
+To: Rustam Adilov <adilov@disroot.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Thomas Gleixner <tglx@kernel.org>
+Subject: drivers/irqchip/irq-realtek-rtl.c:79:15: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202609031600.1CNIzNmV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,142 +60,86 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   1900b5a41493e7050c68c1e62780d6fb9a209457
-commit: 6e6e585b603e4f679c2a33c8f0954ec88b52fd7a [5/8] gpio: altera: Handle errors from optional IRQ lookup
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031554.tpxA67sB-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ed1626b9d0eaf7c406f44da5fb595ad94559f54b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031554.tpxA67sB-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   940de590b839f71d6dc846160534bf202401b8b7
+commit: 58b34b72b64bfbfc5f8ad4d8f229942aff76597e irqchip/irq-realtek-rtl: Use readl_be()/writel_be() instead of readl()/writel()
+date:   2 weeks ago
+config: mips-randconfig-r111-20260903 (https://download.01.org/0day-ci/archive/20260903/202609031600.1CNIzNmV-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c2cffa015e9549aafba9e514384b08204c7cc4b)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031600.1CNIzNmV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 58b34b72b64b ("irqchip/irq-realtek-rtl: Use readl_be()/writel_be() instead of readl()/writel()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609031554.tpxA67sB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609031600.1CNIzNmV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-realtek-rtl.c:79:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:79:15: sparse:     expected void const volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:79:15: sparse:     got unsigned int *
+>> drivers/irqchip/irq-realtek-rtl.c:79:15: sparse: sparse: cast to restricted __be32
+>> drivers/irqchip/irq-realtek-rtl.c:81:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
+   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     expected unsigned int [usertype] val
+   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     got restricted __be32 [usertype]
+>> drivers/irqchip/irq-realtek-rtl.c:81:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse:     expected void const volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse: sparse: cast to restricted __be32
+   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse:     expected void const volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse: sparse: cast to restricted __be32
+   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse:     expected void const volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse: sparse: cast to restricted __be32
+   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
+   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     expected unsigned int [usertype] val
+   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     got restricted __be32 [usertype]
+   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     expected void const volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: cast to restricted __be32
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected unsigned int [usertype] val
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got restricted __be32 [usertype]
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     expected void const volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     got unsigned int *
+   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: cast to restricted __be32
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected unsigned int [usertype] val
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got restricted __be32 [usertype]
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected void volatile [noderef] __iomem *mem
+   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got unsigned int *
 
-   drivers/gpio/gpio-altera.c:224:7: error: use of undeclared identifier 'irq'; did you mean 'girq'?
-     224 |                 if (irq != -ENXIO)
-         |                     ^~~
-         |                     girq
-   drivers/gpio/gpio-altera.c:174:24: note: 'girq' declared here
-     174 |         struct gpio_irq_chip *girq;
-         |                               ^
->> drivers/gpio/gpio-altera.c:224:11: warning: comparison between pointer and integer ('struct gpio_irq_chip *' and 'int') [-Wpointer-integer-compare]
-     224 |                 if (irq != -ENXIO)
-         |                     ~~~ ^  ~~~~~~
-   drivers/gpio/gpio-altera.c:225:11: error: use of undeclared identifier 'irq'; did you mean 'girq'?
-     225 |                         return irq;
-         |                                ^~~
-         |                                girq
-   drivers/gpio/gpio-altera.c:174:24: note: 'girq' declared here
-     174 |         struct gpio_irq_chip *girq;
-         |                               ^
-   drivers/gpio/gpio-altera.c:225:11: error: incompatible pointer to integer conversion returning 'struct gpio_irq_chip *' from a function with result type 'int' [-Wint-conversion]
-     225 |                         return irq;
-         |                                ^~~
-   1 warning and 3 errors generated.
+vim +79 drivers/irqchip/irq-realtek-rtl.c
 
-
-vim +224 drivers/gpio/gpio-altera.c
-
-   165	
-   166	static int altera_gpio_probe(struct platform_device *pdev)
-   167	{
-   168		struct gpio_generic_chip_config config;
-   169		struct device *dev = &pdev->dev;
-   170		int reg, ret;
-   171		struct altera_gpio_chip *altera_gc;
-   172		struct gpio_generic_chip *chip;
-   173		struct gpio_chip *gc;
-   174		struct gpio_irq_chip *girq;
-   175		int mapped_irq;
-   176	
-   177		altera_gc = devm_kzalloc(&pdev->dev, sizeof(*altera_gc), GFP_KERNEL);
-   178		if (!altera_gc)
-   179			return -ENOMEM;
-   180	
-   181		raw_spin_lock_init(&altera_gc->gpio_lock);
-   182	
-   183		altera_gc->regs = devm_platform_ioremap_resource(pdev, 0);
-   184		if (IS_ERR(altera_gc->regs))
-   185			return dev_err_probe(dev, PTR_ERR(altera_gc->regs),
-   186					     "failed to ioremap memory resource\n");
-   187	
-   188		chip = &altera_gc->chip;
-   189	
-   190		config = (struct gpio_generic_chip_config) {
-   191			.dev = dev,
-   192			.sz = 4,
-   193			.dat = altera_gc->regs + ALTERA_GPIO_DATA,
-   194			.set = altera_gc->regs + ALTERA_GPIO_DATA,
-   195			.dirout = altera_gc->regs + ALTERA_GPIO_DIR,
-   196		};
-   197	
-   198		ret = gpio_generic_chip_init(chip, &config);
-   199		if (ret)
-   200			return dev_err_probe(dev, ret, "unable to init generic GPIO\n");
-   201	
-   202		gc = &chip->gc;
-   203	
-   204		if (device_property_read_u32(dev, "altr,ngpio", &reg))
-   205			/* By default assume maximum ngpio */
-   206			gc->ngpio = ALTERA_GPIO_MAX_NGPIO;
-   207		else
-   208			gc->ngpio = reg;
-   209	
-   210		if (gc->ngpio > ALTERA_GPIO_MAX_NGPIO) {
-   211			dev_warn(&pdev->dev,
-   212				"ngpio is greater than %d, defaulting to %d\n",
-   213				ALTERA_GPIO_MAX_NGPIO, ALTERA_GPIO_MAX_NGPIO);
-   214			gc->ngpio = ALTERA_GPIO_MAX_NGPIO;
-   215		}
-   216	
-   217		gc->base = -1;
-   218		gc->label = devm_kasprintf(dev, GFP_KERNEL, "%pfw", dev_fwnode(dev));
-   219		if (!gc->label)
-   220			return -ENOMEM;
-   221	
-   222		mapped_irq = platform_get_irq_optional(pdev, 0);
-   223		if (mapped_irq < 0) {
- > 224			if (irq != -ENXIO)
-   225				return irq;
-   226			goto skip_irq;
-   227		}
-   228	
-   229		if (device_property_read_u32(dev, "altr,interrupt-type", &reg)) {
-   230			dev_err(&pdev->dev,
-   231				"altr,interrupt-type value not set in device tree\n");
-   232			return -EINVAL;
-   233		}
-   234		altera_gc->interrupt_trigger = reg;
-   235	
-   236		girq = &gc->irq;
-   237		gpio_irq_chip_set_chip(girq, &altera_gpio_irq_chip);
-   238	
-   239		if (altera_gc->interrupt_trigger == IRQ_TYPE_LEVEL_HIGH)
-   240			girq->parent_handler = altera_gpio_irq_leveL_high_handler;
-   241		else
-   242			girq->parent_handler = altera_gpio_irq_edge_handler;
-   243		girq->num_parents = 1;
-   244		girq->parents = devm_kcalloc(&pdev->dev, 1, sizeof(*girq->parents),
-   245					     GFP_KERNEL);
-   246		if (!girq->parents)
-   247			return -ENOMEM;
-   248		girq->default_type = IRQ_TYPE_NONE;
-   249		girq->handler = handle_bad_irq;
-   250		girq->parents[0] = mapped_irq;
-   251	
-   252	skip_irq:
-   253		ret = devm_gpiochip_add_data(dev, gc, altera_gc);
-   254		if (ret) {
-   255			dev_err(&pdev->dev, "Failed adding memory mapped gpiochip\n");
-   256			return ret;
-   257		}
-   258	
-   259		return 0;
-   260	}
-   261	
+    71	
+    72	static void write_irr(unsigned int cpu, int hw_irq, u32 value)
+    73	{
+    74		void __iomem *irr0 = REG(cpu, RTL_ICTL_IRR0);
+    75		unsigned int offset = IRR_OFFSET(hw_irq);
+    76		unsigned int shift = IRR_SHIFT(hw_irq);
+    77		u32 irr;
+    78	
+  > 79		irr = readl_be(irr0 + offset) & ~(0xf << shift);
+    80		irr |= (value & 0xf) << shift;
+  > 81		writel_be(irr, irr0 + offset);
+    82	}
+    83	
 
 --
 0-DAY CI Kernel Test Service
