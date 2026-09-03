@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADB237A846
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 07:24:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B2043C06F;
+	Thu,  3 Sep 2026 07:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788420251; cv=none; b=g7vbWZzssP3yWdQCNutabPhNtBBVPFEqa/tukTuctoi1HYIp8ZmYkKupgMNuQsFHTSHfHNB2V+WjAByLtauPZIW+EOc5nrQKXRCo4yTRXzAbfRfZPUiy9GpdDhQH1/+CKo1jxxY4e6FdacnJOwHxq3O8ghfhgmkuMY3XxA5Lsv0=
+	t=1788420914; cv=none; b=aEIXq1FIuv2GgS4ZtOt4QJVxrie+XKwl7Ir4hDyrn8X9HA0Jh2qdzAIzZTSPuK1G3um0CTghbdTcgvUtIMFkJw8CWRNU1klbRZ8zWzgJ0Kjw9G6xurvWHf1HW9vtSGtVVCpOjYfgAwAFet9FiDBY0q5pptjB1PzbM0VzmfGS/wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788420251; c=relaxed/simple;
-	bh=h+6KaEJ45iyahZXeDw6nsE7TdAIK7Nabv8duncjT4Ug=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YzL43PCnflaBaeXDNXQPsDOuIDlKGgubLB/+y6GZN4JNytxSV4FMX9w9Ljm+h5ug+zC79rkEF+snpu2EVT+Q3L6VRnkKRIXTYiu9PwY5hWrHliFYwf1uDV0esjmTHmArK1R23NeQJlHXHH56gKChp5oaEzMwi5HT8HyIerHSE5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nk8umipJ; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1788420914; c=relaxed/simple;
+	bh=39Jx9KtDS8alLni2xt7CpfUzAqEr0FXk2RhxhmCdxPE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QfETp5LLm5lx8qEufIGGNislFJ2jbGntUMXk7jNm6V7sVbuw42KlRJUCNX2OxgmWDSkgq9/FpZjXGtTB3hRFj7sCQQBTRZKRmyUdCjDrvSKSoTsnmL+jTpRsh00uZK1j4OSin6KZ39b6d5UqQCjFMSvVpodN1hQhUthHNOHQkIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtqL1Dq1; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nk8umipJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtqL1Dq1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788420249; x=1819956249;
+  t=1788420912; x=1819956912;
   h=date:from:to:cc:subject:message-id;
-  bh=h+6KaEJ45iyahZXeDw6nsE7TdAIK7Nabv8duncjT4Ug=;
-  b=Nk8umipJ+yntM9UtiukiwWfxcDpwaC4enrd8eqx/P4tlutO9jU3FdA+4
-   ni1GM/obYNaV1Y/e0hFbiC8nGHAw4zXyT3y1Ode9HXhyFzYgGsapoG4rY
-   0NUlUV8h6sagYV0QEKh6uTjStm5wFG9F/DUhZ7I/jiOI3jeAX2uViCoCx
-   hoE2XC3Gl4zWMZrrwG6UHV4FjztB5M2BBwCWGLWm/dxWCosaJGaB/hRkF
-   PWCylGmko5Ha0vMdqCSqP5ZNR+57wgyu2yDMy7IqXxlPPJXF8kEN8hI4g
-   S7Auc/kuBVcdv84h6PhY/KToGz1AQ2KzLkjQewlUvEiy7xEZLP3uwIBJw
+  bh=39Jx9KtDS8alLni2xt7CpfUzAqEr0FXk2RhxhmCdxPE=;
+  b=BtqL1Dq1UUIBssUrql1Ol/0533gthbUzkusAp5HX58bPQJIPMexEIoTy
+   LEKXcZ510oAFTL/wkiWnwSxmonz4k1WOxbYDDUbyAWSGzZQyBQrqq8Me0
+   W4QJTS6GsZhEazQfoZtHCYjf1ZZ3CqDbOK/+EOSeoPDpglyLVwURoich0
+   Q6I2xKSOmptCa+fBwy3+5PsFvOP2SAC011vL3v/zV4ptRjTa3heJJQ+kT
+   Bt+p52EsnV5Xjqhxpl+5Z23dx3O8NvDD003oCc8QMrNnmHaXQNHSnzSuO
+   7oBXni92gT/TF1IxorW12EWb0gFCygQfF01qRvJJUPTapOGFNTYl3hnw2
    A==;
-X-CSE-ConnectionGUID: 8h8Ip3HIQmi2VT/QZJoF4Q==
-X-CSE-MsgGUID: WwYFTwzbSRSRFWT7S0JS9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="106412031"
+X-CSE-ConnectionGUID: lIpHllgpR+2722a85vyaSA==
+X-CSE-MsgGUID: bOK3X8mrTTeWhTe6tHldWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="92711847"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="106412031"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 00:24:08 -0700
-X-CSE-ConnectionGUID: 8VG1CvdvTvimyBPwvoWvBQ==
-X-CSE-MsgGUID: 9tkIj9OGSoWtXJTp7rilQA==
+   d="scan'208";a="92711847"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 00:35:09 -0700
+X-CSE-ConnectionGUID: 49kDZtfySiiJC1KDq10zrQ==
+X-CSE-MsgGUID: l5cGXGY+SlStrJStJ6qeUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="299502687"
+   d="scan'208";a="268308910"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Sep 2026 00:24:07 -0700
+  by orviesa010.jf.intel.com with ESMTP; 03 Sep 2026 00:35:07 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x21no-000000004IQ-2zhk;
-	Thu, 03 Sep 2026 07:24:04 +0000
-Date: Thu, 03 Sep 2026 15:23:45 +0800
+	id 1x21yT-000000004JO-1LdR;
+	Thu, 03 Sep 2026 07:35:05 +0000
+Date: Thu, 03 Sep 2026 15:34:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 278/278]
- kernel/power/swap.c:645: warning: Function parameter or member 'data' not
- described in 'compress_threadfn'
-Message-ID: <202609031533.Xz9C8rZL-lkp@intel.com>
+To: bui duc phuc <phucduc.bui@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-gpio@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [brgl:gpio/for-next 5/8] drivers/gpio/gpio-altera.c:224:11:
+ warning: comparison between pointer and integer ('struct gpio_irq_chip *' and
+ 'int')
+Message-ID: <202609031554.tpxA67sB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,82 +62,142 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Nikhil,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   ae917b3c7332e08006443a49c261aa97ce703103
-commit: 31414b7c10febdb2006bacd5de9de2f63785ac58 [278/278] BACKPORT: PM: hibernate: Rename lzo* to make it generic
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260903/202609031533.Xz9C8rZL-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c2cffa015e9549aafba9e514384b08204c7cc4b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031533.Xz9C8rZL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+head:   1900b5a41493e7050c68c1e62780d6fb9a209457
+commit: 6e6e585b603e4f679c2a33c8f0954ec88b52fd7a [5/8] gpio: altera: Handle errors from optional IRQ lookup
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031554.tpxA67sB-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ed1626b9d0eaf7c406f44da5fb595ad94559f54b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031554.tpxA67sB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609031533.Xz9C8rZL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609031554.tpxA67sB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/power/swap.c:95: warning: cannot understand function prototype: 'struct swap_map_handle '
-   kernel/power/swap.c:122: warning: cannot understand function prototype: 'struct swsusp_extent '
-   kernel/power/swap.c:177: warning: Function parameter or member 'swap' not described in 'alloc_swapdev_block'
-   kernel/power/swap.c:197: warning: Function parameter or member 'swap' not described in 'free_all_swap_pages'
-   kernel/power/swap.c:541: warning: Function parameter or member 'handle' not described in 'save_image'
-   kernel/power/swap.c:541: warning: Function parameter or member 'snapshot' not described in 'save_image'
-   kernel/power/swap.c:541: warning: Function parameter or member 'nr_to_write' not described in 'save_image'
-   kernel/power/swap.c:585: warning: cannot understand function prototype: 'struct crc_data '
-   kernel/power/swap.c:601: warning: Function parameter or member 'data' not described in 'crc32_threadfn'
-   kernel/power/swap.c:627: warning: cannot understand function prototype: 'struct cmp_data '
->> kernel/power/swap.c:645: warning: Function parameter or member 'data' not described in 'compress_threadfn'
-   kernel/power/swap.c:891: warning: Function parameter or member 'nr_pages' not described in 'enough_swap'
-   kernel/power/swap.c:958: warning: Function parameter or member 'handle' not described in 'release_swap_reader'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'handle' not described in 'load_image'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'snapshot' not described in 'load_image'
-   kernel/power/swap.c:1062: warning: Function parameter or member 'nr_to_read' not described in 'load_image'
-   kernel/power/swap.c:1114: warning: cannot understand function prototype: 'struct dec_data '
->> kernel/power/swap.c:1131: warning: Function parameter or member 'data' not described in 'decompress_threadfn'
-   kernel/power/swap.c:1567: warning: Function parameter or member 'mode' not described in 'swsusp_close'
+   drivers/gpio/gpio-altera.c:224:7: error: use of undeclared identifier 'irq'; did you mean 'girq'?
+     224 |                 if (irq != -ENXIO)
+         |                     ^~~
+         |                     girq
+   drivers/gpio/gpio-altera.c:174:24: note: 'girq' declared here
+     174 |         struct gpio_irq_chip *girq;
+         |                               ^
+>> drivers/gpio/gpio-altera.c:224:11: warning: comparison between pointer and integer ('struct gpio_irq_chip *' and 'int') [-Wpointer-integer-compare]
+     224 |                 if (irq != -ENXIO)
+         |                     ~~~ ^  ~~~~~~
+   drivers/gpio/gpio-altera.c:225:11: error: use of undeclared identifier 'irq'; did you mean 'girq'?
+     225 |                         return irq;
+         |                                ^~~
+         |                                girq
+   drivers/gpio/gpio-altera.c:174:24: note: 'girq' declared here
+     174 |         struct gpio_irq_chip *girq;
+         |                               ^
+   drivers/gpio/gpio-altera.c:225:11: error: incompatible pointer to integer conversion returning 'struct gpio_irq_chip *' from a function with result type 'int' [-Wint-conversion]
+     225 |                         return irq;
+         |                                ^~~
+   1 warning and 3 errors generated.
 
 
-vim +645 kernel/power/swap.c
+vim +224 drivers/gpio/gpio-altera.c
 
-081a9d043c983f1 Bojan Smojver  2011-10-13  640  
-081a9d043c983f1 Bojan Smojver  2011-10-13  641  /**
-081a9d043c983f1 Bojan Smojver  2011-10-13  642   * Compression function that runs in its own thread.
-081a9d043c983f1 Bojan Smojver  2011-10-13  643   */
-31414b7c10febdb Nikhil V       2024-01-22  644  static int compress_threadfn(void *data)
-081a9d043c983f1 Bojan Smojver  2011-10-13 @645  {
-081a9d043c983f1 Bojan Smojver  2011-10-13  646  	struct cmp_data *d = data;
-081a9d043c983f1 Bojan Smojver  2011-10-13  647  
-081a9d043c983f1 Bojan Smojver  2011-10-13  648  	while (1) {
-981a31b7547af42 Hongchen Zhang 2023-11-16  649  		wait_event(d->go, atomic_read_acquire(&d->ready) ||
-081a9d043c983f1 Bojan Smojver  2011-10-13  650  		                  kthread_should_stop());
-081a9d043c983f1 Bojan Smojver  2011-10-13  651  		if (kthread_should_stop()) {
-081a9d043c983f1 Bojan Smojver  2011-10-13  652  			d->thr = NULL;
-081a9d043c983f1 Bojan Smojver  2011-10-13  653  			d->ret = -1;
-981a31b7547af42 Hongchen Zhang 2023-11-16  654  			atomic_set_release(&d->stop, 1);
-081a9d043c983f1 Bojan Smojver  2011-10-13  655  			wake_up(&d->done);
-081a9d043c983f1 Bojan Smojver  2011-10-13  656  			break;
-081a9d043c983f1 Bojan Smojver  2011-10-13  657  		}
-081a9d043c983f1 Bojan Smojver  2011-10-13  658  		atomic_set(&d->ready, 0);
-081a9d043c983f1 Bojan Smojver  2011-10-13  659  
-081a9d043c983f1 Bojan Smojver  2011-10-13  660  		d->ret = lzo1x_1_compress(d->unc, d->unc_len,
-31414b7c10febdb Nikhil V       2024-01-22  661  					  d->cmp + CMP_HEADER, &d->cmp_len,
-081a9d043c983f1 Bojan Smojver  2011-10-13  662  		                          d->wrk);
-981a31b7547af42 Hongchen Zhang 2023-11-16  663  		atomic_set_release(&d->stop, 1);
-081a9d043c983f1 Bojan Smojver  2011-10-13  664  		wake_up(&d->done);
-081a9d043c983f1 Bojan Smojver  2011-10-13  665  	}
-081a9d043c983f1 Bojan Smojver  2011-10-13  666  	return 0;
-081a9d043c983f1 Bojan Smojver  2011-10-13  667  }
-f996fc9671d088b Bojan Smojver  2010-09-09  668  
-
-:::::: The code at line 645 was first introduced by commit
-:::::: 081a9d043c983f161b78fdc4671324d1342b86bc PM / Hibernate: Improve performance of LZO/plain hibernation, checksum image
-
-:::::: TO: Bojan Smojver <bojan@rexursive.com>
-:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+   165	
+   166	static int altera_gpio_probe(struct platform_device *pdev)
+   167	{
+   168		struct gpio_generic_chip_config config;
+   169		struct device *dev = &pdev->dev;
+   170		int reg, ret;
+   171		struct altera_gpio_chip *altera_gc;
+   172		struct gpio_generic_chip *chip;
+   173		struct gpio_chip *gc;
+   174		struct gpio_irq_chip *girq;
+   175		int mapped_irq;
+   176	
+   177		altera_gc = devm_kzalloc(&pdev->dev, sizeof(*altera_gc), GFP_KERNEL);
+   178		if (!altera_gc)
+   179			return -ENOMEM;
+   180	
+   181		raw_spin_lock_init(&altera_gc->gpio_lock);
+   182	
+   183		altera_gc->regs = devm_platform_ioremap_resource(pdev, 0);
+   184		if (IS_ERR(altera_gc->regs))
+   185			return dev_err_probe(dev, PTR_ERR(altera_gc->regs),
+   186					     "failed to ioremap memory resource\n");
+   187	
+   188		chip = &altera_gc->chip;
+   189	
+   190		config = (struct gpio_generic_chip_config) {
+   191			.dev = dev,
+   192			.sz = 4,
+   193			.dat = altera_gc->regs + ALTERA_GPIO_DATA,
+   194			.set = altera_gc->regs + ALTERA_GPIO_DATA,
+   195			.dirout = altera_gc->regs + ALTERA_GPIO_DIR,
+   196		};
+   197	
+   198		ret = gpio_generic_chip_init(chip, &config);
+   199		if (ret)
+   200			return dev_err_probe(dev, ret, "unable to init generic GPIO\n");
+   201	
+   202		gc = &chip->gc;
+   203	
+   204		if (device_property_read_u32(dev, "altr,ngpio", &reg))
+   205			/* By default assume maximum ngpio */
+   206			gc->ngpio = ALTERA_GPIO_MAX_NGPIO;
+   207		else
+   208			gc->ngpio = reg;
+   209	
+   210		if (gc->ngpio > ALTERA_GPIO_MAX_NGPIO) {
+   211			dev_warn(&pdev->dev,
+   212				"ngpio is greater than %d, defaulting to %d\n",
+   213				ALTERA_GPIO_MAX_NGPIO, ALTERA_GPIO_MAX_NGPIO);
+   214			gc->ngpio = ALTERA_GPIO_MAX_NGPIO;
+   215		}
+   216	
+   217		gc->base = -1;
+   218		gc->label = devm_kasprintf(dev, GFP_KERNEL, "%pfw", dev_fwnode(dev));
+   219		if (!gc->label)
+   220			return -ENOMEM;
+   221	
+   222		mapped_irq = platform_get_irq_optional(pdev, 0);
+   223		if (mapped_irq < 0) {
+ > 224			if (irq != -ENXIO)
+   225				return irq;
+   226			goto skip_irq;
+   227		}
+   228	
+   229		if (device_property_read_u32(dev, "altr,interrupt-type", &reg)) {
+   230			dev_err(&pdev->dev,
+   231				"altr,interrupt-type value not set in device tree\n");
+   232			return -EINVAL;
+   233		}
+   234		altera_gc->interrupt_trigger = reg;
+   235	
+   236		girq = &gc->irq;
+   237		gpio_irq_chip_set_chip(girq, &altera_gpio_irq_chip);
+   238	
+   239		if (altera_gc->interrupt_trigger == IRQ_TYPE_LEVEL_HIGH)
+   240			girq->parent_handler = altera_gpio_irq_leveL_high_handler;
+   241		else
+   242			girq->parent_handler = altera_gpio_irq_edge_handler;
+   243		girq->num_parents = 1;
+   244		girq->parents = devm_kcalloc(&pdev->dev, 1, sizeof(*girq->parents),
+   245					     GFP_KERNEL);
+   246		if (!girq->parents)
+   247			return -ENOMEM;
+   248		girq->default_type = IRQ_TYPE_NONE;
+   249		girq->handler = handle_bad_irq;
+   250		girq->parents[0] = mapped_irq;
+   251	
+   252	skip_irq:
+   253		ret = devm_gpiochip_add_data(dev, gc, altera_gc);
+   254		if (ret) {
+   255			dev_err(&pdev->dev, "Failed adding memory mapped gpiochip\n");
+   256			return ret;
+   257		}
+   258	
+   259		return 0;
+   260	}
+   261	
 
 --
 0-DAY CI Kernel Test Service
