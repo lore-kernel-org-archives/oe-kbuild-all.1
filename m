@@ -1,106 +1,199 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F392F212FAD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 04:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788409910; cv=pass; b=Z56I82s4CL32mowrYNCKpAqiY5tgPUtqLxqk0BNBfi6VpPiSoekG4VW6H2uRzSqxlxpvycH7z/GLfb6Ii8QSy6lp8ajK5WG9mx/s/CmPg5+4qEyW0WlNIG6+C3myNKkwX+BHvfpHjBC7W5oUGBLw+zA4wtPuZSbMy9TgpftyvHI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788409910; c=relaxed/simple;
-	bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S+V4anAa8OnsFL+7MxvyX8BMMgdUuOporZyJxsHnMd5UbiU8iAEbunnLmqrOEGN9BktU+vkl4rMcRfNL+Z+QxGfRenZn6oGVIRHOL8+LaPmaMn/H0yfvhDERJOSPBlGaHjMjVOztCDnI911dRqfwVgzkK0tczX1sHlBRDJvPdG4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QmW5rjBr; arc=pass smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AA3369D54;
+	Thu,  3 Sep 2026 05:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788414605; cv=none; b=KHWmzoBmfTltj7gzHQyhpgFTVxfyKSWeyOrh0ENC6IqbL6YigTn9kZBjAP5O+CodYw048qHk9tRstQ4roxN4nni0e1b5qP0EWujQSEwxNMo6KNeNAEs05nc5UK37T2BtcET8jXCZXvMjdZmN0jjXBhWegirLA8XVSxdraPe6hFo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788414605; c=relaxed/simple;
+	bh=y1kTHJZ8J1KFTTQsckHU72p83YxqqCJ6n7oA3rb7nn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=OAAAhxf9TRWdvXsZW2usxIXDZl6KBJhbaSoR1pEMpyPLLLZ+J04FgahcKtSOiyNPzNNLAo+KP7F2KOaRK/LR1kcNUEZrKs0+5g2m8Vj8AoKJuKM5Q+a4Q9giH95/+Npo1ek6NJ3fKoAy3sCgHL8GoolD0brab+EGTAZByyG7HBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VihIA8LT; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QmW5rjBr"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2d8fd3b729dso17086235ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Sep 2026 21:31:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788409908; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cKaH755zBJ7IG+KRtGiqwfR/bbd7iEJT19EILiiCfIP8zp2HhogKVpehglVxjEheDY
-         W1qeNWARr8pnyQdvaG0ZHhKFDJ8IrzG3Xdb0Wu1zgUMGegNgH7n5/psnymQxakUqG9D9
-         5ElU0S9BQhD9Ubg6i26Ry3wJ4/nzf9K0RaKZ2XGuj8XXMXXC3bMJnrRutHIN/7nEfVOf
-         OwAYLQcF/CsLhkJyE9wQAhWFe5SB41A/kKr3NuVpc9xPGlOZOECV81vWvGCzvSBRPeyz
-         ASBeyeOu4e37gRBh9qb3CgXJv73OcnQ0m76W0waEsAGLT8W21IWWDnE5iX71ZHL3D4EM
-         3OLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
-        fh=2k/9fxu4o4LsFD5uZIr3cTi1jqJxPPGFDRTP8XYjuZE=;
-        b=FUesz7BxBFglALg4BDDTDB0XxA9TK6lSIoOX+O4ImP7eo0HbJM6pTLdbg0mrCQGH4O
-         wwARu+wNWTL6I9Hi9NlDkPAwLecDd7HbX0NyScK7YmI51TWoOEJgiZsvRDUVdBHTsSnk
-         csfXBY17rDPkmxL0u4FX3ohTiMJaZMJ912QeLRP65nK38PPrXq2W74lXQZ0QBZA7wver
-         RNy2p/cK3PXpHEvBw4BFazEHI/mLdt+i2vVkPtj7dEFh5+NUGrKQXEVtlCCrfiLuPJ7N
-         Nfu+/vOWMCiopUqBbhtlZ6hvd2PvtcccN5IeeImkQnIjZ42rjVH38FlpvFRCmfBmL7QH
-         r7mA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788409908; x=1789014708; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
-        b=QmW5rjBrFmgFiEDMtQ5dVQ8zYWbrgxL4EMcsYyS/Xp6hlHXJlpOxLi0aShMDt4tDrq
-         5AbcLL3zJSs4g3hcp8JWc5lDbc4EvHMeDMJychr6s16MuqeM/52xGcxZkrXPwMGdBES0
-         8ly/f0s8SgXdmKYGrJUwbE7+knjkLn5og2ZeJqc442fUWxxuVPiOROa3jmQ/WL5iFIHk
-         FdLicS6wswgnoD7lFIuTbIQ5Xz9dJhKhSnMMrC8wMYRhYjMmiaZpjZxnr6UWzLbKrG8i
-         1mjx+axFXYsySP2xF39WlppwXwVC6o/eDDoIM+T21fXkt+N0lZpxDgGnqQ8br9dfoHAt
-         JpnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788409908; x=1789014708;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/CdnSkAI/SEeFBhKT8eXTMpB/EwyptIYnhSh6zIHjt0=;
-        b=VmpxFQw6JPIJa/u6UNrt6DMJnMqvZK5a3UwHgGetPy0lZDSOBsKSvE7oPDQNmKVuy7
-         npLDKWwTpAa+lRNvxJQSd7oyQbXf90imSscHUIaRQ+yT0WPRbzgj7gqa91e06mL3JUWG
-         5jscUxhLAs51w5y54fy+lQQwu8uSm7/G9c9w2NrKc9kfU77t/pJJFoInRnTQN40Hi8gL
-         uT6ztD3AiskIFePK0JQvhMD2ePXJSRC9XIDDD/Mtmau4tI7FauevF5qABciGNOTAfinM
-         P04hJN/v3ZUKh7nBPywviiRUbiKJrCrgpyEnF0znxj6KF3vvWPrkzhn3DDa0FSE3DB+6
-         erDw==
-X-Gm-Message-State: AFuF++kKEHmqXNbMJppoEhzG6Je3vOEL+31MyEcmPtyDi9kbDgF2LJQB
-	iACxi1k03InuBmYiAdKpvBaWPvvl2IjBEEcCQ509oMm836RddQJ7ptmHpx3QR7r8jXqyv/3S9PC
-	+aE7/u/vNOcXVJuAZH+0G4rBJljkyr58=
-X-Gm-Gg: AYBFou3ybWEhPjTxmzjlO2ikrOe3t/IY2EPyqJxOWrVfr1sFGdmqfADwQn2WrhYl2OP
-	o2yk1THUOG7VJVbq3QciOgUwrwsVEYo39e3n9JOAeYQitiFjCDEwjdJW5v8xxa2q5sbTri8k/s6
-	Vdc5VE2JiYQ5JwY4T+2vGxN7usdPRBnhKbKoYkB1RRJ6WlpSI4I/ygjW3+MBuVqBA5t3dmPMtBj
-	KlXBWXngC1A6txrnzJvKy1nNR6cU/hT4bmTYdHTJAaBLYOkI+8Li8XxIyK5mrbBJQW1OJBZfx3b
-	5WBRKRzGE9Dt8YeSPYF2abg65uO/32r3/RaCSITSl09I6puKwIZFJV6BdMjAuQSHPMaY6DJYt1h
-	FwO4hkIzDD96XL8MNFnjkb+K9RAzcQFXo6OojmBtdgH5tt+P5ARpesn0JHOTJ6Hlo5To=
-X-Received: by 2002:a17:902:d4cf:b0:2d8:d4d3:da51 with SMTP id
- d9443c01a7336-2daec7b84a3mr112445875ad.21.1788409908115; Wed, 02 Sep 2026
- 21:31:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VihIA8LT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788414603; x=1819950603;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y1kTHJZ8J1KFTTQsckHU72p83YxqqCJ6n7oA3rb7nn4=;
+  b=VihIA8LTdD8gIAxfGuTJtfAftOUbvKfhPuOj4c/gbQJ+Qm+Sdo6aKURm
+   nab/r68S70CqTGzc+h4BAPc4om1G6xT07D0MHudNSk2BJbXZVjSbPlhlV
+   0lZu+qJ4hjWAWv5Uj0/ClU80peZD+yKsxhMo660/TQPenlttlm0TSY1hW
+   Drp95a3ehaVQQBZ2qCocW4cafEZvw7Fg7A3Uk/f6v2TTJNQDSeQNXTg92
+   zokt71K13tpE4eQeOuKVyAdKMVYQtgNOgMMX1DWpxc0beO/25OqI1s8m4
+   nY4lxUblFv3KI4DsbanmND0D3eJ5m54tQSYABYSpVTtr7Q/Ch/inj6arp
+   Q==;
+X-CSE-ConnectionGUID: lGbn+mwPQaeTKm44jQcFuw==
+X-CSE-MsgGUID: 0ED06LryRSKbQDHOpsvt3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="92753372"
+X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
+   d="scan'208";a="92753372"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 22:50:03 -0700
+X-CSE-ConnectionGUID: AdhEw3oWSK+MPdnEttkyig==
+X-CSE-MsgGUID: Dv2KNi6cTRuzDgehHi1ETw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
+   d="scan'208";a="267021033"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 02 Sep 2026 22:50:00 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x20Kk-000000004BM-00uq;
+	Thu, 03 Sep 2026 05:49:58 +0000
+Date: Thu, 03 Sep 2026 13:49:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [stefandoesinger-zx297520:dlink 120/131]
+ drivers/rpmsg/zx29_smd.c:205:66: warning: cast to smaller integer type
+ 'unsigned int' from 'struct zx29_smd *'
+Message-ID: <202609031311.esEudpZG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202609031134.VMzbwyVl-lkp@intel.com>
-In-Reply-To: <202609031134.VMzbwyVl-lkp@intel.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Thu, 3 Sep 2026 11:31:37 +0700
-X-Gm-Features: AcwNN1UAGNeHZ0Ro131jH_gR3Av0iLt72gQZ7Ksi_o1wD_3WkkTyfR6Bijy5O5w
-Message-ID: <CAABR9nH=-8AY6kgZKNNK9tWb4K8Ya7tUFn_9vYxm+AsaPw=O6g@mail.gmail.com>
-Subject: Re: [brgl:gpio/for-next 5/8] drivers/gpio/gpio-altera.c:224:7: error:
- use of undeclared identifier 'irq'; did you mean 'girq'?
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 
-Hi all,
+tree:   https://gitlab.com/stefandoesinger/zx297520-kernel dlink
+head:   4132307830800b020a6d29d27cb3fec3cb5fbb90
+commit: ffc256cf7e9bea66ecdb62566ec625760720329b [120/131] rpmsg polling
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031311.esEudpZG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031311.esEudpZG-lkp@intel.com/reproduce)
 
-I have sent a fix for this issue:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609031311.esEudpZG-lkp@intel.com/
 
-https://lore.kernel.org/all/20260903030700.132068-1-phucduc.bui@gmail.com/
+All warnings (new ones prefixed by >>):
 
-The patch is based on brgl/gpio/for-next.
+>> drivers/rpmsg/zx29_smd.c:205:66: warning: cast to smaller integer type 'unsigned int' from 'struct zx29_smd *' [-Wpointer-to-int-cast]
+     205 |         dev_info(&zx29_smd->pdev->dev, "zx29_smd_rx_work smd 0x%08x\n", (unsigned int)zx29_smd);
+         |                                                                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/rpmsg/zx29_smd.c:337:92: warning: cast to smaller integer type 'unsigned int' from 'u8 *' (aka 'unsigned char *') [-Wpointer-to-int-cast]
+     337 |                 dev_info(&pdev->dev, "zx29_smd->data_r phys 0x%08x virt 0x%08x\n", zx29_smd->recv->base, (unsigned int)zx29_smd->data_r);
+         |                                                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/rpmsg/zx29_smd.c:367:52: warning: cast to smaller integer type 'unsigned int' from 'u8 *' (aka 'unsigned char *') [-Wpointer-to-int-cast]
+     367 |         dev_info(&pdev->dev, "zx29_smd->data_s 0x%08x\n", (unsigned int)zx29_smd->data_s);
+         |                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/rpmsg/zx29_smd.c:193:13: warning: unused function 'zx29_smd_release_device' [-Wunused-function]
+     193 | static void zx29_smd_release_device(struct device *dev)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
-Best regards,
-Phuc
+
+vim +205 drivers/rpmsg/zx29_smd.c
+
+   197	
+   198	static void zx29_smd_rx_work(struct work_struct *work)
+   199	{
+   200		struct zx29_smd *zx29_smd = to_zx29_rpmsg_device_work(work);
+   201		u32 send_pos, len, pkg_len, processed = 0;
+   202		const struct msg_hdr *hdr;
+   203		u8 *ptr, *alloc = NULL;
+   204	
+ > 205		dev_info(&zx29_smd->pdev->dev, "zx29_smd_rx_work smd 0x%08x\n", (unsigned int)zx29_smd);
+   206		dev_info(&zx29_smd->pdev->dev, "zx29_smd_rx_work channel 0x%08x\n", zx29_smd->ept.addr);
+   207	
+   208		if (!zx29_smd->data_r) {
+   209			dev_info(&zx29_smd->pdev->dev, "receive base not mapped\n");
+   210			// FIXME: I guess I can't do that in an IRQ context
+   211			return;
+   212			/*
+   213			dev_info(&zx29_smd->pdev->dev, "trying to ioremap 0x%08x\n", zx29_smd->recv->base);
+   214			zx29_smd->data_r = devm_memremap(&zx29_smd->pdev->dev,
+   215						         zx29_smd->recv->base, zx29_smd->recv->size,
+   216							 MEMREMAP_WT);
+   217			dev_info(&zx29_smd->pdev->dev, "zx29_smd->data_r phys 0x%08x virt 0x%08x\n",
+   218				 zx29_smd->recv->base, (unsigned int)zx29_smd->data_r);
+   219			*/
+   220		}
+   221	
+   222		for (;;) {
+   223			send_pos = zx29_smd->recv->send_pos;
+   224	
+   225			if (send_pos == zx29_smd->recv->recv_pos) {
+   226				break;
+   227			}
+   228	
+   229			dev_info(&zx29_smd->pdev->dev, "old recv %u new incoming %u. Ringbuffer size %u\n",
+   230					zx29_smd->recv->recv_pos, send_pos, zx29_smd->recv->size);
+   231	
+   232			if (send_pos > zx29_smd->recv->recv_pos) {
+   233				ptr = zx29_smd->data_r + zx29_smd->recv->recv_pos;
+   234				len = send_pos - zx29_smd->recv->recv_pos;
+   235				if (send_pos == zx29_smd->recv->size) {
+   236					dev_info(&zx29_smd->pdev->dev, "send_pos == size\n");
+   237				} else {
+   238					dev_info(&zx29_smd->pdev->dev, "easy default path\n");
+   239				}
+   240			} else if (!send_pos) {
+   241				dev_info(&zx29_smd->pdev->dev, "send_pos == 0\n");
+   242				ptr = zx29_smd->data_r + zx29_smd->recv->recv_pos;
+   243				len = zx29_smd->recv->size - zx29_smd->recv->recv_pos;
+   244			} else {
+   245				dev_info(&zx29_smd->pdev->dev, "wraparound\n");
+   246				len = zx29_smd->recv->size - zx29_smd->recv->recv_pos + send_pos;
+   247				alloc = kzalloc(len, GFP_KERNEL);
+   248	
+   249				memcpy(alloc, zx29_smd->data_r + zx29_smd->recv->recv_pos,
+   250				zx29_smd->recv->size - zx29_smd->recv->recv_pos);
+   251				memcpy(alloc + zx29_smd->recv->size - zx29_smd->recv->recv_pos, zx29_smd->data_r,
+   252				send_pos);
+   253			}
+   254	
+   255			hdr = (const struct msg_hdr *)ptr;
+   256			pkg_len = ZX29_MSG_ALIGN(hdr->len) + sizeof(*hdr);
+   257			if (hdr->magic != ZX29_MSG_MAGIC) {
+   258				dev_info(&zx29_smd->pdev->dev, "Invalid magic 0x%04x\n", hdr->magic);
+   259			} else if (pkg_len > len) {
+   260				dev_info(&zx29_smd->pdev->dev, "Header length 0x%04x, in buffer 0x%04x\n",
+   261					hdr->len, len);
+   262			} else {
+   263				if (!hdr->len) {
+   264					dev_info(&zx29_smd->pdev->dev, "Zero-length packet\n");
+   265				}
+   266				zx29_smd->ept.cb(&zx29_smd->rpdev, ptr + sizeof(*hdr), hdr->len, zx29_smd->ept.priv, RPMSG_ADDR_ANY);
+   267			}
+   268	
+   269			kfree(alloc);
+   270			zx29_smd->recv->recv_pos = (zx29_smd->recv->recv_pos + pkg_len) % zx29_smd->recv->size;
+   271			processed++;
+   272		}
+   273	
+   274		if (!processed) {
+   275			dev_info(&zx29_smd->pdev->dev, "No messages processed?\n");
+   276		}
+   277	}
+   278	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
