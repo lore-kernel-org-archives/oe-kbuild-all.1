@@ -1,140 +1,227 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18F24A440C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 14:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D21A4B26F0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 15:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788444179; cv=none; b=JfF1QGJZhhsEWFF3IflrTPW46Ozrkcp7qkuPekKAeK8OlXhqU3A6uyew6IGTyD+SLICNsRFx3VdRUilCJto03XM5YmSxW6z3BV68XMo2QMJ3STWB2OVFHUbMiC2mHRqbB2h+SujCMMAp03MgyOT8caqaSCj0axNQL8EbgzXNVes=
+	t=1788447891; cv=none; b=VNZf5rlnLiP3WoIrig6NoRSndWOoW3FvR33KRAGmJH/HaOOrlng/iTHc9vsgSy4DK2TqfHlnFYcHVhd0UM6C8VRIoQzGKFaG0yJqQQoBR/n21GbymCuqK5vfem0oVFKtj8OX1zN8A9ldfs2+8/wpXziZugBEbkKvwKPH6StbJ0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788444179; c=relaxed/simple;
-	bh=hIcl5o7Ira9qzxp/5zL0DAYmfSYbKzPxXoCZUyyLSpw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OlIczjMyhW9xiMGDS4Qd47hlmhcZAL5HmRSuGn5apBJmit5iadOygaDjY37vcCGqA1nYxsz7BG7mdmelV2Ks4KjeRg54HckdDUNtXcv/N0Rc/f/4MRs5TU9qWc0ZYCzNRF/QxnYmMAr2dx49MkX81v1kkA937P+f2nTYBqziHxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NxcMT3Pi; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1788447891; c=relaxed/simple;
+	bh=LSxNkI6toiMIYM0hdbxthkWZiKjZ8Vr0Fqed+6VjuYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=uWYwHBzrDEQMZg5Vo/5HGeluS9phD7NAFr4f2niwKKWpKqIZtee3Ag1NKkARDItRIT8pa+QqFyU35OHVIwFVjIcsk7Uf9UdlXIOrvz0UJowR01VVQuXTm8qxiE8bZsj4MLYDYjkZx+EgdUK3HsiS7HpqM7ISs1slZrZVAl6PdXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IRs/wbxq; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NxcMT3Pi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRs/wbxq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788444173; x=1819980173;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hIcl5o7Ira9qzxp/5zL0DAYmfSYbKzPxXoCZUyyLSpw=;
-  b=NxcMT3PitKCHyGTo3uUUeWUnEEib6P5FBXfoX4t7Rj9NYxEVpYLlBX8F
-   XftPmFI/HkT9BXdVxDZhRTABFKlmTBgCxPI8S4nRlCCkzTREluOJamRb9
-   eOx0ueIa+NkntbVJpyL/FNQxRAYntl54D5y27Pvfyc7r4r5MSco6wpL2e
-   b17ZwndkzI93XjQqips78Wwwy2DF07DtW/Bg3p+wgXddmuk8Ux06q0MOD
-   DFzA4tj4Qyu+f+6v+fzISBDE+9UNJBqPvMV/e1o7U8Pd3WmIPDDDCffbk
-   D4YSQ18dec4ddZT/wOPtidixjuqdiKG+6XcrxK2cbPDm5azyF6pJqv5Bl
+  t=1788447889; x=1819983889;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LSxNkI6toiMIYM0hdbxthkWZiKjZ8Vr0Fqed+6VjuYQ=;
+  b=IRs/wbxqDR7Lo1aIWz0TQZQLWI0JaDzTA4ltK5LHuVdscaeIZEiR9bBr
+   Xp0E/pZn13sznmNz9M1NyUNugz92YZol3bRsGga4VmOV+us6F2pImm+y6
+   hy4r52n+Xj7ugZ6o8DGYEHSDOoQI5vmTdI9L1uzHXHgTGHNIloTaX27bz
+   5A9+LPIwvJUyDrUWidnCW6hlVm5HzMeGSDLfgw3P0aU1QswNJtHAfVWBa
+   uywTqx9Dm+yIp787cK13wYljn/cj3PZVohUfFFeZzd5l3WtLHOyQVsGXQ
+   FeRdIXxmFIP/cLwTknjgq9S6jQWIPtd+d8kZ4ni/CtVVIaVg3rqgIaSNn
    A==;
-X-CSE-ConnectionGUID: Ahvvq+//SL+Qt7SNecdXfw==
-X-CSE-MsgGUID: OFGBfbACS4es2pz35mFq7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88951178"
+X-CSE-ConnectionGUID: VPiKBeaXRACz4sPCty3cEg==
+X-CSE-MsgGUID: 8Qlb6gtkTr2IPtWPIbS6Ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88074629"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="88951178"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 07:02:48 -0700
-X-CSE-ConnectionGUID: UhWqvqaeSwSjNBIJklvgNg==
-X-CSE-MsgGUID: F1ys3m5BRnK/OyVkga8VdQ==
+   d="scan'208";a="88074629"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 08:04:49 -0700
+X-CSE-ConnectionGUID: GbKMIrjUSwSQ3mHnzZygng==
+X-CSE-MsgGUID: nlMkkMsERneljCG/QP+mHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="299603472"
+   d="scan'208";a="271721853"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 03 Sep 2026 07:02:45 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Sep 2026 08:04:47 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x281a-000000004tK-0tHD;
-	Thu, 03 Sep 2026 14:02:42 +0000
-Date: Thu, 3 Sep 2026 22:01:42 +0800
+	id 1x28zc-000000004wg-3SyV;
+	Thu, 03 Sep 2026 15:04:44 +0000
+Date: Thu, 03 Sep 2026 23:04:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Elad Nachman <enachman@marvell.com>
-Cc: oe-kbuild-all@lists.linux.dev, Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: prestera: avoid overreading a short firmware tail
-Message-ID: <202609032140.39rhcpus-lkp@intel.com>
-References: <20260830142404.37663-1-pengpeng@iscas.ac.cn>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:7.2/vramstuff 21/29]
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c:335:9: error: too few arguments to
+ function 'ttm_lru_bulk_move_init'; expected 2, have 1
+Message-ID: <202609032256.R8nf3R3t-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260830142404.37663-1-pengpeng@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pengpeng,
+tree:   https://github.com/zen-kernel/zen-kernel 7.2/vramstuff
+head:   13a8e2000329a36f994acf2fd31d307d27fa9189
+commit: 2fbdb6893cc6ed358f0232bff4eef598a6c5b419 [21/29] drm/ttm: Add order=
+ed bulk moves
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260903=
+/202609032256.R8nf3R3t-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260903/202609032256.R8nf3R3t-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pengpeng-Hou/net-prestera-avoid-overreading-a-short-firmware-tail/20260830-222403
-base:   08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
-patch link:    https://lore.kernel.org/r/20260830142404.37663-1-pengpeng%40iscas.ac.cn
-patch subject: [PATCH] net: prestera: avoid overreading a short firmware tail
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260903/202609032140.39rhcpus-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609032140.39rhcpus-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609032140.39rhcpus-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609032256.R8nf3R3t-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/io.h:12,
-                    from include/linux/iopoll.h:14,
-                    from drivers/net/ethernet/marvell/prestera/prestera_pci.c:8:
-   drivers/net/ethernet/marvell/prestera/prestera_pci.c: In function 'prestera_ldr_send':
->> drivers/net/ethernet/marvell/prestera/prestera_pci.c:603:32: error: implicit declaration of function 'get_unaligned'; did you mean 'get_cmdline'? [-Wimplicit-function-declaration]
-     603 |                 writel_relaxed(get_unaligned((u32 *)(buf + i)),
-         |                                ^~~~~~~~~~~~~
-   arch/x86/include/asm/io.h:88:39: note: in definition of macro 'writel_relaxed'
-      88 | #define writel_relaxed(v, a) __writel(v, a)
-         |                                       ^
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_b=
+ulk':
+>> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:335:9: error: too few arguments =
+to function 'ttm_lru_bulk_move_init'; expected 2, have 1
+     335 |         ttm_lru_bulk_move_init(&lru_bulk_move);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:13:
+   include/drm/ttm/ttm_resource.h:443:6: note: declared here
+     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
+ ordered);
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_pin_unpin_r=
+esource':
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:508:9: error: too few arguments =
+to function 'ttm_lru_bulk_move_init'; expected 2, have 1
+     508 |         ttm_lru_bulk_move_init(&lru_bulk_move);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/ttm/ttm_resource.h:443:6: note: declared here
+     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
+ ordered);
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_multiple_pi=
+n_one_unpin':
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:559:9: error: too few arguments =
+to function 'ttm_lru_bulk_move_init'; expected 2, have 1
+     559 |         ttm_lru_bulk_move_init(&lru_bulk_move);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/ttm/ttm_resource.h:443:6: note: declared here
+     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
+ ordered);
+         |      ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +603 drivers/net/ethernet/marvell/prestera/prestera_pci.c
+vim +/ttm_lru_bulk_move_init +335 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
 
-   589	
-   590	static int prestera_ldr_send(struct prestera_fw *fw, const u8 *buf, size_t len)
-   591	{
-   592		size_t write_len = ALIGN(len, sizeof(u32));
-   593		size_t i;
-   594		int err;
-   595	
-   596		err = prestera_ldr_wait_buf(fw, write_len);
-   597		if (err) {
-   598			dev_err(fw->dev.dev, "failed wait for sending firmware\n");
-   599			return err;
-   600		}
-   601	
-   602		for (i = 0; i + sizeof(u32) <= len; i += sizeof(u32)) {
- > 603			writel_relaxed(get_unaligned((u32 *)(buf + i)),
-   604				       prestera_ldr_wr_ptr(fw));
-   605			prestera_ldr_wr_idx_move(fw, 4);
-   606		}
-   607		if (i < len) {
-   608			u32 last = 0;
-   609	
-   610			memcpy(&last, buf + i, len - i);
-   611			writel_relaxed(last, prestera_ldr_wr_ptr(fw));
-   612			prestera_ldr_wr_idx_move(fw, 4);
-   613		}
-   614	
-   615		prestera_ldr_wr_idx_commit(fw);
-   616		return 0;
-   617	}
-   618	
+995279d280d1ef Karolina Stolarek 2023-11-29  320 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  321  static void ttm_bo_unrese=
+rve_bulk(struct kunit *test)
+995279d280d1ef Karolina Stolarek 2023-11-29  322  {
+995279d280d1ef Karolina Stolarek 2023-11-29  323  	struct ttm_test_devices =
+*priv =3D test->priv;
+995279d280d1ef Karolina Stolarek 2023-11-29  324  	struct ttm_lru_bulk_move=
+ lru_bulk_move;
+995279d280d1ef Karolina Stolarek 2023-11-29  325  	struct ttm_lru_bulk_move=
+_pos *pos;
+995279d280d1ef Karolina Stolarek 2023-11-29  326  	struct ttm_buffer_object=
+ *bo1, *bo2;
+995279d280d1ef Karolina Stolarek 2023-11-29  327  	struct ttm_resource *res=
+1, *res2;
+995279d280d1ef Karolina Stolarek 2023-11-29  328  	struct ttm_device *ttm_d=
+ev;
+995279d280d1ef Karolina Stolarek 2023-11-29  329  	struct ttm_place *place;
+588c4c8d58c413 Karolina Stolarek 2024-06-12  330  	struct dma_resv *resv;
+07430fa5248964 Karolina Stolarek 2024-06-12  331  	u32 mem_type =3D TTM_PL_=
+SYSTEM;
+995279d280d1ef Karolina Stolarek 2023-11-29  332  	unsigned int bo_priority=
+ =3D 0;
+995279d280d1ef Karolina Stolarek 2023-11-29  333  	int err;
+995279d280d1ef Karolina Stolarek 2023-11-29  334 =20
+995279d280d1ef Karolina Stolarek 2023-11-29 @335  	ttm_lru_bulk_move_init(&=
+lru_bulk_move);
+995279d280d1ef Karolina Stolarek 2023-11-29  336 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  337  	place =3D ttm_place_kuni=
+t_init(test, mem_type, 0);
+995279d280d1ef Karolina Stolarek 2023-11-29  338 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  339  	ttm_dev =3D kunit_kzallo=
+c(test, sizeof(*ttm_dev), GFP_KERNEL);
+995279d280d1ef Karolina Stolarek 2023-11-29  340  	KUNIT_ASSERT_NOT_NULL(te=
+st, ttm_dev);
+995279d280d1ef Karolina Stolarek 2023-11-29  341 =20
+588c4c8d58c413 Karolina Stolarek 2024-06-12  342  	resv =3D kunit_kzalloc(t=
+est, sizeof(*resv), GFP_KERNEL);
+878516a9e62cd2 Qasim Ijaz        2025-03-13  343  	KUNIT_ASSERT_NOT_NULL(te=
+st, resv);
+588c4c8d58c413 Karolina Stolarek 2024-06-12  344 =20
+77e19f8d32979f Tvrtko Ursulin    2025-10-20  345  	err =3D ttm_device_kunit=
+_init(priv, ttm_dev, 0);
+995279d280d1ef Karolina Stolarek 2023-11-29  346  	KUNIT_ASSERT_EQ(test, er=
+r, 0);
+995279d280d1ef Karolina Stolarek 2023-11-29  347  	priv->ttm_dev =3D ttm_de=
+v;
+995279d280d1ef Karolina Stolarek 2023-11-29  348 =20
+588c4c8d58c413 Karolina Stolarek 2024-06-12  349  	dma_resv_init(resv);
+588c4c8d58c413 Karolina Stolarek 2024-06-12  350 =20
+588c4c8d58c413 Karolina Stolarek 2024-06-12  351  	bo1 =3D ttm_bo_kunit_ini=
+t(test, test->priv, BO_SIZE, resv);
+588c4c8d58c413 Karolina Stolarek 2024-06-12  352  	bo2 =3D ttm_bo_kunit_ini=
+t(test, test->priv, BO_SIZE, resv);
+995279d280d1ef Karolina Stolarek 2023-11-29  353 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  354  	dma_resv_lock(bo1->base.=
+resv, NULL);
+995279d280d1ef Karolina Stolarek 2023-11-29  355  	ttm_bo_set_bulk_move(bo1=
+, &lru_bulk_move);
+995279d280d1ef Karolina Stolarek 2023-11-29  356  	dma_resv_unlock(bo1->bas=
+e.resv);
+995279d280d1ef Karolina Stolarek 2023-11-29  357 =20
+2b624a2c18656e Maarten Lankhorst 2024-12-04  358  	err =3D ttm_resource_all=
+oc(bo1, place, &res1, NULL);
+995279d280d1ef Karolina Stolarek 2023-11-29  359  	KUNIT_ASSERT_EQ(test, er=
+r, 0);
+995279d280d1ef Karolina Stolarek 2023-11-29  360  	bo1->resource =3D res1;
+995279d280d1ef Karolina Stolarek 2023-11-29  361 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  362  	dma_resv_lock(bo2->base.=
+resv, NULL);
+995279d280d1ef Karolina Stolarek 2023-11-29  363  	ttm_bo_set_bulk_move(bo2=
+, &lru_bulk_move);
+995279d280d1ef Karolina Stolarek 2023-11-29  364  	dma_resv_unlock(bo2->bas=
+e.resv);
+995279d280d1ef Karolina Stolarek 2023-11-29  365 =20
+2b624a2c18656e Maarten Lankhorst 2024-12-04  366  	err =3D ttm_resource_all=
+oc(bo2, place, &res2, NULL);
+995279d280d1ef Karolina Stolarek 2023-11-29  367  	KUNIT_ASSERT_EQ(test, er=
+r, 0);
+995279d280d1ef Karolina Stolarek 2023-11-29  368  	bo2->resource =3D res2;
+995279d280d1ef Karolina Stolarek 2023-11-29  369 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  370  	ttm_bo_reserve(bo1, fals=
+e, false, NULL);
+995279d280d1ef Karolina Stolarek 2023-11-29  371  	ttm_bo_unreserve(bo1);
+995279d280d1ef Karolina Stolarek 2023-11-29  372 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  373  	pos =3D &lru_bulk_move.p=
+os[mem_type][bo_priority];
+995279d280d1ef Karolina Stolarek 2023-11-29  374  	KUNIT_ASSERT_PTR_EQ(test=
+, res1, pos->last);
+995279d280d1ef Karolina Stolarek 2023-11-29  375 =20
+995279d280d1ef Karolina Stolarek 2023-11-29  376  	ttm_resource_free(bo1, &=
+res1);
+995279d280d1ef Karolina Stolarek 2023-11-29  377  	ttm_resource_free(bo2, &=
+res2);
+588c4c8d58c413 Karolina Stolarek 2024-06-12  378 =20
+588c4c8d58c413 Karolina Stolarek 2024-06-12  379  	dma_resv_fini(resv);
+995279d280d1ef Karolina Stolarek 2023-11-29  380  }
+995279d280d1ef Karolina Stolarek 2023-11-29  381 =20
+
+:::::: The code at line 335 was first introduced by commit
+:::::: 995279d280d1ef5cc349b6eafee4dccd720c99bf drm/ttm/tests: Add tests fo=
+r ttm_bo functions
+
+:::::: TO: Karolina Stolarek <karolina.stolarek@intel.com>
+:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
 
 --
 0-DAY CI Kernel Test Service
