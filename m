@@ -1,271 +1,217 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B04233C192
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 09:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E0347D921
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 10:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788428274; cv=none; b=KcAxu4AcVzDVIOnt3WMYj/AauPXhFnd/7RPBblRprFVijqCblTz2ysWvTA3JXMI7oqZxzaBIeOGK5AKfXChx5Pi7VlNJV1i5XWbl3WkMwV2VU8t8F0o1O6/xhOTOM2pYPRLAoaZtO+sdeTYnBf6xEkSWB4Zdpz7/homivFZ7jzU=
+	t=1788430142; cv=none; b=GdB4KDo8VMzyazswaSBi5KksaazRhLAUHLyRVWpgjAenyCznyK0MkyGaw5nL4GDbwEI4YVddJYzO9jhiQF6m1hfA8053MOutpbD9z28KTeu69kXZqC+zT+lEWDxl4S3aFJejhPf5gqqqJcqsmhvyH9PVCfEQE8apAjOTzGB8S0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788428274; c=relaxed/simple;
-	bh=zLbi30GW0durm6GnJLzyBCV4zgQw94wHiiox033Lu/0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UhGY+zpHFTicJ8pXDDXKknLAAePKTvh5ZOmvxtS0NnfngCCDwMYQzStPVjToq+OjqaHL9LBIiWoav/dAdrUb/UVfCnCzBRMR+wKcPYDmDpFsyxn78oTV6kX32zYKWbdTZMvHixZYsVf1cCPPfCmclQwbyBco6ttKinFH474VXMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNI8Nhhz; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1788430142; c=relaxed/simple;
+	bh=De1U/erML5Ey5VrSkFJoLbZkk5j73C+IsrAXIyBvP34=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=lVSmEGsA8beIQs7eZ3OxRv06tiBLc2IDrHtqoEaPhyb6zBqRyRZZAmk/FvWe7hFFuvQZLHO3K/HCJFBcHAyQcQB2QXuVQKOckx8iSaq82hAcS+b96nwyz6zKYmCzEZHmOOxI8LxJbeN8z6vnv1KP/vkbpx/zfjlW7KPYRBfEo1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sw+1BCcc; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNI8Nhhz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sw+1BCcc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788428272; x=1819964272;
-  h=date:from:to:cc:subject:message-id;
-  bh=zLbi30GW0durm6GnJLzyBCV4zgQw94wHiiox033Lu/0=;
-  b=HNI8NhhzmOnwicBNeL9o9f2xQDJ9mpfRIzqPRyXqyMxbYGJIgY7GPmT7
-   0j95XuG1z++pp5Krxh6LMeRuOePPbXcdQxgjWuM6h23d9ZxEvyNWcmC0r
-   ng4A0EyO70SUPYMQXcTXItiR1THUuu1pQ9hM82JMVMuu59Lic3Uq8HghK
-   VG39HVzKnuoo3nzXXJ3BYkS3OaSjo7CSGZdgR/1CrtHoz8F5gBaDIZGgy
-   RiBInzSF2/lQnEpcPspvcTySryuRakX8nHQTxF7vwPz30GxEuLtpW3q3u
-   NU6TmpDwcNWTkNy22asm2P+dry+VItuni6C/W0lRglTXOY6Owt7zAQU7r
-   g==;
-X-CSE-ConnectionGUID: H9rAM17sRK6P72LbR70cRw==
-X-CSE-MsgGUID: qjR0qqGWTmWCfWSsd/RJ0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="87844700"
+  t=1788430135; x=1819966135;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=De1U/erML5Ey5VrSkFJoLbZkk5j73C+IsrAXIyBvP34=;
+  b=Sw+1BCccNYWSaDL47547WwzCwOKx2ySoQi7jLyeytIQX69DtWozfSLdy
+   utF5h64WFEX3IR28M04KwQkIhnH/tXJ8p0CglDd8AaAmVW7stXbtrWg3+
+   H8psbG+Ni3JaYA7Z6xh9e/z/pexHW16Wf+951pNM7UH6UFsl3bllqfxLb
+   Y25gTLDq5pOjEKPAGzaEAiYlEYKpMxXkmpXTgVfhJ5H3XhRUklwO2uCEm
+   aVXXSKu0l8Aul1rBFNsWkYOGiwj881bueTu1VuzmyaxVMxwdieI1e/Hro
+   sSiwcb4B9/oGuB0E6tHbgSIpA5rte2i74hP94N5D4jQBI7OpTErragH7m
+   Q==;
+X-CSE-ConnectionGUID: GbIPpHx1QsOhYtDzd8h6EQ==
+X-CSE-MsgGUID: 2PMIpy8XTPy+IClpIE2toA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88941301"
 X-IronPort-AV: E=Sophos;i="6.25,259,1779174000"; 
-   d="scan'208";a="87844700"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 02:37:51 -0700
-X-CSE-ConnectionGUID: y2Eff1p9RwakyMgg3dmK1w==
-X-CSE-MsgGUID: 7soljCBDS1GB8O36Qw45wg==
+   d="scan'208";a="88941301"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 03:08:52 -0700
+X-CSE-ConnectionGUID: qK5ZG113TfukXTfGRaheaA==
+X-CSE-MsgGUID: ENNNrneFSJq9nYKq2951hQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,259,1779174000"; 
-   d="scan'208";a="263481699"
 Received: from igk-lkp-server01.igk.intel.com (HELO 05545efcfdd3) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2026 02:37:49 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 Sep 2026 03:08:50 -0700
 Received: from kbuild by 05545efcfdd3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x23tD-000000000sh-31PA;
-	Thu, 03 Sep 2026 09:37:47 +0000
-Date: Thu, 03 Sep 2026 11:37:34 +0200
+	id 1x24NE-000000000t3-0Eyj;
+	Thu, 03 Sep 2026 10:08:48 +0000
+Date: Thu, 03 Sep 2026 12:08:11 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: [sudeep-holla:b4/acpi_scmi_pcc 4/10]
- drivers/firmware/arm_scmi/driver.c:3357:63: error: 'child' undeclared
-Message-ID: <202609031153.RMJHdB4a-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:wk-merge-v8-all 50/50] lib/test_bonsai_tree.c:51:13:
+ warning: stack frame size (2392) exceeds limit (2048) in 'benchmark_scale'
+Message-ID: <202609031226.lb3jf1Z7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/acpi_scmi_pcc
-head:   673f426a7fa015555d9fd8433710b4cd2de2f661
-commit: f34e9f996f20892dc1471c7d6edf0a542e3f63bb [4/10] firmware: arm_scmi: Convert OF-only paths to generic fwnode in SCMI core
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031153.RMJHdB4a-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031153.RMJHdB4a-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git wk-merge-v8-all
+head:   15fc7b4f50950618237402fdf3a05eb0caaff2cc
+commit: 15fc7b4f50950618237402fdf3a05eb0caaff2cc [50/50] foo
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031226.lb3jf1Z7-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031226.lb3jf1Z7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609031153.RMJHdB4a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609031226.lb3jf1Z7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/firmware/arm_scmi/driver.c:33:
-   drivers/firmware/arm_scmi/driver.c: In function 'scmi_probe':
->> drivers/firmware/arm_scmi/driver.c:3357:63: error: 'child' undeclared (first use in this function)
-    3357 |         fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
-         |                                                               ^~~~~
-   include/linux/property.h:176:14: note: in definition of macro 'fwnode_for_each_available_child_node'
-     176 |         for (child = fwnode_get_next_available_child_node(fwnode, NULL); child;\
-         |              ^~~~~
-   drivers/firmware/arm_scmi/driver.c:3357:63: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/property.h:176:14: note: in definition of macro 'fwnode_for_each_available_child_node'
-     176 |         for (child = fwnode_get_next_available_child_node(fwnode, NULL); child;\
-         |              ^~~~~
+>> lib/test_bonsai_tree.c:51:13: warning: stack frame size (2392) exceeds limit (2048) in 'benchmark_scale' [-Wframe-larger-than]
+      51 | static void benchmark_scale(unsigned int num_intervals)
+         |             ^
+   1 warning generated.
 
 
-vim +/child +3357 drivers/firmware/arm_scmi/driver.c
+vim +/benchmark_scale +51 lib/test_bonsai_tree.c
 
-  3234	
-  3235	static int scmi_probe(struct platform_device *pdev)
-  3236	{
-  3237		int ret;
-  3238		char *err_str = "probe failure\n";
-  3239		struct scmi_handle *handle;
-  3240		const struct scmi_desc *desc;
-  3241		struct scmi_info *info;
-  3242		bool coex = IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT_COEX);
-  3243		struct device *dev = &pdev->dev;
-  3244	
-  3245		desc = scmi_transport_setup(dev);
-  3246		if (!desc) {
-  3247			err_str = "transport invalid\n";
-  3248			ret = -EINVAL;
-  3249			goto out_err;
-  3250		}
-  3251	
-  3252		info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
-  3253		if (!info)
-  3254			return -ENOMEM;
-  3255	
-  3256		info->id = ida_alloc_min(&scmi_id, 0, GFP_KERNEL);
-  3257		if (info->id < 0)
-  3258			return info->id;
-  3259	
-  3260		info->dev = dev;
-  3261		info->desc = desc;
-  3262		info->bus_nb.notifier_call = scmi_bus_notifier;
-  3263		info->dev_req_nb.notifier_call = scmi_device_request_notifier;
-  3264		INIT_LIST_HEAD(&info->node);
-  3265		idr_init(&info->protocols);
-  3266		mutex_init(&info->protocols_mtx);
-  3267		idr_init(&info->active_protocols);
-  3268		mutex_init(&info->devreq_mtx);
-  3269	
-  3270		platform_set_drvdata(pdev, info);
-  3271		idr_init(&info->tx_idr);
-  3272		idr_init(&info->rx_idr);
-  3273	
-  3274		handle = &info->handle;
-  3275		handle->dev = info->dev;
-  3276		handle->version = &info->version;
-  3277		handle->devm_protocol_acquire = scmi_devm_protocol_acquire;
-  3278		handle->devm_protocol_get = scmi_devm_protocol_get;
-  3279		handle->devm_protocol_put = scmi_devm_protocol_put;
-  3280		handle->is_transport_atomic = scmi_is_transport_atomic;
-  3281	
-  3282		/* Setup all channels described in the fwnode at first */
-  3283		ret = scmi_channels_setup(info);
-  3284		if (ret) {
-  3285			err_str = "failed to setup channels\n";
-  3286			goto clear_txrx_setup;
-  3287		}
-  3288	
-  3289		ret = bus_register_notifier(&scmi_bus_type, &info->bus_nb);
-  3290		if (ret) {
-  3291			err_str = "failed to register bus notifier\n";
-  3292			goto clear_txrx_setup;
-  3293		}
-  3294	
-  3295		ret = blocking_notifier_chain_register(&scmi_requested_devices_nh,
-  3296						       &info->dev_req_nb);
-  3297		if (ret) {
-  3298			err_str = "failed to register device notifier\n";
-  3299			goto clear_bus_notifier;
-  3300		}
-  3301	
-  3302		ret = scmi_xfer_info_init(info);
-  3303		if (ret) {
-  3304			err_str = "failed to init xfers pool\n";
-  3305			goto clear_dev_req_notifier;
-  3306		}
-  3307	
-  3308		if (scmi_top_dentry) {
-  3309			info->dbg = scmi_debugfs_common_setup(info);
-  3310			if (!info->dbg)
-  3311				dev_warn(dev, "Failed to setup SCMI debugfs.\n");
-  3312	
-  3313			if (info->dbg && IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT)) {
-  3314				ret = scmi_debugfs_raw_mode_setup(info);
-  3315				if (!coex) {
-  3316					if (ret)
-  3317						goto clear_dev_req_notifier;
-  3318	
-  3319					/* Bail out anyway when coex disabled. */
-  3320					return 0;
-  3321				}
-  3322	
-  3323				/* Coex enabled, carry on in any case. */
-  3324				dev_info(dev, "SCMI RAW Mode COEX enabled !\n");
-  3325			}
-  3326		}
-  3327	
-  3328		if (scmi_notification_init(handle))
-  3329			dev_err(dev, "SCMI Notifications NOT available.\n");
-  3330	
-  3331		if (info->desc->atomic_enabled &&
-  3332		    !is_transport_polling_capable(info->desc))
-  3333			dev_err(dev,
-  3334				"Transport is not polling capable. Atomic mode not supported.\n");
-  3335	
-  3336		/*
-  3337		 * Trigger SCMI Base protocol initialization.
-  3338		 * It's mandatory and won't be ever released/deinit until the
-  3339		 * SCMI stack is shutdown/unloaded as a whole.
-  3340		 */
-  3341		ret = scmi_protocol_acquire(handle, SCMI_PROTOCOL_BASE);
-  3342		if (ret) {
-  3343			err_str = "unable to communicate with SCMI\n";
-  3344			if (coex) {
-  3345				dev_err(dev, "%s", err_str);
-  3346				return 0;
-  3347			}
-  3348			goto raw_mode_cleanup;
-  3349		}
-  3350	
-  3351		mutex_lock(&scmi_list_mutex);
-  3352		list_add_tail(&info->node, &scmi_list);
-  3353		mutex_unlock(&scmi_list_mutex);
-  3354	
-  3355		scmi_enable_matching_quirks(info);
-  3356	
-> 3357		fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
-  3358			u32 prot_id;
-  3359	
-  3360			if (fwnode_property_read_u32(child, "reg", &prot_id))
-  3361				continue;
-  3362	
-  3363			if (!FIELD_FIT(MSG_PROTOCOL_ID_MASK, prot_id)) {
-  3364				dev_err(dev, "Out of range protocol %d\n", prot_id);
-  3365				continue;
-  3366			}
-  3367	
-  3368			if (!scmi_is_protocol_implemented(handle, prot_id)) {
-  3369				dev_err(dev, "SCMI protocol %d not implemented\n",
-  3370					prot_id);
-  3371				continue;
-  3372			}
-  3373	
-  3374			/*
-  3375			 * Save this valid fwnode protocol descriptor amongst
-  3376			 * @active_protocols for this SCMI instance.
-  3377			 */
-  3378			ret = idr_alloc(&info->active_protocols, child,
-  3379					prot_id, prot_id + 1, GFP_KERNEL);
-  3380			if (ret != prot_id) {
-  3381				dev_err(dev, "SCMI protocol %d already activated. Skip\n",
-  3382					prot_id);
-  3383				continue;
-  3384			}
-  3385	
-  3386			scmi_create_protocol_devices(fwnode_handle_get(child), info,
-  3387						     prot_id, NULL);
-  3388		}
-  3389	
-  3390		return 0;
-  3391	
-  3392	raw_mode_cleanup:
-  3393		if (IS_ENABLED(CONFIG_ARM_SCMI_RAW_MODE_SUPPORT))
-  3394			scmi_raw_mode_cleanup(info->raw);
-  3395	clear_dev_req_notifier:
-  3396		blocking_notifier_chain_unregister(&scmi_requested_devices_nh,
-  3397						   &info->dev_req_nb);
-  3398	clear_bus_notifier:
-  3399		bus_unregister_notifier(&scmi_bus_type, &info->bus_nb);
-  3400	clear_txrx_setup:
-  3401		scmi_notification_quiesce(&info->handle);
-  3402		scmi_cleanup_txrx_channels(info);
-  3403		scmi_notification_exit(&info->handle);
-  3404		ida_free(&scmi_id, info->id);
-  3405	
-  3406	out_err:
-  3407		return dev_err_probe(dev, ret, "%s", err_str);
-  3408	}
-  3409	
+6befb245966f5a Jim Cromie 2026-09-02   50  
+6befb245966f5a Jim Cromie 2026-09-02  @51  static void benchmark_scale(unsigned int num_intervals)
+6befb245966f5a Jim Cromie 2026-09-02   52  {
+6befb245966f5a Jim Cromie 2026-09-02   53  	struct flat_interval *flat_table;
+6befb245966f5a Jim Cromie 2026-09-02   54  	struct bonsai_tree bt;
+6befb245966f5a Jim Cromie 2026-09-02   55  	struct maple_tree mt;
+6befb245966f5a Jim Cromie 2026-09-02   56  	ktime_t t0, t1;
+6befb245966f5a Jim Cromie 2026-09-02   57  	u64 bonsai_build_ns, maple_build_ns;
+6befb245966f5a Jim Cromie 2026-09-02   58  	u64 bonsai_seq_ns, maple_seq_ns, bsearch_seq_ns;
+6befb245966f5a Jim Cromie 2026-09-02   59  	u64 bonsai_rnd_ns, maple_rnd_ns, bsearch_rnd_ns;
+6befb245966f5a Jim Cromie 2026-09-02   60  	unsigned long *rnd_keys;
+6befb245966f5a Jim Cromie 2026-09-02   61  	unsigned int i, step = 16;
+6befb245966f5a Jim Cromie 2026-09-02   62  	volatile void *sink = NULL;
+6befb245966f5a Jim Cromie 2026-09-02   63  	size_t flat_bytes, bonsai_bytes, maple_bytes;
+6befb245966f5a Jim Cromie 2026-09-02   64  
+6befb245966f5a Jim Cromie 2026-09-02   65  	flat_table = kmalloc_array(num_intervals, sizeof(*flat_table), GFP_KERNEL);
+6befb245966f5a Jim Cromie 2026-09-02   66  	rnd_keys = kmalloc_array(1024, sizeof(*rnd_keys), GFP_KERNEL);
+6befb245966f5a Jim Cromie 2026-09-02   67  	if (!flat_table || !rnd_keys) {
+6befb245966f5a Jim Cromie 2026-09-02   68  		kfree(flat_table);
+6befb245966f5a Jim Cromie 2026-09-02   69  		kfree(rnd_keys);
+6befb245966f5a Jim Cromie 2026-09-02   70  		pr_err("failed to allocate test buffers for N=%u\n", num_intervals);
+6befb245966f5a Jim Cromie 2026-09-02   71  		return;
+6befb245966f5a Jim Cromie 2026-09-02   72  	}
+6befb245966f5a Jim Cromie 2026-09-02   73  
+6befb245966f5a Jim Cromie 2026-09-02   74  	for (i = 0; i < num_intervals; i++) {
+6befb245966f5a Jim Cromie 2026-09-02   75  		flat_table[i].start = (unsigned long)i * step;
+6befb245966f5a Jim Cromie 2026-09-02   76  		flat_table[i].end = flat_table[i].start + step - 1;
+6befb245966f5a Jim Cromie 2026-09-02   77  		flat_table[i].val = (void *)(unsigned long)(i + 1);
+6befb245966f5a Jim Cromie 2026-09-02   78  	}
+6befb245966f5a Jim Cromie 2026-09-02   79  	for (i = 0; i < 1024; i++) {
+6befb245966f5a Jim Cromie 2026-09-02   80  		unsigned int idx = get_random_u32_below(num_intervals);
+6befb245966f5a Jim Cromie 2026-09-02   81  		rnd_keys[i] = flat_table[idx].start + get_random_u32_below(step);
+6befb245966f5a Jim Cromie 2026-09-02   82  	}
+6befb245966f5a Jim Cromie 2026-09-02   83  
+6befb245966f5a Jim Cromie 2026-09-02   84  	flat_bytes = num_intervals * sizeof(struct flat_interval);
+6befb245966f5a Jim Cromie 2026-09-02   85  
+6befb245966f5a Jim Cromie 2026-09-02   86  	/* 0. Benchmark Bonsai Tree Build */
+6befb245966f5a Jim Cromie 2026-09-02   87  	bonsai_init(&bt);
+6befb245966f5a Jim Cromie 2026-09-02   88  	bonsai_init_hint(&bt, num_intervals, GFP_KERNEL);
+6befb245966f5a Jim Cromie 2026-09-02   89  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02   90  	for (i = 0; i < num_intervals; i++) {
+6befb245966f5a Jim Cromie 2026-09-02   91  		bonsai_store_range(&bt, flat_table[i].start, flat_table[i].end,
+6befb245966f5a Jim Cromie 2026-09-02   92  				   flat_table[i].val, GFP_KERNEL);
+6befb245966f5a Jim Cromie 2026-09-02   93  	}
+6befb245966f5a Jim Cromie 2026-09-02   94  	bonsai_seal(&bt);
+6befb245966f5a Jim Cromie 2026-09-02   95  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02   96  	bonsai_build_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02   97  	bonsai_bytes = bt.node_count * BONSAI_NODE_SIZE;
+6befb245966f5a Jim Cromie 2026-09-02   98  
+6befb245966f5a Jim Cromie 2026-09-02   99  	/* 1. Benchmark Maple Tree Build */
+6befb245966f5a Jim Cromie 2026-09-02  100  	mt_init_flags(&mt, 0);
+6befb245966f5a Jim Cromie 2026-09-02  101  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  102  	for (i = 0; i < num_intervals; i++) {
+6befb245966f5a Jim Cromie 2026-09-02  103  		mtree_store_range(&mt, flat_table[i].start, flat_table[i].end,
+6befb245966f5a Jim Cromie 2026-09-02  104  				  flat_table[i].val, GFP_KERNEL);
+6befb245966f5a Jim Cromie 2026-09-02  105  	}
+6befb245966f5a Jim Cromie 2026-09-02  106  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  107  	maple_build_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02  108  	maple_bytes = (num_intervals / 10 + 1) * 256;
+6befb245966f5a Jim Cromie 2026-09-02  109  
+6befb245966f5a Jim Cromie 2026-09-02  110  	/* 2. Sequential Lookup Benchmark */
+6befb245966f5a Jim Cromie 2026-09-02  111  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  112  	for (i = 0; i < NUM_LOOKUPS; i++) {
+6befb245966f5a Jim Cromie 2026-09-02  113  		unsigned long key = (i % num_intervals) * step + 4;
+6befb245966f5a Jim Cromie 2026-09-02  114  		sink = bsearch_lookup(flat_table, num_intervals, key);
+6befb245966f5a Jim Cromie 2026-09-02  115  	}
+6befb245966f5a Jim Cromie 2026-09-02  116  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  117  	bsearch_seq_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02  118  
+6befb245966f5a Jim Cromie 2026-09-02  119  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  120  	for (i = 0; i < NUM_LOOKUPS; i++) {
+6befb245966f5a Jim Cromie 2026-09-02  121  		unsigned long key = (i % num_intervals) * step + 4;
+6befb245966f5a Jim Cromie 2026-09-02  122  		sink = bonsai_lookup(&bt, key);
+6befb245966f5a Jim Cromie 2026-09-02  123  	}
+6befb245966f5a Jim Cromie 2026-09-02  124  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  125  	bonsai_seq_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02  126  
+6befb245966f5a Jim Cromie 2026-09-02  127  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  128  	for (i = 0; i < NUM_LOOKUPS; i++) {
+6befb245966f5a Jim Cromie 2026-09-02  129  		unsigned long key = (i % num_intervals) * step + 4;
+6befb245966f5a Jim Cromie 2026-09-02  130  		sink = mtree_load(&mt, key);
+6befb245966f5a Jim Cromie 2026-09-02  131  	}
+6befb245966f5a Jim Cromie 2026-09-02  132  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  133  	maple_seq_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02  134  
+6befb245966f5a Jim Cromie 2026-09-02  135  	/* 3. Random Lookup Benchmark */
+6befb245966f5a Jim Cromie 2026-09-02  136  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  137  	for (i = 0; i < NUM_LOOKUPS; i++) {
+6befb245966f5a Jim Cromie 2026-09-02  138  		sink = bsearch_lookup(flat_table, num_intervals, rnd_keys[i & 1023]);
+6befb245966f5a Jim Cromie 2026-09-02  139  	}
+6befb245966f5a Jim Cromie 2026-09-02  140  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  141  	bsearch_rnd_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02  142  
+6befb245966f5a Jim Cromie 2026-09-02  143  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  144  	for (i = 0; i < NUM_LOOKUPS; i++) {
+6befb245966f5a Jim Cromie 2026-09-02  145  		sink = bonsai_lookup(&bt, rnd_keys[i & 1023]);
+6befb245966f5a Jim Cromie 2026-09-02  146  	}
+6befb245966f5a Jim Cromie 2026-09-02  147  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  148  	bonsai_rnd_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02  149  
+6befb245966f5a Jim Cromie 2026-09-02  150  	t0 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  151  	for (i = 0; i < NUM_LOOKUPS; i++) {
+6befb245966f5a Jim Cromie 2026-09-02  152  		sink = mtree_load(&mt, rnd_keys[i & 1023]);
+6befb245966f5a Jim Cromie 2026-09-02  153  	}
+6befb245966f5a Jim Cromie 2026-09-02  154  	t1 = ktime_get();
+6befb245966f5a Jim Cromie 2026-09-02  155  	maple_rnd_ns = ktime_to_ns(ktime_sub(t1, t0));
+6befb245966f5a Jim Cromie 2026-09-02  156  
+6befb245966f5a Jim Cromie 2026-09-02  157  	pr_info("=== Benchmark N = %4u intervals (1M lookups) ===\n", num_intervals);
+6befb245966f5a Jim Cromie 2026-09-02  158  	pr_info("  Memory   : Flat=%zu B | Bonsai=%zu B (nodes=%u, h=%u) | Maple=~%zu B\n",
+6befb245966f5a Jim Cromie 2026-09-02  159  		flat_bytes, bonsai_bytes, bt.node_count, bt.height, maple_bytes);
+6befb245966f5a Jim Cromie 2026-09-02  160  	pr_info("  Build    : Bonsai=%llu us | Maple=%llu us\n",
+6befb245966f5a Jim Cromie 2026-09-02  161  		bonsai_build_ns / 1000, maple_build_ns / 1000);
+6befb245966f5a Jim Cromie 2026-09-02  162  	pr_info("  Seq Look : BSearch=%llu ns/op | Bonsai=%llu ns/op | Maple=%llu ns/op\n",
+6befb245966f5a Jim Cromie 2026-09-02  163  		bsearch_seq_ns / NUM_LOOKUPS, bonsai_seq_ns / NUM_LOOKUPS, maple_seq_ns / NUM_LOOKUPS);
+6befb245966f5a Jim Cromie 2026-09-02  164  	pr_info("  Rnd Look : BSearch=%llu ns/op | Bonsai=%llu ns/op | Maple=%llu ns/op\n",
+6befb245966f5a Jim Cromie 2026-09-02  165  		bsearch_rnd_ns / NUM_LOOKUPS, bonsai_rnd_ns / NUM_LOOKUPS, maple_rnd_ns / NUM_LOOKUPS);
+6befb245966f5a Jim Cromie 2026-09-02  166  
+6befb245966f5a Jim Cromie 2026-09-02  167  	bonsai_destroy(&bt);
+6befb245966f5a Jim Cromie 2026-09-02  168  	mtree_destroy(&mt);
+6befb245966f5a Jim Cromie 2026-09-02  169  	kfree(flat_table);
+6befb245966f5a Jim Cromie 2026-09-02  170  	kfree(rnd_keys);
+6befb245966f5a Jim Cromie 2026-09-02  171  	(void)sink;
+6befb245966f5a Jim Cromie 2026-09-02  172  }
+6befb245966f5a Jim Cromie 2026-09-02  173  
+
+:::::: The code at line 51 was first introduced by commit
+:::::: 6befb245966f5aba1109cfd718a7cf4dd7f13375 lib/test_bonsai_tree: Add benchmark for Bonsai vs Maple vs Binary Search
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 --
 0-DAY CI Kernel Test Service
