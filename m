@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B603F4128
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 09:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B04233C192
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 09:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788427673; cv=none; b=WS1s9uAB/gacnxa/iRTlfsWLJsFTh83iVWP4vBsCJsXjF47PA/twPjyHLnmAjSXwjma1utWZzxFQzpeTBP5tJFtaRiyNPXeFsueO7dgQSQdWYmNSvJKM/IYaE30ztD1lW7o5WvNirAIrUoPFtpDt+Q3FQD+ZAJXfHxDUMcRhIPs=
+	t=1788428274; cv=none; b=KcAxu4AcVzDVIOnt3WMYj/AauPXhFnd/7RPBblRprFVijqCblTz2ysWvTA3JXMI7oqZxzaBIeOGK5AKfXChx5Pi7VlNJV1i5XWbl3WkMwV2VU8t8F0o1O6/xhOTOM2pYPRLAoaZtO+sdeTYnBf6xEkSWB4Zdpz7/homivFZ7jzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788427673; c=relaxed/simple;
-	bh=XA3kqSNBOWHEURJs9O7B0IRHhkqECwJ0eo88s7MfrOA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JB5FgjmffGKxqvsjKOB+G0aPGWFQIBxR0ZsWzZtnaqFD1zqLYEpqEkn+T42umcBUjPRBWyzVA4a+CsBXEhTiugKlu3HD3WQyUXBWRSIvw3d0fjynvae5Pe+zFob7PdrXBN6dPGAxcVZc3jTQJKUj6Vf53j1FvKVjk3nkwbYgXUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2eLSZif; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1788428274; c=relaxed/simple;
+	bh=zLbi30GW0durm6GnJLzyBCV4zgQw94wHiiox033Lu/0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UhGY+zpHFTicJ8pXDDXKknLAAePKTvh5ZOmvxtS0NnfngCCDwMYQzStPVjToq+OjqaHL9LBIiWoav/dAdrUb/UVfCnCzBRMR+wKcPYDmDpFsyxn78oTV6kX32zYKWbdTZMvHixZYsVf1cCPPfCmclQwbyBco6ttKinFH474VXMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNI8Nhhz; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2eLSZif"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNI8Nhhz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788427671; x=1819963671;
+  t=1788428272; x=1819964272;
   h=date:from:to:cc:subject:message-id;
-  bh=XA3kqSNBOWHEURJs9O7B0IRHhkqECwJ0eo88s7MfrOA=;
-  b=M2eLSZifq1KoJUiQepf8glTKNFQmJG+SVQP57QCwi/yWWd48FPoGgLY8
-   eAekK4dZ9qYRxYHQIn6getTHCbD9argFtwTACniyzXBctmECua0jDY2Cp
-   GVtF0ghGszgqvETtcnQTOu4o21Bbosci+0xuwxkc9WcvgyfrDGl7AUGQ1
-   FG4os0cHzSNmxtx5NCdxzgnYez2dNXnvRnfa+KOLHtFSrhEcqov90V0q5
-   vBv65wdYiusGJs6Y+E9zpUEwX2b2AbFnF6TS/NXkCxdyNop4XoXdNwsJL
-   vbwnDW2bO6k2UZUTkkqZGd4rq+XAP+GAuoFGDoAEIaHeYqKj1p+P4PE8G
-   w==;
-X-CSE-ConnectionGUID: L2bxm4tWRsevdoGpijt+Nw==
-X-CSE-MsgGUID: QaxHL9FkT8Ocgfj9U7v0eg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="91414704"
+  bh=zLbi30GW0durm6GnJLzyBCV4zgQw94wHiiox033Lu/0=;
+  b=HNI8NhhzmOnwicBNeL9o9f2xQDJ9mpfRIzqPRyXqyMxbYGJIgY7GPmT7
+   0j95XuG1z++pp5Krxh6LMeRuOePPbXcdQxgjWuM6h23d9ZxEvyNWcmC0r
+   ng4A0EyO70SUPYMQXcTXItiR1THUuu1pQ9hM82JMVMuu59Lic3Uq8HghK
+   VG39HVzKnuoo3nzXXJ3BYkS3OaSjo7CSGZdgR/1CrtHoz8F5gBaDIZGgy
+   RiBInzSF2/lQnEpcPspvcTySryuRakX8nHQTxF7vwPz30GxEuLtpW3q3u
+   NU6TmpDwcNWTkNy22asm2P+dry+VItuni6C/W0lRglTXOY6Owt7zAQU7r
+   g==;
+X-CSE-ConnectionGUID: H9rAM17sRK6P72LbR70cRw==
+X-CSE-MsgGUID: qjR0qqGWTmWCfWSsd/RJ0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="87844700"
 X-IronPort-AV: E=Sophos;i="6.25,259,1779174000"; 
-   d="scan'208";a="91414704"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 02:27:50 -0700
-X-CSE-ConnectionGUID: SfbwlFu1SSWUybohTfXZBg==
-X-CSE-MsgGUID: p3t27GqdQFuNH57lzPdk8g==
+   d="scan'208";a="87844700"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 02:37:51 -0700
+X-CSE-ConnectionGUID: y2Eff1p9RwakyMgg3dmK1w==
+X-CSE-MsgGUID: 7soljCBDS1GB8O36Qw45wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,259,1779174000"; 
-   d="scan'208";a="274947884"
+   d="scan'208";a="263481699"
 Received: from igk-lkp-server01.igk.intel.com (HELO 05545efcfdd3) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Sep 2026 02:27:49 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2026 02:37:49 -0700
 Received: from kbuild by 05545efcfdd3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x23jW-000000000sR-3wCt;
-	Thu, 03 Sep 2026 09:27:46 +0000
-Date: Thu, 03 Sep 2026 11:27:02 +0200
+	id 1x23tD-000000000sh-31PA;
+	Thu, 03 Sep 2026 09:37:47 +0000
+Date: Thu, 03 Sep 2026 11:37:34 +0200
 From: kernel test robot <lkp@intel.com>
 To: Sudeep Holla <sudeep.holla@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
  Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 Subject: [sudeep-holla:b4/acpi_scmi_pcc 4/10]
- drivers/firmware/arm_scmi/driver.c:3357:56: error: use of undeclared
- identifier 'child'
-Message-ID: <202609031114.FGVE8i8e-lkp@intel.com>
+ drivers/firmware/arm_scmi/driver.c:3357:63: error: 'child' undeclared
+Message-ID: <202609031153.RMJHdB4a-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,39 +63,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git b4/acpi_scmi_pcc
 head:   673f426a7fa015555d9fd8433710b4cd2de2f661
 commit: f34e9f996f20892dc1471c7d6edf0a542e3f63bb [4/10] firmware: arm_scmi: Convert OF-only paths to generic fwnode in SCMI core
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031114.FGVE8i8e-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031114.FGVE8i8e-lkp@intel.com/reproduce)
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031153.RMJHdB4a-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031153.RMJHdB4a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609031114.FGVE8i8e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609031153.RMJHdB4a-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/firmware/arm_scmi/driver.c:3357:56: error: use of undeclared identifier 'child'
+   In file included from drivers/firmware/arm_scmi/driver.c:33:
+   drivers/firmware/arm_scmi/driver.c: In function 'scmi_probe':
+>> drivers/firmware/arm_scmi/driver.c:3357:63: error: 'child' undeclared (first use in this function)
     3357 |         fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
          |                                                               ^~~~~
->> drivers/firmware/arm_scmi/driver.c:3357:56: error: use of undeclared identifier 'child'
-    3357 |         fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
-         |                                                               ^~~~~
->> drivers/firmware/arm_scmi/driver.c:3357:56: error: use of undeclared identifier 'child'
-    3357 |         fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
-         |                                                               ^~~~~
->> drivers/firmware/arm_scmi/driver.c:3357:56: error: use of undeclared identifier 'child'
-    3357 |         fwnode_for_each_available_child_node(dev_fwnode(dev), child) {
-         |                                                               ^~~~~
-   drivers/firmware/arm_scmi/driver.c:3360:32: error: use of undeclared identifier 'child'
-    3360 |                 if (fwnode_property_read_u32(child, "reg", &prot_id))
-         |                                              ^~~~~
-   drivers/firmware/arm_scmi/driver.c:3378:44: error: use of undeclared identifier 'child'
-    3378 |                 ret = idr_alloc(&info->active_protocols, child,
-         |                                                          ^~~~~
-   drivers/firmware/arm_scmi/driver.c:3386:50: error: use of undeclared identifier 'child'
-    3386 |                 scmi_create_protocol_devices(fwnode_handle_get(child), info,
-         |                                                                ^~~~~
-   7 errors generated.
+   include/linux/property.h:176:14: note: in definition of macro 'fwnode_for_each_available_child_node'
+     176 |         for (child = fwnode_get_next_available_child_node(fwnode, NULL); child;\
+         |              ^~~~~
+   drivers/firmware/arm_scmi/driver.c:3357:63: note: each undeclared identifier is reported only once for each function it appears in
+   include/linux/property.h:176:14: note: in definition of macro 'fwnode_for_each_available_child_node'
+     176 |         for (child = fwnode_get_next_available_child_node(fwnode, NULL); child;\
+         |              ^~~~~
 
 
 vim +/child +3357 drivers/firmware/arm_scmi/driver.c
