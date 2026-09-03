@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1218B49B216
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 12:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341FB439F68
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 12:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788437803; cv=none; b=kI4MZ9c7Vp/MzA9lQLzwnABeIpEuK6aoPhpV/fwmUnxSTgio2DyNKEzwIQhg/7qNTlnIn32uXoV3+zgLeRyBg+ZWmm/Djpzn2sdWtc31EVoLGs20IZy5VpmXTTXWPGU65Vf6lkPiG0vt6uz0UjqiM+0TWFm36qisqOGFczqCuVs=
+	t=1788438525; cv=none; b=aVLO7ZVX9LDU+YSwWxYcLyRD8k4yMB6WFL5pycjbxAyBW65gLTV0bwY1x6AsGE2hF8oywcmlswJd/QxnHBqmP8T+adLvoLqnFwIDRs2oLoOY0L7W2tpgwVzUDUDhE3R6143amQDE8BL80LZeE9rxcC7QER4I9fSib+okcg/xGek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788437803; c=relaxed/simple;
-	bh=D6iLQCq9Nu3cfoB9hsaZdtvkqF7xeEYS+SP15ftoqA0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SofNlJYLeauPj3KvEVj7X4EVtL/+yMpa4L8Iit90HMdSVA66i3Ql+b5JHLKhs2uCyzYuyekBgGFHPAo4jPXT9NluDJJIxyjHuUaQFLv4gJOsA61Tbizk2X2hQPh1vT3jufVHcHd/ThmSTRi0c2WOyrR7PSqQdXaMEIclXVf3zuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bpqNp9Jy; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1788438525; c=relaxed/simple;
+	bh=T8LGIybHLxYOmOJZWdqzpCtnroH4lxedDR+iPt7QbMc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oLb7kmyqUQDutV2D/e/QguCGfqr6JbDlk3CcPHUZK7EC41Mt1yhNrv5OBt2RQJUFTHUp1WE+HnoxMtjs4D3fmbDC8/rDEHERoXbyVc+GdxyMIoqInFZikYmRjuAbv8Daymy0imdjclIzLN++8rIcwFE8DgA90nHDnWwmxCRUg5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOJvEqQ0; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bpqNp9Jy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOJvEqQ0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788437801; x=1819973801;
+  t=1788438522; x=1819974522;
   h=date:from:to:cc:subject:message-id;
-  bh=D6iLQCq9Nu3cfoB9hsaZdtvkqF7xeEYS+SP15ftoqA0=;
-  b=bpqNp9JymN4g1upgXPlsIbINktf5nKVEyTUWwrZiGxGWq68cGpviCCIH
-   22B7604a6Nh9f8L+sFkBxL+okQkcd/DYfMPYetC13l5eRpVrwyOHcvJY/
-   kYs94GSiEqXx0fQ6zFFOiy6LJ/RAJ6ihlO9dt5Ard6RJNSYTrdsMo5BDY
-   aLy482DHrivO1njn0OMeFcf3qDw1NdzJrqDbqkf/2JldnLO3srclqAi+X
-   gGJW0G7dQg+gZxkKfFtAJ4LKld/plbSz+zTN/GHahIG+SJSoGk5Iw/N2N
-   GnDKnXQwGcFo4a2sF3+dN5N/5zxUYH13X0xBJsM6ZCwtZYvFPGMhBGwR+
-   Q==;
-X-CSE-ConnectionGUID: pTGmkxn7R8GkmN1TaE45yQ==
-X-CSE-MsgGUID: t6UFPxERTkajFAEM/wI/Xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="106439073"
+  bh=T8LGIybHLxYOmOJZWdqzpCtnroH4lxedDR+iPt7QbMc=;
+  b=JOJvEqQ0TkK3vnF04CoDcP/W2GfV6SEizUWXzwUzZUYETkAuUIIV44ot
+   Pyy/5jHfnIBvl4nqBPWa0yVcL4XONOb3mwSUj+2KRIkF+QZ6tmOCgDg3+
+   bSEyqpEIRsjVSW33yGRbCxd8ANZQ562fwqjuLwGCS3S8pb2KHwEDl1ijV
+   OhrIP9qWDY2jPfH+bQrBPabZ6ECM8LVBGf5Himgy5XdvfpYg63n98lXZF
+   P18LoAFAg5qrfJUdkzPqGMA7E1vZjK4YuoqdutBBxR/IRfMbQlpA7Z2m/
+   x1QmDyUAqQ+vuQRaHl+OH5FB7ZhVZcabDhu1denDVKVwINtXR5VH0g7zH
+   g==;
+X-CSE-ConnectionGUID: 0DrGPoNqTqCJ4s6JB8LidA==
+X-CSE-MsgGUID: pHyElI/WTxWWpiN+iAZsZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88941428"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="106439073"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:16:40 -0700
-X-CSE-ConnectionGUID: cn8Cvj3vTCiM2EIdxML1MA==
-X-CSE-MsgGUID: cH9s8GaHSKiHwj4CqeL5Pw==
+   d="scan'208";a="88941428"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 05:28:41 -0700
+X-CSE-ConnectionGUID: 60RNIVXRQgSomjSEP0jhrg==
+X-CSE-MsgGUID: DB7VDl6xSrWXHLbFEP2Flw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="294580162"
+   d="scan'208";a="265365691"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Sep 2026 05:16:38 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 03 Sep 2026 05:28:39 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x26Mt-000000004nG-3cvA;
-	Thu, 03 Sep 2026 12:16:35 +0000
-Date: Thu, 03 Sep 2026 20:15:52 +0800
+	id 1x26YW-000000004oE-4BPy;
+	Thu, 03 Sep 2026 12:28:36 +0000
+Date: Thu, 03 Sep 2026 20:28:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: bui duc phuc <phucduc.bui@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [brgl:gpio/for-next 5/12] drivers/gpio/gpio-altera.c:224:21:
- error: 'irq' undeclared; did you mean 'girq'?
-Message-ID: <202609032003.JKU2nkvu-lkp@intel.com>
+To: "Hao-Yu Yang" <naup96721@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>,
+ Eric Dumazet <edumazet@google.com>
+Subject: mm/mempolicy.c:488:6-25: WARNING: atomic_dec_and_test
+ variation before object free at line 496.
+Message-ID: <202609032025.W5uNU0A3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,131 +61,46 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   a2cfc48fee416f0ea78e7dc38acbf2ce072574cc
-commit: 6e6e585b603e4f679c2a33c8f0954ec88b52fd7a [5/12] gpio: altera: Handle errors from optional IRQ lookup
-config: openrisc-randconfig-r072-20260902 (https://download.01.org/0day-ci/archive/20260903/202609032003.JKU2nkvu-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.3.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609032003.JKU2nkvu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   940de590b839f71d6dc846160534bf202401b8b7
+commit: 190a8c48ff623c3d67cb295b4536a660db2012aa futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()
+date:   5 months ago
+config: s390-randconfig-r064-20260903 (https://download.01.org/0day-ci/archive/20260903/202609032025.W5uNU0A3-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 190a8c48ff62 ("futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609032003.JKU2nkvu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609032025.W5uNU0A3-lkp@intel.com/
 
-Note: the brgl/gpio/for-next HEAD a2cfc48fee416f0ea78e7dc38acbf2ce072574cc builds fine.
-      It only hurts bisectability.
+cocci warnings: (new ones prefixed by >>)
+>> mm/mempolicy.c:488:6-25: WARNING: atomic_dec_and_test variation before object free at line 496.
 
-All errors (new ones prefixed by >>):
+vim +488 mm/mempolicy.c
 
-   drivers/gpio/gpio-altera.c: In function 'altera_gpio_probe':
->> drivers/gpio/gpio-altera.c:224:21: error: 'irq' undeclared (first use in this function); did you mean 'girq'?
-     224 |                 if (irq != -ENXIO)
-         |                     ^~~
-         |                     girq
-   drivers/gpio/gpio-altera.c:224:21: note: each undeclared identifier is reported only once for each function it appears in
+^1da177e4c3f415 Linus Torvalds   2005-04-16  484  
+52cd3b074050dd6 Lee Schermerhorn 2008-04-28  485  /* Slow path of a mpol destructor. */
+c36f6e6dff4d32e Hugh Dickins     2023-10-03  486  void __mpol_put(struct mempolicy *pol)
+52cd3b074050dd6 Lee Schermerhorn 2008-04-28  487  {
+c36f6e6dff4d32e Hugh Dickins     2023-10-03 @488  	if (!atomic_dec_and_test(&pol->refcnt))
+52cd3b074050dd6 Lee Schermerhorn 2008-04-28  489  		return;
+190a8c48ff623c3 Hao-Yu Yang      2026-03-13  490  	/*
+190a8c48ff623c3 Hao-Yu Yang      2026-03-13  491  	 * Required to allow mmap_lock_speculative*() access, see for example
+190a8c48ff623c3 Hao-Yu Yang      2026-03-13  492  	 * futex_key_to_node_opt(). All accesses are serialized by mmap_lock,
+190a8c48ff623c3 Hao-Yu Yang      2026-03-13  493  	 * however the speculative lock section unbound by the normal lock
+190a8c48ff623c3 Hao-Yu Yang      2026-03-13  494  	 * boundaries, requiring RCU freeing.
+190a8c48ff623c3 Hao-Yu Yang      2026-03-13  495  	 */
+190a8c48ff623c3 Hao-Yu Yang      2026-03-13 @496  	kfree_rcu(pol, rcu);
+52cd3b074050dd6 Lee Schermerhorn 2008-04-28  497  }
+f634f10809ec3d5 Shivank Garg     2025-08-27  498  EXPORT_SYMBOL_FOR_MODULES(__mpol_put, "kvm");
+52cd3b074050dd6 Lee Schermerhorn 2008-04-28  499  
 
+:::::: The code at line 488 was first introduced by commit
+:::::: c36f6e6dff4d32ec8b6da8f553933727a57a7a4a mempolicy trivia: slightly more consistent naming
 
-vim +224 drivers/gpio/gpio-altera.c
-
-   165	
-   166	static int altera_gpio_probe(struct platform_device *pdev)
-   167	{
-   168		struct gpio_generic_chip_config config;
-   169		struct device *dev = &pdev->dev;
-   170		int reg, ret;
-   171		struct altera_gpio_chip *altera_gc;
-   172		struct gpio_generic_chip *chip;
-   173		struct gpio_chip *gc;
-   174		struct gpio_irq_chip *girq;
-   175		int mapped_irq;
-   176	
-   177		altera_gc = devm_kzalloc(&pdev->dev, sizeof(*altera_gc), GFP_KERNEL);
-   178		if (!altera_gc)
-   179			return -ENOMEM;
-   180	
-   181		raw_spin_lock_init(&altera_gc->gpio_lock);
-   182	
-   183		altera_gc->regs = devm_platform_ioremap_resource(pdev, 0);
-   184		if (IS_ERR(altera_gc->regs))
-   185			return dev_err_probe(dev, PTR_ERR(altera_gc->regs),
-   186					     "failed to ioremap memory resource\n");
-   187	
-   188		chip = &altera_gc->chip;
-   189	
-   190		config = (struct gpio_generic_chip_config) {
-   191			.dev = dev,
-   192			.sz = 4,
-   193			.dat = altera_gc->regs + ALTERA_GPIO_DATA,
-   194			.set = altera_gc->regs + ALTERA_GPIO_DATA,
-   195			.dirout = altera_gc->regs + ALTERA_GPIO_DIR,
-   196		};
-   197	
-   198		ret = gpio_generic_chip_init(chip, &config);
-   199		if (ret)
-   200			return dev_err_probe(dev, ret, "unable to init generic GPIO\n");
-   201	
-   202		gc = &chip->gc;
-   203	
-   204		if (device_property_read_u32(dev, "altr,ngpio", &reg))
-   205			/* By default assume maximum ngpio */
-   206			gc->ngpio = ALTERA_GPIO_MAX_NGPIO;
-   207		else
-   208			gc->ngpio = reg;
-   209	
-   210		if (gc->ngpio > ALTERA_GPIO_MAX_NGPIO) {
-   211			dev_warn(&pdev->dev,
-   212				"ngpio is greater than %d, defaulting to %d\n",
-   213				ALTERA_GPIO_MAX_NGPIO, ALTERA_GPIO_MAX_NGPIO);
-   214			gc->ngpio = ALTERA_GPIO_MAX_NGPIO;
-   215		}
-   216	
-   217		gc->base = -1;
-   218		gc->label = devm_kasprintf(dev, GFP_KERNEL, "%pfw", dev_fwnode(dev));
-   219		if (!gc->label)
-   220			return -ENOMEM;
-   221	
-   222		mapped_irq = platform_get_irq_optional(pdev, 0);
-   223		if (mapped_irq < 0) {
- > 224			if (irq != -ENXIO)
-   225				return irq;
-   226			goto skip_irq;
-   227		}
-   228	
-   229		if (device_property_read_u32(dev, "altr,interrupt-type", &reg)) {
-   230			dev_err(&pdev->dev,
-   231				"altr,interrupt-type value not set in device tree\n");
-   232			return -EINVAL;
-   233		}
-   234		altera_gc->interrupt_trigger = reg;
-   235	
-   236		girq = &gc->irq;
-   237		gpio_irq_chip_set_chip(girq, &altera_gpio_irq_chip);
-   238	
-   239		if (altera_gc->interrupt_trigger == IRQ_TYPE_LEVEL_HIGH)
-   240			girq->parent_handler = altera_gpio_irq_leveL_high_handler;
-   241		else
-   242			girq->parent_handler = altera_gpio_irq_edge_handler;
-   243		girq->num_parents = 1;
-   244		girq->parents = devm_kcalloc(&pdev->dev, 1, sizeof(*girq->parents),
-   245					     GFP_KERNEL);
-   246		if (!girq->parents)
-   247			return -ENOMEM;
-   248		girq->default_type = IRQ_TYPE_NONE;
-   249		girq->handler = handle_bad_irq;
-   250		girq->parents[0] = mapped_irq;
-   251	
-   252	skip_irq:
-   253		ret = devm_gpiochip_add_data(dev, gc, altera_gc);
-   254		if (ret) {
-   255			dev_err(&pdev->dev, "Failed adding memory mapped gpiochip\n");
-   256			return ret;
-   257		}
-   258	
-   259		return 0;
-   260	}
-   261	
+:::::: TO: Hugh Dickins <hughd@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
