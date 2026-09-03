@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA3A372B39;
-	Thu,  3 Sep 2026 18:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7453DDB10
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 19:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788460398; cv=none; b=XZdPTHTdh6oZvu4oRsJzrsMqintTT99bsEmB+6HITGjo5wCRDjZ5nKCeRBqH1TSMoNpaBy/7KSkw+7V7QAuVxYJqZTnwgwKX6v0hJuFquNCyKDkb/Tcqmq9BMSqNsar3Pk7Twm9ZpeLFbCLICa7TIgAu/hHeyy0t0jfY4vjLzYA=
+	t=1788462314; cv=none; b=Bg49CppcwrbjxohQND+jIoQwQBElx7pLu4EQ4mfZHwoqVlC9yOYY0VRlhWHUR6L3gytB0dDN0t0j2YKQ6fXJ2xCtpP8/q9MzyjE/5Xgc4jc0Q9Eh2Tm1PfbyykS2JGQh6pg4Hy3M1+P05vdcCrub1nMo6kNKBisk543Tmz8HPP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788460398; c=relaxed/simple;
-	bh=nF0du8HKHFbrQkfNnBnB08CKWqcS0G9pDvdpb/ZJmCc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OmhOIvFTPD7JxGlRqt7DupbgqBb5mwBJzKuFhkIBzs0LyC6mVwoHAkCEpH24KTsbY7V1JD1M+ZFS7m5JqYJsshuHd2DAu1tVPyeelSXC61JW9tMXe6Pxurjs3hBzgaYmJi4KfAaEg3q0Zcw3PP7ujZ0Ple5opr0ssafe4RarbYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bepmcJcZ; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1788462314; c=relaxed/simple;
+	bh=nCzJhkvcHxOtfFZkvIuLcGqarVgwSs8ul4gcR9tlWZs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FkfR2AOr7zYBB0TpQjMwXD+CKIPX+AcWrCBhU+BFpw1EOU5U7A3eWvGaMQ+OF0HbSXz0zk2jyAeSUZ6W/pToI314bCMvZ1rIIW6/tOmXER5p3jZpvdctPok4Z9YyUaPDEVZm/0ZnnLe5o96ITuzKvDL3XOvS785L925G+cokyVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFKAA80p; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bepmcJcZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFKAA80p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788460390; x=1819996390;
+  t=1788462310; x=1819998310;
   h=date:from:to:cc:subject:message-id;
-  bh=nF0du8HKHFbrQkfNnBnB08CKWqcS0G9pDvdpb/ZJmCc=;
-  b=bepmcJcZaCrScK4UzmB+J+i0a/kofzG4QH13Kj19LsWXtsnmhzXHK3K4
-   Or0WNcQGCMl2yjglWPODAhkffr5ChVp+cnbKpkVgIdrR5yaaACG3+GzaS
-   xTWBblo37r7ET8JfLjr1IAiHtsOKaHhhVLaAE/qH1LoASKq1yWSJWXU67
-   Rd0RKOoCczsLE2CrooPuw2ZrEWNJmFjVU8APqdhK9sDZL1/E0cTYZyVfS
-   Q1iH5nFiKt0GjPB9yLiH/UxR29gNpegqiIrvbKxoVCGU+MuVUa/8xmhsm
-   JWnBXrgvofumjLC5EmED6LDAwu4CIxtl6/tQcjZ0w4DZt9T3pt2nlU4+W
-   w==;
-X-CSE-ConnectionGUID: NK8wlpjQTEKgw8gD22GSqA==
-X-CSE-MsgGUID: 7AdVy7AYSKqhnPQ7Ii1OUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88877869"
+  bh=nCzJhkvcHxOtfFZkvIuLcGqarVgwSs8ul4gcR9tlWZs=;
+  b=oFKAA80pyBCZN7m35+JMb9Cbz6xN1k0uV6VR6GlKUCbwOh9Y7qCRYwd3
+   r06AoKY0zOMkVgcXlTPPPiJtYxcvsCDaHxu6CgFbmJ8Vj8VqPXW1SepzW
+   ZvIW1MC2HWcAz3nH9DgzDtihKNNAkLsWWUPtzx9XUb5dJCfYSlLw7K44B
+   ysJxHtIEXQ35PnnmJXwweYeO8Lp4ZY95qaSmwTzMjWLI9wEazsoFC8pSB
+   YAH9gypIVIFS7R8qFfqzevG2Krx5HGpTBEIoTwl5G0jydza82JGvcqAuN
+   NPvQXIRIDpXW6fTSIjaTtz1qmiuOYzjv668Y8cVdpya1dPZQNVu8kEKUM
+   Q==;
+X-CSE-ConnectionGUID: qXDnngNoSoebAm9zIqpdLg==
+X-CSE-MsgGUID: kebPnSGoSru5+JntIdvleA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88978071"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="88877869"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 11:33:04 -0700
-X-CSE-ConnectionGUID: vQ/HhJQ7TQGUdMRT/Ck57w==
-X-CSE-MsgGUID: 5T/qrwAPSWyY6naslHwDgQ==
+   d="scan'208";a="88978071"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 12:05:07 -0700
+X-CSE-ConnectionGUID: QjS5V4oQQqiLEzOjJxDlKw==
+X-CSE-MsgGUID: whpNM5IXTG63P/ZmPG722A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="269797892"
+   d="scan'208";a="263622423"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Sep 2026 11:33:02 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Sep 2026 12:05:04 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2CF9-000000005Eg-2Uhj;
-	Thu, 03 Sep 2026 18:32:59 +0000
-Date: Fri, 04 Sep 2026 02:32:03 +0800
+	id 1x2CkA-000000005H8-09Wq;
+	Thu, 03 Sep 2026 19:05:02 +0000
+Date: Fri, 04 Sep 2026 03:04:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rong Xu <xur@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>
-Subject: <inline asm>:1:275: error: invalid instruction mnemonic
- 'brk'
-Message-ID: <202609040258.xw9R4qaZ-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrea Righi <arighi@nvidia.com>
+Subject: kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202609040234.7zfFgTWS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,406 +62,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   940de590b839f71d6dc846160534bf202401b8b7
-commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 kbuild: distributed build support for Clang ThinLTO
-date:   3 months ago
-config: arm64-randconfig-003-20260830 (https://download.01.org/0day-ci/archive/20260904/202609040258.xw9R4qaZ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260904/202609040258.xw9R4qaZ-lkp@intel.com/reproduce)
+commit: bb70e4fb626b70895b7917ee97c256f24d019c34 sched_ext: Eject the top rescue consumer on overload
+date:   4 weeks ago
+config: sparc-randconfig-r131-20260826 (https://download.01.org/0day-ci/archive/20260904/202609040234.7zfFgTWS-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260904/202609040234.7zfFgTWS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 9f2aee8f7d18 ("kbuild: distributed build support for Clang ThinLTO")
+| Fixes: bb70e4fb626b ("sched_ext: Eject the top rescue consumer on overload")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609040258.xw9R4qaZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609040234.7zfFgTWS-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/deadline.c:3314:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/deadline.c:3314:23: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:3314:23: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/deadline.c:3316:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:3316:44: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:3316:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:3578:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:3578:23: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:3578:23: sparse:    struct task_struct *
+   kernel/sched/deadline.c:3631:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/ext/ext.c:391:46: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:1423:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:1613:48: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/ext/ext.c:1613:48: sparse:    struct task_struct *
+   kernel/sched/ext/ext.c:1613:48: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/ext/ext.c:2370:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/ext/ext.c:2384:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *from @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/ext/ext.c:3302:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:4381:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:4382:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:6821:57: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:6822:51: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:8357:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:8391:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:9776:18: sparse: sparse: symbol 'scx_bpf_reenqueue_local___v2' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10275:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/ext/ext.c:10275:33: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/ext/ext.c:10275:33: sparse:    struct task_struct const *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/build_policy.c: note: in included file:
+>> kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+>> kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+>> kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+>> kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/syscalls.c:1418:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/rt.c:1313:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/rt.c:1313:23: sparse:    struct task_struct *
+   kernel/sched/rt.c:1313:23: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:1442:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/deadline.c:2339:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct *
+   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1442:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/syscalls.c:1343:11: sparse: sparse: dereference of noderef expression
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/rt.c:1676:15: sparse: sparse: dereference of noderef expression
 
-   warning: overriding the module target triple with x86_64-unknown-linux-gnu [-Woverride-module]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'arch/arm64/mm/init.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/kunit/test.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/kunit/try-catch.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/maple_tree.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'mm/vmstat.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   '+outline-atomics' is not a recognized feature for this target (ignoring feature)
-   '+v8a' is not a recognized feature for this target (ignoring feature)
-   '-crypto' is not a recognized feature for this target (ignoring feature)
-   '-fmv' is not a recognized feature for this target (ignoring feature)
-   '-fp-armv8' is not a recognized feature for this target (ignoring feature)
-   '-neon' is not a recognized feature for this target (ignoring feature)
-   '-sha2' is not a recognized feature for this target (ignoring feature)
-   '+outline-atomics' is not a recognized feature for this target (ignoring feature)
-   '+v8a' is not a recognized feature for this target (ignoring feature)
-   '-crypto' is not a recognized feature for this target (ignoring feature)
-   '-fmv' is not a recognized feature for this target (ignoring feature)
-   '-fp-armv8' is not a recognized feature for this target (ignoring feature)
-   '-neon' is not a recognized feature for this target (ignoring feature)
-   '-sha2' is not a recognized feature for this target (ignoring feature)
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 531; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 563; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 564; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 565; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 565; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 563; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 564; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 531; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 531; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 563; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 564; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 565; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:3:2: error: invalid instruction mnemonic 'b'
-           b       .LBB18_17
-           ^
-   <inline asm>:8:2: error: unknown directive
-    .hword (1 << 15) | ($42)
-    ^
-   <inline asm>:3:2: error: invalid instruction mnemonic 'b'
-           b       .LBB18_24
-           ^
-   <inline asm>:8:2: error: unknown directive
-    .hword (1 << 15) | ($42)
-    ^
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 157; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 277; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 286; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 290; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:269: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/riscv.h"; .popsection; .long 14472b - .; .short 95; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                      ^~~
-   <inline asm>:1:269: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/riscv.h"; .popsection; .long 14472b - .; .short 95; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                      ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/riscv.h"; .popsection; .long 14472b - .; .short 117; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/riscv.h"; .popsection; .long 14472b - .; .short 118; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 178; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 277; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 286; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 290; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 178; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 277; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 286; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 290; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 178; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
---
-   warning: overriding the module target triple with x86_64-unknown-linux-gnu [-Woverride-module]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'arch/arm64/mm/init.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'lib/kunit/test.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'lib/kunit/try-catch.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'lib/maple_tree.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'mm/vmstat.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   '+outline-atomics' is not a recognized feature for this target (ignoring feature)
-   '+v8a' is not a recognized feature for this target (ignoring feature)
-   '-crypto' is not a recognized feature for this target (ignoring feature)
-   '-fmv' is not a recognized feature for this target (ignoring feature)
-   '-fp-armv8' is not a recognized feature for this target (ignoring feature)
-   '-neon' is not a recognized feature for this target (ignoring feature)
-   '-sha2' is not a recognized feature for this target (ignoring feature)
-   '+outline-atomics' is not a recognized feature for this target (ignoring feature)
-   '+v8a' is not a recognized feature for this target (ignoring feature)
-   '-crypto' is not a recognized feature for this target (ignoring feature)
-   '-fmv' is not a recognized feature for this target (ignoring feature)
-   '-fp-armv8' is not a recognized feature for this target (ignoring feature)
-   '-neon' is not a recognized feature for this target (ignoring feature)
-   '-sha2' is not a recognized feature for this target (ignoring feature)
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 531; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 563; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 564; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 565; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 565; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 563; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 564; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 531; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 531; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 563; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 564; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 565; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 566; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   error: cannot compile inline asm
->> <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 568; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:3:2: error: invalid instruction mnemonic 'b'
-           b       .LBB19_22
-           ^
-   <inline asm>:8:2: error: unknown directive
-    .hword (1 << 15) | ($42)
-    ^
-   <inline asm>:3:2: error: invalid instruction mnemonic 'b'
-           b       .LBB19_30
-           ^
-   <inline asm>:8:2: error: unknown directive
-    .hword (1 << 15) | ($42)
-    ^
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 157; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_iter.h"; .popsection; .long 14472b - .; .short 112; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                            ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 277; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 282; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 290; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:269: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 95; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                      ^~~
-   <inline asm>:1:269: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 95; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                      ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 124; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 277; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 282; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 290; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/../pt_fmt_defaults.h"; .popsection; .long 14472b - .; .short 277; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                                    ^~~
-   <inline asm>:1:270: error: invalid instruction mnemonic 'brk'
-           .pushsection __bug_table,"aw"; .align 2; 14470: .long 14471f - .; .pushsection .rodata.str,"aMS",@progbits,1; 14472: .string "drivers/iommu/generic_pt/fmt/amdv1.h"; .popsection; .long 14472b - .; .short 150; .short (1 << 0)|(((9) << 8)); .align 2; .popsection; 14471: brk 0x800
-                                                                                                                                                                                                                                                                                       ^~~
-   <inline asm>:1:283: error: invalid instruction mnemonic 'brk'
-..
+vim +288 kernel/sched/ext/sub.c
+
+   263	
+   264	/**
+   265	 * scx_rescue_charge - Charge the rescuee's runtime
+   266	 * @rq: rq the rescuee is running on
+   267	 * @delta_exec: runtime being charged
+   268	 *
+   269	 * Also ends the rescue once the admitted slice has been served in full. Ending
+   270	 * on served time rather than slice exhaustion bounds both the rescue and the
+   271	 * charging when a scheduler extends the rescuee's slice.
+   272	 */
+   273	void scx_rescue_charge(struct rq *rq, s64 delta_exec)
+   274	{
+   275		struct scx_sched_pcpu *pcpu;
+   276	
+   277		lockdep_assert_rq_held(rq);
+   278	
+   279		/*
+   280		 * A rescue slice is bounded by one quantum and tick-driven expiry can
+   281		 * overshoot by up to a tick. Clamp to avoid wild over-charges on VMs.
+   282		 */
+   283		delta_exec = min_t(s64, delta_exec, scx_rescue_quantum_ns + TICK_NSEC);
+   284	
+   285		rq->scx.rescue.budget -= delta_exec;
+   286	
+   287		/* per-cpu usage average feeds the overload victim pick */
+ > 288		pcpu = per_cpu_ptr(scx_task_sched(rq->curr)->pcpu, cpu_of(rq));
+   289		pcpu->rescue_avg = scx_rescue_decay_avg(pcpu) + delta_exec;
+   290	
+   291		if (!scx_rescue_slice_remaining(rq))
+   292			scx_task_slice_ended(rq, rq->scx.rescue.curr);
+   293	}
+   294	
 
 --
 0-DAY CI Kernel Test Service
