@@ -1,227 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D21A4B26F0
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 15:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1391447FAEE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 16:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788447891; cv=none; b=VNZf5rlnLiP3WoIrig6NoRSndWOoW3FvR33KRAGmJH/HaOOrlng/iTHc9vsgSy4DK2TqfHlnFYcHVhd0UM6C8VRIoQzGKFaG0yJqQQoBR/n21GbymCuqK5vfem0oVFKtj8OX1zN8A9ldfs2+8/wpXziZugBEbkKvwKPH6StbJ0k=
+	t=1788452275; cv=none; b=YHv1jpm2+egic5EB3YD9IVF0QG/ZHdcyDsMVuVZxl7v7ouQLH4CLi9HqX4+tjiE3dogUce2KyrHO2jfvd/LtYVtsQ6id+2NDSKnyUvo2Lk7bo+e08djRZbWZTK4ZX/st+5yiNU6qnfHFX1MEKIoK4r3uuj4fwFDpGIw0KaRwZgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788447891; c=relaxed/simple;
-	bh=LSxNkI6toiMIYM0hdbxthkWZiKjZ8Vr0Fqed+6VjuYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=uWYwHBzrDEQMZg5Vo/5HGeluS9phD7NAFr4f2niwKKWpKqIZtee3Ag1NKkARDItRIT8pa+QqFyU35OHVIwFVjIcsk7Uf9UdlXIOrvz0UJowR01VVQuXTm8qxiE8bZsj4MLYDYjkZx+EgdUK3HsiS7HpqM7ISs1slZrZVAl6PdXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IRs/wbxq; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1788452275; c=relaxed/simple;
+	bh=WWY02lZHrOVqEUeuL+9lLViTCBX3QStGf3HLzaFFrAg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KjnlQtfkBbhhGZI2hchIX+0QtF+HFotiti/OhGDdhbj/w/GPPbK5/jxiJVXiILKNackmXMMN6aU+1BV8WRvktdPsFwWpBgYYGQN0oVOf5wlcLgcdQjP23je5DTNEfCYIgiDJ71uHf0iUXCosMxex8ECYcY/ToRwcAwU2OXDz8yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzYJOpp0; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRs/wbxq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzYJOpp0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788447889; x=1819983889;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LSxNkI6toiMIYM0hdbxthkWZiKjZ8Vr0Fqed+6VjuYQ=;
-  b=IRs/wbxqDR7Lo1aIWz0TQZQLWI0JaDzTA4ltK5LHuVdscaeIZEiR9bBr
-   Xp0E/pZn13sznmNz9M1NyUNugz92YZol3bRsGga4VmOV+us6F2pImm+y6
-   hy4r52n+Xj7ugZ6o8DGYEHSDOoQI5vmTdI9L1uzHXHgTGHNIloTaX27bz
-   5A9+LPIwvJUyDrUWidnCW6hlVm5HzMeGSDLfgw3P0aU1QswNJtHAfVWBa
-   uywTqx9Dm+yIp787cK13wYljn/cj3PZVohUfFFeZzd5l3WtLHOyQVsGXQ
-   FeRdIXxmFIP/cLwTknjgq9S6jQWIPtd+d8kZ4ni/CtVVIaVg3rqgIaSNn
+  t=1788452274; x=1819988274;
+  h=date:from:to:cc:subject:message-id;
+  bh=WWY02lZHrOVqEUeuL+9lLViTCBX3QStGf3HLzaFFrAg=;
+  b=JzYJOpp0nAVVVEN0qmG9dFVCYaMQVKv+OUVc4GND+rSZvFjF28JiknCi
+   zFq+ROyvoxhJKraCvEQFlVuR6N+cSvScLnTZra8UOZRbLlTbZx4DU47z5
+   2mBRKVs0jNGdEFHoETI2d5TG0m3L1YmIvpAhanEm5L6O3ZwnacPmJuB5x
+   3koFQqgRnkSTIMAYx5RxYByTH/nm7HbuasRlrrPmS52Ti9EeZjs9yH5Ja
+   JnbcidavaA8yNVjxLLoLyZBIFWqUDhQ2ugKPlVg5qvUnySm2s0g7OvK/f
+   v7gZBYLmnjOgbGXgc7Hzdt5zaEra/0Jl6Ggb1a5+6jLWiOUlEc4zpH6Wv
    A==;
-X-CSE-ConnectionGUID: VPiKBeaXRACz4sPCty3cEg==
-X-CSE-MsgGUID: 8Qlb6gtkTr2IPtWPIbS6Ag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88074629"
+X-CSE-ConnectionGUID: +IOpY4r/TLijTcQOIpYmvw==
+X-CSE-MsgGUID: QveO+1JIQCCVX/bjH5v2vQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="106463090"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="88074629"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 08:04:49 -0700
-X-CSE-ConnectionGUID: GbKMIrjUSwSQ3mHnzZygng==
-X-CSE-MsgGUID: nlMkkMsERneljCG/QP+mHw==
+   d="scan'208";a="106463090"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 09:17:54 -0700
+X-CSE-ConnectionGUID: YaJitWwYSwSOGnI85BRFOw==
+X-CSE-MsgGUID: UlEto0etSXicfO41ZP+iog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="271721853"
+   d="scan'208";a="267190544"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Sep 2026 08:04:47 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 03 Sep 2026 09:17:52 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x28zc-000000004wg-3SyV;
-	Thu, 03 Sep 2026 15:04:44 +0000
-Date: Thu, 03 Sep 2026 23:04:22 +0800
+	id 1x2A8L-0000000052w-3qVh;
+	Thu, 03 Sep 2026 16:17:49 +0000
+Date: Fri, 04 Sep 2026 00:16:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:7.2/vramstuff 21/29]
- drivers/gpu/drm/ttm/tests/ttm_bo_test.c:335:9: error: too few arguments to
- function 'ttm_lru_bulk_move_init'; expected 2, have 1
-Message-ID: <202609032256.R8nf3R3t-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 278/278]
+ arch/x86/kernel/kvm.c:237:2-7: WARNING: NULL check before some freeing
+ functions is not needed.
+Message-ID: <202609040016.YQuJJkEC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/zen-kernel/zen-kernel 7.2/vramstuff
-head:   13a8e2000329a36f994acf2fd31d307d27fa9189
-commit: 2fbdb6893cc6ed358f0232bff4eef598a6c5b419 [21/29] drm/ttm: Add order=
-ed bulk moves
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260903=
-/202609032256.R8nf3R3t-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260903/202609032256.R8nf3R3t-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   ae917b3c7332e08006443a49c261aa97ce703103
+commit: 4a9f3a9c28a6966c699b4264b6a3c5aaed21ea3e [278/278] x86/kvm: Alloc dummy async #PF token outside of raw spinlock
+config: i386-randconfig-r061-20260903 (https://download.01.org/0day-ci/archive/20260904/202609040016.YQuJJkEC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609032256.R8nf3R3t-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609040016.YQuJJkEC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/kvm.c:237:2-7: WARNING: NULL check before some freeing functions is not needed.
 
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_unreserve_b=
-ulk':
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:335:9: error: too few arguments =
-to function 'ttm_lru_bulk_move_init'; expected 2, have 1
-     335 |         ttm_lru_bulk_move_init(&lru_bulk_move);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:13:
-   include/drm/ttm/ttm_resource.h:443:6: note: declared here
-     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
- ordered);
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_pin_unpin_r=
-esource':
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:508:9: error: too few arguments =
-to function 'ttm_lru_bulk_move_init'; expected 2, have 1
-     508 |         ttm_lru_bulk_move_init(&lru_bulk_move);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:443:6: note: declared here
-     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
- ordered);
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c: In function 'ttm_bo_multiple_pi=
-n_one_unpin':
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:559:9: error: too few arguments =
-to function 'ttm_lru_bulk_move_init'; expected 2, have 1
-     559 |         ttm_lru_bulk_move_init(&lru_bulk_move);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/ttm/ttm_resource.h:443:6: note: declared here
-     443 | void ttm_lru_bulk_move_init(struct ttm_lru_bulk_move *bulk, bool=
- ordered);
-         |      ^~~~~~~~~~~~~~~~~~~~~~
+vim +237 arch/x86/kernel/kvm.c
 
-
-vim +/ttm_lru_bulk_move_init +335 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
-
-995279d280d1ef Karolina Stolarek 2023-11-29  320 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  321  static void ttm_bo_unrese=
-rve_bulk(struct kunit *test)
-995279d280d1ef Karolina Stolarek 2023-11-29  322  {
-995279d280d1ef Karolina Stolarek 2023-11-29  323  	struct ttm_test_devices =
-*priv =3D test->priv;
-995279d280d1ef Karolina Stolarek 2023-11-29  324  	struct ttm_lru_bulk_move=
- lru_bulk_move;
-995279d280d1ef Karolina Stolarek 2023-11-29  325  	struct ttm_lru_bulk_move=
-_pos *pos;
-995279d280d1ef Karolina Stolarek 2023-11-29  326  	struct ttm_buffer_object=
- *bo1, *bo2;
-995279d280d1ef Karolina Stolarek 2023-11-29  327  	struct ttm_resource *res=
-1, *res2;
-995279d280d1ef Karolina Stolarek 2023-11-29  328  	struct ttm_device *ttm_d=
-ev;
-995279d280d1ef Karolina Stolarek 2023-11-29  329  	struct ttm_place *place;
-588c4c8d58c413 Karolina Stolarek 2024-06-12  330  	struct dma_resv *resv;
-07430fa5248964 Karolina Stolarek 2024-06-12  331  	u32 mem_type =3D TTM_PL_=
-SYSTEM;
-995279d280d1ef Karolina Stolarek 2023-11-29  332  	unsigned int bo_priority=
- =3D 0;
-995279d280d1ef Karolina Stolarek 2023-11-29  333  	int err;
-995279d280d1ef Karolina Stolarek 2023-11-29  334 =20
-995279d280d1ef Karolina Stolarek 2023-11-29 @335  	ttm_lru_bulk_move_init(&=
-lru_bulk_move);
-995279d280d1ef Karolina Stolarek 2023-11-29  336 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  337  	place =3D ttm_place_kuni=
-t_init(test, mem_type, 0);
-995279d280d1ef Karolina Stolarek 2023-11-29  338 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  339  	ttm_dev =3D kunit_kzallo=
-c(test, sizeof(*ttm_dev), GFP_KERNEL);
-995279d280d1ef Karolina Stolarek 2023-11-29  340  	KUNIT_ASSERT_NOT_NULL(te=
-st, ttm_dev);
-995279d280d1ef Karolina Stolarek 2023-11-29  341 =20
-588c4c8d58c413 Karolina Stolarek 2024-06-12  342  	resv =3D kunit_kzalloc(t=
-est, sizeof(*resv), GFP_KERNEL);
-878516a9e62cd2 Qasim Ijaz        2025-03-13  343  	KUNIT_ASSERT_NOT_NULL(te=
-st, resv);
-588c4c8d58c413 Karolina Stolarek 2024-06-12  344 =20
-77e19f8d32979f Tvrtko Ursulin    2025-10-20  345  	err =3D ttm_device_kunit=
-_init(priv, ttm_dev, 0);
-995279d280d1ef Karolina Stolarek 2023-11-29  346  	KUNIT_ASSERT_EQ(test, er=
-r, 0);
-995279d280d1ef Karolina Stolarek 2023-11-29  347  	priv->ttm_dev =3D ttm_de=
-v;
-995279d280d1ef Karolina Stolarek 2023-11-29  348 =20
-588c4c8d58c413 Karolina Stolarek 2024-06-12  349  	dma_resv_init(resv);
-588c4c8d58c413 Karolina Stolarek 2024-06-12  350 =20
-588c4c8d58c413 Karolina Stolarek 2024-06-12  351  	bo1 =3D ttm_bo_kunit_ini=
-t(test, test->priv, BO_SIZE, resv);
-588c4c8d58c413 Karolina Stolarek 2024-06-12  352  	bo2 =3D ttm_bo_kunit_ini=
-t(test, test->priv, BO_SIZE, resv);
-995279d280d1ef Karolina Stolarek 2023-11-29  353 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  354  	dma_resv_lock(bo1->base.=
-resv, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  355  	ttm_bo_set_bulk_move(bo1=
-, &lru_bulk_move);
-995279d280d1ef Karolina Stolarek 2023-11-29  356  	dma_resv_unlock(bo1->bas=
-e.resv);
-995279d280d1ef Karolina Stolarek 2023-11-29  357 =20
-2b624a2c18656e Maarten Lankhorst 2024-12-04  358  	err =3D ttm_resource_all=
-oc(bo1, place, &res1, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  359  	KUNIT_ASSERT_EQ(test, er=
-r, 0);
-995279d280d1ef Karolina Stolarek 2023-11-29  360  	bo1->resource =3D res1;
-995279d280d1ef Karolina Stolarek 2023-11-29  361 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  362  	dma_resv_lock(bo2->base.=
-resv, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  363  	ttm_bo_set_bulk_move(bo2=
-, &lru_bulk_move);
-995279d280d1ef Karolina Stolarek 2023-11-29  364  	dma_resv_unlock(bo2->bas=
-e.resv);
-995279d280d1ef Karolina Stolarek 2023-11-29  365 =20
-2b624a2c18656e Maarten Lankhorst 2024-12-04  366  	err =3D ttm_resource_all=
-oc(bo2, place, &res2, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  367  	KUNIT_ASSERT_EQ(test, er=
-r, 0);
-995279d280d1ef Karolina Stolarek 2023-11-29  368  	bo2->resource =3D res2;
-995279d280d1ef Karolina Stolarek 2023-11-29  369 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  370  	ttm_bo_reserve(bo1, fals=
-e, false, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  371  	ttm_bo_unreserve(bo1);
-995279d280d1ef Karolina Stolarek 2023-11-29  372 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  373  	pos =3D &lru_bulk_move.p=
-os[mem_type][bo_priority];
-995279d280d1ef Karolina Stolarek 2023-11-29  374  	KUNIT_ASSERT_PTR_EQ(test=
-, res1, pos->last);
-995279d280d1ef Karolina Stolarek 2023-11-29  375 =20
-995279d280d1ef Karolina Stolarek 2023-11-29  376  	ttm_resource_free(bo1, &=
-res1);
-995279d280d1ef Karolina Stolarek 2023-11-29  377  	ttm_resource_free(bo2, &=
-res2);
-588c4c8d58c413 Karolina Stolarek 2024-06-12  378 =20
-588c4c8d58c413 Karolina Stolarek 2024-06-12  379  	dma_resv_fini(resv);
-995279d280d1ef Karolina Stolarek 2023-11-29  380  }
-995279d280d1ef Karolina Stolarek 2023-11-29  381 =20
-
-:::::: The code at line 335 was first introduced by commit
-:::::: 995279d280d1ef5cc349b6eafee4dccd720c99bf drm/ttm/tests: Add tests fo=
-r ttm_bo functions
-
-:::::: TO: Karolina Stolarek <karolina.stolarek@intel.com>
-:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
+   186	
+   187	void kvm_async_pf_task_wake(u32 token)
+   188	{
+   189		u32 key = hash_32(token, KVM_TASK_SLEEP_HASHBITS);
+   190		struct kvm_task_sleep_head *b = &async_pf_sleepers[key];
+   191		struct kvm_task_sleep_node *n, *dummy = NULL;
+   192	
+   193		if (token == ~0) {
+   194			apf_task_wake_all();
+   195			return;
+   196		}
+   197	
+   198	again:
+   199		raw_spin_lock(&b->lock);
+   200		n = _find_apf_task(b, token);
+   201		if (!n) {
+   202			/*
+   203			 * Async #PF not yet handled, add a dummy entry for the token.
+   204			 * Allocating the token must be down outside of the raw lock
+   205			 * as the allocator is preemptible on PREEMPT_RT kernels.
+   206			 */
+   207			if (!dummy) {
+   208				raw_spin_unlock(&b->lock);
+   209				dummy = kzalloc(sizeof(*dummy), GFP_KERNEL);
+   210	
+   211				/*
+   212				 * Continue looping on allocation failure, eventually
+   213				 * the async #PF will be handled and allocating a new
+   214				 * node will be unnecessary.
+   215				 */
+   216				if (!dummy)
+   217					cpu_relax();
+   218	
+   219				/*
+   220				 * Recheck for async #PF completion before enqueueing
+   221				 * the dummy token to avoid duplicate list entries.
+   222				 */
+   223				goto again;
+   224			}
+   225			dummy->token = token;
+   226			dummy->cpu = smp_processor_id();
+   227			init_swait_queue_head(&dummy->wq);
+   228			hlist_add_head(&dummy->link, &b->list);
+   229			dummy = NULL;
+   230		} else {
+   231			apf_task_wake_one(n);
+   232		}
+   233		raw_spin_unlock(&b->lock);
+   234	
+   235		/* A dummy token might be allocated and ultimately not used.  */
+   236		if (dummy)
+ > 237			kfree(dummy);
+   238	}
+   239	EXPORT_SYMBOL_GPL(kvm_async_pf_task_wake);
+   240	
 
 --
 0-DAY CI Kernel Test Service
