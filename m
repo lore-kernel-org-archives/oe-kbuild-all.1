@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6723625F98A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 01:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB88C2EEE9D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 01:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788397340; cv=none; b=Yby20B+P/MB4p53cO9d4Se78W5CmPmstDk1qB52rVMknjBWMXUeL06xQMcQz8w0MKnAqEDlbOywir6SPjT7x94CKShNCrKZNPLwYp/ze0PUPkO8VGhd3cSoLevJ3wgvfVMFb1/8UB1prWhGPwR3pyku7oxJ7H1F79J8cMO8GEdI=
+	t=1788399320; cv=none; b=q94JKhDvQGRgjp112/bPUP40dujDK6X5Pl3C1Y1NCoAyi40X2bUfnkQSmhnLQ1AqmZMjD8AAt5/8y74m89MzK1Uisnb/vebKp274aRn4U7eYCzpl7UXRze6aBGJOE7hhl7ixzl5GhMpA6KcubOLizQcRt+f7ReVHHEFqGLRf8wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788397340; c=relaxed/simple;
-	bh=16yFk5ky5hpvXmZwimEh5KK/6nJBi9yTPuVxHX24RQI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hclYmDSwbe3Ny8Bp+PPa0HmHDOI4+KeLQnBsqxsqkSoFW5YjOTd3XKUdRiRdCAcRqcQbmav1JD+MDsXAMYEMX99ErfKC5cZevsm8FP3zD1HTN9Pwlp7yHWGliXy/ybdyrjrb6DBZKw9WuQkN2VhdGTKzULW7dDGxlRlMGAmZTg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nsd89UvF; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1788399320; c=relaxed/simple;
+	bh=BiclmM8iw6AMEgvSeIq0Hkwnb1G9XjDo4lHjSIYyXNM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TfD9PSMl4urieTgsV3dzfF4c6pGQ8Ukvzko6J01oEl8qvmEEX0Gi9BjxW0RIuYsvagEFM7HkfjAc1tT3Pb8KBxmDoQB9rAxtuUTkO6AOcRvBagkcqPu70hh9Hyo9A81oIKhEMBJxn89MQxMTDrxeYnq7HGKg6/61A2/kp9eyq2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBYSlifH; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nsd89UvF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBYSlifH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788397338; x=1819933338;
+  t=1788399318; x=1819935318;
   h=date:from:to:cc:subject:message-id;
-  bh=16yFk5ky5hpvXmZwimEh5KK/6nJBi9yTPuVxHX24RQI=;
-  b=Nsd89UvFX2rVYADIFksiouJJhiuVWGDeyBPeWSxqyNHyZIzSwkKOS1NA
-   6F5mWNC7FvWcztJFoQx3pBZkPkEauareQHAfWmTPBbYeQPMjizjDLaI4l
-   0Y5uayActGkYuFgdjI30jsg2pUt8OIVY3WPNH0dktQF/ICngGsT61b/SR
-   6dcxCWDqvjFSL+ytbs3V8cIZ4IfrrVvJGPda6aNip/2yxRVwWgSJkY88A
-   XVjCZOBsnvxrKvwl9GltVsZ2x1opqThS89X0gj1y20dIfEifOWb5q0sMJ
-   nPsWgbceR3vsMhPkhP8qWiu2xdkSHNB0NCDfTr0Xs1F3PZzsVZgSW8ITb
-   Q==;
-X-CSE-ConnectionGUID: lLcpOUmRRaylpwpDK7Ny+g==
-X-CSE-MsgGUID: 9w7kjhf4SxKhtxv3MVIsvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="114408470"
+  bh=BiclmM8iw6AMEgvSeIq0Hkwnb1G9XjDo4lHjSIYyXNM=;
+  b=EBYSlifH6MSlmtyLlNdm+M8/Fn1a/oGL/hrqCuYBce/NWpbmdx7ogJZX
+   7UM+S1L1QHGzJKmX3GQrjDSeiIo87VznB6wdfW30TnRwN+otEkN1JCMiu
+   RmguRUTvc6ALVcFPR7AQZgHb1KsEMV15S1jgOzjRMVNSrvzZmvLgDx5aW
+   PMcOR69c25GuGpYxZjtZalE3TOHHSYAI3mes9iRJmrhcQP4tztukkSDTb
+   3Lu1A8sdoQ9dmFq5b+WZGgxrSdqvZWJTYL5SMlXTQuzBbd4QVn4M6AlDe
+   f/3x9Et5DTJFgfPRb+TZ0iPfafNAgYM4/huN6tLFvZiwAoiQsZbIykiDn
+   g==;
+X-CSE-ConnectionGUID: kV9+9JurQA6FScf6AziUcQ==
+X-CSE-MsgGUID: Ck8x6vL5RtOYwiNiZIrzHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="88902802"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="114408470"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 18:02:17 -0700
-X-CSE-ConnectionGUID: UO0geCMHQcWqAYYxsflW6A==
-X-CSE-MsgGUID: G/EEXzPVSTmYw+3drxfsnA==
+   d="scan'208";a="88902802"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 18:35:17 -0700
+X-CSE-ConnectionGUID: mlhbUa6OT12nQKyzN6/4Bg==
+X-CSE-MsgGUID: nhWirXL+RDOA6g1ahJq2yQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="263398758"
+   d="scan'208";a="299439800"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Sep 2026 18:02:14 -0700
+  by orviesa002.jf.intel.com with ESMTP; 02 Sep 2026 18:35:16 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1vqF-000000003Yk-3Pcq;
-	Thu, 03 Sep 2026 01:02:11 +0000
-Date: Thu, 03 Sep 2026 09:01:51 +0800
+	id 1x1wMD-000000003aC-13CH;
+	Thu, 03 Sep 2026 01:35:13 +0000
+Date: Thu, 03 Sep 2026 09:34:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Horgan <ben.horgan@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- James Morse <james.morse@arm.com>, Zeng Heng <zengheng4@huawei.com>,
- Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Gavin Shan <gshan@redhat.com>
-Subject: drivers/resctrl/mpam_devices.c:1860:35-38: WARNING:
- Suspicious code. resource_size is maybe missing with msc_res
-Message-ID: <202609030809.ObirDhR3-lkp@intel.com>
+To: Steffen Eiden <seiden@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org,
+ Sean Christopherson <seanjc@google.com>,
+ "Jason J. Herne" <jjherne@linux.ibm.com>
+Subject: [kvms390:sae 1/43] drivers/vfio/vfio_main.c:1554:29: error:
+ incompatible pointer types passing 'struct file *' to parameter of type
+ 'struct kvm *'
+Message-ID: <202609030916.sgfe1yXN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,109 +62,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Ben,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89a312991dc6e638a36adc43ccb91dbc25504c04
-commit: c544f00a473239835d22e7109b403314d8b85974 arm64: mpam: Drop the CONFIG_EXPERT restriction
-date:   5 months ago
-config: arm64-randconfig-r051-20260902 (https://download.01.org/0day-ci/archive/20260903/202609030809.ObirDhR3-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c2cffa015e9549aafba9e514384b08204c7cc4b)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git sae
+head:   e3cbc45b3834d68c7e45ba1562f45af312c99d81
+commit: 457efc947019e9f93ce012b857f567189b9d382d [1/43] vfio: Use file-based reference counting for KVM
+config: hexagon-randconfig-r063-20260903 (https://download.01.org/0day-ci/archive/20260903/202609030916.sgfe1yXN-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609030916.sgfe1yXN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c544f00a4732 ("arm64: mpam: Drop the CONFIG_EXPERT restriction")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609030809.ObirDhR3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609030916.sgfe1yXN-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/resctrl/mpam_devices.c:1860:35-38: WARNING: Suspicious code. resource_size is maybe missing with msc_res
+All errors (new ones prefixed by >>):
 
-vim +1860 drivers/resctrl/mpam_devices.c
+>> drivers/vfio/vfio_main.c:1554:29: error: incompatible pointer types passing 'struct file *' to parameter of type 'struct kvm *' [-Werror,-Wincompatible-pointer-types]
+    1554 |                 vfio_group_set_kvm(group, kvm);
+         |                                           ^~~
+   drivers/vfio/vfio.h:168:77: note: passing argument to parameter 'kvm' here
+     168 | static inline void vfio_group_set_kvm(struct vfio_group *group, struct kvm *kvm)
+         |                                                                             ^
+   1 error generated.
 
-f04046f2577a5c James Morse 2025-11-19  1797  
-f04046f2577a5c James Morse 2025-11-19  1798  static struct mpam_msc *do_mpam_msc_drv_probe(struct platform_device *pdev)
-f04046f2577a5c James Morse 2025-11-19  1799  {
-f04046f2577a5c James Morse 2025-11-19  1800  	int err;
-f04046f2577a5c James Morse 2025-11-19  1801  	u32 tmp;
-f04046f2577a5c James Morse 2025-11-19  1802  	struct mpam_msc *msc;
-f04046f2577a5c James Morse 2025-11-19  1803  	struct resource *msc_res;
-f04046f2577a5c James Morse 2025-11-19  1804  	struct device *dev = &pdev->dev;
-f04046f2577a5c James Morse 2025-11-19  1805  
-f04046f2577a5c James Morse 2025-11-19  1806  	lockdep_assert_held(&mpam_list_lock);
-f04046f2577a5c James Morse 2025-11-19  1807  
-f04046f2577a5c James Morse 2025-11-19  1808  	msc = devm_kzalloc(&pdev->dev, sizeof(*msc), GFP_KERNEL);
-f04046f2577a5c James Morse 2025-11-19  1809  	if (!msc)
-f04046f2577a5c James Morse 2025-11-19  1810  		return ERR_PTR(-ENOMEM);
-01fb4b8224726a James Morse 2025-11-19  1811  	init_garbage(&msc->garbage);
-01fb4b8224726a James Morse 2025-11-19  1812  	msc->garbage.pdev = pdev;
-f04046f2577a5c James Morse 2025-11-19  1813  
-f04046f2577a5c James Morse 2025-11-19  1814  	err = devm_mutex_init(dev, &msc->probe_lock);
-f04046f2577a5c James Morse 2025-11-19  1815  	if (err)
-f04046f2577a5c James Morse 2025-11-19  1816  		return ERR_PTR(err);
-f04046f2577a5c James Morse 2025-11-19  1817  
-f04046f2577a5c James Morse 2025-11-19  1818  	err = devm_mutex_init(dev, &msc->part_sel_lock);
-f04046f2577a5c James Morse 2025-11-19  1819  	if (err)
-f04046f2577a5c James Morse 2025-11-19  1820  		return ERR_PTR(err);
-f04046f2577a5c James Morse 2025-11-19  1821  
-49aa621c4dcaf8 James Morse 2025-11-19  1822  	err = devm_mutex_init(dev, &msc->error_irq_lock);
-49aa621c4dcaf8 James Morse 2025-11-19  1823  	if (err)
-49aa621c4dcaf8 James Morse 2025-11-19  1824  		return ERR_PTR(err);
-09b89d2a72f37b James Morse 2025-11-19  1825  
-09b89d2a72f37b James Morse 2025-11-19  1826  	err = devm_mutex_init(dev, &msc->cfg_lock);
-09b89d2a72f37b James Morse 2025-11-19  1827  	if (err)
-09b89d2a72f37b James Morse 2025-11-19  1828  		return ERR_PTR(err);
-09b89d2a72f37b James Morse 2025-11-19  1829  
-d02beb06ca2a62 James Morse 2025-11-19  1830  	mpam_mon_sel_lock_init(msc);
-f04046f2577a5c James Morse 2025-11-19  1831  	msc->id = pdev->id;
-f04046f2577a5c James Morse 2025-11-19  1832  	msc->pdev = pdev;
-f04046f2577a5c James Morse 2025-11-19  1833  	INIT_LIST_HEAD_RCU(&msc->all_msc_list);
-f04046f2577a5c James Morse 2025-11-19  1834  	INIT_LIST_HEAD_RCU(&msc->ris);
-f04046f2577a5c James Morse 2025-11-19  1835  
-f04046f2577a5c James Morse 2025-11-19  1836  	update_msc_accessibility(msc);
-f04046f2577a5c James Morse 2025-11-19  1837  	if (cpumask_empty(&msc->accessibility)) {
-f04046f2577a5c James Morse 2025-11-19  1838  		dev_err_once(dev, "MSC is not accessible from any CPU!");
-f04046f2577a5c James Morse 2025-11-19  1839  		return ERR_PTR(-EINVAL);
-f04046f2577a5c James Morse 2025-11-19  1840  	}
-f04046f2577a5c James Morse 2025-11-19  1841  
-49aa621c4dcaf8 James Morse 2025-11-19  1842  	err = mpam_msc_setup_error_irq(msc);
-49aa621c4dcaf8 James Morse 2025-11-19  1843  	if (err)
-49aa621c4dcaf8 James Morse 2025-11-19  1844  		return ERR_PTR(err);
-49aa621c4dcaf8 James Morse 2025-11-19  1845  
-f04046f2577a5c James Morse 2025-11-19  1846  	if (device_property_read_u32(&pdev->dev, "pcc-channel", &tmp))
-f04046f2577a5c James Morse 2025-11-19  1847  		msc->iface = MPAM_IFACE_MMIO;
-f04046f2577a5c James Morse 2025-11-19  1848  	else
-f04046f2577a5c James Morse 2025-11-19  1849  		msc->iface = MPAM_IFACE_PCC;
-f04046f2577a5c James Morse 2025-11-19  1850  
-f04046f2577a5c James Morse 2025-11-19  1851  	if (msc->iface == MPAM_IFACE_MMIO) {
-f04046f2577a5c James Morse 2025-11-19  1852  		void __iomem *io;
-f04046f2577a5c James Morse 2025-11-19  1853  
-f04046f2577a5c James Morse 2025-11-19  1854  		io = devm_platform_get_and_ioremap_resource(pdev, 0,
-f04046f2577a5c James Morse 2025-11-19  1855  							    &msc_res);
-f04046f2577a5c James Morse 2025-11-19  1856  		if (IS_ERR(io)) {
-f04046f2577a5c James Morse 2025-11-19  1857  			dev_err_once(dev, "Failed to map MSC base address\n");
-f04046f2577a5c James Morse 2025-11-19  1858  			return ERR_CAST(io);
-f04046f2577a5c James Morse 2025-11-19  1859  		}
-f04046f2577a5c James Morse 2025-11-19 @1860  		msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
-f04046f2577a5c James Morse 2025-11-19  1861  		msc->mapped_hwpage = io;
-f04046f2577a5c James Morse 2025-11-19  1862  	} else {
-f04046f2577a5c James Morse 2025-11-19  1863  		return ERR_PTR(-EINVAL);
-f04046f2577a5c James Morse 2025-11-19  1864  	}
-f04046f2577a5c James Morse 2025-11-19  1865  
-f04046f2577a5c James Morse 2025-11-19  1866  	list_add_rcu(&msc->all_msc_list, &mpam_all_msc);
-f04046f2577a5c James Morse 2025-11-19  1867  	platform_set_drvdata(pdev, msc);
-f04046f2577a5c James Morse 2025-11-19  1868  
-f04046f2577a5c James Morse 2025-11-19  1869  	return msc;
-f04046f2577a5c James Morse 2025-11-19  1870  }
-f04046f2577a5c James Morse 2025-11-19  1871  
 
-:::::: The code at line 1860 was first introduced by commit
-:::::: f04046f2577a5c76167333ca99d3903ee5331ba0 arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate
+vim +1554 drivers/vfio/vfio_main.c
 
-:::::: TO: James Morse <james.morse@arm.com>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+34aeeecdb3357f Yi Liu        2023-07-18  1539  
+b1a59be8a2b64d Yi Liu        2023-07-18  1540  /**
+b1a59be8a2b64d Yi Liu        2023-07-18  1541   * vfio_file_set_kvm - Link a kvm with VFIO drivers
+457efc947019e9 Steffen Eiden 2026-08-12  1542   * @vfio_file: VFIO group file or VFIO device file
+457efc947019e9 Steffen Eiden 2026-08-12  1543   * @kvm: KVM file to link
+b1a59be8a2b64d Yi Liu        2023-07-18  1544   *
+b1a59be8a2b64d Yi Liu        2023-07-18  1545   * When a VFIO device is first opened the KVM will be available in
+b1a59be8a2b64d Yi Liu        2023-07-18  1546   * device->kvm if one was associated with the file.
+b1a59be8a2b64d Yi Liu        2023-07-18  1547   */
+457efc947019e9 Steffen Eiden 2026-08-12  1548  void vfio_file_set_kvm(struct file *vfio_file, struct file *kvm)
+b1a59be8a2b64d Yi Liu        2023-07-18  1549  {
+b1a59be8a2b64d Yi Liu        2023-07-18  1550  	struct vfio_group *group;
+b1a59be8a2b64d Yi Liu        2023-07-18  1551  
+457efc947019e9 Steffen Eiden 2026-08-12  1552  	group = vfio_group_from_file(vfio_file);
+b1a59be8a2b64d Yi Liu        2023-07-18  1553  	if (group)
+b1a59be8a2b64d Yi Liu        2023-07-18 @1554  		vfio_group_set_kvm(group, kvm);
+34aeeecdb3357f Yi Liu        2023-07-18  1555  
+457efc947019e9 Steffen Eiden 2026-08-12  1556  	if (vfio_device_from_file(vfio_file))
+457efc947019e9 Steffen Eiden 2026-08-12  1557  		vfio_device_file_set_kvm(vfio_file, kvm);
+b1a59be8a2b64d Yi Liu        2023-07-18  1558  }
+b1a59be8a2b64d Yi Liu        2023-07-18  1559  EXPORT_SYMBOL_GPL(vfio_file_set_kvm);
+b1a59be8a2b64d Yi Liu        2023-07-18  1560  
+
+:::::: The code at line 1554 was first introduced by commit
+:::::: b1a59be8a2b64d00409dc7c9d523572ed32bcff8 vfio: Refine vfio file kAPIs for KVM
+
+:::::: TO: Yi Liu <yi.l.liu@intel.com>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
