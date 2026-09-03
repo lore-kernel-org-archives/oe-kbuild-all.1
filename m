@@ -1,115 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7E44189DD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 11:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAD947D470
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 11:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788433358; cv=none; b=B+JteDrkpuk8eiMNpQ60X+XHtQKtB0WNJ4W4+RYb4qzsadognKMwzA+hzbUF230gDj2JTUBufoXXtQrqeskZAaDQRWGTArxEohcnOOC1OJbN6hyrf1c/iupgius3EyhvVPlhn2Z7hJ/mF0PSUwM5fmHA8hEAkp91RBlgNs1drys=
+	t=1788435348; cv=none; b=gC/g/mH6jl2HtRCHZf2DLo3SRCNRXIVcObNjINNnMVwEkngHMcvkg3QjsIdItijH09SLGszV3uvagJBd/kXpYWNsy5A4EP20OAhg4PM54i/Zi7QI5X+Z7gIKXcsaVFBqTO61XyBxO4XdkUBpbbIuw5YB38dbBqRa0A9TYrCw4d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788433358; c=relaxed/simple;
-	bh=QWMidPirRXa6F9fmIzFknlhgq28okBEJEXkXiaxIc28=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=EDesG97ILJFjHYgijmivqVMZIIr1ZPgMNGSDQ2f6s/1Pcz9sKS9NvcCNb6Pv1gVXq5sV3etq2f51AzuJVFyRhdntaFYqlItvsbMVaAIYCPoKl8q1ZWAkaxhAOqYbg9bD5+6kTGDphCmJyPQHVLZz6mzk3o6SXi2I/a9HXmpccmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eubt7svM; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788435348; c=relaxed/simple;
+	bh=V2f6t8seqAYkXoLsq8Jw1lCadHvMCV2oEh8bq+oPOqU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Lqlsa2VY3Rh35dwGKmCQOVHeumVdFLVI3EvSyGiKq6skKqlSawOPbVjd5Krk6Lx0z2iWxHgxgFvyizLrUmNbSR5V4Nq8dvTLY9nwmxTjRLAcnbaVUv9o/lafTsSiPGLJXRWcliW8TzTCAoPAcw45X0Xalp80+OSka92hgoy9j60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gUd1MO6+; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eubt7svM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUd1MO6+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788433357; x=1819969357;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=QWMidPirRXa6F9fmIzFknlhgq28okBEJEXkXiaxIc28=;
-  b=Eubt7svMsaN3Fx3F+jn0f6wk6a0e8DlvtHppbVTZ03+QHcGdWa9BvcHd
-   M5GzPJaAIAKfUVtNOUcZecdojI5KwOUt1JZNDNs//INt9aLAea75uVvkO
-   Lczs0VFIICehcGG4hk2WFTg8sJdp0SVDnkm77BrWpsf7YqIvhY9N4R1RA
-   8XNYnjYfOM2YvXGEv6p0Hq6lhMm/6jREcs41DQ+6TINQrSBqTOMji3X7A
-   ykoJ9KKjr+DgsXm9/PbcDfclkl2QFsXozA+peTv+G0MBSjs2iGE45bK/d
-   pAP1VpTnEAZStOGw5hSfgq8PN/CM4quEw7RZ/0xY6tfC0RuaBIibpKYYG
-   A==;
-X-CSE-ConnectionGUID: GFlB5aFeS5enyDWvbwiVLQ==
-X-CSE-MsgGUID: CxyjtgXNQZugLEiw4IbswA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="89033553"
+  t=1788435341; x=1819971341;
+  h=date:from:to:cc:subject:message-id;
+  bh=V2f6t8seqAYkXoLsq8Jw1lCadHvMCV2oEh8bq+oPOqU=;
+  b=gUd1MO6+zGTB/p0gv/42qzApffogGtUbnmaMgogQb5VDgtuE0LtutecM
+   caUqu2NL5AJN86fW54SJWAU30vyCy2dcHV5QKE3PqutKRFVmFW7DEPdee
+   E6ZOT+n7IS8Z7lCdpJ+aRPuWj+LNZ+3TLexoyJGVdoAiUkl7Jtw4TsDFd
+   Ub9xhyWbZfRG2yhKJ5/rmJfROTUQqoq1l/SSGvtGfQEAiEwgrKcPC53DB
+   DHAULCdnk7/YCKJVuAkOiSEd/WDaZ9zGTqN5Swkk5ImsWZ0331RWHd4RV
+   4xVbw5NrhFs9L9WEVNu67YLXOR+7mznG8Nc9a94RF+DSqm7twtnz1fovz
+   g==;
+X-CSE-ConnectionGUID: ShsVHhnZQwStt8YIDsgyRw==
+X-CSE-MsgGUID: NHOowmrwSWe4XgpEpKOeJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="100073957"
 X-IronPort-AV: E=Sophos;i="6.25,259,1779174000"; 
-   d="scan'208";a="89033553"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 04:02:17 -0700
-X-CSE-ConnectionGUID: ULxSbh1DSgeVIm2OtMKFVg==
-X-CSE-MsgGUID: JE/+53GlQqyA4fJUOyV/KQ==
+   d="scan'208";a="100073957"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 04:35:37 -0700
+X-CSE-ConnectionGUID: inmjmNR1TuGK4KQ+K33bWA==
+X-CSE-MsgGUID: E023yWpYS82GoAdlPlJVng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,259,1779174000"; 
-   d="scan'208";a="267098636"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.119])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 04:02:13 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 3 Sep 2026 14:02:09 +0300 (EEST)
-To: kernel test robot <lkp@intel.com>, James Morse <james.morse@arm.com>
-cc: Ben Horgan <ben.horgan@arm.com>, oe-kbuild-all@lists.linux.dev, 
-    LKML <linux-kernel@vger.kernel.org>, Zeng Heng <zengheng4@huawei.com>, 
-    Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, 
-    Jonathan Cameron <jonathan.cameron@huawei.com>, 
-    Gavin Shan <gshan@redhat.com>
-Subject: Re: drivers/resctrl/mpam_devices.c:1860:35-38: WARNING: Suspicious
- code. resource_size is maybe missing with msc_res
-In-Reply-To: <202609030809.ObirDhR3-lkp@intel.com>
-Message-ID: <555e6b9d-cff8-ef10-42e9-5e469550292b@linux.intel.com>
-References: <202609030809.ObirDhR3-lkp@intel.com>
+   d="scan'208";a="274972850"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 03 Sep 2026 04:35:35 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x25jA-000000004j8-3Akp;
+	Thu, 03 Sep 2026 11:35:32 +0000
+Date: Thu, 03 Sep 2026 19:35:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jinjie Ruan <ruanjinjie@huawei.com>
+Subject: include/linux/irq-entry-common.h:218: undefined reference to
+ `syscall_enter_audit'
+Message-ID: <202609031938.ZvZZaRQy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Thu, 3 Sep 2026, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   940de590b839f71d6dc846160534bf202401b8b7
+commit: 6f25517010ddd3f8080d7e06b9b1cb1b64b73772 entry: Rework syscall_audit_enter()
+date:   6 weeks ago
+config: riscv-randconfig-r052-20260903 (https://download.01.org/0day-ci/archive/20260903/202609031938.ZvZZaRQy-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031938.ZvZZaRQy-lkp@intel.com/reproduce)
 
-> Hi Ben,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   89a312991dc6e638a36adc43ccb91dbc25504c04
-> commit: c544f00a473239835d22e7109b403314d8b85974 arm64: mpam: Drop the CONFIG_EXPERT restriction
-> date:   5 months ago
-> config: arm64-randconfig-r051-20260902 (https://download.01.org/0day-ci/archive/20260903/202609030809.ObirDhR3-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c2cffa015e9549aafba9e514384b08204c7cc4b)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Fixes: c544f00a4732 ("arm64: mpam: Drop the CONFIG_EXPERT restriction")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609030809.ObirDhR3-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/resctrl/mpam_devices.c:1860:35-38: WARNING: Suspicious code. resource_size is maybe missing with msc_res
-> 
-> vim +1860 drivers/resctrl/mpam_devices.c
-> 
-> f04046f2577a5c James Morse 2025-11-19 @1860  		msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 6f25517010dd ("entry: Rework syscall_audit_enter()")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609031938.ZvZZaRQy-lkp@intel.com/
 
-> :::::: The code at line 1860 was first introduced by commit
-> :::::: f04046f2577a5c76167333ca99d3903ee5331ba0 arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate
-> 
-> :::::: TO: James Morse <james.morse@arm.com>
-> :::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+All errors (new ones prefixed by >>):
 
-Hi all,
+   riscv64-linux-ld: arch/riscv/kernel/traps.o: in function `__exit_to_user_mode_validate':
+>> include/linux/irq-entry-common.h:218: undefined reference to `syscall_enter_audit'
 
-This report has some validity but the code doesn't look buggy as is, just 
-off-by-one errors correcting each other. The variable is called "..._sz" 
-(~ size), but the resource size calculation is off-by-one because trying 
-to do it by hand instead of using the resource_size() helper.
 
-The mapped_hwpage_sz value is only used for register write offset 
-sanity checks, which use > countering the off-by-one error.
+vim +218 include/linux/irq-entry-common.h
 
-IMO, it would be better to use resource_size() and change those sanity 
-checks to use >= instead of > but this doesn't look a major problem by 
-any means.
+a70e9f647f501e3 Jinjie Ruan     2025-06-24  212  
+70fe25a3bc53a89 Thomas Gleixner 2025-10-27  213  static __always_inline void __exit_to_user_mode_validate(void)
+70fe25a3bc53a89 Thomas Gleixner 2025-10-27  214  {
+a70e9f647f501e3 Jinjie Ruan     2025-06-24  215  	/* Ensure that kernel state is sane for a return to userspace */
+a70e9f647f501e3 Jinjie Ruan     2025-06-24  216  	kmap_assert_nomap();
+a70e9f647f501e3 Jinjie Ruan     2025-06-24  217  	lockdep_assert_irqs_disabled();
+a70e9f647f501e3 Jinjie Ruan     2025-06-24 @218  	lockdep_sys_exit();
+a70e9f647f501e3 Jinjie Ruan     2025-06-24  219  }
+a70e9f647f501e3 Jinjie Ruan     2025-06-24  220  
 
--- 
- i.
+:::::: The code at line 218 was first introduced by commit
+:::::: a70e9f647f501e36a6a092888b1ea7386b7c5664 entry: Split generic entry into generic exception and syscall entry
 
+:::::: TO: Jinjie Ruan <ruanjinjie@huawei.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
