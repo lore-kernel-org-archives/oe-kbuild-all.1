@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23872E7380;
-	Thu,  3 Sep 2026 02:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747022882DE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Sep 2026 03:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788401185; cv=none; b=OcmVr/TwwhBptJkVu1Mlut8gwZGbzMefKZcd0Uga68Dni/PbYkNTFqeo3RYy3pTZoggOoe8IC5WxNqJrWJnxz0o6O4znBhGOFFvXlev3VdmzOUa2WH9UksGfE9LB3eTrRfqSHV3mh153lcLt8woAPVg76cRsytwauNoHNmZGlbo=
+	t=1788405599; cv=none; b=Zb+gbC5VVtAZZ3jmsKAe++OPjB1tuUvvp46+ltLfHWFJva2zB44NYMiEA5Agt+PbGLIW7KOKgEKKqBBP09pN64a06LFynjEFgIHHea3F2MyeQHuWokFw8ZlYP5bH4zMtMaSCGPuTdx+qdLlPWCKAMwOiAGxljiznfsdwYH5kFBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788401185; c=relaxed/simple;
-	bh=tedEEPcCReidk/8CfzxofH/Wfpdy/HPXNdiH8/ehg08=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=OmLuGii8fpS99ixcRyFp52KKqn4moe9mNHlZ17g3Zzm74zKr90lF+dqzxqPPwSfoMRI1zmW37g2jgBHb+YngaqqbYlh4TJ8r4KYTMjETDleTxhVVS6duEkTQU79pv+QNqdwAEMty9eSARDCuSBIh+m7tMNqhP7tho11bOdyVx9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+iGoObJ; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1788405599; c=relaxed/simple;
+	bh=an5WckqkIBA/iQ5kZlliwGW/9g1NNpIWv8H3kmGS2ps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SpIMC3QAj+fX88Zj3Kh/QF/r7uvTrohncRKq9rEQVnVa6qSif43jT9RV9TA4+K9NPB0Q8ZKTo/mehnEX9d7dnoA0Wru1mEcKJ3392BZkd4lhYlWEYK5dJyXCogldvrAH17YU2wrVcnHRpW3bMMYGZ+1m5pDzNRyzGq7vh1pux98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MykM1RHs; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+iGoObJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MykM1RHs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788401184; x=1819937184;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tedEEPcCReidk/8CfzxofH/Wfpdy/HPXNdiH8/ehg08=;
-  b=Z+iGoObJfukzKti57FGWCq3DrCgpUCDty9n9dLyvVPmC8lDhl3o8Z4SR
-   tjBE2Nw5rQPaf5HWfzpamoFs9VS19jBkLVs0t0ivZ8akTzYTm1Y6VPXcI
-   A7VybdPSTlLW/Zeb2sB3zfdj+EB5MyYrh8ruyqAPvrSN6RPxmp+0iTL/H
-   Rh+/PUQBhd3CzYeMFhfds8QamAPZGRrlH5crBwxyLYtdZkF8qQoEcV542
-   C4mRMWMUrn8Dm8wYRbfomIuvaHLn3uhpp0ABtDGlNpeyH4zSBOcbHkD8m
-   6P4r+rJVvdW55FOgFvPjIxG/yYwwp9WAJrnYQ+n8W/efd/qXLb26+dCfm
-   w==;
-X-CSE-ConnectionGUID: tYN2jzgJRMSoid2uOJwHBw==
-X-CSE-MsgGUID: feptGpAPT4+rgYOje8kATQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="106237968"
+  t=1788405596; x=1819941596;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=an5WckqkIBA/iQ5kZlliwGW/9g1NNpIWv8H3kmGS2ps=;
+  b=MykM1RHshWAD1Nmu7QMSxktzgyUNexqgmfl7pHTgxCfp4PukUnB8XGMA
+   XfnrrrtTvmh3zpQgiYG8yHzwE26fUJWsx3LHqZv8fycGT5XAWslTPc2rC
+   5VhPPncEbXR4w1duHeNb5/oBrHV+YlO7TTGUi+NgCHLKNyOwGEsihRYAk
+   0R+G63lxy/1swwZmA54MrER6Es2OsNUkAc6k2/VEBdJw5BSbDnGlo2IAM
+   5CZ7PnId3vq5C/Y3h4iM2niZVdXUCbKj9T74BBQ88j91icOHKqbgrL3k0
+   2szF8rgYa4pj00ACo1PFZTpO6PqcChzmSmznOYeArXvzYp1Vk7alV6X0z
+   A==;
+X-CSE-ConnectionGUID: rCeHSewCRZOF0oNWk18vYg==
+X-CSE-MsgGUID: 8LIM4xFWSsCUBFXknV7wfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="92693527"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="106237968"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 19:06:22 -0700
-X-CSE-ConnectionGUID: j9akTHVwThOOtwaHyYQSHQ==
-X-CSE-MsgGUID: CU/tUzPeRfqA8V3+/8WfWw==
+   d="scan'208";a="92693527"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 20:18:46 -0700
+X-CSE-ConnectionGUID: y85AdINqR22MuHFX2PnCcA==
+X-CSE-MsgGUID: eDDzPY2lRI6kIPwxz0gBkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="271538142"
+   d="scan'208";a="263423773"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Sep 2026 19:06:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 02 Sep 2026 20:18:42 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x1wqH-000000003cb-1jil;
-	Thu, 03 Sep 2026 02:06:17 +0000
-Date: Thu, 03 Sep 2026 10:05:23 +0800
+	id 1x1xyJ-000000003tu-3Yow;
+	Thu, 03 Sep 2026 03:18:39 +0000
+Date: Thu, 3 Sep 2026 11:18:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [stefandoesinger-zx297520:dlink 76/131]
- drivers/spi/spi-zx.c:477:17: warning: implicit conversion from 'unsigned
- long' to 'u32' (aka 'unsigned int') changes value from 18446744073709551614
- to 4294967294
-Message-ID: <202609030957.sHim3B0q-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ratheesh Kannoth <rkannoth@marvell.com>, davem@davemloft.net,
+	gakula@marvell.com, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, sgoutham@marvell.com
+Cc: oe-kbuild-all@lists.linux.dev, andrew+netdev@lunn.ch,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	Ratheesh Kannoth <rkannoth@marvell.com>
+Subject: Re: [PATCH v3 net] octeontx2-af: allocate qmem from page allocator
+ to avoid CMA
+Message-ID: <202609031155.NJcvrcuy-lkp@intel.com>
+References: <20260827070554.3919891-1-rkannoth@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,36 +66,32 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260827070554.3919891-1-rkannoth@marvell.com>
 
-tree:   https://gitlab.com/stefandoesinger/zx297520-kernel dlink
-head:   4132307830800b020a6d29d27cb3fec3cb5fbb90
-commit: fce785fadfd6abf34e775c2793e49a37e1c426d5 [76/131] zx29 qspi driver
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609030957.sHim3B0q-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609030957.sHim3B0q-lkp@intel.com/reproduce)
+Hi Ratheesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ratheesh-Kannoth/octeontx2-af-allocate-qmem-from-page-allocator-to-avoid-CMA/20260827-123553
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260827070554.3919891-1-rkannoth%40marvell.com
+patch subject: [PATCH v3 net] octeontx2-af: allocate qmem from page allocator to avoid CMA
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260903/202609031155.NJcvrcuy-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031155.NJcvrcuy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609030957.sHim3B0q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609031155.NJcvrcuy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/spi/spi-zx.c:477:17: warning: implicit conversion from 'unsigned long' to 'u32' (aka 'unsigned int') changes value from 18446744073709551614 to 4294967294 [-Wconstant-conversion]
-     477 |         writel_relaxed(~ZX_QSPI_EN, qspi->io_base + ZX_QSPI_EN_REG);
-         |         ~~~~~~~~~~~~~~ ^~~~~~~~~~~
-   1 warning generated.
-
-
-vim +477 drivers/spi/spi-zx.c
-
-   473	
-   474	static void zx_qspi_remove(struct platform_device *pdev)
-   475	{
-   476		struct zx_qspi *qspi = platform_get_drvdata(pdev);
- > 477		writel_relaxed(~ZX_QSPI_EN, qspi->io_base + ZX_QSPI_EN_REG);
-   478	}
-   479	
+>> ERROR: modpost: drivers/net/ethernet/marvell/octeontx2/af/rvu_af.ko: symbol 'dma_coherent_ok' undefined!
+>> ERROR: modpost: drivers/net/ethernet/marvell/octeontx2/nic/rvu_nicpf.ko: symbol 'dma_coherent_ok' undefined!
 
 --
 0-DAY CI Kernel Test Service
