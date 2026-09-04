@@ -1,88 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A4E5111A2;
-	Thu,  3 Sep 2026 20:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB89B30D41F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Sep 2026 00:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788465859; cv=none; b=f8vryRf9nVRxnOhAidixsKRVmRvbts1A/EEfnCyVYklygDeRP0znyQmKt2m9POgYmoRESt1UeBfBep8AYAyDwus+iInjd6aPpx80FTg8jSefpoos7fDVkepSeRk24Zcwp+9co6ELmfeY+6eOpdW67p5e7FkXgPkGr529cE6Jwe0=
+	t=1788482065; cv=none; b=aZ73gObw3PtMp8m4W0l1mvDYFg2N84p4F68+fNTrh/IKoecdTkoJaDF82Vhm8bTeUSaNUmDE1GOTYIm5UVcOVqeGdb4XCBV9cQGkhQLOIK+77fjF3kxgiNjMdoL6/xUKaOxVr2+O8hmffuKGZgNtwjLvQikRfSwiHwNUKrdek6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788465859; c=relaxed/simple;
-	bh=W6D6nSNz5J+OydIEGM9dAju/NaAUXCdU/pmVsdSIvL8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bfj1wq6lYWLIQkLu3sAjzx5bBOYjz06owffIeJVn30rIl79O2bhLamEx7lvsd2bwA2SPN5Dm80EIZ4WxzBsbnEqQf8bXBrN878ORkeHY5eP0S52hZwZGzP7lXr3mKhJtFKJu0pb1pgvgUj1Vwg+wthBDj/NJ3doQGu7SRrgSC4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TS7v8mJo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788482065; c=relaxed/simple;
+	bh=a4VTe6NE9NGlEJe3SJBZsmD34CWPoF3PWXmfEFo3IDY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=El/xzKIKv+Ze5hMf7mYTKLpZjMwju4riaC5drqzPhbigs5T6ld5TjVWTE2HD9UmqZPP8l9fa3fFpCNCm/Xoup4Nsh2iXtsM/GDMRn3AGNuIR1ut3UsNFWE9pvYEHlIFhUn9WE9h9uQbic4OriAkUBcWqGjd/UvDdhHjtCBRF5zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgUQkZOK; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TS7v8mJo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F0D1F00A3D;
-	Thu,  3 Sep 2026 20:03:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788465839;
-	bh=vmYieKVuqWUUBs/P/3HQoMemVH0LqupG2FD0izL7cBU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=TS7v8mJogrtLJ6Lg38z008KCK+68tRZAFnMA8fGex1u9zjAopXp+JegdvD8uTTm87
-	 Y9zWNueEEs833gLjE17WtTTarAtkuTYblnUazxx9JeXiVJHfeX2eG/OYgDWYNS6ySV
-	 sTMer6d5i6Ibq1E5S8GxS/AdYlcNqXIr6SLMyYJ7vbnkA9k4Wih1yIsQ2i4XT03iie
-	 0ueXlC6WPzo58iVYvXRS54DZpFNdhcbIGgAeavFqusnA4PuyojhtH09Bw8PyVasUUa
-	 R4hZ7yAgJ1dKixbYdfj2IdwvVwGMqi/07gyVfV1pqxbBk+bkUFTFvrr0cP0xCVtLff
-	 50KEdPnSR0bjw==
-From: Thomas Gleixner <tglx@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Jinjie Ruan
- <ruanjinjie@huawei.com>
-Subject: Re: include/linux/irq-entry-common.h:218: undefined reference to
- `syscall_enter_audit'
-In-Reply-To: <202609031938.ZvZZaRQy-lkp@intel.com>
-References: <202609031938.ZvZZaRQy-lkp@intel.com>
-Date: Thu, 03 Sep 2026 22:03:56 +0200
-Message-ID: <87wlt29k5v.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgUQkZOK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788482064; x=1820018064;
+  h=date:from:to:cc:subject:message-id;
+  bh=a4VTe6NE9NGlEJe3SJBZsmD34CWPoF3PWXmfEFo3IDY=;
+  b=hgUQkZOKmeYti7vuaVyMeobTg0kqY2SZy8O5GF+4o2uYFnyqTftNJu2S
+   U6TXpZkfUAWFid0IEhmSY4oPXk6E+9wVQbuHhTl/ejA6qFwSqRtOM9Te0
+   RlY8Lf4FIGTwVoJhJBHlK6tPWxq3RHtITRZyQsNhMCAYc1HS8OxMLriWC
+   f7Gwg2b2Af7pULK9G4qdetYEw4szl8xllZJAwGxk3TUu7NE4GGpxvuBFW
+   hcmKxeCYnfQ5F049kuZV//NaqLlK59khKKSzgyYzCBknACm+1Bo4IfUvV
+   QSQw7ERj83wWYujHCwRyCpxZ4NlmqDj8fpWlKRTPCn2qIcg/stdqcouTh
+   w==;
+X-CSE-ConnectionGUID: vyeRO4r/RSOjcp/NqFInLA==
+X-CSE-MsgGUID: DAijT8fjS6+Ob7IWPOomrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88826612"
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="88826612"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 17:34:23 -0700
+X-CSE-ConnectionGUID: guwPD6aBT76swHkWZlFing==
+X-CSE-MsgGUID: PicQbSSFTveewJqC1Fm+zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="267310691"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 03 Sep 2026 17:34:21 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x2Hsp-000000005Ww-08oK;
+	Fri, 04 Sep 2026 00:34:19 +0000
+Date: Fri, 04 Sep 2026 08:33:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lohita Mudimela <lohita.mudimela@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Martin Leung <martin.leung@amd.com>, James Lin <pinglei.lin@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/amdgpu/../display/modules/power/power_abm.c:817
+ mod_power_update_backlight_on_mode_change() warn: inconsistent indenting
+Message-ID: <202609040849.tyd1k6g6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-On Thu, Sep 03 2026 at 19:35, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   940de590b839f71d6dc846160534bf202401b8b7
-> commit: 6f25517010ddd3f8080d7e06b9b1cb1b64b73772 entry: Rework syscall_audit_enter()
-> date:   6 weeks ago
-> config: riscv-randconfig-r052-20260903 (https://download.01.org/0day-ci/archive/20260903/202609031938.ZvZZaRQy-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260903/202609031938.ZvZZaRQy-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Fixes: 6f25517010dd ("entry: Rework syscall_audit_enter()")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609031938.ZvZZaRQy-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    riscv64-linux-ld: arch/riscv/kernel/traps.o: in function `__exit_to_user_mode_validate':
->>> include/linux/irq-entry-common.h:218: undefined reference to `syscall_enter_audit'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a500db7819c50db59e55f1b4fa1c3baa5a2616f3
+commit: 254a47ce0c8a52ff78a60f92a13b56db69f69096 drm/amd/display: Separate ABM functions into dedicated power_abm.c file
+date:   4 months ago
+config: i386-randconfig-141-20260903 (https://download.01.org/0day-ci/archive/20260904/202609040849.tyd1k6g6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
-Seriously?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 254a47ce0c8a ("drm/amd/display: Separate ABM functions into dedicated power_abm.c file")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609040849.tyd1k6g6-lkp@intel.com/
 
->
-> vim +218 include/linux/irq-entry-common.h
->
-> a70e9f647f501e3 Jinjie Ruan     2025-06-24  212  
-> 70fe25a3bc53a89 Thomas Gleixner 2025-10-27  213  static __always_inline void __exit_to_user_mode_validate(void)
-> 70fe25a3bc53a89 Thomas Gleixner 2025-10-27  214  {
-> a70e9f647f501e3 Jinjie Ruan     2025-06-24  215  	/* Ensure that kernel state is sane for a return to userspace */
-> a70e9f647f501e3 Jinjie Ruan     2025-06-24  216  	kmap_assert_nomap();
-> a70e9f647f501e3 Jinjie Ruan     2025-06-24  217  	lockdep_assert_irqs_disabled();
-> a70e9f647f501e3 Jinjie Ruan     2025-06-24 @218  	lockdep_sys_exit();
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/modules/power/power_abm.c:817 mod_power_update_backlight_on_mode_change() warn: inconsistent indenting
 
-What the heck has line 218 to do with that failure?
+vim +817 drivers/gpu/drm/amd/amdgpu/../display/modules/power/power_abm.c
 
-This is getting stupid. It seems there is yet another compiler aside of
-s390 gcc which fails to do dead code elimination but this time it's
-worse it also points to the wrong place ....
+   807	
+   808	void mod_power_update_backlight_on_mode_change(
+   809	    struct core_power *core_power,
+   810	    struct dc_link *link,
+   811	    unsigned int panel_inst,
+   812	    uint8_t aux_inst,
+   813	    bool is_hdr)
+   814	{
+   815	    struct set_backlight_level_params backlight_level_params = { 0 };
+   816	
+ > 817			if (link->dpcd_sink_ext_caps.bits.hdr_aux_backlight_control == 1 ||
+   818				link->dpcd_sink_ext_caps.bits.sdr_aux_backlight_control == 1)
+   819				dc_link_set_backlight_level_nits(link, core_power->bl_state[panel_inst].isHDR,
+   820					core_power->bl_state[panel_inst].backlight_millinit, 0);
+   821	
+   822			backlight_level_params.frame_ramp = 0;
+   823	
+   824			fill_backlight_level_params(core_power, &backlight_level_params, panel_inst, aux_inst,
+   825				core_power->bl_state[panel_inst].backlight_pwm, link->backlight_control_type,
+   826				core_power->bl_state[panel_inst].backlight_millinit, 0, is_hdr);
+   827	
+   828			dc_link_set_backlight_level(link, &backlight_level_params);
+   829	}
+   830	
 
-Thanks,
-
-        tglx
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
