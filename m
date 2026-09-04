@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892BA377EB0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Sep 2026 04:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FD83F23CF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Sep 2026 04:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788496138; cv=none; b=FDl2D6amW8xIGl5oxMe8fp6jgNWULcN68AELcF6ChnJtpUeOg8I/08L3eCYMwNaLM+wuvHlfLdqBVvyNGWJ+CW+iQHLBcCWdvlEaTANEtSiaMHC0STGRrpIbugAfndsAkDbpxWWJKTiJgyQCml0PHxf9LppI3L9OpUEp0jFw9M8=
+	t=1788496139; cv=none; b=ulO7PZqnLpk5mpxed9oNuEsI2rRFPKqzUsXvz3aLZW10TJFO01dlrkl2bpS6vYgbiTM2BnNBlLMrbLMGEgle/AhQrNClDz/2uNru7iQhkz4IwhS3VkczFK4UOw3pL5FPHavr4Fiph+uXi9ufirGLqUkOMruKg/3DXA+lvRDZV+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788496138; c=relaxed/simple;
-	bh=w76Wgyu5ch/AXeo3ZtSdR7LhvuJGWr8xt9NF6O2p8sI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CrVe1OkqzithnQDy84BXXWpcn2uuVYzkvKlxzhNDgBLswtEnmrL3RpeUqoiShRDdRxIITiwNq9t6CUMDTAFXK/9J2FDprAaoCq0BwQ8z5X+UIPxyfNHx+3M0T+/6mUgN1toTEEmOqMgewgr46WwQ+9sZpM36o9S53PiSKbFkrHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jBQoozmp; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1788496139; c=relaxed/simple;
+	bh=WN9sRFSBjG3KbS0pSPM9R/IHsjFtneeG71XFWety+6o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ebQ7TjX8uxGbnkeQxcvz75KJCOExa38JQqbCLxAI/X4AUE7NECuUEDCc7U50XGQUAWLUbmXBY17b+jdBwvb0cHOIwtXb5o7toxVaoL82TXQxYqwKd2XiPV2B9R3fDJZ+iYoh09dfXqy3UBr3QyWrKW0gaXvBC0je1mG7T448OMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=exYsEAhN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jBQoozmp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exYsEAhN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788496135; x=1820032135;
+  t=1788496138; x=1820032138;
   h=date:from:to:cc:subject:message-id;
-  bh=w76Wgyu5ch/AXeo3ZtSdR7LhvuJGWr8xt9NF6O2p8sI=;
-  b=jBQoozmpgeW74r1cBFP4gy+1I4gGTxzI+BpRQejSnQVGPjRJhFd0uXlj
-   ORMXVLnMpOvIRqHRkFNk7rhsgbRF4ehNkNk8Hp4kBakPjn2xIHvr8j8cj
-   ga+6rdkrWnIeFSy5PP+wqDtwoeKF8Pp2H2rbtPxe3ttrRr/Inr4X5AIur
-   dV7KlqPQCARAOZd/k90Pam6qOdeY1GmmYsUaQE0b1Im8ArQSu2SdwvnOl
-   mHt48UEfT/00maWqcc46D5pIj12G1rCMIUKzS9JbffbPXYCyjh8HDQhSX
-   Y4uzhaVuVpB1FTNNsOL/SkH9hCzN800QNwNNlT3/TvxQvwP7pQCZiD3G5
+  bh=WN9sRFSBjG3KbS0pSPM9R/IHsjFtneeG71XFWety+6o=;
+  b=exYsEAhN27ceS5zQgCoQIG18Eu6Vv/GUl7Wb8nUFLk2cI0BLj2yxwTTd
+   /MoqzZQrghGnyGnVwaYpryX1sh478Mm8HbB2JmdzKX+SVz9S8L5NNg2n5
+   tYuwiTnn6GZUvrB+MJ1zXl9aC10mioUJBflvcgZhbNc8M5JIO4iSycgKZ
+   5xG83eegMrJ87kAuYtiDD/hKZwV6LXERQK9392aJSvzHPIcSpErZNDhyz
+   pGNCzSC/W6Q6tv1k7/DITAU/iYwX2lASb2MW3StXQyGrz49Z2NKcuTxg8
+   7VyTcfAiEWUNZBmB6xs2ACAEpZ+Wa0/teQMYKQ0UuFBa4UpktZxQNG8wy
    Q==;
-X-CSE-ConnectionGUID: NfVDB3i8TBydeMy+k6V49w==
-X-CSE-MsgGUID: L4DhU2OrS8q+8ZSm4nCqvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88135121"
+X-CSE-ConnectionGUID: 8uwo4IvXQPaxfNMTfYT2gA==
+X-CSE-MsgGUID: 4Ouo5gnBQvy/vGDD/0/9rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="88135126"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="88135121"
+   d="scan'208";a="88135126"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 21:28:55 -0700
-X-CSE-ConnectionGUID: qfwbpt30StaTEgwgfq3FHw==
-X-CSE-MsgGUID: 9yl3htK0QHu5TBqWybBfIQ==
+X-CSE-ConnectionGUID: xq2RwAX9S3ahmoD6BPf/RA==
+X-CSE-MsgGUID: VpTHI7cZTQCPCI8KHPgImQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="269389491"
+   d="scan'208";a="269389494"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 03 Sep 2026 21:28:53 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2LXm-000000005kO-2NR1;
+	id 1x2LXm-000000005kM-2G36;
 	Fri, 04 Sep 2026 04:28:50 +0000
-Date: Fri, 04 Sep 2026 12:28:37 +0800
+Date: Fri, 04 Sep 2026 12:28:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
  Linux Memory Management List <linux-mm@kvack.org>,
  mm-commits@vger.kernel.org
 Subject: [akpm-mm:mm-new 302/317] mm/memory.c:2271:17: error: too
- many arguments to function 'hugetlb_zap_begin'
-Message-ID: <202609041234.yRUbaeuB-lkp@intel.com>
+ many arguments to function 'hugetlb_zap_begin'; expected 3, have 4
+Message-ID: <202609041213.bgAPQEek-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,21 +64,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
 head:   2aeb49124a2b3d0c9aa8c0a2124c8cae21ab4e0b
 commit: f1fc44daf6183604b96243805877ee0b1626daaf [302/317] mm/hugetlb: don't lock private resv_map during final unmap
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260904/202609041234.yRUbaeuB-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260904/202609041234.yRUbaeuB-lkp@intel.com/reproduce)
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20260904/202609041213.bgAPQEek-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260904/202609041213.bgAPQEek-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609041234.yRUbaeuB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609041213.bgAPQEek-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    mm/memory.c: In function 'unmap_vmas':
->> mm/memory.c:2271:17: error: too many arguments to function 'hugetlb_zap_begin'
+>> mm/memory.c:2271:17: error: too many arguments to function 'hugetlb_zap_begin'; expected 3, have 4
     2271 |                 hugetlb_zap_begin(vma, &start, &end, &details);
-         |                 ^~~~~~~~~~~~~~~~~
+         |                 ^~~~~~~~~~~~~~~~~                    ~~~~~~~~
    In file included from mm/memory.c:48:
    include/linux/hugetlb.h:322:20: note: declared here
      322 | static inline void hugetlb_zap_begin(
