@@ -1,159 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3B852F7AD2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 00:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59ADC2FE057
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 00:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788569376; cv=none; b=sYxGQHvN/jt6Q5Hklv3llmqqy8qoE4L43I9+FzZ4saqR6zgaP89rkdQBal3WdvqL5RciD/zOBQEYnaNTHWm1mINXDC+h1EXwfwU7RZUcm/fyRbTMZMiGyGULjW/CkP/uX5SRW8rwU30pAbSH9vyCOT36xyvEe8j8UIyNR5fSStA=
+	t=1788569381; cv=none; b=CPagP8F3STFajdIjTw5EpNLow2XCpn/c6x63g1SouqxhMgoEWwzRspOkNwfpkmZwgOUQIUXz8VFak1IVvEDS3Mf2duAhOTHo4ug5BZNXCnbmDazohEhmfy4Qx/ldMLf7IBfarR4E9Lx+kuHaudWhLa8W+90yDM/LUfOOpaXK6Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788569376; c=relaxed/simple;
-	bh=heZDEJI+RyL9PKZ2dHZWXmJNf2c5dwx1beAvC+LLQOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KWnL4XpMhJr5YiwAa2MTrZ7XCiU2D5cJNWA9IG0Qro+oSxqqyhnKprxwy4iOXxJZqunaJgpS4ZsfbhoVHZanktNSJS6NHSdWuC7F+LeMfpjTuQLMKAiDf4qzKmwD7cLixooIqqkd8BteUHnBWGcrFGkEAf/HVb7ES006en/M4xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/1NZnTB; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1788569381; c=relaxed/simple;
+	bh=kjWRhamImpHbxXD74A2C9YNqa1ANFrc2fJwOVhqxGEo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=u2cuwmeyrKgVB+O8WJtvHdxA7rJ9XA7ag3SYA5qQyT6vFtsYV+o1m1qRv8ui8N+nS9WDb1j88gvOVIGpFfyFPvBWOT4wy1NRghmzwhV2TBq8KZyQHEjUmvUJN52HbDrmZqqVRZ5HCImM5uVRpT0IwSsXngPmkp+YPKDQI2T1aNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDi8fV6T; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/1NZnTB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDi8fV6T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788569374; x=1820105374;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=heZDEJI+RyL9PKZ2dHZWXmJNf2c5dwx1beAvC+LLQOg=;
-  b=b/1NZnTBxEA60Al4iD56MbiiytdXFJpGk3EuziZ6Z6b3XftwVYWqjuA6
-   frAsf3rv8AXfCM6sBM+lipDhOW4r1ML6/FDVv9gUSNaXTmai5jJ281ma3
-   62HiYOOL5snZceiYGX3JDCIhQ7yYEhhGiqyXcShOz3JQkusO3jjObAznH
-   H360dJMqjqDOSzN2dWB4b9sIKoZZrWNWhMRF754PfUx6RJ4c1ZpDi4zHW
-   OFi1rS+V1Vb88MyOd/t4NlQ75ZTZjs3dqX6NEYe9RFqYXzk8QBZdc3gyF
-   DWoEFA75AJBrU+PaMLA+wdUZYetBO8qFlomYmjcCyWjPhV8Pk59Hvm0do
-   w==;
-X-CSE-ConnectionGUID: WUcz7JOqQ56jZY1RbRICSA==
-X-CSE-MsgGUID: cPcDnXIJTq6S2zn6lKjRlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="89129729"
+  t=1788569380; x=1820105380;
+  h=date:from:to:cc:subject:message-id;
+  bh=kjWRhamImpHbxXD74A2C9YNqa1ANFrc2fJwOVhqxGEo=;
+  b=mDi8fV6TUZzOiddA26dU+KrRhcrFeRzvlXXMc6pld0bCRalL0Uyt0UTJ
+   /dILGHed65Zfj+Gu1YPNqn8ffcHaHdPvfADklUVHyEzsviE1uhfOOiU6d
+   jCy8jgcE7mi7VRDY/PvZDE0plmW1ypeuPmAZqWYvex2J6hzm4OwqaWdyA
+   WIyDiSF05+jGEkMssXBfPIMo0bxHDVQ+oHO9Eq8iItsi93/t+VIR1BQxh
+   Xcnrax0Wi8xpa6w0g0678jZvXxplNCBSMeI2jfLvwqSGwRSv851dqYXms
+   VExhFOi6fCF/paptqUnIPmLDMlDlmxnVfCIGucTWlvz/TdVPWfcGL6UxH
+   A==;
+X-CSE-ConnectionGUID: 43ltibI7QfWZop33nMI0Rw==
+X-CSE-MsgGUID: 6RJL7ipPTt27uiBlZdkc3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="92942983"
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="89129729"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 17:49:34 -0700
-X-CSE-ConnectionGUID: bkGHgv6oQFOKTiSCvuwyow==
-X-CSE-MsgGUID: CONcr+o8Qp2Fn+uQDT5H7w==
+   d="scan'208";a="92942983"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 17:49:39 -0700
+X-CSE-ConnectionGUID: YTzc1OniT5uhzJ58xFORcg==
+X-CSE-MsgGUID: v0jS/LjnRFywcpATuzhuKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="295052020"
+   d="scan'208";a="267607316"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Sep 2026 17:49:32 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Sep 2026 17:49:36 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2eb4-00000000APG-0NdZ;
-	Sat, 05 Sep 2026 00:49:30 +0000
-Date: Sat, 5 Sep 2026 08:49:22 +0800
+	id 1x2eb8-00000000AUg-17TJ;
+	Sat, 05 Sep 2026 00:49:34 +0000
+Date: Sat, 05 Sep 2026 08:49:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ping-Ke Shih <pkshih@realtek.com>,
-	i.mafifi17@gmail.com
-Subject: Re: [PATCH rtw-next] wifi: rtw88: usb: Download the reserved page
- synchronously
-Message-ID: <202609050825.gGIFwsGa-lkp@intel.com>
-References: <fd7bbc79-03f9-4932-ada8-f555392d4485@gmail.com>
+To: Alex Hung <alex.hung@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202609050833.rJ9c0SND-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fd7bbc79-03f9-4932-ada8-f555392d4485@gmail.com>
 
-Hi Bitterblue,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v7.3-rc1 next-20260904]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtw88-usb-Download-the-reserved-page-synchronously/20260904-002447
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/fd7bbc79-03f9-4932-ada8-f555392d4485%40gmail.com
-patch subject: [PATCH rtw-next] wifi: rtw88: usb: Download the reserved page synchronously
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260905/202609050825.gGIFwsGa-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050825.gGIFwsGa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   654ae5d73c05bd2943d65636ce6cd0aa46e62f18
+commit: 1d8cfeb69daa863a70134b8ed6df8055c418a5b0 drm/amdgpu: Pack nested ucode_info struct
+date:   5 weeks ago
+config: i386-randconfig-063-20260904 (https://download.01.org/0day-ci/archive/20260905/202609050833.rJ9c0SND-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050833.rJ9c0SND-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 1d8cfeb69daa ("drm/amdgpu: Pack nested ucode_info struct")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609050825.gGIFwsGa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609050833.rJ9c0SND-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *mqd_ptr @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse:     got void *mqd_ptr
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:397:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *mqd_ptr @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:397:41: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:397:41: sparse:     got void *mqd_ptr
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1425:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1427:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1429:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1435:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1437:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1439:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1446:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1452:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1454:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1456:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1462:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1464:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1466:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1473:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1479:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1481:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1483:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1489:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1491:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1493:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1494:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1500:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1506:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1508:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1510:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1511:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1517:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1523:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1525:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1527:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1536:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2430:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *cleaner_shader_cpu_ptr @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2430:38: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2430:38: sparse:     got void *cleaner_shader_cpu_ptr
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2783:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2783:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2783:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2784:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2784:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2784:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2786:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2786:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2786:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2787:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2787:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2787:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2788:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2788:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2788:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2812:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2812:49: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2812:49: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2813:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2813:49: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2813:49: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2816:57: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2816:57: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2816:57: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2832:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2832:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2832:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2833:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2833:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2833:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2835:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2835:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2835:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2836:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2836:25: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2836:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:3015:25: sparse: sparse: cast to restricted __le32
 
-   drivers/net/wireless/realtek/rtw88/usb.c: In function 'rtw_usb_write_data_rsvd_page':
->> drivers/net/wireless/realtek/rtw88/usb.c:623:48: error: passing argument 3 of 'rtw_tx_fill_tx_desc' from incompatible pointer type [-Wincompatible-pointer-types]
-     623 |         rtw_tx_fill_tx_desc(rtwdev, &pkt_info, pkt_desc);
-         |                                                ^~~~~~~~
-         |                                                |
-         |                                                struct rtw_tx_desc *
-   In file included from drivers/net/wireless/realtek/rtw88/usb.c:12:
-   drivers/net/wireless/realtek/rtw88/tx.h:99:76: note: expected 'struct sk_buff *' but argument is of type 'struct rtw_tx_desc *'
-      99 |                          struct rtw_tx_pkt_info *pkt_info, struct sk_buff *skb);
-         |                                                            ~~~~~~~~~~~~~~~~^~~
->> drivers/net/wireless/realtek/rtw88/usb.c:624:56: error: passing argument 3 of 'rtw_tx_fill_txdesc_checksum' from incompatible pointer type [-Wincompatible-pointer-types]
-     624 |         rtw_tx_fill_txdesc_checksum(rtwdev, &pkt_info, pkt_desc);
-         |                                                        ^~~~~~~~
-         |                                                        |
-         |                                                        struct rtw_tx_desc *
-   drivers/net/wireless/realtek/rtw88/tx.h:136:52: note: expected 'u8 *' {aka 'unsigned char *'} but argument is of type 'struct rtw_tx_desc *'
-     136 |                                                u8 *txdesc)
-         |                                                ~~~~^~~~~~
+vim +391 drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
 
+b9683c21f69b3d8 Alex Deucher 2017-06-07  380  
+b5ded0313519e7f Alex Deucher 2026-05-19  381  static void amdgpu_gfx_mqd_reset_restore(struct amdgpu_ring *ring)
+a3cc79650141670 Alex Deucher 2026-05-19  382  {
+a3cc79650141670 Alex Deucher 2026-05-19  383  	struct amdgpu_device *adev = ring->adev;
+a3cc79650141670 Alex Deucher 2026-05-19  384  	int mqd_idx, mqd_size;
+a3cc79650141670 Alex Deucher 2026-05-19  385  
+a3cc79650141670 Alex Deucher 2026-05-19  386  	/* restore mqd with the backup copy */
+a3cc79650141670 Alex Deucher 2026-05-19  387  	if (ring->funcs->type == AMDGPU_RING_TYPE_COMPUTE) {
+a3cc79650141670 Alex Deucher 2026-05-19  388  		mqd_idx = ring - &adev->gfx.compute_ring[0];
+a3cc79650141670 Alex Deucher 2026-05-19  389  		mqd_size = adev->mqds[AMDGPU_HW_IP_COMPUTE].mqd_size;
+a3cc79650141670 Alex Deucher 2026-05-19  390  		if (adev->gfx.mec.mqd_backup[mqd_idx])
+a3cc79650141670 Alex Deucher 2026-05-19 @391  			memcpy_toio(ring->mqd_ptr, adev->gfx.mec.mqd_backup[mqd_idx], mqd_size);
+a3cc79650141670 Alex Deucher 2026-05-19  392  	} else if (ring->funcs->type == AMDGPU_RING_TYPE_GFX) {
+a3cc79650141670 Alex Deucher 2026-05-19  393  		mqd_size = adev->mqds[AMDGPU_HW_IP_GFX].mqd_size;
+a3cc79650141670 Alex Deucher 2026-05-19  394  		mqd_idx = ring - &adev->gfx.gfx_ring[0];
+a3cc79650141670 Alex Deucher 2026-05-19  395  
+a3cc79650141670 Alex Deucher 2026-05-19  396  		if (adev->gfx.me.mqd_backup[mqd_idx])
+a3cc79650141670 Alex Deucher 2026-05-19  397  			memcpy_toio(ring->mqd_ptr, adev->gfx.me.mqd_backup[mqd_idx], mqd_size);
+a3cc79650141670 Alex Deucher 2026-05-19  398  	}
+a3cc79650141670 Alex Deucher 2026-05-19  399  	/* reset the ring */
+a3cc79650141670 Alex Deucher 2026-05-19  400  	ring->wptr = 0;
+a3cc79650141670 Alex Deucher 2026-05-19  401  	atomic64_set((atomic64_t *)ring->wptr_cpu_addr, 0);
+a3cc79650141670 Alex Deucher 2026-05-19  402  	amdgpu_ring_clear_ring(ring);
+a3cc79650141670 Alex Deucher 2026-05-19  403  }
+a3cc79650141670 Alex Deucher 2026-05-19  404  
 
-vim +/rtw_tx_fill_tx_desc +623 drivers/net/wireless/realtek/rtw88/usb.c
+:::::: The code at line 391 was first introduced by commit
+:::::: a3cc79650141670f6db74f90e2d6c173144ace0a drm/amdgpu/gfx: add a helper for MQD restore
 
-   600	
-   601	static int rtw_usb_write_data_rsvd_page(struct rtw_dev *rtwdev, u8 *buf,
-   602						u32 size)
-   603	{
-   604		const struct rtw_chip_info *chip = rtwdev->chip;
-   605		struct rtw_tx_pkt_info pkt_info = {0};
-   606		struct rtw_tx_desc *pkt_desc;
-   607		struct sk_buff *skb;
-   608		int ret;
-   609	
-   610		pkt_info.tx_pkt_size = size;
-   611		pkt_info.qsel = TX_DESC_QSEL_BEACON;
-   612		pkt_info.offset = chip->tx_pkt_desc_sz;
-   613		pkt_info.ls = true;
-   614	
-   615		skb = dev_alloc_skb(chip->tx_pkt_desc_sz + size);
-   616		if (!skb)
-   617			return -ENOMEM;
-   618	
-   619		skb_reserve(skb, chip->tx_pkt_desc_sz);
-   620		skb_put_data(skb, buf, size);
-   621		pkt_desc = skb_push(skb, chip->tx_pkt_desc_sz);
-   622		memset(pkt_desc, 0, chip->tx_pkt_desc_sz);
- > 623		rtw_tx_fill_tx_desc(rtwdev, &pkt_info, pkt_desc);
- > 624		rtw_tx_fill_txdesc_checksum(rtwdev, &pkt_info, pkt_desc);
-   625	
-   626		/* Download the beacon/reserved page synchronously so that the caller's
-   627		 * subsequent BCN_VALID poll observes the completed transfer instead of
-   628		 * racing the async TX path.
-   629		 */
-   630		ret = rtw_usb_write_port_sync(rtwdev, pkt_info.qsel, skb);
-   631		if (ret)
-   632			rtw_err(rtwdev, "failed to download rsvd page over USB, ret=%d\n",
-   633				ret);
-   634	
-   635		dev_kfree_skb_any(skb);
-   636	
-   637		return ret;
-   638	}
-   639	
+:::::: TO: Alex Deucher <alexander.deucher@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 --
 0-DAY CI Kernel Test Service
