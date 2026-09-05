@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0612C325C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 01:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B542282F1C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 01:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788571522; cv=none; b=ofdKOQHiirntACZQHr3hbwoLd/poRgFFvdjYfdpFupo2Q7oxQVRqPpqeFGwgGBNqOSExseUcYuNAgcDoDgJjVrfTesIX0sqnb/inqmHIN2ubla3X0QhkrmfAThsW40UsSkEBuBk+2QQAbLe1FFGvr7odHMhFF5ns9C3wbBQPD00=
+	t=1788572689; cv=none; b=ndQJyl71vh8zjS6WP24t0HEqzjnxTjBo9+zIdTQjplaxYd5U8ZQe+t3Yeza4yV1q2pjXbm/U2eLgWc2cKJe+ts1xBawimOSWKQX3mjAmVB+7333Sj0y1UkiGRXfqoAkws+PWN6x2z0R7KxvJfcU+Z7cpM+PZVjmM+oYmW8VOG5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788571522; c=relaxed/simple;
-	bh=vTwVqozq96v2HDaOjPVQkH2xiW5a+G09U4sgMr1/Dq4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VxyfdhLu5HPztugBhuN2hNz3JN9UJ4oiKBQqvdO9fnn8ycl9Hu/fAbrcxoxet3gSh4f7FDN29gDkjj+qLZDEMiheOv0eLjLWOxmEJBqyayPRJtgPhC/5dp1wj/86BYk3RLk9S2iRpSwHDMEH+OexUTV+uEZSSVAF9hOmsgFgA5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QqzgRxhg; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1788572689; c=relaxed/simple;
+	bh=7+GHhXFVd94A+JEJ4Mfhrb3KSDOHam4/S0ALeZVw7dw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J3wARw/8eJ7DmR+jNbHc1wbdYmosWzacLcWg/83H2OkrCPuhzufe0l7ZoPh/fUh/bbGG5ogdyT231r57szufdnkFbnkjSyndruLPn1NqxzIWZZgFSuDVKHqZDxY/sCq3u1rPtbmo88mx0MRMDe1i+1GXQOOKXwb2PClnIWVzejU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtakL2Sd; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QqzgRxhg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtakL2Sd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788571520; x=1820107520;
+  t=1788572686; x=1820108686;
   h=date:from:to:cc:subject:message-id;
-  bh=vTwVqozq96v2HDaOjPVQkH2xiW5a+G09U4sgMr1/Dq4=;
-  b=QqzgRxhg4re0CJfoPL/sYCnXU32TVmapU4UeutIYWqgLc5JT0CrfXBzH
-   vBjV24jv52z/q5g3wRMqVea3BkqgUk5uBqa2pLO6wM2HWrPMh0C0WR1SC
-   92/Ie3IjK/Hh6NOYdtC1nX38QMXaBDjDs+y8uEgBvuRQ/Zx+kFCDd/f9U
-   a1zokQrTVUM8zcluyBNYf8nuV84T2QXFS7yPG3aj1j6SpCNJchM2jMNYZ
-   /InpKhOJ3+t/woPvM9oxd0oHm37PxuSXkVLUKzY1IHEfjzQumk7MAINUi
-   gLp5d/XpWNE9ozujjJykDIOMu1cpqeu0/uzLrxQvGIaUYct2AuqF6rrkK
-   A==;
-X-CSE-ConnectionGUID: 8fyDEkBXSjq5Nl++72arPg==
-X-CSE-MsgGUID: UDeV5lceThqPeFujFMkPRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="89001265"
+  bh=7+GHhXFVd94A+JEJ4Mfhrb3KSDOHam4/S0ALeZVw7dw=;
+  b=HtakL2SdJ6CvZzNu4fBud2kQQiQe0pwcUzhbaRN2zAWmJON/I03A1kIj
+   5pXr03ZljMVVwk6bg+UdPAVyQeYt7+noqe4Oj8mL2sMpL29CnrM1vBcKL
+   1t4u2FsSg10YzDd0wF/R3JwcbauXLIsZm9cbIylFKTf8kbEWgCh0nwZri
+   RljOMPBqVqlpd/rR8FE9BSIZSGb3UE8GTOgcXt9YxIkk9hdjU5tXUdueW
+   ZeeEN3cuN8B5YwrORG2VWHZ6B7XKs7JsgvkGjgJcNaWY2Vect1YnSA2GU
+   MG94N5q5FbB9FMqgZG0d85+5YWHtN0FqedcTE8fQ8CMWTR3EYE7r/jpCr
+   w==;
+X-CSE-ConnectionGUID: vu4mz0BJQN6nomUB1Fxn5g==
+X-CSE-MsgGUID: UTj9lE4QRLSEvw9E6h7nKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="92774158"
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="89001265"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 18:25:06 -0700
-X-CSE-ConnectionGUID: 2vImRz/4Ro+YKS1hyN+d2A==
-X-CSE-MsgGUID: T2f2sewhRoG/wbSzoNpNhA==
+   d="scan'208";a="92774158"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 18:44:45 -0700
+X-CSE-ConnectionGUID: 2rnNeWMOQ9unMV060ooiMA==
+X-CSE-MsgGUID: pmtWq+ksRcWPae+ta8GFrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="265831103"
-Received: from igk-lkp-server01.igk.intel.com (HELO bcd5fd227bc8) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Sep 2026 18:25:03 -0700
-Received: from kbuild by bcd5fd227bc8 with local (Exim 4.98.2)
+   d="scan'208";a="263991576"
+Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 04 Sep 2026 18:44:43 -0700
+Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2f9R-000000000A3-2NNj;
-	Sat, 05 Sep 2026 01:25:01 +0000
-Date: Sat, 05 Sep 2026 03:24:51 +0200
+	id 1x2fST-00000000Ab0-1Bh0;
+	Sat, 05 Sep 2026 01:44:41 +0000
+Date: Sat, 05 Sep 2026 09:43:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 87/87]
- net/ceph/messenger_v2.c:3224:29: error: no member named 'out_enc_pages' in
- 'struct ceph_connection_v2_info'
-Message-ID: <202609050307.suQsH6op-lkp@intel.com>
+Subject: [android-common:android17-6.18-2026-09 0/1]
+ include/trace/hooks/rust_binder.h:25:1: error: redefinition of
+ 'trace_android_vh_rust_binder_set_priority'
+Message-ID: <202609050933.4sUV6rjo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,90 +60,223 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   376ad9d4942bf11500931178bbeb965348f01057
-commit: 376ad9d4942bf11500931178bbeb965348f01057 [87/87] ceph: Don't use data_pages
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260905/202609050307.suQsH6op-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050307.suQsH6op-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-09
+head:   bab5f6aca819542b9dd13a70d3c62271e81b8e85
+commit: 6a6602755e08abe3327610530b53c6c8c25d32ce [0/1] ANDROID: rust_binder: move rust_binder_hooks.h into include/trace/hooks
+config: x86_64-randconfig-101-20260904 (https://download.01.org/0day-ci/archive/20260905/202609050933.4sUV6rjo-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050933.4sUV6rjo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609050307.suQsH6op-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609050933.4sUV6rjo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/ceph/messenger_v2.c:3224:29: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'
-    3224 |         bvec_set_page(&bv, con->v2.out_enc_pages[con->v2.out_enc_i],
-         |                            ~~~~~~~ ^
->> net/ceph/messenger_v2.c:3232:32: error: use of undeclared identifier 'OUT_S_QUEUE_ENC_PAGE'
-    3232 |                 WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE);
-         |                                              ^~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:3270:14: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'
-    3270 |         if (con->v2.out_enc_pages) {
-         |             ~~~~~~~ ^
-   net/ceph/messenger_v2.c:3272:36: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'
-    3272 |                 ceph_release_page_vector(con->v2.out_enc_pages,
-         |                                          ~~~~~~~ ^
-   net/ceph/messenger_v2.c:3274:11: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'
-    3274 |                 con->v2.out_enc_pages = NULL;
-         |                 ~~~~~~~ ^
-   net/ceph/messenger_v2.c:3310:7: error: use of undeclared identifier 'OUT_S_QUEUE_ENC_PAGE'
-    3310 |         case OUT_S_QUEUE_ENC_PAGE:
-         |              ^~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:3634:32: error: use of undeclared identifier 'OUT_S_QUEUE_ENC_PAGE'
-    3634 |                 WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE &&
-         |                                              ^~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:3802:14: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'
-    3802 |         if (con->v2.out_enc_pages) {
-         |             ~~~~~~~ ^
-   net/ceph/messenger_v2.c:3804:36: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'
-    3804 |                 ceph_release_page_vector(con->v2.out_enc_pages,
-         |                                          ~~~~~~~ ^
-   net/ceph/messenger_v2.c:3806:11: error: no member named 'out_enc_pages' in 'struct ceph_connection_v2_info'
-    3806 |                 con->v2.out_enc_pages = NULL;
-         |                 ~~~~~~~ ^
-   10 errors generated.
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:35:
+   In file included from include/trace/define_trace.h:118:
+>> include/trace/hooks/rust_binder.h:25:1: error: redefinition of 'trace_android_vh_rust_binder_set_priority'
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:39:1: note: expanded from here
+      39 | trace_android_vh_rust_binder_set_priority
+         | ^
+   include/trace/hooks/rust_binder.h:25:1: note: previous definition is here
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:32:1: note: expanded from here
+      32 | trace_android_vh_rust_binder_set_priority
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:35:
+   In file included from include/trace/define_trace.h:118:
+>> include/trace/hooks/rust_binder.h:25:1: error: redefinition of 'trace_android_vh_rust_binder_set_priority_enabled'
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:41:1: note: expanded from here
+      41 | trace_android_vh_rust_binder_set_priority_enabled
+         | ^
+   include/trace/hooks/rust_binder.h:25:1: note: previous definition is here
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:34:1: note: expanded from here
+      34 | trace_android_vh_rust_binder_set_priority_enabled
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:35:
+   In file included from include/trace/define_trace.h:118:
+>> include/trace/hooks/rust_binder.h:28:1: error: redefinition of 'trace_android_vh_rust_binder_restore_priority'
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:42:1: note: expanded from here
+      42 | trace_android_vh_rust_binder_restore_priority
+         | ^
+   include/trace/hooks/rust_binder.h:28:1: note: previous definition is here
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:35:1: note: expanded from here
+      35 | trace_android_vh_rust_binder_restore_priority
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:35:
+   In file included from include/trace/define_trace.h:118:
+>> include/trace/hooks/rust_binder.h:28:1: error: redefinition of 'trace_android_vh_rust_binder_restore_priority_enabled'
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:44:1: note: expanded from here
+      44 | trace_android_vh_rust_binder_restore_priority_enabled
+         | ^
+   include/trace/hooks/rust_binder.h:28:1: note: previous definition is here
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:37:1: note: expanded from here
+      37 | trace_android_vh_rust_binder_restore_priority_enabled
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__tracepoint_android_vh_rust_binder_set_priority'; did you mean 'trace_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   <scratch space>:62:1: note: expanded from here
+      62 | __tracepoint_android_vh_rust_binder_set_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/hooks/rust_binder.h:25:1: note: 'trace_android_vh_rust_binder_set_priority' declared here
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:39:1: note: expanded from here
+      39 | trace_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__traceiter_android_vh_rust_binder_set_priority'; did you mean '__tracepoint_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~~~~~~~
+   <scratch space>:69:1: note: expanded from here
+      69 | __traceiter_android_vh_rust_binder_set_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:28:1: note: '__tracepoint_android_vh_rust_binder_set_priority' declared here
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:62:1: note: expanded from here
+      62 | __tracepoint_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__SCK__tp_func_android_vh_rust_binder_set_priority'; did you mean '__tracepoint_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:77:1: note: expanded from here
+      77 | __SCK__tp_func_android_vh_rust_binder_set_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:28:1: note: '__tracepoint_android_vh_rust_binder_set_priority' declared here
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:62:1: note: expanded from here
+      62 | __tracepoint_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__SCT__tp_func_android_vh_rust_binder_set_priority'; did you mean '__SCK__tp_func_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:218:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +3224 net/ceph/messenger_v2.c
+vim +/trace_android_vh_rust_binder_set_priority +25 include/trace/hooks/rust_binder.h
 
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3215  
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3216  static void queue_enc_page(struct ceph_connection *con)
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3217  {
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3218  	struct bio_vec bv;
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3219  
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3220  	dout("%s con %p i %d resid %d\n", __func__, con, con->v2.out_enc_i,
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3221  	     con->v2.out_enc_resid);
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3222  	WARN_ON(!con->v2.out_enc_resid);
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3223  
-1eb9cd15004fa9 Christoph Hellwig 2023-02-03 @3224  	bvec_set_page(&bv, con->v2.out_enc_pages[con->v2.out_enc_i],
-1eb9cd15004fa9 Christoph Hellwig 2023-02-03  3225  		      min(con->v2.out_enc_resid, (int)PAGE_SIZE), 0);
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3226  
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3227  	set_out_bvec(con, &bv, false);
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3228  	con->v2.out_enc_i++;
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3229  	con->v2.out_enc_resid -= bv.bv_len;
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3230  
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3231  	if (con->v2.out_enc_resid) {
-cd1a677cad9940 Ilya Dryomov      2020-11-19 @3232  		WARN_ON(con->v2.out_state != OUT_S_QUEUE_ENC_PAGE);
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3233  		return;
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3234  	}
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3235  
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3236  	/*
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3237  	 * We've queued the last piece of ciphertext (ending with
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3238  	 * epilogue) + auth tag.  Once it's written, we are done.
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3239  	 */
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3240  	WARN_ON(con->v2.out_enc_i != con->v2.out_enc_page_cnt);
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3241  	con->v2.out_state = OUT_S_FINISH_MESSAGE;
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3242  }
-cd1a677cad9940 Ilya Dryomov      2020-11-19  3243  
-
-:::::: The code at line 3224 was first introduced by commit
-:::::: 1eb9cd15004fa91b6d1911af9fbaff299d8e9e45 libceph: use bvec_set_page to initialize bvecs
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+    19	
+    20	/*
+    21	 * Following tracepoints are not exported in tracefs and provide a
+    22	 * mechanism for vendor modules to hook and extend functionality
+    23	 */
+    24	
+  > 25	DECLARE_HOOK(android_vh_rust_binder_set_priority,
+    26		TP_PROTO(rust_binder_transaction t, struct task_struct *task),
+    27		TP_ARGS(t, task));
+  > 28	DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+    29		TP_PROTO(struct task_struct *task),
+    30		TP_ARGS(task));
+    31	
 
 --
 0-DAY CI Kernel Test Service
