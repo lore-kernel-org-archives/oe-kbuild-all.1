@@ -1,115 +1,107 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EBE45FFCB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 16:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2346535E926
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 17:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788626639; cv=none; b=pA5GQtYrdUxZaLRaRmiG8EgIbE88dRP0stEZ72w58EFe86xxI1Hbb6i8rRqPhQO1sFi5dwZ8kFjc5DhK9I+JALt/Nz0uvVd4SqGdlC2xnyYRXkiRg49//YFwp3jpgxeIY2w/5MY1qSq9l96No9pFDxe+uhNggGnde8m2vbarJAc=
+	t=1788631196; cv=none; b=XZ7+r6KhyD34GRkmwGQm+m/OPI0Lqp5kemLwrb93Nb6LcGifI8r+CrAmKXf0EnzSGtLO1cvgA9hHZyoXZWOlCirilenRwzSjOBFDBIMDLS+Frfx5N7S9pDCrsSrFvnWZ5ln3pAIceBvMnl3Kdpes+F6ml0j+L4BLPrH6klZUuEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788626639; c=relaxed/simple;
-	bh=VPVTdDOschktWqxbnpp2g+Cs7HVkwD6zFitEv4L4s6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qJO177mWKQNEGDN6JtbrVz4Rm7YbH+63FVqEV6llmKCCaQBD6kkJrDOB4rTCmBGsewAe+7XZUf0IeU/uObHp4w5wxOE+nGUPzvaI3dTkiOH+hoQW0bQW+okJjJWr5rqzf4VyfKBlQncuCaRNWAE/R1e8WSg2s7vi5345F0D9BJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=jLFyKyOB; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1788631196; c=relaxed/simple;
+	bh=DbF7YtE2FPgWzqKItePIzOPtjW59QrTd8TEE5LnRd3A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SHRSlVsz4OuGFocIPeH9+8TLwykVToV6T2iSJ8h3zqlRcpz4mIHi8uCsFSZ6TKIi1E94PicK1g0+QbX1PA45YnEPTSCg9z4VWlzQnchBzVCUSMStHQ6/hY+3tXa8YxYuzdue902xoOJJDTZmy04z6ckimCrtZSya13COr8cAuy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCZBWhSg; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="jLFyKyOB"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5276d598b96so21343021cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 05 Sep 2026 09:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1788626636; x=1789231436; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2MnNWKE1aLOQVvI4VXrDjnmlyCcUk8F5PrqoE1ht1fY=;
-        b=jLFyKyOBokUAOfTUhBm5v3y+ZOICDG5RffKyFke64+gY0zLjIw+7lX+PAyJDyjqOJf
-         Pm19zj1KQBjva8RMesS+NbWYb4fjB0aBHlLdHICnTKmSAjedyUFhMOeZbM8m+i88rptQ
-         YexyiuP4/837VeG7vV56i5M06pvQXNwqoWt8w4u50x6LUwZvkqSQ0UmuLqDicUxf9PHR
-         CsHtunjk/pL3jr+UhwFb38qLzBVSc/kOZ05FNztOfTXnWNtw/QfBvHK1iJYeShNdVfq6
-         mIBS6+prNtTRp6erVIaBQ23Q+dBsWWpwJ3u5Gs3uCg8UKUdg1SkTrErde0gK6PCzE7zG
-         NNWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788626636; x=1789231436;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2MnNWKE1aLOQVvI4VXrDjnmlyCcUk8F5PrqoE1ht1fY=;
-        b=BuwunqCBmhXRnxNvewxMSyQ165lJRlsdjVNs/gMAdG24gFv9mE5qNUTG9ElSb0Xqrj
-         7R03SofpRbjB8zeMiYj23OA9sv5Da9FOW7+8m0rWa6f4/MSYmXoTRCuQBnwAh00b99Sj
-         xYhQdjITvh+K3YgVeiy0J2jPk1wejW85Zm7iU+IwbWodagZdNLcJFyrul9JvnDIWLkHd
-         GmvoQfvmUmB8p0YSvwm5dXYMVvn1HAONcah28WjGcfmPOQ0tO2TtNxgEmrNsfErldlOc
-         5ahGHBxl/lI7LegCL1Q9KPiTpGN7n7Bxi5ZNK17VcgyLXyV84omNmMJEPSNRTNjRn6HX
-         NPuw==
-X-Forwarded-Encrypted: i=1; AKwUvBx+En7gWcHZwpYThrwmQdPBRORqHQBh2CBzGDEsY0Nl3ENvOVeFzdSSNVm3hkycDRYAdMJbBPl2fI72mCI+@lists.linux.dev
-X-Gm-Message-State: AFuF++kialLfndd/lpt7M8pla8Xfx3j9thAWrx6okPUsPBBFuzXPtG8Y
-	1PidBQBNH1kKLTjoYN0uDx9lycmY5DFc1oaLSMhqr16Jd8ZWtuvXBo7VMt0pRne077I=
-X-Gm-Gg: AYBFou3urMG5Q8agBKdWLNymukUT+532F8GJ9orZ9jy3i8RPhOJCskMvGxkdcXbPM7I
-	6E2FIG5PUU16H23keN5CTbPWAt5W4x3+bYqRZBOXkA/6P99vF48XvXrRLToA/MgswZYp59rMHZ4
-	bXFB5RmRg7BjqR78aF5QsytMEuqXaU4xgdUghLNyqdK16ysptutC2koTuSduiT9PQAZVhHN5+3Z
-	SRGYb6IzXOCC8l1yro9fCCA2MDlpWB/bIV1ycZVM2tdzk+nBeW69ynyQ5RT/TNvNmiiLhQS9H5L
-	rhtvdRB9lltumbbRuBlAXqaQfCJAFOBkW3gy0J08I9R+ghgDtbMGiYG/f5GjgOhpmW8Rg3DDdx3
-	ZmPa8nASdUOsxsa6tQQpgHHBgJfGW/jK01H3WVxBmNWHNarZBz9R91P8bZjjyxjLpiiQDtLVyPA
-	sBKUKpn35wkD8mKo/rsgB9x0/P1Qn7hKLdy3Zdf9Jqxg4QyooUdIvCf8VzEgOhuEolSMDXPuuba
-	DKigvxPK5+i2pdtU7eAiCboVOxrG0LShT1qZngy+7rH
-X-Received: by 2002:ac8:598e:0:b0:530:3140:f0f5 with SMTP id d75a77b69052e-530547e047cmr134840771cf.5.1788626635947;
-        Sat, 05 Sep 2026 09:43:55 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530541c86f1sm46782371cf.24.2026.09.05.09.43.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 09:43:55 -0700 (PDT)
-Date: Sat, 5 Sep 2026 12:43:53 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	David Hildenbrand <david@kernel.org>, Linux Memory Management List <linux-mm@kvack.org>, 
-	mm-commits@vger.kernel.org
-Subject: Re: [akpm-mm:mm-new 301/316] mm/memory_hotplug.c:1507:13: warning:
- 'node_is_memoryless' defined but not used
-Message-ID: <apxGfmKgqnj0TDTn@gourry-fedora-PF4VCD3F>
-References: <202609050628.ywCLhOj5-lkp@intel.com>
- <20260904185658.cb3316b1d54ab7320620c26f@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCZBWhSg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788631194; x=1820167194;
+  h=date:from:to:cc:subject:message-id;
+  bh=DbF7YtE2FPgWzqKItePIzOPtjW59QrTd8TEE5LnRd3A=;
+  b=YCZBWhSgzrdmHgyVT5DGKR+4tMOxlfe0rmlnbM+oTlPikHitAsKZxp6i
+   VyiCXHONkPoADiYAQlUQUHALgByzkv5V5/t51yxH82wckwCMPdfV4klAq
+   Kg+FTgNcb4SmyQ+fI4UGF6/L0TjsfJI9KHObUmE6a27JnIPGbyFCdl3R2
+   lTkvAw5u5H6uJ+LMDFgk0o2fFUn4lQBP8qaO4ewrlQXxBlYc0IO6wlgdh
+   jzjtkfi9NHf/Q/YWsmugo2LXzLpG2bolx7G1i+ktIlPkVWV9Jt6VXBYUk
+   b2A/s16ZPUSbY1X+4iw42csdsLZdbWNMkiXx5d3NoTLRzTxHXCKEJ+S9U
+   w==;
+X-CSE-ConnectionGUID: OV/16KveTSOvKK7FIDqSOQ==
+X-CSE-MsgGUID: ISgIT/GdSuOEWjqsNBJ2/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11897"; a="91614088"
+X-IronPort-AV: E=Sophos;i="6.25,264,1779174000"; 
+   d="scan'208";a="91614088"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 10:59:54 -0700
+X-CSE-ConnectionGUID: Awte+OREQFmydI4xoxm74w==
+X-CSE-MsgGUID: vbdYFvT3ROKMVuXu/kvEdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,264,1779174000"; 
+   d="scan'208";a="268588311"
+Received: from lkp-server01.sh.intel.com (HELO 73f3364bc37e) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Sep 2026 10:59:53 -0700
+Received: from kbuild by 73f3364bc37e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x2ugA-000000000v1-0HBp;
+	Sat, 05 Sep 2026 17:59:50 +0000
+Date: Sun, 06 Sep 2026 01:59:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-2026-06 0/1]
+ fs/fuse/fuse_bpf_backing.c:156:16: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202609060108.q8MKmXJY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904185658.cb3316b1d54ab7320620c26f@linux-foundation.org>
 
-On Fri, Sep 04, 2026 at 06:56:58PM -0700, Andrew Morton wrote:
-> On Sat, 05 Sep 2026 06:32:19 +0800 kernel test robot <lkp@intel.com> wrote:
-> 
-> > Hi Gregory,
-> > 
-> > FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-> > head:   e3fc12b08aadde9cec7b3799ac0e0c9a1aa245c4
-> > commit: 77a622e07892674da28eb3ad349ddd96df10aded [301/316] mm/memory_hotplug: factor out node_is_memoryless()
-> > config: x86_64-randconfig-161-20260904 (https://download.01.org/0day-ci/archive/20260905/202609050628.ywCLhOj5-lkp@intel.com/config)
-> > compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-> > smatch: v0.5.0-9187-g5189e3fb
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050628.ywCLhOj5-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202609050628.ywCLhOj5-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> mm/memory_hotplug.c:1507:13: warning: 'node_is_memoryless' defined but not used [-Wunused-function]
-> >     1507 | static bool node_is_memoryless(int nid)
-> >          |             ^~~~~~~~~~~~~~~~~~
-> 
-> Thanks.  Let me try this:
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-06
+head:   de2fe859a26ac8b782d8d325668854871edb9f6d
+commit: be926e6761d28d105ba672242e81e911e0d7e5e0 [0/1] ANDROID: fuse-bpf: fuse-bpf v1.3
+config: i386-randconfig-061-20260904 (https://download.01.org/0day-ci/archive/20260906/202609060108.q8MKmXJY-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260906/202609060108.q8MKmXJY-lkp@intel.com/reproduce)
 
-Thanks Andrew, sorry for the churn.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609060108.q8MKmXJY-lkp@intel.com/
 
-~GRegory
+sparse warnings: (new ones prefixed by >>)
+>> fs/fuse/fuse_bpf_backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
+   fs/fuse/fuse_bpf_backing.c:315:16: sparse: sparse: Using plain integer as NULL pointer
+>> fs/fuse/fuse_bpf_backing.c:862:48: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
+   fs/fuse/fuse_bpf_backing.c:862:48: sparse:     expected restricted __kernel_rwf_t [usertype] flags
+   fs/fuse/fuse_bpf_backing.c:862:48: sparse:     got int
+   fs/fuse/fuse_bpf_backing.c:949:59: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
+   fs/fuse/fuse_bpf_backing.c:949:59: sparse:     expected restricted __kernel_rwf_t [usertype] flags
+   fs/fuse/fuse_bpf_backing.c:949:59: sparse:     got int
+>> fs/fuse/fuse_bpf_backing.c:2142:18: sparse: sparse: Initializer entry defined twice
+   fs/fuse/fuse_bpf_backing.c:2143:18: sparse:   also defined here
 
+vim +156 fs/fuse/fuse_bpf_backing.c
+
+   145	
+   146	void *fuse_open_finalize(struct fuse_bpf_args *fa,
+   147			       struct inode *inode, struct file *file, bool isdir)
+   148	{
+   149		struct fuse_file *ff = file->private_data;
+   150		struct fuse_open_out *foo = fa->out_args[0].value;
+   151	
+   152		if (ff) {
+   153			ff->fh = foo->fh;
+   154			ff->nodeid = get_fuse_inode(inode)->nodeid;
+   155		}
+ > 156		return 0;
+   157	}
+   158	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
