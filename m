@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59ADC2FE057
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 00:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763A0369985
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 01:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788569381; cv=none; b=CPagP8F3STFajdIjTw5EpNLow2XCpn/c6x63g1SouqxhMgoEWwzRspOkNwfpkmZwgOUQIUXz8VFak1IVvEDS3Mf2duAhOTHo4ug5BZNXCnbmDazohEhmfy4Qx/ldMLf7IBfarR4E9Lx+kuHaudWhLa8W+90yDM/LUfOOpaXK6Mg=
+	t=1788570110; cv=none; b=k0wvf5FIhBD/e9nvBgoQ2Iv1QaU2JsultbmpAGebz1SgYSTfYHq7njWxeo/en8RJ+cMJrqm2gUikl90ZN8ECA5cOVBkyuUAhfUvC9a+4HM/3AePa4pLD6YBPQigBVy2OOSA17CQms95wHm6vf9CX5mBeRpzkNEnvBAlCHJBofoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788569381; c=relaxed/simple;
-	bh=kjWRhamImpHbxXD74A2C9YNqa1ANFrc2fJwOVhqxGEo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=u2cuwmeyrKgVB+O8WJtvHdxA7rJ9XA7ag3SYA5qQyT6vFtsYV+o1m1qRv8ui8N+nS9WDb1j88gvOVIGpFfyFPvBWOT4wy1NRghmzwhV2TBq8KZyQHEjUmvUJN52HbDrmZqqVRZ5HCImM5uVRpT0IwSsXngPmkp+YPKDQI2T1aNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mDi8fV6T; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1788570110; c=relaxed/simple;
+	bh=2MLPLQs26/r1SJ7qBZfhAJFomEVQ1aT4INFw542dZlg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MwXlHLow2Dja5n7kDxIrX1m/Fv0QHXJFnAc+2e+AhE0Cjo9fzYsHoOiFn+ag+S6GNQYNPTUktXr7yV0ubGRTtzM/5W5RmZKivBclk94MBVP+/SH096qGgu0uhaCgKVFTp+b7n9MPG3x7100kltI3O57hWF6UMJyvbEyf4ak+fGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgEd1pea; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mDi8fV6T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgEd1pea"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788569380; x=1820105380;
+  t=1788570105; x=1820106105;
   h=date:from:to:cc:subject:message-id;
-  bh=kjWRhamImpHbxXD74A2C9YNqa1ANFrc2fJwOVhqxGEo=;
-  b=mDi8fV6TUZzOiddA26dU+KrRhcrFeRzvlXXMc6pld0bCRalL0Uyt0UTJ
-   /dILGHed65Zfj+Gu1YPNqn8ffcHaHdPvfADklUVHyEzsviE1uhfOOiU6d
-   jCy8jgcE7mi7VRDY/PvZDE0plmW1ypeuPmAZqWYvex2J6hzm4OwqaWdyA
-   WIyDiSF05+jGEkMssXBfPIMo0bxHDVQ+oHO9Eq8iItsi93/t+VIR1BQxh
-   Xcnrax0Wi8xpa6w0g0678jZvXxplNCBSMeI2jfLvwqSGwRSv851dqYXms
-   VExhFOi6fCF/paptqUnIPmLDMlDlmxnVfCIGucTWlvz/TdVPWfcGL6UxH
+  bh=2MLPLQs26/r1SJ7qBZfhAJFomEVQ1aT4INFw542dZlg=;
+  b=RgEd1peai/3XKDQrfQVoDvmLXTRucBecErLqBX5qVHH9qmQdnrP2bjuv
+   QZUU0MYUs/BwXAqZpfeLK/3ikCMXnOglO+6V3OYjiEtXGd7hIvSitCgUs
+   1PF8C8fYfLp2/TWUyyej7haYlYOkuQoZyd4jjaO8wEPAbvnpwQUmdLb7/
+   idmPCm2mhnYU0Y3Ki3Xy1WwE0xEiPpW6vojbTxL23hqCIjXQn5si4zqu3
+   6UlRkUvWd4VwSgTcNkfXBignEO8eGU+ncrSg1mwva1u9pU9xiNVyCI9no
+   dU+cEd03WlRxHQW0DKtlpO4uyYmDmRcg+BuqpDMAfbp35mZ15TSKkSoo7
    A==;
-X-CSE-ConnectionGUID: 43ltibI7QfWZop33nMI0Rw==
-X-CSE-MsgGUID: 6RJL7ipPTt27uiBlZdkc3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="92942983"
+X-CSE-ConnectionGUID: cEydEsCKQ6W6iO4tjK5XzA==
+X-CSE-MsgGUID: SHH2QymCTPmT9Qf+1GWpGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="100593980"
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="92942983"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 17:49:39 -0700
-X-CSE-ConnectionGUID: YTzc1OniT5uhzJ58xFORcg==
-X-CSE-MsgGUID: v0jS/LjnRFywcpATuzhuKw==
+   d="scan'208";a="100593980"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 18:01:41 -0700
+X-CSE-ConnectionGUID: tXOrCBdoQC644y81ouN1IA==
+X-CSE-MsgGUID: s1q/4pMiT1WzLHDnH67BjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="267607316"
+   d="scan'208";a="268872230"
 Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Sep 2026 17:49:36 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Sep 2026 18:01:40 -0700
 Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2eb8-00000000AUg-17TJ;
-	Sat, 05 Sep 2026 00:49:34 +0000
-Date: Sat, 05 Sep 2026 08:49:13 +0800
+	id 1x2emo-00000000AZW-0opv;
+	Sat, 05 Sep 2026 01:01:38 +0000
+Date: Sat, 05 Sep 2026 09:01:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Hung <alex.hung@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Harry Wentland <harry.wentland@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202609050833.rJ9c0SND-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-09 2/2]
+ arch/arm64/kvm/hyp/nvhe/clock.c:38:1: warning: 'patchable_function_entry'
+ attribute directive ignored
+Message-ID: <202609050857.HIrRj7SU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,133 +60,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   654ae5d73c05bd2943d65636ce6cd0aa46e62f18
-commit: 1d8cfeb69daa863a70134b8ed6df8055c418a5b0 drm/amdgpu: Pack nested ucode_info struct
-date:   5 weeks ago
-config: i386-randconfig-063-20260904 (https://download.01.org/0day-ci/archive/20260905/202609050833.rJ9c0SND-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050833.rJ9c0SND-lkp@intel.com/reproduce)
+Hi Vincent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
+head:   98d5b9e071f1828ec75981d3758cc20c452616a3
+commit: e77aff67170b3289f944fb39f1e81b2ff8a5e40a [2/2] ANDROID: KVM: arm64: Nop padding for ftrace support in the pKVM hyp
+config: arm64-randconfig-r072-20260904 (https://download.01.org/0day-ci/archive/20260905/202609050857.HIrRj7SU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050857.HIrRj7SU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 1d8cfeb69daa ("drm/amdgpu: Pack nested ucode_info struct")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609050833.rJ9c0SND-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609050857.HIrRj7SU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *mqd_ptr @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse:     expected void volatile [noderef] __iomem *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:391:41: sparse:     got void *mqd_ptr
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:397:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *mqd_ptr @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:397:41: sparse:     expected void volatile [noderef] __iomem *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:397:41: sparse:     got void *mqd_ptr
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1425:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1427:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1429:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1435:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1437:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1439:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1446:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1452:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1454:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1456:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1462:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1464:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1466:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1473:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1479:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1481:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1483:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1489:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1491:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1493:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1494:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1500:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1506:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1508:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1510:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1511:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1517:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1523:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1525:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1527:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:1536:27: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2430:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *cleaner_shader_cpu_ptr @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2430:38: sparse:     expected void volatile [noderef] __iomem *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2430:38: sparse:     got void *cleaner_shader_cpu_ptr
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2783:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2783:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2783:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2784:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2784:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2784:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2786:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2786:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2786:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2787:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2787:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2787:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2788:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2788:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2788:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2812:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2812:49: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2812:49: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2813:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2813:49: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2813:49: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2816:57: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2816:57: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2816:57: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2832:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2832:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2832:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2833:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2833:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2833:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2835:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2835:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2835:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2836:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2836:25: sparse:     expected unsigned int [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:2836:25: sparse:     got restricted __le32 [usertype]
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c:3015:25: sparse: sparse: cast to restricted __le32
+All warnings (new ones prefixed by >>):
 
-vim +391 drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
+>> arch/arm64/kvm/hyp/nvhe/clock.c:38:1: warning: 'patchable_function_entry' attribute directive ignored [-Wattributes]
+    {
+    ^
 
-b9683c21f69b3d8 Alex Deucher 2017-06-07  380  
-b5ded0313519e7f Alex Deucher 2026-05-19  381  static void amdgpu_gfx_mqd_reset_restore(struct amdgpu_ring *ring)
-a3cc79650141670 Alex Deucher 2026-05-19  382  {
-a3cc79650141670 Alex Deucher 2026-05-19  383  	struct amdgpu_device *adev = ring->adev;
-a3cc79650141670 Alex Deucher 2026-05-19  384  	int mqd_idx, mqd_size;
-a3cc79650141670 Alex Deucher 2026-05-19  385  
-a3cc79650141670 Alex Deucher 2026-05-19  386  	/* restore mqd with the backup copy */
-a3cc79650141670 Alex Deucher 2026-05-19  387  	if (ring->funcs->type == AMDGPU_RING_TYPE_COMPUTE) {
-a3cc79650141670 Alex Deucher 2026-05-19  388  		mqd_idx = ring - &adev->gfx.compute_ring[0];
-a3cc79650141670 Alex Deucher 2026-05-19  389  		mqd_size = adev->mqds[AMDGPU_HW_IP_COMPUTE].mqd_size;
-a3cc79650141670 Alex Deucher 2026-05-19  390  		if (adev->gfx.mec.mqd_backup[mqd_idx])
-a3cc79650141670 Alex Deucher 2026-05-19 @391  			memcpy_toio(ring->mqd_ptr, adev->gfx.mec.mqd_backup[mqd_idx], mqd_size);
-a3cc79650141670 Alex Deucher 2026-05-19  392  	} else if (ring->funcs->type == AMDGPU_RING_TYPE_GFX) {
-a3cc79650141670 Alex Deucher 2026-05-19  393  		mqd_size = adev->mqds[AMDGPU_HW_IP_GFX].mqd_size;
-a3cc79650141670 Alex Deucher 2026-05-19  394  		mqd_idx = ring - &adev->gfx.gfx_ring[0];
-a3cc79650141670 Alex Deucher 2026-05-19  395  
-a3cc79650141670 Alex Deucher 2026-05-19  396  		if (adev->gfx.me.mqd_backup[mqd_idx])
-a3cc79650141670 Alex Deucher 2026-05-19  397  			memcpy_toio(ring->mqd_ptr, adev->gfx.me.mqd_backup[mqd_idx], mqd_size);
-a3cc79650141670 Alex Deucher 2026-05-19  398  	}
-a3cc79650141670 Alex Deucher 2026-05-19  399  	/* reset the ring */
-a3cc79650141670 Alex Deucher 2026-05-19  400  	ring->wptr = 0;
-a3cc79650141670 Alex Deucher 2026-05-19  401  	atomic64_set((atomic64_t *)ring->wptr_cpu_addr, 0);
-a3cc79650141670 Alex Deucher 2026-05-19  402  	amdgpu_ring_clear_ring(ring);
-a3cc79650141670 Alex Deucher 2026-05-19  403  }
-a3cc79650141670 Alex Deucher 2026-05-19  404  
 
-:::::: The code at line 391 was first introduced by commit
-:::::: a3cc79650141670f6db74f90e2d6c173144ace0a drm/amdgpu/gfx: add a helper for MQD restore
+vim +/patchable_function_entry +38 arch/arm64/kvm/hyp/nvhe/clock.c
 
-:::::: TO: Alex Deucher <alexander.deucher@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+97c14dba6f9623 Vincent Donnefort 2024-09-11  35  
+97c14dba6f9623 Vincent Donnefort 2024-09-11  36  /* Using host provided data. Do not use for anything else than debugging. */
+e77aff67170b32 Vincent Donnefort 2024-10-01  37  u64 __attribute__((patchable_function_entry(0, 0))) trace_clock(void)
+97c14dba6f9623 Vincent Donnefort 2024-09-11 @38  {
+
+:::::: The code at line 38 was first introduced by commit
+:::::: 97c14dba6f96234c7120802f9d727a4ccfd17367 FROMLIST: KVM: arm64: Add clock support in the nVHE hyp
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Keir Fraser <keirf@google.com>
 
 --
 0-DAY CI Kernel Test Service
