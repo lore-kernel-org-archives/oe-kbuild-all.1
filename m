@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34F41E7C02
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 04:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420CF27A10F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 04:31:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788582716; cv=none; b=dyCjzH/gEZ3Wvc5xYwvPW0zu9OzZ0GhCsXnDAwyws6YjD7rfdZLLtKF8bNki03JC2T2Fg8XBDDtVgIN4hmFFAhAh92ISPg2p1WqKbwENc157fpJl5XTSwUSBhCUJlhO4nOxwQJp+TA4V0gJdbS3zC2r1ezw9cMZt4m5VgBcQ3Ak=
+	t=1788582719; cv=none; b=NYPKPRB5GCEUnfSUwOnPdLdLJSHNqtL8AbvKf9IUnAZjpmUJ0whFLRYwYLJli2PeEpkX/vwe9BehNgPALo4h/ObmhDDCiVHPS9SV76+HxM5wKvl42rCkqOkCaJCBbxxdTJj2t6ZDISo2d1GHApjUTaJ0I72WaV6ZIhLNAD4cd+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788582716; c=relaxed/simple;
-	bh=9YQXSg7dde1tcHTt0XesIGc3jXI45pvK4tnwg2ShwwU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tDBSwNxIc8IgOEP4IQH8KQD1Tlyvvevw6BS+9O5yQXHXdkh1fsegUdJ1f32BnTVTAhWZFaKaSxn5flouwo2xSjC//vHbYjqG1sjtl67yb8MCBT3LEBXyLpE8YmWYQgP/SWHarl3wVxnFGEmH8bOI6M84xY8joEWsOvipR0NyOKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KxD1W3Vv; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1788582719; c=relaxed/simple;
+	bh=D3VVZyC4dteL8UPLIDSDD4jdZV2600xZ1GzgPVvJ8jY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CUJlixJv0/GQChY3JAC3+QImHImY1T4NHm7aAXuaG95wWxaHhLIJWl++B1JJtzNo+QCDg9oLP0dtY1avavwJZI2mqgqiGagnkVJpc1wk9m3tjUnYIy8mMUkZM5ZeHJFZQOE7dC8WkM7GvUNjynh7oRhvFALAd0G8XCvqEUDBNUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tm6++Rhk; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KxD1W3Vv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tm6++Rhk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788582713; x=1820118713;
+  t=1788582716; x=1820118716;
   h=date:from:to:cc:subject:message-id;
-  bh=9YQXSg7dde1tcHTt0XesIGc3jXI45pvK4tnwg2ShwwU=;
-  b=KxD1W3VvAKet+4RThVJBlSMwj6ihDnqs4aayVqCjycnkQVBzqZ1qPRBv
-   BflMmFMHkse5+54FuVda1CI/57fngxSKEMiDv2sZCPL6zvWHMQ18PP4Ny
-   Pd5UnF/3OZC1NjQk32voh9uDaErSdGV+7CpjJyIWm44e+gwrKFz2vHHXM
-   CeWlpoRfCVojXISw9pXwH61u6u2r4y0drhXdx/jSzKELp9/s63/GVV3sa
-   fCK7dZEjNv+EvB7in72jH/Q9YHWftM471jZalWWpMhJ9tgdbag0330Stk
-   lbi+R494MFoZ3Io1A63Iuic6TnrKydgqS0VWomF5qM4A68XUsJScMzNuo
+  bh=D3VVZyC4dteL8UPLIDSDD4jdZV2600xZ1GzgPVvJ8jY=;
+  b=Tm6++Rhk6S23b5m++jODyRMJRaQuRLQzcjZQySYHmhql/hcP5X6LZYhx
+   olA0lbOW+D5nGYYIsfxgRj7zMCVzrLmHTSfdVtwc+MKBpwWTuMXVYycCp
+   2cH/c3DHYMmj/jTi1pSN2PsGNgu6c0Er27QqCoirIx1pZJhz3RGcVEALK
+   4CFbRoy3y6SBftZK75SnKSwCkQIrzNu6hOO5bENCA653X5m+c4Dcw/tiV
+   pgQm9Mluj8i/jS2VPfYvCu0noueTGG58UJ9Baj/fJ2u6xbSmaOudt2Ust
+   AwN+y/sfmqSpBNLyl9PzhP6pKGPnQjOgDVn1CSiG+nnG1KbgG5RPIVm3P
    w==;
-X-CSE-ConnectionGUID: drvGUgcHRUyikrJN0YqDIQ==
-X-CSE-MsgGUID: lgQkL+DIQoWo9hiMbOMn7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="100436288"
+X-CSE-ConnectionGUID: W/aVe2MzTOC8qk8u6DFq8w==
+X-CSE-MsgGUID: wTFPM5sURTmyDjWshhznyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="100436289"
 X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
-   d="scan'208";a="100436288"
+   d="scan'208";a="100436289"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 21:31:52 -0700
-X-CSE-ConnectionGUID: D/2sqTolQhOG1yeaLxv39A==
-X-CSE-MsgGUID: PlIL3OgGRiKGjAeJEKVDXA==
+X-CSE-ConnectionGUID: yDKHf3aYRfesouQ5ZepuZw==
+X-CSE-MsgGUID: 24Qt3xWIRwG7kPdweaDT3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
-   d="scan'208";a="270180535"
+   d="scan'208";a="270180537"
 Received: from lkp-server01.sh.intel.com (HELO 73f3364bc37e) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 04 Sep 2026 21:31:50 -0700
 Received: from kbuild by 73f3364bc37e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2i4C-0000000001B-1cfQ;
+	id 1x2i4C-00000000019-1WtA;
 	Sat, 05 Sep 2026 04:31:48 +0000
-Date: Sat, 05 Sep 2026 12:31:07 +0800
+Date: Sat, 05 Sep 2026 12:31:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:config-gpio-legacy-7.3 3/3]
- drivers/i2c/busses/i2c-gpio.c:630:44: error: no member named 'gpio' in
- 'struct i2c_gpio_private_data'
-Message-ID: <202609051220.OevyEetw-lkp@intel.com>
+Subject: [android-common:android17-6.18-2026-09 0/1] error[E0425]:
+ cannot find value `__tracepoint_android_vh_rust_binder_looper_entry` in crate
+ `$crate::bindings`
+Message-ID: <202609051246.xfqcs4pN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,156 +60,503 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git config-gpio-legacy-7.3
-head:   c3f3b968d84f40449f767a592ae2363ceab597cb
-commit: c3f3b968d84f40449f767a592ae2363ceab597cb [3/3] [RFC] gpiolib: introduce gpio_name() helper
-config: x86_64-randconfig-122-20260905 (https://download.01.org/0day-ci/archive/20260905/202609051220.OevyEetw-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-09
+head:   bab5f6aca819542b9dd13a70d3c62271e81b8e85
+commit: 4ff84a79852bb177a7d7f07edc3d9030d1b87c68 [0/1] ANDROID: rust_binder: vh for starting/stopping being a binder thread
+config: x86_64-randconfig-101-20260904 (https://download.01.org/0day-ci/archive/20260905/202609051246.xfqcs4pN-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609051220.OevyEetw-lkp@intel.com/reproduce)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609051246.xfqcs4pN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609051220.OevyEetw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609051246.xfqcs4pN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-gpio.c:630:44: error: no member named 'gpio' in 'struct i2c_gpio_private_data'
-     630 |                  gpiod_name(priv->sda), gpiod_name(priv->gpio),
-         |                                                    ~~~~  ^
-   1 error generated.
-
-
-vim +630 drivers/i2c/busses/i2c-gpio.c
-
-   519	
-   520	static int i2c_gpio_probe(struct platform_device *pdev)
-   521	{
-   522		struct i2c_gpio_private_data *priv;
-   523		struct i2c_gpio_platform_data *pdata;
-   524		struct i2c_algo_bit_data *bit_data;
-   525		struct i2c_adapter *adap;
-   526		struct device *dev = &pdev->dev;
-   527		struct fwnode_handle *fwnode = dev_fwnode(dev);
-   528		enum gpiod_flags gflags;
-   529		int ret;
-   530	
-   531		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   532		if (!priv)
-   533			return -ENOMEM;
-   534	
-   535		adap = &priv->adap;
-   536		bit_data = &priv->bit_data;
-   537		pdata = &priv->pdata;
-   538	
-   539		if (fwnode) {
-   540			i2c_gpio_get_properties(dev, pdata);
-   541		} else {
-   542			/*
-   543			 * If all platform data settings are zero it is OK
-   544			 * to not provide any platform data from the board.
-   545			 */
-   546			if (dev_get_platdata(dev))
-   547				memcpy(pdata, dev_get_platdata(dev), sizeof(*pdata));
-   548		}
-   549	
-   550		/*
-   551		 * First get the GPIO pins; if it fails, we'll defer the probe.
-   552		 * If the SCL/SDA lines are marked "open drain" by platform data or
-   553		 * device tree then this means that something outside of our control is
-   554		 * marking these lines to be handled as open drain, and we should just
-   555		 * handle them as we handle any other output. Else we enforce open
-   556		 * drain as this is required for an I2C bus.
-   557		 */
-   558		if (pdata->sda_is_open_drain || pdata->sda_has_no_pullup)
-   559			gflags = GPIOD_OUT_HIGH;
-   560		else
-   561			gflags = GPIOD_OUT_HIGH_OPEN_DRAIN;
-   562		priv->sda = i2c_gpio_get_desc(dev, "sda", 0, gflags);
-   563		if (IS_ERR(priv->sda))
-   564			return PTR_ERR(priv->sda);
-   565	
-   566		if (pdata->scl_is_open_drain || pdata->scl_has_no_pullup)
-   567			gflags = GPIOD_OUT_HIGH;
-   568		else
-   569			gflags = GPIOD_OUT_HIGH_OPEN_DRAIN;
-   570		priv->scl = i2c_gpio_lookup_scl(dev, gflags);
-   571		if (IS_ERR(priv->scl)) {
-   572			ret = PTR_ERR(priv->scl);
-   573			goto err_cleanup_sda;
-   574		}
-   575	
-   576		if (gpiod_cansleep(priv->sda) || gpiod_cansleep(priv->scl->gpio))
-   577			dev_warn(dev, "Slow GPIO pins might wreak havoc into I2C/SMBus bus timing");
-   578		else
-   579			bit_data->can_do_atomic = true;
-   580	
-   581		bit_data->skip_bit_test = !!priv->scl->args.fwnode;
-   582		bit_data->setsda = i2c_gpio_setsda_val;
-   583		bit_data->setscl = i2c_gpio_setscl_val;
-   584	
-   585		if (!pdata->scl_is_output_only)
-   586			bit_data->getscl = i2c_gpio_getscl;
-   587		if (!pdata->sda_is_output_only)
-   588			bit_data->getsda = i2c_gpio_getsda;
-   589	
-   590		if (pdata->udelay)
-   591			bit_data->udelay = pdata->udelay;
-   592		else if (pdata->scl_is_output_only)
-   593			bit_data->udelay = 50;			/* 10 kHz */
-   594		else
-   595			bit_data->udelay = 5;			/* 100 kHz */
-   596	
-   597		if (pdata->timeout)
-   598			bit_data->timeout = pdata->timeout;
-   599		else
-   600			bit_data->timeout = HZ / 10;		/* 100 ms */
-   601	
-   602		bit_data->data = priv;
-   603	
-   604		adap->owner = THIS_MODULE;
-   605		if (fwnode)
-   606			strscpy(adap->name, dev_name(dev), sizeof(adap->name));
-   607		else
-   608			snprintf(adap->name, sizeof(adap->name), "i2c-gpio%d", pdev->id);
-   609	
-   610		/* Always use shared SCL aware locking */
-   611		adap->lock_ops = &i2c_gpio_lock_ops;
-   612		adap->algo_data = bit_data;
-   613		adap->class = I2C_CLASS_HWMON;
-   614		adap->dev.parent = dev;
-   615		device_set_node(&adap->dev, fwnode);
-   616	
-   617		adap->nr = pdev->id;
-   618		ret = i2c_bit_add_numbered_bus(adap);
-   619		if (ret)
-   620			goto err_cleanup_scl;
-   621	
-   622		platform_set_drvdata(pdev, priv);
-   623	
-   624		/*
-   625		 * FIXME: using global GPIO numbers is not helpful. If/when we
-   626		 * get accessors to get the actual name of the GPIO line,
-   627		 * from the descriptor, then provide that instead.
-   628		 */
-   629		dev_info(dev, "using lines %s (SDA) and %s (SCL%s)\n",
- > 630			 gpiod_name(priv->sda), gpiod_name(priv->gpio),
-   631			 pdata->scl_is_output_only
-   632			 ? ", no clock stretching" : "");
-   633	
-   634		i2c_gpio_fault_injector_init(pdev);
-   635	
-   636		return 0;
-   637	
-   638	err_cleanup_scl:
-   639		i2c_gpio_cleanup_scl(priv->scl);
-   640	err_cleanup_sda:
-   641		gpiod_put(priv->sda);
-   642	
-   643		return ret;
-   644	}
-   645	
+>> error[E0425]: cannot find value `__tracepoint_android_vh_rust_binder_looper_entry` in crate `$crate::bindings`
+   --> drivers/android/binder/trace.rs:17:1
+   |
+   17 | / declare_trace! {
+   18 | |     unsafe fn binder_ioctl(cmd: c_uint, arg: c_ulong);
+   19 | |     unsafe fn binder_ioctl_done(ret: c_int);
+   20 | |     unsafe fn binder_read_done(ret: c_int);
+   ...  |
+   51 | |     unsafe fn binder_return(ret: u32);
+   52 | | }
+   | |_^ not found in `$crate::bindings`
+   |
+   = note: this error originates in the macro `declare_trace` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0425]: cannot find function `rust_do_trace_android_vh_rust_binder_looper_entry` in crate `$crate::bindings`
+   --> drivers/android/binder/trace.rs:17:1
+   |
+   17 | / declare_trace! {
+   18 | |     unsafe fn binder_ioctl(cmd: c_uint, arg: c_ulong);
+   19 | |     unsafe fn binder_ioctl_done(ret: c_int);
+   20 | |     unsafe fn binder_read_done(ret: c_int);
+   ...  |
+   51 | |     unsafe fn binder_return(ret: u32);
+   52 | | }
+   | |_^ not found in `$crate::bindings`
+   |
+   = note: this error originates in the macro `declare_trace` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+         |                            ^
+   <scratch space>:42:1: note: expanded from here
+      42 | trace_android_vh_rust_binder_set_priority
+         | ^
+   include/trace/hooks/rust_binder.h:25:1: note: previous definition is here
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:32:1: note: expanded from here
+      32 | trace_android_vh_rust_binder_set_priority
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:38:
+   In file included from include/trace/define_trace.h:118:
+   include/trace/hooks/rust_binder.h:25:1: error: redefinition of 'trace_android_vh_rust_binder_set_priority_enabled'
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:44:1: note: expanded from here
+      44 | trace_android_vh_rust_binder_set_priority_enabled
+         | ^
+   include/trace/hooks/rust_binder.h:25:1: note: previous definition is here
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:34:1: note: expanded from here
+      34 | trace_android_vh_rust_binder_set_priority_enabled
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:38:
+   In file included from include/trace/define_trace.h:118:
+   include/trace/hooks/rust_binder.h:28:1: error: redefinition of 'trace_android_vh_rust_binder_restore_priority'
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:45:1: note: expanded from here
+      45 | trace_android_vh_rust_binder_restore_priority
+         | ^
+   include/trace/hooks/rust_binder.h:28:1: note: previous definition is here
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:35:1: note: expanded from here
+      35 | trace_android_vh_rust_binder_restore_priority
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:38:
+   In file included from include/trace/define_trace.h:118:
+   include/trace/hooks/rust_binder.h:28:1: error: redefinition of 'trace_android_vh_rust_binder_restore_priority_enabled'
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:47:1: note: expanded from here
+      47 | trace_android_vh_rust_binder_restore_priority_enabled
+         | ^
+   include/trace/hooks/rust_binder.h:28:1: note: previous definition is here
+      28 | DECLARE_HOOK(android_vh_rust_binder_restore_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:37:1: note: expanded from here
+      37 | trace_android_vh_rust_binder_restore_priority_enabled
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:38:
+   In file included from include/trace/define_trace.h:118:
+>> include/trace/hooks/rust_binder.h:31:1: error: redefinition of 'trace_android_vh_rust_binder_looper_entry'
+      31 | DECLARE_HOOK(android_vh_rust_binder_looper_entry,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:48:1: note: expanded from here
+      48 | trace_android_vh_rust_binder_looper_entry
+         | ^
+   include/trace/hooks/rust_binder.h:31:1: note: previous definition is here
+      31 | DECLARE_HOOK(android_vh_rust_binder_looper_entry,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:38:1: note: expanded from here
+      38 | trace_android_vh_rust_binder_looper_entry
+         | ^
+   In file included from drivers/android/binder/rust_binder_hooks.c:16:
+   In file included from include/trace/hooks/rust_binder.h:38:
+   In file included from include/trace/define_trace.h:118:
+>> include/trace/hooks/rust_binder.h:31:1: error: redefinition of 'trace_android_vh_rust_binder_looper_entry_enabled'
+      31 | DECLARE_HOOK(android_vh_rust_binder_looper_entry,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:50:1: note: expanded from here
+      50 | trace_android_vh_rust_binder_looper_entry_enabled
+         | ^
+   include/trace/hooks/rust_binder.h:31:1: note: previous definition is here
+      31 | DECLARE_HOOK(android_vh_rust_binder_looper_entry,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:642:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     642 |         static inline bool trace_##name##_enabled(void)                 \
+         |                            ^
+   <scratch space>:40:1: note: expanded from here
+      40 | trace_android_vh_rust_binder_looper_entry_enabled
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__tracepoint_android_vh_rust_binder_set_priority'; did you mean 'trace_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   <scratch space>:3:1: note: expanded from here
+       3 | __tracepoint_android_vh_rust_binder_set_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/hooks/rust_binder.h:25:1: note: 'trace_android_vh_rust_binder_set_priority' declared here
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:42:1: note: expanded from here
+      42 | trace_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__traceiter_android_vh_rust_binder_set_priority'; did you mean '__tracepoint_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~~~~~~~
+   <scratch space>:10:1: note: expanded from here
+      10 | __traceiter_android_vh_rust_binder_set_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:28:1: note: '__tracepoint_android_vh_rust_binder_set_priority' declared here
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:3:1: note: expanded from here
+       3 | __tracepoint_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__SCK__tp_func_android_vh_rust_binder_set_priority'; did you mean '__tracepoint_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:18:1: note: expanded from here
+      18 | __SCK__tp_func_android_vh_rust_binder_set_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:28:1: note: '__tracepoint_android_vh_rust_binder_set_priority' declared here
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:3:1: note: expanded from here
+       3 | __tracepoint_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:28:1: error: use of undeclared identifier '__SCT__tp_func_android_vh_rust_binder_set_priority'; did you mean '__SCK__tp_func_android_vh_rust_binder_set_priority'?
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:218:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/android/binder/rust_binder_hooks.c:28:1: note: '__tracepoint_android_vh_rust_binder_set_priority' declared here
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:3:1: note: expanded from here
+       3 | __tracepoint_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:29:1: error: use of undeclared identifier '__traceiter_android_vh_rust_binder_restore_priority'
+      29 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_restore_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~~~~~~~
+   <scratch space>:39:1: note: expanded from here
+      39 | __traceiter_android_vh_rust_binder_restore_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:29:1: error: use of undeclared identifier '__SCK__tp_func_android_vh_rust_binder_restore_priority'; did you mean '__SCK__tp_func_android_vh_rust_binder_set_priority'?
+      29 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_restore_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:47:1: note: expanded from here
+      47 | __SCK__tp_func_android_vh_rust_binder_restore_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:28:1: note: '__SCK__tp_func_android_vh_rust_binder_set_priority' declared here
+      28 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_set_priority);
+         | ^
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:18:1: note: expanded from here
+      18 | __SCK__tp_func_android_vh_rust_binder_set_priority
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:29:1: error: use of undeclared identifier '__SCT__tp_func_android_vh_rust_binder_restore_priority'; did you mean '__SCK__tp_func_android_vh_rust_binder_restore_priority'?
+      29 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_restore_priority);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:218:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:4:1: note: expanded from here
+       4 | __SCT__tp_func_android_vh_rust_binder_restore_priority
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:29:1: note: '__SCK__tp_func_android_vh_rust_binder_restore_priority' declared here
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:47:1: note: expanded from here
+      47 | __SCK__tp_func_android_vh_rust_binder_restore_priority
+         | ^
+>> drivers/android/binder/rust_binder_hooks.c:30:1: error: use of undeclared identifier '__tracepoint_android_vh_rust_binder_looper_entry'; did you mean 'trace_android_vh_rust_binder_looper_entry'?
+      30 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_looper_entry);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   <scratch space>:11:1: note: expanded from here
+      11 | __tracepoint_android_vh_rust_binder_looper_entry
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/hooks/rust_binder.h:31:1: note: 'trace_android_vh_rust_binder_looper_entry' declared here
+      31 | DECLARE_HOOK(android_vh_rust_binder_looper_entry,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:48:1: note: expanded from here
+      48 | trace_android_vh_rust_binder_looper_entry
+         | ^
+>> drivers/android/binder/rust_binder_hooks.c:30:1: error: use of undeclared identifier '__traceiter_android_vh_rust_binder_looper_entry'; did you mean '__tracepoint_android_vh_rust_binder_looper_entry'?
+      30 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_looper_entry);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:375:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~~~~~~~
+   <scratch space>:18:1: note: expanded from here
+      18 | __traceiter_android_vh_rust_binder_looper_entry
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:30:1: note: '__tracepoint_android_vh_rust_binder_looper_entry' declared here
+   include/linux/tracepoint.h:374:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:11:1: note: expanded from here
+      11 | __tracepoint_android_vh_rust_binder_looper_entry
+         | ^
+>> drivers/android/binder/rust_binder_hooks.c:30:1: error: use of undeclared identifier '__SCK__tp_func_android_vh_rust_binder_looper_entry'
+      30 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_looper_entry);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:26:1: note: expanded from here
+      26 | __SCK__tp_func_android_vh_rust_binder_looper_entry
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/android/binder/rust_binder_hooks.c:30:1: error: use of undeclared identifier '__SCT__tp_func_android_vh_rust_binder_looper_entry'; did you mean '__SCK__tp_func_android_vh_rust_binder_looper_entry'?
+      30 | EXPORT_TRACEPOINT_SYMBOL_GPL(android_vh_rust_binder_looper_entry);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:218:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:33:1: note: expanded from here
+      33 | __SCT__tp_func_android_vh_rust_binder_looper_entry
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/android/binder/rust_binder_hooks.c:30:1: note: '__SCK__tp_func_android_vh_rust_binder_looper_entry' declared here
+   include/linux/tracepoint.h:376:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:217:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:97:22: note: expanded from macro '__PASTE'
+      97 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:96:23: note: expanded from macro '___PASTE'
+      96 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:26:1: note: expanded from here
+      26 | __SCK__tp_func_android_vh_rust_binder_looper_entry
+         | ^
+   drivers/android/binder/rust_binder_hooks.c:35:19: error: use of undeclared identifier 'rust_do_trace_android_vh_rust_binder_set_priority'; did you mean 'trace_android_vh_rust_binder_set_priority'?
+      35 | EXPORT_SYMBOL_GPL(rust_do_trace_android_vh_rust_binder_set_priority);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                   trace_android_vh_rust_binder_set_priority
+   include/linux/export.h:90:48: note: expanded from macro 'EXPORT_SYMBOL_GPL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                                        ^~~
+   include/linux/export.h:86:54: note: expanded from macro '_EXPORT_SYMBOL'
+      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                                         ^~~
+   include/linux/export.h:76:16: note: expanded from macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   include/trace/hooks/rust_binder.h:25:1: note: 'trace_android_vh_rust_binder_set_priority' declared here
+      25 | DECLARE_HOOK(android_vh_rust_binder_set_priority,
+         | ^
+   include/trace/hooks/vendor_hooks.h:127:22: note: expanded from macro 'DECLARE_HOOK'
+     127 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:640:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     640 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:42:1: note: expanded from here
+      42 | trace_android_vh_rust_binder_set_priority
+         | ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 --
 0-DAY CI Kernel Test Service
