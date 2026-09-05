@@ -1,117 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432B1377ABF;
-	Sat,  5 Sep 2026 21:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9A13BD22C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 22:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788643328; cv=none; b=p4m8ifnCOooO4WcHqyPNXtDiF49EeHkz2L57NWCpoweK9XlGi3oGnDOWVUmd7ZenocxbUiPpQuhf3dbjdWG+yHF4Aspcfc5s5GSW3LN9nnOBHMHeKY647eionoRC+gL4hyedNYTEWouv2LC/Z9R4rz7HF45NlgU6IDp0B9pfd5s=
+	t=1788647237; cv=none; b=BgHb59ikU/kb+oEFHYk6PKh5S8qO92g+kIyoxYQUZq9UnNhSgl/KJlyxR7ydPDhVXd/AL9tiGa7LNpvB2a3DvaEoxx14IypLw4RQkf0Fu/EiihRz+AEPuef8oZEbep/KUmcWqU0WP2zVCbB9ydqnnhiW8LU8n22ou9VP1BR7aSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788643328; c=relaxed/simple;
-	bh=mLmlJvqUwLopDXz9zrmzSQ2cRga7h33hTayA8pdKtHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ra6kpbRFjAVH5RJPbJun1w2GVAjQnAmFDrbRGUGeiszd6XZivvkZVvOOnFkz1okED3QtUwCnJrmZPnbUX+TXD3ApGYttC2m0ZzF3f/V9MRdYq18R86drw50PRiNCWEqjhmDebkRgSKidlPbeDAulVRMM48duSv8EjHnS6BwrRGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZoI8ONvE; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1788647237; c=relaxed/simple;
+	bh=w4FvxTqpCKe4OhzheVDaehAU1a/A4eMv0YMz8Gd4t4k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MTQZLGUdpEXXdNzdpz1oEuHafHm4qav38sqnZHdQWcBXYbfKk1yr4X654OvKt6V5cqNr5v6b/pvc0xfz+jX8zZlPIqemDVXY2tMEkNPOtUbY8514/oVYAu2SvjYyUGlyZ4mFzrK1zKyHYJT45fYXTAvR664a9UPM1Fie/H0ctFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FqyKc5nL; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZoI8ONvE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FqyKc5nL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788643325; x=1820179325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mLmlJvqUwLopDXz9zrmzSQ2cRga7h33hTayA8pdKtHc=;
-  b=ZoI8ONvE99Qt+bx1wcLBEwx0LUbc418Z3slenm7E5T007Thqd7rwBS0l
-   haaFsIG6Njs+nSH5J5yrEd687q9br445LCyq6fcBrfVwIPIpRJd7xLnFV
-   kJNPv3YJiuj04gugOBAvf+TGHABfV1QA6Y5ZNYMtwbuHuIM+fN3HRg4Ye
-   Usfbcwa9scJpgFAxSAxb+77/vAuwZMtbRSbvCu5Ajf0eSVnmcfeLRsWGB
-   jvnoqUZirDU3f/aP1KdONJIdpbvYMjRRZj2/75XUxlI0ed8H8aAlmBU/g
-   IDIFl6vXf3Ae92CBjS1HpsLQWgC1kLN9XrfIJw2gNIkdC6KlsIhPPxuq9
-   g==;
-X-CSE-ConnectionGUID: JjBXdNbVSAebCZPvxqVPJw==
-X-CSE-MsgGUID: TrivahjCQ1yqxNIWWg+aNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11897"; a="100625368"
+  t=1788647233; x=1820183233;
+  h=date:from:to:cc:subject:message-id;
+  bh=w4FvxTqpCKe4OhzheVDaehAU1a/A4eMv0YMz8Gd4t4k=;
+  b=FqyKc5nLmSrqPEeo92LWCIvrDusF1B6jafH/P/GiRtLUQShcpw7N9FHG
+   A0t9IH/4wCdWdAK8kr185a3mjM6ma41nRBdxySoi9y8kKv3qddNqEfnyi
+   hT02bmwzs382iO7/GBD+IXcfso4KG96B5pdC661xsxeUmqes2WjCdoUlC
+   /3o5V8GPFIDoHTHV6Rojimx5jW/TfETZzOShBPcbeilxBLwS2APrVxTYV
+   BdREfYDKsxWurhIevmE8o3UZ+6DBpmOsy/zUzR0H1700I//mXqNhuNkVZ
+   CgkHoap8Tuo4t6cwgcXJOElMn3xGTlW9l5B923SWBBRNvXAMJit0lAFCW
+   A==;
+X-CSE-ConnectionGUID: b4ROSMaCSIWNs4Fw5PA7zw==
+X-CSE-MsgGUID: 2wR2/6ECQ3SiHa6qLkBiwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11897"; a="114649815"
 X-IronPort-AV: E=Sophos;i="6.25,264,1779174000"; 
-   d="scan'208";a="100625368"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 14:22:04 -0700
-X-CSE-ConnectionGUID: uzkxX0XpS8ChnlJZWnyLEA==
-X-CSE-MsgGUID: lE3ZbeXrSaWCFu0K3f2taQ==
+   d="scan'208";a="114649815"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 15:27:12 -0700
+X-CSE-ConnectionGUID: Ejp0z8pEShGOxwlumOCJyw==
+X-CSE-MsgGUID: pqWPM4k7Ryy7FhaV1rBO+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,264,1779174000"; 
-   d="scan'208";a="269037291"
+   d="scan'208";a="268623171"
 Received: from lkp-server01.sh.intel.com (HELO 73f3364bc37e) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Sep 2026 14:22:04 -0700
+  by orviesa006.jf.intel.com with ESMTP; 05 Sep 2026 15:27:11 -0700
 Received: from kbuild by 73f3364bc37e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2xpp-0000000016p-3D2j;
-	Sat, 05 Sep 2026 21:22:01 +0000
-Date: Sun, 6 Sep 2026 05:21:07 +0800
+	id 1x2yqq-0000000019H-2Z51;
+	Sat, 05 Sep 2026 22:27:08 +0000
+Date: Sun, 06 Sep 2026 06:26:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bo Zhang <zhangbo0325@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] mm: vmscan: avoid anon scanning for GFP_NOIO with
- low swapcache
-Message-ID: <202609060532.n2Xnaxg0-lkp@intel.com>
-References: <20260903040131.4016290-1-zhangbo56@xiaomi.com>
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 3205/4370]
+ drivers/firewire/config-rom-generator-test.c:13:9: sparse: sparse: incorrect
+ type in initializer (different base types)
+Message-ID: <202609060630.rC0Zz88P-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260903040131.4016290-1-zhangbo56@xiaomi.com>
 
-Hi Bo,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Zhang/mm-vmscan-avoid-anon-scanning-for-GFP_NOIO-with-low-swapcache/20260903-120131
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260903040131.4016290-1-zhangbo56%40xiaomi.com
-patch subject: [RFC PATCH] mm: vmscan: avoid anon scanning for GFP_NOIO with low swapcache
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260906/202609060532.n2Xnaxg0-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260906/202609060532.n2Xnaxg0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   af5f12805e5cefa4fe68d6127c7e1fb78cd5535c
+commit: ee9a8c9afb579630fec599a7736a5ee677301a27 [3205/4370] firewire: core: add test for root directory generation in config ROM generator
+config: csky-randconfig-r113-20260905 (https://download.01.org/0day-ci/archive/20260906/202609060630.rC0Zz88P-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260906/202609060630.rC0Zz88P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609060532.n2Xnaxg0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609060630.rC0Zz88P-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/firewire/core-card.c: note: in included file:
+>> drivers/firewire/config-rom-generator-test.c:13:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:13:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:13:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:14:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:14:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:14:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:15:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:15:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:15:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:16:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:16:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:16:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:17:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:17:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:17:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:18:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:18:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:18:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:19:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:19:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:19:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:20:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:20:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:20:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:21:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:21:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:21:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:22:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:22:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:22:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:23:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:23:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:23:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:24:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:24:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:24:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:25:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:25:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:25:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:26:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:26:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:26:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:27:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:27:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:27:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:28:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:28:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:28:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:29:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:29:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:29:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:30:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:30:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:30:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:31:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:31:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:31:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:32:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:32:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:32:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:33:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:33:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:33:9: sparse:     got restricted __be32 [usertype]
+   drivers/firewire/config-rom-generator-test.c:34:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/firewire/config-rom-generator-test.c:34:9: sparse:     expected unsigned int
+   drivers/firewire/config-rom-generator-test.c:34:9: sparse:     got restricted __be32 [usertype]
+>> drivers/firewire/config-rom-generator-test.c:46:29: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 const [usertype] *const expected @@     got unsigned int const * @@
+   drivers/firewire/config-rom-generator-test.c:46:29: sparse:     expected restricted __be32 const [usertype] *const expected
+   drivers/firewire/config-rom-generator-test.c:46:29: sparse:     got unsigned int const *
 
->> mm/vmscan.c:396:40: error: use of undeclared identifier 'NR_SWAPCACHE'
-     396 |         swapcache = lruvec_page_state(lruvec, NR_SWAPCACHE);
-         |                                               ^
-   1 error generated.
+vim +13 drivers/firewire/config-rom-generator-test.c
 
-
-vim +/NR_SWAPCACHE +396 mm/vmscan.c
-
-   384	
-   385	static inline bool reclaimable_anon_is_low(struct mem_cgroup *memcg,
-   386			int nid, struct scan_control *sc)
-   387	{
-   388		struct lruvec *lruvec = get_lruvec(memcg, nid);
-   389		unsigned long anon_pages, swapcache;
-   390	
-   391		if (!sc || (sc->gfp_mask & __GFP_IO))
-   392			return false;
-   393	
-   394		anon_pages = lruvec_page_state(lruvec, NR_INACTIVE_ANON) +
-   395			     lruvec_page_state(lruvec, NR_ACTIVE_ANON);
- > 396		swapcache = lruvec_page_state(lruvec, NR_SWAPCACHE);
-   397	
-   398		return swapcache < min(anon_pages >> 6, SWAP_CLUSTER_MAX);
-   399	}
-   400	
+    11	
+    12	static const u32 config_rom_bare[] = {
+  > 13		cpu_to_be32(0x0404921b), // bus info
+    14		cpu_to_be32(0x31333934), // |
+    15		cpu_to_be32(0xf000b223), // |
+    16		cpu_to_be32(0x01234567), // |
+    17		cpu_to_be32(0x89abcdef), // v
+    18		cpu_to_be32(0x00051b70), // root directory
+    19		cpu_to_be32(0x0c0083c0), // |
+    20		cpu_to_be32(0x03001f11), // |
+    21		cpu_to_be32(0x81000003), // |
+    22		cpu_to_be32(0x17023901), // |
+    23		cpu_to_be32(0x81000008), // v
+    24		cpu_to_be32(0x00064cb7), // text descriptor leaf (from root)
+    25		cpu_to_be32(0x00000000), // |
+    26		cpu_to_be32(0x00000000), // |
+    27		cpu_to_be32(0x4c696e75), // |
+    28		cpu_to_be32(0x78204669), // |
+    29		cpu_to_be32(0x72657769), // |
+    30		cpu_to_be32(0x72650000), // v
+    31		cpu_to_be32(0x0003ff1c), // text descriptor leaf (from root)
+    32		cpu_to_be32(0x00000000), // |
+    33		cpu_to_be32(0x00000000), // |
+    34		cpu_to_be32(0x4a756a75), // v Juju is a code name at the development time of this stack.
+    35	};
+    36	
+    37	static const struct generator_test_case {
+    38		const char *const name;
+    39		int config_rom_generation;
+    40		const __be32 *const expected;
+    41		unsigned int quadlet_length;
+    42	} generator_test_cases[] = {
+    43		{
+    44			.name = "bare",
+    45			.config_rom_generation = 0,
+  > 46			.expected = config_rom_bare,
+    47			.quadlet_length = ARRAY_SIZE(config_rom_bare),
+    48		},
+    49	};
+    50	
 
 --
 0-DAY CI Kernel Test Service
