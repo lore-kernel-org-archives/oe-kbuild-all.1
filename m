@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF54533ADAF;
-	Sat,  5 Sep 2026 18:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03812233956
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 19:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788634561; cv=none; b=QR/on3LLDzCWLxYdntT/QtwO5rcKyLceZJYQLRfO5XmO61Zv9TVyYRQPnvttF6fGogRf/gdc0WNnL2lHEYlbV2ScEmwZ44siWtyozEiJa2TYTelKfiyrWL3qujFG7ghx77R6pNvK5AuhThCHRBnFt32fkY7UM7MGuxH/dYNg6sw=
+	t=1788635941; cv=none; b=F+0upJT2lPZT5+/hDQs5Tgosyo5IrdJ5PNsDG15P5OO0CCtOTbUCQNLO145oh36zte+9tLvsaJBBtFLMoScXpwYgCAHmeCr1gWou7lb8Cr/e/YFGeT+TK2YsEZqpLNmmb4s+wpKkfB6TU3a4AP1HYHmXf1FEfKXQvgeWZLmz4qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788634561; c=relaxed/simple;
-	bh=Bg0GDYRC8gosaIgPFG7QOwtAyEgvc/oRU/CSL9I9B7g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Eoc0X94rO4K2/iAReg390TQJTFESB7OyTvc5j04O8KYYaN027WPCj2i+0T3xoBKGZRk+xB5ng7g0lItZBHYllp0czhj9F26kn70acWxTT1L2Y7/pJqjmx9XnoXTF3XNIMZfsZw8nlLdNRrQpucuUt0MG80Ma37Ry27GkHf8nOhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oECu+sMx; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1788635941; c=relaxed/simple;
+	bh=D2qA72+S2FIC3US3PQdMeJoj1dPIHozGOj82bTbrQgk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=doMQYxdm9+8+V/2ZmglKvxpptlF3tsoyZJHke8LuOAL5BvAAL9iWK99fzwQsDu7p3P2m45w5xxTUNfbg/vYAIlb1A/pf1q7gC0Qt1tNK2iErLrwSftM8T4H55DYbJmUvskO5BF0jBv1mcOI4Uq1gtb2LG8HpWxREFt8ZClieomI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BSIFMZts; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oECu+sMx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSIFMZts"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788634558; x=1820170558;
+  t=1788635939; x=1820171939;
   h=date:from:to:cc:subject:message-id;
-  bh=Bg0GDYRC8gosaIgPFG7QOwtAyEgvc/oRU/CSL9I9B7g=;
-  b=oECu+sMxeku1Bo+RVnN6hkPK6gPCbOntVgdFMHK9uk0Xf8CtLaL7Pc4V
-   jybVmrg5Xw2wIp59wCslM1G2OYVIhs8hlR81iEzIPCg8du+C+xAUa5kkl
-   /sEjKagSZANgCVDUD9yIcZzWFsnRuHUlWFQJ6aqm7RHjGDKXm6wQSawXY
-   0UVYwLXIvunFBfpLTpVf3b/UFdc2lF2Kej23Jwm/Z5C+cep4gBd645Mky
-   RKedZ9//TDjATiqtOaEn8fxsGFrxOIyYoiTJH7ZKOLWKdj1P1hVk7/DOj
-   +YbPdyAIawoLQhm7MvltgNO3VIX41l/7/Ve+KQEK9GIA+AYrUD14KEOcw
+  bh=D2qA72+S2FIC3US3PQdMeJoj1dPIHozGOj82bTbrQgk=;
+  b=BSIFMZtsZxRLtQ+bO7SZl0pbG9kDnHQf6yOwKOlYVvttXQ/eSNVIgQ4h
+   hwfP7iI5N8beOK/RoUSVNv0dq3BERvCUSOU5SLRtndURa4hBU+vUyGQ2D
+   ojf3xN+pR96BSCmxPDwxoqNUO4sWqaWpWeeLjXV/IfNWZJjHfUndaIMcj
+   b3PtGCI/anz7LXXHGAoNQoYSNL5PppE0Eiga4lA6QlU/oYEPVKcqX55Zf
+   scUkuBNEEPPemEQRUXNUc+W3ZTorvUFd+cKnvILkNqVoSkLOpcu3l5Ohx
+   ZuqrQPf/2UpY3fCEq8WlLUflicO+AEQC/2Yy9fZTAXhfHz1bZ+ZkHxNtT
    w==;
-X-CSE-ConnectionGUID: k+snkjagRTee9Q/6k1AopA==
-X-CSE-MsgGUID: VmCQCrA8Qruk+y07voVb3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11897"; a="106470071"
+X-CSE-ConnectionGUID: TNrfAxbbTcm0UaXkpy5u+g==
+X-CSE-MsgGUID: wJLP4CzBTqmE6E+5cPf6aA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11897"; a="89027870"
 X-IronPort-AV: E=Sophos;i="6.25,264,1779174000"; 
-   d="scan'208";a="106470071"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 11:55:58 -0700
-X-CSE-ConnectionGUID: VX9CB+itR3y9ukffT2pvkA==
-X-CSE-MsgGUID: jnUFOyi6TfKl1FbG06ocLA==
+   d="scan'208";a="89027870"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 12:18:58 -0700
+X-CSE-ConnectionGUID: A7pLsmLmTgGQGRgrIgp/Tg==
+X-CSE-MsgGUID: Ktlu80ILQk6skSyNXwy8+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,264,1779174000"; 
-   d="scan'208";a="269819251"
+   d="scan'208";a="273870419"
 Received: from lkp-server01.sh.intel.com (HELO 73f3364bc37e) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 05 Sep 2026 11:55:56 -0700
+  by orviesa003.jf.intel.com with ESMTP; 05 Sep 2026 12:18:57 -0700
 Received: from kbuild by 73f3364bc37e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2vYP-000000000zb-4Bxt;
-	Sat, 05 Sep 2026 18:55:54 +0000
-Date: Sun, 06 Sep 2026 02:55:53 +0800
+	id 1x2vug-0000000011z-46aO;
+	Sat, 05 Sep 2026 19:18:54 +0000
+Date: Sun, 06 Sep 2026 03:18:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:efi-libstub-guid-conversion 4/4]
- drivers/firmware/efi/libstub/printk.c:104:12: error: 'const u8 *' (aka 'const
- unsigned char *') and 'const char *' are not pointers to compatible types
-Message-ID: <202609060200.riINTkvQ-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-crypt 18/49]
+ fs/netfs/buffered_read.c:245:26: error: 'NETFS_RREQ_USE_PGPRIV2' undeclared;
+ did you mean 'NETFS_RREQ_USE_IO_ITER'?
+Message-ID: <202609060337.1U1Zsxo0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,79 +60,112 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-libstub-guid-conversion
-head:   5701341f80f05258b56124f47fdde4e10ca3e2aa
-commit: 5701341f80f05258b56124f47fdde4e10ca3e2aa [4/4] efi/libstub: Factor out utf8-to-utf16 conversion from efi_puts()
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260906/202609060200.riINTkvQ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260906/202609060200.riINTkvQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
+head:   cd7c017395defe44d80f4fb480dfec5e3772ea53
+commit: 4164c47a926f31a77a449c9e1d585ca69bc035fd [18/49] netfs: Make deprecated PG_private_2 support optional
+config: sparc-randconfig-r071-20260905 (https://download.01.org/0day-ci/archive/20260906/202609060337.1U1Zsxo0-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260906/202609060337.1U1Zsxo0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609060200.riINTkvQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609060337.1U1Zsxo0-lkp@intel.com/
+
+Note: the dhowells-fs/netfs-crypt HEAD cd7c017395defe44d80f4fb480dfec5e3772ea53 builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
-   drivers/firmware/efi/libstub/printk.c:81:43: error: unknown type name 'efi_char_16_t'; did you mean 'efi_char16_t'?
-      81 | size_t efi_utf8_to_utf16(const char *str, efi_char_16_t *buf, size_t lim)
-         |                                           ^~~~~~~~~~~~~
-         |                                           efi_char16_t
-   include/linux/efi.h:50:13: note: 'efi_char16_t' declared here
-      50 | typedef u16 efi_char16_t;               /* UNICODE character */
-         |             ^
->> drivers/firmware/efi/libstub/printk.c:104:12: error: 'const u8 *' (aka 'const unsigned char *') and 'const char *' are not pointers to compatible types
-     104 |         return s8 - str;
-         |                ~~ ^ ~~~
-   drivers/firmware/efi/libstub/printk.c:81:8: warning: no previous prototype for function 'efi_utf8_to_utf16' [-Wmissing-prototypes]
-      81 | size_t efi_utf8_to_utf16(const char *str, efi_char_16_t *buf, size_t lim)
-         |        ^
-   drivers/firmware/efi/libstub/printk.c:81:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      81 | size_t efi_utf8_to_utf16(const char *str, efi_char_16_t *buf, size_t lim)
-         | ^
-         | static 
-   1 warning and 2 errors generated.
+   In file included from include/linux/export.h:5,
+                    from fs/netfs/buffered_read.c:8:
+   fs/netfs/buffered_read.c: In function 'netfs_mark_copy_to_cache':
+>> fs/netfs/buffered_read.c:245:26: error: 'NETFS_RREQ_USE_PGPRIV2' undeclared (first use in this function); did you mean 'NETFS_RREQ_USE_IO_ITER'?
+       if (unlikely(test_bit(NETFS_RREQ_USE_PGPRIV2, &rreq->flags))) {
+                             ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   include/linux/bitops.h:60:29: note: in expansion of macro 'bitop'
+    #define test_bit(nr, addr)  bitop(_test_bit, nr, addr)
+                                ^~~~~
+   fs/netfs/buffered_read.c:245:17: note: in expansion of macro 'test_bit'
+       if (unlikely(test_bit(NETFS_RREQ_USE_PGPRIV2, &rreq->flags))) {
+                    ^~~~~~~~
+   fs/netfs/buffered_read.c:245:26: note: each undeclared identifier is reported only once for each function it appears in
+       if (unlikely(test_bit(NETFS_RREQ_USE_PGPRIV2, &rreq->flags))) {
+                             ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   include/linux/bitops.h:60:29: note: in expansion of macro 'bitop'
+    #define test_bit(nr, addr)  bitop(_test_bit, nr, addr)
+                                ^~~~~
+   fs/netfs/buffered_read.c:245:17: note: in expansion of macro 'test_bit'
+       if (unlikely(test_bit(NETFS_RREQ_USE_PGPRIV2, &rreq->flags))) {
+                    ^~~~~~~~
 
 
-vim +104 drivers/firmware/efi/libstub/printk.c
+vim +245 fs/netfs/buffered_read.c
 
-    70	
-    71	/**
-    72	 * efi_str_to_utf16 - Convert a UTF-8 string to UTF-16
-    73	 * @str:	UTF-8 encoded string
-    74	 * @buf:	The buffer to store the converted UTF-16
-    75	 * @lim:	The size of the buffer in UTF-16 characters
-    76	 *
-    77	 * Converts as many UTF-8 characters as will fit into the buffer,
-    78	 * and terminates it with a NULL wchar. Returns the number of bytes
-    79	 * consumed from the input string.
-    80	 */
-    81	size_t efi_utf8_to_utf16(const char *str, efi_char_16_t *buf, size_t lim)
-    82	{
-    83		const u8 *s8 = (const u8 *)str;
-    84		size_t pos = 0;
-    85		u32 c32;
-    86	
-    87		while (*s8 && pos + 2 < lim) {
-    88			if (*s8 == '\n')
-    89				buf[pos++] = L'\r';
-    90			c32 = utf8_to_utf32(&s8);
-    91			if (c32 < 0x10000) {
-    92				/* Characters in plane 0 use a single word. */
-    93				buf[pos++] = c32;
-    94			} else {
-    95				/*
-    96				 * Characters in other planes encode into a surrogate
-    97				 * pair.
-    98				 */
-    99				buf[pos++] = (0xd800 - (0x10000 >> 10)) + (c32 >> 10);
-   100				buf[pos++] = 0xdc00 + (c32 & 0x3ff);
-   101			}
-   102		}
-   103		buf[pos] = L'\0';
- > 104		return s8 - str;
-   105	}
-   106	
+e2d46f2ec33253 David Howells 2024-12-16  213  
+533203c4183123 David Howells 2026-08-27  214  /*
+533203c4183123 David Howells 2026-08-27  215   * Mark folios that we want to copy to the cache.  For filesystems that use
+533203c4183123 David Howells 2026-08-27  216   * netfslib fully, we set folio->private to NETFS_FOLIO_COPY_TO_CACHE;
+533203c4183123 David Howells 2026-08-27  217   * otherwise we set the deprecated PG_private_2.
+533203c4183123 David Howells 2026-08-27  218   */
+533203c4183123 David Howells 2026-08-27  219  static void netfs_mark_copy_to_cache(struct netfs_io_request *rreq,
+533203c4183123 David Howells 2026-08-27  220  				     struct folio_queue **fq,
+533203c4183123 David Howells 2026-08-27  221  				     unsigned int *offset,
+533203c4183123 David Howells 2026-08-27  222  				     int *slot,
+533203c4183123 David Howells 2026-08-27  223  				     size_t len,
+533203c4183123 David Howells 2026-08-27  224  				     bool copy)
+533203c4183123 David Howells 2026-08-27  225  {
+533203c4183123 David Howells 2026-08-27  226  	while (len > 0) {
+533203c4183123 David Howells 2026-08-27  227  		struct folio *folio;
+533203c4183123 David Howells 2026-08-27  228  		size_t fsize, overlap;
+533203c4183123 David Howells 2026-08-27  229  
+533203c4183123 David Howells 2026-08-27  230  		if (!*fq)
+533203c4183123 David Howells 2026-08-27  231  			break;
+533203c4183123 David Howells 2026-08-27  232  		if (*slot >= folioq_count(*fq)) {
+533203c4183123 David Howells 2026-08-27  233  			*fq = (*fq)->next;
+533203c4183123 David Howells 2026-08-27  234  			*slot = 0;
+533203c4183123 David Howells 2026-08-27  235  			*offset = 0;
+533203c4183123 David Howells 2026-08-27  236  			continue;
+533203c4183123 David Howells 2026-08-27  237  		}
+533203c4183123 David Howells 2026-08-27  238  
+533203c4183123 David Howells 2026-08-27  239  		/* Determine how much the subreq overlaps the folio, if at all. */
+533203c4183123 David Howells 2026-08-27  240  		fsize = folioq_folio_size(*fq, *slot);
+533203c4183123 David Howells 2026-08-27  241  		overlap = min(len, fsize - *offset);
+533203c4183123 David Howells 2026-08-27  242  
+533203c4183123 David Howells 2026-08-27  243  		if (overlap > 0 && copy) {
+533203c4183123 David Howells 2026-08-27  244  			folio = folioq_folio(*fq, *slot);
+533203c4183123 David Howells 2026-08-27 @245  			if (unlikely(test_bit(NETFS_RREQ_USE_PGPRIV2, &rreq->flags))) {
+533203c4183123 David Howells 2026-08-27  246  				if (!folio_test_private_2(folio))
+533203c4183123 David Howells 2026-08-27  247  					folio_start_private_2(folio);
+533203c4183123 David Howells 2026-08-27  248  			} else {
+533203c4183123 David Howells 2026-08-27  249  				if (!folio_get_private(folio))
+533203c4183123 David Howells 2026-08-27  250  					folio_attach_private(folio, NETFS_FOLIO_COPY_TO_CACHE);
+533203c4183123 David Howells 2026-08-27  251  			}
+533203c4183123 David Howells 2026-08-27  252  			trace_netfs_folio(folio, netfs_folio_trace_mark_copy);
+533203c4183123 David Howells 2026-08-27  253  		}
+533203c4183123 David Howells 2026-08-27  254  
+533203c4183123 David Howells 2026-08-27  255  		len -= overlap;
+533203c4183123 David Howells 2026-08-27  256  		*offset += overlap;
+533203c4183123 David Howells 2026-08-27  257  		if (*offset >= fsize) {
+533203c4183123 David Howells 2026-08-27  258  			*slot += 1;
+533203c4183123 David Howells 2026-08-27  259  			*offset = 0;
+533203c4183123 David Howells 2026-08-27  260  		}
+533203c4183123 David Howells 2026-08-27  261  	}
+533203c4183123 David Howells 2026-08-27  262  }
+533203c4183123 David Howells 2026-08-27  263  
+
+:::::: The code at line 245 was first introduced by commit
+:::::: 533203c4183123dad8ffecd694e7573a0ccd0da0 netfs: Mark folios with COPY_TO_CACHE whilst issuing subreqs
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: Christian Brauner <brauner@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
