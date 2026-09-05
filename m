@@ -1,57 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C9AE555
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 00:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533A3309F09
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 00:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788568447; cv=none; b=uPLXQDCZtUC6ZlkiiptCEaM8r+g0xckSrzix3oO4NCWIJCDZ9AqXxqld9c9QJpaIIVkNAY0BK4paf6EKDHx+k9uDAsAnhIOiAhQhQbV6msiCR43TIlaRcCkb2UOeulxt6CHFBfAYwQeKdpctC6KrXK/HFY9/m5qyVnrNpbYmhyQ=
+	t=1788569107; cv=none; b=klPi4Du9cklu3L7PsXbl/J0Gumb5JtGQ0NpXsDKrO3/Y94t7EstXJE7/pTFHClC77L8jmGMHkL49/JMGdXn1ukIzAQPRzDzrCBSR+aC7lHWR1HvMHio9gVy6X6990UwvEXsAjDxfRt5LntgiXSUKaaACB8NLTJJQ/vbkC+E+zGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788568447; c=relaxed/simple;
-	bh=cUNCk6r+ub2HFh3516SSg6WjKKK5uzhVWR77DmlW920=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LDVQ6+QzoaQ6Vn+n4tCeYTD3go7uCTvbchr4TkK6sKfkPs8mYUiuIr/I5tGOj0cc+es5VTAXhXZQJmlhIchC9Gyrwn4Vg9t5YDiSOywtTUGd5Ks8GJTF+H/Ag6vDiyYgP6SB4aCh1A+6GZVbRDv4NJgFx6v60470mdauTZSkgnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nllp9ujI; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1788569107; c=relaxed/simple;
+	bh=jBx/YBl8hZK7JFYSArVphcViwseQ02bb0eKnsCmxd2g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZX1dtGr63jCgB2jbWuaXXF3YHu+QJmMx2sH7VX6eIisU2x/gu+D+DcLJxR8y6y1s2Buq63Qdjl7WzbpxGS80eIfOk9nL3cuYLNkARw4WDqaKo97Cdm2Q68FzKGc4Mr/BB+JtrNbFL60EfAirJEstb8FkWE70vp3AO55jV3h2cGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTPE3d3c; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nllp9ujI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTPE3d3c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788568444; x=1820104444;
+  t=1788569105; x=1820105105;
   h=date:from:to:cc:subject:message-id;
-  bh=cUNCk6r+ub2HFh3516SSg6WjKKK5uzhVWR77DmlW920=;
-  b=nllp9ujIivkpvhujze3QPHiX760UiHQELq8A2lchYvs32SeuWkJDrZcw
-   RdBdxfE1Cx19ziM3bc6JP7JDR2NbH2X3vvWeef4nsxGa5675ZT0pdWktW
-   eiDQE5ua9OxeKWKUYAhwaWu4iwWMhy+R8AHUMw2Om8RWGXs+/U6RKIwSY
-   D4F9HCMp0NMx0oobM5oY3iYdYTpBfPDEXhKUcWhIpYhbutCvPcg5gPeYU
-   56Q26AVUKpD6sfMigZkeL9dnfGt/WakFJILRzAklvP8R/xTW8KbkvR/CI
-   0G3fgSoURxRxARiiCraqNQJpC746TBXJx7g/UpMaA7F7yXTwqXIDxYucx
-   A==;
-X-CSE-ConnectionGUID: 5orjNeQuQAuuzXATqX0UYg==
-X-CSE-MsgGUID: AfGC10+bTkO+xOzkfrYbBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="89280858"
+  bh=jBx/YBl8hZK7JFYSArVphcViwseQ02bb0eKnsCmxd2g=;
+  b=YTPE3d3c0fxFURQ/KLx/PWsHImdfVqrKvjmhKX3DKe8y5//aEq8rI106
+   tVn+rU35n2Pq6rMBzVJTf74MZKWdOL/0+mSSArFHfFIwN+L6ZVagm1wqU
+   ytZmkS3pa7A9EpZK/vGX/bjUCFj0si/8Ot4pp9gN3IhE38Et5KK/8KxN/
+   ES7RP1p1zjGSup6jvKuj7SwHd2F5Eetpj9F8ttNRVge5+x3hF764DKBdv
+   pcZnaFyxgWkWNcR3gtApgma0/ocbLtM++3S0whMJkJYOZSg1Dhgb69Ugw
+   nB5P3pDcUknMelciK9U8StQGm9Ufwitd9UpSdOFDyKZxx5O5hwMLOI8Eu
+   Q==;
+X-CSE-ConnectionGUID: cQkOz/7xQViRjG4IacIQsw==
+X-CSE-MsgGUID: Rcyq4h5AQEiwCcfGLZvUlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="114617590"
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="89280858"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 17:34:04 -0700
-X-CSE-ConnectionGUID: XbOCH4DaSsGHE2/VpBIGmw==
-X-CSE-MsgGUID: DE7dYAH4SUuBxjMKpgcM2w==
+   d="scan'208";a="114617590"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 17:45:05 -0700
+X-CSE-ConnectionGUID: rtx/m74vTdWzNCYfiC6rlQ==
+X-CSE-MsgGUID: UVRZb3jlSiG3UN1fVjpIgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
-   d="scan'208";a="308395014"
+   d="scan'208";a="267606360"
 Received: from igk-lkp-server01.igk.intel.com (HELO bcd5fd227bc8) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 04 Sep 2026 17:34:03 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Sep 2026 17:45:03 -0700
 Received: from kbuild by bcd5fd227bc8 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2eM4-0000000009n-2NWz;
-	Sat, 05 Sep 2026 00:34:00 +0000
-Date: Sat, 05 Sep 2026 02:33:36 +0200
+	id 1x2eWj-0000000009v-1pQm;
+	Sat, 05 Sep 2026 00:45:01 +0000
+Date: Sat, 05 Sep 2026 02:44:05 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 81/87] fs/ceph/inode.c:2503:50:
- warning: variable 'pos' is uninitialized when used here
-Message-ID: <202609050226.lrM92cgN-lkp@intel.com>
+To: Vincent Jardin <vjardin@free.fr>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 1181/3131]
+ arch/powerpc/boot/dts/mpc8308rdb.dtb: gpio@c00 (fsl,mpc8308-gpio):
+ 'device_type' does not match any of the regexes: '^.+-hog(-[0-9]+)?$',
+ '^pinctrl-[0-9]+$'
+Message-ID: <202609050205.0ERnWt2p-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,199 +63,34 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   376ad9d4942bf11500931178bbeb965348f01057
-commit: b761e790c5985b9648236697803fa145e76ee755 [81/87] ceph: Use netfslib [INCOMPLETE]
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260905/202609050226.lrM92cgN-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050226.lrM92cgN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   32b6ef9a5d0eca44f9cd91f52f4faa89f145a0de
+commit: 78c0baf85cd0ab61939b6d4670158d5c53dada69 [1181/3131] dt-bindings: gpio: fsl,qoriq-gpio: allow gpio-hog child nodes
+config: powerpc-randconfig-2051-20260902 (https://download.01.org/0day-ci/archive/20260905/202609050205.0ERnWt2p-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.4.0
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609050205.0ERnWt2p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609050226.lrM92cgN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609050205.0ERnWt2p-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   fs/ceph/inode.c:2478:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2478 |         if (ret < 0 && ret != -ENODATA)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2536:15: note: uninitialized use occurs here
-    2536 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2478:2: note: remove the 'if' if its condition is always false
-    2478 |         if (ret < 0 && ret != -ENODATA)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2479 |                 goto out;
-         |                 ~~~~~~~~
-   fs/ceph/inode.c:2472:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2472 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2473 |             ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2536:15: note: uninitialized use occurs here
-    2536 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2472:2: note: remove the 'if' if its condition is always false
-    2472 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2473 |             ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2474 |                 goto out;
-         |                 ~~~~~~~~
-   fs/ceph/inode.c:2472:6: warning: variable 'header' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    2472 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2536:15: note: uninitialized use occurs here
-    2536 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2472:6: note: remove the '||' if its condition is always false
-    2472 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2469:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2469 |         if (!dbuf)
-         |             ^~~~~
-   fs/ceph/inode.c:2536:15: note: uninitialized use occurs here
-    2536 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2469:2: note: remove the 'if' if its condition is always false
-    2469 |         if (!dbuf)
-         |         ^~~~~~~~~~
-    2470 |                 goto out;
-         |                 ~~~~~~~~
-   fs/ceph/inode.c:2451:50: note: initialize the variable 'header' to silence this warning
-    2451 |         struct ceph_fscrypt_truncate_size_header *header;
-         |                                                         ^
-         |                                                          = NULL
->> fs/ceph/inode.c:2503:50: warning: variable 'pos' is uninitialized when used here [-Wuninitialized]
-    2503 |                 doutc(cl, "hit hole, ppos %lld < size %lld\n", pos, i_size);
-         |                                                                ^~~
-   fs/ceph/inode.c:2446:12: note: initialize the variable 'pos' to silence this warning
-    2446 |         loff_t pos, orig_pos = round_down(attr->ia_size,
-         |                   ^
-         |                    = 0
-   5 warnings generated.
-
-
-vim +/pos +2503 fs/ceph/inode.c
-
-79f2f6ad878c1f Jeff Layton   2020-09-03  2431  
-5c64737d253683 Xiubo Li      2022-08-25  2432  /*
-5c64737d253683 Xiubo Li      2022-08-25  2433   * Transfer the encrypted last block to the MDS and the MDS
-5c64737d253683 Xiubo Li      2022-08-25  2434   * will help update it when truncating a smaller size.
-5c64737d253683 Xiubo Li      2022-08-25  2435   *
-5c64737d253683 Xiubo Li      2022-08-25  2436   * We don't support a PAGE_SIZE that is smaller than the
-5c64737d253683 Xiubo Li      2022-08-25  2437   * CEPH_FSCRYPT_BLOCK_SIZE.
-5c64737d253683 Xiubo Li      2022-08-25  2438   */
-5c64737d253683 Xiubo Li      2022-08-25  2439  static int fill_fscrypt_truncate(struct inode *inode,
-5c64737d253683 Xiubo Li      2022-08-25  2440  				 struct ceph_mds_request *req,
-5c64737d253683 Xiubo Li      2022-08-25  2441  				 struct iattr *attr)
-5c64737d253683 Xiubo Li      2022-08-25  2442  {
-38d46409c4639a Xiubo Li      2023-06-12  2443  	struct ceph_client *cl = ceph_inode_to_client(inode);
-5c64737d253683 Xiubo Li      2022-08-25  2444  	struct ceph_inode_info *ci = ceph_inode(inode);
-5c64737d253683 Xiubo Li      2022-08-25  2445  	int boff = attr->ia_size % CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683 Xiubo Li      2022-08-25  2446  	loff_t pos, orig_pos = round_down(attr->ia_size,
-5c64737d253683 Xiubo Li      2022-08-25  2447  					  CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683 Xiubo Li      2022-08-25  2448  	u64 block = orig_pos >> CEPH_FSCRYPT_BLOCK_SHIFT;
-e52f99c9eea903 David Howells 2023-08-03  2449  	struct bvecq *dbuf = NULL;
-5c64737d253683 Xiubo Li      2022-08-25  2450  	struct iov_iter iter;
-e52f99c9eea903 David Howells 2023-08-03  2451  	struct ceph_fscrypt_truncate_size_header *header;
-e52f99c9eea903 David Howells 2023-08-03  2452  	void *p;
-5c64737d253683 Xiubo Li      2022-08-25  2453  	int len = CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683 Xiubo Li      2022-08-25  2454  	loff_t i_size = i_size_read(inode);
-5c64737d253683 Xiubo Li      2022-08-25  2455  	int got, ret, issued;
-5c64737d253683 Xiubo Li      2022-08-25  2456  
-5c64737d253683 Xiubo Li      2022-08-25  2457  	ret = __ceph_get_caps(inode, NULL, CEPH_CAP_FILE_RD, 0, -1, &got);
-5c64737d253683 Xiubo Li      2022-08-25  2458  	if (ret < 0)
-5c64737d253683 Xiubo Li      2022-08-25  2459  		return ret;
-5c64737d253683 Xiubo Li      2022-08-25  2460  
-5c64737d253683 Xiubo Li      2022-08-25  2461  	issued = __ceph_caps_issued(ci, NULL);
-5c64737d253683 Xiubo Li      2022-08-25  2462  
-38d46409c4639a Xiubo Li      2023-06-12  2463  	doutc(cl, "size %lld -> %lld got cap refs on %s, issued %s\n",
-5c64737d253683 Xiubo Li      2022-08-25  2464  	      i_size, attr->ia_size, ceph_cap_string(got),
-5c64737d253683 Xiubo Li      2022-08-25  2465  	      ceph_cap_string(issued));
-5c64737d253683 Xiubo Li      2022-08-25  2466  
-5c64737d253683 Xiubo Li      2022-08-25  2467  	ret = -ENOMEM;
-e52f99c9eea903 David Howells 2023-08-03  2468  	dbuf = bvecq_alloc_chain(2, GFP_KERNEL, false);
-e52f99c9eea903 David Howells 2023-08-03  2469  	if (!dbuf)
-5c64737d253683 Xiubo Li      2022-08-25  2470  		goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2471  
-e52f99c9eea903 David Howells 2023-08-03  2472  	if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-e52f99c9eea903 David Howells 2023-08-03  2473  	    ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-5c64737d253683 Xiubo Li      2022-08-25  2474  		goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2475  
-e52f99c9eea903 David Howells 2023-08-03  2476  	iov_iter_bvec_queue(&iter, ITER_DEST, dbuf, 1, 0, len);
-b761e790c5985b David Howells 2024-12-05  2477  	ret = netfs_unbuffered_read_from_inode(inode, orig_pos, dbuf, len, true);
-b761e790c5985b David Howells 2024-12-05  2478  	if (ret < 0 && ret != -ENODATA)
-5c64737d253683 Xiubo Li      2022-08-25  2479  		goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2480  
-e52f99c9eea903 David Howells 2023-08-03  2481  	header = kmap_local_bvecq(dbuf, 0);
-e52f99c9eea903 David Howells 2023-08-03  2482  
-5c64737d253683 Xiubo Li      2022-08-25  2483  	/* Insert the header first */
-e52f99c9eea903 David Howells 2023-08-03  2484  	header->ver = 1;
-e52f99c9eea903 David Howells 2023-08-03  2485  	header->compat = 1;
-e52f99c9eea903 David Howells 2023-08-03  2486  	header->change_attr = cpu_to_le64(inode_peek_iversion_raw(inode));
-5c64737d253683 Xiubo Li      2022-08-25  2487  
-5c64737d253683 Xiubo Li      2022-08-25  2488  	/*
-5c64737d253683 Xiubo Li      2022-08-25  2489  	 * Always set the block_size to CEPH_FSCRYPT_BLOCK_SIZE,
-5c64737d253683 Xiubo Li      2022-08-25  2490  	 * because in MDS it may need this to do the truncate.
-5c64737d253683 Xiubo Li      2022-08-25  2491  	 */
-e52f99c9eea903 David Howells 2023-08-03  2492  	header->block_size = cpu_to_le32(CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683 Xiubo Li      2022-08-25  2493  
-5c64737d253683 Xiubo Li      2022-08-25  2494  	/*
-b761e790c5985b David Howells 2024-12-05  2495  	 * If we hit a hole here, we should just skip filling the fscrypt for
-b761e790c5985b David Howells 2024-12-05  2496  	 * the request, because once the fscrypt is enabled, the file will be
-b761e790c5985b David Howells 2024-12-05  2497  	 * split into many blocks with the size of CEPH_FSCRYPT_BLOCK_SIZE.  If
-b761e790c5985b David Howells 2024-12-05  2498  	 * there was a hole, the hole size should be multiple of block size.
-5c64737d253683 Xiubo Li      2022-08-25  2499  	 *
-5c64737d253683 Xiubo Li      2022-08-25  2500  	 * If the Rados object doesn't exist, it will be set to 0.
-5c64737d253683 Xiubo Li      2022-08-25  2501  	 */
-b761e790c5985b David Howells 2024-12-05  2502  	if (ret != -ENODATA) {
-38d46409c4639a Xiubo Li      2023-06-12 @2503  		doutc(cl, "hit hole, ppos %lld < size %lld\n", pos, i_size);
-5c64737d253683 Xiubo Li      2022-08-25  2504  
-e52f99c9eea903 David Howells 2023-08-03  2505  		header->data_len = cpu_to_le32(8 + 8 + 4);
-e52f99c9eea903 David Howells 2023-08-03  2506  		header->file_offset = 0;
-5c64737d253683 Xiubo Li      2022-08-25  2507  		ret = 0;
-5c64737d253683 Xiubo Li      2022-08-25  2508  	} else {
-e52f99c9eea903 David Howells 2023-08-03  2509  		header->data_len = cpu_to_le32(8 + 8 + 4 + CEPH_FSCRYPT_BLOCK_SIZE);
-e52f99c9eea903 David Howells 2023-08-03  2510  		header->file_offset = cpu_to_le64(orig_pos);
-5c64737d253683 Xiubo Li      2022-08-25  2511  
-38d46409c4639a Xiubo Li      2023-06-12  2512  		doutc(cl, "encrypt block boff/bsize %d/%lu\n", boff,
-38d46409c4639a Xiubo Li      2023-06-12  2513  		      CEPH_FSCRYPT_BLOCK_SIZE);
-295fc4aa7de4b7 Xiubo Li      2023-03-06  2514  
-5c64737d253683 Xiubo Li      2022-08-25  2515  		/* truncate and zero out the extra contents for the last block */
-e52f99c9eea903 David Howells 2023-08-03  2516  		p = kmap_local_bvecq(dbuf, 1);
-e52f99c9eea903 David Howells 2023-08-03  2517  		memset(p + boff, 0, PAGE_SIZE - boff);
-e52f99c9eea903 David Howells 2023-08-03  2518  		kunmap_local(p);
-5c64737d253683 Xiubo Li      2022-08-25  2519  
-5c64737d253683 Xiubo Li      2022-08-25  2520  		/* encrypt the last block */
-e52f99c9eea903 David Howells 2023-08-03  2521  		ret = ceph_fscrypt_encrypt_block_inplace(inode, dbuf->bv[0].bv_page,
-5c64737d253683 Xiubo Li      2022-08-25  2522  							 CEPH_FSCRYPT_BLOCK_SIZE,
-fa65058063cbab Eric Biggers  2025-07-09  2523  							 0, block);
-5c64737d253683 Xiubo Li      2022-08-25  2524  		if (ret)
-5c64737d253683 Xiubo Li      2022-08-25  2525  			goto out;
-5c64737d253683 Xiubo Li      2022-08-25  2526  	}
-5c64737d253683 Xiubo Li      2022-08-25  2527  
-e52f99c9eea903 David Howells 2023-08-03  2528  	req->r_dbuf = dbuf;
-e52f99c9eea903 David Howells 2023-08-03  2529  	req->r_dbuf_len = sizeof(*header);
-e52f99c9eea903 David Howells 2023-08-03  2530  	if (header->block_size)
-e52f99c9eea903 David Howells 2023-08-03  2531  		req->r_dbuf_len += CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683 Xiubo Li      2022-08-25  2532  out:
-38d46409c4639a Xiubo Li      2023-06-12  2533  	doutc(cl, "%p %llx.%llx size dropping cap refs on %s\n", inode,
-38d46409c4639a Xiubo Li      2023-06-12  2534  	      ceph_vinop(inode), ceph_cap_string(got));
-5c64737d253683 Xiubo Li      2022-08-25  2535  	ceph_put_cap_refs(ci, got);
-e52f99c9eea903 David Howells 2023-08-03  2536  	kunmap_local(header);
-e52f99c9eea903 David Howells 2023-08-03  2537  	if (ret)
-e52f99c9eea903 David Howells 2023-08-03  2538  		bvecq_put(dbuf);
-5c64737d253683 Xiubo Li      2022-08-25  2539  	return ret;
-5c64737d253683 Xiubo Li      2022-08-25  2540  }
-5c64737d253683 Xiubo Li      2022-08-25  2541  
-
-:::::: The code at line 2503 was first introduced by commit
-:::::: 38d46409c4639a1d659ebfa70e27a8bed6b8ee1d ceph: print cluster fsid and client global_id in all debug logs
-
-:::::: TO: Xiubo Li <xiubli@redhat.com>
-:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+dtcheck warnings: (new ones prefixed by >>)
+   	'fsl,mpc5200b-i2c' was expected
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml
+   arch/powerpc/boot/dts/mpc8308rdb.dtb: i2c@3000 (fsl-i2c): Unevaluated properties are not allowed ('cell-index', 'dfsrr' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mpc.yaml
+   arch/powerpc/boot/dts/mpc8308rdb.dtb: usb@23000 (fsl-usb2-dr): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/fsl,usb2.yaml
+   arch/powerpc/boot/dts/mpc8308rdb.dtb: serial@4500 (fsl,ns16550): Unevaluated properties are not allowed ('cell-index', 'device_type' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+   arch/powerpc/boot/dts/mpc8308rdb.dtb: serial@4600 (fsl,ns16550): Unevaluated properties are not allowed ('cell-index', 'device_type' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml
+>> arch/powerpc/boot/dts/mpc8308rdb.dtb: gpio@c00 (fsl,mpc8308-gpio): 'device_type' does not match any of the regexes: '^.+-hog(-[0-9]+)?$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml
+   arch/powerpc/boot/dts/mpc8308rdb.dtb: /immr@e0000000/interrupt-controller@700: failed to match any schema with compatible: ['fsl,ipic']
+   arch/powerpc/boot/dts/mpc8308rdb.dtb: /immr@e0000000/dma@2c000: failed to match any schema with compatible: ['fsl,mpc8308-dma']
 
 --
 0-DAY CI Kernel Test Service
