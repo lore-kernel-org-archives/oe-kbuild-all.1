@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1BA78F2F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 03:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34F41E7C02
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Sep 2026 04:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788578338; cv=none; b=fn4py7r2mj6Oxd85RUGBIL11Hk6STBnxILEDn9GYk9HrdZgpmXm1rs2FqTLmwrtnTxD3Reeci/8svcumtzqQd9D0vkTnZr4ymaZ4TmttgOpmmPkz64ChkcyeRl1h/FHvHxYk89N0NnF8Kkr15jJ0yyGjCVWrljRRcB05GL+Zgq0=
+	t=1788582716; cv=none; b=dyCjzH/gEZ3Wvc5xYwvPW0zu9OzZ0GhCsXnDAwyws6YjD7rfdZLLtKF8bNki03JC2T2Fg8XBDDtVgIN4hmFFAhAh92ISPg2p1WqKbwENc157fpJl5XTSwUSBhCUJlhO4nOxwQJp+TA4V0gJdbS3zC2r1ezw9cMZt4m5VgBcQ3Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788578338; c=relaxed/simple;
-	bh=OCHZec8xzOkx0WgiU4MsVVE6VA6lzqFUeZWuYY+gOts=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gBnoiXK7QdYcV71HJ+q//J3p4R9O3bNVa9K1reoGwKlET1ZToh2AohDA+JX1zdz8W+IAyUjiQ8gfOgQi1WB8K9sZH49PsYKhSgIf+9aG/IJuZJO+vnjmxepjBeLV6rxO7fZhfP1UCgndsgTFjjK1AQJMmpG/Q1X0i7DqR29Pt8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WmxAtGZZ; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1788582716; c=relaxed/simple;
+	bh=9YQXSg7dde1tcHTt0XesIGc3jXI45pvK4tnwg2ShwwU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tDBSwNxIc8IgOEP4IQH8KQD1Tlyvvevw6BS+9O5yQXHXdkh1fsegUdJ1f32BnTVTAhWZFaKaSxn5flouwo2xSjC//vHbYjqG1sjtl67yb8MCBT3LEBXyLpE8YmWYQgP/SWHarl3wVxnFGEmH8bOI6M84xY8joEWsOvipR0NyOKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KxD1W3Vv; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WmxAtGZZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KxD1W3Vv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788578337; x=1820114337;
+  t=1788582713; x=1820118713;
   h=date:from:to:cc:subject:message-id;
-  bh=OCHZec8xzOkx0WgiU4MsVVE6VA6lzqFUeZWuYY+gOts=;
-  b=WmxAtGZZkuVsuBBnvgIkGNuhtJAerAgvCFytYd+Kh5UmN9AaRzAqGy1u
-   02f/aSkJFVdcwym5Zc+Wl7tTeg1YfAXBIKdvzjNm+lUJ63hHaqn4l58I+
-   IaBJ/pekuDzVLWo15g6UDtBCXdDKvIRIcthK6POAdVlz1keCoBx8OCxsN
-   pzKi+6DqR2vIFcLyNmAO8CeNzHT/a7/2ktq4BPhvK+2+JlILm2Ti5Uuy7
-   meWSdRt2KZNYrmPh6TtvoPHoTWIIsXX5XpEr6YepFuArf65NjVIcoWj6x
-   ID3+UL1xxGRm+sPqu+rM3oG+rQ17Oq9VYI0vocTkWvfpQsj7xchD9wAzb
-   Q==;
-X-CSE-ConnectionGUID: 8XIbtU9vTb+3lKR0i69/Iw==
-X-CSE-MsgGUID: j8UWqvEHRWyCp74JpmkOVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="89134579"
+  bh=9YQXSg7dde1tcHTt0XesIGc3jXI45pvK4tnwg2ShwwU=;
+  b=KxD1W3VvAKet+4RThVJBlSMwj6ihDnqs4aayVqCjycnkQVBzqZ1qPRBv
+   BflMmFMHkse5+54FuVda1CI/57fngxSKEMiDv2sZCPL6zvWHMQ18PP4Ny
+   Pd5UnF/3OZC1NjQk32voh9uDaErSdGV+7CpjJyIWm44e+gwrKFz2vHHXM
+   CeWlpoRfCVojXISw9pXwH61u6u2r4y0drhXdx/jSzKELp9/s63/GVV3sa
+   fCK7dZEjNv+EvB7in72jH/Q9YHWftM471jZalWWpMhJ9tgdbag0330Stk
+   lbi+R494MFoZ3Io1A63Iuic6TnrKydgqS0VWomF5qM4A68XUsJScMzNuo
+   w==;
+X-CSE-ConnectionGUID: drvGUgcHRUyikrJN0YqDIQ==
+X-CSE-MsgGUID: lgQkL+DIQoWo9hiMbOMn7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="100436288"
 X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
-   d="scan'208";a="89134579"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 20:18:56 -0700
-X-CSE-ConnectionGUID: JGVfVwjUTc+3Wu7ZMy/JbQ==
-X-CSE-MsgGUID: HZaGHrTXRleP+uViY4bJRA==
+   d="scan'208";a="100436288"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 21:31:52 -0700
+X-CSE-ConnectionGUID: D/2sqTolQhOG1yeaLxv39A==
+X-CSE-MsgGUID: PlIL3OgGRiKGjAeJEKVDXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
-   d="scan'208";a="274353369"
-Received: from lkp-server01.sh.intel.com (HELO bfac249b2189) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Sep 2026 20:18:54 -0700
-Received: from kbuild by bfac249b2189 with local (Exim 4.98.2)
+   d="scan'208";a="270180535"
+Received: from lkp-server01.sh.intel.com (HELO 73f3364bc37e) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 04 Sep 2026 21:31:50 -0700
+Received: from kbuild by 73f3364bc37e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x2gvb-00000000Af9-3LIf;
-	Sat, 05 Sep 2026 03:18:51 +0000
-Date: Sat, 05 Sep 2026 11:17:58 +0800
+	id 1x2i4C-0000000001B-1cfQ;
+	Sat, 05 Sep 2026 04:31:48 +0000
+Date: Sat, 05 Sep 2026 12:31:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Hung <alex.hung@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Harry Wentland <harry.wentland@amd.com>
-Subject: 
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:191:25:
- sparse: sparse: cast to restricted __le32
-Message-ID: <202609051130.28FOOCAW-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:config-gpio-legacy-7.3 3/3]
+ drivers/i2c/busses/i2c-gpio.c:630:44: error: no member named 'gpio' in
+ 'struct i2c_gpio_private_data'
+Message-ID: <202609051220.OevyEetw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,234 +60,156 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   654ae5d73c05bd2943d65636ce6cd0aa46e62f18
-commit: 1d8cfeb69daa863a70134b8ed6df8055c418a5b0 drm/amdgpu: Pack nested ucode_info struct
-date:   5 weeks ago
-config: alpha-randconfig-r131-20260904 (https://download.01.org/0day-ci/archive/20260905/202609051130.28FOOCAW-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git config-gpio-legacy-7.3
+head:   c3f3b968d84f40449f767a592ae2363ceab597cb
+commit: c3f3b968d84f40449f767a592ae2363ceab597cb [3/3] [RFC] gpiolib: introduce gpio_name() helper
+config: x86_64-randconfig-122-20260905 (https://download.01.org/0day-ci/archive/20260905/202609051220.OevyEetw-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609051130.28FOOCAW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260905/202609051220.OevyEetw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 1d8cfeb69daa ("drm/amdgpu: Pack nested ucode_info struct")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609051130.28FOOCAW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609051220.OevyEetw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:191:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:195:23: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:196:23: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:201:28: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:569:37: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:577:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:577:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:577:25: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:608:47: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:610:45: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:612:45: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:615:43: sparse: sparse: cast to restricted __le32
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c:616:43: sparse: sparse: cast to restricted __le32
+All errors (new ones prefixed by >>):
 
-vim +191 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_dmub.c
+>> drivers/i2c/busses/i2c-gpio.c:630:44: error: no member named 'gpio' in 'struct i2c_gpio_private_data'
+     630 |                  gpiod_name(priv->sda), gpiod_name(priv->gpio),
+         |                                                    ~~~~  ^
+   1 error generated.
 
-4734e045f49d9b Alex Hung     2026-04-27  136  
-4734e045f49d9b Alex Hung     2026-04-27  137  int dm_dmub_hw_init(struct amdgpu_device *adev)
-4734e045f49d9b Alex Hung     2026-04-27  138  {
-4734e045f49d9b Alex Hung     2026-04-27  139  	const struct dmcub_firmware_header_v1_0 *hdr;
-4734e045f49d9b Alex Hung     2026-04-27  140  	struct dmub_srv *dmub_srv = adev->dm.dmub_srv;
-4734e045f49d9b Alex Hung     2026-04-27  141  	struct dmub_srv_fb_info *fb_info = adev->dm.dmub_fb_info;
-4734e045f49d9b Alex Hung     2026-04-27  142  	const struct firmware *dmub_fw = adev->dm.dmub_fw;
-4734e045f49d9b Alex Hung     2026-04-27  143  	struct dc *dc = adev->dm.dc;
-4734e045f49d9b Alex Hung     2026-04-27  144  	struct dmcu *dmcu = adev->dm.dc->res_pool->dmcu;
-4734e045f49d9b Alex Hung     2026-04-27  145  	struct abm *abm = adev->dm.dc->res_pool->abm;
-4734e045f49d9b Alex Hung     2026-04-27  146  	struct dc_context *ctx = adev->dm.dc->ctx;
-4734e045f49d9b Alex Hung     2026-04-27  147  	struct dmub_srv_hw_params hw_params;
-4734e045f49d9b Alex Hung     2026-04-27  148  	enum dmub_status status;
-4734e045f49d9b Alex Hung     2026-04-27  149  	const unsigned char *fw_inst_const, *fw_bss_data;
-5b69770e945caa Dillon Varone 2026-06-23  150  	u32 fw_inst_const_size, fw_bss_data_size;
-4734e045f49d9b Alex Hung     2026-04-27  151  	bool has_hw_support;
-4734e045f49d9b Alex Hung     2026-04-27  152  
-4734e045f49d9b Alex Hung     2026-04-27  153  	if (!dmub_srv)
-4734e045f49d9b Alex Hung     2026-04-27  154  		/* DMUB isn't supported on the ASIC. */
-4734e045f49d9b Alex Hung     2026-04-27  155  		return 0;
-4734e045f49d9b Alex Hung     2026-04-27  156  
-4734e045f49d9b Alex Hung     2026-04-27  157  	if (!fb_info) {
-4734e045f49d9b Alex Hung     2026-04-27  158  		drm_err(adev_to_drm(adev), "No framebuffer info for DMUB service.\n");
-4734e045f49d9b Alex Hung     2026-04-27  159  		return -EINVAL;
-4734e045f49d9b Alex Hung     2026-04-27  160  	}
-4734e045f49d9b Alex Hung     2026-04-27  161  
-4734e045f49d9b Alex Hung     2026-04-27  162  	if (!dmub_fw) {
-4734e045f49d9b Alex Hung     2026-04-27  163  		/* Firmware required for DMUB support. */
-4734e045f49d9b Alex Hung     2026-04-27  164  		drm_err(adev_to_drm(adev), "No firmware provided for DMUB.\n");
-4734e045f49d9b Alex Hung     2026-04-27  165  		return -EINVAL;
-4734e045f49d9b Alex Hung     2026-04-27  166  	}
-4734e045f49d9b Alex Hung     2026-04-27  167  
-4734e045f49d9b Alex Hung     2026-04-27  168  	/* initialize register offsets for ASICs with runtime initialization available */
-4734e045f49d9b Alex Hung     2026-04-27  169  	if (dmub_srv->hw_funcs.init_reg_offsets)
-4734e045f49d9b Alex Hung     2026-04-27  170  		dmub_srv->hw_funcs.init_reg_offsets(dmub_srv, ctx);
-4734e045f49d9b Alex Hung     2026-04-27  171  
-4734e045f49d9b Alex Hung     2026-04-27  172  	status = dmub_srv_has_hw_support(dmub_srv, &has_hw_support);
-4734e045f49d9b Alex Hung     2026-04-27  173  	if (status != DMUB_STATUS_OK) {
-4734e045f49d9b Alex Hung     2026-04-27  174  		drm_err(adev_to_drm(adev), "Error checking HW support for DMUB: %d\n", status);
-4734e045f49d9b Alex Hung     2026-04-27  175  		return -EINVAL;
-4734e045f49d9b Alex Hung     2026-04-27  176  	}
-4734e045f49d9b Alex Hung     2026-04-27  177  
-4734e045f49d9b Alex Hung     2026-04-27  178  	if (!has_hw_support) {
-4734e045f49d9b Alex Hung     2026-04-27  179  		drm_info(adev_to_drm(adev), "DMUB unsupported on ASIC\n");
-4734e045f49d9b Alex Hung     2026-04-27  180  		return 0;
-4734e045f49d9b Alex Hung     2026-04-27  181  	}
-4734e045f49d9b Alex Hung     2026-04-27  182  
-4734e045f49d9b Alex Hung     2026-04-27  183  	/* Reset DMCUB if it was previously running - before we overwrite its memory. */
-4734e045f49d9b Alex Hung     2026-04-27  184  	status = dmub_srv_hw_reset(dmub_srv);
-4734e045f49d9b Alex Hung     2026-04-27  185  	if (status != DMUB_STATUS_OK)
-4734e045f49d9b Alex Hung     2026-04-27  186  		drm_warn(adev_to_drm(adev), "Error resetting DMUB HW: %d\n", status);
-4734e045f49d9b Alex Hung     2026-04-27  187  
-4734e045f49d9b Alex Hung     2026-04-27  188  	hdr = (const struct dmcub_firmware_header_v1_0 *)dmub_fw->data;
-4734e045f49d9b Alex Hung     2026-04-27  189  
-4734e045f49d9b Alex Hung     2026-04-27  190  	fw_inst_const = dmub_fw->data +
-4734e045f49d9b Alex Hung     2026-04-27 @191  			le32_to_cpu(hdr->header.ucode_array_offset_bytes) +
-4734e045f49d9b Alex Hung     2026-04-27  192  			PSP_HEADER_BYTES_256;
-4734e045f49d9b Alex Hung     2026-04-27  193  
-4734e045f49d9b Alex Hung     2026-04-27  194  	fw_bss_data = dmub_fw->data +
-4734e045f49d9b Alex Hung     2026-04-27  195  		      le32_to_cpu(hdr->header.ucode_array_offset_bytes) +
-4734e045f49d9b Alex Hung     2026-04-27  196  		      le32_to_cpu(hdr->inst_const_bytes);
-4734e045f49d9b Alex Hung     2026-04-27  197  
-4734e045f49d9b Alex Hung     2026-04-27  198  	/* Copy firmware and bios info into FB memory. */
-4734e045f49d9b Alex Hung     2026-04-27  199  	fw_inst_const_size = adev->dm.fw_inst_size;
-4734e045f49d9b Alex Hung     2026-04-27  200  
-4734e045f49d9b Alex Hung     2026-04-27  201  	fw_bss_data_size = le32_to_cpu(hdr->bss_data_bytes);
-4734e045f49d9b Alex Hung     2026-04-27  202  
-4734e045f49d9b Alex Hung     2026-04-27  203  	/* if adev->firmware.load_type == AMDGPU_FW_LOAD_PSP,
-4734e045f49d9b Alex Hung     2026-04-27  204  	 * amdgpu_ucode_init_single_fw will load dmub firmware
-4734e045f49d9b Alex Hung     2026-04-27  205  	 * fw_inst_const part to cw0; otherwise, the firmware back door load
-4734e045f49d9b Alex Hung     2026-04-27  206  	 * will be done by dm_dmub_hw_init
-4734e045f49d9b Alex Hung     2026-04-27  207  	 */
-4734e045f49d9b Alex Hung     2026-04-27  208  	if (adev->firmware.load_type != AMDGPU_FW_LOAD_PSP) {
-4734e045f49d9b Alex Hung     2026-04-27  209  		memcpy(fb_info->fb[DMUB_WINDOW_0_INST_CONST].cpu_addr, fw_inst_const,
-4734e045f49d9b Alex Hung     2026-04-27  210  				fw_inst_const_size);
-4734e045f49d9b Alex Hung     2026-04-27  211  	}
-4734e045f49d9b Alex Hung     2026-04-27  212  
-4734e045f49d9b Alex Hung     2026-04-27  213  	if (fw_bss_data_size)
-4734e045f49d9b Alex Hung     2026-04-27  214  		memcpy(fb_info->fb[DMUB_WINDOW_2_BSS_DATA].cpu_addr,
-4734e045f49d9b Alex Hung     2026-04-27  215  		       fw_bss_data, fw_bss_data_size);
-4734e045f49d9b Alex Hung     2026-04-27  216  
-4734e045f49d9b Alex Hung     2026-04-27  217  	/* Copy firmware bios info into FB memory. */
-4734e045f49d9b Alex Hung     2026-04-27  218  	memcpy(fb_info->fb[DMUB_WINDOW_3_VBIOS].cpu_addr, adev->bios,
-4734e045f49d9b Alex Hung     2026-04-27  219  	       adev->bios_size);
-4734e045f49d9b Alex Hung     2026-04-27  220  
-4734e045f49d9b Alex Hung     2026-04-27  221  	/* Reset regions that need to be reset. */
-4734e045f49d9b Alex Hung     2026-04-27  222  	memset(fb_info->fb[DMUB_WINDOW_4_MAILBOX].cpu_addr, 0,
-4734e045f49d9b Alex Hung     2026-04-27  223  	fb_info->fb[DMUB_WINDOW_4_MAILBOX].size);
-4734e045f49d9b Alex Hung     2026-04-27  224  
-4734e045f49d9b Alex Hung     2026-04-27  225  	memset(fb_info->fb[DMUB_WINDOW_5_TRACEBUFF].cpu_addr, 0,
-4734e045f49d9b Alex Hung     2026-04-27  226  	       fb_info->fb[DMUB_WINDOW_5_TRACEBUFF].size);
-4734e045f49d9b Alex Hung     2026-04-27  227  
-4734e045f49d9b Alex Hung     2026-04-27  228  	memset(fb_info->fb[DMUB_WINDOW_6_FW_STATE].cpu_addr, 0,
-4734e045f49d9b Alex Hung     2026-04-27  229  	       fb_info->fb[DMUB_WINDOW_6_FW_STATE].size);
-4734e045f49d9b Alex Hung     2026-04-27  230  
-4734e045f49d9b Alex Hung     2026-04-27  231  	memset(fb_info->fb[DMUB_WINDOW_SHARED_STATE].cpu_addr, 0,
-4734e045f49d9b Alex Hung     2026-04-27  232  	       fb_info->fb[DMUB_WINDOW_SHARED_STATE].size);
-4734e045f49d9b Alex Hung     2026-04-27  233  
-4734e045f49d9b Alex Hung     2026-04-27  234  	/* Initialize hardware. */
-4734e045f49d9b Alex Hung     2026-04-27  235  	memset(&hw_params, 0, sizeof(hw_params));
-4734e045f49d9b Alex Hung     2026-04-27  236  	hw_params.soc_fb_info.fb_base = adev->gmc.fb_start;
-4734e045f49d9b Alex Hung     2026-04-27  237  	hw_params.soc_fb_info.fb_offset = adev->vm_manager.vram_base_offset;
-4734e045f49d9b Alex Hung     2026-04-27  238  
-4734e045f49d9b Alex Hung     2026-04-27  239  	/* backdoor load firmware and trigger dmub running */
-4734e045f49d9b Alex Hung     2026-04-27  240  	if (adev->firmware.load_type != AMDGPU_FW_LOAD_PSP)
-4734e045f49d9b Alex Hung     2026-04-27  241  		hw_params.load_inst_const = true;
-4734e045f49d9b Alex Hung     2026-04-27  242  
-4734e045f49d9b Alex Hung     2026-04-27  243  	if (dmcu)
-4734e045f49d9b Alex Hung     2026-04-27  244  		hw_params.psp_version = dmcu->psp_version;
-4734e045f49d9b Alex Hung     2026-04-27  245  
-5b69770e945caa Dillon Varone 2026-06-23  246  	hw_params.fb_info = fb_info;
-4734e045f49d9b Alex Hung     2026-04-27  247  
-4734e045f49d9b Alex Hung     2026-04-27  248  	/* Enable usb4 dpia in the FW APU */
-4734e045f49d9b Alex Hung     2026-04-27  249  	if (dc->caps.is_apu &&
-4734e045f49d9b Alex Hung     2026-04-27  250  		dc->res_pool->usb4_dpia_count != 0 &&
-4734e045f49d9b Alex Hung     2026-04-27  251  		!dc->debug.dpia_debug.bits.disable_dpia) {
-4734e045f49d9b Alex Hung     2026-04-27  252  		hw_params.dpia_supported = true;
-4734e045f49d9b Alex Hung     2026-04-27  253  		hw_params.disable_dpia = dc->debug.dpia_debug.bits.disable_dpia;
-4734e045f49d9b Alex Hung     2026-04-27  254  		hw_params.dpia_hpd_int_enable_supported = false;
-4734e045f49d9b Alex Hung     2026-04-27  255  		hw_params.enable_non_transparent_setconfig = dc->config.consolidated_dpia_dp_lt;
-4734e045f49d9b Alex Hung     2026-04-27  256  		hw_params.disable_dpia_bw_allocation = !dc->config.usb4_bw_alloc_support;
-4734e045f49d9b Alex Hung     2026-04-27  257  	}
-4734e045f49d9b Alex Hung     2026-04-27  258  
-4734e045f49d9b Alex Hung     2026-04-27  259  	switch (amdgpu_ip_version(adev, DCE_HWIP, 0)) {
-4734e045f49d9b Alex Hung     2026-04-27  260  	case IP_VERSION(3, 5, 0):
-4734e045f49d9b Alex Hung     2026-04-27  261  	case IP_VERSION(3, 5, 1):
-4734e045f49d9b Alex Hung     2026-04-27  262  	case IP_VERSION(3, 6, 0):
-4734e045f49d9b Alex Hung     2026-04-27  263  	case IP_VERSION(4, 2, 0):
-4734e045f49d9b Alex Hung     2026-04-27  264  	case IP_VERSION(4, 2, 1):
-4734e045f49d9b Alex Hung     2026-04-27  265  		hw_params.ips_sequential_ono = adev->external_rev_id > 0x10;
-4734e045f49d9b Alex Hung     2026-04-27  266  		hw_params.lower_hbr3_phy_ssc = true;
-4734e045f49d9b Alex Hung     2026-04-27  267  		break;
-4734e045f49d9b Alex Hung     2026-04-27  268  	default:
-4734e045f49d9b Alex Hung     2026-04-27  269  		break;
-4734e045f49d9b Alex Hung     2026-04-27  270  	}
-4734e045f49d9b Alex Hung     2026-04-27  271  
-4734e045f49d9b Alex Hung     2026-04-27  272  	status = dmub_srv_hw_init(dmub_srv, &hw_params);
-4734e045f49d9b Alex Hung     2026-04-27  273  	if (status != DMUB_STATUS_OK) {
-4734e045f49d9b Alex Hung     2026-04-27  274  		drm_err(adev_to_drm(adev), "Error initializing DMUB HW: %d\n", status);
-4734e045f49d9b Alex Hung     2026-04-27  275  		return -EINVAL;
-4734e045f49d9b Alex Hung     2026-04-27  276  	}
-4734e045f49d9b Alex Hung     2026-04-27  277  
-4734e045f49d9b Alex Hung     2026-04-27  278  	/* Wait for firmware load to finish. */
-4734e045f49d9b Alex Hung     2026-04-27  279  	status = dmub_srv_wait_for_auto_load(dmub_srv, 100000);
-4734e045f49d9b Alex Hung     2026-04-27  280  	if (status != DMUB_STATUS_OK)
-4734e045f49d9b Alex Hung     2026-04-27  281  		drm_warn(adev_to_drm(adev), "Wait for DMUB auto-load failed: %d\n", status);
-4734e045f49d9b Alex Hung     2026-04-27  282  
-4734e045f49d9b Alex Hung     2026-04-27  283  	/* Init DMCU and ABM if available. */
-4734e045f49d9b Alex Hung     2026-04-27  284  	if (dmcu && abm) {
-4734e045f49d9b Alex Hung     2026-04-27  285  		dmcu->funcs->dmcu_init(dmcu);
-4734e045f49d9b Alex Hung     2026-04-27  286  		abm->dmcu_is_running = dmcu->funcs->is_dmcu_initialized(dmcu);
-4734e045f49d9b Alex Hung     2026-04-27  287  	}
-4734e045f49d9b Alex Hung     2026-04-27  288  
-4734e045f49d9b Alex Hung     2026-04-27  289  	if (!adev->dm.dc->ctx->dmub_srv)
-4734e045f49d9b Alex Hung     2026-04-27  290  		adev->dm.dc->ctx->dmub_srv = dc_dmub_srv_create(adev->dm.dc, dmub_srv);
-4734e045f49d9b Alex Hung     2026-04-27  291  	if (!adev->dm.dc->ctx->dmub_srv) {
-4734e045f49d9b Alex Hung     2026-04-27  292  		drm_err(adev_to_drm(adev), "Couldn't allocate DC DMUB server!\n");
-4734e045f49d9b Alex Hung     2026-04-27  293  		return -ENOMEM;
-4734e045f49d9b Alex Hung     2026-04-27  294  	}
-4734e045f49d9b Alex Hung     2026-04-27  295  
-4734e045f49d9b Alex Hung     2026-04-27  296  	drm_info(adev_to_drm(adev), "DMUB hardware initialized: version=0x%08X\n",
-4734e045f49d9b Alex Hung     2026-04-27  297  		 adev->dm.dmcub_fw_version);
-4734e045f49d9b Alex Hung     2026-04-27  298  
-4734e045f49d9b Alex Hung     2026-04-27  299  	/* Keeping sanity checks off if
-4734e045f49d9b Alex Hung     2026-04-27  300  	 * DCN31 >= 4.0.59.0
-4734e045f49d9b Alex Hung     2026-04-27  301  	 * DCN314 >= 8.0.16.0
-4734e045f49d9b Alex Hung     2026-04-27  302  	 * Otherwise, turn on sanity checks
-4734e045f49d9b Alex Hung     2026-04-27  303  	 */
-4734e045f49d9b Alex Hung     2026-04-27  304  	switch (amdgpu_ip_version(adev, DCE_HWIP, 0)) {
-4734e045f49d9b Alex Hung     2026-04-27  305  	case IP_VERSION(3, 1, 2):
-4734e045f49d9b Alex Hung     2026-04-27  306  	case IP_VERSION(3, 1, 3):
-4734e045f49d9b Alex Hung     2026-04-27  307  		if (adev->dm.dmcub_fw_version &&
-4734e045f49d9b Alex Hung     2026-04-27  308  		    adev->dm.dmcub_fw_version >= DMUB_FW_VERSION(4, 0, 0) &&
-4734e045f49d9b Alex Hung     2026-04-27  309  		    adev->dm.dmcub_fw_version < DMUB_FW_VERSION(4, 0, 59))
-4734e045f49d9b Alex Hung     2026-04-27  310  			adev->dm.dc->debug.sanity_checks = true;
-4734e045f49d9b Alex Hung     2026-04-27  311  		break;
-4734e045f49d9b Alex Hung     2026-04-27  312  	case IP_VERSION(3, 1, 4):
-4734e045f49d9b Alex Hung     2026-04-27  313  		if (adev->dm.dmcub_fw_version &&
-4734e045f49d9b Alex Hung     2026-04-27  314  		    adev->dm.dmcub_fw_version >= DMUB_FW_VERSION(4, 0, 0) &&
-4734e045f49d9b Alex Hung     2026-04-27  315  		    adev->dm.dmcub_fw_version < DMUB_FW_VERSION(8, 0, 16))
-4734e045f49d9b Alex Hung     2026-04-27  316  			adev->dm.dc->debug.sanity_checks = true;
-4734e045f49d9b Alex Hung     2026-04-27  317  		break;
-4734e045f49d9b Alex Hung     2026-04-27  318  	default:
-4734e045f49d9b Alex Hung     2026-04-27  319  		break;
-4734e045f49d9b Alex Hung     2026-04-27  320  	}
-4734e045f49d9b Alex Hung     2026-04-27  321  
-4734e045f49d9b Alex Hung     2026-04-27  322  	return 0;
-4734e045f49d9b Alex Hung     2026-04-27  323  }
-829e9b68eaf2f5 Alex Hung     2026-04-29  324  EXPORT_IF_KUNIT(dm_dmub_hw_init);
-4734e045f49d9b Alex Hung     2026-04-27  325  
 
-:::::: The code at line 191 was first introduced by commit
-:::::: 4734e045f49d9bb801b4a3eef30d6ca7fba44280 drm/amd/display: Extract DMUB code to amdgpu_dm_dmub
+vim +630 drivers/i2c/busses/i2c-gpio.c
 
-:::::: TO: Alex Hung <alex.hung@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   519	
+   520	static int i2c_gpio_probe(struct platform_device *pdev)
+   521	{
+   522		struct i2c_gpio_private_data *priv;
+   523		struct i2c_gpio_platform_data *pdata;
+   524		struct i2c_algo_bit_data *bit_data;
+   525		struct i2c_adapter *adap;
+   526		struct device *dev = &pdev->dev;
+   527		struct fwnode_handle *fwnode = dev_fwnode(dev);
+   528		enum gpiod_flags gflags;
+   529		int ret;
+   530	
+   531		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   532		if (!priv)
+   533			return -ENOMEM;
+   534	
+   535		adap = &priv->adap;
+   536		bit_data = &priv->bit_data;
+   537		pdata = &priv->pdata;
+   538	
+   539		if (fwnode) {
+   540			i2c_gpio_get_properties(dev, pdata);
+   541		} else {
+   542			/*
+   543			 * If all platform data settings are zero it is OK
+   544			 * to not provide any platform data from the board.
+   545			 */
+   546			if (dev_get_platdata(dev))
+   547				memcpy(pdata, dev_get_platdata(dev), sizeof(*pdata));
+   548		}
+   549	
+   550		/*
+   551		 * First get the GPIO pins; if it fails, we'll defer the probe.
+   552		 * If the SCL/SDA lines are marked "open drain" by platform data or
+   553		 * device tree then this means that something outside of our control is
+   554		 * marking these lines to be handled as open drain, and we should just
+   555		 * handle them as we handle any other output. Else we enforce open
+   556		 * drain as this is required for an I2C bus.
+   557		 */
+   558		if (pdata->sda_is_open_drain || pdata->sda_has_no_pullup)
+   559			gflags = GPIOD_OUT_HIGH;
+   560		else
+   561			gflags = GPIOD_OUT_HIGH_OPEN_DRAIN;
+   562		priv->sda = i2c_gpio_get_desc(dev, "sda", 0, gflags);
+   563		if (IS_ERR(priv->sda))
+   564			return PTR_ERR(priv->sda);
+   565	
+   566		if (pdata->scl_is_open_drain || pdata->scl_has_no_pullup)
+   567			gflags = GPIOD_OUT_HIGH;
+   568		else
+   569			gflags = GPIOD_OUT_HIGH_OPEN_DRAIN;
+   570		priv->scl = i2c_gpio_lookup_scl(dev, gflags);
+   571		if (IS_ERR(priv->scl)) {
+   572			ret = PTR_ERR(priv->scl);
+   573			goto err_cleanup_sda;
+   574		}
+   575	
+   576		if (gpiod_cansleep(priv->sda) || gpiod_cansleep(priv->scl->gpio))
+   577			dev_warn(dev, "Slow GPIO pins might wreak havoc into I2C/SMBus bus timing");
+   578		else
+   579			bit_data->can_do_atomic = true;
+   580	
+   581		bit_data->skip_bit_test = !!priv->scl->args.fwnode;
+   582		bit_data->setsda = i2c_gpio_setsda_val;
+   583		bit_data->setscl = i2c_gpio_setscl_val;
+   584	
+   585		if (!pdata->scl_is_output_only)
+   586			bit_data->getscl = i2c_gpio_getscl;
+   587		if (!pdata->sda_is_output_only)
+   588			bit_data->getsda = i2c_gpio_getsda;
+   589	
+   590		if (pdata->udelay)
+   591			bit_data->udelay = pdata->udelay;
+   592		else if (pdata->scl_is_output_only)
+   593			bit_data->udelay = 50;			/* 10 kHz */
+   594		else
+   595			bit_data->udelay = 5;			/* 100 kHz */
+   596	
+   597		if (pdata->timeout)
+   598			bit_data->timeout = pdata->timeout;
+   599		else
+   600			bit_data->timeout = HZ / 10;		/* 100 ms */
+   601	
+   602		bit_data->data = priv;
+   603	
+   604		adap->owner = THIS_MODULE;
+   605		if (fwnode)
+   606			strscpy(adap->name, dev_name(dev), sizeof(adap->name));
+   607		else
+   608			snprintf(adap->name, sizeof(adap->name), "i2c-gpio%d", pdev->id);
+   609	
+   610		/* Always use shared SCL aware locking */
+   611		adap->lock_ops = &i2c_gpio_lock_ops;
+   612		adap->algo_data = bit_data;
+   613		adap->class = I2C_CLASS_HWMON;
+   614		adap->dev.parent = dev;
+   615		device_set_node(&adap->dev, fwnode);
+   616	
+   617		adap->nr = pdev->id;
+   618		ret = i2c_bit_add_numbered_bus(adap);
+   619		if (ret)
+   620			goto err_cleanup_scl;
+   621	
+   622		platform_set_drvdata(pdev, priv);
+   623	
+   624		/*
+   625		 * FIXME: using global GPIO numbers is not helpful. If/when we
+   626		 * get accessors to get the actual name of the GPIO line,
+   627		 * from the descriptor, then provide that instead.
+   628		 */
+   629		dev_info(dev, "using lines %s (SDA) and %s (SCL%s)\n",
+ > 630			 gpiod_name(priv->sda), gpiod_name(priv->gpio),
+   631			 pdata->scl_is_output_only
+   632			 ? ", no clock stretching" : "");
+   633	
+   634		i2c_gpio_fault_injector_init(pdev);
+   635	
+   636		return 0;
+   637	
+   638	err_cleanup_scl:
+   639		i2c_gpio_cleanup_scl(priv->scl);
+   640	err_cleanup_sda:
+   641		gpiod_put(priv->sda);
+   642	
+   643		return ret;
+   644	}
+   645	
 
 --
 0-DAY CI Kernel Test Service
