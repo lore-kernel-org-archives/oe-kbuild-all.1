@@ -1,91 +1,232 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A1D242910
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Sep 2026 21:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD66445AE3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Sep 2026 21:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788817723; cv=none; b=PuOoi1b8p2601PSMt7w3H1bNq/+DTEWFmGYpL4Q/zFI2TxSeJ1LzYHtzt6+m63rlLILX7DXVmnAQKwJkJN/TbUEfpYvpWJ+N/vzMv3alGKhfThM3Q54wlic4wV2yBR/uq4fNztW6JgLmLCaWnV4A0SlOkihUCvHWRDx8XRC8if8=
+	t=1788818387; cv=none; b=T8arKQEL23rPmKvsSb1b1e0InxEpZDolUmoUykfUrFHHj9e2viTzNGtjQixe5BzmlxN9eH8k+ygb2WEgCMySC6wkqXNVPsomO4flnmnBYNFDLaedrsapohG0XntCyM80ErIFOxyDjc9wKF1T5Bz3ybi2f9dfSmcZm/G/DmhgYb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788817723; c=relaxed/simple;
-	bh=8qatH9TpCKAIFwoMIsC9yDtfCpYAXYXoAyc3I08P/xo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=o79hx/K9ZI887XAAY3qWHpYjR5DwnM3h3i93Yn5jPAiZodWIoAJMJYO9kyQ9gC6PU86/mxN6/oRyNgCRd+dBq6Wybzt2+lwrDvEupTzXht5W+IGOmZPRJp3aoKvJIQgasQtTEBQKsv3ME8k5WKpQk6p/vkyWlaziFvZU8MzE2eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCtKp7UY; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1788818387; c=relaxed/simple;
+	bh=r65CDcHWr0z3eA9/ubS4hZ4+/sbcVXJDw5ZA38MifW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UrZYs1YRM4i+HgIEC0jqWq6LIwFSJaBnOvXrP/IXtJoN1bCJ9YsioLQK0pwzZq51YC8K3CfFhQ0lSg3P2Ej6pC87owSr/eszSWXIM3ZvaNCh8aI5un6KDGUgJ2R9VibOfxJQmuygpgvwQkVxqHMB02mXgMgXBQNkrHdpgumoXpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHDE/7II; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCtKp7UY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHDE/7II"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788817722; x=1820353722;
-  h=date:from:to:cc:subject:message-id;
-  bh=8qatH9TpCKAIFwoMIsC9yDtfCpYAXYXoAyc3I08P/xo=;
-  b=SCtKp7UYjnKmhX9YLAzWO9WYm6Is3dYRiHTkxlYtBm/tZc8FOzXKvyrM
-   8gw5bq8udVWv4GQnSLoo6mcbdPJs1f2zr6X0epYHycyxxrxW0UWDWgP6J
-   7nHuaJYZb52/xFargc/QuDtCsnkVmFybxBpiFHOzcz9iP+K3F0dRqPmOg
-   DqdFJHHmxHqWpWSrCeDQAItzEZmH9jb8eIofh1HdfZgPwfZfWETj2gxlY
-   y0q9RsQxwOctoMcjne8bWEItRZ8xuh0NW5oSPpE08LVuajevgrCQ4+ZYp
-   owrsoW0wRHSiTMbFACjZASu+t6kQWk7sbcKCsjyep00hplawj14ov5pJr
+  t=1788818384; x=1820354384;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r65CDcHWr0z3eA9/ubS4hZ4+/sbcVXJDw5ZA38MifW8=;
+  b=dHDE/7IIJknhhecfVwmrFI1Pq5BvUC07Glv7YcmmFFqvzLT3oed97e6w
+   ccRn8sZGkSqkwdz7T+lK+xLpJLHwKhObDxHNZrvXJO+CHKqD/x4SjjnH3
+   IW24kw/31x4DbkbeEAG6LXwA0lT6T3Qvo2h7JaEhGM/sxi27rOD7kjB9d
+   SItgx9uANWeiTs95NI7l6vHZy3GTjnxkgriSpnIO0CDsny9KLdRz9rYEX
+   fa5lYhpDlurhDg187dhpUYuZKZXKWuuqhrXUD7i00cqVUxKnDAi24IP+4
+   n7hmkZJzZkYG7gDoqZBMpqfKcl//PHADOIYbWL+tCRHzaXsDMg9jDw52j
    A==;
-X-CSE-ConnectionGUID: HMnYp4+xQIyAlZM95vlB2g==
-X-CSE-MsgGUID: TECXhVgQQr6J1hfmCRGeLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89264063"
+X-CSE-ConnectionGUID: dJ4HX+mfRZiAgWREP5flFw==
+X-CSE-MsgGUID: DhTL58RjQ3aPKQDac+b6+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="88152043"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="89264063"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 14:48:41 -0700
-X-CSE-ConnectionGUID: 7AjfWg3mTXSruXA5l8W/eQ==
-X-CSE-MsgGUID: wtnBpaGWQV2BLYOhxU2OjQ==
+   d="scan'208";a="88152043"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 14:59:44 -0700
+X-CSE-ConnectionGUID: 8NWTMYYgSIGCQB0adp1Deg==
+X-CSE-MsgGUID: HeYaaeU4Q2uPmLoLfhjo5w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="270777128"
 Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 07 Sep 2026 14:48:40 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Sep 2026 14:59:41 -0700
 Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3hCg-000000001LD-0HIl;
-	Mon, 07 Sep 2026 21:48:38 +0000
-Date: Tue, 08 Sep 2026 05:48:24 +0800
+	id 1x3hNL-000000001Ml-2447;
+	Mon, 07 Sep 2026 21:59:39 +0000
+Date: Tue, 8 Sep 2026 05:59:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:efi-libstub-native-utf16 9/9]
- drivers/firmware/efi/libstub/vsprintf.c:511:5: warning: no previous prototype
- for 'efi_snprintf'
-Message-ID: <202609080541.1c9kYF5X-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Breno Rodrigues Alves <breno3011alves@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, torvalds@linux-foundation.org,
+	linux-media@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Breno Rodrigues Alves <breno3011alves@gmail.com>
+Subject: Re: [PATCH v2] media: dvb-core: extirpate defective and unsafe ULE
+ debug block
+Message-ID: <202609080524.kwJEdv90-lkp@intel.com>
+References: <20260905142222.22818-1-breno3011alves@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260905142222.22818-1-breno3011alves@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-libstub-native-utf16
-head:   c23f326a96b5293512720f389c597f967132c334
-commit: 7046b0d50cf479b4122a5b0ab2f03ac07cd0de22 [9/9] efi/libstub: Add efi_snprintf() to construct wide strings
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20260908/202609080541.1c9kYF5X-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080541.1c9kYF5X-lkp@intel.com/reproduce)
+Hi Breno,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linuxtv-media-pending/master media-tree/master sailus-media-tree/master linus/master linux/master sailus-media-tree/streams v7.3-rc2 next-20260907]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Rodrigues-Alves/media-dvb-core-extirpate-defective-and-unsafe-ULE-debug-block/20260905-112222
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260905142222.22818-1-breno3011alves%40gmail.com
+patch subject: [PATCH v2] media: dvb-core: extirpate defective and unsafe ULE debug block
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609080524.kwJEdv90-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080524.kwJEdv90-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609080541.1c9kYF5X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609080524.kwJEdv90-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/firmware/efi/libstub/vsprintf.c:274:5: warning: no previous prototype for 'efi_vsnprintf' [-Wmissing-prototypes]
-     274 | int efi_vsnprintf(efi_char16_t *buf, size_t size, const char *fmt, va_list ap,
-         |     ^~~~~~~~~~~~~
->> drivers/firmware/efi/libstub/vsprintf.c:511:5: warning: no previous prototype for 'efi_snprintf' [-Wmissing-prototypes]
-     511 | int efi_snprintf(efi_char16_t *buf, size_t size, const char *fmt, ...)
-         |     ^~~~~~~~~~~~
+   drivers/media/dvb-core/dvb_net.c: In function 'dvb_net_ule':
+>> drivers/media/dvb-core/dvb_net.c:806:51: warning: passing argument 2 of 'dvb_net_ule_check_crc' makes pointer from integer without a cast [-Wint-conversion]
+     806 |                         dvb_net_ule_check_crc(&h, ule_crc, expected_crc);
+         |                                                   ^~~~~~~
+         |                                                   |
+         |                                                   u32 {aka unsigned int}
+   drivers/media/dvb-core/dvb_net.c:626:47: note: expected 'struct kvec *' but argument is of type 'u32' {aka 'unsigned int'}
+     626 |                                   struct kvec iov[3],
+         |                                   ~~~~~~~~~~~~^~~~~~
+>> drivers/media/dvb-core/dvb_net.c:806:25: error: too few arguments to function 'dvb_net_ule_check_crc'
+     806 |                         dvb_net_ule_check_crc(&h, ule_crc, expected_crc);
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-core/dvb_net.c:625:13: note: declared here
+     625 | static void dvb_net_ule_check_crc(struct dvb_net_ule_handle *h,
+         |             ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/efi_snprintf +511 drivers/firmware/efi/libstub/vsprintf.c
+vim +/dvb_net_ule_check_crc +806 drivers/media/dvb-core/dvb_net.c
 
-   510	
- > 511	int efi_snprintf(efi_char16_t *buf, size_t size, const char *fmt, ...)
+   721	
+   722	static void dvb_net_ule(struct net_device *dev, const u8 *buf, size_t buf_len)
+   723	{
+   724		int ret;
+   725		struct dvb_net_ule_handle h = {
+   726			.dev = dev,
+   727			.priv = netdev_priv(dev),
+   728			.ethh = NULL,
+   729			.buf = buf,
+   730			.buf_len = buf_len,
+   731			.skipped = 0L,
+   732			.ts = NULL,
+   733			.ts_end = NULL,
+   734			.from_where = NULL,
+   735			.ts_remain = 0,
+   736			.how_much = 0,
+   737			.new_ts = 1,
+   738			.error = false,
+   739		};
+   740	
+   741		/*
+   742		 * For all TS cells in current buffer.
+   743		 * Appearently, we are called for every single TS cell.
+   744		 */
+   745		for (h.ts = h.buf, h.ts_end = h.buf + h.buf_len;
+   746		     h.ts < h.ts_end; /* no incr. */) {
+   747			if (h.new_ts) {
+   748				/* We are about to process a new TS cell. */
+   749				if (dvb_net_ule_new_ts_cell(&h))
+   750					continue;
+   751			}
+   752	
+   753			/* Synchronize on PUSI, if required. */
+   754			if (h.priv->need_pusi) {
+   755				if (dvb_net_ule_ts_pusi(&h))
+   756					continue;
+   757			}
+   758	
+   759			if (h.new_ts) {
+   760				if (dvb_net_ule_new_ts(&h))
+   761					continue;
+   762			}
+   763	
+   764			/* Check if new payload needs to be started. */
+   765			if (h.priv->ule_skb == NULL) {
+   766				ret = dvb_net_ule_new_payload(&h);
+   767				if (ret < 0)
+   768					return;
+   769				if (ret)
+   770					continue;
+   771			}
+   772	
+   773			/* Copy data into our current skb. */
+   774			h.how_much = min(h.priv->ule_sndu_remain, (int)h.ts_remain);
+   775			skb_put_data(h.priv->ule_skb, h.from_where, h.how_much);
+   776			h.priv->ule_sndu_remain -= h.how_much;
+   777			h.ts_remain -= h.how_much;
+   778			h.from_where += h.how_much;
+   779	
+   780			/* Check for complete payload. */
+   781			if (h.priv->ule_sndu_remain <= 0) {
+   782				/* Check CRC32, we've got it in our skb already. */
+   783				__be16 ulen = htons(h.priv->ule_sndu_len);
+   784				__be16 utype = htons(h.priv->ule_sndu_type);
+   785				const u8 *tail;
+   786				struct kvec iov[3] = {
+   787					{ &ulen, sizeof ulen },
+   788					{ &utype, sizeof utype },
+   789					{ h.priv->ule_skb->data,
+   790					  h.priv->ule_skb->len - 4 }
+   791				};
+   792				u32 ule_crc = ~0L, expected_crc;
+   793				if (h.priv->ule_dbit) {
+   794					/* Set D-bit for CRC32 verification,
+   795					 * if it was set originally. */
+   796					ulen |= htons(0x8000);
+   797				}
+   798	
+   799				ule_crc = iov_crc32(ule_crc, iov, 3);
+   800				tail = skb_tail_pointer(h.priv->ule_skb);
+   801				expected_crc = *(tail - 4) << 24 |
+   802					       *(tail - 3) << 16 |
+   803					       *(tail - 2) << 8 |
+   804					       *(tail - 1);
+   805	
+ > 806				dvb_net_ule_check_crc(&h, ule_crc, expected_crc);
+   807	
+   808				/* Prepare for next SNDU. */
+   809				reset_ule(h.priv);
+   810			}
+   811	
+   812			/* More data in current TS (look at the bytes following the CRC32)? */
+   813			if (h.ts_remain >= 2 && *((unsigned short *)h.from_where) != 0xFFFF) {
+   814				/* Next ULE SNDU starts right there. */
+   815				h.new_ts = 0;
+   816				h.priv->ule_skb = NULL;
+   817				h.priv->ule_sndu_type_1 = 0;
+   818				h.priv->ule_sndu_len = 0;
+   819				// pr_warn("More data in current TS: [%#x %#x %#x %#x]\n",
+   820				//	*(h.from_where + 0), *(h.from_where + 1),
+   821				//	*(h.from_where + 2), *(h.from_where + 3));
+   822				// pr_warn("h.ts @ %p, stopped @ %p:\n", h.ts, h.from_where + 0);
+   823				// hexdump(h.ts, 188);
+   824			} else {
+   825				h.new_ts = 1;
+   826				h.ts += TS_SZ;
+   827				h.priv->ts_count++;
+   828				if (h.priv->ule_skb == NULL) {
+   829					h.priv->need_pusi = 1;
+   830					h.priv->ule_sndu_type_1 = 0;
+   831					h.priv->ule_sndu_len = 0;
+   832				}
+   833			}
+   834		}	/* for all available TS cells */
+   835	}
+   836	
 
 --
 0-DAY CI Kernel Test Service
