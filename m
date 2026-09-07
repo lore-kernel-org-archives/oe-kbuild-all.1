@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61BE3C4172
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Sep 2026 22:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B11D2BDC1C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Sep 2026 23:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788820983; cv=none; b=u4vrzZ5ccQ0F/63yKcdgYKwhK19GYTpfNdYnVcVAxNNGFipxeWJj//HNLX/Cit+K7q2XTSMNJwGB92WJgZS3fDag9AhWp3Kv+wpA0PX4xbNtCgg8HZxCYID/ZvPAEXLDqO0lPQqzVJv3i+1JOPN1u+UKfqtTqMGw8YpZKw/0AHg=
+	t=1788822289; cv=none; b=sK4iA4+cjXieseCqQRi0ck/OYfI/ZEZugqH9jt/+OSlGBPRJ/ZANgWiIhRGoZLQhaUoW6+giaOT4eDMskjLVf42TAm8ASD6r+HoOGD2Olbdfz30F+gUcD5a/A33K0RgRiJd4ZTqPNER+bJJWx9k8Sn1fzaDfqXvpWTXwJpBVJW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788820983; c=relaxed/simple;
-	bh=cGGam9Y8jySc13FJuJ5GLgSIm133nHXMyGoqb5zDa2U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HQNzoFkR/0Z/EkeA60KxNPhTNFXLjU5nrnDhrktADlrc2N8VheVWpjSPMogxsLqzskDXY+m1u2NBs8XJ4rkYqI7RQV1kuavxzJS+A4gMoxc1IZx8bJFEVrFCo//92VB16NsZWqb+PQddaURAAzx4F6nkRppsn0qriCt9wNp5IM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h7kb6IU0; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1788822289; c=relaxed/simple;
+	bh=mCrN3wd+DMM8wO4wUsSS1/Q7TovWjenOP0MtnZR96uo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KxRuNnjk86NF+Q9kHlJNKYWge3VSRH+VP+BDM7PRBr++yTh25Fg95HV8in2NWSDufJb9UqJwLs+csq1L6QdeypfrUQUKAr6bclVl6n/+/H6SHtligdyIGrwkwBvjYS3Di+hJRdQjPIghpkrlP8YHaaDgFlEOnRLM4/WquF7MSqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B7LMSPUY; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h7kb6IU0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B7LMSPUY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788820981; x=1820356981;
+  t=1788822287; x=1820358287;
   h=date:from:to:cc:subject:message-id;
-  bh=cGGam9Y8jySc13FJuJ5GLgSIm133nHXMyGoqb5zDa2U=;
-  b=h7kb6IU0V2430tYPVRyL3DmY5yCHGLBrH4TN3AtIOWk3RFJvyrOUBMn4
-   JDmB2zbsDpimQxk5/5oRR9Tep1tVYgVyJPR/sdlK/WJVPrZ0VERcn98DV
-   zDj2HwaivwV62KshsaBjnX5ZRLN6aWZ37TQSa44JOov9P1Amk+61OoAXQ
-   k2s656Pdj1yFGHcLc80f0jgKP1BQ2Dc4f8cs9nl2F/1EvIHUjfL61oQNb
-   F9ErOcX293SA1dfGMXGTT2zUCmNjX2Rad/66z2Zjtdqud9xMW9XYU8lKK
-   f4MlD1wQw0DPCZj/+ALwhoPHccjfyCOK6/97SuDjwjCmuIocEaNS+xBE8
-   A==;
-X-CSE-ConnectionGUID: zSdeUxA5Qri+mug2dbjWeA==
-X-CSE-MsgGUID: UxLl7qWGQn2Yp9QC7Fgw6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="100740317"
+  bh=mCrN3wd+DMM8wO4wUsSS1/Q7TovWjenOP0MtnZR96uo=;
+  b=B7LMSPUYEgeq0VKq/i1aFnsLr35i/HEnZagpi9/PRyQ0k6TxZ/EeytJz
+   pzfTqoQu7SGaFJxTq+PcBCNX3dbmfhY1F4lA56r3Cw5lb1fBHd8IjGJMf
+   dpauc+1qYtNa3HlBECpsmS4P7mQTl2f4upGq0Fs1Fd81EmOPOABYcvwHZ
+   UCOlwXojvXSoVUPmbJCU0f5OYmATu084FVFaJ36A7h3cGAaPHzXnJCnzf
+   9I+g9GLYbVeAnSXkyG1uiaOlvemolqBvhPyasEBZGAHszbaxNqnC0OkTa
+   kRNhceqaIUDohwRjKQGTC+ZwSXjhqTCmi0kApFc3IVFSRzLTpPnVcFAfs
+   Q==;
+X-CSE-ConnectionGUID: 24xW+bpHSweZy85xcnrzuA==
+X-CSE-MsgGUID: v4lWSv4NS5aOmVc1tWt0DA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99878633"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="100740317"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 15:43:00 -0700
-X-CSE-ConnectionGUID: xS8PNcGzRBiN7UDUocsP7g==
-X-CSE-MsgGUID: PBkp8n4lQ0mMMFI3hnH07A==
+   d="scan'208";a="99878633"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 16:04:46 -0700
+X-CSE-ConnectionGUID: UZSkJnghR0yaCQSz4EYhrw==
+X-CSE-MsgGUID: B+rdq4bzQU+gkmS6y3Ga9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="294285133"
-Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Sep 2026 15:42:58 -0700
-Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
+   d="scan'208";a="274967236"
+Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 07 Sep 2026 16:04:45 -0700
+Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3i3E-000000000PW-0u6R;
-	Mon, 07 Sep 2026 22:42:56 +0000
-Date: Tue, 08 Sep 2026 00:41:57 +0200
+	id 1x3iOH-000000001OB-3sZC;
+	Mon, 07 Sep 2026 23:04:41 +0000
+Date: Tue, 08 Sep 2026 07:04:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Davis <afd@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/i2c/busses/i2c-omap.c:608:24: error: implicit
- declaration of function 'FIELD_PREP'
-Message-ID: <202609080003.dbREhhYS-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-09-04 261/343]
+ sound/soc/codecs/sn624x-sdca-sdw.c:199:17: error: implicit declaration of
+ function 'snd_soc_component_get_drvdata'; did you mean
+ 'snd_soc_component_set_jack'?
+Message-ID: <202609080728.QmS2Lvh1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,71 +61,191 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Andrew-Davis/i2c-omap-Drop-bit-shift-for-I2C-register-addresses/20260904-081245
-head:   80bb64593f6862ec848394a6fc7e7946dcb93fe1
-commit: 80bb64593f6862ec848394a6fc7e7946dcb93fe1 i2c: omap: Add OMAP_I2C_BUF_{TX,RX}TRSH definitions
-date:   24 hours ago
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609080003.dbREhhYS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080003.dbREhhYS-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-09-04
+head:   dfa282dfe99643be782149d948208f3d514ebb99
+commit: 2ec5bcc4a0d57a7db5c121ab6e10d602373d1f0e [261/343] ASoC: soc-component: remove snd_soc_component_{set/get}_drvdata()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260908/202609080728.QmS2Lvh1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080728.QmS2Lvh1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609080003.dbREhhYS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609080728.QmS2Lvh1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/i2c/busses/i2c-omap.c: In function 'omap_i2c_resize_fifo':
->> drivers/i2c/busses/i2c-omap.c:608:24: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     608 |                 buf |= FIELD_PREP(OMAP_I2C_BUF_RXTRSH, (omap->threshold - 1));
-         |                        ^~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_dapm_pde_event':
+>> sound/soc/codecs/sn624x-sdca-sdw.c:199:17: error: implicit declaration of function 'snd_soc_component_get_drvdata'; did you mean 'snd_soc_component_set_jack'? [-Wimplicit-function-declaration]
+     199 |                 snd_soc_component_get_drvdata(component);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 snd_soc_component_set_jack
+>> sound/soc/codecs/sn624x-sdca-sdw.c:199:17: error: initialization of 'struct sn624x_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_fu_mute_event':
+   sound/soc/codecs/sn624x-sdca-sdw.c:270:17: error: initialization of 'struct sn624x_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     270 |                 snd_soc_component_get_drvdata(component);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_fu_mic2_event':
+   sound/soc/codecs/sn624x-sdca-sdw.c:346:17: error: initialization of 'struct sn624x_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     346 |                 snd_soc_component_get_drvdata(component);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_sdca_set_jack_detect':
+   sound/soc/codecs/sn624x-sdca-sdw.c:981:43: error: initialization of 'struct sn624x_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     981 |         struct sn624x_sdca_priv *sn624x = snd_soc_component_get_drvdata(component);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_sdca_probe':
+   sound/soc/codecs/sn624x-sdca-sdw.c:1424:43: error: initialization of 'struct sn624x_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1424 |         struct sn624x_sdca_priv *sn624x = snd_soc_component_get_drvdata(component);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_sdca_pcm_hw_params':
+   sound/soc/codecs/sn624x-sdca-sdw.c:1443:50: error: invalid use of undefined type 'struct snd_soc_dai'
+    1443 |         struct snd_soc_component *component = dai->component;
+         |                                                  ^~
+   sound/soc/codecs/sn624x-sdca-sdw.c:1444:43: error: initialization of 'struct sn624x_sdca_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1444 |         struct sn624x_sdca_priv *sn624x = snd_soc_component_get_drvdata(component);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:620,
+                    from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:195,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from sound/soc/codecs/sn624x-sdca-sdw.c:8:
+   sound/soc/codecs/sn624x-sdca-sdw.c:1452:20: error: invalid use of undefined type 'struct snd_soc_dai'
+    1452 |         dev_dbg(dai->dev,
+         |                    ^~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c:1452:9: note: in expansion of macro 'dev_dbg'
+    1452 |         dev_dbg(dai->dev,
+         |         ^~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c:1454:21: error: invalid use of undefined type 'struct snd_soc_dai'
+    1454 |                  dai->name, dai->id, snd_pcm_stream_str(substream));
+         |                     ^~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c:1452:9: note: in expansion of macro 'dev_dbg'
+    1452 |         dev_dbg(dai->dev,
+         |         ^~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c:1454:32: error: invalid use of undefined type 'struct snd_soc_dai'
+    1454 |                  dai->name, dai->id, snd_pcm_stream_str(substream));
+         |                                ^~
+   include/linux/dynamic_debug.h:231:29: note: in definition of macro '__dynamic_func_call_cls'
+     231 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:261:9: note: in expansion of macro '_dynamic_func_call_cls'
+     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:284:9: note: in expansion of macro '_dynamic_func_call'
+     284 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c:1452:9: note: in expansion of macro 'dev_dbg'
+    1452 |         dev_dbg(dai->dev,
+         |         ^~~~~~~
+   sound/soc/codecs/sn624x-sdca-sdw.c:1456:22: error: implicit declaration of function 'snd_soc_dai_get_dma_data'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
+    1456 |         sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                      snd_soc_card_get_drvdata
+   sound/soc/codecs/sn624x-sdca-sdw.c:1456:20: error: assignment to 'struct sdw_stream_runtime *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1456 |         sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
+         |                    ^
+   In file included from include/linux/device.h:15,
+                    from sound/soc/codecs/sn624x-sdca-sdw.c:11:
+   sound/soc/codecs/sn624x-sdca-sdw.c:1458:29: error: invalid use of undefined type 'struct snd_soc_dai'
+    1458 |                 dev_warn(dai->dev,
+         |                             ^~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
 
 
-vim +/FIELD_PREP +608 drivers/i2c/busses/i2c-omap.c
+vim +199 sound/soc/codecs/sn624x-sdca-sdw.c
 
-   586	
-   587	static void omap_i2c_resize_fifo(struct omap_i2c_dev *omap, u8 size, bool is_rx)
-   588	{
-   589		u16		buf;
-   590	
-   591		if (omap->flags & OMAP_I2C_FLAG_NO_FIFO)
-   592			return;
-   593	
-   594		/*
-   595		 * Set up notification threshold based on message size. We're doing
-   596		 * this to try and avoid draining feature as much as possible. Whenever
-   597		 * we have big messages to transfer (bigger than our total fifo size)
-   598		 * then we might use draining feature to transfer the remaining bytes.
-   599		 */
-   600	
-   601		omap->threshold = clamp(size, (u8) 1, omap->fifo_size);
-   602	
-   603		buf = omap_i2c_read_reg(omap, OMAP_I2C_BUF_REG);
-   604	
-   605		if (is_rx) {
-   606			/* Clear RX Threshold */
-   607			buf &= ~OMAP_I2C_BUF_RXTRSH;
- > 608			buf |= FIELD_PREP(OMAP_I2C_BUF_RXTRSH, (omap->threshold - 1));
-   609			buf |= OMAP_I2C_BUF_RXFIF_CLR;
-   610		} else {
-   611			/* Clear TX Threshold */
-   612			buf &= ~OMAP_I2C_BUF_TXTRSH;
-   613			buf |= FIELD_PREP(OMAP_I2C_BUF_TXTRSH, (omap->threshold - 1));
-   614			buf |= OMAP_I2C_BUF_TXFIF_CLR;
-   615		}
-   616	
-   617		omap_i2c_write_reg(omap, OMAP_I2C_BUF_REG, buf);
-   618	
-   619		if (omap->rev < OMAP_I2C_REV_ON_3630)
-   620			omap->b_hw = true; /* Enable hardware fixes */
-   621	
-   622		/* calculate wakeup latency constraint for MPU */
-   623		if (omap->set_mpu_wkup_lat != NULL)
-   624			omap->latency = (1000000 * omap->threshold) /
-   625				(1000 * omap->speed / 8);
-   626	}
-   627	
+12d9c9f8679c56 Qianghua Wang 2026-09-01  174  
+12d9c9f8679c56 Qianghua Wang 2026-09-01  175  #define SN624X_REG_DMIC_FUN_STATUS_CTL \
+12d9c9f8679c56 Qianghua Wang 2026-09-01  176  	SDW_SDCA_CTL(SN624X_FUNC_NUM_MIC_ARRAY, SN624X_SDCA_ENT_ENTITY0, \
+12d9c9f8679c56 Qianghua Wang 2026-09-01  177  		     SN624X_SDCA_CTL_FUNCTION_STATUS, 0)
+12d9c9f8679c56 Qianghua Wang 2026-09-01  178  
+12d9c9f8679c56 Qianghua Wang 2026-09-01  179  /*
+12d9c9f8679c56 Qianghua Wang 2026-09-01  180   * Write REQUESTED_PS then poll ACTUAL_PS with the shared SDCA helper
+12d9c9f8679c56 Qianghua Wang 2026-09-01  181   * (sdca_asoc_pde_poll_actual_ps). Caller must not hand-roll ACTUAL_PS waits.
+12d9c9f8679c56 Qianghua Wang 2026-09-01  182   */
+12d9c9f8679c56 Qianghua Wang 2026-09-01  183  static int sn624x_pde_request_ps(struct device *dev, struct regmap *regmap,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  184  				 unsigned int fun, unsigned int ent,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  185  				 unsigned int ps);
+12d9c9f8679c56 Qianghua Wang 2026-09-01  186  
+12d9c9f8679c56 Qianghua Wang 2026-09-01  187  /*
+12d9c9f8679c56 Qianghua Wang 2026-09-01  188   * DAPM PDE supplies (rt711/rt712 style): write REQUESTED_PS then poll ACTUAL_PS.
+12d9c9f8679c56 Qianghua Wang 2026-09-01  189   * Mute-before-D3 is handled by FU widget PRE_PMD, which runs before SUPPLY PRE_PMD
+12d9c9f8679c56 Qianghua Wang 2026-09-01  190   * when the FU lists the PDE as a dependency.
+12d9c9f8679c56 Qianghua Wang 2026-09-01  191   */
+12d9c9f8679c56 Qianghua Wang 2026-09-01  192  static int sn624x_dapm_pde_event(struct snd_soc_dapm_widget *w,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  193  				 struct snd_kcontrol *kcontrol, int event,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  194  				 unsigned int fun, unsigned int ent)
+12d9c9f8679c56 Qianghua Wang 2026-09-01  195  {
+12d9c9f8679c56 Qianghua Wang 2026-09-01  196  	struct snd_soc_component *component =
+12d9c9f8679c56 Qianghua Wang 2026-09-01  197  		snd_soc_dapm_to_component(w->dapm);
+12d9c9f8679c56 Qianghua Wang 2026-09-01  198  	struct sn624x_sdca_priv *sn624x =
+12d9c9f8679c56 Qianghua Wang 2026-09-01 @199  		snd_soc_component_get_drvdata(component);
+12d9c9f8679c56 Qianghua Wang 2026-09-01  200  	struct device *dev = component->dev;
+12d9c9f8679c56 Qianghua Wang 2026-09-01  201  	int ret;
+12d9c9f8679c56 Qianghua Wang 2026-09-01  202  
+12d9c9f8679c56 Qianghua Wang 2026-09-01  203  	if (!sn624x || !sn624x->regmap)
+12d9c9f8679c56 Qianghua Wang 2026-09-01  204  		return -ENODEV;
+12d9c9f8679c56 Qianghua Wang 2026-09-01  205  
+12d9c9f8679c56 Qianghua Wang 2026-09-01  206  	switch (event) {
+12d9c9f8679c56 Qianghua Wang 2026-09-01  207  	case SND_SOC_DAPM_POST_PMU:
+12d9c9f8679c56 Qianghua Wang 2026-09-01  208  		ret = sn624x_pde_request_ps(dev, sn624x->regmap, fun, ent,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  209  					    SN624X_PWR_D0);
+12d9c9f8679c56 Qianghua Wang 2026-09-01  210  		if (ret < 0)
+12d9c9f8679c56 Qianghua Wang 2026-09-01  211  			dev_warn(dev,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  212  				 "sn624x: DAPM %s PDE fun=%u ent=0x%x -> PS0 failed (%d)\n",
+12d9c9f8679c56 Qianghua Wang 2026-09-01  213  				 w->name, fun, ent, ret);
+12d9c9f8679c56 Qianghua Wang 2026-09-01  214  		break;
+12d9c9f8679c56 Qianghua Wang 2026-09-01  215  	case SND_SOC_DAPM_PRE_PMD:
+12d9c9f8679c56 Qianghua Wang 2026-09-01  216  		ret = sn624x_pde_request_ps(dev, sn624x->regmap, fun, ent,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  217  					    SN624X_PWR_D3);
+12d9c9f8679c56 Qianghua Wang 2026-09-01  218  		if (ret < 0)
+12d9c9f8679c56 Qianghua Wang 2026-09-01  219  			dev_warn(dev,
+12d9c9f8679c56 Qianghua Wang 2026-09-01  220  				 "sn624x: DAPM %s PDE fun=%u ent=0x%x -> PS3 failed (%d)\n",
+12d9c9f8679c56 Qianghua Wang 2026-09-01  221  				 w->name, fun, ent, ret);
+12d9c9f8679c56 Qianghua Wang 2026-09-01  222  		break;
+12d9c9f8679c56 Qianghua Wang 2026-09-01  223  	default:
+12d9c9f8679c56 Qianghua Wang 2026-09-01  224  		return 0;
+12d9c9f8679c56 Qianghua Wang 2026-09-01  225  	}
+12d9c9f8679c56 Qianghua Wang 2026-09-01  226  	return ret;
+12d9c9f8679c56 Qianghua Wang 2026-09-01  227  }
+12d9c9f8679c56 Qianghua Wang 2026-09-01  228  
+
+:::::: The code at line 199 was first introduced by commit
+:::::: 12d9c9f8679c56e8c131dc2d8985c350ece7c4c3 ASoC: codecs: add SN624x SDCA SoundWire driver
+
+:::::: TO: Qianghua Wang <qianghua.wang@senarytech.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
