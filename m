@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EB31EE7C6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Sep 2026 20:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF52282F15;
+	Mon,  7 Sep 2026 21:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788813947; cv=none; b=YfjWaPr8xwpV8uEIo/rFukKhAmqK/G5TsWSPSrJsAGRNHjTZeDm5GBz5ZGOckVXGEyIPrNYDJr6fZNwmxpzmwBrXYG6GOPm0qukF7Ol9WJAauUtlsA6R29gR0EcNsw+hYOyYjKyja8pHr+++MnTl6wZlZf7yIFtGp+36vHf+c/U=
+	t=1788817064; cv=none; b=VQqLkGf4ZiuiiyX50C2DZJ5AcPK5xHU07hHIJa4Oy701TnMUlQ+pSDdxP8LY/pacs82lRHT03GlNLI57gjZenZjbwJ5F/QR/iaBrqAvU+fEb+OAoN+QNum533IFshHoVsYjTrZAbkaU64w+1o+03NqwRGyu4i0cnm7WRU3c4ZlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788813947; c=relaxed/simple;
-	bh=6r5t89oAHiLnH/pKlgVxMP8kkOOZVfhkJsyWkpSwRJo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AoDS6ejqS2VHP/EO8sIo+RBLJ588LkBYHGJZX2CWj0qjhWo+VbeKnrcb1TeReSt62l/PvVSvqOSgJFOqCwGohkauP26190FI9S+4Q9ydsiUkJjNmxaAOwQF840QOLe2K7znUh1/phDtmkgCNi01O849X6N2nO55EOZjL6bgiBgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsBEQRWo; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1788817064; c=relaxed/simple;
+	bh=NzfdWemez+N6A+/fohc8Gu5ViOBIcVvfo0ttR/7uPX4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YxYbOE7LTKt7W2jx+VFDzLn1P9Vxv/sAgj5VR3LAIadg63wB7GndCXLfjQPKuBcaMBU3m+dRtZsonGWHbrWVXR8uf5dEzfAEBTQMDBwyElgVm/glw2/JQ9gaQp2c6fPED97BJN74DbNicPUu/LHW1+myuxyKKtHc2RM6DqDCer8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QzrT8MEn; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsBEQRWo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QzrT8MEn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788813944; x=1820349944;
+  t=1788817062; x=1820353062;
   h=date:from:to:cc:subject:message-id;
-  bh=6r5t89oAHiLnH/pKlgVxMP8kkOOZVfhkJsyWkpSwRJo=;
-  b=jsBEQRWos4obs48Z/TX0/IicT7DZ/33lhQPOVVdo5UVEU6iJJvuhoI7h
-   gomxIwIV1mmSlZGMWmnwHC+PJQ7fQC7uL/9qaUyNVoqcPy3VcTpg6ZvE7
-   GSJkqsKOMJCG3BOBVqiyyZXUlzqMO7JUdxMSY335lFICnoxW6H6fzi7C8
-   ShTkieUgkMQpAFydIsdaXCekumjTKqI/cLngmUFRP76F2QSD9WYNhxLZF
-   dakMuIpvypgVZC9tR8nH61D4Po0UbBguuGZRFTPbRWp+DJURwkG6wQhqx
-   eXhKgB6aG3248ZsSYjWcWMah733qR8ae1vVF5r9KkawKSgDxAFLozhCGG
-   w==;
-X-CSE-ConnectionGUID: wWMQp0xXS0C5vrlVYHOAXA==
-X-CSE-MsgGUID: /UweI5qBSvS6LktdYEj/sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99873785"
+  bh=NzfdWemez+N6A+/fohc8Gu5ViOBIcVvfo0ttR/7uPX4=;
+  b=QzrT8MEntRZbXp/vxdm+5bU8kjAWyRFb05q2KdZW4DNw4K0H6wBpY6JH
+   O524vlw7PbWB5s7+9x5+GaSXdPoe3kPwuRH/KJc79vIDkN7s7XrTiVau/
+   WdSwRsLdBbcs52K96Tz/bhaINdftOLu5aUmU7gtItsPBp2SdOMODFRN18
+   EWQ0iG4YLDE0uwHNGjvTirKbtXY/3QP2/RGuD7bgki7Kz07zavjBMqxI4
+   JypyO2APigHcLlu9LFShX3mYr1pGcZOssEOUHL6zPcGlKxtWzjIkCllr9
+   5pawrKygBc9NnUMUmi1wMVzAPcnFn4KwW3n6U8jVh8XyOodg3tI2LEoJa
+   g==;
+X-CSE-ConnectionGUID: QhZatV8zQ0+vXh4TvGdu3g==
+X-CSE-MsgGUID: OgORPv5cT2GhcA4XClPF0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89342024"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="99873785"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 13:45:41 -0700
-X-CSE-ConnectionGUID: WdAjmXqYTL2KTtbvKhxTAw==
-X-CSE-MsgGUID: Zur3z+c+Rp6JxVy33Imybw==
+   d="scan'208";a="89342024"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 14:37:42 -0700
+X-CSE-ConnectionGUID: 1xLdSV2XRdCFKB+AQgfljw==
+X-CSE-MsgGUID: LTkqG/n6ReKMleBebIbVrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="274311759"
+   d="scan'208";a="267122463"
 Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Sep 2026 13:45:40 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 07 Sep 2026 14:37:40 -0700
 Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3gDg-000000001Jl-3Ua7;
-	Mon, 07 Sep 2026 20:45:36 +0000
-Date: Tue, 08 Sep 2026 04:44:48 +0800
+	id 1x3h21-000000001L5-3hyV;
+	Mon, 07 Sep 2026 21:37:37 +0000
+Date: Tue, 08 Sep 2026 05:36:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:testing 30/33] fs/ceph/addr.c:951:1: warning:
- the frame size of 2096 bytes is larger than 1280 bytes
-Message-ID: <202609080414.m3ZvUYmq-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-09-04 261/343]
+ sound/soc/codecs/nau8360.c:362:28: error: call to undeclared function
+ 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202609080533.rGIMS07j-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,206 +61,175 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   190736464f4572bfb360fd3747fb827493e02e09
-commit: 07d6f0588d3450da49fc8bb3e7007664981bf4ea [30/33] ceph: convert VFS data I/O paths to bout
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260908/202609080414.m3ZvUYmq-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080414.m3ZvUYmq-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-09-04
+head:   dfa282dfe99643be782149d948208f3d514ebb99
+commit: 2ec5bcc4a0d57a7db5c121ab6e10d602373d1f0e [261/343] ASoC: soc-component: remove snd_soc_component_{set/get}_drvdata()
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609080533.rGIMS07j-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 419c22c908c97dac45d161ce56fa01b99ec7debf)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080533.rGIMS07j-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609080414.m3ZvUYmq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609080533.rGIMS07j-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/ceph/addr.c: In function 'write_folio_nounlock.constprop':
->> fs/ceph/addr.c:951:1: warning: the frame size of 2096 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     951 | }
-         | ^
+>> sound/soc/codecs/nau8360.c:362:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     362 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+>> sound/soc/codecs/nau8360.c:362:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     362 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360.c:409:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     409 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360.c:409:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     409 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360.c:452:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     452 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360.c:452:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     452 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360.c:688:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     688 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                                   ^
+   sound/soc/codecs/nau8360.c:688:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     688 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360.c:712:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     712 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                                   ^
+   sound/soc/codecs/nau8360.c:712:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     712 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360.c:826:43: error: incomplete definition of type 'struct snd_soc_dai'
+     826 |         struct snd_soc_component *component = dai->component;
+         |                                               ~~~^
+   include/sound/soc.h:419:8: note: forward declaration of 'struct snd_soc_dai'
+     419 | struct snd_soc_dai;
+         |        ^
+   sound/soc/codecs/nau8360.c:827:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     827 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                                   ^
+   sound/soc/codecs/nau8360.c:827:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     827 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360.c:855:43: error: incomplete definition of type 'struct snd_soc_dai'
+     855 |         struct snd_soc_component *component = dai->component;
+         |                                               ~~~^
+   include/sound/soc.h:419:8: note: forward declaration of 'struct snd_soc_dai'
+     419 | struct snd_soc_dai;
+         |        ^
+   sound/soc/codecs/nau8360.c:856:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     856 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                                   ^
+   sound/soc/codecs/nau8360.c:856:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     856 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360.c:871:43: error: incomplete definition of type 'struct snd_soc_dai'
+     871 |         struct snd_soc_component *component = dai->component;
+         |                                               ~~~^
+   include/sound/soc.h:419:8: note: forward declaration of 'struct snd_soc_dai'
+     419 | struct snd_soc_dai;
+         |        ^
+   sound/soc/codecs/nau8360.c:872:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     872 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                                   ^
+   sound/soc/codecs/nau8360.c:872:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     872 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+>> sound/soc/codecs/nau8360-dsp.c:117:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     117 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+>> sound/soc/codecs/nau8360-dsp.c:117:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     117 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:266:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     266 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:266:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     266 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:296:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     296 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:296:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     296 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:336:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     336 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:336:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     336 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:534:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     534 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:534:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     534 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:562:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     562 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:562:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     562 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:601:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     601 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:601:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     601 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:615:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     615 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:615:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     615 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   16 errors generated.
 
 
-vim +951 fs/ceph/addr.c
+vim +/snd_soc_component_get_drvdata +362 sound/soc/codecs/nau8360.c
 
-1f934b00e90752 Yan, Zheng              2017-08-30  781  
-1d3576fd10f0d7 Sage Weil               2009-10-06  782  /*
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  783)  * Write a folio, but leave it locked.
-1d3576fd10f0d7 Sage Weil               2009-10-06  784   *
-b72b13eb203835 Jeff Layton             2019-07-02  785   * If we get a write error, mark the mapping for error, but still adjust the
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  786)  * dirty page accounting (i.e., folio is no longer dirty).
-1d3576fd10f0d7 Sage Weil               2009-10-06  787   */
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  788) static int write_folio_nounlock(struct folio *folio,
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  789) 		struct writeback_control *wbc)
-1d3576fd10f0d7 Sage Weil               2009-10-06  790  {
-1cab548e67855c Tal Zussman             2026-09-02  791  	struct page *page;
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  792) 	struct inode *inode = folio->mapping->host;
-6390987f2f4c5d Jeff Layton             2020-07-14  793  	struct ceph_inode_info *ci = ceph_inode(inode);
-5995d90d2d19f3 Xiubo Li                2023-06-12  794  	struct ceph_fs_client *fsc = ceph_inode_to_fs_client(inode);
-38d46409c4639a Xiubo Li                2023-06-12  795  	struct ceph_client *cl = fsc->client;
-6298a33757ba73 Sage Weil               2010-03-31  796  	struct ceph_snap_context *snapc, *oldest;
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  797) 	loff_t page_off = folio_pos(folio);
-6390987f2f4c5d Jeff Layton             2020-07-14  798  	int err;
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  799) 	loff_t len = folio_size(folio);
-d55207717ded95 Jeff Layton             2022-08-25  800  	loff_t wlen;
-1f934b00e90752 Yan, Zheng              2017-08-30  801  	struct ceph_writeback_ctl ceph_wbc;
-6390987f2f4c5d Jeff Layton             2020-07-14  802  	struct ceph_osd_client *osdc = &fsc->client->osdc;
-6390987f2f4c5d Jeff Layton             2020-07-14  803  	struct ceph_osd_request *req;
-1702e79734104d Jeff Layton             2021-12-07  804  	bool caching = ceph_is_cache_enabled(inode);
-d55207717ded95 Jeff Layton             2022-08-25  805  	struct page *bounce_page = NULL;
-1d3576fd10f0d7 Sage Weil               2009-10-06  806  
-07d6f0588d3450 Alex Markuze            2026-08-20  807  	boutc(cl, "%llx.%llx folio %p idx %lu\n", ceph_vinop(inode), folio,
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  808) 	      folio->index);
-1d3576fd10f0d7 Sage Weil               2009-10-06  809  
-a68e564adcaa69 Xiubo Li                2023-02-01  810  	if (ceph_inode_is_shutdown(inode))
-a68e564adcaa69 Xiubo Li                2023-02-01  811  		return -EIO;
-a68e564adcaa69 Xiubo Li                2023-02-01  812  
-1d3576fd10f0d7 Sage Weil               2009-10-06  813  	/* verify this is a writeable snap context */
-42fe08b9e505c8 Tal Zussman             2026-09-02  814  	snapc = ceph_folio_snap_context(folio);
-d37b1d9943d513 Markus Elfring          2017-08-20  815  	if (!snapc) {
-07d6f0588d3450 Alex Markuze            2026-08-20  816  		boutc(cl, "%llx.%llx folio %p not dirty?\n", ceph_vinop(inode),
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  817) 		      folio);
-439868812aac01 Yan, Zheng              2017-05-23  818  		return 0;
-1d3576fd10f0d7 Sage Weil               2009-10-06  819  	}
-05455e1177f768 Yan, Zheng              2017-09-02  820  	oldest = get_oldest_context(inode, &ceph_wbc, snapc);
-6298a33757ba73 Sage Weil               2010-03-31  821  	if (snapc->seq > oldest->seq) {
-07d6f0588d3450 Alex Markuze            2026-08-20  822  		boutc(cl, "%llx.%llx folio %p snapc %p not writeable - noop\n",
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  823) 		      ceph_vinop(inode), folio, snapc);
-1d3576fd10f0d7 Sage Weil               2009-10-06  824  		/* we should only noop if called by kswapd */
-fa71fefb308532 Yan, Zheng              2017-05-23  825  		WARN_ON(!(current->flags & PF_MEMALLOC));
-6298a33757ba73 Sage Weil               2010-03-31  826  		ceph_put_snap_context(oldest);
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  827) 		folio_redirty_for_writepage(wbc, folio);
-439868812aac01 Yan, Zheng              2017-05-23  828  		return 0;
-1d3576fd10f0d7 Sage Weil               2009-10-06  829  	}
-6298a33757ba73 Sage Weil               2010-03-31  830  	ceph_put_snap_context(oldest);
-1d3576fd10f0d7 Sage Weil               2009-10-06  831  
-1d3576fd10f0d7 Sage Weil               2009-10-06  832  	/* is this a partial page at end of file? */
-1f934b00e90752 Yan, Zheng              2017-08-30  833  	if (page_off >= ceph_wbc.i_size) {
-07d6f0588d3450 Alex Markuze            2026-08-20  834  		boutc(cl, "%llx.%llx folio at %lu beyond eof %llu\n",
-38d46409c4639a Xiubo Li                2023-06-12  835  		      ceph_vinop(inode), folio->index, ceph_wbc.i_size);
-a628304ebe6ab0 Matthew Wilcox (Oracle  2022-02-09  836) 		folio_invalidate(folio, 0, folio_size(folio));
-439868812aac01 Yan, Zheng              2017-05-23  837  		return 0;
-fc2744aa12da71 Yan, Zheng              2013-05-31  838  	}
-439868812aac01 Yan, Zheng              2017-05-23  839  
-1f934b00e90752 Yan, Zheng              2017-08-30  840  	if (ceph_wbc.i_size < page_off + len)
-1f934b00e90752 Yan, Zheng              2017-08-30  841  		len = ceph_wbc.i_size - page_off;
-1d3576fd10f0d7 Sage Weil               2009-10-06  842  
-d55207717ded95 Jeff Layton             2022-08-25  843  	wlen = IS_ENCRYPTED(inode) ? round_up(len, CEPH_FSCRYPT_BLOCK_SIZE) : len;
-07d6f0588d3450 Alex Markuze            2026-08-20  844  	boutc(cl, "%llx.%llx folio %p index %lu on %llu~%llu snapc %p seq %lld\n",
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  845) 	      ceph_vinop(inode), folio, folio->index, page_off, wlen, snapc,
-38d46409c4639a Xiubo Li                2023-06-12  846  	      snapc->seq);
-1d3576fd10f0d7 Sage Weil               2009-10-06  847  
-fcf4b6daf7124c Tal Zussman             2026-09-02  848  	/* wait for a cache write left pending by a previously failed attempt */
-fcf4b6daf7124c Tal Zussman             2026-09-02  849  	ceph_folio_wait_fscache(folio);
-fcf4b6daf7124c Tal Zussman             2026-09-02  850  
-314c4737a45dd4 Yan, Zheng              2017-12-15  851  	if (atomic_long_inc_return(&fsc->writeback_count) >
-3d14c5d2b6e15c Yehuda Sadeh            2010-04-06  852  	    CONGESTION_ON_THRESH(fsc->mount_options->congestion_kb))
-503d4fa6ee28e8 NeilBrown               2022-03-22  853  		fsc->write_congested = true;
-2baba25019ec56 Yehuda Sadeh            2009-12-18  854  
-d55207717ded95 Jeff Layton             2022-08-25  855  	req = ceph_osdc_new_request(osdc, &ci->i_layout, ceph_vino(inode),
-d55207717ded95 Jeff Layton             2022-08-25  856  				    page_off, &wlen, 0, 1, CEPH_OSD_OP_WRITE,
-d55207717ded95 Jeff Layton             2022-08-25  857  				    CEPH_OSD_FLAG_WRITE, snapc,
-d55207717ded95 Jeff Layton             2022-08-25  858  				    ceph_wbc.truncate_seq,
-d55207717ded95 Jeff Layton             2022-08-25  859  				    ceph_wbc.truncate_size, true);
-3459bd0c55ed28 Xiubo Li                2022-04-24  860  	if (IS_ERR(req)) {
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  861) 		folio_redirty_for_writepage(wbc, folio);
-cbf59617cd7152 Wentao Liang            2026-06-04  862  		if (atomic_long_dec_return(&fsc->writeback_count) <
-cbf59617cd7152 Wentao Liang            2026-06-04  863  				CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
-cbf59617cd7152 Wentao Liang            2026-06-04  864  			fsc->write_congested = false;
-6390987f2f4c5d Jeff Layton             2020-07-14  865  		return PTR_ERR(req);
-3459bd0c55ed28 Xiubo Li                2022-04-24  866  	}
-1702e79734104d Jeff Layton             2021-12-07  867  
-d55207717ded95 Jeff Layton             2022-08-25  868  	if (wlen < len)
-d55207717ded95 Jeff Layton             2022-08-25  869  		len = wlen;
-d55207717ded95 Jeff Layton             2022-08-25  870  
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  871) 	folio_start_writeback(folio);
-8e5ced7804cb91 David Howells           2024-07-30  872  	if (caching)
-1cab548e67855c Tal Zussman             2026-09-02  873  		ceph_folio_start_fscache(folio);
-1702e79734104d Jeff Layton             2021-12-07  874  	ceph_fscache_write_to_cache(inode, page_off, len, caching);
-6390987f2f4c5d Jeff Layton             2020-07-14  875  
-d55207717ded95 Jeff Layton             2022-08-25  876  	if (IS_ENCRYPTED(inode)) {
-59b59a943177e1 Matthew Wilcox (Oracle  2025-03-04  877) 		bounce_page = fscrypt_encrypt_pagecache_blocks(folio,
-d55207717ded95 Jeff Layton             2022-08-25  878  						    CEPH_FSCRYPT_BLOCK_SIZE, 0,
-d55207717ded95 Jeff Layton             2022-08-25  879  						    GFP_NOFS);
-d55207717ded95 Jeff Layton             2022-08-25  880  		if (IS_ERR(bounce_page)) {
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  881) 			folio_redirty_for_writepage(wbc, folio);
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  882) 			folio_end_writeback(folio);
-d55207717ded95 Jeff Layton             2022-08-25  883  			ceph_osdc_put_request(req);
-cbf59617cd7152 Wentao Liang            2026-06-04  884  			if (atomic_long_dec_return(&fsc->writeback_count) <
-cbf59617cd7152 Wentao Liang            2026-06-04  885  					CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
-cbf59617cd7152 Wentao Liang            2026-06-04  886  				fsc->write_congested = false;
-d55207717ded95 Jeff Layton             2022-08-25  887  			return PTR_ERR(bounce_page);
-d55207717ded95 Jeff Layton             2022-08-25  888  		}
-d55207717ded95 Jeff Layton             2022-08-25  889  	}
-d55207717ded95 Jeff Layton             2022-08-25  890  
-6390987f2f4c5d Jeff Layton             2020-07-14  891  	/* it may be a short write due to an object boundary */
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  892) 	WARN_ON_ONCE(len > folio_size(folio));
-1cab548e67855c Tal Zussman             2026-09-02  893  	page = bounce_page ? bounce_page : &folio->page;
-1cab548e67855c Tal Zussman             2026-09-02  894  	osd_req_op_extent_osd_data_pages(req, 0, &page, wlen, 0, false, false);
-07d6f0588d3450 Alex Markuze            2026-08-20  895  	boutc(cl, "%llx.%llx %llu~%llu (%llu bytes, %sencrypted)\n",
-38d46409c4639a Xiubo Li                2023-06-12  896  	      ceph_vinop(inode), page_off, len, wlen,
-38d46409c4639a Xiubo Li                2023-06-12  897  	      IS_ENCRYPTED(inode) ? "" : "not ");
-6390987f2f4c5d Jeff Layton             2020-07-14  898  
-c453bdb535341b Jeff Layton             2023-10-04  899  	req->r_mtime = inode_get_mtime(inode);
-a8af0d682ae0c9 Jeff Layton             2022-06-30  900  	ceph_osdc_start_request(osdc, req);
-6390987f2f4c5d Jeff Layton             2020-07-14  901  	err = ceph_osdc_wait_request(osdc, req);
-6390987f2f4c5d Jeff Layton             2020-07-14  902  
-8ae99ae2b40766 Xiubo Li                2021-03-22  903  	ceph_update_write_metrics(&fsc->mdsc->metric, req->r_start_latency,
-903f4fec78dd05 Xiubo Li                2021-05-13  904  				  req->r_end_latency, len, err);
-b1137e0b3d4bad Alex Markuze            2026-02-10  905  	if (err >= 0 && len > 0)
-b1137e0b3d4bad Alex Markuze            2026-02-10  906  		ceph_subvolume_metrics_record_io(fsc->mdsc, ci, true, len,
-b1137e0b3d4bad Alex Markuze            2026-02-10  907  						 req->r_start_latency,
-b1137e0b3d4bad Alex Markuze            2026-02-10  908  						 req->r_end_latency);
-d55207717ded95 Jeff Layton             2022-08-25  909  	fscrypt_free_bounce_page(bounce_page);
-6390987f2f4c5d Jeff Layton             2020-07-14  910  	ceph_osdc_put_request(req);
-6390987f2f4c5d Jeff Layton             2020-07-14  911  	if (err == 0)
-6390987f2f4c5d Jeff Layton             2020-07-14  912  		err = len;
-6390987f2f4c5d Jeff Layton             2020-07-14  913  
-1d3576fd10f0d7 Sage Weil               2009-10-06  914  	if (err < 0) {
-ad15ec06e51b6e Yan, Zheng              2016-05-13  915  		struct writeback_control tmp_wbc;
-ad15ec06e51b6e Yan, Zheng              2016-05-13  916  		if (!wbc)
-ad15ec06e51b6e Yan, Zheng              2016-05-13  917  			wbc = &tmp_wbc;
-ad15ec06e51b6e Yan, Zheng              2016-05-13  918  		if (err == -ERESTARTSYS) {
-ad15ec06e51b6e Yan, Zheng              2016-05-13  919  			/* killed by SIGKILL */
-07d6f0588d3450 Alex Markuze            2026-08-20  920  			boutc(cl, "%llx.%llx interrupted page %p\n",
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  921) 			      ceph_vinop(inode), folio);
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  922) 			folio_redirty_for_writepage(wbc, folio);
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  923) 			folio_end_writeback(folio);
-cbf59617cd7152 Wentao Liang            2026-06-04  924  			if (atomic_long_dec_return(&fsc->writeback_count) <
-cbf59617cd7152 Wentao Liang            2026-06-04  925  					CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
-cbf59617cd7152 Wentao Liang            2026-06-04  926  				fsc->write_congested = false;
-439868812aac01 Yan, Zheng              2017-05-23  927  			return err;
-ad15ec06e51b6e Yan, Zheng              2016-05-13  928  		}
-0b98acd6188309 Ilya Dryomov            2020-09-14  929  		if (err == -EBLOCKLISTED)
-0b98acd6188309 Ilya Dryomov            2020-09-14  930  			fsc->blocklisted = true;
-07d6f0588d3450 Alex Markuze            2026-08-20  931  		boutc(cl, "%llx.%llx setting mapping error %d %p\n",
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  932) 		      ceph_vinop(inode), err, folio);
-1d3576fd10f0d7 Sage Weil               2009-10-06  933  		mapping_set_error(&inode->i_data, err);
-1d3576fd10f0d7 Sage Weil               2009-10-06  934  		wbc->pages_skipped++;
-1d3576fd10f0d7 Sage Weil               2009-10-06  935  	} else {
-07d6f0588d3450 Alex Markuze            2026-08-20  936  		boutc(cl, "%llx.%llx cleaned page %p\n",
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  937) 		      ceph_vinop(inode), folio);
-1d3576fd10f0d7 Sage Weil               2009-10-06  938  		err = 0;  /* vfs expects us to return 0 */
-1d3576fd10f0d7 Sage Weil               2009-10-06  939  	}
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  940) 	oldest = folio_detach_private(folio);
-379fc7fad0ae6e Jeff Layton             2021-03-23  941  	WARN_ON_ONCE(oldest != snapc);
-62171c16da6000 Matthew Wilcox (Oracle  2025-02-17  942) 	folio_end_writeback(folio);
-1d3576fd10f0d7 Sage Weil               2009-10-06  943  	ceph_put_wrbuffer_cap_refs(ci, 1, snapc);
-6298a33757ba73 Sage Weil               2010-03-31  944  	ceph_put_snap_context(snapc);  /* page's reference */
-314c4737a45dd4 Yan, Zheng              2017-12-15  945  
-314c4737a45dd4 Yan, Zheng              2017-12-15  946  	if (atomic_long_dec_return(&fsc->writeback_count) <
-314c4737a45dd4 Yan, Zheng              2017-12-15  947  	    CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
-503d4fa6ee28e8 NeilBrown               2022-03-22  948  		fsc->write_congested = false;
-314c4737a45dd4 Yan, Zheng              2017-12-15  949  
-1d3576fd10f0d7 Sage Weil               2009-10-06  950  	return err;
-1d3576fd10f0d7 Sage Weil               2009-10-06 @951  }
-1d3576fd10f0d7 Sage Weil               2009-10-06  952  
+be88847a8bb1a1 Neo Chang 2026-08-25  357  
+be88847a8bb1a1 Neo Chang 2026-08-25  358  static int nau8360_anc_put(struct snd_kcontrol *kcontrol,
+be88847a8bb1a1 Neo Chang 2026-08-25  359  	struct snd_ctl_elem_value *ucontrol)
+be88847a8bb1a1 Neo Chang 2026-08-25  360  {
+be88847a8bb1a1 Neo Chang 2026-08-25  361  	struct snd_soc_component *cp = snd_kcontrol_chip(kcontrol);
+be88847a8bb1a1 Neo Chang 2026-08-25 @362  	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+be88847a8bb1a1 Neo Chang 2026-08-25  363  	int ret, value = NAU8360_PEQ_BAND_8;
+be88847a8bb1a1 Neo Chang 2026-08-25  364  
+be88847a8bb1a1 Neo Chang 2026-08-25  365  	mutex_lock(&nau8360->lock);
+be88847a8bb1a1 Neo Chang 2026-08-25  366  
+be88847a8bb1a1 Neo Chang 2026-08-25  367  	ret = snd_soc_put_volsw(kcontrol, ucontrol);
+be88847a8bb1a1 Neo Chang 2026-08-25  368  	/* update anc flag if return value 1 and register value changed */
+be88847a8bb1a1 Neo Chang 2026-08-25  369  	if (ret != 1)
+be88847a8bb1a1 Neo Chang 2026-08-25  370  		goto unlock;
+be88847a8bb1a1 Neo Chang 2026-08-25  371  
+be88847a8bb1a1 Neo Chang 2026-08-25  372  	nau8360->anc_enable = ucontrol->value.integer.value[0];
+be88847a8bb1a1 Neo Chang 2026-08-25  373  	if (nau8360_dsp_active(cp))
+be88847a8bb1a1 Neo Chang 2026-08-25  374  		value = nau8360->anc_enable ? NAU8360_PEQ_BAND_15 : NAU8360_PEQ_BAND_12;
+be88847a8bb1a1 Neo Chang 2026-08-25  375  	regmap_update_bits(nau8360->regmap, NAU8360_R9D_PEQ_CTL, NAU8360_PEQ_BAND_MASK,
+be88847a8bb1a1 Neo Chang 2026-08-25  376  		value << NAU8360_PEQ_BAND_SFT);
+be88847a8bb1a1 Neo Chang 2026-08-25  377  
+be88847a8bb1a1 Neo Chang 2026-08-25  378  unlock:
+be88847a8bb1a1 Neo Chang 2026-08-25  379  	mutex_unlock(&nau8360->lock);
+be88847a8bb1a1 Neo Chang 2026-08-25  380  
+be88847a8bb1a1 Neo Chang 2026-08-25  381  	return ret;
+be88847a8bb1a1 Neo Chang 2026-08-25  382  }
+be88847a8bb1a1 Neo Chang 2026-08-25  383  
 
-:::::: The code at line 951 was first introduced by commit
-:::::: 1d3576fd10f0d7a104204267b81cf84a07028dad ceph: address space operations
+:::::: The code at line 362 was first introduced by commit
+:::::: be88847a8bb1a14194cf50116f8909d127861318 ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
 
-:::::: TO: Sage Weil <sage@newdream.net>
-:::::: CC: Sage Weil <sage@newdream.net>
+:::::: TO: Neo Chang <YLCHANG2@nuvoton.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
