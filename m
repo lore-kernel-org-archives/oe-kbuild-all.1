@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D5A329E4B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 04:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9F436F433
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 05:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788843599; cv=none; b=uj6oI8PgCpkS2BE5mhGdJ9yvQJn/hWANJ8sTz45OeSBveSJNPTk+oGzVgG1TdGMWgvztRrR2cDuykp2EHjTTL/Vxl8BYKlmi728wKs1r2Zno5b8IhXQV9eBhY3WkHBoULmD+WYFtqg+z0Jm9ueT85A3L0531sQDmkBuoDBaZt5U=
+	t=1788844322; cv=none; b=YorvEHLSDysOrsfQPZthhlww13QDYjXgFLSdyenMEl3DU6hbRMHXxFFqcHqe8vq1I+/cwf3dBOBU3PgMCqYEmRZxDdehk8pGslRnVS3ppZIGrRgbs9OabYZDMjKZTnoBpsPvsB/dF/A/icAAmUwEXxY9TvGiCKmlZhYuTrLR7r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788843599; c=relaxed/simple;
-	bh=9isLpONefQGnTXVFFYpiNzznskSB0ngkeEZ0OSv9yOY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LchEag9Xqc4GVxZazVer561ITVcq0aItjDpXRlCkJ+n9wjK6ASrcupspmekSDbn2IAEWk8YfOMJpjoTZzcQWv+HKfL9j+dk4z4IgNYvt3Y2KLd5fmsMZYspdjixX74gOPOuNT2dFKIay3RcgJMJIDGj3UwTeQdpcJWIQcszlY64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzBoUzzh; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1788844322; c=relaxed/simple;
+	bh=mfZ+j3nggl1vGCZSTE1M7+L+Uq53kGFUr4cMpOy8idI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gYgQJWwl6eABrsFo6+fJfOq/wKTVFSmOVBR20YJGPR+tUHZd5+tZ3jQge03KBASe4wpxIvnEQZPpImohJdtkYWJWHv2zafXJBzRkZik70L7toNgcFNmhpEu0CXhZSUbybF7v4iszZAWQS8wjib98ixGZgWvP8L9GIxvY71s6L5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTQdEXGR; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzBoUzzh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTQdEXGR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788843598; x=1820379598;
+  t=1788844320; x=1820380320;
   h=date:from:to:cc:subject:message-id;
-  bh=9isLpONefQGnTXVFFYpiNzznskSB0ngkeEZ0OSv9yOY=;
-  b=SzBoUzzh/YxEKA7C0LomCqV8yrUOuSnENXeVMvOW5WhvSHlMg5K2SBQn
-   HJQ9aZH6CpvUjv9hqfO0TNMqphShna+YijF+N88Y7eASW7i+LGU4imkLT
-   wSEHqLAaivE4pJWJ5uJ/USKoBPmIO/fWIL7H5P591yNS1+ibOd5I5d1Tq
-   Kj8TDbZaFU8B8SvBniinJeltsqLmO467v90b5oxfDgAx0MPYzqtkhdl/k
-   gVL4SiJLeptmm1qIhmXxXHeY2sP/PLpC8NhjbiZPQyllCUXfh450FhPFa
-   MrjmH+aXPYmHxz29jh891jumglZKAYd2LxiYe42aMMWJmAa97gMW/fMuH
-   w==;
-X-CSE-ConnectionGUID: j81zgOgjR4q7ArYB6Nf+Ew==
-X-CSE-MsgGUID: g1J72T6NQ0WRgD8pj3/s2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="93099722"
+  bh=mfZ+j3nggl1vGCZSTE1M7+L+Uq53kGFUr4cMpOy8idI=;
+  b=MTQdEXGR+H1fMdMUi0jMhYtGsD08yyQe5FTllD6jBbegZAvpRIXXah+W
+   O/w2u1ei7Iq4gTz+1ep04/+OqXKbbR6h3aNmEvUtIFrrTU1SwYXyNdvEm
+   QiQosPngF9HK04EnRFrBQ4o25sHNkcKnv91pIvVPIznvSCTGBEpeOOstq
+   od/jm0YMLCGZ5SMBZMLDEiZ8Kxx7QEsr7wUxt5KMTRF21HPnwtBzSZrM8
+   cKVbdIPbvKcTv9GeFnaTGzwWUzWNByr7921LB23bsdy4sakGtqEue6ddI
+   HYToG3OVa/sx+AYSUK3F9ymhL0aoJNs87b7XTKl8If2jFAt5BmbMBmHVp
+   g==;
+X-CSE-ConnectionGUID: kf6jt4TRTKyURgjRYOEfTQ==
+X-CSE-MsgGUID: wGFlGbeNQ5muNlXYI9mEFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="91745570"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="93099722"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 21:59:58 -0700
-X-CSE-ConnectionGUID: 3QzkPGa9RWeEzq6pMuFyJQ==
-X-CSE-MsgGUID: cpUCcFx4Ssey6Tx8i5LhGQ==
+   d="scan'208";a="91745570"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 22:11:57 -0700
+X-CSE-ConnectionGUID: oD8aCoy3Thm7lJMdIn/7tA==
+X-CSE-MsgGUID: +Xhz3hNbTjK7wlZBlp8Bgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="266533291"
+   d="scan'208";a="269148909"
 Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Sep 2026 21:59:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 Sep 2026 22:11:54 -0700
 Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3nvz-000000001gL-1UhK;
-	Tue, 08 Sep 2026 04:59:51 +0000
-Date: Tue, 08 Sep 2026 12:58:54 +0800
+	id 1x3o7c-000000001h3-29Ln;
+	Tue, 08 Sep 2026 05:11:52 +0000
+Date: Tue, 08 Sep 2026 13:11:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1] mm/vmscan.c:2623:15:
- warning: no previous prototype for function 'shrink_inactive_list'
-Message-ID: <202609081249.8Kx67Wra-lkp@intel.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
+ Xiubo Li <xiubo.li@clyso.com>
+Subject: [ceph-client:testing 27/33] fs/ceph/mds_client.c:528:17:
+ sparse: sparse: non size-preserving pointer to integer cast
+Message-ID: <202609081319.wC7kigIc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,220 +60,280 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi xiaofeng,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   7c4d9544b5a66846a8522efb9935c50a56b8f1ec
-commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [0/1] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260908/202609081249.8Kx67Wra-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081249.8Kx67Wra-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   190736464f4572bfb360fd3747fb827493e02e09
+commit: 0ae2716890be9bd8ccad10859bdf92e67544faa4 [27/33] ceph: switch MDS request plumbing to struct ceph_journal_info
+config: nios2-randconfig-r133-20260908 (https://download.01.org/0day-ci/archive/20260908/202609081319.wC7kigIc-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081319.wC7kigIc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609081249.8Kx67Wra-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609081319.wC7kigIc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ceph/mds_client.c:528:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1008:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1008:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1008:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1008:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1174:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1317:9: sparse: sparse: non size-preserving pointer to integer cast
+>> fs/ceph/mds_client.c:1317:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1342:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1342:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1457:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1457:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1457:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1478:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1478:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1478:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1498:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1498:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1498:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1515:33: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1515:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1515:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1530:33: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1530:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1530:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1555:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1555:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1555:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1555:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1555:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1808:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1965:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:1996:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2033:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2033:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2033:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2058:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2141:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2168:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2173:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2189:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2189:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2227:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2227:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2244:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2244:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2323:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2392:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2392:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2392:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2392:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2440:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2440:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2540:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2557:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2623:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2643:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2772:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:2772:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2772:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2996:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3095:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3095:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3095:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3176:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3176:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3176:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3180:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3180:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3180:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3192:17: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3614:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3614:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3614:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3683:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3789:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:3789:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4066:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4100:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4106:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4120:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4120:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4168:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4173:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4217:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4234:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4347:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4398:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4404:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4424:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4619:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4619:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4619:25: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4619:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4619:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4619:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4656:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4656:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4656:9: sparse: sparse: non size-preserving pointer to integer cast
+   fs/ceph/mds_client.c:4656:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4739:17: sparse: sparse: non size-preserving pointer to integer cast
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:150:
-   include/linux/compiler-clang.h:33:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      33 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:353:9: note: previous definition is here
-     353 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from mm/vmscan.c:15:
-   In file included from include/linux/mm.h:2238:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/vmscan.c:30:
-   include/linux/mm_inline.h:49:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:51:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      51 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:678:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     678 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
-         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:1043:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^
-   mm/vmscan.c:1043:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         | ^
-         | static 
-   mm/vmscan.c:2442:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2442 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
->> mm/vmscan.c:2623:15: warning: no previous prototype for function 'shrink_inactive_list' [-Wmissing-prototypes]
-    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         |               ^
-   mm/vmscan.c:2623:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         | ^
-         | static 
-   mm/vmscan.c:2971:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2971 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
-         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
-   mm/vmscan.c:2972:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2972 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
-         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
-   mm/vmscan.c:5175:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    5175 |                         __count_zid_vm_events(PGSCAN_SKIP, zone, skipped_zone);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/vmscan.c:7018:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    7018 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   16 warnings generated.
+vim +528 fs/ceph/mds_client.c
 
-
-vim +/shrink_inactive_list +2623 mm/vmscan.c
-
-  2618	
-  2619	/*
-  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
-  2621	 * of reclaimed pages
-  2622	 */
-> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-  2624			struct lruvec *lruvec, struct scan_control *sc,
-  2625			enum lru_list lru)
-  2626	{
-  2627		LIST_HEAD(folio_list);
-  2628		unsigned long nr_scanned;
-  2629		unsigned int nr_reclaimed = 0;
-  2630		unsigned long nr_taken;
-  2631		struct reclaim_stat stat;
-  2632		bool file = is_file_lru(lru);
-  2633		enum vm_event_item item;
-  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-  2635		bool stalled = false;
-  2636	
-  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
-  2638			if (stalled)
-  2639				return 0;
-  2640	
-  2641			/* wait a bit for the reclaimer. */
-  2642			stalled = true;
-  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
-  2644	
-  2645			/* We are about to die and free our memory. Return now. */
-  2646			if (fatal_signal_pending(current))
-  2647				return SWAP_CLUSTER_MAX;
-  2648		}
-  2649	
-  2650		lru_add_drain();
-  2651	
-  2652		spin_lock_irq(&lruvec->lru_lock);
-  2653	
-  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
-  2655					     &nr_scanned, sc, lru);
-  2656	
-  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
-  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
-  2659		if (!cgroup_reclaim(sc))
-  2660			__count_vm_events(item, nr_scanned);
-  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
-  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
-  2663	
-  2664		spin_unlock_irq(&lruvec->lru_lock);
-  2665	
-  2666		if (nr_taken == 0)
-  2667			return 0;
-  2668	
-  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
-  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
-  2671	
-  2672		spin_lock_irq(&lruvec->lru_lock);
-  2673		move_folios_to_lru(lruvec, &folio_list);
-  2674	
-  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
-  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
-  2677		if (!cgroup_reclaim(sc))
-  2678			__count_vm_events(item, nr_reclaimed);
-  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
-  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
-  2681		spin_unlock_irq(&lruvec->lru_lock);
-  2682	
-  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
-  2684		mem_cgroup_uncharge_list(&folio_list);
-  2685		free_unref_page_list(&folio_list);
-  2686	
-  2687		/*
-  2688		 * If dirty folios are scanned that are not queued for IO, it
-  2689		 * implies that flushers are not doing their job. This can
-  2690		 * happen when memory pressure pushes dirty folios to the end of
-  2691		 * the LRU before the dirty limits are breached and the dirty
-  2692		 * data has expired. It can also happen when the proportion of
-  2693		 * dirty folios grows not through writes but through memory
-  2694		 * pressure reclaiming all the clean cache. And in some cases,
-  2695		 * the flushers simply cannot keep up with the allocation
-  2696		 * rate. Nudge the flusher threads in case they are asleep.
-  2697		 */
-  2698		if (stat.nr_unqueued_dirty == nr_taken) {
-  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
-  2700			/*
-  2701			 * For cgroupv1 dirty throttling is achieved by waking up
-  2702			 * the kernel flusher here and later waiting on folios
-  2703			 * which are in writeback to finish (see shrink_folio_list()).
-  2704			 *
-  2705			 * Flusher may not be able to issue writeback quickly
-  2706			 * enough for cgroupv1 writeback throttling to work
-  2707			 * on a large system.
-  2708			 */
-  2709			if (!writeback_throttling_sane(sc))
-  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
-  2711		}
-  2712	
-  2713		sc->nr.dirty += stat.nr_dirty;
-  2714		sc->nr.congested += stat.nr_congested;
-  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
-  2716		sc->nr.writeback += stat.nr_writeback;
-  2717		sc->nr.immediate += stat.nr_immediate;
-  2718		sc->nr.taken += nr_taken;
-  2719		if (file)
-  2720			sc->nr.file_taken += nr_taken;
-  2721	
-  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
-  2724		return nr_reclaimed;
-  2725	}
-  2726	EXPORT_SYMBOL(shrink_inactive_list);
-  2727	
+   474	
+   475	/*
+   476	 * parse readdir results
+   477	 */
+   478	static int parse_reply_info_readdir(void **p, void *end,
+   479					    struct ceph_mds_request *req,
+   480					    u64 features,
+   481					    struct ceph_mds_client *mdsc)
+   482	{
+   483		struct ceph_mds_reply_info_parsed *info = &req->r_reply_info;
+   484		struct ceph_client *cl = req->r_mdsc->fsc->client;
+   485		u32 num, i = 0;
+   486		int err;
+   487	
+   488		err = parse_reply_info_dir(p, end, &info->dir_dir, features);
+   489		if (err < 0)
+   490			goto out_bad;
+   491	
+   492		ceph_decode_need(p, end, sizeof(num) + 2, bad);
+   493		num = ceph_decode_32(p);
+   494		{
+   495			u16 flags = ceph_decode_16(p);
+   496			info->dir_end = !!(flags & CEPH_READDIR_FRAG_END);
+   497			info->dir_complete = !!(flags & CEPH_READDIR_FRAG_COMPLETE);
+   498			info->hash_order = !!(flags & CEPH_READDIR_HASH_ORDER);
+   499			info->offset_hash = !!(flags & CEPH_READDIR_OFFSET_HASH);
+   500		}
+   501		if (num == 0)
+   502			goto done;
+   503	
+   504		BUG_ON(!info->dir_entries);
+   505		if ((unsigned long)(info->dir_entries + num) >
+   506		    (unsigned long)info->dir_entries + info->dir_buf_size) {
+   507			pr_err_client(cl, "dir contents are larger than expected\n");
+   508			WARN_ON(1);
+   509			goto bad;
+   510		}
+   511	
+   512		info->dir_nr = num;
+   513		while (num) {
+   514			struct inode *inode = d_inode(req->r_dentry);
+   515			struct ceph_inode_info *ci = ceph_inode(inode);
+   516			struct ceph_mds_reply_dir_entry *rde = info->dir_entries + i;
+   517			struct fscrypt_str oname = FSTR_INIT(NULL, 0);
+   518			struct ceph_fname fname;
+   519			u32 altname_len, _name_len;
+   520			u8 *altname, *_name;
+   521			u8 *tname = NULL;
+   522	
+   523			/* dentry */
+   524			ceph_decode_32_safe(p, end, _name_len, bad);
+   525			ceph_decode_need(p, end, _name_len, bad);
+   526			_name = *p;
+   527			*p += _name_len;
+ > 528			boutc_bounded(cl, "parsed dir dname '%.*s'\n",
+   529				      (_name_len, BLOG_STR(_name, _name_len)),
+   530				      (_name_len, (const char *)_name));
+   531	
+   532			if (info->hash_order)
+   533				rde->raw_hash = ceph_str_hash(ci->i_dir_layout.dl_dir_hash,
+   534							      _name, _name_len);
+   535	
+   536			/* dentry lease */
+   537			err = parse_reply_info_lease(p, end, &rde->lease, features,
+   538						     &altname_len, &altname);
+   539			if (err)
+   540				goto out_bad;
+   541	
+   542			/*
+   543			 * Try to dencrypt the dentry names and update them
+   544			 * in the ceph_mds_reply_dir_entry struct.
+   545			 */
+   546			fname.dir = inode;
+   547			fname.name = _name;
+   548			fname.name_len = _name_len;
+   549			fname.ctext = altname;
+   550			fname.ctext_len = altname_len;
+   551			/*
+   552			 * The _name_len maybe larger than altname_len, such as
+   553			 * when the human readable name length is in range of
+   554			 * (CEPH_NOHASH_NAME_MAX, CEPH_NOHASH_NAME_MAX + SHA256_DIGEST_SIZE),
+   555			 * then the copy in ceph_fname_to_usr will corrupt the
+   556			 * data if there has no encryption key.
+   557			 *
+   558			 * Just set the no_copy flag and then if there has no
+   559			 * encryption key the oname.name will be assigned to
+   560			 * _name always.
+   561			 */
+   562			fname.no_copy = true;
+   563			if (altname_len == 0) {
+   564				/*
+   565				 * Set tname to _name, and this will be used
+   566				 * to do the base64_decode in-place. It's
+   567				 * safe because the decoded string should
+   568				 * always be shorter, which is 3/4 of origin
+   569				 * string. If this message was allocated with
+   570				 * vmalloc() (happens, but rarely), leave it
+   571				 * NULL and let ceph_fname_to_usr() allocate
+   572				 * suitable temporary working space instead.
+   573				 */
+   574				if (likely(!is_vmalloc_addr(_name)))
+   575					tname = _name;
+   576	
+   577				/*
+   578				 * Set oname to _name too, and this will be
+   579				 * used to do the dencryption in-place.
+   580				 */
+   581				oname.name = _name;
+   582				oname.len = _name_len;
+   583			} else {
+   584				/*
+   585				 * This will do the decryption only in-place
+   586				 * from altname cryptext directly.
+   587				 */
+   588				oname.name = altname;
+   589				oname.len = altname_len;
+   590			}
+   591			rde->is_nokey = false;
+   592			err = ceph_fname_to_usr(&fname, tname, &oname, &rde->is_nokey);
+   593			if (err) {
+   594				pr_err_client(cl, "unable to decode %.*s, got %d\n",
+   595					      _name_len, _name, err);
+   596				goto out_bad;
+   597			}
+   598			rde->name = oname.name;
+   599			rde->name_len = oname.len;
+   600	
+   601			/* inode */
+   602			err = parse_reply_info_in(p, end, &rde->inode, features, mdsc);
+   603			if (err < 0)
+   604				goto out_bad;
+   605			/* ceph_readdir_prepopulate() will update it */
+   606			rde->offset = 0;
+   607			i++;
+   608			num--;
+   609		}
+   610	
+   611	done:
+   612		/* Skip over any unrecognized fields */
+   613		*p = end;
+   614		return 0;
+   615	
+   616	bad:
+   617		err = -EIO;
+   618	out_bad:
+   619		pr_err_client(cl, "problem parsing dir contents %d\n", err);
+   620		return err;
+   621	}
+   622	
 
 --
 0-DAY CI Kernel Test Service
