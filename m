@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B883E21D3E8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 01:09:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63133242D72;
+	Tue,  8 Sep 2026 01:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788829776; cv=none; b=scESLclXj3EtD3haFMc55/9iqPHarDnw+65L7u7D57AuftsXaSdRG9iY6USmkoUiGdKzapRB2bRLu0o+lshiwNDIMya4DFJvM6jyEJ0d7kxZbxAeg913uFWmkCf1VhOMlI/XKb58ikErRpJ+LD3jIIMIQKdogTz45Wr/doPqByw=
+	t=1788829778; cv=none; b=ms4f4EXgTI/wLurylL6ymDCF7Db9PL6Jz9ZXDWZ/HPtYBdubPFzpXNollXgazlNtGM7z+QO+gTzkyxMLYNqVLij55HDmBRaV+W8QJVY6cXjCmnIkL2rtOhFqZGPX9Z1rcNTeWd/ME0NTxbwnDSiKR0c5zvxYTw2rXZdZuHpLxQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788829776; c=relaxed/simple;
-	bh=okbi4s8sAFtOelPXOVXVmFS5YR+gCmqNeOIDovfeQJM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=utM6+LjTgVZmv8rkMhhPAZJ5H/srAptv/DoWsAv281uawOWF39ImiJ5hXIFSYhUrum1RnOnx8aKMeZJB4x4tJ+uZN+eM0GrqbvXKoNb2LpC3sp+4o3u6L90xLEWhOIkjhRrHpcg5HY0Ej5B1Bo9if3JmVANDgUrMDwg+cIV8LUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hqkjz9Ag; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1788829778; c=relaxed/simple;
+	bh=VYgsaIIhZa9Vpxs6rnUwQoV99atGSMGQxukydgYacBU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DVuXRd+XAQ1VD2n/ZMs+8UEb7CBeMkPcxTG3hnDw0SzpNdm0Ez3ipe89NrTc0VHkapKCW4834o5IKUazstXnNzOSORVaMxSoPLwWpUHYBlfrZTcu4yj+aBAkFxA6EViOVNtBmwWLDfdROZFdt86Y1bdhas8hFP/jpJGobavdOpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4RkFbzx; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hqkjz9Ag"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4RkFbzx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788829773; x=1820365773;
+  t=1788829776; x=1820365776;
   h=date:from:to:cc:subject:message-id;
-  bh=okbi4s8sAFtOelPXOVXVmFS5YR+gCmqNeOIDovfeQJM=;
-  b=Hqkjz9Ag2nqTozrfMJANLyXIZFIio5dcFTO/FEphM/c2UyYLGN/4wax1
-   fv0M8Ok8LM7NOZ0ziX4uq4uJ7he8XxbNXIe3dEiBrqA2tlt6CLAYHLUHa
-   W8d88/a/3LtYDB1BWpXmtn9nUSrO7+ZrM3Meq2B/6em/FdPOkJRYD9xXH
-   0tABaD8Tzz0s8UjDSlmDzUgzATah0QA3R4ShhQetMLQycHJDJXELaMZbu
-   ryXC4HS9Bhh0PwLksaooAY85RA1q3MMXDaWfvrq9l2+GySuZdDh9P1GaI
-   QKpgt0FarELg/1btuWOEaF8l9tn5KVxHB6+prQqTOSJTrzn5vAJP34dCN
+  bh=VYgsaIIhZa9Vpxs6rnUwQoV99atGSMGQxukydgYacBU=;
+  b=L4RkFbzxjVfM7PLWf4XpuwB9vi7BQI48eZsGev5nFZcPCiktilhMaWvk
+   Jhx5kOhs3BL4k/I/3MywWW7PC7nhewT5kJN1S1tt4aVxObE1kYJ3KNJYt
+   M97XL7gNx175WHeYFtuz09x5OCSvhBZU5ne2v/SGf8R25y5GXLnP0536h
+   1fA1v1HGgEyKiekTv3fkvdkU98lv+oQFLYOQKnyHYAWInxjrzTHBPCXeB
+   apPH9nOP7U6zPjcYD3NbTnEBn/9e+PHoEAN9eCCeYE9n7WGI5XXsRPVTP
+   /bRXmR7t6WfTvnHukGrp4nBp/tzF0htt2VscpaB/4Oqw/B1/6sYIyqj+Z
    Q==;
-X-CSE-ConnectionGUID: 9a2g29USR4ebuVGKBnqaMw==
-X-CSE-MsgGUID: vnqXhHDAR2q1b1QIbhCxew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="76784195"
+X-CSE-ConnectionGUID: EozBPO6MSk2ZL1lL/eIBCQ==
+X-CSE-MsgGUID: o5H0HzKQSsmkLnvgNMusVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="76784197"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="76784195"
+   d="scan'208";a="76784197"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 18:09:33 -0700
-X-CSE-ConnectionGUID: 2CprOmOWSuqYsOK+8D3Irg==
-X-CSE-MsgGUID: rHij2qMlT/KbYCskGfiQcw==
+X-CSE-ConnectionGUID: 8ie541+ZTDiH7wlKWBRm2g==
+X-CSE-MsgGUID: aIzoWWq8QZOIceNX36T0lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="270319758"
+   d="scan'208";a="270319761"
 Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 07 Sep 2026 18:09:32 -0700
 Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3kL3-000000001Ul-1Fxm;
+	id 1x3kL3-000000001Un-2Pzp;
 	Tue, 08 Sep 2026 01:09:29 +0000
-Date: Tue, 08 Sep 2026 09:08:42 +0800
+Date: Tue, 08 Sep 2026 09:08:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-09-04 262/343]
- sound/soc/codecs/sn624x-sdca-sdw.c:1713:15: error: implicit declaration of
- function 'devm_snd_soc_register_component'; did you mean
- 'devm_snd_soc_register_card'?
-Message-ID: <202609080914.pQEpFUsA-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-09-04 263/343]
+ sound/soc/codecs/nau8360-dsp.c:231:13: error: incomplete definition of type
+ 'struct snd_soc_component'
+Message-ID: <202609080804.DHiRTu73-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,169 +62,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/morimoto/linux sound-cleanup-2026-09-04
 head:   dfa282dfe99643be782149d948208f3d514ebb99
-commit: ee124ecd0cb27953c01b601bcb3e15734358af1c [262/343] ASoC: soc-component: remove compatible definition
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260908/202609080914.pQEpFUsA-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080914.pQEpFUsA-lkp@intel.com/reproduce)
+commit: 39822a6ef2f5c6b15b01c08c9a6c70b57d7134fd [263/343] ASoC: soc-component: capsuling Component
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609080804.DHiRTu73-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 419c22c908c97dac45d161ce56fa01b99ec7debf)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080804.DHiRTu73-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609080914.pQEpFUsA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609080804.DHiRTu73-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1452:9: note: in expansion of macro 'dev_dbg'
-    1452 |         dev_dbg(dai->dev,
-         |         ^~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1456:22: error: implicit declaration of function 'snd_soc_dai_get_dma_data'; did you mean 'snd_soc_card_get_drvdata'? [-Wimplicit-function-declaration]
-    1456 |         sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                      snd_soc_card_get_drvdata
-   sound/soc/codecs/sn624x-sdca-sdw.c:1456:20: error: assignment to 'struct sdw_stream_runtime *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1456 |         sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-         |                    ^
-   In file included from include/linux/device.h:15,
-                    from sound/soc/codecs/sn624x-sdca-sdw.c:11:
-   sound/soc/codecs/sn624x-sdca-sdw.c:1458:29: error: invalid use of undefined type 'struct snd_soc_dai'
-    1458 |                 dev_warn(dai->dev,
-         |                             ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1458:17: note: in expansion of macro 'dev_warn'
-    1458 |                 dev_warn(dai->dev,
-         |                 ^~~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1463:29: error: invalid use of undefined type 'struct snd_soc_dai'
-    1463 |                 dev_warn(dai->dev, "sn624x: hw_params: slave NULL\n");
-         |                             ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1463:17: note: in expansion of macro 'dev_warn'
-    1463 |                 dev_warn(dai->dev, "sn624x: hw_params: slave NULL\n");
-         |                 ^~~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1469:28: error: invalid use of undefined type 'struct snd_soc_dai'
-    1469 |                 dev_err(dai->dev,
-         |                            ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1469:17: note: in expansion of macro 'dev_err'
-    1469 |                 dev_err(dai->dev,
-         |                 ^~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1477:24: error: invalid use of undefined type 'struct snd_soc_dai'
-    1477 |                 if (dai->id == SN624X_DAI_JACK)
-         |                        ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1479:29: error: invalid use of undefined type 'struct snd_soc_dai'
-    1479 |                 else if (dai->id == SN624X_DAI_SPEAKER)
-         |                             ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1484:24: error: invalid use of undefined type 'struct snd_soc_dai'
-    1484 |                 if (dai->id == SN624X_DAI_JACK)
-         |                        ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1486:29: error: invalid use of undefined type 'struct snd_soc_dai'
-    1486 |                 else if (dai->id == SN624X_DAI_DMIC)
-         |                             ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1496:28: error: invalid use of undefined type 'struct snd_soc_dai'
-    1496 |                 dev_err(dai->dev, "%s: sdw_stream_add_slave port %d failed: %d\n",
-         |                            ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1496:17: note: in expansion of macro 'dev_err'
-    1496 |                 dev_err(dai->dev, "%s: sdw_stream_add_slave port %d failed: %d\n",
-         |                 ^~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1516:28: error: invalid use of undefined type 'struct snd_soc_dai'
-    1516 |                 dev_err(dai->dev, "%s: Rate %d is not supported\n",
-         |                            ^~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1516:17: note: in expansion of macro 'dev_err'
-    1516 |                 dev_err(dai->dev, "%s: Rate %d is not supported\n",
-         |                 ^~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1521:16: error: invalid use of undefined type 'struct snd_soc_dai'
-    1521 |         if (dai->id == SN624X_DAI_JACK) {
-         |                ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1530:23: error: invalid use of undefined type 'struct snd_soc_dai'
-    1530 |         } else if (dai->id == SN624X_DAI_SPEAKER) {
-         |                       ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1533:23: error: invalid use of undefined type 'struct snd_soc_dai'
-    1533 |         } else if (dai->id == SN624X_DAI_DMIC) {
-         |                       ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_sdca_pcm_hw_free':
-   sound/soc/codecs/sn624x-sdca-sdw.c:1546:76: error: invalid use of undefined type 'struct snd_soc_dai'
-    1546 |         struct sn624x_sdca_priv *sn624x = snd_soc_component_get_drvdata(dai->component);
-         |                                                                            ^~
-   sound/soc/codecs/sn624x-sdca-sdw.c:1548:17: error: initialization of 'struct sdw_stream_runtime *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1548 |                 snd_soc_dai_get_dma_data(dai, substream);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_sdca_set_sdw_stream':
-   sound/soc/codecs/sn624x-sdca-sdw.c:1559:9: error: implicit declaration of function 'snd_soc_dai_dma_data_set'; did you mean 'snd_soc_dai_stream_dma_data_set'? [-Wimplicit-function-declaration]
-    1559 |         snd_soc_dai_dma_data_set(dai, direction, sdw_stream);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_dai_stream_dma_data_set
-   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_sdca_shutdown':
-   sound/soc/codecs/sn624x-sdca-sdw.c:1566:9: error: implicit declaration of function 'snd_soc_dai_set_dma_data'; did you mean 'snd_soc_dai_set_tristate'? [-Wimplicit-function-declaration]
-    1566 |         snd_soc_dai_set_dma_data(dai, substream, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         snd_soc_dai_set_tristate
-   sound/soc/codecs/sn624x-sdca-sdw.c: In function 'sn624x_sdca_init':
->> sound/soc/codecs/sn624x-sdca-sdw.c:1713:15: error: implicit declaration of function 'devm_snd_soc_register_component'; did you mean 'devm_snd_soc_register_card'? [-Wimplicit-function-declaration]
-    1713 |         ret = devm_snd_soc_register_component(dev,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               devm_snd_soc_register_card
+   sound/soc/codecs/nau8360-dsp.c:117:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     117 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:117:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     117 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/nau8360-dsp.c:231:13: error: incomplete definition of type 'struct snd_soc_component'
+     231 |                 dev_err(cp->dev, "message error (CMD_ID 0x%x, LEN 0x%x) !!!",
+         |                         ~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   sound/soc/codecs/nau8360-dsp.c:265:25: error: incomplete definition of type 'struct snd_soc_component'
+     265 |         struct device *dev = cp->dev;
+         |                              ~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   sound/soc/codecs/nau8360-dsp.c:266:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     266 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:266:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     266 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:296:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     296 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:296:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     296 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:297:25: error: incomplete definition of type 'struct snd_soc_component'
+     297 |         struct device *dev = cp->dev;
+         |                              ~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   sound/soc/codecs/nau8360-dsp.c:336:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     336 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:336:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     336 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:337:25: error: incomplete definition of type 'struct snd_soc_component'
+     337 |         struct device *dev = cp->dev;
+         |                              ~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   sound/soc/codecs/nau8360-dsp.c:446:14: error: incomplete definition of type 'struct snd_soc_component'
+     446 |                         dev_err(cp->dev, "DSP %x fail (%d)", nau8360_dsp_addr[i], ret);
+         |                                 ~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   sound/soc/codecs/nau8360-dsp.c:515:25: error: incomplete definition of type 'struct snd_soc_component'
+     515 |         struct device *dev = cp->dev;
+         |                              ~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   sound/soc/codecs/nau8360-dsp.c:534:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     534 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:534:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     534 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:562:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     562 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                                   ^
+   sound/soc/codecs/nau8360-dsp.c:562:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
+     562 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/nau8360-dsp.c:572:13: error: incomplete definition of type 'struct snd_soc_component'
+     572 |                 dev_err(cp->dev, "DSP %x is not ready", dsp_addr);
+         |                         ~~^
+   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
+     422 | struct snd_soc_component;
+         |        ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
 
-vim +1713 sound/soc/codecs/sn624x-sdca-sdw.c
+vim +231 sound/soc/codecs/nau8360-dsp.c
 
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1689  
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1690  int sn624x_sdca_init(struct device *dev, struct regmap *regmap,
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1691  		      struct sdw_slave *slave)
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1692  {
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1693  	struct sn624x_sdca_priv *sn624x;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1694  	int ret;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1695  
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1696  	sn624x = devm_kzalloc(dev, sizeof(*sn624x), GFP_KERNEL);
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1697  	if (!sn624x)
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1698  		return -ENOMEM;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1699  
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1700  	dev_set_drvdata(dev, sn624x);
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1701  	sn624x->slave = slave;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1702  	sn624x->regmap = regmap;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1703  
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1704  	ret = sn624x_parse_sdca_functions(sn624x);
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1705  	if (ret < 0)
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1706  		return ret;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1707  
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1708  	mutex_init(&sn624x->disable_irq_lock);
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1709  	INIT_DELAYED_WORK(&sn624x->jack_detect_work, sn624x_sdca_jack_detect_handler);
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1710  
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1711  	regcache_cache_only(sn624x->regmap, true);
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1712  
-12d9c9f8679c56 Qianghua Wang 2026-09-01 @1713  	ret = devm_snd_soc_register_component(dev,
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1714  					      &soc_sdca_dev_sn624x, sn624x_sdca_dai,
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1715  					      ARRAY_SIZE(sn624x_sdca_dai));
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1716  	if (ret < 0)
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1717  		return ret;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1718  
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1719  	/*
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1720  	 * Do not enable runtime PM here. SoundWire slaves are only powered /
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1721  	 * accessible after ATTACHED; enable RPM from io_init() then.
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1722  	 */
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1723  	SN624X_DBG(dev, "snd_soc_register_component OK (DAI sn624x-sdca-aif)\n");
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1724  	return 0;
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1725  }
-12d9c9f8679c56 Qianghua Wang 2026-09-01  1726  
+be88847a8bb1a1 Neo Chang 2026-08-25  197  
+be88847a8bb1a1 Neo Chang 2026-08-25  198  static int nau8360_message_to_dsp(struct snd_soc_component *cp,
+be88847a8bb1a1 Neo Chang 2026-08-25  199  	const struct nau8360_cmd_info *cmd_info, int frag_len, int param_offset,
+be88847a8bb1a1 Neo Chang 2026-08-25  200  	int param_size, void *param_data, unsigned short dsp_addr)
+be88847a8bb1a1 Neo Chang 2026-08-25  201  {
+be88847a8bb1a1 Neo Chang 2026-08-25  202  	unsigned int payload;
+be88847a8bb1a1 Neo Chang 2026-08-25  203  	int ret, padding = 0, frag_cnt = 0;
+be88847a8bb1a1 Neo Chang 2026-08-25  204  
+be88847a8bb1a1 Neo Chang 2026-08-25  205  	ret = nau8360_dsp_idle(cp, dsp_addr);
+be88847a8bb1a1 Neo Chang 2026-08-25  206  	if (ret)
+be88847a8bb1a1 Neo Chang 2026-08-25  207  		return ret;
+be88847a8bb1a1 Neo Chang 2026-08-25  208  
+be88847a8bb1a1 Neo Chang 2026-08-25  209  	/* sending preamble fragment */
+be88847a8bb1a1 Neo Chang 2026-08-25  210  	payload = nau8360_pack_preamble(cmd_info->cmd_id, frag_len);
+be88847a8bb1a1 Neo Chang 2026-08-25  211  	snd_soc_component_write(cp, dsp_addr, payload);
+be88847a8bb1a1 Neo Chang 2026-08-25  212  
+be88847a8bb1a1 Neo Chang 2026-08-25  213  	if (!cmd_info->msg_param)
+be88847a8bb1a1 Neo Chang 2026-08-25  214  		return ret;
+be88847a8bb1a1 Neo Chang 2026-08-25  215  
+be88847a8bb1a1 Neo Chang 2026-08-25  216  	/* sending payload + padding */
+be88847a8bb1a1 Neo Chang 2026-08-25  217  	payload = nau8360_pack_param(param_offset, param_size);
+be88847a8bb1a1 Neo Chang 2026-08-25  218  	snd_soc_component_write(cp, dsp_addr, payload);
+be88847a8bb1a1 Neo Chang 2026-08-25  219  	frag_cnt++;
+be88847a8bb1a1 Neo Chang 2026-08-25  220  
+be88847a8bb1a1 Neo Chang 2026-08-25  221  	if (cmd_info->setup_data)
+be88847a8bb1a1 Neo Chang 2026-08-25  222  		nau8360_send_data_payload(cp, dsp_addr, param_data, param_size,
+be88847a8bb1a1 Neo Chang 2026-08-25  223  			&frag_cnt, &padding);
+be88847a8bb1a1 Neo Chang 2026-08-25  224  
+be88847a8bb1a1 Neo Chang 2026-08-25  225  	/* sending trailing fragment */
+be88847a8bb1a1 Neo Chang 2026-08-25  226  	frag_cnt++;
+be88847a8bb1a1 Neo Chang 2026-08-25  227  	payload = nau8360_pack_trailing(frag_cnt, padding);
+be88847a8bb1a1 Neo Chang 2026-08-25  228  	snd_soc_component_write(cp, dsp_addr, payload);
+be88847a8bb1a1 Neo Chang 2026-08-25  229  
+be88847a8bb1a1 Neo Chang 2026-08-25  230  	if (frag_cnt != frag_len) {
+be88847a8bb1a1 Neo Chang 2026-08-25 @231  		dev_err(cp->dev, "message error (CMD_ID 0x%x, LEN 0x%x) !!!",
+be88847a8bb1a1 Neo Chang 2026-08-25  232  			cmd_info->cmd_id, frag_cnt);
+be88847a8bb1a1 Neo Chang 2026-08-25  233  		return -EPROTO;
+be88847a8bb1a1 Neo Chang 2026-08-25  234  	}
+be88847a8bb1a1 Neo Chang 2026-08-25  235  
+be88847a8bb1a1 Neo Chang 2026-08-25  236  	return 0;
+be88847a8bb1a1 Neo Chang 2026-08-25  237  }
+be88847a8bb1a1 Neo Chang 2026-08-25  238  
 
-:::::: The code at line 1713 was first introduced by commit
-:::::: 12d9c9f8679c56e8c131dc2d8985c350ece7c4c3 ASoC: codecs: add SN624x SDCA SoundWire driver
+:::::: The code at line 231 was first introduced by commit
+:::::: be88847a8bb1a14194cf50116f8909d127861318 ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
 
-:::::: TO: Qianghua Wang <qianghua.wang@senarytech.com>
+:::::: TO: Neo Chang <YLCHANG2@nuvoton.com>
 :::::: CC: Mark Brown <broonie@kernel.org>
 
 --
