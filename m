@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E199C511E64
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 10:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4176847DFBE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 10:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788864078; cv=none; b=BOoud1zieqvTizWSpfLpUCx7u9j/9gmMcVVn9DMNO2ZX2ud7dheLHWSNRIReaO4SUTxW2kdSW1ZZX/rNEjeDV1W8YHRbD7f2Lr0AafXf9eeACrSurvr7QjFkMD7UWhCOcPt3gyVzbkXq2wxzQitFW6Mhpv6sd3Ypaeqxhky4o3s=
+	t=1788864098; cv=none; b=lfZS3clIePacc+XJsVvGggUlJqicS0z9Wve9n6LuBOVNDu1CVnlj7eupIRA5khw72WrO1ZrSURQgnh3+zycHrfjKNmZlRRoYPMQrcrAl6im/znuraLrBp2t8ONzoEvDtZYQdS5sf/ZuBfwY//Y9vvfvQpCpqrvoq0ZwsKICtjWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788864078; c=relaxed/simple;
-	bh=X12dfxzTXRXAX0eOdANTuM+RVEiR2NtutMXaGB5RTUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=K5XQ1/kex60NEQSj9M0mP+ZC2IuZiwLrOXS4aoSoo0NLi6PSOEHpLgfeftADeQV/5CxRScxglXBX9mIiZlLUeK2D6O6E0OQdVUGtqUfSVYM7SaNvcGWCjGIfMUsRqiwfOP04WHrv4qUVtN06mdWUELKceaKZLrht44qJXmgOOIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHUydxUq; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1788864098; c=relaxed/simple;
+	bh=Gw7KN0Or/jOkVbOCW9IUJ128+upxz2FvtjLVYKII3dQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FrtNh9SuQ+QyYsDR8USBA38mqrKbseQftTs4rSOA/b5Ar/AZEGRozrLBd3/daikslkGH9wr44Uw1qbVD0cstM3BvJI3qHLOu83uApRdMR/W4A4HloO9EOyGE1XOhtoc0IeoHSftNv8JpPnQc/ERKwAbHlnvO8VjdkXk1gvXfPRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U0TUmpCT; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHUydxUq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U0TUmpCT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788864076; x=1820400076;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X12dfxzTXRXAX0eOdANTuM+RVEiR2NtutMXaGB5RTUs=;
-  b=fHUydxUqTQPo0M3iguFQ9oHpJXwa5sfFDdvXd6THpDQZhxGkUbL4C97c
-   k58OY7ewlDRPei8jvsP/zmpnFmyKHB6gYgVCMZFyARWqyBw80RvdLiO+/
-   3IVpGwNmGSfvZaf6bo2zZBN0LK3ef/EuQdRkw4Gt+JZpXkUdy9GXeQJdX
-   c1IpTX6jPrWpP24fIFk/e1+ooB0s5EJLxuEc9nkmC+rs5tq0JRxU3SwmA
-   aG+EH0RbjuBRnpRsm5LnHOX2BiQN8tSSfo0rqLdeKCvq17W5LJekK066Y
-   d/vDgp1oIxTrePu4JTm1HeDDs8y+epbK10oJnt38bL4PRyfQ1PUiuvv8p
-   Q==;
-X-CSE-ConnectionGUID: m6JQpVGzQfeOKxRYBEPYxQ==
-X-CSE-MsgGUID: WXHzGrmGTDGhaUnIxo4+HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89386672"
+  t=1788864097; x=1820400097;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Gw7KN0Or/jOkVbOCW9IUJ128+upxz2FvtjLVYKII3dQ=;
+  b=U0TUmpCTqZbOiIE9PP6jSyWNxK1gxK1W4CQ65kC+YmU5fJhGkzpkeaai
+   wGb+HTOEprsSaBGM9tM1rr3nBKYeBCETqpmxsbe39Cq7PlCTiV5m+lfgh
+   D3ct2Q1ueMg8uHtzMS0V1e8f5jmUh9PqWYEYujrMMRrCd0IqjXxQ3yJg0
+   Omn+hc9sW54AgRPGAlec1GGZqmpttllZIu78XjexEIJsYhM8eiNGGpSZS
+   2GaHg7JFptdISlttWOsWw+eEQqom+oSKv296nWwsxQeYiTtqnwQUlA4UV
+   TjgKhTFXfGUPlM3Ox6ufMDPouuDEX4UbPsG7Q4OTmgv2Lam40DoRy+zI2
+   g==;
+X-CSE-ConnectionGUID: ZPsRV4ioQbuKAzBCZqe+mw==
+X-CSE-MsgGUID: uMmDINGXRsGAUvOftJpM0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89292665"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="89386672"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 03:41:15 -0700
-X-CSE-ConnectionGUID: 5bBhEJEvQRaRJlV/Gr9ZGg==
-X-CSE-MsgGUID: PF6omM79RIq7XVCqWgvdDw==
+   d="scan'208";a="89292665"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 03:41:37 -0700
+X-CSE-ConnectionGUID: Cn4i2TNtSGiFr8qAHvdhVQ==
+X-CSE-MsgGUID: 0Ze/sG3wQDqoJxVvvBbL4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="274754668"
-Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Sep 2026 03:41:14 -0700
-Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
+   d="scan'208";a="270468783"
+Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 08 Sep 2026 03:41:34 -0700
+Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3tGJ-000000001zt-1n4Y;
-	Tue, 08 Sep 2026 10:41:11 +0000
-Date: Tue, 08 Sep 2026 18:40:19 +0800
+	id 1x3tGd-000000000f4-2tBu;
+	Tue, 08 Sep 2026 10:41:31 +0000
+Date: Tue, 8 Sep 2026 12:40:32 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/hrtimer-lock 2/4]
- kernel/time/hrtimer.c:320:52: error: incompatible type for argument 1 of
- '_raw_spin_lock_irqsave'
-Message-ID: <202609081816.7aFgE54E-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Alex Elder <elder@riscstar.com>, bhelgaas@google.com, robh@kernel.org,
+	saravanak@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, herve.codina@bootlin.com,
+	daniel@riscstar.com, mohd.anwar@oss.qualcomm.com,
+	lorenzo.bianconi@oss.qualcomm.com, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/4] PCI: of: introduce of_pci_verify_node()
+Message-ID: <202609081256.UUzbm16V-lkp@intel.com>
+References: <20260904134607.1856121-5-elder@riscstar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,52 +65,106 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260904134607.1856121-5-elder@riscstar.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/hrtimer-lock
-head:   929ed6fb9972b15666115778f182b6d7d18af374
-commit: de331d3928f5e7a5bb244f52a4dd7845a0d2b6c5 [2/4] hrtimer: Remove the return value from lock_hrtimer_base()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609081816.7aFgE54E-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081816.7aFgE54E-lkp@intel.com/reproduce)
+Hi Alex,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on cee9395acd8043be0644b25c34bfa86623f2b935]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Elder/PCI-of-avoid-allocations-in-of_pci_prop_compatible/20260904-084603
+base:   cee9395acd8043be0644b25c34bfa86623f2b935
+patch link:    https://lore.kernel.org/r/20260904134607.1856121-5-elder%40riscstar.com
+patch subject: [PATCH v4 4/4] PCI: of: introduce of_pci_verify_node()
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20260908/202609081256.UUzbm16V-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081256.UUzbm16V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609081816.7aFgE54E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609081256.UUzbm16V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/sched.h:38,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/time/hrtimer.c:25:
-   kernel/time/hrtimer.c: In function 'lock_hrtimer_base':
->> kernel/time/hrtimer.c:320:52: error: incompatible type for argument 1 of '_raw_spin_lock_irqsave'
-     320 |         raw_spin_lock_irqsave(timer->base->cpu_base->lock, *flags);
-         |                               ~~~~~~~~~~~~~~~~~~~~~^~~~~~
-         |                                                    |
-         |                                                    raw_spinlock_t {aka struct raw_spinlock}
-   include/linux/spinlock.h:246:48: note: in definition of macro 'raw_spin_lock_irqsave'
-     246 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   In file included from include/linux/spinlock.h:307:
-   include/linux/spinlock_api_smp.h:34:65: note: expected 'raw_spinlock_t *' {aka 'struct raw_spinlock *'} but argument is of type 'raw_spinlock_t' {aka 'struct raw_spinlock'}
-      34 | unsigned long __lockfunc _raw_spin_lock_irqsave(raw_spinlock_t *lock)
-         |                                                 ~~~~~~~~~~~~~~~~^~~~
+   drivers/pci/of_property.c:335:7: error: incompatible pointer to integer conversion initializing 'char' with an expression of type 'char[48]' [-Wint-conversion]
+     335 |         char bufp = buf;
+         |              ^      ~~~
+   drivers/pci/of_property.c:338:17: error: incompatible integer to pointer conversion passing 'char' to parameter of type 'char *'; take the address with & [-Wint-conversion]
+     338 |         ret = snprintf(bufp, PROP_SIZE, "pci%x,%x", pdev->vendor, pdev->device);
+         |                        ^~~~
+         |                        &
+   include/linux/sprintf.h:13:35: note: passing argument to parameter 'buf' here
+      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+         |                                   ^
+   drivers/pci/of_property.c:341:41: error: incompatible integer to pointer conversion assigning to 'const char *' from 'char'; take the address with & [-Wint-conversion]
+     341 |         compat_strs[PROP_COMPAT_PCI_VVVV_DDDD] = bufp;
+         |                                                ^ ~~~~
+         |                                                  &
+   drivers/pci/of_property.c:344:17: error: incompatible integer to pointer conversion passing 'char' to parameter of type 'char *'; take the address with & [-Wint-conversion]
+     344 |         ret = snprintf(bufp, PROP_SIZE, "pciclass,%06x", pdev->class);
+         |                        ^~~~
+         |                        &
+   include/linux/sprintf.h:13:35: note: passing argument to parameter 'buf' here
+      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+         |                                   ^
+   drivers/pci/of_property.c:347:43: error: incompatible integer to pointer conversion assigning to 'const char *' from 'char'; take the address with & [-Wint-conversion]
+     347 |         compat_strs[PROP_COMPAT_PCICLASS_CCSSPP] = bufp;
+         |                                                  ^ ~~~~
+         |                                                    &
+   drivers/pci/of_property.c:350:17: error: incompatible integer to pointer conversion passing 'char' to parameter of type 'char *'; take the address with & [-Wint-conversion]
+     350 |         ret = snprintf(bufp, PROP_SIZE, "pciclass,%04x", pdev->class >> 8);
+         |                        ^~~~
+         |                        &
+   include/linux/sprintf.h:13:35: note: passing argument to parameter 'buf' here
+      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+         |                                   ^
+   drivers/pci/of_property.c:351:41: error: incompatible integer to pointer conversion assigning to 'const char *' from 'char'; take the address with & [-Wint-conversion]
+     351 |         compat_strs[PROP_COMPAT_PCICLASS_CCSS] = bufp;
+         |                                                ^ ~~~~
+         |                                                  &
+>> drivers/pci/of_property.c:336:6: warning: unused variable 'i' [-Wunused-variable]
+     336 |         int i, ret;
+         |             ^
+   1 warning and 7 errors generated.
 
 
-vim +/_raw_spin_lock_irqsave +320 kernel/time/hrtimer.c
+vim +/i +336 drivers/pci/of_property.c
 
-   316	
-   317	static inline void lock_hrtimer_base(const struct hrtimer *timer, unsigned long *flags)
-   318		__acquires(&timer->base->cpu_base->lock)
-   319	{
- > 320		raw_spin_lock_irqsave(timer->base->cpu_base->lock, *flags);
-   321	}
-   322	
+407d1a51921e9f Lizhi Hou  2023-08-15  326  
+5a35f85c8e450f Alex Elder 2026-09-04  327  /* The three compatible property strings have max sizes 12+1, 15+1, and 13+1 */
+5a35f85c8e450f Alex Elder 2026-09-04  328  #define PROP_SIZE	16	/* Max size of each compatible string */
+407d1a51921e9f Lizhi Hou  2023-08-15  329  static int of_pci_prop_compatible(struct pci_dev *pdev,
+407d1a51921e9f Lizhi Hou  2023-08-15  330  				  struct of_changeset *ocs,
+407d1a51921e9f Lizhi Hou  2023-08-15  331  				  struct device_node *np)
+407d1a51921e9f Lizhi Hou  2023-08-15  332  {
+407d1a51921e9f Lizhi Hou  2023-08-15  333  	const char *compat_strs[PROP_COMPAT_NUM] = { 0 };
+5a35f85c8e450f Alex Elder 2026-09-04  334  	char buf[PROP_COMPAT_NUM * PROP_SIZE] = { };
+5a35f85c8e450f Alex Elder 2026-09-04  335  	char bufp = buf;
+407d1a51921e9f Lizhi Hou  2023-08-15 @336  	int i, ret;
+407d1a51921e9f Lizhi Hou  2023-08-15  337  
+5a35f85c8e450f Alex Elder 2026-09-04  338  	ret = snprintf(bufp, PROP_SIZE, "pci%x,%x", pdev->vendor, pdev->device);
+5a35f85c8e450f Alex Elder 2026-09-04  339  	if (ret >= PROP_SIZE)
+5a35f85c8e450f Alex Elder 2026-09-04  340  		return -EINVAL;
+5a35f85c8e450f Alex Elder 2026-09-04  341  	compat_strs[PROP_COMPAT_PCI_VVVV_DDDD] = bufp;
+5a35f85c8e450f Alex Elder 2026-09-04  342  	bufp += ret + 1;
+407d1a51921e9f Lizhi Hou  2023-08-15  343  
+5a35f85c8e450f Alex Elder 2026-09-04  344  	ret = snprintf(bufp, PROP_SIZE, "pciclass,%06x", pdev->class);
+5a35f85c8e450f Alex Elder 2026-09-04  345  	if (ret >= PROP_SIZE)
+5a35f85c8e450f Alex Elder 2026-09-04  346  		return -EINVAL;
+5a35f85c8e450f Alex Elder 2026-09-04  347  	compat_strs[PROP_COMPAT_PCICLASS_CCSSPP] = bufp;
+5a35f85c8e450f Alex Elder 2026-09-04  348  	bufp += ret + 1;
+407d1a51921e9f Lizhi Hou  2023-08-15  349  
+5a35f85c8e450f Alex Elder 2026-09-04  350  	ret = snprintf(bufp, PROP_SIZE, "pciclass,%04x", pdev->class >> 8);
+5a35f85c8e450f Alex Elder 2026-09-04  351  	compat_strs[PROP_COMPAT_PCICLASS_CCSS] = bufp;
+5a35f85c8e450f Alex Elder 2026-09-04  352  
+5a35f85c8e450f Alex Elder 2026-09-04  353  	return of_changeset_add_prop_string_array(ocs, np, "compatible",
+5a35f85c8e450f Alex Elder 2026-09-04  354  						  compat_strs, PROP_COMPAT_NUM);
+407d1a51921e9f Lizhi Hou  2023-08-15  355  }
+5a35f85c8e450f Alex Elder 2026-09-04  356  #undef PROP_SIZE
+407d1a51921e9f Lizhi Hou  2023-08-15  357  
 
 --
 0-DAY CI Kernel Test Service
