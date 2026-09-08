@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63133242D72;
-	Tue,  8 Sep 2026 01:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663112E06E6
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 01:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788829778; cv=none; b=ms4f4EXgTI/wLurylL6ymDCF7Db9PL6Jz9ZXDWZ/HPtYBdubPFzpXNollXgazlNtGM7z+QO+gTzkyxMLYNqVLij55HDmBRaV+W8QJVY6cXjCmnIkL2rtOhFqZGPX9Z1rcNTeWd/ME0NTxbwnDSiKR0c5zvxYTw2rXZdZuHpLxQw=
+	t=1788830383; cv=none; b=AVSRKnJA1gGfXiS/G0DXqWCpfu8qvFiiieTQSiH19WpGbt6xdLPtVteGkW+vtvvT8JgTx02qnJ0KGcqVha6CNBgEssbT7EiH6feJG3EArioJHFIov0zOxQDTzT5HYemCkwLouuRdwJQo0B18txTInZXnFWXOzbm/26JpxRmlCHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788829778; c=relaxed/simple;
-	bh=VYgsaIIhZa9Vpxs6rnUwQoV99atGSMGQxukydgYacBU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DVuXRd+XAQ1VD2n/ZMs+8UEb7CBeMkPcxTG3hnDw0SzpNdm0Ez3ipe89NrTc0VHkapKCW4834o5IKUazstXnNzOSORVaMxSoPLwWpUHYBlfrZTcu4yj+aBAkFxA6EViOVNtBmwWLDfdROZFdt86Y1bdhas8hFP/jpJGobavdOpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4RkFbzx; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1788830383; c=relaxed/simple;
+	bh=yrAQz5yRwVsrhFPYfmnf4lJfV/jK9jHKu/crC5P34+o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bxdQVVBNz32qygi1tiffsuovmCgGFr4ttgC2pKN72j8iJtBbptJMH8SS+218vuFZEryIMEyHq8FPRVnk4leFJsqeqjcR8AvwDhdldytjc33ZLmdMOlTxgrouLUrOoQkWs7VjQJPVAO04x4fkAGPem7/3hMwzMIYZQY2YErNfKgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3ggxgxE; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4RkFbzx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3ggxgxE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788829776; x=1820365776;
+  t=1788830376; x=1820366376;
   h=date:from:to:cc:subject:message-id;
-  bh=VYgsaIIhZa9Vpxs6rnUwQoV99atGSMGQxukydgYacBU=;
-  b=L4RkFbzxjVfM7PLWf4XpuwB9vi7BQI48eZsGev5nFZcPCiktilhMaWvk
-   Jhx5kOhs3BL4k/I/3MywWW7PC7nhewT5kJN1S1tt4aVxObE1kYJ3KNJYt
-   M97XL7gNx175WHeYFtuz09x5OCSvhBZU5ne2v/SGf8R25y5GXLnP0536h
-   1fA1v1HGgEyKiekTv3fkvdkU98lv+oQFLYOQKnyHYAWInxjrzTHBPCXeB
-   apPH9nOP7U6zPjcYD3NbTnEBn/9e+PHoEAN9eCCeYE9n7WGI5XXsRPVTP
-   /bRXmR7t6WfTvnHukGrp4nBp/tzF0htt2VscpaB/4Oqw/B1/6sYIyqj+Z
-   Q==;
-X-CSE-ConnectionGUID: EozBPO6MSk2ZL1lL/eIBCQ==
-X-CSE-MsgGUID: o5H0HzKQSsmkLnvgNMusVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="76784197"
+  bh=yrAQz5yRwVsrhFPYfmnf4lJfV/jK9jHKu/crC5P34+o=;
+  b=B3ggxgxEeYFIyzjKAHVc02zYt+lYGFA4ZN6lZvA7exgmAQMMDe8X75Wn
+   FZRAnFrH4fVhbdOc0WtJ0V7fBQrxTuepdKkBi8lN/Ys/CgSczv91BZIFd
+   NH25ZZAYUmkkte9lKF38OqlT8LiWN3mqzjuElCSWbCgAc7NQTRUE29Wyl
+   43FmzuOkmjvFHoDpA7oFR4aYCJvWZL8YnCeXYzb+HZRWS01wrfIRZHrI9
+   yrRf7ZSPjBgE6pA9tCv0NiTpWjmd7drd02ZAtXkuAbV4ioA9EGLdEX1Q7
+   gvaoNaxgpHqvElGHyneZG7nbfYanKBNeEagIgNjYAuZ7ythJozPTgpYDL
+   g==;
+X-CSE-ConnectionGUID: cY3kyiyxS+qCbETYI+7Gpw==
+X-CSE-MsgGUID: Y7wUKgP9ToiRfZck6gHnyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99819234"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="76784197"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 18:09:33 -0700
-X-CSE-ConnectionGUID: 8ie541+ZTDiH7wlKWBRm2g==
-X-CSE-MsgGUID: aIzoWWq8QZOIceNX36T0lg==
+   d="scan'208";a="99819234"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 18:19:32 -0700
+X-CSE-ConnectionGUID: qcjjeP8KSx6gJ8i7iguxCQ==
+X-CSE-MsgGUID: ou97aOixQUiNgLfHiEAHNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="270319761"
+   d="scan'208";a="270814105"
 Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 Sep 2026 18:09:32 -0700
+  by orviesa007.jf.intel.com with ESMTP; 07 Sep 2026 18:19:33 -0700
 Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3kL3-000000001Un-2Pzp;
-	Tue, 08 Sep 2026 01:09:29 +0000
-Date: Tue, 08 Sep 2026 09:08:40 +0800
+	id 1x3kUk-000000001V5-14JW;
+	Tue, 08 Sep 2026 01:19:30 +0000
+Date: Tue, 08 Sep 2026 09:19:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-09-04 263/343]
- sound/soc/codecs/nau8360-dsp.c:231:13: error: incomplete definition of type
- 'struct snd_soc_component'
-Message-ID: <202609080804.DHiRTu73-lkp@intel.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:dt 22/22]
+ arch/m68k/coldfire/intc-simr.c:233:18: error: implicit declaration of
+ function 'irq_domain_add_linear'; did you mean 'irq_domain_create_linear'?
+Message-ID: <202609080948.oRYfaows-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,152 +61,54 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-09-04
-head:   dfa282dfe99643be782149d948208f3d514ebb99
-commit: 39822a6ef2f5c6b15b01c08c9a6c70b57d7134fd [263/343] ASoC: soc-component: capsuling Component
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609080804.DHiRTu73-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 419c22c908c97dac45d161ce56fa01b99ec7debf)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080804.DHiRTu73-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
+head:   693a23411a4e7b5d417226fe704ee36b32700bad
+commit: 693a23411a4e7b5d417226fe704ee36b32700bad [22/22] m68k: coldfire: enable devicetree use
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260908/202609080948.oRYfaows-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080948.oRYfaows-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609080804.DHiRTu73-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609080948.oRYfaows-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/codecs/nau8360-dsp.c:117:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     117 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                                   ^
-   sound/soc/codecs/nau8360-dsp.c:117:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
-     117 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/codecs/nau8360-dsp.c:231:13: error: incomplete definition of type 'struct snd_soc_component'
-     231 |                 dev_err(cp->dev, "message error (CMD_ID 0x%x, LEN 0x%x) !!!",
-         |                         ~~^
-   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
-     422 | struct snd_soc_component;
-         |        ^
-   sound/soc/codecs/nau8360-dsp.c:265:25: error: incomplete definition of type 'struct snd_soc_component'
-     265 |         struct device *dev = cp->dev;
-         |                              ~~^
-   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
-     422 | struct snd_soc_component;
-         |        ^
-   sound/soc/codecs/nau8360-dsp.c:266:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     266 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                                   ^
-   sound/soc/codecs/nau8360-dsp.c:266:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
-     266 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/nau8360-dsp.c:296:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     296 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                                   ^
-   sound/soc/codecs/nau8360-dsp.c:296:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
-     296 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/nau8360-dsp.c:297:25: error: incomplete definition of type 'struct snd_soc_component'
-     297 |         struct device *dev = cp->dev;
-         |                              ~~^
-   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
-     422 | struct snd_soc_component;
-         |        ^
-   sound/soc/codecs/nau8360-dsp.c:336:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     336 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                                   ^
-   sound/soc/codecs/nau8360-dsp.c:336:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
-     336 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/nau8360-dsp.c:337:25: error: incomplete definition of type 'struct snd_soc_component'
-     337 |         struct device *dev = cp->dev;
-         |                              ~~^
-   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
-     422 | struct snd_soc_component;
-         |        ^
-   sound/soc/codecs/nau8360-dsp.c:446:14: error: incomplete definition of type 'struct snd_soc_component'
-     446 |                         dev_err(cp->dev, "DSP %x fail (%d)", nau8360_dsp_addr[i], ret);
-         |                                 ~~^
-   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
-     422 | struct snd_soc_component;
-         |        ^
-   sound/soc/codecs/nau8360-dsp.c:515:25: error: incomplete definition of type 'struct snd_soc_component'
-     515 |         struct device *dev = cp->dev;
-         |                              ~~^
-   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
-     422 | struct snd_soc_component;
-         |        ^
-   sound/soc/codecs/nau8360-dsp.c:534:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     534 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                                   ^
-   sound/soc/codecs/nau8360-dsp.c:534:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
-     534 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/nau8360-dsp.c:562:28: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     562 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                                   ^
-   sound/soc/codecs/nau8360-dsp.c:562:18: error: incompatible integer to pointer conversion initializing 'struct nau8360 *' with an expression of type 'int' [-Wint-conversion]
-     562 |         struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-         |                         ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/nau8360-dsp.c:572:13: error: incomplete definition of type 'struct snd_soc_component'
-     572 |                 dev_err(cp->dev, "DSP %x is not ready", dsp_addr);
-         |                         ~~^
-   include/sound/soc.h:422:8: note: forward declaration of 'struct snd_soc_component'
-     422 | struct snd_soc_component;
-         |        ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   arch/m68k/coldfire/intc-simr.c: In function 'intc_of_init':
+>> arch/m68k/coldfire/intc-simr.c:233:18: error: implicit declaration of function 'irq_domain_add_linear'; did you mean 'irq_domain_create_linear'? [-Wimplicit-function-declaration]
+     233 |         domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+         |                  irq_domain_create_linear
+>> arch/m68k/coldfire/intc-simr.c:233:16: error: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     233 |         domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+         |                ^
 
 
-vim +231 sound/soc/codecs/nau8360-dsp.c
+vim +233 arch/m68k/coldfire/intc-simr.c
 
-be88847a8bb1a1 Neo Chang 2026-08-25  197  
-be88847a8bb1a1 Neo Chang 2026-08-25  198  static int nau8360_message_to_dsp(struct snd_soc_component *cp,
-be88847a8bb1a1 Neo Chang 2026-08-25  199  	const struct nau8360_cmd_info *cmd_info, int frag_len, int param_offset,
-be88847a8bb1a1 Neo Chang 2026-08-25  200  	int param_size, void *param_data, unsigned short dsp_addr)
-be88847a8bb1a1 Neo Chang 2026-08-25  201  {
-be88847a8bb1a1 Neo Chang 2026-08-25  202  	unsigned int payload;
-be88847a8bb1a1 Neo Chang 2026-08-25  203  	int ret, padding = 0, frag_cnt = 0;
-be88847a8bb1a1 Neo Chang 2026-08-25  204  
-be88847a8bb1a1 Neo Chang 2026-08-25  205  	ret = nau8360_dsp_idle(cp, dsp_addr);
-be88847a8bb1a1 Neo Chang 2026-08-25  206  	if (ret)
-be88847a8bb1a1 Neo Chang 2026-08-25  207  		return ret;
-be88847a8bb1a1 Neo Chang 2026-08-25  208  
-be88847a8bb1a1 Neo Chang 2026-08-25  209  	/* sending preamble fragment */
-be88847a8bb1a1 Neo Chang 2026-08-25  210  	payload = nau8360_pack_preamble(cmd_info->cmd_id, frag_len);
-be88847a8bb1a1 Neo Chang 2026-08-25  211  	snd_soc_component_write(cp, dsp_addr, payload);
-be88847a8bb1a1 Neo Chang 2026-08-25  212  
-be88847a8bb1a1 Neo Chang 2026-08-25  213  	if (!cmd_info->msg_param)
-be88847a8bb1a1 Neo Chang 2026-08-25  214  		return ret;
-be88847a8bb1a1 Neo Chang 2026-08-25  215  
-be88847a8bb1a1 Neo Chang 2026-08-25  216  	/* sending payload + padding */
-be88847a8bb1a1 Neo Chang 2026-08-25  217  	payload = nau8360_pack_param(param_offset, param_size);
-be88847a8bb1a1 Neo Chang 2026-08-25  218  	snd_soc_component_write(cp, dsp_addr, payload);
-be88847a8bb1a1 Neo Chang 2026-08-25  219  	frag_cnt++;
-be88847a8bb1a1 Neo Chang 2026-08-25  220  
-be88847a8bb1a1 Neo Chang 2026-08-25  221  	if (cmd_info->setup_data)
-be88847a8bb1a1 Neo Chang 2026-08-25  222  		nau8360_send_data_payload(cp, dsp_addr, param_data, param_size,
-be88847a8bb1a1 Neo Chang 2026-08-25  223  			&frag_cnt, &padding);
-be88847a8bb1a1 Neo Chang 2026-08-25  224  
-be88847a8bb1a1 Neo Chang 2026-08-25  225  	/* sending trailing fragment */
-be88847a8bb1a1 Neo Chang 2026-08-25  226  	frag_cnt++;
-be88847a8bb1a1 Neo Chang 2026-08-25  227  	payload = nau8360_pack_trailing(frag_cnt, padding);
-be88847a8bb1a1 Neo Chang 2026-08-25  228  	snd_soc_component_write(cp, dsp_addr, payload);
-be88847a8bb1a1 Neo Chang 2026-08-25  229  
-be88847a8bb1a1 Neo Chang 2026-08-25  230  	if (frag_cnt != frag_len) {
-be88847a8bb1a1 Neo Chang 2026-08-25 @231  		dev_err(cp->dev, "message error (CMD_ID 0x%x, LEN 0x%x) !!!",
-be88847a8bb1a1 Neo Chang 2026-08-25  232  			cmd_info->cmd_id, frag_cnt);
-be88847a8bb1a1 Neo Chang 2026-08-25  233  		return -EPROTO;
-be88847a8bb1a1 Neo Chang 2026-08-25  234  	}
-be88847a8bb1a1 Neo Chang 2026-08-25  235  
-be88847a8bb1a1 Neo Chang 2026-08-25  236  	return 0;
-be88847a8bb1a1 Neo Chang 2026-08-25  237  }
-be88847a8bb1a1 Neo Chang 2026-08-25  238  
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  225  
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  226  static int __init intc_of_init(struct device_node *np,
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  227  			       struct device_node *parent)
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  228  {
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  229  	const unsigned int num = MCFINT_VECBASE + 64 + (MCFINTC1_ICR0 ? 64 : 0) + (MCFINTC2_ICR0 ? 64 : 0);
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  230  	struct irq_domain *domain;
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  231  	int irq;
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  232  
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26 @233  	domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  234  
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  235  	for (irq = MCFINT_VECBASE; irq < num; irq++)
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  236  		irq_create_mapping(domain, irq);
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  237  
+8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  238  	return 0;
+cd3dd4068db5e1 arch/m68knommu/platform/coldfire/intc-simr.c Greg Ungerer 2009-04-27  239  }
+cd3dd4068db5e1 arch/m68knommu/platform/coldfire/intc-simr.c Greg Ungerer 2009-04-27  240  
 
-:::::: The code at line 231 was first introduced by commit
-:::::: be88847a8bb1a14194cf50116f8909d127861318 ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
+:::::: The code at line 233 was first introduced by commit
+:::::: 8af562116a97ddd0966248dcde21b9123a86226c m68k: coldfire: support devicetree binding for intc-simr
 
-:::::: TO: Neo Chang <YLCHANG2@nuvoton.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Greg Ungerer <gerg@linux-m68k.org>
+:::::: CC: Greg Ungerer <gerg@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
