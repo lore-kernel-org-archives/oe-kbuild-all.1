@@ -1,267 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C9429D291;
-	Tue,  8 Sep 2026 13:47:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCD629D291
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 14:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788875274; cv=none; b=kH+dkSxBtrv8wV+3JHCz9SGgYweyrE60ILE2RW/SbZGqaWMu/+R1MFqzfl7142BI50WraWwh/vJPcQCzJVrVcPSYTN5nYd4mabaT2pbvjrrsrOzBlJJ50ceOgkmDz+Z9Ew5i22K1lNLBNveCTIplFxNpuQYRAeQstWXr9DBih/I=
+	t=1788876952; cv=none; b=pWZXcEmn1MujYPS0vK3beR+g+CWG8YPCXskOL/NTlhA0VNYC6kG0ayMa1tvaTLegPLzhkUlSlLKc+83SSzKvXLsiP8Nt8Gata1OA93vJdM/T5wzOupSYohh0TBJ4jjBjeQvSEzrNg7kHayEiLapoXwCCbIDSDCz/kzER3FJzCEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788875274; c=relaxed/simple;
-	bh=umxaBqsDA3JnWARdBFTAGtf9h+4Tv4St6sBufuGQWeo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KwEUc7u3BUj9JZJRby4osw4LVFJ5BmP+J0Fl6v/m2+ZlwbsypRTaI94hQwzQJmOa8pNTe3nJaLcBcWFWzAFkno60eNv5nxarkL4z/+12LxKuro1inTakjscc7dWhpA1HwaNo7hqqz6347/22z3hEsAOr+ACe7aYtgdyx7xTVCWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lv4jBtLw; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1788876952; c=relaxed/simple;
+	bh=QxMtGNEbaachJNE36a7BV22syz5sMpcLnLyxCVMWH68=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DDW6ruAEd6kAFjs/O6wW7DGHIsn5Yns5oEvDw+fbrk3n3+skfOgBYqvr9/qRAHZ89TYjth26sJoc92FeXxNdFuINWz5FpIVquWavjNmtFJbDAYrP3gr691ibMEHYV9H8nNySHICUgkK0yDBXujysuAjyv01qDS+E5hPQC9bBbno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOcnoni8; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lv4jBtLw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOcnoni8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788875266; x=1820411266;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=umxaBqsDA3JnWARdBFTAGtf9h+4Tv4St6sBufuGQWeo=;
-  b=lv4jBtLwpv2b6aUaumeIuf6lrnWnXq8dAed+q7S34JoKuQuPY/jTaMsN
-   6kNTb4SqUIQxBeaPLLRQ3Pn/Jnax3hLYENuGZu+nntODwhyE+BJzXlL8u
-   MYjrcNj3zMN1zUcon2vocfk6mCWJRTZvEX2FZsWNIYd+i0qFy5gD65y+B
-   km2XmV3XbTv9elEc/PFIQGJhcnxVAIU2gckH8W+E64lSG3OXgY/n9QTpB
-   y5Y2vF0UTOPhQR7Nukpk2PxwG69ooB2sxYL7SgHgDtnj8dtWb7jvL4d1n
-   QmyWtf7E2MhFPcf84S7rIQhoiXhlDIvw5zSR/d5tdkBkvgQMAFa67Colx
+  t=1788876941; x=1820412941;
+  h=date:from:to:cc:subject:message-id;
+  bh=QxMtGNEbaachJNE36a7BV22syz5sMpcLnLyxCVMWH68=;
+  b=YOcnoni8XgPu+PA61Scf8b55U56hwv9KKkadFkqVvGat0yx0kLdd/zy/
+   wAIQBVV6/wAwRS2PSXIgOZDm1nOTcxVCDXqMa8RgH36PB6kNkHsXLAOLn
+   a4ScDf2craAEoOjoan6g/IX/nt2G/N1DsciQAFY+7lO7IeMbmc3QSSFpo
+   ngEEIF+a+N10IU61YTT/wTn2tGKRQ0xasc4FDYi3amu5B9+8O1l+AsPTh
+   UEUYKk4msbXp1O7EPwu2HbIAi2HYfbl4vpLjHkisN6bLp4eLPDVF76nk1
+   x9lwpuHKsopAw5WPKnreNgap7cea1rvAZM+aGet/Vs1cZgw0qNqqz1TnV
    w==;
-X-CSE-ConnectionGUID: N6qvYO3eTUOUHkq/h1vqyg==
-X-CSE-MsgGUID: 2vcCBeG7RY+7h2/96hc9TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89480920"
+X-CSE-ConnectionGUID: PVKQLjXRQ/qcGaejpyaS3g==
+X-CSE-MsgGUID: 8VC13fg8TeSccrFpgfvbRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99873117"
 X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="89480920"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 06:47:39 -0700
-X-CSE-ConnectionGUID: +rz1lQxKSkuGWkqWsW1o9w==
-X-CSE-MsgGUID: QjcnlhOBSceTotNGF2XZ2A==
+   d="scan'208";a="99873117"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 07:15:39 -0700
+X-CSE-ConnectionGUID: s236bymaQEC9ug5tmfKeTg==
+X-CSE-MsgGUID: u+SLrrAfRfOb8O7tZFmAFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="270983342"
-Received: from lkp-server01.sh.intel.com (HELO dc5b8f51e05b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Sep 2026 06:47:37 -0700
-Received: from kbuild by dc5b8f51e05b with local (Exim 4.98.2)
+   d="scan'208";a="266692860"
+Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Sep 2026 07:15:38 -0700
+Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3wAg-000000000AB-3ITx;
-	Tue, 08 Sep 2026 13:47:34 +0000
-Date: Tue, 8 Sep 2026 21:46:54 +0800
+	id 1x3wbo-000000000jQ-2fZq;
+	Tue, 08 Sep 2026 14:15:36 +0000
+Date: Tue, 08 Sep 2026 16:15:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>,
-	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes.berg@intel.com>,
-	syzbot+b4aa2b672b18f1d4dc5f@syzkaller.appspotmail.com
-Subject: Re: [PATCH wireless] wifi: mac80211_hwsim: don't hand frames to
- mac80211 while stopping
-Message-ID: <202609082134.nNCnnJQL-lkp@intel.com>
-References: <20260904170140.5f69a10d606b.I4a7921d00643f69e439c7a3b221d104f66a3dcdc@changeid>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 1019/1019]
+ mm/memcontrol.c:8380:9: error: implicit declaration of function
+ 'mem_cgroup_attach_unevictable'
+Message-ID: <202609081655.HELc1BBu-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904170140.5f69a10d606b.I4a7921d00643f69e439c7a3b221d104f66a3dcdc@changeid>
 
-Hi Johannes,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v7.3-rc2 next-20260907]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-mac80211_hwsim-don-t-hand-frames-to-mac80211-while-stopping/20260904-170135
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20260904170140.5f69a10d606b.I4a7921d00643f69e439c7a3b221d104f66a3dcdc%40changeid
-patch subject: [PATCH wireless] wifi: mac80211_hwsim: don't hand frames to mac80211 while stopping
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609082134.nNCnnJQL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609082134.nNCnnJQL-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   b4ec01ca5aac08347802786e2513d22bcc37d843
+commit: 9f95c5d2e9cad8cbf1712aadceb8268703e0eff7 [1019/1019] anolis: mm/unevictable: move cgroup migration arm/disarm from can_attach to attach
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260908/202609081655.HELc1BBu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081655.HELc1BBu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609082134.nNCnnJQL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609081655.HELc1BBu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/virtual/mac80211_hwsim_main.c:6517:6: warning: variable 'data2' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    6517 |         if (skb == NULL)
-         |             ^~~~~~~~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6607:16: note: uninitialized use occurs here
-    6607 |         mutex_unlock(&data2->mutex);
-         |                       ^~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6517:2: note: remove the 'if' if its condition is always false
-    6517 |         if (skb == NULL)
-         |         ^~~~~~~~~~~~~~~~
-    6518 |                 goto err;
-         |                 ~~~~~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6511:6: warning: variable 'data2' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    6511 |         if (frame_data_len < sizeof(struct ieee80211_hdr_3addr) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6512 |             frame_data_len > IEEE80211_MAX_DATA_LEN)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6607:16: note: uninitialized use occurs here
-    6607 |         mutex_unlock(&data2->mutex);
-         |                       ^~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6511:2: note: remove the 'if' if its condition is always false
-    6511 |         if (frame_data_len < sizeof(struct ieee80211_hdr_3addr) ||
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6512 |             frame_data_len > IEEE80211_MAX_DATA_LEN)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6513 |                 goto err;
-         |                 ~~~~~~~~
->> drivers/net/wireless/virtual/mac80211_hwsim_main.c:6511:6: warning: variable 'data2' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    6511 |         if (frame_data_len < sizeof(struct ieee80211_hdr_3addr) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6607:16: note: uninitialized use occurs here
-    6607 |         mutex_unlock(&data2->mutex);
-         |                       ^~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6511:6: note: remove the '||' if its condition is always false
-    6511 |         if (frame_data_len < sizeof(struct ieee80211_hdr_3addr) ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/virtual/mac80211_hwsim_main.c:6492:35: note: initialize the variable 'data2' to silence this warning
-    6492 |         struct mac80211_hwsim_data *data2;
-         |                                          ^
-         |                                           = NULL
-   3 warnings generated.
+   mm/memcontrol.c: In function 'mem_cgroup_attach':
+>> mm/memcontrol.c:8380:9: error: implicit declaration of function 'mem_cgroup_attach_unevictable' [-Wimplicit-function-declaration]
+    8380 |         mem_cgroup_attach_unevictable(tset);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c: In function 'mem_cgroup_fork':
+   mm/memcontrol.c:8386:9: error: implicit declaration of function 'unevict_task_fork'; did you mean 'exit_task_work'? [-Wimplicit-function-declaration]
+    8386 |         unevict_task_fork(task);
+         |         ^~~~~~~~~~~~~~~~~
+         |         exit_task_work
 
 
-vim +6517 drivers/net/wireless/virtual/mac80211_hwsim_main.c
+vim +/mem_cgroup_attach_unevictable +8380 mm/memcontrol.c
 
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6488  
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6489  static int hwsim_cloned_frame_received_nl(struct sk_buff *skb_2,
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6490  					  struct genl_info *info)
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6491  {
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6492  	struct mac80211_hwsim_data *data2;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6493  	struct ieee80211_rx_status rx_status;
-05d610af3e71a78 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2019-07-29  6494  	struct ieee80211_hdr *hdr;
-9ddd12af103f60f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2014-01-06  6495  	const u8 *dst;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6496  	int frame_data_len;
-9ddd12af103f60f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2014-01-06  6497  	void *frame_data;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6498  	struct sk_buff *skb = NULL;
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6499  	struct ieee80211_channel *channel = NULL;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6500  
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6501  	if (!info->attrs[HWSIM_ATTR_ADDR_RECEIVER] ||
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6502  	    !info->attrs[HWSIM_ATTR_FRAME] ||
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6503  	    !info->attrs[HWSIM_ATTR_RX_RATE] ||
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6504  	    !info->attrs[HWSIM_ATTR_SIGNAL])
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6505  		goto out;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6506  
-9ddd12af103f60f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2014-01-06  6507  	dst = (void *)nla_data(info->attrs[HWSIM_ATTR_ADDR_RECEIVER]);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6508  	frame_data_len = nla_len(info->attrs[HWSIM_ATTR_FRAME]);
-9ddd12af103f60f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2014-01-06  6509  	frame_data = (void *)nla_data(info->attrs[HWSIM_ATTR_FRAME]);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6510  
-fba360a047d5eee drivers/net/wireless/virtual/mac80211_hwsim.c      Johannes Berg  2023-08-15 @6511  	if (frame_data_len < sizeof(struct ieee80211_hdr_3addr) ||
-fba360a047d5eee drivers/net/wireless/virtual/mac80211_hwsim.c      Johannes Berg  2023-08-15  6512  	    frame_data_len > IEEE80211_MAX_DATA_LEN)
-fba360a047d5eee drivers/net/wireless/virtual/mac80211_hwsim.c      Johannes Berg  2023-08-15  6513  		goto err;
-fba360a047d5eee drivers/net/wireless/virtual/mac80211_hwsim.c      Johannes Berg  2023-08-15  6514  
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6515  	/* Allocate new skb here */
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6516  	skb = alloc_skb(frame_data_len, GFP_KERNEL);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01 @6517  	if (skb == NULL)
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6518  		goto err;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6519  
-9ddd12af103f60f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2014-01-06  6520  	/* Copy the data */
-59ae1d127ac0ae4 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2017-06-16  6521  	skb_put_data(skb, frame_data, frame_data_len);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6522  
-9ddd12af103f60f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2014-01-06  6523  	data2 = get_hwsim_data_ref_from_addr(dst);
-9ddd12af103f60f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2014-01-06  6524  	if (!data2)
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6525  		goto out;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6526  
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6527  	if (data2->use_chanctx) {
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6528  		if (data2->tmp_chan)
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6529  			channel = data2->tmp_chan;
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6530  	} else {
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6531  		channel = data2->channel;
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6532  	}
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6533  
-5d44fe7c9808c56 drivers/net/wireless/mac80211_hwsim.c              Erel Geron     2020-03-05  6534  	if (!hwsim_virtio_enabled) {
-5d44fe7c9808c56 drivers/net/wireless/mac80211_hwsim.c              Erel Geron     2020-03-05  6535  		if (hwsim_net_get_netgroup(genl_info_net(info)) !=
-5d44fe7c9808c56 drivers/net/wireless/mac80211_hwsim.c              Erel Geron     2020-03-05  6536  		    data2->netgroup)
-f21e4d8ed16bb9c drivers/net/wireless/mac80211_hwsim.c              Martin Willi   2016-05-14  6537  			goto out;
-f21e4d8ed16bb9c drivers/net/wireless/mac80211_hwsim.c              Martin Willi   2016-05-14  6538  
-f21e4d8ed16bb9c drivers/net/wireless/mac80211_hwsim.c              Martin Willi   2016-05-14  6539  		if (info->snd_portid != data2->wmediumd)
-f21e4d8ed16bb9c drivers/net/wireless/mac80211_hwsim.c              Martin Willi   2016-05-14  6540  			goto out;
-5d44fe7c9808c56 drivers/net/wireless/mac80211_hwsim.c              Erel Geron     2020-03-05  6541  	}
-f21e4d8ed16bb9c drivers/net/wireless/mac80211_hwsim.c              Martin Willi   2016-05-14  6542  
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6543  	/*
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6544  	 * Serialise against mac80211_hwsim_stop() - mac80211 doesn't allow
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6545  	 * frames reported while the HW is down, hence the ->started check
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6546  	 * must be under mutex.
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6547  	 */
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6548  	mutex_lock(&data2->mutex);
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6549  
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6550  	/* check if radio is configured properly */
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6551  
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6552  	if ((data2->idle && !data2->tmp_chan) || !data2->started)
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6553  		goto out_unlock;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6554  
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6555  	/* A frame is received from user space */
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6556  	memset(&rx_status, 0, sizeof(rx_status));
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6557  	if (info->attrs[HWSIM_ATTR_FREQ]) {
-4f4b0f4eed556c9 drivers/net/wireless/virtual/mac80211_hwsim_main.c Benjamin Berg  2026-05-06  6558  		struct tx_iter_data iter_data = {
-4f4b0f4eed556c9 drivers/net/wireless/virtual/mac80211_hwsim_main.c Benjamin Berg  2026-05-06  6559  			.hw = data2->hw,
-4f4b0f4eed556c9 drivers/net/wireless/virtual/mac80211_hwsim_main.c Benjamin Berg  2026-05-06  6560  			.rx_status = &rx_status,
-4f4b0f4eed556c9 drivers/net/wireless/virtual/mac80211_hwsim_main.c Benjamin Berg  2026-05-06  6561  		};
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6562  
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6563  		/* throw away off-channel packets, but allow both the temporary
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6564  		 * ("hw" scan/remain-on-channel), regular channels and links,
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6565  		 * since the internal datapath also allows this
-4f86ed8f87c07b3 drivers/net/wireless/mac80211_hwsim.c              Ben Greear     2014-10-27  6566  		 */
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6567  		rx_status.freq = nla_get_u32(info->attrs[HWSIM_ATTR_FREQ]);
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6568  
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6569  		iter_data.channel = ieee80211_get_channel(data2->hw->wiphy,
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6570  							  rx_status.freq);
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6571  		if (!iter_data.channel)
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6572  			goto out_unlock;
-c087f9fcd0fb534 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-09-02  6573  		rx_status.band = iter_data.channel->band;
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6574  
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6575  		if (!hwsim_chans_compat(iter_data.channel, channel)) {
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6576  			ieee80211_iterate_active_interfaces_atomic(
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6577  				data2->hw, IEEE80211_IFACE_ITER_NORMAL,
-c204d9df02020e2 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-07-20  6578  				mac80211_hwsim_tx_iter, &iter_data);
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6579  			if (!iter_data.receive)
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6580  				goto out_unlock;
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6581  		}
-c087f9fcd0fb534 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-09-02  6582  	} else if (!channel) {
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6583  		goto out_unlock;
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6584  	} else {
-626c30f9e773543 drivers/net/wireless/mac80211_hwsim.c              Weilun Du      2021-05-06  6585  		rx_status.freq = channel->center_freq;
-c087f9fcd0fb534 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-09-02  6586  		rx_status.band = channel->band;
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6587  	}
-641cf2a5ba0345c drivers/net/wireless/mac80211_hwsim.c              Adam Welle     2015-12-01  6588  
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6589  	rx_status.rate_idx = nla_get_u32(info->attrs[HWSIM_ATTR_RX_RATE]);
-1833b6f46d7e283 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-10-05  6590  	if (rx_status.rate_idx >= data2->hw->wiphy->bands[rx_status.band]->n_bitrates)
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6591  		goto out_unlock;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6592  	rx_status.signal = nla_get_u32(info->attrs[HWSIM_ATTR_SIGNAL]);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6593  
-05d610af3e71a78 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2019-07-29  6594  	hdr = (void *)skb->data;
-05d610af3e71a78 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2019-07-29  6595  
-05d610af3e71a78 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2019-07-29  6596  	if (ieee80211_is_beacon(hdr->frame_control) ||
-05d610af3e71a78 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2019-07-29  6597  	    ieee80211_is_probe_resp(hdr->frame_control))
-05d610af3e71a78 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2019-07-29  6598  		rx_status.boottime_ns = ktime_get_boottime_ns();
-05d610af3e71a78 drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2019-07-29  6599  
-b1622adaa55541f drivers/net/wireless/mac80211_hwsim.c              Johannes Berg  2022-09-02  6600  	mac80211_hwsim_rx(data2, &rx_status, skb);
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6601  	mutex_unlock(&data2->mutex);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6602  
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6603  	return 0;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6604  err:
-62b093b375e3c10 drivers/net/wireless/mac80211_hwsim.c              Lubomir Rintel 2017-09-18  6605  	pr_debug("mac80211_hwsim: error occurred in %s\n", __func__);
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6606  out_unlock:
-a3658dbd0b37b9d drivers/net/wireless/virtual/mac80211_hwsim_main.c Johannes Berg  2026-09-04  6607  	mutex_unlock(&data2->mutex);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6608  out:
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6609  	dev_kfree_skb(skb);
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6610  	return -EINVAL;
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6611  }
-7882513bacb176a drivers/net/wireless/mac80211_hwsim.c              Javier Lopez   2011-06-01  6612  
+  8356	
+  8357	#ifdef CONFIG_LRU_GEN
+  8358	static void mem_cgroup_attach(struct cgroup_taskset *tset)
+  8359	{
+  8360		struct task_struct *task;
+  8361		struct cgroup_subsys_state *css;
+  8362	
+  8363		/* find the first leader if there is any */
+  8364		cgroup_taskset_for_each_leader(task, css, tset)
+  8365			break;
+  8366	
+  8367		if (!task)
+  8368			return;
+  8369	
+  8370		task_lock(task);
+  8371		if (task->mm && READ_ONCE(task->mm->owner) == task)
+  8372			lru_gen_migrate_mm(task->mm);
+  8373		task_unlock(task);
+  8374	
+  8375		mem_cgroup_attach_unevictable(tset);
+  8376	}
+  8377	#else
+  8378	static void mem_cgroup_attach(struct cgroup_taskset *tset)
+  8379	{
+> 8380		mem_cgroup_attach_unevictable(tset);
+  8381	}
+  8382	#endif /* CONFIG_LRU_GEN */
+  8383	
 
 --
 0-DAY CI Kernel Test Service
