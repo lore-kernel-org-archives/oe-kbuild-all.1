@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89E4B67E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 00:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429C2239E7F;
+	Tue,  8 Sep 2026 00:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788826577; cv=none; b=L00E073mXHt2sIlo3L2RJiQ+kx2Sa5pG6GeI8haH562a6MK3UF5c7UGTOKzrjk1IIYef7zMWmsnF9VtRjncWfojzEc1rKDpVGfLjVi0uQDF7z+Ri2JXRlyt3TvwnHspiAnx6nHB4MgZGAGUeZklgUMyJtAwLvBGwJ9XT5Les4bY=
+	t=1788829113; cv=none; b=qXXfMv1NKuYUHvGgoeROQg9yV/vD+Y/gInk4W5n55wZa9j8ZWNFbblqsTQtTn/0XCDf0mUEMKfa1PicEDQtMbFbKCfWfkWNNNj9sNQvpHodQJQDeBPPyz/Yjc0lRqLFucfYaigesCyDyC7GZ1rKPKSIKEBLs442E797sqrr30HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788826577; c=relaxed/simple;
-	bh=RXnnx5IsPxwYsF4/MFgn5geXaE647rg/PtexFPCJ4Es=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sSjU8N1iMjQluErj3qlomoOv2H5EJn0pYIVtVUcg116p6tuqzWy9zAKFkb2GdDvPqcJZhKrYKKVR38oJTG5mDKvp1ogqJqSdRWg+7ISdUU3+lEGBzncdAscGMzpLvwBN2kb+yGfUJ0SSk2cJOuI+W9Wjv+OCWBSeqEMn56K4KMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZgtWt8o0; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1788829113; c=relaxed/simple;
+	bh=g234LDnNm3zbfFZEcNxpTnRYCHq7yep686w4ocVO5F0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=I6HH9+e1AUpT0NTKuB0XFmech9rrDV9u8L+gquek84TKQtbXuGtUovLQ++nSqwREjtfFKNbJJ2DBY721Hudo0lY6P4uq+dn7iINxyUHjee2/dy1+KWat6bBfc4CXof21C3gDft1QI2vRqknvtupqg4xQHdJMcGpA5E0NJRqvYXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJHBOSez; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZgtWt8o0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJHBOSez"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788826575; x=1820362575;
+  t=1788829111; x=1820365111;
   h=date:from:to:cc:subject:message-id;
-  bh=RXnnx5IsPxwYsF4/MFgn5geXaE647rg/PtexFPCJ4Es=;
-  b=ZgtWt8o0tlbGG485P711VZTbFoTiS5CtZUnPZXFx+aQjw9rFPNs+I4FR
-   2d0GoVJ39ySKiNHSHWr6/ttgyUaQM9PNSaKnX/QMDueTSeON5mjMv9bGd
-   AAbuAYq9REuv1eY6N83MoslJVtJCFoNc1R7MMshGoXcwk9MrZEzMWG98D
-   AksSeK36ceFy/XLqOb+y3YGBicCmkdOMI1/Lk6vrAoRDw40DUyRDJtAmK
-   xsvTLewCdB3m+gP+AXRTFTUVhkI1b7V69U98fG3t3iLDv42v4PSLjDvo8
-   0z2dGzHWZ3+5K5q8qLCQkvMYLnq2cXm+69t3Aeo0VVgIh7A4oCW1XwA8m
-   w==;
-X-CSE-ConnectionGUID: GgC33ZX1Rh+jtlEiYdef5Q==
-X-CSE-MsgGUID: Fm4c4X+2S3C7JkYdlr2o6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="93087132"
+  bh=g234LDnNm3zbfFZEcNxpTnRYCHq7yep686w4ocVO5F0=;
+  b=WJHBOSezOvEoe70C7DSg84T4g+GxZPYneOvfnoBziZ8Cyezl3y83jgvF
+   MYHkssCfNnWR/oz5rdSOvaeK7NxEQAvc50KIVA/YBZm/kUtS6JGhSyUIS
+   +62IbCCI2ieBiJqIV02XJlGW1K2LsJmCTfx9X1u5m2OQa9SFya+QCiZy1
+   7KsEj4O/1EodPzmALSdOueh6J45Iz9uCqxwbizFtg1dVO9H1N3AuPrUc4
+   98+VspPsNVYMiHgLwCUWdLIKiVcqoROgYaXDSIz83me1SOwDs9lONwRYI
+   yE1R2AQqvdpGEN2kBg/tPHhnz4+YPaSjIg9AlM2sAbpvIG5bPqBWIcXBP
+   g==;
+X-CSE-ConnectionGUID: ZxLI+zRmQKmPk1BBxpVcJA==
+X-CSE-MsgGUID: pMC5hGzXRza8XFNmDAfofw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="111999200"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="93087132"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 17:16:15 -0700
-X-CSE-ConnectionGUID: 1oGZ3onvRW++WErLmVo4zA==
-X-CSE-MsgGUID: BzpvtJqVSF2NWbBdRdb+1w==
+   d="scan'208";a="111999200"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 17:58:30 -0700
+X-CSE-ConnectionGUID: ddszyrbFRViZJEnPQAklcQ==
+X-CSE-MsgGUID: eXSL6nTmTVyAifSpvVOwig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="268244420"
+   d="scan'208";a="269113682"
 Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Sep 2026 17:16:14 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 Sep 2026 17:58:28 -0700
 Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3jVT-000000001R9-2uZE;
-	Tue, 08 Sep 2026 00:16:11 +0000
-Date: Tue, 08 Sep 2026 08:15:32 +0800
+	id 1x3kAL-000000001TL-0M0f;
+	Tue, 08 Sep 2026 00:58:25 +0000
+Date: Tue, 08 Sep 2026 08:58:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chandrashekar Devegowda <chandrashekar.devegowda@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-Subject: [linux-next:master 3227/4316]
- drivers/bluetooth/btintel_pcie.c:776:13: warning: variable 'i' set but not
- used
-Message-ID: <202609080812.PANyfUFq-lkp@intel.com>
+To: "GUO Ren (XuanTie)" <guoren@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+ Anup Patel <anup@brainfault.org>
+Subject: [tip:irq/drivers 6/22]
+ drivers/media/platform/mediatek/vpu/mtk_vpu.c:299:9: warning: comparison of
+ different enumeration types ('enum ipi_id' and 'enum ipi_message_type')
+Message-ID: <202609080837.vE9lfq1K-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,70 +63,75 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   944a035ecca915ae947905dcfb03f2b9dc6d032c
-commit: 755cf7adf8dd2d12627cb7de223d35b12228e2f5 [3227/4316] Bluetooth: btintel_pcie: unified decoder coredump format
-config: x86_64-randconfig-121-20260907 (https://download.01.org/0day-ci/archive/20260908/202609080812.PANyfUFq-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080812.PANyfUFq-lkp@intel.com/reproduce)
+Hi GUO,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/drivers
+head:   0c65a1331928d0207c385f03fb5eba0cfecce0e6
+commit: 1ae91dc397eb1dbc0f4fc6b96f2481cbc02fe0f9 [6/22] riscv: smp: Move enum ipi_message_type to asm/smp.h
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260908/202609080837.vE9lfq1K-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2362eeb5f75560740146975e9eabe84c6bd25a0d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080837.vE9lfq1K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609080812.PANyfUFq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609080837.vE9lfq1K-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/bluetooth/btintel_pcie.c:776:13: warning: variable 'i' set but not used [-Wunused-but-set-variable]
-     776 |         int nents, i;
-         |                    ^
-   1 warning generated.
+   In file included from drivers/media/platform/mediatek/vpu/mtk_vpu.c:20:
+   drivers/media/platform/mediatek/vpu/mtk_vpu.h:63:2: error: redefinition of enumerator 'IPI_MAX'
+      63 |         IPI_MAX,
+         |         ^
+   arch/riscv/include/asm/smp.h:27:2: note: previous definition is here
+      27 |         IPI_MAX
+         |         ^
+>> drivers/media/platform/mediatek/vpu/mtk_vpu.c:299:9: warning: comparison of different enumeration types ('enum ipi_id' and 'enum ipi_message_type') [-Wenum-compare]
+     299 |         if (id < IPI_MAX && handler) {
+         |             ~~ ^ ~~~~~~~
+   drivers/media/platform/mediatek/vpu/mtk_vpu.c:322:31: warning: comparison of different enumeration types ('enum ipi_id' and 'enum ipi_message_type') [-Wenum-compare]
+     322 |         if (id <= IPI_VPU_INIT || id >= IPI_MAX ||
+         |                                   ~~ ^  ~~~~~~~
+   2 warnings and 1 error generated.
 
 
-vim +/i +776 drivers/bluetooth/btintel_pcie.c
+vim +299 drivers/media/platform/mediatek/vpu/mtk_vpu.c
 
-   773	
-   774	static struct scatterlist *btintel_pcie_alloc_sgtable(ssize_t size)
-   775	{
- > 776		int nents, i;
-   777		struct page *page;
-   778		struct scatterlist *sg, *result;
-   779	
-   780		if (size <= 0)
-   781			return NULL;
-   782	
-   783		nents = DIV_ROUND_UP(size, PAGE_SIZE);
-   784		result = kcalloc(nents, sizeof(*result), GFP_KERNEL);
-   785		if (!result)
-   786			return NULL;
-   787	
-   788		sg_init_table(result, nents);
-   789		sg = result;
-   790	
-   791		for (i = 0; size > 0; i++) {
-   792			ssize_t bytes = min_t(ssize_t, size, PAGE_SIZE);
-   793	
-   794			page = alloc_page(GFP_KERNEL | __GFP_ZERO);
-   795			if (!page)
-   796				goto err_free;
-   797	
-   798			sg_set_page(sg, page, bytes, 0);
-   799			sg = sg_next(sg);
-   800			size -= bytes;
-   801		}
-   802		return result;
-   803	
-   804	err_free:
-   805		for (sg = result; sg; sg = sg_next(sg)) {
-   806			page = sg_page(sg);
-   807			if (page)
-   808				__free_page(page);
-   809		}
-   810		kfree(result);
-   811		return NULL;
-   812	}
-   813	
+040d31ccf2bd87 drivers/media/platform/mtk-vpu/mtk_vpu.c Irui Wang      2020-10-29  286  
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  287  int vpu_ipi_register(struct platform_device *pdev,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  288  		     enum ipi_id id, ipi_handler_t handler,
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  289  		     const char *name, void *priv)
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  290  {
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  291  	struct mtk_vpu *vpu = platform_get_drvdata(pdev);
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  292  	struct vpu_ipi_desc *ipi_desc;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  293  
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  294  	if (!vpu) {
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  295  		dev_err(&pdev->dev, "vpu device in not ready\n");
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  296  		return -EPROBE_DEFER;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  297  	}
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  298  
+c4abb192caca96 drivers/media/platform/mtk-vpu/mtk_vpu.c Hans Verkuil   2019-11-03 @299  	if (id < IPI_MAX && handler) {
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  300  		ipi_desc = vpu->ipi_desc;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  301  		ipi_desc[id].name = name;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  302  		ipi_desc[id].handler = handler;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  303  		ipi_desc[id].priv = priv;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  304  		return 0;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  305  	}
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  306  
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  307  	dev_err(&pdev->dev, "register vpu ipi id %d with invalid arguments\n",
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  308  		id);
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  309  	return -EINVAL;
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  310  }
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  311  EXPORT_SYMBOL_GPL(vpu_ipi_register);
+3003a180ef6b94 drivers/media/platform/mtk-vpu/mtk_vpu.c Andrew-CT Chen 2016-05-03  312  
+
+:::::: The code at line 299 was first introduced by commit
+:::::: c4abb192caca96a53c2e833d25b1f7f12b454bf4 media: mtk-vpu: fix two smatch warnings
+
+:::::: TO: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
