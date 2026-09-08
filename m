@@ -1,84 +1,93 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F78438399D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 06:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9FC361968
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 07:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788849142; cv=none; b=jD6OaX3AFLEz081HjcG02IgaQ1TZGI+lZ+ExTk2kb9QhQurMsHAYMAl95nWilPGjNIKLsTtiGjyQq2JqJaw+RKVk1gU787DbGWJyuedw/jgau4wbWsau2a8JfmfeJ3iKXxAjINbOuKIjLfJOgBllWD7fAJJ12sHndzotvckWC8k=
+	t=1788853215; cv=none; b=jGpREWM0xpH53HnDmzuUF/PdRubpVLR18Guy83gV7xFmf4YFizMzL7ygN5KXOTlxxcCFPX7XSwxL1OnwZZVTYyaVPzOcl3nDGNQo0XrkgJOetiudM3mvTc7MHRoct2TqVKQrSbmHHUAidkeqVbar5FaYy/uz6pp1/68KdTvXxLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788849142; c=relaxed/simple;
-	bh=L3RSKFtIiq3xfmKS2Lj+8AFAnQ225FnH4Uu6XJr58TY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VjWICXVpocgHcJIIo59iq8Dr27bpinsXhzF8pXx+wh6kPBEOIwFJqNDaLsBpSzo/W9vTRB3YWhxff479R+tZRyshpnRpoRnpPLHtn7T5elEouZENDQStwlbMBBODxBq7tH15RIIZpjyCFWiz8hZJB/G7BPJsZ6LAb4+nnx6Dv0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2UWh2U/k; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oCjjh3Q0; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1788853215; c=relaxed/simple;
+	bh=bUvhtyi9e4lFC8m9eCcyp2a9GOWLEwj6WNm7MgXVWrA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hJkacvSfrn1xYNj3cTg1F5b77Sps/kvata1a8X3vzEYoH3yUFaO4c8iWPsNasT8PLmgMtwRvUpmk3iaVD+lRMUu3xgKX2Fpw+wXTPih84FyU5hWXm8xhsZbj3Vz8kChfPF0YUZhxiW4kUo1Td+zpzLb2CtKq2lRiOmEfQ4IVFxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ik5lK52C; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2UWh2U/k";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oCjjh3Q0"
-Date: Tue, 8 Sep 2026 08:32:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1788849139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oVxz4PesroIY7DrVUMPxUwuaJq5+NpOilofYt0q3YPM=;
-	b=2UWh2U/k6JVjqeUTgYL82dCQ8FX999zeuKdcQphGlx0bkiGY+JsrP5+P/2jVj6Es6UlSlj
-	nPG7atpdiadgTZo2lQlu4KZeo28mWWJ9v1+YUWQkgFe5+5zDwh9tJfXrafWDwZ9ZN+rJZF
-	1bvPDJDwYH8a++CkgVV4tfsdzvG79tXX1MKESsuzopzRgM95GjlHTmC3wicoZGHBtOQ3GD
-	hUmmFetwZaWVVX2+Jw6WeZsWGlrllSe5X1z58jPqVEjzPgkHQhh5T114nwqEciExMEOhPL
-	PXHrWsA4PC0P09RX/prVWO1RTs85hLbndbDtNe9hVIRXrEUKL0Da9Zw2iBNcpg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1788849139;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oVxz4PesroIY7DrVUMPxUwuaJq5+NpOilofYt0q3YPM=;
-	b=oCjjh3Q0mPiTpxIg2mzYSlhbEAlJQ0vfhTYwlHrHnNCIDLDK8VeDHQTj8sc1RardAetnaa
-	tIRNeurpVu176WBg==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: lib/vdso/gettimeofday.c:288:31: error: implicit declaration of
- function 'BITS_PER_TYPE'; did you mean 'BITS_PER_LONG'?
-Message-ID: <20260908083031-c412d00f-6541-43d7-b81f-0e70c093c2e9@linutronix.de>
-References: <202609080117.XY9u2XZ9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ik5lK52C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788853213; x=1820389213;
+  h=date:from:to:cc:subject:message-id;
+  bh=bUvhtyi9e4lFC8m9eCcyp2a9GOWLEwj6WNm7MgXVWrA=;
+  b=ik5lK52CqA8B3viqGI+4RiKdG10VmS6ZoRju8PoWA5w+VUZz1u2ppLzY
+   DXm2I+4JQ5DW2WufcvR+fxUX2jq7m/Q7EhVaawdse7taJTbulVBPP6YJy
+   S7vQggBBvuuEeYAzvHmNhD08lqoHqLDwKn7KGema8YkjHAv7kK+RCbDBK
+   8lOaTzJ/SOVigUYXbuvcIBA1wc4AVCFSm8043eBWkJXzSuznfyun5guKL
+   fGKLBhmDjGvHk2DNBtkLNsiKJYDgP8+VYuEOBrnWExPBSYaVQ83A5S+Gi
+   MnF8Ka0VKn0d87w5XCrKImBYOWDDsLVV4/9OkOCBMy+1a7xLxh4j0fRWZ
+   A==;
+X-CSE-ConnectionGUID: uvy1LKulRJCXRXIL3cFHYg==
+X-CSE-MsgGUID: 11AJvzjrRsCi3aOF/9aHHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="88396370"
+X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
+   d="scan'208";a="88396370"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 00:40:13 -0700
+X-CSE-ConnectionGUID: P+YxPCbaTBy/7rgbRFii/Q==
+X-CSE-MsgGUID: p1WtuBkNSeK53xvmwJgmQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
+   d="scan'208";a="268347372"
+Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 08 Sep 2026 00:40:11 -0700
+Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x3qR6-000000001pR-1kJn;
+	Tue, 08 Sep 2026 07:40:08 +0000
+Date: Tue, 08 Sep 2026 15:40:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:fermata 24/25] kernel/bpf/helpers.c:2417:18:
+ sparse: sparse: symbol 'bpf_coro_suspend' was not declared. Should it be
+ static?
+Message-ID: <202609081543.8TDIBK0I-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609080117.XY9u2XZ9-lkp@intel.com>
 
-Hi Zhan,
+tree:   https://github.com/kkdwivedi/linux fermata
+head:   0de8fbf4ea7faa920d77adc60e4388798226d425
+commit: ad66b0bda534ef2d0d681a5675c32fc8e5ec140e [24/25] bpf: Add no-op bpf_coro_suspend() kfunc
+config: openrisc-randconfig-r122-20260908 (https://download.01.org/0day-ci/archive/20260908/202609081543.8TDIBK0I-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081543.8TDIBK0I-lkp@intel.com/reproduce)
 
-On Tue, Sep 08, 2026 at 01:42:57AM +0200, kernel test robot wrote:
-> tree:   https://github.com/intel-lab-lkp/linux/commits/Zhan-Xusheng/vdso-math64-Add-and-use-__iter_div64_u64_rem/20260901-100634
-> head:   70e38aef8fc8b80bc60e2249e5f2a38c2d1e604b
-> commit: 70e38aef8fc8b80bc60e2249e5f2a38c2d1e604b vdso/gettimeofday: Assert that the clock id fits the dispatch mask
-> date:   7 days ago
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609080117.XY9u2XZ9-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 16.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080117.XY9u2XZ9-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609080117.XY9u2XZ9-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from <command-line>:
->    lib/vdso/gettimeofday.c: In function '__cvdso_clock_gettime_common':
-> >> lib/vdso/gettimeofday.c:288:31: error: implicit declaration of function 'BITS_PER_TYPE'; did you mean 'BITS_PER_LONG'? [-Wimplicit-function-declaration]
->      288 |         BUILD_BUG_ON(clock >= BITS_PER_TYPE(msk));
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609081543.8TDIBK0I-lkp@intel.com/
 
-Instead of including linux/bit.h from the vDSO code, could you move
-BITS_PER_TYPE and BITS_PER_BYTE to vdso/bits.h and use it from there?
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/helpers.c:1228:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long ( *[usertype] callback_fn )( ... ) @@     got void [noderef] __rcu * @@
+   kernel/bpf/helpers.c:1228:21: sparse:     expected unsigned long long ( *[usertype] callback_fn )( ... )
+   kernel/bpf/helpers.c:1228:21: sparse:     got void [noderef] __rcu *
+>> kernel/bpf/helpers.c:2417:18: sparse: sparse: symbol 'bpf_coro_suspend' was not declared. Should it be static?
+   kernel/bpf/helpers.c:2874:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
 
+vim +/bpf_coro_suspend +2417 kernel/bpf/helpers.c
 
-Thomas
+  2416	
+> 2417	__bpf_kfunc void bpf_coro_suspend(void *p__ign)
+  2418	{
+  2419	}
+  2420	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
