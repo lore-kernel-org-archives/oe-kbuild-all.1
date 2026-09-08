@@ -1,106 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E2E5A0ACD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 18:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E7E59B687
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 19:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788893986; cv=none; b=Et+E7Ctp85YpO/Zk7SHt7WFHQzFPyxIPMWTvt7tyPmQzL/CoFheACLiYnsx2AnT7OqOBjK6Kjxki32DlCSkbZyOZYLFkJQjbjE1l1gy9eE4HtqLigf7EFpFVbi1v/0Zag8LnR1w3dN6zS5TYr1StpgPn3l5csYF6imzuypOm0CU=
+	t=1788894675; cv=none; b=BkSVUWK4sjGhutqrxuOOAKzFIpUt6bf0DOtGgAsp1MowwC+LNvKtGmQoH9wLvmz4CRMlf1ZKuFMT1FQPQUU+0EKXDsc+CQTJxyJtTRt58fWGDEe9KTNqCV4tbohhjhPhEyrkbTjfFwwckpHtybhzXY05rtUcvfew8Ok8ITOJsqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788893986; c=relaxed/simple;
-	bh=s9jqVOt7AzY8k+su+SqTYV18CqgGwJG3IrPemaAg5qc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JhgJU7y/nvDViCWaBPjNGoHyBgOrGIA59W1Hr3DvAAt28nVtcoG3hjD91Orw7PaMSEueUxIld5dr1Uc2Ye0g0NTc5ZUHEMGJZhalPeYTnXH8RGRXhsuAv3UZEO7T920Q6uGEYlCry3aQwJ/eHGBSx+gjZMcX8f26YIGr/h8WiS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iehVs3i2; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788894675; c=relaxed/simple;
+	bh=e2dqBJfp21WO41AoXQ5AfxEUuhV/CZ6cVuRpaxyeOk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z8cpRGLG8VF521GCyb+TcPaGnOfCNo4ze2UJ++7156fhNor1op/uswIeAqdG0MsigyBJu6MWV7TNfwYs0yeRL1hdzyT9UABmH3MifKonO/alj/XsKjFNx128qpXawUKvmuQHWBPB2Wln1sHCcW78AlzPhqnLT73V/OAZJONkb2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1hoSXBe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iehVs3i2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788893984; x=1820429984;
-  h=date:from:to:cc:subject:message-id;
-  bh=s9jqVOt7AzY8k+su+SqTYV18CqgGwJG3IrPemaAg5qc=;
-  b=iehVs3i2xaP0poE/Z+zfYOTV58VJbUpy6T+DXA6FbfFE2L+7mJ4VGuCj
-   mQlAxrM9t7Lqh5jKCWpwx3Tsw2DAtJ1weZw5G94jkNtnYPEMuCDiFz27z
-   xeXYkC/evLcxvmMMygCeHFSRaEuZkkvdhYGdAQMEMi44cegUVCL1F8nyo
-   kBvNQBH+gEDz8naBWydZWW0lb9Gp7+jAujJfwAHXqTdx9m3YE1ue8ZBGk
-   j78hguyCtMVfcjODP8BnnySDYrp8PsDF36aKhBnKz3nfWWfvWOdqowbsn
-   m4fwgqUpuRNB4ce7tzaSk6A3lPKVfh+oVEK6ZWNo/f+oUqdgZ5VRWWLvT
-   w==;
-X-CSE-ConnectionGUID: KzAAFSuzTh+jbKragLDXmQ==
-X-CSE-MsgGUID: yawcXsV+Qkq/W0QKYPQ2Mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="100661905"
-X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="100661905"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 11:59:42 -0700
-X-CSE-ConnectionGUID: APWDDInxSwSOyRQFiVMS7A==
-X-CSE-MsgGUID: ThDlRs5ASy+4Y9xiNQy85Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="269744654"
-Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 08 Sep 2026 11:59:41 -0700
-Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x412g-000000000oE-2k1I;
-	Tue, 08 Sep 2026 18:59:38 +0000
-Date: Tue, 08 Sep 2026 20:58:39 +0200
-From: kernel test robot <lkp@intel.com>
-To: Franz Schnyder <franz.schnyder@toradex.com>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-Subject: [linux-next:master 2542/4316]
- arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: usbphynop2
- (usb-nop-xceiv): '#phy-cells' is a required property
-Message-ID: <202609082058.gjkFuxpv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1hoSXBe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 201191F00A3A;
+	Tue,  8 Sep 2026 19:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788894669;
+	bh=skzA71Wt+K8J5EXDyMKYF+bFLHHIX8asJtaQcmoLJN0=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=d1hoSXBe7NYbLYUbLR65Vfz2FyM4Ey5b54Yxm95qNVBdYKG3USF3ED/76cJzlJjWg
+	 luublMVVZwhMd6Lrfy1AyQOUwWC0LmmhS3ByOPzjOCDwBp7qJlI15su7I79DMU7rdH
+	 MwjuHcHDjCXoYOdskUqtd2VsDNUK2epZbYqBy+oj9Ddedy0qLVIZeOl9rka093Th4B
+	 4aI88i0VtBRllgiRy/SQXCeA1e8NbuVJfmxflTMt4nv43VOizx13bUoBJwq7VmYnaj
+	 A6zFc6ARwySV/DKIgKq527+cwASM0PP0ykYX2+NGYLHsg9ODMV9KbYwetdX1JSb+CY
+	 t1owU48pGrHoQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D5DE1CE1902; Tue,  8 Sep 2026 12:11:08 -0700 (PDT)
+Date: Tue, 8 Sep 2026 12:11:08 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Woodhouse <dwmw2@infradead.org>
+Subject: Re: [paulmckrcu:dev 27/42] kernel/rcu/srcutree.c:913 srcu_gp_start()
+ warn: inconsistent indenting
+Message-ID: <09b85333-ddd2-44fc-8bbf-3257f714acb1@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202609052019.8XxNMFvN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609052019.8XxNMFvN-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   944a035ecca915ae947905dcfb03f2b9dc6d032c
-commit: cf08ef6995204752d8423226f3588c76c6403996 [2542/4316] arm64: dts: apalis-imx8: Add USB HSIC support
-config: arm64-randconfig-2051-20260907 (https://download.01.org/0day-ci/archive/20260908/202609082058.gjkFuxpv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-dtschema: 2026.7.dev16+g39602f98e
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609082058.gjkFuxpv-lkp@intel.com/reproduce)
+On Sat, Sep 05, 2026 at 08:25:52PM +0800, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux dev
+> head:   3fe004c1cd8588480a29f9577427cf8a9daa32d1
+> commit: a6b38e2d5585400c21ee2429683f2ab7ec0e1cf8 [27/42] srcutree: Add an atomic Tree SRCU
+> config: x86_64-randconfig-161-20260904 (https://download.01.org/0day-ci/archive/20260905/202609052019.8XxNMFvN-lkp@intel.com/config)
+> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+> smatch: v0.5.0-9187-g5189e3fb
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609052019.8XxNMFvN-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/rcu/srcutree.c:913 srcu_gp_start() warn: inconsistent indenting
+> kernel/rcu/srcutree.c:2148 synchronize_srcu_atomic() warn: inconsistent indenting
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609082058.gjkFuxpv-lkp@intel.com/
+This is debug code and will be removed, but thank you for the reminder.
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qp-apalis-v1.1-eval.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qp-apalis-v1.1-eval-v1.2.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
---
->> arch/arm64/boot/dts/freescale/imx8qp-apalis-v1.1-ixora-v1.1.dtb: usbphynop2 (usb-nop-xceiv): '#phy-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml
+							Thanx, Paul
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +913 kernel/rcu/srcutree.c
+> 
+>    905	
+>    906	/*
+>    907	 * Start an SRCU grace period.
+>    908	 */
+>    909	static void srcu_gp_start(struct srcu_struct *ssp)
+>    910	{
+>    911		int state;
+>    912	
+>  > 913		/*&&&&*/pr_alert("%s() start: ->srcu_gp_seq: %lx ->srcu_gp_seq_needed: %lx\n", __func__, ssp->srcu_sup->srcu_gp_seq, ssp->srcu_sup->srcu_gp_seq_needed);
+>    914		lockdep_assert_held(&ACCESS_PRIVATE(ssp->srcu_sup, lock));
+>    915		WARN_ON_ONCE(ULONG_CMP_GE(ssp->srcu_sup->srcu_gp_seq, ssp->srcu_sup->srcu_gp_seq_needed));
+>    916		WRITE_ONCE(ssp->srcu_sup->srcu_gp_start, jiffies);
+>    917		WRITE_ONCE(ssp->srcu_sup->srcu_n_exp_nodelay, 0);
+>    918		smp_mb(); /* Order prior store to ->srcu_gp_seq_needed vs. GP start. */
+>    919		rcu_seq_start(&ssp->srcu_sup->srcu_gp_seq);
+>    920		state = rcu_seq_state(ssp->srcu_sup->srcu_gp_seq);
+>    921		WARN_ON_ONCE(state != SRCU_STATE_SCAN1);
+>    922	}
+>    923	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
