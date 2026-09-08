@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2335328616
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 04:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131B535DA78
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 04:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788842276; cv=none; b=NProEzt24jqcs1siczvB/xguAPRC/uhO6ETOS15s4xeqMRC0ZsdYLUUkD6TwuR4BhqxzBknUI7O5Paw6PglXo0M8BpaW52YH0Oi9yww0bZ2KatoUhR5c8xyI5XBe9inHN9tfHSna5ASqYnOquCcwC4bMdjSO64HKzNG8WP0nwwk=
+	t=1788842279; cv=none; b=mM5Ip8YWLrIVdeGpyDqxIAPdRyoYcHHbuGpocknSzGPAmNPEPjZNJGKlMNk+3Idj5GITmK6I1CnM8facrgvXBDcgkwrK+iyLcqsXUyL+zknuwQmqkjGQB6iADxpyI6zm9M3xto8Gx9R9eC4Kr32tubK/3mf/WA6lod5cKqGUXdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788842276; c=relaxed/simple;
-	bh=Xkp5abyX03SH88eZLZ6dvl5jEaPRRbQWLkPiX6PiPKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sa6gMYO51kX4Y9RU0lhaOg2ZwrqUcmebKgtbvzFOBlHmk+qH7mywfxAS4yTjsaa9mt6KltiEtqkBr2D3zfNGtGlZMJWVGu62UzQKiXn6xWhfignFuUlPXWjDwUabIzd91MJPpfWNbY/sAywAAH/Lnr3B5DMoHQ8PtDUVcydnrto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dfWiLwkv; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1788842279; c=relaxed/simple;
+	bh=GDa161aAG5luI95KnLUgrUA2iG8rWS1txhTiWPkoxts=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DQHUxqqHAECL7sMtUbZgBHSPy0bffs1QDEVtsRnXoTFH9Br9+18qd3eYZDw69GKFLYZ3yXD7GrrJTbL8aJv8LtiQ8wNAQh66PFAhOALu4unvZ6JGsD8Gxmerji6Ozx9yuhJzOTIA4ZWlAupVHKO0InVKefwqOlItDr7QJLKMPj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Crssnnc2; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dfWiLwkv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Crssnnc2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788842274; x=1820378274;
+  t=1788842276; x=1820378276;
   h=date:from:to:cc:subject:message-id;
-  bh=Xkp5abyX03SH88eZLZ6dvl5jEaPRRbQWLkPiX6PiPKQ=;
-  b=dfWiLwkv0iSBHBv2g/eJsrvKMthbqX3l9stLD3M/KejF+bLAW2rTL/16
-   TuS1MZJo289rZByta3Iq/bGDE9v3ZL2PuYgQX7nPnTRQULyjaWe0IHfOw
-   zqc7CMiQ6MHbatt9uFh+Dii0LZhKcUS/ZVGhH6zCtP5BZg3uiXrrqIQsj
-   vEajnOQBaS3BRuLzH8RCqaBDe+L8w4U1RbSDme6NvQ7t/FgThBfJXqiBg
-   ESYZRMl5c6D2C6Q4atRJ/9CkMd88SpbH0jrCSplFaE5bERe4Gt2CpGglh
-   6x6539B0pDnIHj+4VysfSniqG3yTfb/okDPQYM2V57pmQBBmzqygLCtIR
-   g==;
-X-CSE-ConnectionGUID: 1ncoogxbS7q8MTAsZTmGlw==
-X-CSE-MsgGUID: tvhD0YfvQ2adsanxMFDFbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99828581"
+  bh=GDa161aAG5luI95KnLUgrUA2iG8rWS1txhTiWPkoxts=;
+  b=Crssnnc2U/g9f+nT0XVpaaWrj5+wl+R44N9EDkgZk+UsbVu4XMgJVz/E
+   ajz1Sv3ARwaw4tmi9eOvsOHprLU0dzg0SXS95FgrOX6ED/mMpMhcYw4jo
+   MBn7drmMSJBEzOmg3AslF6VLOliIPHjwGz+lEUCsXVN07B3keeP5hdav0
+   yC0KQ/vXNwT+cRrntViOgUetKBVpOev0K03rbWaCzME7btQsQeS0Rd9OT
+   7YTsyrCEnuAraTWP4NBF7GJuEYHmNjCNDP7SD5u0GknwMmqi5aUNGR41N
+   pvPo1CFRZbZldXjZ1/ZskeLIZ12LjN20X9i9S1KgEgRZHS8CZ4ZshNx8O
+   w==;
+X-CSE-ConnectionGUID: ARtoooHcQEKKmfkIIU+wUg==
+X-CSE-MsgGUID: L0G1dLgMRveo8qyQZvh9qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99828582"
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="99828581"
+   d="scan'208";a="99828582"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 21:37:53 -0700
-X-CSE-ConnectionGUID: C63M5bgPSDeac3FDfDFkMw==
-X-CSE-MsgGUID: YKpHZ4V5Tpqa5lMg9wrxpQ==
+X-CSE-ConnectionGUID: VMZCDNxuS0iHb8FXjO5yeg==
+X-CSE-MsgGUID: 3zzlYApyR0S8/y+MQNRZ7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="274658615"
+   d="scan'208";a="274658617"
 Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 07 Sep 2026 21:37:53 -0700
 Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x3nag-000000001fZ-2D3s;
+	id 1x3nag-000000001fh-3814;
 	Tue, 08 Sep 2026 04:37:50 +0000
-Date: Tue, 08 Sep 2026 12:36:56 +0800
+Date: Tue, 08 Sep 2026 12:36:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1] mm/vmscan.c:2623:15:
- warning: no previous prototype for 'shrink_inactive_list'
-Message-ID: <202609081247.OcGwVxzQ-lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: fs/f2fs/checkpoint.c:784:57: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <202609081243.Jo4beeqD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,144 +60,76 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi xiaofeng,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   7c4d9544b5a66846a8522efb9935c50a56b8f1ec
-commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [0/1] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260908/202609081247.OcGwVxzQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081247.OcGwVxzQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   28924df2a08f440c73991b83028032c901de2ae4
+commit: 9a9ee7408a1f8271bd1978baff2dd09457054ef4 f2fs: reduce memory footprint of ino management
+date:   3 weeks ago
+config: parisc-randconfig-r132-20260908 (https://download.01.org/0day-ci/archive/20260908/202609081243.Jo4beeqD-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609081243.Jo4beeqD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 9a9ee7408a1f ("f2fs: reduce memory footprint of ino management")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609081247.OcGwVxzQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609081243.Jo4beeqD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/f2fs/checkpoint.c:782:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   fs/f2fs/checkpoint.c:782:14: sparse:     expected void **slot
+   fs/f2fs/checkpoint.c:782:14: sparse:     got void [noderef] __rcu **
+>> fs/f2fs/checkpoint.c:784:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   fs/f2fs/checkpoint.c:784:57: sparse:     expected void [noderef] __rcu **slot
+   fs/f2fs/checkpoint.c:784:57: sparse:     got void **slot
+   fs/f2fs/checkpoint.c:789:64: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   fs/f2fs/checkpoint.c:789:64: sparse:     expected void [noderef] __rcu **slot
+   fs/f2fs/checkpoint.c:789:64: sparse:     got void **slot
+   fs/f2fs/checkpoint.c:810:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void **slot @@     got void [noderef] __rcu ** @@
+   fs/f2fs/checkpoint.c:810:14: sparse:     expected void **slot
+   fs/f2fs/checkpoint.c:810:14: sparse:     got void [noderef] __rcu **
+   fs/f2fs/checkpoint.c:812:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   fs/f2fs/checkpoint.c:812:57: sparse:     expected void [noderef] __rcu **slot
+   fs/f2fs/checkpoint.c:812:57: sparse:     got void **slot
+   fs/f2fs/checkpoint.c:819:64: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __rcu **slot @@     got void **slot @@
+   fs/f2fs/checkpoint.c:819:64: sparse:     expected void [noderef] __rcu **slot
+   fs/f2fs/checkpoint.c:819:64: sparse:     got void **slot
 
-   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
->> mm/vmscan.c:2623:15: warning: no previous prototype for 'shrink_inactive_list' [-Wmissing-prototypes]
-    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         |               ^~~~~~~~~~~~~~~~~~~~
+vim +784 fs/f2fs/checkpoint.c
 
-
-vim +/shrink_inactive_list +2623 mm/vmscan.c
-
-  2618	
-  2619	/*
-  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
-  2621	 * of reclaimed pages
-  2622	 */
-> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-  2624			struct lruvec *lruvec, struct scan_control *sc,
-  2625			enum lru_list lru)
-  2626	{
-  2627		LIST_HEAD(folio_list);
-  2628		unsigned long nr_scanned;
-  2629		unsigned int nr_reclaimed = 0;
-  2630		unsigned long nr_taken;
-  2631		struct reclaim_stat stat;
-  2632		bool file = is_file_lru(lru);
-  2633		enum vm_event_item item;
-  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-  2635		bool stalled = false;
-  2636	
-  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
-  2638			if (stalled)
-  2639				return 0;
-  2640	
-  2641			/* wait a bit for the reclaimer. */
-  2642			stalled = true;
-  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
-  2644	
-  2645			/* We are about to die and free our memory. Return now. */
-  2646			if (fatal_signal_pending(current))
-  2647				return SWAP_CLUSTER_MAX;
-  2648		}
-  2649	
-  2650		lru_add_drain();
-  2651	
-  2652		spin_lock_irq(&lruvec->lru_lock);
-  2653	
-  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
-  2655					     &nr_scanned, sc, lru);
-  2656	
-  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
-  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
-  2659		if (!cgroup_reclaim(sc))
-  2660			__count_vm_events(item, nr_scanned);
-  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
-  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
-  2663	
-  2664		spin_unlock_irq(&lruvec->lru_lock);
-  2665	
-  2666		if (nr_taken == 0)
-  2667			return 0;
-  2668	
-  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
-  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
-  2671	
-  2672		spin_lock_irq(&lruvec->lru_lock);
-  2673		move_folios_to_lru(lruvec, &folio_list);
-  2674	
-  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
-  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
-  2677		if (!cgroup_reclaim(sc))
-  2678			__count_vm_events(item, nr_reclaimed);
-  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
-  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
-  2681		spin_unlock_irq(&lruvec->lru_lock);
-  2682	
-  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
-  2684		mem_cgroup_uncharge_list(&folio_list);
-  2685		free_unref_page_list(&folio_list);
-  2686	
-  2687		/*
-  2688		 * If dirty folios are scanned that are not queued for IO, it
-  2689		 * implies that flushers are not doing their job. This can
-  2690		 * happen when memory pressure pushes dirty folios to the end of
-  2691		 * the LRU before the dirty limits are breached and the dirty
-  2692		 * data has expired. It can also happen when the proportion of
-  2693		 * dirty folios grows not through writes but through memory
-  2694		 * pressure reclaiming all the clean cache. And in some cases,
-  2695		 * the flushers simply cannot keep up with the allocation
-  2696		 * rate. Nudge the flusher threads in case they are asleep.
-  2697		 */
-  2698		if (stat.nr_unqueued_dirty == nr_taken) {
-  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
-  2700			/*
-  2701			 * For cgroupv1 dirty throttling is achieved by waking up
-  2702			 * the kernel flusher here and later waiting on folios
-  2703			 * which are in writeback to finish (see shrink_folio_list()).
-  2704			 *
-  2705			 * Flusher may not be able to issue writeback quickly
-  2706			 * enough for cgroupv1 writeback throttling to work
-  2707			 * on a large system.
-  2708			 */
-  2709			if (!writeback_throttling_sane(sc))
-  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
-  2711		}
-  2712	
-  2713		sc->nr.dirty += stat.nr_dirty;
-  2714		sc->nr.congested += stat.nr_congested;
-  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
-  2716		sc->nr.writeback += stat.nr_writeback;
-  2717		sc->nr.immediate += stat.nr_immediate;
-  2718		sc->nr.taken += nr_taken;
-  2719		if (file)
-  2720			sc->nr.file_taken += nr_taken;
-  2721	
-  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
-  2724		return nr_reclaimed;
-  2725	}
-  2726	EXPORT_SYMBOL(shrink_inactive_list);
-  2727	
+   768	
+   769	static void __set_ino_bitmap(struct f2fs_sb_info *sbi, nid_t ino, int type)
+   770	{
+   771		struct inode_management *im = &sbi->im[type];
+   772		unsigned long index = INO_SLOT_INDEX(ino);
+   773		unsigned int ofs = INO_BIT_OFFSET(ino);
+   774		void **slot, *entry;
+   775		unsigned long bitmap = 0;
+   776		int ret;
+   777	
+   778		ret = radix_tree_preload(GFP_NOFS | __GFP_NOFAIL);
+   779		f2fs_bug_on(sbi, ret);
+   780	
+   781		spin_lock(&im->ino_lock);
+   782		slot = radix_tree_lookup_slot(&im->ino_root, index);
+   783		if (slot) {
+ > 784			entry = radix_tree_deref_slot_protected(slot, &im->ino_lock);
+   785			bitmap = xa_to_value(entry);
+   786			if (!(bitmap & (1UL << ofs))) {
+   787				bitmap |= (1UL << ofs);
+   788				entry = xa_mk_value(bitmap);
+   789				radix_tree_replace_slot(&im->ino_root, slot, entry);
+   790			}
+   791		} else {
+   792			bitmap |= (1UL << ofs);
+   793			entry = xa_mk_value(bitmap);
+   794			if (unlikely(radix_tree_insert(&im->ino_root, index, entry)))
+   795				f2fs_bug_on(sbi, 1);
+   796		}
+   797		spin_unlock(&im->ino_lock);
+   798		radix_tree_preload_end();
+   799	}
+   800	
 
 --
 0-DAY CI Kernel Test Service
