@@ -1,115 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663112E06E6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Sep 2026 01:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0BA2D5932;
+	Tue,  8 Sep 2026 01:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788830383; cv=none; b=AVSRKnJA1gGfXiS/G0DXqWCpfu8qvFiiieTQSiH19WpGbt6xdLPtVteGkW+vtvvT8JgTx02qnJ0KGcqVha6CNBgEssbT7EiH6feJG3EArioJHFIov0zOxQDTzT5HYemCkwLouuRdwJQo0B18txTInZXnFWXOzbm/26JpxRmlCHM=
+	t=1788830600; cv=none; b=KKQNm/+5PlJ2SaW55xsOK6wHv6tM1Ym4RY5Ep7nK1E4gPCYAAfIgPotyMjfXyS5ZxpAiaX4yNDkhvQ5pPscIZ/+P6m58nIE+FOfxAyTVcB9bShE/zjuuTNdUkexpxewI0geAIZr01MJHumdDoWOrB5+iuc2SF9vgOfmwJShw0sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788830383; c=relaxed/simple;
-	bh=yrAQz5yRwVsrhFPYfmnf4lJfV/jK9jHKu/crC5P34+o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bxdQVVBNz32qygi1tiffsuovmCgGFr4ttgC2pKN72j8iJtBbptJMH8SS+218vuFZEryIMEyHq8FPRVnk4leFJsqeqjcR8AvwDhdldytjc33ZLmdMOlTxgrouLUrOoQkWs7VjQJPVAO04x4fkAGPem7/3hMwzMIYZQY2YErNfKgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3ggxgxE; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788830600; c=relaxed/simple;
+	bh=fR7kC+3rzpvjoYvVERI016H5Lrj76/1ZoC/PSXVJvK0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XlCdvmEz3JVCtTCY2TyO7c6txYcDEdpH7gi2b3MwDtpY3XIrmYdLn0u9ySJOJ+YwFPIbTdDgp0+NflH1JSgZSRTz1mX/eRYKKobt5LTdHzV9x4XMTRQCVyXU2ZB7Ej+tL/fffO52PJvFuV/kKXRqmGrwf7na8mSo3kqgmKpqtFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=q+pKMqIg; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3ggxgxE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788830376; x=1820366376;
-  h=date:from:to:cc:subject:message-id;
-  bh=yrAQz5yRwVsrhFPYfmnf4lJfV/jK9jHKu/crC5P34+o=;
-  b=B3ggxgxEeYFIyzjKAHVc02zYt+lYGFA4ZN6lZvA7exgmAQMMDe8X75Wn
-   FZRAnFrH4fVhbdOc0WtJ0V7fBQrxTuepdKkBi8lN/Ys/CgSczv91BZIFd
-   NH25ZZAYUmkkte9lKF38OqlT8LiWN3mqzjuElCSWbCgAc7NQTRUE29Wyl
-   43FmzuOkmjvFHoDpA7oFR4aYCJvWZL8YnCeXYzb+HZRWS01wrfIRZHrI9
-   yrRf7ZSPjBgE6pA9tCv0NiTpWjmd7drd02ZAtXkuAbV4ioA9EGLdEX1Q7
-   gvaoNaxgpHqvElGHyneZG7nbfYanKBNeEagIgNjYAuZ7ythJozPTgpYDL
-   g==;
-X-CSE-ConnectionGUID: cY3kyiyxS+qCbETYI+7Gpw==
-X-CSE-MsgGUID: Y7wUKgP9ToiRfZck6gHnyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="99819234"
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="99819234"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 18:19:32 -0700
-X-CSE-ConnectionGUID: qcjjeP8KSx6gJ8i7iguxCQ==
-X-CSE-MsgGUID: ou97aOixQUiNgLfHiEAHNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="270814105"
-Received: from lkp-server01.sh.intel.com (HELO dff15f1b2031) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 07 Sep 2026 18:19:33 -0700
-Received: from kbuild by dff15f1b2031 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x3kUk-000000001V5-14JW;
-	Tue, 08 Sep 2026 01:19:30 +0000
-Date: Tue, 08 Sep 2026 09:19:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:dt 22/22]
- arch/m68k/coldfire/intc-simr.c:233:18: error: implicit declaration of
- function 'irq_domain_add_linear'; did you mean 'irq_domain_create_linear'?
-Message-ID: <202609080948.oRYfaows-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="q+pKMqIg"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1788830592; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=nD7gGh4AZ10FefEACzj9jolAeDfiEc31jFoW7AJG6Vs=;
+	b=q+pKMqIg70Qlhy7VkAImsm5pLlyGNFB66RAXDL4NQ9foTi04PkAg/qFG/ZK/OppqmA9queWG1WeFiybA9Ki1oDZzRjJX0PZx7OwEoC2ZCeizP85LF0+RxPeQ1mLJU0bdyFoSI8UfFhK/1m5heDfedA2OhLuqR3UeCn28yXyu7cE=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0XAZebXf_1788830590;
+Received: from 30.221.129.137(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0XAZebXf_1788830590 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 08 Sep 2026 09:23:10 +0800
+Message-ID: <b63bd2bd-229f-4636-9c89-8f1686ab087d@linux.alibaba.com>
+Date: Tue, 8 Sep 2026 09:23:09 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ocfs2: remove unnecessary ret variable in
+ ocfs2_calc_xattr_init()
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ Andrew Morton <akpm@linux-foundation.org>, kernel test robot
+ <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+References: <202609040247.8B3lmoqX-lkp@intel.com>
+ <20260907132202.48834-1-krystianmkaniewski@gmail.com>
+From: Joseph Qi <joseph.qi@linux.alibaba.com>
+In-Reply-To: <20260907132202.48834-1-krystianmkaniewski@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
-head:   693a23411a4e7b5d417226fe704ee36b32700bad
-commit: 693a23411a4e7b5d417226fe704ee36b32700bad [22/22] m68k: coldfire: enable devicetree use
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260908/202609080948.oRYfaows-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260908/202609080948.oRYfaows-lkp@intel.com/reproduce)
+Hi,
+This has already been addressed by:
+ed57836ff300 ocfs2: make ocfs2_calc_xattr_init() return void
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609080948.oRYfaows-lkp@intel.com/
+Thanks,
+Joseph
 
-All errors (new ones prefixed by >>):
+On 9/7/26 9:22 PM, Krystian Kaniewski wrote:
+> Commit bd7c05fb4a47 ("ocfs2: fix circular locking dependency in
+> ocfs2_init_acl()") removed the only code that could change ret in
+> ocfs2_calc_xattr_init(). The variable is now always zero, so remove it
+> and return zero directly.
+> 
+> This fixes the reported Coccinelle warning without changing behavior.
+> 
+> Fixes: bd7c05fb4a47 ("ocfs2: fix circular locking dependency in ocfs2_init_acl()")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202609040247.8B3lmoqX-lkp@intel.com/
+> Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+> ---
+>  fs/ocfs2/xattr.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/ocfs2/xattr.c b/fs/ocfs2/xattr.c
+> index 35bcbb0ff607..ab3b645983c9 100644
+> --- a/fs/ocfs2/xattr.c
+> +++ b/fs/ocfs2/xattr.c
+> @@ -640,7 +640,6 @@ int ocfs2_calc_xattr_init(struct inode *dir, umode_t mode,
+>  			  int *want_clusters, int *xattr_credits,
+>  			  int *want_meta, struct ocfs2_acl_state *acl_state)
+>  {
+> -	int ret = 0;
+>  	struct ocfs2_super *osb = OCFS2_SB(dir->i_sb);
+>  	int s_size = 0, a_size = 0, acl_len = 0, new_clusters;
+>  
+> @@ -662,7 +661,7 @@ int ocfs2_calc_xattr_init(struct inode *dir, umode_t mode,
+>  	}
+>  
+>  	if (!(s_size + a_size))
+> -		return ret;
+> +		return 0;
+>  
+>  	/*
+>  	 * The max space of security xattr taken inline is
+> @@ -729,7 +728,7 @@ int ocfs2_calc_xattr_init(struct inode *dir, umode_t mode,
+>  		}
+>  	}
+>  
+> -	return ret;
+> +	return 0;
+>  }
+>  
+>  static int ocfs2_xattr_extend_allocation(struct inode *inode,
+> 
+> base-commit: bc35965f6940a9bf834d54187b6088b8eb09206d
 
-   arch/m68k/coldfire/intc-simr.c: In function 'intc_of_init':
->> arch/m68k/coldfire/intc-simr.c:233:18: error: implicit declaration of function 'irq_domain_add_linear'; did you mean 'irq_domain_create_linear'? [-Wimplicit-function-declaration]
-     233 |         domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
-         |                  ^~~~~~~~~~~~~~~~~~~~~
-         |                  irq_domain_create_linear
->> arch/m68k/coldfire/intc-simr.c:233:16: error: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     233 |         domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
-         |                ^
-
-
-vim +233 arch/m68k/coldfire/intc-simr.c
-
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  225  
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  226  static int __init intc_of_init(struct device_node *np,
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  227  			       struct device_node *parent)
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  228  {
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  229  	const unsigned int num = MCFINT_VECBASE + 64 + (MCFINTC1_ICR0 ? 64 : 0) + (MCFINTC2_ICR0 ? 64 : 0);
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  230  	struct irq_domain *domain;
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  231  	int irq;
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  232  
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26 @233  	domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  234  
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  235  	for (irq = MCFINT_VECBASE; irq < num; irq++)
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  236  		irq_create_mapping(domain, irq);
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  237  
-8af562116a97dd arch/m68k/coldfire/intc-simr.c               Greg Ungerer 2025-01-26  238  	return 0;
-cd3dd4068db5e1 arch/m68knommu/platform/coldfire/intc-simr.c Greg Ungerer 2009-04-27  239  }
-cd3dd4068db5e1 arch/m68knommu/platform/coldfire/intc-simr.c Greg Ungerer 2009-04-27  240  
-
-:::::: The code at line 233 was first introduced by commit
-:::::: 8af562116a97ddd0966248dcde21b9123a86226c m68k: coldfire: support devicetree binding for intc-simr
-
-:::::: TO: Greg Ungerer <gerg@linux-m68k.org>
-:::::: CC: Greg Ungerer <gerg@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
