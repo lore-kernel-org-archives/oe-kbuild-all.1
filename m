@@ -1,114 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093783D3492
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 23:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE86D4FC8E7;
+	Wed,  9 Sep 2026 23:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788995802; cv=none; b=LVip/1hWr0hZEHU+6PnX7wukirCbOCYLfojaHMcJvqV5bG0jgkcL/xEtp+yrOOtUvOsyeeihpTvkSTY6C2uiRgoHUnZepQwQ3XWxwonHRQgbhZA8QKyD3ykvR7cDotD5gg3QiHOAsg3dQs45p6RMtWJiJnNe54cWMXLR3AYUcTE=
+	t=1788997723; cv=none; b=hWkMM/wkG8vrCNGCram2tR8GrspyOyY2wKqjTvdrxBouBCW9sJsdb04R6SDExD4sEQmhu5sAIrY/SNDgGB9mzca3YqO5NlvwSMODJTOtuxE7Cqw9fxX/1IZgolbuiFY3cW1t86jI7M36S7eslJeNW1MPvwoza2OJuFvDUTeEuG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788995802; c=relaxed/simple;
-	bh=np9l8+9uO9b87dJJHyBBwz/IzSKen2TYDEDEO/F47j0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IPXIe+BonWywrA1D08tubz8uMuqKHxSDnjuoOuR8xDbf8yZZQM+DtAfXcohk8KLuS8eVaItKPljOoYT/99TT8slpVV6cVBIBBxOJGv7Jgfp8nXg26hH/Q+n4PKhN6uBYdiDKXzg040qntCE/Uf3xkrZaKLbezGHJiO16Q0iUHfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+FBfRo7; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1788997723; c=relaxed/simple;
+	bh=p5metIfVY3CtI+2oTzxtSM1WtBNXuJaHNZRuFvzc/1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dD2UPJGp9CX91RnFEi93Y2P2W5+hfLzE8bVZIRMnaDQEbCGxikipSZ39bEy0rl9T9IIY6dHN4bpV2G9zP+pIJDg3cf3R+0ucM01tUnf9D0/7TLbPFeotlgUW9c7HlWLp9i52xlh+uArbkYqK8VWbAHg7Axs1pO3TNUbxhn9Zmfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SO+P7ctG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+FBfRo7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SO+P7ctG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788995799; x=1820531799;
-  h=date:from:to:cc:subject:message-id;
-  bh=np9l8+9uO9b87dJJHyBBwz/IzSKen2TYDEDEO/F47j0=;
-  b=b+FBfRo7yL3FBqshlI5mU19/UdGNh8kF2PMW18m9AaFN1G5IaJeG1zA0
-   j3RXzMaQRi9x4WHy2cqdhfJTwRykJ/7KD0G2XZxa9zoIObAEZfpecpzZs
-   oXvAD2+FbbM5UYUdRfkNiZvPsEYgphj4bFMH/abqhY6WQdPbbupcIdNog
-   Jzz/YYSckNlgiblWBPTuFtot81u6VAahUIebNFVUJGy1IhcPson6Yyrcv
-   Hhrba2zVySJfwZuZzctIGdBlmI/SBUqNTfeogUae+O5MauG4CWOybToLj
-   Sv1d37vKWNt9XSQ1OaDhQ/wAft+1tn189ksuzqtKE92pAmHNJDRNne/Co
-   Q==;
-X-CSE-ConnectionGUID: z/32LTF6RQmb080B55rrWg==
-X-CSE-MsgGUID: er8PlAczR3K2mVE+HzkrYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="100031883"
+  t=1788997722; x=1820533722;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p5metIfVY3CtI+2oTzxtSM1WtBNXuJaHNZRuFvzc/1A=;
+  b=SO+P7ctGmZKQno/8tZU+M6hlk3QC3syPNBz3XVoPD+/KGUIeZKp0qw7R
+   0bX8mos9m+3dghwdyW3HgLxRiupJqczh/Hh5fH93LTrv97dsoZOHh1VB5
+   TjUAX2r56/5XT/0fgNqLsMUiheB+xa6gcdo/hoE3DNiavRDNj71nsgzmQ
+   56RV+bFGF8fNKutj4EkFtP+d7yD8+rscN1zASTYJ8GruvWDe3mqEbqrAy
+   6XS+WgQEodoZX5j3LFB+C90KePLcH9ds401FKZOffafGlXrsNWmmtrp6e
+   b+TCv/j5mjpRXZuYx43GyuFncPKac+SkQst5j1qdibPTX+5LCjVw7zAx8
+   A==;
+X-CSE-ConnectionGUID: tn77jOTIS3ezl6QOokMxng==
+X-CSE-MsgGUID: kfhH4Ns4QiGWbNPAlpUZDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="112210651"
 X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="100031883"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 16:16:38 -0700
-X-CSE-ConnectionGUID: fsa2HTVIT++wqsFH5jagnQ==
-X-CSE-MsgGUID: uSz3YSyGTdyEw/N2+4N5Ow==
+   d="scan'208";a="112210651"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 16:48:41 -0700
+X-CSE-ConnectionGUID: xMUZWJzRTSuN4OtwBVjgTA==
+X-CSE-MsgGUID: CZmEZki4Rxm7Mj6cn0lD6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="270111488"
 Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Sep 2026 16:16:37 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 09 Sep 2026 16:48:38 -0700
 Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4RWs-0000000013A-3N03;
-	Wed, 09 Sep 2026 23:16:34 +0000
-Date: Thu, 10 Sep 2026 07:15:44 +0800
+	id 1x4S1s-0000000015I-0n14;
+	Wed, 09 Sep 2026 23:48:36 +0000
+Date: Thu, 10 Sep 2026 07:48:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pei Xiao <xiaopei01@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev, Niklas Cassel <cassel@kernel.org>
-Subject: [libata:for-next 7/7]
- drivers/ata/pata_parport/pata_parport.c:707:13: warning: conflicting types
- for 'pi_remove_one'; have 'void(struct device *)'
-Message-ID: <202609100732.jcpwPdM6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Oleg Keri <okerixx@gmail.com>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: lenovo: suppress phantom radio control input on
+ Yoga Slim 7x Gen 11
+Message-ID: <202609100719.bu2saXPQ-lkp@intel.com>
+References: <20260908091907.5653-1-okerixx@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260908091907.5653-1-okerixx@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/libata/linux.git for-next
-head:   d82c5cf658c306979c786a6702487cf9fbc2b5de
-commit: d82c5cf658c306979c786a6702487cf9fbc2b5de [7/7] ata: pata_parport: unregister devices on protocol unregister
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260910/202609100732.jcpwPdM6-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100732.jcpwPdM6-lkp@intel.com/reproduce)
+Hi Oleg,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 5e036ce12de91c6fd674dad33b169c6150be2a7a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleg-Keri/HID-lenovo-suppress-phantom-radio-control-input-on-Yoga-Slim-7x-Gen-11/20260908-111907
+base:   5e036ce12de91c6fd674dad33b169c6150be2a7a
+patch link:    https://lore.kernel.org/r/20260908091907.5653-1-okerixx%40gmail.com
+patch subject: [PATCH] HID: lenovo: suppress phantom radio control input on Yoga Slim 7x Gen 11
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609100719.bu2saXPQ-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d1c0cc5e760f9cbb68e2acec80a476c4b8b898b7)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100719.bu2saXPQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609100732.jcpwPdM6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609100719.bu2saXPQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/ata/pata_parport/pata_parport.c: In function 'pi_remove_by_proto':
-   drivers/ata/pata_parport/pata_parport.c:621:17: error: implicit declaration of function 'pi_remove_one' [-Wimplicit-function-declaration]
-     621 |                 pi_remove_one(dev);
-         |                 ^~~~~~~~~~~~~
-   drivers/ata/pata_parport/pata_parport.c: At top level:
->> drivers/ata/pata_parport/pata_parport.c:707:13: warning: conflicting types for 'pi_remove_one'; have 'void(struct device *)'
-     707 | static void pi_remove_one(struct device *dev)
-         |             ^~~~~~~~~~~~~
-   drivers/ata/pata_parport/pata_parport.c:707:13: error: static declaration of 'pi_remove_one' follows non-static declaration
-   drivers/ata/pata_parport/pata_parport.c:621:17: note: previous implicit declaration of 'pi_remove_one' with type 'void(struct device *)'
-     621 |                 pi_remove_one(dev);
-         |                 ^~~~~~~~~~~~~
+>> drivers/hid/hid-lenovo.c:523:7: error: use of undeclared identifier 'I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_G11_KEYBOARD'
+     523 |         case I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_G11_KEYBOARD:
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-lenovo.c:1584:27: error: use of undeclared identifier 'I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_G11_KEYBOARD'
+    1584 |                      USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_G11_KEYBOARD) },
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-lenovo.c:1588:1: error: definition of variable with array type needs an explicit size or an initializer
+    1588 | MODULE_DEVICE_TABLE(hid, lenovo_devices);
+         | ^
+   include/linux/module.h:256:21: note: expanded from macro 'MODULE_DEVICE_TABLE'
+     256 | static typeof(name) __mod_device_table(type, name)                      \
+         |                     ^
+   include/linux/module.h:247:2: note: expanded from macro '__mod_device_table'
+     247 |         __PASTE(__mod_device_table__,   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:15:1: note: expanded from here
+      15 | __mod_device_table__kmod_hid_lenovo__hid__lenovo_devices
+         | ^
+   3 errors generated.
 
 
-vim +707 drivers/ata/pata_parport/pata_parport.c
+vim +/I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_G11_KEYBOARD +523 drivers/hid/hid-lenovo.c
 
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  706  
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23 @707  static void pi_remove_one(struct device *dev)
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  708  {
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  709  	struct ata_host *host = dev_get_drvdata(dev);
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  710  	struct pi_adapter *pi = host->private_data;
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  711  
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  712  	ata_host_detach(host);
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  713  	pi_disconnect(pi);
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  714  	pi_release(pi);
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  715  	device_unregister(dev);
-5bc9e2d43f8610 drivers/ata/pata_parport/pata_parport.c Ondrej Zary 2023-03-14  716  	/* pata_parport_dev_release will do ida_free(dev->id) and kfree(pi) */
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  717  }
-246a1c4c6b7ffb drivers/ata/pata_parport.c              Ondrej Zary 2023-01-23  718  
-
-:::::: The code at line 707 was first introduced by commit
-:::::: 246a1c4c6b7ffba88a2553d2b88f7b6280f253a2 ata: pata_parport: add driver (PARIDE replacement)
-
-:::::: TO: Ondrej Zary <linux@zary.sk>
-:::::: CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+   488	
+   489	static int lenovo_input_mapping(struct hid_device *hdev,
+   490			struct hid_input *hi, struct hid_field *field,
+   491			struct hid_usage *usage, unsigned long **bit, int *max)
+   492	{
+   493		switch (hdev->product) {
+   494		case USB_DEVICE_ID_LENOVO_TPKBD:
+   495			return lenovo_input_mapping_tpkbd(hdev, hi, field,
+   496								usage, bit, max);
+   497		case USB_DEVICE_ID_LENOVO_CUSBKBD:
+   498		case USB_DEVICE_ID_LENOVO_CBTKBD:
+   499			return lenovo_input_mapping_cptkbd(hdev, hi, field,
+   500								usage, bit, max);
+   501		case USB_DEVICE_ID_LENOVO_TPIIUSBKBD:
+   502		case USB_DEVICE_ID_LENOVO_TPIIBTKBD:
+   503			return lenovo_input_mapping_tpIIkbd(hdev, hi, field,
+   504								usage, bit, max);
+   505		case USB_DEVICE_ID_IBM_SCROLLPOINT_III:
+   506		case USB_DEVICE_ID_IBM_SCROLLPOINT_PRO:
+   507		case USB_DEVICE_ID_IBM_SCROLLPOINT_OPTICAL:
+   508		case USB_DEVICE_ID_IBM_SCROLLPOINT_800DPI_OPTICAL:
+   509		case USB_DEVICE_ID_IBM_SCROLLPOINT_800DPI_OPTICAL_PRO:
+   510		case USB_DEVICE_ID_LENOVO_SCROLLPOINT_OPTICAL:
+   511			return lenovo_input_mapping_scrollpoint(hdev, hi, field,
+   512								usage, bit, max);
+   513		case USB_DEVICE_ID_LENOVO_TP10UBKBD:
+   514			return lenovo_input_mapping_tp10_ultrabook_kbd(hdev, hi, field,
+   515								       usage, bit, max);
+   516		case USB_DEVICE_ID_LENOVO_X12_TAB:
+   517		case USB_DEVICE_ID_LENOVO_X12_TAB2:
+   518		case USB_DEVICE_ID_LENOVO_X13_TAB:
+   519		case USB_DEVICE_ID_LENOVO_X1_TAB:
+   520		case USB_DEVICE_ID_LENOVO_X1_TAB2:
+   521		case USB_DEVICE_ID_LENOVO_X1_TAB3:
+   522			return lenovo_input_mapping_x1_tab_kbd(hdev, hi, field, usage, bit, max);
+ > 523		case I2C_DEVICE_ID_ITE_LENOVO_YOGA_SLIM_7X_G11_KEYBOARD:
+   524			return lenovo_input_mapping_yoga7x_g11_kbd(hdev, hi, field, usage, bit, max);
+   525		default:
+   526			return 0;
+   527		}
+   528	}
+   529	
 
 --
 0-DAY CI Kernel Test Service
