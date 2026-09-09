@@ -1,153 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E7F38E8D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 07:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C960944CAF9
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 07:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788940069; cv=none; b=ER5M3WrbPmm7dungA3k2SHHSWyvyWrK8j3UvG1yMt8T3QBF6pcIhHeM6abj/Ypg93D7berh67ukNISGYsCvahAVOLljDSnkedICOmwLGnSvimuv0plPQ/cbOb10yoy+fon1t3xWc0RzY2o/fCHvZ38r3SJbGFAary2gm4LHojTE=
+	t=1788940255; cv=none; b=BE/cktP7KFqTM24lSRoyJZBiEUak5xu9hdFIwkeerEC1MqplrtwuOMgr7ruwD5aqjUuJGaxsCv+53wQ7tmEJrEZR9koIHc9GWmEAuklwg92uXlAUsGFk5g7YZPQipHCIYQRNQvsyAvyAi670wokBA3NNDUd+DnVPst6ZF06tbEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788940069; c=relaxed/simple;
-	bh=emjg99APSmqGdWpWlD1HyAtwcVZtvDaOfPyO+5nf75c=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=I9UzcukEGK/61kgEYLZWQvDtgazZk8P7tOo5Udv9XKYh6pkdrSdLkOJu8b3PvPxDVjn8io/L68wS8im3XHiMToBpTgquzscgc7gQfa+MiBDBe46HSL/JqXm3bSmkLeEqM7yWZgLOMFnb+MHFBYU0PqYCEZF+tnocOLfszuQ9y6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AqZbHCbW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788940255; c=relaxed/simple;
+	bh=8F0Ei2ADVhTACBTdWLc3ypxF0x6jw1ombxI/ZsdGEjk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nAHoHkrKvuGjIKVHr5efRLs+O4cFxF9s9YNJTDnuOBg9dEKbW8zDndfJe2lZ2+VzImzGEjcnCV17d49FTzs5342yUVy9iXocuCtsaru4UXzYV5EEd5xtydbr4WOXYXWssp0s2nRIih3oTN5y2F1ZEmGClOmQh64Qb/NwCYPRdH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGkwKTCO; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AqZbHCbW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5991F00A3A;
-	Wed,  9 Sep 2026 07:47:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788940068;
-	bh=X1tRcrg2qpCTvGtv+Ku98ubiHqCpraiTZgjOmCyv184=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=AqZbHCbWQgXZmq/FwMFdrSpKjg/1lLgzPsBHXBTja5JQg9OquNPKlE+oy9dREdRTh
-	 40PGtc8O9VR2WkWtI84rOsBqC4gzQ7G+B7c5LB79ShK+8Ptsrx2YOJVWqXCxNJAdx9
-	 2O+bnqkx/QAKS9GADAPNwcUVxiS0BuwztskY2OZ1VCJdHvR2/WBA+BHrVSswpNo0TQ
-	 BHePI7//d+Rl1JpFtF74eozz9ewHfZnDvrrfxmdlA+DfyxpviPNvXtUEyiNXGBd1cA
-	 MatnIfpF6dI99zVcHR1Ou0iCG4oN0bpjT+jeOGDk9YpWMU2Qe35tbSNAbXmIHahSg4
-	 W6r950j7ssP9w==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 446A8198003A;
-	Wed,  9 Sep 2026 03:47:46 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Wed, 09 Sep 2026 03:47:46 -0400
-X-ME-Sender: <xms:IQ-haj8d52S39yHDUgeJOnzMUZM_L9sDrhyWtbZYJvbJ0gbLs-9FyA>
-    <xme:IQ-haqjhUA5aONfGotdYKF86OmpFinA78vZazMezmQsCEtS-97ykyvAESP2JHVWKu
-    g2m54ycALtBQHVqeTHjfHYJPMdNO7HYThwXAg3aU99bXC_KUbfp04RJ>
-X-ME-Proxy-Cause: dmFkZTE4RYSelvlUnz06MK4aNJd7/rM7q+KOo+lNvz3NtITFCR7t/aeP2s5ObVf/9BH210
-    le6WaUcdcOZeCf5M+qL6yo1pZ8ariaPoRSEG9K8Uzbd8JBBdVEzH9u8o0SFuieVcjhE8xU
-    benjBF2JAv8dyWu0vvj9oLZls0xUJY32ZyrNvPSsCI5694k3/8RkZpaptu1QV44sMDn07o
-    rDmw1CG1cnDHE5p8RDT0EW4QNkaSw2BS5RMpKvadmdC+gKWAIwMTYLiarT8ZEDmpiS5nUW
-    IHMFsBJwtwFVw3dSewgRpRxEOcXL0gNBkSZsgAIYwzYQUrUYZZbgP9opxu6tOlSiTTkyEy
-    Vi+ABoQifh/l71uLti6byi0tG/39yLy3xNk2nFhpLi7EDdcvO99hUqICmlr7QGkvMkyZ0G
-    in/0SBCVsZV5Sztz0v35lUCpAcuGQ0AUyp4l4LkahOoWVwrqtRHrJeioUlhUsOjiLnAAoX
-    AFxM8c/TmRGT/41mx6uheZF1uUwshcIhV7dIgE3uF0ML31tRB+3ZA3rOW2EhcZF7Z0H06v
-    HtwBfbRKpKZieVjLmRjzKbPMmSycf8CukqfQzSD9dJJ1R0GR8yjRMPGPeZaOxUoPtdAmos
-    Gs5TZEzyZtsexJAsGp+cicQA3u6ZhnyxRXDhw9Y4Fkx4/SexbONpiH3h1k3A
-X-ME-Proxy: <xmx:Ig-hal5YIHFcF3mTFKP3oinR8stmdGUhhjYP1YetHqDy9O597xMCsg>
-    <xmx:Ig-haqqXnB3iJiSdS6b087mwmTC74JGw-1opsBSSZiVNUwyoJ2YvjQ>
-    <xmx:Ig-havjKCPNLdLibuJmTjNpdVLOYaMrTZ0c8p-tCcsFkQT7LtuEMKw>
-    <xmx:Ig-hasK8SphAlLl41j1zDRObVMOPZ5Mln3okmgYVqJ1uUfauGR-C0Q>
-    <xmx:Ig-hanC0E6rA_4Dp_vYAV3rbVsnAXkyUi8fy9Mq_j0-NjhHvyb4C2Yvw>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 3CE67F8007D; Wed,  9 Sep 2026 03:47:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGkwKTCO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788940252; x=1820476252;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8F0Ei2ADVhTACBTdWLc3ypxF0x6jw1ombxI/ZsdGEjk=;
+  b=iGkwKTCOajtPcqKpwZhtJGxEtRNG6KJ9gJsUfQp0GZ1+9mUwz+vH9UcW
+   SaTe5mcNMR5zTQTcwKeWJ7/aEQo3qH2jxQ/MJdiPPjT2ASy91JEPh5F4H
+   7mGB5vcy8Tx7tvihegkB8QXTefwopE78EyJoLo527FPhik0hKnsqZ5K9k
+   +E/1p/Ze9r4oD4gTN58Hijp8mT6/4UDSiH5XR8V1YokVeNMJAe7KASxBH
+   85nsUSOTiBIFfEf6UQC5YOh8vK+ZBGUw7bCQzxZIUzYRL/9jWlWzAxMJy
+   zhIrCSnl0L5hHOegXbT2VQmhCKi8dOCQnASO2/cTXkA+j4i8s6DJZCbY5
+   w==;
+X-CSE-ConnectionGUID: /+VyFdoSQUqyxSmHfEfuyw==
+X-CSE-MsgGUID: OMjozr8LTh+O/mSxtt4khg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="106725227"
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="106725227"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 00:50:47 -0700
+X-CSE-ConnectionGUID: YGt60OXITHmm6Ifxgle+Nw==
+X-CSE-MsgGUID: lT2DXUgtTZClrGGvcJOWwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="266942103"
+Received: from lkp-server02.sh.intel.com (HELO cdbc6ec9b517) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Sep 2026 00:50:46 -0700
+Received: from kbuild by cdbc6ec9b517 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x4D4t-0000000004t-1vtl;
+	Wed, 09 Sep 2026 07:50:43 +0000
+Date: Wed, 9 Sep 2026 15:48:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Georgi Djakov <djakov@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v2] interconnect: qcom: implement get_bw with rpmh_read
+Message-ID: <202609091547.IZVghFTg-lkp@intel.com>
+References: <20260908-topic-sm8x50-icc-read-rpmh-v2-1-b6f1c4205450@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 09 Sep 2026 09:47:24 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Philip Li" <philip.li@intel.com>
-Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Message-Id: <b4c98aef-91b8-4410-9b38-82d4aab5b783@app.fastmail.com>
-In-Reply-To: <aqEOd9SJ8La6wcd8@rli9-mobl>
-References: <202609090804.938npPl7-lkp@intel.com>
- <7b9400d4-ebf4-4757-81ce-9e52295cecf4@app.fastmail.com>
- <aqEOd9SJ8La6wcd8@rli9-mobl>
-Subject: Re: drivers/firmware/efi/libstub/vsprintf.c:511:5: warning: no previous
- prototype for function 'efi_snprintf'
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260908-topic-sm8x50-icc-read-rpmh-v2-1-b6f1c4205450@linaro.org>
 
+Hi Neil,
 
+kernel test robot noticed the following build warnings:
 
-On Wed, 9 Sep 2026, at 09:44, Philip Li wrote:
-> On Wed, Sep 09, 2026 at 09:12:46AM +0200, Ard Biesheuvel wrote:
->> Please stop spamming me with reports about code that appeared
->> on one of my branches for a brief period, was apparently pulled
->> into some intel LKP branch but was never submitted by me for any
->> kind of review.
->
-> Sorry for the spam, I will configure the bot to avoid sending such
-> report.
->
+[auto build test WARNING on cee9395acd8043be0644b25c34bfa86623f2b935]
 
-Thank you Philip.
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/interconnect-qcom-implement-get_bw-with-rpmh_read/20260908-100915
+base:   cee9395acd8043be0644b25c34bfa86623f2b935
+patch link:    https://lore.kernel.org/r/20260908-topic-sm8x50-icc-read-rpmh-v2-1-b6f1c4205450%40linaro.org
+patch subject: [PATCH v2] interconnect: qcom: implement get_bw with rpmh_read
+config: arc-randconfig-r112-20260909 (https://download.01.org/0day-ci/archive/20260909/202609091547.IZVghFTg-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260909/202609091547.IZVghFTg-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609091547.IZVghFTg-lkp@intel.com/
 
->> 
->> Thanks.
->> 
->> 
->> On Wed, 9 Sep 2026, at 09:00, kernel test robot wrote:
->> > tree:   
->> > https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/x86-boot-Drop-pointless-re-implementation-of-panic/20260906-150819
->> > head:   c551ec0edb0b057c415d5530905c288523a9bde8
->> > commit: c551ec0edb0b057c415d5530905c288523a9bde8 efi/libstub: Add 
->> > efi_snprintf() to construct wide strings
->> > date:   3 days ago
->> > config: loongarch-allyesconfig 
->> > (https://download.01.org/0day-ci/archive/20260909/202609090804.938npPl7-lkp@intel.com/config)
->> > compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project 
->> > ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
->> > reproduce (this is a W=1 build): 
->> > (https://download.01.org/0day-ci/archive/20260909/202609090804.938npPl7-lkp@intel.com/reproduce)
->> >
->> > If you fix the issue in a separate patch/commit (i.e. not just a new 
->> > version of
->> > the same patch/commit), kindly add following tags
->> > | Reported-by: kernel test robot <lkp@intel.com>
->> > | Closes: 
->> > https://lore.kernel.org/oe-kbuild-all/202609090804.938npPl7-lkp@intel.com/
->> >
->> > All warnings (new ones prefixed by >>):
->> >
->> >    drivers/firmware/efi/libstub/vsprintf.c:274:5: warning: no previous 
->> > prototype for function 'efi_vsnprintf' [-Wmissing-prototypes]
->> >      274 | int efi_vsnprintf(efi_char16_t *buf, size_t size, const char 
->> > *fmt, va_list ap,
->> >          |     ^
->> >    drivers/firmware/efi/libstub/vsprintf.c:274:1: note: declare 
->> > 'static' if the function is not intended to be used outside of this 
->> > translation unit
->> >      274 | int efi_vsnprintf(efi_char16_t *buf, size_t size, const char 
->> > *fmt, va_list ap,
->> >          | ^
->> >          | static 
->> >>> drivers/firmware/efi/libstub/vsprintf.c:511:5: warning: no previous prototype for function 'efi_snprintf' [-Wmissing-prototypes]
->> >      511 | int efi_snprintf(efi_char16_t *buf, size_t size, const char 
->> > *fmt, ...)
->> >          |     ^
->> >    drivers/firmware/efi/libstub/vsprintf.c:511:1: note: declare 
->> > 'static' if the function is not intended to be used outside of this 
->> > translation unit
->> >      511 | int efi_snprintf(efi_char16_t *buf, size_t size, const char 
->> > *fmt, ...)
->> >          | ^
->> >          | static 
->> >    2 warnings generated.
->> >
->> >
->> > vim +/efi_snprintf +511 drivers/firmware/efi/libstub/vsprintf.c
->> >
->> >    510	
->> >  > 511	int efi_snprintf(efi_char16_t *buf, size_t size, const char *fmt, ...)
->> >
->> > --
->> > 0-DAY CI Kernel Test Service
->> > https://github.com/intel/lkp-tests/wiki
->>
+sparse warnings: (new ones prefixed by >>)
+>> drivers/interconnect/qcom/icc-rpmh.c:169:35: sparse: sparse: invalid assignment: *=
+   drivers/interconnect/qcom/icc-rpmh.c:169:35: sparse:    left side has type unsigned long long
+   drivers/interconnect/qcom/icc-rpmh.c:169:35: sparse:    right side has type restricted __le32
+>> drivers/interconnect/qcom/icc-rpmh.c:172:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] __base @@     got restricted __le16 [usertype] width @@
+   drivers/interconnect/qcom/icc-rpmh.c:172:33: sparse:     expected unsigned int [usertype] __base
+   drivers/interconnect/qcom/icc-rpmh.c:172:33: sparse:     got restricted __le16 [usertype] width
+   drivers/interconnect/qcom/icc-rpmh.c:178:35: sparse: sparse: invalid assignment: *=
+   drivers/interconnect/qcom/icc-rpmh.c:178:35: sparse:    left side has type unsigned long long
+   drivers/interconnect/qcom/icc-rpmh.c:178:35: sparse:    right side has type restricted __le32
+   drivers/interconnect/qcom/icc-rpmh.c:181:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] __base @@     got restricted __le16 [usertype] width @@
+   drivers/interconnect/qcom/icc-rpmh.c:181:33: sparse:     expected unsigned int [usertype] __base
+   drivers/interconnect/qcom/icc-rpmh.c:181:33: sparse:     got restricted __le16 [usertype] width
+   drivers/interconnect/qcom/icc-rpmh.c:231:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] unit @@     got unsigned int [usertype] @@
+   drivers/interconnect/qcom/icc-rpmh.c:231:28: sparse:     expected restricted __le32 [usertype] unit
+   drivers/interconnect/qcom/icc-rpmh.c:231:28: sparse:     got unsigned int [usertype]
+   drivers/interconnect/qcom/icc-rpmh.c:232:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] width @@     got unsigned short [usertype] @@
+   drivers/interconnect/qcom/icc-rpmh.c:232:29: sparse:     expected restricted __le16 [usertype] width
+   drivers/interconnect/qcom/icc-rpmh.c:232:29: sparse:     got unsigned short [usertype]
+
+vim +169 drivers/interconnect/qcom/icc-rpmh.c
+
+   138	
+   139	static int qcom_icc_get_bw(struct icc_node *node, u32 *avg, u32 *peak)
+   140	{
+   141		struct qcom_icc_node *qn = node->data;
+   142		u32 avg_max = 0;
+   143		u32 peak_max = 0;
+   144		u64 x, y;
+   145		int i;
+   146	
+   147		if (!qn->num_bcms) {
+   148			*avg = INT_MAX;
+   149			*peak = INT_MAX;
+   150	
+   151			return 0;
+   152		}
+   153	
+   154		for (i = 0; i < qn->num_bcms; ++i) {
+   155			struct qcom_icc_bcm *bcm = qn->bcms[i];
+   156	
+   157			/* Use AMC vote for boot-up */
+   158			x = bcm->vote_x[QCOM_ICC_BUCKET_AMC];
+   159			y = bcm->vote_y[QCOM_ICC_BUCKET_AMC];
+   160	
+   161			/* Consider enable mask and convert to INT_MAX */
+   162			if (bcm->enable_mask) {
+   163				if (x & bcm->enable_mask)
+   164					avg_max = INT_MAX;
+   165				if (y & bcm->enable_mask)
+   166					peak_max = INT_MAX;
+   167			} else {
+   168				if (x) {
+ > 169					x *= bcm->aux_data.unit;
+   170					do_div(x, bcm->vote_scale);
+   171					x *= qn->buswidth * qn->channels;
+ > 172					do_div(x, bcm->aux_data.width);
+   173	
+   174					avg_max = max(avg_max, x);
+   175				}
+   176	
+   177				if (y) {
+   178					y *= bcm->aux_data.unit;
+   179					do_div(y, bcm->vote_scale);
+   180					y *= qn->buswidth;
+   181					do_div(y, bcm->aux_data.width);
+   182	
+   183					peak_max = max(peak_max, y);
+   184				}
+   185			}
+   186		}
+   187	
+   188		*avg = avg_max;
+   189		*peak = peak_max;
+   190	
+   191		return 0;
+   192	}
+   193	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
