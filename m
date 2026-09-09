@@ -1,202 +1,297 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161262367B5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 05:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788930277; cv=fail; b=S+40dTONdnnArWg2HfnLrxKG8ssNu9RLzLVZWnXsEaQ0ANw3tYAZ6Y3E28e9sWGsfL7q4B4dCUR50qgbXkx3dBj/f5sV6CPW81mqUzahbcWL7qp/LGqaItXpbbNRrNSs8Xl37moP4jWpsUfJun3k1yvnJXXBTHIrHju7/WF+6J4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788930277; c=relaxed/simple;
-	bh=v78tphpm5pkEKuQo8WLcEa7oRDKMIRetYrdWwmqlv/4=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=cPXDgZteLHcK9dZgBPPXrEswPRQjjHXUzgUEafx4pgPIysHWmkw0/4JLXNNOzOwxCxOtVTgUyrpdrmqNG1NEmHTPz+Ii+/gC+7OkWW9RO7jf3Y65cnOdE6p9pozMqC9qzS6wtbhdUg6kzFdIJi1FLS/2MyDNX7eWKby6gr4Bn6o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=be9x2+zq; arc=fail smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECCB242D89
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 06:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788935983; cv=none; b=U/Y13e0QH2aaJCkJWGTvEqcqyka4dZE7Y/2kf+HA0mkDjAAWoQ7TGJZ/fGINiseXiJZJu2/6N1Kl7/9HAgSsikKgk6BijspEu/iw8P9nMvvibfaW5LhpU1An0gr9HmwvkKl94rQHwYlG+IKwwd9xoErEImz1vrVWi+bf2RIKr8U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788935983; c=relaxed/simple;
+	bh=bazeK9p1rDxJdDz4/OUb0yRWHyxnVJ4q66ypzwNtnAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jVhov49R+nJ9QXjnWtJpQ0l1NP95SVMTkboZ6vWyDiytJw+/5IP3dEGMa6CnRO8pIe6mAwmOlyIoDQd7gR5F+p82c/Xruu4L8PSDfRiYsxb5ujy6q3NISe2RlDvsQDkOm/MWsh0QvKYngMZUWOPrda4zfJUA9Txth6+yxEPG6Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJxWiBpP; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="be9x2+zq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJxWiBpP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788930277; x=1820466277;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=v78tphpm5pkEKuQo8WLcEa7oRDKMIRetYrdWwmqlv/4=;
-  b=be9x2+zqYbL8+R2aupoa5rGq4Q2ev8u8JR8XYzYXzuLunYDUJAYf4bb/
-   15LvN7Yve0NSRxXgZEWUGN5y2hzZHpl3Cxho46Asjt819iqhqkDZua/qf
-   qw8hUbm5VteLhMYT9NdsvidyiCoGDZmVddXgdCPUZKDSt8lGnkm1eHMIH
-   NPkRm0T9Dlirokvct38fvAXrbmcVuyF264p0DdbEdCye/iVZ4w9AFuZ6a
-   dEoG6lLGk1Q6AOmzJL3a/RaBVenJM+N+b2/vUaLPJ+Kk2FrXXNi8REHH9
-   Z00Whsk/eMQL2xIXc4oAtklWN9aPSVeoyi8VgAiqneLxzrX45mv0N+yUj
-   Q==;
-X-CSE-ConnectionGUID: AO1rkxqjQG+kuEhl67VuWQ==
-X-CSE-MsgGUID: RIkpf9IER76kW73DtyY8iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="100503224"
+  t=1788935980; x=1820471980;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bazeK9p1rDxJdDz4/OUb0yRWHyxnVJ4q66ypzwNtnAE=;
+  b=nJxWiBpP5VPMlUmFSoB0ufnjjwsRMkXiGpWC+Jd/5rkthHtVi/UmX85X
+   FGbZ1NIK9KFt8OMlC16AnXVD/69wUkowMpXSWnW8S1wJ9PywgLGgoCTQM
+   573LnLPsC6fH0HE3qcw7OKrAg+enz96VWX04m0DKSA9oWgjMD1y3148tF
+   EPksV3473E9jZr57hf8H19fued4izKLSTt1IMcD06c15aJAiXAn6TyGYT
+   A2Qxt76lt81PpMy6jGkkvxUhs/iq5iSriBPXfdXP7cn4suwQkaj92HlYq
+   SPLatEOftMeZhTle5dmxIqnwPQLsbGBqZQXk98BN1AWG2slskptfFpYDa
+   w==;
+X-CSE-ConnectionGUID: prAdd0WBRqysbavhvrMJlA==
+X-CSE-MsgGUID: RyuG7mFxRrGlhVBJ9qcXiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="99680777"
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="100503224"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 22:04:36 -0700
-X-CSE-ConnectionGUID: hGXu+8VHSjWwY7RpspG/hA==
-X-CSE-MsgGUID: qzhR9BukT/WInAt/zgK/Rw==
+   d="scan'208";a="99680777"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 23:39:39 -0700
+X-CSE-ConnectionGUID: dtUoeBGvRk2jX+MQbRHLeA==
+X-CSE-MsgGUID: J0FRd/PVSJyvclmlYV/u5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="275340896"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 22:04:35 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 8 Sep 2026 22:04:34 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Tue, 8 Sep 2026 22:04:34 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.10) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 8 Sep 2026 22:04:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bBrjhRQZ1cuF5wCzUPvFTxryQATWn+lZ7Ochsauz2NT4JVLiADoJqLAIYZlM0iRgUILs4iMse1GdcmyDAKum0LmoZ9bnFFkLneclrptutIgZ0CqspeCTaFCaielHhNLAt2eCyEriIsbvn729mYvOQARHRN3uJIkv/i8/5pxQmWwMFjACyiI0HicCaOMD25qdwyUgA0TUXH6S6NigCS25pw78S3QIuLhC9OEq3/mAicdCGqpgJpiEvdxcj7gxbp9kxeCCbvyg7noXNzcTzKd/srAaGSQ0xhhbDMHcavg/ROPrX7N4REkk61fMkLIsWeqbDz1ybbSlmWJAWZIXFB/U+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TYdzPplgxGtroBp/y1YEc0iSspRD4rVXXEwCeQP+zYo=;
- b=rycl3K+P99tg5aoHh7LJkj9NbFaVsaq5ad+rZfdKd7bwXSbHxogyj+aBqFB4OmuqHKlAicEbJ34RdJw+PgWXm4AhjSwX0B5/sUHNFfeuZr8/+z4uo1FVAvhVW+iofbdhrLpHZdeoHlNqNXTUOCLGlHhKvOOmo9mC4pp5ebs6a6HWAdFnZsvR5SMcFT+4Bj1LTx3urUj0FBLzI6TFdBrHDi7AL8jBQsf3oLvmfwiKLFj5nw3k8DAMdqCXY5i5SVNXtFoRHxH8A6NGC8wq1RBItXW0obN/QDI1E3uwhKLwIjXYAEyszLwrwf9AnBirBME8Ta+uQ8el6xMplh1xDpU4Vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH3PPF4E874A00C.namprd11.prod.outlook.com
- (2603:10b6:518:1::d1e) by CY8PR11MB6915.namprd11.prod.outlook.com
- (2603:10b6:930:59::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Wed, 9 Sep 2026
- 05:04:26 +0000
-Received: from PH3PPF4E874A00C.namprd11.prod.outlook.com
- ([fe80::1c3e:8202:fe9b:8ae]) by PH3PPF4E874A00C.namprd11.prod.outlook.com
- ([fe80::1c3e:8202:fe9b:8ae%6]) with mapi id 15.21.0382.014; Wed, 9 Sep 2026
- 05:04:25 +0000
-Date: Wed, 9 Sep 2026 13:04:13 +0800
+   d="scan'208";a="271719386"
+Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 08 Sep 2026 23:39:37 -0700
+Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x4By3-000000001IL-2omy;
+	Wed, 09 Sep 2026 06:39:35 +0000
+Date: Wed, 09 Sep 2026 08:39:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>, Srinivas Kandagatla
-	<srini@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, Mark Brown <broonie@kernel.org>, "Liam
- Girdwood" <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Kuninori Morimoto
-	<kuninori.morimoto.gx@renesas.com>, <linux-sound@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Prasad Kumpatla
-	<prasad.kumpatla@oss.qualcomm.com>, Sarath Ganapathiraju
-	<sarath.ganapathiraju@oss.qualcomm.com>, Kumar Anurag Singh
-	<kumar.singh@oss.qualcomm.com>, Mohammad Rafi Shaik
-	<mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v4] MAINTAINERS: Add Qualcomm QAIF driver entry
-Message-ID: <aqDozWDTAkUewTSA@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20260903072902.3870009-11-harendra.gautam@oss.qualcomm.com>
-X-ClientProxiedBy: TPYP295CA0056.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:8::7)
- To PH3PPF4E874A00C.namprd11.prod.outlook.com (2603:10b6:518:1::d1e)
+To: Abhin Parekadan Jose <abhinjoses@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: drivers/misc/edu_srpoc.c:68:14: error: implicit declaration
+ of function 'pci_test_and_clear_disconnect_enable'
+Message-ID: <202609090802.xwkQ0OBv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH3PPF4E874A00C:EE_|CY8PR11MB6915:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3840074c-b3d0-4727-9aff-08df0e2fd0e2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|7416014|6133799003|22082099003|18002099003|56012099006|10067099003|11063799006;
-X-Microsoft-Antispam-Message-Info: mxh3VD0RSNqFELaBMYOVYlpgLZBjHstm/idEvyfKHkVCv3PUkNAtaiu1w/MBlWgfwoEy0wdsMGtr8yHLx/swTDmsEaRytwirHT6gDwnzIFrn47GNt5++r++agV26jLnBTwnZ80nBalTI35MkjubqjbJWxaaOBlQjSNI7qvEjE1ZrZnS0otpvh3WejR6Q67liBCpeHh5a1A/uT16AVVrNYzn9ppuMk6vZgFtogTc2QFF+B/uHgwLqBq1LG/Nd+OWheZPPLj+lJn+IT4IloIekI/A97hK/1pb9X4PxPD3Qw8J5S4oIvVzQ3ghgMGRMqOZwHGuOBAebHxwqSv0fiU5Ec5t0RdBBieT4xrikvMEHpCNcpz/LdeeBvmvXs5EYwpltzlsI69wsJpd9dB75UJH2ntrly19eFBN5veTq9reOwMFjfAlEjpnNNE37iw9aJot8nOWmQdeAdgmdrUGy91J5Pwv2Ie5fo2KYPT8gkqTOhDZ30IsgBDCqRTMfW1HbOqSZ+c81W/v+2mYl9fg8PmacOOeLim/VNPZ3VLaFpzqH1bBZIO0IrLH0Cn5WUq4ZLEbQMgbKn32MHhxkmEDBzVLSgJkxUzX4f7VTuLYc6UbzRNVJAMM6dDYJKp55x0d5KI7s
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPF4E874A00C.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(7416014)(6133799003)(22082099003)(18002099003)(56012099006)(10067099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZqqUWFrzG4zzHdpA5CuKuedn2K1iarSFx3LABCMTS7JG2c9gVhmMCjmA98YH?=
- =?us-ascii?Q?aTVByReFgWMKKBOa1yufGbuGVCVePLpQrSAxGy4KnknxYMXgpvqu0fzA580g?=
- =?us-ascii?Q?SkzyHpGPxHNwJLSr9SGtR5DMv6Nq4dyzhQ+iai3kAXQFXsPUCWgGnwYoPCXi?=
- =?us-ascii?Q?SudCfmCfNRfXA2ZnGlBZQ+zVN/a3xFQF1I1xs78eL8QBnW9LRzNL9h/pq2om?=
- =?us-ascii?Q?+P/yq9OOAGo2xCgSw7LP8ChcKGEgW/OV4tjspfvwHHOoMXy2KuHs3tdzgD01?=
- =?us-ascii?Q?TsClNoBYg/QcTJHuUBWEH2Rp4jQCZv0Cyp038RKjkr1BkEPsbGUTb314212z?=
- =?us-ascii?Q?Ss6/AcFze7g5c3jShukp4fagYJcyWGCAzMK86yU08b1QA2fAoohSLqDA9WDz?=
- =?us-ascii?Q?YCzfxVUcKQOHsUcoZwKM1kx2VWAQl3+axwhu4HVutgVwbcyIkvZLGCcAwF8j?=
- =?us-ascii?Q?G8Hc9eIAh89NDqf7hc9NpTswtNdnACN1BZH9n0A6oqeJffIYNQvj1bHezxX2?=
- =?us-ascii?Q?qRVLLvWYcKqd5J+SwHrFFEmTkGdP9VZcWxYZIH5Amosd7w6vSm/YLV2nNsoX?=
- =?us-ascii?Q?3GEmPAWcQHUckWvig97CzNg2hH/6OGBGW7IEAUawvhN89EqnPQS1wo8X7Yud?=
- =?us-ascii?Q?XGnjFEFVPPDRDSNp3vLac0IRPhyMAe+qOaP+2nW185B7EOUmPi4ijetsWggV?=
- =?us-ascii?Q?0rgb4d+g+V7eoh4maZnWdp9Oam99XXI3B3HpT8JEzf/G9zKgGaPVHQkORl6C?=
- =?us-ascii?Q?iIzX5JJBuK1iPQbCYGtAanWrASDfScl3eO7nCWmLA7txeRtswzjf8dOtAH7d?=
- =?us-ascii?Q?oqA1D6aAkvn5y6fP94yFCIr8/o9iPlEX91dVuAttCSGLkt4cwxPBYVZLFfdm?=
- =?us-ascii?Q?r0QXQRfqe89Ildl3HZ2IXYPhGqmDhquWIqhJuLtMepgHp9sk3mDDkyoeg2Jy?=
- =?us-ascii?Q?YK649p98mfOY9zupoyMuj+wyjY3XpnEXRI/+TMnuFCvHAHIiYNApMRocDSIU?=
- =?us-ascii?Q?u5Op81HKQMlVdRV7mxR51zzzJV5wGVfl9OhLRo0lfe7BfigRu+Vql/UeQKPU?=
- =?us-ascii?Q?oa1KF3Mw/FnjzBLsbbI7tJ4KQYLaRC1HwYzsjXcYz9GgT4RxA0wuSjLrPGWz?=
- =?us-ascii?Q?BuyNvYhRdXFaEIV3tZC9IBlH140KL1lgNRfgCZqVi05EUm7xOLuUuoqn3M98?=
- =?us-ascii?Q?Pidlx4aVhnsSB5lQyaGh0+RNmLw+4CohCHIFhuFwAR6SoppkCEQAkQZIJFSx?=
- =?us-ascii?Q?CVRZRB5VCcaqjGH7jmoMisofrG6DXKdtX1rchXBPYElEDN/6xXNeiOzIn3BI?=
- =?us-ascii?Q?KMW0QBTE2Tl5J219HhPw0CenZBx72HiDHy6TgjpOdS1fv4bzIJ0WUEJPky+S?=
- =?us-ascii?Q?vqo7M8juttRrgcumz8IYl7Hz8+JWfdpFblgwSEBdoFgV2r+v/VmN51kh8jbQ?=
- =?us-ascii?Q?64K6XC5gIB19eb07bGIVh/VUQyfEisF8DvzUliSaXE5hnaVNBdzY9/0dVHHk?=
- =?us-ascii?Q?cGvUV/zhRs02cRQam9ghk5KGvF7QeZFPW7sE9wyOiQJGhp50gBazgGp0j3zX?=
- =?us-ascii?Q?igLplUD5tL0xl8f9dkE/RP/7/0DRZeXgkY3CwKEg/sBuNBJ0orL04vfulfaA?=
- =?us-ascii?Q?exffvLTfMEblyoTJVLL4TYTzQuhoN5hcjruSTI3RGysKOVReF1OGXK/H2ag1?=
- =?us-ascii?Q?2vOlhuBACluLfXh7PiGd0XErD47DGi90HmnNzr2NfBrK1nU7gFvUw/OV4ZC/?=
- =?us-ascii?Q?gyE1HtpzjQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: aNZT+C7GL+NtmzelGVHkjAdXNtkyKMYNFIZlRsB1mqUC/Yg/RZvYv9wXB3D9mhG97LgizmCwa14DdJZXVQb4931VG3OH0q5U9SEgcw/Au1/4mjk34vbOWkc+tQdnjvrSv5CN5iWAdRreN/4cmP4Fg/FbkLJiqdBG0lLEwQIOVsObnEEesEf1qu9qldm6LBEm6g8XttR9bnD3erfB4a1cWsM3DUZqBbE4KW2HH8NnLYZoR6SANkGrDUIqH0L+a943ollMWA8VLwiDNHvzewzJgmXG3GvVC1pOzE6l3H21lZhtdVSusqQ6TivNbdast1cVo4m9yhFGoa8hR55CX9oTPA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3840074c-b3d0-4727-9aff-08df0e2fd0e2
-X-MS-Exchange-CrossTenant-AuthSource: PH3PPF4E874A00C.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 05:04:25.0124
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 13ORbTySPhz5czEkkbe5SkRzh4vVCWI8hEh9AqE22YdgOwf2B9/EsFTCX3lGkAKPigoV5xlqzbTWUClb0OWGog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6915
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Harendra,
+tree:   https://github.com/intel-lab-lkp/linux/commits/Abhin-Parekadan-Jose=
+/PCI-Report-surprise-removal-event/20260905-183858
+head:   f51e8b77fe2127c01876734cd72ff3d28f589793
+commit: f51e8b77fe2127c01876734cd72ff3d28f589793 misc: Add edu_srpoc surpri=
+se removal POC driver
+date:   3 days ago
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260909/2=
+02609090802.xwkQ0OBv-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260909/202609090802.xwkQ0OBv-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.3-rc2 next-20260908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harendra-Gautam/MAINTAINERS-Add-Qualcomm-QAIF-driver-entry/20260903-125901
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260903072902.3870009-11-harendra.gautam%40oss.qualcomm.com
-patch subject: [PATCH v4] MAINTAINERS: Add Qualcomm QAIF driver entry
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260909/202609090624.axJcwPv7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609090624.axJcwPv7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609090802.xwkQ0OBv-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/translations/zh_CN/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/qcom,shikra-qaif-cpu.yaml
-   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: drivers/net/ethernet/smsc/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/smsc/smc9.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   drivers/misc/edu_srpoc.c: In function 'edu_disconnect':
+>> drivers/misc/edu_srpoc.c:68:14: error: implicit declaration of function =
+'pci_test_and_clear_disconnect_enable' [-Wimplicit-function-declaration]
+      68 |         if (!pci_test_and_clear_disconnect_enable(pdev))
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/edu_srpoc.c: In function 'edu_probe':
+>> drivers/misc/edu_srpoc.c:98:21: error: implicit declaration of function =
+'pci_iomap'; did you mean 'pcim_iomap'? [-Wimplicit-function-declaration]
+      98 |         edu->regs =3D pci_iomap(pdev, 0, 0);
+         |                     ^~~~~~~~~
+         |                     pcim_iomap
+>> drivers/misc/edu_srpoc.c:98:19: error: assignment to 'void *' from 'int'=
+ makes pointer from integer without a cast [-Wint-conversion]
+      98 |         edu->regs =3D pci_iomap(pdev, 0, 0);
+         |                   ^
+>> drivers/misc/edu_srpoc.c:118:9: error: implicit declaration of function =
+'pci_set_disconnect_work' [-Wimplicit-function-declaration]
+     118 |         pci_set_disconnect_work(pdev);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/io.h:12,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/sh/include/asm/hardirq.h:9,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/pci.h:39,
+                    from drivers/misc/edu_srpoc.c:20:
+>> arch/sh/include/asm/io.h:122:21: error: implicit declaration of function=
+ 'pci_iounmap'; did you mean 'pcim_iounmap'? [-Wimplicit-function-declarati=
+on]
+     122 | #define pci_iounmap pci_iounmap
+         |                     ^~~~~~~~~~~
+   drivers/misc/edu_srpoc.c:126:9: note: in expansion of macro 'pci_iounmap'
+     126 |         pci_iounmap(pdev, edu->regs);
+         |         ^~~~~~~~~~~
+   drivers/misc/edu_srpoc.c: In function 'edu_remove':
+>> drivers/misc/edu_srpoc.c:145:9: error: implicit declaration of function =
+'pci_clear_disconnect_work' [-Wimplicit-function-declaration]
+     145 |         pci_clear_disconnect_work(pdev);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/edu_srpoc.c: At top level:
+>> drivers/misc/edu_srpoc.c:166:1: warning: data definition has no type or =
+storage class
+     166 | module_pci_driver(edu_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/misc/edu_srpoc.c:166:1: error: type defaults to 'int' in declara=
+tion of 'module_pci_driver' [-Wimplicit-int]
+>> drivers/misc/edu_srpoc.c:166:1: error: parameter names (without types) i=
+n function declaration [-Wdeclaration-missing-parameter-type]
+>> drivers/misc/edu_srpoc.c:159:26: warning: 'edu_driver' defined but not u=
+sed [-Wunused-variable]
+     159 | static struct pci_driver edu_driver =3D {
+         |                          ^~~~~~~~~~
+
+
+vim +/pci_test_and_clear_disconnect_enable +68 drivers/misc/edu_srpoc.c
+
+  > 20	#include <linux/pci.h>
+    21	#include <linux/interrupt.h>
+    22	#include <linux/completion.h>
+    23	#include <linux/delay.h>
+    24=09
+    25	#define PCI_VENDOR_ID_EDU	0x1234
+    26	#define PCI_DEVICE_ID_EDU	0x11e8
+    27=09
+    28	#define EDU_REG_FACT		0x08
+    29	#define EDU_REG_STATUS		0x20
+    30	#define EDU_REG_DELAYED_IRQ	0x30
+    31	#define EDU_REG_IRQ_STATUS	0x24
+    32	#define EDU_REG_IRQ_LOWER	0x64
+    33=09
+    34	#define EDU_STATUS_IRQFACT	0x80
+    35	#define EDU_FACT_IRQ		BIT(0)
+    36	#define EDU_DELAY_IRQ		BIT(9)
+    37=09
+    38	struct edu_dev {
+    39		struct pci_dev		*pdev;
+    40		void __iomem		*regs;
+    41		struct completion	irq_done;
+    42	};
+    43=09
+    44	static irqreturn_t edu_irq_handler(int irq, void *data)
+    45	{
+    46		struct edu_dev *edu =3D data;
+    47		u32 status;
+    48=09
+    49		status =3D ioread32(edu->regs + EDU_REG_IRQ_STATUS);
+    50		if (!status)
+    51			return IRQ_NONE;
+    52=09
+    53		iowrite32(status, edu->regs + EDU_REG_IRQ_LOWER);
+    54=09
+    55		if (status & (EDU_FACT_IRQ | EDU_DELAY_IRQ)) {
+    56			complete(&edu->irq_done);
+    57		}
+    58=09
+    59		return IRQ_HANDLED;
+    60	}
+    61=09
+    62	static void edu_disconnect(struct work_struct *work)
+    63	{
+    64		struct pci_dev *pdev =3D container_of(work, struct pci_dev,
+    65						    disconnect_work);
+    66		struct edu_dev *edu =3D pci_get_drvdata(pdev);
+    67=09
+  > 68		if (!pci_test_and_clear_disconnect_enable(pdev))
+    69			return;
+    70=09
+    71		if (!edu)
+    72			return;
+    73=09
+    74		dev_info(&pdev->dev, "disconnect_work fired =E2=80=94 unblocking re=
+move()\n");
+    75		complete(&edu->irq_done);
+    76	}
+    77=09
+    78	static int edu_probe(struct pci_dev *pdev, const struct pci_device_i=
+d *id)
+    79	{
+    80		struct edu_dev *edu;
+    81		int err;
+    82=09
+    83		edu =3D devm_kzalloc(&pdev->dev, sizeof(*edu), GFP_KERNEL);
+    84		if (!edu)
+    85			return -ENOMEM;
+    86=09
+    87		edu->pdev =3D pdev;
+    88		init_completion(&edu->irq_done);
+    89=09
+    90		err =3D pci_enable_device(pdev);
+    91		if (err)
+    92			return err;
+    93=09
+    94		err =3D pci_request_regions(pdev, "edu_srpoc");
+    95		if (err)
+    96			goto err_disable;
+    97=09
+  > 98		edu->regs =3D pci_iomap(pdev, 0, 0);
+    99		if (!edu->regs) {
+   100			err =3D -ENOMEM;
+   101			goto err_release;
+   102		}
+   103=09
+   104		pci_set_master(pdev);
+   105=09
+   106		err =3D pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI | PCI_IRQ_INT=
+X);
+   107		if (err < 0)
+   108			goto err_iounmap;
+   109=09
+   110		err =3D request_irq(pci_irq_vector(pdev, 0), edu_irq_handler,
+   111				  IRQF_SHARED, "edu_srpoc", edu);
+   112		if (err)
+   113			goto err_free_vectors;
+   114=09
+   115		pci_set_drvdata(pdev, edu);
+   116=09
+   117		INIT_WORK(&pdev->disconnect_work, edu_disconnect);
+ > 118		pci_set_disconnect_work(pdev);
+   119=09
+   120		dev_info(&pdev->dev, "edu_srpoc probed\n");
+   121		return 0;
+   122=09
+   123	err_free_vectors:
+   124		pci_free_irq_vectors(pdev);
+   125	err_iounmap:
+ > 126		pci_iounmap(pdev, edu->regs);
+   127	err_release:
+   128		pci_release_regions(pdev);
+   129	err_disable:
+   130		pci_disable_device(pdev);
+   131		return err;
+   132	}
+   133=09
+   134	static void edu_remove(struct pci_dev *pdev)
+   135	{
+   136		struct edu_dev *edu =3D pci_get_drvdata(pdev);
+   137=09
+   138		iowrite32(EDU_STATUS_IRQFACT, edu->regs + EDU_REG_STATUS);
+   139		iowrite32(600000, edu->regs + EDU_REG_DELAYED_IRQ);
+   140=09
+   141		dev_info(&pdev->dev, "Waiting for IRQ in remove()\n");
+   142		wait_for_completion(&edu->irq_done);
+   143		dev_info(&pdev->dev, "Unblocked, cleaning up\n");
+   144=09
+ > 145		pci_clear_disconnect_work(pdev);
+   146		free_irq(pci_irq_vector(pdev, 0), edu);
+   147		pci_free_irq_vectors(pdev);
+   148		pci_iounmap(pdev, edu->regs);
+   149		pci_release_regions(pdev);
+   150		pci_disable_device(pdev);
+   151	}
+   152=09
+   153	static const struct pci_device_id edu_ids[] =3D {
+   154		{ PCI_DEVICE(PCI_VENDOR_ID_EDU, PCI_DEVICE_ID_EDU) },
+   155		{ 0 }
+   156	};
+   157	MODULE_DEVICE_TABLE(pci, edu_ids);
+   158=09
+ > 159	static struct pci_driver edu_driver =3D {
+   160		.name		=3D "edu_srpoc",
+   161		.id_table	=3D edu_ids,
+   162		.probe		=3D edu_probe,
+   163		.remove		=3D edu_remove,
+   164	};
+   165=09
+ > 166	module_pci_driver(edu_driver);
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
