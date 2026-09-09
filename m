@@ -1,170 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C960944CAF9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 07:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467E8485CFB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 09:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788940255; cv=none; b=BE/cktP7KFqTM24lSRoyJZBiEUak5xu9hdFIwkeerEC1MqplrtwuOMgr7ruwD5aqjUuJGaxsCv+53wQ7tmEJrEZR9koIHc9GWmEAuklwg92uXlAUsGFk5g7YZPQipHCIYQRNQvsyAvyAi670wokBA3NNDUd+DnVPst6ZF06tbEY=
+	t=1788947084; cv=none; b=etxnCjcz04G7CuW+MPk7jIBQBkcLFyPtBtsS0D/ROCRRxAFHFxeb9IADlB0tol74PUZHazTEN4VnJFX49jxEEC9iCbdnzOoIVPgEvWrK9UOfnBVNdqnpn1pxv2d7XXiKkeYzlOoiJ+7ffIFVIKVv7L7DwDnVem8oQSuyhXGOkwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788940255; c=relaxed/simple;
-	bh=8F0Ei2ADVhTACBTdWLc3ypxF0x6jw1ombxI/ZsdGEjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nAHoHkrKvuGjIKVHr5efRLs+O4cFxF9s9YNJTDnuOBg9dEKbW8zDndfJe2lZ2+VzImzGEjcnCV17d49FTzs5342yUVy9iXocuCtsaru4UXzYV5EEd5xtydbr4WOXYXWssp0s2nRIih3oTN5y2F1ZEmGClOmQh64Qb/NwCYPRdH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iGkwKTCO; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1788947084; c=relaxed/simple;
+	bh=JrzdzbJNedolASv+kEv5MHHKXFOCooUfCQgtpZsoQ9s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oV57D/7clqYKP1jd3RrA3h10F0k53DpROxcMM7mLPE+I96s31eqrE/PZQPEXAkZS1+6cHBzZEJdctm9J5JIXPLOCnM5VU9ZGcmgxwkD0FADBOM/4/QQLIgPdG8RY8lbH0ZcRfs4Vhzlomc47SBk2OtQWCI8bUKRlM9WA4d6uexY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YAQWNtra; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iGkwKTCO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAQWNtra"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788940252; x=1820476252;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8F0Ei2ADVhTACBTdWLc3ypxF0x6jw1ombxI/ZsdGEjk=;
-  b=iGkwKTCOajtPcqKpwZhtJGxEtRNG6KJ9gJsUfQp0GZ1+9mUwz+vH9UcW
-   SaTe5mcNMR5zTQTcwKeWJ7/aEQo3qH2jxQ/MJdiPPjT2ASy91JEPh5F4H
-   7mGB5vcy8Tx7tvihegkB8QXTefwopE78EyJoLo527FPhik0hKnsqZ5K9k
-   +E/1p/Ze9r4oD4gTN58Hijp8mT6/4UDSiH5XR8V1YokVeNMJAe7KASxBH
-   85nsUSOTiBIFfEf6UQC5YOh8vK+ZBGUw7bCQzxZIUzYRL/9jWlWzAxMJy
-   zhIrCSnl0L5hHOegXbT2VQmhCKi8dOCQnASO2/cTXkA+j4i8s6DJZCbY5
-   w==;
-X-CSE-ConnectionGUID: /+VyFdoSQUqyxSmHfEfuyw==
-X-CSE-MsgGUID: OMjozr8LTh+O/mSxtt4khg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="106725227"
+  t=1788947082; x=1820483082;
+  h=date:from:to:cc:subject:message-id;
+  bh=JrzdzbJNedolASv+kEv5MHHKXFOCooUfCQgtpZsoQ9s=;
+  b=YAQWNtraPqGAbkG2VFhJw74C5VA26lUqBaX5NhldqtZJ8yxs6oJ5KPlK
+   /vK4TAW7IaEYrIazukBYRhI+TkkP3lEjcJk4O6lIgYp9HcjBSjE5fgI/L
+   JaJVw9fuOuB4q4uRIJz02s3oHYRNv4u13Xp4sYXp4Ay2zs3QNUxUQa4Si
+   kN1NNGuiNEpXbSE2vVqpxvTKyPTox9j4L0o/VZhnX16uEss0+DFOIO90e
+   Ken9gF74odkr4O/jFOcYj/LR3wg4P8ZFJa5HkhjQjpHwf8/8ikOFINSQt
+   YxjfKHqe08btBPrr+4g6h0KoYttO/3Tv+kDQF/erF99vxaCVvboSNCLlg
+   g==;
+X-CSE-ConnectionGUID: uN/0jOqXRQ+sA6if+X8l+w==
+X-CSE-MsgGUID: sCF4oRw2QLOxJNfOhSu5NA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="91880081"
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="106725227"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 00:50:47 -0700
-X-CSE-ConnectionGUID: YGt60OXITHmm6Ifxgle+Nw==
-X-CSE-MsgGUID: lT2DXUgtTZClrGGvcJOWwA==
+   d="scan'208";a="91880081"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:44:41 -0700
+X-CSE-ConnectionGUID: fcDMpZ3KR+eAzdqpNj8dyg==
+X-CSE-MsgGUID: BDy0xi8wRTyv4+oHQYPmmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="266942103"
-Received: from lkp-server02.sh.intel.com (HELO cdbc6ec9b517) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 09 Sep 2026 00:50:46 -0700
-Received: from kbuild by cdbc6ec9b517 with local (Exim 4.98.2)
+   d="scan'208";a="309536061"
+Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 09 Sep 2026 02:44:40 -0700
+Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4D4t-0000000004t-1vtl;
-	Wed, 09 Sep 2026 07:50:43 +0000
-Date: Wed, 9 Sep 2026 15:48:26 +0800
+	id 1x4Er8-0000000003K-0s8v;
+	Wed, 09 Sep 2026 09:44:38 +0000
+Date: Wed, 09 Sep 2026 17:43:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Georgi Djakov <djakov@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2] interconnect: qcom: implement get_bw with rpmh_read
-Message-ID: <202609091547.IZVghFTg-lkp@intel.com>
-References: <20260908-topic-sm8x50-icc-read-rpmh-v2-1-b6f1c4205450@linaro.org>
+To: Ronald Claveau <linux-kernel-dev@aliel.fr>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rclaveau:b4/add-adla_npu-t7-vim4 12/12]
+ drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:156:26: warning:
+ diagnostic behavior may be improved by adding the 'format(printf, 1, 2)'
+ attribute to the declaration of 'adlak_os_printf'
+Message-ID: <202609091724.MSVLRBVv-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260908-topic-sm8x50-icc-read-rpmh-v2-1-b6f1c4205450@linaro.org>
 
-Hi Neil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cee9395acd8043be0644b25c34bfa86623f2b935]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/interconnect-qcom-implement-get_bw-with-rpmh_read/20260908-100915
-base:   cee9395acd8043be0644b25c34bfa86623f2b935
-patch link:    https://lore.kernel.org/r/20260908-topic-sm8x50-icc-read-rpmh-v2-1-b6f1c4205450%40linaro.org
-patch subject: [PATCH v2] interconnect: qcom: implement get_bw with rpmh_read
-config: arc-randconfig-r112-20260909 (https://download.01.org/0day-ci/archive/20260909/202609091547.IZVghFTg-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260909/202609091547.IZVghFTg-lkp@intel.com/reproduce)
+tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
+head:   3729dea89f4ad77930792d1afd34a3bac456c7a1
+commit: 3729dea89f4ad77930792d1afd34a3bac456c7a1 [12/12] Temporary use Adla Legacy driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260909/202609091724.MSVLRBVv-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 803252a70e326051a340e1a80b79cd10ed633e7f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260909/202609091724.MSVLRBVv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609091547.IZVghFTg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609091724.MSVLRBVv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/interconnect/qcom/icc-rpmh.c:169:35: sparse: sparse: invalid assignment: *=
-   drivers/interconnect/qcom/icc-rpmh.c:169:35: sparse:    left side has type unsigned long long
-   drivers/interconnect/qcom/icc-rpmh.c:169:35: sparse:    right side has type restricted __le32
->> drivers/interconnect/qcom/icc-rpmh.c:172:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] __base @@     got restricted __le16 [usertype] width @@
-   drivers/interconnect/qcom/icc-rpmh.c:172:33: sparse:     expected unsigned int [usertype] __base
-   drivers/interconnect/qcom/icc-rpmh.c:172:33: sparse:     got restricted __le16 [usertype] width
-   drivers/interconnect/qcom/icc-rpmh.c:178:35: sparse: sparse: invalid assignment: *=
-   drivers/interconnect/qcom/icc-rpmh.c:178:35: sparse:    left side has type unsigned long long
-   drivers/interconnect/qcom/icc-rpmh.c:178:35: sparse:    right side has type restricted __le32
-   drivers/interconnect/qcom/icc-rpmh.c:181:33: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned int [usertype] __base @@     got restricted __le16 [usertype] width @@
-   drivers/interconnect/qcom/icc-rpmh.c:181:33: sparse:     expected unsigned int [usertype] __base
-   drivers/interconnect/qcom/icc-rpmh.c:181:33: sparse:     got restricted __le16 [usertype] width
-   drivers/interconnect/qcom/icc-rpmh.c:231:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] unit @@     got unsigned int [usertype] @@
-   drivers/interconnect/qcom/icc-rpmh.c:231:28: sparse:     expected restricted __le32 [usertype] unit
-   drivers/interconnect/qcom/icc-rpmh.c:231:28: sparse:     got unsigned int [usertype]
-   drivers/interconnect/qcom/icc-rpmh.c:232:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] width @@     got unsigned short [usertype] @@
-   drivers/interconnect/qcom/icc-rpmh.c:232:29: sparse:     expected restricted __le16 [usertype] width
-   drivers/interconnect/qcom/icc-rpmh.c:232:29: sparse:     got unsigned short [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +169 drivers/interconnect/qcom/icc-rpmh.c
+   error: unknown warning option '-Wno-suggest-attribute=format'; did you mean '-Wno-property-attribute-mismatch'? [-Werror,-Wunknown-warning-option]
+   In file included from drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_device.c:76:
+>> drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_fops.c:252:33: warning: variable 'net_reg_desc' is uninitialized when passed as a const pointer argument here [-Wuninitialized-const-pointer]
+     252 |                 cp_ret = copy_to_user(udata, &net_reg_desc,
+         |                                               ^~~~~~~~~~~~
+   1 warning and 1 error generated.
+--
+   error: unknown warning option '-Wno-suggest-attribute=format'; did you mean '-Wno-property-attribute-mismatch'? [-Werror,-Wunknown-warning-option]
+>> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:156:26: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 2)' attribute to the declaration of 'adlak_os_printf' [-Wmissing-format-attribute]
+     156 |         r = vprintk(format, args);
+         |                                 ^
+   drivers/accel/adla_legacy/kmd/drv/port/adlak_os.h:56:7: note: 'adlak_os_printf' declared here
+      56 | int   adlak_os_printf(const char *format, ...);
+         |       ^
+>> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:171:43: warning: diagnostic behavior may be improved by adding the 'format(printf, 3, 4)' attribute to the declaration of 'adlak_os_snprintf' [-Wmissing-format-attribute]
+     171 |         cnt = vsnprintf(buffer, size, format, arg);
+         |                                                  ^
+   drivers/accel/adla_legacy/kmd/drv/port/adlak_os.h:57:7: note: 'adlak_os_snprintf' declared here
+      57 | int   adlak_os_snprintf(char *buffer, ssize_t buf_size, const char *format, ...);
+         |       ^
+>> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:193:34: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'adlak_os_vasprintf' [-Wmissing-format-attribute]
+     186 | static char *adlak_os_vasprintf(gfp_t gfp, const char *fmt, va_list ap)
+         | __attribute__((format(printf, 2, 0))) 
+     187 | {
+     188 |         unsigned int len;
+     189 |         char *p;
+     190 |         va_list aq;
+     191 | 
+     192 |         va_copy(aq, ap);
+     193 |         len = vsnprintf(NULL, 0, fmt, aq);
+         |                                         ^
+   drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:186:14: note: 'adlak_os_vasprintf' declared here
+     186 | static char *adlak_os_vasprintf(gfp_t gfp, const char *fmt, va_list ap)
+         |              ^
+>> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:221:37: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'adlak_os_asprintf' [-Wmissing-format-attribute]
+     221 |         p = adlak_os_vasprintf(gfp, fmt, ap);
+         |                                            ^
+   drivers/accel/adla_legacy/kmd/drv/port/adlak_os.h:58:7: note: 'adlak_os_asprintf' declared here
+      58 | char *adlak_os_asprintf(gfp_t gfp, const char *fmt, ...);
+         |       ^
+   4 warnings and 1 error generated.
 
-   138	
-   139	static int qcom_icc_get_bw(struct icc_node *node, u32 *avg, u32 *peak)
-   140	{
-   141		struct qcom_icc_node *qn = node->data;
-   142		u32 avg_max = 0;
-   143		u32 peak_max = 0;
-   144		u64 x, y;
-   145		int i;
-   146	
-   147		if (!qn->num_bcms) {
-   148			*avg = INT_MAX;
-   149			*peak = INT_MAX;
-   150	
-   151			return 0;
-   152		}
-   153	
-   154		for (i = 0; i < qn->num_bcms; ++i) {
-   155			struct qcom_icc_bcm *bcm = qn->bcms[i];
-   156	
-   157			/* Use AMC vote for boot-up */
-   158			x = bcm->vote_x[QCOM_ICC_BUCKET_AMC];
-   159			y = bcm->vote_y[QCOM_ICC_BUCKET_AMC];
-   160	
-   161			/* Consider enable mask and convert to INT_MAX */
-   162			if (bcm->enable_mask) {
-   163				if (x & bcm->enable_mask)
-   164					avg_max = INT_MAX;
-   165				if (y & bcm->enable_mask)
-   166					peak_max = INT_MAX;
-   167			} else {
-   168				if (x) {
- > 169					x *= bcm->aux_data.unit;
-   170					do_div(x, bcm->vote_scale);
-   171					x *= qn->buswidth * qn->channels;
- > 172					do_div(x, bcm->aux_data.width);
-   173	
-   174					avg_max = max(avg_max, x);
-   175				}
-   176	
-   177				if (y) {
-   178					y *= bcm->aux_data.unit;
-   179					do_div(y, bcm->vote_scale);
-   180					y *= qn->buswidth;
-   181					do_div(y, bcm->aux_data.width);
-   182	
-   183					peak_max = max(peak_max, y);
-   184				}
-   185			}
-   186		}
-   187	
-   188		*avg = avg_max;
-   189		*peak = peak_max;
-   190	
-   191		return 0;
-   192	}
-   193	
+
+vim +156 drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c
+
+   149	
+   150	int adlak_os_printf(const char *format, ...)
+   151	{
+   152		va_list args;
+   153		int r;
+   154	
+   155		va_start(args, format);
+ > 156		r = vprintk(format, args);
+   157		//r = pr_info(format, args);
+   158		va_end(args);
+   159		return r;
+   160	}
+   161	
+   162	int adlak_os_snprintf(char *buffer, ssize_t size, const char *format, ...)
+   163	{
+   164		int cnt;
+   165		va_list arg;
+   166	
+   167		if (size <= 0)
+   168			return 0;
+   169	
+   170		va_start(arg, format);
+ > 171		cnt = vsnprintf(buffer, size, format, arg);
+   172		va_end(arg);
+   173		return cnt;
+   174	}
+   175	
+   176	/**
+   177	 * adlak_os_vasprintf - Allocate resource managed space and format a string
+   178	 *		     into that.
+   179	 * @gfp: the GFP mask used in the devm_kmalloc() call when
+   180	 *       allocating memory
+   181	 * @fmt: The printf()-style format string
+   182	 * @ap: Arguments for the format string
+   183	 * RETURNS:
+   184	 * Pointer to allocated string on success, NULL on failure.
+   185	 */
+   186	static char *adlak_os_vasprintf(gfp_t gfp, const char *fmt, va_list ap)
+   187	{
+   188		unsigned int len;
+   189		char *p;
+   190		va_list aq;
+   191	
+   192		va_copy(aq, ap);
+ > 193		len = vsnprintf(NULL, 0, fmt, aq);
+   194		va_end(aq);
+   195	
+   196		p = kmalloc(len + 1, gfp);
+   197		if (!p)
+   198			return NULL;
+   199	
+   200		vsnprintf(p, len + 1, fmt, ap);
+   201	
+   202		return p;
+   203	}
+   204	
+   205	/*
+   206	 * @brief Allocate resource managed space and format a string
+   207	 *		    into that.
+   208	 *
+   209	 * @param gfp the GFP mask used in the devm_kmalloc() call when
+   210	 *       allocating memory
+   211	 * @param fmt: The printf()-style format string
+   212	 * @param ... Arguments for the format string
+   213	 * @return char* Pointer to allocated string on success, NULL on failure.
+   214	 */
+   215	char *adlak_os_asprintf(gfp_t gfp, const char *fmt, ...)
+   216	{
+   217		va_list ap;
+   218		char *p;
+   219	
+   220		va_start(ap, fmt);
+ > 221		p = adlak_os_vasprintf(gfp, fmt, ap);
+   222		va_end(ap);
+   223	
+   224		return p;
+   225	}
+   226	
 
 --
 0-DAY CI Kernel Test Service
