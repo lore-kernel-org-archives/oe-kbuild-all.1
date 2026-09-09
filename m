@@ -1,204 +1,219 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467E8485CFB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 09:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC4E4EE866
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 10:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788947084; cv=none; b=etxnCjcz04G7CuW+MPk7jIBQBkcLFyPtBtsS0D/ROCRRxAFHFxeb9IADlB0tol74PUZHazTEN4VnJFX49jxEEC9iCbdnzOoIVPgEvWrK9UOfnBVNdqnpn1pxv2d7XXiKkeYzlOoiJ+7ffIFVIKVv7L7DwDnVem8oQSuyhXGOkwM=
+	t=1788949975; cv=none; b=hzdXdmhmVPbpsnH+nU4IrEK5BYLwNzJp3vXuVlKFYkk9MF69F4SjslLhpI4Q2FG8IDYaMzDOuHIlwiwjEO38NqUJAXedeelGbtKDdk26KD8cGnKA3Av0ly/4h6ZdoKcV5DPUGC348wgHrA1Mqt5qxpAeXWtqheoxlgQLKLiKxpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788947084; c=relaxed/simple;
-	bh=JrzdzbJNedolASv+kEv5MHHKXFOCooUfCQgtpZsoQ9s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oV57D/7clqYKP1jd3RrA3h10F0k53DpROxcMM7mLPE+I96s31eqrE/PZQPEXAkZS1+6cHBzZEJdctm9J5JIXPLOCnM5VU9ZGcmgxwkD0FADBOM/4/QQLIgPdG8RY8lbH0ZcRfs4Vhzlomc47SBk2OtQWCI8bUKRlM9WA4d6uexY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YAQWNtra; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788949975; c=relaxed/simple;
+	bh=9E2W1JEZB814gMmSK+IcuZqD62KdOrGZziC3gfnSn4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Aoq7y3Ii5zefuurD4ExAyNC7+Ze2BMhSjGoRpNj52x2EKjamwWTFIhC6RihMTRmXUmKEL7QVZDQgKeajZ42ZCKs+yFXKmFuRgOcU9YFpSRZdrKiggmd++zlf7LSvgMi6lEfcd0HsikEr39dKLGmBK9dHaG66z3IKnGQwh6Br3Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bDYGF+bx; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAQWNtra"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788947082; x=1820483082;
-  h=date:from:to:cc:subject:message-id;
-  bh=JrzdzbJNedolASv+kEv5MHHKXFOCooUfCQgtpZsoQ9s=;
-  b=YAQWNtraPqGAbkG2VFhJw74C5VA26lUqBaX5NhldqtZJ8yxs6oJ5KPlK
-   /vK4TAW7IaEYrIazukBYRhI+TkkP3lEjcJk4O6lIgYp9HcjBSjE5fgI/L
-   JaJVw9fuOuB4q4uRIJz02s3oHYRNv4u13Xp4sYXp4Ay2zs3QNUxUQa4Si
-   kN1NNGuiNEpXbSE2vVqpxvTKyPTox9j4L0o/VZhnX16uEss0+DFOIO90e
-   Ken9gF74odkr4O/jFOcYj/LR3wg4P8ZFJa5HkhjQjpHwf8/8ikOFINSQt
-   YxjfKHqe08btBPrr+4g6h0KoYttO/3Tv+kDQF/erF99vxaCVvboSNCLlg
-   g==;
-X-CSE-ConnectionGUID: uN/0jOqXRQ+sA6if+X8l+w==
-X-CSE-MsgGUID: sCF4oRw2QLOxJNfOhSu5NA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="91880081"
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="91880081"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:44:41 -0700
-X-CSE-ConnectionGUID: fcDMpZ3KR+eAzdqpNj8dyg==
-X-CSE-MsgGUID: BDy0xi8wRTyv4+oHQYPmmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="309536061"
-Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Sep 2026 02:44:40 -0700
-Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x4Er8-0000000003K-0s8v;
-	Wed, 09 Sep 2026 09:44:38 +0000
-Date: Wed, 09 Sep 2026 17:43:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ronald Claveau <linux-kernel-dev@aliel.fr>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rclaveau:b4/add-adla_npu-t7-vim4 12/12]
- drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:156:26: warning:
- diagnostic behavior may be improved by adding the 'format(printf, 1, 2)'
- attribute to the declaration of 'adlak_os_printf'
-Message-ID: <202609091724.MSVLRBVv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bDYGF+bx"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1600d040e4so852983166b.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Sep 2026 03:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788949972; x=1789554772; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CvMuTTBW9YU4ijC51bqyFbYjUHG0eU/fPxWV4VgUGIA=;
+        b=bDYGF+bxDc2Rcj7PHoGjOAeByNIBfndFpGuuI55vcSDD85kVNX0tq0cmey3WUJzlxz
+         VCaQYH++rzDaucKM4qXyMxpvE82zXJhRgenHyLZSTQtbesk8kICs4pLq02i+rpJcxqHY
+         AlpKzyUn/6GpcLigyEy9j1lGofuMc0BI6Ha/dVAtdNCJzTRw5AAi5M4/7iRfKosp0qPo
+         zBj5SZ6Ce6uWHLb5yBQOCteH4vVHV/2UtSLTihiWZIU85c6H5MQt7ggri8hd21q8H4pT
+         xnaZHbcwvndrS/ovquX0gQtyCN1CgAXE14Eu+J8TOhNgISKWyO9UAk71T7zCwkrmcPkv
+         GD+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788949972; x=1789554772;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CvMuTTBW9YU4ijC51bqyFbYjUHG0eU/fPxWV4VgUGIA=;
+        b=MmtmBUf754dnE+4n6ftfMoudyI/pWLBF5aLmb1GMrTgWnecHnHU1RIxXuoumFMWLkf
+         zXrIoKhwAhu5H0SMfyzVMz/9AeAOEcIulDIjqHyqJFH5zN2c09C2mwJysnbWH3l1XZeQ
+         ljzAuta/yJEYg4D7pid+dW4nFvF//auM+vQyp7wLLsyZrFKiEgAZfIglJyutUc7Bv3CW
+         rwPv+GLShpzOdc3GylkzDwJXrANFF4uLBnIGssva9NEnidZBF+lESpaSKFnlB+jjxJVW
+         6ts23aEMvbGSNPqWWY3hkekyVYNnKwL/yduRT6+HK2D6sNifEAvXMK14O288Qq4j47H7
+         dNgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwhWfBspW3OTZhn/VhIforEzXw7yNro/74/cG2Zr5BOfd8aut39wiKL6r0mS4r0prHjvxHPfoAoc6KXhB3Q@lists.linux.dev
+X-Gm-Message-State: AFuF++mxpO1ZpWnaZFC6FvG5g2bs4xt7L2ZZtVrKZQBVbi635zIdTiRG
+	/t20lSTWYiObIVqEpT2PMPK+NNM+N6wBgsM9ieWfrEOWX0L1/x7D8PpW
+X-Gm-Gg: AYBFou3/nNloxHwkwHddJSl47BeTPNWHtxs0MuNLiicAZxxbkAe8Fewng36bY2W6Awd
+	Yj2z/ZeHEO9G+PoR+hrxcEDCLgb3sL8QHzJ03rkHLvs28qMmEdXK9QK7P/2qxnydkzz83Q2OqRW
+	Q5qRTKRnHR7/QReJJVehiDAmVnjUMlkKkLYc07CZNpGM3x3t3Sh/ThxUQIGivMAMspSK3Yw7gKI
+	nBawe92NFLrpTS+35ywngNLNAEvLL2ktejCB/xxky8n9O4BbJmQzTTgThqggFTFo0LaGOlJdiBy
+	z0UbHK+W+bCiVsO3P+OGjHooQ+GRks5dfI+lj91WqtUiJWsS5UdvrNdoS6zo7AfLi34bq2AZePj
+	N9lw3e3arp9WGJfyIfyfbECo7BFFOslNCs/OuhX+A/bMfhRfKQrN9BM5CWF5dZPZtiat4uu+wvh
+	r+ZzI+v3jkU3CAuUErwygeJ3OczRqpm8+DJ58FuyIc/jZoPw8Sgr9L3D+96/hcLbaygTs=
+X-Received: by 2002:a17:906:7953:b0:c25:f7dc:2d6 with SMTP id a640c23a62f3a-c25f7dc096cmr1512888266b.23.1788949971925;
+        Wed, 09 Sep 2026 03:32:51 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c293eaf1ae8sm14313766b.40.2026.09.09.03.32.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 03:32:51 -0700 (PDT)
+Date: Wed, 9 Sep 2026 13:32:47 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Jia Jia <physicalmtea@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2] vhost: coalesce and retry IOTLB miss messages
+Message-ID: <202608251701.w0nxG9o0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260810130336.138457-1-physicalmtea@gmail.com>
 
-tree:   https://github.com/rclaveau-tech/linux-khadas.git b4/add-adla_npu-t7-vim4
-head:   3729dea89f4ad77930792d1afd34a3bac456c7a1
-commit: 3729dea89f4ad77930792d1afd34a3bac456c7a1 [12/12] Temporary use Adla Legacy driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260909/202609091724.MSVLRBVv-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 803252a70e326051a340e1a80b79cd10ed633e7f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260909/202609091724.MSVLRBVv-lkp@intel.com/reproduce)
+Hi Jia,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jia-Jia/vhost-coalesce-and-retry-IOTLB-miss-messages/20260810-210336
+base:   v7.2-rc6
+patch link:    https://lore.kernel.org/r/20260810130336.138457-1-physicalmtea%40gmail.com
+patch subject: [RFC PATCH v2] vhost: coalesce and retry IOTLB miss messages
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20260825/202608251701.w0nxG9o0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609091724.MSVLRBVv-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202608251701.w0nxG9o0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/vhost/vhost.c:1933 vhost_chr_read_iter() warn: check sign expansion for '-14'
 
-   error: unknown warning option '-Wno-suggest-attribute=format'; did you mean '-Wno-property-attribute-mismatch'? [-Werror,-Wunknown-warning-option]
-   In file included from drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_platform_device.c:76:
->> drivers/accel/adla_legacy/kmd/drv/port/platform/linux/adlak_fops.c:252:33: warning: variable 'net_reg_desc' is uninitialized when passed as a const pointer argument here [-Wuninitialized-const-pointer]
-     252 |                 cp_ret = copy_to_user(udata, &net_reg_desc,
-         |                                               ^~~~~~~~~~~~
-   1 warning and 1 error generated.
---
-   error: unknown warning option '-Wno-suggest-attribute=format'; did you mean '-Wno-property-attribute-mismatch'? [-Werror,-Wunknown-warning-option]
->> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:156:26: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 2)' attribute to the declaration of 'adlak_os_printf' [-Wmissing-format-attribute]
-     156 |         r = vprintk(format, args);
-         |                                 ^
-   drivers/accel/adla_legacy/kmd/drv/port/adlak_os.h:56:7: note: 'adlak_os_printf' declared here
-      56 | int   adlak_os_printf(const char *format, ...);
-         |       ^
->> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:171:43: warning: diagnostic behavior may be improved by adding the 'format(printf, 3, 4)' attribute to the declaration of 'adlak_os_snprintf' [-Wmissing-format-attribute]
-     171 |         cnt = vsnprintf(buffer, size, format, arg);
-         |                                                  ^
-   drivers/accel/adla_legacy/kmd/drv/port/adlak_os.h:57:7: note: 'adlak_os_snprintf' declared here
-      57 | int   adlak_os_snprintf(char *buffer, ssize_t buf_size, const char *format, ...);
-         |       ^
->> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:193:34: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'adlak_os_vasprintf' [-Wmissing-format-attribute]
-     186 | static char *adlak_os_vasprintf(gfp_t gfp, const char *fmt, va_list ap)
-         | __attribute__((format(printf, 2, 0))) 
-     187 | {
-     188 |         unsigned int len;
-     189 |         char *p;
-     190 |         va_list aq;
-     191 | 
-     192 |         va_copy(aq, ap);
-     193 |         len = vsnprintf(NULL, 0, fmt, aq);
-         |                                         ^
-   drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:186:14: note: 'adlak_os_vasprintf' declared here
-     186 | static char *adlak_os_vasprintf(gfp_t gfp, const char *fmt, va_list ap)
-         |              ^
->> drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c:221:37: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'adlak_os_asprintf' [-Wmissing-format-attribute]
-     221 |         p = adlak_os_vasprintf(gfp, fmt, ap);
-         |                                            ^
-   drivers/accel/adla_legacy/kmd/drv/port/adlak_os.h:58:7: note: 'adlak_os_asprintf' declared here
-      58 | char *adlak_os_asprintf(gfp_t gfp, const char *fmt, ...);
-         |       ^
-   4 warnings and 1 error generated.
+vim +1933 drivers/vhost/vhost.c
 
+6b1e6cc7855b09 Jason Wang 2016-06-23  1833  ssize_t vhost_chr_read_iter(struct vhost_dev *dev, struct iov_iter *to,
+6b1e6cc7855b09 Jason Wang 2016-06-23  1834  			    int noblock)
+6b1e6cc7855b09 Jason Wang 2016-06-23  1835  {
+6b1e6cc7855b09 Jason Wang 2016-06-23  1836  	DEFINE_WAIT(wait);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1837  	union {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1838  		struct vhost_msg msg;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1839  		struct vhost_msg_v2 msg_v2;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1840  	} snapshot;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1841  	struct vhost_msg_node *miss_token = NULL;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1842  	struct vhost_virtqueue *miss_vq = NULL;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1843  	struct vhost_msg_node *node = NULL;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1844  	u64 miss_seq = 0;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1845  	ssize_t ret = 0;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1846  	unsigned size = sizeof(struct vhost_msg);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1847  	bool short_buffer = false;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1848  	bool wake = false;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1849  
+6b1e6cc7855b09 Jason Wang 2016-06-23  1850  	if (iov_iter_count(to) < size)
+6b1e6cc7855b09 Jason Wang 2016-06-23  1851  		return 0;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1852  
+6b1e6cc7855b09 Jason Wang 2016-06-23  1853  	while (1) {
+6b1e6cc7855b09 Jason Wang 2016-06-23  1854  		if (!noblock)
+6b1e6cc7855b09 Jason Wang 2016-06-23  1855  			prepare_to_wait(&dev->wait, &wait,
+6b1e6cc7855b09 Jason Wang 2016-06-23  1856  					TASK_INTERRUPTIBLE);
+6b1e6cc7855b09 Jason Wang 2016-06-23  1857  
+e05ac0fdb960d9 Jia Jia    2026-08-10  1858  		spin_lock(&dev->iotlb_lock);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1859  		if (!list_empty(&dev->read_list)) {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1860  			struct vhost_msg_node *first;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1861  
+e05ac0fdb960d9 Jia Jia    2026-08-10  1862  			first = list_first_entry(&dev->read_list,
+e05ac0fdb960d9 Jia Jia    2026-08-10  1863  						 struct vhost_msg_node, node);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1864  			if (first->vq->iotlb_miss_node == first) {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1865  				size = first->msg.type == VHOST_IOTLB_MSG_V2 ?
+e05ac0fdb960d9 Jia Jia    2026-08-10  1866  				       sizeof(first->msg_v2) : sizeof(first->msg);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1867  				if (iov_iter_count(to) < size) {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1868  					short_buffer = true;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1869  				} else {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1870  					memcpy(&snapshot.msg_v2, &first->msg_v2,
+e05ac0fdb960d9 Jia Jia    2026-08-10  1871  					       size);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1872  					list_move_tail(&first->node,
+e05ac0fdb960d9 Jia Jia    2026-08-10  1873  						       &dev->pending_list);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1874  					first->vq->iotlb_miss_state =
+e05ac0fdb960d9 Jia Jia    2026-08-10  1875  						VHOST_IOTLB_MISS_READING;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1876  					miss_vq = first->vq;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1877  					miss_token = first;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1878  					miss_seq = first->vq->iotlb_miss_seq;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1879  				}
+e05ac0fdb960d9 Jia Jia    2026-08-10  1880  			} else {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1881  				list_del_init(&first->node);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1882  				node = first;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1883  			}
+e05ac0fdb960d9 Jia Jia    2026-08-10  1884  		}
+e05ac0fdb960d9 Jia Jia    2026-08-10  1885  		spin_unlock(&dev->iotlb_lock);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1886  
+e05ac0fdb960d9 Jia Jia    2026-08-10  1887  		if (node || miss_vq || short_buffer)
+6b1e6cc7855b09 Jason Wang 2016-06-23  1888  			break;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1889  		if (noblock) {
+6b1e6cc7855b09 Jason Wang 2016-06-23  1890  			ret = -EAGAIN;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1891  			break;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1892  		}
+6b1e6cc7855b09 Jason Wang 2016-06-23  1893  		if (signal_pending(current)) {
+6b1e6cc7855b09 Jason Wang 2016-06-23  1894  			ret = -ERESTARTSYS;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1895  			break;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1896  		}
+6b1e6cc7855b09 Jason Wang 2016-06-23  1897  		if (!dev->iotlb) {
+6b1e6cc7855b09 Jason Wang 2016-06-23  1898  			ret = -EBADFD;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1899  			break;
+6b1e6cc7855b09 Jason Wang 2016-06-23  1900  		}
+6b1e6cc7855b09 Jason Wang 2016-06-23  1901  
+6b1e6cc7855b09 Jason Wang 2016-06-23  1902  		schedule();
+6b1e6cc7855b09 Jason Wang 2016-06-23  1903  	}
+6b1e6cc7855b09 Jason Wang 2016-06-23  1904  
+6b1e6cc7855b09 Jason Wang 2016-06-23  1905  	if (!noblock)
+6b1e6cc7855b09 Jason Wang 2016-06-23  1906  		finish_wait(&dev->wait, &wait);
+6b1e6cc7855b09 Jason Wang 2016-06-23  1907  
+e05ac0fdb960d9 Jia Jia    2026-08-10  1908  	if (short_buffer)
+e05ac0fdb960d9 Jia Jia    2026-08-10  1909  		return 0;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1910  
+e05ac0fdb960d9 Jia Jia    2026-08-10  1911  	if (miss_vq) {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1912  		bool copied = copy_to_iter_full(&snapshot.msg_v2, size, to);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1913  
+e05ac0fdb960d9 Jia Jia    2026-08-10  1914  		spin_lock(&dev->iotlb_lock);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1915  		node = miss_vq->iotlb_miss_node;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1916  		if (node == miss_token &&
+e05ac0fdb960d9 Jia Jia    2026-08-10  1917  		    miss_vq->iotlb_miss_seq == miss_seq &&
+e05ac0fdb960d9 Jia Jia    2026-08-10  1918  		    miss_vq->iotlb_miss_state == VHOST_IOTLB_MISS_READING) {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1919  			if (copied) {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1920  				miss_vq->iotlb_miss_state =
+e05ac0fdb960d9 Jia Jia    2026-08-10  1921  					VHOST_IOTLB_MISS_PENDING;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1922  			} else {
+e05ac0fdb960d9 Jia Jia    2026-08-10  1923  				list_move_tail(&node->node, &dev->read_list);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1924  				miss_vq->iotlb_miss_state = VHOST_IOTLB_MISS_READ;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1925  				wake = true;
+e05ac0fdb960d9 Jia Jia    2026-08-10  1926  			}
+e05ac0fdb960d9 Jia Jia    2026-08-10  1927  		}
+e05ac0fdb960d9 Jia Jia    2026-08-10  1928  		spin_unlock(&dev->iotlb_lock);
+e05ac0fdb960d9 Jia Jia    2026-08-10  1929  
+e05ac0fdb960d9 Jia Jia    2026-08-10  1930  		if (wake)
+e05ac0fdb960d9 Jia Jia    2026-08-10  1931  			wake_up_interruptible_poll(&dev->wait,
+e05ac0fdb960d9 Jia Jia    2026-08-10  1932  						   EPOLLIN | EPOLLRDNORM);
+e05ac0fdb960d9 Jia Jia    2026-08-10 @1933  		return copied ? size : -EFAULT;
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^
 
-vim +156 drivers/accel/adla_legacy/kmd/drv/port/os/linux/adlak_os.c
+This is supposed to return -EFAULT (-14) as a signed long but because
+size is a u32 then it actually returns a positive value near U32_MAX.
 
-   149	
-   150	int adlak_os_printf(const char *format, ...)
-   151	{
-   152		va_list args;
-   153		int r;
-   154	
-   155		va_start(args, format);
- > 156		r = vprintk(format, args);
-   157		//r = pr_info(format, args);
-   158		va_end(args);
-   159		return r;
-   160	}
-   161	
-   162	int adlak_os_snprintf(char *buffer, ssize_t size, const char *format, ...)
-   163	{
-   164		int cnt;
-   165		va_list arg;
-   166	
-   167		if (size <= 0)
-   168			return 0;
-   169	
-   170		va_start(arg, format);
- > 171		cnt = vsnprintf(buffer, size, format, arg);
-   172		va_end(arg);
-   173		return cnt;
-   174	}
-   175	
-   176	/**
-   177	 * adlak_os_vasprintf - Allocate resource managed space and format a string
-   178	 *		     into that.
-   179	 * @gfp: the GFP mask used in the devm_kmalloc() call when
-   180	 *       allocating memory
-   181	 * @fmt: The printf()-style format string
-   182	 * @ap: Arguments for the format string
-   183	 * RETURNS:
-   184	 * Pointer to allocated string on success, NULL on failure.
-   185	 */
-   186	static char *adlak_os_vasprintf(gfp_t gfp, const char *fmt, va_list ap)
-   187	{
-   188		unsigned int len;
-   189		char *p;
-   190		va_list aq;
-   191	
-   192		va_copy(aq, ap);
- > 193		len = vsnprintf(NULL, 0, fmt, aq);
-   194		va_end(aq);
-   195	
-   196		p = kmalloc(len + 1, gfp);
-   197		if (!p)
-   198			return NULL;
-   199	
-   200		vsnprintf(p, len + 1, fmt, ap);
-   201	
-   202		return p;
-   203	}
-   204	
-   205	/*
-   206	 * @brief Allocate resource managed space and format a string
-   207	 *		    into that.
-   208	 *
-   209	 * @param gfp the GFP mask used in the devm_kmalloc() call when
-   210	 *       allocating memory
-   211	 * @param fmt: The printf()-style format string
-   212	 * @param ... Arguments for the format string
-   213	 * @return char* Pointer to allocated string on success, NULL on failure.
-   214	 */
-   215	char *adlak_os_asprintf(gfp_t gfp, const char *fmt, ...)
-   216	{
-   217		va_list ap;
-   218		char *p;
-   219	
-   220		va_start(ap, fmt);
- > 221		p = adlak_os_vasprintf(gfp, fmt, ap);
-   222		va_end(ap);
-   223	
-   224		return p;
-   225	}
-   226	
+e05ac0fdb960d9 Jia Jia    2026-08-10  1934  	}
+e05ac0fdb960d9 Jia Jia    2026-08-10  1935  
+6b1e6cc7855b09 Jason Wang 2016-06-23  1936  	if (node) {
+429711aec282c4 Jason Wang 2018-08-06  1937  		struct vhost_iotlb_msg *msg;
+429711aec282c4 Jason Wang 2018-08-06  1938  		void *start = &node->msg;
+429711aec282c4 Jason Wang 2018-08-06  1939  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
