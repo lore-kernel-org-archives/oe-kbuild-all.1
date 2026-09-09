@@ -1,58 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4106252E062
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 11:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D2854855F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Sep 2026 11:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788953023; cv=none; b=Q29faE3qnzEgMrtTs6wC91fgmu4ZJDcwO93c9s9YnFwYYifXvOHBkdqL/Oo1Tm5LuxzOXP6AtS5Bei7XDqo7k6hZocaujE3k9IRTPMnmci7TNPLvS94WkOlqczDc7cRQGZQY6CR0xR6VmVlSiny0NExI/DoyrFKBoDGtTOEd0J0=
+	t=1788953775; cv=none; b=MlIB61Cfqs7vpJZxNi/ve9OA6iYctZqThy3YCcNZfXnzdwTxsfxG8bKcDnQBorep7F9CKrHLDbV4XYDa0Dkg8n8h2Zuedite5GZP0UMdx2TfQcnqgNjwsVH9iCCtw7V71iRHYy5jDf8vKUQHFNWDofQNk6znFGf6dDbHPuHNKYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788953023; c=relaxed/simple;
-	bh=v44QoMttzRXka58aVmbVoaQlYtvPLIzuGc7j/jOWohs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZYsysvQ+0M77NhsHrsPH/jZ9KQcqv05+fbFwpWAQHcf6wRpKrDPiSHHhzEWl+eP/kXKPspnhSomXhOQwwfevZlICkzPhwRBLrxanxARyAG8Hw5kp8rD4DaFcs5wFrG3EHIQYPeIrWijocGM3I3cW6YizfdX5wPBi0UA+h71rFHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBDRHCL3; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788953775; c=relaxed/simple;
+	bh=qemW8SzFS57XAitUApZNwy4sQ3TT7TcV0G7+taWeT1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a3jykzcAcpzn+2u4g3/WwEe25vsNOG9xLwMBTcpRj0nayEIIxtfU0/ZuYfGRrXbQ3P+G+WO7JGwwtORMHsGPVujbtji1nk4dPy0tz4k6HlhA1tp+Z8Lp1bp+eWiuExQTtKz97+fDGcoiFjTOskQxyszyvIUeE83CA0VufnAQjLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rEd+FBIG; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBDRHCL3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788953021; x=1820489021;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v44QoMttzRXka58aVmbVoaQlYtvPLIzuGc7j/jOWohs=;
-  b=XBDRHCL3Z1Xn5VEnLb/vxYbOlIZT/2bXJ8/l31SbisBKGM9dNITq90Wb
-   OI+ni6Mj9IcjVhE9v5D1CdqRC52yPqwhNDNo3L+UHtkBT93FsfhLQdwWx
-   ggKaUiBZ5iff3Lgbw8Fy6ujhcr8NXDl4CYBMvxgvU/JMDjLau1rAzQCLc
-   7ZuSLORBZNn0eVcPvnBAGjVwZfFIJTp9PigVqW2L6w6xq3gGt4XkRDq74
-   Hdo4PR9yDteU6UDxY5UXCmdTayMrNtuuPiAoSrKktVCkQ1TWKf9TUMpZ2
-   4qfsH41le6D43gbPcVLdlhR5Kd/eJ9wPwsGQ7aRRiJ63HwIAHMnDGCWtW
-   g==;
-X-CSE-ConnectionGUID: AOrpkmqtRiyk8BrOg8msIw==
-X-CSE-MsgGUID: cJHetOx+TKizxhzqg3is0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="100895085"
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="100895085"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 04:23:40 -0700
-X-CSE-ConnectionGUID: sM5A5T5eR8iJKby8Oyp61Q==
-X-CSE-MsgGUID: lkrKGNPETTKbl9mIL59whQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="267614883"
-Received: from igk-lkp-server01.igk.intel.com (HELO cc074f2a4298) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Sep 2026 04:23:39 -0700
-Received: from kbuild by cc074f2a4298 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x4GOv-000000006bK-1Ey0;
-	Wed, 09 Sep 2026 11:23:37 +0000
-Date: Wed, 09 Sep 2026 13:22:49 +0200
-From: kernel test robot <lkp@intel.com>
-To: "Stefan =?utf-8?Q?D=C3=B6singer"?= <stefandoesinger@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [stefandoesinger-zx297520:dlink 132/132]
- drivers/misc/cardreader/infineon_usim.c:190:21: warning: unused variable 'i'
-Message-ID: <202609091356.2pWHOzol-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rEd+FBIG"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c2941f7229dso4501066b.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 09 Sep 2026 04:36:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788953772; x=1789558572; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7cy5kq8NLyuBLDyhds0rj5QIT86At3JxPMpPLWi50Ns=;
+        b=rEd+FBIGkZm0krJsg0bDn0PpT9SVmJ9zp76nuf/zXM1C1QxjItRnr52w7cXYhxpYmp
+         qkj2wXjq9DGONDLf9n+Ne/aJA7lF3KTsNtWGcn1RQJDyB3jN2MF3x/dp2OTUdNQJDw/F
+         x8iu8t/cJrOe93cEB05XxjLxy1QfTYxoZ5BD0Gc7iY3wDuA8WIRRlecTKfhd5/lRiT0s
+         RSRfPEae8i0djfsrhbIljryvqv2X/pTaJiLOld+P6QcRPLngHJUAshnZB5DtuIVaNwRe
+         05KM3P27XTBFd0p9mPbl+7hUKqyzFkff+JHh1psnukySfp7D32uwAmPcOGbdSMJWBVKI
+         sBVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788953772; x=1789558572;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7cy5kq8NLyuBLDyhds0rj5QIT86At3JxPMpPLWi50Ns=;
+        b=e6mRPdTcvVAt3Eeiotmkw0dGK+xVtVbT8dDzc0gGqcbH0h7gBotbjfK76zSdY+rb4n
+         paNdYGTSv8+7K5etwsUhzK9Q1G3F3fsGfq4ERJxoov+Fw43qI30MJXJ6L7PeDUt3yOuK
+         zhADp/Jssy5g0Jouhm+IRtFqY8aSTcXbiJqroKlHy1T41kJqXf/UbUuuvzpelpSHxszw
+         VRe5mOjw6GZN277l8yV+QvQFPM7lQCSCKUK6BxLTE2pSC+JqGCg00mmneFjz8/IBrZ24
+         GEOFwKKqAa8yXT+BPDenMmFjiJo3Z5CadUR1xRUlwKv3Vutt/NgZN3ZBiRvLBeN1ZDp2
+         xxgg==
+X-Forwarded-Encrypted: i=1; AKwUvByarwrSkQObKeIQGyx2GcsHma3pCp9e0bfucAxR3BxqLOL2VcZ7aXQ9vfwLQfaN+7kLEEJGEBpU0A9sMkuh@lists.linux.dev
+X-Gm-Message-State: AFuF++mwdCkl9wauzRKnXkaSSjufIVrepMPEN4rs+LadZYj1goxGHXQV
+	PpK2RDHEITCWyoQg2L9VmTQXHfAtKHEh0TWSo7r0JXbUM7AE4wAeIwVp
+X-Gm-Gg: AYBFou3cb2F9AAp2fXUWXnEVvJGivrzxqpf6izJfiof4tPeBb5Cc21UE6krSEgq7bdx
+	hPSBcMJ/d9VTDhLtyppRh6QrOfCrPWbagcbO3KMoQI9fJy/1olRHeywZl2mZyqVPy7f/Fa9nBj4
+	Et8fijYyWtNclGq/A4lDrah4JdSInckr5F0qanQdWk6jsFT/0q9f1QIydFVwkHm2wl5i3wKbsEf
+	KFjs4XVdtFMeibwzw6QOa1SElfrGk/GJIoHbfqusoqfuqxDE3sRL0a6064RJrK5GokstiKuadp0
+	m0lKZsI3/tFYQXpbkeo5Q+qBSsPpIWjJLaX8SuobS+NdsSrom1huy0A9T4S2jHivDF5+44tuwGv
+	6DoIxx7vV0k5pNS0OhBdCahKMCPp9zusEA5ea9M6ZfzquaaXUm9CGMLqL/2/YYMDZKnA/bCkM2m
+	blg4AqR/SaEUDjq2ZezsKhOzQTjFsqMnsZkLOyCUOBIO+jObDoqOCwiPimZ54iQ3LRO2g=
+X-Received: by 2002:a17:906:9fce:b0:c25:b597:60bc with SMTP id a640c23a62f3a-c260ca366eemr1395754166b.23.1788953771441;
+        Wed, 09 Sep 2026 04:36:11 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d4aa5acsm760598366b.12.2026.09.09.04.36.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 04:36:10 -0700 (PDT)
+Date: Wed, 9 Sep 2026 14:36:06 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Niravkumar L Rabara <niravkumarlaxmidas.rabara@altera.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: drivers/mtd/nand/raw/cadence-nand-controller.c:2956
+ cadence_nand_init() warn: variable dereferenced before check
+ 'cdns_ctrl->dmac' (see line 2918)
+Message-ID: <202609010758.3N8tYZdG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,94 +76,135 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://gitlab.com/stefandoesinger/zx297520-kernel dlink
-head:   ac919b52585145716ddb9d8154ca104ff2ea271b
-commit: ac919b52585145716ddb9d8154ca104ff2ea271b [132/132] Sloppy APDU
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260909/202609091356.2pWHOzol-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260909/202609091356.2pWHOzol-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cee9395acd8043be0644b25c34bfa86623f2b935
+commit: 5c56bf214af85ca042bf97f8584aab2151035840 mtd: rawnand: cadence: fix DMA device NULL pointer dereference
+config: i386-randconfig-141-20260831 (https://download.01.org/0day-ci/archive/20260901/202609010758.3N8tYZdG-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 5c56bf214af8 ("mtd: rawnand: cadence: fix DMA device NULL pointer dereference")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609091356.2pWHOzol-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609010758.3N8tYZdG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/mtd/nand/raw/cadence-nand-controller.c:2956 cadence_nand_init() warn: variable dereferenced before check 'cdns_ctrl->dmac' (see line 2918)
 
-   drivers/misc/cardreader/infineon_usim.c: In function 'usim_read_atr':
->> drivers/misc/cardreader/infineon_usim.c:190:21: warning: unused variable 'i' [-Wunused-variable]
-     190 |         size_t len, i;
-         |                     ^
+vim +2956 drivers/mtd/nand/raw/cadence-nand-controller.c
 
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2871  static int cadence_nand_init(struct cdns_nand_ctrl *cdns_ctrl)
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2872  {
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2873  	dma_cap_mask_t mask;
+5c56bf214af85c Niravkumar L Rabara 2025-10-23  2874  	struct dma_device *dma_dev;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2875  	int ret;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2876  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2877  	cdns_ctrl->cdma_desc = dma_alloc_coherent(cdns_ctrl->dev,
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2878  						  sizeof(*cdns_ctrl->cdma_desc),
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2879  						  &cdns_ctrl->dma_cdma_desc,
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2880  						  GFP_KERNEL);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2881  	if (!cdns_ctrl->dma_cdma_desc)
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2882  		return -ENOMEM;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2883  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2884  	cdns_ctrl->buf_size = SZ_16K;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2885  	cdns_ctrl->buf = kmalloc(cdns_ctrl->buf_size, GFP_KERNEL);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2886  	if (!cdns_ctrl->buf) {
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2887  		ret = -ENOMEM;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2888  		goto free_buf_desc;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2889  	}
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2890  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2891  	if (devm_request_irq(cdns_ctrl->dev, cdns_ctrl->irq, cadence_nand_isr,
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2892  			     IRQF_SHARED, "cadence-nand-controller",
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2893  			     cdns_ctrl)) {
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2894  		dev_err(cdns_ctrl->dev, "Unable to allocate IRQ\n");
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2895  		ret = -ENODEV;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2896  		goto free_buf;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2897  	}
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2898  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2899  	spin_lock_init(&cdns_ctrl->irq_lock);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2900  	init_completion(&cdns_ctrl->complete);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2901  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2902  	ret = cadence_nand_hw_init(cdns_ctrl);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2903  	if (ret)
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2904  		goto disable_irq;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2905  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2906  	dma_cap_zero(mask);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2907  	dma_cap_set(DMA_MEMCPY, mask);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2908  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2909  	if (cdns_ctrl->caps1->has_dma) {
 
-vim +/i +190 drivers/misc/cardreader/infineon_usim.c
+If cdns_ctrl->caps1->has_dma is false
 
-   184	
-   185	static int usim_read_atr(struct usim_drv *usim, u8 *atr, u32 *atr_length, u32 *flags_inout)
-   186	{
-   187		u32 control, flags = *flags_inout;
-   188		const char *convention = "error";
-   189		int ret = 0;
- > 190		size_t len, i;
-   191		u8 value;
-   192	
-   193		/* Read the ATR solely based on timeout. Don't try to be smart and parse incoming values to
-   194		 * deduce a length. It is complicated logic and userspace validated the ATR anyway.
-   195		 */
-   196		flags &= (INFINEON_USIM_DIRECT_CONVENTION | INFINEON_USIM_INVERSE_CONVENTION);
-   197	
-   198		for (len = 0; len < INFINEON_USIM_ATR_MAX; ++len) {
-   199			ret = usim_receive_char(usim, &value, USIM_ATR_TIMEOUT_MS);
-   200	
-   201			if (ret == -ETIMEDOUT)
-   202				break;
-   203	
-   204			atr[len] = value;
-   205			if (len)
-   206				continue;
-   207	
-   208			/* Direct / Indirect convention handling: If specified by the client, apply it after
-   209			 * reading the first byte.
-   210			 *
-   211			 * If left automatic, try to detect it based on the first byte: If it read without
-   212			 * a parity error, assume direct. Otherwise, check for 0x03 ox 0x3f, fix it u and
-   213			 * ignore the parity error.
-   214			 */
-   215			if (flags & INFINEON_USIM_DIRECT_CONVENTION) {
-   216				/* do nothing */
-   217				convention = "direct (requested)";
-   218			} else if (!ret) {
-   219				convention = "direct (detected)";
-   220				flags |= INFINEON_USIM_DIRECT_CONVENTION;
-   221			} else if (ret == -EBADMSG && (value == 0x03 || value == 0x3f)) {
-   222				ret = 0;
-   223				value = 0x3f;
-   224	
-   225				if (!flags) {
-   226					convention = "inverse (detected)";
-   227					flags |= INFINEON_USIM_INVERSE_CONVENTION;
-   228				} else {
-   229					convention = "inverse (requested)";
-   230				}
-   231	
-   232				control = usim_readl(usim, USIM_REG_CONTROL);
-   233				control |= USIM_CONTROL_INVERSE_CONVENTION;
-   234				usim_writel(usim, control, USIM_REG_CONTROL);
-   235			}
-   236		}
-   237		dev_dbg(usim->dev, "received ATR with %zu bytes, convention %s\n", len, convention);
-   238	
-   239		if (len == INFINEON_USIM_ATR_MAX)
-   240			return -EOVERFLOW;
-   241	
-   242		*atr_length = len;
-   243		*flags_inout |= flags;
-   244	
-   245		return 0;
-   246	}
-   247	
+2b9df00cded911 Niravkumar L Rabara 2025-02-10  2910  		cdns_ctrl->dmac = dma_request_chan_by_mask(&mask);
+2b9df00cded911 Niravkumar L Rabara 2025-02-10  2911  		if (IS_ERR(cdns_ctrl->dmac)) {
+2b9df00cded911 Niravkumar L Rabara 2025-02-10  2912  			ret = dev_err_probe(cdns_ctrl->dev, PTR_ERR(cdns_ctrl->dmac),
+2b9df00cded911 Niravkumar L Rabara 2025-02-10  2913  					    "%d: Failed to get a DMA channel\n", ret);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2914  			goto disable_irq;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2915  		}
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2916  	}
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2917  
+5c56bf214af85c Niravkumar L Rabara 2025-10-23 @2918  	dma_dev = cdns_ctrl->dmac->device;
+                                                                  ^^^^^^^^^^^^^^^
+Then this is a NULL dereference.  I reported this bug in March.
+
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2919  	cdns_ctrl->io.iova_dma = dma_map_resource(dma_dev->dev, cdns_ctrl->io.dma,
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2920  						  cdns_ctrl->io.size,
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2921  						  DMA_BIDIRECTIONAL, 0);
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2922  
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2923  	ret = dma_mapping_error(dma_dev->dev, cdns_ctrl->io.iova_dma);
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2924  	if (ret) {
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2925  		dev_err(cdns_ctrl->dev, "Failed to map I/O resource to DMA\n");
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2926  		goto dma_release_chnl;
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2927  	}
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2928  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2929  	nand_controller_init(&cdns_ctrl->controller);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2930  	INIT_LIST_HEAD(&cdns_ctrl->chips);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2931  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2932  	cdns_ctrl->controller.ops = &cadence_nand_controller_ops;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2933  	cdns_ctrl->curr_corr_str_idx = 0xFF;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2934  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2935  	ret = cadence_nand_chips_init(cdns_ctrl);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2936  	if (ret) {
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2937  		dev_err(cdns_ctrl->dev, "Failed to register MTD: %d\n",
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2938  			ret);
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2939  		goto unmap_dma_resource;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2940  	}
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2941  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2942  	kfree(cdns_ctrl->buf);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2943  	cdns_ctrl->buf = kzalloc(cdns_ctrl->buf_size, GFP_KERNEL);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2944  	if (!cdns_ctrl->buf) {
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2945  		ret = -ENOMEM;
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2946  		goto unmap_dma_resource;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2947  	}
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2948  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2949  	return 0;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2950  
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2951  unmap_dma_resource:
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2952  	dma_unmap_resource(dma_dev->dev, cdns_ctrl->io.iova_dma,
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2953  			   cdns_ctrl->io.size, DMA_BIDIRECTIONAL, 0);
+d76d22b5096c5b Niravkumar L Rabara 2025-02-10  2954  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2955  dma_release_chnl:
+ec4ba01e894d31 Piotr Sroka         2019-09-26 @2956  	if (cdns_ctrl->dmac)
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2957  		dma_release_channel(cdns_ctrl->dmac);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2958  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2959  disable_irq:
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2960  	cadence_nand_irq_cleanup(cdns_ctrl->irq, cdns_ctrl);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2961  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2962  free_buf:
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2963  	kfree(cdns_ctrl->buf);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2964  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2965  free_buf_desc:
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2966  	dma_free_coherent(cdns_ctrl->dev, sizeof(struct cadence_nand_cdma_desc),
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2967  			  cdns_ctrl->cdma_desc, cdns_ctrl->dma_cdma_desc);
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2968  
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2969  	return ret;
+ec4ba01e894d31 Piotr Sroka         2019-09-26  2970  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
