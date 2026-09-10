@@ -1,310 +1,212 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46604582C8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 14:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15C749BD90;
+	Thu, 10 Sep 2026 14:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789049709; cv=none; b=EPk0hq/7liasMhLQ67pBrNKD8u9wBgG8dLqlBE6TM98Cp7l6vi8uiHoGDiVDyoJ0AlojYUU+HLe/lVyzzRbK2sZdyQPP85Uj68JGlPzdwUODWZNK922iifiESPrCqDC5PbBKXZ4UlhMw3GTHQB1xTYst5/OEAJMt/IuObXDkJPA=
+	t=1789049718; cv=none; b=AKmxKtBm0wYiRNLruP7YhgyzUO4N9hloOLhu1s0HdNse9qPY/WOzV5umKOS/EYua4AIpziNL1xHzB3QgOwWvgZE96eb3x6mx00TxyCprKs/uWajQh1mA7tSQpZ6eTHjcTtibF0RT0PlMRjy6EFoI3BAAXeAv2vKCief+J1l5Lj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789049709; c=relaxed/simple;
-	bh=+IrkStw0mrJnoNaoxXc0kfhXDsbGkbwgoyoxGALtetc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QOd7O8Ow6tBWRevH3ikWxST0cGJqxFnv8SME9xMpn3lpveOL5v4OCHEV+qqOiFMJ6e5/OaZQ8Uw+nMtq0/jctMK5HX6xDWsBV+D1TjLCfjloFfRDPCheNNw8LUvIHLO+m8G+1GY//PoPMo80hpQVMZ5tZMA0PX+SrVt+uHRwhfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OQT6GFEh; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789049718; c=relaxed/simple;
+	bh=mDVnyyipZwiMq6Elf6ansEdymEt5Z0wVe/0clwdH0gg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NmqAr75sDIQlQxgovNQVR873tm+AWGGR9WTfTE/oWfmVIOzXp++Uy8URsCAS9vrT493+4G3ZjmnAVOdIoFiqG2q2KSb6fcG1L4hO0TIKZGebc6p8gBzvlj5NknZAUnJw3UZyDblP+iMPTKT34/sgWOYdNWkYXQfvIIG6Z8Cehqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PeLekPf1; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQT6GFEh"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c294496989aso194860966b.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 07:15:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789049705; x=1789654505; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Eub08Pv5QDUo99EQibdL0snCPfRiI1hkRKBxBjvzKGw=;
-        b=OQT6GFEhawdZEj9cBwOJLlUxldQQ4l4wt4IOZzh+4wrkHmiWy5QvvXGZ/XcTTxIXoA
-         yzVjn6RcTNP/yNkskHj8PJEyNIX8einkOSwLeXToQPX3T5YBDFd40A242Hlc/2BJwM1x
-         OVNw6LGpA4lawub7sUH6koCfHOppCqjPVH3KlEErUJU0iSK8aC/FiJ94wY2Q5+AL8Clm
-         BjMYC4y49G7sylBaHtwYnyte6VSNBCtkrT+ErmxF6xKynbrEPFPFjewsKje7ZCW+zj0D
-         D+ipqu7uRfAUvse5Vn//Ga7GVR/IoYD5FALw1Antuca/sIiylODWJbNKZuUpE12upXxb
-         ALNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789049705; x=1789654505;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Eub08Pv5QDUo99EQibdL0snCPfRiI1hkRKBxBjvzKGw=;
-        b=IRpMfK4O7eby+EehJrNwvW1J/RB5uQbQGmFwW1OKmN53FmkffWtTS43e8AYaY1mfbw
-         nvjOV6gy8nUqBxP20r6dii8SdczNhDCjzOzUXDEHhjcifTJkg1YOaITBLaik9HP4UmZh
-         4i9kKsiJbE9w7aGWej/msvDU8x0LO3KJK4QZAIoKbTPsqNQp9Ys+Iqw+JcIeGZqTT0k7
-         BJC6j3Wo7sDqsP3qh65iy5ua7rZ0ujuK0jsYOTvpF3lkZJE3JPZxzMzJA2uO4wM0u4XE
-         giXGGPpQwvnCuInqpKJFnEojRANHvVoNheaS+fPFvB9tG3MGFJ8ITlIIKcemxwRNGiCq
-         fe1g==
-X-Forwarded-Encrypted: i=1; AKwUvBy9v6Fu/2NJe7w5vVZmymg7xQFQL76eQef74D4D9iZuCxQTaTG2/zOLKfehVRYqokwHqovyxY9DYmDJDYH7@lists.linux.dev
-X-Gm-Message-State: AFuF++lDzRCWHoHRsKfRKjrlDHx9fBCh4bPARmKhbh5mmFS9cw87IfFG
-	Zy3PfvOj0U/D7F3FhX+vyZ9RmCZm2T/BZ8z5+F63ZvnRyYyoy/rMNjK5/ltgDUMItkkRFQ==
-X-Gm-Gg: AYBFou3XX/7aq4X8QEznfeJhO1Ce6omi1as3L2pXtw/5p+CeXyuncnzvw95arUca1qj
-	GGqVSu2pYC6dbk/I4c7ODYF8Zh8/QxxM5ADAMSdFi9Zy/OBzzd8nQB+mWZD+QBMnCaq6Q85Z8a6
-	SzNIveOyTQSOlU0+qHdxaUNZVq9v4Zoy2rnNV+0OonuRfOkowAerjpeOa5tcDgwhPKFLz7qkoRp
-	92ZeKDvlyFWiAUqzTjt/HElhY3VzsSgm0UvjfBURrt2DfnTku7dpJ6Dq8v5hNmzSW19qesGq2iL
-	oLn4aTrtwXRMgCObgTGjs4opGagdPHn4a6N/NIqmZd3jSK6YbKJqthfdIm4X1J3b2WcwTaoUjlH
-	XArkGJlsjfBrDScfXKv48UaxGzGYyB59JKj0tiLZ7SzZlXzzWPEwFPlMv72XaXafg2TIJoVV7Fy
-	qrEb9GOx1m1fPKWwoJwbq7XnIF46kFFQUkxV46yoanDlNef2iUws1hajJgZ9j7TXDNJomnj1ZCB
-	sHm+Q==
-X-Received: by 2002:a17:907:c518:b0:c26:1648:a06f with SMTP id a640c23a62f3a-c2941ba6395mr308697466b.42.1789049704679;
-        Thu, 10 Sep 2026 07:15:04 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c293b6246c4sm225737966b.20.2026.09.10.07.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 07:15:04 -0700 (PDT)
-Date: Thu, 10 Sep 2026 17:15:00 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: drivers/dma-buf/st-dma-fence-chain.c:207 test_find_seqno() warn:
- passing freed memory 'fence' (line 195)
-Message-ID: <202609081301.6ARYAElY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PeLekPf1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789049716; x=1820585716;
+  h=date:from:to:cc:subject:message-id;
+  bh=mDVnyyipZwiMq6Elf6ansEdymEt5Z0wVe/0clwdH0gg=;
+  b=PeLekPf1WAa05VXp9m+H3sE/vIlopb0PWKadGlT7KegSSF4pDSWPGdQs
+   F+deOmqC4Rc+zcAlMfxhEaAVWYwjRULr+JPSbI0A3hbA65vQrdrcc6G8r
+   v/qcCmzstFD6P2QquGM992yWvLejeV9PXlyRcxIqVJU+YywScQt0OpevJ
+   UKZymk+oFrB22vlAXd0R5Y2LaCQ5AWqV+/Oqrrcq2g2pRJOJs1oVUkvxh
+   Jk1Mv6fZoEXoOF2VP9cQ0iWMGaLvo+0DFoLZejw+3sNq1dABjqloNRdCm
+   E5MxBRN8hFSlM+Q2qQSoJmO7OWRJuRxgf84NmEB3iqTM46q13QSDxbUjK
+   g==;
+X-CSE-ConnectionGUID: W1FwzGwfT76e43aPMiG/mw==
+X-CSE-MsgGUID: pTB83w/eRTOIw2QdltqlSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="93325334"
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="93325334"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:15:15 -0700
+X-CSE-ConnectionGUID: Z0i0xx0oQI6Mo+h5LnHqRw==
+X-CSE-MsgGUID: H6DA+yGmQo6Pzez7K+Wexg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="301549453"
+Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2026 07:15:13 -0700
+Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x4fWw-00000000061-0SPW;
+	Thu, 10 Sep 2026 14:14:02 +0000
+Date: Thu, 10 Sep 2026 22:03:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2026.09.03a 43/55]
+ drivers/usb/mtu3/./mtu3_trace.h:239:27: error: cannot take the address of an
+ rvalue of type 'dma_addr_t' (aka 'unsigned long long')
+Message-ID: <202609101926.cc5w6bhk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   28924df2a08f440c73991b83028032c901de2ae4
-commit: 6055c9e333cfbb5af3eabe204caea92757094d19 dma-buf: Change st-dma-fence-chain.c to use kunit
-config: arm-randconfig-r071-20260908 (https://download.01.org/0day-ci/archive/20260908/202609081301.6ARYAElY-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2362eeb5f75560740146975e9eabe84c6bd25a0d)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2026.09.03a
+head:   6c5c244f4b239bc4d284e58a2f79a143648557cb
+commit: afda2321e6e93a5bcc28bfb4717fbc3a1768446c [43/55] EXP drivers/usb/mtu3: Work around mtu3_log_ep double-indirection issue
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260910/202609101926.cc5w6bhk-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c1872e7fd3307679a2da53f9d83de0ccf234b4ad)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609101926.cc5w6bhk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 6055c9e333cf ("dma-buf: Change st-dma-fence-chain.c to use kunit")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609081301.6ARYAElY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609101926.cc5w6bhk-lkp@intel.com/
 
-New smatch warnings:
-drivers/dma-buf/st-dma-fence-chain.c:207 test_find_seqno() warn: passing freed memory 'fence' (line 195)
-drivers/dma-buf/st-dma-fence-chain.c:339 test_find_gap() error: dereferencing freed memory 'fence' (line 332)
+Note: the paulmck-rcu/dev.2026.09.03a HEAD 6c5c244f4b239bc4d284e58a2f79a143648557cb builds fine.
+      It only hurts bisectability.
 
-Old smatch warnings:
-drivers/dma-buf/st-dma-fence-chain.c:219 test_find_seqno() warn: passing freed memory 'fence' (line 209)
-drivers/dma-buf/st-dma-fence-chain.c:228 test_find_seqno() warn: passing freed memory 'fence' (line 221)
-drivers/dma-buf/st-dma-fence-chain.c:266 test_find_signaled() error: dereferencing freed memory 'fence' (line 259)
-drivers/dma-buf/st-dma-fence-chain.c:307 test_find_out_of_order() error: dereferencing freed memory 'fence' (line 293)
-drivers/dma-buf/st-dma-fence-chain.c:346 test_find_gap() warn: passing freed memory 'fence' (line 332)
+All errors (new ones prefixed by >>):
 
-vim +/fence +207 drivers/dma-buf/st-dma-fence-chain.c
+   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
+   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:489:
+   drivers/usb/mtu3/./mtu3_trace.h:239:41: error: member reference type 'struct mtu3_gpd_ring' is not a pointer; did you mean to use '.'?
+     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
+         |                                          ~~~~~~~~~~~~~^~
+         |                                                       .
+   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
+     133 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:456:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     456 |                       PARAMS(assign), PARAMS(print))                    \
+         |                              ^~~~~~
+   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
+     161 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:448:4: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     448 |         { assign; }                                                     \
+         |           ^~~~~~
+   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
+   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:489:
+>> drivers/usb/mtu3/./mtu3_trace.h:239:27: error: cannot take the address of an rvalue of type 'dma_addr_t' (aka 'unsigned long long')
+     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
+     133 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:456:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     456 |                       PARAMS(assign), PARAMS(print))                    \
+         |                              ^~~~~~
+   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
+     161 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:448:4: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     448 |         { assign; }                                                     \
+         |           ^~~~~~
+   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
+   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
+   In file included from include/trace/define_trace.h:133:
+   In file included from include/trace/perf.h:110:
+   drivers/usb/mtu3/./mtu3_trace.h:239:41: error: member reference type 'struct mtu3_gpd_ring' is not a pointer; did you mean to use '.'?
+     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
+         |                                          ~~~~~~~~~~~~~^~
+         |                                                       .
+   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
+     133 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/perf.h:67:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      67 |                       PARAMS(assign), PARAMS(print))                    \
+         |                              ^~~~~~
+   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
+     161 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/perf.h:51:4: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
+   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
+   In file included from include/trace/define_trace.h:133:
+   In file included from include/trace/perf.h:110:
+>> drivers/usb/mtu3/./mtu3_trace.h:239:27: error: cannot take the address of an rvalue of type 'dma_addr_t' (aka 'unsigned long long')
+     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
+     133 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/perf.h:67:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      67 |                       PARAMS(assign), PARAMS(print))                    \
+         |                              ^~~~~~
+   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
+     161 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/perf.h:51:4: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   4 errors generated.
 
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  174  static void test_find_seqno(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  175  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  176  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  177  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  178  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  179  	int i;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  180  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  181  	err = fence_chains_init(&fc, 64, seqno_inc);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  182  	KUNIT_ASSERT_EQ_MSG(test, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  183  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  184  	fence = dma_fence_get(fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  185  	err = dma_fence_chain_find_seqno(&fence, 0);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  186  	dma_fence_put(fence);
 
-The zero day bot is warning about this code because it moved, but
-calling dma_fence_put() and then calling dma_fence_get() doesn't
-make much sense.  Why even bother with refcounting it at that point
-if we know it's unnecessary?
+vim +239 drivers/usb/mtu3/./mtu3_trace.h
 
-fence is the same as fc.tail...
-
-I don't think there is any cleanup.h magic for dma fences?
-
-dc2f7e67a28a5c Chris Wilson      2020-04-09  187  	if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  188  		KUNIT_FAIL(test, "Reported %d for find_seqno(0)!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  189  		goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  190  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  191  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  192  	for (i = 0; i < fc.chain_length; i++) {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  193  		fence = dma_fence_get(fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  194  		err = dma_fence_chain_find_seqno(&fence, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @195  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  196  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  197  			KUNIT_FAIL(test, "Reported %d for find_seqno(%d:%d)!",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  198  				   err, fc.chain_length + 1, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  199  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  200  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  201  		if (fence != fc.chains[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  202  			KUNIT_FAIL(test, "Incorrect fence reported by find_seqno(%d:%d)",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  203  				   fc.chain_length + 1, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  204  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  205  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  206  
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @207  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  208  		err = dma_fence_chain_find_seqno(&fence, i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  209  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  210  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  211  			KUNIT_FAIL(test, "Error reported for finding self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  212  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  213  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  214  		if (fence != fc.chains[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  215  			KUNIT_FAIL(test, "Incorrect fence reported by find self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  216  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  217  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  218  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  219  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  220  		err = dma_fence_chain_find_seqno(&fence, i + 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  221  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  222  		if (!err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  223  			KUNIT_FAIL(test, "Error not reported for future fence: find_seqno(%d:%d)!",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  224  				   i + 1, i + 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  225  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  226  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  227  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  228  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  229  		err = dma_fence_chain_find_seqno(&fence, i);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  230  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  231  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  232  			KUNIT_FAIL(test, "Error reported for previous fence!");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  233  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  234  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  235  		if (i > 0 && fence != fc.chains[i - 1]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  236  			KUNIT_FAIL(test, "Incorrect fence reported by find_seqno(%d:%d)",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  237  				   i + 1, i);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  238  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  239  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  240  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  241  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  242  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  243  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  244  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  245  
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  246  static void test_find_signaled(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  247  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  248  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  249  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  250  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  251  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  252  	err = fence_chains_init(&fc, 2, seqno_inc);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  253  	KUNIT_ASSERT_EQ_MSG(test, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  254  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  255  	dma_fence_signal(fc.fences[0]);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  256  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  257  	fence = dma_fence_get(fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  258  	err = dma_fence_chain_find_seqno(&fence, 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  259  	dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  260  	if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  261  		KUNIT_FAIL(test, "Reported %d for find_seqno()!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  262  		goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  263  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  264  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  265  	if (fence && fence != fc.chains[0]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  266  		KUNIT_FAIL(test, "Incorrect chain-fence.seqno:%lld reported for completed seqno:1",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  267  			   fence->seqno);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  268  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  269  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  270  		err = dma_fence_chain_find_seqno(&fence, 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  271  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  272  		if (err)
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  273  			KUNIT_FAIL(test, "Reported %d for finding self!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  274  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  275  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  276  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  277  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  278  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  279  
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  280  static void test_find_out_of_order(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  281  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  282  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  283  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  284  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  285  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  286  	err = fence_chains_init(&fc, 3, seqno_inc);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  287  	KUNIT_ASSERT_EQ_MSG(test, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  288  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  289  	dma_fence_signal(fc.fences[1]);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  290  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  291  	fence = dma_fence_get(fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  292  	err = dma_fence_chain_find_seqno(&fence, 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  293  	dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  294  	if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  295  		KUNIT_FAIL(test, "Reported %d for find_seqno()!", err);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  296  		goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  297  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  298  
-4cca2e64164176 Lionel Landwerlin 2020-06-25  299  	/*
-4cca2e64164176 Lionel Landwerlin 2020-06-25  300  	 * We signaled the middle fence (2) of the 1-2-3 chain. The behavior
-4cca2e64164176 Lionel Landwerlin 2020-06-25  301  	 * of the dma-fence-chain is to make us wait for all the fences up to
-4cca2e64164176 Lionel Landwerlin 2020-06-25  302  	 * the point we want. Since fence 1 is still not signaled, this what
-4cca2e64164176 Lionel Landwerlin 2020-06-25  303  	 * we should get as fence to wait upon (fence 2 being garbage
-4cca2e64164176 Lionel Landwerlin 2020-06-25  304  	 * collected during the traversal of the chain).
-4cca2e64164176 Lionel Landwerlin 2020-06-25  305  	 */
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  306  	if (fence != fc.chains[0])
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  307  		KUNIT_FAIL(test, "Incorrect chain-fence.seqno:%lld reported for completed seqno:2",
-4cca2e64164176 Lionel Landwerlin 2020-06-25  308  			   fence ? fence->seqno : 0);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  309  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  310  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  311  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  312  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  313  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  314  static uint64_t seqno_inc2(unsigned int i)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  315  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  316  	return 2 * i + 2;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  317  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  318  
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  319  static void test_find_gap(struct kunit *test)
-dc2f7e67a28a5c Chris Wilson      2020-04-09  320  {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  321  	struct fence_chains fc;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  322  	struct dma_fence *fence;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  323  	int err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  324  	int i;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  325  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  326  	err = fence_chains_init(&fc, 64, seqno_inc2);
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  327  	KUNIT_ASSERT_EQ_MSG(test, err, 0, "Failed to init fence chains");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  328  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  329  	for (i = 0; i < fc.chain_length; i++) {
-dc2f7e67a28a5c Chris Wilson      2020-04-09  330  		fence = dma_fence_get(fc.tail);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  331  		err = dma_fence_chain_find_seqno(&fence, 2 * i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09 @332  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  333  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  334  			KUNIT_FAIL(test, "Reported %d for find_seqno(%d:%d)!",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  335  				   err, fc.chain_length + 1, 2 * i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  336  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  337  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  338  		if (fence != fc.chains[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01 @339  			KUNIT_FAIL(test, "Incorrect fence.seqno:%lld reported by find_seqno(%d:%d)",
-dc2f7e67a28a5c Chris Wilson      2020-04-09  340  				   fence->seqno,
-dc2f7e67a28a5c Chris Wilson      2020-04-09  341  				   fc.chain_length + 1,
-dc2f7e67a28a5c Chris Wilson      2020-04-09  342  				   2 * i + 1);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  343  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  344  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  345  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  346  		dma_fence_get(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  347  		err = dma_fence_chain_find_seqno(&fence, 2 * i + 2);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  348  		dma_fence_put(fence);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  349  		if (err) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  350  			KUNIT_FAIL(test, "Error reported for finding self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  351  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  352  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  353  		if (fence != fc.chains[i]) {
-6055c9e333cfbb Jason Gunthorpe   2026-03-01  354  			KUNIT_FAIL(test, "Incorrect fence reported by find self");
-dc2f7e67a28a5c Chris Wilson      2020-04-09  355  			goto err;
-dc2f7e67a28a5c Chris Wilson      2020-04-09  356  		}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  357  	}
-dc2f7e67a28a5c Chris Wilson      2020-04-09  358  
-dc2f7e67a28a5c Chris Wilson      2020-04-09  359  err:
-dc2f7e67a28a5c Chris Wilson      2020-04-09  360  	fence_chains_fini(&fc);
-dc2f7e67a28a5c Chris Wilson      2020-04-09  361  }
-dc2f7e67a28a5c Chris Wilson      2020-04-09  362  
+   213	
+   214	DECLARE_EVENT_CLASS(mtu3_log_ep,
+   215		TP_PROTO(struct mtu3_ep *mep),
+   216		TP_ARGS(mep),
+   217		TP_STRUCT__entry(
+   218			__string(name, mep->name)
+   219			__field(unsigned int, type)
+   220			__field(unsigned int, slot)
+   221			__field(unsigned int, maxp)
+   222			__field(unsigned int, mult)
+   223			__field(unsigned int, maxburst)
+   224			__field(unsigned int, flags)
+   225			__field(unsigned int, direction)
+   226			__field(struct mtu3_gpd_ring *, gpd_ring)
+   227			__field(dma_addr_t *, gpd_ring_dma)
+   228		),
+   229		TP_fast_assign(
+   230			__assign_str(name);
+   231			__entry->type = mep->type;
+   232			__entry->slot = mep->slot;
+   233			__entry->maxp = mep->ep.maxpacket;
+   234			__entry->mult = mep->ep.mult;
+   235			__entry->maxburst = mep->ep.maxburst;
+   236			__entry->flags = mep->flags;
+   237			__entry->direction = mep->is_in;
+   238			__entry->gpd_ring = &mep->gpd_ring;
+ > 239			__entry->gpd_ring_dma = &mep->gpd_ring->dma;
+   240		),
+   241		TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
+   242			__get_str(name), usb_ep_type_string(__entry->type),
+   243			__entry->maxp, __entry->slot,
+   244			__entry->mult, __entry->maxburst,
+   245			__entry->gpd_ring, __entry->gpd_ring_dma,
+   246			__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
+   247			__entry->flags & MTU3_EP_STALL ? 'S' : 's',
+   248			__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
+   249			__entry->flags & MTU3_EP_BUSY ? 'B' : 'b',
+   250			__entry->direction ? '<' : '>'
+   251		)
+   252	);
+   253	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
