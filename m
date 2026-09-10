@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053DE38E100
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 08:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3CB36C592
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 09:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789029075; cv=none; b=f3wW+PVF/iGflIpK+XjK++JqvLJU6OlnW3mbRwbARq8NTfW8GDLh/0st32NemkwXaNYPyO6fqayKRwc6TuDC+c2Y5nTjJt+j5k7qevazLfS61x1RRzMggptsruFXGRDtT6xHitrl1fB5fylZMzR2BZE5YcOwosQChNG99KfLiWI=
+	t=1789031711; cv=none; b=BGMyVmztd4EOsZIGjGO/V4k4zSBCjT16+d7XUuREuHDOHQKpFKqYmjj7i3rB6ri8fqQrgtCP2UiWqlb1LRngJbJH8YU0FgNqjqCd/pzPskWsObf5jNDZqTIGspKY0NDPzGmIlXvag4U3ScZ2aCwMmrrjRx7/zNojb+fnV2JNwjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789029075; c=relaxed/simple;
-	bh=EbMmTU7fLPivajyYSwoJ3YfsJpgKKnzVrH3AmmeYbWY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gseeu0k+NKfDBSdtaTDFaX6VAC/zyPButqmQRzt0COCFaJjBuhH0Dz2KUBrda2bK3LYUHsUQ2gr9Nu8jLTAEiX1CDWUkUUFY3ZhCb0Ci4e9tBIRDcAwAYKcCTTMSRJmARyZ0QPByrUytUCMrfUjkvT6QZiIbLQdGCHelY15bG6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bas6O/WF; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789031711; c=relaxed/simple;
+	bh=tN+CAfLJT6YMiBD4FrwUdsR3FJnYt0CpRnnqy2E8WM0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WWENXrYmknDtCQvidgoFpTk0bj7ukrHuIZPtSOPhjgvT+UU7wP4y7VBbOok1W23Y7et2gZttzKEJbtZzjsdKbbucGOCJVHehCsoBR8YzrM7FChALx+MAgKh7wwVrDnKeAyiygwWbJud5ZB3w7L5OsrA5hHfNj4kM6lpdpOiKdpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gq0Kjpog; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bas6O/WF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gq0Kjpog"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789029073; x=1820565073;
+  t=1789031709; x=1820567709;
   h=date:from:to:cc:subject:message-id;
-  bh=EbMmTU7fLPivajyYSwoJ3YfsJpgKKnzVrH3AmmeYbWY=;
-  b=Bas6O/WFwYC2OWOQrKRNrb1fusvAJEc4JUAq+R0Cl6OsniEDMgr/LL9v
-   1tNtySTiJEBQZ46Z792JQx1RRu2AARklsMK3hPv1ynnPuxuJJbT5t7fho
-   jsmQ2SAhpgLjw+tpWRTfOZFfRA+HNBZBDwfEIMYVG1UFKaORXPOyLDx2I
-   dk7Tl2VYKB1u8AW/iTXkp135pWtEX66epdKe7QDvFooiAyumnv509ACnQ
-   oqCUPYYfm1bJ5hhUdwMPRUUTbtIfs1IlKewMXO1BIYum0Hq091kuvpDWE
-   FVAdFek/NMonuqY1wvrUjnkgQ2TmxZNnBZVlRToNx0+ADyXy96Y/2jMDo
-   g==;
-X-CSE-ConnectionGUID: ef0TYJBkQtu8MPXMDJg2sg==
-X-CSE-MsgGUID: 7xOqVPiiQ6GePJuzzA5aIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="100133697"
+  bh=tN+CAfLJT6YMiBD4FrwUdsR3FJnYt0CpRnnqy2E8WM0=;
+  b=Gq0Kjpog4B7bNsZf3N3AORBVmm3P7bjH2CoJkNGUmWXp3YpOhsXdql4e
+   3YiRU6xwW/LZvPQxtmeeWbrmkiWMSuL8N0uHcokT9S9G6Fuk0D6ZLlWVC
+   uJIS1d7sdNQaPw0jrgsbvAA0sycYZ9CBYuWYFc4GZYG9kbVwysSJWpZzV
+   x33qRN1aComPsy8Ok/4/4LRg+R+BWTTosLKau4R+MSjlDx050qiKu+Rzc
+   LoGXH9I12N7v8zrf2JOVH1EPnvxrRAr+/9vTsjzGkhVyZRLJRsKuOKE/B
+   eaSNpic5o6s98FcVQXHiJ+OaXAE5sJpYKOYJTDzhmEf/6l3yBtGsOLlvX
+   w==;
+X-CSE-ConnectionGUID: fFBpQpp2Q0CEwcy4ZHPzAA==
+X-CSE-MsgGUID: jAcf3A69R1C/QV/xtvtIiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89408904"
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="100133697"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 01:31:10 -0700
-X-CSE-ConnectionGUID: 276tAET0R2+fsWrn06/3ng==
-X-CSE-MsgGUID: m3gKOmSiS8yt+RGdS1gQbw==
+   d="scan'208";a="89408904"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 02:15:08 -0700
+X-CSE-ConnectionGUID: wrEQaj/IRIK1FR1ltkMI+g==
+X-CSE-MsgGUID: a5DtEWIBS46svakReqNbbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="301466410"
+   d="scan'208";a="276824137"
 Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2026 01:31:09 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 10 Sep 2026 02:15:06 -0700
 Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4aBW-000000001aM-2dEV;
-	Thu, 10 Sep 2026 08:31:06 +0000
-Date: Thu, 10 Sep 2026 16:30:06 +0800
+	id 1x4as4-000000001bg-1OcY;
+	Thu, 10 Sep 2026 09:15:04 +0000
+Date: Thu, 10 Sep 2026 17:14:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Barry Song (Xiaomi)" <baohua@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- barry.song@csr.com
-Subject: [baohua:dev/kairui_scanbalance 9/9] mm/vmscan.c:1953:6:
- warning: variable 'zone' set but not used
-Message-ID: <202609101609.c4jRncpS-lkp@intel.com>
+ arm@kernel.org
+Subject: [soc:board-remove-7.3 251/294]
+ drivers/leds/leds-da9052.c:104:14: error: dereferencing pointer to incomplete
+ type 'struct da9052_pdata'
+Message-ID: <202609101731.1CkBqWZb-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,167 +61,110 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/baohua/linux.git dev/kairui_scanbalance
-head:   c96aacd4045a7a4c8d292e6c9ba6d169cdc0b570
-commit: c96aacd4045a7a4c8d292e6c9ba6d169cdc0b570 [9/9] mm/mglru: avoid placing rejected folios below populated gen
-config: arm64-randconfig-r072-20260910 (https://download.01.org/0day-ci/archive/20260910/202609101609.c4jRncpS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609101609.c4jRncpS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove-7.3
+head:   3ac93c1e700558259ea604f7d4f37e26820fba15
+commit: 05a9b51265a88cf5d2951982f66d5e5ee799d719 [251/294] leds: remove platform data based probing
+config: parisc-randconfig-r134-20260910 (https://download.01.org/0day-ci/archive/20260910/202609101731.1CkBqWZb-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609101731.1CkBqWZb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609101609.c4jRncpS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609101731.1CkBqWZb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
-      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-         |  ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:21: note: in expansion of macro '__native_word'
-      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-         |                     ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |  compiletime_assert_rwonce_type(x);    \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                          ^~~~~~~~~
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                                            ^~
-   include/linux/compiler_types.h:682:9: note: in definition of macro '__compiletime_assert'
-     682 |   if (!(condition))     \
-         |         ^~~~~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
-      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-         |  ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:21: note: in expansion of macro '__native_word'
-      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-         |                     ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |  compiletime_assert_rwonce_type(x);    \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                          ^~~~~~~~~
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                                            ^~
-   include/linux/compiler_types.h:682:9: note: in definition of macro '__compiletime_assert'
-     682 |   if (!(condition))     \
-         |         ^~~~~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
-      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-         |  ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |  compiletime_assert_rwonce_type(x);    \
-         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                          ^~~~~~~~~
-   In file included from <command-line>:
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                                            ^~
-   include/linux/compiler_types.h:626:13: note: in definition of macro '__unqual_scalar_typeof'
-     626 |   _Generic((x),      \
-         |             ^
-   include/asm-generic/rwonce.h:50:2: note: in expansion of macro '__READ_ONCE'
-      50 |  __READ_ONCE(x);       \
-         |  ^~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                          ^~~~~~~~~
-   In file included from arch/arm64/include/asm/rwonce.h:81,
-                    from include/linux/compiler.h:369,
-                    from include/asm-generic/bug.h:5,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:7,
-                    from mm/vmscan.c:15:
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                                            ^~
-   include/asm-generic/rwonce.h:44:72: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x) (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                        ^
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-    1955 |  unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-         |                          ^~~~~~~~~
-   mm/vmscan.c:1957:46: error: invalid use of undefined type 'struct lru_gen_folio'
-    1957 |  if (folio_test_unevictable(folio) || !lrugen->enabled)
-         |                                              ^~
-   mm/vmscan.c:1960:8: error: implicit declaration of function 'lru_gen_folio_seq' [-Werror=implicit-function-declaration]
-    1960 |  seq = lru_gen_folio_seq(lruvec, folio, false);
-         |        ^~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1962:8: error: implicit declaration of function 'lru_gen_from_seq' [-Werror=implicit-function-declaration]
-    1962 |  gen = lru_gen_from_seq(seq);
-         |        ^~~~~~~~~~~~~~~~
-   mm/vmscan.c:1967:2: error: implicit declaration of function 'lru_gen_update_size'; did you mean 'huge_page_size'? [-Werror=implicit-function-declaration]
-    1967 |  lru_gen_update_size(lruvec, folio, -1, gen);
-         |  ^~~~~~~~~~~~~~~~~~~
-         |  huge_page_size
-   mm/vmscan.c:1968:31: error: invalid use of undefined type 'struct lru_gen_folio'
-    1968 |  list_add(&folio->lru, &lrugen->folios[gen][type][zone]);
-         |                               ^~
->> mm/vmscan.c:1953:6: warning: variable 'zone' set but not used [-Wunused-but-set-variable]
-    1953 |  int zone = folio_zonenum(folio);
-         |      ^~~~
->> mm/vmscan.c:1952:6: warning: variable 'type' set but not used [-Wunused-but-set-variable]
-    1952 |  int type = folio_is_file_lru(folio);
-         |      ^~~~
-   cc1: some warnings being treated as errors
+   drivers/leds/leds-da9052.c: In function 'da9052_led_probe':
+>> drivers/leds/leds-da9052.c:104:14: error: dereferencing pointer to incomplete type 'struct da9052_pdata'
+     pled = pdata->pled;
+                 ^~
+   drivers/leds/leds-da9052.c: In function 'da9052_led_remove':
+   drivers/leds/leds-da9052.c:168:14: error: dereferencing pointer to incomplete type 'struct da9052_pdata'
+     pled = pdata->pled;
+                 ^~
 
 
-vim +/zone +1953 mm/vmscan.c
+vim +104 drivers/leds/leds-da9052.c
 
-  1938	
-  1939	/*
-  1940	 * Even though we have called folio_set_active() for rejected folios
-  1941	 * in evict_folios(), they may still be demoted or placed in the last
-  1942	 * populated generation since we can now scan all generations.
-  1943	 * Make sure these folios are neither demoted nor placed in the last
-  1944	 * populated generation, unless it is also the youngest generation
-  1945	 */
-  1946	static inline bool lru_gen_add_rejected_folio(struct lruvec *lruvec, struct folio *folio,
-  1947			unsigned long scanned_seq)
-  1948	{
-  1949		unsigned long seq;
-  1950		unsigned long flags;
-  1951		int gen;
-> 1952		int type = folio_is_file_lru(folio);
-> 1953		int zone = folio_zonenum(folio);
-  1954		struct lru_gen_folio *lrugen = &lruvec->lrugen;
-  1955		unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-  1956	
-  1957		if (folio_test_unevictable(folio) || !lrugen->enabled)
-  1958			return false;
-  1959	
-  1960		seq = lru_gen_folio_seq(lruvec, folio, false);
-  1961		seq = max(seq, min(scanned_seq + 1, max_seq));
-  1962		gen = lru_gen_from_seq(seq);
-  1963		flags = (gen + 1UL) << LRU_GEN_PGOFF;
-  1964		/* see the comment on MIN_NR_GENS about PG_active */
-  1965		set_mask_bits(folio_flags(folio, 0), LRU_GEN_MASK | BIT(PG_active), flags);
-  1966	
-> 1967		lru_gen_update_size(lruvec, folio, -1, gen);
-> 1968		list_add(&folio->lru, &lrugen->folios[gen][type][zone]);
-  1969	
-  1970		return true;
-  1971	}
-  1972	
+5ba736311bf6fe David Dajun Chen 2012-05-29   87  
+98ea1ea20cb709 Bill Pemberton   2012-11-19   88  static int da9052_led_probe(struct platform_device *pdev)
+5ba736311bf6fe David Dajun Chen 2012-05-29   89  {
+5ba736311bf6fe David Dajun Chen 2012-05-29   90  	struct da9052_pdata *pdata;
+5ba736311bf6fe David Dajun Chen 2012-05-29   91  	struct da9052 *da9052;
+5ba736311bf6fe David Dajun Chen 2012-05-29   92  	struct led_platform_data *pled;
+5ba736311bf6fe David Dajun Chen 2012-05-29   93  	struct da9052_led *led = NULL;
+5ba736311bf6fe David Dajun Chen 2012-05-29   94  	int error = -ENODEV;
+5ba736311bf6fe David Dajun Chen 2012-05-29   95  	int i;
+5ba736311bf6fe David Dajun Chen 2012-05-29   96  
+5ba736311bf6fe David Dajun Chen 2012-05-29   97  	da9052 = dev_get_drvdata(pdev->dev.parent);
+87aae1ea82f93f Jingoo Han       2013-07-30   98  	pdata = dev_get_platdata(da9052->dev);
+5ba736311bf6fe David Dajun Chen 2012-05-29   99  	if (pdata == NULL) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  100  		dev_err(&pdev->dev, "No platform data\n");
+5ba736311bf6fe David Dajun Chen 2012-05-29  101  		goto err;
+5ba736311bf6fe David Dajun Chen 2012-05-29  102  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  103  
+5ba736311bf6fe David Dajun Chen 2012-05-29 @104  	pled = pdata->pled;
+5ba736311bf6fe David Dajun Chen 2012-05-29  105  	if (pled == NULL) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  106  		dev_err(&pdev->dev, "No platform data for LED\n");
+5ba736311bf6fe David Dajun Chen 2012-05-29  107  		goto err;
+5ba736311bf6fe David Dajun Chen 2012-05-29  108  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  109  
+a86854d0c599b3 Kees Cook        2018-06-12  110  	led = devm_kcalloc(&pdev->dev,
+a86854d0c599b3 Kees Cook        2018-06-12  111  			   pled->num_leds, sizeof(struct da9052_led),
+5ba736311bf6fe David Dajun Chen 2012-05-29  112  			   GFP_KERNEL);
+0c9a03b68511da Xiubo Li         2014-05-07  113  	if (!led) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  114  		error = -ENOMEM;
+5ba736311bf6fe David Dajun Chen 2012-05-29  115  		goto err;
+5ba736311bf6fe David Dajun Chen 2012-05-29  116  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  117  
+5ba736311bf6fe David Dajun Chen 2012-05-29  118  	for (i = 0; i < pled->num_leds; i++) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  119  		led[i].cdev.name = pled->leds[i].name;
+0a1f01d38504dc Andrew Lunn      2015-08-20  120  		led[i].cdev.brightness_set_blocking = da9052_led_set;
+5ba736311bf6fe David Dajun Chen 2012-05-29  121  		led[i].cdev.brightness = LED_OFF;
+5ba736311bf6fe David Dajun Chen 2012-05-29  122  		led[i].cdev.max_brightness = DA9052_MAX_BRIGHTNESS;
+5ba736311bf6fe David Dajun Chen 2012-05-29  123  		led[i].led_index = pled->leds[i].flags;
+5ba736311bf6fe David Dajun Chen 2012-05-29  124  		led[i].da9052 = dev_get_drvdata(pdev->dev.parent);
+5ba736311bf6fe David Dajun Chen 2012-05-29  125  
+5ba736311bf6fe David Dajun Chen 2012-05-29  126  		error = led_classdev_register(pdev->dev.parent, &led[i].cdev);
+5ba736311bf6fe David Dajun Chen 2012-05-29  127  		if (error) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  128  			dev_err(&pdev->dev, "Failed to register led %d\n",
+5ba736311bf6fe David Dajun Chen 2012-05-29  129  				led[i].led_index);
+5ba736311bf6fe David Dajun Chen 2012-05-29  130  			goto err_register;
+5ba736311bf6fe David Dajun Chen 2012-05-29  131  		}
+5ba736311bf6fe David Dajun Chen 2012-05-29  132  
+0a1f01d38504dc Andrew Lunn      2015-08-20  133  		error = da9052_set_led_brightness(&led[i],
+0a1f01d38504dc Andrew Lunn      2015-08-20  134  						  led[i].cdev.brightness);
+5ba736311bf6fe David Dajun Chen 2012-05-29  135  		if (error) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  136  			dev_err(&pdev->dev, "Unable to init led %d\n",
+5ba736311bf6fe David Dajun Chen 2012-05-29  137  				led[i].led_index);
+5ba736311bf6fe David Dajun Chen 2012-05-29  138  			continue;
+5ba736311bf6fe David Dajun Chen 2012-05-29  139  		}
+5ba736311bf6fe David Dajun Chen 2012-05-29  140  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  141  	error = da9052_configure_leds(led->da9052);
+5ba736311bf6fe David Dajun Chen 2012-05-29  142  	if (error) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  143  		dev_err(&pdev->dev, "Failed to configure GPIO LED%d\n", error);
+5ba736311bf6fe David Dajun Chen 2012-05-29  144  		goto err_register;
+5ba736311bf6fe David Dajun Chen 2012-05-29  145  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  146  
+5ba736311bf6fe David Dajun Chen 2012-05-29  147  	platform_set_drvdata(pdev, led);
+5ba736311bf6fe David Dajun Chen 2012-05-29  148  
+5ba736311bf6fe David Dajun Chen 2012-05-29  149  	return 0;
+5ba736311bf6fe David Dajun Chen 2012-05-29  150  
+5ba736311bf6fe David Dajun Chen 2012-05-29  151  err_register:
+0a1f01d38504dc Andrew Lunn      2015-08-20  152  	for (i = i - 1; i >= 0; i--)
+5ba736311bf6fe David Dajun Chen 2012-05-29  153  		led_classdev_unregister(&led[i].cdev);
+5ba736311bf6fe David Dajun Chen 2012-05-29  154  err:
+5ba736311bf6fe David Dajun Chen 2012-05-29  155  	return error;
+5ba736311bf6fe David Dajun Chen 2012-05-29  156  }
+5ba736311bf6fe David Dajun Chen 2012-05-29  157  
+
+:::::: The code at line 104 was first introduced by commit
+:::::: 5ba736311bf6fea25c97e868b7de6d3de8800aba leds: driver for DA9052/53 PMIC v2
+
+:::::: TO: David Dajun Chen <dchen@diasemi.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
