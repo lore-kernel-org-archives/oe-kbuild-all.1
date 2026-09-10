@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBE942AFA9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 21:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9D24718C0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 21:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789075161; cv=none; b=Zxbt5al3ZyPVKRJMx92BUjGS5IKkqVuUWcTS2PvehxVlxUx4bWtLUxm6mEGDp2vD71XZ7XHHOgGyKl3vKxk5ZxI03jkzgZfRmKirxhagBYZPvxAVHh+2fZazWqKC0VaMGALvD5TMu3MCom3WhUG7W2/yCjDIW/hRC/oIQGx5prU=
+	t=1789076324; cv=none; b=rrJwuPFVvQlYCj9WOIeD/SdTuYkm8YVhfGCjI9hu8ohpNDTqiAyrz4u0ZWzeZHAxtIe0qPSeEyC3nKIahLc3ZjK+cFY9DPPw0Ox+zfC2LDUC3gL/LrohLZPWhrC8k+BShvS136BqLb5BVurTJU4La+bKQi36F6nygkSzewG3/cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789075161; c=relaxed/simple;
-	bh=IawTxksbLdoQtjLcQx6qmRxSGThyH1QQ7RxndFI3xjA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dxS0sUtclYcJTP+vO7kvacKtKAbSFxdmgeIiLHubp/pUlqAf+8/h2N8PZ2OEWz+enlhafGez+KM3Pedimy0/2C0g47s9e5+E7p4seivvL/adQPa2DUR2cy0hj4bU5k0TXZtu5FK9oiYS47qOj2wwO1mJqEOxevBJUNQNJ+jfOOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=esiDtr60; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1789076324; c=relaxed/simple;
+	bh=YpLmG96tqFyW7jEmUT/zLpNmnOj1PKrqaC1BRDgfBzc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=riV0sVivLj1bxOT2YhY0ppACy6aWnho0X/RWHK0LvlGVW1YUrWba5oZ3NlDeuw7TVbImegRvdvI8ROntK0Tw/DE0ysM6jZDlf7IAZj9P+GF708MKadGFScXWJ0IejqWQnY6v58So8PScX8DgS9kvrOs0cVq6Z0BFff1ZZxT/1i8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R4Pbuz/s; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="esiDtr60"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R4Pbuz/s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789075153; x=1820611153;
+  t=1789076323; x=1820612323;
   h=date:from:to:cc:subject:message-id;
-  bh=IawTxksbLdoQtjLcQx6qmRxSGThyH1QQ7RxndFI3xjA=;
-  b=esiDtr604gHGYl74jqQL/sU+efsYM2ce3K3Jym+ByQZdu9v+hXytTMZY
-   PyXu60/ZJHCS74lJZqXYCHsZrwGueONWRSv+6Vydbx8vLI9uvCkLZn9g1
-   PK7/MHw7dCzgdzY6g7bhFURWgDzxpWCd2VZl+xbegsfyWOqgFpPJ84qTY
-   n1sZ8/mYOFOvsTiMUlDbWO1P3rLKR4Z/nmYv+XQfBrC5I0n+QAx+7XtbN
-   586luv8RSVtnzWSXREmG+Nm+k8y4ZQEVO1tun9vjBhS3ZHmN0K9YBEPxK
-   XarNXQY6Scw+9yaNcjI0ZndHLEOuoq5WKpR6aaHGI+3NHTFy8yy/d21Bb
-   Q==;
-X-CSE-ConnectionGUID: ecmzu29/RwW0nsOtrJ7Z/w==
-X-CSE-MsgGUID: 6oMD+wP/TUa+N506hayjaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89377381"
+  bh=YpLmG96tqFyW7jEmUT/zLpNmnOj1PKrqaC1BRDgfBzc=;
+  b=R4Pbuz/sin0Ezbp9FtKqxKMaU5XfUsyjGcutOASFPjrNcEO0i8WEzdqT
+   2CjMvWktLPOqJO+YDiJpIWgqniUccwaaZEpp0P9saSYYWGY8d0RGltT1G
+   ivKAOzucgCr5DDVte+79bIQy9WMUiGaAgweA16LcTi91QCNMVZCbAPXjh
+   ZnWtxFUnPZ3mAmHmdC0S1M18tqiBhnj7+IbSOBNPTMnWm/solPatnObZx
+   0W02YO2RNpHmbF3XRuTkdH7YhO85FPT05KaXs2KqJHE3/U1ocjy201A1c
+   fOPcI9H/hCWWAf6tcz6OFedHSQ7qUqjjeoKqq+EFe9C+4leOp88MMA3XC
+   g==;
+X-CSE-ConnectionGUID: j2j1q85lQkOxPJmuUaxCtQ==
+X-CSE-MsgGUID: 5h26sxVnTlS96iCnxi4Q9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="115081592"
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89377381"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 14:19:08 -0700
-X-CSE-ConnectionGUID: ulphI/UlRGOJg3xlh/3/qg==
-X-CSE-MsgGUID: Mq914YN+Q8S5sAKZpi1JKQ==
+   d="scan'208";a="115081592"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 14:38:42 -0700
+X-CSE-ConnectionGUID: xrOVRPAPSxC3eflh4miOBQ==
+X-CSE-MsgGUID: WxMjGM/ATD+jXMtFdvyKUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="269151317"
-Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Sep 2026 14:19:06 -0700
-Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+   d="scan'208";a="270379519"
+Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 10 Sep 2026 14:38:41 -0700
+Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4mAh-000000000Yh-3ZJm;
-	Thu, 10 Sep 2026 21:19:03 +0000
-Date: Fri, 11 Sep 2026 05:18:33 +0800
+	id 1x4mTe-000000000V9-0jT8;
+	Thu, 10 Sep 2026 21:38:38 +0000
+Date: Thu, 10 Sep 2026 23:37:51 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Barry Song (Xiaomi)" <baohua@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- barry.song@csr.com
-Subject: [baohua:dev/kairui_scanbalance 9/9] mm/vmscan.c:1957:46:
- error: dereferencing pointer to incomplete type 'struct lru_gen_folio'
-Message-ID: <202609110429.UIZ3Tr8e-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-2026-04 2/2]
+ arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pmic@3c
+ (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller',
+ 'interrupts', 'pinmux', 'regulators' do not match any of the regexes:
+ '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+Message-ID: <202609102306.Cn8meS00-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,188 +62,87 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/baohua/linux.git dev/kairui_scanbalance
-head:   c96aacd4045a7a4c8d292e6c9ba6d169cdc0b570
-commit: c96aacd4045a7a4c8d292e6c9ba6d169cdc0b570 [9/9] mm/mglru: avoid placing rejected folios below populated gen
-config: powerpc-randconfig-r123-20260910 (https://download.01.org/0day-ci/archive/20260911/202609110429.UIZ3Tr8e-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110429.UIZ3Tr8e-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-04
+head:   970175856dfcf73ea364900557b6ad669018a4f1
+commit: f03a7f20b23c1abb1066f791806bbca406362324 [2/2] dt-bindings: gpio: Create a trivial GPIO schema
+config: arm64-randconfig-2053-20260908 (https://download.01.org/0day-ci/archive/20260910/202609102306.Cn8meS00-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102306.Cn8meS00-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f03a7f20b23c ("dt-bindings: gpio: Create a trivial GPIO schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609110429.UIZ3Tr8e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609102306.Cn8meS00-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-                        ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
-     compiletime_assert_rwonce_type(x);    \
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                             ^~~~~~~~~
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                                               ^~
-   include/linux/compiler.h:68:3: note: in definition of macro '__trace_if_value'
-     (cond) ?     \
-      ^~~~
-   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
-    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                               ^~~~~~~~~~~~~~
-   include/linux/compiler_types.h:682:3: note: in expansion of macro 'if'
-      if (!(condition))     \
-      ^~
-   include/linux/compiler_types.h:690:2: note: in expansion of macro '__compiletime_assert'
-     __compiletime_assert(condition, msg, prefix, suffix)
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
-     compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-     ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:21: note: in expansion of macro '__native_word'
-     compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-                        ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
-     compiletime_assert_rwonce_type(x);    \
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                             ^~~~~~~~~
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                                               ^~
-   include/linux/compiler.h:68:3: note: in definition of macro '__trace_if_value'
-     (cond) ?     \
-      ^~~~
-   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
-    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                               ^~~~~~~~~~~~~~
-   include/linux/compiler_types.h:682:3: note: in expansion of macro 'if'
-      if (!(condition))     \
-      ^~
-   include/linux/compiler_types.h:690:2: note: in expansion of macro '__compiletime_assert'
-     __compiletime_assert(condition, msg, prefix, suffix)
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
-     compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
-     ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
-     compiletime_assert_rwonce_type(x);    \
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                             ^~~~~~~~~
-   In file included from <command-line>:
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                                               ^~
-   include/linux/compiler_types.h:626:13: note: in definition of macro '__unqual_scalar_typeof'
-      _Generic((x),      \
-                ^
-   include/asm-generic/rwonce.h:50:2: note: in expansion of macro '__READ_ONCE'
-     __READ_ONCE(x);       \
-     ^~~~~~~~~~~
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                             ^~~~~~~~~
-   In file included from ./arch/powerpc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/asm-generic/bug.h:5,
-                    from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:7,
-                    from mm/vmscan.c:15:
-   mm/vmscan.c:1955:44: error: 'struct lruvec' has no member named 'lrugen'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                                               ^~
-   include/asm-generic/rwonce.h:44:72: note: in definition of macro '__READ_ONCE'
-    #define __READ_ONCE(x) (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-                                                                           ^
-   mm/vmscan.c:1955:26: note: in expansion of macro 'READ_ONCE'
-     unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-                             ^~~~~~~~~
-   In file included from include/asm-generic/bug.h:5,
-                    from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:7,
-                    from mm/vmscan.c:15:
->> mm/vmscan.c:1957:46: error: dereferencing pointer to incomplete type 'struct lru_gen_folio'
-     if (folio_test_unevictable(folio) || !lrugen->enabled)
-                                                 ^~
-   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
-    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                       ^~~~
-   mm/vmscan.c:1957:2: note: in expansion of macro 'if'
-     if (folio_test_unevictable(folio) || !lrugen->enabled)
-     ^~
-   mm/vmscan.c:1960:8: error: implicit declaration of function 'lru_gen_folio_seq'; did you mean 'lru_to_folio'? [-Werror=implicit-function-declaration]
-     seq = lru_gen_folio_seq(lruvec, folio, false);
-           ^~~~~~~~~~~~~~~~~
-           lru_to_folio
-   mm/vmscan.c:1962:8: error: implicit declaration of function 'lru_gen_from_seq'; did you mean 'lru_gen_set_refs'? [-Werror=implicit-function-declaration]
-     gen = lru_gen_from_seq(seq);
-           ^~~~~~~~~~~~~~~~
-           lru_gen_set_refs
-   mm/vmscan.c:1967:2: error: implicit declaration of function 'lru_gen_update_size'; did you mean 'huge_page_size'? [-Werror=implicit-function-declaration]
-     lru_gen_update_size(lruvec, folio, -1, gen);
-     ^~~~~~~~~~~~~~~~~~~
-     huge_page_size
-   mm/vmscan.c:1953:6: warning: variable 'zone' set but not used [-Wunused-but-set-variable]
-     int zone = folio_zonenum(folio);
-         ^~~~
-   mm/vmscan.c:1952:6: warning: variable 'type' set but not used [-Wunused-but-set-variable]
-     int type = folio_is_file_lru(folio);
-         ^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +1957 mm/vmscan.c
-
-  1938	
-  1939	/*
-  1940	 * Even though we have called folio_set_active() for rejected folios
-  1941	 * in evict_folios(), they may still be demoted or placed in the last
-  1942	 * populated generation since we can now scan all generations.
-  1943	 * Make sure these folios are neither demoted nor placed in the last
-  1944	 * populated generation, unless it is also the youngest generation
-  1945	 */
-  1946	static inline bool lru_gen_add_rejected_folio(struct lruvec *lruvec, struct folio *folio,
-  1947			unsigned long scanned_seq)
-  1948	{
-  1949		unsigned long seq;
-  1950		unsigned long flags;
-  1951		int gen;
-  1952		int type = folio_is_file_lru(folio);
-  1953		int zone = folio_zonenum(folio);
-  1954		struct lru_gen_folio *lrugen = &lruvec->lrugen;
-> 1955		unsigned long max_seq = READ_ONCE((lruvec)->lrugen.max_seq);
-  1956	
-> 1957		if (folio_test_unevictable(folio) || !lrugen->enabled)
-  1958			return false;
-  1959	
-  1960		seq = lru_gen_folio_seq(lruvec, folio, false);
-  1961		seq = max(seq, min(scanned_seq + 1, max_seq));
-  1962		gen = lru_gen_from_seq(seq);
-  1963		flags = (gen + 1UL) << LRU_GEN_PGOFF;
-  1964		/* see the comment on MIN_NR_GENS about PG_active */
-  1965		set_mask_bits(folio_flags(folio, 0), LRU_GEN_MASK | BIT(PG_active), flags);
-  1966	
-  1967		lru_gen_update_size(lruvec, folio, -1, gen);
-  1968		list_add(&folio->lru, &lrugen->folios[gen][type][zone]);
-  1969	
-  1970		return true;
-  1971	}
-  1972	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pci@1,0: nvidia,num-lanes: b'\x00\x00\x00\x04' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pci@2,0: nvidia,num-lanes: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+>> arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: pmic@3c (maxim,max77620): False schema does not allow [[60]]
+   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: fps0: maxim,fps-event-source: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: fps1: maxim,fps-event-source: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: fps1: maxim,device-state-on-disabled-event: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p2894-0050-a08.dtb: fps2: maxim,fps-event-source: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+--
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pci@1,0: nvidia,num-lanes: b'\x00\x00\x00\x04' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pci@2,0: nvidia,num-lanes: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+>> arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: pmic@3c (maxim,max77620): False schema does not allow [[60]]
+   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: fps0: maxim,fps-event-source: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: fps1: maxim,fps-event-source: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: fps1: maxim,device-state-on-disabled-event: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-smaug.dtb: fps2: maxim,fps-event-source: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+--
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pci@1,0: nvidia,num-lanes: b'\x00\x00\x00\x04' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pci@2,0: nvidia,num-lanes: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54100000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /host1x@50000000/tsec@54500000: failed to match any schema with compatible: ['nvidia,tegra210-tsec']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /gpu@57000000: failed to match any schema with compatible: ['nvidia,gm20b']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /interrupt-controller@60004000: failed to match any schema with compatible: ['nvidia,tegra210-ictlr']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: /dma@60020000: failed to match any schema with compatible: ['nvidia,tegra210-apbdma', 'nvidia,tegra148-apbdma']
+>> arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): '#interrupt-cells', 'fps', 'interrupt-controller', 'interrupt-parent', 'interrupts', 'pinmux', 'regulators' do not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: pmic@3c (maxim,max77620): False schema does not allow [[60]]
+   	from schema $id: http://devicetree.org/schemas/trivial-gpio.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: fps0: maxim,fps-event-source: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: fps1: maxim,fps-event-source: b'\x00\x00\x00\x01' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: fps2: maxim,fps-event-source: b'\x00\x00\x00\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
+   arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dtb: gpio1: maxim,active-fps-source: b'\x00\x00\x00\x03' is not of type 'object', 'integer', 'array', 'boolean', 'null'
 
 --
 0-DAY CI Kernel Test Service
