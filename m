@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2540248822F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 14:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A89C486647;
+	Thu, 10 Sep 2026 14:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789051312; cv=none; b=Pv7TXaxVTqKrgPUqHQNekgNR/oIDQoKjdV1r2Cvza5qK2rKyyAemjRJ7LnwCwXVn3zmNH092yYKiFCottVcCgW4uxY9XJRMsCqD3G40jIQBACiO1H1dQ4hmH5ReEkLayHcEBs16jNDtMAC1BWP5F7JQ330201AuPZwCscj0E4uw=
+	t=1789051334; cv=none; b=d8KthSHlziWzr4FgbAXpKe6vfLFS4d6FUbcypSE1zHiGzvXKLyxSDSBDImoS3dIxO/n4yvHG2lI9FCeIrvWPADTJg9LQrDGt5nOnbemcYEGlXeDtVmsksPzb9Ppure5n65QTat8oApN/2a3mGaohv+TBi2YDkyyXZrt+SX7Ko1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789051312; c=relaxed/simple;
-	bh=R8KaQwcEEbcL1aXyhF5pAZylzGCyNoHirqH1AYSFaj8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VPiTX1e9JfdiwISIEC8KcHZgFhF/YRQMSwMD20dFcsKAFfi06m+sbfB5658wueQ4Bzx7EsHmlwt60L/y/ugUiBjwNy0+82ftfaaEYEmOWw+1/bn+9ziRx4JQuXg9k2+PB+kaXiXg9APxpibZZTu98n+3JK0dd0KrWUtrsmRkdVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kY8kccdu; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1789051334; c=relaxed/simple;
+	bh=c5vdxtg/iwsq5TyrZd4Qk+Gsxwt2E0kpnD7sMv3V/p0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ogJOkqx+MAfikIVpDdiZHMyLQcFbvKOU6oF9o1/rIWtcJoYqL4yfSPTcVDNbZ8dwIjb2//qiq5X1XCN6DbkAqLS0ApY36D0ZGMisrNpEyg5k7JRtrDVQG5UPN3KXAdqXNIHByT6Ey1GDjG7Y7QaaFTU3S7041igjfF9uKc+RGRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jw5SUSt3; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kY8kccdu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jw5SUSt3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789051310; x=1820587310;
+  t=1789051333; x=1820587333;
   h=date:from:to:cc:subject:message-id;
-  bh=R8KaQwcEEbcL1aXyhF5pAZylzGCyNoHirqH1AYSFaj8=;
-  b=kY8kccduUVWN19tPH07kqdq7Vo9AVfHHb5sdvKQfOTqcyP3/rhRmMeAE
-   qoo/TrH/jEAGYzZzLj+6y9vq0JoHSXJylMnpCdXIlfAwbrXFWYEgkY0Vm
-   qQVAjd0WEykm0+QIppAHQgxKmWLfUlhq2lK62QmKVubFSXK9byixj2W/I
-   hcwiGTaCSczGw9TOC8cPE+um/QDThGS+kuBDdxvuvQRC9S9cRT7ccGvpx
-   Q0FMqIzfpKrWH3iymP+odVsq+zrvHhSLIafyqCxgY+VZUUXjyUTdnBhZp
-   2245WXXY1KF1tdaTRsJdF6jrutoRQxJwLGtZBlpGv+hLrhs/xxAhfZhlc
-   g==;
-X-CSE-ConnectionGUID: DNvySeevTF+uo2Lj59j+xw==
-X-CSE-MsgGUID: y8tFPuf7RQG1yeQz9jmOgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89542879"
+  bh=c5vdxtg/iwsq5TyrZd4Qk+Gsxwt2E0kpnD7sMv3V/p0=;
+  b=Jw5SUSt3kUbIFgg9qt0R03SOoiaB1GTOEjtCihxTWJd12djbJyJHV0oG
+   uNNg6JsMWs32Z8IvYG2AzeYylFQu8fZPBHb3734qfdACgKKgdshtznM7x
+   Bu9xQe09eljQWVTQhBfol/9Fh0bWDJwdbjo0nkY/rB909fzDkVLkLNI3q
+   9jRuQ9KQt2RZj+Z/zX8OPmOPP1mMoqAvoAc8N56n4N2mwCz/Mu6pm6SBH
+   Mz0ZvwbHrQKjJbhQs5q5OmX2ncDm63vLuy6rjRvf/QO5owYQyRp5VmLo4
+   pz0+Ucrr0oXCcPLkXZiOchwnBZZlNTidaKIFDkBXMIsePiVUdAXPZ1gHi
+   Q==;
+X-CSE-ConnectionGUID: 5ldG8ZjaStS/s+rpVuxcGg==
+X-CSE-MsgGUID: z79oELETRxip3+UGXjJ+PA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="77061432"
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="89542879"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:41:49 -0700
-X-CSE-ConnectionGUID: caQsilGcQei5gmFcYG8JiA==
-X-CSE-MsgGUID: NjDI8RGrQe2OJT7FOjDWRw==
+   d="scan'208";a="77061432"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:42:12 -0700
+X-CSE-ConnectionGUID: xseAEMBoTzOZR0tSVC2N/Q==
+X-CSE-MsgGUID: a0uferJTRuqXO2PUI3YQwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="275436798"
+   d="scan'208";a="309908247"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 10 Sep 2026 07:41:48 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2026 07:42:10 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4fxu-0000000007e-2lRZ;
-	Thu, 10 Sep 2026 14:41:31 +0000
-Date: Thu, 10 Sep 2026 22:31:47 +0800
+	id 1x4fyA-0000000007h-1YJv;
+	Thu, 10 Sep 2026 14:41:48 +0000
+Date: Thu, 10 Sep 2026 22:26:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>
-Subject: [akpm-mm:mm-new 358/388] mm/sparse-vmemmap.c:507:48: error:
- implicit declaration of function 'device_zone'; did you mean 'device_move'?
-Message-ID: <202609102250.lIycVv3n-lkp@intel.com>
+To: sofus <sofus.c@icloud.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/240-isp 88/89]
+ drivers/media/platform/apple/avd/avd-drv.c:155:5: error: call to undeclared
+ function 'FIELD_PREP'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202609102230.0CiPrrA3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,95 +62,80 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   cf558a250cf4475a8936902b8978fbb6c61016f8
-commit: dd35ca2f2cac9d6439a2ba2f523b98b5a9a9f8f5 [358/388] mm-sparse-vmemmap-switch-device-dax-to-shared-tail-vmemmap-pages-fix
-config: s390-randconfig-r121-20260910 (https://download.01.org/0day-ci/archive/20260910/202609102250.lIycVv3n-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102250.lIycVv3n-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   e31aa85e339c10dbf872c0759d5a6c35954af0cc
+commit: 0765a0974a15233ed105e144fec796291dacb32d [88/89] media: apple: avd: add a dedicated "submit" step
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609102230.0CiPrrA3-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102230.0CiPrrA3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609102250.lIycVv3n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609102230.0CiPrrA3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/sparse-vmemmap.c: In function 'vmemmap_populate_compound_pages':
->> mm/sparse-vmemmap.c:507:48: error: implicit declaration of function 'device_zone'; did you mean 'device_move'? [-Werror=implicit-function-declaration]
-     507 |         page = vmemmap_shared_tail_page(order, device_zone(node));
-         |                                                ^~~~~~~~~~~
-         |                                                device_move
->> mm/sparse-vmemmap.c:507:48: warning: passing argument 2 of 'vmemmap_shared_tail_page' makes pointer from integer without a cast [-Wint-conversion]
-     507 |         page = vmemmap_shared_tail_page(order, device_zone(node));
-         |                                                ^~~~~~~~~~~~~~~~~
-         |                                                |
-         |                                                int
-   mm/sparse-vmemmap.c:172:78: note: expected 'struct zone *' but argument is of type 'int'
-     172 | struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
-         |                                                                 ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+>> drivers/media/platform/apple/avd/avd-drv.c:155:5: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     155 |                                 AVD_OP_EXEC_REV3_VP9_MASK :
+         |                                 ^
+   drivers/media/platform/apple/avd/avd-inst.h:16:35: note: expanded from macro 'AVD_OP_EXEC_REV3_VP9_MASK'
+      16 | #define AVD_OP_EXEC_REV3_VP9_MASK       FIELD_PREP(GENMASK(23, 12), 0xfff)
+         |                                         ^
+   1 error generated.
 
 
-vim +507 mm/sparse-vmemmap.c
+vim +/FIELD_PREP +155 drivers/media/platform/apple/avd/avd-drv.c
 
-4917f55b4ef963 Joao Martins    2022-04-28  494  
-4917f55b4ef963 Joao Martins    2022-04-28  495  static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
-4917f55b4ef963 Joao Martins    2022-04-28  496  						     unsigned long start,
-4917f55b4ef963 Joao Martins    2022-04-28  497  						     unsigned long end, int node,
-4917f55b4ef963 Joao Martins    2022-04-28  498  						     struct dev_pagemap *pgmap)
-4917f55b4ef963 Joao Martins    2022-04-28  499  {
-4917f55b4ef963 Joao Martins    2022-04-28  500  	unsigned long size, addr;
-4917f55b4ef963 Joao Martins    2022-04-28  501  	pte_t *pte;
-4917f55b4ef963 Joao Martins    2022-04-28  502  	int rc;
-d1d11861d8a018 Muchun Song     2026-09-08  503  	unsigned long flags = VMEMMAP_POPULATE_DAX;
-8fbaacc4a64bd1 Muchun Song     2026-09-08  504  	struct page *page;
-8fbaacc4a64bd1 Muchun Song     2026-09-08  505  	unsigned int order = pfn_to_section_order(start_pfn);
-4917f55b4ef963 Joao Martins    2022-04-28  506  
-8fbaacc4a64bd1 Muchun Song     2026-09-08 @507  	page = vmemmap_shared_tail_page(order, device_zone(node));
-8fbaacc4a64bd1 Muchun Song     2026-09-08  508  	if (!page)
-4917f55b4ef963 Joao Martins    2022-04-28  509  		return -ENOMEM;
-4917f55b4ef963 Joao Martins    2022-04-28  510  
-8fbaacc4a64bd1 Muchun Song     2026-09-08  511  	if (reuse_compound_section(start_pfn, pgmap))
-4917f55b4ef963 Joao Martins    2022-04-28  512  		return vmemmap_populate_range(start, end, node, NULL,
-8fbaacc4a64bd1 Muchun Song     2026-09-08  513  					      page_to_pfn(page), flags);
-4917f55b4ef963 Joao Martins    2022-04-28  514  
-8fbaacc4a64bd1 Muchun Song     2026-09-08  515  	size = min(end - start, (1UL << order) * sizeof(struct page));
-4917f55b4ef963 Joao Martins    2022-04-28  516  	for (addr = start; addr < end; addr += size) {
-55896f935a60b9 Gautam Menghani 2022-06-12  517  		unsigned long next, last = addr + size;
-4917f55b4ef963 Joao Martins    2022-04-28  518  
-4917f55b4ef963 Joao Martins    2022-04-28  519  		/* Populate the head page vmemmap page */
-d1d11861d8a018 Muchun Song     2026-09-08  520  		pte = vmemmap_populate_address(addr, node, NULL, -1, flags);
-4917f55b4ef963 Joao Martins    2022-04-28  521  		if (!pte)
-4917f55b4ef963 Joao Martins    2022-04-28  522  			return -ENOMEM;
-4917f55b4ef963 Joao Martins    2022-04-28  523  
-4917f55b4ef963 Joao Martins    2022-04-28  524  		/* Populate the tail pages vmemmap page */
-4917f55b4ef963 Joao Martins    2022-04-28  525  		next = addr + PAGE_SIZE;
-d1d11861d8a018 Muchun Song     2026-09-08  526  		pte = vmemmap_populate_address(next, node, NULL, -1, flags);
-4917f55b4ef963 Joao Martins    2022-04-28  527  		if (!pte)
-4917f55b4ef963 Joao Martins    2022-04-28  528  			return -ENOMEM;
-4917f55b4ef963 Joao Martins    2022-04-28  529  
-4917f55b4ef963 Joao Martins    2022-04-28  530  		/*
-8fbaacc4a64bd1 Muchun Song     2026-09-08  531  		 * Reuse the shared page for the rest of tail pages
-ee65728e103bb7 Mike Rapoport   2022-06-27  532  		 * See layout diagram in Documentation/mm/vmemmap_dedup.rst
-4917f55b4ef963 Joao Martins    2022-04-28  533  		 */
-4917f55b4ef963 Joao Martins    2022-04-28  534  		next += PAGE_SIZE;
-4917f55b4ef963 Joao Martins    2022-04-28  535  		rc = vmemmap_populate_range(next, last, node, NULL,
-8fbaacc4a64bd1 Muchun Song     2026-09-08  536  					    page_to_pfn(page), flags);
-4917f55b4ef963 Joao Martins    2022-04-28  537  		if (rc)
-4917f55b4ef963 Joao Martins    2022-04-28  538  			return -ENOMEM;
-4917f55b4ef963 Joao Martins    2022-04-28  539  	}
-4917f55b4ef963 Joao Martins    2022-04-28  540  
-4917f55b4ef963 Joao Martins    2022-04-28  541  	return 0;
-2beea70a3edc03 Joao Martins    2022-04-28  542  }
-2beea70a3edc03 Joao Martins    2022-04-28  543  
-
-:::::: The code at line 507 was first introduced by commit
-:::::: 8fbaacc4a64bd1bfbfb11bfb48b5db3f4943cbd7 mm/sparse-vmemmap: switch device DAX to shared tail vmemmap pages
-
-:::::: TO: Muchun Song <songmuchun@bytedance.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   145	
+   146	int avd_submit_job(struct avd_ctx *ctx)
+   147	{
+   148		struct avd_dev *avd = ctx->dev;
+   149		struct avd_job *sub = &ctx->job;
+   150		struct avd_segment *seg;
+   151		int i, idx = 0, vp = 0;
+   152		void __iomem *reg;
+   153		u32 exec_mask = sub->codec == AVD_CODEC_VP9 &&
+   154						avd->variant->revision == 3 ?
+ > 155					AVD_OP_EXEC_REV3_VP9_MASK :
+   156					0;
+   157		u32 exec_rev_flag =
+   158			AVD_OP_EXEC_FLAG_START_REV4(avd->variant->revision == 4) |
+   159			AVD_OP_EXEC_FLAG_START_REV3(avd->variant->revision == 3);
+   160	
+   161		ctx->fifo_idx = 0;
+   162		for (i = 0; i < sub->codec; i++)
+   163			vp += avd->variant->vp_slots[i];
+   164	
+   165		schedule_delayed_work(&ctx->watchdog_work, msecs_to_jiffies(2000));
+   166		avd->variant->configure_stream(avd, ctx->inst.addr, ctx->fifo_idx, vp);
+   167		reg = avd->ctrl + avd->variant->vp_slot_offset + vp * 4;
+   168	
+   169		/* the first segment is always the header (needs special handling) */
+   170	
+   171		writel(AVD_OP_EXEC | exec_mask | exec_rev_flag |
+   172			       AVD_OP_EXEC_FIFO_IDX(ctx->fifo_idx),
+   173		       reg);
+   174		seg = &sub->segments[idx++];
+   175		for (i = 0; i < seg->num; i++)
+   176			writel(seg->instructions[i], reg);
+   177		for (; idx <= sub->num; idx++) {
+   178			seg = &sub->segments[idx];
+   179			for (i = 0; i < seg->num; i++)
+   180				writel(seg->instructions[i], reg);
+   181			if (avd_wait_submission_queue(ctx, vp))
+   182				break;
+   183			writel(AVD_OP_EXEC | exec_mask |
+   184				       AVD_OP_EXEC_FLAG_END(idx == sub->num),
+   185			       reg);
+   186		}
+   187	
+   188		kfree(sub->segments);
+   189		sub->segments = NULL;
+   190		return 0;
+   191	}
+   192	
 
 --
 0-DAY CI Kernel Test Service
