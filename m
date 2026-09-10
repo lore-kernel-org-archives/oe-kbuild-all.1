@@ -1,162 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F8F364EB6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 01:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E72364022
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 01:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789004402; cv=none; b=s9YdAIHPxiYufHMVdm6QkPc27kUIlS3FFo2H8xA01olUj06F462oNnWqmGgxi1Xgm+zJPdkN8TbD2rMZurUXjJnM8DCZnvDq/sm9uARjL3gpZmNpz+pufEff4wExQY6pPjJJPmwOx6/f6Rb7WSAhc7mAiw3uQ2i2T7716y9+i4A=
+	t=1789005057; cv=none; b=kORI25vH8taOW4eQYMuWECndwbInXzc0o9WYGdDgPO22WZgaUUp66zFc2FS4HTYoIFduIu+68VU1+7A9u5xtVDRFfR+J4Vo5f6Myc/TD+NF2hvmmETaKH3sIWE44H/gAtSK5mqJcB9pldndCASDjDDriZDStJG0myLvoKg/cXyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789004402; c=relaxed/simple;
-	bh=7eJlRhYUSCRjBQJUVrGhLJFMHDY2ri2GxDXNKikWGFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EoKQIRZZKxm5ykpa4xag55vcEwvaHyKC2GzFddNj9f92xp14lcRsv28KITxxa/6UJSqO50JdBaA3JdqPRaHLwQob6Y9iaNuFVvF5MvnzaBT8tiToiQdE/bFtJPmSZ9VJKeWuEso+or/SpnriBpSd+ggexoF5ACpnGr0GphOG34M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tkz72tDj; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1789005057; c=relaxed/simple;
+	bh=B63td0T0Yo8U9nw3AiUjGWFsRf5Z4SvKDepmKxjXXQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=N5f8FHpjiwv7tAZ3ZgGjLcm9Vnp+OrY8la69R3aX7EXD4yXuxvcCKotv0iSQ8lG+E84eXjG0hf1gGe215iAE+d5p48P1q4+rZmPRxw2yihLmh5EgBHqxDnpxMPf4QBh0XE2I6GDb7IMgHvlrPm8hL/XocCMngn7NMVhKRTYDmow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mgbA2Tbr; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tkz72tDj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mgbA2Tbr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789004400; x=1820540400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7eJlRhYUSCRjBQJUVrGhLJFMHDY2ri2GxDXNKikWGFQ=;
-  b=Tkz72tDjtyBNxArgDXe7CE0eMJkbtkumosGoEbsHMVXzVbLeTmf4CSbV
-   qlmMcHR8SAwY7aUIQAEhDk5t+4w7WqXu3QxOotMnJPPbZej2DCxKI7LcT
-   CUPcZL8ZDuwfSQHv4tPcndRutCGgqV7sZR0m9PE81pppmd8ZqOZJUWSQi
-   drLAYZFquITwac+BhXRqJh8rXrQCDRmFlmH9/+EpGWTZSJGrSP/O4FX7E
-   VeqvCs9SqZbQ3i78X1W+IOjg5I6jyXb8DDSp3IxwDXFL6LKAdTMjPHsKP
-   wp3P9AEpKIIPnJKiVcKdoIoXSgrzrSP3zNvjoQmqj2pfq4u3EuHcXNJjt
-   g==;
-X-CSE-ConnectionGUID: KAsKgqKMRDm49Ehl5c/ksA==
-X-CSE-MsgGUID: DoKON+9ZSeirJe4mTjNNuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="93269742"
+  t=1789005054; x=1820541054;
+  h=date:from:to:cc:subject:message-id;
+  bh=B63td0T0Yo8U9nw3AiUjGWFsRf5Z4SvKDepmKxjXXQQ=;
+  b=mgbA2Tbr5/ijxZYIwngrIdURJd5ghZlYWdMbUwv5qXVe4mkaTighHXEa
+   inorFTHoqb4oIrMZrb8lpXP3bp64X337uridSyKxaIrXXNTQkag0rqYt0
+   FfN+6H+wsKkGMEU/Znw8Sa03LMGEvYIcA1bTZCfc+ACyNhakc4Mu6zem8
+   uO7pI+A3KN1zPDoXL7uq3DwGVzsCM+CxnLxQnmZ2LFzitHQHC7f08eNfv
+   9iSLoS5Ro0k0ZAyboWl2Mpujma5isJBfcFB6XeWOCA6oHV96g0vjU/puc
+   SPs+W2fDNGVgIuy8YhcpU5ibna6jWD92iFItptLYXx0HxKvcqsC+NINxC
+   Q==;
+X-CSE-ConnectionGUID: oXp/seAkRMOLX78m7I3Gkw==
+X-CSE-MsgGUID: fjgMhdEzTL6Wll0SgUEo8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="112218038"
 X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="93269742"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 18:39:59 -0700
-X-CSE-ConnectionGUID: EYP87P8xRN6nqNsrDMlwtw==
-X-CSE-MsgGUID: /Rm+jYFORf29YO6rb2bdrA==
+   d="scan'208";a="112218038"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 18:50:53 -0700
+X-CSE-ConnectionGUID: 6OIZ2vafRkiRq1fiffkl4A==
+X-CSE-MsgGUID: kKlvfaJaS8WrrLLxKxYpng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="269720277"
+   d="scan'208";a="276724306"
 Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Sep 2026 18:39:52 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Sep 2026 18:50:51 -0700
 Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4TlU-000000001EK-25yq;
-	Thu, 10 Sep 2026 01:39:48 +0000
-Date: Thu, 10 Sep 2026 09:38:48 +0800
+	id 1x4Tw8-000000001Ea-3MO5;
+	Thu, 10 Sep 2026 01:50:48 +0000
+Date: Thu, 10 Sep 2026 09:50:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Irlanki Sandeep <irlanki.s@samsung.com>, netdev@vger.kernel.org,
-	bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, ncardwell@google.com,
-	ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-	corbet@lwn.net, linux-kernel@vger.kernel.org, lorenzo@google.com,
-	maze@google.com, sporeba@google.com, motomuman@google.com,
-	srihari.k@samsung.com, g.pokhra@samsung.com, r.kumawat@samsung.com,
-	raj.kumars@samsung.com, ts413.lee@samsung.com,
-	Irlanki Sandeep <irlanki.s@samsung.com>
-Subject: Re: [PATCH net-next] tcp: add TCP_ECN and TCP_ECN_OPTION socket
- options
-Message-ID: <202609100957.cYRwpjGl-lkp@intel.com>
-References: <20260909144557.800676-1-irlanki.s@samsung.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [paulmck-rcu:dev.2026.09.03a 43/55]
+ drivers/usb/mtu3/./mtu3_trace.h:239:55: error: invalid type argument of '->'
+ (have 'struct mtu3_gpd_ring')
+Message-ID: <202609100921.vDOlHS7p-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260909144557.800676-1-irlanki.s@samsung.com>
 
-Hi Irlanki,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 548b86839f7fb819a4d6c83b71c73ec378d24275]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Irlanki-Sandeep/tcp-add-TCP_ECN-and-TCP_ECN_OPTION-socket-options/20260909-201557
-base:   548b86839f7fb819a4d6c83b71c73ec378d24275
-patch link:    https://lore.kernel.org/r/20260909144557.800676-1-irlanki.s%40samsung.com
-patch subject: [PATCH net-next] tcp: add TCP_ECN and TCP_ECN_OPTION socket options
-config: i386-randconfig-141-20260910 (https://download.01.org/0day-ci/archive/20260910/202609100957.cYRwpjGl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100957.cYRwpjGl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2026.09.03a
+head:   6c5c244f4b239bc4d284e58a2f79a143648557cb
+commit: afda2321e6e93a5bcc28bfb4717fbc3a1768446c [43/55] EXP drivers/usb/mtu3: Work around mtu3_log_ep double-indirection issue
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609100921.vDOlHS7p-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100921.vDOlHS7p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609100957.cYRwpjGl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609100921.vDOlHS7p-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the paulmck-rcu/dev.2026.09.03a HEAD 6c5c244f4b239bc4d284e58a2f79a143648557cb builds fine.
+      It only hurts bisectability.
 
-   net/ipv4/tcp_input.c: In function 'tcp_ecn_create_request':
->> net/ipv4/tcp_input.c:7460:27: warning: unused variable 'net' [-Wunused-variable]
-    7460 |         const struct net *net = sock_net(listen_sk);
-         |                           ^~~
+All errors (new ones prefixed by >>):
+
+   In file included from include/trace/define_trace.h:132,
+                    from drivers/usb/mtu3/mtu3_trace.h:279,
+                    from drivers/usb/mtu3/mtu3_trace.c:12:
+   drivers/usb/mtu3/./mtu3_trace.h: In function 'do_trace_event_raw_event_mtu3_log_ep':
+>> drivers/usb/mtu3/./mtu3_trace.h:239:55: error: invalid type argument of '->' (have 'struct mtu3_gpd_ring')
+     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
+         |                                                       ^~
+   include/trace/trace_events.h:448:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
+     448 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:456:23: note: in expansion of macro 'PARAMS'
+     456 |                       PARAMS(assign), PARAMS(print))                    \
+         |                       ^~~~~~
+   drivers/usb/mtu3/./mtu3_trace.h:214:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+     214 | DECLARE_EVENT_CLASS(mtu3_log_ep,
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/mtu3/./mtu3_trace.h:229:9: note: in expansion of macro 'TP_fast_assign'
+     229 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:133:
+   drivers/usb/mtu3/./mtu3_trace.h: In function 'do_perf_trace_mtu3_log_ep':
+>> drivers/usb/mtu3/./mtu3_trace.h:239:55: error: invalid type argument of '->' (have 'struct mtu3_gpd_ring')
+     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
+         |                                                       ^~
+   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
+      67 |                       PARAMS(assign), PARAMS(print))                    \
+         |                       ^~~~~~
+   drivers/usb/mtu3/./mtu3_trace.h:214:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+     214 | DECLARE_EVENT_CLASS(mtu3_log_ep,
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/mtu3/./mtu3_trace.h:229:9: note: in expansion of macro 'TP_fast_assign'
+     229 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
 
 
-vim +/net +7460 net/ipv4/tcp_input.c
+vim +239 drivers/usb/mtu3/./mtu3_trace.h
 
-1fb6f159fd21c64 Octavian Purdila                      2014-06-25  7436  
-d82bd1229885d55 Florian Westphal                      2014-09-29  7437  /* RFC3168 : 6.1.1 SYN packets must not have ECT/ECN bits set
-d82bd1229885d55 Florian Westphal                      2014-09-29  7438   *
-d82bd1229885d55 Florian Westphal                      2014-09-29  7439   * If we receive a SYN packet with these bits set, it means a
-d82bd1229885d55 Florian Westphal                      2014-09-29  7440   * network is playing bad games with TOS bits. In order to
-d82bd1229885d55 Florian Westphal                      2014-09-29  7441   * avoid possible false congestion notifications, we disable
-f4e715c3254e3c0 stephen hemminger                     2014-10-29  7442   * TCP ECN negotiation.
-d82bd1229885d55 Florian Westphal                      2014-09-29  7443   *
-d82bd1229885d55 Florian Westphal                      2014-09-29  7444   * Exception: tcp_ca wants ECN. This is required for DCTCP
-843c2fdf7a12951 Florian Westphal                      2015-01-30  7445   * congestion control: Linux DCTCP asserts ECT on all packets,
-843c2fdf7a12951 Florian Westphal                      2015-01-30  7446   * including SYN, which is most optimal solution; however,
-843c2fdf7a12951 Florian Westphal                      2015-01-30  7447   * others, such as FreeBSD do not.
-f6fee16dbbe3fe4 Tilmans, Olivier (Nokia - BE/Antwerp  2019-04-03  7448)  *
-f6fee16dbbe3fe4 Tilmans, Olivier (Nokia - BE/Antwerp  2019-04-03  7449)  * Exception: At least one of the reserved bits of the TCP header (th->res1) is
-f6fee16dbbe3fe4 Tilmans, Olivier (Nokia - BE/Antwerp  2019-04-03  7450)  * set, indicating the use of a future TCP extension (such as AccECN). See
-f6fee16dbbe3fe4 Tilmans, Olivier (Nokia - BE/Antwerp  2019-04-03  7451)  * RFC8311 §4.3 which updates RFC3168 to allow the development of such
-f6fee16dbbe3fe4 Tilmans, Olivier (Nokia - BE/Antwerp  2019-04-03  7452)  * extensions.
-d82bd1229885d55 Florian Westphal                      2014-09-29  7453   */
-d82bd1229885d55 Florian Westphal                      2014-09-29  7454  static void tcp_ecn_create_request(struct request_sock *req,
-d82bd1229885d55 Florian Westphal                      2014-09-29  7455  				   const struct sk_buff *skb,
-f7b3bec6f5167ef Florian Westphal                      2014-11-03  7456  				   const struct sock *listen_sk,
-f7b3bec6f5167ef Florian Westphal                      2014-11-03  7457  				   const struct dst_entry *dst)
-d82bd1229885d55 Florian Westphal                      2014-09-29  7458  {
-d82bd1229885d55 Florian Westphal                      2014-09-29  7459  	const struct tcphdr *th = tcp_hdr(skb);
-d82bd1229885d55 Florian Westphal                      2014-09-29 @7460  	const struct net *net = sock_net(listen_sk);
-d82bd1229885d55 Florian Westphal                      2014-09-29  7461  	bool th_ecn = th->ece && th->cwr;
-843c2fdf7a12951 Florian Westphal                      2015-01-30  7462  	bool ect, ecn_ok;
-c3a8d9474684d39 Daniel Borkmann                       2015-08-31  7463  	u32 ecn_ok_dst;
-d82bd1229885d55 Florian Westphal                      2014-09-29  7464  
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7465  	if (tcp_accecn_syn_requested(th) &&
-4ea2ce8e35e36ab Irlanki Sandeep                       2026-09-09  7466  	    (tcp_ecn_mode_eff(listen_sk) >= 3 ||
-100f946b8d44b64 Chia-Yu Chang                         2026-01-31  7467  	     tcp_ca_needs_accecn(listen_sk))) {
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7468  		inet_rsk(req)->ecn_ok = 1;
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7469  		tcp_rsk(req)->accecn_ok = 1;
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7470  		tcp_rsk(req)->syn_ect_rcv = TCP_SKB_CB(skb)->ip_dsfield &
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7471  					    INET_ECN_MASK;
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7472  		return;
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7473  	}
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7474  
-d82bd1229885d55 Florian Westphal                      2014-09-29  7475  	if (!th_ecn)
-d82bd1229885d55 Florian Westphal                      2014-09-29  7476  		return;
-d82bd1229885d55 Florian Westphal                      2014-09-29  7477  
-d82bd1229885d55 Florian Westphal                      2014-09-29  7478  	ect = !INET_ECN_is_not_ect(TCP_SKB_CB(skb)->ip_dsfield);
-c3a8d9474684d39 Daniel Borkmann                       2015-08-31  7479  	ecn_ok_dst = dst_feature(dst, DST_FEATURE_ECN_MASK);
-4ea2ce8e35e36ab Irlanki Sandeep                       2026-09-09  7480  	ecn_ok = tcp_ecn_mode_eff(listen_sk) || ecn_ok_dst;
-d82bd1229885d55 Florian Westphal                      2014-09-29  7481  
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7482  	if (((!ect || th->res1 || th->ae) && ecn_ok) ||
-3cae34274c79e0c Ilpo Järvinen                         2025-09-16  7483  	    tcp_ca_needs_ecn(listen_sk) ||
-91b5b21c7c16899 Lawrence Brakmo                       2017-06-30  7484  	    (ecn_ok_dst & DST_FEATURE_ECN_CA) ||
-91b5b21c7c16899 Lawrence Brakmo                       2017-06-30  7485  	    tcp_bpf_ca_needs_ecn((struct sock *)req))
-d82bd1229885d55 Florian Westphal                      2014-09-29  7486  		inet_rsk(req)->ecn_ok = 1;
-d82bd1229885d55 Florian Westphal                      2014-09-29  7487  }
-d82bd1229885d55 Florian Westphal                      2014-09-29  7488  
+   213	
+   214	DECLARE_EVENT_CLASS(mtu3_log_ep,
+   215		TP_PROTO(struct mtu3_ep *mep),
+   216		TP_ARGS(mep),
+   217		TP_STRUCT__entry(
+   218			__string(name, mep->name)
+   219			__field(unsigned int, type)
+   220			__field(unsigned int, slot)
+   221			__field(unsigned int, maxp)
+   222			__field(unsigned int, mult)
+   223			__field(unsigned int, maxburst)
+   224			__field(unsigned int, flags)
+   225			__field(unsigned int, direction)
+   226			__field(struct mtu3_gpd_ring *, gpd_ring)
+   227			__field(dma_addr_t *, gpd_ring_dma)
+   228		),
+   229		TP_fast_assign(
+   230			__assign_str(name);
+   231			__entry->type = mep->type;
+   232			__entry->slot = mep->slot;
+   233			__entry->maxp = mep->ep.maxpacket;
+   234			__entry->mult = mep->ep.mult;
+   235			__entry->maxburst = mep->ep.maxburst;
+   236			__entry->flags = mep->flags;
+   237			__entry->direction = mep->is_in;
+   238			__entry->gpd_ring = &mep->gpd_ring;
+ > 239			__entry->gpd_ring_dma = &mep->gpd_ring->dma;
+   240		),
+   241		TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
+   242			__get_str(name), usb_ep_type_string(__entry->type),
+   243			__entry->maxp, __entry->slot,
+   244			__entry->mult, __entry->maxburst,
+   245			__entry->gpd_ring, __entry->gpd_ring_dma,
+   246			__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
+   247			__entry->flags & MTU3_EP_STALL ? 'S' : 's',
+   248			__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
+   249			__entry->flags & MTU3_EP_BUSY ? 'B' : 'b',
+   250			__entry->direction ? '<' : '>'
+   251		)
+   252	);
+   253	
 
 --
 0-DAY CI Kernel Test Service
