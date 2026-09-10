@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67C03D170C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 15:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93454A8FE9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 15:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789055017; cv=none; b=Xenwq0cNLi1ouu5XC33NfEiTvCw/1whV0o0qzUVfcKrIPZE5RnITMwrFYWvbDBUd1pgPYFwgeXtztMx1LI6LSD6I91cUZPduZr3MWNGa+UoWBcqi8fNMiOkguobuDmPrNgMC4A8E/h2gMWqgKHe754GA8NpTojaWMYqnr9Gl5OY=
+	t=1789055017; cv=none; b=cBQ/euQx7IVK1M1TSp0IPpQEBSCpRSLO2EY6repvvka1Lwq4JsDZ9oYMa7z5PeUjCJq/TXdrQUdllZq4V6/SV0nkaAnb7VeBnqPeml9MaSouGI5lU4JywUce0FKoWwdwchEPjnedQKE3x19CaCbsj9bKeGoA2dSs1/fScVMY+jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789055017; c=relaxed/simple;
-	bh=6GIudFi2xB6F7F625x6Q63Mq2VADyI7amV8nbpSxR5U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=N1e1XU+gXctkQVUdOlqe7j+VbBKavKsLbpBIYC7V2oewQIJMQ9kDScVBArbeVtgBeTI4dPXUFho3zcpQsHvK2Tgdmv54SACWXigbusUJ7VIyUVZdjpLSklBRl/SoxgKG+y/vrUmewiNWCtXOAe+Uxte2k5gPrCy6aSviQMwDJao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W4eiPxau; arc=none smtp.client-ip=198.175.65.15
+	bh=E3hbqsU4ye4Ilq8a2BTuZkyUuhbQp+b7TCuQX94A82Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WmtdRIXNKlUZpx7QjqDAFHf3eewUQxaee1MWqWc/d3xzjodC/cup+qxhMhoCRWmZLGynp+BUMN6ck2PUKLVfyEIs6B8WnAsd0mFGXXg8Z3ILYDvrWtRkpDzAmqiS+Kzfla7h8vJdbzRBvlrizjunbQxwWVWSP4ND7EW/dY+7iGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KZhAvJpZ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W4eiPxau"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KZhAvJpZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789055016; x=1820591016;
+  t=1789055015; x=1820591015;
   h=date:from:to:cc:subject:message-id;
-  bh=6GIudFi2xB6F7F625x6Q63Mq2VADyI7amV8nbpSxR5U=;
-  b=W4eiPxau/7GltUt88qMw14sFbOOV89jp+lCeIz60uAES00vH+toIfpVR
-   e1VnQg5TzyqjZtlH97SPogoI6MerXg/4Q9FRbMqAyQGlj8Fy8a1Beg/gp
-   Zwj9OCXjV7leW7fy1Jeou8R+0qL2mR7SfTfsq/CHPqjET//YhciL7j+fz
-   Wp39MAcUzEMKyvpKpAwIA1KtolGr9McJEbIaiaseYc1tOGzhsBjcHBUdk
-   yNHpVdGT/ySRk4GEhjbG8SRCCpuJ1bG9ecEuBR0f9Fx8/gKt74cM2htwa
-   ruMIWfiuMMJb2Ox/3im+dh1ZLzhyCG8xdxV6/WKkMTKpmzvgkjW0wHV86
-   Q==;
-X-CSE-ConnectionGUID: zZ7W7LI2QGW5LVP6A4pEqg==
-X-CSE-MsgGUID: 2OuQyPCzQyCgtg59hl2kmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="93200684"
+  bh=E3hbqsU4ye4Ilq8a2BTuZkyUuhbQp+b7TCuQX94A82Y=;
+  b=KZhAvJpZMvkOIXtZOKoGydwP5UDLXYSiXqMlexAsenhdtoSqmP6lyRHS
+   6clQL5LE3mD9PZTpqFODR2Wcqg3qF4enUOHxBt0txsVilqztGo3its72i
+   UnZoIvI8O2j/iTuhRPfd0F7SmAt94/5UqSM7bN0WjRViqqgFKc8GYm6hY
+   atkwc1T/m2X4fiqsDsjGWyHAFfgWryr157EisiKoNOAQTa4n6higvavjB
+   KbTttY7iR6liix8Fbcr2uTnidF4rtFxMi7pCZCm+ax+Vf9Pg0IaYltwDN
+   GPIhWNLd7aEV18N9MA6TpOgsCIS1rXyyfnhDRsqC2i9xxqxDhboREy44I
+   g==;
+X-CSE-ConnectionGUID: BwLOhrmVSN+SZ0l1oD1JiA==
+X-CSE-MsgGUID: 0/5AnEbiTISazepLlSAmkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="112280554"
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="93200684"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 08:43:34 -0700
-X-CSE-ConnectionGUID: kYXD/zrRSxKD/vvnb7n25Q==
-X-CSE-MsgGUID: Y6oTUiczTF+oLhwURJ6dgg==
+   d="scan'208";a="112280554"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 08:43:33 -0700
+X-CSE-ConnectionGUID: p+dvJ2HmSjm01BrGto5Z2w==
+X-CSE-MsgGUID: b0xz9glmR3CybWNXw8GMHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="301572128"
+   d="scan'208";a="295152008"
 Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2026 08:43:31 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 10 Sep 2026 08:43:32 -0700
 Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4gvx-000000000RF-38b6;
-	Thu, 10 Sep 2026 15:43:29 +0000
-Date: Thu, 10 Sep 2026 17:42:34 +0200
+	id 1x4gvy-000000000RP-04sl;
+	Thu, 10 Sep 2026 15:43:30 +0000
+Date: Thu, 10 Sep 2026 17:42:33 +0200
 From: kernel test robot <lkp@intel.com>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org
-Subject: [akpm-mm:mm-new 360/388]
- arch/powerpc/mm/book3s64/radix_pgtable.c:1274:53: error: implicit declaration
- of function 'device_zone'; did you mean 'device_move'?
-Message-ID: <202609100959.X16FvH9R-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ arm@kernel.org
+Subject: [soc:board-remove-7.3 216/294]
+ drivers/media/i2c/ds90ub913.c:23:10: fatal error: 'media/i2c/ds90ub9xx.h'
+ file not found
+Message-ID: <202609100829.dZoZmxp2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,131 +61,40 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   cf558a250cf4475a8936902b8978fbb6c61016f8
-commit: 88ef4ca76f70778f2f51c9e749dc9bcc607a2424 [360/388] powerpc/mm: switch device DAX to shared tail vmemmap pages
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260910/202609100959.X16FvH9R-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100959.X16FvH9R-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove-7.3
+head:   3ac93c1e700558259ea604f7d4f37e26820fba15
+commit: c473be37547a95e20e5f6cc7c01968ab474a58a4 [216/294] media: i2c: ds90ub9xx: remove global platform_data definition
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20260910/202609100829.dZoZmxp2-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100829.dZoZmxp2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609100959.X16FvH9R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609100829.dZoZmxp2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/powerpc/mm/book3s64/radix_pgtable.c: In function 'vmemmap_populate_compound_pages':
->> arch/powerpc/mm/book3s64/radix_pgtable.c:1274:53: error: implicit declaration of function 'device_zone'; did you mean 'device_move'? [-Wimplicit-function-declaration]
-    1274 |         tail_page = vmemmap_shared_tail_page(order, device_zone(node));
-         |                                                     ^~~~~~~~~~~
-         |                                                     device_move
->> arch/powerpc/mm/book3s64/radix_pgtable.c:1274:53: error: passing argument 2 of 'vmemmap_shared_tail_page' makes pointer from integer without a cast [-Wint-conversion]
-    1274 |         tail_page = vmemmap_shared_tail_page(order, device_zone(node));
-         |                                                     ^~~~~~~~~~~~~~~~~
-         |                                                     |
-         |                                                     int
-   In file included from arch/powerpc/mm/book3s64/radix_pgtable.c:22:
-   ./include/linux/vmemmap-optimization.h:89:72: note: expected 'struct zone *' but argument is of type 'int'
-      89 | struct page *vmemmap_shared_tail_page(unsigned int order, struct zone *zone);
-         |                                                           ~~~~~~~~~~~~~^~~~
+>> drivers/media/i2c/ds90ub913.c:23:10: fatal error: 'media/i2c/ds90ub9xx.h' file not found
+      23 | #include <media/i2c/ds90ub9xx.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +1274 arch/powerpc/mm/book3s64/radix_pgtable.c
+vim +23 drivers/media/i2c/ds90ub913.c
 
-  1253	
-  1254	int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
-  1255						      unsigned long start,
-  1256						      unsigned long end, int node,
-  1257						      struct dev_pagemap *pgmap)
-  1258	{
-  1259		/*
-  1260		 * we want to map things as base page size mapping so that
-  1261		 * we can save space in vmemmap. We could have huge mapping
-  1262		 * covering out both edges.
-  1263		 */
-  1264		unsigned long addr;
-  1265		unsigned long next;
-  1266		pgd_t *pgd;
-  1267		p4d_t *p4d;
-  1268		pud_t *pud;
-  1269		pmd_t *pmd;
-  1270		pte_t *pte;
-  1271		struct page *tail_page;
-  1272		unsigned int order = pfn_to_section_order(start_pfn);
-  1273	
-> 1274		tail_page = vmemmap_shared_tail_page(order, device_zone(node));
-  1275		if (!tail_page)
-  1276			return -ENOMEM;
-  1277	
-  1278		for (addr = start; addr < end; addr = next) {
-  1279	
-  1280			pgd = pgd_offset_k(addr);
-  1281			p4d = p4d_offset(pgd, addr);
-  1282			pud = vmemmap_pud_alloc(p4d, node, addr);
-  1283			if (!pud)
-  1284				return -ENOMEM;
-  1285			pmd = vmemmap_pmd_alloc(pud, node, addr);
-  1286			if (!pmd)
-  1287				return -ENOMEM;
-  1288	
-  1289			if (pmd_leaf(READ_ONCE(*pmd))) {
-  1290				/* existing huge mapping. Skip the range */
-  1291				next = pmd_addr_end(addr, end);
-  1292				continue;
-  1293			}
-  1294			pte = vmemmap_pte_alloc(pmd, node, addr);
-  1295			if (!pte)
-  1296				return -ENOMEM;
-  1297			if (!pte_none(*pte)) {
-  1298				/*
-  1299				 * This could be because we already have a compound
-  1300				 * page whose VMEMMAP_RESERVE_NR pages were mapped and
-  1301				 * this request fall in those pages.
-  1302				 */
-  1303				next = addr + PAGE_SIZE;
-  1304				continue;
-  1305			} else {
-  1306				unsigned long nr_pages = 1UL << order;
-  1307				unsigned long addr_pfn = page_to_pfn((struct page *)addr);
-  1308				unsigned long pfn_offset = addr_pfn - ALIGN_DOWN(addr_pfn, nr_pages);
-  1309	
-  1310				/*
-  1311				 * if the address is aligned to huge page size it is the
-  1312				 * head mapping.
-  1313				 */
-  1314				if (pfn_offset == 0) {
-  1315					/* Populate the head page vmemmap page */
-  1316					pte = radix__vmemmap_pte_populate(pmd, addr, node, NULL, NULL);
-  1317					if (!pte)
-  1318						return -ENOMEM;
-  1319					vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
-  1320	
-  1321					/*
-  1322					 * Populate the tail pages vmemmap page
-  1323					 * It can fall in different pmd, hence
-  1324					 * vmemmap_populate_address()
-  1325					 */
-  1326					pte = radix__vmemmap_populate_address(addr + PAGE_SIZE, node, NULL, NULL);
-  1327					if (!pte)
-  1328						return -ENOMEM;
-  1329	
-  1330					next = addr + 2 * PAGE_SIZE;
-  1331					continue;
-  1332				}
-  1333	
-  1334				pte = radix__vmemmap_pte_populate(pmd, addr, node, NULL, tail_page);
-  1335				if (!pte)
-  1336					return -ENOMEM;
-  1337				vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
-  1338	
-  1339				next = addr + PAGE_SIZE;
-  1340				continue;
-  1341			}
-  1342		}
-  1343		return 0;
-  1344	}
-  1345	
+c158d0d4ff1530 Tomi Valkeinen 2023-06-19  22  
+c158d0d4ff1530 Tomi Valkeinen 2023-06-19 @23  #include <media/i2c/ds90ub9xx.h>
+be1e71b1db5779 Tomi Valkeinen 2023-07-31  24  #include <media/v4l2-fwnode.h>
+be1e71b1db5779 Tomi Valkeinen 2023-07-31  25  #include <media/v4l2-mediabus.h>
+c158d0d4ff1530 Tomi Valkeinen 2023-06-19  26  #include <media/v4l2-subdev.h>
+c158d0d4ff1530 Tomi Valkeinen 2023-06-19  27  
+
+:::::: The code at line 23 was first introduced by commit
+:::::: c158d0d4ff15309fd63b7d7cf50a5153bead894a media: i2c: add DS90UB913 driver
+
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
