@@ -1,212 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15C749BD90;
-	Thu, 10 Sep 2026 14:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D1F48F84E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 14:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789049718; cv=none; b=AKmxKtBm0wYiRNLruP7YhgyzUO4N9hloOLhu1s0HdNse9qPY/WOzV5umKOS/EYua4AIpziNL1xHzB3QgOwWvgZE96eb3x6mx00TxyCprKs/uWajQh1mA7tSQpZ6eTHjcTtibF0RT0PlMRjy6EFoI3BAAXeAv2vKCief+J1l5Lj0=
+	t=1789050017; cv=none; b=jc9yUE85Jaug7D58syq2gthzTidpSnnyFWYMlHW5keZtpaVYGNKZK/1oQ8h+vqR68XbPUjEiJzoBRZtST1f9MBojgPrz5n3Dl/mIwMIPok69FMiT0vAsbpC9PXeaMFUM8xQs+DB8z/58zr0U+jJlNf7LFXNuPgeBEEXRBUpx7wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789049718; c=relaxed/simple;
-	bh=mDVnyyipZwiMq6Elf6ansEdymEt5Z0wVe/0clwdH0gg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NmqAr75sDIQlQxgovNQVR873tm+AWGGR9WTfTE/oWfmVIOzXp++Uy8URsCAS9vrT493+4G3ZjmnAVOdIoFiqG2q2KSb6fcG1L4hO0TIKZGebc6p8gBzvlj5NknZAUnJw3UZyDblP+iMPTKT34/sgWOYdNWkYXQfvIIG6Z8Cehqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PeLekPf1; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789050017; c=relaxed/simple;
+	bh=sxif0wyfcq8H412Y4yshHq0FWsb1CQN9/MCMEpTGBR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Guim5ddgt+9hYq2AYbdW/S7pNsy5gfZ1sKW9gHdWEme3frQHheAvFxDxxOfCm+bTW5jFyYgk1uGcISOwIKXLYBM6Sk+kcRMT8ZFE/FxYFALVRzldjbYdYp7ykSXFtSzh7IdzKrqsDsX2O+peGPi14epZdbLC8ARXIQ/iE3BV114=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jn++zxOl; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PeLekPf1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789049716; x=1820585716;
-  h=date:from:to:cc:subject:message-id;
-  bh=mDVnyyipZwiMq6Elf6ansEdymEt5Z0wVe/0clwdH0gg=;
-  b=PeLekPf1WAa05VXp9m+H3sE/vIlopb0PWKadGlT7KegSSF4pDSWPGdQs
-   F+deOmqC4Rc+zcAlMfxhEaAVWYwjRULr+JPSbI0A3hbA65vQrdrcc6G8r
-   v/qcCmzstFD6P2QquGM992yWvLejeV9PXlyRcxIqVJU+YywScQt0OpevJ
-   UKZymk+oFrB22vlAXd0R5Y2LaCQ5AWqV+/Oqrrcq2g2pRJOJs1oVUkvxh
-   Jk1Mv6fZoEXoOF2VP9cQ0iWMGaLvo+0DFoLZejw+3sNq1dABjqloNRdCm
-   E5MxBRN8hFSlM+Q2qQSoJmO7OWRJuRxgf84NmEB3iqTM46q13QSDxbUjK
-   g==;
-X-CSE-ConnectionGUID: W1FwzGwfT76e43aPMiG/mw==
-X-CSE-MsgGUID: pTB83w/eRTOIw2QdltqlSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="93325334"
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="93325334"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:15:15 -0700
-X-CSE-ConnectionGUID: Z0i0xx0oQI6Mo+h5LnHqRw==
-X-CSE-MsgGUID: H6DA+yGmQo6Pzez7K+Wexg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="301549453"
-Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2026 07:15:13 -0700
-Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x4fWw-00000000061-0SPW;
-	Thu, 10 Sep 2026 14:14:02 +0000
-Date: Thu, 10 Sep 2026 22:03:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: [paulmck-rcu:dev.2026.09.03a 43/55]
- drivers/usb/mtu3/./mtu3_trace.h:239:27: error: cannot take the address of an
- rvalue of type 'dma_addr_t' (aka 'unsigned long long')
-Message-ID: <202609101926.cc5w6bhk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jn++zxOl"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6a173ad7cf4so11756828a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 07:20:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789050012; x=1789654812; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ps82SqA662Agvdiz6i2Ym/UD36gHnRMXTJ78ECl6KLc=;
+        b=Jn++zxOlWS4C/qLqd6IsoKMrjDVFw74fUpaiVD2ZRE95pQ1u/hg7nbOL2qZNtuKxHS
+         UGvG9Pgu6EMYBv5qRtz68/E4VSF86lfAzkjQSO9e7pD2uP1PO/ZFzrxkTW5dNalLCuSE
+         aesh/h/3B6ftxiGgknrJquK+hZJM/P7BvfzJJttfF3NMzwVwN3eTFLgSnxhUN7Nadugc
+         V9hUtjezau2Dj0R1Os4iMeWATcJP2bnASMlCf/PGKnbTwIs/R7bd9n5cCqigStGZKFFK
+         2oX5hfvlNerZpkAWtQgNvCYU3ngxX8hGxqn6anAyo266/b0yJgxbZsRro6/JHOM3skvZ
+         jIvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789050012; x=1789654812;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ps82SqA662Agvdiz6i2Ym/UD36gHnRMXTJ78ECl6KLc=;
+        b=mNCceDBhtyAdxMcrlxCXWQYAkgTB6iwFhVGUpjCAlFBN4jF2PlVscewnXb9ym7Yigd
+         pIWcQyEwnW5HqmwD5mT5IVEiPhoOSHdhTXK4Tm35AvCJ69QBtHU4C5BvD8QQ/Skk9HzB
+         3SrrPO41RNvDxJFR6iBrGof05jpNwCdK0vow06j//ipmd7MLCsWgP7Kn4KRVg/rDwl1l
+         FotSz/pGM76PxJ7A5gUjwhAqsglMxPU90ePCy2CqBUZ04+TeJJ6yRTxs3mRzA9hNFCtf
+         v9DlsjirSDiySK2rYxhjEkaYUiB0fS37lKUmjl/6y1CQMF+ZaBEeV8DK6/O+ujgh7vz5
+         ua5w==
+X-Forwarded-Encrypted: i=1; AKwUvBwQCMXUr62vYeOYVBNC5Hn9LpRSaw8PF/A+Zfkon0Echx8/6eCqqxXg0DIUdUjcSd4i97pewLjaCQdkJ0CI@lists.linux.dev
+X-Gm-Message-State: AFuF++nU3r93UEkYaZ0fiHP6XZsWJcz7LafupaUd0f4kakBISjjybif7
+	HUIQ1nrS5KZE7zBqa3akzzA8Qy/AMn6P5MBx9ZaXpBD7YTK6sqkUR3V3
+X-Gm-Gg: AYBFou0OqmRSMgJinLkcdI0KIQpDud7ZwigiFnEY8KYiHknwfsupQWp0k5gzrXS6j8B
+	34zg5olgHkPMu5MckgXyHtsDQJ8cidLd/GblVk6OtKthQqqPNSYVCrXqJQAjI5uId7EzCf53k8v
+	Zv02WHwxTa+Z+5IW+cze3GgsP2j3Afwf2HmvJz9LroXZNWfBcYR152QlscDIZDOq0Ss4GnY2d/Q
+	VqOo4HX1hsD5yLixGUzAcv4B7e64zSUhIgNZ7bXWyJSgyoRC/hE+uNB35i5BQmJTbtJU4siiLOK
+	VfGXCKvcDKIoSzSug1IbuBVftm46qL8xwuXhCoqzN6TPKQoS29HZx0XJY1BbvwL2kgyPGAitrFl
+	teBM0I10ZwHq014okLVGTll0kHP9e7t2avM/ksjkUF6ZDBsC6EkqJCkK7M347u+dbtagS8BQzoK
+	5udf+4F7lHyCOgsfzfXL5NQqoIS1RvMiANuw7ZKsjLIoaYD2D1LZ/nL/caqdZ20+VqZS4=
+X-Received: by 2002:a05:6402:2350:b0:6a6:37a3:2b0f with SMTP id 4fb4d7f45d1cf-6a7e8d6e0cfmr14523801a12.8.1789050011642;
+        Thu, 10 Sep 2026 07:20:11 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a9857ce120sm3083667a12.4.2026.09.10.07.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 07:20:10 -0700 (PDT)
+Date: Thu, 10 Sep 2026 17:20:07 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Neo Chang <YLCHANG2@nuvoton.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 1145/4316] sound/soc/codecs/nau8360-dsp.c:214
+ nau8360_message_to_dsp() warn: missing error code? 'ret'
+Message-ID: <202609081933.K4tVJnyh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2026.09.03a
-head:   6c5c244f4b239bc4d284e58a2f79a143648557cb
-commit: afda2321e6e93a5bcc28bfb4717fbc3a1768446c [43/55] EXP drivers/usb/mtu3: Work around mtu3_log_ep double-indirection issue
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260910/202609101926.cc5w6bhk-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c1872e7fd3307679a2da53f9d83de0ccf234b4ad)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609101926.cc5w6bhk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   944a035ecca915ae947905dcfb03f2b9dc6d032c
+commit: be88847a8bb1a14194cf50116f8909d127861318 [1145/4316] ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
+config: arm-randconfig-r071-20260908 (https://download.01.org/0day-ci/archive/20260908/202609081933.K4tVJnyh-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2362eeb5f75560740146975e9eabe84c6bd25a0d)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609101926.cc5w6bhk-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609081933.K4tVJnyh-lkp@intel.com/
 
-Note: the paulmck-rcu/dev.2026.09.03a HEAD 6c5c244f4b239bc4d284e58a2f79a143648557cb builds fine.
-      It only hurts bisectability.
+smatch warnings:
+sound/soc/codecs/nau8360-dsp.c:214 nau8360_message_to_dsp() warn: missing error code? 'ret'
 
-All errors (new ones prefixed by >>):
+vim +/ret +214 sound/soc/codecs/nau8360-dsp.c
 
-   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
-   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:489:
-   drivers/usb/mtu3/./mtu3_trace.h:239:41: error: member reference type 'struct mtu3_gpd_ring' is not a pointer; did you mean to use '.'?
-     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
-         |                                          ~~~~~~~~~~~~~^~
-         |                                                       .
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^~~~
-   include/trace/trace_events.h:456:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     456 |                       PARAMS(assign), PARAMS(print))                    \
-         |                              ^~~~~~
-   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
-     161 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/trace_events.h:448:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-     448 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
-   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:489:
->> drivers/usb/mtu3/./mtu3_trace.h:239:27: error: cannot take the address of an rvalue of type 'dma_addr_t' (aka 'unsigned long long')
-     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
-         |                                         ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^~~~
-   include/trace/trace_events.h:456:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-     456 |                       PARAMS(assign), PARAMS(print))                    \
-         |                              ^~~~~~
-   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
-     161 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/trace_events.h:448:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-     448 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
-   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
-   In file included from include/trace/define_trace.h:133:
-   In file included from include/trace/perf.h:110:
-   drivers/usb/mtu3/./mtu3_trace.h:239:41: error: member reference type 'struct mtu3_gpd_ring' is not a pointer; did you mean to use '.'?
-     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
-         |                                          ~~~~~~~~~~~~~^~
-         |                                                       .
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^~~~
-   include/trace/perf.h:67:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                              ^~~~~~
-   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
-     161 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/perf.h:51:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   In file included from drivers/usb/mtu3/mtu3_trace.c:12:
-   In file included from drivers/usb/mtu3/mtu3_trace.h:279:
-   In file included from include/trace/define_trace.h:133:
-   In file included from include/trace/perf.h:110:
->> drivers/usb/mtu3/./mtu3_trace.h:239:27: error: cannot take the address of an rvalue of type 'dma_addr_t' (aka 'unsigned long long')
-     239 |                 __entry->gpd_ring_dma = &mep->gpd_ring->dma;
-         |                                         ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/stage6_event_callback.h:133:33: note: expanded from macro 'TP_fast_assign'
-     133 | #define TP_fast_assign(args...) args
-         |                                 ^~~~
-   include/trace/perf.h:67:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                              ^~~~~~
-   include/linux/tracepoint.h:161:25: note: expanded from macro 'PARAMS'
-     161 | #define PARAMS(args...) args
-         |                         ^~~~
-   include/trace/perf.h:51:4: note: expanded from macro '\
-   __DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   4 errors generated.
+be88847a8bb1a1 Neo Chang 2026-08-25  198  static int nau8360_message_to_dsp(struct snd_soc_component *cp,
+be88847a8bb1a1 Neo Chang 2026-08-25  199  	const struct nau8360_cmd_info *cmd_info, int frag_len, int param_offset,
+be88847a8bb1a1 Neo Chang 2026-08-25  200  	int param_size, void *param_data, unsigned short dsp_addr)
+be88847a8bb1a1 Neo Chang 2026-08-25  201  {
+be88847a8bb1a1 Neo Chang 2026-08-25  202  	unsigned int payload;
+be88847a8bb1a1 Neo Chang 2026-08-25  203  	int ret, padding = 0, frag_cnt = 0;
+be88847a8bb1a1 Neo Chang 2026-08-25  204  
+be88847a8bb1a1 Neo Chang 2026-08-25  205  	ret = nau8360_dsp_idle(cp, dsp_addr);
+be88847a8bb1a1 Neo Chang 2026-08-25  206  	if (ret)
+be88847a8bb1a1 Neo Chang 2026-08-25  207  		return ret;
+be88847a8bb1a1 Neo Chang 2026-08-25  208  
+be88847a8bb1a1 Neo Chang 2026-08-25  209  	/* sending preamble fragment */
+be88847a8bb1a1 Neo Chang 2026-08-25  210  	payload = nau8360_pack_preamble(cmd_info->cmd_id, frag_len);
+be88847a8bb1a1 Neo Chang 2026-08-25  211  	snd_soc_component_write(cp, dsp_addr, payload);
+be88847a8bb1a1 Neo Chang 2026-08-25  212  
+be88847a8bb1a1 Neo Chang 2026-08-25  213  	if (!cmd_info->msg_param)
+be88847a8bb1a1 Neo Chang 2026-08-25 @214  		return ret;
 
+Please either change this to "return 0;" or "return -ERROR;"
 
-vim +239 drivers/usb/mtu3/./mtu3_trace.h
-
-   213	
-   214	DECLARE_EVENT_CLASS(mtu3_log_ep,
-   215		TP_PROTO(struct mtu3_ep *mep),
-   216		TP_ARGS(mep),
-   217		TP_STRUCT__entry(
-   218			__string(name, mep->name)
-   219			__field(unsigned int, type)
-   220			__field(unsigned int, slot)
-   221			__field(unsigned int, maxp)
-   222			__field(unsigned int, mult)
-   223			__field(unsigned int, maxburst)
-   224			__field(unsigned int, flags)
-   225			__field(unsigned int, direction)
-   226			__field(struct mtu3_gpd_ring *, gpd_ring)
-   227			__field(dma_addr_t *, gpd_ring_dma)
-   228		),
-   229		TP_fast_assign(
-   230			__assign_str(name);
-   231			__entry->type = mep->type;
-   232			__entry->slot = mep->slot;
-   233			__entry->maxp = mep->ep.maxpacket;
-   234			__entry->mult = mep->ep.mult;
-   235			__entry->maxburst = mep->ep.maxburst;
-   236			__entry->flags = mep->flags;
-   237			__entry->direction = mep->is_in;
-   238			__entry->gpd_ring = &mep->gpd_ring;
- > 239			__entry->gpd_ring_dma = &mep->gpd_ring->dma;
-   240		),
-   241		TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
-   242			__get_str(name), usb_ep_type_string(__entry->type),
-   243			__entry->maxp, __entry->slot,
-   244			__entry->mult, __entry->maxburst,
-   245			__entry->gpd_ring, __entry->gpd_ring_dma,
-   246			__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
-   247			__entry->flags & MTU3_EP_STALL ? 'S' : 's',
-   248			__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
-   249			__entry->flags & MTU3_EP_BUSY ? 'B' : 'b',
-   250			__entry->direction ? '<' : '>'
-   251		)
-   252	);
-   253	
+be88847a8bb1a1 Neo Chang 2026-08-25  215  
+be88847a8bb1a1 Neo Chang 2026-08-25  216  	/* sending payload + padding */
+be88847a8bb1a1 Neo Chang 2026-08-25  217  	payload = nau8360_pack_param(param_offset, param_size);
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
