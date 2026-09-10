@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3844A5C4A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51C84A64F2
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 15:41:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789054899; cv=none; b=fCW9yjDZciPbgVce4DQ7h866bFNEe1h54ule/K+1LjTvymZVuUHxmCRZoT/e8VC4lXhB+1rjCqBwkSWjmFzPvUXpdhfS3egRxcF1xDOjCwVXuKiSscK02N4yOQu29onRgNT0wk1sW5911QuvNnEYm+8ig82QGUrr6XhxW0a+2WU=
+	t=1789054900; cv=none; b=iwdUR8UP/oiF8zlIsciM0sBm5+P9ILvpb+T8wHCbTj8y71jpINT5XysmpFg80Y7BNe/0HFL/VYr/nQ9iwMYNDmPIpjY5FgkO/OGRifA5u80m4XQWq9fWuNw9sYEfO4duabAbafpw483ASLQMxOjpYquXQYfuRnyD5z+UF5W52LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789054899; c=relaxed/simple;
-	bh=aWBUWOL2JSFw86L0shreVBsdPmABhUf6e/ADRzlQelc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EpT8uXsh0ov2J0ZBNcppS1w2f3nNd61fd30UAPSAUEeOhpLF2EFmlpr8NNbtJSHrQRk1WaMRayDZ8SXXeiguUE05VyHFRHbGv3WGUgyBl3vIEJeve0aYwj7L4uQcrcAiGMwC1dH/cYL4xnjo3mFHxR+gzkdCYsbYnFkXM/upXus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nLB/PjG0; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1789054900; c=relaxed/simple;
+	bh=F7zOHFIkMV2gK8a3ZCdDJTDTUZP0lbu/hB0LU0S4bZg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=R2KRtOimIsgmYa1Cmw9L+1/M/aS0JeaVSW9IGzlR53pVtY21tKWEFd0w3kwogitLvsIZ8q9l9Nksqrf3Yj2ESs4KbVcOCBpIZZFx45g4VHOEEMk9VAtrCMpT2yXfyeYfFkZlPv3ENCvDeW2C4NlVqkwPZTZavPKj8FTRwe/nQBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fW+m1hAY; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nLB/PjG0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fW+m1hAY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789054898; x=1820590898;
+  t=1789054899; x=1820590899;
   h=date:from:to:cc:subject:message-id;
-  bh=aWBUWOL2JSFw86L0shreVBsdPmABhUf6e/ADRzlQelc=;
-  b=nLB/PjG0UDfyFpwaJjw/KE5WJwy2mA7SutnksTNtkF18+iantQcuyPe7
-   CnF3tSd1YLJviiqm+cW5iV9Ujre/8ngkzWONryAFVofLLivPP/eSZrAcJ
-   0jIKEN+ghQTv1EdOfFugUW/OvUv9GfSkTkAG2koppnNMN2IblwI9w5laz
-   oO7eoyRoXrh1XwMBuxJ7UvYcj23oGZug3sOUNiRzE6DMP0UPqUEezMH1B
-   ZhZQcQ8gJztyCLxnlzbHO4OiTKfy4oV0qE39kmJpf1iKP43LcyURPSa9i
-   pBw4OmgOu3GaQOUb6j3/BW17GLr1toHus4JZBiC5yuDzdT1Iy89S7lLrk
-   Q==;
-X-CSE-ConnectionGUID: XIm1JpePRJCtDFHy0TNskQ==
-X-CSE-MsgGUID: 1NwsBZNqQp2Wth0404rPlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="77066969"
+  bh=F7zOHFIkMV2gK8a3ZCdDJTDTUZP0lbu/hB0LU0S4bZg=;
+  b=fW+m1hAY3sH6lH9hJa++ZBOq8nF6/y25pNjOeVR1NAoiidYJsgjfyuSH
+   GEI6z5Kv4jRC3CtXQNNFCVgU73V3z+89KljSPsimHk4uDF6Pi3Mem5bFB
+   K52zTjnjv+wneJoY7+oqUjcuOEcEOi2uckR85Kkb/HGriZ9mdAzmPN0AG
+   9ByJsuO/kETg8Mja8scg/51wOoDBc+aTOzHtkwhWwQ2PVR5oZt/QRpykP
+   sVbBDRlQFEPNXPs+qBxoOx67l5L/YXHZOwYyB4TLVKwe1YqbwzR0hMFeP
+   Huvg1Zs8r38RSyY+5R3oKLqURk4SblpDkpaVNuuDRVR6orIo6O3GBLw3k
+   A==;
+X-CSE-ConnectionGUID: NBc1F89nS5yOxGfcN/nBXg==
+X-CSE-MsgGUID: daDevL/TR+e845rkHx5hEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="77066973"
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="77066969"
+   d="scan'208";a="77066973"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 08:41:33 -0700
-X-CSE-ConnectionGUID: vS7aVexnSW+BamBgF6yzuw==
-X-CSE-MsgGUID: xpt4iNb+RAiIR2i8siw4DQ==
+X-CSE-ConnectionGUID: JQUtgNEpSUqEUxqz4nm8GQ==
+X-CSE-MsgGUID: wU5KTm6gSZSvBUggqqwGAw==
 X-ExtLoop1: 1
 Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
   by fmviesa003.fm.intel.com with ESMTP; 10 Sep 2026 08:41:31 -0700
 Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4gu1-000000000Qm-1nw2;
+	id 1x4gu1-000000000Qp-1zYU;
 	Thu, 10 Sep 2026 15:41:29 +0000
-Date: Thu, 10 Sep 2026 17:41:00 +0200
+Date: Thu, 10 Sep 2026 17:41:01 +0200
 From: kernel test robot <lkp@intel.com>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  arm@kernel.org
-Subject: [soc:board-remove-7.3 226/294]
- drivers/mtd/spi-nor/core.c:3394:12: error: static declaration of
- 'spi_nor_scan' follows non-static declaration
-Message-ID: <202609100538.2YmRyN5u-lkp@intel.com>
+Subject: [soc:board-remove-7.3 251/294]
+ drivers/leds/leds-da9052.c:104:21: error: invalid use of undefined type
+ 'struct da9052_pdata'
+Message-ID: <202609100622.mKwcT8VH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,126 +61,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove-7.3
 head:   3ac93c1e700558259ea604f7d4f37e26820fba15
-commit: 62e3b560c8fdcab6be5dce819f3b76df95cd95dc [226/294] mtd: spi-nor: remove controller_ops support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609100538.2YmRyN5u-lkp@intel.com/config)
+commit: 05a9b51265a88cf5d2951982f66d5e5ee799d719 [251/294] leds: remove platform data based probing
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609100622.mKwcT8VH-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100538.2YmRyN5u-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100622.mKwcT8VH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609100538.2YmRyN5u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609100622.mKwcT8VH-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mtd/spi-nor/core.c: In function 'spi_nor_read_id':
->> drivers/mtd/spi-nor/core.c:351:13: warning: unused variable 'ret' [-Wunused-variable]
-     351 |         int ret;
-         |             ^~~
-   drivers/mtd/spi-nor/core.c: In function 'spi_nor_erase_sector':
->> drivers/mtd/spi-nor/core.c:1333:13: warning: unused variable 'i' [-Wunused-variable]
-    1333 |         int i;
-         |             ^
-   drivers/mtd/spi-nor/core.c: In function 'spi_nor_setup':
->> drivers/mtd/spi-nor/core.c:2579:13: warning: unused variable 'ignored_mask' [-Wunused-variable]
-    2579 |         u32 ignored_mask, shared_mask;
-         |             ^~~~~~~~~~~~
-   drivers/mtd/spi-nor/core.c: At top level:
->> drivers/mtd/spi-nor/core.c:3394:12: error: static declaration of 'spi_nor_scan' follows non-static declaration
-    3394 | static int spi_nor_scan(struct spi_nor *nor, const char *name,
-         |            ^~~~~~~~~~~~
-   In file included from drivers/mtd/spi-nor/core.c:18:
-   include/linux/mtd/spi-nor.h:419:5: note: previous declaration of 'spi_nor_scan' with type 'int(struct spi_nor *, const char *, const struct spi_nor_hwcaps *)'
-     419 | int spi_nor_scan(struct spi_nor *nor, const char *name,
-         |     ^~~~~~~~~~~~
---
-   drivers/mtd/spi-nor/spansion.c: In function 'spansion_nor_clear_sr':
->> drivers/mtd/spi-nor/spansion.c:100:23: error: implicit declaration of function 'spi_nor_controller_ops_write_reg' [-Wimplicit-function-declaration]
-     100 |                 ret = spi_nor_controller_ops_write_reg(nor, SPINOR_OP_CLSR,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/mtd/spi-nor/winbond.c: In function 'winbond_nor_select_die':
->> drivers/mtd/spi-nor/winbond.c:122:23: error: implicit declaration of function 'spi_nor_controller_ops_write_reg' [-Wimplicit-function-declaration]
-     122 |                 ret = spi_nor_controller_ops_write_reg(nor,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/leds-da9052.c: In function 'da9052_led_probe':
+>> drivers/leds/leds-da9052.c:104:21: error: invalid use of undefined type 'struct da9052_pdata'
+     104 |         pled = pdata->pled;
+         |                     ^~
+   drivers/leds/leds-da9052.c: In function 'da9052_led_remove':
+   drivers/leds/leds-da9052.c:168:21: error: invalid use of undefined type 'struct da9052_pdata'
+     168 |         pled = pdata->pled;
+         |                     ^~
 
 
-vim +/spi_nor_scan +3394 drivers/mtd/spi-nor/core.c
+vim +104 drivers/leds/leds-da9052.c
 
-  3393	
-> 3394	static int spi_nor_scan(struct spi_nor *nor, const char *name,
-  3395				const struct spi_nor_hwcaps *hwcaps)
-  3396	{
-  3397		const struct flash_info *info;
-  3398		struct device *dev = nor->dev;
-  3399		int ret;
-  3400	
-  3401		/* Reset SPI protocol for all commands. */
-  3402		nor->reg_proto = SNOR_PROTO_1_1_1;
-  3403		nor->read_proto = SNOR_PROTO_1_1_1;
-  3404		nor->write_proto = SNOR_PROTO_1_1_1;
-  3405	
-  3406		/*
-  3407		 * We need the bounce buffer early to read/write registers when going
-  3408		 * through the spi-mem layer (buffers have to be DMA-able).
-  3409		 * For spi-mem drivers, we'll reallocate a new buffer if
-  3410		 * nor->params->page_size turns out to be greater than PAGE_SIZE (which
-  3411		 * shouldn't happen before long since NOR pages are usually less
-  3412		 * than 1KB) after spi_nor_scan() returns.
-  3413		 */
-  3414		nor->bouncebuf_size = PAGE_SIZE;
-  3415		nor->bouncebuf = devm_kmalloc(dev, nor->bouncebuf_size,
-  3416					      GFP_KERNEL);
-  3417		if (!nor->bouncebuf)
-  3418			return -ENOMEM;
-  3419	
-  3420		ret = spi_nor_hw_reset(nor);
-  3421		if (ret)
-  3422			return ret;
-  3423	
-  3424		info = spi_nor_get_flash_info(nor, name);
-  3425		if (IS_ERR(info))
-  3426			return PTR_ERR(info);
-  3427	
-  3428		nor->info = info;
-  3429	
-  3430		mutex_init(&nor->lock);
-  3431	
-  3432		/* Init flash parameters based on flash_info struct and SFDP */
-  3433		ret = spi_nor_init_params(nor);
-  3434		if (ret)
-  3435			return ret;
-  3436	
-  3437		if (spi_nor_use_parallel_locking(nor))
-  3438			init_waitqueue_head(&nor->rww.wait);
-  3439	
-  3440		/*
-  3441		 * Configure the SPI memory:
-  3442		 * - select op codes for (Fast) Read, Page Program and Sector Erase.
-  3443		 * - set the number of dummy cycles (mode cycles + wait states).
-  3444		 * - set the SPI protocols for register and memory accesses.
-  3445		 * - set the number of address bytes.
-  3446		 */
-  3447		ret = spi_nor_setup(nor, hwcaps);
-  3448		if (ret)
-  3449			return ret;
-  3450	
-  3451		/* Send all the required SPI flash commands to initialize device */
-  3452		ret = spi_nor_init(nor);
-  3453		if (ret)
-  3454			return ret;
-  3455	
-  3456		/* No mtd_info fields should be used up to this point. */
-  3457		ret = spi_nor_set_mtd_info(nor);
-  3458		if (ret)
-  3459			return ret;
-  3460	
-  3461		dev_dbg(dev, "Manufacturer and device ID: %*phN\n",
-  3462			SPI_NOR_MAX_ID_LEN, nor->id);
-  3463	
-  3464		return 0;
-  3465	}
-  3466	
+5ba736311bf6fe David Dajun Chen 2012-05-29   87  
+98ea1ea20cb709 Bill Pemberton   2012-11-19   88  static int da9052_led_probe(struct platform_device *pdev)
+5ba736311bf6fe David Dajun Chen 2012-05-29   89  {
+5ba736311bf6fe David Dajun Chen 2012-05-29   90  	struct da9052_pdata *pdata;
+5ba736311bf6fe David Dajun Chen 2012-05-29   91  	struct da9052 *da9052;
+5ba736311bf6fe David Dajun Chen 2012-05-29   92  	struct led_platform_data *pled;
+5ba736311bf6fe David Dajun Chen 2012-05-29   93  	struct da9052_led *led = NULL;
+5ba736311bf6fe David Dajun Chen 2012-05-29   94  	int error = -ENODEV;
+5ba736311bf6fe David Dajun Chen 2012-05-29   95  	int i;
+5ba736311bf6fe David Dajun Chen 2012-05-29   96  
+5ba736311bf6fe David Dajun Chen 2012-05-29   97  	da9052 = dev_get_drvdata(pdev->dev.parent);
+87aae1ea82f93f Jingoo Han       2013-07-30   98  	pdata = dev_get_platdata(da9052->dev);
+5ba736311bf6fe David Dajun Chen 2012-05-29   99  	if (pdata == NULL) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  100  		dev_err(&pdev->dev, "No platform data\n");
+5ba736311bf6fe David Dajun Chen 2012-05-29  101  		goto err;
+5ba736311bf6fe David Dajun Chen 2012-05-29  102  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  103  
+5ba736311bf6fe David Dajun Chen 2012-05-29 @104  	pled = pdata->pled;
+5ba736311bf6fe David Dajun Chen 2012-05-29  105  	if (pled == NULL) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  106  		dev_err(&pdev->dev, "No platform data for LED\n");
+5ba736311bf6fe David Dajun Chen 2012-05-29  107  		goto err;
+5ba736311bf6fe David Dajun Chen 2012-05-29  108  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  109  
+a86854d0c599b3 Kees Cook        2018-06-12  110  	led = devm_kcalloc(&pdev->dev,
+a86854d0c599b3 Kees Cook        2018-06-12  111  			   pled->num_leds, sizeof(struct da9052_led),
+5ba736311bf6fe David Dajun Chen 2012-05-29  112  			   GFP_KERNEL);
+0c9a03b68511da Xiubo Li         2014-05-07  113  	if (!led) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  114  		error = -ENOMEM;
+5ba736311bf6fe David Dajun Chen 2012-05-29  115  		goto err;
+5ba736311bf6fe David Dajun Chen 2012-05-29  116  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  117  
+5ba736311bf6fe David Dajun Chen 2012-05-29  118  	for (i = 0; i < pled->num_leds; i++) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  119  		led[i].cdev.name = pled->leds[i].name;
+0a1f01d38504dc Andrew Lunn      2015-08-20  120  		led[i].cdev.brightness_set_blocking = da9052_led_set;
+5ba736311bf6fe David Dajun Chen 2012-05-29  121  		led[i].cdev.brightness = LED_OFF;
+5ba736311bf6fe David Dajun Chen 2012-05-29  122  		led[i].cdev.max_brightness = DA9052_MAX_BRIGHTNESS;
+5ba736311bf6fe David Dajun Chen 2012-05-29  123  		led[i].led_index = pled->leds[i].flags;
+5ba736311bf6fe David Dajun Chen 2012-05-29  124  		led[i].da9052 = dev_get_drvdata(pdev->dev.parent);
+5ba736311bf6fe David Dajun Chen 2012-05-29  125  
+5ba736311bf6fe David Dajun Chen 2012-05-29  126  		error = led_classdev_register(pdev->dev.parent, &led[i].cdev);
+5ba736311bf6fe David Dajun Chen 2012-05-29  127  		if (error) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  128  			dev_err(&pdev->dev, "Failed to register led %d\n",
+5ba736311bf6fe David Dajun Chen 2012-05-29  129  				led[i].led_index);
+5ba736311bf6fe David Dajun Chen 2012-05-29  130  			goto err_register;
+5ba736311bf6fe David Dajun Chen 2012-05-29  131  		}
+5ba736311bf6fe David Dajun Chen 2012-05-29  132  
+0a1f01d38504dc Andrew Lunn      2015-08-20  133  		error = da9052_set_led_brightness(&led[i],
+0a1f01d38504dc Andrew Lunn      2015-08-20  134  						  led[i].cdev.brightness);
+5ba736311bf6fe David Dajun Chen 2012-05-29  135  		if (error) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  136  			dev_err(&pdev->dev, "Unable to init led %d\n",
+5ba736311bf6fe David Dajun Chen 2012-05-29  137  				led[i].led_index);
+5ba736311bf6fe David Dajun Chen 2012-05-29  138  			continue;
+5ba736311bf6fe David Dajun Chen 2012-05-29  139  		}
+5ba736311bf6fe David Dajun Chen 2012-05-29  140  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  141  	error = da9052_configure_leds(led->da9052);
+5ba736311bf6fe David Dajun Chen 2012-05-29  142  	if (error) {
+5ba736311bf6fe David Dajun Chen 2012-05-29  143  		dev_err(&pdev->dev, "Failed to configure GPIO LED%d\n", error);
+5ba736311bf6fe David Dajun Chen 2012-05-29  144  		goto err_register;
+5ba736311bf6fe David Dajun Chen 2012-05-29  145  	}
+5ba736311bf6fe David Dajun Chen 2012-05-29  146  
+5ba736311bf6fe David Dajun Chen 2012-05-29  147  	platform_set_drvdata(pdev, led);
+5ba736311bf6fe David Dajun Chen 2012-05-29  148  
+5ba736311bf6fe David Dajun Chen 2012-05-29  149  	return 0;
+5ba736311bf6fe David Dajun Chen 2012-05-29  150  
+5ba736311bf6fe David Dajun Chen 2012-05-29  151  err_register:
+0a1f01d38504dc Andrew Lunn      2015-08-20  152  	for (i = i - 1; i >= 0; i--)
+5ba736311bf6fe David Dajun Chen 2012-05-29  153  		led_classdev_unregister(&led[i].cdev);
+5ba736311bf6fe David Dajun Chen 2012-05-29  154  err:
+5ba736311bf6fe David Dajun Chen 2012-05-29  155  	return error;
+5ba736311bf6fe David Dajun Chen 2012-05-29  156  }
+5ba736311bf6fe David Dajun Chen 2012-05-29  157  
+
+:::::: The code at line 104 was first introduced by commit
+:::::: 5ba736311bf6fea25c97e868b7de6d3de8800aba leds: driver for DA9052/53 PMIC v2
+
+:::::: TO: David Dajun Chen <dchen@diasemi.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
