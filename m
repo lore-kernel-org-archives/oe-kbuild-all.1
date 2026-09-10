@@ -1,150 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB065221D6;
-	Thu, 10 Sep 2026 16:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865F339AD2A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 20:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789059302; cv=none; b=d2TQ2w8aHSAoXt9rdoive35NYj1AUFD1+X50fOVdeQfLYrOMpzwKpoKq3k7fsvSpEERbTI8VcLFB4ltked+dXHxcXLpcyxORTb1OAHaYJez09RS+4KEDufRDjnuy8+0pMkixk/8HEe3qnngW1AJq5p+kWekUJiG1ayr64rULxZY=
+	t=1789072663; cv=none; b=HYtd0h+c60gf8ZYbRRPJpWfjSOXXfkRlq4us5b/cnspmvo3RGKZR7eZ8NFdtlpTkZ4t30z9L07Tz8sBB+bWb78QFtzXlQT+Ngqij3UwGcAjW9r21nz+OVxku66DG0m8sJTrEW3W/OKoAgULdDxghanXmzt1JOW8aqbnqmofA5Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789059302; c=relaxed/simple;
-	bh=l7i/FO1ItoWOLmKL7zTyq4d9VrtQVV2+6x8TR7qImU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qRRbmyECCUegtRdoMG+Xz8vFIxb64KPZquY3tzxHWF7k7zYsKtyhApSkqEYm96FzPEyrmk5u/r/YZvoE0WNNFKTnwWurRaIIKDqfvzOpo/iVHFnLAzM3QZDbqMZYUydNkEpyxabjxkTKj56emnuBpQjKeGyiQMLKHlEYLuRWitQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LKHpXbcY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789072663; c=relaxed/simple;
+	bh=LYiQPUIDOR0DaQ2jKbF56lJzIT4y3IEs3CCXVly+uJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rHsAA66Woat767vWqnMEPHx8DYOCy3MFQIhtD05/1K9C+9GcAXOIazBiuxzTistZAZKTvK/sXaiWWaBMQgGvhwQYz0sLYtSzIaWP/8OAu1wfcG9NYlQ4ivMj0Mfotj1PfsMgQrYhR3kjBQqQa+AHy25kVJqSnaeK8jqCVIGYIRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kYw+vp4Q; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKHpXbcY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A30F01F000FF;
-	Thu, 10 Sep 2026 16:54:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789059292;
-	bh=ZnntZIkyGVTGxk6jStVbEP5g1lkb1af5stHGst1a5AM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=LKHpXbcYWyvQdn8IXrrAPSVPVdOAiSfGtGiq/Ls/lEU5XAl4+K1rU6PwqE2lpVeNX
-	 pi8seuTI0UxlQ2PhTW/JuIBrxlNXAACiSCCHda58LFlt2ZI+bSKHa7e6rXwLf6o7jc
-	 o/Q9dhQa0evHklHEMKEPyZm/QHZWqdYKz4DgYUCjZNoPyGEDzbyvGxoCvleX+GeBBc
-	 rs3DfWdrOVCM8JPStrmtHvzDJ3E0x44Zfy3CURI1/oij2zoVG4qKvYHV43yWsfzimF
-	 BmKAGkeltcGDkz52yJmfBWGS+PsvnzeFRhhl5Kn68S+AxqxG/DXZBp3bTqHQwhitCK
-	 eJ4QqgRXe1B6g==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 73042CE1580; Thu, 10 Sep 2026 09:54:52 -0700 (PDT)
-Date: Thu, 10 Sep 2026 09:54:52 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Kunwu Chan <kunwu.chan@gmail.com>, jiangshanlai@gmail.com,
-	josh@joshtriplett.org, rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, rcu@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
-Message-ID: <c3c8e941-93eb-4f1f-ab2b-abc48f4ce146@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260910041427.3579817-1-kunwu.chan@gmail.com>
- <202609102247.8X7GUWSj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kYw+vp4Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789072661; x=1820608661;
+  h=date:from:to:cc:subject:message-id;
+  bh=LYiQPUIDOR0DaQ2jKbF56lJzIT4y3IEs3CCXVly+uJ0=;
+  b=kYw+vp4Q4m3NpxOzUhX5/GptAzR1P6xVV0eigjwmUGq53W4xQ4ID56i/
+   GODCClEwlJK9VskLuDAjwtNcpbkaFObqaStHZ89DJt5gw6aCSqIxB6bsI
+   WCrJBCbHHz4CBOofmlQXa7Nfwr6VlQMGr6S+yCwBukguEKhzBslKIbKUW
+   XqzbUmYhCMrQiGE/YHT/s5Wqw16cQSdS3yPVvnA3htMSlPxUUTl6bc37t
+   vWhIPjH36yQTSSEjXAP3TFMEgT0XaUvy+RFmbD9lzka/SRbU88a13Icg8
+   iUVpmVvR+idsh1HdF3o/Eh1IEZAvjl1pN9yaulVdUzgWq7I0EATkzM16B
+   g==;
+X-CSE-ConnectionGUID: hi0TfHEbT2CFSRqE6DP+hA==
+X-CSE-MsgGUID: GmEz/dkVRxSiPnMSfDOEVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89374550"
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="89374550"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 13:37:41 -0700
+X-CSE-ConnectionGUID: tDxSLhUvSU2y+KeJQ5yuGw==
+X-CSE-MsgGUID: 0LSKHmlkSKqWBVTqqsyjtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="273675725"
+Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Sep 2026 13:37:39 -0700
+Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x4lWa-000000000Ul-38jy;
+	Thu, 10 Sep 2026 20:37:36 +0000
+Date: Thu, 10 Sep 2026 22:36:55 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-riscv64 7/7]
+ arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@220c2a00
+ (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+Message-ID: <202609102217.mI0VPv2Z-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609102247.8X7GUWSj-lkp@intel.com>
 
-On Thu, Sep 10, 2026 at 10:34:21PM +0800, kernel test robot wrote:
-> Hi Kunwu,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on rcu/rcu/dev]
-> [also build test ERROR on linus/master v7.3-rc2 next-20260909]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
+head:   121ea1ece9487e8deae20bc5a48794afa81424c3
+commit: 3e6cd0c43cdf678622c19210bd1a70b04c8a79af [7/7] arm64: dts: qcom: lemans: add mdss1 display device nodes
+config: arm64-randconfig-2054-20260910 (https://download.01.org/0day-ci/archive/20260910/202609102217.mI0VPv2Z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102217.mI0VPv2Z-lkp@intel.com/reproduce)
 
-Indeed, this patch would need to be applied to the "dev" branch of my
--rcu tree.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 3e6cd0c43cdf ("arm64: dts: qcom: lemans: add mdss1 display device nodes")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609102217.mI0VPv2Z-lkp@intel.com/
 
-							Thanx, Paul
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5143.28-5206.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5227.28-5281.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[322, 11], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[322, 28], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5143.28-5206.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5227.28-5281.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[323, 11], [323, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[323, 28], [323, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5143.28-5206.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5227.28-5281.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[323, 11], [323, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[323, 28], [323, 1], [57, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5143.28-5206.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5227.28-5281.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[316, 11], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[316, 28], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5143.28-5206.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/lemans.dtsi:5227.28-5281.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[322, 11], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[322, 28], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3-el2.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3-el2.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[322, 11], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3-el2.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-r3-el2.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[322, 28], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-el2.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-el2.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[322, 11], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-el2.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/qcs9100-ride-el2.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[322, 28], [322, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[316, 11], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera-csi1-imx577.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[316, 28], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+>> arch/arm64/boot/dts/qcom/lemans-evk-el2.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-el2.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[316, 11], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-el2.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-el2.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[316, 28], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[316, 11], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-camera.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[316, 28], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+--
+>> arch/arm64/boot/dts/qcom/lemans-evk-ifp-mezzanine.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-ifp-mezzanine.dtb: phy@220c2a00 (qcom,sa8775p-edp-phy): clocks: [[316, 11], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-ifp-mezzanine.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clock-names: ['aux', 'cfg_ahb', 'ref'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+>> arch/arm64/boot/dts/qcom/lemans-evk-ifp-mezzanine.dtb: phy@220c5a00 (qcom,sa8775p-edp-phy): clocks: [[316, 28], [316, 1], [56, 32]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,edp-phy.yaml
+   arch/arm64/boot/dts/qcom/lemans-evk-ifp-mezzanine.dtb: pcie@0,0 (pci1179,0623): i2c-parent: [[435, 119]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/toshiba,tc9563.yaml
 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kunwu-Chan/srcutree-Skip-torture-to-big-transition-for-atomic-SRCU/20260910-121427
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git rcu/dev
-> patch link:    https://lore.kernel.org/r/20260910041427.3579817-1-kunwu.chan%40gmail.com
-> patch subject: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
-> config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260910/202609102247.8X7GUWSj-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102247.8X7GUWSj-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609102247.8X7GUWSj-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> kernel/rcu/srcutree.c:2080:61: error: use of undeclared identifier 'SRCU_READ_FLAVOR_ATOMIC'
->     2080 |         if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
->          |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~
->    1 error generated.
-> 
-> 
-> vim +/SRCU_READ_FLAVOR_ATOMIC +2080 kernel/rcu/srcutree.c
-> 
->   2031	
->   2032	void srcu_torture_stats_print(struct srcu_struct *ssp, char *tt, char *tf)
->   2033	{
->   2034		int cpu;
->   2035		int idx;
->   2036		unsigned long s0 = 0, s1 = 0;
->   2037		int ss_state = READ_ONCE(ssp->srcu_sup->srcu_size_state);
->   2038		int ss_state_idx = ss_state;
->   2039	
->   2040		idx = ssp->srcu_ctrp - &ssp->sda->srcu_ctrs[0];
->   2041		if (ss_state < 0 || ss_state >= ARRAY_SIZE(srcu_size_state_name))
->   2042			ss_state_idx = ARRAY_SIZE(srcu_size_state_name) - 1;
->   2043		pr_alert("%s%s Tree SRCU g%ld state %d (%s)",
->   2044			 tt, tf, rcu_seq_current(&ssp->srcu_sup->srcu_gp_seq), ss_state,
->   2045			 srcu_size_state_name[ss_state_idx]);
->   2046		if (!ssp->sda) {
->   2047			// Called after cleanup_srcu_struct(), perhaps.
->   2048			pr_cont(" No per-CPU srcu_data structures (->sda == NULL).\n");
->   2049		} else {
->   2050			pr_cont(" per-CPU(idx=%d):", idx);
->   2051			for_each_possible_cpu(cpu) {
->   2052				unsigned long l0, l1;
->   2053				unsigned long u0, u1;
->   2054				long c0, c1;
->   2055				struct srcu_data *sdp;
->   2056	
->   2057				sdp = per_cpu_ptr(ssp->sda, cpu);
->   2058				u0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_unlocks));
->   2059				u1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_unlocks));
->   2060	
->   2061				/*
->   2062				 * Make sure that a lock is always counted if the corresponding
->   2063				 * unlock is counted.
->   2064				 */
->   2065				smp_rmb();
->   2066	
->   2067				l0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_locks));
->   2068				l1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_locks));
->   2069	
->   2070				c0 = l0 - u0;
->   2071				c1 = l1 - u1;
->   2072				pr_cont(" %d(%ld,%ld %c)",
->   2073					cpu, c0, c1,
->   2074					"C."[rcu_segcblist_empty(&sdp->srcu_cblist)]);
->   2075				s0 += c0;
->   2076				s1 += c1;
->   2077			}
->   2078			pr_cont(" T(%ld,%ld)\n", s0, s1);
->   2079		}
-> > 2080		if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
->   2081			srcu_transition_to_big(ssp);
->   2082	}
->   2083	EXPORT_SYMBOL_GPL(srcu_torture_stats_print);
->   2084	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
