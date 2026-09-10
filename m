@@ -1,160 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FF348EC81;
-	Thu, 10 Sep 2026 14:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2540248822F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 14:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789051292; cv=none; b=pCHvFfU7G2G3VIlKWyFYRoJm3kwUb2CxlWYp65nFgCexGtwvrCC5XCtXO0ZxEGIIu43WtFWuFzXsm9EVtlN8MPnhR5hiMnrBwmflwLR4k1I1Ok2hcPXJjnNA9d5er+1JB6JJpL/fkx9DJSmS/Bc1PNMkJ2rnrVEidj2k8jVwPYI=
+	t=1789051312; cv=none; b=Pv7TXaxVTqKrgPUqHQNekgNR/oIDQoKjdV1r2Cvza5qK2rKyyAemjRJ7LnwCwXVn3zmNH092yYKiFCottVcCgW4uxY9XJRMsCqD3G40jIQBACiO1H1dQ4hmH5ReEkLayHcEBs16jNDtMAC1BWP5F7JQ330201AuPZwCscj0E4uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789051292; c=relaxed/simple;
-	bh=XhCBkvqoMM39WPHjPYto/5lKDTBSRqUhy/eqexVLdXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nh3rh8IHgsSfzj5r+eMdi3xlpBzCCGHIuHkE7E/Zi1JaNn7V35IdbEUkQ/Pz2EKMIDAouR9uJgBUlCZIJpU+qsUeS0B8TBYqLvC1coK6sm/0rQgSpVqf5eHqni+XlKcpH8KnsABjWWnJoXSciSiVVMWLTbigXxduzzDCl55po3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpoWFeAW; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1789051312; c=relaxed/simple;
+	bh=R8KaQwcEEbcL1aXyhF5pAZylzGCyNoHirqH1AYSFaj8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VPiTX1e9JfdiwISIEC8KcHZgFhF/YRQMSwMD20dFcsKAFfi06m+sbfB5658wueQ4Bzx7EsHmlwt60L/y/ugUiBjwNy0+82ftfaaEYEmOWw+1/bn+9ziRx4JQuXg9k2+PB+kaXiXg9APxpibZZTu98n+3JK0dd0KrWUtrsmRkdVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kY8kccdu; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YpoWFeAW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kY8kccdu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789051290; x=1820587290;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XhCBkvqoMM39WPHjPYto/5lKDTBSRqUhy/eqexVLdXc=;
-  b=YpoWFeAWs9/GtRTJicHXfhwev51nyXCCs53oAmPDIa9DrTb2ZcuTVCCS
-   iL964DaPj5YFaR85nLCsos+WqoaSCOpgIy6YkS2k/uLQ3BO0prFWVDY53
-   /Ym8wrm67e2khU+HmFz4VIBSYRo73mxzSBILPfy7q7NsgaZ8Kepsj6lya
-   /pDEexRGMv56VRh1rjzaeOZQWXoDJB2g90c6Ni+KzKopT5fJUEc9+ywXq
-   uwLOfc2DP/2MMKQZPgUV9yrnJUMMr2UEMV/RiFLc+KamYEGg27Liu9Gxx
-   CGWb0WDiwKkVIWD4sAhlW9ci8frUi1NeNVe2WfpRiBWMGmNWpVRLtSm+b
-   Q==;
-X-CSE-ConnectionGUID: LQ4o8gLzSCanH7vP+hhh9w==
-X-CSE-MsgGUID: 5iVC/NurR2eXLIhP1gR9Qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="101021536"
+  t=1789051310; x=1820587310;
+  h=date:from:to:cc:subject:message-id;
+  bh=R8KaQwcEEbcL1aXyhF5pAZylzGCyNoHirqH1AYSFaj8=;
+  b=kY8kccduUVWN19tPH07kqdq7Vo9AVfHHb5sdvKQfOTqcyP3/rhRmMeAE
+   qoo/TrH/jEAGYzZzLj+6y9vq0JoHSXJylMnpCdXIlfAwbrXFWYEgkY0Vm
+   qQVAjd0WEykm0+QIppAHQgxKmWLfUlhq2lK62QmKVubFSXK9byixj2W/I
+   hcwiGTaCSczGw9TOC8cPE+um/QDThGS+kuBDdxvuvQRC9S9cRT7ccGvpx
+   Q0FMqIzfpKrWH3iymP+odVsq+zrvHhSLIafyqCxgY+VZUUXjyUTdnBhZp
+   2245WXXY1KF1tdaTRsJdF6jrutoRQxJwLGtZBlpGv+hLrhs/xxAhfZhlc
+   g==;
+X-CSE-ConnectionGUID: DNvySeevTF+uo2Lj59j+xw==
+X-CSE-MsgGUID: y8tFPuf7RQG1yeQz9jmOgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89542879"
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="101021536"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:41:29 -0700
-X-CSE-ConnectionGUID: wPSlGokYQsuYOgEp9xRQwg==
-X-CSE-MsgGUID: pmxlIlzBTxCFVac71nW3RA==
+   d="scan'208";a="89542879"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:41:49 -0700
+X-CSE-ConnectionGUID: caQsilGcQei5gmFcYG8JiA==
+X-CSE-MsgGUID: NjDI8RGrQe2OJT7FOjDWRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="267381710"
+   d="scan'208";a="275436798"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Sep 2026 07:41:26 -0700
+  by orviesa004.jf.intel.com with ESMTP; 10 Sep 2026 07:41:48 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4fxf-0000000007Z-2G9Z;
-	Thu, 10 Sep 2026 14:41:15 +0000
-Date: Thu, 10 Sep 2026 22:34:21 +0800
+	id 1x4fxu-0000000007e-2lRZ;
+	Thu, 10 Sep 2026 14:41:31 +0000
+Date: Thu, 10 Sep 2026 22:31:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kunwu Chan <kunwu.chan@gmail.com>, jiangshanlai@gmail.com,
-	paulmck@kernel.org, josh@joshtriplett.org, rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kunwu Chan <kunwu.chan@gmail.com>
-Subject: Re: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
-Message-ID: <202609102247.8X7GUWSj-lkp@intel.com>
-References: <20260910041427.3579817-1-kunwu.chan@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>
+Subject: [akpm-mm:mm-new 358/388] mm/sparse-vmemmap.c:507:48: error:
+ implicit declaration of function 'device_zone'; did you mean 'device_move'?
+Message-ID: <202609102250.lIycVv3n-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260910041427.3579817-1-kunwu.chan@gmail.com>
 
-Hi Kunwu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rcu/rcu/dev]
-[also build test ERROR on linus/master v7.3-rc2 next-20260909]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kunwu-Chan/srcutree-Skip-torture-to-big-transition-for-atomic-SRCU/20260910-121427
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git rcu/dev
-patch link:    https://lore.kernel.org/r/20260910041427.3579817-1-kunwu.chan%40gmail.com
-patch subject: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260910/202609102247.8X7GUWSj-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102247.8X7GUWSj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   cf558a250cf4475a8936902b8978fbb6c61016f8
+commit: dd35ca2f2cac9d6439a2ba2f523b98b5a9a9f8f5 [358/388] mm-sparse-vmemmap-switch-device-dax-to-shared-tail-vmemmap-pages-fix
+config: s390-randconfig-r121-20260910 (https://download.01.org/0day-ci/archive/20260910/202609102250.lIycVv3n-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102250.lIycVv3n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609102247.8X7GUWSj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609102250.lIycVv3n-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> kernel/rcu/srcutree.c:2080:61: error: use of undeclared identifier 'SRCU_READ_FLAVOR_ATOMIC'
-    2080 |         if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
-         |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   mm/sparse-vmemmap.c: In function 'vmemmap_populate_compound_pages':
+>> mm/sparse-vmemmap.c:507:48: error: implicit declaration of function 'device_zone'; did you mean 'device_move'? [-Werror=implicit-function-declaration]
+     507 |         page = vmemmap_shared_tail_page(order, device_zone(node));
+         |                                                ^~~~~~~~~~~
+         |                                                device_move
+>> mm/sparse-vmemmap.c:507:48: warning: passing argument 2 of 'vmemmap_shared_tail_page' makes pointer from integer without a cast [-Wint-conversion]
+     507 |         page = vmemmap_shared_tail_page(order, device_zone(node));
+         |                                                ^~~~~~~~~~~~~~~~~
+         |                                                |
+         |                                                int
+   mm/sparse-vmemmap.c:172:78: note: expected 'struct zone *' but argument is of type 'int'
+     172 | struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
+         |                                                                 ~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/SRCU_READ_FLAVOR_ATOMIC +2080 kernel/rcu/srcutree.c
+vim +507 mm/sparse-vmemmap.c
 
-  2031	
-  2032	void srcu_torture_stats_print(struct srcu_struct *ssp, char *tt, char *tf)
-  2033	{
-  2034		int cpu;
-  2035		int idx;
-  2036		unsigned long s0 = 0, s1 = 0;
-  2037		int ss_state = READ_ONCE(ssp->srcu_sup->srcu_size_state);
-  2038		int ss_state_idx = ss_state;
-  2039	
-  2040		idx = ssp->srcu_ctrp - &ssp->sda->srcu_ctrs[0];
-  2041		if (ss_state < 0 || ss_state >= ARRAY_SIZE(srcu_size_state_name))
-  2042			ss_state_idx = ARRAY_SIZE(srcu_size_state_name) - 1;
-  2043		pr_alert("%s%s Tree SRCU g%ld state %d (%s)",
-  2044			 tt, tf, rcu_seq_current(&ssp->srcu_sup->srcu_gp_seq), ss_state,
-  2045			 srcu_size_state_name[ss_state_idx]);
-  2046		if (!ssp->sda) {
-  2047			// Called after cleanup_srcu_struct(), perhaps.
-  2048			pr_cont(" No per-CPU srcu_data structures (->sda == NULL).\n");
-  2049		} else {
-  2050			pr_cont(" per-CPU(idx=%d):", idx);
-  2051			for_each_possible_cpu(cpu) {
-  2052				unsigned long l0, l1;
-  2053				unsigned long u0, u1;
-  2054				long c0, c1;
-  2055				struct srcu_data *sdp;
-  2056	
-  2057				sdp = per_cpu_ptr(ssp->sda, cpu);
-  2058				u0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_unlocks));
-  2059				u1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_unlocks));
-  2060	
-  2061				/*
-  2062				 * Make sure that a lock is always counted if the corresponding
-  2063				 * unlock is counted.
-  2064				 */
-  2065				smp_rmb();
-  2066	
-  2067				l0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_locks));
-  2068				l1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_locks));
-  2069	
-  2070				c0 = l0 - u0;
-  2071				c1 = l1 - u1;
-  2072				pr_cont(" %d(%ld,%ld %c)",
-  2073					cpu, c0, c1,
-  2074					"C."[rcu_segcblist_empty(&sdp->srcu_cblist)]);
-  2075				s0 += c0;
-  2076				s1 += c1;
-  2077			}
-  2078			pr_cont(" T(%ld,%ld)\n", s0, s1);
-  2079		}
-> 2080		if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
-  2081			srcu_transition_to_big(ssp);
-  2082	}
-  2083	EXPORT_SYMBOL_GPL(srcu_torture_stats_print);
-  2084	
+4917f55b4ef963 Joao Martins    2022-04-28  494  
+4917f55b4ef963 Joao Martins    2022-04-28  495  static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
+4917f55b4ef963 Joao Martins    2022-04-28  496  						     unsigned long start,
+4917f55b4ef963 Joao Martins    2022-04-28  497  						     unsigned long end, int node,
+4917f55b4ef963 Joao Martins    2022-04-28  498  						     struct dev_pagemap *pgmap)
+4917f55b4ef963 Joao Martins    2022-04-28  499  {
+4917f55b4ef963 Joao Martins    2022-04-28  500  	unsigned long size, addr;
+4917f55b4ef963 Joao Martins    2022-04-28  501  	pte_t *pte;
+4917f55b4ef963 Joao Martins    2022-04-28  502  	int rc;
+d1d11861d8a018 Muchun Song     2026-09-08  503  	unsigned long flags = VMEMMAP_POPULATE_DAX;
+8fbaacc4a64bd1 Muchun Song     2026-09-08  504  	struct page *page;
+8fbaacc4a64bd1 Muchun Song     2026-09-08  505  	unsigned int order = pfn_to_section_order(start_pfn);
+4917f55b4ef963 Joao Martins    2022-04-28  506  
+8fbaacc4a64bd1 Muchun Song     2026-09-08 @507  	page = vmemmap_shared_tail_page(order, device_zone(node));
+8fbaacc4a64bd1 Muchun Song     2026-09-08  508  	if (!page)
+4917f55b4ef963 Joao Martins    2022-04-28  509  		return -ENOMEM;
+4917f55b4ef963 Joao Martins    2022-04-28  510  
+8fbaacc4a64bd1 Muchun Song     2026-09-08  511  	if (reuse_compound_section(start_pfn, pgmap))
+4917f55b4ef963 Joao Martins    2022-04-28  512  		return vmemmap_populate_range(start, end, node, NULL,
+8fbaacc4a64bd1 Muchun Song     2026-09-08  513  					      page_to_pfn(page), flags);
+4917f55b4ef963 Joao Martins    2022-04-28  514  
+8fbaacc4a64bd1 Muchun Song     2026-09-08  515  	size = min(end - start, (1UL << order) * sizeof(struct page));
+4917f55b4ef963 Joao Martins    2022-04-28  516  	for (addr = start; addr < end; addr += size) {
+55896f935a60b9 Gautam Menghani 2022-06-12  517  		unsigned long next, last = addr + size;
+4917f55b4ef963 Joao Martins    2022-04-28  518  
+4917f55b4ef963 Joao Martins    2022-04-28  519  		/* Populate the head page vmemmap page */
+d1d11861d8a018 Muchun Song     2026-09-08  520  		pte = vmemmap_populate_address(addr, node, NULL, -1, flags);
+4917f55b4ef963 Joao Martins    2022-04-28  521  		if (!pte)
+4917f55b4ef963 Joao Martins    2022-04-28  522  			return -ENOMEM;
+4917f55b4ef963 Joao Martins    2022-04-28  523  
+4917f55b4ef963 Joao Martins    2022-04-28  524  		/* Populate the tail pages vmemmap page */
+4917f55b4ef963 Joao Martins    2022-04-28  525  		next = addr + PAGE_SIZE;
+d1d11861d8a018 Muchun Song     2026-09-08  526  		pte = vmemmap_populate_address(next, node, NULL, -1, flags);
+4917f55b4ef963 Joao Martins    2022-04-28  527  		if (!pte)
+4917f55b4ef963 Joao Martins    2022-04-28  528  			return -ENOMEM;
+4917f55b4ef963 Joao Martins    2022-04-28  529  
+4917f55b4ef963 Joao Martins    2022-04-28  530  		/*
+8fbaacc4a64bd1 Muchun Song     2026-09-08  531  		 * Reuse the shared page for the rest of tail pages
+ee65728e103bb7 Mike Rapoport   2022-06-27  532  		 * See layout diagram in Documentation/mm/vmemmap_dedup.rst
+4917f55b4ef963 Joao Martins    2022-04-28  533  		 */
+4917f55b4ef963 Joao Martins    2022-04-28  534  		next += PAGE_SIZE;
+4917f55b4ef963 Joao Martins    2022-04-28  535  		rc = vmemmap_populate_range(next, last, node, NULL,
+8fbaacc4a64bd1 Muchun Song     2026-09-08  536  					    page_to_pfn(page), flags);
+4917f55b4ef963 Joao Martins    2022-04-28  537  		if (rc)
+4917f55b4ef963 Joao Martins    2022-04-28  538  			return -ENOMEM;
+4917f55b4ef963 Joao Martins    2022-04-28  539  	}
+4917f55b4ef963 Joao Martins    2022-04-28  540  
+4917f55b4ef963 Joao Martins    2022-04-28  541  	return 0;
+2beea70a3edc03 Joao Martins    2022-04-28  542  }
+2beea70a3edc03 Joao Martins    2022-04-28  543  
+
+:::::: The code at line 507 was first introduced by commit
+:::::: 8fbaacc4a64bd1bfbfb11bfb48b5db3f4943cbd7 mm/sparse-vmemmap: switch device DAX to shared tail vmemmap pages
+
+:::::: TO: Muchun Song <songmuchun@bytedance.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
