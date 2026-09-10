@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1A23DD87B;
-	Thu, 10 Sep 2026 22:12:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7209949E134
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 22:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789078364; cv=none; b=OwL16fdHtS/4SMblxnGTjvlS80J5Hdr+p+QgN7dmjPb/YqJH6olk5Kl24jVsUURWOMm8y/TUN88tVuL47XXhzlPvI5UzCrqKKtJ3Z6WY7dyqNTdUKdWxaSoykO3w8N+DkHnp3qKAo0GLdoRDku7FqiTPwUkQ+Mhd9o6amzjWAls=
+	t=1789079145; cv=none; b=HZBOsX51ZqG0T7EuA7Gjc8SbDQHO2DiW5ZgtErGl2TsUEZSENnOTqUyFYmbydI/khb7OgBSZQCWQsI33qlQdF6pSxFK6VpYRWY503ryfZrTzaBvyX22VDBHpROrbAw6qEP6/yly/KDZS73i98xVn5vIFojxK/+wJgUfons2dJzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789078364; c=relaxed/simple;
-	bh=nNF9sBELwbR1ayruD0KyBbwDZBbIP7B3gFKpePKCzJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GELrQvwhcYm2uOBB2iVjUJm4pkicfnginVvULDN2m2uJNo/yJYSgLCVW+oj/HY9VX/WVTMn4agOFxasHe+yxJ/4yKSqHYymTEXSKAmdUH75IAKCY5UQvMsLGXaHWeuDnaLN0YzeJRKNJTIYde8TMZzffQFD5c3NWwXNJky59q/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Me+iggDZ; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1789079145; c=relaxed/simple;
+	bh=MQSo2tDLlSYajraI8O8sLMy67vJE/0rYZe08wJG+NWo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=d3Veqnw6npvVZRZurWzYKQ7hBN1llNTTbRvsdNjff6tA7lZRcTKGvKL7coPp/EXoFB0MHh0Z5Db00BtVj+m03VdxzF7JuGBPWZt4cA3T6tp374bjTU8ICD8+ENXJlC0Drdu4jFpftaXxBMyhsMVfmu6JvTcnirOrVmubCdQtoE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ddcdlSXz; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Me+iggDZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddcdlSXz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789078358; x=1820614358;
+  t=1789079144; x=1820615144;
   h=date:from:to:cc:subject:message-id;
-  bh=nNF9sBELwbR1ayruD0KyBbwDZBbIP7B3gFKpePKCzJQ=;
-  b=Me+iggDZuX7lfrt95ziO/8moXEbEjwts+/tTqpB4+O+CPxRNtnYe2rSY
-   BtrEB2xly35CJy7HfigTehJdPbLPU/4Gr9xhdLhqmSQlJibw47jzE4KSR
-   Q0inbbl8T4JPpkMNNN1UYQcDL1BvDjal5pFc00Tik4HG051OWWeXFvTbG
-   9sJZmP9yJtYAVrOwq2B325gfl947K4dbXyiSEtzCMhOH9UF2ZV2xTlr1s
-   JDvnJslWBaZmi70j7Z5eABpVSBgP4wHc7SXmbN4fYwkApS3JDgrkFQxMc
-   xGpvFPrAFEYWDTf0mksvkLoGI3Z9/tTa9XAtOkwgaK69NwJTKofr53wEZ
+  bh=MQSo2tDLlSYajraI8O8sLMy67vJE/0rYZe08wJG+NWo=;
+  b=ddcdlSXzTPDfVVqe0Cq5qwl6q8bO4LJf2bCj+GAU2gq7ZX3qMh1CYlvx
+   1++bp+PMIpYJBXaf75LzGdcqmyJAsZdhe633zRjq/md1eA6L9s8hen2rG
+   y3jDBPkv/91XC2lPbKZYnm+zARmWHMvxM03zb0hSGK9beylTKlaiHlpOO
+   wSInsHQjgwYzTBZQIYYFW1cQucrAVS4lLVXkJOc8UtstX73Gq0J14H2xq
+   quraxi6fYD48UmCnYpbXASickgkY2DCQDrSKZaw7KzWuBy1VevjJmw9a2
+   zhbsD2tpbtdj7NduzDMuuqc1AqGlp0ZSBziBMmI3uWFXHYpsT/npeu6yz
    w==;
-X-CSE-ConnectionGUID: n79juq38QkyWMaG6EduZrQ==
-X-CSE-MsgGUID: HH4HpQO1SKqftcg/178Daw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89666451"
+X-CSE-ConnectionGUID: lzs9I+5JS86HuX2W76fTPg==
+X-CSE-MsgGUID: hXLFgyZxS6K7EANyYGNaGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="88686506"
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89666451"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 15:12:36 -0700
-X-CSE-ConnectionGUID: gkfCVZwpTsKOBF6vIto9Xg==
-X-CSE-MsgGUID: UD4uJhQpSGaHeLZFvlRBRQ==
+   d="scan'208";a="88686506"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 15:25:43 -0700
+X-CSE-ConnectionGUID: 8uMV/PZlS6e6MhwjDh8EEQ==
+X-CSE-MsgGUID: wvq6QJN0Qe6EfBFABZOdmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="310002104"
+   d="scan'208";a="82438"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2026 15:12:34 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 10 Sep 2026 15:25:41 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4mzG-000000000aT-2tI0;
-	Thu, 10 Sep 2026 22:11:38 +0000
-Date: Fri, 11 Sep 2026 06:07:30 +0800
+	id 1x4nCl-000000000bP-2hFW;
+	Thu, 10 Sep 2026 22:25:25 +0000
+Date: Fri, 11 Sep 2026 06:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kuan-Wei Chiu" <visitorckw@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- "Guan-Chun Wu" <409411716@gms.tku.edu.tw>,
- David Laight <david.laight.linux@gmail.com>
-Subject: lib/base64.c:58:18: warning: implicit conversion from 'int'
- to 's8' (aka 'signed char') changes value from 131 to -125
-Message-ID: <202609110514.S0a0FD6a-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 1/1]
+ drivers/virt/gunyah/gunyah_irqfd.c:126:15: error: call to undeclared function
+ 'eventfd_ctx_fileget'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202609110642.KN8b9Sc3-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,141 +61,142 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   50d05c7c76c96b90462f24debacca971d2e86713
-commit: c4eb7ad32eab13ba64cc452c6f43d518b63f5e03 lib/base64: optimize base64_decode() with reverse lookup tables
-date:   10 months ago
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260911/202609110514.S0a0FD6a-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110514.S0a0FD6a-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   7542d32487b53ed1a59d02f013a6e6b66804c874
+commit: bacbc7169217c9646143fd13eaf3c9c494deae30 [1/1] FROMLIST: virt: gunyah: Add irqfd interface
+config: arm64-randconfig-001-20260911 (https://download.01.org/0day-ci/archive/20260911/202609110642.KN8b9Sc3-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 96295a1412f9afbee9d4a3c2701e83f5a529a9cc)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110642.KN8b9Sc3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c4eb7ad32eab ("lib/base64: optimize base64_decode() with reverse lookup tables")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609110514.S0a0FD6a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609110642.KN8b9Sc3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 131 to -125 [-Wconstant-conversion]
-      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
-      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
-         |                                       ~
-      49 |         [0 ... 0x1f] = -1, \
-      50 |         INIT_32(0x20, ch_62, ch_63), \
-      51 |         INIT_32(0x40, ch_62, ch_63), \
-      52 |         INIT_32(0x60, ch_62, ch_63), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
-      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
-      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   lib/base64.c:43:48: note: expanded from macro 'INIT_4'
-      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:42:48: note: expanded from macro 'INIT_2'
-      42 | #define INIT_2(v, ...) INIT_1(v, __VA_ARGS__), INIT_1((v) + 1, __VA_ARGS__)
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:34:42: note: expanded from macro 'INIT_1'
-      34 |                 : (v) >= '0' && (v) <= '9' ? (v) - '0' + 52 \
-         |                                              ~~~~~~~~~~^~~~
-   lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 130 to -126 [-Wconstant-conversion]
-      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
-      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
-         |                                       ~
-      49 |         [0 ... 0x1f] = -1, \
-      50 |         INIT_32(0x20, ch_62, ch_63), \
-      51 |         INIT_32(0x40, ch_62, ch_63), \
-      52 |         INIT_32(0x60, ch_62, ch_63), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
-      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
-      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   lib/base64.c:43:48: note: expanded from macro 'INIT_4'
-      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:42:24: note: expanded from macro 'INIT_2'
-      42 | #define INIT_2(v, ...) INIT_1(v, __VA_ARGS__), INIT_1((v) + 1, __VA_ARGS__)
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:34:42: note: expanded from macro 'INIT_1'
-      34 |                 : (v) >= '0' && (v) <= '9' ? (v) - '0' + 52 \
-         |                                              ~~~~~~~~~~^~~~
-   lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 129 to -127 [-Wconstant-conversion]
-      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
-      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
-         |                                       ~
-      49 |         [0 ... 0x1f] = -1, \
-      50 |         INIT_32(0x20, ch_62, ch_63), \
-      51 |         INIT_32(0x40, ch_62, ch_63), \
-      52 |         INIT_32(0x60, ch_62, ch_63), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
-      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
-      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   lib/base64.c:43:24: note: expanded from macro 'INIT_4'
-      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
-         |                        ^~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:42:48: note: expanded from macro 'INIT_2'
-      42 | #define INIT_2(v, ...) INIT_1(v, __VA_ARGS__), INIT_1((v) + 1, __VA_ARGS__)
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:34:42: note: expanded from macro 'INIT_1'
-      34 |                 : (v) >= '0' && (v) <= '9' ? (v) - '0' + 52 \
-         |                                              ~~~~~~~~~~^~~~
-   lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 128 to -128 [-Wconstant-conversion]
-      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
-      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
-         |                                       ~
-      49 |         [0 ... 0x1f] = -1, \
-      50 |         INIT_32(0x20, ch_62, ch_63), \
-      51 |         INIT_32(0x40, ch_62, ch_63), \
-      52 |         INIT_32(0x60, ch_62, ch_63), \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
-      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
-      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   lib/base64.c:43:24: note: expanded from macro 'INIT_4'
-      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:372:9: note: previous definition is here
+     372 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/virt/gunyah/gunyah_irqfd.c:126:15: error: call to undeclared function 'eventfd_ctx_fileget'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     126 |         irqfd->ctx = eventfd_ctx_fileget(fd_file(fd));
+         |                      ^
+   drivers/virt/gunyah/gunyah_irqfd.c:126:15: note: did you mean 'eventfd_ctx_fdget'?
+   include/linux/eventfd.h:55:35: note: 'eventfd_ctx_fdget' declared here
+      55 | static inline struct eventfd_ctx *eventfd_ctx_fdget(int fd)
+         |                                   ^
+>> drivers/virt/gunyah/gunyah_irqfd.c:126:13: error: incompatible integer to pointer conversion assigning to 'struct eventfd_ctx *' from 'int' [-Wint-conversion]
+     126 |         irqfd->ctx = eventfd_ctx_fileget(fd_file(fd));
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y] && 64BIT [=y]
 
 
-vim +58 lib/base64.c
+vim +/eventfd_ctx_fileget +126 drivers/virt/gunyah/gunyah_irqfd.c
 
-    47	
-    48	#define BASE64_REV_INIT(ch_62, ch_63) { \
-    49		[0 ... 0x1f] = -1, \
-    50		INIT_32(0x20, ch_62, ch_63), \
-    51		INIT_32(0x40, ch_62, ch_63), \
-    52		INIT_32(0x60, ch_62, ch_63), \
-    53		[0x80 ... 0xff] = -1 }
-    54	
-    55	static const s8 base64_rev_maps[][256] = {
-    56		[BASE64_STD] = BASE64_REV_INIT('+', '/'),
-    57		[BASE64_URLSAFE] = BASE64_REV_INIT('-', '_'),
-  > 58		[BASE64_IMAP] = BASE64_REV_INIT('+', ',')
-    59	};
-    60	
+    97	
+    98	static long gunyah_irqfd_bind(struct gunyah_vm_function_instance *f)
+    99	{
+   100		struct gunyah_fn_irqfd_arg *args = f->argp;
+   101		struct gunyah_irqfd *irqfd;
+   102		__poll_t events;
+   103		struct fd fd;
+   104		long r;
+   105	
+   106		if (f->arg_size != sizeof(*args))
+   107			return -EINVAL;
+   108	
+   109		/* All other flag bits are reserved for future use */
+   110		if (args->flags & ~GUNYAH_IRQFD_FLAGS_LEVEL)
+   111			return -EINVAL;
+   112	
+   113		irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
+   114		if (!irqfd)
+   115			return -ENOMEM;
+   116	
+   117		irqfd->f = f;
+   118		f->data = irqfd;
+   119	
+   120		fd = fdget(args->fd);
+   121		if (!fd_file(fd)) {
+   122			kfree(irqfd);
+   123			return -EBADF;
+   124		}
+   125	
+ > 126		irqfd->ctx = eventfd_ctx_fileget(fd_file(fd));
+   127		if (IS_ERR(irqfd->ctx)) {
+   128			r = PTR_ERR(irqfd->ctx);
+   129			goto err_fdput;
+   130		}
+   131	
+   132		if (args->flags & GUNYAH_IRQFD_FLAGS_LEVEL)
+   133			irqfd->level = true;
+   134	
+   135		init_waitqueue_func_entry(&irqfd->wait, irqfd_wakeup);
+   136		init_poll_funcptr(&irqfd->pt, irqfd_ptable_queue_proc);
+   137	
+   138		irqfd->ticket.resource_type = GUNYAH_RESOURCE_TYPE_BELL_TX;
+   139		irqfd->ticket.label = args->label;
+   140		irqfd->ticket.owner = THIS_MODULE;
+   141		irqfd->ticket.populate = gunyah_irqfd_populate;
+   142		irqfd->ticket.unpopulate = gunyah_irqfd_unpopulate;
+   143	
+   144		r = gunyah_vm_add_resource_ticket(f->ghvm, &irqfd->ticket);
+   145		if (r)
+   146			goto err_ctx;
+   147	
+   148		events = vfs_poll(fd_file(fd), &irqfd->pt);
+   149		if (events & EPOLLIN)
+   150			pr_warn("Premature injection of interrupt\n");
+   151		fdput(fd);
+   152	
+   153		return 0;
+   154	err_ctx:
+   155		eventfd_ctx_put(irqfd->ctx);
+   156	err_fdput:
+   157		fdput(fd);
+   158		kfree(irqfd);
+   159		return r;
+   160	}
+   161	
 
 --
 0-DAY CI Kernel Test Service
