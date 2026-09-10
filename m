@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7755A3546C2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 22:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B150364059
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 22:34:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789079695; cv=none; b=BlOjbxTEysIIVwYpAgpYjFBmBZbnOTo5J2WvceUTCPWiNxp0smc5o6BWlrVH9zc6NIjJ1ob+mpAdsvCcjc1PleZKO6DBCDrXULLv6wdDpqzjJr8Xbf3f/xNIlA0TbeD2NJskVR6MIkWpe6By2J8FbgH1LXZwNzNSh8vNutMH3Dc=
+	t=1789079696; cv=none; b=a7c/fU7BqH4bW/VJi67u+tZewn36iHHwD9w/VGB2cvJCOuepdCMtm4tAUNKIzd0rXBl295Hz0CzjAxt7WpYbLRYsVCyiRDh0yW+2hoN4DnqQmlKuXIPJU7ELmwnHGgoMaudJtk7cB9Hy3IUZOWQZCL03amXKUj6ccVYkC2qvIOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789079695; c=relaxed/simple;
-	bh=7+m5N5xjVH9TONhsbTSYey7qwKa630jnY1TPVJH25X8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sLHFrEphGvnuAwrJf0YG+oh0YhIlGYcBFxomXmkYAyyFF938dYtuuboNuVbMDxsrlJ9oxsX7Kg8HO5u1HVwLMltgxzMYgDYhM5z00hLHpvgk8hX2Ltlqx/sVq/a0ER4SAWfDGL27GQ8YbWyq8Cjuu5zj6w5PBm0L43/25E1DD3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SvOlR6Si; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1789079696; c=relaxed/simple;
+	bh=Ed8BXBbFKJMCwK1YL7vBEgg7WzzdNM0f6EYwsqfNj3s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ehXh+MNOMgr3bMiacorPnR9XuxJhk4JzkLF8lHL1pOLf3JwF6IZ2HEEt/uGWipLt4gLfAZavevJObQd5IL3L9Yyi3yk5g1CoDxWByoWxozFle6qCx84xn9XsxWZ0c7M9kN90GUNAxPLxEuy+JYEey+E7zM1su+eF7Nz8PFkvckQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+Gh8/ac; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SvOlR6Si"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+Gh8/ac"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789079692; x=1820615692;
+  t=1789079695; x=1820615695;
   h=date:from:to:cc:subject:message-id;
-  bh=7+m5N5xjVH9TONhsbTSYey7qwKa630jnY1TPVJH25X8=;
-  b=SvOlR6SiMp6GeHjaDAVACpfG1NhfMJLlqhDOpj3r/c0DmaIT9je8aUgW
-   EPMVhSyiJBFEFBuj+afnibUcb6gGWxPAW6zRxVZ03iplS6s18R8zAPr4A
-   OnKbqxhHYyZFANe/gZoQz0m6sXEajFP6yjKQj8HsIKuEWtGbto1wVdj2w
-   T4k4+yWGWAd9LnyZncKdIq1BMVFFjG3XXat2Sj/UCxcDyHfiJokIkew0t
-   a1qXLFU/bAatzXoUXXoTnGIpkDxcX5oQBOPla3Yk4ARrMCW5IQkxveSrJ
-   eQzO4ycK52Wzlf8k/V3gyrt+CFPnhnXPEatTDzOUhcSZVL+U68Imbe3kO
-   Q==;
-X-CSE-ConnectionGUID: MLLd/nbUQd2kqpIgv5YUCQ==
-X-CSE-MsgGUID: kUUIa1GlSYKPSkPf9gftMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89572692"
+  bh=Ed8BXBbFKJMCwK1YL7vBEgg7WzzdNM0f6EYwsqfNj3s=;
+  b=Z+Gh8/acb5sZtiVKD1ZZLbCJXJ30sLj070LXJpURL5aIlssOKfkscSXz
+   B91k5suNG7bEcpXyGgu/3TVbwlLMXfrwaXavS19/ps7C/ZXoaLHDvLRkg
+   q1hcJyhEGP4NMSQWOeTpQFcGoGKOxm5lqoM/deHHq2gkT+ytCYZTgXx/i
+   R2RbxmcArEAYmFc3DnkoYsoIn3c29Y1/hGhJ5ol8uDOv48kTwEFd/5V9R
+   WmYhMh6Mh6MSumbn6qmbfLgtwpx7yUuxFiYdisCs9Je71OP0xYAIRxOd6
+   Pyf5BNeQfDjW7s/e9wSVrr+RDObWNJbZ23kLcxMbWKqg5xNZ23KX+GpuT
+   A==;
+X-CSE-ConnectionGUID: +2p/cyR3RGisN/EWLa5tgg==
+X-CSE-MsgGUID: gQUPRgRETN+UEi/gmQPDJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89572701"
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89572692"
+   d="scan'208";a="89572701"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 15:34:52 -0700
-X-CSE-ConnectionGUID: YrU8PXGHTxyVmmMJU6b6yA==
-X-CSE-MsgGUID: mwO3Tn5WSD2qK2FR7KUwew==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 15:34:54 -0700
+X-CSE-ConnectionGUID: 6xkVuo8YQSqwlNTd1DuGUA==
+X-CSE-MsgGUID: 9djpv1WmQgacMD039LtAtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="268472879"
+   d="scan'208";a="268472883"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Sep 2026 15:34:50 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 10 Sep 2026 15:34:53 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4nLt-000000000cM-2uIa;
-	Thu, 10 Sep 2026 22:34:43 +0000
-Date: Fri, 11 Sep 2026 06:33:34 +0800
+	id 1x4nLz-000000000cP-2IvB;
+	Thu, 10 Sep 2026 22:34:48 +0000
+Date: Fri, 11 Sep 2026 06:33:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: avivdaum <aviv.daum@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>
-Subject: drivers/mmc/host/mxcmmc.c:545:24: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <202609110632.72NLMuJo-lkp@intel.com>
+ Christian Brauner <brauner@kernel.org>
+Subject: fs/fat/fat_test.c:261:9: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202609110651.YiovhEHo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,76 +60,82 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Mikko,
-
-First bad commit (maybe != root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   50d05c7c76c96b90462f24debacca971d2e86713
-commit: 7cd8db0fb0b2bf309163d56fec585c0f9e0964d1 mmc: add COMPILE_TEST to multiple drivers
-date:   12 months ago
-config: powerpc-randconfig-r132-20260910 (https://download.01.org/0day-ci/archive/20260911/202609110632.72NLMuJo-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+commit: 4bbf3f58e00f8671eb384c7df6983d803058b204 fat: add KUnit tests for timestamp conversion helpers
+date:   6 months ago
+config: powerpc-randconfig-r134-20260910 (https://download.01.org/0day-ci/archive/20260911/202609110651.YiovhEHo-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110632.72NLMuJo-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110651.YiovhEHo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7cd8db0fb0b2 ("mmc: add COMPILE_TEST to multiple drivers")
+| Fixes: 4bbf3f58e00f ("fat: add KUnit tests for timestamp conversion helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609110632.72NLMuJo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609110651.YiovhEHo-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/mmc/host/mxcmmc.c:545:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/mmc/host/mxcmmc.c:545:24: sparse:     expected unsigned int [usertype]
-   drivers/mmc/host/mxcmmc.c:545:24: sparse:     got restricted __le32 [usertype]
-   drivers/mmc/host/mxcmmc.c:557:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] tmp @@     got restricted __le32 [usertype] @@
-   drivers/mmc/host/mxcmmc.c:557:21: sparse:     expected unsigned int [usertype] tmp
-   drivers/mmc/host/mxcmmc.c:557:21: sparse:     got restricted __le32 [usertype]
-   drivers/mmc/host/mxcmmc.c:572:37: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   drivers/mmc/host/mxcmmc.c:572:37: sparse:     expected unsigned int [usertype] val
-   drivers/mmc/host/mxcmmc.c:572:37: sparse:     got restricted __le32 [usertype]
-   drivers/mmc/host/mxcmmc.c:585:37: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   drivers/mmc/host/mxcmmc.c:585:37: sparse:     expected unsigned int [usertype] val
-   drivers/mmc/host/mxcmmc.c:585:37: sparse:     got restricted __le32 [usertype]
+>> fs/fat/fat_test.c:261:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
+   fs/fat/fat_test.c:261:9: sparse:     expected long long left_value
+   fs/fat/fat_test.c:261:9: sparse:     got restricted __le16 const __left
+>> fs/fat/fat_test.c:261:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
+   fs/fat/fat_test.c:261:9: sparse:     expected long long right_value
+   fs/fat/fat_test.c:261:9: sparse:     got restricted __le16 const __right
+   fs/fat/fat_test.c:265:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
+   fs/fat/fat_test.c:265:9: sparse:     expected long long left_value
+   fs/fat/fat_test.c:265:9: sparse:     got restricted __le16 const __left
+   fs/fat/fat_test.c:265:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
+   fs/fat/fat_test.c:265:9: sparse:     expected long long right_value
+   fs/fat/fat_test.c:265:9: sparse:     got restricted __le16 const __right
+   fs/fat/fat_test.c:286:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
+   fs/fat/fat_test.c:286:9: sparse:     expected long long left_value
+   fs/fat/fat_test.c:286:9: sparse:     got restricted __le16 const __left
+   fs/fat/fat_test.c:286:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
+   fs/fat/fat_test.c:286:9: sparse:     expected long long right_value
+   fs/fat/fat_test.c:286:9: sparse:     got restricted __le16 const __right
+   fs/fat/fat_test.c:290:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le16 const __left @@
+   fs/fat/fat_test.c:290:9: sparse:     expected long long left_value
+   fs/fat/fat_test.c:290:9: sparse:     got restricted __le16 const __left
+   fs/fat/fat_test.c:290:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le16 const __right @@
+   fs/fat/fat_test.c:290:9: sparse:     expected long long right_value
+   fs/fat/fat_test.c:290:9: sparse:     got restricted __le16 const __right
 
-vim +545 drivers/mmc/host/mxcmmc.c
+vim +261 fs/fat/fat_test.c
 
-d96be879ff4697 Sascha Hauer       2009-01-06  535  
-12658af54f2ed1 Linus Walleij      2024-01-27  536  static int mxcmci_pull(struct mxcmci_host *host, u32 *buf, int bytes)
-d96be879ff4697 Sascha Hauer       2009-01-06  537  {
-d96be879ff4697 Sascha Hauer       2009-01-06  538  	unsigned int stat;
-d96be879ff4697 Sascha Hauer       2009-01-06  539  
-d96be879ff4697 Sascha Hauer       2009-01-06  540  	while (bytes > 3) {
-d96be879ff4697 Sascha Hauer       2009-01-06  541  		stat = mxcmci_poll_status(host,
-d96be879ff4697 Sascha Hauer       2009-01-06  542  				STATUS_BUF_READ_RDY | STATUS_READ_OP_DONE);
-d96be879ff4697 Sascha Hauer       2009-01-06  543  		if (stat)
-d96be879ff4697 Sascha Hauer       2009-01-06  544  			return stat;
-c7ceab02543f8a Anatolij Gustschin 2013-04-08 @545  		*buf++ = cpu_to_le32(mxcmci_readl(host, MMC_REG_BUFFER_ACCESS));
-d96be879ff4697 Sascha Hauer       2009-01-06  546  		bytes -= 4;
-d96be879ff4697 Sascha Hauer       2009-01-06  547  	}
-d96be879ff4697 Sascha Hauer       2009-01-06  548  
-d96be879ff4697 Sascha Hauer       2009-01-06  549  	if (bytes) {
-d96be879ff4697 Sascha Hauer       2009-01-06  550  		u8 *b = (u8 *)buf;
-d96be879ff4697 Sascha Hauer       2009-01-06  551  		u32 tmp;
-d96be879ff4697 Sascha Hauer       2009-01-06  552  
-d96be879ff4697 Sascha Hauer       2009-01-06  553  		stat = mxcmci_poll_status(host,
-d96be879ff4697 Sascha Hauer       2009-01-06  554  				STATUS_BUF_READ_RDY | STATUS_READ_OP_DONE);
-d96be879ff4697 Sascha Hauer       2009-01-06  555  		if (stat)
-d96be879ff4697 Sascha Hauer       2009-01-06  556  			return stat;
-c7ceab02543f8a Anatolij Gustschin 2013-04-08  557  		tmp = cpu_to_le32(mxcmci_readl(host, MMC_REG_BUFFER_ACCESS));
-d96be879ff4697 Sascha Hauer       2009-01-06  558  		memcpy(b, &tmp, bytes);
-d96be879ff4697 Sascha Hauer       2009-01-06  559  	}
-d96be879ff4697 Sascha Hauer       2009-01-06  560  
-d96be879ff4697 Sascha Hauer       2009-01-06  561  	return 0;
-d96be879ff4697 Sascha Hauer       2009-01-06  562  }
-d96be879ff4697 Sascha Hauer       2009-01-06  563  
+b0d4adaf3b3c44 David Gow 2021-04-15  248  
+b0d4adaf3b3c44 David Gow 2021-04-15  249  static void fat_time_unix2fat_test(struct kunit *test)
+b0d4adaf3b3c44 David Gow 2021-04-15  250  {
+b0d4adaf3b3c44 David Gow 2021-04-15  251  	static struct msdos_sb_info fake_sb;
+b0d4adaf3b3c44 David Gow 2021-04-15  252  	__le16 date, time;
+b0d4adaf3b3c44 David Gow 2021-04-15  253  	u8 cs;
+b0d4adaf3b3c44 David Gow 2021-04-15  254  	struct fat_timestamp_testcase *testcase =
+b0d4adaf3b3c44 David Gow 2021-04-15  255  		(struct fat_timestamp_testcase *)test->param_value;
+b0d4adaf3b3c44 David Gow 2021-04-15  256  
+4bbf3f58e00f86 avivdaum  2026-03-16  257  	fat_test_set_time_offset(&fake_sb, testcase->time_offset);
+b0d4adaf3b3c44 David Gow 2021-04-15  258  
+b0d4adaf3b3c44 David Gow 2021-04-15  259  	fat_time_unix2fat(&fake_sb, &testcase->ts,
+b0d4adaf3b3c44 David Gow 2021-04-15  260  			  &time, &date, &cs);
+b0d4adaf3b3c44 David Gow 2021-04-15 @261  	KUNIT_EXPECT_EQ_MSG(test,
+4bbf3f58e00f86 avivdaum  2026-03-16  262  			    testcase->time,
+4bbf3f58e00f86 avivdaum  2026-03-16  263  			    time,
+b0d4adaf3b3c44 David Gow 2021-04-15  264  			    "Time mismatch\n");
+b0d4adaf3b3c44 David Gow 2021-04-15  265  	KUNIT_EXPECT_EQ_MSG(test,
+4bbf3f58e00f86 avivdaum  2026-03-16  266  			    testcase->date,
+4bbf3f58e00f86 avivdaum  2026-03-16  267  			    date,
+b0d4adaf3b3c44 David Gow 2021-04-15  268  			    "Date mismatch\n");
+b0d4adaf3b3c44 David Gow 2021-04-15  269  	KUNIT_EXPECT_EQ_MSG(test,
+b0d4adaf3b3c44 David Gow 2021-04-15  270  			    testcase->cs,
+b0d4adaf3b3c44 David Gow 2021-04-15  271  			    cs,
+b0d4adaf3b3c44 David Gow 2021-04-15  272  			    "Centisecond mismatch\n");
+b0d4adaf3b3c44 David Gow 2021-04-15  273  }
+b0d4adaf3b3c44 David Gow 2021-04-15  274  
 
-:::::: The code at line 545 was first introduced by commit
-:::::: c7ceab02543f8a03b4df3d4465b089c8117a5e09 mmc: mxcmmc: add mpc512x SDHC support
+:::::: The code at line 261 was first introduced by commit
+:::::: b0d4adaf3b3c4402d9c3b6186e02aa1e4f7985cd fat: Add KUnit tests for checksums and timestamps
 
-:::::: TO: Anatolij Gustschin <agust@denx.de>
-:::::: CC: Chris Ball <cjb@laptop.org>
+:::::: TO: David Gow <davidgow@google.com>
+:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
