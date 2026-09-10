@@ -1,71 +1,62 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D1F48F84E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 14:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F66548822F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 14:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789050017; cv=none; b=jc9yUE85Jaug7D58syq2gthzTidpSnnyFWYMlHW5keZtpaVYGNKZK/1oQ8h+vqR68XbPUjEiJzoBRZtST1f9MBojgPrz5n3Dl/mIwMIPok69FMiT0vAsbpC9PXeaMFUM8xQs+DB8z/58zr0U+jJlNf7LFXNuPgeBEEXRBUpx7wQ=
+	t=1789051279; cv=none; b=R/YzmeEtpkWJV35eNut1bBuwex507n63a7xPTvfb+UUOuWCYxHefshwItjaavQ18A8MisTLhQ6aMGXK5MNGvFH8+ioKSzxgYE5V6CSwGRViFc7VKZw5mt5MeE6BKpI0pMx+a+vmmsRXfeQ+Ah+MUu2kfVS9FUUqoeUPYQDz5Uvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789050017; c=relaxed/simple;
-	bh=sxif0wyfcq8H412Y4yshHq0FWsb1CQN9/MCMEpTGBR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Guim5ddgt+9hYq2AYbdW/S7pNsy5gfZ1sKW9gHdWEme3frQHheAvFxDxxOfCm+bTW5jFyYgk1uGcISOwIKXLYBM6Sk+kcRMT8ZFE/FxYFALVRzldjbYdYp7ykSXFtSzh7IdzKrqsDsX2O+peGPi14epZdbLC8ARXIQ/iE3BV114=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jn++zxOl; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789051279; c=relaxed/simple;
+	bh=QsXB8Xjq9BYSpWgqNkcjm1X1KWzVRNGHi48MteRdoPg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ajx+4rjQ/NLWMwL3YzVsZebUco7yD9JwsuLQ8xiqH3rCcL/14VLP5QKd9Tylyer8Mz3jz8R7ZOpzge/yTzAbvBPWH+jhKPajk3Sb1PmyGklBqF52dCjK3NUODxaQWO1hmxIQ2WhyZqlqeFNgbMtAI9dUJsANcR/22c228YK9OA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2PJuokl; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jn++zxOl"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6a173ad7cf4so11756828a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 07:20:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789050012; x=1789654812; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ps82SqA662Agvdiz6i2Ym/UD36gHnRMXTJ78ECl6KLc=;
-        b=Jn++zxOlWS4C/qLqd6IsoKMrjDVFw74fUpaiVD2ZRE95pQ1u/hg7nbOL2qZNtuKxHS
-         UGvG9Pgu6EMYBv5qRtz68/E4VSF86lfAzkjQSO9e7pD2uP1PO/ZFzrxkTW5dNalLCuSE
-         aesh/h/3B6ftxiGgknrJquK+hZJM/P7BvfzJJttfF3NMzwVwN3eTFLgSnxhUN7Nadugc
-         V9hUtjezau2Dj0R1Os4iMeWATcJP2bnASMlCf/PGKnbTwIs/R7bd9n5cCqigStGZKFFK
-         2oX5hfvlNerZpkAWtQgNvCYU3ngxX8hGxqn6anAyo266/b0yJgxbZsRro6/JHOM3skvZ
-         jIvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789050012; x=1789654812;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ps82SqA662Agvdiz6i2Ym/UD36gHnRMXTJ78ECl6KLc=;
-        b=mNCceDBhtyAdxMcrlxCXWQYAkgTB6iwFhVGUpjCAlFBN4jF2PlVscewnXb9ym7Yigd
-         pIWcQyEwnW5HqmwD5mT5IVEiPhoOSHdhTXK4Tm35AvCJ69QBtHU4C5BvD8QQ/Skk9HzB
-         3SrrPO41RNvDxJFR6iBrGof05jpNwCdK0vow06j//ipmd7MLCsWgP7Kn4KRVg/rDwl1l
-         FotSz/pGM76PxJ7A5gUjwhAqsglMxPU90ePCy2CqBUZ04+TeJJ6yRTxs3mRzA9hNFCtf
-         v9DlsjirSDiySK2rYxhjEkaYUiB0fS37lKUmjl/6y1CQMF+ZaBEeV8DK6/O+ujgh7vz5
-         ua5w==
-X-Forwarded-Encrypted: i=1; AKwUvBwQCMXUr62vYeOYVBNC5Hn9LpRSaw8PF/A+Zfkon0Echx8/6eCqqxXg0DIUdUjcSd4i97pewLjaCQdkJ0CI@lists.linux.dev
-X-Gm-Message-State: AFuF++nU3r93UEkYaZ0fiHP6XZsWJcz7LafupaUd0f4kakBISjjybif7
-	HUIQ1nrS5KZE7zBqa3akzzA8Qy/AMn6P5MBx9ZaXpBD7YTK6sqkUR3V3
-X-Gm-Gg: AYBFou0OqmRSMgJinLkcdI0KIQpDud7ZwigiFnEY8KYiHknwfsupQWp0k5gzrXS6j8B
-	34zg5olgHkPMu5MckgXyHtsDQJ8cidLd/GblVk6OtKthQqqPNSYVCrXqJQAjI5uId7EzCf53k8v
-	Zv02WHwxTa+Z+5IW+cze3GgsP2j3Afwf2HmvJz9LroXZNWfBcYR152QlscDIZDOq0Ss4GnY2d/Q
-	VqOo4HX1hsD5yLixGUzAcv4B7e64zSUhIgNZ7bXWyJSgyoRC/hE+uNB35i5BQmJTbtJU4siiLOK
-	VfGXCKvcDKIoSzSug1IbuBVftm46qL8xwuXhCoqzN6TPKQoS29HZx0XJY1BbvwL2kgyPGAitrFl
-	teBM0I10ZwHq014okLVGTll0kHP9e7t2avM/ksjkUF6ZDBsC6EkqJCkK7M347u+dbtagS8BQzoK
-	5udf+4F7lHyCOgsfzfXL5NQqoIS1RvMiANuw7ZKsjLIoaYD2D1LZ/nL/caqdZ20+VqZS4=
-X-Received: by 2002:a05:6402:2350:b0:6a6:37a3:2b0f with SMTP id 4fb4d7f45d1cf-6a7e8d6e0cfmr14523801a12.8.1789050011642;
-        Thu, 10 Sep 2026 07:20:11 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a9857ce120sm3083667a12.4.2026.09.10.07.20.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 07:20:10 -0700 (PDT)
-Date: Thu, 10 Sep 2026 17:20:07 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [linux-next:master 1145/4316] sound/soc/codecs/nau8360-dsp.c:214
- nau8360_message_to_dsp() warn: missing error code? 'ret'
-Message-ID: <202609081933.K4tVJnyh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2PJuokl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789051276; x=1820587276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QsXB8Xjq9BYSpWgqNkcjm1X1KWzVRNGHi48MteRdoPg=;
+  b=Y2PJuokldVmHehVp9gO6DG9IAbKgQSv6GRlYTL1r/PZXn6cCKFlJ/3fU
+   T3C8Nj8XJUpgI9sra4la56BXFxnCKRJttE/EVS8FjGtBzk6Nq7YHBO23z
+   KoiMujFMQ159OzE+EGfKTzxHhkXSZrzdCM6VPnGTiEqtJzpIIsW7dwj9x
+   pi5GMM1bujI5T/ZoKRub7Qr30eWrA5qGyctXlUTZdbDf8ZVSq1yW8uqhh
+   akvEOk6VTJv/q1ial2x9W+3M2orhz7QCeVYbw1lNxE5q1R6KDwYgzYz7K
+   E0qesWyrEWrKEfJqayJKdXTJ7mdn84JIFT2UoTSQUVPHvUdNZjPZNOw3l
+   A==;
+X-CSE-ConnectionGUID: miC6jDyxRVyZOP++aJ8C1g==
+X-CSE-MsgGUID: jHjSHnOGQQ+09SFtf3rOBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89266283"
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="89266283"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:41:16 -0700
+X-CSE-ConnectionGUID: v0Cn7zqbQNahi46+Iq5wOg==
+X-CSE-MsgGUID: qHPrCUcoTSqQuSsa6LhKUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="301554075"
+Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 10 Sep 2026 07:41:14 -0700
+Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x4fxR-0000000007X-3cjP;
+	Thu, 10 Sep 2026 14:41:02 +0000
+Date: Thu, 10 Sep 2026 22:33:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kunwu Chan <kunwu.chan@gmail.com>, jiangshanlai@gmail.com,
+	paulmck@kernel.org, josh@joshtriplett.org, rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com
+Cc: oe-kbuild-all@lists.linux.dev, rcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Kunwu Chan <kunwu.chan@gmail.com>
+Subject: Re: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
+Message-ID: <202609102229.DO9S18xW-lkp@intel.com>
+References: <20260910041427.3579817-1-kunwu.chan@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,50 +65,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260910041427.3579817-1-kunwu.chan@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   944a035ecca915ae947905dcfb03f2b9dc6d032c
-commit: be88847a8bb1a14194cf50116f8909d127861318 [1145/4316] ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
-config: arm-randconfig-r071-20260908 (https://download.01.org/0day-ci/archive/20260908/202609081933.K4tVJnyh-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2362eeb5f75560740146975e9eabe84c6bd25a0d)
-smatch: v0.5.0-9187-g5189e3fb
+Hi Kunwu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rcu/rcu/dev]
+[also build test ERROR on linus/master v7.3-rc2 next-20260909]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kunwu-Chan/srcutree-Skip-torture-to-big-transition-for-atomic-SRCU/20260910-121427
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git rcu/dev
+patch link:    https://lore.kernel.org/r/20260910041427.3579817-1-kunwu.chan%40gmail.com
+patch subject: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20260910/202609102229.DO9S18xW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102229.DO9S18xW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609081933.K4tVJnyh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609102229.DO9S18xW-lkp@intel.com/
 
-smatch warnings:
-sound/soc/codecs/nau8360-dsp.c:214 nau8360_message_to_dsp() warn: missing error code? 'ret'
+All errors (new ones prefixed by >>):
 
-vim +/ret +214 sound/soc/codecs/nau8360-dsp.c
+   kernel/rcu/srcutree.c: In function 'srcu_torture_stats_print':
+>> kernel/rcu/srcutree.c:2080:68: error: 'SRCU_READ_FLAVOR_ATOMIC' undeclared (first use in this function); did you mean 'SRCU_READ_FLAVOR_NMI'?
+    2080 |         if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
+         |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                                                    SRCU_READ_FLAVOR_NMI
+   kernel/rcu/srcutree.c:2080:68: note: each undeclared identifier is reported only once for each function it appears in
 
-be88847a8bb1a1 Neo Chang 2026-08-25  198  static int nau8360_message_to_dsp(struct snd_soc_component *cp,
-be88847a8bb1a1 Neo Chang 2026-08-25  199  	const struct nau8360_cmd_info *cmd_info, int frag_len, int param_offset,
-be88847a8bb1a1 Neo Chang 2026-08-25  200  	int param_size, void *param_data, unsigned short dsp_addr)
-be88847a8bb1a1 Neo Chang 2026-08-25  201  {
-be88847a8bb1a1 Neo Chang 2026-08-25  202  	unsigned int payload;
-be88847a8bb1a1 Neo Chang 2026-08-25  203  	int ret, padding = 0, frag_cnt = 0;
-be88847a8bb1a1 Neo Chang 2026-08-25  204  
-be88847a8bb1a1 Neo Chang 2026-08-25  205  	ret = nau8360_dsp_idle(cp, dsp_addr);
-be88847a8bb1a1 Neo Chang 2026-08-25  206  	if (ret)
-be88847a8bb1a1 Neo Chang 2026-08-25  207  		return ret;
-be88847a8bb1a1 Neo Chang 2026-08-25  208  
-be88847a8bb1a1 Neo Chang 2026-08-25  209  	/* sending preamble fragment */
-be88847a8bb1a1 Neo Chang 2026-08-25  210  	payload = nau8360_pack_preamble(cmd_info->cmd_id, frag_len);
-be88847a8bb1a1 Neo Chang 2026-08-25  211  	snd_soc_component_write(cp, dsp_addr, payload);
-be88847a8bb1a1 Neo Chang 2026-08-25  212  
-be88847a8bb1a1 Neo Chang 2026-08-25  213  	if (!cmd_info->msg_param)
-be88847a8bb1a1 Neo Chang 2026-08-25 @214  		return ret;
 
-Please either change this to "return 0;" or "return -ERROR;"
+vim +2080 kernel/rcu/srcutree.c
 
-be88847a8bb1a1 Neo Chang 2026-08-25  215  
-be88847a8bb1a1 Neo Chang 2026-08-25  216  	/* sending payload + padding */
-be88847a8bb1a1 Neo Chang 2026-08-25  217  	payload = nau8360_pack_param(param_offset, param_size);
+  2031	
+  2032	void srcu_torture_stats_print(struct srcu_struct *ssp, char *tt, char *tf)
+  2033	{
+  2034		int cpu;
+  2035		int idx;
+  2036		unsigned long s0 = 0, s1 = 0;
+  2037		int ss_state = READ_ONCE(ssp->srcu_sup->srcu_size_state);
+  2038		int ss_state_idx = ss_state;
+  2039	
+  2040		idx = ssp->srcu_ctrp - &ssp->sda->srcu_ctrs[0];
+  2041		if (ss_state < 0 || ss_state >= ARRAY_SIZE(srcu_size_state_name))
+  2042			ss_state_idx = ARRAY_SIZE(srcu_size_state_name) - 1;
+  2043		pr_alert("%s%s Tree SRCU g%ld state %d (%s)",
+  2044			 tt, tf, rcu_seq_current(&ssp->srcu_sup->srcu_gp_seq), ss_state,
+  2045			 srcu_size_state_name[ss_state_idx]);
+  2046		if (!ssp->sda) {
+  2047			// Called after cleanup_srcu_struct(), perhaps.
+  2048			pr_cont(" No per-CPU srcu_data structures (->sda == NULL).\n");
+  2049		} else {
+  2050			pr_cont(" per-CPU(idx=%d):", idx);
+  2051			for_each_possible_cpu(cpu) {
+  2052				unsigned long l0, l1;
+  2053				unsigned long u0, u1;
+  2054				long c0, c1;
+  2055				struct srcu_data *sdp;
+  2056	
+  2057				sdp = per_cpu_ptr(ssp->sda, cpu);
+  2058				u0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_unlocks));
+  2059				u1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_unlocks));
+  2060	
+  2061				/*
+  2062				 * Make sure that a lock is always counted if the corresponding
+  2063				 * unlock is counted.
+  2064				 */
+  2065				smp_rmb();
+  2066	
+  2067				l0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_locks));
+  2068				l1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_locks));
+  2069	
+  2070				c0 = l0 - u0;
+  2071				c1 = l1 - u1;
+  2072				pr_cont(" %d(%ld,%ld %c)",
+  2073					cpu, c0, c1,
+  2074					"C."[rcu_segcblist_empty(&sdp->srcu_cblist)]);
+  2075				s0 += c0;
+  2076				s1 += c1;
+  2077			}
+  2078			pr_cont(" T(%ld,%ld)\n", s0, s1);
+  2079		}
+> 2080		if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
+  2081			srcu_transition_to_big(ssp);
+  2082	}
+  2083	EXPORT_SYMBOL_GPL(srcu_torture_stats_print);
+  2084	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
