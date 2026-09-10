@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A89C486647;
-	Thu, 10 Sep 2026 14:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7C74A3864
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 14:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789051334; cv=none; b=d8KthSHlziWzr4FgbAXpKe6vfLFS4d6FUbcypSE1zHiGzvXKLyxSDSBDImoS3dIxO/n4yvHG2lI9FCeIrvWPADTJg9LQrDGt5nOnbemcYEGlXeDtVmsksPzb9Ppure5n65QTat8oApN/2a3mGaohv+TBi2YDkyyXZrt+SX7Ko1M=
+	t=1789051968; cv=none; b=Y97MDkBC8EPIa+ntzdxhkPPvITFWthNONB2Ml1ufr++lQIw4KUIWmC+re0b0epabg/Aii0dYJjk5omHXlAMG2NFeKsrkXptsp/xnBTeSe4Kah/6ap79lzyW9aVInkg3a5+ysAlIIqra7PcqBfkVdoKJRQZvB14YSpl6pXLuZcLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789051334; c=relaxed/simple;
-	bh=c5vdxtg/iwsq5TyrZd4Qk+Gsxwt2E0kpnD7sMv3V/p0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ogJOkqx+MAfikIVpDdiZHMyLQcFbvKOU6oF9o1/rIWtcJoYqL4yfSPTcVDNbZ8dwIjb2//qiq5X1XCN6DbkAqLS0ApY36D0ZGMisrNpEyg5k7JRtrDVQG5UPN3KXAdqXNIHByT6Ey1GDjG7Y7QaaFTU3S7041igjfF9uKc+RGRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jw5SUSt3; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1789051968; c=relaxed/simple;
+	bh=uIcW9k3jfMx7Zs5lIQleYAh/1KN+i4Oza1LIgVYNaYk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=j5eRC0qd1r90L4Rcz9OrPF/C+raqq84OOXsg73b/03lK6v7BEuXsl5xZYsHepPVWf1rVS95kZYM6GmPCG27iMnA8XEceP9YXGyiC4ElFIBaYoJGaDle3/FcgonxL3jPRF8Njs9a9rMupHtvFky8CqqXXOpIS2kI3BNb+jZ96gTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lK8jvhWZ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jw5SUSt3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lK8jvhWZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789051333; x=1820587333;
+  t=1789051966; x=1820587966;
   h=date:from:to:cc:subject:message-id;
-  bh=c5vdxtg/iwsq5TyrZd4Qk+Gsxwt2E0kpnD7sMv3V/p0=;
-  b=Jw5SUSt3kUbIFgg9qt0R03SOoiaB1GTOEjtCihxTWJd12djbJyJHV0oG
-   uNNg6JsMWs32Z8IvYG2AzeYylFQu8fZPBHb3734qfdACgKKgdshtznM7x
-   Bu9xQe09eljQWVTQhBfol/9Fh0bWDJwdbjo0nkY/rB909fzDkVLkLNI3q
-   9jRuQ9KQt2RZj+Z/zX8OPmOPP1mMoqAvoAc8N56n4N2mwCz/Mu6pm6SBH
-   Mz0ZvwbHrQKjJbhQs5q5OmX2ncDm63vLuy6rjRvf/QO5owYQyRp5VmLo4
-   pz0+Ucrr0oXCcPLkXZiOchwnBZZlNTidaKIFDkBXMIsePiVUdAXPZ1gHi
-   Q==;
-X-CSE-ConnectionGUID: 5ldG8ZjaStS/s+rpVuxcGg==
-X-CSE-MsgGUID: z79oELETRxip3+UGXjJ+PA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="77061432"
+  bh=uIcW9k3jfMx7Zs5lIQleYAh/1KN+i4Oza1LIgVYNaYk=;
+  b=lK8jvhWZs4al+almbk56K4VwDZrJHFl8a5HxvT0Z8hz/F6G0k7SiV1BX
+   EFVgez6m+DcOzrDPLDg7rjVM1J16tYu0gW2x5qAK6CIAJOPK82g2ZfuPe
+   osNry9BXE5IZKmmwFpkjQOSIooF6Hl4EXIGhQe9ezR+RETJzHfwOQw0Je
+   F1wiY82vgIN5+XEzyVOaJILUX3nQ+in5T72nXOm67z0vWrQ7wiU5DHYij
+   587r6oaZ3NZeu3E2Rlq8yRMr3a1H6EAo9PpFpRocVGjPchMVliMM1foGR
+   h/sSjCBfge2pSg/sJ/FceP5RCINsCQDLi9i28USu6NgSr6uaBXQhkwGgs
+   w==;
+X-CSE-ConnectionGUID: VGJvV7eKRfmXbHCidvnfKA==
+X-CSE-MsgGUID: K7nMk9SPRJadLSoRgr7TnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89346274"
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="77061432"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:42:12 -0700
-X-CSE-ConnectionGUID: xseAEMBoTzOZR0tSVC2N/Q==
-X-CSE-MsgGUID: a0uferJTRuqXO2PUI3YQwA==
+   d="scan'208";a="89346274"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:52:46 -0700
+X-CSE-ConnectionGUID: V6yZnadNTyutWWmiuPcoTg==
+X-CSE-MsgGUID: vS0hEAsXRhOHajoxgACiHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="309908247"
+   d="scan'208";a="269897885"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2026 07:42:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 10 Sep 2026 07:52:45 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4fyA-0000000007h-1YJv;
-	Thu, 10 Sep 2026 14:41:48 +0000
-Date: Thu, 10 Sep 2026 22:26:27 +0800
+	id 1x4g8o-0000000009M-0YI2;
+	Thu, 10 Sep 2026 14:52:42 +0000
+Date: Thu, 10 Sep 2026 22:31:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: sofus <sofus.c@icloud.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/240-isp 88/89]
- drivers/media/platform/apple/avd/avd-drv.c:155:5: error: call to undeclared
- function 'FIELD_PREP'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202609102230.0CiPrrA3-lkp@intel.com>
+To: Youling Tang <tangyouling@kylinos.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>
+Subject: arch/loongarch/kernel/kexec_efi.c:64:22: sparse: sparse:
+ cast to restricted __le64
+Message-ID: <202609102217.TEHigzNJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,80 +60,100 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/240-isp
-head:   e31aa85e339c10dbf872c0759d5a6c35954af0cc
-commit: 0765a0974a15233ed105e144fec796291dacb32d [88/89] media: apple: avd: add a dedicated "submit" step
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609102230.0CiPrrA3-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102230.0CiPrrA3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   50d05c7c76c96b90462f24debacca971d2e86713
+commit: 55d990f0084c2b8ab9321dc59fc11dce855b4d61 LoongArch: Add EFI binary support for kexec_file
+date:   11 months ago
+config: loongarch-randconfig-r121-20260910 (https://download.01.org/0day-ci/archive/20260910/202609102217.TEHigzNJ-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102217.TEHigzNJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 55d990f0084c ("LoongArch: Add EFI binary support for kexec_file")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609102230.0CiPrrA3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609102217.TEHigzNJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/loongarch/kernel/kexec_efi.c:64:22: sparse: sparse: cast to restricted __le64
+   arch/loongarch/kernel/kexec_efi.c:65:23: sparse: sparse: cast to restricted __le64
 
->> drivers/media/platform/apple/avd/avd-drv.c:155:5: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     155 |                                 AVD_OP_EXEC_REV3_VP9_MASK :
-         |                                 ^
-   drivers/media/platform/apple/avd/avd-inst.h:16:35: note: expanded from macro 'AVD_OP_EXEC_REV3_VP9_MASK'
-      16 | #define AVD_OP_EXEC_REV3_VP9_MASK       FIELD_PREP(GENMASK(23, 12), 0xfff)
-         |                                         ^
-   1 error generated.
+vim +64 arch/loongarch/kernel/kexec_efi.c
 
-
-vim +/FIELD_PREP +155 drivers/media/platform/apple/avd/avd-drv.c
-
-   145	
-   146	int avd_submit_job(struct avd_ctx *ctx)
-   147	{
-   148		struct avd_dev *avd = ctx->dev;
-   149		struct avd_job *sub = &ctx->job;
-   150		struct avd_segment *seg;
-   151		int i, idx = 0, vp = 0;
-   152		void __iomem *reg;
-   153		u32 exec_mask = sub->codec == AVD_CODEC_VP9 &&
-   154						avd->variant->revision == 3 ?
- > 155					AVD_OP_EXEC_REV3_VP9_MASK :
-   156					0;
-   157		u32 exec_rev_flag =
-   158			AVD_OP_EXEC_FLAG_START_REV4(avd->variant->revision == 4) |
-   159			AVD_OP_EXEC_FLAG_START_REV3(avd->variant->revision == 3);
-   160	
-   161		ctx->fifo_idx = 0;
-   162		for (i = 0; i < sub->codec; i++)
-   163			vp += avd->variant->vp_slots[i];
-   164	
-   165		schedule_delayed_work(&ctx->watchdog_work, msecs_to_jiffies(2000));
-   166		avd->variant->configure_stream(avd, ctx->inst.addr, ctx->fifo_idx, vp);
-   167		reg = avd->ctrl + avd->variant->vp_slot_offset + vp * 4;
-   168	
-   169		/* the first segment is always the header (needs special handling) */
-   170	
-   171		writel(AVD_OP_EXEC | exec_mask | exec_rev_flag |
-   172			       AVD_OP_EXEC_FIFO_IDX(ctx->fifo_idx),
-   173		       reg);
-   174		seg = &sub->segments[idx++];
-   175		for (i = 0; i < seg->num; i++)
-   176			writel(seg->instructions[i], reg);
-   177		for (; idx <= sub->num; idx++) {
-   178			seg = &sub->segments[idx];
-   179			for (i = 0; i < seg->num; i++)
-   180				writel(seg->instructions[i], reg);
-   181			if (avd_wait_submission_queue(ctx, vp))
-   182				break;
-   183			writel(AVD_OP_EXEC | exec_mask |
-   184				       AVD_OP_EXEC_FLAG_END(idx == sub->num),
-   185			       reg);
-   186		}
-   187	
-   188		kfree(sub->segments);
-   189		sub->segments = NULL;
-   190		return 0;
-   191	}
-   192	
+    37	
+    38	static void *efi_kexec_load(struct kimage *image,
+    39					char *kernel, unsigned long kernel_len,
+    40					char *initrd, unsigned long initrd_len,
+    41					char *cmdline, unsigned long cmdline_len)
+    42	{
+    43		int ret;
+    44		unsigned long text_offset, kernel_segment_number;
+    45		struct kexec_buf kbuf;
+    46		struct kexec_segment *kernel_segment;
+    47		struct loongarch_image_header *h;
+    48	
+    49		h = (struct loongarch_image_header *)kernel;
+    50		if (!h->kernel_asize)
+    51			return ERR_PTR(-EINVAL);
+    52	
+    53		/*
+    54		 * Load the kernel
+    55		 * FIXME: Non-relocatable kernel rejected for kexec_file (require CONFIG_RELOCATABLE)
+    56		 */
+    57		kbuf.image = image;
+    58		kbuf.buf_max = ULONG_MAX;
+    59		kbuf.top_down = false;
+    60	
+    61		kbuf.buffer = kernel;
+    62		kbuf.bufsz = kernel_len;
+    63		kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
+  > 64		kbuf.memsz = le64_to_cpu(h->kernel_asize);
+    65		text_offset = le64_to_cpu(h->text_offset);
+    66		kbuf.buf_min = text_offset;
+    67		kbuf.buf_align = SZ_2M;
+    68	
+    69		kernel_segment_number = image->nr_segments;
+    70	
+    71		/*
+    72		 * The location of the kernel segment may make it impossible to
+    73		 * satisfy the other segment requirements, so we try repeatedly
+    74		 * to find a location that will work.
+    75		 */
+    76		while ((ret = kexec_add_buffer(&kbuf)) == 0) {
+    77			/* Try to load additional data */
+    78			kernel_segment = &image->segment[kernel_segment_number];
+    79			ret = load_other_segments(image, kernel_segment->mem,
+    80						  kernel_segment->memsz, initrd,
+    81						  initrd_len, cmdline, cmdline_len);
+    82			if (!ret)
+    83				break;
+    84	
+    85			/*
+    86			 * We couldn't find space for the other segments; erase the
+    87			 * kernel segment and try the next available hole.
+    88			 */
+    89			image->nr_segments -= 1;
+    90			kbuf.buf_min = kernel_segment->mem + kernel_segment->memsz;
+    91			kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
+    92		}
+    93	
+    94		if (ret < 0) {
+    95			pr_err("Could not find any suitable kernel location!");
+    96			return ERR_PTR(ret);
+    97		}
+    98	
+    99		kernel_segment = &image->segment[kernel_segment_number];
+   100	
+   101		/* Make sure the second kernel jumps to the correct "kernel_entry" */
+   102		image->start = kernel_segment->mem + h->kernel_entry - text_offset;
+   103	
+   104		kexec_dprintk("Loaded kernel at 0x%lx bufsz=0x%lx memsz=0x%lx\n",
+   105			      kernel_segment->mem, kbuf.bufsz, kernel_segment->memsz);
+   106	
+   107		return NULL;
+   108	}
+   109	
 
 --
 0-DAY CI Kernel Test Service
