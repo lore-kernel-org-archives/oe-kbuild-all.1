@@ -1,153 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E183A0B13
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 16:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB065221D6;
+	Thu, 10 Sep 2026 16:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789058078; cv=none; b=B9iEbO8SG4TTuy5060lj/zKUBTB39s6kZudXzY6P9DfD74BRbLWJ6Koo35LDodzSgo3yub8iog14VO2pfl0qdPtiCgypAgSau3xjwIzsThz0xfVaJkYPxGXwTBCsDc6nnd9KEGMKNbG1N4BfOs/FF/qY/XTXB2wqseBU7/9koFY=
+	t=1789059302; cv=none; b=d2TQ2w8aHSAoXt9rdoive35NYj1AUFD1+X50fOVdeQfLYrOMpzwKpoKq3k7fsvSpEERbTI8VcLFB4ltked+dXHxcXLpcyxORTb1OAHaYJez09RS+4KEDufRDjnuy8+0pMkixk/8HEe3qnngW1AJq5p+kWekUJiG1ayr64rULxZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789058078; c=relaxed/simple;
-	bh=n6umMU+nS/qxcftrSelR2/SVdiBBTkDwpMutFB0bdGY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LTsvCCoyakKWYRNqxku01bn2mWYInTYyzBlC1dup0az7UG97I+QV+TY9HFx6Q5M5OzoYDyiBpMd2lgF9PZeTMe1wm46WeBrdb2PnWDHeEtcrzRsBFw2PTPA8NiPYwqnc9iQad+3kv5dLfPmHusXwIUaVrZsgTIylUQRbKxdyKLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/W85ApW; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789059302; c=relaxed/simple;
+	bh=l7i/FO1ItoWOLmKL7zTyq4d9VrtQVV2+6x8TR7qImU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qRRbmyECCUegtRdoMG+Xz8vFIxb64KPZquY3tzxHWF7k7zYsKtyhApSkqEYm96FzPEyrmk5u/r/YZvoE0WNNFKTnwWurRaIIKDqfvzOpo/iVHFnLAzM3QZDbqMZYUydNkEpyxabjxkTKj56emnuBpQjKeGyiQMLKHlEYLuRWitQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LKHpXbcY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/W85ApW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789058075; x=1820594075;
-  h=date:from:to:cc:subject:message-id;
-  bh=n6umMU+nS/qxcftrSelR2/SVdiBBTkDwpMutFB0bdGY=;
-  b=T/W85ApW1PzhpD/7mihpWIUdCg9MteyyydI3kLnBgkAyEFp9zg+OKf4U
-   y80F4j9jdMB/ybKLyvzuRVhNje/Upi1Ok0LLfmAez/XUNLTcQlZZnwgNq
-   mnGDZXBG5R3/gHG2eEYPECVrrMMddyH3UnpqbRP3ukBsYidqqx78paXmz
-   1PlaXU7KgSxfVSLUAeZJIjTYQCViUKpQHL7CA9/gUsgmp+bnkBf8GGw5Q
-   IdzSouT50Iscqxv6v+vq2x1gz4sk22qlwNIlr3naoHAiLFBqvrH9wBE6R
-   ittJcvaeoL6jbBnHr8D92SXXKT8E8wIPlS6nwq1VRlbr7st7wOHJESj+7
-   g==;
-X-CSE-ConnectionGUID: Tj0JV/UmTm+LGwxJhNFKrQ==
-X-CSE-MsgGUID: qVfKXr6sS1S9yjdrTLRhEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="107030751"
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="107030751"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 09:34:34 -0700
-X-CSE-ConnectionGUID: 7Ejdwwv+Rj6ORPjc1NMz+w==
-X-CSE-MsgGUID: KbHhBQgIQjG8L0Qtp6YWdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="36310"
-Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 10 Sep 2026 09:34:32 -0700
-Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x4hjK-000000000SR-2zWz;
-	Thu, 10 Sep 2026 16:34:30 +0000
-Date: Thu, 10 Sep 2026 18:33:59 +0200
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-main 213/213]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb:
- pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0:
- 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1',
- 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1',...
-Message-ID: <202609101834.TV4vj2d4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKHpXbcY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A30F01F000FF;
+	Thu, 10 Sep 2026 16:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789059292;
+	bh=ZnntZIkyGVTGxk6jStVbEP5g1lkb1af5stHGst1a5AM=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=LKHpXbcYWyvQdn8IXrrAPSVPVdOAiSfGtGiq/Ls/lEU5XAl4+K1rU6PwqE2lpVeNX
+	 pi8seuTI0UxlQ2PhTW/JuIBrxlNXAACiSCCHda58LFlt2ZI+bSKHa7e6rXwLf6o7jc
+	 o/Q9dhQa0evHklHEMKEPyZm/QHZWqdYKz4DgYUCjZNoPyGEDzbyvGxoCvleX+GeBBc
+	 rs3DfWdrOVCM8JPStrmtHvzDJ3E0x44Zfy3CURI1/oij2zoVG4qKvYHV43yWsfzimF
+	 BmKAGkeltcGDkz52yJmfBWGS+PsvnzeFRhhl5Kn68S+AxqxG/DXZBp3bTqHQwhitCK
+	 eJ4QqgRXe1B6g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 73042CE1580; Thu, 10 Sep 2026 09:54:52 -0700 (PDT)
+Date: Thu, 10 Sep 2026 09:54:52 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Kunwu Chan <kunwu.chan@gmail.com>, jiangshanlai@gmail.com,
+	josh@joshtriplett.org, rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, rcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
+Message-ID: <c3c8e941-93eb-4f1f-ab2b-abc48f4ce146@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20260910041427.3579817-1-kunwu.chan@gmail.com>
+ <202609102247.8X7GUWSj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609102247.8X7GUWSj-lkp@intel.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-main
-head:   e2b8c6a7a01daa29f0109ecfd5d0fa93e27da8bf
-commit: 69ec6676065d067b5ae08cfa0ec425f6f2ffc0da [213/213] arm64: dts: mediatek: mt7988-bpi-r4: add uart1 / uart2
-config: arm64-randconfig-2054-20260909 (https://download.01.org/0day-ci/archive/20260910/202609101834.TV4vj2d4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-dtschema: 2026.7.dev16+g39602f98e
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609101834.TV4vj2d4-lkp@intel.com/reproduce)
+On Thu, Sep 10, 2026 at 10:34:21PM +0800, kernel test robot wrote:
+> Hi Kunwu,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on rcu/rcu/dev]
+> [also build test ERROR on linus/master v7.3-rc2 next-20260909]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609101834.TV4vj2d4-lkp@intel.com/
+Indeed, this patch would need to be applied to the "dev" branch of my
+-rcu tree.
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pinctrl@1001f000 (mediatek,mt7988-pinctrl): uart2-3-lite-pins:mux:groups:0: 'uart2_3_lite' is not one of ['net_wo0_uart_txd_0', 'net_wo0_uart_txd_1', 'net_wo1_uart_txd_0', 'net_wo1_uart_txd_1', 'net_wo2_uart_txd_0', 'net_wo2_uart_txd_1', 'tops_uart0_0', 'tops_uart0_1', 'tops_uart0_2', 'tops_uart1_0', 'tops_uart1_1', 'tops_uart1_2', 'uart0', 'uart1_0', 'uart1_1', 'uart1_2', 'uart1_2_lite', 'uart2', 'uart2_0', 'uart2_1', 'uart2_3']
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7988-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+							Thanx, Paul
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kunwu-Chan/srcutree-Skip-torture-to-big-transition-for-atomic-SRCU/20260910-121427
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git rcu/dev
+> patch link:    https://lore.kernel.org/r/20260910041427.3579817-1-kunwu.chan%40gmail.com
+> patch subject: [PATCH] srcutree: Skip torture to-big transition for atomic SRCU
+> config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260910/202609102247.8X7GUWSj-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609102247.8X7GUWSj-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609102247.8X7GUWSj-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> kernel/rcu/srcutree.c:2080:61: error: use of undeclared identifier 'SRCU_READ_FLAVOR_ATOMIC'
+>     2080 |         if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
+>          |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~
+>    1 error generated.
+> 
+> 
+> vim +/SRCU_READ_FLAVOR_ATOMIC +2080 kernel/rcu/srcutree.c
+> 
+>   2031	
+>   2032	void srcu_torture_stats_print(struct srcu_struct *ssp, char *tt, char *tf)
+>   2033	{
+>   2034		int cpu;
+>   2035		int idx;
+>   2036		unsigned long s0 = 0, s1 = 0;
+>   2037		int ss_state = READ_ONCE(ssp->srcu_sup->srcu_size_state);
+>   2038		int ss_state_idx = ss_state;
+>   2039	
+>   2040		idx = ssp->srcu_ctrp - &ssp->sda->srcu_ctrs[0];
+>   2041		if (ss_state < 0 || ss_state >= ARRAY_SIZE(srcu_size_state_name))
+>   2042			ss_state_idx = ARRAY_SIZE(srcu_size_state_name) - 1;
+>   2043		pr_alert("%s%s Tree SRCU g%ld state %d (%s)",
+>   2044			 tt, tf, rcu_seq_current(&ssp->srcu_sup->srcu_gp_seq), ss_state,
+>   2045			 srcu_size_state_name[ss_state_idx]);
+>   2046		if (!ssp->sda) {
+>   2047			// Called after cleanup_srcu_struct(), perhaps.
+>   2048			pr_cont(" No per-CPU srcu_data structures (->sda == NULL).\n");
+>   2049		} else {
+>   2050			pr_cont(" per-CPU(idx=%d):", idx);
+>   2051			for_each_possible_cpu(cpu) {
+>   2052				unsigned long l0, l1;
+>   2053				unsigned long u0, u1;
+>   2054				long c0, c1;
+>   2055				struct srcu_data *sdp;
+>   2056	
+>   2057				sdp = per_cpu_ptr(ssp->sda, cpu);
+>   2058				u0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_unlocks));
+>   2059				u1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_unlocks));
+>   2060	
+>   2061				/*
+>   2062				 * Make sure that a lock is always counted if the corresponding
+>   2063				 * unlock is counted.
+>   2064				 */
+>   2065				smp_rmb();
+>   2066	
+>   2067				l0 = data_race(atomic_long_read(&sdp->srcu_ctrs[!idx].srcu_locks));
+>   2068				l1 = data_race(atomic_long_read(&sdp->srcu_ctrs[idx].srcu_locks));
+>   2069	
+>   2070				c0 = l0 - u0;
+>   2071				c1 = l1 - u1;
+>   2072				pr_cont(" %d(%ld,%ld %c)",
+>   2073					cpu, c0, c1,
+>   2074					"C."[rcu_segcblist_empty(&sdp->srcu_cblist)]);
+>   2075				s0 += c0;
+>   2076				s1 += c1;
+>   2077			}
+>   2078			pr_cont(" T(%ld,%ld)\n", s0, s1);
+>   2079		}
+> > 2080		if (SRCU_SIZING_IS_TORTURE() && ssp->srcu_reader_flavor != SRCU_READ_FLAVOR_ATOMIC)
+>   2081			srcu_transition_to_big(ssp);
+>   2082	}
+>   2083	EXPORT_SYMBOL_GPL(srcu_torture_stats_print);
+>   2084	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
