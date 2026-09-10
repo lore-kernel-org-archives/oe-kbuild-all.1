@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9983C2BAF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Sep 2026 22:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1A23DD87B;
+	Thu, 10 Sep 2026 22:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789078286; cv=none; b=rsvXaXzUfUdmMVsXD1QB47+84NtzOEBOtWwSEX4bYJAeYP5MzKg2vrg1y8hoeq8WRgiNESKBchdborizyQtGfOEZzdlBDwLD3IFCIpF3lHeqdZb8J+GGvWKOe0mH33ZdTTUmu7JzWQKfTjnqgTs7qWM+8RGDd96XWwCMd+UFfuE=
+	t=1789078364; cv=none; b=OwL16fdHtS/4SMblxnGTjvlS80J5Hdr+p+QgN7dmjPb/YqJH6olk5Kl24jVsUURWOMm8y/TUN88tVuL47XXhzlPvI5UzCrqKKtJ3Z6WY7dyqNTdUKdWxaSoykO3w8N+DkHnp3qKAo0GLdoRDku7FqiTPwUkQ+Mhd9o6amzjWAls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789078286; c=relaxed/simple;
-	bh=1SpQpIZjwS3C9fmGphlWs3iKIBaHrOcbLfdtRL2nj08=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=m5APfJhRgmuwzrh690Z3EPEP2JhO4InDs4YfQKXzXv1ZGoy8ykMawstd7Fca69UspeVf9GMJ12dYpxfc1B93tjTMKunx5mfIUOvMxfS6FhiQlP1nNuICZQ95gtwcNAJkDjiegGkMhAv1Zi3B/hj3DuIrb4sdTS1tBnGHWseZD5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5kdCdon; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1789078364; c=relaxed/simple;
+	bh=nNF9sBELwbR1ayruD0KyBbwDZBbIP7B3gFKpePKCzJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GELrQvwhcYm2uOBB2iVjUJm4pkicfnginVvULDN2m2uJNo/yJYSgLCVW+oj/HY9VX/WVTMn4agOFxasHe+yxJ/4yKSqHYymTEXSKAmdUH75IAKCY5UQvMsLGXaHWeuDnaLN0YzeJRKNJTIYde8TMZzffQFD5c3NWwXNJky59q/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Me+iggDZ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5kdCdon"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Me+iggDZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789078283; x=1820614283;
+  t=1789078358; x=1820614358;
   h=date:from:to:cc:subject:message-id;
-  bh=1SpQpIZjwS3C9fmGphlWs3iKIBaHrOcbLfdtRL2nj08=;
-  b=P5kdCdonJCGCG/I8FXzm0Bps7H0lkmzeEYY7pH6uk8vaIv2KoMlCWMrL
-   IgzBGzjKEFIYf1S489MOADcAZ0ILZ3yMTFLNorbT3Vj90T4afjPqe01GK
-   KAa5LS+CGewuFYnuJkA1cXScb8LoDrevo5HTocZfzOqVdFCjqHK8zAE/A
-   YCRJ9Oo6ciGXq/03ebhkk6nkVsrzEXVqQgCDdXbfzj6LGuXTvsVd4MMcS
-   UgKtwsHCnQCLAF9A95ChNqzR9Qq1WGN71E6NUBij3qDF5QJVPMg0BBhce
-   Y4GL6WoVP1Jd+/xrjyS3fyXty+vzmw3/Skeu8lm4uU+5EHI6Edoh53zgL
-   g==;
-X-CSE-ConnectionGUID: 9JUIRiQGQg+gTK1Xcw1YqA==
-X-CSE-MsgGUID: db2T4ARrQ6GbVIgzG4p6pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="115083863"
+  bh=nNF9sBELwbR1ayruD0KyBbwDZBbIP7B3gFKpePKCzJQ=;
+  b=Me+iggDZuX7lfrt95ziO/8moXEbEjwts+/tTqpB4+O+CPxRNtnYe2rSY
+   BtrEB2xly35CJy7HfigTehJdPbLPU/4Gr9xhdLhqmSQlJibw47jzE4KSR
+   Q0inbbl8T4JPpkMNNN1UYQcDL1BvDjal5pFc00Tik4HG051OWWeXFvTbG
+   9sJZmP9yJtYAVrOwq2B325gfl947K4dbXyiSEtzCMhOH9UF2ZV2xTlr1s
+   JDvnJslWBaZmi70j7Z5eABpVSBgP4wHc7SXmbN4fYwkApS3JDgrkFQxMc
+   xGpvFPrAFEYWDTf0mksvkLoGI3Z9/tTa9XAtOkwgaK69NwJTKofr53wEZ
+   w==;
+X-CSE-ConnectionGUID: n79juq38QkyWMaG6EduZrQ==
+X-CSE-MsgGUID: HH4HpQO1SKqftcg/178Daw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89666451"
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="115083863"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 15:11:23 -0700
-X-CSE-ConnectionGUID: gu99ZAVdQkCFk+ICmyHfog==
-X-CSE-MsgGUID: f4yBfkz3S3OiGggNcoI8XA==
+   d="scan'208";a="89666451"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 15:12:36 -0700
+X-CSE-ConnectionGUID: gkfCVZwpTsKOBF6vIto9Xg==
+X-CSE-MsgGUID: UD4uJhQpSGaHeLZFvlRBRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="81054"
+   d="scan'208";a="310002104"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by fmviesa012.fm.intel.com with ESMTP; 10 Sep 2026 15:11:21 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Sep 2026 15:12:34 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4my6-000000000aR-2I6N;
-	Thu, 10 Sep 2026 22:10:29 +0000
-Date: Fri, 11 Sep 2026 06:08:10 +0800
+	id 1x4mzG-000000000aT-2tI0;
+	Thu, 10 Sep 2026 22:11:38 +0000
+Date: Fri, 11 Sep 2026 06:07:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Selvin Xavier <selvin.xavier@broadcom.com>
-Subject: drivers/infiniband/hw/bnxt_re/uapi.c:499:30: sparse: sparse:
- symbol 'bnxt_re_create_qp_defs' was not declared. Should it be static?
-Message-ID: <202609110534.gyZDGRyo-lkp@intel.com>
+To: "Kuan-Wei Chiu" <visitorckw@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ "Guan-Chun Wu" <409411716@gms.tku.edu.tw>,
+ David Laight <david.laight.linux@gmail.com>
+Subject: lib/base64.c:58:18: warning: implicit conversion from 'int'
+ to 's8' (aka 'signed char') changes value from 131 to -125
+Message-ID: <202609110514.S0a0FD6a-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,72 +65,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   50d05c7c76c96b90462f24debacca971d2e86713
-commit: 7e812673a948395675e9893e75b0fc60d19bbf27 RDMA/bnxt_re: Support doorbells for app allocated QPs
-date:   4 months ago
-config: x86_64-randconfig-121-20260910 (https://download.01.org/0day-ci/archive/20260911/202609110534.gyZDGRyo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110534.gyZDGRyo-lkp@intel.com/reproduce)
+commit: c4eb7ad32eab13ba64cc452c6f43d518b63f5e03 lib/base64: optimize base64_decode() with reverse lookup tables
+date:   10 months ago
+config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20260911/202609110514.S0a0FD6a-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110514.S0a0FD6a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 7e812673a948 ("RDMA/bnxt_re: Support doorbells for app allocated QPs")
+| Fixes: c4eb7ad32eab ("lib/base64: optimize base64_decode() with reverse lookup tables")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609110534.gyZDGRyo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609110514.S0a0FD6a-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/infiniband/hw/bnxt_re/uapi.c:499:30: sparse: sparse: symbol 'bnxt_re_create_qp_defs' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/bnxt_re_create_qp_defs +499 drivers/infiniband/hw/bnxt_re/uapi.c
+>> lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 131 to -125 [-Wconstant-conversion]
+      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
+      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
+         |                                       ~
+      49 |         [0 ... 0x1f] = -1, \
+      50 |         INIT_32(0x20, ch_62, ch_63), \
+      51 |         INIT_32(0x40, ch_62, ch_63), \
+      52 |         INIT_32(0x60, ch_62, ch_63), \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
+      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
+      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   lib/base64.c:43:48: note: expanded from macro 'INIT_4'
+      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:42:48: note: expanded from macro 'INIT_2'
+      42 | #define INIT_2(v, ...) INIT_1(v, __VA_ARGS__), INIT_1((v) + 1, __VA_ARGS__)
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:34:42: note: expanded from macro 'INIT_1'
+      34 |                 : (v) >= '0' && (v) <= '9' ? (v) - '0' + 52 \
+         |                                              ~~~~~~~~~~^~~~
+   lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 130 to -126 [-Wconstant-conversion]
+      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
+      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
+         |                                       ~
+      49 |         [0 ... 0x1f] = -1, \
+      50 |         INIT_32(0x20, ch_62, ch_63), \
+      51 |         INIT_32(0x40, ch_62, ch_63), \
+      52 |         INIT_32(0x60, ch_62, ch_63), \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
+      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
+      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   lib/base64.c:43:48: note: expanded from macro 'INIT_4'
+      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:42:24: note: expanded from macro 'INIT_2'
+      42 | #define INIT_2(v, ...) INIT_1(v, __VA_ARGS__), INIT_1((v) + 1, __VA_ARGS__)
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:34:42: note: expanded from macro 'INIT_1'
+      34 |                 : (v) >= '0' && (v) <= '9' ? (v) - '0' + 52 \
+         |                                              ~~~~~~~~~~^~~~
+   lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 129 to -127 [-Wconstant-conversion]
+      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
+      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
+         |                                       ~
+      49 |         [0 ... 0x1f] = -1, \
+      50 |         INIT_32(0x20, ch_62, ch_63), \
+      51 |         INIT_32(0x40, ch_62, ch_63), \
+      52 |         INIT_32(0x60, ch_62, ch_63), \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
+      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
+      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   lib/base64.c:43:24: note: expanded from macro 'INIT_4'
+      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:42:48: note: expanded from macro 'INIT_2'
+      42 | #define INIT_2(v, ...) INIT_1(v, __VA_ARGS__), INIT_1((v) + 1, __VA_ARGS__)
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:34:42: note: expanded from macro 'INIT_1'
+      34 |                 : (v) >= '0' && (v) <= '9' ? (v) - '0' + 52 \
+         |                                              ~~~~~~~~~~^~~~
+   lib/base64.c:58:18: warning: implicit conversion from 'int' to 's8' (aka 'signed char') changes value from 128 to -128 [-Wconstant-conversion]
+      58 |         [BASE64_IMAP] = BASE64_REV_INIT('+', ',')
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:52:2: note: expanded from macro 'BASE64_REV_INIT'
+      48 | #define BASE64_REV_INIT(ch_62, ch_63) { \
+         |                                       ~
+      49 |         [0 ... 0x1f] = -1, \
+      50 |         INIT_32(0x20, ch_62, ch_63), \
+      51 |         INIT_32(0x40, ch_62, ch_63), \
+      52 |         INIT_32(0x60, ch_62, ch_63), \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:46:50: note: expanded from macro 'INIT_32'
+      46 | #define INIT_32(v, ...) INIT_16(v, __VA_ARGS__), INIT_16((v) + 16, __VA_ARGS__)
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/base64.c:45:49: note: expanded from macro 'INIT_16'
+      45 | #define INIT_16(v, ...) INIT_8(v, __VA_ARGS__), INIT_8((v) + 8, __VA_ARGS__)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   lib/base64.c:43:24: note: expanded from macro 'INIT_4'
+      43 | #define INIT_4(v, ...) INIT_2(v, __VA_ARGS__), INIT_2((v) + 2, __VA_ARGS__)
 
-   456	
-   457	DECLARE_UVERBS_NAMED_METHOD(BNXT_RE_METHOD_DBR_ALLOC,
-   458				    UVERBS_ATTR_IDR(BNXT_RE_ALLOC_DBR_HANDLE,
-   459						    BNXT_RE_OBJECT_DBR,
-   460						    UVERBS_ACCESS_NEW,
-   461						    UA_MANDATORY),
-   462				    UVERBS_ATTR_PTR_OUT(BNXT_RE_ALLOC_DBR_ATTR,
-   463							UVERBS_ATTR_STRUCT(struct bnxt_re_db_region,
-   464									   umdbr),
-   465									   UA_MANDATORY),
-   466				    UVERBS_ATTR_PTR_OUT(BNXT_RE_ALLOC_DBR_OFFSET,
-   467							UVERBS_ATTR_TYPE(u64),
-   468							UA_MANDATORY));
-   469	
-   470	DECLARE_UVERBS_NAMED_METHOD_DESTROY(BNXT_RE_METHOD_DBR_FREE,
-   471					    UVERBS_ATTR_IDR(BNXT_RE_FREE_DBR_HANDLE,
-   472							    BNXT_RE_OBJECT_DBR,
-   473							    UVERBS_ACCESS_DESTROY,
-   474							    UA_MANDATORY));
-   475	
-   476	DECLARE_UVERBS_NAMED_OBJECT(BNXT_RE_OBJECT_DBR,
-   477				    UVERBS_TYPE_ALLOC_IDR(bnxt_re_dbr_cleanup),
-   478				    &UVERBS_METHOD(BNXT_RE_METHOD_DBR_ALLOC),
-   479				    &UVERBS_METHOD(BNXT_RE_METHOD_DBR_FREE));
-   480	
-   481	DECLARE_UVERBS_NAMED_METHOD(BNXT_RE_METHOD_GET_DEFAULT_DBR,
-   482				    UVERBS_ATTR_PTR_OUT(BNXT_RE_DEFAULT_DBR_ATTR,
-   483							UVERBS_ATTR_STRUCT(struct bnxt_re_db_region,
-   484									   umdbr),
-   485							UA_MANDATORY));
-   486	
-   487	DECLARE_UVERBS_GLOBAL_METHODS(BNXT_RE_OBJECT_DEFAULT_DBR,
-   488				      &UVERBS_METHOD(BNXT_RE_METHOD_GET_DEFAULT_DBR));
-   489	
-   490	ADD_UVERBS_ATTRIBUTES_SIMPLE(
-   491		bnxt_re_qp_create,
-   492		UVERBS_OBJECT_QP,
-   493		UVERBS_METHOD_QP_CREATE,
-   494		UVERBS_ATTR_IDR(BNXT_RE_CREATE_QP_ATTR_DBR_HANDLE,
-   495				BNXT_RE_OBJECT_DBR,
-   496				UVERBS_ACCESS_READ,
-   497				UA_OPTIONAL));
-   498	
- > 499	const struct uapi_definition bnxt_re_create_qp_defs[] = {
-   500		UAPI_DEF_CHAIN_OBJ_TREE(UVERBS_OBJECT_QP, &bnxt_re_qp_create),
-   501		{},
-   502	};
-   503	
+
+vim +58 lib/base64.c
+
+    47	
+    48	#define BASE64_REV_INIT(ch_62, ch_63) { \
+    49		[0 ... 0x1f] = -1, \
+    50		INIT_32(0x20, ch_62, ch_63), \
+    51		INIT_32(0x40, ch_62, ch_63), \
+    52		INIT_32(0x60, ch_62, ch_63), \
+    53		[0x80 ... 0xff] = -1 }
+    54	
+    55	static const s8 base64_rev_maps[][256] = {
+    56		[BASE64_STD] = BASE64_REV_INIT('+', '/'),
+    57		[BASE64_URLSAFE] = BASE64_REV_INIT('-', '_'),
+  > 58		[BASE64_IMAP] = BASE64_REV_INIT('+', ',')
+    59	};
+    60	
 
 --
 0-DAY CI Kernel Test Service
