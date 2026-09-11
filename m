@@ -1,125 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FB247A87C;
-	Fri, 11 Sep 2026 17:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840883DEAD6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 19:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789146635; cv=none; b=nwmcAO6W+vBjFye9ZaILx+XVS7IgvcH5Qlc0QgyKvVEVn5OwF/Gff3gjQZwwsXQgSBmX058qj/fCvANhzzP+vptZ7AT3UqO4j3tBXeIwuyoDr6TACPLHDWvCfHmfQrsYnrfLyF+76aJCE6CaoQyzdMvqLOPmqoHd3WV6IdRvnhs=
+	t=1789154421; cv=none; b=Iqg/g+4YV0H2WUyvGfgt4IKkPLMrNeXnc2i5eURSIsP+2hIuRD2qTMZNd5tRmE+dz5DEnOpetl2KpNdrWK2Z1xFaYOc7+H5dzGHBT4t88lDkpK6E6y+YX/wHgjyuZdnjS/rpj28TPTIdM4gHaZIEYX3kGyPyPp066OCPekH1iQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789146635; c=relaxed/simple;
-	bh=3k91Zqt2eqYWySUfIna8DwbrYNJWFGI0znm7i+mw/X0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YBbSDTnpCkNae047Lb2rpQl6v3HkYj2kx68Qf6oGp7jW/H2YIlkpMlNBIx+JUigJd11a2oT859RJyHowQ4GdiuM1RUzDR4oPwKuXOSwh2+d7coDGcPFiCYO8IoZDmrUZuMqZO9vTtys7UyyAu7BYf3f0qv6EOnPWGGrhrFre43k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PG3Y16fr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789154421; c=relaxed/simple;
+	bh=Bw9uRvg93b3bHTzmWLqQh9aluNDwcNSTBwFhsvqy/1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HA4S0cLb6INmUSK+KINhglDOvLnIaHYPM1XMReU/t6Z0tCfFBt77z9f42D1Kt74rZwJA1ZraCK3xbFEjHcRH33kw08CHePGCoxsRbo4UH2yY8kcc/NH7Edc/woTzukUa8qOZl6YRFuII3RwJngpWabtypZ/VnE3aqpKOgk57NBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKTn1lVb; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PG3Y16fr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827101F000FF;
-	Fri, 11 Sep 2026 17:10:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789146633;
-	bh=1HTCELUy493iSlQt63EmEKqrhXk7rrP66xQ3dVMR4vs=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=PG3Y16frB0L1z/XkJuGi3P7DH/JdYjk+I1KNwpiYOkhby2s0LUsdQkLWb8ukoyzKG
-	 mnaDISAZvOFCmojimAswTU8YS3K/VFrnPVIii4P4yqJMkekNjUJHaGyIL2TcAXzQS1
-	 AemxLwhNnU80FWe5uGbRDafuMFTPH6peK5iICEbHar8GvU0sHe//GhEriofk5SX8tK
-	 UzkcIx/KvsoR+gZGO1/mh0tx7WfvOwk68NpFxAQla0b2kY+FRk6zt0Px+DeofQ1HIC
-	 ApudwQ+yITQ4wRxJ0f0PvUs0dUVdJTpWUoXDjeli0kKAVsdppC9Md2TQlq/bHMSL/I
-	 SM2u9uTVPdDFw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 47442CE1902; Fri, 11 Sep 2026 10:10:33 -0700 (PDT)
-Date: Fri, 11 Sep 2026 10:10:33 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2026.09.09a 42/56]
- kernel/rcu/tree_stall.h:332:48: warning: comparison between pointer and
- integer ('int' and 'struct task_struct *')
-Message-ID: <33878fc2-3ccb-452f-8c94-e64f588a2160@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202609120047.u7Af769s-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKTn1lVb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789154402; x=1820690402;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Bw9uRvg93b3bHTzmWLqQh9aluNDwcNSTBwFhsvqy/1U=;
+  b=PKTn1lVb+bMABqIj+kO0ZgwkCFaGOV+C3BftKoft6Mdjhq+YIxO9Rjwb
+   fWitB9qtHrbGf/xGd8eV/yWuEMy5CyWRG7cttuczQbOQvruB1DfR8Cqgq
+   3Y4zr7tNxsZ7PN8oJ2OuVJmj8skmo3eCS6XjZiAcDwi43Qpdw4aUDC7Bi
+   oB3o0lYCC/4V+nXURtyoisX5RgmBxjCZTjoJmhjmtoQ/FrxNRCApLtAfY
+   FQ1aMisSD769dGOsQCDWy17kJIO8D3urSh+4lOZicnSnSv+dWZMhzHqdj
+   zltxApq5hUifFpYKD7BvoC9weWKGCgjdI/75Pz88vSN73JHR6kn7EgWut
+   w==;
+X-CSE-ConnectionGUID: OiLZai0mSy69hFfcswyXKg==
+X-CSE-MsgGUID: DFu2Gj/ATI2hmmx41g8MKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89632682"
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="89632682"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 12:19:58 -0700
+X-CSE-ConnectionGUID: NEV1kEFPTUinKj/2Tr3Cfg==
+X-CSE-MsgGUID: dvCse4fURZCQhvlvHViWdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="271974709"
+Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 11 Sep 2026 12:19:57 -0700
+Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x56mU-0000000021j-40Fw;
+	Fri, 11 Sep 2026 19:19:36 +0000
+Date: Sat, 12 Sep 2026 03:12:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dave Airlie <airlied@redhat.com>
+Subject: include/trace/events/dma_fence.h:17:1: sparse: sparse:
+ dereference of noderef expression
+Message-ID: <202609120233.6Elxc35n-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609120047.u7Af769s-lkp@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 12, 2026 at 12:28:38AM +0800, kernel test robot wrote:
-> tree:   https://github.com/paulmckrcu/linux dev.2026.09.09a
-> head:   d61d9b5dd56c6cf72b70bb5fb52b213ead9f7765
-> commit: e33488c41be623f7c7ef5b8763e20c45f1364d1c [42/56] rcu: Add running and boosted indications to RCU task stall dump
-> config: powerpc-tqm8xx_defconfig (https://download.01.org/0day-ci/archive/20260912/202609120047.u7Af769s-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609120047.u7Af769s-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609120047.u7Af769s-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from kernel/rcu/tree.c:5112:
->    kernel/rcu/tree_stall.h:332:8: error: call to undeclared function 'rt_mutex_owner'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      332 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
->          |                             ^
-> >> kernel/rcu/tree_stall.h:332:48: warning: comparison between pointer and integer ('int' and 'struct task_struct *') [-Wpointer-integer-compare]
->      332 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
->          |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~
->    In file included from kernel/rcu/tree.c:5115:
->    In file included from kernel/rcu/tree_plugin.h:14:
->    kernel/rcu/../locking/rtmutex_common.h:231:35: error: conflicting types for 'rt_mutex_owner'
->      231 | static inline struct task_struct *rt_mutex_owner(struct rt_mutex_base *lock)
->          |                                   ^
->    kernel/rcu/tree_stall.h:332:8: note: previous implicit declaration is here
->      332 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
->          |                             ^
->    1 warning and 2 errors generated.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   08df884136f1c1197bab2a27814404fd329d9aac
+commit: 21f6bcdf2be72e750dbe430b7227a66763a58466 Merge tag 'drm-misc-next-2=
+026-02-26' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+date:   6 months ago
+config: microblaze-randconfig-r112-20260910 (https://download.01.org/0day-c=
+i/archive/20260912/202609120233.6Elxc35n-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260912/202609120233.6Elxc35n-lkp@intel.com/reproduce)
 
-Good catch, updating this patch with attribution to #include rtmutex.h.
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Fixes: 21f6bcdf2be7 ("Merge tag 'drm-misc-next-2026-02-26' of https://git=
+lab.freedesktop.org/drm/misc/kernel into drm-next")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609120233.6Elxc35n-lkp@i=
+ntel.com/
 
-Thank you for your testing efforts!
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/dma-fence.c:1040:38: sparse: sparse: incorrect type in i=
+nitializer (different address spaces) @@     expected char const [noderef] =
+__rcu *timeline @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1040:38: sparse:     expected char const [no=
+deref] __rcu *timeline
+   drivers/dma-buf/dma-fence.c:1040:38: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1041:36: sparse: sparse: incorrect type in i=
+nitializer (different address spaces) @@     expected char const [noderef] =
+__rcu *driver @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1041:36: sparse:     expected char const [no=
+deref] __rcu *driver
+   drivers/dma-buf/dma-fence.c:1041:36: sparse:     got char *
+   drivers/dma-buf/dma-fence.c: note: in included file (through include/tra=
+ce/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_f=
+ence.h):
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
 
-							Thanx, Paul
+vim +17 include/trace/events/dma_fence.h
 
-> vim +332 kernel/rcu/tree_stall.h
-> 
->    311	
->    312	/*
->    313	 * Report out the state of a not-running task that is stalling the
->    314	 * current RCU grace period.
->    315	 */
->    316	static int check_slow_task(struct task_struct *t, void *arg)
->    317	{
->    318		struct rcu_node *rnp;
->    319		struct rcu_stall_chk_rdr *rscrp = arg;
->    320	
->    321		if (task_curr(t))
->    322			return -EBUSY; // It is running, so decline to inspect it.
->    323		rscrp->nesting = t->rcu_read_lock_nesting;
->    324		rscrp->rs = t->rcu_read_unlock_special;
->    325		rscrp->on_blkd_list = !list_empty(&t->rcu_node_entry);
->    326		rscrp->rcu_rdr_running = task_curr(t);
->    327		rscrp->rcu_rdr_boosted = 0;
->    328		if (rscrp->on_blkd_list) {
->    329			rnp = READ_ONCE(t->rcu_blocked_node);
->    330			raw_spin_lock_rcu_node(rnp); /* irqs already disabled. */
->    331			if (rnp == READ_ONCE(t->rcu_blocked_node)) {
->  > 332				if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
->    333					rscrp->rcu_rdr_boosted = 1;
->    334			} else {
->    335				rscrp->rcu_rdr_boosted = 2;
->    336			}
->    337			raw_spin_unlock_rcu_node(rnp); /* irqs remain disabled. */
->    338		}
->    339		return 0;
->    340	}
->    341	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst 2014-07-0=
+1  11 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  12  /*
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  13   * Safe only for call sites which are guaranteed to not race with fe=
+nce
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  14   * signaling,holding the fence->lock and having checked for not sign=
+aled, or the
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  15   * signaling path itself.
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  16   */
+62918542b7bf08 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+6 @17  DECLARE_EVENT_CLASS(dma_fence,
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  18 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  19  	TP_PROTO(struct dma_fence *fence),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  20 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  21  	TP_ARGS(fence),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  22 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  23  	TP_STRUCT__entry(
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  24  		__string(driver, fence->ops->get_driver_name(fence))
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  25  		__string(timeline, fence->ops->get_timeline_name(fence))
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  26  		__field(unsigned int, context)
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  27  		__field(unsigned int, seqno)
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  28  	),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  29 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  30  	TP_fast_assign(
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  31  		__assign_str(driver);
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  32  		__assign_str(timeline);
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  33  		__entry->context =3D fence->context;
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  34  		__entry->seqno =3D fence->seqno;
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  35  	),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  36 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  37  	TP_printk("driver=3D%s timeline=3D%s context=3D%u seqno=3D%u",
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  38  		  __get_str(driver), __get_str(timeline), __entry->context,
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  39  		  __entry->seqno)
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  40  );
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  41 =20
+
+:::::: The code at line 17 was first introduced by commit
+:::::: 62918542b7bf08860a60ebbde7654486e0ac0776 dma-fence: Fix sparse warni=
+ngs due __rcu annotations
+
+:::::: TO: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
