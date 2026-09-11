@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4332D238F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 00:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBE92EEE7B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 01:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789088328; cv=none; b=dkWXFJCuqoDOLHp7J/0zLb+yO9QS0J0tusfsoy1LAl8c9ci3pzmsK/w8jIZ2K/kJaysmCR6esAex6Bcrwpj8ZtpHf8BFF+xaL+KrnbmRHs3mmsVg40C1tR51tMjI5P+VJbDdfHnXkXojTO6sSadN1mx3RRdTekiPb1rN+BMzD5k=
+	t=1789088448; cv=none; b=pV3a/mmQvE6Mqv8NpHk8rW2KaFu4Hvf0ENQSE0jiFijaFj5+muZ+oA7d0IsZf8U+Idl027Gdt9qWcKPanSeHhoEhXMzj+lTzgkvgWVx8rpN3yHE1L6FgsGpHvXMa9VR1YLgFDai6U4RYhYm5mITxRJlO5EZvY3L498MpmOVr6sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789088328; c=relaxed/simple;
-	bh=wClLg0yaVE7ZNlfOejYMjeuBPlKktDttE2UMYYQRfL0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WNQ7Yiw8bmDjHTM7wxkHj96+mFWtt4qnWT+vLNKnyFjrDvv/Wng71CgFujklTGMOMv/gAA3f4EYqfQjAkujS9oILTSOWuzopEIyoH5aO2+CIRW+qqVGDalkzCpwqcvNtNZEEcQ9A3Iu1CeFthPWF8xTh+u84wZywxRLuW7u4QAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEzrwIVz; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1789088448; c=relaxed/simple;
+	bh=v5D3ugaPQ3fO/i4Yi+b2IQHa+VWDLJaxPYBnY4bANFw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Rc2I1KKdJ+53F/HrXYdo/xpVsCH+6Ez/N5VhOD7BDOv3nnl2HcWDe99Lcb4qQ2bKcag8+qUsJIkim2k2Jru4zWgUMeKDfJOjlDLr24ID/dGbvNY87y7MhVHrYgTbU3oaJyr/5YwlwsZq/fSujMDJDZeH/5+X0mGIvLnZcLnUSYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hW2xc9vg; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEzrwIVz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hW2xc9vg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789088326; x=1820624326;
+  t=1789088447; x=1820624447;
   h=date:from:to:cc:subject:message-id;
-  bh=wClLg0yaVE7ZNlfOejYMjeuBPlKktDttE2UMYYQRfL0=;
-  b=TEzrwIVzSGP7UwOLvJ/oCLJNlkGGAOAWRMLGQCkTONo1BAKX/j1rBVaI
-   tG14gbpnE7bweMIWjB8rQEW0azkadiFZPjne0seftoFmCh5Wf/iPXkBtQ
-   iqPctPMaEmXUQDPaXE1ez93QLoemMdo3suPPEAuewRyjX8wiO4dPGtF3+
-   2jLaF217Z45Bvl7jBpHriZeAF2csJ0HlhHHUGOeH1PyA6JqQHlaQakh/0
-   /ABZICyz731exvNquDECksBViM80jpsHxeLley7aj2rShOMUf1G45frti
-   wmYV7rrBpr+/bUbKqg9wFPfM0PyHGwsg+hDjvMFDiX/dArMt+NenoPpdV
-   Q==;
-X-CSE-ConnectionGUID: STrx86aRQ8iOseI5V4q0JA==
-X-CSE-MsgGUID: cgnDJI6WTASRCBvJs/NiFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89422648"
+  bh=v5D3ugaPQ3fO/i4Yi+b2IQHa+VWDLJaxPYBnY4bANFw=;
+  b=hW2xc9vg1LNsKXKF925dD80XZKhwABkCwBxk4a6/XybPSek9MzASVDpA
+   uj5lREvA0QYgjng4ZvEXMNIrgQ77Vr/4GRnGyui2UW1XCv73MUWhJ1ozC
+   gnL/s922z+8iUA5Nolx9SQMYSVzsVFpn+9WFvBFI8Suj6lEUWcoMTZje6
+   4SFDA9O9MfJK5IXivc1DrZ3Y9HshUo59Iuwo8fiTU/VWOUgJHOhNEl7kO
+   Sdt1AkyOALFojA2kUnuV56RJ+jrTOZxQ/UtFYnnn2qZvHgXrYXpZIiX+R
+   STKQTFoYE9Wk8UpSkIEpVfB1cbHPxYL184VXfZfZO9E0fsHmxluFP2HWh
+   w==;
+X-CSE-ConnectionGUID: P54tHojAQdy3wx9q0Murww==
+X-CSE-MsgGUID: sBzBqEdHTqilKn5ShVn41g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="99881617"
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89422648"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 17:58:46 -0700
-X-CSE-ConnectionGUID: XEU3bjSxQlGispXVvQljOA==
-X-CSE-MsgGUID: lx+ekBHXQEKtoD+y0f4prA==
+   d="scan'208";a="99881617"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 18:00:47 -0700
+X-CSE-ConnectionGUID: Bk3APgQeRrGpHnXMb6lFQg==
+X-CSE-MsgGUID: L8uMhEdYQIefg+mEbhJMDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="270410924"
-Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 10 Sep 2026 17:58:44 -0700
-Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+   d="scan'208";a="101610"
+Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 10 Sep 2026 18:00:45 -0700
+Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4pbG-000000000kX-0KFl;
-	Fri, 11 Sep 2026 00:58:42 +0000
-Date: Fri, 11 Sep 2026 08:57:43 +0800
+	id 1x4pdD-000000000Zv-06MR;
+	Fri, 11 Sep 2026 01:00:43 +0000
+Date: Fri, 11 Sep 2026 03:00:24 +0200
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- Charlie Jenkins <thecharlesjenkins@gmail.com>
-Subject: kernel/futex/core.c:62:16: sparse: sparse: cast truncates
- bits from constant value (123456789abcdef becomes 89abcdef)
-Message-ID: <202609110834.wO7fAXlN-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-riscv64 7/7]
+ arch/arm64/boot/dts/qcom/purwa-iot-evk-el2.dtb: phy@1bd4000
+ (qcom,x1p42100-qmp-gen4x4-pcie-phy): 'qcom,4ln-config-sel' is a required
+ property
+Message-ID: <202609110203.lBkmK280-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,44 +61,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Peter,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   08df884136f1c1197bab2a27814404fd329d9aac
-commit: b78b0b65825275f58336a43611a700de174be8c3 futex: Use runtime constants for __futex_hash() hot path
-date:   6 weeks ago
-config: i386-randconfig-063-20260911 (https://download.01.org/0day-ci/archive/20260911/202609110834.wO7fAXlN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110834.wO7fAXlN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
+head:   121ea1ece9487e8deae20bc5a48794afa81424c3
+commit: bde860892c92a43624a7bcf932a1d375b1ad43eb [7/7] arm64: dts: qcom: purwa: Add EL2 overlay for purwa-iot-evk
+config: arm64-randconfig-2054-20260910 (https://download.01.org/0day-ci/archive/20260911/202609110203.lBkmK280-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110203.lBkmK280-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: b78b0b658252 ("futex: Use runtime constants for __futex_hash() hot path")
+| Fixes: bde860892c92 ("arm64: dts: qcom: purwa: Add EL2 overlay for purwa-iot-evk")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609110834.wO7fAXlN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609110203.lBkmK280-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/futex/core.c:532:38: sparse: sparse: cast removes address space '__user' of expression
-   kernel/futex/core.c:532:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
-   kernel/futex/core.c:532:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
-   kernel/futex/core.c:532:51: sparse:     got void *
-   kernel/futex/core.c:548:38: sparse: sparse: cast removes address space '__user' of expression
-   kernel/futex/core.c:548:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
-   kernel/futex/core.c:548:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
-   kernel/futex/core.c:548:51: sparse:     got void *
->> kernel/futex/core.c:62:16: sparse: sparse: cast truncates bits from constant value (123456789abcdef becomes 89abcdef)
-
-vim +62 kernel/futex/core.c
-
-    59	
-    60	static __always_inline struct futex_hash_bucket **futex_queues(void)
-    61	{
-  > 62		return runtime_const_ptr(__futex_queues);
-    63	}
-    64	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/purwa-iot-evk-el2.dtb: phy@1bd4000 (qcom,x1p42100-qmp-gen4x4-pcie-phy): 'qcom,4ln-config-sel' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml
 
 --
 0-DAY CI Kernel Test Service
