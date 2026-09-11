@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0122D2222CC;
-	Fri, 11 Sep 2026 00:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D477BEADC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 00:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789087127; cv=none; b=LHt6YY6rUJVkeIKACbedmV0M90jhDiXpExp0y6ZLGie9ZG8n3VulXww1XaUg+/t95x3k5y6Z85OSsiTf9G/6Mm2IEzc9iOMSbysQc+1ykT3aEcO4wG63WiBhRdd1QHHiR6ZaD6v2GEYavlQ9TlJfdqNbqcO5TTsdNAaRJDQ7pr8=
+	t=1789087327; cv=none; b=oJVzhE2YuqddoU8D0/j+MaDCQYe6nxa1hwvHS+JCzYBZ/2011pbQLqiMKu3dyr3dUzw/JwCdv63+/rHpdMkoTigw3blO2Z29H+Gagi/pPvzsduSDmjpDJrqij/f8AAP00tu0eicFCoyDHLl984w7ZYP/oOPC2Xeq/6tZNZQmDSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789087127; c=relaxed/simple;
-	bh=NeXt/VQR55oQWvrZNtGzLa5p1Y9eazGeFFKk5W/tI6k=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hX0WUq1LwUhCc7WajTUJQaL+szqBpU/07+ZCmVKSF79/NkiRTUD+84ykPeru9PkZq8P2fQM81ZyJYUu/ZYm2OToZs2mBNi2L1Zir+FVhwZbexdNWrnaCNsGBIYsoknQYh/nPZKI98kvx88H5dG6Dj5h0Tm8PRGvIouK4T5Mznbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CXVFN8ez; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1789087327; c=relaxed/simple;
+	bh=X5cfJGkmXCIwf58wNaR56N8yskMsGXwnw/dUDr8OqRY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CCMKMUtOzcRFglqpDufx44Z9fLsa7hPc7w8hlW1AjOzvarS+cS90Jvz/GGvRK9ojfbe5v3jazcrRgKqabto6KsZG4SqZ6ytSDvoH53hdp2gg47cfSYdvCgj1O8SZltHRKjDDPl8Ct6kgKUTBCWcu4ykNzRsQSvLsMoYTq6zSq8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SzBxGdrl; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXVFN8ez"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SzBxGdrl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789087126; x=1820623126;
+  t=1789087326; x=1820623326;
   h=date:from:to:cc:subject:message-id;
-  bh=NeXt/VQR55oQWvrZNtGzLa5p1Y9eazGeFFKk5W/tI6k=;
-  b=CXVFN8ezeueFctGQSlETywHYDs5tPzPyFsIZcXobuQbVBeri7rF5qRe8
-   yw7Z2SrLHhensYyFHX+M3Lr3q6MwbQE6QANJli0Ly+/Xgpi19WrL9hZm0
-   1pIqpZNUUo4nVILnT8+3KA4l42joejqbzXtPC0YAqzMLoeMCMDW0NlzUW
-   ha73LbfsD9HeK5ZTXwCajz5cpfFmYYg4ayOVPOBOXtijFyyLMr3rlhZ/y
-   y7BddLmyomQVStZTTq53B0sVsorO2pLGJENxWcxSq9jWnMgitlwSZLLUY
-   EqZi/S2Hol+RXZavQheX4gVRo6wSoM6CAvjlDZgepvBn4T1LeykfNQI1D
+  bh=X5cfJGkmXCIwf58wNaR56N8yskMsGXwnw/dUDr8OqRY=;
+  b=SzBxGdrl51sc2QmcUH133mgsrCP8Wecwb4ITNMOJRAKzSBMNt9IW/Gb6
+   PPGpQ38WxXOhPjDaaygQmvLd/1bRQm1r+B9hASIFPW1UCmtxTjakH/b4X
+   eLW6pelhoVlgFbbhxms1SSFsdCTTs4S4nt/d3dX/LHM9AdQP2P5twsVti
+   BT2eLOclEMv4t7F7Mz3GMViUxAeqF7a66vHPazdxCo3XJj70igMgxr6QG
+   sqvUsSeSxeZAVjIcYWAn0nxwg/R5lIg4bBpYhC31A6nvNoRugn8itnxS9
+   0vm/7X1azEfIZNmvgYkS5cnVUyi5DXNEgWGLWlsHsS8Ofyc3BDJfgREr4
    w==;
-X-CSE-ConnectionGUID: unNnhBr2TUezf7vbtTJVwQ==
-X-CSE-MsgGUID: +iLRlCWyQAKnCKyikXE5bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89482939"
+X-CSE-ConnectionGUID: /rZC1cj5RiWqVk1vPET/Kw==
+X-CSE-MsgGUID: 3sDWlfHFQyi85RITIjceEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89390454"
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89482939"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 17:38:46 -0700
-X-CSE-ConnectionGUID: bu7mjKC3Q1Gz6iUNBsHMsg==
-X-CSE-MsgGUID: M6AjY437SZiM4AWYaVGBtg==
+   d="scan'208";a="89390454"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 17:42:06 -0700
+X-CSE-ConnectionGUID: sDTSSJmHRo6sCHOUdZBuFQ==
+X-CSE-MsgGUID: 4UKUokoCTiivhOSe8E4Cvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="273720633"
+   d="scan'208";a="271309307"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 10 Sep 2026 17:38:40 -0700
+  by orviesa008.jf.intel.com with ESMTP; 10 Sep 2026 17:42:03 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4pGu-000000000iQ-2XxP;
-	Fri, 11 Sep 2026 00:37:58 +0000
-Date: Fri, 11 Sep 2026 08:37:16 +0800
+	id 1x4pKS-000000000ig-3j6H;
+	Fri, 11 Sep 2026 00:41:29 +0000
+Date: Fri, 11 Sep 2026 08:40:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org
-Subject: [akpm-mm:mm-new /391]
- arch/powerpc/mm/book3s64/radix_pgtable.c:1274:46: error: call to undeclared
- function 'device_zone'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202609110857.T3uVHRo8-lkp@intel.com>
+To: Bill Wendling <morbo@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Bradley Morgan <brads@mainlining.org>
+Subject: [brauner-vfs:namespace-7.4.misc 6/7]
+ fs/btrfs/tests/inode-tests.c:16:13: error: conflicting types for
+ 'insert_extent'; have 'void(struct btrfs_root *, u64,  u64,  u64,  u64,  u64,
+  u64,  u32,  u8,  int)' {aka 'void(struct btrfs_root *, long long unsigned
+ int,  long long unsigned int,  long l...
+Message-ID: <202609110843.okbPe7GM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,134 +65,81 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   1f78f28a2945f9e856b4ea8428ac41a6788e4b67
-commit: 88ef4ca76f70778f2f51c9e749dc9bcc607a2424 [/391] powerpc/mm: switch device DAX to shared tail vmemmap pages
-config: powerpc64-randconfig-002-20260911 (https://download.01.org/0day-ci/archive/20260911/202609110857.T3uVHRo8-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 96295a1412f9afbee9d4a3c2701e83f5a529a9cc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110857.T3uVHRo8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git namespace-7.4.misc
+head:   34a496d638705dc227cc6dd2aaaa9e450893502f
+commit: f6f1a2496ba5dcc076d7fb7aa329887cd6ae55fa [6/7] userns: Add KUnit test suite for uid_gid_map
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260911/202609110843.okbPe7GM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609110843.okbPe7GM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609110857.T3uVHRo8-lkp@intel.com/
-
-Note: the akpm-mm/mm-new HEAD 1f78f28a2945f9e856b4ea8428ac41a6788e4b67 builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609110843.okbPe7GM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/powerpc/mm/book3s64/radix_pgtable.c:1274:46: error: call to undeclared function 'device_zone'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1274 |         tail_page = vmemmap_shared_tail_page(order, device_zone(node));
-         |                                                     ^
-   arch/powerpc/mm/book3s64/radix_pgtable.c:1274:46: note: did you mean 'device_move'?
-   include/linux/device.h:1209:5: note: 'device_move' declared here
-    1209 | int device_move(struct device *dev, struct device *new_parent,
-         |     ^
->> arch/powerpc/mm/book3s64/radix_pgtable.c:1274:46: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'struct zone *' [-Wint-conversion]
-    1274 |         tail_page = vmemmap_shared_tail_page(order, device_zone(node));
-         |                                                     ^~~~~~~~~~~~~~~~~
-   include/linux/vmemmap-optimization.h:89:72: note: passing argument to parameter 'zone' here
-      89 | struct page *vmemmap_shared_tail_page(unsigned int order, struct zone *zone);
-         |                                                                        ^
-   2 errors generated.
+>> fs/btrfs/tests/inode-tests.c:16:13: error: conflicting types for 'insert_extent'; have 'void(struct btrfs_root *, u64,  u64,  u64,  u64,  u64,  u64,  u32,  u8,  int)' {aka 'void(struct btrfs_root *, long long unsigned int,  long long unsigned int,  long long unsigned int,  long long unsigned int,  long long unsigned int,  long long unsigned int,  unsigned int,  unsigned char,  int)'}
+      16 | static void insert_extent(struct btrfs_root *root, u64 start, u64 len,
+         |             ^~~~~~~~~~~~~
+   In file included from include/linux/cgroup.h:25,
+                    from include/linux/writeback.h:201,
+                    from include/trace/events/btrfs.h:8,
+                    from fs/btrfs/tests/../btrfs_inode.h:20,
+                    from fs/btrfs/tests/inode-tests.c:9:
+   include/linux/user_namespace.h:212:12: note: previous declaration of 'insert_extent' with type 'int(struct uid_gid_map *, struct uid_gid_extent *)'
+     212 | extern int insert_extent(struct uid_gid_map *map, struct uid_gid_extent *extent);
+         |            ^~~~~~~~~~~~~
 
 
-vim +/device_zone +1274 arch/powerpc/mm/book3s64/radix_pgtable.c
+vim +16 fs/btrfs/tests/inode-tests.c
 
-  1253	
-  1254	int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
-  1255						      unsigned long start,
-  1256						      unsigned long end, int node,
-  1257						      struct dev_pagemap *pgmap)
-  1258	{
-  1259		/*
-  1260		 * we want to map things as base page size mapping so that
-  1261		 * we can save space in vmemmap. We could have huge mapping
-  1262		 * covering out both edges.
-  1263		 */
-  1264		unsigned long addr;
-  1265		unsigned long next;
-  1266		pgd_t *pgd;
-  1267		p4d_t *p4d;
-  1268		pud_t *pud;
-  1269		pmd_t *pmd;
-  1270		pte_t *pte;
-  1271		struct page *tail_page;
-  1272		unsigned int order = pfn_to_section_order(start_pfn);
-  1273	
-> 1274		tail_page = vmemmap_shared_tail_page(order, device_zone(node));
-  1275		if (!tail_page)
-  1276			return -ENOMEM;
-  1277	
-  1278		for (addr = start; addr < end; addr = next) {
-  1279	
-  1280			pgd = pgd_offset_k(addr);
-  1281			p4d = p4d_offset(pgd, addr);
-  1282			pud = vmemmap_pud_alloc(p4d, node, addr);
-  1283			if (!pud)
-  1284				return -ENOMEM;
-  1285			pmd = vmemmap_pmd_alloc(pud, node, addr);
-  1286			if (!pmd)
-  1287				return -ENOMEM;
-  1288	
-  1289			if (pmd_leaf(READ_ONCE(*pmd))) {
-  1290				/* existing huge mapping. Skip the range */
-  1291				next = pmd_addr_end(addr, end);
-  1292				continue;
-  1293			}
-  1294			pte = vmemmap_pte_alloc(pmd, node, addr);
-  1295			if (!pte)
-  1296				return -ENOMEM;
-  1297			if (!pte_none(*pte)) {
-  1298				/*
-  1299				 * This could be because we already have a compound
-  1300				 * page whose VMEMMAP_RESERVE_NR pages were mapped and
-  1301				 * this request fall in those pages.
-  1302				 */
-  1303				next = addr + PAGE_SIZE;
-  1304				continue;
-  1305			} else {
-  1306				unsigned long nr_pages = 1UL << order;
-  1307				unsigned long addr_pfn = page_to_pfn((struct page *)addr);
-  1308				unsigned long pfn_offset = addr_pfn - ALIGN_DOWN(addr_pfn, nr_pages);
-  1309	
-  1310				/*
-  1311				 * if the address is aligned to huge page size it is the
-  1312				 * head mapping.
-  1313				 */
-  1314				if (pfn_offset == 0) {
-  1315					/* Populate the head page vmemmap page */
-  1316					pte = radix__vmemmap_pte_populate(pmd, addr, node, NULL, NULL);
-  1317					if (!pte)
-  1318						return -ENOMEM;
-  1319					vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
-  1320	
-  1321					/*
-  1322					 * Populate the tail pages vmemmap page
-  1323					 * It can fall in different pmd, hence
-  1324					 * vmemmap_populate_address()
-  1325					 */
-  1326					pte = radix__vmemmap_populate_address(addr + PAGE_SIZE, node, NULL, NULL);
-  1327					if (!pte)
-  1328						return -ENOMEM;
-  1329	
-  1330					next = addr + 2 * PAGE_SIZE;
-  1331					continue;
-  1332				}
-  1333	
-  1334				pte = radix__vmemmap_pte_populate(pmd, addr, node, NULL, tail_page);
-  1335				if (!pte)
-  1336					return -ENOMEM;
-  1337				vmemmap_verify(pte, node, addr, addr + PAGE_SIZE);
-  1338	
-  1339				next = addr + PAGE_SIZE;
-  1340				continue;
-  1341			}
-  1342		}
-  1343		return 0;
-  1344	}
-  1345	
+aaedb55bc08f38 Josef Bacik   2013-10-11  15  
+aaedb55bc08f38 Josef Bacik   2013-10-11 @16  static void insert_extent(struct btrfs_root *root, u64 start, u64 len,
+aaedb55bc08f38 Josef Bacik   2013-10-11  17  			  u64 ram_bytes, u64 offset, u64 disk_bytenr,
+aaedb55bc08f38 Josef Bacik   2013-10-11  18  			  u64 disk_len, u32 type, u8 compression, int slot)
+aaedb55bc08f38 Josef Bacik   2013-10-11  19  {
+aaedb55bc08f38 Josef Bacik   2013-10-11  20  	struct btrfs_path path;
+aaedb55bc08f38 Josef Bacik   2013-10-11  21  	struct btrfs_file_extent_item *fi;
+aaedb55bc08f38 Josef Bacik   2013-10-11  22  	struct extent_buffer *leaf = root->node;
+aaedb55bc08f38 Josef Bacik   2013-10-11  23  	struct btrfs_key key;
+aaedb55bc08f38 Josef Bacik   2013-10-11  24  	u32 value_len = sizeof(struct btrfs_file_extent_item);
+aaedb55bc08f38 Josef Bacik   2013-10-11  25  
+aaedb55bc08f38 Josef Bacik   2013-10-11  26  	if (type == BTRFS_FILE_EXTENT_INLINE)
+aaedb55bc08f38 Josef Bacik   2013-10-11  27  		value_len += len;
+aaedb55bc08f38 Josef Bacik   2013-10-11  28  	memset(&path, 0, sizeof(path));
+aaedb55bc08f38 Josef Bacik   2013-10-11  29  
+aaedb55bc08f38 Josef Bacik   2013-10-11  30  	path.nodes[0] = leaf;
+aaedb55bc08f38 Josef Bacik   2013-10-11  31  	path.slots[0] = slot;
+aaedb55bc08f38 Josef Bacik   2013-10-11  32  
+aaedb55bc08f38 Josef Bacik   2013-10-11  33  	key.objectid = BTRFS_FIRST_FREE_OBJECTID;
+aaedb55bc08f38 Josef Bacik   2013-10-11  34  	key.type = BTRFS_EXTENT_DATA_KEY;
+aaedb55bc08f38 Josef Bacik   2013-10-11  35  	key.offset = start;
+aaedb55bc08f38 Josef Bacik   2013-10-11  36  
+50564b651d01c1 Filipe Manana 2023-09-12  37  	/*
+50564b651d01c1 Filipe Manana 2023-09-12  38  	 * Passing a NULL trans handle is fine here, we have a dummy root eb
+50564b651d01c1 Filipe Manana 2023-09-12  39  	 * and the tree is a single node (level 0).
+50564b651d01c1 Filipe Manana 2023-09-12  40  	 */
+50564b651d01c1 Filipe Manana 2023-09-12  41  	btrfs_setup_item_for_insert(NULL, root, &path, &key, value_len);
+aaedb55bc08f38 Josef Bacik   2013-10-11  42  	fi = btrfs_item_ptr(leaf, slot, struct btrfs_file_extent_item);
+aaedb55bc08f38 Josef Bacik   2013-10-11  43  	btrfs_set_file_extent_generation(leaf, fi, 1);
+aaedb55bc08f38 Josef Bacik   2013-10-11  44  	btrfs_set_file_extent_type(leaf, fi, type);
+aaedb55bc08f38 Josef Bacik   2013-10-11  45  	btrfs_set_file_extent_disk_bytenr(leaf, fi, disk_bytenr);
+aaedb55bc08f38 Josef Bacik   2013-10-11  46  	btrfs_set_file_extent_disk_num_bytes(leaf, fi, disk_len);
+aaedb55bc08f38 Josef Bacik   2013-10-11  47  	btrfs_set_file_extent_offset(leaf, fi, offset);
+aaedb55bc08f38 Josef Bacik   2013-10-11  48  	btrfs_set_file_extent_num_bytes(leaf, fi, len);
+aaedb55bc08f38 Josef Bacik   2013-10-11  49  	btrfs_set_file_extent_ram_bytes(leaf, fi, ram_bytes);
+aaedb55bc08f38 Josef Bacik   2013-10-11  50  	btrfs_set_file_extent_compression(leaf, fi, compression);
+aaedb55bc08f38 Josef Bacik   2013-10-11  51  	btrfs_set_file_extent_encryption(leaf, fi, 0);
+aaedb55bc08f38 Josef Bacik   2013-10-11  52  	btrfs_set_file_extent_other_encoding(leaf, fi, 0);
+aaedb55bc08f38 Josef Bacik   2013-10-11  53  }
+aaedb55bc08f38 Josef Bacik   2013-10-11  54  
+
+:::::: The code at line 16 was first introduced by commit
+:::::: aaedb55bc08f384b7f57dbb3222a511baed4decf Btrfs: add tests for btrfs_get_extent
+
+:::::: TO: Josef Bacik <jbacik@fusionio.com>
+:::::: CC: Chris Mason <chris.mason@fusionio.com>
 
 --
 0-DAY CI Kernel Test Service
