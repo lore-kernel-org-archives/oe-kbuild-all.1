@@ -1,57 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3F039CD19
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 08:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60A03B71B7;
+	Fri, 11 Sep 2026 08:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789113618; cv=none; b=Vttd79v4Wjxh9Vq4PCUyf8AG8R2st6fsMP/xLfi4JUbrEfdBQlXdW6dsZ40WxmRu1Ods1/WVxqgmIKTq22xxbX72mg92APUiKXSDbHkRSpoZEdjmp+1it1/s1V/DOo/yz6FYZr+Sv2YvHdSwS2CjN45i+ousV2xsuu4RM4F1sFc=
+	t=1789114371; cv=none; b=XGFo0ThnXRTL7Ujwl6VQ5/WDMkgJkDfRImvGh34uAzMqUQ495fWr2cqtHfdtIMWTrzol6i5bjFPjc5l5zPSN/zQ+Aog9TrXADaYBGO3ukaV45Xsk2HiHfdS+9r4S+rUsbB16d+RO0QAYF0HTK1eVOMnU+zXwSxhE9DJ9ZkqWjaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789113618; c=relaxed/simple;
-	bh=v88xHl27JkqvP+UYuQQQ3Wyi/ZZHijh8mVMdE3fImqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=e4U8/SXBhRIO1Qmyyl+QILSm20gLhi4CVQyMMoZxGvSHVr9uz84A3W6S2CVYIogm7qLMxsrPlv7YXGgmzJPDiUvlIZ674+XT4XpouqkutylN3qvCi8L/XwkrHku8q9o+lDTZatlLvRmmGti5D3rL0UUsfNSa8c9xFO5kFTdf3bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RH5hAXLP; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1789114371; c=relaxed/simple;
+	bh=gvmZf3ItsRhJ8/S0UFE29TrvpRykf6zfuBlByhYmbFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lKXLVYbVF1xI7tp5X/fFQmTiam0O9Wvod2d+NBDdX2gKUZwGxhgXhglTlQWDhFP7Gy3cGwChwh/4QSFs1hIlf0/+CHaCdRfnmdfun4YIiE3GdjMDooc0/Jy875AAqaZkvGsU0h8h8gL5tCUTJHMPYLAkvELJ4pTOOOl4W1VIUfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZkRSlqlJ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RH5hAXLP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZkRSlqlJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789113616; x=1820649616;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v88xHl27JkqvP+UYuQQQ3Wyi/ZZHijh8mVMdE3fImqc=;
-  b=RH5hAXLPK5aqP1uXDoQkZfnoNl4g3dWJZwzjCdgS33+FTB/Gew3S11s+
-   XY9EZJi5YZ7t2w6RmrFpQFraOqp59KQJfk/9jcXv52MDu0ABYwrB7LyUi
-   8Tz+526K9OLyhJapDdn6g5BGlOtilpSgAy0/DR8XuC/DjEYMwMH+gK+kw
-   xTTwoYF8XewRjJZyklVLraZjp6pG85x/yYSVU8xHmFzFEHBhBp9U8Y8vS
-   F2fS5mhcs2ETqNcUIWwfusN98WlctRGD0keeVPVDZtrvFmmwEdD+/CALd
-   iLZqWKFQ8FqdcucwKYha4Bq73fuetq3AqIw+ZoLVjZkYW0KmiGUCtz0zE
-   A==;
-X-CSE-ConnectionGUID: Y+I4t4UMRTi4edRn0RAWFA==
-X-CSE-MsgGUID: 8+ySibqySbyUIbmx+o7MsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="93265607"
+  t=1789114369; x=1820650369;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gvmZf3ItsRhJ8/S0UFE29TrvpRykf6zfuBlByhYmbFI=;
+  b=ZkRSlqlJo0eJmkO20ccFB+bTyPR/lVmnTCidP2hPsz6KyoS0AzBhyEOw
+   6B+jx5ChlpUEvTj0J7iNuuHoU4EUg19vNkhIEHaMjL6S/LFlFgw+dxZwD
+   b5AMkNGUrY/rJ4FfqxHZwxv7opcFwFBFXca4jM+HfchoohVHlmHqdJRfA
+   gfd4E3Oxhlz71fQxJx4EZuYsLgytXbaWzjiug6oNJTsA/N7DuPpMzlPtF
+   Oooz5NyVSGepENh7gkzcvNBy40Gm6NfrSYoXcAr0j/E/mb6IjOKnD7v7b
+   tVU1Dy6Dh5Xk6pSBe2j5xBwfzPqLqc7u3YNTAmSaptAHPWTal9KKR41ZO
+   g==;
+X-CSE-ConnectionGUID: WykbNGTDQ9eQPItCGnwwZw==
+X-CSE-MsgGUID: LXSC1G9DRqeVoUL0ECK2nQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89508839"
 X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="93265607"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:00:16 -0700
-X-CSE-ConnectionGUID: GXWOnszuT7K55FXHmxUygw==
-X-CSE-MsgGUID: L5xOCbtzSr6u0REFJrABtA==
+   d="scan'208";a="89508839"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:12:49 -0700
+X-CSE-ConnectionGUID: +ItDRX2hTa+1pmY5/NcOxA==
+X-CSE-MsgGUID: w+iIru6QRJSpZd8HExTxcg==
+X-Ironport-Invalid-End-Of-Message: True
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="271834668"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Sep 2026 01:00:14 -0700
+  by orviesa007.jf.intel.com with ESMTP; 11 Sep 2026 01:12:47 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4wAs-000000001GS-2zn9;
-	Fri, 11 Sep 2026 08:00:01 +0000
-Date: Fri, 11 Sep 2026 15:59:09 +0800
+	id 1x4wMQ-000000001HK-0ldF;
+	Fri, 11 Sep 2026 08:12:02 +0000
+Date: Fri, 11 Sep 2026 16:10:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 17/42]
- kernel/time/aux_clock_test.c:184:18: warning: integer overflow in expression
- of type 'long int' results in '705032704'
-Message-ID: <202609111530.PtcoH3H4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Daeho Jeong <daeho43@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net, kernel-team@android.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Daeho Jeong <daehojeong@google.com>
+Subject: Re: [PATCH] f2fs: introduce reserve_shrink mount option for
+ filesystem shrinkage
+Message-ID: <202609111633.uyRbsEUB-lkp@intel.com>
+References: <20260910181057.640203-1-daeho43@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,99 +65,175 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910181057.640203-1-daeho43@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   368883ddc7ac709883254193a4588fdf9b2da65a
-commit: 05ab3171697e70cdc4302f27ef62d851a2580f93 [17/42] timekeeping: Add a test for auxiliary to monotonic clock conversions
-config: arc-randconfig-002-20260911 (https://download.01.org/0day-ci/archive/20260911/202609111530.PtcoH3H4-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609111530.PtcoH3H4-lkp@intel.com/reproduce)
+Hi Daeho,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[also build test WARNING on jaegeuk-f2fs/dev linus/master v7.3-rc2 next-20260909]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daeho-Jeong/f2fs-introduce-reserve_shrink-mount-option-for-filesystem-shrinkage/20260910-111056
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20260910181057.640203-1-daeho43%40gmail.com
+patch subject: [PATCH] f2fs: introduce reserve_shrink mount option for filesystem shrinkage
+config: powerpc-randconfig-001-20260911 (https://download.01.org/0day-ci/archive/20260911/202609111633.uyRbsEUB-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609111633.uyRbsEUB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609111530.PtcoH3H4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609111633.uyRbsEUB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/time/aux_clock_test.c: In function 'mono_conv_edge_cases':
->> kernel/time/aux_clock_test.c:184:18: warning: integer overflow in expression of type 'long int' results in '705032704' [-Woverflow]
-     small_delta = 5 * NSEC_PER_SEC;
-                     ^
-   kernel/time/aux_clock_test.c:186:28: warning: integer overflow in expression of type 'long int' results in '765657088' [-Woverflow]
-     large_delta = 365 * 86400 * NSEC_PER_SEC;
-                               ^
+   In file included from fs/f2fs/debug.c:18:
+>> fs/f2fs/f2fs.h:2663:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2663 |         if (test_opt(sbi, RESERVE_SHRINK)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   1 warning generated.
+--
+   In file included from fs/f2fs/gc.c:19:
+>> fs/f2fs/f2fs.h:2663:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2663 |         if (test_opt(sbi, RESERVE_SHRINK)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+>> fs/f2fs/gc.c:2495:13: warning: shift count >= width of type [-Wshift-count-overflow]
+    2495 |         } else if (test_opt(sbi, RESERVE_SHRINK)) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/gc.c:2498:3: warning: shift count >= width of type [-Wshift-count-overflow]
+    2498 |                 clear_opt(sbi, RESERVE_SHRINK);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:153:28: note: expanded from macro 'clear_opt'
+     153 |         (F2FS_OPTION(sbi).opt &= ~BIT(F2FS_MOUNT_##option))
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   3 warnings generated.
+--
+   In file included from fs/f2fs/super.c:34:
+>> fs/f2fs/f2fs.h:2663:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2663 |         if (test_opt(sbi, RESERVE_SHRINK)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+>> fs/f2fs/super.c:548:7: warning: shift count >= width of type [-Wshift-count-overflow]
+     548 |         if (!test_opt(sbi, RESERVE_SHRINK))
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/super.c:2326:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2326 |         if (test_opt(sbi, RESERVE_SHRINK)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   fs/f2fs/super.c:2557:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2557 |         if (test_opt(sbi, RESERVE_SHRINK))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   4 warnings generated.
+--
+   In file included from fs/f2fs/sysfs.c:17:
+>> fs/f2fs/f2fs.h:2663:6: warning: shift count >= width of type [-Wshift-count-overflow]
+    2663 |         if (test_opt(sbi, RESERVE_SHRINK)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+>> fs/f2fs/sysfs.c:599:7: warning: shift count >= width of type [-Wshift-count-overflow]
+     599 |                 if (test_opt(sbi, RESERVE_SHRINK)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:157:26: note: expanded from macro 'test_opt'
+     157 |         (F2FS_OPTION(sbi).opt & BIT(F2FS_MOUNT_##option))
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^  ~~~~
+   2 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
+   Depends on [n]: SMP [=y] && (PPC_PSERIES [=n] || PPC_PMAC [=n] || PPC_POWERNV [=n] || FSL_SOC_BOOKE [=n])
+   Selected by [y]:
+   - PM_SLEEP_SMP [=y] && SMP [=y] && (ARCH_SUSPEND_POSSIBLE [=n] || ARCH_HIBERNATION_POSSIBLE [=y]) && PM_SLEEP [=y]
 
 
-vim +184 kernel/time/aux_clock_test.c
+vim +2663 fs/f2fs/f2fs.h
 
-   173	
-   174	/* Mostly for development only. */
-   175	static void mono_conv_edge_cases(struct kunit *test)
-   176	{
-   177		ktime_t mono_base, aux_base, small_delta, large_delta;
-   178		struct tk_aux_mono_conv conv;
-   179		ktime_t converted_mono;
-   180		bool is_before;
-   181	
-   182		mono_base = 0;
-   183		aux_base = 0;
- > 184		small_delta = 5 * NSEC_PER_SEC;
-   185		/* 1 year */
-   186		large_delta = 365 * 86400 * NSEC_PER_SEC;
-   187	
-   188		setup_aux_mono_conv(&conv, 5, mono_base, aux_base);
-   189	
-   190		/* delta = 0 */
-   191		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base, mono_base, &converted_mono);
-   192		KUNIT_EXPECT_FALSE(test, is_before);
-   193	
-   194		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base, mono_base + 1,
-   195							      &converted_mono);
-   196		KUNIT_EXPECT_TRUE(test, is_before);
-   197		KUNIT_EXPECT_EQ(test, converted_mono, mono_base);
-   198	
-   199		/* positive small delta */
-   200		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base + small_delta, mono_base,
-   201							      &converted_mono);
-   202		KUNIT_EXPECT_FALSE(test, is_before);
-   203	
-   204		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base, mono_base + small_delta,
-   205							      &converted_mono);
-   206		KUNIT_EXPECT_TRUE(test, is_before);
-   207		KUNIT_EXPECT_EQ(test, converted_mono, mono_base);
-   208	
-   209		/* positive large delta */
-   210		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base + large_delta, mono_base,
-   211							      &converted_mono);
-   212		KUNIT_EXPECT_FALSE(test, is_before);
-   213	
-   214		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base, mono_base + large_delta,
-   215							      &converted_mono);
-   216		KUNIT_EXPECT_TRUE(test, is_before);
-   217		KUNIT_EXPECT_EQ(test, converted_mono, mono_base);
-   218	
-   219		/* negative small delta */
-   220		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base - small_delta, mono_base,
-   221							      &converted_mono);
-   222		KUNIT_EXPECT_TRUE(test, is_before);
-   223		KUNIT_EXPECT_EQ(test, converted_mono, -4761904702);
-   224	
-   225		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base, mono_base - small_delta,
-   226							      &converted_mono);
-   227		KUNIT_EXPECT_FALSE(test, is_before);
-   228	
-   229		/* negative large delta */
-   230		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base - large_delta, mono_base,
-   231							      &converted_mono);
-   232		KUNIT_EXPECT_TRUE(test, is_before);
-   233		KUNIT_EXPECT_EQ(test, converted_mono, -30034285333871842);
-   234	
-   235		is_before = ktime_aux_before_mono_and_convert(&conv, aux_base, mono_base - large_delta,
-   236							      &converted_mono);
-   237		KUNIT_EXPECT_FALSE(test, is_before);
-   238	}
-   239	
+  2650	
+  2651	static inline unsigned int get_available_block_count(struct f2fs_sb_info *sbi,
+  2652							struct inode *inode, bool cap)
+  2653	{
+  2654		block_t avail_user_block_count;
+  2655	
+  2656		avail_user_block_count = sbi->user_block_count -
+  2657						sbi->current_reserved_blocks -
+  2658						sbi->alias_reserved_blocks;
+  2659	
+  2660		if (test_opt(sbi, RESERVE_ROOT) && !__allow_reserved_root(sbi, inode, cap))
+  2661			avail_user_block_count -= F2FS_OPTION(sbi).root_reserved_blocks;
+  2662	
+> 2663		if (test_opt(sbi, RESERVE_SHRINK)) {
+  2664			if (avail_user_block_count > F2FS_OPTION(sbi).reserve_shrink_blocks)
+  2665				avail_user_block_count -= F2FS_OPTION(sbi).reserve_shrink_blocks;
+  2666			else
+  2667				avail_user_block_count = 0;
+  2668		}
+  2669	
+  2670		if (unlikely(is_sbi_flag_set(sbi, SBI_CP_DISABLED))) {
+  2671			if (avail_user_block_count > sbi->unusable_block_count)
+  2672				avail_user_block_count -= sbi->unusable_block_count;
+  2673			else
+  2674				avail_user_block_count = 0;
+  2675		}
+  2676	
+  2677		return avail_user_block_count;
+  2678	}
+  2679	
 
 --
 0-DAY CI Kernel Test Service
