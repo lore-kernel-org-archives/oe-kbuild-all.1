@@ -1,193 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840883DEAD6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 19:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C629B5427F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 19:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789154421; cv=none; b=Iqg/g+4YV0H2WUyvGfgt4IKkPLMrNeXnc2i5eURSIsP+2hIuRD2qTMZNd5tRmE+dz5DEnOpetl2KpNdrWK2Z1xFaYOc7+H5dzGHBT4t88lDkpK6E6y+YX/wHgjyuZdnjS/rpj28TPTIdM4gHaZIEYX3kGyPyPp066OCPekH1iQU=
+	t=1789155479; cv=none; b=dknvrb/IXW8Sc6/c3OroUXfDc77RAN+/GZlviq4L0SfzuFPYDWJySBlpNsav07dqC1pt75+uQqYHFnZNzfH2vInoEZxLTx1VZZhZJbmk5HU58ZHb+636fHAvF8Z1nOxIb5o7qAisSfrARYQs1Zn5NtpDO66d4DpN2XJrZXY1nEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789154421; c=relaxed/simple;
-	bh=Bw9uRvg93b3bHTzmWLqQh9aluNDwcNSTBwFhsvqy/1U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=HA4S0cLb6INmUSK+KINhglDOvLnIaHYPM1XMReU/t6Z0tCfFBt77z9f42D1Kt74rZwJA1ZraCK3xbFEjHcRH33kw08CHePGCoxsRbo4UH2yY8kcc/NH7Edc/woTzukUa8qOZl6YRFuII3RwJngpWabtypZ/VnE3aqpKOgk57NBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKTn1lVb; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1789155479; c=relaxed/simple;
+	bh=fa/Qeb96oMIW5T8LspLwkD0jLNb+byEmUjzRFc7U9bE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K9Z9kXcN2CbtsgGTHfW1GcGWhMf6d1O+jqWU6EytUOgW/GPXEQMatz6GryU9bmc2nnKR7lpV2geXYF7IFvsfXh1TtMUN9zhP1B0pURU0jFwSibx2j/xS9mLwfXK5LFqraTr1IqoihPuYJ+qZaFyQTYU3CzzRmo13ohUSdcU82TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cd7/P7f1; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKTn1lVb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cd7/P7f1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789154402; x=1820690402;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Bw9uRvg93b3bHTzmWLqQh9aluNDwcNSTBwFhsvqy/1U=;
-  b=PKTn1lVb+bMABqIj+kO0ZgwkCFaGOV+C3BftKoft6Mdjhq+YIxO9Rjwb
-   fWitB9qtHrbGf/xGd8eV/yWuEMy5CyWRG7cttuczQbOQvruB1DfR8Cqgq
-   3Y4zr7tNxsZ7PN8oJ2OuVJmj8skmo3eCS6XjZiAcDwi43Qpdw4aUDC7Bi
-   oB3o0lYCC/4V+nXURtyoisX5RgmBxjCZTjoJmhjmtoQ/FrxNRCApLtAfY
-   FQ1aMisSD769dGOsQCDWy17kJIO8D3urSh+4lOZicnSnSv+dWZMhzHqdj
-   zltxApq5hUifFpYKD7BvoC9weWKGCgjdI/75Pz88vSN73JHR6kn7EgWut
+  t=1789155473; x=1820691473;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fa/Qeb96oMIW5T8LspLwkD0jLNb+byEmUjzRFc7U9bE=;
+  b=cd7/P7f1EXAYV5slNasPo0F5Rk2+pzY54qChjT7cBeP9zF7rPvQjYZ1f
+   YGG5ewt+Y8fbUt8xqJ4g8hEEaqX2LkN2gTuzbyt4rNPnZoQluexErZmjM
+   v4/ltpxNHrcNpNNsk2sx4FZV7lI4fXTwRjgVLAAaQD0AhDwO1+otpYiuY
+   CZWZgsrg+JqVLdYhnyg3ksAzbVZsJw6S75P6SI8l1dD6dVhepPIVBO+L0
+   ZjWrzvNmX0yI41jHx6tbnrTgCAuQAePPS1vN/kImbCPeLWPoIPjZ9v1q9
+   LLvXLOk0v7PlFlXP5uLLeDyqURq9ZwLE2qC6KYTXNRtiRP+/CfO3cocyp
    w==;
-X-CSE-ConnectionGUID: OiLZai0mSy69hFfcswyXKg==
-X-CSE-MsgGUID: DFu2Gj/ATI2hmmx41g8MKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89632682"
+X-CSE-ConnectionGUID: oaGTgclASca+LXFPJTvPtA==
+X-CSE-MsgGUID: BdqWPnHjSXyHagO0Z05eMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="100219226"
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="89632682"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 12:19:58 -0700
-X-CSE-ConnectionGUID: NEV1kEFPTUinKj/2Tr3Cfg==
-X-CSE-MsgGUID: dvCse4fURZCQhvlvHViWdw==
+   d="scan'208";a="100219226"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 12:37:48 -0700
+X-CSE-ConnectionGUID: Uk1sUkphTIm9x26Lc89Pow==
+X-CSE-MsgGUID: dLARZMgRQJKX3i/XqnpjcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="271974709"
+   d="scan'208";a="270239988"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 11 Sep 2026 12:19:57 -0700
+  by orviesa006.jf.intel.com with ESMTP; 11 Sep 2026 12:37:47 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x56mU-0000000021j-40Fw;
-	Fri, 11 Sep 2026 19:19:36 +0000
-Date: Sat, 12 Sep 2026 03:12:37 +0800
+	id 1x573w-0000000022v-24QR;
+	Fri, 11 Sep 2026 19:37:37 +0000
+Date: Sat, 12 Sep 2026 03:36:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dave Airlie <airlied@redhat.com>
-Subject: include/trace/events/dma_fence.h:17:1: sparse: sparse:
- dereference of noderef expression
-Message-ID: <202609120233.6Elxc35n-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH] printk: Use two irq_works instead per-CPU
+Message-ID: <202609120349.yDbrP6Tf-lkp@intel.com>
+References: <20260911103832.w6C8cT4L@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260911103832.w6C8cT4L@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   08df884136f1c1197bab2a27814404fd329d9aac
-commit: 21f6bcdf2be72e750dbe430b7227a66763a58466 Merge tag 'drm-misc-next-2=
-026-02-26' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
-date:   6 months ago
-config: microblaze-randconfig-r112-20260910 (https://download.01.org/0day-c=
-i/archive/20260912/202609120233.6Elxc35n-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.3.0
+Hi Sebastian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v7.3-rc2 next-20260909]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/printk-Use-two-irq_works-instead-per-CPU/20260911-123832
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260911103832.w6C8cT4L%40linutronix.de
+patch subject: [PATCH] printk: Use two irq_works instead per-CPU
+config: m68k-randconfig-r131-20260911 (https://download.01.org/0day-ci/archive/20260912/202609120349.yDbrP6Tf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260912/202609120233.6Elxc35n-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609120349.yDbrP6Tf-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 21f6bcdf2be7 ("Merge tag 'drm-misc-next-2026-02-26' of https://git=
-lab.freedesktop.org/drm/misc/kernel into drm-next")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609120233.6Elxc35n-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609120349.yDbrP6Tf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/dma-buf/dma-fence.c:1040:38: sparse: sparse: incorrect type in i=
-nitializer (different address spaces) @@     expected char const [noderef] =
-__rcu *timeline @@     got char * @@
-   drivers/dma-buf/dma-fence.c:1040:38: sparse:     expected char const [no=
-deref] __rcu *timeline
-   drivers/dma-buf/dma-fence.c:1040:38: sparse:     got char *
-   drivers/dma-buf/dma-fence.c:1041:36: sparse: sparse: incorrect type in i=
-nitializer (different address spaces) @@     expected char const [noderef] =
-__rcu *driver @@     got char * @@
-   drivers/dma-buf/dma-fence.c:1041:36: sparse:     expected char const [no=
-deref] __rcu *driver
-   drivers/dma-buf/dma-fence.c:1041:36: sparse:     got char *
-   drivers/dma-buf/dma-fence.c: note: in included file (through include/tra=
-ce/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_f=
-ence.h):
->> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
-deref expression
->> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
-deref expression
->> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
-deref expression
->> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
-deref expression
->> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
-deref expression
->> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
-deref expression
+>> kernel/printk/printk.c:4614:17: sparse: sparse: symbol 'pending_wakeup_work' was not declared. Should it be static?
+>> kernel/printk/printk.c:4615:17: sparse: sparse: symbol 'pending_output_work' was not declared. Should it be static?
 
-vim +17 include/trace/events/dma_fence.h
+vim +/pending_wakeup_work +4614 kernel/printk/printk.c
 
-e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst 2014-07-0=
-1  11 =20
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  12  /*
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  13   * Safe only for call sites which are guaranteed to not race with fe=
-nce
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  14   * signaling,holding the fence->lock and having checked for not sign=
-aled, or the
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  15   * signaling path itself.
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  16   */
-62918542b7bf08 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-6 @17  DECLARE_EVENT_CLASS(dma_fence,
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  18 =20
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  19  	TP_PROTO(struct dma_fence *fence),
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  20 =20
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  21  	TP_ARGS(fence),
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  22 =20
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  23  	TP_STRUCT__entry(
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  24  		__string(driver, fence->ops->get_driver_name(fence))
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  25  		__string(timeline, fence->ops->get_timeline_name(fence))
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  26  		__field(unsigned int, context)
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  27  		__field(unsigned int, seqno)
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  28  	),
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  29 =20
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  30  	TP_fast_assign(
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  31  		__assign_str(driver);
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  32  		__assign_str(timeline);
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  33  		__entry->context =3D fence->context;
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  34  		__entry->seqno =3D fence->seqno;
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  35  	),
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  36 =20
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  37  	TP_printk("driver=3D%s timeline=3D%s context=3D%u seqno=3D%u",
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  38  		  __get_str(driver), __get_str(timeline), __entry->context,
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  39  		  __entry->seqno)
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  40  );
-506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
-0  41 =20
-
-:::::: The code at line 17 was first introduced by commit
-:::::: 62918542b7bf08860a60ebbde7654486e0ac0776 dma-fence: Fix sparse warni=
-ngs due __rcu annotations
-
-:::::: TO: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
+  4613	
+> 4614	struct irq_work pending_wakeup_work = IRQ_WORK_INIT_LAZY(pending_wake_fn);
+> 4615	struct irq_work pending_output_work = IRQ_WORK_INIT_LAZY(pending_output_fn);
+  4616	
 
 --
 0-DAY CI Kernel Test Service
