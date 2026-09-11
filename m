@@ -1,104 +1,116 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1E74078FC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 12:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C407947125B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 12:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789129345; cv=none; b=key7ChsXlA9j6OV7shfRWOJdlyjVeM4Xf3278ZGPLRgZRiTQnwFRN1KSx9yxKEmRNS0pW4NgBREdhHoxZahHRPHrejGUt/dzdiK1023fWaEu2I90fQR2YEbjXsluFLkjmsWRZG6CJH3kKEbDymr6IjPeDubqSHLmEsXl8X+Lqiw=
+	t=1789129419; cv=none; b=GwCwYjExFBmNpCQeeme5dUZl32h0QsyVssRvyQhdGZbLBrbBe4rM+49ACfi08x4q8RXBUxHyiMBAAeOc3hA4MhRcFsep36i3tFO3YIxpVrloOrn7X5c/wWySG/Hb8sIYBsDKcxpnn+Fr6SSg/XgZNbUg70QjSdRM7M+r6GcMtZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789129345; c=relaxed/simple;
-	bh=MgFjQH3kgdFgCoc4l/+xy8WhFKmK4hGtujrcyhVeg+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=twO71fhoGEFoCX4kFi+ekvKc3x67IJbya8lOMIpUFfJ9ujkLxBHoyvSC8VZ0eUo3r1tkIl9w4iRmwkXT+4NYn3Uprbh2mZciJa/Zon2f9CUWF67vPM21Z3AANiHL7mlnlvIZIQHY5QnlYq9QVC9/77TwOc1Q2Uiikow7W5yalRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ifq10hPD; arc=none smtp.client-ip=74.125.225.140
+	s=arc-20240116; t=1789129419; c=relaxed/simple;
+	bh=WMg5pNKFeS/3Df03be8/j7ACkOJBdxGDH4qU5fGArMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oN/DfXI+HoUQJdFu5CaQfpvSJNrk0kT5Acjtz6SRS8MzgkpX538owIfODFmHigNsh0cKqVQ8YFSOfbf9I+7X8TmUYDPu4HEKy/uZ1Nsc4hVNdz+f5Xxn/v+MnzpFuEHvd3pv89NNNECQ+ytEh1R/W24JEhkJ/mKyFjlXAjrax7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nTuAgD1A; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ifq10hPD"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so4341205e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 05:22:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nTuAgD1A"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48586861639so348535f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 05:23:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789129342; x=1789734142; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aYg6ENX3iBZcZ6V+nXDUolx1uCJT2hGf2/9jC8O6fjE=;
-        b=ifq10hPDpgAgDXdjf3K5wy5vm4dbb1hmpjRMQ2Dbw+vapti/31dIl/ZrSnEDcO+ElA
-         UzBVy9snprAd9dzX9bTkXQRlimsvUgNABcnfjcxK09b7Q49knBnCNe3aQQcA2W8eHDHE
-         U50bc/lsh/d6n7P9P62Hfb4RZnbHbMJc8z7F6lsbqA0puHTWoelkZC0xPUxsRd6BEiHu
-         97i7YF+vMJc2qLd/c0jrsICZdMVs5mQxfYPtWq0D0v1foBIHjGZrtwHpl8rYaLghkXSC
-         Qge2INNwWvt+qR+L7BhUTzXvtmuG8T/ixuE4ROqhsEtuWBcMhF6xQYcC36eg/toCyTkj
-         c8Lw==
+        d=gmail.com; s=20251104; t=1789129412; x=1789734212; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PpMXHaFF1JIW3abETAGrUWAAHuJWrnkzeYHOUDUyhbo=;
+        b=nTuAgD1Au/hjH9iWY2v5J5AxLk1+QXkXsRCvLGldpI4MQP+wgOCsaFIl9haBoVuqEq
+         h3t4UpdWiLueQuWxlzejl9QhP2Tb6qRkzuiMYDC5VWMo+muqyHUMIlfe8a2YUMNkScSK
+         HRcH8ALxHT3nm2KdF4LdxWkB6FpIZ3YlFiuxPX9UYqxpVpizme9cHvNlQmxfx+ioW8Pf
+         6HcfdVAu9QuhyHasNW7PqWAbFJljbTQHQTROmHd44wxkXPvQUox+7neOmkzxGWH/OsX5
+         Uaz+xtmgdLGZnQFz8WEJR2euouDdeb+ByK0YC+ASTYcKGaT7C6YDc7FLQ4LJuOu0zxqS
+         nLWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789129342; x=1789734142;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=aYg6ENX3iBZcZ6V+nXDUolx1uCJT2hGf2/9jC8O6fjE=;
-        b=ER6okMj8KEKdemdNiYzsTAGDdtHdV+PeqdcFQI1dNIdHhm5F9QsjA6vAIv3HunIiQN
-         Z1rVYwEU+jR5fB6mMO5A4avg+kgBQsizhTqDxb036yzJmenQXUFKacRikDvtoM26NokQ
-         bRi/gkJQk3RCLWMwWpThsC0TAgBmib6vKO3OrGYphu96yF8wSLPwMIdF7oVdCfANfbtJ
-         nw3fFkKkLiMEpH+8hWX8TXT3dJUN27h2Vxhp1rcXOFevfyPFRz0QJW8rSEKDbtfl9lAA
-         UyeZzCyngMkRMTkPYjN03SaoNTXTkFjokCop8siUzIxOofwqAxLxrUg/bl8Re4rulDRY
-         dqHw==
-X-Forwarded-Encrypted: i=1; AKwUvBywX4I+A6KcPHAP1B4OV1b3sXTOp3/S7JxzkIX0K/++4KnZOwT9gxq1Q2Yrp0sGrB6hwywtpZ26D1RrOqmb@lists.linux.dev
-X-Gm-Message-State: AFuF++lZrr+cwdH9sCTYtBPWsZacF0JSy8WddfcFwAHFlaQM26lidVb7
-	wjubYZ0fOSpxpLTU2wCZxgjrZ/fVZIWQGpMq5rKZsUTs9Fqa4eAGI1vs
-X-Gm-Gg: AYBFou2MeKAmyRysBmMU0/hrb0lCVulUgL8duHhZzo3cM4vWPva61xRM0Ig8NU0gUoh
-	lWYrpArlYSrnwouEduY+DIbeGad1CgoAuB4A4uZxYUMdn5nyvGC8NQnMuaCwRhW3+g2/RBk504o
-	MNA9IcCVnUbIW7HJxkMFH4xGyyzBXky60PuLGRfaXq4urpsg+k00FDbK0piTDPeZii5HODOaO0r
-	+wE8AoKvyvDY/jLdez2Ey7XRGhr86c4mHbxcVul+/1A+dUme/a9wTpLptlgeZRWTjju1kkRZSK7
-	09PsQphoiOXyMo2EJLv5rk1B7XYTJLX2662OQd0ZSaUjgGszH+XQnqXqU2vgvzv+825DtPQCphd
-	0pimyIg90rTR7OdRiptIkTRGnJhMs6RlsMC8tF/D4cUlxS34oFpqOjcAwwk+joTwDTNUiK6tnin
-	WoJrdU0cNSY1q8Zd2L8hHL+ijZa10J8mQPoQYDAt5tDjfuNtIBb+SBkTKYBsSWR29cDx8=
-X-Received: by 2002:a05:600c:c493:b0:49d:2607:4ada with SMTP id 5b1f17b1804b1-49e619bf31cmr80924325e9.14.1789129341343;
-        Fri, 11 Sep 2026 05:22:21 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789129412; x=1789734212;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PpMXHaFF1JIW3abETAGrUWAAHuJWrnkzeYHOUDUyhbo=;
+        b=TYssWsTcuyXOeDL9GjfPhPuSA2TPr6HhrYajBgF110ERsjD9rqHIERnk+1QeIcj5LF
+         8baDDyyTfSd5GGyp0mRV2Wj1ylrOfQHyDg/JokBRprDQHNigXoQzDM0MoV7oEBZqhYNs
+         L9kb0pJ7OJyBOYE17e0YoMnxBLBqDkxWJMwcN7GOAiAYOsJeoCnaGhBB3sd57XOJ7LHh
+         GKeHGKPZuaj2SbEAwrrhQUcWl53SqtGpiQHj6icXuEang6IeoJMoJfCIwZl3P1YOFP9u
+         sydtDp4B7YqQitG1ltnatXTKGUYuh8Qk0sIZjyIdnJCHnFK7fWqXPhMnrGObmR9EvpMe
+         ZXIg==
+X-Forwarded-Encrypted: i=1; AKwUvBztI8MBN4qH9rPmANFaqmGb1eZKVL8y+SakR395R1fbV/d6eaM+qnrYwqgRdUn2JdhDpxA5MSm7HtubID5z@lists.linux.dev
+X-Gm-Message-State: AFuF++lPzzo6yodN3+4/EsccJutYEnN50kfhDD7O7Gv8Ho6tCqOOpRuG
+	fA6wqwgKihGJMwYqq68WjV4qP9Rhw/ilFEGvk8k/Hy/Ptwlpdy+oQPuMh0t23IusZyA2OQ==
+X-Gm-Gg: AYBFou0w03LlfUyMI2U2ZP3gl/UaR3YU3HgNxYPowbUUX6ZsB49NJW0xOQSo8R6X61w
+	4Rp3b386RsKDbJTmX9YFiI/gQg8P9t9+CvTv9PJdKAcv1v0sZeKB9/kfO6hbU+HKzCD27fW9v7k
+	yGUsWtSyFJI7dLAJ3zljm4Q9TK+umNAsJqZbBaFvm4frvbV4yUhva73F6SCgJHVlfkupm/sdozV
+	1HvzkjQALCrFmSWl+p+9dH5uZtR3CWLSEPJUpMIYFTVFA7Kxqx2Zmg6OhGrZ448zUrkmDPIeLw8
+	NgE9jD22+YGDQYXhv/BcnakminUEJfuHTZGTbfUwyRbKFEMZ94LpEOJIqWcGHXF7UstAZPtRdEw
+	F+zoy4HI74eMy5yFN6IqEOA8l8U3ChJKYWyt404u73uT+KuabJWYfWxmFeQMBh/HiDhSSp41uti
+	1bh2Ko2vyfsOxT4Vtx46/XiDMGSC+RKqkNVDM/7CqglR3bJoS368uhoKcdy7eIEun+Xqw=
+X-Received: by 2002:a05:6000:2311:b0:485:8d9c:47d2 with SMTP id ffacd0b85a97d-486e0f955c8mr11792035f8f.30.1789129411941;
+        Fri, 11 Sep 2026 05:23:31 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c2a419sm164864835e9.7.2026.09.11.05.22.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb34e608sm5870255f8f.23.2026.09.11.05.23.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 05:22:20 -0700 (PDT)
-Date: Fri, 11 Sep 2026 15:22:16 +0300
+        Fri, 11 Sep 2026 05:23:31 -0700 (PDT)
+Date: Fri, 11 Sep 2026 15:23:28 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: drivers/dma-buf/st-dma-fence-chain.c:207 test_find_seqno() warn:
- passing freed memory 'fence' (line 195)
-Message-ID: <aqPyeNLCsy-k0DIz@stanley.mountain>
-References: <202609081301.6ARYAElY-lkp@intel.com>
- <3f26027d-805f-4ab5-a181-d56a2708c50a@amd.com>
+To: oe-kbuild@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, arm@kernel.org
+Subject: [soc:board-remove-7.3 182/295] drivers/hwmon/ads7828.c:121
+ ads7828_probe() warn: if statement not indented
+Message-ID: <202609111050.oiut4oST-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f26027d-805f-4ab5-a181-d56a2708c50a@amd.com>
 
-On Fri, Sep 11, 2026 at 09:49:54AM +0200, Christian König wrote:
-> Hi Dan,
-> 
-> I just double check and this one and the other "warn: passing freed memory 'fence'" look like a false positive to me.
-> 
-> Any idea why smatch things that the memory is already freed in the test case?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git board-remove-7.3
+head:   cf983087c51a9c74c3d4d3b353eb811ae5030823
+commit: 4df92b98525f08e1eab92a25f5da2045c78403e8 [182/295] hwmon: asd7828: remove pdata based probing
+config: arm-randconfig-r071-20260911 (https://download.01.org/0day-ci/archive/20260911/202609111050.oiut4oST-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+smatch: v0.5.0-9187-g5189e3fb
 
-dma_fence_put() can free the fence if we drop the last reference.
-Or imagine that we aren't holding the last reference and a different
-thread is holding it and they could call dma_fence_put() which is
-also a use after free.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609111050.oiut4oST-lkp@intel.com/
 
-Incrementing then decrementing then incrementing the reference
-count doesn't make any sense.  We are relying on something else
-to hold the reference.  If we can rely on that, then we don't
-need to increment and decrement the reference count for certain
-basically random places.
+smatch warnings:
+drivers/hwmon/ads7828.c:121 ads7828_probe() warn: if statement not indented
 
-regards,
-dan carpenter
+vim +121 drivers/hwmon/ads7828.c
+
+5812f9283e6213 Steve Hardy              2008-01-22  116  
+a8ddfea09566c3 Sam Povilus              2017-03-29  117  	diff_input = of_property_read_bool(dev->of_node,
+a8ddfea09566c3 Sam Povilus              2017-03-29  118  					   "ti,differential-input");
+fddb5ceaf901b0 Qingshuang Fu            2026-08-05  119  	vref_uv = devm_regulator_get_enable_read_voltage(dev, "vref");
+fddb5ceaf901b0 Qingshuang Fu            2026-08-05  120  	if (vref_uv < 0) {
+fddb5ceaf901b0 Qingshuang Fu            2026-08-05 @121  		if (vref_uv != -ENODEV)
+fddb5ceaf901b0 Qingshuang Fu            2026-08-05  122  		return vref_uv;
+
+Add another tab before the return.
+
+fddb5ceaf901b0 Qingshuang Fu            2026-08-05  123  	} else {
+a8ddfea09566c3 Sam Povilus              2017-03-29  124  		vref_mv = DIV_ROUND_CLOSEST(vref_uv, 1000);
+a8ddfea09566c3 Sam Povilus              2017-03-29  125  		if (vref_mv < ADS7828_EXT_VREF_MV_MIN ||
+a8ddfea09566c3 Sam Povilus              2017-03-29  126  		    vref_mv > ADS7828_EXT_VREF_MV_MAX)
+a8ddfea09566c3 Sam Povilus              2017-03-29  127  			return -EINVAL;
+a8ddfea09566c3 Sam Povilus              2017-03-29  128  		ext_vref = true;
+a8ddfea09566c3 Sam Povilus              2017-03-29  129  	}
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
