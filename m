@@ -1,107 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C629B5427F5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 19:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E77585966
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 20:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789155479; cv=none; b=dknvrb/IXW8Sc6/c3OroUXfDc77RAN+/GZlviq4L0SfzuFPYDWJySBlpNsav07dqC1pt75+uQqYHFnZNzfH2vInoEZxLTx1VZZhZJbmk5HU58ZHb+636fHAvF8Z1nOxIb5o7qAisSfrARYQs1Zn5NtpDO66d4DpN2XJrZXY1nEs=
+	t=1789158147; cv=none; b=MrM8k8U4wzssoIkBqIGVkXWN21mdjfeA+opH+CRNNBxzXCnnalMmkTp4/N/oGhWrJWbxW7D38K49/HvP7K0zpL0uW+DYYyL3XSNDpZfMM+agBdNk4Dib3t4J05l7UihKozLZArsynx09ZF5ZD4aUp9JWMAgYfbXzGQI4x+ET4fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789155479; c=relaxed/simple;
-	bh=fa/Qeb96oMIW5T8LspLwkD0jLNb+byEmUjzRFc7U9bE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K9Z9kXcN2CbtsgGTHfW1GcGWhMf6d1O+jqWU6EytUOgW/GPXEQMatz6GryU9bmc2nnKR7lpV2geXYF7IFvsfXh1TtMUN9zhP1B0pURU0jFwSibx2j/xS9mLwfXK5LFqraTr1IqoihPuYJ+qZaFyQTYU3CzzRmo13ohUSdcU82TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cd7/P7f1; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1789158147; c=relaxed/simple;
+	bh=OS2bSdLTXmaI4+jQDcQKHCToQdF13rl6wXms6JWF7rk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Gvu4IWFWhJWvQYWMpev6D3bkQW/HbJrdCynejWJqbqcdYMreWv51/Dalc/n+ue0fy6atD9kf+4IBhDFwmZQ44n0Qfwz3cIm64vwfA4SqhRQrv8kUavXQu7d66Rt1/3T9kqL4fL+3c3m9WCMkYByic98jr3+A2HdhZGSGfh1mk5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VOf2LN15; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cd7/P7f1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VOf2LN15"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789155473; x=1820691473;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fa/Qeb96oMIW5T8LspLwkD0jLNb+byEmUjzRFc7U9bE=;
-  b=cd7/P7f1EXAYV5slNasPo0F5Rk2+pzY54qChjT7cBeP9zF7rPvQjYZ1f
-   YGG5ewt+Y8fbUt8xqJ4g8hEEaqX2LkN2gTuzbyt4rNPnZoQluexErZmjM
-   v4/ltpxNHrcNpNNsk2sx4FZV7lI4fXTwRjgVLAAaQD0AhDwO1+otpYiuY
-   CZWZgsrg+JqVLdYhnyg3ksAzbVZsJw6S75P6SI8l1dD6dVhepPIVBO+L0
-   ZjWrzvNmX0yI41jHx6tbnrTgCAuQAePPS1vN/kImbCPeLWPoIPjZ9v1q9
-   LLvXLOk0v7PlFlXP5uLLeDyqURq9ZwLE2qC6KYTXNRtiRP+/CfO3cocyp
+  t=1789158143; x=1820694143;
+  h=date:from:to:cc:subject:message-id;
+  bh=OS2bSdLTXmaI4+jQDcQKHCToQdF13rl6wXms6JWF7rk=;
+  b=VOf2LN15hHUegROQZfutZUBfIoJ0UA45yiEYb+fpDYAkDkq21RKKDp6U
+   hD0h4BAdasnLcZcr6ZgWf7WXQiu/IS2OiisOpLP8mCHdS+oZRngC+kGIq
+   XDBl9AmLLj6iTt6/EjTcK9tVBF11tQRSzqEPCE8W+6M7Z1EH7V8lsguyb
+   vIsqIUNuvQOhX7mdqOGOjEshJPaoASiyLnx+gee3EuZPt2Db7sdUieT4S
+   EX6HNUQOAE4C3A5ZCg5HEa+EXuTj0Zpn6qFezktiRLvTWFqFI7sYFjwCL
+   BGN/AG0pQasRlCHf6G74oVGEzejKSmOwvEdNLVxqSla+jGsVy62fyhMpL
    w==;
-X-CSE-ConnectionGUID: oaGTgclASca+LXFPJTvPtA==
-X-CSE-MsgGUID: BdqWPnHjSXyHagO0Z05eMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="100219226"
+X-CSE-ConnectionGUID: Pw3ZVxlxTF+7HHxbiGD5yQ==
+X-CSE-MsgGUID: aSkVxHsbQyu2CsUjBpL19g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="99955386"
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="100219226"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 12:37:48 -0700
-X-CSE-ConnectionGUID: Uk1sUkphTIm9x26Lc89Pow==
-X-CSE-MsgGUID: dLARZMgRQJKX3i/XqnpjcA==
+   d="scan'208";a="99955386"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 13:22:20 -0700
+X-CSE-ConnectionGUID: l3wms8PWS8mgk+7BU4W4Qg==
+X-CSE-MsgGUID: mf9BIBgwSQ6X88TT+v/QFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="270239988"
+   d="scan'208";a="295505105"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 11 Sep 2026 12:37:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Sep 2026 13:22:17 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x573w-0000000022v-24QR;
-	Fri, 11 Sep 2026 19:37:37 +0000
-Date: Sat, 12 Sep 2026 03:36:50 +0800
+	id 1x57lH-0000000027t-0y90;
+	Fri, 11 Sep 2026 20:22:15 +0000
+Date: Sat, 12 Sep 2026 04:21:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH] printk: Use two irq_works instead per-CPU
-Message-ID: <202609120349.yDbrP6Tf-lkp@intel.com>
-References: <20260911103832.w6C8cT4L@linutronix.de>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-crc 39/51] xfs_rtcsumfile.c:undefined reference
+ to `__divdi3'
+Message-ID: <202609120444.qG4Glbd5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260911103832.w6C8cT4L@linutronix.de>
 
-Hi Sebastian,
+Hi Christoph,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.3-rc2 next-20260909]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/printk-Use-two-irq_works-instead-per-CPU/20260911-123832
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260911103832.w6C8cT4L%40linutronix.de
-patch subject: [PATCH] printk: Use two irq_works instead per-CPU
-config: m68k-randconfig-r131-20260911 (https://download.01.org/0day-ci/archive/20260912/202609120349.yDbrP6Tf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609120349.yDbrP6Tf-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-crc
+head:   c139b7471104b8928a7f979d91155590ba5e0c2f
+commit: 7031d4764406ce0fa976364248fe7d9bc12c2392 [39/51] xfs: add support for per-RTG csum files
+config: xtensa-randconfig-001-20260911 (https://download.01.org/0day-ci/archive/20260912/202609120444.qG4Glbd5-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609120444.qG4Glbd5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609120349.yDbrP6Tf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609120444.qG4Glbd5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/printk/printk.c:4614:17: sparse: sparse: symbol 'pending_wakeup_work' was not declared. Should it be static?
->> kernel/printk/printk.c:4615:17: sparse: sparse: symbol 'pending_output_work' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/pending_wakeup_work +4614 kernel/printk/printk.c
-
-  4613	
-> 4614	struct irq_work pending_wakeup_work = IRQ_WORK_INIT_LAZY(pending_wake_fn);
-> 4615	struct irq_work pending_output_work = IRQ_WORK_INIT_LAZY(pending_output_fn);
-  4616	
+   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
+   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
+   `.exit.text' referenced in section `__jump_table' of fs/ceph/super.o: defined in discarded section `.exit.text' of fs/ceph/super.o
+   `.exit.text' referenced in section `__jump_table' of fs/ceph/super.o: defined in discarded section `.exit.text' of fs/ceph/super.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+>> xtensa-linux-ld: fs/xfs/libxfs/xfs_rtcsumfile.o:(.text+0x4c): undefined reference to `__divdi3'
+   xtensa-linux-ld: fs/xfs/libxfs/xfs_rtcsumfile.o: in function `xfs_rtcsum_bmap':
+>> xfs_rtcsumfile.c:(.text+0xd2): undefined reference to `__divdi3'
+>> xtensa-linux-ld: xfs_rtcsumfile.c:(.text+0x2b0): undefined reference to `__udivdi3'
+   xtensa-linux-ld: fs/xfs/libxfs/xfs_rtcsumfile.o: in function `xfs_rtcsum_file_size':
+>> xfs_rtcsumfile.c:(.text+0x2ea): undefined reference to `__udivdi3'
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/rapidio/switches/idt_gen3.o: defined in discarded section `.exit.text' of drivers/rapidio/switches/idt_gen3.o
+   `.exit.text' referenced in section `__jump_table' of drivers/pps/clients/pps-ktimer.o: defined in discarded section `.exit.text' of drivers/pps/clients/pps-ktimer.o
+   `.exit.text' referenced in section `__jump_table' of drivers/pps/clients/pps-ktimer.o: defined in discarded section `.exit.text' of drivers/pps/clients/pps-ktimer.o
+   `.exit.text' referenced in section `__jump_table' of net/ceph/ceph_common.o: defined in discarded section `.exit.text' of net/ceph/ceph_common.o
+   `.exit.text' referenced in section `__jump_table' of net/ceph/ceph_common.o: defined in discarded section `.exit.text' of net/ceph/ceph_common.o
 
 --
 0-DAY CI Kernel Test Service
