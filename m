@@ -1,136 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40BB175A80
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 08:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946D9470128
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Sep 2026 08:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789115661; cv=none; b=BMPgOH9QIyCLeeC7uDv2rOAvhdL+SfLLJ6g8eUy+B3yZy8bI0ZMcuu0ZSSIfULPmbEJKoRfQjK1Ub8TS/2WDMKQFmY7nJ/DDmWvvb611cVDFexTnM53kmzbG6CxRQeVLhEGWUO+WcdpVwzSfKEnYXJ0rVT2e0TmAHpLqWLONLpY=
+	t=1789116304; cv=none; b=WwaVGC27dgcxcB3tteajdwlEC9klyjmSv7PBxhRXkbNzKvUhdMrCWT/nQS0VU3BcXin6BAG0jsK5+LEIR4vMeIl/wYSt0MPrk40soRNFWcBOqQo1AHFmTAGhrozU0mBigc2fv4B6ZD4AJ7oCv1Xuxkpt1ve9jVvWaX/o6FU7SRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789115661; c=relaxed/simple;
-	bh=r+LX7F+hB5ZH0sOHjYyx8lzmw89JBy44YykxklEOAcw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=f+Cc/OvTeiFAMTFW5BGPJQr1bDkACz6nb6mJcLzsQKn1XZ3TaGUH+YLxaa1BkmjX/ONTpe++abaSNpUHJaFH8SbFElaawcmTBBKhDTGXDw6j9322KsKBszVerkrzFy98CuEmT2mxh1hZsgqWb2sSLN8CkZ0/pmAm2jBBfrwF/SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iuyjr5R0; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1789116304; c=relaxed/simple;
+	bh=JteMke0Sr8hgyKy/a2txaR62oAa054IlDk0jPobWpo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XCTZ15erAtheHlDlWIP1BobYKa2R4TDgQFOrtfMxuw6i/od72dA9hA3Jt8mxoS5zuGeX6oaJenB1Uw6bDSkE0EBnQP1MOn+IgJaYT/+xUWz9BbOlg/K0YE0ozxr0yBUrZiVw16UMZCgUKq1p+fORZV6BJOweQMd2E42PntQEte4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GbQ/9lqR; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iuyjr5R0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GbQ/9lqR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789115659; x=1820651659;
-  h=date:from:to:cc:subject:message-id;
-  bh=r+LX7F+hB5ZH0sOHjYyx8lzmw89JBy44YykxklEOAcw=;
-  b=Iuyjr5R0kBnJy7Md0+/yOULpOHPS1oV7Ginc6Fos+w/mcPKMm5wh5jwn
-   Ww1dE6G0HEBShzbdBZ1f+kUqkPhmaBViCICMXsE5t5WyAq36Fy3z9RvIe
-   tM8Ba0jQtMjMlcSoCWOOGhr0BSLU6h2HcmJkEefu6OIFyTzhy8JgSSCMo
-   pFCTBKVxPW2PFh6RwY6HaRU9wmhqwLMqltZ02bZfYC+bP1El8SpdI1vCo
-   HvrfbiP8jOwwEezZOTTUjj8g2TEIgnudWMUyfC3MG4khNBMwj/ZmqTVVr
-   1LLl3PAsf+qPKlLm8yl/e147qpM0yx9aFPdB9kghEFxf0sX4IstT2DaHn
-   Q==;
-X-CSE-ConnectionGUID: jqlt0RzfRbCbtVxUP6vg/A==
-X-CSE-MsgGUID: sXDxy3TcQry7l+6czUZVgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89341008"
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89341008"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:34:18 -0700
-X-CSE-ConnectionGUID: 4W3GzUYdTluIefVzohQVPA==
-X-CSE-MsgGUID: DUat6XELQdqN//UHeGyoMw==
+  t=1789116300; x=1820652300;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JteMke0Sr8hgyKy/a2txaR62oAa054IlDk0jPobWpo0=;
+  b=GbQ/9lqRgzaUtAz4hcuL/i6bqp5NdotkTXKHYl6cSAM/+0yatizTKlKo
+   DkRYJU3n3zLZ/kL+cHqSc7jlh5fjlNOH2KVrjBmO1kE6Ma6DK4iG8eKkA
+   /5hCJxCToWduld3+R013+AmEKLg7dkFzcP4J/JmkH8szQBd4CNpzsVL7i
+   UbShPpFh5eLNw6lJ1t4x7GXIc1aYndWQ4BnMmHxar0jequvpZpyAccr7r
+   ipTF9RI+M7+DDyM0I/Z8bvAgQ3rnEzsl6+o9HSdzyMlybb236ODHsZuny
+   V3bNIQj3gGyTV9zRLUxmO59vVldANLWspeIeUEfc+CPftHvPPB3447cbD
+   g==;
+X-CSE-ConnectionGUID: fFgZdorfS0+ZqQusyYxxYg==
+X-CSE-MsgGUID: F/oUt4cET3CYimicOEP6AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="87798"
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="87798"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 01:44:58 -0700
+X-CSE-ConnectionGUID: k9MFxhyNQLy3i2GG1UOXkQ==
+X-CSE-MsgGUID: E4PKgMprRjCjxs8dCAcSCA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="268178465"
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="272369570"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Sep 2026 01:34:17 -0700
+  by orviesa009.jf.intel.com with ESMTP; 11 Sep 2026 01:44:56 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x4whu-000000001Ik-3B5T;
-	Fri, 11 Sep 2026 08:34:04 +0000
-Date: Fri, 11 Sep 2026 16:33:07 +0800
+	id 1x4wsC-000000001JG-3XP5;
+	Fri, 11 Sep 2026 08:44:44 +0000
+Date: Fri, 11 Sep 2026 16:44:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:dev/acpi-static-table-gsi-deferral 8/13]
- drivers/acpi/arm64/mpam.c:85:41: error: use of undeclared identifier
- 'trigger'
-Message-ID: <202609111653.cAnJmuyt-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Julian Braha <julianbraha@gmail.com>, rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lenb@kernel.org, pavel@kernel.org,
+	akpm@linux-foundation.org, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH] PM: sleep: only allow relevant powerpc platforms to
+ enable PM_SLEEP_SMP
+Message-ID: <202609111618.fkJkvb2m-lkp@intel.com>
+References: <20260909170520.553867-1-julianbraha@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909170520.553867-1-julianbraha@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git dev/acpi-static-table-gsi-deferral
-head:   57e5c004a108c62e38be743a8e66e3cae00ca521
-commit: d4991c69f1ad2064dbc46273adf6b3774e36c482 [8/13] ACPI: ARM64: Convert static table devices to IRQs software-node properties
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260911/202609111653.cAnJmuyt-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 96295a1412f9afbee9d4a3c2701e83f5a529a9cc)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609111653.cAnJmuyt-lkp@intel.com/reproduce)
+Hi Julian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v7.3-rc2 next-20260909]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Julian-Braha/PM-sleep-only-allow-relevant-powerpc-platforms-to-enable-PM_SLEEP_SMP/20260909-180520
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260909170520.553867-1-julianbraha%40gmail.com
+patch subject: [PATCH] PM: sleep: only allow relevant powerpc platforms to enable PM_SLEEP_SMP
+config: i386-randconfig-062-20260910 (https://download.01.org/0day-ci/archive/20260911/202609111618.fkJkvb2m-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260911/202609111618.fkJkvb2m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609111653.cAnJmuyt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609111618.fkJkvb2m-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/acpi/arm64/mpam.c:85:41: error: use of undeclared identifier 'trigger'
-      85 |         if (acpi_mpam_irq_valid(intid, flags, &trigger[irq_count])) {
-         |                                                ^~~~~~~
-   drivers/acpi/arm64/mpam.c:93:41: error: use of undeclared identifier 'trigger'
-      93 |         if (acpi_mpam_irq_valid(intid, flags, &trigger[irq_count])) {
-         |                                                ^~~~~~~
-   drivers/acpi/arm64/mpam.c:105:13: error: use of undeclared identifier 'trigger'
-     105 |                                                              trigger, irq_count);
-         |                                                              ^~~~~~~
-   3 errors generated.
+   arch/x86/power/cpu.c: In function 'hibernate_resume_nonboot_cpu_disable':
+>> arch/x86/power/cpu.c:338:15: error: implicit declaration of function 'freeze_secondary_cpus'; did you mean 'thaw_secondary_cpus'? [-Wimplicit-function-declaration]
+     338 |         ret = freeze_secondary_cpus(0);
+         |               ^~~~~~~~~~~~~~~~~~~~~
+         |               thaw_secondary_cpus
 
 
-vim +/trigger +85 drivers/acpi/arm64/mpam.c
+vim +338 arch/x86/power/cpu.c
 
-    70	
-    71	static void acpi_mpam_add_irq_props(struct acpi_mpam_msc_node *tbl_msc,
-    72					    struct property_entry *props,
-    73					    int *next_prop)
-    74	{
-    75		static const char * const irq_names[] = { "overflow", "error" };
-    76		u32 gsi[ARRAY_SIZE(irq_names)];
-    77		u32 triggering[ARRAY_SIZE(irq_names)];
-    78		u32 polarity[ARRAY_SIZE(irq_names)];
-    79		const char *names[ARRAY_SIZE(irq_names)];
-    80		u32 flags, intid;
-    81		int irq_count = 0;
-    82	
-    83		intid = tbl_msc->overflow_interrupt;
-    84		flags = tbl_msc->overflow_interrupt_flags;
-  > 85		if (acpi_mpam_irq_valid(intid, flags, &trigger[irq_count])) {
-    86			gsi[irq_count] = intid;
-    87			polarity[irq_count] = ACPI_ACTIVE_HIGH;
-    88			names[irq_count++] = irq_names[0];
-    89		}
-    90	
-    91		intid = tbl_msc->error_interrupt;
-    92		flags = tbl_msc->error_interrupt_flags;
-    93		if (acpi_mpam_irq_valid(intid, flags, &trigger[irq_count])) {
-    94			gsi[irq_count] = intid;
-    95			polarity[irq_count] = ACPI_ACTIVE_HIGH;
-    96			names[irq_count++] = irq_names[1];
-    97		}
-    98	
-    99		if (!irq_count)
-   100			return;
-   101	
-   102		props[(*next_prop)++] = PROPERTY_ENTRY_U32_ARRAY_LEN(ACPI_IRQ_PROP_GSI,
-   103								     gsi, irq_count);
-   104		props[(*next_prop)++] = PROPERTY_ENTRY_U32_ARRAY_LEN(ACPI_IRQ_PROP_GSI_TRIGGER,
-   105								     trigger, irq_count);
-   106		props[(*next_prop)++] = PROPERTY_ENTRY_U32_ARRAY_LEN(ACPI_IRQ_PROP_GSI_POLARITY,
-   107								     polarity, irq_count);
-   108		props[(*next_prop)++] = PROPERTY_ENTRY_STRING_ARRAY_LEN("interrupt-names",
-   109									names, irq_count);
-   110	}
-   111	
+406f992e4a372da Rafael J. Wysocki 2016-07-14  312  
+406f992e4a372da Rafael J. Wysocki 2016-07-14  313  int hibernate_resume_nonboot_cpu_disable(void)
+406f992e4a372da Rafael J. Wysocki 2016-07-14  314  {
+406f992e4a372da Rafael J. Wysocki 2016-07-14  315  	void (*play_dead)(void) = smp_ops.play_dead;
+406f992e4a372da Rafael J. Wysocki 2016-07-14  316  	int ret;
+406f992e4a372da Rafael J. Wysocki 2016-07-14  317  
+406f992e4a372da Rafael J. Wysocki 2016-07-14  318  	/*
+406f992e4a372da Rafael J. Wysocki 2016-07-14  319  	 * Ensure that MONITOR/MWAIT will not be used in the "play dead" loop
+406f992e4a372da Rafael J. Wysocki 2016-07-14  320  	 * during hibernate image restoration, because it is likely that the
+406f992e4a372da Rafael J. Wysocki 2016-07-14  321  	 * monitored address will be actually written to at that time and then
+406f992e4a372da Rafael J. Wysocki 2016-07-14  322  	 * the "dead" CPU will attempt to execute instructions again, but the
+406f992e4a372da Rafael J. Wysocki 2016-07-14  323  	 * address in its instruction pointer may not be possible to resolve
+406f992e4a372da Rafael J. Wysocki 2016-07-14  324  	 * any more at that point (the page tables used by it previously may
+406f992e4a372da Rafael J. Wysocki 2016-07-14  325  	 * have been overwritten by hibernate image data).
+ec527c318036a65 Jiri Kosina       2019-05-30  326  	 *
+ec527c318036a65 Jiri Kosina       2019-05-30  327  	 * First, make sure that we wake up all the potentially disabled SMT
+ec527c318036a65 Jiri Kosina       2019-05-30  328  	 * threads which have been initially brought up and then put into
+ec527c318036a65 Jiri Kosina       2019-05-30  329  	 * mwait/cpuidle sleep.
+ec527c318036a65 Jiri Kosina       2019-05-30  330  	 * Those will be put to proper (not interfering with hibernation
+ec527c318036a65 Jiri Kosina       2019-05-30  331  	 * resume) sleep afterwards, and the resumed kernel will decide itself
+ec527c318036a65 Jiri Kosina       2019-05-30  332  	 * what to do with them.
+406f992e4a372da Rafael J. Wysocki 2016-07-14  333  	 */
+ec527c318036a65 Jiri Kosina       2019-05-30  334  	ret = cpuhp_smt_enable();
+ec527c318036a65 Jiri Kosina       2019-05-30  335  	if (ret)
+ec527c318036a65 Jiri Kosina       2019-05-30  336  		return ret;
+406f992e4a372da Rafael J. Wysocki 2016-07-14  337  	smp_ops.play_dead = resume_play_dead;
+565558558985b1d Qais Yousef       2020-04-30 @338  	ret = freeze_secondary_cpus(0);
+406f992e4a372da Rafael J. Wysocki 2016-07-14  339  	smp_ops.play_dead = play_dead;
+406f992e4a372da Rafael J. Wysocki 2016-07-14  340  	return ret;
+406f992e4a372da Rafael J. Wysocki 2016-07-14  341  }
+406f992e4a372da Rafael J. Wysocki 2016-07-14  342  #endif
+406f992e4a372da Rafael J. Wysocki 2016-07-14  343  
 
 --
 0-DAY CI Kernel Test Service
