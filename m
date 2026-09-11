@@ -1,169 +1,131 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011059.outbound.protection.outlook.com [52.101.52.59])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A765E4A385B;
-	Fri, 11 Sep 2026 16:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.59
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789144032; cv=fail; b=obotRo2KLsLum+nTs2/Y0jx3VWVOJsrnAPoKNUAOnrPj8QyAuu1V+OE8TH23XNvWrcn56P/6iqx5LVff+rBYJSVxWZtmVXXAWmhb1cZ5a2Qz6eFhxGnouoQJX7GGyuDTs7e75G5AhqF8waa60zDfugMi0l5cgCOSNrwjsgzjDPg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789144032; c=relaxed/simple;
-	bh=vl1qkTftgQnovO/Cc7flcEYCzl19Y74CO+3ksGwmXoo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=c1Bf1/lgMTlCEmPCoC1U5E+GN026LOuJiv/+yCmYCV3vcTp+MX195rP4iQkYyVbpVgD6jcrBvdCmT5rmS/pR7ZeaT0gr93Fv/TadWeEYynLQ/s86hwWQ1EouVe7VvRDmb3tLujjzH+f0Z3gsRG8r9bes9UMEtb6lxWHYoqgdU+4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NLZajTTv; arc=fail smtp.client-ip=52.101.52.59
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE53E4A3D41;
+	Fri, 11 Sep 2026 16:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789144184; cv=none; b=mXzVw4EPlGiy5XnnGQZ/DrkgwYFEPU781C91uzRSV1yYA5nIoRo/12PWVH/vAOw7Qy+imoGlMi4tLhTfhXea9YFa2IacXyhrb55ILjPECC+HPCvv79PMomTb63Oh+1B/3XkD3ubK3w77pe9WRwirBuzsPuD4LBsFy0pUzPMUbsY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789144184; c=relaxed/simple;
+	bh=IzSavGhwVfrkaJsa+XKo6C76BJCqUzWGsnV1JIL5bM4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DnvPWkshhraGzah5/cEGCcbVlyjoauxk+b/rsS9fKhwrkv8Y+TgBVFuygNV1Lzvq5xmYdr1z8lbZZB8eps1z7uNek0qaBzdFAyxqvyKW1J09EeGRsSOUzZ0o/u+CAW5vxF+P5qRF5dTAbHoZrGlW5kJDEUxLFLuCE/NDzM8kWqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k7CsvqtR; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NLZajTTv"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S8a1PKUJUNsU9xLKx5lPw1+1NKAqvVV/JaPsdcbD7xeJ78EkCSvgIXGntktjDk/IS0Z1+V7wLApxI0xyIT2Z+RmS4226hK7MNuk6jwRgJWrEhOHCxptFYo/4cxE6wo4wg3GJ5vv91Z7uzqf1PEd50xoG2VKMQr3Mc1A4qdiw4JtDdKrQD5rEGYgpaoXSlBFmbuK45c6B9JdsVoqXS1VMx8XeaO0uRZPbnMl6020r3stefCA7g80e2VTSfb1DLcAOejteFdShIAzfSkwGjZ3PMJSnayHg458YfhBRK1Wn9UQMDY/7YWKhtnz6Fismff1lmze9a5Lm62BMvrPCfLX4nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JNd/B7zTZBvdJs+0O8APrVlMt8YYLSfZqLRl+WFjThI=;
- b=uAXF8uxAHzb2sLDzhhT8HJ+tUqDrfELTZ7srX1GxUtXF+U8KhCBneO3L6vw0j+riWHZaJvYCq8Dfkflnis/wtJrUSZ4FGInxu90s6XKHGBZTdh872MXsCVxo7pZktg3E5j1cLppPjbda2/8dpmorLLATE3sGQ754e27mewtS/ibQeTAOziCL3peiwqtyQ11QBpxAiCO4zDabv9F+ouGdyWSIcX7z/j1pJcHZaVv8oOY09Cn03rwVtuQzOuGcejVRDwt7rr/ARfwKvaaLOMZfCmx9Fo9Kd+wPSVfojW/Z5TwCIhHzrHS2cPxoEXoqYCxY4UW+AZbfafgoNy+CNiLPow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JNd/B7zTZBvdJs+0O8APrVlMt8YYLSfZqLRl+WFjThI=;
- b=NLZajTTvXisPM/Ffzs9YHRUkEatlvF0CG8tK2HIGSWcO0rt4+jKTx613y3GHJt1me+NHIFBfXjWCI7/8msfjzT0t+8dMIybXNNghDhgfzWOVVGv/GMifSit0jCwrJgROE2SAWOvZD4N5MbgAUuj6AyXhTMJpY0GxMDg0Z+bMdz0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA0PR12MB8648.namprd12.prod.outlook.com (2603:10b6:208:486::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Fri, 11 Sep
- 2026 16:27:07 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0406.005; Fri, 11 Sep 2026
- 16:27:07 +0000
-Message-ID: <53a024f3-5e2e-4cb0-9fce-0d0ae6584e6c@amd.com>
-Date: Fri, 11 Sep 2026 18:26:59 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/dma-buf/st-dma-fence-chain.c:207 test_find_seqno() warn:
- passing freed memory 'fence' (line 195)
-To: Dan Carpenter <error27@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <202609081301.6ARYAElY-lkp@intel.com>
- <3f26027d-805f-4ab5-a181-d56a2708c50a@amd.com>
- <aqPyeNLCsy-k0DIz@stanley.mountain>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aqPyeNLCsy-k0DIz@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0253.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f5::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k7CsvqtR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789144183; x=1820680183;
+  h=date:from:to:cc:subject:message-id;
+  bh=IzSavGhwVfrkaJsa+XKo6C76BJCqUzWGsnV1JIL5bM4=;
+  b=k7CsvqtRPo6bLdux7L5BzGNz9Mp89u3w/PNrOnxXUiym5hXURWFcEPH4
+   PexeUbpb2bWqXo/ubRYFLWBsidUNSpsEAti32DLXdMBdEG53k8CEnvqk2
+   Iq4aPDOoaHsc7tVC5wqQBK0JXbfoRoLX0qCc01JPs/Wiy6hhFE8zPRTye
+   an7/qGBb8Bx+uYUsGSS/JTshKOK8JyXUcaQVGa+WSCEeBHzanJBwzCz2w
+   C/JwQJ7ajemFvVGsS/Y5usbAQLgCt78E9nm/jDLqyM4jB24LoLzllQqWg
+   cNhAuasiCvPpHgcFbdzPtCEtcK1MbyQKoRfcKBMQokD9HPnXnuvT196vV
+   w==;
+X-CSE-ConnectionGUID: 4qg6atVUS4KGIJN32vUfXw==
+X-CSE-MsgGUID: GgHW/EXrS8yUq/+ZLNVWtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89621796"
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="89621796"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 09:29:42 -0700
+X-CSE-ConnectionGUID: oVjNRNaAQRKODXvoQtwmFg==
+X-CSE-MsgGUID: hbIPUMcJSH2OIlApr1SQYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
+   d="scan'208";a="346499"
+Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
+  by fmviesa013.fm.intel.com with ESMTP; 11 Sep 2026 09:29:40 -0700
+Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x5480-000000001n3-2WNX;
+	Fri, 11 Sep 2026 16:29:30 +0000
+Date: Sat, 12 Sep 2026 00:28:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [paulmckrcu:dev.2026.09.09a 42/56]
+ kernel/rcu/tree_stall.h:332:48: warning: comparison between pointer and
+ integer ('int' and 'struct task_struct *')
+Message-ID: <202609120047.u7Af769s-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA0PR12MB8648:EE_
-X-MS-Office365-Filtering-Correlation-Id: 51253116-31eb-419a-733a-08df102185b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|10067099003|22082099003|18002099003|11063799006|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	ujsyLFOjDadPKvhKh5JElM6HI5OfGEmHv0GYblOtkarTGyEI1tbSGy17vKnNQc9eo/KTnH3o2SG16bxBnUw4DPBp36eJuBCJG/uSsXjPmboS5JXAq83FGlWZJ2qYFaRK/AqKMSxwljC4whrrxQ6NYsTiswFYp1sGLaoPTd36u2yxuDhGGkAdRH4MBrEMTmFIkNw9408sMtOyD9Rs4LBeTtEC4EejNsS5CoR8lZt1VwUxxfavcsK48aYKxlVPd9LneRbYLSG+jHxEcAUgyOp8orY5LKaos9T2IQe4w3VTgVBH9sRWDEL21j4IkD2I6fZ/+hE4kvXBe8WtEd0/4/KWyVq1WP9atIbZNhmoLur1jKrDWEYr1F7L2u8rsv4EDrbqs6K0fdsCuxmzU0no/zs7j3ToMJYcqpD13foxWV97fflPpBVsSxcEV9af3Ba5QmWwSsfy0DBOIuDE9ta9QoHB28iheShXV0XcM8x0CBQXtU+WSFz16+tWCe5iOo12xcGHkOisCQyE0XZ2ouhz/G0mT1aGpJR0ZvnjHIzFTwga6x+aQuRDgTF7mbaT9uhOByF73fmLPof8gDY/kQQQhk3KbmVWqrCFZncp0flSOhAYamzy4fMfdc3MOQUjlF+tMyxSODCMu9s+yYGpotOEn9qPAW1OYAl44GxE27d2508Q0sA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(10067099003)(22082099003)(18002099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Q1hjTTF6SWJvMjBob2ZTNTBidlE4bVdCRWp4azlqS3I3aDJJaVR1TlNhNzU4?=
- =?utf-8?B?MnBQMUZCWjhmZlYxaE80c0lLUUVDSG1ORjNtTlpUYkxsc2tuM0M3MndMTzdI?=
- =?utf-8?B?WmM3RllDLytDbXQ1aFB1VzhDcHpEanFncDQyMGJzT1RqcmFCM2hOZHVuSkNE?=
- =?utf-8?B?c0ZBVTN6Y0FGWlZSYUswWWNqZFArK2JEbUtJR1N5aHVwTXRQT2xydk84cXc2?=
- =?utf-8?B?VGpMazd0MlprNlFmZXcyaWh6alFTVjhYeG1QQkVad1Z5d2lydTFzZFZINlB6?=
- =?utf-8?B?NnEwMFB6ekZDWjFpdzdYbVNmTzV6anptR0JMek9FR2h2WWJNSW1CcnBjRDda?=
- =?utf-8?B?bXh0V2phdk45anlnR085YjZlbC9JVXJSTndFMHdxU3ZWYUtMMUJGNUM3UVo4?=
- =?utf-8?B?djBMNFpTaVBZckYxc2VUSHdxVktEdzBscDVKcHM0V2Y3YXlqUTYzZS9KandZ?=
- =?utf-8?B?LytqaVRDcENOWmpGN1hXeFA1ZmUyWmNUc1RoTjRUZlBrclZicXNQaE0zUzZB?=
- =?utf-8?B?R244b2Q3NUkzbUg0cmhKNHRnZmRxMzNVVmt1OERZTHQ2U3lsOVJSSnNhbHdm?=
- =?utf-8?B?S1JqeFg2amZCRmNaN0xxT0lFSmM5TTgvenA0YjhQMW4wcUcreEVvSk9Qa2sv?=
- =?utf-8?B?TStrU0NVUHQ3dHQvTG5VdG9vWG1qY2phamhPMnFTbkVQYSt1SHhhNEhqajdK?=
- =?utf-8?B?ZmwzNHIwb1FTMGR3K2lvVzIvZkJwM3RsS21wZE5NV0w5dzBlRnRUZnhSbkRR?=
- =?utf-8?B?RkU1L3JtNEpwcjI4U3FGdUdRSTQydWxheC9lTXdDUkZVTi9jODQ2V1pSSmNt?=
- =?utf-8?B?QWhUTml5SlJqL3Y5MUxMdFp0UjgwcmtZblRoWnhOQzhncWw2QUNCUk9HbzFG?=
- =?utf-8?B?RDJzN1JFYUhhRS83djhnY25UTTljL2hSSmloN1NiNHBqeG9JZ2czbGJtVWhJ?=
- =?utf-8?B?TEZqa0JOTkpreGw1cVkxeEh6Mmk5RUIxTEpMVFRRMERBVnVOOGdkQlFmZmlQ?=
- =?utf-8?B?RmtEVktaeGVrQlk3QWhwRE0rNVlVNTJkRy9pUW80SmpzVmUrV1A5aXl6dWhI?=
- =?utf-8?B?cUdoZXg4SnVqR1ZDTWZzQXF2d2lHS0RtSUR1RDB4SFVYdnd5Mk0rcVlaT09j?=
- =?utf-8?B?U1pSNzV1cUQxOUxKME04bWxwVjA5SEZUOER6NnRkY2hCSWxQbHRHMUhnTlVu?=
- =?utf-8?B?TnRmV215akVPOE9TLzVHd1hDcXpJVzlDWlhkdmFxbmpZcnQ1bzBKWXpyN25j?=
- =?utf-8?B?U3dWbDNvUENzdnRNWG9jVUNmc3MxSmlvaEFZYTNDUTk0bHJmRTY0bXd2OVVk?=
- =?utf-8?B?N1Naam5ETnl5czRtdWdWempySnd1eWVmcmJVbzViNkF4a2hVMzJySXdPVi9n?=
- =?utf-8?B?VUdLK2JpZTEyTCtZM1NKVzZkamhhVDNrQ3l3QnRQWGpMYXR6OE9qWnFEbi9q?=
- =?utf-8?B?L2x6a01hL2dudEd0cXo5ZTFoQ0JlUHZybUJFckhnbERRMTZ1dWI0UXJsK1U3?=
- =?utf-8?B?TG1EeDRYa1Q0TXBybWJFMTYzOTFISkRrS2ZER3RXck8zc2hDOVNmWmdhT0pu?=
- =?utf-8?B?RFdsUDlSZFd1ZENXeERsQW9FRUcrZDMvK2RhMXpWYmE5eWdhczV0VXhwSExh?=
- =?utf-8?B?cDQ5NWdRd1ZWaGU1LzVUYVdmQTRlbHIweHNKRzY1cXBhQ3VQbjVlclN4azkr?=
- =?utf-8?B?OGNqMnNoYXNvNVJpalozWDM3cDBHaFhkQkpWaTlRRm45VHU5SG5xV2E3dkZm?=
- =?utf-8?B?N1hocGhYak1sUnFUQTJBSkErWnc0N3VaV3JuNmt3Vy9uckRUNFhMdkJqR09W?=
- =?utf-8?B?dTJYMHF0MUxmSm5NMTBVTlNocGNHY0NqYXZFNENJWGRpSU5xME93WVpaTjQ5?=
- =?utf-8?B?azd1akRTOHJPSFNlc2U1OVlTMEoxTDRxV2tSUXA4ZUVnYlVKbnVRcXhNc0ND?=
- =?utf-8?B?bUQwcmxuc0puS1FyYSs3VmkrQmpxMjVJQWFpYTA3Qkx1Y1h1a1BsTUhtdVlz?=
- =?utf-8?B?RUFOWWtzY3M3c2tPWjdtRW9oY3hNWW1FRWo2S2xpQXA0SEdBWFMrSXlWMnli?=
- =?utf-8?B?RjdPK2xjQ2w0b2ZsOGFhMzZGK1dEYnBZR3R3TnR1ZTF1UUlYVFRWejRlRHFE?=
- =?utf-8?B?bm40bzhvdzBuc1YzWjQ3M0FkS3c5cHhqa3JQRGlubzBwd1VlN2ZHWkVVT056?=
- =?utf-8?B?SjV6bVNwRUhQb0t1eEZEMlpJdFdMeWZIM0huWWd2N1A1VndVeW9wa04xM1NE?=
- =?utf-8?B?K1FrRkg1aHZ3Ukp6MGtUNUY4OVhHUjVPSlN5TGV6ZVdQTnFkNU5XTFhCR2R1?=
- =?utf-8?Q?Qv8ibe3CCMC8oLudcR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51253116-31eb-419a-733a-08df102185b2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 16:27:07.4652
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +iotIc0YtLdLGx4C+qpGD6jPlT4cq3keieQCeYNdkW3pbc0osW8r4Chp4VszE02w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8648
 
-On 9/11/26 14:22, Dan Carpenter wrote:
-> On Fri, Sep 11, 2026 at 09:49:54AM +0200, Christian König wrote:
->> Hi Dan,
->>
->> I just double check and this one and the other "warn: passing freed memory 'fence'" look like a false positive to me.
->>
->> Any idea why smatch things that the memory is already freed in the test case?
-> 
-> dma_fence_put() can free the fence if we drop the last reference.
-> Or imagine that we aren't holding the last reference and a different
-> thread is holding it and they could call dma_fence_put() which is
-> also a use after free.
-> 
-> Incrementing then decrementing then incrementing the reference
-> count doesn't make any sense.  We are relying on something else
-> to hold the reference.  If we can rely on that, then we don't
-> need to increment and decrement the reference count for certain
-> basically random places.
+tree:   https://github.com/paulmckrcu/linux dev.2026.09.09a
+head:   d61d9b5dd56c6cf72b70bb5fb52b213ead9f7765
+commit: e33488c41be623f7c7ef5b8763e20c45f1364d1c [42/56] rcu: Add running and boosted indications to RCU task stall dump
+config: powerpc-tqm8xx_defconfig (https://download.01.org/0day-ci/archive/20260912/202609120047.u7Af769s-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609120047.u7Af769s-lkp@intel.com/reproduce)
 
-Ok, well then that indeed seems to be a false positive from smatch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609120047.u7Af769s-lkp@intel.com/
 
-The pattern is this:
+All warnings (new ones prefixed by >>):
 
-get(fence);
-make_fence_point_to_something_different(&fence);
-put(fence);
+   In file included from kernel/rcu/tree.c:5112:
+   kernel/rcu/tree_stall.h:332:8: error: call to undeclared function 'rt_mutex_owner'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     332 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
+         |                             ^
+>> kernel/rcu/tree_stall.h:332:48: warning: comparison between pointer and integer ('int' and 'struct task_struct *') [-Wpointer-integer-compare]
+     332 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~
+   In file included from kernel/rcu/tree.c:5115:
+   In file included from kernel/rcu/tree_plugin.h:14:
+   kernel/rcu/../locking/rtmutex_common.h:231:35: error: conflicting types for 'rt_mutex_owner'
+     231 | static inline struct task_struct *rt_mutex_owner(struct rt_mutex_base *lock)
+         |                                   ^
+   kernel/rcu/tree_stall.h:332:8: note: previous implicit declaration is here
+     332 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
+         |                             ^
+   1 warning and 2 errors generated.
 
-The make_fence_point_to_something_different() function consumes the original fence reference and returns a new one. So the get/put dance is completely correct. (Well it indeed doesn't make much sense, normally you would do something with the returned reference before calling put. But that here is just to test the make_fence_point_to_something_different() function).
 
-Regards,
-Christian.
+vim +332 kernel/rcu/tree_stall.h
 
-> 
-> regards,
-> dan carpenter
-> 
+   311	
+   312	/*
+   313	 * Report out the state of a not-running task that is stalling the
+   314	 * current RCU grace period.
+   315	 */
+   316	static int check_slow_task(struct task_struct *t, void *arg)
+   317	{
+   318		struct rcu_node *rnp;
+   319		struct rcu_stall_chk_rdr *rscrp = arg;
+   320	
+   321		if (task_curr(t))
+   322			return -EBUSY; // It is running, so decline to inspect it.
+   323		rscrp->nesting = t->rcu_read_lock_nesting;
+   324		rscrp->rs = t->rcu_read_unlock_special;
+   325		rscrp->on_blkd_list = !list_empty(&t->rcu_node_entry);
+   326		rscrp->rcu_rdr_running = task_curr(t);
+   327		rscrp->rcu_rdr_boosted = 0;
+   328		if (rscrp->on_blkd_list) {
+   329			rnp = READ_ONCE(t->rcu_blocked_node);
+   330			raw_spin_lock_rcu_node(rnp); /* irqs already disabled. */
+   331			if (rnp == READ_ONCE(t->rcu_blocked_node)) {
+ > 332				if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
+   333					rscrp->rcu_rdr_boosted = 1;
+   334			} else {
+   335				rscrp->rcu_rdr_boosted = 2;
+   336			}
+   337			raw_spin_unlock_rcu_node(rnp); /* irqs remain disabled. */
+   338		}
+   339		return 0;
+   340	}
+   341	
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
