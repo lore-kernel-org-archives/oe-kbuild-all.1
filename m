@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE1730F924
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Sep 2026 01:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD443314D1A;
+	Sat, 12 Sep 2026 01:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789176302; cv=none; b=ggOLLuzIN6JPlYTjx3xBRN8+gUZqAOwQenQRNjtsgl5KEshJKhp7PHSP+s0IRRzZq6i2zqcgUzwk8jneSW7DNtJGmN1N4TLAs0YhPBLKNiA+BIHHiXoqqWb/0bxLhoa+9bmUnEZa3TV85br0/Qguqp/f1vu7V8iNJy7kan3BkAs=
+	t=1789176302; cv=none; b=blF1HtqXpZJGo+XDMG2hEogBi4zD0MPI2v9B25cpRIMTvkHswoBqdAOKybtrdq7j9PjYf8rVkTC8/ti3zdusGlUxb3x3KncKI16biA3MNVE66h+pzh8BmIZoWA/7HjKqRdIELboVDwiU95FAu5Eb7gK5+wTuMksAph83zKhNuo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789176302; c=relaxed/simple;
-	bh=YOk3cxlanGIdTmLtQtPKJDwT6LnOdcC7uVqrLVzgVRU=;
+	bh=kWyKl8nspQAtl9ZLH0jHzigC1FX5K2ydejkIwl5FZXM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fq1n5M56ubM30bIFVLq3G79wuSLHTlHHf1EOI5tEFcwz55gUh2Keu9bsxwWEgBHEf+nf6JvNOc3VLa+A7HQJ6pirAO8O/sutAQK6XALQlH3avY96KIVtDQPuYzZIUhIApqt3ODvl6GRkfP0/yBlQhqdmOx7HzyCP7oXvk+dnuWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FImGN4y1; arc=none smtp.client-ip=192.198.163.5
+	 Content-Type:Content-Disposition:In-Reply-To; b=gCbIiIiVPpmcjn/JqJMg+XAv11Afwd4+cJauX7KS4xjn0lPwAGMYXPw3bZR6Kbe7Rfs/0shSRSJHCocI0gloa5opJY2IyNVOq3EniGOr1Cf2jbceeZXrt2caKLAnCwK7vo4Y+4iKNw5vQtvBb/2SBP7NpX6zDfWiFR6iDTOwNno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrWgHuUx; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FImGN4y1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrWgHuUx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789176301; x=1820712301;
+  t=1789176294; x=1820712294;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YOk3cxlanGIdTmLtQtPKJDwT6LnOdcC7uVqrLVzgVRU=;
-  b=FImGN4y1Uta77wW6PCA0JhUBxCV5Q8W1VzNCjPxoNK9tpVaZMg08rt+i
-   ofwjtNNDlKlefUnTaFsTZTiN5XK+v920jtaZ68OLciQYGc17hFUlNClUo
-   6p5Fc9GWSM7iSGiAYk7DTrqYYeF8dghkXCAyDUJ4vh5uDPVCYNN8AmEjF
-   BuDrhodkzGQ6yb7G9rhAEC+VZNdyUfp+dM+TOFjwEiQxhy7/N2h8PYekC
-   gBXsr7oGBYvMu78WuJb0ISc9Rw8IZ0k0ePHhSqvEm4klSjqxEUUhjo2ia
-   sdXJEt/+MuRcnJ5+xZWiAm2N4yZh5od+FHsQ2O0rex3utVmDNynqxsPon
-   Q==;
-X-CSE-ConnectionGUID: 0p57vbNPQ/OagPSCMuHkKg==
-X-CSE-MsgGUID: FOJ6lqACR0mXwELgbtX8Tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="148704"
+  bh=kWyKl8nspQAtl9ZLH0jHzigC1FX5K2ydejkIwl5FZXM=;
+  b=HrWgHuUxrQ59/PRfViPgBhhPnv482BsXV+vpjybbDUgkORioElEOcq1g
+   q4vdCXHiUehNTJtriWnseAmT7Papr3hzKs8qhOXIQVygu+T2ZCPaHgAYP
+   KGy+/aMncIpzSkhAyXX2kjpZhnvLMh8GWS6Asr+ekZAO2hEDvtKQYQhKj
+   fAmZ9hD1K4JaL/3pS9++AZBMp3VNwJc3ETBY7DqNIaGKccK8XfAQazpbL
+   UFDt94v9A3RCoGn5jg2ydKIF/Y8CDwvTozvVhougsVHXNdeeUQpu21KRx
+   AkUW4UpyfnK69t9494b6oVa1/2shd+rydoxw8jPg4Uslmm/A23ZeWv5H+
+   g==;
+X-CSE-ConnectionGUID: Eg2gUt1LSRyyXkveGn3L9Q==
+X-CSE-MsgGUID: 2u3n6lRhSuu9U0+iilAVMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="93337078"
 X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="148704"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 18:25:00 -0700
-X-CSE-ConnectionGUID: 9W4u8baaQ/CzWlAcKyP6gg==
-X-CSE-MsgGUID: iuQBu0n/Twu1nungr6zV7g==
+   d="scan'208";a="93337078"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 18:24:54 -0700
+X-CSE-ConnectionGUID: CQuzOJr2TEG9R/SXou2QCg==
+X-CSE-MsgGUID: L2n3kEUiSQ+y/WITewQn/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="272047984"
+   d="scan'208";a="295565944"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 11 Sep 2026 18:24:56 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Sep 2026 18:24:49 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x5CU2-000000002VF-0PA5;
-	Sat, 12 Sep 2026 01:24:49 +0000
-Date: Sat, 12 Sep 2026 09:23:35 +0800
+	id 1x5CTe-000000002VD-0ZI9;
+	Sat, 12 Sep 2026 01:24:35 +0000
+Date: Sat, 12 Sep 2026 09:23:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
 	Dave Hansen <dave.hansen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andy Lutomirski <luto@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>,
 	Ihor Solodrai <ihor.solodrai@linux.dev>,
 	Ingo Molnar <mingo@redhat.com>, Mike Rapoport <rppt@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
@@ -61,7 +61,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Andy Lutomirski <luto@kernel.org>,
 	Thomas Gleixner <tglx@kernel.org>, x86@kernel.org,
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Subject: Re: [PATCH v2] x86/mm/pat: use pr_warn() for early W^X warnings
-Message-ID: <202609120931.Bo3Gyiqu-lkp@intel.com>
+Message-ID: <202609120952.vcYnJp5p-lkp@intel.com>
 References: <20260911-fixes-verify-rwx-v2-1-e2cde39b6693@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,81 +83,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Rapoport-Microsoft/x
 base:   ebaf7c9bbb1e16523d7036e7e1225ad2dfcc6482
 patch link:    https://lore.kernel.org/r/20260911-fixes-verify-rwx-v2-1-e2cde39b6693%40kernel.org
 patch subject: [PATCH v2] x86/mm/pat: use pr_warn() for early W^X warnings
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260912/202609120931.Bo3Gyiqu-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609120931.Bo3Gyiqu-lkp@intel.com/reproduce)
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260912/202609120952.vcYnJp5p-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609120952.vcYnJp5p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609120931.Bo3Gyiqu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609120952.vcYnJp5p-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:195,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/asm-generic/bitops/generic-non-atomic.h:7,
-                    from include/linux/bitops.h:28,
-                    from include/linux/log2.h:12,
-                    from arch/x86/include/asm/div64.h:8,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/highmem.h:5,
-                    from arch/x86/mm/pat/set_memory.c:6:
-   arch/x86/mm/pat/set_memory.c: In function 'verify_rwx':
->> arch/x86/mm/pat/set_memory.c:708:30: error: expected ')' before numeric constant
+>> arch/x86/mm/pat/set_memory.c:708:16: error: expected ')'
      708 |                 pr_warn_once(1, "CPA detected W^X violation: %016llx -> %016llx range: 0x%016lx - 0x%016lx PFN %lx\n",
          |                              ^
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/once_lite.h:31:25: note: in expansion of macro 'printk'
-      31 |                         func(__VA_ARGS__);                              \
-         |                         ^~~~
-   include/linux/once_lite.h:11:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
-      11 |         DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/printk.h:650:9: note: in expansion of macro 'DO_ONCE_LITE'
-     650 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   include/linux/printk.h:669:9: note: in expansion of macro 'printk_once'
-     669 |         printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/linux/printk.h:669:34: note: in expansion of macro 'pr_fmt'
-     669 |         printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ^~~~~~
-   arch/x86/mm/pat/set_memory.c:708:17: note: in expansion of macro 'pr_warn_once'
+   arch/x86/mm/pat/set_memory.c:708:3: note: to match this '('
      708 |                 pr_warn_once(1, "CPA detected W^X violation: %016llx -> %016llx range: 0x%016lx - 0x%016lx PFN %lx\n",
-         |                 ^~~~~~~~~~~~
-   include/linux/printk.h:483:24: note: to match this '('
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                        ^
-   include/linux/printk.h:511:26: note: in expansion of macro 'printk_index_wrap'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ^~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:31:25: note: in expansion of macro 'printk'
-      31 |                         func(__VA_ARGS__);                              \
-         |                         ^~~~
-   include/linux/once_lite.h:11:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
-      11 |         DO_ONCE_LITE_IF(true, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/printk.h:650:9: note: in expansion of macro 'DO_ONCE_LITE'
-     650 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~
-   include/linux/printk.h:669:9: note: in expansion of macro 'printk_once'
+         |                 ^
+   include/linux/printk.h:669:2: note: expanded from macro 'pr_warn_once'
      669 |         printk_once(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   arch/x86/mm/pat/set_memory.c:708:17: note: in expansion of macro 'pr_warn_once'
-     708 |                 pr_warn_once(1, "CPA detected W^X violation: %016llx -> %016llx range: 0x%016lx - 0x%016lx PFN %lx\n",
-         |                 ^~~~~~~~~~~~
+         |         ^
+   include/linux/printk.h:650:15: note: expanded from macro 'printk_once'
+     650 |         DO_ONCE_LITE(printk, fmt, ##__VA_ARGS__)
+         |                      ^
+   1 error generated.
 
 
 vim +708 arch/x86/mm/pat/set_memory.c
