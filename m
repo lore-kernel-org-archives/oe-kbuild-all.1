@@ -1,164 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC33384CF6;
-	Sat, 12 Sep 2026 07:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA45345CCE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Sep 2026 08:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789199522; cv=none; b=s6Pg0duqypFa89ra+pvXN4t5Wke3gfONeBWgl0rxO2NKMp3xiIoQptFDVRSeK0DX0C6UhvydahStCJUE1ocUDVCDy0lOqFLIxxPaBbWJuiR5k9DgBgGIEENibOFHhgD+i+S4eP3uFiCDzA1CZm89tU/AXCgvla2nXxxYDLwsvYQ=
+	t=1789202835; cv=none; b=dBaekf+pyUONxAYP7fojtT29LADxU0jFkfGn/48lY9bGdwwSq+Rm7ekC3l2cksGfUmTI9HrKkIvKVUUxzi1mPR8cb3OSnjBxi3XwLSEEO40KrqPShH70whUVxVKpA64miKKTv5fvDzqBJ0+KOqfMM222SVxFGt8Tcj9SX6c90xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789199522; c=relaxed/simple;
-	bh=46h7Icp07RcnbhVwELPuCNWFoOPP/0gHjr3jGpDE618=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPo2Te+B8KaNPeLxZgDFg/xPTrCv0M+Ttyme9UOIfmKfwf6bE5Aejf0Rbn3e+zSZBbrJSH5b+YBbirfVcvqnKIpwfn4S/UPYrX1ZbDG6tvecmucbtI2wquWdm+XVP1XZLmFcJT4C3K7/B227JW1JNWhoJC298lq4myMiNCMl0W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ngA28xaK; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1789202835; c=relaxed/simple;
+	bh=rIulgAVduBypCeoiobuSpr5uxv7+IkP6LQ/8CR0yfZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=coEgevywEKQlRfAZP18I8ZbCXvWdKuSHKBV9RIu56AYvcLJKlsp0LSW4qzj5TsDMUboX5hUEAKxZ2PsKb3PFQ/T2cOeX+YMzjHCgeH11uZXlTt5FLKto5GTY6Ptqqmh76s+buRnkzNoWSXcSVr+KOl3QNvSVdbvNf9UF0NKKb+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I7MSe+Fe; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ngA28xaK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I7MSe+Fe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789199520; x=1820735520;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=46h7Icp07RcnbhVwELPuCNWFoOPP/0gHjr3jGpDE618=;
-  b=ngA28xaK5378vqVyvTjTsOb7mac1zJpIJ2+UIzDm+N8gt8RuS51vsiAi
-   MSf3H6eN0D5DYRnXpwqoe6p7ku0T4sWLMVXURjgpq3PKpi0G8P4x4YiAK
-   8X3uSQqpawUUmsjvR8g4hqxNFVUJ+YLd6seplxGALYnPM1kATgD3JDv5L
-   FaQKwJbj8MHMRJu+lmImKb5Jw+EBt7b2D+Ha/OwDWG8YPO3C4UC1fYIiz
-   3lTlkvew+oz7X4WcU3VrFocNu36pt/k7ZWKKarSpdKEjNWndbXvrYdNso
-   118l6IIj0Zf+OjHVV/CSFgIDQbzDcmerVIOv4LJ1/CUToJ0MZ9UFvrHN4
-   w==;
-X-CSE-ConnectionGUID: UlDKmr3+SCmR9GfcenCc4A==
-X-CSE-MsgGUID: mdaNAdbpRKW0jWSoBBjHrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="93346176"
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="93346176"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 00:51:59 -0700
-X-CSE-ConnectionGUID: +YBMtQj6RHSU+ypduIdIFA==
-X-CSE-MsgGUID: iKsquZWoS76O59FE1JyNnw==
+  t=1789202829; x=1820738829;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rIulgAVduBypCeoiobuSpr5uxv7+IkP6LQ/8CR0yfZg=;
+  b=I7MSe+FekiTBzNVfZaEq8GMYsH1On9tsF3AanGSjb2IFh8IH/+mcKWN4
+   VzaOJDG061qZcL+Y/j7cIN9AcOgLmMkg2pbQk2mxl6AKOZbTN342Dgz2x
+   qkRo3psVj1+7VT3iDp4xkCOvc+t26y89VRL3IIpi+h9kblZP7H42q215f
+   06AqLlIhfD6FtBw8lbbw6q06f3F2V+hOz+HmwcqlbmQJrWPiYjb5wgaPk
+   iv2iBxP86V5U5inO4s0MIEV3ldXifqCGMU4j0tqb87SBgUo82jfJpu8yF
+   nFcjV2Ht2NlxhdAFXHsbTlAQ0egFMQshiirg5aEbpRq7qzXEZrp5AVhQM
+   g==;
+X-CSE-ConnectionGUID: cSzWw0RUQYGbq1wKYXLN5w==
+X-CSE-MsgGUID: 7EGD0OzVQDy6ukYUBZzF+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="115186785"
+X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
+   d="scan'208";a="115186785"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 01:47:06 -0700
+X-CSE-ConnectionGUID: u0KD6KQfTxmHHyyTc6OgOw==
+X-CSE-MsgGUID: 3HnY/+P5QomshGURjybSSg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="310395597"
+X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
+   d="scan'208";a="272654198"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 12 Sep 2026 00:51:57 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Sep 2026 01:47:04 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x5IWg-000000002lf-0mG2;
-	Sat, 12 Sep 2026 07:51:54 +0000
-Date: Sat, 12 Sep 2026 15:51:51 +0800
+	id 1x5JO1-000000002nb-3ju4;
+	Sat, 12 Sep 2026 08:47:01 +0000
+Date: Sat, 12 Sep 2026 16:46:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Zvolsky <matthew-kernel@post.cz>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Matthew Zvolsky <matthew-kernel@post.cz>
-Subject: Re: [PATCH] staging: greybus: add missing newlines to sysfs_emit
-Message-ID: <202609121553.VPi1qrGB-lkp@intel.com>
-References: <20260911190253.894650-1-matthew-kernel@post.cz>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dave Airlie <airlied@redhat.com>
+Subject: include/trace/events/dma_fence.h:17:1: sparse: sparse:
+ dereference of noderef expression
+Message-ID: <202609121613.vc7vgYkY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260911190253.894650-1-matthew-kernel@post.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Matthew,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   08df884136f1c1197bab2a27814404fd329d9aac
+commit: 21f6bcdf2be72e750dbe430b7227a66763a58466 Merge tag 'drm-misc-next-2=
+026-02-26' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
+date:   6 months ago
+config: microblaze-randconfig-r112-20260910 (https://download.01.org/0day-c=
+i/archive/20260912/202609121613.vc7vgYkY-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260912/202609121613.vc7vgYkY-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Zvolsky/staging-greybus-add-missing-newlines-to-sysfs_emit/20260911-210253
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260911190253.894650-1-matthew-kernel%40post.cz
-patch subject: [PATCH] staging: greybus: add missing newlines to sysfs_emit
-config: nios2-randconfig-001-20260912 (https://download.01.org/0day-ci/archive/20260912/202609121553.VPi1qrGB-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609121553.VPi1qrGB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
+| Fixes: 21f6bcdf2be7 ("Merge tag 'drm-misc-next-2026-02-26' of https://git=
+lab.freedesktop.org/drm/misc/kernel into drm-next")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609121553.VPi1qrGB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609121613.vc7vgYkY-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma-buf/dma-fence.c:1040:38: sparse: sparse: incorrect type in i=
+nitializer (different address spaces) @@     expected char const [noderef] =
+__rcu *timeline @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1040:38: sparse:     expected char const [no=
+deref] __rcu *timeline
+   drivers/dma-buf/dma-fence.c:1040:38: sparse:     got char *
+   drivers/dma-buf/dma-fence.c:1041:36: sparse: sparse: incorrect type in i=
+nitializer (different address spaces) @@     expected char const [noderef] =
+__rcu *driver @@     got char * @@
+   drivers/dma-buf/dma-fence.c:1041:36: sparse:     expected char const [no=
+deref] __rcu *driver
+   drivers/dma-buf/dma-fence.c:1041:36: sparse:     got char *
+   drivers/dma-buf/dma-fence.c: note: in included file (through include/tra=
+ce/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_f=
+ence.h):
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
+>> include/trace/events/dma_fence.h:17:1: sparse: sparse: dereference of no=
+deref expression
 
-   drivers/staging/greybus/audio_manager_module.c: In function 'send_add_uevent':
->> drivers/staging/greybus/audio_manager_module.c:162:3: error: initializer element is not constant
-      name_string,
-      ^~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:162:3: note: (near initialization for 'envp[0]')
-   drivers/staging/greybus/audio_manager_module.c:163:3: error: initializer element is not constant
-      vid_string,
-      ^~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:163:3: note: (near initialization for 'envp[1]')
-   drivers/staging/greybus/audio_manager_module.c:164:3: error: initializer element is not constant
-      pid_string,
-      ^~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:164:3: note: (near initialization for 'envp[2]')
-   drivers/staging/greybus/audio_manager_module.c:165:3: error: initializer element is not constant
-      intf_id_string,
-      ^~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:165:3: note: (near initialization for 'envp[3]')
-   drivers/staging/greybus/audio_manager_module.c:166:3: error: initializer element is not constant
-      ip_devices_string,
-      ^~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:166:3: note: (near initialization for 'envp[4]')
-   drivers/staging/greybus/audio_manager_module.c:167:3: error: initializer element is not constant
-      op_devices_string,
-      ^~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:167:3: note: (near initialization for 'envp[5]')
->> drivers/staging/greybus/audio_manager_module.c:180:46: error: passing argument 3 of 'kobject_uevent_env' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
-                                                 ^~~~
-   In file included from drivers/staging/greybus/audio_manager.h:11,
-                    from drivers/staging/greybus/audio_manager_module.c:10:
-   include/linux/kobject.h:283:10: note: expected 'char **' but argument is of type 'const char * const*'
-       char *envp[]);
-       ~~~~~~^~~~~~
-   cc1: some warnings being treated as errors
+vim +17 include/trace/events/dma_fence.h
 
+e941759c74a44d include/trace/events/fence.h     Maarten Lankhorst 2014-07-0=
+1  11 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  12  /*
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  13   * Safe only for call sites which are guaranteed to not race with fe=
+nce
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  14   * signaling,holding the fence->lock and having checked for not sign=
+aled, or the
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  15   * signaling path itself.
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  16   */
+62918542b7bf08 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+6 @17  DECLARE_EVENT_CLASS(dma_fence,
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  18 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  19  	TP_PROTO(struct dma_fence *fence),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  20 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  21  	TP_ARGS(fence),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  22 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  23  	TP_STRUCT__entry(
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  24  		__string(driver, fence->ops->get_driver_name(fence))
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  25  		__string(timeline, fence->ops->get_timeline_name(fence))
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  26  		__field(unsigned int, context)
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  27  		__field(unsigned int, seqno)
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  28  	),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  29 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  30  	TP_fast_assign(
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  31  		__assign_str(driver);
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  32  		__assign_str(timeline);
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  33  		__entry->context =3D fence->context;
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  34  		__entry->seqno =3D fence->seqno;
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  35  	),
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  36 =20
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  37  	TP_printk("driver=3D%s timeline=3D%s context=3D%u seqno=3D%u",
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  38  		  __get_str(driver), __get_str(timeline), __entry->context,
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  39  		  __entry->seqno)
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  40  );
+506aa8b02a8d68 include/trace/events/dma_fence.h Tvrtko Ursulin    2025-06-1=
+0  41 =20
 
-vim +162 drivers/staging/greybus/audio_manager_module.c
+:::::: The code at line 17 was first introduced by commit
+:::::: 62918542b7bf08860a60ebbde7654486e0ac0776 dma-fence: Fix sparse warni=
+ngs due __rcu annotations
 
-8db00736d365b75 Svetlin Ankov    2016-01-13  151  
-8db00736d365b75 Svetlin Ankov    2016-01-13  152  static void send_add_uevent(struct gb_audio_manager_module *module)
-8db00736d365b75 Svetlin Ankov    2016-01-13  153  {
-8db00736d365b75 Svetlin Ankov    2016-01-13  154  	char name_string[128];
-8db00736d365b75 Svetlin Ankov    2016-01-13  155  	char vid_string[64];
-8db00736d365b75 Svetlin Ankov    2016-01-13  156  	char pid_string[64];
-d0af1bd5f6f4497 Pankaj Bharadiya 2016-10-16  157  	char intf_id_string[64];
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  158  	char ip_devices_string[64];
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  159  	char op_devices_string[64];
-8db00736d365b75 Svetlin Ankov    2016-01-13  160  
-a33c60996e08817 Matthew Zvolsky  2026-09-11  161  	static const char * const envp[] = {
-8db00736d365b75 Svetlin Ankov    2016-01-13 @162  		name_string,
-8db00736d365b75 Svetlin Ankov    2016-01-13  163  		vid_string,
-8db00736d365b75 Svetlin Ankov    2016-01-13  164  		pid_string,
-d0af1bd5f6f4497 Pankaj Bharadiya 2016-10-16  165  		intf_id_string,
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  166  		ip_devices_string,
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  167  		op_devices_string,
-8db00736d365b75 Svetlin Ankov    2016-01-13  168  		NULL
-8db00736d365b75 Svetlin Ankov    2016-01-13  169  	};
-8db00736d365b75 Svetlin Ankov    2016-01-13  170  
-8db00736d365b75 Svetlin Ankov    2016-01-13  171  	snprintf(name_string, 128, "NAME=%s", module->desc.name);
-8db00736d365b75 Svetlin Ankov    2016-01-13  172  	snprintf(vid_string, 64, "VID=%d", module->desc.vid);
-8db00736d365b75 Svetlin Ankov    2016-01-13  173  	snprintf(pid_string, 64, "PID=%d", module->desc.pid);
-d0af1bd5f6f4497 Pankaj Bharadiya 2016-10-16  174  	snprintf(intf_id_string, 64, "INTF_ID=%d", module->desc.intf_id);
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  175  	snprintf(ip_devices_string, 64, "I/P DEVICES=0x%X",
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  176  		 module->desc.ip_devices);
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  177  	snprintf(op_devices_string, 64, "O/P DEVICES=0x%X",
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  178  		 module->desc.op_devices);
-8db00736d365b75 Svetlin Ankov    2016-01-13  179  
-8db00736d365b75 Svetlin Ankov    2016-01-13 @180  	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
-8db00736d365b75 Svetlin Ankov    2016-01-13  181  }
-8db00736d365b75 Svetlin Ankov    2016-01-13  182  
+:::::: TO: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
 
 --
 0-DAY CI Kernel Test Service
