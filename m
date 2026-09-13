@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F4C3CAA3F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Sep 2026 07:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F78388397;
+	Sun, 13 Sep 2026 08:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789285057; cv=none; b=iW+PqFEtGufMcyK/CugEuLQgSxmiH33ZLn1PPZ7DUi9g0o1grk00IMxxRk3NCjMUzdA5oy+h8cRzWh0vmbzZxQqTbkiQTgvp1dE4H51mlzHhWvH2UkxXjURGXWYnaDwLjGtOrR00mpWIYkEF8q9LYolOntD5Y8D/bd/J8HvFDyA=
+	t=1789286864; cv=none; b=NJQEfU431gha2EzqQOsn9799ykeEaBRNAScwN7gYxiUHaCjdnrgBECiRH5htqTWmIo2tVgPK9y+xkdoMBjh1JK6Beqoc0aYUFppXqb/Qwkvy7u0bHYjG+WpU3yxqoFvs2xx4LMbIVNcwHXn7rC68MmBIJKe6fpVTsEzWsGpQmCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789285057; c=relaxed/simple;
-	bh=P5axd2vBj7lh7LaHNMeUP661naW995TDg336PocPkec=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZnBHOPkern39+bhVnxXyAhD6dLejpPLq9dFWmwQkS8xcVCL5U9JQv10f5W1vqstRArXYMOW8QztmVAqVM+o53K91IjF6JWUfQJLw8mKGoF/3R0U4xgVoqF5nNFmwOBhG+wKXlsf3N59JTC4w66Fwn6QNWqFPr2t8eh2aVpbw9kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A939b1WN; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1789286864; c=relaxed/simple;
+	bh=eVgPp3zE4UWPlXdNcCX28jql8tS5c8wjEHtHsF9tTgI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nTd9VmqYj1OGBXfxjG+vY08novSua7sPWeemtRv1J6DRkravvmoL5aU8zRtoyW2fFpc6/rSRlBG9hJJsIqaq2V4gU7AUMSYtjsG/MwBUW+6BRKUVgpt+bC6PdjqxFSbE2cHuXYy2LbzBWWpj0P6saZque6XFCwwnRUtfZaBP6mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P194nyYD; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A939b1WN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P194nyYD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789285055; x=1820821055;
+  t=1789286859; x=1820822859;
   h=date:from:to:cc:subject:message-id;
-  bh=P5axd2vBj7lh7LaHNMeUP661naW995TDg336PocPkec=;
-  b=A939b1WNBvDnT5a1BsspwSH9Ke9rVtdTwUswJAkeKAnG5UYpTudnkXqw
-   g+X0asSyPPlviKVBHa/xkXVFZSyz3G9zIlPyJb9gyJX4N5jKGw1NerWCd
-   xWq8mECe/qtzJ/X+IDhRb5TNUYHi+gR92DRpfv5Wl7iNsUQ8wVC2RGbFS
-   J2qwBqNcmve4awlxyRPcYgky8Yg7wYzzXwMkBIlEQFm5BfQ0mBlnpSpSF
-   WPPFPpR5qTJaZPMHsbyyBHnpKsgi//P9FWQwl9Z/MhE7q2DRVekwld42p
-   pyGgsPu/6lE+0tioGGT8OgQtkGEcXl1WwR7ELrMYAxzIx2/0KdaKTIdpr
-   A==;
-X-CSE-ConnectionGUID: W6fJcCeXQQmWfBJQPROcAA==
-X-CSE-MsgGUID: JZY1xlCbT/+TAOuhLbR2Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="112452428"
+  bh=eVgPp3zE4UWPlXdNcCX28jql8tS5c8wjEHtHsF9tTgI=;
+  b=P194nyYDrnH4tunxlWIj4fXg1LJkMj9NDZJFo+v6DspKvQMRfZjw0xmo
+   fHsHQBqjHGroBmmyqwB0hgUVQUwiuDoVkpkje7WsrPhd3qmpQqyHY4Q7I
+   hKS9gbb4N5TUXL+jgQBMsDHLyuunqBlBp10sgF4qantrZL0JiLwsV+LSY
+   GitY6yizXSkEGmbkUVyWtM3VfP9x86lTxPuTJJjaLof9gpSZrHwuvq6v2
+   V3Y/kpQGXEY5cM+mn7XvReA1UdDW9qOvZZTpEGqvpCymcxuJgJ9/argHU
+   ZfrhRwUSJuAvHBHoETRJkUMB0aHAHMYm1PvtD0uLEiaqS/MGKPNx6yZ8i
+   Q==;
+X-CSE-ConnectionGUID: pKSmB5kRQzOAGb9prtKuwA==
+X-CSE-MsgGUID: ig+74wBqTgiygQrMRCzcxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="115218769"
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="112452428"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 00:37:34 -0700
-X-CSE-ConnectionGUID: KJ0o7fjwTgOzesrEqP42Dg==
-X-CSE-MsgGUID: mTZzdlclQS2Z5np5/W0Mhg==
+   d="scan'208";a="115218769"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 01:07:33 -0700
+X-CSE-ConnectionGUID: zumOgaLVQAKYQ5Absee0og==
+X-CSE-MsgGUID: 5JHnEf3gQH20Crv8VCS/hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="271853370"
+   d="scan'208";a="277603326"
 Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 13 Sep 2026 00:37:33 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 13 Sep 2026 01:07:31 -0700
 Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x5el5-000000003hp-0LxZ;
-	Sun, 13 Sep 2026 07:36:33 +0000
-Date: Sun, 13 Sep 2026 15:34:28 +0800
+	id 1x5fFB-000000003kN-3kNp;
+	Sun, 13 Sep 2026 08:07:24 +0000
+Date: Sun, 13 Sep 2026 16:06:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/uaccess_bad_mm 2/9]
- arch/powerpc/kvm/powerpc.c:774:30: error: 'memslot' undeclared; did you mean
- 'memset'?
-Message-ID: <202609131550.9LgiOEdZ-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 161/169]
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.c:664:6: warning: variable 'source'
+ set but not used
+Message-ID: <202609131638.i4iLw29I-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,211 +61,66 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/sean-jc/linux x86/uaccess_bad_mm
-head:   5e20baf271c570712cb8efe0d9400725d6c04386
-commit: 12159515b6f2a33c1cdf0cd58802d5e03036ff02 [2/9] KVM: PPC: Flush/zap all memslots on kvm_arch_flush_shadow_all()
-config: powerpc-powernv_defconfig (https://download.01.org/0day-ci/archive/20260913/202609131550.9LgiOEdZ-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260913/202609131550.9LgiOEdZ-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   357c2e168b861a3df80c68a9c44de9c9c282ec46
+commit: 99f62d82955331605ec24226a734233f2d52c6e0 [161/169] media: ipu6: Bridge the gap between streams in V4L2 and IPU6 firmware
+config: i386-randconfig-012-20260913 (https://download.01.org/0day-ci/archive/20260913/202609131638.i4iLw29I-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260913/202609131638.i4iLw29I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609131550.9LgiOEdZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609131638.i4iLw29I-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kvm_host.h:33,
-                    from arch/powerpc/kvm/powerpc.c:12:
-   arch/powerpc/kvm/powerpc.c: In function 'kvm_arch_flush_shadow_all':
->> arch/powerpc/kvm/powerpc.c:774:30: error: 'memslot' undeclared (first use in this function); did you mean 'memset'?
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |                              ^~~~~~~
-   include/linux/hashtable.h:127:25: note: in definition of macro 'hash_for_each'
-     127 |         for ((bkt) = 0, obj = NULL; obj == NULL && (bkt) < HASH_SIZE(name);\
-         |                         ^~~
-   arch/powerpc/kvm/powerpc.c:774:9: note: in expansion of macro 'kvm_for_each_memslot'
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/kvm/powerpc.c:774:30: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/hashtable.h:127:25: note: in definition of macro 'hash_for_each'
-     127 |         for ((bkt) = 0, obj = NULL; obj == NULL && (bkt) < HASH_SIZE(name);\
-         |                         ^~~
-   arch/powerpc/kvm/powerpc.c:774:9: note: in expansion of macro 'kvm_for_each_memslot'
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:31,
-                    from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from arch/powerpc/include/asm/mmu.h:142,
-                    from arch/powerpc/include/asm/paca.h:18,
-                    from arch/powerpc/include/asm/current.h:13,
-                    from include/linux/sched.h:12,
-                    from include/linux/resume_user_mode.h:6,
-                    from include/linux/entry-virt.h:6,
-                    from include/linux/kvm_host.h:5:
-   include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:1199:40: note: in expansion of macro 'container_of'
-    1199 | #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
-         |                                        ^~~~~~~~~~~~
-   include/linux/list.h:1210:22: note: in expansion of macro 'hlist_entry'
-    1210 |            ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-         |                      ^~~~~~~~~~~
-   include/linux/list.h:1220:20: note: in expansion of macro 'hlist_entry_safe'
-    1220 |         for (pos = hlist_entry_safe((head)->first, typeof(*(pos)), member);\
-         |                    ^~~~~~~~~~~~~~~~
-   include/linux/hashtable.h:129:17: note: in expansion of macro 'hlist_for_each_entry'
-     129 |                 hlist_for_each_entry(obj, &name[bkt], member)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1117:9: note: in expansion of macro 'hash_for_each'
-    1117 |         hash_for_each(slots->id_hash, bkt, memslot, id_node[slots->node_idx]) \
-         |         ^~~~~~~~~~~~~
-   arch/powerpc/kvm/powerpc.c:774:9: note: in expansion of macro 'kvm_for_each_memslot'
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:20:35: error: invalid type argument of unary '*' (have 'int')
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |                                   ^~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:1199:40: note: in expansion of macro 'container_of'
-    1199 | #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
-         |                                        ^~~~~~~~~~~~
-   include/linux/list.h:1210:22: note: in expansion of macro 'hlist_entry'
-    1210 |            ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-         |                      ^~~~~~~~~~~
-   include/linux/list.h:1222:20: note: in expansion of macro 'hlist_entry_safe'
-    1222 |              pos = hlist_entry_safe((pos)->member.next, typeof(*(pos)), member))
-         |                    ^~~~~~~~~~~~~~~~
-   include/linux/hashtable.h:129:17: note: in expansion of macro 'hlist_for_each_entry'
-     129 |                 hlist_for_each_entry(obj, &name[bkt], member)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1117:9: note: in expansion of macro 'hash_for_each'
-    1117 |         hash_for_each(slots->id_hash, bkt, memslot, id_node[slots->node_idx]) \
-         |         ^~~~~~~~~~~~~
-   arch/powerpc/kvm/powerpc.c:774:9: note: in expansion of macro 'kvm_for_each_memslot'
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:21:35: error: invalid type argument of unary '*' (have 'int')
-      21 |                       __same_type(*(ptr), void),                        \
-         |                                   ^~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:1199:40: note: in expansion of macro 'container_of'
-    1199 | #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
-         |                                        ^~~~~~~~~~~~
-   include/linux/list.h:1210:22: note: in expansion of macro 'hlist_entry'
-    1210 |            ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-         |                      ^~~~~~~~~~~
-   include/linux/list.h:1222:20: note: in expansion of macro 'hlist_entry_safe'
-    1222 |              pos = hlist_entry_safe((pos)->member.next, typeof(*(pos)), member))
-         |                    ^~~~~~~~~~~~~~~~
-   include/linux/hashtable.h:129:17: note: in expansion of macro 'hlist_for_each_entry'
-     129 |                 hlist_for_each_entry(obj, &name[bkt], member)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1117:9: note: in expansion of macro 'hash_for_each'
-    1117 |         hash_for_each(slots->id_hash, bkt, memslot, id_node[slots->node_idx]) \
-         |         ^~~~~~~~~~~~~
-   arch/powerpc/kvm/powerpc.c:774:9: note: in expansion of macro 'kvm_for_each_memslot'
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
-     610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:1199:40: note: in expansion of macro 'container_of'
-    1199 | #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
-         |                                        ^~~~~~~~~~~~
-   include/linux/list.h:1210:22: note: in expansion of macro 'hlist_entry'
-    1210 |            ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-         |                      ^~~~~~~~~~~
-   include/linux/list.h:1222:20: note: in expansion of macro 'hlist_entry_safe'
-    1222 |              pos = hlist_entry_safe((pos)->member.next, typeof(*(pos)), member))
-         |                    ^~~~~~~~~~~~~~~~
-   include/linux/hashtable.h:129:17: note: in expansion of macro 'hlist_for_each_entry'
-     129 |                 hlist_for_each_entry(obj, &name[bkt], member)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1117:9: note: in expansion of macro 'hash_for_each'
-    1117 |         hash_for_each(slots->id_hash, bkt, memslot, id_node[slots->node_idx]) \
-         |         ^~~~~~~~~~~~~
-   arch/powerpc/kvm/powerpc.c:774:9: note: in expansion of macro 'kvm_for_each_memslot'
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:22,
-                    from arch/powerpc/include/asm/page.h:11,
-                    from arch/powerpc/include/asm/mmu.h:144:
->> include/linux/container_of.h:23:18: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-      23 |         (type *)((void *)(ptr) - offsetof(type, member)); })
-         |                  ^
-   include/linux/list.h:1199:40: note: in expansion of macro 'container_of'
-    1199 | #define hlist_entry(ptr, type, member) container_of(ptr,type,member)
-         |                                        ^~~~~~~~~~~~
-   include/linux/list.h:1210:22: note: in expansion of macro 'hlist_entry'
-    1210 |            ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-         |                      ^~~~~~~~~~~
-   include/linux/list.h:1222:20: note: in expansion of macro 'hlist_entry_safe'
-    1222 |              pos = hlist_entry_safe((pos)->member.next, typeof(*(pos)), member))
-         |                    ^~~~~~~~~~~~~~~~
-   include/linux/hashtable.h:129:17: note: in expansion of macro 'hlist_for_each_entry'
-     129 |                 hlist_for_each_entry(obj, &name[bkt], member)
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1117:9: note: in expansion of macro 'hash_for_each'
-    1117 |         hash_for_each(slots->id_hash, bkt, memslot, id_node[slots->node_idx]) \
-         |         ^~~~~~~~~~~~~
-   arch/powerpc/kvm/powerpc.c:774:9: note: in expansion of macro 'kvm_for_each_memslot'
-     774 |         kvm_for_each_memslot(memslot, bkt, slots)
-         |         ^~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/intel/ipu6/ipu6-fw-isys.c:664:6: warning: variable 'source' set but not used [-Wunused-but-set-variable]
+     664 |         int source;
+         |             ^
+   1 warning generated.
 
 
-vim +774 arch/powerpc/kvm/powerpc.c
+vim +/source +664 drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
 
-   766	
-   767	void kvm_arch_flush_shadow_all(struct kvm *kvm)
-   768	{
-   769		struct kvm_memory_slot *slot;
-   770		struct kvm_memslots *slots;
-   771		int bkt;
-   772	
-   773		slots = kvm_memslots(kvm);
- > 774		kvm_for_each_memslot(memslot, bkt, slots)
-   775			kvmppc_core_flush_memslot(kvm, slot);
-   776	}
-   777	
+33f56ed128438d Antti Laakso 2026-08-27  658  
+33f56ed128438d Antti Laakso 2026-08-27  659  static void ipu6_isys_csi2_isr(struct ipu6_isys_csi2 *csi2)
+33f56ed128438d Antti Laakso 2026-08-27  660  {
+33f56ed128438d Antti Laakso 2026-08-27  661  	struct ipu6_isys_stream *stream;
+33f56ed128438d Antti Laakso 2026-08-27  662  	unsigned int i;
+33f56ed128438d Antti Laakso 2026-08-27  663  	u32 status;
+33f56ed128438d Antti Laakso 2026-08-27 @664  	int source;
+33f56ed128438d Antti Laakso 2026-08-27  665  
+33f56ed128438d Antti Laakso 2026-08-27  666  	ipu6_isys_register_errors(csi2);
+33f56ed128438d Antti Laakso 2026-08-27  667  
+33f56ed128438d Antti Laakso 2026-08-27  668  	status = readl(csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
+33f56ed128438d Antti Laakso 2026-08-27  669  		       CSI_PORT_REG_BASE_IRQ_STATUS_OFFSET);
+33f56ed128438d Antti Laakso 2026-08-27  670  
+33f56ed128438d Antti Laakso 2026-08-27  671  	writel(status, csi2->base + CSI_PORT_REG_BASE_IRQ_CSI_SYNC +
+33f56ed128438d Antti Laakso 2026-08-27  672  	       CSI_PORT_REG_BASE_IRQ_CLEAR_OFFSET);
+33f56ed128438d Antti Laakso 2026-08-27  673  
+33f56ed128438d Antti Laakso 2026-08-27  674  	source = csi2->asd.source;
+33f56ed128438d Antti Laakso 2026-08-27  675  	for (i = 0; i < NR_OF_CSI2_VC; i++) {
+33f56ed128438d Antti Laakso 2026-08-27  676  		if (status & IPU_CSI_RX_IRQ_FS_VC(i)) {
+99f62d82955331 Sakari Ailus 2026-06-26  677  			stream = csi2->streams_by_vc[i];
+99f62d82955331 Sakari Ailus 2026-06-26  678  			if (stream)
+33f56ed128438d Antti Laakso 2026-08-27  679  				ipu6_isys_csi2_sof_event_by_stream(stream);
+33f56ed128438d Antti Laakso 2026-08-27  680  		}
+33f56ed128438d Antti Laakso 2026-08-27  681  
+33f56ed128438d Antti Laakso 2026-08-27  682  		if (status & IPU_CSI_RX_IRQ_FE_VC(i)) {
+99f62d82955331 Sakari Ailus 2026-06-26  683  			stream = csi2->streams_by_vc[i];
+99f62d82955331 Sakari Ailus 2026-06-26  684  			if (stream)
+33f56ed128438d Antti Laakso 2026-08-27  685  				ipu6_isys_csi2_eof_event_by_stream(stream);
+33f56ed128438d Antti Laakso 2026-08-27  686  		}
+33f56ed128438d Antti Laakso 2026-08-27  687  	}
+33f56ed128438d Antti Laakso 2026-08-27  688  }
+33f56ed128438d Antti Laakso 2026-08-27  689  
+
+:::::: The code at line 664 was first introduced by commit
+:::::: 33f56ed128438dd791b9114ad079ab188daa1c09 media: ipu6: Move isys isr handlers to fw file
+
+:::::: TO: Antti Laakso <antti.laakso@linux.intel.com>
+:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 --
 0-DAY CI Kernel Test Service
