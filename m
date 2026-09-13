@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF3234A78E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Sep 2026 19:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD3E36EAB8;
+	Sun, 13 Sep 2026 19:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789328824; cv=none; b=tQbqvu8V8kpHvTRJFjK6f6vwxJIeo7aSSI9TjumPhCyFN1zpujLYxaJib7LlC4TpYjj20N532OQzTmKFy74ljjI4Wib1vgEBuQchja5r2oyBHdpVRRsLTZuZ+631oOGynWcan/tg6NQ3iQsXb0zoSDP6IesnXg8aiDx6z56Rug8=
+	t=1789328824; cv=none; b=YEBOYFbhGl5EHhtcLy/strFG2QKBjtTJ5iJ64KTdQ7Ag99GQXke3NsdcoVF/CwLgmuMtT6o4wXuRdXFcN0c65y8wRsatnbYDwZBhEY8ntMPvomS4/NwL8Puy+HMsuW6vCRo/TUEkoFtxXMMhJ/tCTZJxKOVfPRR5VDjrQ1xNEE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789328824; c=relaxed/simple;
-	bh=L9ptgWMKdF9clEGjm+eLWytpT08sJO4eJ+AHkhKinV4=;
+	bh=izrSfcSyLZ17qqk49jxHMCdN9N8POUPieQ93sAyIQJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IW0uHDX3kXukSep4l/mHEtdXYNXkvonTUb5YxQSz0+BRDiPGuZLgxRSf5yw9BoBZnkosN8zQnVzNIk3p5ly4wP23A+IeowoTJNNIJHF4syGxcTJxNjEVNqH2VPeX6G4bI1n2a3NQj3F1SCQ+Lk34BRg5JoXL9CExfILC5FppdsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=guAE6zYj; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=fKqv9sJNnsgSQknfpw5JL6kGIH3n44+Z8QUx0u6AIza9ThOb4kP9VhD/zynKmpL78/STcAAG2iDdf8hCLkPdhY8uCmI25RNhnjd0YOm6qsW/vxxYECwrZE7ooX43arm0aMhAiSeFneIxCTIMX1DUVakzYTiX4DXIY4XGRivvhBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuJ1F/E5; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guAE6zYj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuJ1F/E5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1789328822; x=1820864822;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=L9ptgWMKdF9clEGjm+eLWytpT08sJO4eJ+AHkhKinV4=;
-  b=guAE6zYjYQvIW+RkfNrUbOrgkDyWW3OWKKc5fEX0+/pRnpMZUgT+xt2X
-   kRaYJt59tWF2QSrLYKVrQd7ngVzfARlOhD08TDlhVg/pEweP7Piq9456A
-   jvCYYXi85X69tmqlX7xXsU63LRIs5FXV04pj/GARjfUL+YvPlEy9bLf+H
-   VV3NxUB61F0tUmbxV3Bxey5jpY2guwxkilO6ZY1toSDx+P6IilecmaHQT
-   EEfz6GnEfnkYNbR4XGexQT2FTIEc5Plo/slkxzkVudX2pUzzTABdvQPZv
-   /NbxisSvfEpZdngLGtMJ+3uYtpZxJA/G4fP/kfaaKp6WR1nUAoHtjm1+J
-   A==;
-X-CSE-ConnectionGUID: dLwQIFCGSjOUZnRRaEoyGg==
-X-CSE-MsgGUID: jWo5lzZWRPGJ1TWD3LXCaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="93394377"
+  bh=izrSfcSyLZ17qqk49jxHMCdN9N8POUPieQ93sAyIQJI=;
+  b=VuJ1F/E5JcCk9m5YmCMozDx64ipE2OjVF9SB7wDmqbgkjgoSNru6w/Vh
+   XRjr3sT2gUcN0HR8NRkZfvXD1jC8dlnEMM/WBu76LZbxfS6TjOywPAY4U
+   2PL13fbdD/MLMT0OD3xPh+4WpAied/g6Bn64QGM70SJobsA4lmJ7ScJeC
+   D5/KqEiA+e646GgM0F70ujIYOlz+nRkE62lNeHojVxeV3fW+/V3EPvzbT
+   ma50+7CfcsM7QBhwVWrMoNZr4F5JzsySg+Mgw4jEdZ/uXnHo8JYzk4UYh
+   rrxzeClBFpJJEfhFtbMpxguD19ZRLTVGCUWspqcHCGSuI60/x7Tgmrfhv
+   Q==;
+X-CSE-ConnectionGUID: IH04HSgPT2KRLzpNKFxo8g==
+X-CSE-MsgGUID: 5ULEBQB4RIOxJcOU8FjAjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="89631543"
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="93394377"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 12:47:02 -0700
-X-CSE-ConnectionGUID: IuxGWnPnRMesp44EnmZauA==
-X-CSE-MsgGUID: qz51yXVzRleYGI+WAU+5DQ==
+   d="scan'208";a="89631543"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 12:47:02 -0700
+X-CSE-ConnectionGUID: tfwz/l4FTxyRE+IssMkOaw==
+X-CSE-MsgGUID: HgEr8MiaTuqiFbT1OCdF1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="270660574"
+   d="scan'208";a="271041011"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Sep 2026 12:46:59 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Sep 2026 12:46:59 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x5qAC-000000001Gj-1fzV;
+	id 1x5qAC-000000001Gh-1LWL;
 	Sun, 13 Sep 2026 19:46:56 +0000
-Date: Mon, 14 Sep 2026 03:46:17 +0800
+Date: Mon, 14 Sep 2026 03:46:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: Guangshuo Li <lgs201920130244@gmail.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -58,11 +58,11 @@ To: Guangshuo Li <lgs201920130244@gmail.com>,
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
 	Linus Walleij <linusw@kernel.org>, dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Guangshuo Li <lgs201920130244@gmail.com>,
-	stable@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Guangshuo Li <lgs201920130244@gmail.com>, stable@vger.kernel.org
 Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: fix panel cleanup on attach
  failure
-Message-ID: <202609140335.bubtlivW-lkp@intel.com>
+Message-ID: <202609140343.MDs2yjJe-lkp@intel.com>
 References: <20260913102608.1526916-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -89,25 +89,39 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/drm-panel-il
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20260913102608.1526916-1-lgs201920130244%40gmail.com
 patch subject: [PATCH] drm/panel: ilitek-ili9881c: fix panel cleanup on attach failure
-config: parisc-randconfig-002-20260914 (https://download.01.org/0day-ci/archive/20260914/202609140335.bubtlivW-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609140335.bubtlivW-lkp@intel.com/reproduce)
+config: riscv-randconfig-001-20260914 (https://download.01.org/0day-ci/archive/20260914/202609140343.MDs2yjJe-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609140343.MDs2yjJe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609140335.bubtlivW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609140343.MDs2yjJe-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panel/panel-ilitek-ili9881c.c: In function 'ili9881c_dsi_probe':
->> drivers/gpu/drm/panel/panel-ilitek-ili9881c.c:2599:78: error: expected ';' before 'dsi'
+   In file included from drivers/gpu/drm/panel/panel-ilitek-ili9881c.c:15:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:27:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:148:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/gpu/drm/panel/panel-ilitek-ili9881c.c:2599:64: error: expected ';' after return statement
     2599 |                 return dev_err_probe(&dsi->dev, ret, "Failed to add panel\n")
          |                                                                              ^
          |                                                                              ;
-    2600 | 
-    2601 |         dsi->mode_flags = ctx->desc->mode_flags;
-         |         ~~~                                                                   
+   1 warning and 1 error generated.
 
 
 vim +2599 drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
