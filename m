@@ -1,143 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8D12D1907
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Sep 2026 05:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789276121; cv=none; b=ZenZDz2MRZhF3YG+CU9qLwjk7R9mPKKBLiSM4HYRGIiW079KEDjOPORpwY1lDYC0GILt1Jle9VFh2Eo+97uKQ8IppyvTbqZTFQEwq4kRuducpPaxbUlVhw9DMv8dTML8i4wvm/rTMwWkF4eH8BDtpuPJ+bHolWvAyVzPVlVKgoo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789276121; c=relaxed/simple;
-	bh=ygKoP9i6k2/2TJUYUjEATCMzDM5IYyY8ruX+7/LLUqc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=REpzl8GwVZ2uFZ9glCtP8f6zfcQWgKJXNme+RRCTEIdanYEGxdeeZoGjZn3flRhjnXKXS0WpZoBnjoVddijGyb4ng2rgZROCmpGvAL5ZT1LGDTfYOCSacSi6DIv0uNuM7Fc8JjciBcb2ibtpprgyjEG0GPJAGq8tFo7j7Yia0wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TWt5ndfh; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAA221FF29
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Sep 2026 05:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789276721; cv=fail; b=qJraJGAyQQCx84KwAajptHP18MQWEZUE/dXtIVTzsy5hNvrLnx/UM7VmnLeaB0ieyhgdlMRhwAUTOjGiK+yra3oGFnzDdtb62KrrnyR/rl6tIEn99qyl1FV4XfTMmSOydBlerJie48LX/PkxL1RPsrjBFsAibktujJRm9YyCU/A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789276721; c=relaxed/simple;
+	bh=6Px2n9gTdIDN/yujCr7sLLKXBmhEEJ0aok8g3FM+PkA=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=pfpMMCoLnGnJmYyabscCp3/0eN6UpdknQDWx8xujlF4y1RwA1fXG0ER6rrGrEFtePwhymRsftxPyfT00ngI6Fa1qCCb4Wns0VPn0PKMflDbb8VLsL29PhPi8sGqyF1PXuOqw7Ssxryr1RHd731AZqaAWJDXz2Io/0MKUm1EGfSw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doJo0h3W; arc=fail smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TWt5ndfh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doJo0h3W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789276119; x=1820812119;
-  h=date:from:to:cc:subject:message-id;
-  bh=ygKoP9i6k2/2TJUYUjEATCMzDM5IYyY8ruX+7/LLUqc=;
-  b=TWt5ndfhno8IdAwJWtHvZWF79SzArYD5x7uV0cgZ1Thuz4m/aihKAuSl
-   1EPEuBqunX2x8zgWXcWXGz9QpFWbRYHkiy3LaA6Rkxqn45ax20efiiZOI
-   i1Qq+ceCn5GPPeycYH9m0EDM35Or7lC7vNUjBamPQ+P38pWAcZIDuJeTQ
-   fW0VepPSRhQ20H/ryx9YLH/MGfTVihW5sWhxHmN8J3Ya1yfK5EmQNl3IP
-   I7tYn9+euPJjPHj9d0eJr0pRnA+2oLmD00K/puXD0TIJnzCrjJZPy1Cr2
-   /WKN15R7nEYLlqYvjKlX3O67n2fjXY2lKkTinAN5gVObGjWSlAEyH7pqN
-   g==;
-X-CSE-ConnectionGUID: rPhNBIXAS6uXJr6TX0mJ9g==
-X-CSE-MsgGUID: Ap7jDM7VT6Whpj+y7yU52w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="100008628"
+  t=1789276719; x=1820812719;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6Px2n9gTdIDN/yujCr7sLLKXBmhEEJ0aok8g3FM+PkA=;
+  b=doJo0h3WroRT0CcFCQcxYIHF2v8buasCBC049VKisQEu3sqH32R3mofd
+   u2yQEkVneYMz6dPJD/MT3GzNKYGKS89dGQMNu7UbuemyMFyRJhUeAM1+c
+   az5FQ4+qXUv7J545N0hGPJZnYloDkEpaRLQZqMm84spsI9OfjaJilKEvY
+   BmSa3dCZp0dawbazcTspOKmINK2LnGRlfMLrblPY3lUI5MU+MQisc0H7C
+   cRd6akPNeWuyYXCUPbL2q++sA/sDZSItr0jYSI2g6A4RuaQPAvYO173EK
+   Mf8eLTg+1Igdz2mqx9ddSxqH6T+S38N1nNSh5hFYELzq9NVk5KJgDZH1E
+   A==;
+X-CSE-ConnectionGUID: wF9DpgsEROGFKujh+gkVDg==
+X-CSE-MsgGUID: U3P9Sl9qSCOSbHZ5vxteUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="93377649"
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="100008628"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 22:08:39 -0700
-X-CSE-ConnectionGUID: F65IfLRKTWqmqH4E3SCn+g==
-X-CSE-MsgGUID: bzGj65wPRmGy55VUg6Btmw==
+   d="scan'208";a="93377649"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 22:18:39 -0700
+X-CSE-ConnectionGUID: ljAxI/k7R/e1ssjwId2pEA==
+X-CSE-MsgGUID: uGhY4nZXSx++U4mPGpF2IQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="270531054"
-Received: from igk-lkp-server01.igk.intel.com (HELO 2232cf45ba3c) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 12 Sep 2026 22:08:37 -0700
-Received: from kbuild by 2232cf45ba3c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x5cSA-000000001Wp-3ZkB;
-	Sun, 13 Sep 2026 05:08:34 +0000
-Date: Sun, 13 Sep 2026 07:08:23 +0200
+   d="scan'208";a="272827876"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 22:18:39 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Sat, 12 Sep 2026 22:18:38 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Sat, 12 Sep 2026 22:18:38 -0700
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.21) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Sat, 12 Sep 2026 22:18:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UJtWaI2ENgo5Qhiv8+lH7IVME7pAoYwRcM2unoN8iDO6FaDA57hoxg2B+WAeLVAp9u5JgQ7JuLof0hMKxeATuVEWUG8FZ46/pMNUaX/dtztCoJDbW6JWfb5iIODn6m/OeUvk043t1XBG/J85z4TzUk0PAIlkB5eGx5QLmDTir/j+ZE6/MXTtl82m2jBaj6pD8kgDI2nUO2w6FrCiZuT0130RICZJMlhJmqm7gdwJ1BYXKeXQau4p9/vcGiuF7DUSzmKJKa27567PmB3PVWU7X6gtDTD0r3blyjZ+llP8u4xL80jgqVaJknbt5w4dIT/56u5LKsPSUh12wf5vrKvZVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PFQX7weRfMATxwR67036FjFcsfeAXCFwfQibBEokDcc=;
+ b=MbEi9UTrB1P0xUyO+zWgUAR0h9EBoqlPhtWeZrsKpyrP/n6nE4DH6gNr+0xVQxyNtv4o8g8mln/ToXeQWYmfZcF1zHHLtWVLFvNPd+fnj0wkRQ0aCFNWnRjQnc4E50hPv/bH+mJ7lNDiipE+IinyIjKBXcxap/ItQup+Tn9sfTEzTvqeYtGe022eIeF8Ccxctj6faPA2Yfs/e+s4z12u3BlHDcRhLILodwXJarUO3ZOvpuYWs9m+mdntYhockKB1RdVVk8sZg0y/nQv/9nNR0Eq1mbrS6hrJ3rcNg7VQM68OVW6kbnK668E+LDWXZwBNsdtBJsEMbu7k3FqKTW5R5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH3PPF4E874A00C.namprd11.prod.outlook.com
+ (2603:10b6:518:1::d1e) by MN6PR11MB8103.namprd11.prod.outlook.com
+ (2603:10b6:208:473::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Sun, 13 Sep
+ 2026 05:18:35 +0000
+Received: from PH3PPF4E874A00C.namprd11.prod.outlook.com
+ ([fe80::1c3e:8202:fe9b:8ae]) by PH3PPF4E874A00C.namprd11.prod.outlook.com
+ ([fe80::1c3e:8202:fe9b:8ae%6]) with mapi id 15.21.0406.007; Sun, 13 Sep 2026
+ 05:18:28 +0000
+Date: Sun, 13 Sep 2026 13:17:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 57/332]
- fs/bcachefs/snapshots/snapshot.c:378:7: warning: variable 'lock_dropped' set
- but not used
-Message-ID: <202609130706.MIJr23Rk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: <cros-kernel-buildreports@googlegroups.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [android-common:android16-6.12-lts 1/1]
+ arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer
+ operation overflow
+Message-ID: <aqYx+Kr1ZDVe4RBI@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: TPYP295CA0013.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:9::7)
+ To PH3PPF4E874A00C.namprd11.prod.outlook.com (2603:10b6:518:1::d1e)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH3PPF4E874A00C:EE_|MN6PR11MB8103:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97b3ec82-7624-462c-f8db-08df11566f3b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|10067099003|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info: uKvtEcNbwdGkCTNe5VDuK5deE1fDyRt2xtIJVXk6M4vmbmv8qHGPEW3PcHp4s1dkQiTqDi8mNqHEhtARSh5UGvmPUvYjhI8vw1ac6jk4nDXgh7+bA1U9+OLqw1/mjz1AZSsoj6K+VAnRoxByg2Lv5DQBJC/L6+2guFYbFjYkrtkvVRX9MoK2SUjLW3um/JqSTH3queeMX6XT5dXzkV5mEhfMMCX7ta4QDoVLFakNn7B9H6t7F8lVTrny0MajOoMnyFUYF8HkWeMHYsc3bY0IbcI903mdwMUKVc6wYk23JOSKO9fFisDiZLyOG/fjXz5at+NWIFfybe5Jj6LZ5w9uqwSOYN8+M6wME5cOynDjgCQtu9746oMvOTPUEATj0jO0lxRoegpSKMlBjJ2bCB/BWoJxGgduXZ273UCvIE4gMN+bWz4gI4vCBnp9o6LsVUCWIQs+az9db9Z22QoHry9mNLBPDwREU+lMMtJF5e/C1b7KrzHNx8kZ7KC/68q+QCxDN0rrrFJlynu6qM446uOOZqbqaTYvlziP+pyr4ymeNowx3ronCTryfcRrzVz6LOQSZCGN6ZqZzBA+z86izTGn3wEAZLK5Iwg4axFBhEY4q2hZViqIvqP2lif05jU0R+2q
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPF4E874A00C.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(10067099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2dnJTK2bzRzYA7CgQy+dJXtphlciUvRoQi9f3FdGfuR3zq/pJ6tAXH4q45ip?=
+ =?us-ascii?Q?4gkwBDYOPxuz4JS7Pd0rb30wyQlGUpxDEcTK2zYrCgWYYUSHRKyaO1Nm2w8g?=
+ =?us-ascii?Q?4XusGzPFW/hlvk3mNdRY8NWOXmY+dxODHXDcYTznARCqUOUD1Jztu7PUM0N8?=
+ =?us-ascii?Q?lo7zyl4yKCKSm0fUzL4t9/KXNOLzBejEGB/qfVvKA04x6lTxPuPgbHiunSy0?=
+ =?us-ascii?Q?8euK/9Us3uZw1XqK7pN06gKxCtT7wey+dNYw0RlOOUVBiQe+3KP2zsohPRZb?=
+ =?us-ascii?Q?zJhvP9B9USyNtvP5Diovw0CjqSkEx9cHPmqGEQTL7IAbrazyvjiEJUcbCBPg?=
+ =?us-ascii?Q?YxAOBQ2yDiuM63jaIx2KGMIkiqgXiAUmz10t2ihcHxo6VkwNOmfQ2Z74zer6?=
+ =?us-ascii?Q?xNiOeJMYvzoV9/VHXgSYxPN3L2Dt01zWCPStBUeMytxf6BHyCfCd/he4SRfe?=
+ =?us-ascii?Q?J2wV3ebWFZTHqFqo9XeWLABneRGHyu1YATrIEWLV7d8iA25dlDvU4a8LC/GR?=
+ =?us-ascii?Q?e9pD92iHevBnE2HTW7nyQ7LcBIaKH8qU0uNPZHgDR/P5+KbybNtLQtem54Yv?=
+ =?us-ascii?Q?GUhM1OId//mxrSHVV9ObPPCb739RApfzNAzyshy5dYYpyVFu29TDI8WLOpep?=
+ =?us-ascii?Q?TLLLsKlojKTzMx0lMhR+D/ugyTRyfQGxcGTagblEvA+swj4Nx8Yq4iU+oRnb?=
+ =?us-ascii?Q?18SalhyB+EYYBPMzsWVbl4+h7SYpx0LH/mB5fCq5gxWOn8VvveT6dgjaAq4k?=
+ =?us-ascii?Q?d7zTGMznfya94cSwr1+NvblAzTWl8QpZfJKiNKbNMTMoVFqn7tPtUak0ivkC?=
+ =?us-ascii?Q?7zLMpeC0kBGPmgdWmLbz5C9tn4ufPw5u0I2srmsj0GKpyDMKyWUxLQh1R+9E?=
+ =?us-ascii?Q?rbZ1dRhyaQBTJZ0vxE+DMbXYqzqWo4vwUsKjQkqmhII/gPrz2/1Bz5/4JIMI?=
+ =?us-ascii?Q?P66ile580LRW7esM1ZBREFBKN9rfjBjgKp+jKJirjreOQe8nxXxihm3zNa6q?=
+ =?us-ascii?Q?O297mNMYLBwiX3t4/WLKKUwQzwsrvrQlA31TFie18NuBFd028UhXdmoyGJtZ?=
+ =?us-ascii?Q?n2hAso7wGyh4NuDSj8HiglEZqZZzSeNfxpdW6qfrpbT0WjcoGwC9cMC6WAmT?=
+ =?us-ascii?Q?KlbjAyYjrqmbxIeZaLWxB9eIv2lXz0aVUbPcXsfZccCsVx7uJw5BPrX368xF?=
+ =?us-ascii?Q?Ov1SxrzEDaCkX/NzDzrHzush/oXPAmSNVMsG3saTJYYpvCbTYz5ncNmfbXSN?=
+ =?us-ascii?Q?STwE/YsrnKj4zwLjaMVAQxRTOUWVlmBqjdrfdf4bvUDr8cLE6GnF4+OdkgMZ?=
+ =?us-ascii?Q?sBPJT8iqrW0gRuRUhH0bbUwM2Jpu8m8UzcKoLDZpIhfFl/3HU6xkMoKgtVr5?=
+ =?us-ascii?Q?ZnxG5u31ZVwKG0pwN5Vm1BRu+vQj+Pc8Pl5mYBHbRLPuOFQtagoNJOi0eaaF?=
+ =?us-ascii?Q?EqiGidPct9NMOaZ9x6cSZ7CNfz3uSbFOUhkdDs7DG3/gO+PHFJ5fdARbAf+F?=
+ =?us-ascii?Q?vC9P9ZQzh/QkQQTcUM3hM/rRuRnlYxG7dTGzazj5OvD1WuQ306xMo8CG8U5X?=
+ =?us-ascii?Q?ppwH3u6h2+YB8jJE4G1b8FPXw/VZLEDlJ+EgVAn4+xj9pDTp9nAX9u1pzfHs?=
+ =?us-ascii?Q?D3ny1F2QnCBi4SCdTBf7G07DnXNOHOYukBJw6PI/sypz4QkiHkkf0/oyaAIf?=
+ =?us-ascii?Q?YFXvEs+JqPvY8VkdcFELfzHTKGOmlpBiZpnYe2s+C9FpkJMHD58wNoG07Iud?=
+ =?us-ascii?Q?bvoDA3BN4A=3D=3D?=
+X-Exchange-RoutingPolicyChecked: EJuw9+I6KZgxCdUV6YQkNOsNNPgMfqA2KK9Kejt24LxwMTIeMf6IR7520QhxwgUffDZZtmherQ/U9bUrjtVX5+pMi+uM1wxZcfgcedxViNiDnIPXgNGufLqrJEUuVOz6tE1u4EKQtqm0n1S6eCCMSR+bOKDUnuoVV7HuFatFzkNdoDVjQ0jE6v05VTnokm3fJKSRcPJMH7xj6KUyHN2Ge12NkL4ZYgzZ7S5BabIYwFdg05kieC7uOgqDfdUjgJAe+CMU3+m0pxerKROPFZAa0FNIzlIt8YfTunIwJFGSfgk7zUQIXQIzGWffiGw9M7EYrcSPCxbYAIu840RIMPNR9w==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97b3ec82-7624-462c-f8db-08df11566f3b
+X-MS-Exchange-CrossTenant-AuthSource: PH3PPF4E874A00C.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2026 05:18:28.2053
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7UecV++FFI/lkePH3krgTfIphxAcheCrll+BrkEnXruOkM6rd6tyzQLPVpAEGlqi/PixS5uO0wFviDKUA1RZgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8103
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
-head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
-commit: 54998105f6ef5d0c64d7986fd6f670d2b4f3bef4 [57/332] bcachefs: Drop locks for printbuf allocation in snapshot_get_print()
-config: xtensa-randconfig-r073-20260913 (https://download.01.org/0day-ci/archive/20260913/202609130706.MIJr23Rk-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260913/202609130706.MIJr23Rk-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   7542d32487b53ed1a59d02f013a6e6b66804c874
+commit: d8fccd9ca5f905533dc6c26cfd1f91beb8691c95 [1/1] arm64: Allow to enable PREEMPT_RT.
+:::::: branch date: 3 days ago
+:::::: commit date: 2 years ago
+config: arm64-randconfig-r123-20260910 (https://download.01.org/0day-ci/archive/20260912/202609121755.OxG6ug0n-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609121755.OxG6ug0n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: d8fccd9ca5f9 ("arm64: Allow to enable PREEMPT_RT.")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609130706.MIJr23Rk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202609121755.OxG6ug0n-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/locking/spinlock_rt.c: note: in included file:
+   kernel/locking/rtmutex.c:1835:17: sparse: sparse: context imbalance in 'rtlock_slowlock_locked' - unexpected unlock
+   kernel/locking/spinlock_rt.c:40:9: sparse: sparse: context imbalance in 'rt_spin_lock' - wrong count at exit
+   kernel/locking/spinlock_rt.c:40:9: sparse: sparse: context imbalance in 'rt_spin_lock_nested' - wrong count at exit
+   kernel/locking/spinlock_rt.c:40:9: sparse: sparse: context imbalance in 'rt_spin_lock_nest_lock' - wrong count at exit
+   kernel/locking/spinlock_rt.c:78:14: sparse: sparse: context imbalance in 'rt_spin_unlock' - unexpected unlock
+   kernel/locking/spinlock_rt.c:113:9: sparse: sparse: context imbalance in 'rt_spin_trylock' - wrong count at exit
+   kernel/locking/spinlock_rt.c:130:9: sparse: sparse: context imbalance in 'rt_spin_trylock_bh' - wrong count at exit
+   kernel/locking/spinlock_rt.c: note: in included file (through arch/arm64/include/asm/lse.h, arch/arm64/include/asm/cmpxchg.h, arch/arm64/include/asm/atomic.h, include/linux/atomic.h, ...):
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
+   kernel/locking/spinlock_rt.c:210:9: sparse: sparse: context imbalance in 'rt_read_trylock' - wrong count at exit
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
+   kernel/locking/spinlock_rt.c:224:9: sparse: sparse: context imbalance in 'rt_write_trylock' - wrong count at exit
+   kernel/locking/spinlock_rt.c: note: in included file:
+   kernel/locking/rwbase_rt.c:133:28: sparse: sparse: context imbalance in 'rt_read_lock' - wrong count at exit
+   kernel/locking/spinlock_rt.c:238:14: sparse: sparse: context imbalance in 'rt_write_lock' - wrong count at exit
+   kernel/locking/spinlock_rt.c:249:14: sparse: sparse: context imbalance in 'rt_write_lock_nested' - wrong count at exit
+   kernel/locking/spinlock_rt.c:260:14: sparse: sparse: context imbalance in 'rt_read_unlock' - unexpected unlock
+   kernel/locking/spinlock_rt.c:269:14: sparse: sparse: context imbalance in 'rt_write_unlock' - unexpected unlock
+--
+   kernel/locking/rwsem.c: note: in included file:
+   kernel/locking/rtmutex.c:1633:17: sparse: sparse: context imbalance in 'rt_mutex_slowlock_block' - unexpected unlock
+   kernel/locking/rtmutex.c:1660:9: sparse: sparse: context imbalance in 'rt_mutex_handle_deadlock' - unexpected unlock
+   kernel/locking/rwsem.c: note: in included file (through arch/arm64/include/asm/lse.h, arch/arm64/include/asm/cmpxchg.h, arch/arm64/include/asm/atomic.h, include/linux/atomic.h, ...):
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
+>> arch/arm64/include/asm/atomic_lse.h:31:26: sparse: sparse: constant integer operation overflow
 
-   fs/bcachefs/snapshots/snapshot.c: In function 'snapshot_get_print':
->> fs/bcachefs/snapshots/snapshot.c:378:7: warning: variable 'lock_dropped' set but not used [-Wunused-but-set-variable]
-     378 |  bool lock_dropped = false;
-         |       ^~~~~~~~~~~~
+vim +31 arch/arm64/include/asm/atomic_lse.h
 
+c09d6a04d17d73 Will Deacon  2015-02-03  28  
+78f6f5c994ed22 Mark Rutland 2022-08-17  29  static __always_inline void __lse_atomic_sub(int i, atomic_t *v)
+ef53245060989d Mark Rutland 2021-12-10  30  {
+ef53245060989d Mark Rutland 2021-12-10 @31  	__lse_atomic_add(-i, v);
+ef53245060989d Mark Rutland 2021-12-10  32  }
+ef53245060989d Mark Rutland 2021-12-10  33  
 
-vim +/lock_dropped +378 fs/bcachefs/snapshots/snapshot.c
+:::::: The code at line 31 was first introduced by commit
+:::::: ef53245060989d1cbe4b72ba56e94f217f4fd1ee arm64: atomics lse: define SUBs in terms of ADDs
 
-   330	
-   331	static int snapshot_get_print(struct printbuf *out, struct btree_trans *trans, u32 id)
-   332	{
-   333		prt_printf(out, "%u \t", id);
-   334	
-   335		struct bch_snapshot s;
-   336		int ret = bch2_snapshot_lookup(trans, id, &s);
-   337		if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
-   338			return ret;
-   339	
-   340		if (ret) {
-   341			prt_str(out, bch2_err_str(ret));
-   342		} else {
-   343			if (BCH_SNAPSHOT_DELETED(&s))
-   344				prt_str(out, "deleted ");
-   345			if (BCH_SNAPSHOT_NO_KEYS(&s))
-   346				prt_str(out, "no_keys ");
-   347			if (BCH_SNAPSHOT_WILL_DELETE(&s))
-   348				prt_str(out, "will_delete ");
-   349			if (BCH_SNAPSHOT_SUBVOL(&s))
-   350				prt_printf(out, "subvol %u", le32_to_cpu(s.subvol));
-   351	
-   352			prt_tab(out);
-   353	
-   354			if (s.subvol) {
-   355				struct bch_subvolume subvol;
-   356				ret = bch2_subvolume_get(trans, le32_to_cpu(s.subvol), false, &subvol);
-   357				if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
-   358					return ret;
-   359	
-   360				if (ret)
-   361					prt_str(out, bch2_err_str(ret));
-   362				else
-   363					try(bch2_inum_to_path(trans, (subvol_inum)
-   364						{ le32_to_cpu(s.subvol), le64_to_cpu(subvol.inode) }, out));
-   365			}
-   366	
-   367			prt_tab(out);
-   368	
-   369			u64 v[1] = { 0 };
-   370			try(bch2_fs_accounting_read_key2(trans, v, snapshot, id));
-   371	
-   372			prt_human_readable_u64(out, v[0] << 9);
-   373			prt_tab_rjust(out);
-   374		}
-   375	
-   376		prt_newline(out);
-   377	
- > 378		bool lock_dropped = false;
-   379		allocate_dropping_locks_norelock(trans, lock_dropped,
-   380				!bch2_printbuf_make_room_gfp(out, 1024, _gfp));
-   381		return 0;
-   382	}
-   383	
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
