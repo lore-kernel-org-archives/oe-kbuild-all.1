@@ -1,103 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F167418DB1A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 09:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717DC41684D;
+	Mon, 14 Sep 2026 09:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789376945; cv=none; b=thhWJZYzZVCoKh5TXEVYVcDI8mB7AuV7E1nmvuRm16LbOc4w2knUskP461OU5iFR/vs9ufdvjP6Un1JsgQTPVMFUFhKnLn1BQvLmeBuEMppV/wVyKCBYwBNDrbxWjx01owRNsI7Wbz0cvJM95VS09AEmobkO5GA+R4G5kEKg6SY=
+	t=1789379376; cv=none; b=hmCbchFWOfe1Fs/sE4CQoqpyk4X9nacBgy6CchlfL5Kv1hz1PLLeSeHiLj0MnsvdrxleR3t8z6aYbVn4hIFfXcJcrh0I11G9eDbCzqoo0LU3l+tJ+YB/KpzELJhSRKf7YqYlFM9dh4sLYFi/MD6Zp27/JjvH9oOjRq1tKie4lZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789376945; c=relaxed/simple;
-	bh=7K5PVATLsabQRhhBZXhEErR/D14fgI88SUwcddvdxdM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cW2A3Mf4ha6f4uPnweRoVTPWHgHYoAYCUH3J87X50jDoI4Cr33OJnzqrI6cjM7DsiIxw4SwCe1vPITL360d++TG/RWLYhZ/W4gZtYSq2uC9lG3W6piHFSvGG8uS46+Bo/kY+jGfctG+XZ+WAKn76xUhhAHdWd9Gqp4QnX+VZxe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWVc15m0; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1789379376; c=relaxed/simple;
+	bh=fFpokA8xz9+jONXdKLRIuen5of1BLot2wdHJfyGypck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UKUYhEpwNHgox4OS8R/eLdLaJbdg5vrG7pS6yBm9OWCja+ZDilk1RYHCtXnhSYJsMwzEgNzWmo29gXuINkielxOXv+COSc0VlEfNS+UQ+Pym/JJUV/YhEZTW/vcEQcgz7e0HUEEsksJ7clIsvY9Kk4vganvRFIN2sl/GGcnveBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9ggI9ko; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWVc15m0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9ggI9ko"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789376943; x=1820912943;
-  h=date:from:to:cc:subject:message-id;
-  bh=7K5PVATLsabQRhhBZXhEErR/D14fgI88SUwcddvdxdM=;
-  b=CWVc15m0kW3+1ZnYSmBlLdRTyzcO8JpsmDRtNhrSAiS27kkPqy7LXeEy
-   9x1s1X7WX+vivgGqt3cQYhHhiWbnHE9wZsy+ripVNuX+hDQr+GpHIyqb7
-   21gWFQNPjBN7mCAzHb/0ni0Sd12wWP4PvGuoBvFwyBLKY+gfi3WYwph71
-   QBtUPm9/DXAWs+Cbc0mqea9nB0GFt7/u6P7+YC4cs8PTbIy0UllmlWwVu
-   H/YOh+dXmecL8jovXhfyyaSnN5gBnXHR/B2oIteAWu1ypgjBeOLSVUhKB
-   6A/YH10r/L71sU5dFMilKhWNzxLeXyytwt0Ww5GIk4V+6rKCsmHNzu4K5
-   A==;
-X-CSE-ConnectionGUID: dyj4uj66QdqjZZYQkT0gRA==
-X-CSE-MsgGUID: sjhy+lCWSe+NFitk0CpODw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="88667295"
+  t=1789379374; x=1820915374;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fFpokA8xz9+jONXdKLRIuen5of1BLot2wdHJfyGypck=;
+  b=H9ggI9koejmWW0DHzrYa/6ngdofoJKIasmg4EYbttLDTlmyOvrS6EgkQ
+   LFa0+vrYrYIF1sDnuvwmnB8TboCyG9rsAmuQ92kNyJvzT7lp3oAf7+xge
+   dwZpufW7UOSi+NBtCO3UfPZtYLKmDqN07OTusyrAd9GAUB/QSjIaNQn/r
+   FI65SfhM/X5RClHs5vkpvRMd763KZ0QSJm6wojm9XxNjb4XTGdWtzezY7
+   0MjML0T/Qgql1FNIf4UX6eN3tmXnYY9ofW4O0966k3i/xtD5sUDtrKjVT
+   QygrOcYWkaH7dy5MANKNFN6kWfoF/zX+7zhiVMe59/a+Adn1w2lUEJYSq
+   Q==;
+X-CSE-ConnectionGUID: TPM3kjlJRLSZhH94uNJJnQ==
+X-CSE-MsgGUID: 2OonQL3RTtaHE6xjOLTnxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="89742298"
 X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="88667295"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 02:08:59 -0700
-X-CSE-ConnectionGUID: A5rFdM3iTQKJrxZnam9j1g==
-X-CSE-MsgGUID: rofYqVmFTmGCDyrk2W7hNw==
+   d="scan'208";a="89742298"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 02:49:34 -0700
+X-CSE-ConnectionGUID: nMPOfAqpQX6EtG6DT99wOw==
+X-CSE-MsgGUID: Q+dr2F59QxuEl9PLtq7vhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="989743"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 14 Sep 2026 02:08:58 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="276754901"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 14 Sep 2026 02:49:30 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x62gK-00000000085-1Opn;
-	Mon, 14 Sep 2026 09:08:56 +0000
-Date: Mon, 14 Sep 2026 11:08:31 +0200
+	id 1x63JW-000000002jn-3lw5;
+	Mon, 14 Sep 2026 09:49:26 +0000
+Date: Mon, 14 Sep 2026 17:49:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amery Hung <ameryhung@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alexei Starovoitov <ast@kernel.org>
-Subject: kernel/bpf/verifier.c:794:5-12: Unneeded variable:
- "ref_cnt". Return "0" on line 805
-Message-ID: <202609141124.zR9pQCyK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Filipe Xavier <felipeaggger@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Filipe Xavier <felipe_life@live.com>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rust: impl_flags: add conversions for raw flag
+ representations
+Message-ID: <202609141744.1nZ48tzs-lkp@intel.com>
+References: <20260912-add-from-raw-conversions-v1-1-0cee34684d24@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260912-add-from-raw-conversions-v1-1-0cee34684d24@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   704340f1cd0dcef829eb62f5b48ae95a2ce17bdf
-commit: 2eee6fe8ac2cd21e931c009d475e5a8407d42d76 bpf: Fix dynptr ref counting to scan all call frames
-date:   3 months ago
-config: hexagon-randconfig-r054-20260914 (https://download.01.org/0day-ci/archive/20260914/202609141124.zR9pQCyK-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 707c032dae3bee24eae29c6f4c459a6d6dc6556d)
+Hi Filipe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 08df884136f1c1197bab2a27814404fd329d9aac]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Filipe-Xavier/rust-impl_flags-add-conversions-for-raw-flag-representations/20260912-135434
+base:   08df884136f1c1197bab2a27814404fd329d9aac
+patch link:    https://lore.kernel.org/r/20260912-add-from-raw-conversions-v1-1-0cee34684d24%40gmail.com
+patch subject: [PATCH] rust: impl_flags: add conversions for raw flag representations
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260914/202609141744.1nZ48tzs-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609141744.1nZ48tzs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2eee6fe8ac2c ("bpf: Fix dynptr ref counting to scan all call frames")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609141124.zR9pQCyK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609141744.1nZ48tzs-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/bpf/verifier.c:794:5-12: Unneeded variable: "ref_cnt". Return "0" on line 805
+All errors (new ones prefixed by >>):
 
-vim +794 kernel/bpf/verifier.c
-
-   788	
-   789	static int dynptr_ref_cnt(struct bpf_verifier_env *env, int v_parent_id)
-   790	{
-   791		struct bpf_stack_state *stack;
-   792		struct bpf_func_state *state;
-   793		struct bpf_reg_state *reg;
- > 794		int ref_cnt = 0;
-   795	
-   796		bpf_for_each_reg_in_vstate_mask(env->cur_state, state, reg, stack, 1 << STACK_DYNPTR, ({
-   797			if (!stack || stack->slot_type[0] != STACK_DYNPTR)
-   798				continue;
-   799			if (!stack->spilled_ptr.dynptr.first_slot)
-   800				continue;
-   801			if (stack->spilled_ptr.parent_id == v_parent_id)
-   802				ref_cnt++;
-   803		}));
-   804	
- > 805		return ref_cnt;
-   806	}
-   807	
+>> error[E0119]: conflicting implementations of trait `TryFrom<u32>` for type `VmMapFlags`
+   --> drivers/gpu/drm/tyr/vm.rs:74:1
+   |
+   74 | / impl_flags!(
+   75 | |     /// Flags controlling virtual memory mapping behavior.
+   76 | |     ///
+   77 | |     /// These flags control access permissions and caching behavior for GPU virtual
+   ...   |
+   92 | | );
+   | |_^ conflicting implementation for `VmMapFlags`
+   ...
+   144 |   impl TryFrom<u32> for VmMapFlags {
+   |   -------------------------------- first implementation here
+   |
+   = note: this error originates in the macro `impl_flags` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 --
 0-DAY CI Kernel Test Service
