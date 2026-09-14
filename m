@@ -1,167 +1,101 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03D03976A9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 19:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789413006; cv=pass; b=WfKCMruJEgS+MEyfycn9AG0vS+gmsUXsWOT7tXNbi4xxRvj24bz+biA8W7Q8b435jiVKHGHoNFJDYeJZZm6oXLnKvU43VASCIyjUhi1jsuy6gakJqZ/Sz3mxw0FpGYlo9yPOHqqVFQmBgCPXk+L8gxfj8dkxL8zabyNxCytv1gY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789413006; c=relaxed/simple;
-	bh=3/K0TVzDduuB1bC1NRuQyqOKhNXefGdg5h1mmSAwe3w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZM4M7/fNm6J0Bmi3SvBr1EjMsbW8kVh37DZzrqk93I4POb9oMXbwfz8TGWg2RFwTfjpIRPIRRSL8fRnFd23+r3syZsBxquRI8J1OhcgdbJK3qknGvRVdB1TuM4JgBFOoBFOsSeuP5OYkFxMfT5fjboonjOShtYFp0ZwfpxFUnnw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=phqSb/g7; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F503B0AD3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 19:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789414250; cv=none; b=f7iDHQo1BNG6Rj3lov0411sAAKXGK7xIZqvLh/HR7iVHJx+kDnosx9frsNlLmJUIILrASVedVjwNOtgZhOLnFiXE2C4W1ZvEykAUKwFuRLdIoUko6pC83l8tSqINRfAYogYNzDj78lO2msWJtwrsLEfGjVrRnCJXpBE2RGCORBQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789414250; c=relaxed/simple;
+	bh=TG3LCGMc2sb3l/ZsXtMvOhhHxH2imwDm9mXAl/IS1j8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nBaxxG3aLuLK5VNGNYN/pFVbsRByFJlWbWW4kQGEtfOTx41tBr6QXOgOYaXDF3k1g6wNHASud+TGj546ymPmP37bSspX5ZhHQzyw++75TsC+Qs+lBVuZHR2TAgBAScBfVYS7gCTp/BLnPjbJwxGuHhYzbPmn0Er46Urb5fk00lI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jzTikYTC; arc=none smtp.client-ip=192.198.163.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="phqSb/g7"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530411c7ee1so478761cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 12:09:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789412997; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bYX1N9vhwEGAJb75Wg+yekejGg2rIvgH7+hh+SOVJY4nV4PV7uHPEjAVh+RPqH1/1J
-         emsxchptqd93TlGeVD+3kH6pAymHVvOsybIAAJ1d6SgJ9WMlnItVN29G6tHxtJSdok1L
-         tJWFhvPWubrsRsFdUPXjJ4t9ed2n4t9gAMYEVe+TSze2i/eNpjVHrqYONUP2/+3Wv8uo
-         DMWRuYGDT9Pq+h03GbHTDUabJwn8CusZKyifXg8o7JqXNV5+YzrQHXdFnmEhn8sIfhyN
-         Uu4etSCQ2F7AQFWFbXlKp2ddzfmGyEvHL6j0CHOVCrRBnO6Edchgo9LvqT+AonsVESmf
-         R5Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=B9HHz7xqKOBgQRJBunlMxL3q9HNHJ9DU71Gm8Qozrv4=;
-        fh=zlmRssePOcGaapRFkfRHp9KQqClzrF4a2nIDMGJW33s=;
-        b=jnELcSMMmdK6SVavteGMNU1nzh8UfQCPdN6aG8r+96D/zDs/LBu0316SxvqI7bMe6e
-         rAugAFpW1Agnwac/HkiB/5GLDFz4FdkBB701bzoeSQgp8tuJdCsvtUyT4x14DBNBeqw4
-         YHXOAgXebup7Yb6/unerk63PI3dBc+MrITzPz5roetmTgoR3kJOoqxDHyQ3D7v/qLBsV
-         H+a+lEEoIpsyfK3r9ve/o8yoU4yWXQXYZw4/XICTspkXvlM0CCY74P1WKmy20MyK3Xbl
-         ErD7Kh8NgcjP0HHe5M++LKxOqQDzRnSHW3rSIurvOZuSujd9dbiUrlx0Jt8ypD92YhO4
-         C9TQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789412997; x=1790017797; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=B9HHz7xqKOBgQRJBunlMxL3q9HNHJ9DU71Gm8Qozrv4=;
-        b=phqSb/g7YRBZkXKKh697Nnqu36IJtcC/UbTdrwikM2nYGbUPLd4+9G3LdpgpfHur4v
-         OZqgOeia/89g70IQbP7ImR0uZJ7boHCKQ7vIWYtAvuJOUtvq8I3ahEhu5cs43qBIwzgz
-         PmOEmIPH82REAHatT8iXl0JC5Ww0TFDEWn3WT8LkTQUb1Fbd9KQnfG0gFz2Q4zuAnj4N
-         T+Gtaoop07cg/pNHfwD0VN3wNspvTnRPzDCil8BbU1wgp0sF9Ea45q/N9yHYVeLno1PL
-         4drsTtkVUMVOWZSoODyx/yAF2W5JWiEMlvzW9cWJyCCwghQ+KepCf+KRvy0jHqf9NZHq
-         KSVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789412997; x=1790017797;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=B9HHz7xqKOBgQRJBunlMxL3q9HNHJ9DU71Gm8Qozrv4=;
-        b=ZGsS+t7aBdhY2knm8GJcPQPw36/gvulsw4kRoCHVXA3EAw3kz3d+u4ucBweFNjLY4+
-         K4KH0C43fkPdmi0zgxY1Lcbj6dRpUgtf+1XP6VQup0+kRJf15iYJJJMU4gIYp7j4ZRNM
-         1TgPslD3RoxQCikUGyoxZZz5MwhcjL8N9/ZqyyB2gYe18dyok7IjJQsSSjUpytqoCDmL
-         HtJMNTrV18OZogG7ejux6epWbzTT6Euz5gpgOI1l2yNwS+zoDvRAkNtFlZKdn0viFIjB
-         vjg27hEVFyyYO3/uYqxequcX1y0uYcmELKCT8hA9xI6UxzfIfWd1Urs/T4QuHCFJS4qe
-         mxsg==
-X-Gm-Message-State: AFuF++lbm5PtqrrxjKlrUB3uKjxdxFUIz4vmQXznCiT90wOiG4sMDcjl
-	g4hj5UBGNXoDekkUrtAryHCB4AVbTXDPR97glxr7hlxI1f6JkZopOyxgZMd333nRLbdLB+ZhNlJ
-	WB8DOSSO5ZwpE43od4RuIQtDFp582UmUt0QVTH3jr
-X-Gm-Gg: AYBFou358E5T3ipsJR04FEv7+H00bCpaH6pb876JLUpqNMUWOiISMIB1NKtgP6VI6An
-	oMVe0YCqNBlTNxfrnJMY3oNkQX3w0jDKfR1vQKniKgvlAElJEhninum2dCPTqKJVYQLv7KshdZ9
-	uOG3DfiockyQX96Bqa+YLEOz+MDq5s72RDqEidMRN71b85vRpNN+4EhjUry1tBujFvzZRCB9TsX
-	8aObodcAT9ogyMJ4gBknwWLjJg3cjCCH5nAndn3pW2XzwXbnEDfWPQJrAiuXLZtnjC+RCAAPeNU
-	rb9ymrauw2lGHpQ/7HdVHhc/gYDWIoLEdr+pGuwWcYCIUYAha1rXAhQhl99pmwv3NdWrMuBTB6O
-	QnnMYeDtHKw==
-X-Received: by 2002:a05:622a:5809:b0:530:3f93:9023 with SMTP id
- d75a77b69052e-5311a5c4ddamr3464331cf.4.1789412996591; Mon, 14 Sep 2026
- 12:09:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jzTikYTC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789414246; x=1820950246;
+  h=date:from:to:cc:subject:message-id;
+  bh=TG3LCGMc2sb3l/ZsXtMvOhhHxH2imwDm9mXAl/IS1j8=;
+  b=jzTikYTCrevpBqt5DQL9jV7OprscEZtGkhl5/5gXLiuGyHOZTtlaHbLh
+   6vCCwNapT1NOyzQrI+pXBMd/HlQsoV0u7y9bzJRowxedJKcK3B6MOrJsC
+   jx1zJTFw2lmL2KL0dOD1QqvnRMiKPluB/ZPyiiHV1cv986hBT6maiv6qQ
+   h35kaQH1nJFmCaM4V/pgHy/RgpauXpKetnLwuGGJnDiNtPmqQ2Vgaaq0l
+   9wvr5J3KluibpAX99LfJd5toFPXD4Vk7W6q39Ro9e6LBL7W2wJy8bWtfT
+   aB0W4+qYaH2/pYQsuyXPI1km9EmGpUFqruatrFZCLtboGeLyiUdywyxrU
+   A==;
+X-CSE-ConnectionGUID: RAatROtTQo2zzyMnZ5V0MA==
+X-CSE-MsgGUID: rs4NX18iRxiaf93d4U0Xkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="282772"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="282772"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 12:30:44 -0700
+X-CSE-ConnectionGUID: ESf/RpWmSfiyDBI6UKwzMg==
+X-CSE-MsgGUID: eb/hbGD8SVGLVqr/FMbfrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="1126244"
+Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 14 Sep 2026 12:30:43 -0700
+Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x6CO0-000000000Gh-49o4;
+	Mon, 14 Sep 2026 19:30:41 +0000
+Date: Mon, 14 Sep 2026 21:30:21 +0200
+From: kernel test robot <lkp@intel.com>
+To: Zakariya Hadrami <zkh@mailbox.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 5321/6369]
+ arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb:
+ /reserved-memory/trustzone-bootinfo@80002000: failed to match any schema with
+ compatible: ['mediatek,trustzone-bootinfo']
+Message-ID: <202609142134.u9yU6yh6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202609121422.hkKWuy7K-lkp@intel.com>
-In-Reply-To: <202609121422.hkKWuy7K-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 14 Sep 2026 12:09:45 -0700
-X-Gm-Features: AcwNN1V0cr3-51H8jG05tRliUGeoBV1UMLQnVvmfkEsxoTHflVeOK11wY4wInNQ
-Message-ID: <CAJuCfpEzfP8nWnD2v6Wfb73h7ejD4NHNqz=TnXa18pvZgWz6ug@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-new 439/459] fs/proc/task_mmu.c:205:13: warning:
- 'reacquire_rcu' defined but not used
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, mm-commits@vger.kernel.org, 
-	"Liam R. Howlett (Oracle)" <liam@infradead.org>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 12, 2026 at 5:41=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ne=
-w
-> head:   383fc05d4650b021f3c17e36a145106dcc61a294
-> commit: 2a61a4b80dc01581dc9f6935eedefbd596e77409 [439/459] proc/task_mmu:=
- remove unnecessary inlines in function definitions
-> config: openrisc-randconfig-r053-20260912 (https://download.01.org/0day-c=
-i/archive/20260912/202609121422.hkKWuy7K-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 16.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260912/202609121422.hkKWuy7K-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609121422.hkKWuy7K-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
-> >> fs/proc/task_mmu.c:205:13: warning: 'reacquire_rcu' defined but not us=
-ed [-Wunused-function]
->      205 | static void reacquire_rcu(struct proc_maps_private *priv)
->          |             ^~~~~~~~~~~~~
-> >> fs/proc/task_mmu.c:197:13: warning: 'drop_rcu' defined but not used [-=
-Wunused-function]
->      197 | static void drop_rcu(struct proc_maps_private *priv)
->          |             ^~~~~~~~
->    fs/proc/task_mmu.c:133:12: warning: 'lock_ctx_mm' defined but not used=
- [-Wunused-function]
->      133 | static int lock_ctx_mm(struct proc_maps_locking_ctx *lock_ctx)
->          |            ^~~~~~~~~~~
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   68142f986ff04b2b70b31db00f719bf690f64a9a
+commit: 2e195497fc9fc0dd89cf95dab80a2d0486dab65b [5321/6369] ARM: dts: mediatek: Add basic support for Amazon ford board
+config: arm-randconfig-2052-20260912 (https://download.01.org/0day-ci/archive/20260914/202609142134.u9yU6yh6-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema: 2026.7.dev16+g39602f98e
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609142134.u9yU6yh6-lkp@intel.com/reproduce)
 
-Fixup is posted at
-https://lore.kernel.org/all/20260914190631.3167420-1-surenb@google.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609142134.u9yU6yh6-lkp@intel.com/
 
->
-> vim +/reacquire_rcu +205 fs/proc/task_mmu.c
->
->    196
->  > 197  static void drop_rcu(struct proc_maps_private *priv)
->    198  {
->    199          if (priv->lock_ctx.mmap_locked)
->    200                  return;
->    201
->    202          rcu_read_unlock();
->    203  }
->    204
->  > 205  static void reacquire_rcu(struct proc_maps_private *priv)
->    206  {
->    207          if (priv->lock_ctx.mmap_locked)
->    208                  return;
->    209
->    210          rcu_read_lock();
->    211          /* Reinitialize the iterator. */
->    212          vma_iter_set(&priv->iter, priv->lock_ctx.locked_vma->vm_e=
-nd);
->    213  }
->    214
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dts:21.38-28.5: Warning (unit_address_vs_reg): /chosen/framebuffer@b7a00000: node has a unit name, but no reg or ranges property
+   arch/arm/boot/dts/mediatek/mt8127.dtsi:62.24-66.5: Warning (simple_bus_reg): /clocks/dummy13m: missing or empty reg/ranges property
+   arch/arm/boot/dts/mediatek/mt8127.dtsi:68.21-72.5: Warning (simple_bus_reg): /clocks/dummy32k: missing or empty reg/ranges property
+   arch/arm/boot/dts/mediatek/mt8127.dtsi:74.22-78.5: Warning (simple_bus_reg): /clocks/dummy26m: missing or empty reg/ranges property
+>> arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb: /reserved-memory/trustzone-bootinfo@80002000: failed to match any schema with compatible: ['mediatek,trustzone-bootinfo']
+>> arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb: clocks (simple-bus): dummy26m: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb: clocks (simple-bus): dummy13m: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb: clocks (simple-bus): dummy32k: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb: clocks (simple-bus): $nodename:0: 'clocks' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb: watchdog@10007000 (mediatek,mt8127-wdt): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt8127-wdt', 'mediatek,mt6589-wdt'] is too long
+   	'mediatek,mt8127-wdt' is not one of ['mediatek,mt2712-wdt', 'mediatek,mt6589-wdt', 'mediatek,mt6735-wdt', 'mediatek,mt6795-wdt', 'mediatek,mt7986-wdt', 'mediatek,mt7988-wdt', 'mediatek,mt8183-wdt', 'mediatek,mt8186-wdt', 'mediatek,mt8188-wdt', 'mediatek,mt8192-wdt', 'mediatek,mt8195-wdt']
+   	'mediatek,mt8127-wdt' is not one of ['mediatek,mt2701-wdt', 'mediatek,mt6572-wdt', 'mediatek,mt6582-wdt', 'mediatek,mt6797-wdt', 'mediatek,mt7622-wdt', 'mediatek,mt7623-wdt', 'mediatek,mt7629-wdt', 'mediatek,mt8173-wdt', 'mediatek,mt8188-wdt', 'mediatek,mt8189-wdt', 'mediatek,mt8365-wdt', 'mediatek,mt8516-wdt']
+   	from schema $id: http://devicetree.org/schemas/watchdog/mediatek,mtk-wdt.yaml
+   arch/arm/boot/dts/mediatek/mt8127-amazon-ford.dtb: /soc/watchdog@10007000: failed to match any schema with compatible: ['mediatek,mt8127-wdt', 'mediatek,mt6589-wdt']
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
