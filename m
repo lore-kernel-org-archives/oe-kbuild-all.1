@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9083B9952
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 15:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A7848D899
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 16:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789398906; cv=none; b=r6bdN2haVzrWXFInexQcDsd5OgZaCEn8KPSSVbqQeY0wVri5ZtOICDxOIdsdSPbPHd2oZAz0Brow4aMGcnIOvhH/8XsZ8RtbaNAobjU2RjFvicCRvZdIT8sV2jVpPe+msM/RCFsH41GdV+hevTZUvtBuINFx0lcDXCGO1Ip6QG8=
+	t=1789404368; cv=none; b=P9ue6Em2XnGMHH5KMwDfZCJ503nAMfgkYaM1DlqiYCvVOddP/ZuqDGvdeKh4tAAIKXloFiPLArh+0hnAYmcLSt9+TGYHQT9xgnT2rQqu9XwNJSizsLVDixyczOK2HboqYuLL0F6lxDxi8a2WWlc8dJSuOOtlsSX1lCWfJjPcSuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789398906; c=relaxed/simple;
-	bh=waBM8EeFBj3nSOImbAScNXOYDfg3wuOkx7yuHbQ/900=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lHlDfSuRsGyO7TSAsqBFiHh7N7XkXxCFsXESVN5DsQ3cIuaIzhJixKs7nDbHfbSOkZo7tKpHfVlbJTUKlNaZ82Pt+tdzLX1cPJEZTkwx5wF2+OsTeccfCF1dsQx2cyLl6Io2OcfvKD7FDUTk95mcJEl4JYjQEU+bvj0zovKtURA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nH3JcHX7; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1789404368; c=relaxed/simple;
+	bh=Bx4ML9oVRK1MGBmzSeGt5Ss6ir/WqyyZi7JUX76b4cU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DSwFw7re2LHZZctq86lYmtX1shX/OxViUpByTjVfKMM+QKSWQt5yeR1+jFJjK7X58ABHeKE7F6mbuTJTXmIbLVuDHCFrWm+sqtjifM8Rajj8tewiD2ZBWMHb4iYvIegAgk39k8mqtSzHb+pt4XWn59Tv5qfA17iRc4CljWoTVCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbbXPqRp; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nH3JcHX7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbbXPqRp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789398904; x=1820934904;
+  t=1789404367; x=1820940367;
   h=date:from:to:cc:subject:message-id;
-  bh=waBM8EeFBj3nSOImbAScNXOYDfg3wuOkx7yuHbQ/900=;
-  b=nH3JcHX7XwA/4u+QblVqeWysKo/INkFodTp2UCsfiYdeXcUS3cpqEw+M
-   a1qqF19uwtfNoTSyOQdk8K+sYiNfx/rUcUVqUP8PTQrT2pgqKzUYBAZkT
-   lEQrTVpmHx1kxz7lG0N8O8+rwgbZMZLTxcUoLbnwfPVtsUBoy8BwL3kod
-   6rf3jntTrYItRrPhHnwLfEVA70b+LwCqIeABUXWrCjZDUfiqOgSvkEjuy
-   6rVShK4jXeySq9dUr9qZE6box8mhegrGVs/j70bLIxtoj0BNKXaAILBKc
-   P6KM2kDlhjgHFFcHewBAEGShbQoJgMMAp/pMtcgy/vc18SrwatDyodKgt
+  bh=Bx4ML9oVRK1MGBmzSeGt5Ss6ir/WqyyZi7JUX76b4cU=;
+  b=nbbXPqRpNoxn3c+ZgdGDxF2KbSY5d7d4JDG0V5yfpuj/ciRxT3MOJB3U
+   aeJhKk2p1sCCiwv7ICFd9gI5Id4NpCsPhSv6quzcwYEA1n3HOZ9LbvUXr
+   SHAfrK7Qv/wvfSCSll+kzk4LQ4xOsMWupiXVcrMVw76Zz0f6cFE3Fp9j7
+   z/MjOHd3JXZuUaFZA6J6EbkuKBKqHWM7NLcvPMotS6Wls4QG+eRgF8MDW
+   dXBtS1ZqcJLkvUkJ5gKizx3+D2BkcvucNmiRvMl+JipgxeaFQ1MxGnapA
+   0FFA+IgN1dZ6b9ghqIYV0WYlTxGzdVwbIDok8OZPywY2TBeWkfJLVbKO0
    A==;
-X-CSE-ConnectionGUID: 7WmLlw/zRGCsI8wGcDJ+MA==
-X-CSE-MsgGUID: oqFyxzofQ/erjHbGa8CGSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="262611"
+X-CSE-ConnectionGUID: mCvodWeVRuiYi2J6bLxEvw==
+X-CSE-MsgGUID: wllISA+eTxabQyCSvrFHUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100424288"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="262611"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 08:15:02 -0700
-X-CSE-ConnectionGUID: V8mkRscyQP2UFVtPgbXLPg==
-X-CSE-MsgGUID: zUNBOSFMSF2S0iwRNI0rgQ==
+   d="scan'208";a="100424288"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 09:46:04 -0700
+X-CSE-ConnectionGUID: stv3L2gUT/ORoojuyT3k8w==
+X-CSE-MsgGUID: 1cizjD9MQLejHyUcpqKgOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="268985368"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2026 08:15:00 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="272665698"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 14 Sep 2026 09:46:03 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x68OY-000000000CZ-0FFi;
-	Mon, 14 Sep 2026 15:14:58 +0000
-Date: Mon, 14 Sep 2026 17:14:17 +0200
+	id 1x69oe-00000000379-30lI;
+	Mon, 14 Sep 2026 16:46:00 +0000
+Date: Tue, 15 Sep 2026 00:45:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 265/265] kismet: WARNING:
- unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE when selected
- by GKI_HIDDEN_NET_CONFIGS
-Message-ID: <202609141759.SPeFVLy8-lkp@intel.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:dt 11/22]
+ arch/m68k/coldfire/intc-2.c:242:11: error: implicit declaration of function
+ 'irq_domain_add_linear'; did you mean 'irq_domain_create_linear'?
+Message-ID: <202609150018.dRPOsOwQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,38 +61,50 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   0cafa972f82900389c8c0ab872ab24f4ca9f5bd3
-commit: bc4d82ee40515f0c770b28d0dc4fa532a2b1850e [265/265] ANDROID: KMI workaround for CONFIG_NETFILTER_FAMILY_BRIDGE
-config: x86_64-kismet-CONFIG_NETFILTER_FAMILY_BRIDGE-CONFIG_GKI_HIDDEN_NET_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20260914/202609141759.SPeFVLy8-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260914/202609141759.SPeFVLy8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
+head:   b5ed8ca50661263352c1e60587539803de9bde6a
+commit: 1bab8c33a48c40d8cde610e936745c447d39d949 [11/22] m68k: coldfire: support devicetree binding for intc-2 controller
+config: m68k-randconfig-r133-20260914 (https://download.01.org/0day-ci/archive/20260915/202609150018.dRPOsOwQ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150018.dRPOsOwQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609141759.SPeFVLy8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609150018.dRPOsOwQ-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE when selected by GKI_HIDDEN_NET_CONFIGS
-   WARNING: unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE
-     Depends on [n]: NET [=n] && INET [=n] && NETFILTER [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_NET_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-     Depends on [n]: NET [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_NET_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-     Depends on [n]: NET [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_NET_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-     Depends on [n]: NET [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_NET_CONFIGS [=y]
+All error/warnings (new ones prefixed by >>):
+
+   arch/m68k/coldfire/intc-2.c: In function 'intc_of_init':
+>> arch/m68k/coldfire/intc-2.c:242:11: error: implicit declaration of function 'irq_domain_add_linear'; did you mean 'irq_domain_create_linear'? [-Werror=implicit-function-declaration]
+     242 |  domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+         |           ^~~~~~~~~~~~~~~~~~~~~
+         |           irq_domain_create_linear
+>> arch/m68k/coldfire/intc-2.c:242:9: warning: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     242 |  domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+         |         ^
+   cc1: some warnings being treated as errors
+
+
+vim +242 arch/m68k/coldfire/intc-2.c
+
+   234	
+   235	static int __init intc_of_init(struct device_node *np,
+   236				       struct device_node *parent)
+   237	{
+   238		const unsigned int num = MCFINT_VECBASE + NR_IRQS;
+   239		struct irq_domain *domain;
+   240		int irq;
+   241	
+ > 242		domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+   243	
+   244		for (irq = MCFINT_VECBASE; irq < num; irq++)
+   245			irq_create_mapping(domain, irq);
+   246	
+   247		return 0;
+   248	}
+   249	
 
 --
 0-DAY CI Kernel Test Service
