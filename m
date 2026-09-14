@@ -1,193 +1,219 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E9D321F5E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 08:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F0B410D15
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 08:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789375625; cv=none; b=Wa+1mTVoNcHhEG2yiVX++DSMVDRFnTcJ6ICVctDafAjL3ZfEgxtBu/+L1/OcQmrKUrZfC4Vw3DxefDQkWNC/+/zQXMd4MteHHuXecunRaJnfnxtFVk8BqPNi9usSu3BJhYxVGkmB+dj44+BpK+JSqFei7pIwm3oBHTUs1hsr6Do=
+	t=1789376196; cv=none; b=deYwveSWnG4+9D3YvLUKD31MU1gkaZQE8FFiC+M7YrLgPSGkmIFx5G3bdKuwpaWRtKFSUS5bhdO944uc0eVcMqCQiiw+WyPUURaFU+5yli/AHsjgIVsTEagpp83Zjy1FTPCJXOhowfz8Pf+CbIup/ib07rtQ3NkN0JmCotMgxHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789375625; c=relaxed/simple;
-	bh=FxJcT3RJUKjKxteJq8SVKj9gRJ7WjcHz9G5G9MQU78E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PCKcg6ryeSlz7FmrPtPBvHxba+HvNhfMsxLq+jxLPUSD3RmFDE6pPCG17VbisBgS7OubHcOkqFodQrrPSzcSAuxpqiC7dGm3B1jENNy1GYaHd749If2rOut+Op+nyV+2UI2E81S8IMEGzMXNhhEuoiUO4j2Hbsyrk3WRbCawKdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sIK0zg9H; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789376196; c=relaxed/simple;
+	bh=SSLyMBuCkpiG5Hm+d3F+w7+8VA5JZHIf1pz8ld0+5uY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kRwbudZIFhfy6W8r4eVpsIn+wO3J5spZ2jO7nLFNPJdV64kpKWSz1GPSeQsLenDl3AGjLKCKcvg4BwKhjRXknkwKZKcPv0BW0w+e6MMtux7k30gFk6AxqrJq1iY3EnySy2GLLe0l3I+ZBdZtnPhxcmuagEWKj2mLfrPWf7OXPLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CF7jrqAu; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sIK0zg9H"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c253425b253so468032966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Sep 2026 01:47:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789375622; x=1789980422; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iFz3fsOX7eGaAeRErgHdDVQqe9JYeQLjMQwZmKraKFo=;
-        b=sIK0zg9H7kHvZmvIXqf2Rw+w2MZOvtmiJ1GCyXVzRaHg1V15tNwVeXgSAvVLgNaZIw
-         1YHPY/tv7YB261St//IPp9X04ybwOX/k4LHW9/mPBxXna+7AM2Gtm9Zk67kSp/h7RFI2
-         KjpgoylWekGjV3k9t4VlwWsjETpnA6P7XcotntunOKrYEs7kClsJkYY5kSuR1OXESTsW
-         NVeG3UYvRuNfOV2er6cVNgqkK6gC9YCY6UiNzDDJEvG4o1wpATndfbpFsbyYz/PTUxi/
-         V4oSXYk9m9okZf2JPp/yWc/PG69xg8p+SSCwX520Z0Ksmmc2Flc1Km571rrsFK+hVDTU
-         3jkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789375622; x=1789980422;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iFz3fsOX7eGaAeRErgHdDVQqe9JYeQLjMQwZmKraKFo=;
-        b=Khj3NKaTCCU3mkY/AUe5sWif7PeMpUj+oe9Kdtrp4APRibm2/n4vHF3xACE7Tt/wwL
-         SlFkA1f66zjnrNihUDJmPRX8+17hyEBqqwSd2B1//mPOFcPaj/Z8jj+047SVjrHjKNpT
-         oTtEJA4FWRxjko76RdgbOvkBoFJzxKGH7A1sJ+vDL6yfJC+/sq0SLEzDLaPJ4tE16Yjn
-         Gtv6l1BkjgBJFS8KLipJB2HBRPhLsx/Wa8whNdQux9yUXQyhtPHwhqQ4jLbYFjI9UYx5
-         a21mNy2jsO66MPefo1fSZc+p7/wXWhcKicrBNujcSV0Ohqg2aVaNF0Q2DT+6sJJ4YbuK
-         qnGA==
-X-Forwarded-Encrypted: i=1; AKwUvBznEOIraS9VA8MPolr2SqXibOFBu25hgrynyml7lnT4Gg+IJpCdmUaCpbqlVbtUD6Ad9fmNzOOMHsrJxeEQ@lists.linux.dev
-X-Gm-Message-State: AFuF++lGV/hlWi1sxUL91ZYf89XIpOhiEZxMcCsDy8BCj2iMUL9QaIGw
-	KKp3OQhZ+nkaKxpaJz5ZApYDkdRH8Q5wOlpLxefkU72TmmBQ6s4BODQ8
-X-Gm-Gg: AYBFou0kbDbT5cBuSNUhXh+Z3g6mMOP88JVEdoxmw/fwmYGztbB+zT1J67Yp/zPmnPS
-	vjdhjVKxxlkfCwgntoUv/fsHVwWX4TI/pjce7lt6d6VjGNxknUru4nsOoSomjvJF+PE/wl1tvRK
-	jGOwT53S6HKhrKqF2IMgvBqRdOMq6UZ60MVb0rd+Puh8ZVOMQg9yuOOnR7dz29R8L/NyfQ0jvE5
-	+uy28VIU+6FpxQRN3EhOhcpzAF+PWAnle0TNBXlEwH1PjEX3PrSVscIADFqJL+6Dgsn2qwMD9HN
-	Z+86kZfZYcfZPPli71t7i9TrhKEKMSfH7zpAzbZlgDO9FHlXlgnk10X64G32sclBTRVcltzFR5d
-	ZDMUkFb5qV9TLeciQXz5TWE3dbJpIYN86ynEq2AvXG4cJoK+mXyEW/DTxXyFZBXXvewwsTT/y7G
-	PSEOOvAZxR0Fp1nzE2zrDEn5QzaQ8ppssOleHufV/hMSZDKRhfhgB1SRpszOvhnD7YyMM=
-X-Received: by 2002:a17:907:7b9b:b0:c26:19de:9ae1 with SMTP id a640c23a62f3a-c29b8731b9cmr95876566b.32.1789375621273;
-        Mon, 14 Sep 2026 01:47:01 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2966147b46sm387543366b.60.2026.09.14.01.46.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 01:47:00 -0700 (PDT)
-Date: Mon, 14 Sep 2026 11:46:56 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [kas:collapse/rfc-wip 41/84] mm/swap_state.c:481
- __swap_cache_alloc() warn: use 'gfp' here instead of GFP_KERNEL?
-Message-ID: <aqe0gMZsQSnofm3f@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CF7jrqAu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789376191; x=1820912191;
+  h=date:from:to:cc:subject:message-id;
+  bh=SSLyMBuCkpiG5Hm+d3F+w7+8VA5JZHIf1pz8ld0+5uY=;
+  b=CF7jrqAudTwmTi93nbcwNwWBYJmM0Rt7gCEZHOgJMpY588iCqkW+17Tz
+   sW/heChhb8D8mZr0bOPLJqMciWleK7ztXDFlsx1PF2rarSaEb4WqNzZGJ
+   NWeydtSuIF0wqQr81xjTTU4cNY6Vrfaa+hNJ4CbQiewaz2ga2Ggi+BR53
+   jnpSeutlc2NX90dv4JIzFk2+o5U1bhUxsjUZ2bYbUxh10UMrwInGyqGNA
+   /zOcOAFfCy8iSeZnVFfQJHqd16iJttEYAWslduCKkjdMwrBncsnNh/eLe
+   sp36KmTvZ8tl4hmNEvSkagmnmw3M8nCtIo9jBC8c2im42dc5RSPFXoS71
+   Q==;
+X-CSE-ConnectionGUID: lVR7JuJjRcyf53BKBqlfiQ==
+X-CSE-MsgGUID: YoBpKFmxSNKhkvQPKFq8sQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="93549888"
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="93549888"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:56:28 -0700
+X-CSE-ConnectionGUID: 0XW/kOLcRU2nuyJx7FEEjQ==
+X-CSE-MsgGUID: t1kcsGeCRYWfDtLBWq8GZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="302471960"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 14 Sep 2026 01:56:26 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x62UC-000000002hH-0Fkh;
+	Mon, 14 Sep 2026 08:56:24 +0000
+Date: Mon, 14 Sep 2026 16:56:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [liam:maple_marks_v4 9/16] lib/test_maple_tree.c:359:8:
+ error: implicit declaration of function 'mas_data_end'
+Message-ID: <202609141637.Bn7wqzBf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git collapse/rfc-wip
-head:   36226b1e4970c52a3c0d491dcf17800eb800958a
-commit: 1e7fc9164723073d7b48f251446ae662becf45e2 [41/84] mm/huge_memory: let the caller pick the gfp for the deferred-split heads
-config: mips-randconfig-r072-20260913 (https://download.01.org/0day-ci/archive/20260914/202609140034.5e6tLkPc-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 16.1.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/liam/linux.git maple_marks_v4
+head:   de1ab7ba20a1402fb09d82f56c37732e65e1b0f7
+commit: 59685a5ddca1208bbdcbb990f5cacabb224b369f [9/16] maple_tree: Testing code update for triple split
+config: csky-randconfig-002-20260914 (https://download.01.org/0day-ci/archive/20260914/202609141637.Bn7wqzBf-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260914/202609141637.Bn7wqzBf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609140034.5e6tLkPc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609141637.Bn7wqzBf-lkp@intel.com/
 
-smatch warnings:
-mm/swap_state.c:481 __swap_cache_alloc() warn: use 'gfp' here instead of GFP_KERNEL?
+All error/warnings (new ones prefixed by >>):
 
-vim +/gfp +481 mm/swap_state.c
+   lib/test_maple_tree.c: In function 'mas_node_fill':
+   lib/test_maple_tree.c:356:29: error: implicit declaration of function 'mt_slot_count' [-Werror=implicit-function-declaration]
+     356 |  if (mas->max - mas->min <= mt_slot_count(mas->node))
+         |                             ^~~~~~~~~~~~~
+>> lib/test_maple_tree.c:359:8: error: implicit declaration of function 'mas_data_end' [-Werror=implicit-function-declaration]
+     359 |  val = mas_data_end(mas) + 1;
+         |        ^~~~~~~~~~~~
+   lib/test_maple_tree.c: In function 'test_mas_node_depth':
+>> lib/test_maple_tree.c:420:2: error: implicit declaration of function 'mas_start'; did you mean 'mas_store'? [-Werror=implicit-function-declaration]
+     420 |  mas_start(mas);
+         |  ^~~~~~~~~
+         |  mas_store
+>> lib/test_maple_tree.c:426:9: error: implicit declaration of function 'ma_pivots' [-Werror=implicit-function-declaration]
+     426 |   piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |         ^~~~~~~~~
+   lib/test_maple_tree.c:426:19: error: implicit declaration of function 'mas_mn' [-Werror=implicit-function-declaration]
+     426 |   piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |                   ^~~~~~
+>> lib/test_maple_tree.c:426:32: error: implicit declaration of function 'mte_node_type' [-Werror=implicit-function-declaration]
+     426 |   piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |                                ^~~~~~~~~~~~~
+>> lib/test_maple_tree.c:426:7: warning: assignment to 'long unsigned int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     426 |   piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+         |       ^
+   lib/test_maple_tree.c:432:3: error: implicit declaration of function 'mas_descend'; did you mean 'mas_reset'? [-Werror=implicit-function-declaration]
+     432 |   mas_descend(mas);
+         |   ^~~~~~~~~~~
+         |   mas_reset
+   lib/test_maple_tree.c: In function 'mas_internal_node_fill':
+   lib/test_maple_tree.c:443:23: error: implicit declaration of function 'mte_is_leaf' [-Werror=implicit-function-declaration]
+     443 |  MT_BUG_ON(mas->tree, mte_is_leaf(mas->node));
+         |                       ^~~~~~~~~~~
+   lib/test_maple_tree.c:30:6: note: in definition of macro 'MT_BUG_ON'
+      30 |  if (__x) {       \
+         |      ^~~
+   lib/test_maple_tree.c: In function 'check_ranges':
+>> lib/test_maple_tree.c:1528:58: error: subscripted value is neither array nor pointer nor vector
+    1528 |  index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[7] + 1;
+         |                                                          ^
+   lib/test_maple_tree.c:1535:58: error: subscripted value is neither array nor pointer nor vector
+    1535 |  index = ma_pivots(mas_mn(&mas), mte_node_type(mas.node))[8] + 1;
+         |                                                          ^
+   cc1: some warnings being treated as errors
 
-e1e6750df3b473 Kairui Song            2026-05-17  416  static struct folio *__swap_cache_alloc(struct swap_cluster_info *ci,
-e1e6750df3b473 Kairui Song            2026-05-17  417  					swp_entry_t targ_entry, gfp_t gfp,
-e1e6750df3b473 Kairui Song            2026-05-17  418  					unsigned int order, struct vm_fault *vmf,
-e1e6750df3b473 Kairui Song            2026-05-17  419  					struct mempolicy *mpol, pgoff_t ilx)
-e1e6750df3b473 Kairui Song            2026-05-17  420  {
-e1e6750df3b473 Kairui Song            2026-05-17  421  	int err;
-e1e6750df3b473 Kairui Song            2026-05-17  422  	swp_entry_t entry;
-e1e6750df3b473 Kairui Song            2026-05-17  423  	struct folio *folio;
-e1e6750df3b473 Kairui Song            2026-05-17  424  	void *shadow = NULL;
-bc34e87a51d9e5 Kairui Song            2026-05-17  425  	unsigned short memcg_id;
-e1e6750df3b473 Kairui Song            2026-05-17  426  	unsigned long address, nr_pages = 1UL << order;
-e1e6750df3b473 Kairui Song            2026-05-17  427  	struct vm_area_struct *vma = vmf ? vmf->vma : NULL;
-e1e6750df3b473 Kairui Song            2026-05-17  428  
-e1e6750df3b473 Kairui Song            2026-05-17  429  	VM_WARN_ON_ONCE(nr_pages > SWAPFILE_CLUSTER);
-e1e6750df3b473 Kairui Song            2026-05-17  430  	entry.val = round_down(targ_entry.val, nr_pages);
-e1e6750df3b473 Kairui Song            2026-05-17  431  
-e1e6750df3b473 Kairui Song            2026-05-17  432  	/* Check if the slot and range are available, skip allocation if not */
-e1e6750df3b473 Kairui Song            2026-05-17  433  	spin_lock(&ci->lock);
-bc34e87a51d9e5 Kairui Song            2026-05-17  434  	err = __swap_cache_add_check(ci, targ_entry, nr_pages, NULL, NULL);
-e1e6750df3b473 Kairui Song            2026-05-17  435  	spin_unlock(&ci->lock);
-e1e6750df3b473 Kairui Song            2026-05-17  436  	if (unlikely(err))
-e1e6750df3b473 Kairui Song            2026-05-17  437  		return ERR_PTR(err);
-e1e6750df3b473 Kairui Song            2026-05-17  438  
-e1e6750df3b473 Kairui Song            2026-05-17  439  	/*
-e1e6750df3b473 Kairui Song            2026-05-17  440  	 * Limit THP gfp. The limitation is a no-op for typical
-e1e6750df3b473 Kairui Song            2026-05-17  441  	 * GFP_HIGHUSER_MOVABLE but matters for shmem.
-                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Comment here which mentions gfp but is too advanced for my small
-brain.
 
-e1e6750df3b473 Kairui Song            2026-05-17  442  	 */
-e1e6750df3b473 Kairui Song            2026-05-17  443  	if (order)
-e1e6750df3b473 Kairui Song            2026-05-17  444  		gfp = thp_shmem_limit_gfp_mask(vma_thp_gfp_mask(vma), gfp);
-e1e6750df3b473 Kairui Song            2026-05-17  445  
-e1e6750df3b473 Kairui Song            2026-05-17  446  	if (mpol || !vmf) {
-e1e6750df3b473 Kairui Song            2026-05-17  447  		folio = folio_alloc_mpol(gfp, order, mpol, ilx, numa_node_id());
-e1e6750df3b473 Kairui Song            2026-05-17  448  	} else {
-e1e6750df3b473 Kairui Song            2026-05-17  449  		address = round_down(vmf->address, PAGE_SIZE << order);
-e1e6750df3b473 Kairui Song            2026-05-17  450  		folio = vma_alloc_folio(gfp, order, vmf->vma, address);
-e1e6750df3b473 Kairui Song            2026-05-17  451  	}
-e1e6750df3b473 Kairui Song            2026-05-17  452  	if (unlikely(!folio))
-e1e6750df3b473 Kairui Song            2026-05-17  453  		return ERR_PTR(-ENOMEM);
-e1e6750df3b473 Kairui Song            2026-05-17  454  
-e1e6750df3b473 Kairui Song            2026-05-17  455  	/* Double check the range is still not in conflict */
-e1e6750df3b473 Kairui Song            2026-05-17  456  	spin_lock(&ci->lock);
-bc34e87a51d9e5 Kairui Song            2026-05-17  457  	err = __swap_cache_add_check(ci, targ_entry, nr_pages, &shadow, &memcg_id);
-e1e6750df3b473 Kairui Song            2026-05-17  458  	if (unlikely(err)) {
-e1e6750df3b473 Kairui Song            2026-05-17  459  		spin_unlock(&ci->lock);
-e1e6750df3b473 Kairui Song            2026-05-17  460  		folio_put(folio);
-e1e6750df3b473 Kairui Song            2026-05-17  461  		return ERR_PTR(err);
-e1e6750df3b473 Kairui Song            2026-05-17  462  	}
-e1e6750df3b473 Kairui Song            2026-05-17  463  
-e1e6750df3b473 Kairui Song            2026-05-17  464  	__folio_set_locked(folio);
-e1e6750df3b473 Kairui Song            2026-05-17  465  	__folio_set_swapbacked(folio);
-e1e6750df3b473 Kairui Song            2026-05-17  466  	__swap_cache_do_add_folio(ci, folio, entry);
-e1e6750df3b473 Kairui Song            2026-05-17  467  	spin_unlock(&ci->lock);
-e1e6750df3b473 Kairui Song            2026-05-17  468  
-bc34e87a51d9e5 Kairui Song            2026-05-17  469  	if (mem_cgroup_swapin_charge_folio(folio, memcg_id,
-bc34e87a51d9e5 Kairui Song            2026-05-17  470  					   vmf ? vmf->vma->vm_mm : NULL, gfp)) {
-e1e6750df3b473 Kairui Song            2026-05-17  471  		spin_lock(&ci->lock);
-e1e6750df3b473 Kairui Song            2026-05-17  472  		__swap_cache_do_del_folio(ci, folio, entry, shadow);
-e1e6750df3b473 Kairui Song            2026-05-17  473  		spin_unlock(&ci->lock);
-e1e6750df3b473 Kairui Song            2026-05-17  474  		folio_unlock(folio);
-e1e6750df3b473 Kairui Song            2026-05-17  475  		/* nr_pages refs from swap cache, 1 from allocation */
-e1e6750df3b473 Kairui Song            2026-05-17  476  		folio_put_refs(folio, nr_pages + 1);
-e1e6750df3b473 Kairui Song            2026-05-17  477  		count_mthp_stat(order, MTHP_STAT_SWPIN_FALLBACK_CHARGE);
-e1e6750df3b473 Kairui Song            2026-05-17  478  		return ERR_PTR(-ENOMEM);
-e1e6750df3b473 Kairui Song            2026-05-17  479  	}
-e1e6750df3b473 Kairui Song            2026-05-17  480  
-1e7fc916472307 Kiryl Shutsemau (Meta  2026-08-24 @481) 	if (order > 1 && folio_memcg_alloc_deferred(folio, GFP_KERNEL)) {
+vim +/mas_data_end +359 lib/test_maple_tree.c
 
-Should this be gfp instead of GFP_KERNEL?
-
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  482  		spin_lock(&ci->lock);
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  483  		__swap_cache_do_del_folio(ci, folio, entry, shadow);
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  484  		spin_unlock(&ci->lock);
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  485  		folio_unlock(folio);
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  486  		/* nr_pages refs from swap cache, 1 from allocation */
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  487  		folio_put_refs(folio, nr_pages + 1);
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  488  		return ERR_PTR(-ENOMEM);
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  489  	}
-fafaeceb89a5e2 Johannes Weiner        2026-05-27  490  
-945578fee2ec17 Kairui Song            2026-05-17  491  	/* memsw uncharges swap when folio is added to swap cache */
-945578fee2ec17 Kairui Song            2026-05-17  492  	memcg1_swapin(folio);
-e1e6750df3b473 Kairui Song            2026-05-17  493  	if (shadow)
-e1e6750df3b473 Kairui Song            2026-05-17  494  		workingset_refault(folio, shadow);
-e1e6750df3b473 Kairui Song            2026-05-17  495  
-e1e6750df3b473 Kairui Song            2026-05-17  496  	node_stat_mod_folio(folio, NR_FILE_PAGES, nr_pages);
-e1e6750df3b473 Kairui Song            2026-05-17  497  	lruvec_stat_mod_folio(folio, NR_SWAPCACHE, nr_pages);
-e1e6750df3b473 Kairui Song            2026-05-17  498  
-e1e6750df3b473 Kairui Song            2026-05-17  499  	/* Caller will initiate read into locked new_folio */
-e1e6750df3b473 Kairui Song            2026-05-17  500  	folio_add_lru(folio);
-e1e6750df3b473 Kairui Song            2026-05-17  501  	return folio;
-e1e6750df3b473 Kairui Song            2026-05-17  502  }
+   343	
+   344	static noinline bool __init mas_node_fill(struct ma_state *mas)
+   345	{
+   346		int target, val;
+   347		void *fill = (void*)0x11111111;
+   348		unsigned long high;
+   349	
+   350		if (!mas_is_active(mas))
+   351			mas_walk(mas);
+   352	
+   353		if (!mas_is_active(mas))
+   354			return false;
+   355	
+   356		if (mas->max - mas->min <= mt_slot_count(mas->node))
+   357			goto done;
+   358	
+ > 359		val = mas_data_end(mas) + 1;
+   360		target = mt_slot_count(mas->node);
+   361		if (val == target)
+   362			goto full;
+   363	
+   364		mas_walk(mas);
+   365		high = mas->max;
+   366		while (target > val && mas_is_active(mas)) {
+   367			unsigned long old_last = mas->last;
+   368			unsigned long new_last;
+   369	
+   370			if (old_last > mas->index) {
+   371				new_last = mas->index + 1;
+   372				if (new_last <= mas->index || new_last > old_last)
+   373					new_last = old_last;
+   374				mas->last = new_last;
+   375				mas_store(mas, fill);
+   376				val = mas_data_end(mas) + 1;
+   377				if (target <= val)
+   378					break;
+   379			}
+   380			mas_next_range(mas, high);
+   381			if (!mas_is_active(mas))
+   382				break;
+   383		}
+   384		return mas_node_first_split_offset(mas);
+   385	
+   386	full:
+   387		if (mas->max - mas->min > mt_slot_count(mas->node))
+   388			return mas_node_first_split_offset(mas);
+   389	done:
+   390		mas_set(mas, mas->max);
+   391		mas_walk(mas);
+   392		return false;
+   393	}
+   394	
+   395	static noinline bool __init mas_node_split(struct ma_state *mas)
+   396	{
+   397		void *fill = (void*)0x22222222;
+   398		unsigned long old_last, new_last;
+   399	
+   400		if (mas_node_fill(mas)) {
+   401			old_last = mas->last;
+   402			if (old_last <= mas->index)
+   403				return false;
+   404	
+   405			new_last = mas->index + 1;
+   406			if (new_last <= mas->index || new_last > old_last)
+   407				new_last = old_last;
+   408			mas->last = new_last;
+   409			mas_store(mas, fill);
+   410			return true;
+   411		}
+   412	
+   413		return false;
+   414	}
+   415	
+   416	static noinline void __init test_mas_node_depth(struct ma_state *mas,
+   417			int depth)
+   418	{
+   419		mas_reset(mas);
+ > 420		mas_start(mas);
+   421		while (mas->depth < depth) {
+   422			unsigned long *piv;
+   423			int count, offset;
+   424	
+   425			count = mas_data_end(mas);
+ > 426			piv = ma_pivots(mas_mn(mas), mte_node_type(mas->node));
+   427			offset = 0;
+   428			while (offset < count && mas->index > piv[offset]) {
+   429				offset++;
+   430			}
+   431			mas->offset = offset;
+   432			mas_descend(mas);
+   433			mas->depth++;
+   434		}
+   435	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
