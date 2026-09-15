@@ -1,97 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5733D424641;
-	Tue, 15 Sep 2026 06:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199A14519AF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 07:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789454502; cv=none; b=h7veJEFDIkNROGq0q2wq0Xu44f22YPoG6ul2MeDZW3twxc2ol0LEwLcWYSE5bCTbKihhYcvaFC66txqE1ilp7kjDAHVuiXgKfrdWtDHOjvqA1oQkq6S2jANRPCXYxesUDoOMx9JH3wi1MYiR97oBGz+tvc6e7rWCXJtj60cOeyg=
+	t=1789458904; cv=none; b=ISls/Yb4qXxcdm0CGPjiuFDz/hFdCS+z1wK4/9Ibl8RlyK+yBbYVlV+KdeGk0cBipfRy/CTd1vinTXRtdpqpEO5PNVvVl7XxiAOWFP8WxyhWSvb9nXaz+sWCtZcWsoKFmE12AYLFY+Kzs7yxGveFkoMzBBTR3Wx+zVlHkgFLxIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789454502; c=relaxed/simple;
-	bh=8xsDiHnrTVHnMEPDXfmMj6XBJcFRIj24SgEwMPFYk0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLWWla2QJbnvzsc4AYwSjZ33yeUD/LPON8766u/ReH13eJwb09W3C5fXOC1B40iVwne+XY64lnBrstCB3xurwxTruSC1vd31ZfStJ7SRnmRo3cidq8I878VjHHsKRoWwHiLDcXr/FecgOL5BXcYQsUZZXTCxQaMuVb856ATaS1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEsL92r9; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1789458904; c=relaxed/simple;
+	bh=VfGbXURTWEJDEpAlE1PtCOQRVGZoorfKLuTzFOJHQ5s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YosSO7PwK/prfxhvkLe/yH8mUHNQ8sX7qtZsgE/3oYkdzt18SoRFNJgjXwzfh+l1j6Zvth4DVJHHzSkMKVKgPCGAHYEb+NiE6oljLT+/iLuuPG30lfKEs895x+KXXeyHPUzoadnnOYHMbPDVgYeXKMfNgL3lDOig9oZOyAwjPko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NjLRmz/A; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEsL92r9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NjLRmz/A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789454500; x=1820990500;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8xsDiHnrTVHnMEPDXfmMj6XBJcFRIj24SgEwMPFYk0Y=;
-  b=bEsL92r9VMWgPzN6szjdkKWUOHv+007r3Z+eq31uVYfA8TLwzibuwt9e
-   HM8sq1Zh3M2Ek6SUW0T6NlTE0ALoiZsVzAkxIecg1iqup4QGC0ZzvDEm6
-   0FqyAS8yaGfIaWp3sPjR9te/Ofs4ee5TlDy1a0wZ+FRzi36rUNSqpChgH
-   OEwipUI6R9byZ74Cq4iMpD3nxHNMs8XUT86vSVWOfbp2aRitQYbLzkTye
-   ebcjDhijpr8kMbm6K/PAWf6zEv0eoSdjWwHaXiHnGIMMwgB3KNXK7F+K/
-   FeTEblDcd01bPV7RcD4wz5GPqYd+dOj0I6dTc8EG0nk4wZDoXP62UAPJ+
-   Q==;
-X-CSE-ConnectionGUID: 71mF8h/DRtKmKKGLyr4yuA==
-X-CSE-MsgGUID: M8IQKyovQZSuTnvJLFDlrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93632886"
+  t=1789458902; x=1820994902;
+  h=date:from:to:cc:subject:message-id;
+  bh=VfGbXURTWEJDEpAlE1PtCOQRVGZoorfKLuTzFOJHQ5s=;
+  b=NjLRmz/AnNhxF7VH8N/emwSiB2W0wVPwEiEw1rHEbBn9ng06bUeE+aEO
+   5/FIuqdgs5iAZH/CxV7MOkyvM4RID2AB6zs/NV8tHmknQJyHcOdrqf54e
+   erEykCxuices2kck/QjSCpSVdXNlHGPLVHWrj0oCAoY+LfM5E7f0EjLbk
+   W5lICtdD1ukUgeFTImUmn+1icP5Z3Dxb0VZIEhLglHaGMSsF5tGp7wKUk
+   78iBOB70NYr8HoSR+/g31LmeSqkQRHTlut5LJyh8N6v1RMilICEka3Mry
+   VZwNJjQ0MEOwfElq0ga8rgj24PabN8y4DAHSL/MkT6Z5c06txENEzZUCO
+   A==;
+X-CSE-ConnectionGUID: Tm+lunmuQVmEwOoGGDgXcw==
+X-CSE-MsgGUID: hoANY2NMTNquC7gvbOP5uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="112582049"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="93632886"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 23:41:40 -0700
-X-CSE-ConnectionGUID: VznnDdlgTX+jg4YVBXqBAw==
-X-CSE-MsgGUID: sOZgthxqQaW0wQlBHLf1rA==
+   d="scan'208";a="112582049"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 00:54:51 -0700
+X-CSE-ConnectionGUID: 1ZBxu/IXRMapXZj/VQ0YXA==
+X-CSE-MsgGUID: 6DAvFib5Ru6Sp43cvagpoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1255241"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 14 Sep 2026 23:41:37 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="270256141"
+Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 15 Sep 2026 00:54:50 -0700
+Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6MrF-0000000048U-2nsv;
-	Tue, 15 Sep 2026 06:41:33 +0000
-Date: Tue, 15 Sep 2026 14:40:37 +0800
+	id 1x6O08-000000000XV-0hnK;
+	Tue, 15 Sep 2026 07:54:48 +0000
+Date: Tue, 15 Sep 2026 09:54:34 +0200
 From: kernel test robot <lkp@intel.com>
-To: Zihan Xi <zihanx@nebusec.ai>, dhowells@redhat.com,
-	marc.dionne@auristor.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, zihanx@nebusec.ai,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, linux-afs@lists.infradead.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Vega <vega@nebusec.ai>,
-	Luxing Yin <root@tr0jan.top>
-Subject: Re: [PATCH net v5 1/1] rxrpc: fix encap_rcv skb accounting exhaustion
-Message-ID: <202609151453.yX0JDG4h-lkp@intel.com>
-References: <d38b683f6d583cbbc23ee149b50b15b6e4efc567.1789273347.git.zihanx@nebusec.ai>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:7.2/prjc 118/118] kernel/sched/alt_core.c:5356:6:
+ warning: no previous prototype for 'rt_mutex_futex_pre_schedule'
+Message-ID: <202609150948.xf4VLXJU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d38b683f6d583cbbc23ee149b50b15b6e4efc567.1789273347.git.zihanx@nebusec.ai>
 
-Hi Zihan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zihan-Xi/rxrpc-fix-encap_rcv-skb-accounting-exhaustion/20260914-130912
-base:   net/main
-patch link:    https://lore.kernel.org/r/d38b683f6d583cbbc23ee149b50b15b6e4efc567.1789273347.git.zihanx%40nebusec.ai
-patch subject: [PATCH net v5 1/1] rxrpc: fix encap_rcv skb accounting exhaustion
-config: x86_64-randconfig-073-20260915 (https://download.01.org/0day-ci/archive/20260915/202609151453.yX0JDG4h-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151453.yX0JDG4h-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 7.2/prjc
+head:   ecdb5900a34a8291a8457c0e29cca911c55dbf67
+commit: ecdb5900a34a8291a8457c0e29cca911c55dbf67 [118/118] sched/alt: [Sync] b715872ef0cc futex: Provide rt_mutex_.*_schedule() equivalents for futex scheduling
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20260915/202609150948.xf4VLXJU-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150948.xf4VLXJU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609151453.yX0JDG4h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609150948.xf4VLXJU-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: net/rxrpc/rxrpc.ko: symbol 'sysctl_rmem_default' undefined!
+>> kernel/sched/alt_core.c:5356:6: warning: no previous prototype for 'rt_mutex_futex_pre_schedule' [-Wmissing-prototypes]
+    5356 | void rt_mutex_futex_pre_schedule(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/alt_core.c:5375:6: warning: no previous prototype for 'rt_mutex_futex_post_schedule' [-Wmissing-prototypes]
+    5375 | void rt_mutex_futex_post_schedule(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/rt_mutex_futex_pre_schedule +5356 kernel/sched/alt_core.c
+
+  5351	
+  5352	/*
+  5353	 * Used within the futex syscall context, skips sched_submit_work() because none
+  5354	 * its work will be done. Asserts ensure that it is indeed the case.
+  5355	 */
+> 5356	void rt_mutex_futex_pre_schedule(void)
+  5357	{
+  5358		lockdep_assert(!(current->flags & (PF_WQ_WORKER | PF_IO_WORKER)));
+  5359		lockdep_assert(!current->plug);
+  5360		lockdep_assert(!fetch_and_set(current->sched_rt_mutex, 1));
+  5361	}
+  5362	
+  5363	void rt_mutex_schedule(void)
+  5364	{
+  5365		lockdep_assert(current->sched_rt_mutex);
+  5366		__schedule_loop(SM_NONE);
+  5367	}
+  5368	
+  5369	void rt_mutex_post_schedule(void)
+  5370	{
+  5371		sched_update_worker(current);
+  5372		lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
+  5373	}
+  5374	
+> 5375	void rt_mutex_futex_post_schedule(void)
+  5376	{
+  5377		lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
+  5378	}
+  5379	
 
 --
 0-DAY CI Kernel Test Service
