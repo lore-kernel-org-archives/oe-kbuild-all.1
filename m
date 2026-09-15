@@ -1,91 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D7B3D3318
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 02:34:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903C828033B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 02:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789439679; cv=none; b=Q5LVHvr3GLIzGkulILmC3BPdJw0l4/iGZfP9Qx+h5Q84VX9GONqMv+AKO/tE09GVUD4FgKEVM2XJABq0LLwzBV68fDh2A5mPY3Fhj/6/0Fr85m/F89Axt4js5u0NrBNdCfaVBP00mhUClGj4Be/9qoQu3oFTQeMGNn/cvFfCkZg=
+	t=1789440877; cv=none; b=c868rlKP6iowrg8P+BSXvAZVRjyOSpoUFS5+v/DRAYV4B4tswXBJfYkwqHgQvReZhrReXA025ZAhlrwUDXAui5nGKMLmEBU3whNQlrwGknaNlVqMExRGAMRaT0ojfeH52agyXWstLe4kKWFSTajfwU6mFv017Q7pJvym+aiysH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789439679; c=relaxed/simple;
-	bh=6CFH/hg1Ov1WfGfDWpFTvm7ZV97MeuSSfnzyWhkMwFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=GmdpMLLACDAhKicAAcvKi++IYZ4LXDZa1LTVxuwM6AhuEb5vMi2d9xZ8M59J96bHN6H0AOUndc3cWQFVRSXJ545ZfZVRqA/OWdYT361Gbot4REwppDH6u7yPdGyFEOL3zb6EsCogdcwFjlFnfS1tofvyEKGqiY6OrRNKW3ZEPCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+1L1UBd; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1789440877; c=relaxed/simple;
+	bh=JjzyLZ342E7meiR+yXY3phbi+ld2J3zA+8ltmqbXYOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pRFp4BFonZIMhAuGXfR6nB0Jo8+ikuC+ET9M+Tw39IqdnDlttK6UZi5DoQP+zCXsGn+QKdYFTdymLbmgYqwFnq15O5pCoAzgNysiukkqe6ljdy5lAj2HZOAqVdFm4Kj2Kv9BX63/7vTgLmJUK/b7z4+4dxtNLBhS5ajzU+u/ZFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i82275bM; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+1L1UBd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i82275bM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789439675; x=1820975675;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6CFH/hg1Ov1WfGfDWpFTvm7ZV97MeuSSfnzyWhkMwFc=;
-  b=l+1L1UBdIq30shfUKK36uQWfp9Aee1r0F3dDhV0Oj2c9zVcH1qZc9o9r
-   iBMGz1KMjD6T51PZmm/PqeIyZE6I/GrH+lXNf7Dn+k1RBn/+g+7DKsUEz
-   AS9gi1bOMajSFP3iYpsTWj/RqLmmzOYwNSuk9/HPWx2lN4IGQJfkDFwUg
-   wUo8P3zEkiL488DqLd37wlN5K+T9csqyGdWnO7NldNKtK/BfPQcj4Nsy6
-   /WyfEg+5sLsUEkexpqXKqh0zQPXQE1z5YvAlbNTz65nICzfsMfccf2srB
-   EMH8CFOM4IkFrhQaBtiL2B3kuHAtDfjGUUxMsgTtAqTFlSAzMC517hhrU
-   w==;
-X-CSE-ConnectionGUID: q47tRPb0Q32H0Lv7qhFD9w==
-X-CSE-MsgGUID: cVKpe2n5S6OyLkYNt1QRpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="92304633"
+  t=1789440875; x=1820976875;
+  h=date:from:to:cc:subject:message-id;
+  bh=JjzyLZ342E7meiR+yXY3phbi+ld2J3zA+8ltmqbXYOQ=;
+  b=i82275bMgDF7gbuCeTW64O9Zz0kfKb0gO69VFr2zZbaQ+nI7/c9Rw2YF
+   Pl3GeFTSY4yg2OkiOkAGWpFtNtzSX4dMwQjaU03JjMsGHZg/qIQMoSPab
+   FNHGgN7s3J6Hct4OK5LMkpZFp7JpQcrGurKZ7InNfVSovsahBSFdnBvcK
+   i/IVNbv+Z9TUJGaQh2vrntf65/OjftBYQ803Kp74bqH++wp1uXjrVu6+l
+   kA0p3m0ABwY21KbJzvYR0XXP0StC5RIHtxHk1AZYqekU/4ele3gc7h0jE
+   YElTESFGhxyTvhaup/s0BXPlT9xEHJTqh3RjQQ++ZuYbsd0DwuSQ8QdOG
+   g==;
+X-CSE-ConnectionGUID: +P4OThycTPynWYonFSQ9MQ==
+X-CSE-MsgGUID: /I5Wi7X0RfGgCjOY0ep8PA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89639300"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="92304633"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 19:34:30 -0700
-X-CSE-ConnectionGUID: BssNTp6vS/C2kWKGTpwHrQ==
-X-CSE-MsgGUID: ODChjbPcT4i1iXHNg+4FvA==
+   d="scan'208";a="89639300"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 19:54:35 -0700
+X-CSE-ConnectionGUID: uHdo3FBvQFCQ9CayfZx6cA==
+X-CSE-MsgGUID: XTul5aEnQnaSG9SyA8gULA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="268528034"
+   d="scan'208";a="269135209"
 Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Sep 2026 19:34:29 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2026 19:54:33 -0700
 Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6J06-000000000Sx-3UWS;
-	Tue, 15 Sep 2026 02:34:26 +0000
-Date: Tue, 15 Sep 2026 04:33:37 +0200
+	id 1x6JJW-000000000Tf-3ebS;
+	Tue, 15 Sep 2026 02:54:30 +0000
+Date: Tue, 15 Sep 2026 04:54:12 +0200
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Andr=C3=A9?= Almeida" <andrealmeid@igalia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>
-Subject: [arnd-asm-generic:asm-generic 9/13] make[3]: *** No rule to
- make target 'arch/mips/include/generated/uapi/asm/unistd_n64.h', needed by
- 'all'.
-Message-ID: <202609150414.DqgSFy2C-lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [gourryinverse:scratch/gourry/managed_nodes/rfc6-complete
+ 5/67] Warning: mm/balloon.c:116 function parameter 'allocatable_only' not
+ described in '__balloon_page_list_dequeue'
+Message-ID: <202609150435.m71Y43mY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git asm-generic
-head:   bc3f9642aa608f557a37a97d6c4f73a223fb35e3
-commit: f01e296ac213455eacb228e75c7fe04f529757bb [9/13] mips: Use the common syscall table
-config: mips-randconfig-r064-20260915 (https://download.01.org/0day-ci/archive/20260915/202609150414.DqgSFy2C-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150414.DqgSFy2C-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux scratch/gourry/managed_nodes/rfc6-complete
+head:   0423df59f3f085592c3ff59834eeae067ee75158
+commit: bffbc25036a9d12170b0fac9418be694af8622b5 [5/67] mm, virtio-balloon: don't deflate into a withdrawn zone on OOM
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260915/202609150435.m71Y43mY-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150435.m71Y43mY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609150414.DqgSFy2C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609150435.m71Y43mY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> make[3]: *** No rule to make target 'arch/mips/include/generated/uapi/asm/unistd_n64.h', needed by 'all'.
->> make[3]: *** No rule to make target 'arch/mips/include/generated/uapi/asm/unistd_n32.h', needed by 'all'.
-   make[3]: Target 'all' not remade because of errors.
-   make[2]: *** [arch/mips/Makefile:437: archheaders] Error 2 shuffle=2927363064
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2927363064
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2927363064
-   make: Target 'prepare' not remade because of errors.
+>> Warning: mm/balloon.c:116 function parameter 'allocatable_only' not described in '__balloon_page_list_dequeue'
+>> Warning: mm/balloon.c:116 expecting prototype for balloon_page_list_dequeue(). Prototype was for __balloon_page_list_dequeue() instead
 
 --
 0-DAY CI Kernel Test Service
