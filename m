@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746F7199920
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 05:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FA93BCD29
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 06:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789449621; cv=none; b=pLuw59G3mQU0HY6XYhjb/cE1I4xywgwpyqCNMshH3og5smjQ1DNeApnuW8y1Ws4OT+ow11wi+1yVAa5VoJ/AONwXy9Ba+E63ihvG65ujmok7iJbxyu98Rg9VrNHk+WCoq29jnd0mV7LlQD0LDTviDVeg6ANZtm5nuFDjzBEUR3U=
+	t=1789453287; cv=none; b=kAdV/5DUa9Uu2tOZzB4xdpB9YGvUEl7WIXXdYbqaG3df44KfvC1szruT2yAjurwCZHrwPq/nLC3Z7b7b0iM6mxzoX6GAVZUNHqa9HK3DnKZ7/rAZ0+G/idC9PrVSt8lFe9AGHbOw2N3379cal4bShaQuy/EeOp6w1G7iQCF4+gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789449621; c=relaxed/simple;
-	bh=7rK/EneZUE/fh0qxwam6b3bbTTgpIgOTtTIMajfhm/U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Jw7KQUsldzNPvL4a9OkKlJ6Nsma47SZLDeiD31rnejGuTzUXjjNqBGdQ+trX3mCPLXw3bi3pIgZqsiXQ3nXjBjUK8xsYUnD/h5AjwMQzKvVcnj0gl6HkldEBnHfCtDWIZsw8OzuoZ8Qnvt8wWe0l94ksztndUoHtCnW0zNkaHCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HeXJ9oeJ; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1789453287; c=relaxed/simple;
+	bh=z4G27XxUCwqaCPH9yLtGpo7U8rzF3MYd6XaVWXaiCkc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WIuDO4P2msB1uMH5CT3z8AVN6Vswn6FS6o6Ry3M2oWhvbWYI1gxEfU5O3XvKvuE3JpqCKbQXadpm95FMkzxZ1vf4WfXjxj5pmiYll8unhZmoAKnZ9p5fMFfhjk5HCg5WXpMXAveiVl/5dgSDUPsCvHDNozLu/SlGEqXxTGNtaiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dq8vj7e2; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HeXJ9oeJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dq8vj7e2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789449619; x=1820985619;
+  t=1789453285; x=1820989285;
   h=date:from:to:cc:subject:message-id;
-  bh=7rK/EneZUE/fh0qxwam6b3bbTTgpIgOTtTIMajfhm/U=;
-  b=HeXJ9oeJuyP+cwSGefZLLp0uYWS/GB1K6zsj+HjkA79XuQ+kRze3nPS/
-   wOcIkAQTbhG3z4qq+nLqhhqEDDmbRJpAtw57SVu2ZZl5DFdk0qoW9Lpmc
-   d1nb5NXASnRRCBYKunW9k6D+KtkYU36VQjk6f2rVGKG4FdzH89HtB795V
-   SHcjTAcUF4HMbhi+z7/ize6Iv44pnzYAqpQdrhRpM/7jtfQe+L10sMmip
-   4rOqw+/p1nRMHkQn2QP8GL5dBBBaocMuMHcO2uuQR1BtzllLv4bXzgRB9
-   AEcX4USsuMJO9J+K5TlJnhW0FogvN6flVLhleNHj6xl/7dNipsb3eOW86
+  bh=z4G27XxUCwqaCPH9yLtGpo7U8rzF3MYd6XaVWXaiCkc=;
+  b=Dq8vj7e2gKHdKfALo/SlWGw5usVanMKQ5tqtb+H94+b6sewneFdkfFfG
+   47Ux0o2OGD5HbIY9b29b2S8EdJWLRTNIkE4krAwJx+QEozdG1Q+roKIpw
+   ni7x812ni0mdJ6Is+vK5INA1GP4V6BAZP/8kBbHpsRItSTjCBuwFR8p4J
+   OAEQvRBsP3D03dWZA0Z+JCIk9KWGM3srEIhYmNwBJXQrquFJe3IZJOmFQ
+   tKrdw+QIMq5ARQbrBJSr+YwWow+qZCZXjmeAkZDLg7DNcme7xx1kSBfIV
+   hbpmkPdrnGc7TBg+L6+gK8MVP/KuKCOsGllAIQ4987ah2+yAVHo55S5kR
    Q==;
-X-CSE-ConnectionGUID: UALfmUeCR926paP03Wwv8Q==
-X-CSE-MsgGUID: sAtRgDoQRcqABcMA7oeFLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93628485"
+X-CSE-ConnectionGUID: K82klJ4bQJiX3+bHcwtngA==
+X-CSE-MsgGUID: 3cW+GOi2QbGZtm0BQvpBgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89821115"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="93628485"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 22:20:19 -0700
-X-CSE-ConnectionGUID: Tfq8PelYQr+P4DKsEf9odw==
-X-CSE-MsgGUID: bCcDipmfRG+PSHO8j4n3LQ==
+   d="scan'208";a="89821115"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 23:21:25 -0700
+X-CSE-ConnectionGUID: 5FDiqC1QTYWqDf8HSUc9Ug==
+X-CSE-MsgGUID: Ce8CGG/1QvCo51QR7dZOnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="271433513"
+   d="scan'208";a="269182978"
 Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 14 Sep 2026 22:20:18 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2026 23:21:24 -0700
 Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6LaZ-000000000Vn-0tER;
-	Tue, 15 Sep 2026 05:20:15 +0000
-Date: Tue, 15 Sep 2026 07:19:53 +0200
+	id 1x6MXh-000000000WR-40W7;
+	Tue, 15 Sep 2026 06:21:21 +0000
+Date: Tue, 15 Sep 2026 08:21:21 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Gregory Price <gourry@gourry.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-12 3/3] clang diag:
- include/linux/mman.h:137:21: warning: division by zero is undefined
-Message-ID: <202609150629.U21Nfwju-lkp@intel.com>
+Subject: [gourryinverse:scratch/gourry/managed_nodes/rfc6-complete
+ 8/67] mm/page_alloc.c:7386:17: error: implicit declaration of function
+ 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'?
+Message-ID: <202609150733.bokShgrT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,260 +60,78 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
-head:   b720d17309827b49538356f1f85d21c8ec91adf2
-commit: 24f685a927c5a41df01d66069493bee40a5fb60e [3/3] UPSTREAM: block: add a rq_list type
-config: arm64-randconfig-r052-20260915 (https://download.01.org/0day-ci/archive/20260915/202609150629.U21Nfwju-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 9e70d8f070ba046b8e09388fa84b3a65eb2073e3)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150629.U21Nfwju-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux scratch/gourry/managed_nodes/rfc6-complete
+head:   0423df59f3f085592c3ff59834eeae067ee75158
+commit: 4af770f6b4623768abd534b154c6d8136f601cac [8/67] mm/page_alloc: let alloc_contig_range() try harder
+config: i386-randconfig-054-20260915 (https://download.01.org/0day-ci/archive/20260915/202609150733.bokShgrT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150733.bokShgrT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609150629.U21Nfwju-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609150733.bokShgrT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-   268 |         struct request *rq = rl->head;
-   |                              ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   1699 |         struct rq_list req_list;
-   |                ^
-   In file included from rust/helpers/helpers.c:11:
-   In file included from rust/helpers/blk.c:3:
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-   271 |                 rl->head = rl->head->rq_next;
-   |                 ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   1699 |         struct rq_list req_list;
-   |                ^
-   In file included from rust/helpers/helpers.c:11:
-   In file included from rust/helpers/blk.c:3:
-   include/linux/blk-mq.h:271:16: error: incomplete definition of type 'struct rq_list'
-   271 |                 rl->head = rl->head->rq_next;
-   |                            ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   1699 |         struct rq_list req_list;
-   |                ^
-   In file included from rust/helpers/helpers.c:11:
-   In file included from rust/helpers/blk.c:3:
-   include/linux/blk-mq.h:272:10: error: incomplete definition of type 'struct rq_list'
-   272 |                 if (!rl->head)
-   |                      ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   1699 |         struct rq_list req_list;
-   |                ^
-   In file included from rust/helpers/helpers.c:11:
-   In file included from rust/helpers/blk.c:3:
-   include/linux/blk-mq.h:273:6: error: incomplete definition of type 'struct rq_list'
-   273 |                         rl->tail = NULL;
-   |                         ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   1699 |         struct rq_list req_list;
-   |                ^
-   In file included from rust/helpers/helpers.c:11:
-   In file included from rust/helpers/blk.c:3:
-   include/linux/blk-mq.h:282:11: error: incomplete definition of type 'struct rq_list'
-   282 |         return rl->head;
-   |                ~~^
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   1699 |         struct rq_list req_list;
-   |                ^
-   In file included from rust/helpers/helpers.c:21:
-   In file included from rust/helpers/mman.c:3:
-   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
-   159 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
-   |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
-   137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-   |                     ^ ~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
-   160 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
-   |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mman.h:137:21: note: expanded from macro '_calc_vm_trans'
-   137 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
-   |                     ^ ~~~~~~~~~~~~~~~~~
-   3 warnings and 18 errors generated.
-   make[3]: *** [rust/Makefile:431: rust/helpers/helpers.o] Error 1 shuffle=3318218359
-   include/linux/blkdev.h:1699:17: error: field has incomplete type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:239:11: error: incomplete definition of type 'const struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:244:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:245:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:251:8: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:252:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:254:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:255:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:260:18: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:261:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:262:9: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:263:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:271:16: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:272:10: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:273:6: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:282:11: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
-   include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
->> clang diag: include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
->> clang diag: include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
-   Unable to generate bindings: clang diagnosed error: include/linux/blkdev.h:1699:17: error: field has incomplete type 'struct rq_list'
-   include/linux/blk-mq.h:239:11: error: incomplete definition of type 'const struct rq_list'
-   include/linux/blk-mq.h:244:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:245:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:251:8: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:252:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:254:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:255:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:260:18: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:261:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:262:9: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:263:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:271:16: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:272:10: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:273:6: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:282:11: error: incomplete definition of type 'struct rq_list'
---
-   make[3]: *** [rust/Makefile:332: rust/bindings/bindings_helpers_generated.rs] Error 1 shuffle=3318218359
-   make[3]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
-   include/linux/blkdev.h:1699:17: error: field has incomplete type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:239:11: error: incomplete definition of type 'const struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:244:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:245:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:251:8: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:252:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:254:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:255:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:260:18: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:261:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:262:9: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:263:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:271:16: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:272:10: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:273:6: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/blk-mq.h:282:11: error: incomplete definition of type 'struct rq_list'
-   include/linux/blkdev.h:1699:9: note: forward declaration of 'struct rq_list'
-   include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
-   include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
->> clang diag: include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
->> clang diag: include/linux/mman.h:137:21: warning: division by zero is undefined [-Wdivision-by-zero]
-   Unable to generate bindings: clang diagnosed error: include/linux/blkdev.h:1699:17: error: field has incomplete type 'struct rq_list'
-   include/linux/blk-mq.h:239:11: error: incomplete definition of type 'const struct rq_list'
-   include/linux/blk-mq.h:244:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:245:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:251:8: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:252:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:254:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:255:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:260:18: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:261:4: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:262:9: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:263:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:268:25: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:271:5: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:271:16: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:272:10: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:273:6: error: incomplete definition of type 'struct rq_list'
-   include/linux/blk-mq.h:282:11: error: incomplete definition of type 'struct rq_list'
+   mm/page_alloc.c: In function 'contig_range_reclaim':
+>> mm/page_alloc.c:7386:17: error: implicit declaration of function 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'? [-Wimplicit-function-declaration]
+    7386 |                 folio_test_clear_young(folio);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 folio_test_clear_lru
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+vim +7386 mm/page_alloc.c
+
+  7363	
+  7364	/*
+  7365	 * ACR_FLAGS_RECLAIM: evict the folios in [@start, @end) that migration could
+  7366	 * not move.  Ages them down first so reclaim does not decline on the strength
+  7367	 * of a recent reference -- the caller is not asking for a hint.
+  7368	 *
+  7369	 * Return: pages reclaimed.
+  7370	 */
+  7371	static unsigned long contig_range_reclaim(unsigned long start, unsigned long end)
+  7372	{
+  7373		unsigned long pfn = start, reclaimed = 0, isolated = 0;
+  7374		LIST_HEAD(folio_list);
+  7375	
+  7376		while (pfn < end) {
+  7377			struct folio *folio = contig_get_lru_folio(pfn);
+  7378	
+  7379			if (!folio) {
+  7380				pfn++;
+  7381				continue;
+  7382			}
+  7383			pfn += folio_nr_pages(folio);
+  7384	
+  7385			folio_clear_referenced(folio);
+> 7386			folio_test_clear_young(folio);
+  7387			if (!folio_isolate_lru(folio))
+  7388				goto put;
+  7389			if (folio_test_unevictable(folio)) {
+  7390				folio_putback_lru(folio);
+  7391			} else {
+  7392				list_add(&folio->lru, &folio_list);
+  7393				isolated += folio_nr_pages(folio);
+  7394			}
+  7395	put:
+  7396			/* isolation took its own reference; drop the lookup's */
+  7397			folio_put(folio);
+  7398	
+  7399			if (isolated >= CONTIG_RECLAIM_BATCH) {
+  7400				reclaimed += reclaim_pages(&folio_list);
+  7401				isolated = 0;
+  7402				cond_resched();
+  7403				if (fatal_signal_pending(current))
+  7404					break;
+  7405			}
+  7406		}
+  7407		reclaimed += reclaim_pages(&folio_list);
+  7408	
+  7409		return reclaimed;
+  7410	}
+  7411	
 
 --
 0-DAY CI Kernel Test Service
