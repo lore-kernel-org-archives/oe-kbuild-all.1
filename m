@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF258318EC7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 01:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5BD331A63
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 01:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789434639; cv=none; b=PCAW/C394/pg1yLbSHAt/tCEkA9drT9dYTWsN70/YCcEijXRV+vmDqFAf6Hwc0Xkuyfs0mRzzu/YOe8CPK4VXJyJSwHStVwSHZcd/MfV5AVSPZhlnjRrY0++ZcSL6hAqR6sO0x4YbptR856pOGcwm1m8ygfTVovEpAX2obPKmac=
+	t=1789435043; cv=none; b=PxrkysIwuw7F1I1GfNsKuOYFZm1EhsNtJ6n39x2Xs5EMrljpVdNh9n3G/60PaHb/4ol71EweqskWjSgVAr5Hmph1U8ERPGlH96d8Vtol+qDTZlXz4gvaSWjhocWm21SLuP6GT8gw2OxrbRaHC3+FsJTSx6DYSjy7CO0xw/+7Nhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789434639; c=relaxed/simple;
-	bh=+StfakESxiuenYHZ3ivKDMJloyA06lpoXCWgf65gLss=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fBC1cjzawxyB4gwm0gfcdjxmvlDRJgd01hJoTQRvFSU1TIXg2P/7SZ4nAaOwDIwDQ0w0a6n7sqC8XlUSGomLxlVy7s+zGzL0eKSeILIoO5qvB9vUybv04LSFgaabMVkuNXtu2Nnb7J9cQ7eb0NPtqMqV8hq0Gvrds1CNValjtTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dyKFJQoT; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1789435043; c=relaxed/simple;
+	bh=gQL0F2ILeCKBwLWc7IIZe9fI+fS2X6mGk50ug6F8W0I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JGLM/ealV8mmrBH3Tbnjwy8Q775tkmsyZu83kA9o+qLljxeHrSnRtvKfJIR2uhlHjo4gGO/9zdxCO/7M47XzH1tFSCxIlEKtVvpTJgIXh8aaGoMjVWm3xQ5WbLF4jpZTfZ6+coshILWGGO1IAEE9IRlZe8t3+k/gPafNzW/F83M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUBF4HpF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dyKFJQoT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUBF4HpF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789434637; x=1820970637;
+  t=1789435041; x=1820971041;
   h=date:from:to:cc:subject:message-id;
-  bh=+StfakESxiuenYHZ3ivKDMJloyA06lpoXCWgf65gLss=;
-  b=dyKFJQoTpwBP1xkp+7m0S/md3DHsxXWJEymxdCNvp19he8eEY7n9M+Pn
-   WsdwJvqQQe4GWN7uoSDOZmsG1/GXuYobhbgkfi+/yN90rBvfTEpmL9f+C
-   T7F9eJ0lCYnFZ0/FDjgERhp0+f5D+UhvBfZ8sSaAt1uV7gW+QlSt/Wdmp
-   0/A6fI9qYTHHvwlKv8VQkcAtfmsToN5XlGT1KZ+zwMcvVpth4rC8pdmV6
-   uTE/6uZj5DoBBKTEFPak0/7rYYpylgZDASFGf6N8aPERtnhraywnMimOc
-   nBN4jyL41Z8Zql5DtEDwhTauyGAAVsbjKrBwzQHXHp8EUADvxqHEDLOxq
-   w==;
-X-CSE-ConnectionGUID: BiVJyOqrRqiYk7eXbwAGPg==
-X-CSE-MsgGUID: Qz0ZoPksR/CKEOzWH8l/nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="112559641"
+  bh=gQL0F2ILeCKBwLWc7IIZe9fI+fS2X6mGk50ug6F8W0I=;
+  b=XUBF4HpF9DFYV02sqjcAHrVw+ucZhkckBI9u3t6NOX4puPs6beY7a7yN
+   3wkBhw79H+y3w8PDFde0Ksyi+2MXdaBy38c5zMfDEHZoYtXS6VJ1tk6GR
+   ejyIJsd3S6cH3+L847OuCVSdYmSfO8vDHQO02yq2qeKK4GIYhOMOXHAvl
+   jxEc0kx1eD13Dg0hyY6x6TqypWu7Au2++VFTwxroEViqlzDLaUhyUr17G
+   ziEOE3Tr4f9lGgTHPyf6eFw6HmtieToN+T6wbX/63R9xrUA9Kyo6wc1Lp
+   mjjZsOgxVqinvSn7S9PFq9owXdzB1RDjCxK8k3V5g74Jr8mNFNoM5WPMa
+   g==;
+X-CSE-ConnectionGUID: TtXLiFZGSqGl1hWvVDwFNA==
+X-CSE-MsgGUID: xtvt3MojSgq/cNSnD3Umow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="101308428"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="112559641"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 18:10:37 -0700
-X-CSE-ConnectionGUID: SfP7upuYRxGeoMaIBkZgMQ==
-X-CSE-MsgGUID: 99YWqEM4QZ+ARF627vCR8g==
+   d="scan'208";a="101308428"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 18:17:21 -0700
+X-CSE-ConnectionGUID: sUJAZIpRRyGc2rSFLV89vg==
+X-CSE-MsgGUID: g70qftHEQKG0twKDSsVPfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="276322011"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 14 Sep 2026 18:10:36 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="272299197"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 14 Sep 2026 18:17:19 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6Hgs-000000000QJ-2fL7;
-	Tue, 15 Sep 2026 01:10:30 +0000
-Date: Tue, 15 Sep 2026 03:09:39 +0200
+	id 1x6HnQ-000000003o7-2OUs;
+	Tue, 15 Sep 2026 01:17:16 +0000
+Date: Tue, 15 Sep 2026 09:17:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [linux-next:master 6316/6545]
- arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-ws-2ch-canfd.dtb:
- spi-ws-2ch-canfd (spi-gpio): $nodename:0: 'spi-ws-2ch-canfd' does not match
- '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
-Message-ID: <202609150228.Nh4nZzbQ-lkp@intel.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:dt 22/22] arch/m68k/coldfire/intc.c:184:18:
+ error: implicit declaration of function 'irq_domain_add_linear'; did you mean
+ 'irq_domain_create_linear'?
+Message-ID: <202609150913.ChdI2e4L-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,24 +61,53 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1a1de54f7369cd2b5bac0f265910e60ad3a6b4c3
-commit: bf0a6853f441afb811682254634c5c914b092b16 [6316/6545] arm64: dts: renesas: sparrow-hawk: Add overlay for WaveShare 2CH CANFD HAT
-config: arm64-randconfig-2052-20260914 (https://download.01.org/0day-ci/archive/20260915/202609150228.Nh4nZzbQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-dtschema: 2026.7.dev16+g39602f98e
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150228.Nh4nZzbQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
+head:   b5ed8ca50661263352c1e60587539803de9bde6a
+commit: b5ed8ca50661263352c1e60587539803de9bde6a [22/22] m68k: coldfire: enable devicetree use
+config: m68k-m5249evb_defconfig (https://download.01.org/0day-ci/archive/20260915/202609150913.ChdI2e4L-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150913.ChdI2e4L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609150228.Nh4nZzbQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609150913.ChdI2e4L-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-ws-2ch-canfd.dtb: spi-ws-2ch-canfd (spi-gpio): $nodename:0: 'spi-ws-2ch-canfd' does not match '^spi(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml
->> arch/arm64/boot/dts/renesas/r8a779g3-sparrow-hawk-ws-2ch-canfd.dtb: spi-ws-2ch-canfd (spi-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'can@0' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-gpio.yaml
+All errors (new ones prefixed by >>):
+
+   arch/m68k/coldfire/intc.c: In function 'intc_of_init':
+>> arch/m68k/coldfire/intc.c:184:18: error: implicit declaration of function 'irq_domain_add_linear'; did you mean 'irq_domain_create_linear'? [-Wimplicit-function-declaration]
+     184 |         domain = irq_domain_add_linear(np, MCFINT_VECNUM, &intc_irqdomain_ops, NULL);
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+         |                  irq_domain_create_linear
+>> arch/m68k/coldfire/intc.c:184:16: error: assignment to 'struct irq_domain *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     184 |         domain = irq_domain_add_linear(np, MCFINT_VECNUM, &intc_irqdomain_ops, NULL);
+         |                ^
+
+
+vim +184 arch/m68k/coldfire/intc.c
+
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  177  
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  178  static int __init intc_of_init(struct device_node *np,
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  179  			       struct device_node *parent)
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  180  {
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  181  	struct irq_domain *domain;
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  182  	int irq;
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  183  
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26 @184  	domain = irq_domain_add_linear(np, MCFINT_VECNUM, &intc_irqdomain_ops, NULL);
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  185  
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  186  	for (irq = MCFINT_VECBASE; irq < MCFINT_VECNUM; irq++)
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  187  		irq_create_mapping(domain, irq);
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  188  
+72d5ab320f508b arch/m68k/coldfire/intc.c               Greg Ungerer 2025-01-26  189  	return 0;
+33a21263bf7417 arch/m68knommu/platform/coldfire/intc.c Greg Ungerer 2009-04-30  190  }
+33a21263bf7417 arch/m68knommu/platform/coldfire/intc.c Greg Ungerer 2009-04-30  191  
+
+:::::: The code at line 184 was first introduced by commit
+:::::: 72d5ab320f508b94736a7ec536774898147a4cb9 m68k: coldfire: support devicetree binding for intc controller
+
+:::::: TO: Greg Ungerer <gerg@linux-m68k.org>
+:::::: CC: Greg Ungerer <gerg@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
