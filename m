@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334FD1FB1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 03:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65C13D3D19
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 03:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789444067; cv=none; b=bSxoqjDtn7YEE1AsLkAzQJfms2MM4n1TnifxzbeJ7gQ69yNbXMKGmcK5+qjCnl5P1S5a/l2gNiEk8XDfZJPQKHwKVKBh0wLTkYAx6qCtoXGQ4yvbk4lveNes1dgebywSO+GZIZFeF5tjz33zXLYEc8Ef7bsN/zRquC/XRZYHqV0=
+	t=1789444382; cv=none; b=llmF9T02g98qAOaumLwkiL1qqOkTWg+0un6tlKBC4iPPWJC8G2TtknL5Ts8Y83y492FB4C9jYEGT2c2gtWtAEsxyyyM1/2Y34h1AsMh8hB9RCGsepxXNeRr5lrK6ajHDUH/RwvuoBaU70ZlcDV3+MtIigHkUecaNub2fbfRlZZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789444067; c=relaxed/simple;
-	bh=c1obhlGaRhzB+YbfQaRPF0KeiFTdq/S1kmaa1pNsGE0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t8+DMA9CZdpoPIFOjcIVKAevoBZ3HRtnDQzmsFlSwF9D1FQdPhZfzaF0emZENJzfK9ZTTQ6shNkOGORFDTwMyMG73xbbKQ0Bv6xTwAgYjyH5hC9Tme6mL5+zYOjK6dQTOmswrWybtNx/lbMDkNb3/ndpKZ/6+ZhCodvui1fWONc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3f0zX9N; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789444382; c=relaxed/simple;
+	bh=fcpj3nQVSFmThAaKPficZANZkwfqjg8qzFFIblytHfw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QTvlq2sgyYzRvKqRpmc3rb0NWwN7Bu5UiGZKaLZBrlNOU3hItoH08/WY0YnOGWgCk3tC8aBFrS2OXcfQ0A7pxFC6dhYnydm7OVLN7FqO6DYafXrd5Y6zbemS/qC7vMUREt8DOZZjDaC7lw2kT63NwZvyHPqwwXVKiLar2dIbnAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Afl0ijmj; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3f0zX9N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Afl0ijmj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789444065; x=1820980065;
+  t=1789444380; x=1820980380;
   h=date:from:to:cc:subject:message-id;
-  bh=c1obhlGaRhzB+YbfQaRPF0KeiFTdq/S1kmaa1pNsGE0=;
-  b=U3f0zX9N1NAoedWKxqfMVn+yUHM4P9VTc74PRPx+B0ON6Q1XYSHtHgu9
-   ewxT/mXQoLhiJS0Z52n/4oukSFtBXYrB/1gaFZx3j5q4suKGKftPDoxkn
-   SYHGcNM07jX4OvT14TNYu5PW+M/Sp7Th/wjBYlLtK6OHI/DaWptmFduKM
-   s/FtKbotcTZAz5oC2n9ldZjCLec7yBebFU/9ARd5B8CXUHpoMn7lXWFN6
-   qdiieC/jzR+P5yIT5ftRcts5ANdcWnIhR300JWc16PkA12nPc6jOjKXlk
-   BUESsebCNpyvSYnt8S+yHmaV5r5vy0FBGmIzcV6/crvBEmE8UhUg+NnYW
-   A==;
-X-CSE-ConnectionGUID: fGAVZk14SvyaySv9SV0nyQ==
-X-CSE-MsgGUID: IWLsInCCSUyFvaNYv05A4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100463876"
+  bh=fcpj3nQVSFmThAaKPficZANZkwfqjg8qzFFIblytHfw=;
+  b=Afl0ijmjy28casezmPLn6sC+evLi8Jq4t0AQL9QW25pmjnxOmbQmkDT6
+   L13hHMU/cSkt3MKUCmsaYQNT8HnXifmMxi+1gZVgg6dSqdTiTKNdKFaGz
+   a+pwdhs+Oxj8RD6T0XLkQxlbUX0TXRxcXq64wPP7UeZOMoE9me1urCTEU
+   R5E7LZenBQgu2rh7Y9FBWf1pT95Gs82rOjdE8U1P1W01qQhlN1pbRvvG9
+   Qayo6HW9R0y8G1S83DzFgPF4729vfD3MYVJ8zqiGvVmzqZdTmEz3CPujH
+   8Wk8mFNvOrseNSExMSU6s1kminW93a11z7D8z2zkpJd01rQ0TMd2v8kwO
+   g==;
+X-CSE-ConnectionGUID: P1TGSrhtRfuDLjKafhPusA==
+X-CSE-MsgGUID: 3YRUfiA8SpulxtifH+S7Jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="101149689"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100463876"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 20:47:45 -0700
-X-CSE-ConnectionGUID: JNsAPsjrQw6Gr5S3jmNBCQ==
-X-CSE-MsgGUID: c+WCwsPATueoiMOjT7K1og==
+   d="scan'208";a="101149689"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 20:53:00 -0700
+X-CSE-ConnectionGUID: 5cJ8RfDETHWYfI+HHXKg/A==
+X-CSE-MsgGUID: REyklXeMSDKbYi97jj0fsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1035424"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 14 Sep 2026 20:47:44 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="270194749"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Sep 2026 20:52:58 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6K8z-000000000UF-2eoC;
-	Tue, 15 Sep 2026 03:47:41 +0000
-Date: Tue, 15 Sep 2026 05:47:25 +0200
+	id 1x6KE4-000000003yr-0Xap;
+	Tue, 15 Sep 2026 03:52:56 +0000
+Date: Tue, 15 Sep 2026 11:52:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/managed_nodes/rfc6-complete
- 8/67] Warning: mm/page_alloc.c:7345 function parameter 'pfn' not described in
- 'contig_get_lru_folio'
-Message-ID: <202609150520.MHYgSsFM-lkp@intel.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Subject: [usb:usb-testing 32/48] ld.lld: error: undefined symbol:
+ ehci_setup
+Message-ID: <202609151119.GW6Gq8qw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,23 +60,34 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/managed_nodes/rfc6-complete
-head:   0423df59f3f085592c3ff59834eeae067ee75158
-commit: 4af770f6b4623768abd534b154c6d8136f601cac [8/67] mm/page_alloc: let alloc_contig_range() try harder
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260915/202609150520.MHYgSsFM-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150520.MHYgSsFM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   dbe68462fa656078eac3a5a09039038dc47e08da
+commit: 7dbc2e1ba8fd7793af299d8a813eae727759ecf3 [32/48] usb: fotg210: use the common EHCI core
+config: s390-randconfig-r113-20260913 (https://download.01.org/0day-ci/archive/20260915/202609151119.GW6Gq8qw-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 96295a1412f9afbee9d4a3c2701e83f5a529a9cc)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151119.GW6Gq8qw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609150520.MHYgSsFM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609151119.GW6Gq8qw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: mm/page_alloc.c:7345 function parameter 'pfn' not described in 'contig_get_lru_folio'
->> Warning: mm/page_alloc.c:7345 expecting prototype for alloc_contig_frozen_range(). Prototype was for contig_get_lru_folio() instead
+>> ld.lld: error: undefined symbol: ehci_setup
+   >>> referenced by fotg210-hcd.c
+   >>>               drivers/usb/fotg210/fotg210-hcd.o:(fotg210_hcd_reset) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: ehci_handshake
+   >>> referenced by fotg210-hcd.c
+   >>>               drivers/usb/fotg210/fotg210-hcd.o:(fotg210_pre_port_reset) in archive vmlinux.a
+   >>> referenced by fotg210-hcd.c
+   >>>               drivers/usb/fotg210/fotg210-hcd.o:(fotg210_post_port_reset) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: ehci_init_driver
+   >>> referenced by fotg210-hcd.c
+   >>>               drivers/usb/fotg210/fotg210-hcd.o:(fotg210_hcd_init) in archive vmlinux.a
 
 --
 0-DAY CI Kernel Test Service
