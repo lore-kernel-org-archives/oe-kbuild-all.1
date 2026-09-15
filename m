@@ -1,137 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FA93BCD29
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 06:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5733D424641;
+	Tue, 15 Sep 2026 06:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789453287; cv=none; b=kAdV/5DUa9Uu2tOZzB4xdpB9YGvUEl7WIXXdYbqaG3df44KfvC1szruT2yAjurwCZHrwPq/nLC3Z7b7b0iM6mxzoX6GAVZUNHqa9HK3DnKZ7/rAZ0+G/idC9PrVSt8lFe9AGHbOw2N3379cal4bShaQuy/EeOp6w1G7iQCF4+gU=
+	t=1789454502; cv=none; b=h7veJEFDIkNROGq0q2wq0Xu44f22YPoG6ul2MeDZW3twxc2ol0LEwLcWYSE5bCTbKihhYcvaFC66txqE1ilp7kjDAHVuiXgKfrdWtDHOjvqA1oQkq6S2jANRPCXYxesUDoOMx9JH3wi1MYiR97oBGz+tvc6e7rWCXJtj60cOeyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789453287; c=relaxed/simple;
-	bh=z4G27XxUCwqaCPH9yLtGpo7U8rzF3MYd6XaVWXaiCkc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WIuDO4P2msB1uMH5CT3z8AVN6Vswn6FS6o6Ry3M2oWhvbWYI1gxEfU5O3XvKvuE3JpqCKbQXadpm95FMkzxZ1vf4WfXjxj5pmiYll8unhZmoAKnZ9p5fMFfhjk5HCg5WXpMXAveiVl/5dgSDUPsCvHDNozLu/SlGEqXxTGNtaiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dq8vj7e2; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1789454502; c=relaxed/simple;
+	bh=8xsDiHnrTVHnMEPDXfmMj6XBJcFRIj24SgEwMPFYk0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLWWla2QJbnvzsc4AYwSjZ33yeUD/LPON8766u/ReH13eJwb09W3C5fXOC1B40iVwne+XY64lnBrstCB3xurwxTruSC1vd31ZfStJ7SRnmRo3cidq8I878VjHHsKRoWwHiLDcXr/FecgOL5BXcYQsUZZXTCxQaMuVb856ATaS1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEsL92r9; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dq8vj7e2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEsL92r9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789453285; x=1820989285;
-  h=date:from:to:cc:subject:message-id;
-  bh=z4G27XxUCwqaCPH9yLtGpo7U8rzF3MYd6XaVWXaiCkc=;
-  b=Dq8vj7e2gKHdKfALo/SlWGw5usVanMKQ5tqtb+H94+b6sewneFdkfFfG
-   47Ux0o2OGD5HbIY9b29b2S8EdJWLRTNIkE4krAwJx+QEozdG1Q+roKIpw
-   ni7x812ni0mdJ6Is+vK5INA1GP4V6BAZP/8kBbHpsRItSTjCBuwFR8p4J
-   OAEQvRBsP3D03dWZA0Z+JCIk9KWGM3srEIhYmNwBJXQrquFJe3IZJOmFQ
-   tKrdw+QIMq5ARQbrBJSr+YwWow+qZCZXjmeAkZDLg7DNcme7xx1kSBfIV
-   hbpmkPdrnGc7TBg+L6+gK8MVP/KuKCOsGllAIQ4987ah2+yAVHo55S5kR
+  t=1789454500; x=1820990500;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8xsDiHnrTVHnMEPDXfmMj6XBJcFRIj24SgEwMPFYk0Y=;
+  b=bEsL92r9VMWgPzN6szjdkKWUOHv+007r3Z+eq31uVYfA8TLwzibuwt9e
+   HM8sq1Zh3M2Ek6SUW0T6NlTE0ALoiZsVzAkxIecg1iqup4QGC0ZzvDEm6
+   0FqyAS8yaGfIaWp3sPjR9te/Ofs4ee5TlDy1a0wZ+FRzi36rUNSqpChgH
+   OEwipUI6R9byZ74Cq4iMpD3nxHNMs8XUT86vSVWOfbp2aRitQYbLzkTye
+   ebcjDhijpr8kMbm6K/PAWf6zEv0eoSdjWwHaXiHnGIMMwgB3KNXK7F+K/
+   FeTEblDcd01bPV7RcD4wz5GPqYd+dOj0I6dTc8EG0nk4wZDoXP62UAPJ+
    Q==;
-X-CSE-ConnectionGUID: K82klJ4bQJiX3+bHcwtngA==
-X-CSE-MsgGUID: 3cW+GOi2QbGZtm0BQvpBgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89821115"
+X-CSE-ConnectionGUID: 71mF8h/DRtKmKKGLyr4yuA==
+X-CSE-MsgGUID: M8IQKyovQZSuTnvJLFDlrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93632886"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89821115"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 23:21:25 -0700
-X-CSE-ConnectionGUID: 5FDiqC1QTYWqDf8HSUc9Ug==
-X-CSE-MsgGUID: Ce8CGG/1QvCo51QR7dZOnQ==
+   d="scan'208";a="93632886"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 23:41:40 -0700
+X-CSE-ConnectionGUID: VznnDdlgTX+jg4YVBXqBAw==
+X-CSE-MsgGUID: sOZgthxqQaW0wQlBHLf1rA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="269182978"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Sep 2026 23:21:24 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="1255241"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 14 Sep 2026 23:41:37 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6MXh-000000000WR-40W7;
-	Tue, 15 Sep 2026 06:21:21 +0000
-Date: Tue, 15 Sep 2026 08:21:21 +0200
+	id 1x6MrF-0000000048U-2nsv;
+	Tue, 15 Sep 2026 06:41:33 +0000
+Date: Tue, 15 Sep 2026 14:40:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/managed_nodes/rfc6-complete
- 8/67] mm/page_alloc.c:7386:17: error: implicit declaration of function
- 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'?
-Message-ID: <202609150733.bokShgrT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Zihan Xi <zihanx@nebusec.ai>, dhowells@redhat.com,
+	marc.dionne@auristor.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, zihanx@nebusec.ai,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, linux-afs@lists.infradead.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Vega <vega@nebusec.ai>,
+	Luxing Yin <root@tr0jan.top>
+Subject: Re: [PATCH net v5 1/1] rxrpc: fix encap_rcv skb accounting exhaustion
+Message-ID: <202609151453.yX0JDG4h-lkp@intel.com>
+References: <d38b683f6d583cbbc23ee149b50b15b6e4efc567.1789273347.git.zihanx@nebusec.ai>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d38b683f6d583cbbc23ee149b50b15b6e4efc567.1789273347.git.zihanx@nebusec.ai>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/managed_nodes/rfc6-complete
-head:   0423df59f3f085592c3ff59834eeae067ee75158
-commit: 4af770f6b4623768abd534b154c6d8136f601cac [8/67] mm/page_alloc: let alloc_contig_range() try harder
-config: i386-randconfig-054-20260915 (https://download.01.org/0day-ci/archive/20260915/202609150733.bokShgrT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150733.bokShgrT-lkp@intel.com/reproduce)
+Hi Zihan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zihan-Xi/rxrpc-fix-encap_rcv-skb-accounting-exhaustion/20260914-130912
+base:   net/main
+patch link:    https://lore.kernel.org/r/d38b683f6d583cbbc23ee149b50b15b6e4efc567.1789273347.git.zihanx%40nebusec.ai
+patch subject: [PATCH net v5 1/1] rxrpc: fix encap_rcv skb accounting exhaustion
+config: x86_64-randconfig-073-20260915 (https://download.01.org/0day-ci/archive/20260915/202609151453.yX0JDG4h-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151453.yX0JDG4h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609150733.bokShgrT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609151453.yX0JDG4h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   mm/page_alloc.c: In function 'contig_range_reclaim':
->> mm/page_alloc.c:7386:17: error: implicit declaration of function 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'? [-Wimplicit-function-declaration]
-    7386 |                 folio_test_clear_young(folio);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 folio_test_clear_lru
-
-
-vim +7386 mm/page_alloc.c
-
-  7363	
-  7364	/*
-  7365	 * ACR_FLAGS_RECLAIM: evict the folios in [@start, @end) that migration could
-  7366	 * not move.  Ages them down first so reclaim does not decline on the strength
-  7367	 * of a recent reference -- the caller is not asking for a hint.
-  7368	 *
-  7369	 * Return: pages reclaimed.
-  7370	 */
-  7371	static unsigned long contig_range_reclaim(unsigned long start, unsigned long end)
-  7372	{
-  7373		unsigned long pfn = start, reclaimed = 0, isolated = 0;
-  7374		LIST_HEAD(folio_list);
-  7375	
-  7376		while (pfn < end) {
-  7377			struct folio *folio = contig_get_lru_folio(pfn);
-  7378	
-  7379			if (!folio) {
-  7380				pfn++;
-  7381				continue;
-  7382			}
-  7383			pfn += folio_nr_pages(folio);
-  7384	
-  7385			folio_clear_referenced(folio);
-> 7386			folio_test_clear_young(folio);
-  7387			if (!folio_isolate_lru(folio))
-  7388				goto put;
-  7389			if (folio_test_unevictable(folio)) {
-  7390				folio_putback_lru(folio);
-  7391			} else {
-  7392				list_add(&folio->lru, &folio_list);
-  7393				isolated += folio_nr_pages(folio);
-  7394			}
-  7395	put:
-  7396			/* isolation took its own reference; drop the lookup's */
-  7397			folio_put(folio);
-  7398	
-  7399			if (isolated >= CONTIG_RECLAIM_BATCH) {
-  7400				reclaimed += reclaim_pages(&folio_list);
-  7401				isolated = 0;
-  7402				cond_resched();
-  7403				if (fatal_signal_pending(current))
-  7404					break;
-  7405			}
-  7406		}
-  7407		reclaimed += reclaim_pages(&folio_list);
-  7408	
-  7409		return reclaimed;
-  7410	}
-  7411	
+>> ERROR: modpost: net/rxrpc/rxrpc.ko: symbol 'sysctl_rmem_default' undefined!
 
 --
 0-DAY CI Kernel Test Service
