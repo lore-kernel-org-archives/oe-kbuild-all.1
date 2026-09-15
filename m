@@ -1,55 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BD63B47F1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 01:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADCA4BEE38
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 02:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789437054; cv=none; b=uq7uKWkchHmMIp9HUbkT2+YIyqtTHe21bTyI6CyeWDk1QXeQHuPgRAKMBBeHN+1UhNaiY0PaNWgYyyLByfs2jiY8vfYMK7qQfzl3JV70odJOHy0oplQaXzDEM33QZhCJi7fx2d6tceS0vsUmhd3aZDf/ny6IrEPFoKzi1oqsIEQ=
+	t=1789439010; cv=none; b=fSekqhGLwJtXilF3Las+Gh7Aq+tUOR5ATwXwW1cVkwMbUTxCyABCZ3+k29k0z2NeW8eUNI1N1WeUMq/xDf+9DlCU7cnDqalxDxu2UDOCM2vfvtXHwHzwWTS64cGkjzpzoD9JoZRFokIBJNvkErgJbk5rByiyAmhTmZgJ/T3plJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789437054; c=relaxed/simple;
-	bh=nFAT832pwnzzuX43KgloHlEGnsWtJN96qtZlqMeTlss=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sxgtHpLwrqCvZYZQj8TvEJBBoDfCfnivRCgBAuqRCoxNy+4Z6POd4xgi6hBEHn9cO/uBiHNR3LtlNsF+WTSjHBUajK3j3OHyqmfYKC5oULpxcvbY9S1qqmjA4ZZxlbF4sGKe37vNr94UeLTUKFsLWmQLtDY5zIUYtTgQDGWexkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VAhxjput; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1789439010; c=relaxed/simple;
+	bh=r6An0bvFRlK8wcn1ZAGeLwPJ44tqdZ6xNMf9bghfv7E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BGjvwGxG1o1ntdOpL/44iNYj4110ZIC/BR4IJYhEIEsnZw7hYPXQQvwr0Ckhq0WLTAGAbAZcRWABq2rH8tmffUbM81yYhUlW+MqQadbCuWvrSNyQ5YvOWfhOXCVPMA9wNqQw6m1drxUMVkgaaz0QuwoK0DYH0daKkHbyTWWsx3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRuELz8N; arc=none smtp.client-ip=192.198.163.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VAhxjput"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRuELz8N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789437053; x=1820973053;
+  t=1789439009; x=1820975009;
   h=date:from:to:cc:subject:message-id;
-  bh=nFAT832pwnzzuX43KgloHlEGnsWtJN96qtZlqMeTlss=;
-  b=VAhxjput/PzcJDGbv99Livm1cxVpcpB6MooVjQ0c8XPSjQyUiQgp3Ual
-   dETXV30+UdJG5YTDrHXHMmvP2Iv2drw9Kjwi9hQD7n5VvUFYv+c83HBnv
-   JjZb/c6JHmOnPAQ1RkOcbo00MQ2MVIzVdo0rDCkIRm19wX1vGGYXWdAoe
-   jonv3LdZKVGhHzNRfXyx164JFvkjk2ZgEZJB/kINyCJn7VHkB/iRw8428
-   gP7h1E+5V0dbC5izMmce1976bNkejPQZPqw8WHrEDvsR7q0V7NjPTbqDK
-   XqIhAiHajQpMVxLkxxhwiUNXLJkwRCaW9tHsyiCrMTwXQt2Ps0mUPxz2G
+  bh=r6An0bvFRlK8wcn1ZAGeLwPJ44tqdZ6xNMf9bghfv7E=;
+  b=dRuELz8NK4Eq0YECMa+2YuwD0ubNBFv9ZvPnhTZQvH/mP7tqBBRnO+fh
+   8Tfyz8qb0DyS4SYT5bdqD3rg2XFHkypwjOmQ80We+jfppKpJzThsY8DYY
+   bOr7f93/u2tzxCIn057fV09Jo7amJY63zBl7oPygjIIHUgurPEE6uI0lM
+   ncbAqiyxyLfPxNmXElncwIr1JxEAiMaQVneJm1pG2LM/Xmm7gwfKWID3i
+   BwF3vPPiEQOXKDxTyRxWueI335bqZDI0KOp+Ozj6EVIBzKrVieMo8e6ts
+   wr3uCWazGhxJ+2DIB3ZaRvumFaNQjTS8THsK2rBOnIlq2sAt34DTT2VsP
    g==;
-X-CSE-ConnectionGUID: 5BRQZGVzRXGF73uGiVUg2A==
-X-CSE-MsgGUID: R5obT6JbSJKwBDy2ernSwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100388495"
+X-CSE-ConnectionGUID: 5FhtUokKRk+WifzMtR6M2A==
+X-CSE-MsgGUID: pakJq1FDRI6/rHJTDBpFDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="305674"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100388495"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 18:50:53 -0700
-X-CSE-ConnectionGUID: J3APS7TDSweoXpUMP9H3HA==
-X-CSE-MsgGUID: flKWOHxSRRmXXTdPNihKbA==
+   d="scan'208";a="305674"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 19:23:28 -0700
+X-CSE-ConnectionGUID: ICFrZ1OETvGCMcFtUl5CXg==
+X-CSE-MsgGUID: 4hTYn7lmSI6iUYqZNflvxw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="311080057"
 Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Sep 2026 18:50:52 -0700
+  by orviesa001.jf.intel.com with ESMTP; 14 Sep 2026 19:23:26 -0700
 Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6IJt-000000000Rj-22hG;
-	Tue, 15 Sep 2026 01:50:49 +0000
-Date: Tue, 15 Sep 2026 03:50:37 +0200
+	id 1x6IpP-000000000Sh-0Sg1;
+	Tue, 15 Sep 2026 02:23:23 +0000
+Date: Tue, 15 Sep 2026 04:22:52 +0200
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:rw-dmabuf-v6 5/13] error[E0063]: missing field
- `init_dma_buf_io_ctx` in initializer of `bindings::block_device_operations`
-Message-ID: <202609150346.zarOuJo6-lkp@intel.com>
+Subject: [android-common:android13-5.15-2026-03 2/2]
+ include/linux/compiler_types.h:140:41: error: invalid use of undefined type
+ 'struct module'
+Message-ID: <202609150415.BKtQnAct-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -57,26 +60,89 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/isilence/linux rw-dmabuf-v6
-head:   08355898806df6fd96d3f97692f443cf76d25f1c
-commit: 422f4d04204a28f9e40d1fd9c65ab179d41b20aa [5/13] block: add dma-buf support for raw bdev
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260915/202609150346.zarOuJo6-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150346.zarOuJo6-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2026-03
+head:   23be581a715439bf5b8d609e70b17837b6857162
+commit: 180f8b73199bd665c03ff43853170280fc82e02d [2/2] ANDROID: kernel: add module info for debug_kinfo
+config: arm64-randconfig-r072-20260915 (https://download.01.org/0day-ci/archive/20260915/202609150415.BKtQnAct-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150415.BKtQnAct-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609150346.zarOuJo6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609150415.BKtQnAct-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0063]: missing field `init_dma_buf_io_ctx` in initializer of `bindings::block_device_operations`
-   --> rust/kernel/block/mq/gen_disk.rs:128:58
-   |
-   128 |         const TABLE: bindings::block_device_operations = bindings::block_device_operations {
-   |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `init_dma_buf_io_ctx`
+   In file included from <command-line>:
+   drivers/staging/android/debug_kinfo.c: In function 'debug_kinfo_probe':
+>> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
+     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/android/debug_kinfo.c:162:40: note: in expansion of macro 'offsetof'
+     162 |         info->mod_core_layout_offset = offsetof(struct module, core_layout);
+         |                                        ^~~~~~~~
+>> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
+     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/android/debug_kinfo.c:163:40: note: in expansion of macro 'offsetof'
+     163 |         info->mod_init_layout_offset = offsetof(struct module, init_layout);
+         |                                        ^~~~~~~~
+>> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
+     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/android/debug_kinfo.c:164:37: note: in expansion of macro 'offsetof'
+     164 |         info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
+         |                                     ^~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+
+
+vim +140 include/linux/compiler_types.h
+
+71391bdd2e9aab Xiaozhou Liu 2018-12-14  139  
+71391bdd2e9aab Xiaozhou Liu 2018-12-14 @140  #define __compiler_offsetof(a, b)	__builtin_offsetof(a, b)
+71391bdd2e9aab Xiaozhou Liu 2018-12-14  141  
+
+:::::: The code at line 140 was first introduced by commit
+:::::: 71391bdd2e9aab188f86bf1ecd9b232531ec7eea include/linux/compiler_types.h: don't pollute userspace with macro definitions
+
+:::::: TO: Xiaozhou Liu <liuxiaozhou@bytedance.com>
+:::::: CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 
 --
 0-DAY CI Kernel Test Service
