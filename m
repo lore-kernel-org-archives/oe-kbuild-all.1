@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1CB3CDBA5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 08:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4D63A960E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 08:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461400; cv=none; b=BXSpC2Ke0sOSOHEQvQdZpo95sIhYG0jxWa2nQbMnbcHSyMCbxUC3m7iA8GhjxascnLTr63YIQR7+xjdsOgnb1L9YPXrXoxmlVd1+LejyRHYIA4mE9A6mDnbxjWJOSsjOLIwglzs2DLb+yR5bZnwl/CTUYhG+MsdzQs++eXWHPyY=
+	t=1789462135; cv=none; b=tl/q0qoqkylZfDMNYQtY6GVlrL8YfSHx8kdrUm+7E5pWAtiVaP3ukz/dpkI3QyDSmalroYeagDOqdA9+FOSzRPoLKyYIL2Wtn3Zwz7pwqsSB5krHwdLHeGaROy5YMre9PGiG2Q9Db2fmRISAVtIjc+HK3VK83hI9navSiv/Asd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461400; c=relaxed/simple;
-	bh=zghFeocSHaBvqyEUwZ5NwKQp3sj5aIWXBrCQvZRQ0rE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AoKyGmRCb0l5DywOgxJHUgCJwfTlorCdXGeDk9GSP6wcd6u6Olm4exywx455BhaHGcUp0kKHSyh+HU6UaWRGNw6ZpghxgZRYu71pXO0uCz2HjKnmUMxj//QtUyAzeK3Li/KmT3AyWzcK/1VVUcJVJlFCeRXTv3pKNnEQRFCfck0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DseDfVhs; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1789462135; c=relaxed/simple;
+	bh=ZiRnt2IaFBeVcvVKsAU4sSe+VkPw7ElsvEB7qU0lObw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=d7r5JskJ3JKEEBK2SgsP77ScNEVhMtIlpVgl36StykALS8n0FX9RpY1WtK1uVCwWtH9Iaz1hIxrdIsm2jnaimiekO0LcjhdhJm3zfwQUkDx4Q8RSWY6+xy3fvJeFIb8MUGeG4L4zIn4gaqOnsvsH9ulOkVbKqhFxIU3qdqJybGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYC82+xv; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DseDfVhs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYC82+xv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789461398; x=1820997398;
+  t=1789462133; x=1820998133;
   h=date:from:to:cc:subject:message-id;
-  bh=zghFeocSHaBvqyEUwZ5NwKQp3sj5aIWXBrCQvZRQ0rE=;
-  b=DseDfVhsenlyhsGt3bOjTPNwWB+XmZviWzpMhMNhTeMTfeyjabL1V6K/
-   f4sPR4hj5g1I3/IxRHe8JtVYeh6PBh6FDGYDIUl4fsrk5SUG7ex8LKFYg
-   1k8IaUQG8oJA7LyZhFsDtf60v/5CTR9h55KYtI+hMmXdDtgBNNydfim2d
-   A+Ghqkk4uEHc5/loiuCJ63iVMzinSYbKHsX3B7Vhrz/kOzeyTNuV3s6XR
-   PLpVsRQ4HQWkEDVFcOBkuxkfkIbgZ5K3WauospxfyIHIRmGwAI39jLc80
-   nKoopFywLvKwyUqsiewSUUn9j9tDgwGaKLNu2eX5Fvn4OhBDsG7vEcNvw
-   w==;
-X-CSE-ConnectionGUID: iMZNiStJSGWUxetUDbrhvw==
-X-CSE-MsgGUID: tvMe4LQGQLC5IW6jpXzt/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="112585883"
+  bh=ZiRnt2IaFBeVcvVKsAU4sSe+VkPw7ElsvEB7qU0lObw=;
+  b=VYC82+xv6DiN1xUeWvDejWL0JDzIiGIPYQpeXygnisMilrRFTwOm4OJK
+   mCBWKvxDwABqhOhgQ1v/ycWmceS8U+gwtZ/gX7GcxTdmFhsvRUC7kSKI5
+   BDVgw4fCcPj2Sn9vegHVi3H+kQDpMn4tGhxkBwzIjKGDGqLupP/8M25AK
+   4L8KpoYcMWmpsdOIqEgwXlcJpvCB5rk7Hiwa2ecispeL3b1pXBRePzs3j
+   8s8pYAJIy5n4ZNJjPUhoPY2AhKSAL59x0VdCmJCVCx6jeUcv3jplk9qms
+   q9myI5gQ2NPvY7dt7dCX3jFq5wl60wS0xRbB8gsJpvsxsD6Wh/Xtg/yRq
+   Q==;
+X-CSE-ConnectionGUID: NJHuAgcHRrKOBlqR9cF56w==
+X-CSE-MsgGUID: /vFtvZCXT220xgGNLpv8tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100416192"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="112585883"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 01:36:37 -0700
-X-CSE-ConnectionGUID: 6XbjkFIlT5eavbLvZZPiCA==
-X-CSE-MsgGUID: C0cJAR4dSUKw/bN8LhZEUQ==
+   d="scan'208";a="100416192"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 01:48:52 -0700
+X-CSE-ConnectionGUID: GwdnEqlOT3yKrHnfnH2bTg==
+X-CSE-MsgGUID: ByOl42PvTdaMayGZqxjSxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="270267738"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Sep 2026 01:36:34 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="272882092"
+Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2026 01:48:50 -0700
+Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6OeV-000000004Fh-0b7E;
-	Tue, 15 Sep 2026 08:36:31 +0000
-Date: Tue, 15 Sep 2026 16:35:36 +0800
+	id 1x6OqO-000000000a3-0CtP;
+	Tue, 15 Sep 2026 08:48:48 +0000
+Date: Tue, 15 Sep 2026 10:47:50 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 1/1]
- arch/arm64/kvm/iommu.c:153:58: sparse: sparse: Using plain integer as NULL
- pointer
-Message-ID: <202609151626.e4d1AZ0S-lkp@intel.com>
+To: Lohita Mudimela <lohita.mudimela@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Martin Leung <martin.leung@amd.com>, James Lin <pinglei.lin@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/display/modules/power/power_abm.c:752:2-7: WARNING: NULL
+ check before some freeing functions is not needed.
+Message-ID: <202609151011.dVMrN0xv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,171 +62,179 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   57041e4a7e52342473871000827584f966d8cbd3
-commit: 9dabecc2a2c31f11239b0853839bfc860de071e0 [1/1] ANDROID: KVM: arm64: iommu: Add memcache for guest pvIOMMU
-config: arm64-randconfig-r123-20260910 (https://download.01.org/0day-ci/archive/20260915/202609151626.e4d1AZ0S-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151626.e4d1AZ0S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   587858367581b9c55c3690f4e63382ad622719d4
+commit: 254a47ce0c8a52ff78a60f92a13b56db69f69096 drm/amd/display: Separate ABM functions into dedicated power_abm.c file
+date:   4 months ago
+config: x86_64-randconfig-103-20260911 (https://download.01.org/0day-ci/archive/20260915/202609151011.dVMrN0xv-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 254a47ce0c8a ("drm/amd/display: Separate ABM functions into dedicated power_abm.c file")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609151626.e4d1AZ0S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609151011.dVMrN0xv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/iommu.c:153:58: sparse: sparse: Using plain integer as NULL pointer
-   arch/arm64/kvm/iommu.c:162:50: sparse: sparse: Using plain integer as NULL pointer
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/display/modules/power/power_abm.c:752:2-7: WARNING: NULL check before some freeing functions is not needed.
+--
+>> drivers/gpu/drm/amd/display/modules/power/power_abm.c:738:29-30: WARNING opportunity for min()
 
-vim +153 arch/arm64/kvm/iommu.c
+vim +752 drivers/gpu/drm/amd/display/modules/power/power_abm.c
 
-    12	
-  > 13	struct kvm_iommu_driver *iommu_driver;
-    14	extern struct kvm_iommu_ops *kvm_nvhe_sym(kvm_iommu_ops);
-    15	
-    16	int kvm_iommu_register_driver(struct kvm_iommu_driver *kern_ops)
-    17	{
-    18		if (WARN_ON(!kern_ops))
-    19			return -EINVAL;
-    20	
-    21		/*
-    22		 * Paired with smp_load_acquire(&iommu_driver)
-    23		 * Ensure memory stores happening during a driver
-    24		 * init are observed before executing kvm iommu callbacks.
-    25		 */
-    26		return cmpxchg_release(&iommu_driver, NULL, kern_ops) ? -EBUSY : 0;
-    27	}
-    28	EXPORT_SYMBOL(kvm_iommu_register_driver);
-    29	
-    30	int kvm_iommu_init_hyp(struct kvm_iommu_ops *hyp_ops,
-    31			       struct kvm_hyp_memcache *atomic_mc)
-    32	{
-    33		if (!hyp_ops)
-    34			return -EINVAL;
-    35	
-    36		return kvm_call_hyp_nvhe(__pkvm_iommu_init, hyp_ops,
-    37					 atomic_mc->head, atomic_mc->nr_pages);
-    38	}
-    39	EXPORT_SYMBOL(kvm_iommu_init_hyp);
-    40	
-    41	int kvm_iommu_init_driver(void)
-    42	{
-    43		if (!smp_load_acquire(&iommu_driver) || !iommu_driver->get_iommu_id_by_of) {
-    44			kvm_err("pKVM enabled without an IOMMU driver, do not run confidential workloads in virtual machines\n");
-    45			return 0;
-    46		}
-    47	
-    48		kvm_hyp_iommu_domains = (void *)__get_free_pages(GFP_KERNEL | __GFP_ZERO,
-    49					get_order(KVM_IOMMU_DOMAINS_ROOT_SIZE));
-    50		if (!kvm_hyp_iommu_domains)
-    51			return -ENOMEM;
-    52	
-    53		kvm_hyp_iommu_domains = kern_hyp_va(kvm_hyp_iommu_domains);
-    54	
-    55		return iommu_driver->init_driver();
-    56	}
-    57	EXPORT_SYMBOL(kvm_iommu_init_driver);
-    58	
-    59	void kvm_iommu_remove_driver(void)
-    60	{
-    61		if (smp_load_acquire(&iommu_driver))
-    62			iommu_driver->remove_driver();
-    63	}
-    64	
-    65	
-    66	pkvm_handle_t kvm_get_iommu_id_by_of(struct device_node *np)
-    67	{
-    68		if (!iommu_driver)
-    69			return 0;
-    70	
-    71		return iommu_driver->get_iommu_id_by_of(np);
-    72	}
-    73	
-    74	static pkvm_handle_t kvm_get_iommu_id(struct device *dev)
-    75	{
-    76		return kvm_get_iommu_id_by_of(dev_of_node(dev));
-    77	}
-    78	
-    79	int pkvm_iommu_suspend(struct device *dev)
-    80	{
-    81		int device_id = kvm_get_iommu_id(dev);
-    82	
-    83		return kvm_call_hyp_nvhe(__pkvm_host_hvc_pd, device_id, 0);
-    84	}
-    85	EXPORT_SYMBOL(pkvm_iommu_suspend);
-    86	
-    87	int pkvm_iommu_resume(struct device *dev)
-    88	{
-    89		int device_id = kvm_get_iommu_id(dev);
-    90	
-    91		return kvm_call_hyp_nvhe(__pkvm_host_hvc_pd, device_id, 1);
-    92	}
-    93	EXPORT_SYMBOL(pkvm_iommu_resume);
-    94	
-    95	int kvm_iommu_share_hyp_sg(struct kvm_iommu_sg *sg, unsigned int nents)
-    96	{
-    97		size_t nr_pages = PAGE_ALIGN(sizeof(*sg) * nents) >> PAGE_SHIFT;
-    98		phys_addr_t sg_pfn = virt_to_phys(sg) >> PAGE_SHIFT;
-    99		int i;
-   100		int ret;
-   101	
-   102		for (i = 0 ; i < nr_pages ; ++i) {
-   103			ret = kvm_call_hyp_nvhe(__pkvm_host_share_hyp, sg_pfn + i);
-   104			if (ret)
-   105				return ret;
-   106		}
-   107	
-   108		return 0;
-   109	}
-   110	EXPORT_SYMBOL(kvm_iommu_share_hyp_sg);
-   111	
-   112	int kvm_iommu_unshare_hyp_sg(struct kvm_iommu_sg *sg, unsigned int nents)
-   113	{
-   114		size_t nr_pages = PAGE_ALIGN(sizeof(*sg) * nents) >> PAGE_SHIFT;
-   115		phys_addr_t sg_pfn = virt_to_phys(sg) >> PAGE_SHIFT;
-   116		int i;
-   117		int ret;
-   118	
-   119		for (i = 0 ; i < nr_pages ; ++i) {
-   120			ret = kvm_call_hyp_nvhe(__pkvm_host_unshare_hyp, sg_pfn + i);
-   121			if (ret)
-   122				return ret;
-   123		}
-   124	
-   125		return 0;
-   126	}
-   127	EXPORT_SYMBOL(kvm_iommu_unshare_hyp_sg);
-   128	
-   129	int kvm_iommu_device_num_ids(struct device *dev)
-   130	{
-   131		if (iommu_driver->get_device_iommu_num_ids)
-   132			return iommu_driver->get_device_iommu_num_ids(dev);
-   133		return 0;
-   134	}
-   135	EXPORT_SYMBOL_GPL(kvm_iommu_device_num_ids);
-   136	
-   137	int kvm_iommu_device_id(struct device *dev, u32 idx,
-   138				pkvm_handle_t *out_iommu, u32 *out_sid)
-   139	{
-   140		if (iommu_driver->get_device_iommu_id)
-   141			return iommu_driver->get_device_iommu_id(dev, idx, out_iommu, out_sid);
-   142		return -ENODEV;
-   143	}
-   144	EXPORT_SYMBOL_GPL(kvm_iommu_device_id);
-   145	
-   146	int kvm_iommu_guest_alloc_mc(struct kvm_hyp_memcache *mc, u32 pgsize, u32 nr_pages)
-   147	{
-   148		u8 order = get_order(pgsize);
-   149	
-   150		/* Driver might have dedicated allocator especially if it needs large pages. */
-   151		if (iommu_driver && iommu_driver->guest_alloc && iommu_driver->guest_free)
-   152			return __topup_hyp_memcache(mc, nr_pages, iommu_driver->guest_alloc,
- > 153						    kvm_host_pa, 0, order);
-   154	
-   155		return topup_hyp_memcache(mc, nr_pages, order);
-   156	}
-   157	
+   605	
+   606	/* hard coded to default backlight curve. */
+   607	void initialize_backlight_caps(struct core_power *core_power, unsigned int inst)
+   608	{
+   609		unsigned int i;
+   610		struct dm_acpi_atif_backlight_caps *ext_backlight_caps = NULL;
+   611		bool custom_curve_present = false;
+   612		unsigned int num_levels = 0;
+   613		struct dc *dc = NULL;
+   614		enum dm_acpi_display_type acpi_display_type =
+   615			(inst == 0) ? AcpiDisplayType_LCD1 : AcpiDisplayType_LCD2;
+   616	
+   617		if (core_power == NULL)
+   618			return;
+   619		dc = core_power->dc;
+   620	
+   621		num_levels = core_power->bl_prop[inst].num_backlight_levels;
+   622	
+   623		/* Allocate memory for ATIF output
+   624		 * (do not want to use 256 bytes on the stack)
+   625		 */
+   626		ext_backlight_caps = (struct dm_acpi_atif_backlight_caps *)
+   627			(kzalloc(sizeof(struct dm_acpi_atif_backlight_caps),
+   628					GFP_KERNEL));
+   629	
+   630		if (ext_backlight_caps == NULL)
+   631			return;
+   632	
+   633		/* Retrieve ACPI extended brightness caps */
+   634		if (dm_query_extended_brightness_caps
+   635			(dc->ctx, acpi_display_type, ext_backlight_caps)) {
+   636			custom_curve_present = validate_ext_backlight_caps(ext_backlight_caps);
+   637		}
+   638	
+   639		if (core_power->bl_prop[inst].use_custom_backlight_caps &&
+   640				fill_custom_backlight_caps(
+   641						core_power->bl_prop[inst].custom_backlight_caps_config_no,
+   642						ext_backlight_caps)) {
+   643			custom_curve_present = validate_ext_backlight_caps(ext_backlight_caps);
+   644		}
+   645	
+   646		if (custom_curve_present) {
+   647			unsigned int index = 1;
+   648			unsigned int num_of_data_points = ext_backlight_caps->num_data_points;
+   649	
+   650			core_power->bl_prop[inst].ac_backlight_percent =
+   651				ext_backlight_caps->ac_level_percentage;
+   652			core_power->bl_prop[inst].dc_backlight_percent =
+   653				ext_backlight_caps->dc_level_percentage;
+   654			core_power->bl_prop[inst].backlight_lut[0] =
+   655				backlight_8_to_16(
+   656					ext_backlight_caps->min_input_signal);
+   657			core_power->bl_prop[inst].backlight_lut[num_levels - 1] =
+   658				backlight_8_to_16(
+   659					ext_backlight_caps->max_input_signal);
+   660	
+   661			/* Filling translation table from data points -
+   662			 * between every two provided data points we
+   663			 * lineary interpolate missing values
+   664			 */
+   665			for (i = 0; i < num_of_data_points; i++) {
+   666				unsigned int luminance =
+   667					ext_backlight_caps->data_points[i].luminance;
+   668				unsigned int signal_level =
+   669					backlight_8_to_16(
+   670						ext_backlight_caps->data_points[i].signal_level);
+   671	
+   672				/* Since luminance is a percentage, scale it by num_levels*/
+   673				luminance = (luminance * num_levels) / 101;
+   674	
+   675				/* Lineary interpolate missing values */
+   676				if (index < luminance) {
+   677					unsigned int base_value =
+   678						core_power->bl_prop[inst].backlight_lut[index-1];
+   679					unsigned int delta_signal =
+   680						signal_level - base_value;
+   681					unsigned int delta_luma =
+   682						luminance - index + 1;
+   683					unsigned int step  = delta_signal;
+   684	
+   685					for (; index < luminance; index++) {
+   686						core_power->bl_prop[inst].backlight_lut[index] =
+   687							base_value + (step / delta_luma);
+   688						step += delta_signal;
+   689					}
+   690				}
+   691	
+   692				/* Now [index == luminance],
+   693				 * so we can add data point to the translation table
+   694				 */
+   695				core_power->bl_prop[inst].backlight_lut[index++] = signal_level;
+   696			}
+   697	
+   698			/* Complete the final segment of interpolation -
+   699			 * between last datapoint and maximum value
+   700			 */
+   701			if (index < num_levels - 1) {
+   702				unsigned int base_value =
+   703					core_power->bl_prop[inst].backlight_lut[index-1];
+   704				unsigned int delta_signal =
+   705					core_power->bl_prop[inst].backlight_lut[num_levels - 1] -
+   706									base_value;
+   707				unsigned int delta_luma = num_levels - index;
+   708				unsigned int step = delta_signal;
+   709	
+   710				for (; index < num_levels - 1; index++) {
+   711					core_power->bl_prop[inst].backlight_lut[index] =
+   712							base_value + (step / delta_luma);
+   713					step += delta_signal;
+   714				}
+   715			}
+   716		/* Build backlight translation table based on default curve */
+   717		} else {
+   718			/* Defines default backlight curve F(x) = A(x*x) + Bx + C.
+   719			 *
+   720			 * Backlight curve should always  satisfy:
+   721			 * F(0) = min, F(100) = max,
+   722			 * So polynom coefficients are:
+   723			 * A is 0.0255 - B/100 - min/10000 - (255-max)/10000 =
+   724			 * (max - min)/10000 - B/100
+   725			 * B is adjustable factor to modify the curve.
+   726			 * Bigger B results in less concave curve.
+   727			 * B range is [0..(max-min)/100]
+   728			 * C is backlight minimum
+   729			 */
+   730			unsigned int backlight_curve_coeff_a_factor =
+   731					num_levels * num_levels;
+   732			unsigned int backlight_curve_coeff_b = num_levels;
+   733			unsigned int delta =
+   734				core_power->bl_prop[inst].backlight_lut[num_levels - 1] -
+   735					core_power->bl_prop[inst].backlight_lut[0];
+   736			unsigned int coeffC = core_power->bl_prop[inst].backlight_lut[0];
+   737			unsigned int coeffB =
+ > 738					(backlight_curve_coeff_b < delta ?
+   739						backlight_curve_coeff_b : delta);
+   740			unsigned long long coeffA = delta - coeffB; /* coeffB is B*100 */
+   741	
+   742			for (i = 1; i < num_levels - 1; i++) {
+   743				uint64_t lut_val = div_u64(coeffA * i * i, backlight_curve_coeff_a_factor) +
+   744					div_u64((uint64_t)coeffB * i, backlight_curve_coeff_b) + coeffC;
+   745	
+   746				ASSERT(lut_val <= 0xFFFFFFFF);
+   747				core_power->bl_prop[inst].backlight_lut[i] = (unsigned int)lut_val;
+   748			}
+   749		}
+   750	
+   751		if (ext_backlight_caps != NULL)
+ > 752			kfree(ext_backlight_caps);
+   753	
+   754		/* Successfully initialized */
+   755		core_power->bl_prop[inst].backlight_caps_valid = true;
+   756	}
+   757	
 
 --
 0-DAY CI Kernel Test Service
