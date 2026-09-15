@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7110638E12D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 01:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BD63B47F1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 01:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789436675; cv=none; b=JvBGkd7uFgfiCe2SWRqWAYHm/rYlvj+K2WfUBN3fen2xxHAvAR0unx9Feh6MF5c4BlVgcJlg9kggO0H3+n4vAEvSGSDqR7hPs+H/if9kJt8MRwdc/N0N4dbhIFq9x2nenYhtn1X37tgTVRixpS0jSeoYBEf9PMOX8l58rBuB494=
+	t=1789437054; cv=none; b=uq7uKWkchHmMIp9HUbkT2+YIyqtTHe21bTyI6CyeWDk1QXeQHuPgRAKMBBeHN+1UhNaiY0PaNWgYyyLByfs2jiY8vfYMK7qQfzl3JV70odJOHy0oplQaXzDEM33QZhCJi7fx2d6tceS0vsUmhd3aZDf/ny6IrEPFoKzi1oqsIEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789436675; c=relaxed/simple;
-	bh=4VLy9jAHuprQuoLamE2hdikjccTcVCZCm1+2pv+Fek4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SsHT749vpjJQBHadSVZoddSehypXNO3Rl+8D76DuutHGvBg5Zdbd6sm39TyFyQU8WFnbkhoMqy1rQ4Xu5WXSuX0z2nSEzgxtlJUI45PrPUJhCYipokuhaCaGguzNBjnU4km3ando97mKFGNcxvhjckmEK+lox0U4yPko/nkBO/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LPFKS4kX; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1789437054; c=relaxed/simple;
+	bh=nFAT832pwnzzuX43KgloHlEGnsWtJN96qtZlqMeTlss=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sxgtHpLwrqCvZYZQj8TvEJBBoDfCfnivRCgBAuqRCoxNy+4Z6POd4xgi6hBEHn9cO/uBiHNR3LtlNsF+WTSjHBUajK3j3OHyqmfYKC5oULpxcvbY9S1qqmjA4ZZxlbF4sGKe37vNr94UeLTUKFsLWmQLtDY5zIUYtTgQDGWexkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VAhxjput; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LPFKS4kX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VAhxjput"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789436674; x=1820972674;
+  t=1789437053; x=1820973053;
   h=date:from:to:cc:subject:message-id;
-  bh=4VLy9jAHuprQuoLamE2hdikjccTcVCZCm1+2pv+Fek4=;
-  b=LPFKS4kXGxNh2c7ZfUBLW6cv3PFDSAUd2eEmVZAlmu26MgFrgRZNGNI6
-   W5hXJssR778RKX58KKF0mT6ClwzscxVGRaiiT8+Nb3xOAH2iw1xRC6GRP
-   KrWfZk648oqFZfssG5Oo9NOplJrufP5cfMlSo7Lbr8kwbtUxz6u2Pnp2U
-   62Z5qy1BGxxCorymDCP6R0F36RABN6cNTExN/yGQDlXEzcqNaCwFvVnTd
-   BxLgzmJzSyNiRM+LKqJQBpwxb8rijHa114S9djd0+qH1tFD15qrF1GG7w
-   np1XSVswXLgjS8nYwCKwxS/E1a7ZIifzFJ22C/PayC0Ccjw3O7KNvSDAy
+  bh=nFAT832pwnzzuX43KgloHlEGnsWtJN96qtZlqMeTlss=;
+  b=VAhxjput/PzcJDGbv99Livm1cxVpcpB6MooVjQ0c8XPSjQyUiQgp3Ual
+   dETXV30+UdJG5YTDrHXHMmvP2Iv2drw9Kjwi9hQD7n5VvUFYv+c83HBnv
+   JjZb/c6JHmOnPAQ1RkOcbo00MQ2MVIzVdo0rDCkIRm19wX1vGGYXWdAoe
+   jonv3LdZKVGhHzNRfXyx164JFvkjk2ZgEZJB/kINyCJn7VHkB/iRw8428
+   gP7h1E+5V0dbC5izMmce1976bNkejPQZPqw8WHrEDvsR7q0V7NjPTbqDK
+   XqIhAiHajQpMVxLkxxhwiUNXLJkwRCaW9tHsyiCrMTwXQt2Ps0mUPxz2G
    g==;
-X-CSE-ConnectionGUID: jSpjWtO/QAmLPCnTtISptQ==
-X-CSE-MsgGUID: 8EHMmQzNQ6mrdGH+PkAZYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89636229"
+X-CSE-ConnectionGUID: 5BRQZGVzRXGF73uGiVUg2A==
+X-CSE-MsgGUID: R5obT6JbSJKwBDy2ernSwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100388495"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89636229"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 18:44:32 -0700
-X-CSE-ConnectionGUID: tdPWbC/pTk6KODc7fQmuAA==
-X-CSE-MsgGUID: KDkJ4wM3SqmL7ImeP46YvA==
+   d="scan'208";a="100388495"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 18:50:53 -0700
+X-CSE-ConnectionGUID: J3APS7TDSweoXpUMP9H3HA==
+X-CSE-MsgGUID: flKWOHxSRRmXXTdPNihKbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1010037"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 14 Sep 2026 18:44:30 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 14 Sep 2026 18:50:52 -0700
+Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6IDj-000000003ph-2moI;
-	Tue, 15 Sep 2026 01:44:27 +0000
-Date: Tue, 15 Sep 2026 09:44:16 +0800
+	id 1x6IJt-000000000Rj-22hG;
+	Tue, 15 Sep 2026 01:50:49 +0000
+Date: Tue, 15 Sep 2026 03:50:37 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 1/1]
- arch/arm64/kvm/mmu.c:2012:5: sparse: sparse: symbol 'pkvm_mem_abort_prefault'
- was not declared. Should it be static?
-Message-ID: <202609150936.U85nEOiG-lkp@intel.com>
+Subject: [isilence:rw-dmabuf-v6 5/13] error[E0063]: missing field
+ `init_dma_buf_io_ctx` in initializer of `bindings::block_device_operations`
+Message-ID: <202609150346.zarOuJo6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,41 +57,26 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   57041e4a7e52342473871000827584f966d8cbd3
-commit: 3fc1e219027721249a621d54449e0f3db624b655 [1/1] ANDROID: KVM: arm64: Introduce kvm-arm.protected_prefault parameter
-config: arm64-randconfig-r123-20260910 (https://download.01.org/0day-ci/archive/20260915/202609150936.U85nEOiG-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150936.U85nEOiG-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux rw-dmabuf-v6
+head:   08355898806df6fd96d3f97692f443cf76d25f1c
+commit: 422f4d04204a28f9e40d1fd9c65ab179d41b20aa [5/13] block: add dma-buf support for raw bdev
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260915/202609150346.zarOuJo6-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609150346.zarOuJo6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609150936.U85nEOiG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609150346.zarOuJo6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/mmu.c:313:1: sparse: sparse: symbol 'kvm_pinned_pages_insert' was not declared. Should it be static?
->> arch/arm64/kvm/mmu.c:2012:5: sparse: sparse: symbol 'pkvm_mem_abort_prefault' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/pkvm_mem_abort_prefault +2012 arch/arm64/kvm/mmu.c
-
-  2011	
-> 2012	int pkvm_mem_abort_prefault(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-  2013				    struct kvm_memory_slot *memslot)
-  2014	{
-  2015		phys_addr_t memslot_start = memslot->base_gfn << PAGE_SHIFT;
-  2016		size_t size = (1 << pkvm_prefault) << PAGE_SHIFT;
-  2017	
-  2018		fault_ipa = ALIGN_DOWN(fault_ipa, size);
-  2019		if (fault_ipa < memslot_start) {
-  2020			size -= memslot_start - fault_ipa;
-  2021			fault_ipa = memslot_start;
-  2022		}
-  2023	
-  2024		return pkvm_mem_abort(vcpu, fault_ipa, size, memslot);
-  2025	}
-  2026	
+>> error[E0063]: missing field `init_dma_buf_io_ctx` in initializer of `bindings::block_device_operations`
+   --> rust/kernel/block/mq/gen_disk.rs:128:58
+   |
+   128 |         const TABLE: bindings::block_device_operations = bindings::block_device_operations {
+   |                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ missing `init_dma_buf_io_ctx`
 
 --
 0-DAY CI Kernel Test Service
