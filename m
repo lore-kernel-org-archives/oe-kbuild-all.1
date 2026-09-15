@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF754CE669;
-	Tue, 15 Sep 2026 19:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE72E41CB4C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 19:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789499279; cv=none; b=Dl6+s2xGtxD9DSOB4zfz1SGS3t9p3Qr+lx1ZLM8oENSGrjIcxpGq3IHLbzl6YETCZ4EwE3OIiInl/e/pk8vDQN7ge+nqZ9f+fRXMFQjv8ksBYs+CshsptZdqM1JJ9uVwgln7f0FBRFCafd7yWu1gRyICBiBt5FXslqgoC40/a1Y=
+	t=1789499944; cv=none; b=Yr8R2tX5oKvDBUVdH3NVTxsTGRXPA7gniACn/RqeXRy+ITn6w/2aM5O8+fTnuIdOBy6XVPHYs0D8T40Z7KrWPzBdifVkDRKN8Ry9K8KtJ4bcXyNY8ci6rcHvV+nvSIfMPo67+2F+S8OFHoXBfHjC082mrf1NfIDhIsaCxWy3oX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789499279; c=relaxed/simple;
-	bh=Yqk68G/VssP+1UxLmQWua0XWRtSkXC7l/kMMbfJBwjY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sizu3RQdagPOUkYFCzyLZuoomoNz7deAkGE+hBvLHh9PI7yXW2VUitYlRRNBDUd7hPbRMFZjJnK7Eq8Dr0eqpqNW687tCNnEL76MxhpCetA7F2y9SkjFf7e31OG+BLQJhuXS7Y5Tne00q2rds/Tq8BcyyXNRn5jt+pi9Deu2GRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCRG/qGm; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1789499944; c=relaxed/simple;
+	bh=tOlv4sA43J5x4vXkLqdrxBjJLeKW30IVO24KaacvvZA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VhtklPleSCURe05GsXvbQO5SoOR4Pr4O8cUOg6Ga/wnP2zvFe9n+vCO9amkTvQtFVi0oeC7r63B8Hs8Dql9r+dffRna9sfNjcK1wMFvTu06DG0AR29xUehqG5XGAtKX52P1D+WADuAXy2OTzQZdHFd1mz+gbPR0Epdy5xvJDU60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aWBumLRn; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCRG/qGm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aWBumLRn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789499278; x=1821035278;
+  t=1789499943; x=1821035943;
   h=date:from:to:cc:subject:message-id;
-  bh=Yqk68G/VssP+1UxLmQWua0XWRtSkXC7l/kMMbfJBwjY=;
-  b=SCRG/qGm1qqa/y94Qbc1RYRJzGIzDeh81Hjw+xGsxb3+0+zp4m0EiyRS
-   pRH3nTCY8k0OHQLcuYJ8I2CdZ5YY1/uIqQU4BUkn1vaW5RqKeZmqbg31P
-   jvUg/YFpejRh8MYpIwKUH/txxtoBQBVhxJlufB2dnx26t5xrvi2M/lMxZ
-   VJhbwfV1x7Y0riiBNxqaf9VUuv2imCIpFuj6UwfGvAx+wNxp7qc36lnds
-   p1v0mXs78JL1DSUnCcO4DBKZGq1NDQehE4y/D2/KFaX5BjMWBWYI6GjW3
-   PNzU89w9Q/ZK/m7x2c3KllziCqKZJmDZM/crKV5KCCEh4XUHUycEEApeg
+  bh=tOlv4sA43J5x4vXkLqdrxBjJLeKW30IVO24KaacvvZA=;
+  b=aWBumLRnLz9MBzf3m9NfnzmM8V11SViTpPefsJqjHZ+byS1CcL6nK/cX
+   ZybYb389KiNV00D3M9TDKE7exVY9br+kw5omr6cB19oJZzBsmuhFM1Zvb
+   cTA95U0pY2J8dPJWgnCRg1BF76S6tXMl/SGw0JPqMgocf49/4KEbwU19U
+   ye10OUkimD9ql1WcL98ubWmOsQtAqDZIyyzA1Xv0X18AKgzlzQbW+WWWF
+   HuEvFH6vJ85uoKWlS444v+OSON88OCkPgmIks6RFiJ5K3m0CB+kS+vR/q
+   tns8xQYimybQUyhFSiuW5JRQT8Vf7UucG5Ht8XZb9hzL7Q5zA8zhY8Eks
    w==;
-X-CSE-ConnectionGUID: 3jrr/z58TEiSK3Rb4eSIuw==
-X-CSE-MsgGUID: m2UNdg+mRY+ZBhGe3tZ9eQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93574594"
+X-CSE-ConnectionGUID: JQE4oT2uTBi0FV5q8XYxeQ==
+X-CSE-MsgGUID: C3gRAiFuRwqvKgPqrR5AZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89720658"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="93574594"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 12:07:57 -0700
-X-CSE-ConnectionGUID: EKc1MNbRS7SdYyz2L3eQRA==
-X-CSE-MsgGUID: OzrY1cgHQEijDGElJC49ag==
+   d="scan'208";a="89720658"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 12:19:03 -0700
+X-CSE-ConnectionGUID: jZ3WqL8hRNGAEGg+mDztTQ==
+X-CSE-MsgGUID: Hv8KWEmpQ6KDq95H2ss1fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273072000"
+   d="scan'208";a="269421546"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2026 12:07:55 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 Sep 2026 12:19:00 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6YVU-000000004xl-1Q64;
-	Tue, 15 Sep 2026 19:07:52 +0000
-Date: Wed, 16 Sep 2026 03:07:34 +0800
+	id 1x6YgE-000000004z7-1IiK;
+	Tue, 15 Sep 2026 19:18:58 +0000
+Date: Wed, 16 Sep 2026 03:18:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, x86@kernel.org,
- Thomas Gleixner <tglx@kernel.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: [tip:irq/drivers 3/22] ld.lld: error: undefined symbol:
- qcom_scm_is_available
-Message-ID: <202609160249.tiuDbEzF-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 1/1]
+ arch/arm64/kvm/pkvm.c:756:5: sparse: sparse: symbol
+ 'pkvm_enable_smc_forwarding' was not declared. Should it be static?
+Message-ID: <202609160309.aT2vP7ne-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,31 +60,44 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/drivers
-head:   0c65a1331928d0207c385f03fb5eba0cfecce0e6
-commit: 1b852de05f74cfc96c58caad9df4cc1fa2dc7689 [3/22] irqchip/qcom: Enable compile testing for QCOM_PDC and QCOM_MPM
-config: hexagon-randconfig-002-20260915 (https://download.01.org/0day-ci/archive/20260916/202609160249.tiuDbEzF-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 148ee2b266b73a49f1f31d0bd17d4818b91bee9f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609160249.tiuDbEzF-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   57041e4a7e52342473871000827584f966d8cbd3
+commit: 128144da229a1de12ebe5bca87f607aa348c6ba9 [1/1] ANDROID: KVM: arm64: Add smc64 trap handling for protected guests
+config: arm64-randconfig-r123-20260910 (https://download.01.org/0day-ci/archive/20260916/202609160309.aT2vP7ne-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d3db069999553568848400c84cbf815c03f5470f)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609160309.aT2vP7ne-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609160249.tiuDbEzF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609160309.aT2vP7ne-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/pkvm.c:756:5: sparse: sparse: symbol 'pkvm_enable_smc_forwarding' was not declared. Should it be static?
 
->> ld.lld: error: undefined symbol: qcom_scm_is_available
-   >>> referenced by qcom-pdc.c:717 (drivers/irqchip/qcom-pdc.c:717)
-   >>>               drivers/irqchip/qcom-pdc.o:(qcom_pdc_probe) in archive vmlinux.a
-   >>> referenced by qcom-pdc.c:717 (drivers/irqchip/qcom-pdc.c:717)
-   >>>               drivers/irqchip/qcom-pdc.o:(qcom_pdc_probe) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: qcom_scm_io_writel
-   >>> referenced by qcom-pdc.c:722 (drivers/irqchip/qcom-pdc.c:722)
-   >>>               drivers/irqchip/qcom-pdc.o:(qcom_pdc_probe) in archive vmlinux.a
-   >>> referenced by qcom-pdc.c:722 (drivers/irqchip/qcom-pdc.c:722)
-   >>>               drivers/irqchip/qcom-pdc.o:(qcom_pdc_probe) in archive vmlinux.a
+vim +/pkvm_enable_smc_forwarding +756 arch/arm64/kvm/pkvm.c
+
+   755	
+ > 756	int pkvm_enable_smc_forwarding(struct file *kvm_file)
+   757	{
+   758		struct kvm *host_kvm;
+   759	
+   760		if (!file_is_kvm(kvm_file))
+   761			return -EINVAL;
+   762	
+   763		if (!kvm_get_kvm_safe(kvm_file->private_data))
+   764			return -EINVAL;
+   765	
+   766		host_kvm = kvm_file->private_data;
+   767		if (!host_kvm)
+   768			return -EINVAL;
+   769	
+   770		host_kvm->arch.pkvm.smc_forwarded = true;
+   771	
+   772		return 0;
+   773	}
+   774	
 
 --
 0-DAY CI Kernel Test Service
