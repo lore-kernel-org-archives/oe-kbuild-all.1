@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2A2414A11
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 10:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA8F4A0153
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 11:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789469225; cv=none; b=hipAmKUAVU31iOVilkjia2CCCGfpNAOVISHxdi1FnDiohJuqejwkWHdNBAzN+Z/LdnoXhB7XtL/y3SRJXgpnA98JLZSx+jA5x6u5t2Yf4F+I0P8FPoDwzdxeUjvaglCR+SgpjGo3M7z+KOvzV8ZGoMIXfmkCOSSahLQOXGDX0Sg=
+	t=1789471714; cv=none; b=SmjDGbi92pwW6GyOKmEchYtrqFCIqhseGVmV3NyOgmUKfAdvnlJJnTK3GrkfxRPN0adUh7+jJi9s9lQP9ec5P+jeBUzUyEcNlzDclNFOQPEafEmcvv5YWb0AjAbsJ3GUPCVAu7dbMLVQRlfec+X9UFkjGO/S+rQL4My//vXq3+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789469225; c=relaxed/simple;
-	bh=o+CzpqGsYsUB2D3JWVKNy2hvC7d47xKuRzpXkYkF0s4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kcitTgJ7CJoRGMoTZdj34o9tMDWR+nDEVqbivawgu7jYvhaKxx7M9WtxJoVr6WJYy3Xxq9/tyhJlDwno1bWMDKE9CZiHMW2MF+IpKhtKW8a1DKAArN5bSsD75oGbfvibfISNmXITeU7NtY78SZ4kJVeRxSbSkbvWa3t2xcw7GP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DE2D0kXQ; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789471714; c=relaxed/simple;
+	bh=jSoFJXm+QIYNLCPj4kNqwXdblW01terQhf/YpaOWpmc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DJnMjR5rwFSXp8a53mmAx6W3zYxuG45lTyCdOVZSSka2d5f66OBp8+ZZ82V7ynERcF4fkVE3pNlIkfVCXhct5To3Alpe8grt915WnrNmImmsuhH2tmF32V9S7ekIB3yKvxd0wHfylmQgJ+5RQvcLqybUlA7czuRDgceR0bA4N2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKMVuSNr; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DE2D0kXQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKMVuSNr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789469222; x=1821005222;
+  t=1789471711; x=1821007711;
   h=date:from:to:cc:subject:message-id;
-  bh=o+CzpqGsYsUB2D3JWVKNy2hvC7d47xKuRzpXkYkF0s4=;
-  b=DE2D0kXQMucwDHsZNzRyMtiqBodG8GANjkgsj9Q8zg7UV1AXn2SMbU3U
-   VmZM29SZkLIPVvv2Hz3Flt1ylbWrhsX2zj6IGnNaoFpPHXSJ8aMJbatLU
-   Ji2QyVmzK0ZEoKITedmEOVi6wzpj0Thuuef/E0SjhMJyKVUD9vtUYh4ra
-   2OXdxpcpD5t+mpP2IpK6bmirwAio1qaQgMoR9Cbe+JEpEaZ69pVEzjCmh
-   v/fKvnoVmWK5tKJUaVhl5QfYBUpo9sewi4DaodXP1aGlGo9Qvx2AGksZ/
-   elfnz34MlalI062h7nLR7IXC7gCHa1M31IJx8LjPMwGfhQSUpXBEVSxC6
-   w==;
-X-CSE-ConnectionGUID: iTiDCEYoQJetl8jLHxAbIw==
-X-CSE-MsgGUID: etWEM9FTSR6QGgxei24JzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100492325"
+  bh=jSoFJXm+QIYNLCPj4kNqwXdblW01terQhf/YpaOWpmc=;
+  b=IKMVuSNrsyWWrMd0AsetulASfizmrUqWuUG0LnCvFs+FxJDVxOVuAnm7
+   YFpioRDJ0/RpxSzEmHuSc3IvZqwu5mZnW1IDBWLEYK2ErAChH3/4Y1Mm0
+   1TG/CqCPsEdbt+jAnqYXV8Y7IyS/47TrSXMjblmet8+C1f81d/yVRz7Vd
+   GozxI9OM2t+NscbTjuB1ydM4XgGk6CNVV07fqI9is6I+CzAAl+UCmQvnl
+   RLr7wO85cKRwHT0w379c+AgorPXkxbqa2wQBFXb+TDN3hsgnFMFHUBeeV
+   DHWWj3ZNYcpCQB6r7DfJJNuj39N/NRjAVgFuUehedjEmcodyUJ49O9QIi
+   Q==;
+X-CSE-ConnectionGUID: D+r+OI8NSNKo67FVbJ987w==
+X-CSE-MsgGUID: t9C5yE9KSj6an4jAqo6QMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="338917"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100492325"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 03:47:01 -0700
-X-CSE-ConnectionGUID: 2MFCJfRySDegqTgPlyT8Jg==
-X-CSE-MsgGUID: vMf9scUGStugIe0wWFZHLg==
+   d="scan'208";a="338917"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 04:28:30 -0700
+X-CSE-ConnectionGUID: IBkoLIoYRyGwm01pFHbG4Q==
+X-CSE-MsgGUID: RT3DLd5kQxaMNj+a6gokxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="272943765"
+   d="scan'208";a="278244339"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2026 03:47:00 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 15 Sep 2026 04:28:28 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6Qgj-000000004QH-1xxY;
-	Tue, 15 Sep 2026 10:46:57 +0000
-Date: Tue, 15 Sep 2026 18:46:08 +0800
+	id 1x6RKs-000000004Sf-1Nrj;
+	Tue, 15 Sep 2026 11:28:26 +0000
+Date: Tue, 15 Sep 2026 19:27:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/080-wifi 12/46]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse:
- sparse: incorrect type in initializer (different base types)
-Message-ID: <202609151828.yif5ULxO-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 458/799]
+ fs/bcachefs/btree/key_cache.c:849:9: sparse: sparse: dereference of noderef
+ expression
+Message-ID: <202609151944.XkdSMhhx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,66 +60,81 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/AsahiLinux/linux bits/080-wifi
-head:   423344419b5ba83783b44e2531fe2b32de9e4f42
-commit: fdbc756a8088c6478bd20f35925a99ad6737e93e [12/46] wifi: brcmfmac: Add support for firmware signatures
-config: x86_64-randconfig-123-20260915 (https://download.01.org/0day-ci/archive/20260915/202609151828.yif5ULxO-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Hi Kent,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: caf90d22262c52f7c29c4b08bd50f2a27d3dbe25 [458/799] bcachefs: move btree files to subdir
+config: openrisc-randconfig-r112-20260915 (https://download.01.org/0day-ci/archive/20260915/202609151944.XkdSMhhx-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151828.yif5ULxO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151944.XkdSMhhx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609151828.yif5ULxO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609151944.XkdSMhhx-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] type @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse:     expected restricted __le32 [usertype] magic
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse:     got unsigned int [usertype] type
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1864:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length @@     got unsigned long [assigned] [usertype] length @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1864:31: sparse:     expected restricted __le32 [usertype] length
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1864:31: sparse:     got unsigned long [assigned] [usertype] length
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1866:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length @@     got unsigned long @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1866:31: sparse:     expected restricted __le32 [usertype] length
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1866:31: sparse:     got unsigned long
+>> fs/bcachefs/btree/key_cache.c:849:9: sparse: sparse: dereference of noderef expression
+--
+>> fs/bcachefs/btree/locking.c:328:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/locking.c:328:36: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree/locking.c:328:36: sparse:    struct btree_path *
+--
+>> fs/bcachefs/btree/interior.c:1191:18: sparse: sparse: mixing different enum types:
+   fs/bcachefs/btree/interior.c:1191:18: sparse:    unsigned int enum bch_trans_commit_flags
+   fs/bcachefs/btree/interior.c:1191:18: sparse:    unsigned int enum bch_watermark
+--
+>> fs/bcachefs/btree/iter.c:1713:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1713:9: sparse:    unsigned long [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1713:9: sparse:    unsigned long *
+   fs/bcachefs/btree/iter.c:1714:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1714:9: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1714:9: sparse:    struct btree_path *
+   fs/bcachefs/btree/iter.c:1715:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1715:9: sparse:    unsigned short [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1715:9: sparse:    unsigned short [usertype] *
+   fs/bcachefs/btree/iter.c:1716:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:1716:9: sparse:    struct btree_insert_entry [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:1716:9: sparse:    struct btree_insert_entry *
+   fs/bcachefs/btree/iter.c:3735:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/bcachefs/btree/iter.c:3735:36: sparse:    struct btree_path [noderef] __rcu *
+   fs/bcachefs/btree/iter.c:3735:36: sparse:    struct btree_path *
+   fs/bcachefs/btree/iter.c:3331:9: sparse: sparse: context imbalance in 'bch2_trans_srcu_unlock' - unexpected unlock
+   fs/bcachefs/btree/iter.c:3355:9: sparse: sparse: context imbalance in 'bch2_trans_srcu_lock' - different lock contexts for basic block
+   fs/bcachefs/btree/iter.c:3633:9: sparse: sparse: context imbalance in 'bch2_trans_put' - different lock contexts for basic block
 
-vim +1850 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
+vim +849 fs/bcachefs/btree/key_cache.c
 
-  1842	
-  1843	static int brcmf_alloc_rtlv(struct brcmf_pciedev_info *devinfo, u32 *address, u32 type, size_t length)
-  1844	{
-  1845		struct brcmf_bus *bus = dev_get_drvdata(&devinfo->pdev->dev);
-  1846		u32 boundary = devinfo->ci->rambase + devinfo->fw_size +
-  1847			BRCMF_BL_HEAP_START_GAP + BRCMF_BL_HEAP_SIZE;
-  1848		u32 start_addr;
-  1849		struct brcmf_rtlv_footer footer = {
-> 1850			.magic = type,
-  1851		};
-  1852	
-  1853		length = ALIGN(length, 4);
-  1854		start_addr = *address - length - sizeof(struct brcmf_rtlv_footer);
-  1855	
-  1856		if (length > 0xffff || start_addr > *address || start_addr < boundary) {
-  1857			brcmf_err(bus, "failed to allocate 0x%zx bytes for rTLV type 0x%x\n",
-  1858				  length, type);
-  1859			return -ENOMEM;
-  1860		}
-  1861	
-  1862		/* Random seed does not use the length check code */
-  1863		if (type == BRCMF_RANDOM_SEED_MAGIC)
-  1864			footer.length = length;
-  1865		else
-  1866			footer.length = length | ((length ^ 0xffff) << 16);
-  1867	
-  1868		memcpy_toio(devinfo->tcm + *address - sizeof(struct brcmf_rtlv_footer),
-  1869			    &footer, sizeof(struct brcmf_rtlv_footer));
-  1870	
-  1871		*address = start_addr;
-  1872	
-  1873		return 0;
-  1874	}
-  1875	
+d211b408abbcec fs/bcachefs/btree_key_cache.c Kent Overstreet   2020-06-15  841  
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  842  void bch2_btree_key_cache_to_text(struct printbuf *out, struct btree_key_cache *bc)
+d211b408abbcec fs/bcachefs/btree_key_cache.c Kent Overstreet   2020-06-15  843  {
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  844  	printbuf_tabstop_push(out, 24);
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  845  	printbuf_tabstop_push(out, 12);
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  846  
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  847  	prt_printf(out, "keys:\t%lu\r\n",		atomic_long_read(&bc->nr_keys));
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  848  	prt_printf(out, "dirty:\t%lu\r\n",		atomic_long_read(&bc->nr_dirty));
+f2bfe7e83765f3 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-06-08 @849  	prt_printf(out, "table size:\t%u\r\n",		bc->table.tbl->size);
+5f1929f1f077d3 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-06-13  850  	prt_newline(out);
+5f1929f1f077d3 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-06-13  851  	prt_printf(out, "shrinker:\n");
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  852  	prt_printf(out, "requested_to_free:\t%lu\r\n",	bc->requested_to_free);
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  853  	prt_printf(out, "freed:\t%lu\r\n",		bc->freed);
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  854  	prt_printf(out, "skipped_dirty:\t%lu\r\n",	bc->skipped_dirty);
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  855  	prt_printf(out, "skipped_accessed:\t%lu\r\n",	bc->skipped_accessed);
+5147b9ae768758 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-04-20  856  	prt_printf(out, "skipped_lock_fail:\t%lu\r\n",	bc->skipped_lock_fail);
+5f1929f1f077d3 fs/bcachefs/btree_key_cache.c Kent Overstreet   2024-06-13  857  	prt_newline(out);
+5396e5af3c1032 fs/bcachefs/btree_key_cache.c Nathan Chancellor 2024-08-21  858  	prt_printf(out, "pending:\t%zu\r\n",		per_cpu_sum(bc->nr_pending));
+d211b408abbcec fs/bcachefs/btree_key_cache.c Kent Overstreet   2020-06-15  859  }
+14ba3706b3a8b5 fs/bcachefs/btree_key_cache.c Kent Overstreet   2020-11-18  860  
+
+:::::: The code at line 849 was first introduced by commit
+:::::: f2bfe7e83765f3bd84382cc75d8ac3ca619de39a bcachefs: Rip out freelists from btree key cache
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 --
 0-DAY CI Kernel Test Service
