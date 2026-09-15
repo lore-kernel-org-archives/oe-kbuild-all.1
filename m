@@ -1,149 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B86A41D22B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 10:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2A2414A11
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Sep 2026 10:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789467016; cv=none; b=H6spGAonqjGrW0lLrPMI0dx2nf0nTnF7TqiSBTIZie36h6rHnpOaXHbihK2drX3jQHwKTLJAvCiL1gg/DA4sOCWekdDHvTjGL3OoX6l1SrAlo/RRcV47FwNyJPSrpVRxgutblkjJWZnuD6EiCR9s0U9CxPpmJRZCNm8eC4Jdbwg=
+	t=1789469225; cv=none; b=hipAmKUAVU31iOVilkjia2CCCGfpNAOVISHxdi1FnDiohJuqejwkWHdNBAzN+Z/LdnoXhB7XtL/y3SRJXgpnA98JLZSx+jA5x6u5t2Yf4F+I0P8FPoDwzdxeUjvaglCR+SgpjGo3M7z+KOvzV8ZGoMIXfmkCOSSahLQOXGDX0Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789467016; c=relaxed/simple;
-	bh=dk21WjAW04msmp2MwwSoX6wGGzr7IGwDaQpcSJy3HaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=W0rUOPSU6HbpuHiE0ZEBtiFHf3Vpyf5lkisyZCmgX9QDcxvKeXkA9fhW+ZNxRxV9hZjQxHc0kIPmFqzqz4o0ilWB5BMcKimJhxeelac71IymmqtEA2jMPcwMnXcT+r+YfTojsNhfMoXj1f5VMYsAipF2YVLka98hmSxo5BFeGc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aNtqtqQH; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1789469225; c=relaxed/simple;
+	bh=o+CzpqGsYsUB2D3JWVKNy2hvC7d47xKuRzpXkYkF0s4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kcitTgJ7CJoRGMoTZdj34o9tMDWR+nDEVqbivawgu7jYvhaKxx7M9WtxJoVr6WJYy3Xxq9/tyhJlDwno1bWMDKE9CZiHMW2MF+IpKhtKW8a1DKAArN5bSsD75oGbfvibfISNmXITeU7NtY78SZ4kJVeRxSbSkbvWa3t2xcw7GP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DE2D0kXQ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aNtqtqQH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DE2D0kXQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789467014; x=1821003014;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dk21WjAW04msmp2MwwSoX6wGGzr7IGwDaQpcSJy3HaY=;
-  b=aNtqtqQHxITAe/IdnoTsxb9jUulc8zg2m6ywiYE41pJSoMWVp39yM/iu
-   SS4DAfAFsakMkPlLdB0BkrtT9/+m+XKdRzyKWmJBV9Myg1UXXaqogzEmK
-   SGP4JjAYnjDVR0CwlYlTKrynGALi+fc2owa6EhsASFyK3R+k1sWpkDi5M
-   VXFS6k8ut5+/clu7ou2QIbOiAHhtHi+kpGxiJzlFw8VPK23ZUwrDaUbsN
-   MumUSS7hstzEk7atgseuJVuXV9gAV5weQtwanMRzvzyuoEHPdpyKmcwZj
-   +RrKozSWnbNK1fP7lUnc5+26xrxv0VJEHlyI9oFBNhw06uv5mwanZ6G6R
+  t=1789469222; x=1821005222;
+  h=date:from:to:cc:subject:message-id;
+  bh=o+CzpqGsYsUB2D3JWVKNy2hvC7d47xKuRzpXkYkF0s4=;
+  b=DE2D0kXQMucwDHsZNzRyMtiqBodG8GANjkgsj9Q8zg7UV1AXn2SMbU3U
+   VmZM29SZkLIPVvv2Hz3Flt1ylbWrhsX2zj6IGnNaoFpPHXSJ8aMJbatLU
+   Ji2QyVmzK0ZEoKITedmEOVi6wzpj0Thuuef/E0SjhMJyKVUD9vtUYh4ra
+   2OXdxpcpD5t+mpP2IpK6bmirwAio1qaQgMoR9Cbe+JEpEaZ69pVEzjCmh
+   v/fKvnoVmWK5tKJUaVhl5QfYBUpo9sewi4DaodXP1aGlGo9Qvx2AGksZ/
+   elfnz34MlalI062h7nLR7IXC7gCHa1M31IJx8LjPMwGfhQSUpXBEVSxC6
    w==;
-X-CSE-ConnectionGUID: OhSyrLHJT0G8R5oLv+DEfw==
-X-CSE-MsgGUID: dIBIfBWnS4CpJBTeqqSV+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="115361009"
+X-CSE-ConnectionGUID: iTiDCEYoQJetl8jLHxAbIw==
+X-CSE-MsgGUID: etWEM9FTSR6QGgxei24JzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100492325"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="115361009"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 03:10:12 -0700
-X-CSE-ConnectionGUID: c+8VMs2EQTOtlJQGjRvrrA==
-X-CSE-MsgGUID: o8hEiH7dTnWkNzoTIahqhw==
+   d="scan'208";a="100492325"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 03:47:01 -0700
+X-CSE-ConnectionGUID: 2MFCJfRySDegqTgPlyT8Jg==
+X-CSE-MsgGUID: vMf9scUGStugIe0wWFZHLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="271517715"
-Received: from igk-lkp-server01.igk.intel.com (HELO 71151d66d536) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 15 Sep 2026 03:10:11 -0700
-Received: from kbuild by 71151d66d536 with local (Exim 4.98.2)
+   d="scan'208";a="272943765"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2026 03:47:00 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6Q76-000000000ad-1jpG;
-	Tue, 15 Sep 2026 10:10:08 +0000
-Date: Tue, 15 Sep 2026 12:09:49 +0200
+	id 1x6Qgj-000000004QH-1xxY;
+	Tue, 15 Sep 2026 10:46:57 +0000
+Date: Tue, 15 Sep 2026 18:46:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-classmaps-v9-akpm 30/41]
- ./include/linux/dynamic_debug.h:519:9: warning: "_DPRINTK_CLASSBITS_INIT"
- redefined
-Message-ID: <202609151152.QDxQ8hJ4-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/080-wifi 12/46]
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse:
+ sparse: incorrect type in initializer (different base types)
+Message-ID: <202609151828.yif5ULxO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dd-classmaps-v9-akpm
-head:   bc05be3d2d3a71c95bbd0c24599f0bafcd5e7326
-commit: 5959d9dd620041fe8451e9b2d2545b1084526432 [30/41] dyndbg-API: promote DYNAMIC_DEBUG_CLASSMAP_PARAM to API
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260915/202609151152.QDxQ8hJ4-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151152.QDxQ8hJ4-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/080-wifi
+head:   423344419b5ba83783b44e2531fe2b32de9e4f42
+commit: fdbc756a8088c6478bd20f35925a99ad6737e93e [12/46] wifi: brcmfmac: Add support for firmware signatures
+config: x86_64-randconfig-123-20260915 (https://download.01.org/0day-ci/archive/20260915/202609151828.yif5ULxO-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260915/202609151828.yif5ULxO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609151152.QDxQ8hJ4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609151828.yif5ULxO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] type @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse:     expected restricted __le32 [usertype] magic
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1850:26: sparse:     got unsigned int [usertype] type
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1864:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length @@     got unsigned long [assigned] [usertype] length @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1864:31: sparse:     expected restricted __le32 [usertype] length
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1864:31: sparse:     got unsigned long [assigned] [usertype] length
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1866:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length @@     got unsigned long @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1866:31: sparse:     expected restricted __le32 [usertype] length
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1866:31: sparse:     got unsigned long
 
-   In file included from ./include/linux/module.h:31,
-                    from ./include/linux/device/driver.h:21,
-                    from ./include/linux/device.h:32,
-                    from ./include/linux/node.h:18,
-                    from ./include/linux/cpu.h:17,
-                    from ./include/linux/cpufreq.h:12,
-                    from kernel/sched/sched.h:31,
-                    from kernel/sched/rq-offsets.c:5:
->> ./include/linux/dynamic_debug.h:519:9: warning: "_DPRINTK_CLASSBITS_INIT" redefined
-     519 | #define _DPRINTK_CLASSBITS_INIT 0U
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/dynamic_debug.h:70:9: note: this is the location of the previous definition
-      70 | #define _DPRINTK_CLASSBITS_INIT ((_DPRINTK_FLAGS_DEFAULT & _DPRINTK_FLAGS_PRINT) ? ~0U : 0U)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from ./include/linux/module.h:31,
-                    from net/8021q/vlan.c:20:
->> ./include/linux/dynamic_debug.h:519:9: warning: "_DPRINTK_CLASSBITS_INIT" redefined
-     519 | #define _DPRINTK_CLASSBITS_INIT 0U
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/dynamic_debug.h:70:9: note: this is the location of the previous definition
-      70 | #define _DPRINTK_CLASSBITS_INIT ((_DPRINTK_FLAGS_DEFAULT & _DPRINTK_FLAGS_PRINT) ? ~0U : 0U)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   net/8021q/vlan.c: In function 'register_vlan_device':
-   net/8021q/vlan.c:249:46: warning: '%i' directive output may be truncated writing between 1 and 4 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
-     249 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
-         |                                              ^~
-   net/8021q/vlan.c:249:42: note: directive argument in the range [0, 4094]
-     249 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
-         |                                          ^~~~~~~
-   net/8021q/vlan.c:249:17: note: 'snprintf' output between 3 and 21 bytes into a destination of size 16
-     249 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/8021q/vlan.c:237:46: warning: '%.4i' directive output may be truncated writing 4 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
-     237 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
-         |                                              ^~~~
-   net/8021q/vlan.c:237:42: note: directive argument in the range [0, 4094]
-     237 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
-         |                                          ^~~~~~~~~
-   net/8021q/vlan.c:237:17: note: 'snprintf' output between 6 and 21 bytes into a destination of size 16
-     237 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from ./include/linux/module.h:31,
-                    from ./include/linux/bpf.h:22,
-                    from kernel/bpf/diagnostics.c:4:
->> ./include/linux/dynamic_debug.h:519:9: warning: "_DPRINTK_CLASSBITS_INIT" redefined
-     519 | #define _DPRINTK_CLASSBITS_INIT 0U
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/dynamic_debug.h:70:9: note: this is the location of the previous definition
-      70 | #define _DPRINTK_CLASSBITS_INIT ((_DPRINTK_FLAGS_DEFAULT & _DPRINTK_FLAGS_PRINT) ? ~0U : 0U)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/diagnostics.c: In function 'bpf_diag_source':
-   kernel/bpf/diagnostics.c:828:9: warning: function 'bpf_diag_source' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     828 |         msg = bpf_diag_vfmt(env, fmt, args);
-         |         ^~~
+vim +1850 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 
-
-vim +/_DPRINTK_CLASSBITS_INIT +519 ./include/linux/dynamic_debug.h
-
-   515	
-   516	#if defined(DEBUG)
-   517	#define _DPRINTK_CLASSBITS_INIT ~0U
-   518	#else
- > 519	#define _DPRINTK_CLASSBITS_INIT 0U
-   520	#endif
-   521	
+  1842	
+  1843	static int brcmf_alloc_rtlv(struct brcmf_pciedev_info *devinfo, u32 *address, u32 type, size_t length)
+  1844	{
+  1845		struct brcmf_bus *bus = dev_get_drvdata(&devinfo->pdev->dev);
+  1846		u32 boundary = devinfo->ci->rambase + devinfo->fw_size +
+  1847			BRCMF_BL_HEAP_START_GAP + BRCMF_BL_HEAP_SIZE;
+  1848		u32 start_addr;
+  1849		struct brcmf_rtlv_footer footer = {
+> 1850			.magic = type,
+  1851		};
+  1852	
+  1853		length = ALIGN(length, 4);
+  1854		start_addr = *address - length - sizeof(struct brcmf_rtlv_footer);
+  1855	
+  1856		if (length > 0xffff || start_addr > *address || start_addr < boundary) {
+  1857			brcmf_err(bus, "failed to allocate 0x%zx bytes for rTLV type 0x%x\n",
+  1858				  length, type);
+  1859			return -ENOMEM;
+  1860		}
+  1861	
+  1862		/* Random seed does not use the length check code */
+  1863		if (type == BRCMF_RANDOM_SEED_MAGIC)
+  1864			footer.length = length;
+  1865		else
+  1866			footer.length = length | ((length ^ 0xffff) << 16);
+  1867	
+  1868		memcpy_toio(devinfo->tcm + *address - sizeof(struct brcmf_rtlv_footer),
+  1869			    &footer, sizeof(struct brcmf_rtlv_footer));
+  1870	
+  1871		*address = start_addr;
+  1872	
+  1873		return 0;
+  1874	}
+  1875	
 
 --
 0-DAY CI Kernel Test Service
