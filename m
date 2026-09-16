@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6441347FB10;
-	Wed, 16 Sep 2026 08:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7CC463B87
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Sep 2026 10:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789548749; cv=none; b=EH2NxORBVRGF/0qQ4wcL5r2OddPTB3Zlqed5RB92J7qcdFFlwZv1yqpfPwjYulhH7fp2lt0BYZC/Y7GAUefo5yfkcPdPMqZpJ3ZW/sx8xHFAlLG61FAHN7Pio3ffyQ0X5BD3/e8omjEkA1NpMVpXMKUde5chZYCDWvfgDwTN8iY=
+	t=1789554330; cv=none; b=RlqbQNJDRKjlF79xwk3dN9WNVbSyxyl7BaOZcr7tuJZHFjtE6LJgsYU4LVfeJRaBUm6C71Oh584GSZij1A4p3iz7kkTaj3+Sbv6RjmyuygmuQgpk/zPRxLiVb+r4RzYK2H95ieszYyRGTaLyKdB8spTNJQByup0KeJgQ1haK10I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789548749; c=relaxed/simple;
-	bh=nsPNj4WQO3JA0WIXZz0KAPjO4FrFqP1qMMd/DUaEmMk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Lz7lzNyJsHHyjuzDN1i6oKIY7x3pz9TsSJtAIIhhXsb26zG18lUTuNvtBU9fK84Dlf5t9Icr1JDhq+MBTLo8OsXZOnvapLwrSv/ypllEfXtTAcu9lgPq7IjwvMqHQTgu+fhO9Fhysa+ERBQBs6Za39vxqBO1GrwKU6fNeC3xd20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMQRSgnw; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1789554330; c=relaxed/simple;
+	bh=hM2fJ2DeRTVuE5EFfMrgahhpFDgDIAIi7kMOi+rr+VM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fw+WAFNI3EMx5AsTyF9ilEXcYuvp0hzimR/yqgdTN0688cfghABajdes4vPBLfHL77eVj2LoyXIasZraudsnsRECuxpYhoqWrSbNWw4WVulyiAPfyISkNkBPy83NOxHHuwmOvBcpyW2lAbG2kIAka7r4EpTFwEBtmUaKWwFlgx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fUJ7mv2K; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMQRSgnw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fUJ7mv2K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789548741; x=1821084741;
+  t=1789554326; x=1821090326;
   h=date:from:to:cc:subject:message-id;
-  bh=nsPNj4WQO3JA0WIXZz0KAPjO4FrFqP1qMMd/DUaEmMk=;
-  b=gMQRSgnwwHnxRY39+fL4iFX2xy1FNZJDJM/3EahssdoRhQtgMNg41yYv
-   d2SaZ2RcbtqAxS6fSQDDGJkznLMtzugF/UR6n+8yNhEt906LOvNqWeXzg
-   NRPpxCKEit8kOczoZbh7srG8H63JfC2t47ZV6CFNdghAI9+J7hIsU85hN
-   IOcAe5LWUbEGCcFV9vP3FlEEag8rg0R/sjc46nU+r0+0pxKAI+fr6X/8b
-   AxMxEB3giMk5ORRslEmuOQS8sOKcf6OpKX6a0frnC/kw0zUseMn0n4ffR
-   ARswb6iFek4m3kkMG4ui/lATA1A1UCIDQugfxuFhjTziG6/rHDppbz4XM
-   A==;
-X-CSE-ConnectionGUID: hl1GB/CLQY6uikHyNzfd6g==
-X-CSE-MsgGUID: tFIMsU3cScKBqdIKiP71oQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="92427784"
+  bh=hM2fJ2DeRTVuE5EFfMrgahhpFDgDIAIi7kMOi+rr+VM=;
+  b=fUJ7mv2K3ten1/uFFJSJPb2CNc14oZVpqypEExb9HVQThVlJB+c8ESw3
+   sAC5rHoD8SktYkH+22vcl2zC7w51d901Bb1un3FN5ZjmrVTeOVWM9lmiX
+   tmO1kcL8mVVj2k/0XrepZlTTUw38SUL9droMZeVmKdDoYRlgUVmKzQVTx
+   0wTy1Ren55RUQH4zwnqLz77+t3qERtQjqL99O7LMT2SXGD/z9FSuntkIW
+   teLi0+w76yUQdRfo2AHUWav5LS3S9k2aeWUPy3RzM3FAAdZw+lkNnUObd
+   vWBkgYi0n5o1Zmf/q2uq+Xplyf6NffBZ3HwGkfdMAhTn+00u0Mk7weaOz
+   Q==;
+X-CSE-ConnectionGUID: XcLiumozQxu6MgpWbiEtNg==
+X-CSE-MsgGUID: 96vUIGzgR4KRSHIhndz4dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89946489"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="92427784"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 01:52:13 -0700
-X-CSE-ConnectionGUID: g2TU/v/UQZah+DUsbMAfFA==
-X-CSE-MsgGUID: LdL1UjpuQ8WjlMXU8xf3Rw==
+   d="scan'208";a="89946489"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 03:25:19 -0700
+X-CSE-ConnectionGUID: be0O6ZGMRmuVlMxHhqIcMg==
+X-CSE-MsgGUID: sNMtd35lTvmq9dczH3dn4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273818637"
+   d="scan'208";a="269603667"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 16 Sep 2026 01:52:11 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Sep 2026 03:25:18 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6lNA-000000005kf-3Usl;
-	Wed, 16 Sep 2026 08:52:08 +0000
-Date: Wed, 16 Sep 2026 16:51:58 +0800
+	id 1x6mpH-000000005sL-3YSj;
+	Wed, 16 Sep 2026 10:25:15 +0000
+Date: Wed, 16 Sep 2026 18:25:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-tdx-efistub 2/3]
- drivers/firmware/efi/libstub/x86-stub.c:1106:13: error: call to undeclared
- function 'early_is_sevsnp_guest'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202609161626.12YwpSKN-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 19/101]
+ fs/bcachefs/util/util.c:807:9: sparse: sparse: restricted blk_opf_t degrades
+ to integer
+Message-ID: <202609161837.pgkwJSHR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,40 +60,60 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-tdx-efistub
-head:   dbd995955d7cd3afb151e05449c3571295cdef92
-commit: f9d03e512d573e1b021b2b8c38d2490b87eaf9e1 [2/3] x86/boot: Move unaccepted memory handling out of the decompressor
-config: x86_64-randconfig-071-20260916 (https://download.01.org/0day-ci/archive/20260916/202609161626.12YwpSKN-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609161626.12YwpSKN-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   ca944a61e079450f82be88c91e349638c75cf4b6
+commit: 6caf75dbc37a5d4876a4b96f48e86a24c66c84fe [19/101] bcachefs: Improve bch2_bio_to_text()
+config: openrisc-randconfig-r112-20260915 (https://download.01.org/0day-ci/archive/20260916/202609161837.pgkwJSHR-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609161837.pgkwJSHR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609161626.12YwpSKN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609161837.pgkwJSHR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/bcachefs/util/util.c:807:9: sparse: sparse: restricted blk_opf_t degrades to integer
+   fs/bcachefs/util/util.c:808:9: sparse: sparse: restricted blk_opf_t degrades to integer
 
->> drivers/firmware/efi/libstub/x86-stub.c:1106:13: error: call to undeclared function 'early_is_sevsnp_guest'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1106 |         } else if (early_is_sevsnp_guest()) {
-         |                    ^
-   drivers/firmware/efi/libstub/x86-stub.c:1106:13: note: did you mean 'early_is_tdx_guest'?
-   drivers/firmware/efi/libstub/x86-stub.c:1081:13: note: 'early_is_tdx_guest' declared here
-    1081 | static bool early_is_tdx_guest(void)
-         |             ^
-   1 error generated.
+vim +807 fs/bcachefs/util/util.c
 
-
-vim +/early_is_sevsnp_guest +1106 drivers/firmware/efi/libstub/x86-stub.c
-
-  1100	
-  1101	void arch_accept_memory(phys_addr_t start, phys_addr_t end)
-  1102	{
-  1103		if (early_is_tdx_guest()) {
-  1104			if (!tdx_accept_memory(start, end))
-  1105				tdx_panic("Failed to accept memory");
-> 1106		} else if (early_is_sevsnp_guest()) {
+   794	
+   795	void bch2_bio_to_text(struct printbuf *out, struct bio *bio)
+   796	{
+   797		if (!out->nr_tabstops)
+   798			printbuf_tabstop_push(out, 24);
+   799	
+   800		prt_printf(out, "bi_bdev:\t");
+   801		if (bio->bi_bdev)
+   802			prt_bdevname(out, bio->bi_bdev);
+   803		else
+   804			prt_str(out, "(null|");
+   805		prt_newline(out);
+   806	
+ > 807		prt_printf(out, "bi_opf:\t%s ", bch2_request_op_strs[bio_op(bio)]);
+   808		prt_bitflags(out, bch2_request_flag_strs, bio->bi_opf >> REQ_OP_BITS);
+   809		prt_newline(out);
+   810	
+   811		prt_str(out, "bi_flags:\t");
+   812		prt_bitflags(out, bch2_bio_flag_strs, bio->bi_flags);
+   813		prt_newline(out);
+   814	
+   815		prt_printf(out, "bi_status:\t%u\n", bio->bi_status);
+   816	
+   817		prt_printf(out, "bi_iter.bi_sector\t%llu\n",	(u64) bio->bi_iter.bi_sector);
+   818		prt_printf(out, "bi_iter.bi_size\t%u\n",	bio->bi_iter.bi_size);
+   819		prt_printf(out, "bi_iter.bi_idx\t%u\n",		bio->bi_iter.bi_idx);
+   820		prt_printf(out, "bi_iter.bi_bvec_done\t%u\n",	bio->bi_iter.bi_bvec_done);
+   821	
+   822		prt_printf(out, "bi_remaining:\t%u\n",		atomic_read(&bio->__bi_remaining));
+   823		prt_printf(out, "bi_end_io:\t%ps\n",		bio->bi_end_io);
+   824	
+   825		prt_printf(out, "bi_vcnt\t%u\n",		bio->bi_vcnt);
+   826		prt_printf(out, "bi_max_vecs\t%u\n",		bio->bi_max_vecs);
+   827	}
+   828	
 
 --
 0-DAY CI Kernel Test Service
