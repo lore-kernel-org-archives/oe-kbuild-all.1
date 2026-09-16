@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16DCEEA8;
-	Wed, 16 Sep 2026 00:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD0B433AD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Sep 2026 00:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789517246; cv=none; b=j102/lClKrHh1PgRQj9qBIP3EzaidMnqX1/e7IdziGGfcAkLdxIVxS5HYCH2KcGSN9yemX35V6NHOU9OfFHQoIiODtW6KJ8opqu4qxLcujO37JD0fpXnfVJHbYAPeo4fT9CeVBzpkg4RO3GgBKGdJ2t5vknl2vh8i5FVV1FEP54=
+	t=1789517904; cv=none; b=jxooS0FYcyxYZlBq/2dufFHwm7lYJGxYYF2IB93MpGm8r/Bx+ghIkYbGqG9GW944Y+VWjKsK5P8lYMqLQg9XIJmuWL92En8KeMx6wLWncMF7vOAyv33c0Zi+iSA5EDtOtblwIZagTPYD2BEDlR32NalgPKXJrQ3IQBHiFTSqrQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789517246; c=relaxed/simple;
-	bh=WRmUOi9iBdvSZcsLOiT2AQTlpyWLhd0On19VR9xLC54=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VIvhzkSSyZkI0J+nZ3SVY7vqbseW9KMv3xinvGbW/CYHPMq2IPVTJIFCaGbcqyhFR6i7DT55eS+6IMsAKPMrlWNbxzFzVGRWmt9f3AxMWmuPh8ZbidR0AFa/Tvp54PzbsI6FoAzrDk8DcE0bCetyJZLudB4XROsmRgcS9lkLUfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V5iscinX; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1789517904; c=relaxed/simple;
+	bh=Xv/ly5e8OLy9FPlp38eFdYJ3wHwARXe+T3WRr+pVARI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ehh5K9K6Ynka9CDdmGUj3hLyMBKNFmceFIkMb0+KDVQlvB68Pq+OueGlroD4+8KB7IVeeH5U90IfBdgEX9ucpo2pzYOnAHVpeAFgoZww/o7MBEAjEVqjnASQL3uHfKoROwDMZT/SD1x4X58tRpdIvLUmOdwbEmNVqv0xp9pF8y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aaMG9Nhi; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V5iscinX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aaMG9Nhi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789517244; x=1821053244;
+  t=1789517903; x=1821053903;
   h=date:from:to:cc:subject:message-id;
-  bh=WRmUOi9iBdvSZcsLOiT2AQTlpyWLhd0On19VR9xLC54=;
-  b=V5iscinXw25f3yLP5GjFvgX5k8+9YDFVM/j5pz6Eu9bJlLhAYnzF5ikj
-   fGAX5k2Z3ponUNixPyJPmmczhGq3uCVFRx6CE0DBGCBh8qiMufLxE9UxH
-   CzEZOev8KXaMcLlpS4IXLFbwKDsbdjqhJCPsyI/mIDtBxYfC9cWBgKMBg
-   N7JKhgFK+9J+VPBopE4KpwHfK3YA0CwACDCO5TWG/CrlL6tvFvVgc/iaN
-   2r8xwC7jb/iseyxos04ASk/4igSPk+tgafFfym08XVDpu/OB1fUBi5EGO
-   dfx8j/uZl5iJ8BgFczEcT3+36BH9GPLAr4qRHkMFI14/UaKcawl1Cximz
-   A==;
-X-CSE-ConnectionGUID: NK13oUuFTuKqEgryKBre4g==
-X-CSE-MsgGUID: 8Yh59z5PTxyJULr75X3wlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="92400236"
+  bh=Xv/ly5e8OLy9FPlp38eFdYJ3wHwARXe+T3WRr+pVARI=;
+  b=aaMG9NhiBE0cW4pp6O1ioKcB0R5MOzGOHwlRFF0D8g5QM19/Qv2m4CxN
+   orthaP3sB3V+sdeG1dLtwYcL3dAFL4Ma6z+VWxKa7pOunYZQMWYJFCKFf
+   ZbQXB4TzVJM2MIgGXuaSQJoZAalj+YVSzZrvbH3QZ2lXnrqFXlLMU8ggb
+   jwbTK6RzZopkdIt/ORByF/GEGsrxr+sp9l741fdYCBIQ2hLSn770nJuXk
+   KVvR0INK1ppE5ajLiLdgjKdh7N/ZlTdosAyFxFmpvtflb4vYjeSLNUMHO
+   oooLBuFNI7DoQ91+WPIxJO/QQPdEYpA00/HoBrIgO+BxjvIj3xYOYjX8x
+   w==;
+X-CSE-ConnectionGUID: urk3i6u0TvmuS0weI11seQ==
+X-CSE-MsgGUID: 8UPW6fpaSlWnMkViDzxSBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89027667"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="92400236"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 17:07:22 -0700
-X-CSE-ConnectionGUID: bpggktAiSUOB9DxFcrylTA==
-X-CSE-MsgGUID: cclvw02ASxmJvagUiqeFBw==
+   d="scan'208";a="89027667"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 17:18:22 -0700
+X-CSE-ConnectionGUID: FQxIewSyQSSd74x5XYTw9w==
+X-CSE-MsgGUID: 8uHJzz8KRne1/B9asoHD5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1571431"
+   d="scan'208";a="276693325"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 15 Sep 2026 17:07:21 -0700
+  by orviesa003.jf.intel.com with ESMTP; 15 Sep 2026 17:18:21 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6dBF-000000005Cx-3Jvk;
-	Wed, 16 Sep 2026 00:07:17 +0000
-Date: Wed, 16 Sep 2026 08:06:52 +0800
+	id 1x6dLu-000000005DZ-1upW;
+	Wed, 16 Sep 2026 00:18:18 +0000
+Date: Wed, 16 Sep 2026 08:17:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Gregory Price <gourry@gourry.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [gourryinverse:scratch/gourry/managed_nodes/rfc6-complete
- 8/67] mm/page_alloc.c:7386:3: error: call to undeclared function
- 'folio_test_clear_young'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202609160844.l63z35ra-lkp@intel.com>
+ 8/67] mm/page_alloc.c:7386:3: error: implicit declaration of function
+ 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'?
+Message-ID: <202609160816.fmlzELdi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,38 +63,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://github.com/gourryinverse/linux scratch/gourry/managed_nodes/rfc6-complete
 head:   0423df59f3f085592c3ff59834eeae067ee75158
 commit: 4af770f6b4623768abd534b154c6d8136f601cac [8/67] mm/page_alloc: let alloc_contig_range() try harder
-config: hexagon-randconfig-002-20260916 (https://download.01.org/0day-ci/archive/20260916/202609160844.l63z35ra-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609160844.l63z35ra-lkp@intel.com/reproduce)
+config: nios2-randconfig-002-20260916 (https://download.01.org/0day-ci/archive/20260916/202609160816.fmlzELdi-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609160816.fmlzELdi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609160844.l63z35ra-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609160816.fmlzELdi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/page_alloc.c:7386:3: error: call to undeclared function 'folio_test_clear_young'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    7386 |                 folio_test_clear_young(folio);
-         |                 ^
-   mm/page_alloc.c:7386:3: note: did you mean 'folio_test_clear_lru'?
-   include/linux/page-flags.h:548:2: note: 'folio_test_clear_lru' declared here
-     548 |         TESTCLEARFLAG(LRU, lru, PF_HEAD)
-         |         ^
-   include/linux/page-flags.h:468:48: note: expanded from macro 'TESTCLEARFLAG'
-     468 | #define TESTCLEARFLAG(uname, lname, policy)                             \
-         |                                                                         ^
-   include/linux/page-flags.h:430:29: note: expanded from macro '\
-   FOLIO_TEST_CLEAR_FLAG'
-     430 | static __always_inline bool folio_test_clear_##name(struct folio *folio) \
-         |                             ^
-   <scratch space>:116:1: note: expanded from here
-     116 | folio_test_clear_lru
-         | ^
-   1 error generated.
+   mm/page_alloc.c: In function 'contig_range_reclaim':
+>> mm/page_alloc.c:7386:3: error: implicit declaration of function 'folio_test_clear_young'; did you mean 'folio_test_clear_lru'? [-Werror=implicit-function-declaration]
+      folio_test_clear_young(folio);
+      ^~~~~~~~~~~~~~~~~~~~~~
+      folio_test_clear_lru
+   cc1: some warnings being treated as errors
 
 
-vim +/folio_test_clear_young +7386 mm/page_alloc.c
+vim +7386 mm/page_alloc.c
 
   7363	
   7364	/*
