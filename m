@@ -1,126 +1,273 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F1A3DE440
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Sep 2026 05:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC78E3C278A;
+	Wed, 16 Sep 2026 05:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789535881; cv=none; b=Dc7WXhno8wThLuk5/qJqfHKHD4OBCOQCojDe9bOQ33hkFG2Wa5OlTSouANRJCTKfW6XN3sWv2JJdmFB9gMuILF+y0jkb5sp2Y3L3qaVAfu78ZYyUjJn58IjC+1TeOQpbYgy8hpjr0blC+ee+c76h+v8LutPjX4Qf4a5UWSucsiM=
+	t=1789535887; cv=none; b=Pn7uorQlepkUFxzSc/rr7xDggkeySXJvmFlDyDxiiK1bMZeiH1jjwA+uBuyiBcbEtFFsRawv7v11o3xxDby41hqmTwyLvHjmOCJ7FjHLWYGEhYMenWds5SdRbEaPfJlYXebeBB27Upa2sqbc7eDQQ70J2Tx5eA5GXkuzuUNtHwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789535881; c=relaxed/simple;
-	bh=fYPosjx1+8ieJFlE2L65DLJR42rogTwSrm9DpisWIlI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mdi6WCNea+yRgPOIp3VYZp/mhVzA/PSCTK300/ZMUT9rGeSbH7AjNbHo6OJJRiQUe3zSO17jQWGgtJge0mbcvYE13q96dwpyvTER4lOi/p0yCYnm48KhW2LdjijKmSwkcUMT5N9WzGTXgZ+I9LEHT2mzY/SlGlllHLaMv82ph2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEFvIeXI; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1789535887; c=relaxed/simple;
+	bh=7K9m8F0mD1KG4TcDKDJKxVH0VueNV6FDVlQ8Ad7+dF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J9nzLSn6gZV+5wC3vlaSglfhx5tDzI0CzPlabY7YP0uc8RLL8jvqs7ZjuXSq0gPOv047Fu9H+S8jU6HJJttCT1+0w3KOPsU1EXnNDSmPSGKGmwx92F+N3WmtX7gEPDTizYA3jB6ngAsB9bv3FboMJnymrEX7skxSL+G9ggpJ5OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gSRaA6g2; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEFvIeXI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gSRaA6g2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789535878; x=1821071878;
-  h=date:from:to:cc:subject:message-id;
-  bh=fYPosjx1+8ieJFlE2L65DLJR42rogTwSrm9DpisWIlI=;
-  b=TEFvIeXIM24mr8DiXR7hDj3LgP++OnwFiawNuiEGoXR5v4tKLfHM1AuP
-   m05ci2O/mkrqWOPwMqqSaA/IroWf34THh5ta/4Hkg9KWPhKsE5sBjfimb
-   Y1+WnLRXEL5yw+bO1QkB0oqQT3/nEOZcU4mku1LYJltCUBWb/qYYWmu+2
-   WbfJvOLO10kvCW67vY6XjZFUgU/3MUQVSDIQXZjkB9crq9R9v+DQDPWes
-   s69RqHGdHXFTBudN0Pn/KiggFY7J0uI626iWJ+kIed0rJJrkIjVOV5ZDc
-   flo64bNuQi7U6MQHlsrydyDImKzwNPXvy2AAARmi6wm0lBVYNTY+At9HD
-   w==;
-X-CSE-ConnectionGUID: juLYT8emTYOrcbyD3b3O+g==
-X-CSE-MsgGUID: 1/RAqmbfQOyd4G6IG4b5xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="107416573"
+  t=1789535883; x=1821071883;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7K9m8F0mD1KG4TcDKDJKxVH0VueNV6FDVlQ8Ad7+dF4=;
+  b=gSRaA6g2bGt1duo35Xz92uGMfXvxZn2hPXnTknJ1MQHGGiPsnrTTXvFf
+   DTs/RAq370yGDuR/O+8oESx4JdEwxSwueCXbOEemF4vE25aD7d6vv/HWq
+   +dE3v56HMGIkS9qQd68CSjDD8dq1zEEsCb2YgrqWJdTCoeAJblYDdh1Zs
+   aFXTENE5F1q6x+Cmoikmv9cTZ00nAvwVLvTr+5ExAX6tqnrWdzFYJMNEG
+   5sqkEHoxTyWVGW5IwFI05Kd0vefNc3t5gmEIyYZkoybjy9BvlLg2gH2tq
+   T3+UH9Njxk0houw26IcrsbOdHzHu1BMN+z0m493XFdF+bAXwvPfXqLSGZ
+   g==;
+X-CSE-ConnectionGUID: +qMNICvMRLKpWa3XbaAI0g==
+X-CSE-MsgGUID: 8LVauzDUSbyXNJCFFOYVWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="107416575"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="107416573"
+   d="scan'208";a="107416575"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 22:17:57 -0700
-X-CSE-ConnectionGUID: a0YbDUxTRQ2Kcgyeslt8WQ==
-X-CSE-MsgGUID: HlI+hU2VTNuFPQX19T2zGQ==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 22:17:59 -0700
+X-CSE-ConnectionGUID: e4iKesyjTzeod7b1HLHAUQ==
+X-CSE-MsgGUID: i4wUTo/ZSzGY0adSHgPQTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="267017288"
+   d="scan'208";a="267017284"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 15 Sep 2026 22:17:56 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6i1p-000000005X9-0QYy;
+	id 1x6i1p-000000005X7-0J2U;
 	Wed, 16 Sep 2026 05:17:53 +0000
-Date: Wed, 16 Sep 2026 13:17:22 +0800
+Date: Wed, 16 Sep 2026 13:17:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:trace_sched_wakeup_backtrace 140/332]
- fs/bcachefs/data/copygc.c:581:34: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202609161357.3wdof49W-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Guangshuo Li <lgs201920130244@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] media: venus: avoid HFI resource leak on IRQ request
+ failure
+Message-ID: <202609161343.qH6ypqkG-lkp@intel.com>
+References: <20260915123009.2420780-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915123009.2420780-1-lgs201920130244@gmail.com>
 
-tree:   https://github.com/koverstreet/bcachefs trace_sched_wakeup_backtrace
-head:   9e7cbd4ad9c7a7ba461dbba9185628c006e200cd
-commit: 88633d63152451a41ce7b7913e49ac6d6107c314 [140/332] bcachefs: Allocator now directly wakes up copygc when necessary
-config: openrisc-randconfig-r112-20260915 (https://download.01.org/0day-ci/archive/20260916/202609161357.3wdof49W-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609161357.3wdof49W-lkp@intel.com/reproduce)
+Hi Guangshuo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linuxtv-media-pending/master]
+[also build test WARNING on media-tree/master linus/master v7.3-rc3 next-20260914]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-venus-avoid-HFI-resource-leak-on-IRQ-request-failure/20260915-203009
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20260915123009.2420780-1-lgs201920130244%40gmail.com
+patch subject: [PATCH] media: venus: avoid HFI resource leak on IRQ request failure
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260916/202609161343.qH6ypqkG-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609161343.qH6ypqkG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609161357.3wdof49W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609161343.qH6ypqkG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/bcachefs/data/copygc.c:581:34: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *thread @@     got struct task_struct *t @@
-   fs/bcachefs/data/copygc.c:581:34: sparse:     expected struct task_struct [noderef] __rcu *thread
-   fs/bcachefs/data/copygc.c:581:34: sparse:     got struct task_struct *t
->> fs/bcachefs/data/copygc.c:583:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *thread @@
-   fs/bcachefs/data/copygc.c:583:42: sparse:     expected struct task_struct *tsk
-   fs/bcachefs/data/copygc.c:583:42: sparse:     got struct task_struct [noderef] __rcu *thread
+All warnings (new ones prefixed by >>):
 
-vim +581 fs/bcachefs/data/copygc.c
+>> drivers/media/platform/qcom/venus/core.c:446:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+     446 |                 enable_irq(core->irq);
+         |                 ^
+   drivers/media/platform/qcom/venus/core.c:443:2: note: previous statement is here
+     443 |         if (ret)
+         |         ^
+   1 warning generated.
 
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  557  
-e6d1161530bcd63 fs/bcachefs/movinggc.c    Kent Overstreet 2020-07-11  558  int bch2_copygc_start(struct bch_fs *c)
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  559  {
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  560  	if (c->opts.nochanges)
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  561  		return 0;
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  562  
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  563  	if (bch2_fs_init_fault("copygc_start"))
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  564  		return -ENOMEM;
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  565  
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  566  	if (!c->copygc.wq &&
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  567  	    !(c->copygc.wq = alloc_workqueue("bcachefs_copygc",
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  568  				WQ_HIGHPRI|WQ_FREEZABLE|WQ_MEM_RECLAIM|WQ_CPU_INTENSIVE, 1)))
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  569  		return bch_err_throw(c, ENOMEM_fs_other_alloc);
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  570  
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  571  	if (!c->copygc.thread) {
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  572  		struct task_struct *t =
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  573  			kthread_create(bch2_copygc_thread, c, "bch-copygc/%s", c->name);
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  574  		int ret = PTR_ERR_OR_ZERO(t);
-e46c181af9e230c fs/bcachefs/movinggc.c    Kent Overstreet 2023-09-11  575  		bch_err_msg(c, ret, "creating copygc thread");
-cf904c8d964fa47 fs/bcachefs/movinggc.c    Kent Overstreet 2023-12-16  576  		if (ret)
-d4bf5eecd78a90d fs/bcachefs/movinggc.c    Kent Overstreet 2022-07-18  577  			return ret;
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  578  
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  579  		get_task_struct(t);
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  580  
-cb70f3a81f829a0 fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29 @581  		c->copygc.thread = t;
-88633d63152451a fs/bcachefs/data/copygc.c Kent Overstreet 2024-10-18  582  		rcu_assign_pointer(c->copygc.thread, t);
-cb70f3a81f829a0 fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29 @583  		wake_up_process(c->copygc.thread);
-7705b3d5de918bd fs/bcachefs/data/copygc.c Kent Overstreet 2025-11-29  584  	}
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  585  
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  586  	return 0;
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  587  }
-1c6fdbd8f2465dd fs/bcachefs/movinggc.c    Kent Overstreet 2017-03-16  588  
 
-:::::: The code at line 581 was first introduced by commit
-:::::: cb70f3a81f829a0b9217057bb638905881dc02c1 bcachefs: struct bch_fs_ec, bch_fs_copygc
+vim +/if +446 drivers/media/platform/qcom/venus/core.c
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+   379	
+   380	static int venus_probe(struct platform_device *pdev)
+   381	{
+   382		struct device *dev = &pdev->dev;
+   383		struct venus_core *core;
+   384		int ret;
+   385	
+   386		core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
+   387		if (!core)
+   388			return -ENOMEM;
+   389	
+   390		core->dev = dev;
+   391	
+   392		core->base = devm_platform_ioremap_resource(pdev, 0);
+   393		if (IS_ERR(core->base))
+   394			return PTR_ERR(core->base);
+   395	
+   396		core->video_path = devm_of_icc_get(dev, "video-mem");
+   397		if (IS_ERR(core->video_path))
+   398			return PTR_ERR(core->video_path);
+   399	
+   400		core->cpucfg_path = devm_of_icc_get(dev, "cpu-cfg");
+   401		if (IS_ERR(core->cpucfg_path))
+   402			return PTR_ERR(core->cpucfg_path);
+   403	
+   404		core->irq = platform_get_irq(pdev, 0);
+   405		if (core->irq < 0)
+   406			return core->irq;
+   407	
+   408		core->res = of_device_get_match_data(dev);
+   409		if (!core->res)
+   410			return -ENODEV;
+   411	
+   412		mutex_init(&core->pm_lock);
+   413	
+   414		core->pm_ops = venus_pm_get(core->res->hfi_version);
+   415		if (!core->pm_ops)
+   416			return -ENODEV;
+   417	
+   418		if (core->pm_ops->core_get) {
+   419			ret = core->pm_ops->core_get(core);
+   420			if (ret)
+   421				return ret;
+   422		}
+   423	
+   424		ret = dma_set_mask_and_coherent(dev, core->res->dma_mask);
+   425		if (ret)
+   426			goto err_core_put;
+   427	
+   428		dma_set_max_seg_size(dev, UINT_MAX);
+   429	
+   430		INIT_LIST_HEAD(&core->instances);
+   431		mutex_init(&core->lock);
+   432		INIT_DELAYED_WORK(&core->work, venus_sys_error_handler);
+   433		init_waitqueue_head(&core->sys_err_done);
+   434	
+   435		ret = devm_request_threaded_irq(dev, core->irq, hfi_isr,
+   436						venus_isr_thread,
+   437						IRQF_TRIGGER_HIGH | IRQF_ONESHOT |
+   438						IRQF_NO_AUTOEN, "venus", core);
+   439		if (ret)
+   440			goto err_core_put;
+   441	
+   442		ret = hfi_create(core, &venus_core_ops);
+   443		if (ret)
+   444			goto err_core_put;
+   445	
+ > 446			enable_irq(core->irq);
+   447	
+   448		venus_assign_register_offsets(core);
+   449	
+   450		ret = v4l2_device_register(dev, &core->v4l2_dev);
+   451		if (ret)
+   452			goto err_hfi_destroy;
+   453	
+   454		platform_set_drvdata(pdev, core);
+   455	
+   456		pm_runtime_enable(dev);
+   457	
+   458		ret = pm_runtime_get_sync(dev);
+   459		if (ret < 0)
+   460			goto err_runtime_disable;
+   461	
+   462		ret = venus_firmware_init(core);
+   463		if (ret)
+   464			goto err_runtime_disable;
+   465	
+   466		ret = venus_boot(core);
+   467		if (ret)
+   468			goto err_firmware_deinit;
+   469	
+   470		ret = venus_firmware_cfg(core);
+   471		if (ret)
+   472			goto err_venus_shutdown;
+   473	
+   474		ret = hfi_core_resume(core, true);
+   475		if (ret)
+   476			goto err_venus_shutdown;
+   477	
+   478		ret = hfi_core_init(core);
+   479		if (ret)
+   480			goto err_venus_shutdown;
+   481	
+   482		ret = venus_firmware_check(core);
+   483		if (ret)
+   484			goto err_core_deinit;
+   485	
+   486		if (core->res->dec_nodename || core->res->enc_nodename) {
+   487			ret = venus_add_dynamic_nodes(core);
+   488			if (ret)
+   489				goto err_core_deinit;
+   490		}
+   491	
+   492		ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
+   493		if (ret)
+   494			goto err_remove_dynamic_nodes;
+   495	
+   496		ret = venus_enumerate_codecs(core, VIDC_SESSION_TYPE_DEC);
+   497		if (ret)
+   498			goto err_of_depopulate;
+   499	
+   500		ret = venus_enumerate_codecs(core, VIDC_SESSION_TYPE_ENC);
+   501		if (ret)
+   502			goto err_of_depopulate;
+   503	
+   504		ret = pm_runtime_put_sync(dev);
+   505		if (ret) {
+   506			pm_runtime_get_noresume(dev);
+   507			goto err_of_depopulate;
+   508		}
+   509	
+   510		venus_dbgfs_init(core);
+   511	
+   512		return 0;
+   513	
+   514	err_of_depopulate:
+   515		of_platform_depopulate(dev);
+   516	err_remove_dynamic_nodes:
+   517		venus_remove_dynamic_nodes(core);
+   518	err_core_deinit:
+   519		hfi_core_deinit(core, false);
+   520	err_venus_shutdown:
+   521		venus_shutdown(core);
+   522	err_firmware_deinit:
+   523		venus_firmware_deinit(core);
+   524	err_runtime_disable:
+   525		pm_runtime_put_noidle(dev);
+   526		pm_runtime_disable(dev);
+   527		pm_runtime_set_suspended(dev);
+   528		v4l2_device_unregister(&core->v4l2_dev);
+   529	err_hfi_destroy:
+   530		hfi_destroy(core);
+   531	err_core_put:
+   532		if (core->pm_ops->core_put)
+   533			core->pm_ops->core_put(core);
+   534		return ret;
+   535	}
+   536	
 
 --
 0-DAY CI Kernel Test Service
