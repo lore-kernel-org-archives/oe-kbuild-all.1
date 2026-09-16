@@ -1,208 +1,300 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE5941F35C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Sep 2026 14:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5222C36D503
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Sep 2026 17:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789568203; cv=none; b=EP8t2XUHPsFAhLgdD1KKnMG4UQh6aqKT5h3TraOfmySvf90mnYsX17c3yDxU8sL6aj3nA4yRa/0NHapK4msscCuQ9vvR5qnHOneH5b/nU0bC/SjqF63YPwu305b83aWYZfHRJhXLqljQ0rJHv1Obtsu8CKfoSY5w3uM9+/RFhNY=
+	t=1789579867; cv=none; b=qUEKum4kAAv22FobSFjJ3mabvb2Bv7BD0mm4ZLW9xykUyWoS1g60FHda7ZjMo9EPeSO+zYgmspTQlL/xblwIfiaWJmNAFJeArgPJ3sJBEiDDfYwhBk4FO1hWBVg4vFUNH6VvKeQbKA8iqq6VshrkQo12XW9sGCvL44o2pu3Ypa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789568203; c=relaxed/simple;
-	bh=QMPwlSGHweOOHbMnbQB3EyyFrB8PpUPa5MArhxOkaZ4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NGy10lXqwAGstAvhYIovyjkq+7sLM6wlgOhMyuIxPLbsVzSsCzRdKUWA1Ks7oWCo5kM/+zX0RcEhqWR28+XgYrTMAMIqDFOQTX+ymXP+gwA2iQ19Z81vCj+y9FVNg59cJTPRjfNPe7niLZnShNzQxlpZijxOjpfs/I8I/LSzbOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aSayb27o; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1789579867; c=relaxed/simple;
+	bh=EjOUyqsPDp9k1q72lmmp1lAdtJLfgNHbNqFIjT2AuAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UDMqGnmPkZqo1IzuPQZQr2pBqXnsldmQI6b9mB+WQaAS6tOAe3R8XKsIhJ//UgUWWFp4GdmlaOYZArFWotLzJFgTLqHdpKGtKiyMzxavXAuZfMeqbUtxdzhXp7Wn6vpujwF2UCbeDEIWtxGxrgTEUUKHVbKkPEeZ9CsJm766/bI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aC+ybwe1; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aSayb27o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aC+ybwe1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789568202; x=1821104202;
-  h=date:from:to:cc:subject:message-id;
-  bh=QMPwlSGHweOOHbMnbQB3EyyFrB8PpUPa5MArhxOkaZ4=;
-  b=aSayb27oP363bZ1xj2VIwX8tPnFKDBXgDA6XswPfuCitSfmk+f5zmPib
-   6SKmDqG78uc0RbOVPt/Unm08GV6DNqf9y4vO77lHtaNjSaiF2dil3eBZ0
-   V/S566w7GR8l7v1pOEnK3/ug+4FwnXA503dOUwMuWqsEMQ0jW14VdoOtM
-   gbHIoaOpBE4MO5AMcB0kkcIE+yRGtsfeZ2oTU9jXGz4AhE2TmYPpWvGfg
-   kO/D5IT8ZnXVDHKy8rATSw6yr//V6XIStdYS6YfEWn7I4Bg3mRvOXOVml
-   UCh5YB9OcnTC1MG/4JIoDJ4Tg+82RlogWJc1gaKh3tbYzKtPgALGJFNk3
-   g==;
-X-CSE-ConnectionGUID: 4oNcRCSNTCi9ZguENSzwRw==
-X-CSE-MsgGUID: djOnrhgTTEmcRJ3s8rw0Og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89700173"
+  t=1789579861; x=1821115861;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EjOUyqsPDp9k1q72lmmp1lAdtJLfgNHbNqFIjT2AuAA=;
+  b=aC+ybwe1z+9tmGieiS1F8+JV8Rr2DfsvINxiJVsAGD0ql6nV2SZMYxbA
+   6q4SqfF7I4pw9ziz9XcpTASkAZzaR72I9nb5MjI8NRlX8By4hudHDdS/N
+   Il0qQKfxxaGs8Jhs1oT858QyMVBhl1QtYoAnOcw1C0a2USvk8jk8oGsMs
+   E68x/MYIkabh5Kc/WlVylMmEzoS74f0jewpAmQRoI0trGaWDsWBD/gvTL
+   q5uhYnpKG/yVikVPuHHorV1YVQ29Ih6JMhqZIbNryWDPQ1wGhyLZPZonh
+   HVKYgOIjhCsownOHYUCjOl9CWUE0hEn27QzPzXJLjUeXTiVjzWWke6y13
+   w==;
+X-CSE-ConnectionGUID: XIoKAIT2Q3OJVTg3EgGczg==
+X-CSE-MsgGUID: wZdatSQDQpmX62gl7hEfzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100627603"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89700173"
+   d="scan'208";a="100627603"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 07:16:42 -0700
-X-CSE-ConnectionGUID: XMKuaKNOTnqfVQdbV19nOg==
-X-CSE-MsgGUID: 6V1LL42tSG6XO8KBLGLmpA==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 10:30:57 -0700
+X-CSE-ConnectionGUID: vY53uml+S7ioL/Maxt+dAA==
+X-CSE-MsgGUID: C2AAq2zwQ2eET4pk8YtL0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="277095452"
+   d="scan'208";a="277142363"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Sep 2026 07:16:40 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 Sep 2026 10:30:54 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x6qRC-000000006Dt-02qK;
-	Wed, 16 Sep 2026 14:16:38 +0000
-Date: Wed, 16 Sep 2026 22:15:49 +0800
+	id 1x6tT9-000000006TN-4BlF;
+	Wed, 16 Sep 2026 17:30:52 +0000
+Date: Thu, 17 Sep 2026 01:30:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bcachefs:master 9/36] fs/bcachefs/journal/init.c:39:23:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202609162207.hjYBKvgI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol@kernel.org>,
+	=?iso-8859-1?Q?St=E9phane?= Grosjean <s.grosjean@peak-system.fr>,
+	Kees Cook <kees@kernel.org>,
+	Wolfgang Grandegger <wg@grandegger.com>, linux-can@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] can: peak_pci: fix PCIeC cleanup on probe failure
+Message-ID: <202609170102.yZBQuFMY-lkp@intel.com>
+References: <20260915173157.2510375-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915173157.2510375-1-lgs201920130244@gmail.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git master
-head:   ca944a61e079450f82be88c91e349638c75cf4b6
-commit: 58011a0b7dcdc464295e858e93d9f2504a268e7c [9/36] bcachefs: bch2_set_nr_journal_buckets_iter() uses bch2_bucket_alloc_trans()
-config: openrisc-randconfig-r112-20260915 (https://download.01.org/0day-ci/archive/20260916/202609162207.hjYBKvgI-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260916/202609162207.hjYBKvgI-lkp@intel.com/reproduce)
+Hi Guangshuo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mkl-can-next/testing]
+[also build test WARNING on linus/master v7.3-rc3 next-20260914]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/can-peak_pci-fix-PCIeC-cleanup-on-probe-failure/20260916-013157
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git testing
+patch link:    https://lore.kernel.org/r/20260915173157.2510375-1-lgs201920130244%40gmail.com
+patch subject: [PATCH] can: peak_pci: fix PCIeC cleanup on probe failure
+config: sparc64-randconfig-1000-20260916 (https://download.01.org/0day-ci/archive/20260917/202609170102.yZBQuFMY-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609170102.yZBQuFMY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609162207.hjYBKvgI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609170102.yZBQuFMY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/bcachefs/journal/init.c:39:23: sparse: sparse: Using plain integer as NULL pointer
-   fs/bcachefs/journal/init.c: note: in included file (through fs/bcachefs/bcachefs.h):
-   fs/bcachefs/bcachefs_format.h:1736:38: sparse: sparse: array of flexible structures
-   fs/bcachefs/journal/init.c:308:13: sparse: sparse: context imbalance in 'bch2_journal_writing_to_device' - wrong count at exit
-   fs/bcachefs/journal/init.c:480:6: sparse: sparse: context imbalance in 'bch2_journal_set_replay_done' - wrong count at exit
+All warnings (new ones prefixed by >>):
 
-vim +39 fs/bcachefs/journal/init.c
+   drivers/net/can/sja1000/peak_pci.c: In function 'peak_pci_probe':
+>> drivers/net/can/sja1000/peak_pci.c:700:1: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    if (!chan->prev_dev && chan->pciec_card)
+    ^~
+   drivers/net/can/sja1000/peak_pci.c:702:2: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+     pci_set_drvdata(pdev, chan->prev_dev);
+     ^~~~~~~~~~~~~~~
 
-    17	
-    18	static int bch2_set_nr_journal_buckets_iter(struct bch_dev *ca, unsigned nr,
-    19						    bool new_fs, enum bch_watermark watermark,
-    20						    struct closure *cl)
-    21	{
-    22		struct bch_fs *c = ca->fs;
-    23		struct journal_device *ja = &ca->journal;
-    24		unsigned i, pos, nr_got = 0, nr_want = nr - ja->nr;
-    25		int ret = 0;
-    26	
-    27		BUG_ON(nr <= ja->nr);
-    28	
-    29		long *bu __free(kfree)			= kcalloc(nr_want, sizeof(*bu), GFP_KERNEL);
-    30		struct open_bucket **ob __free(kfree)	= kcalloc(nr_want, sizeof(*ob), GFP_KERNEL);
-    31		u64 *new_buckets __free(kfree)		= kcalloc(nr, sizeof(u64), GFP_KERNEL);
-    32		u64 *new_bucket_seq __free(kfree)	= kcalloc(nr, sizeof(u64), GFP_KERNEL);
-    33		if (!bu || !ob || !new_buckets || !new_bucket_seq)
-    34			return bch_err_throw(c, ENOMEM_set_nr_journal_buckets);
-    35	
-    36		for (nr_got = 0; nr_got < nr_want; nr_got++) {
-    37			CLASS(btree_trans, trans)(c);
-    38	
-  > 39			ret = lockrestart_do(trans, ({
-    40				struct alloc_request *req __free(alloc_request_put) =
-    41					alloc_request_get(trans,
-    42							  0, false, NULL, 1, 0, watermark, 0,
-    43							  !nr_got ? cl : 0);
-    44				int ret2 = PTR_ERR_OR_ZERO(req) ?:
-    45				(req->ca = ca,
-    46				 PTR_ERR_OR_ZERO(ob[nr_got] = bch2_bucket_alloc_trans(trans, req)));
-    47	
-    48				if (bch2_err_matches(ret2, BCH_ERR_operation_blocked)) {
-    49					bch2_wait_on_allocator(trans, c, req, ret2, cl);
-    50					ret2 = bch_err_throw(c, transaction_restart_nested);
-    51				}
-    52	
-    53				ret2;
-    54			}));
-    55			if (ret)
-    56				break;
-    57	
-    58			ret = bch2_trans_mark_metadata_bucket(trans, ca,
-    59						ob[nr_got]->bucket, BCH_DATA_journal,
-    60						ca->mi.bucket_size, BTREE_TRIGGER_transactional);
-    61			if (ret) {
-    62				bch2_open_bucket_put(c, ob[nr_got]);
-    63				bch_err_msg(c, ret, "marking new journal buckets");
-    64				break;
-    65			}
-    66	
-    67			bu[nr_got] = ob[nr_got]->bucket;
-    68		}
-    69	
-    70		if (!nr_got)
-    71			return ret;
-    72	
-    73		/* Don't return an error if we successfully allocated some buckets: */
-    74		ret = 0;
-    75	
-    76		scoped_guard(journal_block, &c->journal) {
-    77			guard(memalloc_flags)(PF_MEMALLOC_NOFS);
-    78			guard(mutex)(&c->sb_lock);
-    79	
-    80			memcpy(new_buckets,	ja->buckets,	ja->nr * sizeof(u64));
-    81			memcpy(new_bucket_seq,	ja->bucket_seq,	ja->nr * sizeof(u64));
-    82	
-    83			BUG_ON(ja->discard_idx > ja->nr);
-    84	
-    85			pos = ja->discard_idx ?: ja->nr;
-    86	
-    87			memmove(new_buckets + pos + nr_got,
-    88				new_buckets + pos,
-    89				sizeof(new_buckets[0]) * (ja->nr - pos));
-    90			memmove(new_bucket_seq + pos + nr_got,
-    91				new_bucket_seq + pos,
-    92				sizeof(new_bucket_seq[0]) * (ja->nr - pos));
-    93	
-    94			for (i = 0; i < nr_got; i++) {
-    95				new_buckets[pos + i] = bu[i];
-    96				new_bucket_seq[pos + i] = 0;
-    97			}
-    98	
-    99			nr = ja->nr + nr_got;
-   100	
-   101			ret = bch2_journal_buckets_to_sb(c, ca, new_buckets, nr);
-   102			if (ret)
-   103				goto err_unblock;
-   104	
-   105			bch2_write_super(c);
-   106	
-   107			/* Commit: */
-   108			scoped_guard(spinlock, &c->journal.lock) {
-   109				swap(new_buckets,	ja->buckets);
-   110				swap(new_bucket_seq,	ja->bucket_seq);
-   111				ja->nr = nr;
-   112	
-   113				if (pos <= ja->discard_idx)
-   114					ja->discard_idx = (ja->discard_idx + nr_got) % ja->nr;
-   115				if (pos <= ja->dirty_idx_ondisk)
-   116					ja->dirty_idx_ondisk = (ja->dirty_idx_ondisk + nr_got) % ja->nr;
-   117				if (pos <= ja->dirty_idx)
-   118					ja->dirty_idx = (ja->dirty_idx + nr_got) % ja->nr;
-   119				if (pos <= ja->cur_idx)
-   120					ja->cur_idx = (ja->cur_idx + nr_got) % ja->nr;
-   121			}
-   122		}
-   123	err_unblock:
-   124	
-   125		if (ret) {
-   126			CLASS(btree_trans, trans)(c);
-   127			for (i = 0; i < nr_got; i++)
-   128				bch2_trans_mark_metadata_bucket(trans, ca,
-   129							bu[i], BCH_DATA_free, 0,
-   130							BTREE_TRIGGER_transactional);
-   131		}
-   132	
-   133		for (i = 0; i < nr_got; i++)
-   134			bch2_open_bucket_put(c, ob[i]);
-   135	
-   136		return ret;
-   137	}
-   138	
+
+vim +/if +700 drivers/net/can/sja1000/peak_pci.c
+
+   550	
+   551	static int peak_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+   552	{
+   553		struct sja1000_priv *priv;
+   554		struct peak_pci_chan *chan;
+   555		struct net_device *dev, *prev_dev;
+   556		void __iomem *cfg_base, *reg_base;
+   557		u16 sub_sys_id, icr;
+   558		int i, err, channels;
+   559		char fw_str[14] = "";
+   560	
+   561		err = pci_enable_device(pdev);
+   562		if (err)
+   563			return err;
+   564	
+   565		err = pci_request_regions(pdev, DRV_NAME);
+   566		if (err)
+   567			goto failure_disable_pci;
+   568	
+   569		err = pci_read_config_word(pdev, 0x2e, &sub_sys_id);
+   570		if (err)
+   571			goto failure_release_regions;
+   572	
+   573		dev_dbg(&pdev->dev, "probing device %04x:%04x:%04x\n",
+   574			pdev->vendor, pdev->device, sub_sys_id);
+   575	
+   576		err = pci_write_config_word(pdev, 0x44, 0);
+   577		if (err)
+   578			goto failure_release_regions;
+   579	
+   580		if (sub_sys_id >= 12)
+   581			channels = 4;
+   582		else if (sub_sys_id >= 10)
+   583			channels = 3;
+   584		else if (sub_sys_id >= 4)
+   585			channels = 2;
+   586		else
+   587			channels = 1;
+   588	
+   589		cfg_base = pci_iomap(pdev, 0, PEAK_PCI_CFG_SIZE);
+   590		if (!cfg_base) {
+   591			dev_err(&pdev->dev, "failed to map PCI resource #0\n");
+   592			err = -ENOMEM;
+   593			goto failure_release_regions;
+   594		}
+   595	
+   596		reg_base = pci_iomap(pdev, 1, PEAK_PCI_CHAN_SIZE * channels);
+   597		if (!reg_base) {
+   598			dev_err(&pdev->dev, "failed to map PCI resource #1\n");
+   599			err = -ENOMEM;
+   600			goto failure_unmap_cfg_base;
+   601		}
+   602	
+   603		/* Set GPIO control register */
+   604		writew(0x0005, cfg_base + PITA_GPIOICR + 2);
+   605		/* Enable all channels of this card */
+   606		writeb(0x00, cfg_base + PITA_GPIOICR);
+   607		/* Toggle reset */
+   608		writeb(0x05, cfg_base + PITA_MISC + 3);
+   609		usleep_range(5000, 6000);
+   610		/* Leave parport mux mode */
+   611		writeb(0x04, cfg_base + PITA_MISC + 3);
+   612	
+   613		/* FPGA equipped card if not 0 */
+   614		if (readl(cfg_base + PEAK_VER_REG1)) {
+   615			/* FPGA card: display version of the running firmware */
+   616			u32 fw_ver = readl(cfg_base + PEAK_VER_REG2);
+   617	
+   618			snprintf(fw_str, sizeof(fw_str), " FW v%u.%u.%u",
+   619				 (fw_ver >> 12) & 0xf,
+   620				 (fw_ver >> 8) & 0xf,
+   621				 (fw_ver >> 4) & 0xf);
+   622		}
+   623	
+   624		/* Display commercial name (and, eventually, FW version) of the card */
+   625		dev_info(&pdev->dev, "%ux CAN %s%s\n",
+   626			 channels, (const char *)ent->driver_data, fw_str);
+   627	
+   628		icr = readw(cfg_base + PITA_ICR + 2);
+   629	
+   630		for (i = 0; i < channels; i++) {
+   631			dev = alloc_sja1000dev(sizeof(struct peak_pci_chan));
+   632			if (!dev) {
+   633				err = -ENOMEM;
+   634				goto failure_remove_channels;
+   635			}
+   636	
+   637			priv = netdev_priv(dev);
+   638			chan = priv->priv;
+   639	
+   640			chan->cfg_base = cfg_base;
+   641			priv->reg_base = reg_base + i * PEAK_PCI_CHAN_SIZE;
+   642	
+   643			priv->read_reg = peak_pci_read_reg;
+   644			priv->write_reg = peak_pci_write_reg;
+   645			priv->post_irq = peak_pci_post_irq;
+   646	
+   647			priv->can.clock.freq = PEAK_PCI_CAN_CLOCK;
+   648			priv->ocr = PEAK_PCI_OCR;
+   649			priv->cdr = PEAK_PCI_CDR;
+   650			/* Neither a slave nor a single device distributes the clock */
+   651			if (channels == 1 || i > 0)
+   652				priv->cdr |= CDR_CLK_OFF;
+   653	
+   654			/* Setup interrupt handling */
+   655			priv->irq_flags = IRQF_SHARED;
+   656			dev->irq = pdev->irq;
+   657	
+   658			chan->icr_mask = peak_pci_icr_masks[i];
+   659			icr |= chan->icr_mask;
+   660	
+   661			SET_NETDEV_DEV(dev, &pdev->dev);
+   662			dev->dev_id = i;
+   663	
+   664			/* Create chain of SJA1000 devices */
+   665			chan->prev_dev = pci_get_drvdata(pdev);
+   666			pci_set_drvdata(pdev, dev);
+   667	
+   668			/* PCAN-ExpressCard needs some additional i2c init.
+   669			 * This must be done *before* register_sja1000dev() but
+   670			 * *after* devices linkage
+   671			 */
+   672			if (pdev->device == PEAK_PCIEC_DEVICE_ID ||
+   673			    pdev->device == PEAK_PCIEC34_DEVICE_ID) {
+   674				err = peak_pciec_probe(pdev, dev);
+   675				if (err) {
+   676					dev_err(&pdev->dev,
+   677						"failed to probe device (err %d)\n",
+   678						err);
+   679					goto failure_free_dev;
+   680				}
+   681			}
+   682	
+   683			err = register_sja1000dev(dev);
+   684			if (err) {
+   685				dev_err(&pdev->dev, "failed to register device\n");
+   686				goto failure_free_dev;
+   687			}
+   688	
+   689			dev_info(&pdev->dev,
+   690				 "%s at reg_base=0x%p cfg_base=0x%p irq=%d\n",
+   691				 dev->name, priv->reg_base, chan->cfg_base, dev->irq);
+   692		}
+   693	
+   694		/* Enable interrupts */
+   695		writew(icr, cfg_base + PITA_ICR + 2);
+   696	
+   697		return 0;
+   698	
+   699	failure_free_dev:
+ > 700	if (!chan->prev_dev && chan->pciec_card)
+   701		peak_pciec_remove(chan->pciec_card);
+   702		pci_set_drvdata(pdev, chan->prev_dev);
+   703		free_sja1000dev(dev);
+   704	
+   705	failure_remove_channels:
+   706		/* Disable interrupts */
+   707		writew(0x0, cfg_base + PITA_ICR + 2);
+   708	
+   709		for (dev = pci_get_drvdata(pdev); dev; dev = prev_dev) {
+   710			priv = netdev_priv(dev);
+   711			chan = priv->priv;
+   712			prev_dev = chan->prev_dev;
+   713	
+   714			/* do that only for first channel */
+   715			if (!prev_dev && chan->pciec_card)
+   716				peak_pciec_remove(chan->pciec_card);
+   717			unregister_sja1000dev(dev);
+   718			free_sja1000dev(dev);
+   719		}
+   720	
+   721		pci_iounmap(pdev, reg_base);
+   722	
+   723	failure_unmap_cfg_base:
+   724		pci_iounmap(pdev, cfg_base);
+   725	
+   726	failure_release_regions:
+   727		pci_release_regions(pdev);
+   728	
+   729	failure_disable_pci:
+   730		pci_disable_device(pdev);
+   731	
+   732		/* pci_xxx_config_word() return positive PCIBIOS_xxx error codes while
+   733		 * the probe() function must return a negative errno in case of failure
+   734		 * (err is unchanged if negative)
+   735		 */
+   736		return pcibios_err_to_errno(err);
+   737	}
+   738	
 
 --
 0-DAY CI Kernel Test Service
