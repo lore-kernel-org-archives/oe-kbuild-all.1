@@ -1,167 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F794DE726
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 14:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC0939657A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 14:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789656262; cv=none; b=Jm6ErkV8emw/2dLsSWewvbp68VKopbT2Y71c0JIdSpzSlcyqcpaeG2ztNdFEE+0CEbtiKOrMyLZkeB864eBkmLqm0PRTVSBdE/azCsvOPWv7FUuPrYn2sutk57It5JKA87YE9e9txYrriaxqy2h/g+xcfHPDolvZfnQtz0aG8GM=
+	t=1789656640; cv=none; b=HSyJxyZjGZ3G6Mz3zFLbrxs6eKWTCkMSoS2IP69U4Gsfuizvk4o5RC8cU33+pxvdZIdbR92CAd8QtRVpwX6hx1omE4Fq4azw8zd0mdWrnDnvmgyiu+/DyltuT1c3eebIcS6Xddh8K9wO5S4qy7jEEXCF2xOqV+dcqF7WC7diKQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789656262; c=relaxed/simple;
-	bh=fgOcdHPD2TZKgufAHTVhqcVWGrvfpBid9Xt/WoiDt64=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LVrZqVUiPt1kPCv2suyadhUFgTLuxrhM4PwQHObIjjNtkLoZ6K8d46HDFKijGoNNBu+kCJA+8EwvvVeRDtknp1NXZywIc6OSHXKnziig10rTNPjenOkY50kULI9BPcxuPBmeqMKffMkMkPTVRAzwhyx+CnAu06S2zRr+ROfqsFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aXB4Se63; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1789656640; c=relaxed/simple;
+	bh=JMtlck4CGbddCrIkDvWqPpDAKtepQJnHC1he5O0BAI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=cmMINtz0QFiJE839M5FMNACZXx+ybBMHplbxO7l+qaS+0A4BCdQdBbqCvPktnvZRveoyN6cIUk6sXv8Z73g+eSbE40bvRvVnl2Z7tRl3iNZUdo84mCKPVzBN2iV5KCmCfGbPtlorkGi9OLaXjZ7206HPvI9XuUVJYToEm8Agl0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5k85F0e; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aXB4Se63"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5k85F0e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789656252; x=1821192252;
-  h=date:from:to:cc:subject:message-id;
-  bh=fgOcdHPD2TZKgufAHTVhqcVWGrvfpBid9Xt/WoiDt64=;
-  b=aXB4Se63leQXATPy6of7i55DHZ2FHF/WRCYl6ZFlSfVAW64dFCThwigU
-   vacZoYggJ/jCFGsltp5MXBDTkNmcKjflLkmCe6+CbwR7GLU/ststh9vfV
-   AOndOpjyjQIPprTVeLZew1J+9DXyqFAW3uNB7Y1DtPQrTBFZuPtI/0yxu
-   dyo8SP9/yCCrVzL5BYQGx6IRww3IqYxgGH7qBIYWTWkQwqivkdaZZ0kti
-   T/xgRZ4XIIBMw0sJ+vCjUta//izNTRn1ZV21gTlTULUYOaKS6A0cFSyLs
-   Vn2vHyeAe7Vd6X1dmyC897uka+sw4Aql8sBxHh0bowLjVTvSvAup3VlhM
-   Q==;
-X-CSE-ConnectionGUID: QpbBYyUcRmifzLsNjtoC1g==
-X-CSE-MsgGUID: Jk4HHv2XQLeOtkptPlLgmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90102626"
+  t=1789656623; x=1821192623;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JMtlck4CGbddCrIkDvWqPpDAKtepQJnHC1he5O0BAI4=;
+  b=M5k85F0eVdYVo+MBflw6pY4Ozas4r1LyijxJfNmZ+FNusklzqDMsRQfB
+   hLxDEPG8xO0mg6tBXMih8ENgA7wX12a5+aLLNlyCY9FAPiZZBXcX8o/V+
+   azxNTdnstBWgC/T8Uhz/KYen+YoUg+TQh8Ig8ACCHXgT3+aerB60RTlpA
+   NmOSsq6JwYSh8K++1+y8aieEhGUszDbAL1IrbLOsxWWEcxILUC6ZHTuUf
+   t95uW4uVtBa4kfsib5A/tHiYe+doYJ9KtPi3yliqdf9tq7skdLrQ4yP41
+   G0R1kffUqzu0Xi6MLad481OASOqylnnV0eSqzwhOXdD9B4w2mHJpGht2S
+   w==;
+X-CSE-ConnectionGUID: Trlc57DvT9qQsQiUNTDZZg==
+X-CSE-MsgGUID: B5zSCy9bQoae50r62UN2Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="590667"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="90102626"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 07:44:07 -0700
-X-CSE-ConnectionGUID: 7aedmUayT/i13+JrZkoftA==
-X-CSE-MsgGUID: mlCPDRp6QO2CB7ncgRjX8w==
+   d="scan'208";a="590667"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 07:50:20 -0700
+X-CSE-ConnectionGUID: INV44FPhTtOZyh/qUQqABw==
+X-CSE-MsgGUID: G4qU81EmSkqDd7osZ3t7Fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="269567570"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Sep 2026 07:44:05 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="271192274"
+Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 17 Sep 2026 07:50:18 -0700
+Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7DLH-0000000080V-1V71;
-	Thu, 17 Sep 2026 14:44:03 +0000
-Date: Thu, 17 Sep 2026 22:43:08 +0800
+	id 1x7DRI-000000000dQ-3NLa;
+	Thu, 17 Sep 2026 14:50:16 +0000
+Date: Thu, 17 Sep 2026 16:49:57 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 84/106]
- drivers/bluetooth/btintel.c:2725:7: error: implicit declaration of function
- 'acpi_has_method'; did you mean 'acpi_has_watchdog'?
-Message-ID: <202609172243.uPgiesDR-lkp@intel.com>
+To: "Timur =?utf-8?Q?Krist=C3=B3f"?= <timur.kristof@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: [linux-next:master 532/7047] Warning:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:204 function parameter 'readonly' not
+ described in 'amdgpu_ttm_map_buffer'
+Message-ID: <202609171628.owHko7Uz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   7d81fd7f1644e8172350caa5b32aa00e57050ec0
-commit: b732fbc37b8eaacdb07b9463a45728b5152e1028 [84/106] ACPI: bus: Use acpi/acpi_bus.h without CONFIG_ACPI
-config: sparc-randconfig-1000-20260917 (https://download.01.org/0day-ci/archive/20260917/202609172243.uPgiesDR-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609172243.uPgiesDR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0d9d0dbf2fddcff5859d623e90ca73c4054276e1
+commit: 48c4aaeef6219f13804b6778b30ac8766cae57b7 [532/7047] drm/amdgpu/ttm: Make buffer copy source readonly
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260917/202609171628.owHko7Uz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171628.owHko7Uz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609172243.uPgiesDR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609171628.owHko7Uz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/bluetooth/btintel.c: In function 'btintel_set_dsm_reset_method':
->> drivers/bluetooth/btintel.c:2725:7: error: implicit declaration of function 'acpi_has_method'; did you mean 'acpi_has_watchdog'? [-Werror=implicit-function-declaration]
-     if (!acpi_has_method(handle, "_PRR")) {
-          ^~~~~~~~~~~~~~~
-          acpi_has_watchdog
-   cc1: some warnings being treated as errors
-
-
-vim +2725 drivers/bluetooth/btintel.c
-
-8f0a3786f56d9fa Kiran K 2023-06-11  2705  
-8f0a3786f56d9fa Kiran K 2023-06-11  2706  static void btintel_set_dsm_reset_method(struct hci_dev *hdev,
-8f0a3786f56d9fa Kiran K 2023-06-11  2707  					 struct intel_version_tlv *ver_tlv)
-8f0a3786f56d9fa Kiran K 2023-06-11  2708  {
-8f0a3786f56d9fa Kiran K 2023-06-11  2709  	struct btintel_data *data = hci_get_priv(hdev);
-8f0a3786f56d9fa Kiran K 2023-06-11  2710  	acpi_handle handle = ACPI_HANDLE(GET_HCIDEV_DEV(hdev));
-8f0a3786f56d9fa Kiran K 2023-06-11  2711  	u8 reset_payload[4] = {0x01, 0x00, 0x01, 0x00};
-8f0a3786f56d9fa Kiran K 2023-06-11  2712  	union acpi_object *obj, argv4;
-8f0a3786f56d9fa Kiran K 2023-06-11  2713  	enum {
-8f0a3786f56d9fa Kiran K 2023-06-11  2714  		RESET_TYPE_WDISABLE2,
-8f0a3786f56d9fa Kiran K 2023-06-11  2715  		RESET_TYPE_VSEC
-8f0a3786f56d9fa Kiran K 2023-06-11  2716  	};
-8f0a3786f56d9fa Kiran K 2023-06-11  2717  
-8f0a3786f56d9fa Kiran K 2023-06-11  2718  	handle = ACPI_HANDLE(GET_HCIDEV_DEV(hdev));
-8f0a3786f56d9fa Kiran K 2023-06-11  2719  
-8f0a3786f56d9fa Kiran K 2023-06-11  2720  	if (!handle) {
-8f0a3786f56d9fa Kiran K 2023-06-11  2721  		bt_dev_dbg(hdev, "No support for bluetooth device in ACPI firmware");
-8f0a3786f56d9fa Kiran K 2023-06-11  2722  		return;
-8f0a3786f56d9fa Kiran K 2023-06-11  2723  	}
-8f0a3786f56d9fa Kiran K 2023-06-11  2724  
-8f0a3786f56d9fa Kiran K 2023-06-11 @2725  	if (!acpi_has_method(handle, "_PRR")) {
-8f0a3786f56d9fa Kiran K 2023-06-11  2726  		bt_dev_err(hdev, "No support for _PRR ACPI method");
-8f0a3786f56d9fa Kiran K 2023-06-11  2727  		return;
-8f0a3786f56d9fa Kiran K 2023-06-11  2728  	}
-8f0a3786f56d9fa Kiran K 2023-06-11  2729  
-8f0a3786f56d9fa Kiran K 2023-06-11  2730  	switch (ver_tlv->cnvi_top & 0xfff) {
-8f0a3786f56d9fa Kiran K 2023-06-11  2731  	case 0x910: /* GalePeak2 */
-8f0a3786f56d9fa Kiran K 2023-06-11  2732  		reset_payload[2] = RESET_TYPE_VSEC;
-8f0a3786f56d9fa Kiran K 2023-06-11  2733  		break;
-8f0a3786f56d9fa Kiran K 2023-06-11  2734  	default:
-8f0a3786f56d9fa Kiran K 2023-06-11  2735  		/* WDISABLE2 is the default reset method */
-8f0a3786f56d9fa Kiran K 2023-06-11  2736  		reset_payload[2] = RESET_TYPE_WDISABLE2;
-8f0a3786f56d9fa Kiran K 2023-06-11  2737  
-8f0a3786f56d9fa Kiran K 2023-06-11  2738  		if (!acpi_check_dsm(handle, &btintel_guid_dsm, 0,
-8f0a3786f56d9fa Kiran K 2023-06-11  2739  				    BIT(DSM_SET_WDISABLE2_DELAY))) {
-8f0a3786f56d9fa Kiran K 2023-06-11  2740  			bt_dev_err(hdev, "No dsm support to set reset delay");
-8f0a3786f56d9fa Kiran K 2023-06-11  2741  			return;
-8f0a3786f56d9fa Kiran K 2023-06-11  2742  		}
-8f0a3786f56d9fa Kiran K 2023-06-11  2743  		argv4.integer.type = ACPI_TYPE_INTEGER;
-8f0a3786f56d9fa Kiran K 2023-06-11  2744  		/* delay required to toggle BT power */
-8f0a3786f56d9fa Kiran K 2023-06-11  2745  		argv4.integer.value = 160;
-8f0a3786f56d9fa Kiran K 2023-06-11  2746  		obj = acpi_evaluate_dsm(handle, &btintel_guid_dsm, 0,
-8f0a3786f56d9fa Kiran K 2023-06-11  2747  					DSM_SET_WDISABLE2_DELAY, &argv4);
-8f0a3786f56d9fa Kiran K 2023-06-11  2748  		if (!obj) {
-8f0a3786f56d9fa Kiran K 2023-06-11  2749  			bt_dev_err(hdev, "Failed to call dsm to set reset delay");
-8f0a3786f56d9fa Kiran K 2023-06-11  2750  			return;
-8f0a3786f56d9fa Kiran K 2023-06-11  2751  		}
-8f0a3786f56d9fa Kiran K 2023-06-11  2752  		ACPI_FREE(obj);
-8f0a3786f56d9fa Kiran K 2023-06-11  2753  	}
-8f0a3786f56d9fa Kiran K 2023-06-11  2754  
-8f0a3786f56d9fa Kiran K 2023-06-11  2755  	bt_dev_info(hdev, "DSM reset method type: 0x%02x", reset_payload[2]);
-8f0a3786f56d9fa Kiran K 2023-06-11  2756  
-8f0a3786f56d9fa Kiran K 2023-06-11  2757  	if (!acpi_check_dsm(handle, &btintel_guid_dsm, 0,
-8f0a3786f56d9fa Kiran K 2023-06-11  2758  			    DSM_SET_RESET_METHOD)) {
-8f0a3786f56d9fa Kiran K 2023-06-11  2759  		bt_dev_warn(hdev, "No support for dsm to set reset method");
-8f0a3786f56d9fa Kiran K 2023-06-11  2760  		return;
-8f0a3786f56d9fa Kiran K 2023-06-11  2761  	}
-8f0a3786f56d9fa Kiran K 2023-06-11  2762  	argv4.buffer.type = ACPI_TYPE_BUFFER;
-8f0a3786f56d9fa Kiran K 2023-06-11  2763  	argv4.buffer.length = sizeof(reset_payload);
-8f0a3786f56d9fa Kiran K 2023-06-11  2764  	argv4.buffer.pointer = reset_payload;
-8f0a3786f56d9fa Kiran K 2023-06-11  2765  
-8f0a3786f56d9fa Kiran K 2023-06-11  2766  	obj = acpi_evaluate_dsm(handle, &btintel_guid_dsm, 0,
-8f0a3786f56d9fa Kiran K 2023-06-11  2767  				DSM_SET_RESET_METHOD, &argv4);
-8f0a3786f56d9fa Kiran K 2023-06-11  2768  	if (!obj) {
-8f0a3786f56d9fa Kiran K 2023-06-11  2769  		bt_dev_err(hdev, "Failed to call dsm to set reset method");
-8f0a3786f56d9fa Kiran K 2023-06-11  2770  		return;
-8f0a3786f56d9fa Kiran K 2023-06-11  2771  	}
-8f0a3786f56d9fa Kiran K 2023-06-11  2772  	ACPI_FREE(obj);
-8f0a3786f56d9fa Kiran K 2023-06-11  2773  	data->acpi_reset_method = btintel_acpi_reset_method;
-8f0a3786f56d9fa Kiran K 2023-06-11  2774  }
-8f0a3786f56d9fa Kiran K 2023-06-11  2775  
-
-:::::: The code at line 2725 was first introduced by commit
-:::::: 8f0a3786f56d9fa4b308bdbd54757a51145dbb7a Bluetooth: btintel: Add support to reset bluetooth via ACPI DSM
-
-:::::: TO: Kiran K <kiran.k@intel.com>
-:::::: CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:204 function parameter 'readonly' not described in 'amdgpu_ttm_map_buffer'
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:204 function parameter 'readonly' not described in 'amdgpu_ttm_map_buffer'
 
 --
 0-DAY CI Kernel Test Service
