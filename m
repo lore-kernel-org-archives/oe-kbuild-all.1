@@ -1,84 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A06E382299;
-	Thu, 17 Sep 2026 07:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B54B3F8ECA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 08:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789631486; cv=none; b=jyL/TZ8oseHZa+9lW3B6xxplVuirvRf3yEaJGi5v7MRZzwLmPIbXJg6GfbezUZSsWpOPPJqUnbHraBnBMT6l3JXoXb91Pmy6CBsCkpWRz7bN49T40anWLUhZU6YkzKIUxpa/INUloXne8XZ6hWCgGzbJLisqLGE7Qf+QvpVYoWU=
+	t=1789633114; cv=none; b=BcDWQJnHEgunRIa5A59bFr6ixk6N599pAThTU+JxcA1pw4v0KaBEsZTXQv/XYuQQvguec8ED0XHdMli2S6LTT/0xqz4rmxTVaQV1o3V4Sviigq7UcvcJUz7qomy1tKN2YJ/KVDh3Qsvfm3N5fJPbiJOyA2Q7Lj6GOs0Tozpc2EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789631486; c=relaxed/simple;
-	bh=/QJLjEEFUSfP01bZFXaO00kTEnPjIfUKzqB2JUqvkJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=odPhW17sz44E+i+VRLPA0K42RBURyHdqidCucIjKjtnAalsOtCc/FXAhdzf/NmSjCZB2yaHFNCFZIOHV7PCNOJ3yiCOzl3tDi3wB/biF/NtHZP5Dwt5CTaaZby/DD06henp8jcR5Q+oGthIMV2syvR/X0RMmpfrNC0Ex3BoCHp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m3xwywF1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789633114; c=relaxed/simple;
+	bh=dYbk1THEv35Zk2pwEj5prq9m/1F4Op6cXZpxMJISa1w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RQJvYYWnQddWfspNF3pgbvYUppF1Bzq6SYuluIqGJHu1TLu+sWUmluYddzJ8KmnW9OTG4SngHmPmXpgPDBRJo7KvgBx4sCMQVLExtScc9Lsuyp6cQ3inD3wRZtfG3fNadXFZ/m43oSBBWvlObM7Fitob0HbDpFhun6ECNQS8qYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M17rNVTL; arc=none smtp.client-ip=192.198.163.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m3xwywF1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D58361F000FF;
-	Thu, 17 Sep 2026 07:51:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789631485;
-	bh=gnTwlE8vXLouBpo3zgoY8WtBR+qNusYyWfPZr7YNzr0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m3xwywF1x2dNxru/88y11Jm0HWHD1B/6Wwuw8lE+KPMVIo+xdkMnfJB99wlL98z1B
-	 ycrANUp/YWFNcoeDY49fP27elybl+V3a1ox+5GWpmXlGpPJeR0wWOHn7BrAMM3kKH6
-	 AWtvNopbVC/e0fKHODRAI9g5LILH33nLB0Tzu6PZGx1oXeJS9x62xAF6um5MtgkJzD
-	 ZAT/+yrU/4+jARQeGadxY4AYcJ4BuEwgduQO0DZNaE6WJWco4iRxYc7zBAg4tslFga
-	 a+VQF+h5AK6WplXcMmz4JAaeH4ikbTY/0GgR2pDzxr+JcLElty9iyKD2+ff8+gxwus
-	 w+eQBJufdlZOg==
-Date: Thu, 17 Sep 2026 08:51:15 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
-Cc: akpm@linux-foundation.org, bigeasy@linutronix.de, dwmw2@infradead.org, 
-	dwmw@amazon.co.uk, kvm@vger.kernel.org, liam.howlett@oracle.com, liam@infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, 
-	lkp@intel.com, llvm@lists.linux.dev, lorenzo.stoakes@oracle.com, 
-	me@brighamcampbell.com, mhocko@suse.com, nogikh@google.com, 
-	oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, rientjes@google.com, rppt@kernel.org, 
-	seanjc@google.com, shaikhkamal2012@gmail.com, shakeel.butt@linux.dev, 
-	skhan@linuxfoundation.org, surenb@google.com, syzkaller-bugs@googlegroups.com, 
-	vbabka@kernel.org
-Subject: Re: [syzbot] [kvm?] BUG: sleeping function called from invalid
- context in kvm_mmu_notifier_invalidate_range_start
-Message-ID: <aqubuvR_2XCNav28@gremlin>
-References: <aqrZMReaQPG0M9oV@gremlin>
- <6aaaecd6.4e05fbd6.392abc.0003.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M17rNVTL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789633112; x=1821169112;
+  h=date:from:to:cc:subject:message-id;
+  bh=dYbk1THEv35Zk2pwEj5prq9m/1F4Op6cXZpxMJISa1w=;
+  b=M17rNVTLOO8ytGAXjKbbL4WFKdYOs3uOY5SK1eiJpUrZbIfcdZLDJuHx
+   wXVDkYDeyd7sJ81SvYW0c2ujbxT/rPHDPei4FXtxOCreGXvG9nc6QP9iu
+   CDpxuAX+rK5GbByaoqz3mpgKM1EaC8YcDRKJEa+pX5Q+YC12G9uKmmjSe
+   KaN79ZlAu5iioPujfj49AC0D2CDC635y3HZnycwHDZdRTLgtcSHeeeUOI
+   H+MuQczI4Vk0fIrKwhL7Wbb4Fcnra+0UBiUvF1/qS21Q8LGzL93XAntMC
+   SMvEVbJwyZZNItOMytWM/h0vIWjFNbMKu2K1NV7YZWUUL1/dL8FIlhT5J
+   A==;
+X-CSE-ConnectionGUID: NAVegJ8uTPWNXUvjjNPzNA==
+X-CSE-MsgGUID: 3Rj9t8WbQwS5pczbyn4yhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="539073"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="539073"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 01:18:31 -0700
+X-CSE-ConnectionGUID: rNwzWt2FQFisOlRGxeGubg==
+X-CSE-MsgGUID: UwqbRiQtR+ic7kCvSEkCyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="298735016"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 17 Sep 2026 01:18:30 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x77K7-000000007N3-2ghZ;
+	Thu, 17 Sep 2026 08:18:27 +0000
+Date: Thu, 17 Sep 2026 16:18:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>
+Subject: drivers/mmc/host/wmt-sdmmc.c:241:39: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202609171639.ppn4Bdj8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6aaaecd6.4e05fbd6.392abc.0003.GAE@google.com>
 
-On Wed, Sep 16, 2026 at 12:24:06PM -0700, syzbot wrote:
-> Hello,
->
-> syzbot tried to test the proposed patch but the build/boot failed:
->
-> failed to apply patch:
-> error: corrupt patch at line 7
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
+commit: 7cd8db0fb0b2bf309163d56fec585c0f9e0964d1 mmc: add COMPILE_TEST to multiple drivers
+date:   1 year ago
+config: riscv-randconfig-r1309-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171639.ppn4Bdj8-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 148ee2b266b73a49f1f31d0bd17d4818b91bee9f)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171639.ppn4Bdj8-lkp@intel.com/reproduce)
 
-OK let's try again, aping
-https://lore.kernel.org/all/b434f7828a4d7b24de76aa5609dadda2871a932a.camel@infradead.org/
-as I see this branch is still there (David W - I hope this is OK! :)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 7cd8db0fb0b2 ("mmc: add COMPILE_TEST to multiple drivers")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609171639.ppn4Bdj8-lkp@intel.com/
 
-#syz test git://git.infradead.org/users/dwmw2/linux.git seb-nonblock-rt-test
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> drivers/mmc/host/wmt-sdmmc.c:241:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
+   drivers/mmc/host/wmt-sdmmc.c:241:39: sparse:     expected unsigned int
+   drivers/mmc/host/wmt-sdmmc.c:241:39: sparse:     got restricted __be32 [usertype]
 
->
->
->
-> Tested on:
->
-> commit:         9b87fdc9 Merge tag 'sched_ext-for-7.3-rc3-fixes' of gi..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
-> dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
-> compiler:
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=15a16bf9580000
->
+vim +241 drivers/mmc/host/wmt-sdmmc.c
+
+3a96dff0f828ae Tony Prisk 2012-11-18  221  
+3a96dff0f828ae Tony Prisk 2012-11-18  222  static void wmt_mci_read_response(struct mmc_host *mmc)
+3a96dff0f828ae Tony Prisk 2012-11-18  223  {
+3a96dff0f828ae Tony Prisk 2012-11-18  224  	struct wmt_mci_priv *priv;
+3a96dff0f828ae Tony Prisk 2012-11-18  225  	int idx1, idx2;
+3a96dff0f828ae Tony Prisk 2012-11-18  226  	u8 tmp_resp;
+3a96dff0f828ae Tony Prisk 2012-11-18  227  	u32 response;
+3a96dff0f828ae Tony Prisk 2012-11-18  228  
+3a96dff0f828ae Tony Prisk 2012-11-18  229  	priv = mmc_priv(mmc);
+3a96dff0f828ae Tony Prisk 2012-11-18  230  
+3a96dff0f828ae Tony Prisk 2012-11-18  231  	for (idx1 = 0; idx1 < 4; idx1++) {
+3a96dff0f828ae Tony Prisk 2012-11-18  232  		response = 0;
+3a96dff0f828ae Tony Prisk 2012-11-18  233  		for (idx2 = 0; idx2 < 4; idx2++) {
+3a96dff0f828ae Tony Prisk 2012-11-18  234  			if ((idx1 == 3) && (idx2 == 3))
+3a96dff0f828ae Tony Prisk 2012-11-18  235  				tmp_resp = readb(priv->sdmmc_base + SDMMC_RSP);
+3a96dff0f828ae Tony Prisk 2012-11-18  236  			else
+3a96dff0f828ae Tony Prisk 2012-11-18  237  				tmp_resp = readb(priv->sdmmc_base + SDMMC_RSP +
+3a96dff0f828ae Tony Prisk 2012-11-18  238  						 (idx1*4) + idx2 + 1);
+3a96dff0f828ae Tony Prisk 2012-11-18  239  			response |= (tmp_resp << (idx2 * 8));
+3a96dff0f828ae Tony Prisk 2012-11-18  240  		}
+3a96dff0f828ae Tony Prisk 2012-11-18 @241  		priv->cmd->resp[idx1] = cpu_to_be32(response);
+3a96dff0f828ae Tony Prisk 2012-11-18  242  	}
+3a96dff0f828ae Tony Prisk 2012-11-18  243  }
+3a96dff0f828ae Tony Prisk 2012-11-18  244  
+
+:::::: The code at line 241 was first introduced by commit
+:::::: 3a96dff0f828ae9dfb43efd49a9b67a74c6dc360 mmc: SD/MMC Host Controller for Wondermedia WM8505/WM8650
+
+:::::: TO: Tony Prisk <linux@prisktech.co.nz>
+:::::: CC: Chris Ball <cjb@laptop.org>
 
 --
-Cheers, Lorenzo
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
