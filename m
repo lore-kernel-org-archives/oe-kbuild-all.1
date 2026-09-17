@@ -1,215 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703E638656C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 02:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE1E3812DB;
+	Thu, 17 Sep 2026 03:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789611644; cv=none; b=bOlGfFfUXJDcY1hr9AzyyJrAqPJkMH++Vc/tgskGQSMvrrE9Sg6exJYVPhIoj7H9A911TWd6zkAbo+IcAj2f+yeK5ZcDuRKTuVAMR8qhkzuhyecgSIrbuBiRTAzXvDgH0Cnsmmqmp+ntPnleNoy/4nzjcs/St8P2YJE5RChw3gc=
+	t=1789614704; cv=none; b=GycuAmWWhCSAo19SRj3wn1llzusDdroSnjuNGvp6hPKCUlEAlUwHkwxKLbY9cvdvZ4e93Yil2Zo0CjWU2S6XqPmEhZDtrIuVNOYneHx4xUsvQ68ZXZ8HCy8vPqCGvkp5gHWMbuH5DzOTO0NFCf/eh0A8+SJ7DK/mVWEaMqtLysA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789611644; c=relaxed/simple;
-	bh=uaRNHAbNqeF/mMuH2ZtQgqqmjOT8sz6v8esrl6uU8GU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YUwYN7FZA+3jq7NxzNwZEjq2moGAS25Mdw9ysb8LmRF+Xp+7WrnwpxahQ3Qic3EVGahpCwutnf0+iS21OvgeFuqs7Hjq3sgrboeEjO3s0VCkagNsChJUayDK3sPXfEE/OjwFRe3RShSHn0k3/yZtIV23BrKIcaY+53ecV8CZnHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aI2agqFE; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1789614704; c=relaxed/simple;
+	bh=NbGYQfvcFVItkR9TIAHQyFOTWfE9cJM/aBYDvFnjBIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XYv3wZa83wO1RSe4AJD/hQMiKELdB24pcFy1+lx/9UFqh6+ytYAjzb8x3PDCGrFrySal5Xojic1ltSKlbUHIXTYnphVLaoXU0sKFoRf30UtP8ngfp2ofqEt5EcfC/9onA9hmhFpqIncEqCKODfN7R5l0Vl48f2mhDxv9tBpCU8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivyLMJUe; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aI2agqFE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivyLMJUe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789611640; x=1821147640;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uaRNHAbNqeF/mMuH2ZtQgqqmjOT8sz6v8esrl6uU8GU=;
-  b=aI2agqFEzJqoUf2us79AXfZFVmP3tiuoaCyxKKyKAMr0sFQi8iDAkfUf
-   yBtzOkJBhhHQPuwUtxacibb/wAmBWt9kJ35ZQuKc9zSvY9pt5veZTNZho
-   8F//2oTkhcM/OL/Au5Ipu+8lz4qlPK7SUoxtaXcDD3AAjmu92WA6voZAs
-   JLle7QhCa7kRuR7kWXl8kVKRa2vvDEMYrgzdBWSYpEJKPijMFwTqfkyEi
-   qmbcwQqQoL6RW5iukRJnkqJpp7DcALnG4b3GEnsZWlTWaMRoglmmrxE9I
-   60giBLYQem/ffcRJXTh3mFC6mel+ro3Jb5IrwfhGladT+DLEt5WsRy5EH
-   g==;
-X-CSE-ConnectionGUID: zEQp1DWgT5iZv/KdfkVwVg==
-X-CSE-MsgGUID: uJiN1xOeTuCnMD/hLt6ZOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100593457"
+  t=1789614702; x=1821150702;
+  h=date:from:to:cc:subject:message-id;
+  bh=NbGYQfvcFVItkR9TIAHQyFOTWfE9cJM/aBYDvFnjBIQ=;
+  b=ivyLMJUe9XKhLCgaAUGh4QJVDQ/2DKRNDJBF18/N+lIaOWLfHTYGOIwP
+   rA+nK4rvyK2qRIxT72C5YXEa/dIzE9Vyj9GjLpm3dWBxhPlZD/sJamDqT
+   Kp7pfLIv6jCAFW6w8GC4V707LfZ3mffN8tHcF0gfA8F7stFPbyYhNbVRQ
+   EdSMNrhuZYy6OjIjjTSc0xfWVPF2FHofarhCZ58LTs8IlGeC0tojMWGH2
+   wc60pHHBIu11nPRWwuyt0H7B3AF6cYQ8NLhiJ+Y4blv9az4ymeIsa3JJU
+   moWxgfGV2ESMGyYzFW13xYXlDMjiop/pyyAdYSJztChmaeEpx5rQ0WXNy
+   Q==;
+X-CSE-ConnectionGUID: ZfJGAJLZQaCEus4kpHwAwQ==
+X-CSE-MsgGUID: qEmY0GgZSwSq4NtaABR0Jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="115534556"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100593457"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 19:20:38 -0700
-X-CSE-ConnectionGUID: a+FrgqhxRjKDOKkVEATCSQ==
-X-CSE-MsgGUID: y3/3CyIPRK6AE7Rx+yu9QQ==
+   d="scan'208";a="115534556"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 20:11:41 -0700
+X-CSE-ConnectionGUID: nfpyEJFmSmCGwPAjYY/nIQ==
+X-CSE-MsgGUID: 8qE6xmIJSbGsPWxGK4PnTg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="277079898"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Sep 2026 19:20:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Sep 2026 20:11:39 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x71jk-0000000071J-3YSR;
-	Thu, 17 Sep 2026 02:20:32 +0000
-Date: Thu, 17 Sep 2026 10:20:03 +0800
+	id 1x72XA-0000000073l-2czK;
+	Thu, 17 Sep 2026 03:11:36 +0000
+Date: Thu, 17 Sep 2026 11:11:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wentao Liang <vulab@iscas.ac.cn>, Felix.Kuehling@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, airlied@gmail.com,
-	alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
-	christian.koenig@amd.com, david.yatsin@amd.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	rajneesh.bhardwaj@amd.com, simona@ffwll.ch,
-	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/amdkfd: Fix file reference leak in
- criu_restore_devices()
-Message-ID: <202609171036.aewbdced-lkp@intel.com>
-References: <20260916074216.1973191-1-vulab@iscas.ac.cn>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org
+Subject: [akpm-mm:mm-new 479/575] fs/proc/task_mmu.c:3448:3: error:
+ call to undeclared function 'drop_rcu'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202609171159.oaB1OaSG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260916074216.1973191-1-vulab@iscas.ac.cn>
 
-Hi Wentao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.3-rc3 next-20260916]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/drm-amdkfd-Fix-file-reference-leak-in-criu_restore_devices/20260916-074216
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260916074216.1973191-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] drm/amdkfd: Fix file reference leak in criu_restore_devices()
-config: x86_64-randconfig-1300-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171036.aewbdced-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   892f5b3b07e5b07f2f29c87750ff94fa58dcab73
+commit: ba1552b2bcbd7adc40512846abeabb02659e6f92 [479/575] proc-task_mmu-remove-unnecessary-inlines-in-function-definitions-fix
+config: x86_64-randconfig-1014-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171159.oaB1OaSG-lkp@intel.com/config)
 compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171036.aewbdced-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171159.oaB1OaSG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609171036.aewbdced-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609171159.oaB1OaSG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_chardev.c:2383:9: warning: variable 'drm_file' is uninitialized when used here [-Wuninitialized]
-    2383 |                         fput(drm_file);
-         |                              ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_chardev.c:2356:24: note: initialize the variable 'drm_file' to silence this warning
-    2356 |                 struct file *drm_file;
-         |                                      ^
-         |                                       = NULL
-   1 warning generated.
+>> fs/proc/task_mmu.c:3448:3: error: call to undeclared function 'drop_rcu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3448 |                 drop_rcu(proc_priv);
+         |                 ^
+>> fs/proc/task_mmu.c:3450:3: error: call to undeclared function 'reacquire_rcu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    3450 |                 reacquire_rcu(proc_priv);
+         |                 ^
+   2 errors generated.
 
 
-vim +/drm_file +2383 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_chardev.c
+vim +/drop_rcu +3448 fs/proc/task_mmu.c
 
-  2330	
-  2331	static int criu_restore_devices(struct kfd_process *p,
-  2332					struct kfd_ioctl_criu_args *args,
-  2333					uint64_t *priv_offset,
-  2334					uint64_t max_priv_data_size)
-  2335	{
-  2336		struct kfd_criu_device_bucket *device_buckets;
-  2337		struct kfd_criu_device_priv_data *device_privs;
-  2338		int ret = 0;
-  2339		uint32_t i;
-  2340	
-  2341		if (args->num_devices != p->n_pdds)
-  2342			return -EINVAL;
-  2343	
-  2344		if (*priv_offset + (args->num_devices * sizeof(*device_privs)) > max_priv_data_size)
-  2345			return -EINVAL;
-  2346	
-  2347		device_buckets = memdup_array_user((void *)args->devices,
-  2348						args->num_devices, sizeof(*device_buckets));
-  2349	
-  2350		if (IS_ERR(device_buckets))
-  2351			return PTR_ERR(device_buckets);
-  2352	
-  2353		for (i = 0; i < args->num_devices; i++) {
-  2354			struct kfd_node *dev;
-  2355			struct kfd_process_device *pdd;
-  2356			struct file *drm_file;
-  2357	
-  2358			/* device private data is not currently used */
-  2359	
-  2360			if (!device_buckets[i].user_gpu_id) {
-  2361				pr_err("Invalid user gpu_id\n");
-  2362				ret = -EINVAL;
-  2363				goto exit;
-  2364			}
-  2365	
-  2366			dev = kfd_device_by_id(device_buckets[i].actual_gpu_id);
-  2367			if (!dev) {
-  2368				pr_err("Failed to find device with gpu_id = %x\n",
-  2369					device_buckets[i].actual_gpu_id);
-  2370				ret = -EINVAL;
-  2371				goto exit;
-  2372			}
-  2373	
-  2374			pdd = kfd_get_process_device_data(dev, p);
-  2375			if (!pdd) {
-  2376				pr_err("Failed to get pdd for gpu_id = %x\n",
-  2377						device_buckets[i].actual_gpu_id);
-  2378				ret = -EINVAL;
-  2379				goto exit;
-  2380			}
-  2381	
-  2382			if (pdd->drm_file) {
-> 2383				fput(drm_file);
-  2384				ret = -EINVAL;
-  2385				goto exit;
-  2386			}
-  2387			pdd->user_gpu_id = device_buckets[i].user_gpu_id;
-  2388	
-  2389			drm_file = fget(device_buckets[i].drm_fd);
-  2390			if (!drm_file) {
-  2391				pr_err("Invalid render node file descriptor sent from plugin (%d)\n",
-  2392					device_buckets[i].drm_fd);
-  2393				ret = -EINVAL;
-  2394				goto exit;
-  2395			}
-  2396	
-  2397			/* create the vm using render nodes for kfd pdd */
-  2398			if (kfd_process_device_init_vm(pdd, drm_file)) {
-  2399				pr_err("could not init vm for given pdd\n");
-  2400				/* On success, the PDD keeps the drm_file reference */
-  2401				fput(drm_file);
-  2402				ret = -EINVAL;
-  2403				goto exit;
-  2404			}
-  2405			/*
-  2406			 * pdd now already has the vm bound to render node so below api won't create a new
-  2407			 * exclusive kfd mapping but use existing one with renderDXXX but is still needed
-  2408			 * for iommu v2 binding  and runtime pm.
-  2409			 */
-  2410			pdd = kfd_bind_process_to_device(dev, p);
-  2411			if (IS_ERR(pdd)) {
-  2412				ret = PTR_ERR(pdd);
-  2413				goto exit;
-  2414			}
-  2415	
-  2416			if (!pdd->qpd.proc_doorbells) {
-  2417				ret = kfd_alloc_process_doorbells(dev->kfd, pdd);
-  2418				if (ret)
-  2419					goto exit;
-  2420			}
-  2421		}
-  2422	
-  2423		/*
-  2424		 * We are not copying device private data from user as we are not using the data for now,
-  2425		 * but we still adjust for its private data.
-  2426		 */
-  2427		*priv_offset += args->num_devices * sizeof(*device_privs);
-  2428	
-  2429	exit:
-  2430		kfree(device_buckets);
-  2431		return ret;
-  2432	}
-  2433	
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25  3400  
+f69ff943df6972 Stephen Wilson     2011-05-24  3401  /*
+f69ff943df6972 Stephen Wilson     2011-05-24  3402   * Display pages allocated per node and memory policy via /proc.
+f69ff943df6972 Stephen Wilson     2011-05-24  3403   */
+871305bb202808 Vlastimil Babka    2018-08-21  3404  static int show_numa_map(struct seq_file *m, void *v)
+f69ff943df6972 Stephen Wilson     2011-05-24  3405  {
+5b52fc890bece7 Stephen Wilson     2011-05-24  3406  	struct numa_maps_private *numa_priv = m->private;
+5b52fc890bece7 Stephen Wilson     2011-05-24  3407  	struct proc_maps_private *proc_priv = &numa_priv->proc_maps;
+f69ff943df6972 Stephen Wilson     2011-05-24  3408  	struct vm_area_struct *vma = v;
+5b52fc890bece7 Stephen Wilson     2011-05-24  3409  	struct numa_maps *md = &numa_priv->md;
+f69ff943df6972 Stephen Wilson     2011-05-24  3410  	struct file *file = vma->vm_file;
+f69ff943df6972 Stephen Wilson     2011-05-24  3411  	struct mm_struct *mm = vma->vm_mm;
+948927ee9e4f35 David Rientjes     2013-11-12  3412  	char buffer[64];
+ddc1a5cbc05dc6 Hugh Dickins       2023-10-19  3413  	struct mempolicy *pol;
+ddc1a5cbc05dc6 Hugh Dickins       2023-10-19  3414  	pgoff_t ilx;
+948927ee9e4f35 David Rientjes     2013-11-12  3415  	int nid;
+f69ff943df6972 Stephen Wilson     2011-05-24  3416  
+f69ff943df6972 Stephen Wilson     2011-05-24  3417  	if (!mm)
+f69ff943df6972 Stephen Wilson     2011-05-24  3418  		return 0;
+f69ff943df6972 Stephen Wilson     2011-05-24  3419  
+5b52fc890bece7 Stephen Wilson     2011-05-24  3420  	/* Ensure we start with an empty set of numa_maps statistics. */
+5b52fc890bece7 Stephen Wilson     2011-05-24  3421  	memset(md, 0, sizeof(*md));
+f69ff943df6972 Stephen Wilson     2011-05-24  3422  
+ddc1a5cbc05dc6 Hugh Dickins       2023-10-19  3423  	pol = __get_vma_policy(vma, vma->vm_start, &ilx);
+498f237178a3d3 Oleg Nesterov      2014-10-09  3424  	if (pol) {
+948927ee9e4f35 David Rientjes     2013-11-12  3425  		mpol_to_str(buffer, sizeof(buffer), pol);
+f69ff943df6972 Stephen Wilson     2011-05-24  3426  		mpol_cond_put(pol);
+498f237178a3d3 Oleg Nesterov      2014-10-09  3427  	} else {
+498f237178a3d3 Oleg Nesterov      2014-10-09  3428  		mpol_to_str(buffer, sizeof(buffer), proc_priv->task_mempolicy);
+498f237178a3d3 Oleg Nesterov      2014-10-09  3429  	}
+f69ff943df6972 Stephen Wilson     2011-05-24  3430  
+f69ff943df6972 Stephen Wilson     2011-05-24  3431  	seq_printf(m, "%08lx %s", vma->vm_start, buffer);
+f69ff943df6972 Stephen Wilson     2011-05-24  3432  
+f69ff943df6972 Stephen Wilson     2011-05-24  3433  	if (file) {
+17c2b4ee40beae Fabian Frederick   2014-06-06  3434  		seq_puts(m, " file=");
+08582d678fcf11 Amir Goldstein     2023-10-09  3435  		seq_path(m, file_user_path(file), "\n\t= ");
+11250fd12eb8a5 Kefeng Wang        2023-07-28  3436  	} else if (vma_is_initial_heap(vma)) {
+17c2b4ee40beae Fabian Frederick   2014-06-06  3437  		seq_puts(m, " heap");
+11250fd12eb8a5 Kefeng Wang        2023-07-28  3438  	} else if (vma_is_initial_stack(vma)) {
+17c2b4ee40beae Fabian Frederick   2014-06-06  3439  		seq_puts(m, " stack");
+f69ff943df6972 Stephen Wilson     2011-05-24  3440  	}
+f69ff943df6972 Stephen Wilson     2011-05-24  3441  
+fc360bd9cdcf87 Andrew Morton      2011-10-31  3442  	if (is_vm_hugetlb_page(vma))
+17c2b4ee40beae Fabian Frederick   2014-06-06  3443  		seq_puts(m, " huge");
+fc360bd9cdcf87 Andrew Morton      2011-10-31  3444  
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25  3445  	/* Skip walking pages if gate VMA */
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25  3446  	if (vma != get_gate_vma(proc_priv->lock_ctx.mm)) {
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25  3447  		/* Might sleep. Drop RCU read lock but keep the VMA locked. */
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25 @3448  		drop_rcu(proc_priv);
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25  3449  		walk_page_vma(vma, get_show_numa_ops(proc_priv), md);
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25 @3450  		reacquire_rcu(proc_priv);
+ea3085dd7a4ec2 Suren Baghdasaryan 2026-04-25  3451  	}
+f69ff943df6972 Stephen Wilson     2011-05-24  3452  
+f69ff943df6972 Stephen Wilson     2011-05-24  3453  	if (!md->pages)
+f69ff943df6972 Stephen Wilson     2011-05-24  3454  		goto out;
+f69ff943df6972 Stephen Wilson     2011-05-24  3455  
+f69ff943df6972 Stephen Wilson     2011-05-24  3456  	if (md->anon)
+f69ff943df6972 Stephen Wilson     2011-05-24  3457  		seq_printf(m, " anon=%lu", md->anon);
+f69ff943df6972 Stephen Wilson     2011-05-24  3458  
+f69ff943df6972 Stephen Wilson     2011-05-24  3459  	if (md->dirty)
+f69ff943df6972 Stephen Wilson     2011-05-24  3460  		seq_printf(m, " dirty=%lu", md->dirty);
+f69ff943df6972 Stephen Wilson     2011-05-24  3461  
+f69ff943df6972 Stephen Wilson     2011-05-24  3462  	if (md->pages != md->anon && md->pages != md->dirty)
+f69ff943df6972 Stephen Wilson     2011-05-24  3463  		seq_printf(m, " mapped=%lu", md->pages);
+f69ff943df6972 Stephen Wilson     2011-05-24  3464  
+f69ff943df6972 Stephen Wilson     2011-05-24  3465  	if (md->mapcount_max > 1)
+f69ff943df6972 Stephen Wilson     2011-05-24  3466  		seq_printf(m, " mapmax=%lu", md->mapcount_max);
+f69ff943df6972 Stephen Wilson     2011-05-24  3467  
+f69ff943df6972 Stephen Wilson     2011-05-24  3468  	if (md->swapcache)
+f69ff943df6972 Stephen Wilson     2011-05-24  3469  		seq_printf(m, " swapcache=%lu", md->swapcache);
+f69ff943df6972 Stephen Wilson     2011-05-24  3470  
+f69ff943df6972 Stephen Wilson     2011-05-24  3471  	if (md->active < md->pages && !is_vm_hugetlb_page(vma))
+f69ff943df6972 Stephen Wilson     2011-05-24  3472  		seq_printf(m, " active=%lu", md->active);
+f69ff943df6972 Stephen Wilson     2011-05-24  3473  
+f69ff943df6972 Stephen Wilson     2011-05-24  3474  	if (md->writeback)
+f69ff943df6972 Stephen Wilson     2011-05-24  3475  		seq_printf(m, " writeback=%lu", md->writeback);
+f69ff943df6972 Stephen Wilson     2011-05-24  3476  
+948927ee9e4f35 David Rientjes     2013-11-12  3477  	for_each_node_state(nid, N_MEMORY)
+948927ee9e4f35 David Rientjes     2013-11-12  3478  		if (md->node[nid])
+948927ee9e4f35 David Rientjes     2013-11-12  3479  			seq_printf(m, " N%d=%lu", nid, md->node[nid]);
+198d1597cc5a12 Rafael Aquini      2015-02-12  3480  
+198d1597cc5a12 Rafael Aquini      2015-02-12  3481  	seq_printf(m, " kernelpagesize_kB=%lu", vma_kernel_pagesize(vma) >> 10);
+f69ff943df6972 Stephen Wilson     2011-05-24  3482  out:
+f69ff943df6972 Stephen Wilson     2011-05-24  3483  	seq_putc(m, '\n');
+f69ff943df6972 Stephen Wilson     2011-05-24  3484  	return 0;
+f69ff943df6972 Stephen Wilson     2011-05-24  3485  }
+5b52fc890bece7 Stephen Wilson     2011-05-24  3486  
+
+:::::: The code at line 3448 was first introduced by commit
+:::::: ea3085dd7a4ec212d6c4b50efca584e0928caa72 fs/proc/task_mmu: read proc/pid/{smaps|numa_maps} under per-vma lock
+
+:::::: TO: Suren Baghdasaryan <surenb@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
