@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5346F547078
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D963F54707D
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 17:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789665106; cv=none; b=YCaZl5K65jlYI/HtaNXMRHwsHIwfgPBPYj5gIfQPWrfNjl/oFnTGjkkADfKTTOc2oLIUYfyXYgOAw/+xgDWLGBcLbXG/MzaHPr/6YO1GgY8DhTVcF0gj8lTwwPgnkg6sLcWVKK1G5BfcVaCrZTjRD4N/p4iZMrDjKLltS3oYzXs=
+	t=1789665108; cv=none; b=SoxSS0XnF+72MxkKXVT2qYlFheDj8mIa+E3ch7VOt0NenfJ1PAbrHZkp6tjK601dArA4HACwujT3em3ymaYWaBGE+CLBaudQM/J1a8/EHLNX9fzLFsAZ7XlUd+BY1EIZ5EiBmEPlBZAvYq+w2YGAKWtp8aKinR4x1uBHpqnbGH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789665106; c=relaxed/simple;
-	bh=obuJt6Q2f0IlS8Z2SPycKZ2Vxg+tKiYlRglOs29lvIU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M+fHMXmZkGiP5xsIyLC/rZOUJ4Eb1wWcruQ74FcNbUBzwOBo04L3tzRKH2sxclp2ju4nWD256aiAnSVGdbQLBYq9bh60xBWs+h3+fd4TPZuxUKSbqUcwip6n27uEXNaecEIEKBqmUfrQwRh/5fP+rUySF7dp6SP9yXkbIBXHR84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IM7WsHTU; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1789665108; c=relaxed/simple;
+	bh=jqnRVj8Ykd+ppDe2ZUtJ1ehaU+VGN1mVNSyBNSh80UM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dXIU13rjjCkj9FYwgr6fYhLXluAWzKDyvHti5yew2Vt21W/t0KTX2XOQAHh0rbMandz54wcXg4uI4xTQwgoNGQTb32i4lA7v4xL0tP4QEC/CCeO4otIOck+0QiZAOXPRSeTdpeul1xWou64vGFTU/0hFRJgXmV8Ud9L+XObRfHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JENdJKUs; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IM7WsHTU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JENdJKUs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789665104; x=1821201104;
+  t=1789665105; x=1821201105;
   h=date:from:to:cc:subject:message-id;
-  bh=obuJt6Q2f0IlS8Z2SPycKZ2Vxg+tKiYlRglOs29lvIU=;
-  b=IM7WsHTU7HJrkMVX8ZxtUdLkv3NaMHnTZksEyC/MNzi+x3kt9F1BzbvV
-   nyp8cVg7DRRg7v9wKrR9SMfcJqQPoewjAgel+l5TezTSPGAqxR2I5wnbE
-   k0DJQvloqR6a5U3nCCcwDc50FdvsXiUPZbdOSaSsq/n1BZE5FkJfSAAtm
-   WpFCcAaDSnAZ/U1W/nEtkawieB5md8k17WFOUfmh75H6F4k6D8zCS9c+p
-   A7xdhOODDgQ226hYzP5A6K3CCPxETVF+0TF4Px7D8XEr1EYm8Z+KE6Mk7
-   /Gx7Yx/IpcgEOT0q+73tzC01MvPbXox9jGbN6rBPhKlz3eHcZg71StX6y
+  bh=jqnRVj8Ykd+ppDe2ZUtJ1ehaU+VGN1mVNSyBNSh80UM=;
+  b=JENdJKUsDwon2naCO6Dqky4VR5C/Fivq6HPWRpGKJw29Asm1mfKKz/YO
+   viGOkPhDpAl+mM8E95T/nOJSDlP2Sv+S12vyxwabTsmCrTuZYjHIqctoF
+   4dU9UNjzieCT/WIYPLn9vG1SFwTiQphtBxzQd5T3xK/VjqFTIyoOlnLLd
+   DqHYE1EVrR52HSXD9R7Q0jep5x+bKTkCGb1NRf3G76476PMrcyTwEiItp
+   hfpOcdNrc1IjSFXfmfcYwAFU6Pa14woRl+Teh62vcCwiSuQzI8HzYt8It
+   Y67GZ/ouDOScJHyg4xCOrI0qSv4Mk8nwZHT5X5yNwHqp0xkQJWoNM9fH8
    A==;
-X-CSE-ConnectionGUID: 2u4z61C+TludR9zGNVoDkA==
-X-CSE-MsgGUID: Pr8BMNHbRoqKq533hCpf7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="620829"
+X-CSE-ConnectionGUID: N6tvdAVNTgKzkKF0d7gdbw==
+X-CSE-MsgGUID: ieQOw8ixTzGQOG7WNvdrlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89046103"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="620829"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 10:11:42 -0700
-X-CSE-ConnectionGUID: LFZIXZRIQ0aiyEa3btNSVg==
-X-CSE-MsgGUID: RNxPJTZPR1mUAWAgd4SX5A==
+   d="scan'208";a="89046103"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 10:11:44 -0700
+X-CSE-ConnectionGUID: Ny7ZE/t/TfmEVydPKDThbw==
+X-CSE-MsgGUID: 1WuIYdVTTB27HPSTTyDkow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="269636591"
+   d="scan'208";a="2136646"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Sep 2026 10:11:41 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 17 Sep 2026 10:11:43 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7Fe5-000000008HD-3Qpk;
-	Thu, 17 Sep 2026 17:11:37 +0000
-Date: Fri, 18 Sep 2026 01:11:15 +0800
+	id 1x7Fe8-000000008HK-0DwQ;
+	Thu, 17 Sep 2026 17:11:40 +0000
+Date: Fri, 18 Sep 2026 01:11:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-jumbo 217/217] ERROR: modpost:
- "mtk_xfi_tphy_valid_ctle" [drivers/net/pcs/pcs-mtk-usxgmii.ko] undefined!
-Message-ID: <202609180135.OhWf5UaX-lkp@intel.com>
+To: Magnus Lindholm <linmag7@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ivan Kokshaysky <ink@unseen.parts>
+Subject: arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse:
+ cast to non-scalar
+Message-ID: <202609180147.cW02eIhR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,22 +60,419 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-jumbo
-head:   bcc06aa67cff0213e2c9da870784b2134b137ff5
-commit: 82d9d66d807e6c2614dba69eb9df68393527060b [217/217] net: pcs: mtk-usxgmii: check link status and phy ctle before reset
-config: powerpc64-randconfig-r1308-20260917 (https://download.01.org/0day-ci/archive/20260918/202609180135.OhWf5UaX-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7252edd9aa82ef1c570ff6694ef7f4763a8a5d2f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
+commit: dd5712f3379cfe760267cdd28ff957d9ab4e51c7 alpha: fix user-space corruption during memory compaction
+date:   8 months ago
+config: alpha-randconfig-r1304-20260917 (https://download.01.org/0day-ci/archive/20260918/202609180147.cW02eIhR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609180135.OhWf5UaX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609180147.cW02eIhR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: dd5712f3379c ("alpha: fix user-space corruption during memory compaction")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609180135.OhWf5UaX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609180147.cW02eIhR-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+   mm/mprotect.c: note: in included file (through include/linux/mm.h, include/linux/pagewalk.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/mprotect.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, include/linux/pagewalk.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/mprotect.c: note: in included file (through include/linux/mm.h, include/linux/pagewalk.h):
+   include/linux/pgtable.h:354:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+--
+   mm/mremap.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/mremap.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/mremap.c:313:18: sparse: sparse: context imbalance in 'move_ptes' - unexpected unlock
+--
+   mm/madvise.c: note: in included file (through include/linux/mm.h, include/linux/mman.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/madvise.c:212:17: sparse: sparse: context imbalance in 'swapin_walk_pmd_entry' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/madvise.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, include/linux/mman.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/madvise.c:562:9: sparse: sparse: context imbalance in 'madvise_cold_or_pageout_pte_range' - different lock contexts for basic block
+   mm/madvise.c: note: in included file (through include/linux/mm.h, include/linux/mman.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/madvise.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, include/linux/mman.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/madvise.c:781:9: sparse: sparse: context imbalance in 'madvise_free_pte_range' - different lock contexts for basic block
+   mm/madvise.c: note: in included file (through include/linux/mm.h, include/linux/mman.h):
+   include/linux/pgtable.h:354:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+--
+   mm/ksm.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/ksm.c:816:17: sparse: sparse: context imbalance in 'get_mergeable_page' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/ksm.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/ksm.c: note: in included file:
+   include/linux/rmap.h:956:26: sparse: sparse: context imbalance in 'write_protect_page' - unexpected unlock
+   mm/ksm.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/ksm.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/ksm.c:1461:42: sparse: sparse: context imbalance in 'replace_page' - different lock contexts for basic block
+   mm/ksm.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/ksm.c:2563:9: sparse: sparse: context imbalance in 'ksm_next_page_pmd_entry' - different lock contexts for basic block
+--
+   mm/vmalloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/vmalloc.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/vmalloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/vmalloc.c: note: in included file (through arch/alpha/include/asm/page.h, include/linux/shm.h, include/linux/sched.h, include/linux/vmalloc.h):
+   include/asm-generic/memory_model.h:30:23: sparse: sparse: unsigned value that used to be signed checked against zero?
+   mm/vmalloc.c:549:21: sparse: signed value source
+   mm/vmalloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/vmalloc.c:1128:25: sparse: sparse: context imbalance in 'find_vmap_area_exceed_addr_lock' - wrong count at exit
+   mm/vmalloc.c:4671:28: sparse: sparse: context imbalance in 'vread_iter' - unexpected unlock
+--
+   mm/userfaultfd.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c:238:9: sparse: sparse: context imbalance in 'mfill_atomic_install_pte' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c:380:9: sparse: sparse: context imbalance in 'mfill_atomic_pte_zeropage' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c:462:9: sparse: sparse: context imbalance in 'mfill_atomic_pte_poison' - different lock contexts for basic block
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/userfaultfd.c:1506:26: sparse: sparse: context imbalance in 'move_pages_ptes' - unexpected unlock
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+--
+   mm/rmap.c: note: in included file (through include/linux/ksm.h):
+   include/linux/rmap.h:956:26: sparse: sparse: context imbalance in 'folio_referenced_one' - unexpected unlock
+   mm/rmap.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/rmap.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/rmap.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/rmap.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/rmap.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/rmap.c: note: in included file (through include/linux/ksm.h):
+   include/linux/rmap.h:956:26: sparse: sparse: context imbalance in 'try_to_unmap_one' - unexpected unlock
+   mm/rmap.c: note: in included file (through include/linux/mm.h):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/rmap.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/rmap.c: note: in included file (through include/linux/ksm.h):
+   include/linux/rmap.h:956:26: sparse: sparse: context imbalance in 'try_to_migrate_one' - unexpected unlock
+--
+   mm/memory.c:876:38: sparse: sparse: cast to non-scalar
+   mm/memory.c:876:38: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+   include/linux/pgtable.h:361:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:361:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:1331:9: sparse: sparse: context imbalance in 'copy_pte_range' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, ...):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, ...):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, ...):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:2220:16: sparse: sparse: context imbalance in '__get_locked_pte' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:2326:9: sparse: sparse: context imbalance in 'insert_page' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:2611:9: sparse: sparse: context imbalance in 'insert_pfn' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:3193:17: sparse: sparse: context imbalance in 'apply_to_pte_range' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, ...):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/memory.c:3826:42: sparse: sparse: context imbalance in 'wp_page_copy' - different lock contexts for basic block
+   mm/memory.c: note: in included file (through include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:3865:19: sparse: sparse: context imbalance in 'finish_mkwrite_fault' - different lock contexts for basic block
+   mm/memory.c:3896:17: sparse: sparse: context imbalance in 'wp_pfn_shared' - unexpected unlock
+   mm/memory.c:3922:17: sparse: sparse: context imbalance in 'wp_page_shared' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:4088:19: sparse: sparse: context imbalance in 'do_wp_page' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:4350:9: sparse: sparse: context imbalance in 'remove_device_exclusive_entry' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:4376:19: sparse: sparse: context imbalance in 'pte_marker_clear' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:4621:12: sparse: sparse: context imbalance in 'do_swap_page' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:5280:9: sparse: sparse: context imbalance in 'do_anonymous_page' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:5512:12: sparse: sparse: context imbalance in 'finish_fault' - different lock contexts for basic block
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:5896:9: sparse: sparse: context imbalance in 'do_fault' - different lock contexts for basic block
+   mm/memory.c: note: in included file (through include/linux/pgtable.h, include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, ...):
+>> arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast to non-scalar
+   arch/alpha/include/asm/pgtable.h:278:21: sparse: sparse: cast from non-scalar
+   mm/memory.c: note: in included file (through include/linux/mm.h, arch/alpha/include/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:6025:17: sparse: sparse: context imbalance in 'do_numa_page' - unexpected unlock
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:6301:9: sparse: sparse: context imbalance in 'handle_pte_fault' - unexpected unlock
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:361:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:361:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:354:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:347:16: sparse: sparse: cast from non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast to non-scalar
+   include/linux/pgtable.h:340:16: sparse: sparse: cast from non-scalar
+   mm/memory.c:6743:5: sparse: sparse: context imbalance in 'follow_pfnmap_start' - different lock contexts for basic block
+   mm/memory.c:6829:28: sparse: sparse: context imbalance in 'follow_pfnmap_end' - unexpected unlock
 
->> ERROR: modpost: "mtk_xfi_tphy_valid_ctle" [drivers/net/pcs/pcs-mtk-usxgmii.ko] undefined!
+vim +278 arch/alpha/include/asm/pgtable.h
+
+   273	
+   274	static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
+   275						unsigned long address,
+   276						pte_t *ptep)
+   277	{
+ > 278		pte_t pte = READ_ONCE(*ptep);
+   279	
+   280		pte_clear(mm, address, ptep);
+   281		return pte;
+   282	}
+   283	
 
 --
 0-DAY CI Kernel Test Service
