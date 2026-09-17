@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D6F453A54
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 06:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6AC4326D44
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 07:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789627739; cv=none; b=HqxkdsP/5vbgu+tlHDQGAq32O7WWLo39wy9zgKHr5VbGsp6xHtl6UwGpc0Ab8x4B1K/noSnSM0VbNjaA7HIQSLX29bVmqkQgzs2D40ibEFsAui5RcOKjXcOc51X8ENjEZli4Ck/7nuw3RrLDYLgLXL1/m0L84CRCTT6hbhoaHwc=
+	t=1789629911; cv=none; b=ohQnwREEBfe35anQcWyUdZhqDWlOvePrAN2N4fsWGQPWypGRErFBqD+D4hz05t2MmFgtv804LfbnoH9A3Z2hpOSfoDJ3ACTOK8cSs67eHTt0XLxbygKz2O72V9PnyXqpiQFw8J+kMslin77/xfM4diZUPuvwN1QqkI3XbGzwRS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789627739; c=relaxed/simple;
-	bh=qzxGufug5/pOblw8dFoOy3KzzUgr2e3VjV90ZJd1ahU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KxYzNcDcdkcqvoeF1R77L7s4hhO698t5SJZ8C/jCzeWnH38+lc5xj/RFNzhxmt2QQfKsjrBMCsQ5ZDbm6OSFgw2dEtrIbnSeRnoTeZdkq6tULFBTz2K4sCxXyoAVxg7VJ5WrtxnpD8B0GeEk7n1p2roBUOATTvRckOS28pudRG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mtt5ZLmP; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1789629911; c=relaxed/simple;
+	bh=0ExmstC50og9xBON5JSqwUjaO32oZ+Us92a2veJ+voY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SuGV3vUMIGCqcNX4NZwIGpjraBNEvgWiN8ABsP8jgXEScnvZcncBCae+OdNuvhRRubEzF3XVw9Bt8Q5qv4wSUxmKAJXpHIR2rSJaU3NbUpwODFCc8yJexsGEQzB5hwBKeqUtqmFiJsutirtA7lHP8s/JvORW1rfGebVdjFZQVag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X27eB7+1; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mtt5ZLmP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X27eB7+1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789627738; x=1821163738;
+  t=1789629909; x=1821165909;
   h=date:from:to:cc:subject:message-id;
-  bh=qzxGufug5/pOblw8dFoOy3KzzUgr2e3VjV90ZJd1ahU=;
-  b=Mtt5ZLmPnQFGJvkLgsBm/OLaRHk/eH4SWm8eZPYkRrxSEIpR5xLiiayx
-   FjRtQHgd/giX6GexEqSJUtlpyctS1yAC7Ek2Qg0ccgZvcTGa2fBDLTbCd
-   tkdWkhFE7dHGAJrfWZnQmosYLjkkYdK0CwOaTyfrKnj7Jf3tH++SN6jG0
-   4Dm28MSP8I/1UH6j71U2iYZ7C3JmY3fM6Za2KkZlhNu8r14ZoNDjCxvkG
-   53LyRgp+o0e3ygSdQRFjfvTwdIDI+i+Zp/xQ5cGthvl7N2EppyNzz4SO7
-   xYAOKikk875yxiQtml0K+vrjR5J6TlwLvNdYUSMYO3phUtIcdeiepaDEF
+  bh=0ExmstC50og9xBON5JSqwUjaO32oZ+Us92a2veJ+voY=;
+  b=X27eB7+15d8k4HoXHxulpi84TnIPk15bTmAFazc14pLwoNR3pMMik2/i
+   F40NEddm2tok5/KCdKDCfsqWKeS/5mE0tTjzrFgwTBr77R4IAATdtVE3o
+   Cq2O0N2aB6DouWNpw3lGm0+hq4SdmUEpyWLrdeMdzmEPjUqTBzPqSajx5
+   sE+NsvOqiytPWcL2HeT6Hv9WVeAQhQTA0hdFfhUk3uR5xXdrR8odYFrHB
+   XXdUDnrO5KVuXlv5WyiFqqM452M2ln3Ug8MtdSWw0NWzX+4z4Lj8WLRe/
+   JJE+Jl2xYPvbCnkOiaS+WVXhuzC1Rr77pOAQ4Jw2e97UNdzmA0effcCd2
    A==;
-X-CSE-ConnectionGUID: m9kR+1jQT7602Y716Gk2eA==
-X-CSE-MsgGUID: jTYTL+42Sm2tYi1SVECuDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93844950"
+X-CSE-ConnectionGUID: 1jg28PjnSDKr6b3B3R6Akg==
+X-CSE-MsgGUID: S6sRnfaNQ/WyKwyk7DenMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="107531009"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="93844950"
+   d="scan'208";a="107531009"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 23:48:57 -0700
-X-CSE-ConnectionGUID: mhPHq5NQQpWDLiPbVk9ekg==
-X-CSE-MsgGUID: LBTY09i5RFyAK35kmVWMgg==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 00:25:08 -0700
+X-CSE-ConnectionGUID: wDaF4WI4So6LUV6drn9mkA==
+X-CSE-MsgGUID: qRYzIb/JQXKar2t2rvTyTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="269330409"
+   d="scan'208";a="269345810"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Sep 2026 23:48:56 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 17 Sep 2026 00:25:06 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x75vR-000000007DN-1fNV;
-	Thu, 17 Sep 2026 06:48:53 +0000
-Date: Thu, 17 Sep 2026 14:47:57 +0800
+	id 1x76US-000000007Ej-04AP;
+	Thu, 17 Sep 2026 07:25:04 +0000
+Date: Thu, 17 Sep 2026 15:24:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-09 1/1]
- drivers/base/regmap/regmap-kunit.c:1202:24: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202609171432.Q5E83Evn-lkp@intel.com>
+To: Neill Kapron <nkapron@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/usb/gadget/function/f_fs.c:2428:48: warning: '_rw'
+ directive output may be truncated writing 3 bytes into a region of size
+ between 1 and 8
+Message-ID: <202609171504.8fgEluKO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,239 +60,104 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-09
-head:   14de2b14a49471561ccfdfc341480537c3389bc2
-commit: d1b6521cecba29bc013162ea7b6f46bab8080656 [1/1] regmap: kunit: Ensure that changed bytes are actually different
-config: i386-randconfig-1302-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171432.Q5E83Evn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171432.Q5E83Evn-lkp@intel.com/reproduce)
+Hi Neill,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
+commit: 0f0ea552cd215a01baca1e99eec02e2f8df0c897 usb: gadget: f_fs: Introduce rw_proxy file descriptors
+date:   10 weeks ago
+config: arm64-randconfig-1000-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171504.8fgEluKO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171504.8fgEluKO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 0f0ea552cd21 ("usb: gadget: f_fs: Introduce rw_proxy file descriptors")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609171432.Q5E83Evn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609171504.8fgEluKO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/base/regmap/regmap-kunit.c:977:43: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:980:43: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1057:25: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1057:25: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1059:25: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1059:25: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1126:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1126:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1129:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1129:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1181:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1181:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1184:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1184:33: sparse: sparse: cast to restricted __le16
->> drivers/base/regmap/regmap-kunit.c:1202:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] @@
-   drivers/base/regmap/regmap-kunit.c:1202:24: sparse:     expected unsigned short
-   drivers/base/regmap/regmap-kunit.c:1202:24: sparse:     got restricted __be16 [usertype]
-   drivers/base/regmap/regmap-kunit.c:1204:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
-   drivers/base/regmap/regmap-kunit.c:1204:24: sparse:     expected unsigned short
-   drivers/base/regmap/regmap-kunit.c:1204:24: sparse:     got restricted __le16 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +1202 drivers/base/regmap/regmap-kunit.c
+   drivers/usb/gadget/function/f_fs.c: In function 'ffs_ep0_write':
+>> drivers/usb/gadget/function/f_fs.c:2428:48: warning: '_rw' directive output may be truncated writing 3 bytes into a region of size between 1 and 8 [-Wformat-truncation=]
+       snprintf(comp->name, sizeof(comp->name), "%s_rw",
+                                                   ^~~
+   drivers/usb/gadget/function/f_fs.c:2428:4: note: 'snprintf' output between 4 and 11 bytes into a destination of size 8
+       snprintf(comp->name, sizeof(comp->name), "%s_rw",
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         epfiles[i].name);
+         ~~~~~~~~~~~~~~~~
 
-  1027	
-  1028	static void raw_read_defaults(struct kunit *test)
-  1029	{
-  1030		struct raw_test_types *t = (struct raw_test_types *)test->param_value;
-  1031		struct regmap *map;
-  1032		struct regmap_config config;
-  1033		struct regmap_ram_data *data;
-  1034		u16 *rval;
-  1035		u16 def;
-  1036		size_t val_len;
-  1037		int i;
-  1038	
-  1039		config = raw_regmap_config;
-  1040	
-  1041		map = gen_raw_regmap(&config, t, &data);
-  1042		KUNIT_ASSERT_FALSE(test, IS_ERR(map));
-  1043		if (IS_ERR(map))
-  1044			return;
-  1045	
-  1046		val_len = sizeof(*rval) * (config.max_register + 1);
-  1047		rval = kmalloc(val_len, GFP_KERNEL);
-  1048		KUNIT_ASSERT_TRUE(test, rval != NULL);
-  1049		if (!rval)
-  1050			return;
-  1051		
-  1052		/* Check that we can read the defaults via the API */
-  1053		KUNIT_EXPECT_EQ(test, 0, regmap_raw_read(map, 0, rval, val_len));
-  1054		for (i = 0; i < config.max_register + 1; i++) {
-  1055			def = config.reg_defaults[i].def;
-  1056			if (config.val_format_endian == REGMAP_ENDIAN_BIG) {
-  1057				KUNIT_EXPECT_EQ(test, def, be16_to_cpu(rval[i]));
-  1058			} else {
-> 1059				KUNIT_EXPECT_EQ(test, def, le16_to_cpu(rval[i]));
-  1060			}
-  1061		}
-  1062		
-  1063		kfree(rval);
-  1064		regmap_exit(map);
-  1065	}
-  1066	
-  1067	static void raw_write_read_single(struct kunit *test)
-  1068	{
-  1069		struct raw_test_types *t = (struct raw_test_types *)test->param_value;
-  1070		struct regmap *map;
-  1071		struct regmap_config config;
-  1072		struct regmap_ram_data *data;
-  1073		u16 val;
-  1074		unsigned int rval;
-  1075	
-  1076		config = raw_regmap_config;
-  1077	
-  1078		map = gen_raw_regmap(&config, t, &data);
-  1079		KUNIT_ASSERT_FALSE(test, IS_ERR(map));
-  1080		if (IS_ERR(map))
-  1081			return;
-  1082	
-  1083		get_random_bytes(&val, sizeof(val));
-  1084	
-  1085		/* If we write a value to a register we can read it back */
-  1086		KUNIT_EXPECT_EQ(test, 0, regmap_write(map, 0, val));
-  1087		KUNIT_EXPECT_EQ(test, 0, regmap_read(map, 0, &rval));
-  1088		KUNIT_EXPECT_EQ(test, val, rval);
-  1089	
-  1090		regmap_exit(map);
-  1091	}
-  1092	
-  1093	static void raw_write(struct kunit *test)
-  1094	{
-  1095		struct raw_test_types *t = (struct raw_test_types *)test->param_value;
-  1096		struct regmap *map;
-  1097		struct regmap_config config;
-  1098		struct regmap_ram_data *data;
-  1099		u16 *hw_buf;
-  1100		u16 val[2];
-  1101		unsigned int rval;
-  1102		int i;
-  1103	
-  1104		config = raw_regmap_config;
-  1105	
-  1106		map = gen_raw_regmap(&config, t, &data);
-  1107		KUNIT_ASSERT_FALSE(test, IS_ERR(map));
-  1108		if (IS_ERR(map))
-  1109			return;
-  1110	
-  1111		hw_buf = (u16 *)data->vals;
-  1112	
-  1113		get_random_bytes(&val, sizeof(val));
-  1114	
-  1115		/* Do a raw write */
-  1116		KUNIT_EXPECT_EQ(test, 0, regmap_raw_write(map, 2, val, sizeof(val)));
-  1117	
-  1118		/* We should read back the new values, and defaults for the rest */
-  1119		for (i = 0; i < config.max_register + 1; i++) {
-  1120			KUNIT_EXPECT_EQ(test, 0, regmap_read(map, i, &rval));
-  1121	
-  1122			switch (i) {
-  1123			case 2:
-  1124			case 3:
-  1125				if (config.val_format_endian == REGMAP_ENDIAN_BIG) {
-  1126					KUNIT_EXPECT_EQ(test, rval,
-  1127							be16_to_cpu(val[i % 2]));
-  1128				} else {
-  1129					KUNIT_EXPECT_EQ(test, rval,
-  1130							le16_to_cpu(val[i % 2]));
-  1131				}
-  1132				break;
-  1133			default:
-  1134				KUNIT_EXPECT_EQ(test, config.reg_defaults[i].def, rval);
-  1135				break;
-  1136			}
-  1137		}
-  1138	
-  1139		/* The values should appear in the "hardware" */
-  1140		KUNIT_EXPECT_MEMEQ(test, &hw_buf[2], val, sizeof(val));
-  1141	
-  1142		regmap_exit(map);
-  1143	}
-  1144	
-  1145	static void raw_sync(struct kunit *test)
-  1146	{
-  1147		struct raw_test_types *t = (struct raw_test_types *)test->param_value;
-  1148		struct regmap *map;
-  1149		struct regmap_config config;
-  1150		struct regmap_ram_data *data;
-  1151		u16 val[3];
-  1152		u16 *hw_buf;
-  1153		unsigned int rval;
-  1154		int i;
-  1155	
-  1156		config = raw_regmap_config;
-  1157	
-  1158		map = gen_raw_regmap(&config, t, &data);
-  1159		KUNIT_ASSERT_FALSE(test, IS_ERR(map));
-  1160		if (IS_ERR(map))
-  1161			return;
-  1162	
-  1163		hw_buf = (u16 *)data->vals;
-  1164	
-  1165		get_changed_bytes(&hw_buf[2], &val[0], sizeof(val));
-  1166	
-  1167		/* Do a regular write and a raw write in cache only mode */
-  1168		regcache_cache_only(map, true);
-  1169		KUNIT_EXPECT_EQ(test, 0, regmap_raw_write(map, 2, val,
-  1170							  sizeof(u16) * 2));
-  1171		KUNIT_EXPECT_EQ(test, 0, regmap_write(map, 4, val[2]));
-  1172	
-  1173		/* We should read back the new values, and defaults for the rest */
-  1174		for (i = 0; i < config.max_register + 1; i++) {
-  1175			KUNIT_EXPECT_EQ(test, 0, regmap_read(map, i, &rval));
-  1176	
-  1177			switch (i) {
-  1178			case 2:
-  1179			case 3:
-  1180				if (config.val_format_endian == REGMAP_ENDIAN_BIG) {
-  1181					KUNIT_EXPECT_EQ(test, rval,
-  1182							be16_to_cpu(val[i - 2]));
-  1183				} else {
-  1184					KUNIT_EXPECT_EQ(test, rval,
-  1185							le16_to_cpu(val[i - 2]));
-  1186				}
-  1187				break;
-  1188			case 4:
-  1189				KUNIT_EXPECT_EQ(test, rval, val[i - 2]);
-  1190				break;
-  1191			default:
-  1192				KUNIT_EXPECT_EQ(test, config.reg_defaults[i].def, rval);
-  1193				break;
-  1194			}
-  1195		}
-  1196	
-  1197		/*
-  1198		 * The value written via _write() was translated by the core,
-  1199		 * translate the original copy for comparison purposes.
-  1200		 */
-  1201		if (config.val_format_endian == REGMAP_ENDIAN_BIG)
-> 1202			val[2] = cpu_to_be16(val[2]);
-  1203		else
-  1204			val[2] = cpu_to_le16(val[2]);
-  1205		
-  1206		/* The values should not appear in the "hardware" */
-  1207		KUNIT_EXPECT_MEMNEQ(test, &hw_buf[2], &val[0], sizeof(val));
-  1208	
-  1209		for (i = 0; i < config.max_register + 1; i++)
-  1210			data->written[i] = false;
-  1211	
-  1212		/* Do the sync */
-  1213		regcache_cache_only(map, false);
-  1214		regcache_mark_dirty(map);
-  1215		KUNIT_EXPECT_EQ(test, 0, regcache_sync(map));
-  1216	
-  1217		/* The values should now appear in the "hardware" */
-  1218		KUNIT_EXPECT_MEMEQ(test, &hw_buf[2], &val[0], sizeof(val));
-  1219	
-  1220		regmap_exit(map);
-  1221	}
-  1222	
+
+vim +/_rw +2428 drivers/usb/gadget/function/f_fs.c
+
+  2378	
+  2379	static int ffs_epfiles_create(struct ffs_data *ffs)
+  2380	{
+  2381		struct ffs_epfile *epfile, *epfiles;
+  2382		unsigned int i, count, epfiles_count;
+  2383		int err;
+  2384	
+  2385		count = ffs->eps_count;
+  2386		epfiles_count = count;
+  2387		if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS)
+  2388			epfiles_count += count / 2;
+  2389		ffs->epfiles_count = epfiles_count;
+  2390	
+  2391		epfiles = kzalloc_objs(*epfiles, epfiles_count);
+  2392		if (!epfiles)
+  2393			return -ENOMEM;
+  2394	
+  2395		epfile = epfiles;
+  2396		for (i = 1; i <= count; ++i, ++epfile) {
+  2397			epfile->ffs = ffs;
+  2398			mutex_init(&epfile->mutex);
+  2399			mutex_init(&epfile->dmabufs_mutex);
+  2400			INIT_LIST_HEAD(&epfile->dmabufs);
+  2401			if (ffs->user_flags & FUNCTIONFS_VIRTUAL_ADDR)
+  2402				sprintf(epfile->name, "ep%02x", ffs->eps_addrmap[i]);
+  2403			else
+  2404				sprintf(epfile->name, "ep%u", i);
+  2405			err = ffs_sb_create_file(ffs->sb, epfile->name,
+  2406						 epfile, &ffs_epfile_operations);
+  2407			if (err) {
+  2408				ffs_epfiles_destroy(ffs->sb, epfiles, i - 1);
+  2409				return err;
+  2410			}
+  2411		}
+  2412	
+  2413		if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS) {
+  2414			struct ffs_epfile *comp = epfiles + count;
+  2415	
+  2416			for (i = 0; i < count; i += 2, ++comp) {
+  2417				struct ffs_epfile *ep1 = &epfiles[i];
+  2418				struct ffs_epfile *ep2 = &epfiles[i + 1];
+  2419				bool ep1_in = ffs->eps_addrmap[i + 1] & USB_ENDPOINT_DIR_MASK;
+  2420	
+  2421				comp->ffs = ffs;
+  2422				comp->is_rw_proxy = true;
+  2423				comp->epfile_in = ep1_in ? ep1 : ep2;
+  2424				comp->epfile_out = ep1_in ? ep2 : ep1;
+  2425				mutex_init(&comp->mutex);
+  2426				mutex_init(&comp->dmabufs_mutex);
+  2427				INIT_LIST_HEAD(&comp->dmabufs);
+> 2428				snprintf(comp->name, sizeof(comp->name), "%s_rw",
+  2429					 epfiles[i].name);
+  2430				err = ffs_sb_create_file(ffs->sb, comp->name,
+  2431							 comp, &ffs_epfile_operations);
+  2432				if (err) {
+  2433					ffs_epfiles_destroy(ffs->sb, epfiles, count + (i / 2));
+  2434					return err;
+  2435				}
+  2436			}
+  2437		}
+  2438	
+  2439		ffs->epfiles = epfiles;
+  2440		return 0;
+  2441	}
+  2442	
 
 --
 0-DAY CI Kernel Test Service
