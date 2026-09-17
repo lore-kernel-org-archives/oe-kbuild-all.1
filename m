@@ -1,134 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD8748E0C7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 08:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F614915B4;
+	Thu, 17 Sep 2026 08:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789634579; cv=none; b=bVLC8lpXwkwk0P/5C/zit/2vTHIdwVowV+yqW+6AvnwTt1jUfr1FDXIHZMKM3SjRG+kndhxRizI4VO6iVnBd4i2z8abJl2mmjmZFyqDEyd/t6pqPG495tBQO/rK5zHJqnehuE7/oLOWqOoN3r4zbZieOZxjZZ9+T+JxCF53mues=
+	t=1789634597; cv=none; b=TX1pF1wsdFjCUsG8KXk3TjZLgMxpFoTKEtp7GQOXzH+tKf783XTWVVMIlDoYPWoNaVzKLxLt/AQycalq3kcDlOmWlLRwPGsN3oVfjzjWZ2BqsAu0IPfyMq/oapueqpe0REIgWZqicRt/XPc6x+Hd1ISe/9sLKB6646nAh8vtX8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789634579; c=relaxed/simple;
-	bh=dDYrvLxzGuAyRUKfxqQiunKzUA0FUN/PVRjEgoW2ZsA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BvQUGzW2uw584wixCEWnECeIK6v7CZuXCujhEz3HJc3hAroDIPO3vUr6j4h4c5KTE4XrrZbt7410oFxAhlydsLs70GEce/v9+LAj2bQ5PKE1BIsX+nGoQTtQ+spLMco9JrJCa75D8z4ohh754X6iW+cJ0bhhWgkiRDoPtCMZb8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OV6cDIw2; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1789634597; c=relaxed/simple;
+	bh=ca2bSrHmaobUPE6FKGEwCza6bF8w2hqM+0de2rE6VS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pc6DBU06+ReGEunrVLNmnCBVrsVWhbzuLwEEOxBAU4kk7a6yfBcws3lpR98WmRYSodQXtIZaF1d1Uye1kSG+bphEm54s1Hr4GznvU5pNUVv/T99DKKb5EwD2RzKuy/mxxzqg0OK6mb5/4bUuKjxpjNjRY/zxJxFOYnwp8jSNJ3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VvFk/yQj; arc=none smtp.client-ip=192.198.163.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OV6cDIw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvFk/yQj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789634568; x=1821170568;
-  h=date:from:to:cc:subject:message-id;
-  bh=dDYrvLxzGuAyRUKfxqQiunKzUA0FUN/PVRjEgoW2ZsA=;
-  b=OV6cDIw2iiQn9ubhwHXmqp4lg1r1NxJq1QfpBoi0VWipjrx7XYGh0duZ
-   32NA1WxCjcisMBVKJHFXYk0dYMVL+EAzGVLpygJ75JsxQVIXJKWzwAjTY
-   3aSWAfYHn4LuVh7HqBIldx8zdH3NovbG887zfGS8TQMZajsci4e4GgKr+
-   vLyJHm/VjntUdeQzFlQsksxi2dlEBlh/aKtwzBuv1BKk7ewBM+ax8THql
-   Ae+JmgNHh26Q1hhzFNfdR+ToNUNRHUjQuf3wxG5hEoDmxHcmEVX5JbHHn
-   mwkxI3BIoycFs+6TWg7rb5AX0SIyTXQ2onYkZN5+njqSaP6k8solWpVnY
-   w==;
-X-CSE-ConnectionGUID: KY//jBPESdqcEteSutAg8Q==
-X-CSE-MsgGUID: cOuhhNMQQTKhQxDk+E7Lxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90051589"
+  t=1789634580; x=1821170580;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ca2bSrHmaobUPE6FKGEwCza6bF8w2hqM+0de2rE6VS4=;
+  b=VvFk/yQjyTh3sNF45+pgWXu2dqukN+DGQhwIBILaLdtZUMUGqKO080+M
+   eFc6uU/gEfBfRMmzDbYxXaQrpmykmrbtMw/9jt1jsLVIDJCk7OP4bu7th
+   5uxC56qZAJSye8ekFN0Q27GAa8DXKOkE4ytgvmg2eg2/mlEgNhFVTjMlB
+   D/27ri9508tA5GZCzDexK4Ea0+49vJozRY8adiVrOXoYUoNJB8NbKZcM/
+   CMQkNocAEcwWgIOpLAxUniqOGQA1NIHhsYehVNdVpRRC+gcfXKhsCH06u
+   IEo5XUp4YfOhmmAOCH8JMyqw1vXIfwOlR93qs5mcXpB4kkrwLTRY5CbSZ
+   Q==;
+X-CSE-ConnectionGUID: Wv2c6RdsRvCx70c5sTAzWg==
+X-CSE-MsgGUID: n7r15XSrQ42ZZY/Zt0C0pQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="543010"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="90051589"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 01:42:40 -0700
-X-CSE-ConnectionGUID: oxMLzW00THG/tEH2rf3LBg==
-X-CSE-MsgGUID: ulo9XoEHTAO2NJFCe+5Erg==
+   d="scan'208";a="543010"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 01:42:41 -0700
+X-CSE-ConnectionGUID: YS7t7p99Qze4tZdEMVSqyA==
+X-CSE-MsgGUID: sQkmySHbQd646GJ6/CCGuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="1870916"
+   d="scan'208";a="1874268"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 17 Sep 2026 01:42:38 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 17 Sep 2026 01:42:38 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x77hT-000000007Ph-1Qrb;
+	id 1x77hT-000000007Pd-19fk;
 	Thu, 17 Sep 2026 08:42:35 +0000
-Date: Thu, 17 Sep 2026 16:41:47 +0800
+Date: Thu, 17 Sep 2026 16:41:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa-dev@sang-engineering.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Subject: drivers/nvmem/m24lr.c:343:24: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202609171615.pqY38RUJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Wentao Liang <vulab@iscas.ac.cn>, airlied@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, jonathanh@nvidia.com,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	mperttunen@nvidia.com, simona@ffwll.ch, thierry.reding@kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: Fix bo reference leak in
+ host1x_reloc_copy_from_user()
+Message-ID: <202609171640.8lyJYO2E-lkp@intel.com>
+References: <20260916182550.2091797-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260916182550.2091797-1-vulab@iscas.ac.cn>
 
-Hi Bartosz,
+Hi Wentao,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-commit: cf09b7a05618bea99468b67fe80202efba1b48ad eeprom: move nvmem EEPROM drivers to drivers/nvmem/
-date:   7 weeks ago
-config: x86_64-randconfig-1301-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171615.pqY38RUJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171615.pqY38RUJ-lkp@intel.com/reproduce)
+[auto build test ERROR on tegra/for-next]
+[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master drm-tegra/drm/tegra/for-next v7.3-rc3 next-20260916]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/drm-tegra-Fix-bo-reference-leak-in-host1x_reloc_copy_from_user/20260916-182550
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260916182550.2091797-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] drm/tegra: Fix bo reference leak in host1x_reloc_copy_from_user()
+config: hexagon-randconfig-1000-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171640.8lyJYO2E-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171640.8lyJYO2E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: cf09b7a05618 ("eeprom: move nvmem EEPROM drivers to drivers/nvmem/")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609171615.pqY38RUJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609171640.8lyJYO2E-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/nvmem/m24lr.c:343:24: sparse: sparse: cast to restricted __le16
->> drivers/nvmem/m24lr.c:343:24: sparse: sparse: cast from restricted __le64
->> drivers/nvmem/m24lr.c:346:24: sparse: sparse: cast to restricted __le32
-   drivers/nvmem/m24lr.c:346:24: sparse: sparse: cast from restricted __le64
+All errors (new ones prefixed by >>):
 
-vim +343 drivers/nvmem/m24lr.c
+>> drivers/gpu/drm/tegra/drm.c:163:22: error: incompatible pointer types passing 'struct host1x_bo *' to parameter of type 'struct drm_gem_object *' [-Werror,-Wincompatible-pointer-types]
+     163 |                 drm_gem_object_put(dest->cmdbuf.bo);
+         |                                    ^~~~~~~~~~~~~~~
+   include/drm/drm_gem.h:572:43: note: passing argument to parameter 'obj' here
+     572 | drm_gem_object_put(struct drm_gem_object *obj)
+         |                                           ^
+   1 error generated.
 
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  323  
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  324  static ssize_t m24lr_read_reg_le(struct m24lr *m24lr, u64 *val,
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  325  				 unsigned int reg_addr,
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  326  				 unsigned int reg_size)
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  327  {
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  328  	ssize_t ret;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  329  	__le64 input = 0;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  330  
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  331  	ret = m24lr_read(m24lr, (u8 *)&input, reg_size, reg_addr, false);
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  332  	if (IS_ERR_VALUE(ret))
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  333  		return ret;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  334  
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  335  	if (ret != reg_size)
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  336  		return -EINVAL;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  337  
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  338  	switch (reg_size) {
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  339  	case 1:
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  340  		*val = *(u8 *)&input;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  341  		break;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  342  	case 2:
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17 @343  		*val = le16_to_cpu((__le16)input);
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  344  		break;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  345  	case 4:
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17 @346  		*val = le32_to_cpu((__le32)input);
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  347  		break;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  348  	case 8:
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  349  		*val = le64_to_cpu((__le64)input);
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  350  		break;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  351  	default:
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  352  		return -EINVAL;
-b009c1dbfc9854c drivers/misc/eeprom/m24lr.c Chen Ni              2025-08-21  353  	}
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  354  
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  355  	return 0;
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  356  }
-cd5c5e0231c538a drivers/misc/eeprom/m24lr.c Abd-Alrhman Masalkhi 2025-07-17  357  
 
-:::::: The code at line 343 was first introduced by commit
-:::::: cd5c5e0231c538a5d2d4a73f3b3ffc77ff08449c eeprom: add driver for ST M24LR series RFID/NFC EEPROM chips
+vim +163 drivers/gpu/drm/tegra/drm.c
 
-:::::: TO: Abd-Alrhman Masalkhi <abd.masalkhi@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   126	
+   127	static int host1x_reloc_copy_from_user(struct host1x_reloc *dest,
+   128					       struct drm_tegra_reloc __user *src,
+   129					       struct drm_device *drm,
+   130					       struct drm_file *file)
+   131	{
+   132		u32 cmdbuf, target;
+   133		int err;
+   134	
+   135		err = get_user(cmdbuf, &src->cmdbuf.handle);
+   136		if (err < 0)
+   137			return err;
+   138	
+   139		err = get_user(dest->cmdbuf.offset, &src->cmdbuf.offset);
+   140		if (err < 0)
+   141			return err;
+   142	
+   143		err = get_user(target, &src->target.handle);
+   144		if (err < 0)
+   145			return err;
+   146	
+   147		err = get_user(dest->target.offset, &src->target.offset);
+   148		if (err < 0)
+   149			return err;
+   150	
+   151		err = get_user(dest->shift, &src->shift);
+   152		if (err < 0)
+   153			return err;
+   154	
+   155		dest->flags = HOST1X_RELOC_READ | HOST1X_RELOC_WRITE;
+   156	
+   157		dest->cmdbuf.bo = tegra_gem_lookup(file, cmdbuf);
+   158		if (!dest->cmdbuf.bo)
+   159			return -ENOENT;
+   160	
+   161		dest->target.bo = tegra_gem_lookup(file, target);
+   162		if (!dest->target.bo) {
+ > 163			drm_gem_object_put(dest->cmdbuf.bo);
+   164			return -ENOENT;
+   165		}
+   166	
+   167		return 0;
+   168	}
+   169	
 
 --
 0-DAY CI Kernel Test Service
