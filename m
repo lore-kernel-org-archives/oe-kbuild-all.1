@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B05C4E06CB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 12:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0C54F30FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 12:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789647578; cv=none; b=adCkls6BGrDGL83NeNYTlSvBxvsHtncSERxmVbKXPzhjAgxprr+Ic81bhzBIwnbJ42D64REYuKGnOrDrf5HhTu3lhBhVVwU1vlo11J6Xz98V6fcAdlMvz2W2UZ9/WguEi6BIhA+1kY7ThCtcsSedzVlz8M/1EllDiDhnNMySyWw=
+	t=1789648898; cv=none; b=SBg5/pRZesOw54ptETFgFU5L1Z2dfWQfRtmDJX/lLDtIQtl2e52M+VIZWE6oqC/8IgRtsJHCfQVuv8DIro4yTdQBxyRgX19v4RHx3T/Dybjz/HzCwFnjMcriEhUod97zVskbo2oa/mt7JotVRneR2q5SPGrYMZ/vNHa5SPaYd/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789647578; c=relaxed/simple;
-	bh=07ffJ6S132w/uUpfbUZ5srSt9P/6IzCrgGrWCPsPHms=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=oTstyysp+gL1Ye6cghCvygbYJaXFTUN+JmT5nXCIuCXxxNMF6nJSsZaiY35X6FWG9/pPQlrgHtRUbkRJ3KvL2JDIZE8DovJCA9mjPScKhZeyvm/5rivm1Dn+F5lsq8TsuBZIRPrfa6VDZOMugsx6f8s64u7Mwtxbm5CMX9zLHUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fv+0MQUw; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1789648898; c=relaxed/simple;
+	bh=RfI+gvuZ9cPGJFcGCs0rWt9mAbRYEPP7T34Ze0RsmW8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p/zMtKk6W3SdjqO/PNXyM7BLDGjcaeV0cUeuKCUim9m6AX0vvMLwEXWOsCtaQ1sgqrEc6OUbRBYtazok105lQBbckQeZcy9kTz3m4mkB7Z0nSAYtMyQAiA6UTuHv+hAKpc4fOyBCC7oBUpS1VJKvfjcXMH+kcP3zAt4u0cd6SYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OghDPgSE; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fv+0MQUw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OghDPgSE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789647566; x=1821183566;
+  t=1789648890; x=1821184890;
   h=date:from:to:cc:subject:message-id;
-  bh=07ffJ6S132w/uUpfbUZ5srSt9P/6IzCrgGrWCPsPHms=;
-  b=fv+0MQUwPhfyqjXKxTgPIfwhtIyflmFijz4Pyx3/3L0XePpGmiUHzyi4
-   qqnNO2jpo5JON73mNce9LQRoFENg1/d9bZ84mERJhXrMrxVfi3Gn9fQHb
-   XZ2FEsJp7j97QPBdXSbReut174tkICJpsfKkm11UVz8g50Wc1nRmelJos
-   r1ShA2ihDVjwe6bTwOSJWOTsdH/qGKNjOs/CYV1d08rnYevqRRStvh0eT
-   AEgkBeB9KC3dD9r4MnIFec64u1ZghUYGbtWbqVnjCaANsbLlcJC7gj8yb
-   g3z36FlrdyAOKQEx1+bdzqFE7XLGp9puGacCTWUxWUCGUva44Psb+f9+l
-   g==;
-X-CSE-ConnectionGUID: 7E+eGKZiSCSzezkfhwzEvQ==
-X-CSE-MsgGUID: 7jpoREdjSq671Mdnzzm3rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89927778"
+  bh=RfI+gvuZ9cPGJFcGCs0rWt9mAbRYEPP7T34Ze0RsmW8=;
+  b=OghDPgSEKSrxNvwUQjWGneyxkzxlKFIPH3/EdlUSjiYD6ls8pLFtAv/L
+   SyCxghkEAAguKEdL1NhVB6Drlw8UGSJNdfImjjpCcBHb6sslkGoVMqiud
+   y9zPWP4vXWxy9sbCYnrf1fYlwfODfvGxtQ0g0HbShSxKgjlrD16MoEz3/
+   OxfVdVI+pPkTxy3KKZakrpP9EZ0LCzBZaljFN9W2MwCqMsGXTJUjm5lV8
+   AeIU8PJbQUXNWHiHfKyQbWiwtWevv6k0Rl8UIjgQqvvJTPS5/F8FjxeOR
+   JfAeb/Zg8pf5Dv1M4nGGUBh2jGxJz1TM9i5FwlE1mEPwLuEUnNYggFeTa
+   w==;
+X-CSE-ConnectionGUID: BfED94VyTESk04BbawCgtg==
+X-CSE-MsgGUID: 3VLXJ0oFRr2bIFpXjSWF7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="92575148"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89927778"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 05:19:23 -0700
-X-CSE-ConnectionGUID: oHNx7WGbTxipQbFUk/ZvrQ==
-X-CSE-MsgGUID: qKjpKVxfQD61fVN9ORZh1w==
+   d="scan'208";a="92575148"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 05:41:28 -0700
+X-CSE-ConnectionGUID: 1vWbkZtNT5CblciBYolZHQ==
+X-CSE-MsgGUID: wtWl5Vf+TieTH+0wXrBEig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="2150522"
+   d="scan'208";a="271127664"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 17 Sep 2026 05:19:22 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 Sep 2026 05:41:25 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7B5C-000000007kH-3iRn;
-	Thu, 17 Sep 2026 12:19:18 +0000
-Date: Thu, 17 Sep 2026 20:18:24 +0800
+	id 1x7BQZ-000000007mV-0xWL;
+	Thu, 17 Sep 2026 12:41:23 +0000
+Date: Thu, 17 Sep 2026 20:40:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hui Su <sh_def@163.com>
+To: Oleg Nesterov <oleg@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>
-Subject: kernel/sched/core.c:5791:14: sparse: sparse: incorrect type
- in assignment (different address spaces)
-Message-ID: <202609172041.ahqSILHp-lkp@intel.com>
+ Thomas Gleixner <tglx@kernel.org>, Bradley Morgan <include@grrlz.net>
+Subject: kernel/time/posix-cpu-timers.c:1307:9: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202609172014.0HKGiRi1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,183 +62,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-commit: f5741d2b34519d387edf6e9798fc7030c20a35f3 sched/core: Call wq_worker_tick() for the execution context
-date:   7 days ago
-config: x86_64-randconfig-1301-20260917 (https://download.01.org/0day-ci/archive/20260917/202609172041.ahqSILHp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+commit: a73d7f98e41a96d6e1bcb0e731ab185d9d67878e posix-cpu-timers: Don't abuse lock_task_sighand() in handle_posix_cpu_timers()
+date:   2 months ago
+config: x86_64-randconfig-1300-20260917 (https://download.01.org/0day-ci/archive/20260917/202609172014.0HKGiRi1-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609172041.ahqSILHp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609172014.0HKGiRi1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f5741d2b3451 ("sched/core: Call wq_worker_tick() for the execution context")
+| Fixes: a73d7f98e41a ("posix-cpu-timers: Don't abuse lock_task_sighand() in handle_posix_cpu_timers()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609172041.ahqSILHp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609172014.0HKGiRi1-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:337:56: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:337:56: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:337:56: sparse:    struct task_struct *
-   kernel/sched/core.c:843:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:843:33: sparse:     expected struct task_struct *task
-   kernel/sched/core.c:843:33: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1197:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:1197:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:1197:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1308:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:1308:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:1308:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:2295:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:2295:39: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:2295:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:2310:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2310:65: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2310:65: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:3715:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:3715:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:3715:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:3985:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:3985:36: sparse:     expected struct task_struct const *p
-   kernel/sched/core.c:3985:36: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:8501:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:8501:43: sparse:     expected struct task_struct *push_task
-   kernel/sched/core.c:8501:43: sparse:     got struct task_struct [noderef] __rcu *curr
->> kernel/sched/core.c:5791:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:5791:14: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:5791:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:5792:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:5792:15: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:5792:15: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:6473:32: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6473:32: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:6473:32: sparse:    struct task_struct *
-   kernel/sched/core.c:6505:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6505:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:6505:23: sparse:    struct task_struct *
-   kernel/sched/core.c:6513:46: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6513:46: sparse:    struct task_struct *
-   kernel/sched/core.c:6513:46: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:6571:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:6571:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:6571:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:7124:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:7124:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:7124:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:7195:52: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev_donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:7195:52: sparse:     expected struct task_struct *prev_donor
-   kernel/sched/core.c:7195:52: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:7210:31: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7210:31: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7210:31: sparse:    struct task_struct *
-   kernel/sched/core.c:7736:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7736:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7736:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10651:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10651:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10651:25: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:10969:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10969:58: sparse:     expected struct task_struct *t
-   kernel/sched/core.c:10969:58: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:11012:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:11012:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:11012:38: sparse:    struct task_struct *
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/pelt.h:102:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/pelt.h:102:13: sparse:     expected struct task_struct const *p
-   kernel/sched/pelt.h:102:13: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2500:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2500:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2500:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2489:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2489:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2489:25: sparse:    struct task_struct *
-   kernel/sched/core.c:2290:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2290:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:2290:38: sparse:    struct task_struct const *
-   kernel/sched/sched.h:2500:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2500:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2500:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2801:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2801:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2801:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2801:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2801:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2801:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2500:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2500:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2500:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2778:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2778:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2778:9: sparse:    struct task_struct *
+>> kernel/time/posix-cpu-timers.c:1307:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/time/posix-cpu-timers.c:1307:9: sparse:     expected struct spinlock [usertype] *lock
+   kernel/time/posix-cpu-timers.c:1307:9: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/time/posix-cpu-timers.c:1367:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/time/posix-cpu-timers.c:1367:36: sparse:     expected struct spinlock [usertype] *lock
+   kernel/time/posix-cpu-timers.c:1367:36: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/time/posix-cpu-timers.c: note: in included file:
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
+   include/linux/sched/signal.h:749:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:749:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:749:37: sparse:     got struct spinlock [noderef] __rcu *
 
-vim +5791 kernel/sched/core.c
+vim +1307 kernel/time/posix-cpu-timers.c
 
-  5770	
-  5771	/*
-  5772	 * This function gets called by the timer code, with HZ frequency.
-  5773	 * We call it with interrupts disabled.
-  5774	 */
-  5775	void sched_tick(void)
-  5776	{
-  5777		int cpu = smp_processor_id();
-  5778		struct rq *rq = cpu_rq(cpu);
-  5779		/* scheduler accounting goes to the donor task */
-  5780		struct task_struct *curr, *donor;
-  5781		struct rq_flags rf;
-  5782		unsigned long hw_pressure;
-  5783		u64 resched_latency;
-  5784	
-  5785		if (housekeeping_cpu(cpu, HK_TYPE_KERNEL_NOISE))
-  5786			arch_scale_freq_tick();
-  5787	
-  5788		sched_clock_tick();
-  5789	
-  5790		rq_lock(rq, &rf);
-> 5791		curr = rq->curr;
-  5792		donor = rq->donor;
-  5793	
-  5794		psi_account_irqtime(rq, donor, NULL);
-  5795	
-  5796		update_rq_clock(rq);
-  5797		hw_pressure = arch_scale_hw_pressure(cpu_of(rq));
-  5798		update_hw_load_avg(rq_clock_task(rq), rq, hw_pressure);
-  5799	
-  5800		if (dynamic_preempt_lazy() && tif_test_bit(TIF_NEED_RESCHED_LAZY))
-  5801			resched_curr(rq);
-  5802	
-  5803		donor->sched_class->task_tick(rq, donor, 0);
-  5804		if (sched_feat(LATENCY_WARN))
-  5805			resched_latency = cpu_resched_latency(rq);
-  5806		calc_global_load_tick(rq);
-  5807		sched_core_tick(rq);
-  5808		scx_tick(rq);
-  5809	
-  5810		rq_unlock(rq, &rf);
-  5811	
-  5812		if (sched_feat(LATENCY_WARN) && resched_latency)
-  5813			resched_latency_warn(cpu, resched_latency);
-  5814	
-  5815		perf_event_task_tick();
-  5816	
-  5817		if (curr->flags & PF_WQ_WORKER)
-  5818			wq_worker_tick(curr);
-  5819	
-  5820		if (!scx_switched_all()) {
-  5821			rq->idle_balance = idle_cpu(cpu);
-  5822			sched_balance_trigger(rq);
-  5823		}
-  5824	}
-  5825	
+  1296	
+  1297	static void handle_posix_cpu_timers(struct task_struct *tsk)
+  1298	{
+  1299		struct k_itimer *timer, *next;
+  1300		unsigned long flags, start;
+  1301		LIST_HEAD(firing);
+  1302	
+  1303		/*
+  1304		 * tsk is current and ->sighand is stable, see the
+  1305		 * tsk->exit_state check in run_posix_cpu_timers()
+  1306		 */
+> 1307		spin_lock_irqsave(&tsk->sighand->siglock, flags);
+  1308	
+  1309		do {
+  1310			/*
+  1311			 * On RT locking sighand lock does not disable interrupts,
+  1312			 * so this needs to be careful vs. ticks. Store the current
+  1313			 * jiffies value.
+  1314			 */
+  1315			start = READ_ONCE(jiffies);
+  1316			barrier();
+  1317	
+  1318			/*
+  1319			 * Here we take off tsk->signal->cpu_timers[N] and
+  1320			 * tsk->cpu_timers[N] all the timers that are firing, and
+  1321			 * put them on the firing list.
+  1322			 */
+  1323			check_thread_timers(tsk, &firing);
+  1324	
+  1325			check_process_timers(tsk, &firing);
+  1326	
+  1327			/*
+  1328			 * The above timer checks have updated the expiry cache and
+  1329			 * because nothing can have queued or modified timers after
+  1330			 * sighand lock was taken above it is guaranteed to be
+  1331			 * consistent. So the next timer interrupt fastpath check
+  1332			 * will find valid data.
+  1333			 *
+  1334			 * If timer expiry runs in the timer interrupt context then
+  1335			 * the loop is not relevant as timers will be directly
+  1336			 * expired in interrupt context. The stub function below
+  1337			 * returns always true which allows the compiler to
+  1338			 * optimize the loop out.
+  1339			 *
+  1340			 * If timer expiry is deferred to task work context then
+  1341			 * the following rules apply:
+  1342			 *
+  1343			 * - On !RT kernels no tick can have happened on this CPU
+  1344			 *   after sighand lock was acquired because interrupts are
+  1345			 *   disabled. So reenabling task work before dropping
+  1346			 *   sighand lock and reenabling interrupts is race free.
+  1347			 *
+  1348			 * - On RT kernels ticks might have happened but the tick
+  1349			 *   work ignored posix CPU timer handling because the
+  1350			 *   CPUTIMERS_WORK_SCHEDULED bit is set. Reenabling work
+  1351			 *   must be done very carefully including a check whether
+  1352			 *   ticks have happened since the start of the timer
+  1353			 *   expiry checks. posix_cpu_timers_enable_work() takes
+  1354			 *   care of that and eventually lets the expiry checks
+  1355			 *   run again.
+  1356			 */
+  1357		} while (!posix_cpu_timers_enable_work(tsk, start));
+  1358	
+  1359		/*
+  1360		 * We must release sighand lock before taking any timer's lock.
+  1361		 * There is a potential race with timer deletion here, as the
+  1362		 * siglock now protects our private firing list.  We have set
+  1363		 * the firing flag in each timer, so that a deletion attempt
+  1364		 * that gets the timer lock before we do will give it up and
+  1365		 * spin until we've taken care of that timer below.
+  1366		 */
+  1367		spin_unlock_irqrestore(&tsk->sighand->siglock, flags);
+  1368	
+  1369		/*
+  1370		 * Now that all the timers on our list have the firing flag,
+  1371		 * no one will touch their list entries but us.  We'll take
+  1372		 * each timer's lock before clearing its firing flag, so no
+  1373		 * timer call will interfere.
+  1374		 */
+  1375		list_for_each_entry_safe(timer, next, &firing, it.cpu.elist) {
+  1376			bool cpu_firing;
+  1377	
+  1378			/*
+  1379			 * spin_lock() is sufficient here even independent of the
+  1380			 * expiry context. If expiry happens in hard interrupt
+  1381			 * context it's obvious. For task work context it's safe
+  1382			 * because all other operations on timer::it_lock happen in
+  1383			 * task context (syscall or exit).
+  1384			 */
+  1385			spin_lock(&timer->it_lock);
+  1386			list_del_init(&timer->it.cpu.elist);
+  1387			cpu_firing = timer->it.cpu.firing;
+  1388			timer->it.cpu.firing = false;
+  1389			/*
+  1390			 * If the firing flag is cleared then this raced with a
+  1391			 * timer rearm/delete operation. So don't generate an
+  1392			 * event.
+  1393			 */
+  1394			if (likely(cpu_firing))
+  1395				cpu_timer_fire(timer);
+  1396			/* See posix_cpu_timer_wait_running() */
+  1397			rcu_assign_pointer(timer->it.cpu.handling, NULL);
+  1398			spin_unlock(&timer->it_lock);
+  1399		}
+  1400	}
+  1401	
 
 --
 0-DAY CI Kernel Test Service
