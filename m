@@ -1,84 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC0939657A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 14:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC714A0F14;
+	Thu, 17 Sep 2026 15:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789656640; cv=none; b=HSyJxyZjGZ3G6Mz3zFLbrxs6eKWTCkMSoS2IP69U4Gsfuizvk4o5RC8cU33+pxvdZIdbR92CAd8QtRVpwX6hx1omE4Fq4azw8zd0mdWrnDnvmgyiu+/DyltuT1c3eebIcS6Xddh8K9wO5S4qy7jEEXCF2xOqV+dcqF7WC7diKQ4=
+	t=1789660641; cv=none; b=Cxf4eZJPvm6PzzrYXTUfjmV7Os7+ByoPkgub3OBWrL6mJTHnU7r6KhxjB8VVqGPxCv66cfwd3lmOuYtHFfWCiKrkzMtAGbrlCS/zvcRzGtj+mn4dFFoxg5GMcX71jpo8lCMMxwKAezpnysLgdkmfaDXublU0NwOrza7o4TKc1QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789656640; c=relaxed/simple;
-	bh=JMtlck4CGbddCrIkDvWqPpDAKtepQJnHC1he5O0BAI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=cmMINtz0QFiJE839M5FMNACZXx+ybBMHplbxO7l+qaS+0A4BCdQdBbqCvPktnvZRveoyN6cIUk6sXv8Z73g+eSbE40bvRvVnl2Z7tRl3iNZUdo84mCKPVzBN2iV5KCmCfGbPtlorkGi9OLaXjZ7206HPvI9XuUVJYToEm8Agl0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5k85F0e; arc=none smtp.client-ip=192.198.163.5
+	s=arc-20240116; t=1789660641; c=relaxed/simple;
+	bh=LPr+S5E9e/qlJZVwy9/yFtDfaVU/Syp4H9nUPeGH/UM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mpBVLJW198NO99BFNbplvqnFT+dTz2MB+DEyoH4Jj+BZK/8TAQeYi+FmjU3YQ5FZWkfaZoeR7PVkX50M9nLUinWgNVMXaQnVBGTsTpuTn67eDl021Bj3YbVdtvdrdasIQcuhXIbPr85yVrOXfaEt+bulF9l19bpRqgxNnazEvDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J10X1sRl; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5k85F0e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J10X1sRl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789656623; x=1821192623;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JMtlck4CGbddCrIkDvWqPpDAKtepQJnHC1he5O0BAI4=;
-  b=M5k85F0eVdYVo+MBflw6pY4Ozas4r1LyijxJfNmZ+FNusklzqDMsRQfB
-   hLxDEPG8xO0mg6tBXMih8ENgA7wX12a5+aLLNlyCY9FAPiZZBXcX8o/V+
-   azxNTdnstBWgC/T8Uhz/KYen+YoUg+TQh8Ig8ACCHXgT3+aerB60RTlpA
-   NmOSsq6JwYSh8K++1+y8aieEhGUszDbAL1IrbLOsxWWEcxILUC6ZHTuUf
-   t95uW4uVtBa4kfsib5A/tHiYe+doYJ9KtPi3yliqdf9tq7skdLrQ4yP41
-   G0R1kffUqzu0Xi6MLad481OASOqylnnV0eSqzwhOXdD9B4w2mHJpGht2S
-   w==;
-X-CSE-ConnectionGUID: Trlc57DvT9qQsQiUNTDZZg==
-X-CSE-MsgGUID: B5zSCy9bQoae50r62UN2Rw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="590667"
+  t=1789660639; x=1821196639;
+  h=date:from:to:cc:subject:message-id;
+  bh=LPr+S5E9e/qlJZVwy9/yFtDfaVU/Syp4H9nUPeGH/UM=;
+  b=J10X1sRlvHaU2vHNcEIbiqjjdExO68UWRlEBrt8enQ25C/ej2v/B/kP2
+   uc4V/S/3TI9k9srZWTPJQGS+BVvxQh/nqt+AQLMc/sBFleXfRNekd1ab/
+   fml87aMNrG4t/aAExghfO8LVBglWHdOmVj9JYLN5ekTInvWtIRnFk+pj3
+   JLJazHvW7ZzwVsts4AiFiy//dykS6h4NZWDp9wgrzj8V2RT7GHvF0AUVe
+   EH+vdR2F2Lb4O1rFFirZ4jvZgTz81TicfTWvFNvDnHH+yEW5fKzl7Yily
+   EKI2GpJB/u3N4jujnSXN23KVf18GHPArqdkTE/v/1ivXaT5zvLXGPNoLw
+   g==;
+X-CSE-ConnectionGUID: FRRuo1k3RqCIrZXfPeBpiQ==
+X-CSE-MsgGUID: SZrgDuN9QD6OVBYc7JuAMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89234451"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="590667"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 07:50:20 -0700
-X-CSE-ConnectionGUID: INV44FPhTtOZyh/qUQqABw==
-X-CSE-MsgGUID: G4qU81EmSkqDd7osZ3t7Fg==
+   d="scan'208";a="89234451"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 08:57:18 -0700
+X-CSE-ConnectionGUID: h422lOm8TxmLIYnSXfifww==
+X-CSE-MsgGUID: 9spLevcmQcGy5N4qy21EaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="271192274"
-Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Sep 2026 07:50:18 -0700
-Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
+   d="scan'208";a="298957390"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 17 Sep 2026 08:57:14 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7DRI-000000000dQ-3NLa;
-	Thu, 17 Sep 2026 14:50:16 +0000
-Date: Thu, 17 Sep 2026 16:49:57 +0200
+	id 1x7EU3-0000000086r-3Hqq;
+	Thu, 17 Sep 2026 15:57:11 +0000
+Date: Thu, 17 Sep 2026 23:57:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Timur =?utf-8?Q?Krist=C3=B3f"?= <timur.kristof@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [linux-next:master 532/7047] Warning:
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:204 function parameter 'readonly' not
- described in 'amdgpu_ttm_map_buffer'
-Message-ID: <202609171628.owHko7Uz-lkp@intel.com>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:for-7.4 5/19] sound/soc/codecs/es9356.c:1125:3:
+ warning: add explicit braces to avoid dangling else
+Message-ID: <202609172335.MVp6jjO5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0d9d0dbf2fddcff5859d623e90ca73c4054276e1
-commit: 48c4aaeef6219f13804b6778b30ac8766cae57b7 [532/7047] drm/amdgpu/ttm: Make buffer copy source readonly
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260917/202609171628.owHko7Uz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171628.owHko7Uz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git for-7.4
+head:   50a0a41c67978e9d89646038eb08c587635cb9be
+commit: 31a7178425356d459bf7397941a3fbeff1782122 [5/19] ASoC: es9356: Publish IRQ readiness after cache replay
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260917/202609172335.MVp6jjO5-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609172335.MVp6jjO5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609171628.owHko7Uz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609172335.MVp6jjO5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:204 function parameter 'readonly' not described in 'amdgpu_ttm_map_buffer'
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:204 function parameter 'readonly' not described in 'amdgpu_ttm_map_buffer'
+>> sound/soc/codecs/es9356.c:1125:3: warning: add explicit braces to avoid dangling else [-Wdangling-else]
+    1125 |                 scoped_guard(mutex, &es9356->disable_irq_lock)
+         |                 ^
+   include/linux/cleanup.h:451:2: note: expanded from macro 'scoped_guard'
+     451 |         __scoped_guard(_name, __UNIQUE_ID(label), args)
+         |         ^
+   include/linux/cleanup.h:448:5: note: expanded from macro '__scoped_guard'
+     448 |                 } else
+         |                   ^
+   1 warning generated.
+
+
+vim +1125 sound/soc/codecs/es9356.c
+
+  1103	
+  1104	static int es9356_sdca_dev_resume(struct device *dev)
+  1105	{
+  1106		struct sdw_slave *slave = dev_to_sdw_dev(dev);
+  1107		struct es9356_sdw_priv *es9356 = dev_get_drvdata(dev);
+  1108		int ret;
+  1109	
+  1110		ret = sdw_slave_wait_for_init(slave, es9356_PROBE_TIMEOUT);
+  1111		if (ret) {
+  1112			sdw_show_ping_status(slave->bus, true);
+  1113			return ret;
+  1114		}
+  1115	
+  1116		regcache_cache_only(es9356->regmap, false);
+  1117		ret = regcache_sync(es9356->regmap);
+  1118		if (ret) {
+  1119			regcache_cache_only(es9356->regmap, true);
+  1120			regcache_mark_dirty(es9356->regmap);
+  1121			return ret;
+  1122		}
+  1123	
+  1124		if (!slave->unattach_request)
+> 1125			scoped_guard(mutex, &es9356->disable_irq_lock)
+  1126				es9356->disable_irq = false;
+  1127		return 0;
+  1128	}
+  1129	
 
 --
 0-DAY CI Kernel Test Service
