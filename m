@@ -1,119 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B54B3F8ECA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 08:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEC53ABD98
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 08:25:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789633114; cv=none; b=BcDWQJnHEgunRIa5A59bFr6ixk6N599pAThTU+JxcA1pw4v0KaBEsZTXQv/XYuQQvguec8ED0XHdMli2S6LTT/0xqz4rmxTVaQV1o3V4Sviigq7UcvcJUz7qomy1tKN2YJ/KVDh3Qsvfm3N5fJPbiJOyA2Q7Lj6GOs0Tozpc2EQ=
+	t=1789633512; cv=none; b=m5kOLoiYgqmHuLbRoWSRpvCmRQby4qeOlfWFmaV6aEQBWyCjjOVrFKdxxsjlectE4a9jxsEPZecQv0+4vO9pb2rI+KjBqXNgEvG2tADA18hGefsQ0gx14Jfcsq0SVHNt1tZN7SPht2YLMt4S4+6uQvnsjCB9QgLwYBdSVx2d/3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789633114; c=relaxed/simple;
-	bh=dYbk1THEv35Zk2pwEj5prq9m/1F4Op6cXZpxMJISa1w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RQJvYYWnQddWfspNF3pgbvYUppF1Bzq6SYuluIqGJHu1TLu+sWUmluYddzJ8KmnW9OTG4SngHmPmXpgPDBRJo7KvgBx4sCMQVLExtScc9Lsuyp6cQ3inD3wRZtfG3fNadXFZ/m43oSBBWvlObM7Fitob0HbDpFhun6ECNQS8qYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M17rNVTL; arc=none smtp.client-ip=192.198.163.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M17rNVTL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789633112; x=1821169112;
-  h=date:from:to:cc:subject:message-id;
-  bh=dYbk1THEv35Zk2pwEj5prq9m/1F4Op6cXZpxMJISa1w=;
-  b=M17rNVTLOO8ytGAXjKbbL4WFKdYOs3uOY5SK1eiJpUrZbIfcdZLDJuHx
-   wXVDkYDeyd7sJ81SvYW0c2ujbxT/rPHDPei4FXtxOCreGXvG9nc6QP9iu
-   CDpxuAX+rK5GbByaoqz3mpgKM1EaC8YcDRKJEa+pX5Q+YC12G9uKmmjSe
-   KaN79ZlAu5iioPujfj49AC0D2CDC635y3HZnycwHDZdRTLgtcSHeeeUOI
-   H+MuQczI4Vk0fIrKwhL7Wbb4Fcnra+0UBiUvF1/qS21Q8LGzL93XAntMC
-   SMvEVbJwyZZNItOMytWM/h0vIWjFNbMKu2K1NV7YZWUUL1/dL8FIlhT5J
-   A==;
-X-CSE-ConnectionGUID: NAVegJ8uTPWNXUvjjNPzNA==
-X-CSE-MsgGUID: 3Rj9t8WbQwS5pczbyn4yhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="539073"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="539073"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 01:18:31 -0700
-X-CSE-ConnectionGUID: rNwzWt2FQFisOlRGxeGubg==
-X-CSE-MsgGUID: UwqbRiQtR+ic7kCvSEkCyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="298735016"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Sep 2026 01:18:30 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x77K7-000000007N3-2ghZ;
-	Thu, 17 Sep 2026 08:18:27 +0000
-Date: Thu, 17 Sep 2026 16:18:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>
-Subject: drivers/mmc/host/wmt-sdmmc.c:241:39: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202609171639.ppn4Bdj8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1789633512; c=relaxed/simple;
+	bh=xzCxCEzUowtsPxWMbDjD1lRzfaA5w83hr58sbAM2xcM=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=C/AHcSCQnPE8VpivNjtGJRw95jP8p0Mtt8jZPQu3A5NC4UI12WBfYvwFGsi+o3fqJp10k9jVUkchdKmfLGyDWOeMh/OW3YXXKmG5QKLRTIzpUnNOFwFqjBweHnQRCLnYZ5yyeCwXUMnnDp0iFacZF59TOx4OA1/ztCrwQmYQB4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4ab4f652f9bso494576b6e.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Sep 2026 01:25:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789633502; x=1790238302;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uBkL6ZMYYdQOBhaz18ohIP2qWIBpLXjs4rOb70E61hY=;
+        b=xP8Hj5H6+At8t3DDibpB74lSX54WNi8zDRe7cCjAJ6BKufV2RgV3oq9AtwzQGzVPVI
+         o1VTFTOCB4O38bB/AI0fpR8HYm93F57AIOPK7vWsYj93d5kjgmoCqpAXOfz7S/qHz8gG
+         cMcB2XYOLHuwfMMIPgTnBxWT6mGZznBPBbqhQVZLVJLcj/ZaduRQXhrSh6OhhabFRrXm
+         30EZaab8uBNDmZt98xMziHWu3nwqd624+jUWnwwIlhKveDtKBQl9u9YcdiK6NVJjHD9O
+         klRvWffjm/804H/nt81fsYu2pU+UGpd7U/cP9waGsGDCxcX2zK2t0PY/gi4jRpDRsYwc
+         hmbw==
+X-Forwarded-Encrypted: i=1; AKwUvByz/mwQ4cYL4rh691BveU2uxMMveElhMGxDr9smE/hArHz4AdADsj7eCJ83cKP4noL27LzOmB8uXtUUjkVs@lists.linux.dev
+X-Gm-Message-State: AFuF++lUgqRtxyfNVlR+siKoeIknU0l5AWJfTJNfSlwjtBmidFjuxGez
+	Llh2OsF+PfGaeL5vwbVSei2wOrkPIqWNBHWEgU3/ThbxeKtiRvBTuYFBsVsUhkI6BLI8ZdEV3j+
+	vFA0sPz/10X5hmFpwKtDKsFsfBmI4LoHZecedErFFtuwEUd5Z+BRLIw835NA=
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:1692:b0:4c5:92fb:218d with SMTP id
+ 5614622812f47-4ca4be66e9dmr5399582b6e.22.1789633502228; Thu, 17 Sep 2026
+ 01:25:02 -0700 (PDT)
+Date: Thu, 17 Sep 2026 01:25:02 -0700
+In-Reply-To: <aqubuvR_2XCNav28@gremlin>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aaba3de.87c06881.1db2b3.0013.GAE@google.com>
+Subject: Re: [syzbot] [kvm?] BUG: sleeping function called from invalid
+ context in kvm_mmu_notifier_invalidate_range_start
+From: syzbot <syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, bigeasy@linutronix.de, dwmw2@infradead.org, 
+	dwmw@amazon.co.uk, kvm@vger.kernel.org, liam.howlett@oracle.com, 
+	liam@infradead.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, ljs@kernel.org, lkp@intel.com, 
+	llvm@lists.linux.dev, lorenzo.stoakes@oracle.com, me@brighamcampbell.com, 
+	mhocko@suse.com, nogikh@google.com, oe-kbuild-all@lists.linux.dev, 
+	pbonzini@redhat.com, rientjes@google.com, rppt@kernel.org, seanjc@google.com, 
+	shaikhkamal2012@gmail.com, shakeel.butt@linux.dev, skhan@linuxfoundation.org, 
+	surenb@google.com, syzkaller-bugs@googlegroups.com, vbabka@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-commit: 7cd8db0fb0b2bf309163d56fec585c0f9e0964d1 mmc: add COMPILE_TEST to multiple drivers
-date:   1 year ago
-config: riscv-randconfig-r1309-20260917 (https://download.01.org/0day-ci/archive/20260917/202609171639.ppn4Bdj8-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 148ee2b266b73a49f1f31d0bd17d4818b91bee9f)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260917/202609171639.ppn4Bdj8-lkp@intel.com/reproduce)
+Hello,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 7cd8db0fb0b2 ("mmc: add COMPILE_TEST to multiple drivers")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609171639.ppn4Bdj8-lkp@intel.com/
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> drivers/mmc/host/wmt-sdmmc.c:241:39: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int @@     got restricted __be32 [usertype] @@
-   drivers/mmc/host/wmt-sdmmc.c:241:39: sparse:     expected unsigned int
-   drivers/mmc/host/wmt-sdmmc.c:241:39: sparse:     got restricted __be32 [usertype]
+Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
+Tested-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
 
-vim +241 drivers/mmc/host/wmt-sdmmc.c
+Tested on:
 
-3a96dff0f828ae Tony Prisk 2012-11-18  221  
-3a96dff0f828ae Tony Prisk 2012-11-18  222  static void wmt_mci_read_response(struct mmc_host *mmc)
-3a96dff0f828ae Tony Prisk 2012-11-18  223  {
-3a96dff0f828ae Tony Prisk 2012-11-18  224  	struct wmt_mci_priv *priv;
-3a96dff0f828ae Tony Prisk 2012-11-18  225  	int idx1, idx2;
-3a96dff0f828ae Tony Prisk 2012-11-18  226  	u8 tmp_resp;
-3a96dff0f828ae Tony Prisk 2012-11-18  227  	u32 response;
-3a96dff0f828ae Tony Prisk 2012-11-18  228  
-3a96dff0f828ae Tony Prisk 2012-11-18  229  	priv = mmc_priv(mmc);
-3a96dff0f828ae Tony Prisk 2012-11-18  230  
-3a96dff0f828ae Tony Prisk 2012-11-18  231  	for (idx1 = 0; idx1 < 4; idx1++) {
-3a96dff0f828ae Tony Prisk 2012-11-18  232  		response = 0;
-3a96dff0f828ae Tony Prisk 2012-11-18  233  		for (idx2 = 0; idx2 < 4; idx2++) {
-3a96dff0f828ae Tony Prisk 2012-11-18  234  			if ((idx1 == 3) && (idx2 == 3))
-3a96dff0f828ae Tony Prisk 2012-11-18  235  				tmp_resp = readb(priv->sdmmc_base + SDMMC_RSP);
-3a96dff0f828ae Tony Prisk 2012-11-18  236  			else
-3a96dff0f828ae Tony Prisk 2012-11-18  237  				tmp_resp = readb(priv->sdmmc_base + SDMMC_RSP +
-3a96dff0f828ae Tony Prisk 2012-11-18  238  						 (idx1*4) + idx2 + 1);
-3a96dff0f828ae Tony Prisk 2012-11-18  239  			response |= (tmp_resp << (idx2 * 8));
-3a96dff0f828ae Tony Prisk 2012-11-18  240  		}
-3a96dff0f828ae Tony Prisk 2012-11-18 @241  		priv->cmd->resp[idx1] = cpu_to_be32(response);
-3a96dff0f828ae Tony Prisk 2012-11-18  242  	}
-3a96dff0f828ae Tony Prisk 2012-11-18  243  }
-3a96dff0f828ae Tony Prisk 2012-11-18  244  
+commit:         f902e69c sched: Allow sleeping spinlocks on PREEMPT_RT..
+git tree:       git://git.infradead.org/users/dwmw2/linux.git seb-nonblock-rt-test
+console output: https://syzkaller.appspot.com/x/log.txt?x=17d63bf9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8a263b38e64491d5
+dashboard link: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-:::::: The code at line 241 was first introduced by commit
-:::::: 3a96dff0f828ae9dfb43efd49a9b67a74c6dc360 mmc: SD/MMC Host Controller for Wondermedia WM8505/WM8650
-
-:::::: TO: Tony Prisk <linux@prisktech.co.nz>
-:::::: CC: Chris Ball <cjb@laptop.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Note: no patches were applied.
+Note: testing is done by a robot and is best-effort only.
