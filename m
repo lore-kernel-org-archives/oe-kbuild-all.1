@@ -1,189 +1,377 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB63F5187D3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 16:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789749529; cv=fail; b=aUAeB8tSrRr/lVsyH+LUxV9Lh1MUQIPN7u1RcV+4frwTt5BECi3eGpFVX5w2LNBrD8ZKCATb0TeJ+WGXPbOQIaKnUu7By6PJEDCMeu5c1NdqPZ27Gu4rVPiyTeF1nzbvfrYu+eXzsRtSng8lMQHTmaujfFn0KUmsVRODNArHQSA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789749529; c=relaxed/simple;
-	bh=V98ou/tZwU90fl9InAHm9bGNzuyTK4BPha41IIeW/l0=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=Prh/PR7sxSlzqgcrDxS/ouXciLpIq9lBCTPIBmurcVj2+ODVnXm60d6GQNFOfHT8YBohJZnwXR11O+m71DwB/BwnPn5j+GiXwSLjU6iCxVkdC8KJ3Pfm2O7FSXf6zwjgrSqixRSrMZ5d5PUP+r1xeQqaodnvi/CZ/+hE8QU68YI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BE3P7Y37; arc=fail smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA8C51AFF8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 16:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789750392; cv=none; b=XSeU+bLThSPog3OwYdGCBQT7KJw+2Vq+2r0OECWLWZFLhX4orR2ztg0RQ3Gn8uCgAFoAF32/QQPQWv9JsNc5QYCXcddf79uhEC5/2A/Az+wf2Y00DJG+vZ085aZtexTTP8cChyfey6Tpu29HnUz06X+pfTFMp7JleWZh0csC5c4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789750392; c=relaxed/simple;
+	bh=4OXnZKkUpscaJ3yhanUbyWFQMneI+Ix+qGFvNQmT5Fo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qprf6LYCDR3jxurat9hnxVqwjA6pOgJ/iLMS8wX4jlv/3Cs1I2xwn8s5nSOh5FGoKisLdusPHoy2bBRzEAXdkhk6X+46H0Woc4oBF+k6LJ1C2LhAbcvrNIRNpQRVeAKB8pgbgLSPdA0GBVCKQZwqQ4uZnwOOksYslhps6fQw1lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdJUGBuy; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BE3P7Y37"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdJUGBuy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789749528; x=1821285528;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V98ou/tZwU90fl9InAHm9bGNzuyTK4BPha41IIeW/l0=;
-  b=BE3P7Y37w6zzX2pp5rxERy949Rf1/YgBYvz1/rh0uL3sRAnDmFqbTXV+
-   o7f4BPdnarIqK5ZI7ZwwTftnpPvaQhFtEZ6SaPfCG2aeAVFq2QXISOfJw
-   0liT9kdKMxT9yQXFeAmfYM1C6Hcqce7EVaIO5X1a3XLf4SUENpWfyd2p0
-   kVrTfh/Mcb87kyBQNxnm5XuOWC0Bly1/WIInuT9eb8HPBJe+t2tUuI5YX
-   GWFFeFTVTGGJZtsCQF8V/Sug+wZuUsPFliSFgHaz27RtkC4VVwT2D/Cok
-   XtmigbDCWKfzfy7wEOfGE4oYNVC2y7GCC+/jkugB9WExE2gNqDKlAJiEE
-   A==;
-X-CSE-ConnectionGUID: YwJgMvyCS3WC5omLIm522w==
-X-CSE-MsgGUID: 2H64gGL4QWWex47787qKKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="89404426"
+  t=1789750387; x=1821286387;
+  h=date:from:to:cc:subject:message-id;
+  bh=4OXnZKkUpscaJ3yhanUbyWFQMneI+Ix+qGFvNQmT5Fo=;
+  b=kdJUGBuyT4Eu413SLLaJG7o9hAeG1npK0E6xzY4AOa4jZ+GAfGG/82bG
+   l50R0fcZo1uYQmICz7tfbmrJOP7rDGa8M22qxS9QYBqDbGCnIx5Jw7xQk
+   y+HF5f+9qv4PHAwky528Bem04YUzIS/RJRxm9VW0DETgKlo0Pzs7cNKQJ
+   lrbCmjAQBY69GUJyW4J1BU8j6WRVp9yjsqGncipZJfxHJ9CeyNfC5dyNO
+   PFkAtUdQ9YrgxN7ZkQfWT28xeeLU/jqYrGdUJvT0Bj6ZrbMKcaaeLkr58
+   4EglR8sDHajRBWzgYU+PzsqV0M8Tf6aGtXPzPedqEJklKKYbzwXstdR+k
+   g==;
+X-CSE-ConnectionGUID: ViB6FHRhSEiV5VTFe42p1A==
+X-CSE-MsgGUID: pHVn0HdUS5WBP9twY7/wOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="77835096"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="89404426"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 09:38:47 -0700
-X-CSE-ConnectionGUID: ijeQlrRkRYCV/pWuI9vkIQ==
-X-CSE-MsgGUID: mBJHtMbySB6pkmZ8zLhk/g==
+   d="scan'208";a="77835096"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 09:53:02 -0700
+X-CSE-ConnectionGUID: Hido/MwRQemsMJjGkItygA==
+X-CSE-MsgGUID: 1JLXSGz7Ro+91Fs2fnXdRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="276450598"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 09:38:47 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Fri, 18 Sep 2026 09:38:46 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Fri, 18 Sep 2026 09:38:46 -0700
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.20) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Fri, 18 Sep 2026 09:38:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LU1QdNQu2zgOETHJIgpRSxRxctocJBN/wEaR8UIr0rb3hM3/3HGDz49SmebY3+0wEGL3HHd0hiwpQBhahrom66botA9fqR+TnqjZD8bimguY7d6XagU+FTXtYhZEE1Z4ULuVl0QL9ylfpp6IZK/cFpV199sk3toPKprO2Oj7+bSNzoolyjKol11OuaJOkYqw5N47RsQdkBT+wPVqjL1IkfWpWik2TjORFn2xW/Qla7ZI0h7VqottJgvoDop9bLcSwcgPpUrsofW4X10AePYNcgWWZB8YJUCO77LdCF5snYyAhrlW2irnbDRP9lt6J7nOxLtCj7ihFjmiOseMxOoNvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2CiVzWrS34By/DXqQvXgT56LfFUt2Cy89jAty6VrKjE=;
- b=n1oG9T8QIjtxnRawpW8Tg3Vkt8xG+JGFlVVscsclUg0+W2A7l/bDA8e6/wGqT9vCgCHzHb8VWXmh/1caDU847tYe1z2uu0zvlBMRpm5mBnTS1b4zXTyXd65jfPkw3BNHK/ztvtW2lbUfWT7ZNFv1pL/C1/dTAl998yjLsBzw0wq0p1DmE4j57wrEpy8m3riuRKGfqanKBoYIDF5p+/1jugpzPcIbxlUfZWyHLNdNN4Stf/o7bk4crAFEsYz1Bb1dzJEm3qz4VV62gRJTB9nSl7fikyRROfEPE2uPYIE9oc1b6pQQaIwbtw6rYWOuNu+uRUYG0gOtZ6SblabIGcjNsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS6PR11MB362586.namprd11.prod.outlook.com (2603:10b6:8:4c4::14)
- by SJ2PR11MB7647.namprd11.prod.outlook.com (2603:10b6:a03:4c3::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Fri, 18 Sep
- 2026 16:38:38 +0000
-Received: from DS6PR11MB362586.namprd11.prod.outlook.com
- ([fe80::71a6:38f9:43ed:8f8a]) by DS6PR11MB362586.namprd11.prod.outlook.com
- ([fe80::71a6:38f9:43ed:8f8a%6]) with mapi id 15.21.0428.011; Fri, 18 Sep 2026
- 16:38:37 +0000
-Date: Sat, 19 Sep 2026 00:38:31 +0800
+   d="scan'208";a="268218726"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 18 Sep 2026 09:53:01 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x7bpa-00000000A6K-2AYE;
+	Fri, 18 Sep 2026 16:52:58 +0000
+Date: Sat, 19 Sep 2026 00:52:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: <cros-kernel-buildreports@googlegroups.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [android-common:android14-kiwi-6.1 274/274] load_address.c:81:25:
- warning: incompatible implicit declaration of built-in function 'strstr'
-Message-ID: <aq1pB5AdONkmkN+E@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: PH8PR02CA0018.namprd02.prod.outlook.com
- (2603:10b6:510:2d0::8) To DS6PR11MB362586.namprd11.prod.outlook.com
- (2603:10b6:8:4c4::14)
+To: Alexei Starovoitov <ast@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: kernel/bpf/fixups.c:1021:44: sparse: sparse: cast truncates
+ bits from constant value (c000100000000000 becomes 0)
+Message-ID: <202609190058.KHAkcKqr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS6PR11MB362586:EE_|SJ2PR11MB7647:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10f43fa9-c90a-4ccd-f15f-08df15a34a0c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|10067099003|11063799006|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info: AbhtiPiRWxPpzpf6EwT/EAJo47foZSooojvmzJcOx0glzImbpqZnQDKvjqeB7jluZftstYF3SL+R+LDtiOZjt3b6TAf58S452RzpLJpincmlurdox6nU6zjolpM2o5h8Hd65EElmzWyIzxoASWNTbMxN9luGqq5mgTZMEGxmvaJ9lVw400omuHD42rfqLqWLyojkfhcKjIr1VOH2CsLpf3v2DoTVLVUTgFWlYfAcYPykxYamNTQ6cZdrzp6AZxApMMwrdVgcVv5nzS3g/3xQazOnNjf3Hp0b1rZjtNC1dDONJUdG1+0zodBdIV++YccHzcSPphgz+oYvFXXIMHTyUArlzQst/Gxfr7OmvmKs7JVixKhSh3LUaOkB+CQiLAjb+TsMwddcbX952BbzhbovKPcTALnUwhTwrSnCoj3Mt7D9MDru/tSwslROwSBCAsehyANTg7EnerVHSlDZDr+wUmSnMCP/7qQuLP4Il84TDt3pPmOyrzli7MzXAZKoyQsK2aZuRqX0kWhEqX3LkwzlAG3n6l3ZZPbjZxHpEQwYXGw8Fwo7tpkoTM0ge2vi1oHHO17RChamVS7QWoTJWZ7xhgPKvCylETCHfaHjEkb9TWIyP0nR24PnJ1gA/YfCZt2C
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS6PR11MB362586.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?peGQnnQGp6QWi/95xwKuo/SQWQKxW1psQu/AEQ3b3wHw2WKXk/WfabI/G3jy?=
- =?us-ascii?Q?bNAgzXFrwuzYq0Bp7SzsTO6fqLhYsCOA1F5zgQGorAWkpeygXDu+592kVS5x?=
- =?us-ascii?Q?wja9LJ3a+GBajJPUHqZdJ9fb/MYIsSh4o1CD9Gb5hq5Gj+Ao/KprBNKHulwU?=
- =?us-ascii?Q?hrLP9V6eDZyu1H0CyGoUm8EAxWw+3YDKOezL0PFttmJkzPeR+W2JsVdCOHqH?=
- =?us-ascii?Q?KM/8HQ2ssXhRsUF3U0vLOAga4uIKwsyR3r1jopuYvCvPAQqVfTBsFIkXMR2M?=
- =?us-ascii?Q?DmSyvxow22ErK/ooH2Pmbi7etjFxmVgLofvIbr87PdS6XoiRVhL55zXODNDZ?=
- =?us-ascii?Q?Qg4Tecy5Jn20U/y1dT7MeCctoHa+rtN4yJGxgfT6CiCuaJWAxzwEreyyMgCq?=
- =?us-ascii?Q?NBQXSiGRMhcV+sXs0kMV2rxa9/Y5K8TLYUESRmhanYqTA74ZIDyVXxnRWpkE?=
- =?us-ascii?Q?L/Py8aRZyDYa+Xk+4qJbSj1IjK7ICO31S0Z64SG1e6xO9jRKYVm8V4IjwTIK?=
- =?us-ascii?Q?2TRp4msL/O5cZuBwelDL1B1C/AJndBvOa/EipYnPbOD+hU08Fp70TbUs2qff?=
- =?us-ascii?Q?dwe31BVePQEYd5HP+pU6TTLV335Zbsf7jUcM/FwEys5lKwGG+oVm5yWlcN83?=
- =?us-ascii?Q?K20bwvdP6F033lJKgQ9JI3OSeti32luj9IQ6avBsgpnljNY2qVfWOnuYj/mX?=
- =?us-ascii?Q?c5fk9wkbT/qdbDhyWey/WBsZz+UHJlKG5xulB1AJQCBimC3I+vx2ZqSCTzsX?=
- =?us-ascii?Q?Fjr47Pyjuj9z6vED1AOjxGBtID502DETgke5QPozGVSMS2Ccl5Qv2YPmjSBn?=
- =?us-ascii?Q?PWi5pc6Fq89Ayvp8coA7qNK5dSMZvwec6nisjUE6hcL58EWNt3ZW3aov0xX1?=
- =?us-ascii?Q?UMEia+C+cMXplLBkd7GVImkGuT1d4SPTtHzwmyRIW95j+SvXBRAym1PQ/5+J?=
- =?us-ascii?Q?VBacMO+aTVcHicpZQc8D/SfCJ2CIp9XXzGmrjQpg2dQxYKvZ/0OhG5JRhMFC?=
- =?us-ascii?Q?1naeimPum6EINZifQ8lsZVWZv2dzE/lSn4904ML2o9KAmMlJNRk4xv0outtP?=
- =?us-ascii?Q?G46MxcOylgVCnPl+rni1MQjTSxGHWem7uw1j/W1jmZ+iltSSVgmkqSo5Vgdp?=
- =?us-ascii?Q?oisyPQorUeSmj5oteO7gdd04dSe8q/rTUCAUCwrMIJ8HB9dfwggRCSouViIe?=
- =?us-ascii?Q?lt6+xHEyZXkud7Wkde6stDueX0Svz6nx+3oUhNYX6dedH9SR59xtaVLJjL+c?=
- =?us-ascii?Q?vtH0LKO/bGe3XmtBexDR7g0eADgsZOFngFBxx4NBv3ARDWurD4vB/lPVbi0w?=
- =?us-ascii?Q?4dDhoRHTKA1vdt7qCDeRZ8oeE4+6tLW/VSCjCithRl0gKVRSmazyCqbk9q3+?=
- =?us-ascii?Q?WYP5aTHY7Dh6XDhtU0yweYSW8SKUL1eFyliHtve4bg3JNL3nLCnm1X0jGoTa?=
- =?us-ascii?Q?/rEWQ1UoVkkBLAVVvUhWbye77ZgY5BJKDE1k1BgViIbLgXUUHoieiSiDZK4t?=
- =?us-ascii?Q?HCiX1LejXYl8WpQ5HDI3Q5xSXXcDCS9fc6To9WHZwKo9VRWulFh0kM19jB36?=
- =?us-ascii?Q?OfNUkN+Wb/D8cPaUy4qivVpxvpGcMEAKlDXhqesD3n/x6VUvF8zFfstMQwW1?=
- =?us-ascii?Q?36tw3Kr1i1EuPpkrNmdaLWP7beNooUWcH9Oo5FrEmZ+MI8lf53h43kD1XHQb?=
- =?us-ascii?Q?D4x8bjs+OdaYBifhLPK7Ri7J9urIcOtWqsg5YMlVVAy2vdxH09FIlQibWYj9?=
- =?us-ascii?Q?kUIBVlpTBQ=3D=3D?=
-X-Exchange-RoutingPolicyChecked: Wys/+dW3W2ii1i+HtK9GbKFCGHMAVeay6eTGLrHnqDXiveEp5l4SAyJ8Cm4unihSFUu5FIxfMeOOHevlxsL2DpigSU/CzTu4SdyoZNzYi876vALiWTxVPXFY0sAwDqSb9cyVZ/0X9QZjJlhOTXLZChltaygwNmEa1nwAab1S5ekKUMzDVpieoDvhVzmIjf3nik5cSONP78lozRJIKBPhlGKKYEcqt4OwE4iY0UW06tAKGnk2FFPXCIhgpeuFqB7dGYtOkMNNdwqIdGRzOYyaQC8Me+H/IIZeScQGDXTmDKw5DhdSivL6DPolobkjMO2x73Pjujznka09qIyT/pkwyQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10f43fa9-c90a-4ccd-f15f-08df15a34a0c
-X-MS-Exchange-CrossTenant-AuthSource: DS6PR11MB362586.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 16:38:37.8006
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DnhZDm+58Y8SN1rw1TuvWk3SjUw49jpaVcYmry9Pu6ojvPMVrEHSHj4SLXufjQydCtKWSgP2UyEgETylf6PraQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7647
-X-OriginatorOrg: intel.com
 
-Hi Kees,
+Hi Alexei,
 
-FYI, the error/warning still remains.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   9fced71ef28951d69d24623acfa1f8db4d22c798
-commit: add3a49ae91a1f6390b3fbf14a7ec9c6231bfbd6 [274/274] selftests/exec: Build both static and non-static load_address tests
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 4 months ago
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260918/202609181621.4NlqCGqN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609181621.4NlqCGqN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5dd1818b15d98d4a20806cd00b1b40320b06004f
+commit: 449f08fa59dda5da40317b6976604b877c4ecd63 bpf: Move fixup/post-processing logic from verifier.c into fixups.c
+date:   5 months ago
+config: powerpc64-randconfig-r1301-20260918 (https://download.01.org/0day-ci/archive/20260919/202609190058.KHAkcKqr-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609190058.KHAkcKqr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 449f08fa59dd ("bpf: Move fixup/post-processing logic from verifier.c into fixups.c")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202609181621.4NlqCGqN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609190058.KHAkcKqr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/fixups.c:2202:38: sparse: sparse: subtraction of functions? Share your drugs
+>> kernel/bpf/fixups.c:1021:44: sparse: sparse: cast truncates bits from constant value (c000100000000000 becomes 0)
 
-   load_address.c: In function 'main':
-   load_address.c:65:69: error: implicit declaration of function 'strerror'; did you mean 'perror'? [-Wimplicit-function-declaration]
-      65 |                 ksft_exit_fail_msg("FAILED: /proc/self/maps: %s\n", strerror(errno));
-         |                                                                     ^~~~~~~~
-         |                                                                     perror
-   load_address.c:81:25: error: implicit declaration of function 'strstr' [-Wimplicit-function-declaration]
-      81 |         interp_needed = strstr(argv[0], ".static.") == NULL;
-         |                         ^~~~~~
-   load_address.c:10:1: note: include '<string.h>' or provide a declaration of 'strstr'
-       9 | #include "../kselftest.h"
-     +++ |+#include <string.h>
-      10 | 
->> load_address.c:81:25: warning: incompatible implicit declaration of built-in function 'strstr' [-Wbuiltin-declaration-mismatch]
-      81 |         interp_needed = strstr(argv[0], ".static.") == NULL;
-         |                         ^~~~~~
-   load_address.c:81:25: note: include '<string.h>' or provide a declaration of 'strstr'
+vim +1021 kernel/bpf/fixups.c
+
+   975	
+   976	int bpf_jit_subprogs(struct bpf_verifier_env *env)
+   977	{
+   978		struct bpf_prog *prog = env->prog, **func, *tmp;
+   979		int i, j, subprog_start, subprog_end = 0, len, subprog;
+   980		struct bpf_map *map_ptr;
+   981		struct bpf_insn *insn;
+   982		void *old_bpf_func;
+   983		int err, num_exentries;
+   984		int old_len, subprog_start_adjustment = 0;
+   985	
+   986		if (env->subprog_cnt <= 1)
+   987			return 0;
+   988	
+   989		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+   990			if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
+   991				continue;
+   992	
+   993			/* Upon error here we cannot fall back to interpreter but
+   994			 * need a hard reject of the program. Thus -EFAULT is
+   995			 * propagated in any case.
+   996			 */
+   997			subprog = bpf_find_subprog(env, i + insn->imm + 1);
+   998			if (verifier_bug_if(subprog < 0, env, "No program to jit at insn %d",
+   999					    i + insn->imm + 1))
+  1000				return -EFAULT;
+  1001			/* temporarily remember subprog id inside insn instead of
+  1002			 * aux_data, since next loop will split up all insns into funcs
+  1003			 */
+  1004			insn->off = subprog;
+  1005			/* remember original imm in case JIT fails and fallback
+  1006			 * to interpreter will be needed
+  1007			 */
+  1008			env->insn_aux_data[i].call_imm = insn->imm;
+  1009			/* point imm to __bpf_call_base+1 from JITs point of view */
+  1010			insn->imm = 1;
+  1011			if (bpf_pseudo_func(insn)) {
+  1012	#if defined(MODULES_VADDR)
+  1013				u64 addr = MODULES_VADDR;
+  1014	#else
+  1015				u64 addr = VMALLOC_START;
+  1016	#endif
+  1017				/* jit (e.g. x86_64) may emit fewer instructions
+  1018				 * if it learns a u32 imm is the same as a u64 imm.
+  1019				 * Set close enough to possible prog address.
+  1020				 */
+> 1021				insn[0].imm = (u32)addr;
+  1022				insn[1].imm = addr >> 32;
+  1023			}
+  1024		}
+  1025	
+  1026		err = bpf_prog_alloc_jited_linfo(prog);
+  1027		if (err)
+  1028			goto out_undo_insn;
+  1029	
+  1030		err = -ENOMEM;
+  1031		func = kzalloc_objs(prog, env->subprog_cnt);
+  1032		if (!func)
+  1033			goto out_undo_insn;
+  1034	
+  1035		for (i = 0; i < env->subprog_cnt; i++) {
+  1036			subprog_start = subprog_end;
+  1037			subprog_end = env->subprog_info[i + 1].start;
+  1038	
+  1039			len = subprog_end - subprog_start;
+  1040			/* bpf_prog_run() doesn't call subprogs directly,
+  1041			 * hence main prog stats include the runtime of subprogs.
+  1042			 * subprogs don't have IDs and not reachable via prog_get_next_id
+  1043			 * func[i]->stats will never be accessed and stays NULL
+  1044			 */
+  1045			func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
+  1046			if (!func[i])
+  1047				goto out_free;
+  1048			memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
+  1049			       len * sizeof(struct bpf_insn));
+  1050			func[i]->type = prog->type;
+  1051			func[i]->len = len;
+  1052			if (bpf_prog_calc_tag(func[i]))
+  1053				goto out_free;
+  1054			func[i]->is_func = 1;
+  1055			func[i]->sleepable = prog->sleepable;
+  1056			func[i]->aux->func_idx = i;
+  1057			/* Below members will be freed only at prog->aux */
+  1058			func[i]->aux->btf = prog->aux->btf;
+  1059			func[i]->aux->subprog_start = subprog_start + subprog_start_adjustment;
+  1060			func[i]->aux->func_info = prog->aux->func_info;
+  1061			func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
+  1062			func[i]->aux->poke_tab = prog->aux->poke_tab;
+  1063			func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
+  1064			func[i]->aux->main_prog_aux = prog->aux;
+  1065	
+  1066			for (j = 0; j < prog->aux->size_poke_tab; j++) {
+  1067				struct bpf_jit_poke_descriptor *poke;
+  1068	
+  1069				poke = &prog->aux->poke_tab[j];
+  1070				if (poke->insn_idx < subprog_end &&
+  1071				    poke->insn_idx >= subprog_start)
+  1072					poke->aux = func[i]->aux;
+  1073			}
+  1074	
+  1075			func[i]->aux->name[0] = 'F';
+  1076			func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
+  1077			if (env->subprog_info[i].priv_stack_mode == PRIV_STACK_ADAPTIVE)
+  1078				func[i]->aux->jits_use_priv_stack = true;
+  1079	
+  1080			func[i]->jit_requested = 1;
+  1081			func[i]->blinding_requested = prog->blinding_requested;
+  1082			func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
+  1083			func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
+  1084			func[i]->aux->linfo = prog->aux->linfo;
+  1085			func[i]->aux->nr_linfo = prog->aux->nr_linfo;
+  1086			func[i]->aux->jited_linfo = prog->aux->jited_linfo;
+  1087			func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
+  1088			func[i]->aux->arena = prog->aux->arena;
+  1089			func[i]->aux->used_maps = env->used_maps;
+  1090			func[i]->aux->used_map_cnt = env->used_map_cnt;
+  1091			num_exentries = 0;
+  1092			insn = func[i]->insnsi;
+  1093			for (j = 0; j < func[i]->len; j++, insn++) {
+  1094				if (BPF_CLASS(insn->code) == BPF_LDX &&
+  1095				    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
+  1096				     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
+  1097				     BPF_MODE(insn->code) == BPF_PROBE_MEM32SX ||
+  1098				     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
+  1099					num_exentries++;
+  1100				if ((BPF_CLASS(insn->code) == BPF_STX ||
+  1101				     BPF_CLASS(insn->code) == BPF_ST) &&
+  1102				     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
+  1103					num_exentries++;
+  1104				if (BPF_CLASS(insn->code) == BPF_STX &&
+  1105				     BPF_MODE(insn->code) == BPF_PROBE_ATOMIC)
+  1106					num_exentries++;
+  1107			}
+  1108			func[i]->aux->num_exentries = num_exentries;
+  1109			func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
+  1110			func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
+  1111			func[i]->aux->changes_pkt_data = env->subprog_info[i].changes_pkt_data;
+  1112			func[i]->aux->might_sleep = env->subprog_info[i].might_sleep;
+  1113			if (!i)
+  1114				func[i]->aux->exception_boundary = env->seen_exception;
+  1115	
+  1116			/*
+  1117			 * To properly pass the absolute subprog start to jit
+  1118			 * all instruction adjustments should be accumulated
+  1119			 */
+  1120			old_len = func[i]->len;
+  1121			func[i] = bpf_int_jit_compile(func[i]);
+  1122			subprog_start_adjustment += func[i]->len - old_len;
+  1123	
+  1124			if (!func[i]->jited) {
+  1125				err = -ENOTSUPP;
+  1126				goto out_free;
+  1127			}
+  1128			cond_resched();
+  1129		}
+  1130	
+  1131		/* at this point all bpf functions were successfully JITed
+  1132		 * now populate all bpf_calls with correct addresses and
+  1133		 * run last pass of JIT
+  1134		 */
+  1135		for (i = 0; i < env->subprog_cnt; i++) {
+  1136			insn = func[i]->insnsi;
+  1137			for (j = 0; j < func[i]->len; j++, insn++) {
+  1138				if (bpf_pseudo_func(insn)) {
+  1139					subprog = insn->off;
+  1140					insn[0].imm = (u32)(long)func[subprog]->bpf_func;
+  1141					insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
+  1142					continue;
+  1143				}
+  1144				if (!bpf_pseudo_call(insn))
+  1145					continue;
+  1146				subprog = insn->off;
+  1147				insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
+  1148			}
+  1149	
+  1150			/* we use the aux data to keep a list of the start addresses
+  1151			 * of the JITed images for each function in the program
+  1152			 *
+  1153			 * for some architectures, such as powerpc64, the imm field
+  1154			 * might not be large enough to hold the offset of the start
+  1155			 * address of the callee's JITed image from __bpf_call_base
+  1156			 *
+  1157			 * in such cases, we can lookup the start address of a callee
+  1158			 * by using its subprog id, available from the off field of
+  1159			 * the call instruction, as an index for this list
+  1160			 */
+  1161			func[i]->aux->func = func;
+  1162			func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+  1163			func[i]->aux->real_func_cnt = env->subprog_cnt;
+  1164		}
+  1165		for (i = 0; i < env->subprog_cnt; i++) {
+  1166			old_bpf_func = func[i]->bpf_func;
+  1167			tmp = bpf_int_jit_compile(func[i]);
+  1168			if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
+  1169				verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
+  1170				err = -ENOTSUPP;
+  1171				goto out_free;
+  1172			}
+  1173			cond_resched();
+  1174		}
+  1175	
+  1176		/*
+  1177		 * Cleanup func[i]->aux fields which aren't required
+  1178		 * or can become invalid in future
+  1179		 */
+  1180		for (i = 0; i < env->subprog_cnt; i++) {
+  1181			func[i]->aux->used_maps = NULL;
+  1182			func[i]->aux->used_map_cnt = 0;
+  1183		}
+  1184	
+  1185		/* finally lock prog and jit images for all functions and
+  1186		 * populate kallsysm. Begin at the first subprogram, since
+  1187		 * bpf_prog_load will add the kallsyms for the main program.
+  1188		 */
+  1189		for (i = 1; i < env->subprog_cnt; i++) {
+  1190			err = bpf_prog_lock_ro(func[i]);
+  1191			if (err)
+  1192				goto out_free;
+  1193		}
+  1194	
+  1195		for (i = 1; i < env->subprog_cnt; i++)
+  1196			bpf_prog_kallsyms_add(func[i]);
+  1197	
+  1198		/* Last step: make now unused interpreter insns from main
+  1199		 * prog consistent for later dump requests, so they can
+  1200		 * later look the same as if they were interpreted only.
+  1201		 */
+  1202		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+  1203			if (bpf_pseudo_func(insn)) {
+  1204				insn[0].imm = env->insn_aux_data[i].call_imm;
+  1205				insn[1].imm = insn->off;
+  1206				insn->off = 0;
+  1207				continue;
+  1208			}
+  1209			if (!bpf_pseudo_call(insn))
+  1210				continue;
+  1211			insn->off = env->insn_aux_data[i].call_imm;
+  1212			subprog = bpf_find_subprog(env, i + insn->off + 1);
+  1213			insn->imm = subprog;
+  1214		}
+  1215	
+  1216		prog->jited = 1;
+  1217		prog->bpf_func = func[0]->bpf_func;
+  1218		prog->jited_len = func[0]->jited_len;
+  1219		prog->aux->extable = func[0]->aux->extable;
+  1220		prog->aux->num_exentries = func[0]->aux->num_exentries;
+  1221		prog->aux->func = func;
+  1222		prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+  1223		prog->aux->real_func_cnt = env->subprog_cnt;
+  1224		prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
+  1225		prog->aux->exception_boundary = func[0]->aux->exception_boundary;
+  1226		bpf_prog_jit_attempt_done(prog);
+  1227		return 0;
+  1228	out_free:
+  1229		/* We failed JIT'ing, so at this point we need to unregister poke
+  1230		 * descriptors from subprogs, so that kernel is not attempting to
+  1231		 * patch it anymore as we're freeing the subprog JIT memory.
+  1232		 */
+  1233		for (i = 0; i < prog->aux->size_poke_tab; i++) {
+  1234			map_ptr = prog->aux->poke_tab[i].tail_call.map;
+  1235			map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
+  1236		}
+  1237		/* At this point we're guaranteed that poke descriptors are not
+  1238		 * live anymore. We can just unlink its descriptor table as it's
+  1239		 * released with the main prog.
+  1240		 */
+  1241		for (i = 0; i < env->subprog_cnt; i++) {
+  1242			if (!func[i])
+  1243				continue;
+  1244			func[i]->aux->poke_tab = NULL;
+  1245			bpf_jit_free(func[i]);
+  1246		}
+  1247		kfree(func);
+  1248	out_undo_insn:
+  1249		/* cleanup main prog to be interpreted */
+  1250		prog->jit_requested = 0;
+  1251		prog->blinding_requested = 0;
+  1252		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+  1253			if (!bpf_pseudo_call(insn))
+  1254				continue;
+  1255			insn->off = 0;
+  1256			insn->imm = env->insn_aux_data[i].call_imm;
+  1257		}
+  1258		bpf_prog_jit_attempt_done(prog);
+  1259		return err;
+  1260	}
+  1261	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
