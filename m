@@ -1,106 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508F437E2FE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446294E50DA
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 11:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789730786; cv=none; b=TZrTsA3+OVX5KI5XpkTJOh68g9EYzEDeuFSyWiJy5k2VnOA8I2mY4Ojptjctv4CN7+oL32wQQKG4+NXtM6FnGVjeJpfSdtU4V5t3fpOJVyi2uSFhAp7TG/exHPsTKcQRSuOvXhC4rdqu4RLjIbewLTWX5ZDYS2w7czZp/KFCEiA=
+	t=1789730791; cv=none; b=gv8sT4u9GaHB3ZuSdotrOgk5BYGiuiPFIsWQSeQqyJwdMCBDXFkv5QTH2pRc2h9v4JtpVWswbcnAXfls7VNmZHzvkYBFZpw551SEWN5EwpmOeavnc2q5ycRDiiiQ4vOzlDS6bR7XK/5u0vRLiX+55CZY8GKD7BfSluRbRRAROjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789730786; c=relaxed/simple;
-	bh=NebaDxsq5ynTt87keVX2kjzq0sd327B4eHRB2dK2YZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gevRXZUAV3tg0wgck9/nOp98LkXi63pQq2q3iPpl+zv2QGjALrwpPXCffb+xgJGQwd0F0N5Oczy+a9mfsjhyDh3EB/ZUKvifiWFKaPnrxRTQouEIwIiUmU2wOOUCz31s7FPDHXlUc+3lxKjPEvqJ69rHpYA5IL4dfESvu/GNtA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oy2IztZh; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1789730791; c=relaxed/simple;
+	bh=tGRz+xcU5qGQznIZVXbWr3WfcKFpc6nf1I9Ey6LydvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gv5fLHtvx5XgHMVzkaxkc2TLS3hEVu3OTg9sewSR4wFv2TYBTFsILUbQWt2a5mGaSG4lWZO7cnLmolV8g+pxGDoaaUta1lp1f9JPNX/y09WOuVHtTsVqb0atopPA5mzz2Lp/c5jOdUbqsOA6p2KVZDVfjGehE8StBlMmJ8z+jMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EaUTpGBa; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oy2IztZh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EaUTpGBa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789730781; x=1821266781;
-  h=date:from:to:cc:subject:message-id;
-  bh=NebaDxsq5ynTt87keVX2kjzq0sd327B4eHRB2dK2YZ8=;
-  b=Oy2IztZh+IDz+wqnr6FaZps2EP+Yy+fE+acqGtlxRTRCWfQGPC1Q5+jO
-   i/7T13gz+0rRrchEi2dGCpcJk+Knzz0u0zy0jFJBkohGoypLcUOGilRbz
-   OdL3dM0UzgHuPw0SOUBhqgdQuR2cTbCPuoa4pGFUkgr0+tL5iNc/9OYsq
-   3EHRbTPvJgv8h0hFYiJPF4KvF9q8v2p0bPWw5LVxKl2nHcZ93d6BP5a+z
-   DofNkceb9QPyc5PiRv1D6hWZUyYKOkB9biJsOv1tLK+bF93lpZl0Go6M2
-   urZJp902H/KB2AYH+IhZXK5UfSHB9p0gytHWW4/5Tf7DGB6MgJ4Dorm+V
-   g==;
-X-CSE-ConnectionGUID: Hk74unl2SyKYqiFIqJCAQg==
-X-CSE-MsgGUID: W3TtoJy5SeyJdzwsl09sjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11908"; a="90096894"
+  t=1789730782; x=1821266782;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tGRz+xcU5qGQznIZVXbWr3WfcKFpc6nf1I9Ey6LydvE=;
+  b=EaUTpGBaAepFVauKdnw5Ckh8/y2+pTu/0xjOw+nbmeQEgG1dROwiVOPp
+   aNp62RSPiY84eF2QYKk3N47go6GOySxFxv4JQpx/aW/7+zSveF8NPsspF
+   H/nEGRgkj/cg5UKUWXz87C3NXljfqhERdmsEp/VkiC2riygLPqP4lqss6
+   KxcBamUmnrr+jO3aLD+5sY93Ra/1CUYaPjuW5jevwz02rojPG1f0AgTVs
+   +0N97S/puRMumshM9W4YIPXbCxMi7l0/e9YvHShqUAFgkBQ0hUBpSZ2Gz
+   eeZcX4H5aOT+TMfkethpSEEMWBqgTScLUOZ8SWaYrA4NVg+EjUpwWPxqo
+   Q==;
+X-CSE-ConnectionGUID: TqCLaQJZTAOWVjZcbLz84w==
+X-CSE-MsgGUID: xbzEAVLRSN+kwpO7763bNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11908"; a="89161972"
 X-IronPort-AV: E=Sophos;i="6.27,108,1787036400"; 
-   d="scan'208";a="90096894"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 04:26:19 -0700
-X-CSE-ConnectionGUID: fAtG7AWhTCi3YMUIo9WPGg==
-X-CSE-MsgGUID: EA3tqYvdSSydeGArNQIPdQ==
+   d="scan'208";a="89161972"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 04:26:19 -0700
+X-CSE-ConnectionGUID: Bxn5rxPtQIKGT1DV6Rs8Gw==
+X-CSE-MsgGUID: vYzwKo1pSIK7kKpuOq84rA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,108,1787036400"; 
-   d="scan'208";a="297829607"
+   d="scan'208";a="2776820"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Sep 2026 04:26:17 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 18 Sep 2026 04:26:15 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7WjO-000000009hI-3UJa;
-	Fri, 18 Sep 2026 11:26:14 +0000
-Date: Fri, 18 Sep 2026 19:26:07 +0800
+	id 1x7WjM-000000009h7-1lon;
+	Fri, 18 Sep 2026 11:26:12 +0000
+Date: Fri, 18 Sep 2026 19:26:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>
-Subject: fs/bpf_fs_kfuncs.c:377:26: sparse: sparse: symbol
- 'bpf_real_data_inode' was not declared. Should it be static?
-Message-ID: <202609181925.AkvGgS6u-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Claire DuSoleil <claire.m.dusoleil@gmail.com>,
+	Zack Rusin <zack.rusin@broadcom.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	Claire DuSoleil <claire.m.dusoleil@gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Fix GEM_CLOSE returning -EINVAL for
+ PRIME-imported surfaces
+Message-ID: <202609182113.RjRMgrW6-lkp@intel.com>
+References: <20260917181312.12473-1-claire.m.dusoleil@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917181312.12473-1-claire.m.dusoleil@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-commit: 3f8c65b06fafc3f779abda5f7b81707411d05d4c bpf: have bpf_real_data_inode() take a struct file
-date:   3 months ago
-config: arm64-randconfig-r1307-20260918 (https://download.01.org/0day-ci/archive/20260918/202609181925.AkvGgS6u-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7252edd9aa82ef1c570ff6694ef7f4763a8a5d2f)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609181925.AkvGgS6u-lkp@intel.com/reproduce)
+Hi Claire,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v7.3-rc3 next-20260916]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Claire-DuSoleil/drm-vmwgfx-Fix-GEM_CLOSE-returning-EINVAL-for-PRIME-imported-surfaces/20260917-111312
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260917181312.12473-1-claire.m.dusoleil%40gmail.com
+patch subject: [PATCH] drm/vmwgfx: Fix GEM_CLOSE returning -EINVAL for PRIME-imported surfaces
+config: x86_64-buildonly-randconfig-1001-20260918 (https://download.01.org/0day-ci/archive/20260918/202609182113.RjRMgrW6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609182113.RjRMgrW6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3f8c65b06faf ("bpf: have bpf_real_data_inode() take a struct file")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609181925.AkvGgS6u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609182113.RjRMgrW6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/bpf_fs_kfuncs.c:377:26: sparse: sparse: symbol 'bpf_real_data_inode' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/bpf_real_data_inode +377 fs/bpf_fs_kfuncs.c
-
-   361	
-   362	/**
-   363	 * bpf_real_data_inode - get the real inode hosting a file's data
-   364	 * @file: file to resolve
-   365	 *
-   366	 * Resolve @file to the inode that hosts its data. For a regular file on a
-   367	 * union/overlay filesystem this is the underlying (upper or lower) inode that
-   368	 * stores the data, not the overlay inode.
-   369	 *
-   370	 * Data resolution only applies to regular files. For a non-regular file (e.g.
-   371	 * a device node, fifo or socket) on a union/overlay filesystem the overlay
-   372	 * inode itself is returned; for any file on a non-union filesystem the inode
-   373	 * attached to @file is returned.
-   374	 *
-   375	 * Return: The inode hosting @file's data, or NULL.
-   376	 */
- > 377	__bpf_kfunc struct inode *bpf_real_data_inode(struct file *file)
-   378	{
-   379		return d_real_inode(file_dentry(file));
-   380	}
-   381	
+>> Warning: drivers/gpu/drm/vmwgfx/vmwgfx_resource.c:263 function parameter 'file_priv' not described in 'vmw_user_resource_lookup_handle'
+>> Warning: drivers/gpu/drm/vmwgfx/vmwgfx_resource.c:263 function parameter 'file_priv' not described in 'vmw_user_resource_lookup_handle'
 
 --
 0-DAY CI Kernel Test Service
