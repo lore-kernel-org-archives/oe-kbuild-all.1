@@ -1,120 +1,241 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C8A390209
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 09:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867C447D925
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 10:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789724162; cv=none; b=DsKvUyUqRToCbCsDFNoKtTdKGLxT3Zyxgk1E/5BpdQ2QSIAf6eCIgtx/VEYb72U1uMbMnYm8z/oUeLG+UF9tGsjtcPAjvx+uBeItk9/WipvtWlWsi34KiPUJX3/2uVLtRdyIEMs+VXXr6vUzEp5UiWQq49MkIEMHSV47YvP8wEk=
+	t=1789728202; cv=none; b=T5ZM9jNGbLwjxuumx2arCtRnKKbhEXTvOQrBOgydwIx7pM7+YJwjetMJ8o1rJlFlSYsbR8TLNk3H+ZLmDMru+GGNxtEugKt04ijMwyLQBcATCkwpAfsYSqB+oUl2ZH2qPAM9hTWj7e1NDSQJj7AJrcNXMR/O889ZjXXgFz3om38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789724162; c=relaxed/simple;
-	bh=0SiqnGEHfV8QnYsdfobUysNm1KMhEbaxP7IVdhYF+nc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lodjJLm08u1/vi7E7mNVMw8Z0FhwGaJ7NU+e1G3OSkVtydpvCg6MzvqeBiWsMQQ2hP4nU7WudGsRanLU2e+WDHJNkkrrdnHTEt1pNRLIFnAJV7JCHXHlL0m7KR3lJCCM+fO6fFaW6LqocB4QkU6ILY/wEjvhSjY6WEZFwvSOMGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HYKCEqB5; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789728202; c=relaxed/simple;
+	bh=sZ+GY7JL0va47kNyxuUA+fK6yprOLLIMphKvoFVftl4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KiIQkymkTjqAw8MH7nddl8LPweP5n5cLnhtGQLVjOkyWeypoyJGybI5Q6KXmVMxyYVo0RKItsi2+LA7g8bE3uZAR7Bjzl2rf31d8B0Tk2S/ZbcW6pbJtrGYVPQtU4zR2vI4pYQNx/tGl6xTC+s2q1P2jsc+/Y3GKTEl3foMCDZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZIJh0Il; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HYKCEqB5"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d822dso3735085e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 02:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789724159; x=1790328959; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qmipB2sS5GuYStzHQ237S1oca/1nec0HMtyjA0gSIjU=;
-        b=HYKCEqB5/1/y4IQFT543mR2TBMarTEB3N2QLPgVjbZf2CVFPfpyZ5tkPJg2NJjjJs1
-         9CApKwyaUxFjJb590mY5YCQBd3OVKptN7zjOIM5XaxJJXxBM2vGvRXDT3QXVgPPFu0nU
-         eXRnFlPUdgrpxpxK8+ftINOxWSDGBL5rvLDe2XL/aIcLZbVbsKyP5xexOUlWSwMM96O7
-         119EisAakhGMnuA7okZuU0E+MPfm0/WPHDs0cAncKZTSh+Z9tWpleCplBUAK+Tt5Bnk4
-         LK++Qat+Qk7nJPNe/lhSl2dlQPURAPRqj2fg+s4d6cCLPTILgvXFh4mErBxeXTPjwc4h
-         O7iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789724159; x=1790328959;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qmipB2sS5GuYStzHQ237S1oca/1nec0HMtyjA0gSIjU=;
-        b=uV8JYbRME7ASuXXdEGbTZk3/LU2DsyJr05Np2o9Adt5fFay7eOy5M4hYc+4/SQGxC2
-         T48Z8RM5rvffEQ5bomG069EZEmZZeTnsqBuPJtwH1j2DEYasjH6qKM3aTA/dX0PYW353
-         3Y4mDtevj912vdE9aQoB8Atly0IWL8W6dp/suPTElpWf7PROMLZTYg+E0Y+7zGg/TH5e
-         tXbrXkUaUJGty092Ep8qol4eh6pTHWfISNU6xYSXaSFXEfVNVLz6/8EohNCeIfhtOSUF
-         HwvtMaE1dX+GoDzURT2FvVwIuiYxHvgLFk41Z561KwFOF8FKP8v3gzL8AxmRiYb5t1uw
-         PY6A==
-X-Gm-Message-State: AFuF++mTZVcluse1LC3tejpPie2vQZQ2YSh+PIN5H6De5EqIV6FljlJk
-	W6ct6y3G0pKcIWWxOu5k06xgMO4KEn2PSIB7fTtmYXde4US4/zLBNRc2
-X-Gm-Gg: AYBFou0NL4QKibADYl3QhA/O6Jk05OhQPy7/N2KYfz/w/9TmiS4DXSBaICKbs+ETMGN
-	N4mwuRA/yxmgWW+gV056vHaO/Y64Mfu0og3BFWyugwQt1Q7qoe5sscnsuCPSqwUqwFZZRJsfoXS
-	5r/Z1KgyMyZC3U3zeoplSrrcji1Hi8B9Moj+tcbgsaCjHEE3UEvWqljJF66+r3F3UE+Y6M1ZKhu
-	G15pTeXdo8AezZ0NBXl7zNjCWs196b4FN4pc+SUhN7FpBzQuTdEEfEiEYOiZ6fYHUbOyUATrE/j
-	KNVHsrpk3IpMPqCVkBi+xOsaJDz2QsGFlZNG4n4O3laC1p493gDDrCrHAarpzUSEnSKbQ2XrUSK
-	kKHNdCCT2/uh/tO+vxLv7RUBy7wDqNpc3V/WJoILWqsVmeXKy2sfnBJRe37khL96xQDdq5jS6/Y
-	7pM5z/5bPbZl+w7+LE48GaDdaKrER6IctSLj5tg5vR1oSrjhnm/fixIZ2UW7G37QhInZMyPX8KV
-	+y6/mZ7X+gkmU36lhSmmgtFZn6IjvCIRrz2
-X-Received: by 2002:a05:600c:4695:b0:49c:d019:70c5 with SMTP id 5b1f17b1804b1-49fc55ac96emr25375345e9.0.1789724159291;
-        Fri, 18 Sep 2026 02:35:59 -0700 (PDT)
-Received: from gmail.com (deskosmtp.auranext.com. [195.134.167.217])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc7ce03dcsm41256665e9.5.2026.09.18.02.35.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 02:35:58 -0700 (PDT)
-Date: Fri, 18 Sep 2026 11:35:56 +0200
-From: Mahe Tardy <mahe.tardy@gmail.com>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZIJh0Il"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789728199; x=1821264199;
+  h=date:from:to:cc:subject:message-id;
+  bh=sZ+GY7JL0va47kNyxuUA+fK6yprOLLIMphKvoFVftl4=;
+  b=dZIJh0Il5iFcLO2oTn0tob4e4rbJA0Yc1E8A7PDpVPeN8HDE8sQ2a751
+   xQq0TIijd/v5DXrGQEbI1UV++mJMD5ao21Lmpn+c+1ehGoDtScItuFzoD
+   NzbGAsWGMWiE1IPm3fxrgPl8aJHri+MLpH2WqGmbM/oi4vdktUNGT9jwU
+   4Khq70hjaFEsUCmF7uc9oL6kr4DERJ5u3Ei//xZL84ncw8WGzV2Bi1p/3
+   RuEPTkxmLdalb9nmkiIPr37mFScLnH/3q4SedmI1u3gs0Kt0flrJHxxH5
+   yn7ZudxaP9SolaoIIJoQRSTISFPF7CS/OW86klP6CedyZ6PGKIGNz+W76
+   Q==;
+X-CSE-ConnectionGUID: UopwVqEKQU6PuzxVpJrl2g==
+X-CSE-MsgGUID: iJM7ebn+R7a+HhDcDFukwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="107728445"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="107728445"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 03:43:16 -0700
+X-CSE-ConnectionGUID: +g4NOx9WRMmartmQH/ST3g==
+X-CSE-MsgGUID: DP0G8dfMS3CH2NnVZAO02Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="271656847"
+Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 18 Sep 2026 03:43:14 -0700
+Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x7W3f-00000000148-3VLB;
+	Fri, 18 Sep 2026 10:43:07 +0000
+Date: Fri, 18 Sep 2026 12:42:31 +0200
+From: kernel test robot <lkp@intel.com>
+To: Lohita Mudimela <lohita.mudimela@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>
-Subject: Re: net/core/bpf_ksock.c:221:18: sparse: sparse: symbol
- 'bpf_ksock_release_dtor' was not declared. Should it be static?
-Message-ID: <aq0F_C4nRM6glHI-@gmail.com>
-References: <202609180339.0L7nLqNo-lkp@intel.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Martin Leung <martin.leung@amd.com>, James Lin <pinglei.lin@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/display/modules/power/power_abm.c:752:2-7: WARNING: NULL
+ check before some freeing functions is not needed.
+Message-ID: <202609181238.cN2OePlG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609180339.0L7nLqNo-lkp@intel.com>
 
-On Fri, Sep 18, 2026 at 01:34:41AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   9b87fdc9af2fbfcdb5c24a64139685ef80f6573f
-> commit: 7ae4eb14c5f9d9bf0e0feabeab206151b1280512 bpf: Add ksock kfuncs
-> date:   5 weeks ago
-> config: i386-randconfig-1302-20260917 (https://download.01.org/0day-ci/archive/20260918/202609180339.0L7nLqNo-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609180339.0L7nLqNo-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Fixes: 7ae4eb14c5f9 ("bpf: Add ksock kfuncs")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609180339.0L7nLqNo-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> net/core/bpf_ksock.c:221:18: sparse: sparse: symbol 'bpf_ksock_release_dtor' was not declared. Should it be static?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5dd1818b15d98d4a20806cd00b1b40320b06004f
+commit: 254a47ce0c8a52ff78a60f92a13b56db69f69096 drm/amd/display: Separate ABM functions into dedicated power_abm.c file
+date:   4 months ago
+config: x86_64-randconfig-103-20260911 (https://download.01.org/0day-ci/archive/20260918/202609181238.cN2OePlG-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
-This looks like a duplicate notification of:
-https://lore.kernel.org/oe-kbuild-all/202608171256.McaD8rfl-lkp@intel.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 254a47ce0c8a ("drm/amd/display: Separate ABM functions into dedicated power_abm.c file")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609181238.cN2OePlG-lkp@intel.com/
 
-And we concluded in the other thread that this should not be fixed and
-is as intended.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/display/modules/power/power_abm.c:752:2-7: WARNING: NULL check before some freeing functions is not needed.
+--
+>> drivers/gpu/drm/amd/display/modules/power/power_abm.c:738:29-30: WARNING opportunity for min()
 
-> 
-> vim +/bpf_ksock_release_dtor +221 net/core/bpf_ksock.c
-> 
->    220	
->  > 221	__bpf_kfunc void bpf_ksock_release_dtor(void *ks)
->    222	{
->    223		bpf_ksock_release(ks);
->    224	}
->    225	CFI_NOSEAL(bpf_ksock_release_dtor);
->    226	
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +752 drivers/gpu/drm/amd/display/modules/power/power_abm.c
+
+   605	
+   606	/* hard coded to default backlight curve. */
+   607	void initialize_backlight_caps(struct core_power *core_power, unsigned int inst)
+   608	{
+   609		unsigned int i;
+   610		struct dm_acpi_atif_backlight_caps *ext_backlight_caps = NULL;
+   611		bool custom_curve_present = false;
+   612		unsigned int num_levels = 0;
+   613		struct dc *dc = NULL;
+   614		enum dm_acpi_display_type acpi_display_type =
+   615			(inst == 0) ? AcpiDisplayType_LCD1 : AcpiDisplayType_LCD2;
+   616	
+   617		if (core_power == NULL)
+   618			return;
+   619		dc = core_power->dc;
+   620	
+   621		num_levels = core_power->bl_prop[inst].num_backlight_levels;
+   622	
+   623		/* Allocate memory for ATIF output
+   624		 * (do not want to use 256 bytes on the stack)
+   625		 */
+   626		ext_backlight_caps = (struct dm_acpi_atif_backlight_caps *)
+   627			(kzalloc(sizeof(struct dm_acpi_atif_backlight_caps),
+   628					GFP_KERNEL));
+   629	
+   630		if (ext_backlight_caps == NULL)
+   631			return;
+   632	
+   633		/* Retrieve ACPI extended brightness caps */
+   634		if (dm_query_extended_brightness_caps
+   635			(dc->ctx, acpi_display_type, ext_backlight_caps)) {
+   636			custom_curve_present = validate_ext_backlight_caps(ext_backlight_caps);
+   637		}
+   638	
+   639		if (core_power->bl_prop[inst].use_custom_backlight_caps &&
+   640				fill_custom_backlight_caps(
+   641						core_power->bl_prop[inst].custom_backlight_caps_config_no,
+   642						ext_backlight_caps)) {
+   643			custom_curve_present = validate_ext_backlight_caps(ext_backlight_caps);
+   644		}
+   645	
+   646		if (custom_curve_present) {
+   647			unsigned int index = 1;
+   648			unsigned int num_of_data_points = ext_backlight_caps->num_data_points;
+   649	
+   650			core_power->bl_prop[inst].ac_backlight_percent =
+   651				ext_backlight_caps->ac_level_percentage;
+   652			core_power->bl_prop[inst].dc_backlight_percent =
+   653				ext_backlight_caps->dc_level_percentage;
+   654			core_power->bl_prop[inst].backlight_lut[0] =
+   655				backlight_8_to_16(
+   656					ext_backlight_caps->min_input_signal);
+   657			core_power->bl_prop[inst].backlight_lut[num_levels - 1] =
+   658				backlight_8_to_16(
+   659					ext_backlight_caps->max_input_signal);
+   660	
+   661			/* Filling translation table from data points -
+   662			 * between every two provided data points we
+   663			 * lineary interpolate missing values
+   664			 */
+   665			for (i = 0; i < num_of_data_points; i++) {
+   666				unsigned int luminance =
+   667					ext_backlight_caps->data_points[i].luminance;
+   668				unsigned int signal_level =
+   669					backlight_8_to_16(
+   670						ext_backlight_caps->data_points[i].signal_level);
+   671	
+   672				/* Since luminance is a percentage, scale it by num_levels*/
+   673				luminance = (luminance * num_levels) / 101;
+   674	
+   675				/* Lineary interpolate missing values */
+   676				if (index < luminance) {
+   677					unsigned int base_value =
+   678						core_power->bl_prop[inst].backlight_lut[index-1];
+   679					unsigned int delta_signal =
+   680						signal_level - base_value;
+   681					unsigned int delta_luma =
+   682						luminance - index + 1;
+   683					unsigned int step  = delta_signal;
+   684	
+   685					for (; index < luminance; index++) {
+   686						core_power->bl_prop[inst].backlight_lut[index] =
+   687							base_value + (step / delta_luma);
+   688						step += delta_signal;
+   689					}
+   690				}
+   691	
+   692				/* Now [index == luminance],
+   693				 * so we can add data point to the translation table
+   694				 */
+   695				core_power->bl_prop[inst].backlight_lut[index++] = signal_level;
+   696			}
+   697	
+   698			/* Complete the final segment of interpolation -
+   699			 * between last datapoint and maximum value
+   700			 */
+   701			if (index < num_levels - 1) {
+   702				unsigned int base_value =
+   703					core_power->bl_prop[inst].backlight_lut[index-1];
+   704				unsigned int delta_signal =
+   705					core_power->bl_prop[inst].backlight_lut[num_levels - 1] -
+   706									base_value;
+   707				unsigned int delta_luma = num_levels - index;
+   708				unsigned int step = delta_signal;
+   709	
+   710				for (; index < num_levels - 1; index++) {
+   711					core_power->bl_prop[inst].backlight_lut[index] =
+   712							base_value + (step / delta_luma);
+   713					step += delta_signal;
+   714				}
+   715			}
+   716		/* Build backlight translation table based on default curve */
+   717		} else {
+   718			/* Defines default backlight curve F(x) = A(x*x) + Bx + C.
+   719			 *
+   720			 * Backlight curve should always  satisfy:
+   721			 * F(0) = min, F(100) = max,
+   722			 * So polynom coefficients are:
+   723			 * A is 0.0255 - B/100 - min/10000 - (255-max)/10000 =
+   724			 * (max - min)/10000 - B/100
+   725			 * B is adjustable factor to modify the curve.
+   726			 * Bigger B results in less concave curve.
+   727			 * B range is [0..(max-min)/100]
+   728			 * C is backlight minimum
+   729			 */
+   730			unsigned int backlight_curve_coeff_a_factor =
+   731					num_levels * num_levels;
+   732			unsigned int backlight_curve_coeff_b = num_levels;
+   733			unsigned int delta =
+   734				core_power->bl_prop[inst].backlight_lut[num_levels - 1] -
+   735					core_power->bl_prop[inst].backlight_lut[0];
+   736			unsigned int coeffC = core_power->bl_prop[inst].backlight_lut[0];
+   737			unsigned int coeffB =
+ > 738					(backlight_curve_coeff_b < delta ?
+   739						backlight_curve_coeff_b : delta);
+   740			unsigned long long coeffA = delta - coeffB; /* coeffB is B*100 */
+   741	
+   742			for (i = 1; i < num_levels - 1; i++) {
+   743				uint64_t lut_val = div_u64(coeffA * i * i, backlight_curve_coeff_a_factor) +
+   744					div_u64((uint64_t)coeffB * i, backlight_curve_coeff_b) + coeffC;
+   745	
+   746				ASSERT(lut_val <= 0xFFFFFFFF);
+   747				core_power->bl_prop[inst].backlight_lut[i] = (unsigned int)lut_val;
+   748			}
+   749		}
+   750	
+   751		if (ext_backlight_caps != NULL)
+ > 752			kfree(ext_backlight_caps);
+   753	
+   754		/* Successfully initialized */
+   755		core_power->bl_prop[inst].backlight_caps_valid = true;
+   756	}
+   757	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
