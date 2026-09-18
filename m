@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F69522699
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 19:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8BD3D8103
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 19:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789759721; cv=none; b=bzYmNY65m9fnPWr0/sXJVRyqm1WhYlsMdgf6JU0l8a3GC0SMc5S50G+wG4mCB/lqwxVrVofbc9bo1Ik+lb8AMKHlGjkSXPaELdJX8iAtQHLR5NZ6TDt+Lf0nQZqQ0Szt6TqHRtRGk9WvSeukVAAVBD8R/QCKT3ch7orf8RgmQnU=
+	t=1789760432; cv=none; b=bjnHiAX1vjNOc2ocd7QSKYVlFAgawSDIoB3412vTbG3RAJ8GSrBB/pV/DFRSdh6hCZQyMeZrAhcKxHFr9K3uVNN6W1xKZ/nefeDWLDk1ud1JMXZu5S+iKX76dA9UJhUzYIrgvd1953iWsGbnFuvmCxGG106ObS4O8cNwi0KEbC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789759721; c=relaxed/simple;
-	bh=XRRAGW7nfHyvnxShnTY5M4TQNNQusDIx2ZQHwWUcilI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YSQawbIDBR2zQkLonL3sU3u37s+MydWoPtWOcGj56X5pSbwN9v35DscuF/SSouMfw4uCCnLo7kN56UJtARTVlbpTJ3/nO58R6y5PEoIgiFEmo3J+pQlvI3cp4POMQ5xcEmDrPi00cxEDWcNbZLROA5Ta1Z74LxOI6egKY7CtI5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3gLhff2; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1789760432; c=relaxed/simple;
+	bh=cfnx+ocGvY7dZ2oH39KlI1r2UmNaPRzBb1z1/+adMF0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WcB40xU0hwRBHHNdB8ZQDRIN01YjUiC9+hXJ6tYDhKo5ZuQZ08U//eBHSpj/ZJ+G0cOTJsl5cz40IDmwsgcBGBlr6c+SUvPOLcXLacafAvSuAzcPtLNkamX5h+Br80x8KXzB8dmV3qeRTGHa/+SL6nDKEIFlMsUffSHrUm6isiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DOSnmYSx; arc=none smtp.client-ip=192.198.163.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3gLhff2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DOSnmYSx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789759718; x=1821295718;
+  t=1789760430; x=1821296430;
   h=date:from:to:cc:subject:message-id;
-  bh=XRRAGW7nfHyvnxShnTY5M4TQNNQusDIx2ZQHwWUcilI=;
-  b=M3gLhff280Q2WANqkrbTyOnDHSRALbKtW4j8lGMU9LwIY8Alxp3bt7Zz
-   1j6+6w1/XXnQK7N1Yajlzyi8IfQmxpJITXL51O2S1lRCyoMI2sMkN65GN
-   Z43tk6nqBzhwteSy4kGe2/8zPf1T87hCk1Pw2YoxXkCXtA0ftzvHytwJm
-   6S/RrYlPM3c5Sl4o0PMZ4jzSY1FTya3sFK/rJjak4VJUDMMQEH4gHaLEm
-   U63KCZCT/7H+5wavv2BGI8AFrV2dgqQ8kfumn1Ggd5KLn5lnJND3SiYJx
-   2m7/XqraaezIHg4SCicOR2ITvg0eKW+AswoC1iO5Nmkn3NUDdomItDTE1
+  bh=cfnx+ocGvY7dZ2oH39KlI1r2UmNaPRzBb1z1/+adMF0=;
+  b=DOSnmYSxRPBSUJ1zg6mp2nLFYyOJ1MZBqkO7UWE4xuH90hJP8NdEss+3
+   /qQ0qM/S29lxmODIuwbRUDuaFnFXrZ0LLdi8fQBScUGLdJXKkFVGZk2IO
+   dwMRpo6MKduoN76EjViEaWoxC29v0SEREGZm5SqXRGMkygQUgpI0F8xkb
+   +qwDu4wkyCFDHEaUDyuPQo5O6aAV9pbv8PJ9T0qs29oiMyevRWiDDjp48
+   MvyfyZWR4zZLtcCDu32ak1/W5eIPndY2lONUJSCOVf4L0RmJJt9HWzqLN
+   Wq5h8Ltm2deKA8QsTJFbU/epGK4VY2RzPfQGQID/FYy9v47HLK6p+7Eqf
    g==;
-X-CSE-ConnectionGUID: /1M2wEC/T5CY5hL7z7M2dg==
-X-CSE-MsgGUID: FAjAeu/ATqqzFGv5d2UCxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="101638356"
+X-CSE-ConnectionGUID: h9KlDgK/RMuamCsnshHKvQ==
+X-CSE-MsgGUID: J24/jKp9RJiHw4B83jsWDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="799355"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="101638356"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 12:28:33 -0700
-X-CSE-ConnectionGUID: bCrF9/t8R4ymQNb/xRrg2A==
-X-CSE-MsgGUID: 6Up02cdQScGnf9wfPuh+xA==
+   d="scan'208";a="799355"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 12:40:30 -0700
+X-CSE-ConnectionGUID: 7uivv5a+Ta2uOXZY6NUmmw==
+X-CSE-MsgGUID: i8o60g7wR4m5pF4Sm1xQaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="270835404"
+   d="scan'208";a="299654034"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Sep 2026 12:28:32 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 18 Sep 2026 12:40:28 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7eG1-00000000AF7-0MLW;
-	Fri, 18 Sep 2026 19:28:25 +0000
-Date: Sat, 19 Sep 2026 03:28:16 +0800
+	id 1x7eRd-00000000AFF-1Px3;
+	Fri, 18 Sep 2026 19:40:25 +0000
+Date: Sat, 19 Sep 2026 03:39:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
+To: Ankit Agrawal <ankita@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>
-Subject: fs/bpf_fs_kfuncs.c:377:26: sparse: sparse: symbol
- 'bpf_real_data_inode' was not declared. Should it be static?
-Message-ID: <202609190336.lcB2dCtn-lkp@intel.com>
+ Alex Williamson <alex@shazbot.org>, Zhi Wang <zhiw@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>
+Subject: drivers/vfio/pci/nvgrace-gpu/main.c:167:9: sparse: sparse:
+ cast from restricted vm_fault_t
+Message-ID: <202609190345.V7aClDxX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,45 +63,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f259f446f5198d98e13756d2cd531812a0ad3064
-commit: 3f8c65b06fafc3f779abda5f7b81707411d05d4c bpf: have bpf_real_data_inode() take a struct file
-date:   3 months ago
-config: arm64-randconfig-r1307-20260918 (https://download.01.org/0day-ci/archive/20260919/202609190336.lcB2dCtn-lkp@intel.com/config)
+commit: 9db65489b87298f20baef683e70143c108959793 vfio/nvgrace-gpu: Add support for huge pfnmap
+date:   10 months ago
+config: s390-randconfig-r1300-20260918 (https://download.01.org/0day-ci/archive/20260919/202609190345.V7aClDxX-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7252edd9aa82ef1c570ff6694ef7f4763a8a5d2f)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609190336.lcB2dCtn-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609190345.V7aClDxX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3f8c65b06faf ("bpf: have bpf_real_data_inode() take a struct file")
+| Fixes: 9db65489b872 ("vfio/nvgrace-gpu: Add support for huge pfnmap")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609190336.lcB2dCtn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609190345.V7aClDxX-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/bpf_fs_kfuncs.c:377:26: sparse: sparse: symbol 'bpf_real_data_inode' was not declared. Should it be static?
+>> drivers/vfio/pci/nvgrace-gpu/main.c:167:9: sparse: sparse: cast from restricted vm_fault_t
 
-vim +/bpf_real_data_inode +377 fs/bpf_fs_kfuncs.c
+vim +167 drivers/vfio/pci/nvgrace-gpu/main.c
 
-   361	
-   362	/**
-   363	 * bpf_real_data_inode - get the real inode hosting a file's data
-   364	 * @file: file to resolve
-   365	 *
-   366	 * Resolve @file to the inode that hosts its data. For a regular file on a
-   367	 * union/overlay filesystem this is the underlying (upper or lower) inode that
-   368	 * stores the data, not the overlay inode.
-   369	 *
-   370	 * Data resolution only applies to regular files. For a non-regular file (e.g.
-   371	 * a device node, fifo or socket) on a union/overlay filesystem the overlay
-   372	 * inode itself is returned; for any file on a non-union filesystem the inode
-   373	 * attached to @file is returned.
-   374	 *
-   375	 * Return: The inode hosting @file's data, or NULL.
-   376	 */
- > 377	__bpf_kfunc struct inode *bpf_real_data_inode(struct file *file)
-   378	{
-   379		return d_real_inode(file_dentry(file));
-   380	}
-   381	
+   142	
+   143	static vm_fault_t nvgrace_gpu_vfio_pci_huge_fault(struct vm_fault *vmf,
+   144							  unsigned int order)
+   145	{
+   146		struct vm_area_struct *vma = vmf->vma;
+   147		struct nvgrace_gpu_pci_core_device *nvdev = vma->vm_private_data;
+   148		struct vfio_pci_core_device *vdev = &nvdev->core_device;
+   149		unsigned int index =
+   150			vma->vm_pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
+   151		vm_fault_t ret = VM_FAULT_FALLBACK;
+   152		struct mem_region *memregion;
+   153		unsigned long pfn, addr;
+   154	
+   155		memregion = nvgrace_gpu_memregion(index, nvdev);
+   156		if (!memregion)
+   157			return VM_FAULT_SIGBUS;
+   158	
+   159		addr = ALIGN_DOWN(vmf->address, PAGE_SIZE << order);
+   160		pfn = PHYS_PFN(memregion->memphys) + addr_to_pgoff(vma, addr);
+   161	
+   162		if (is_aligned_for_order(vma, addr, pfn, order)) {
+   163			scoped_guard(rwsem_read, &vdev->memory_lock)
+   164				ret = vfio_pci_vmf_insert_pfn(vdev, vmf, pfn, order);
+   165		}
+   166	
+ > 167		dev_dbg_ratelimited(&vdev->pdev->dev,
+   168				    "%s order = %d pfn 0x%lx: 0x%x\n",
+   169				    __func__, order, pfn,
+   170				    (unsigned int)ret);
+   171	
+   172		return ret;
+   173	}
+   174	
 
 --
 0-DAY CI Kernel Test Service
