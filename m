@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3749199E89;
-	Fri, 18 Sep 2026 06:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF164A4F14;
+	Fri, 18 Sep 2026 07:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789713957; cv=none; b=Snh5BdZpl3MYkJp4g9kM7mIf1jvpKUpsH2T64Wx+1XXtvwEkFBA8US+wvjhII/habZdgapMnVfT2oS7cFx9F9e/Vz8t3A8AXcUGxEBhueh4nn+nHlKySXm7jeyC8OgG4cMwpzWYDjGZHgdCBebVmfn+USzFE/l+nK0a1jdMmuY4=
+	t=1789716991; cv=none; b=FNjDWkURNC2T8gKgn7GOs4tR5vaYUcWzttwIqXnFvSOXlFTeFWbkkfHJNnY7MN55I+sj6d0Tb1sn15PauRrgMy+vas7PFTj9O1brpjWylYE17p6cDFbSyq94sSXtv9C1MMfO81pQU69xdjreQS7s4cBcuTvqQREbuO2Hibw1XF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789713957; c=relaxed/simple;
-	bh=bnkRjgK6AWq+2fk/WCJjKtdBf2RZwg8jFydOPnbnmrI=;
+	s=arc-20240116; t=1789716991; c=relaxed/simple;
+	bh=CWxp2gJBf/OVUhKfgwW76OTA4hT5pppevN4HpR9nt6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qaffu5W7jm/Qn65da5SDHT4+1CDGPYrVt7c8UH/pkb6gL9AwTkpgZo17/cRarVe/lv2A0AEG1dpdKsnd8l17+6Q9KyF/xy6TyTR7HgbQW/TWY+jsYgTkJygdw0V8iNvpHB53zl8+wPRlcdqLOIzcYqKBRcrkjU0F8HjrCmDvyLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JlJGOwP4; arc=none smtp.client-ip=192.198.163.6
+	 Content-Type:Content-Disposition:In-Reply-To; b=quNKqHTHe6Q/rTUr5tJiEaCM5W8y+2os67n4Mk4MUj3VUDNY1EJyYd4qOcnr2LDxDuZ6+sQwIQB2oTzX/5DSctR2stmS0Mrk4/8SjqDC2+sTJfCY/exWwjmcg8VoVwbLjHzzQu7Eny2BskzA6u0/GVY+PbrUnCvZBIntebIDZsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auMPjecg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JlJGOwP4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auMPjecg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789713955; x=1821249955;
+  t=1789716984; x=1821252984;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bnkRjgK6AWq+2fk/WCJjKtdBf2RZwg8jFydOPnbnmrI=;
-  b=JlJGOwP4YKlY7oO53zWOWPi7aQrcgBy/PeRMWW58YCz2+3sWMrypdpiD
-   FSHaR6ikI5SFHqDCztfAVIePcB5SAKrXVHRHP3Wc20VjttXiCFIT7ah8+
-   6/clnk1GGGUD4mh13nn1iVZjc1AYYgcoYwe8mwY8HTb2EfpYqjbEfDFP6
-   cm/y4rdXlYoFXeuZqvIYDLJhUuyFqVP6PCPEo0OJFOFRbujN0uPGpXiU/
-   XY8PXeYI5PC4irrzBn3SuF1l/uTKyRjrHwNi5fcpXA7jzxra8pj2GXgjb
-   UigKBkwUnq6HRb/DXaAd88UHQV8v5RjRuJ+mFWIwFU9ixdlsIRqqJDO4n
+  bh=CWxp2gJBf/OVUhKfgwW76OTA4hT5pppevN4HpR9nt6M=;
+  b=auMPjecgdxq0VK1s/1a3yM8sZXtbxwnlXWZWbNdWp8jn6XFlt6N4zVbo
+   nNrsnQiNP3FLytYS5739B208IWCdVkon3M/Ok6NjP8YewvTfizFmIlZcL
+   EwKAofSo/LSCCR9+y3/w0SCLYjy6a3gF79yWR4KbytvL4Y03fP5Sr7DYs
+   Tdf8JXlZZhytQLhgV3+dw/FjUzeMcrDb2NFmKd6HzhEF4RyaN/br2+LWt
+   ovLtHhrHgvGdqMLrISpK4Pra8176mk8eCEWVp6cd8Bco0+Ifm9H/TdNRK
+   AbXI+JYfT+vkBXRbb7TmBBPPWvDZP+axjdHmr+kn/JQayUywCpqKmoPO+
    w==;
-X-CSE-ConnectionGUID: eoDDzzMLSWO2x+OG6WIz4g==
-X-CSE-MsgGUID: o+RSUyPpQpOufucH8vetrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="716077"
+X-CSE-ConnectionGUID: sylOR9TMQRy9kpO1Pqvr+Q==
+X-CSE-MsgGUID: Dk6SbJVORKKjpjIsK+IHfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="107707894"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="716077"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 23:45:54 -0700
-X-CSE-ConnectionGUID: YvSHXzgAQ7eVVxhDFFAbGg==
-X-CSE-MsgGUID: ruY997k+QyiUuW89mNEbKA==
+   d="scan'208";a="107707894"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 00:36:14 -0700
+X-CSE-ConnectionGUID: O+8XaV7xRoSfGB2R+i2yGA==
+X-CSE-MsgGUID: PbGuIm+BTUG5jYauOPEVzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="267987269"
+   d="scan'208";a="279507029"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Sep 2026 23:45:50 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Sep 2026 00:36:10 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7SM0-000000009Nz-0Dtc;
-	Fri, 18 Sep 2026 06:45:48 +0000
-Date: Fri, 18 Sep 2026 14:45:21 +0800
+	id 1x7T8h-000000009Px-25YR;
+	Fri, 18 Sep 2026 07:36:07 +0000
+Date: Fri, 18 Sep 2026 15:35:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Michal Camacho Romero <michal.camacho.romero@linux.intel.com>,
 	Ning Sun <ning.sun@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Baolu Lu <baolu.lu@linux.intel.com>,
+Cc: oe-kbuild-all@lists.linux.dev, Baolu Lu <baolu.lu@linux.intel.com>,
 	Thomas Gleixner <tglx@kernel.org>,
 	Michal Camacho Romero <michal.camacho.romero@intel.com>,
 	x86@kernel.org, iommu@lists.linux.dev,
@@ -62,7 +61,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Pawel Randzio <pawel.randzio@intel.com>
 Subject: Re: [PATCH 1/1] x86/tboot: Add support for parsing DTPR table and
  disabling TPRs
-Message-ID: <202609181428.YizH4EcD-lkp@intel.com>
+Message-ID: <202609181503.HTEk09e5-lkp@intel.com>
 References: <20260917094133.765149-1-michal.camacho.romero@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,7 +78,7 @@ Hi Michal,
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on tip/x86/core]
-[also build test ERROR on tip/master linus/master v7.3-rc3 next-20260916]
+[also build test ERROR on tip/master linus/master tip/auto-latest v7.3-rc3 next-20260916]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -88,46 +87,43 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Camacho-Romero/x86
 base:   tip/x86/core
 patch link:    https://lore.kernel.org/r/20260917094133.765149-1-michal.camacho.romero%40linux.intel.com
 patch subject: [PATCH 1/1] x86/tboot: Add support for parsing DTPR table and disabling TPRs
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260918/202609181428.YizH4EcD-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609181428.YizH4EcD-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260918/202609181503.HTEk09e5-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609181503.HTEk09e5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609181428.YizH4EcD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609181503.HTEk09e5-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
-   arch/x86/kernel/tboot.c:255:9: warning: unused variable 'j' [-Wunused-variable]
+   arch/x86/kernel/tboot.c: In function 'tboot_check_dtpr_size':
+>> arch/x86/kernel/tboot.c:255:16: warning: unused variable 'j' [-Wunused-variable]
      255 |         u32 i, j, ref_tpr_cnt;
          |                ^
->> arch/x86/kernel/tboot.c:583:8: error: redefinition of 'heap_ext_data_elt'
+   arch/x86/kernel/tboot.c: At top level:
+>> arch/x86/kernel/tboot.c:583:8: error: redefinition of 'struct heap_ext_data_elt'
      583 | struct heap_ext_data_elt {
-         |        ^
-   include/linux/tboot.h:68:8: note: previous definition is here
+         |        ^~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kernel/tboot.c:19:
+   include/linux/tboot.h:68:8: note: originally defined here
       68 | struct heap_ext_data_elt {
-         |        ^
->> arch/x86/kernel/tboot.c:758:15: warning: comparison of distinct pointer types ('struct heap_ext_data_elt *' and 'void *') [-Wcompare-distinct-pointer-types]
+         |        ^~~~~~~~~~~~~~~~~
+   arch/x86/kernel/tboot.c: In function 'tboot_get_dtpr_table':
+>> arch/x86/kernel/tboot.c:758:22: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
      758 |         } while (elt <= sinit_mle_end);
-         |                  ~~~ ^  ~~~~~~~~~~~~~
-   arch/x86/kernel/tboot.c:760:10: warning: comparison of distinct pointer types ('struct heap_ext_data_elt *' and 'void *') [-Wcompare-distinct-pointer-types]
+         |                      ^~
+   arch/x86/kernel/tboot.c:760:17: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
      760 |         if (elt >= sinit_mle_end){
-         |             ~~~ ^  ~~~~~~~~~~~~~
->> arch/x86/kernel/tboot.c:778:60: error: no member named 'data' in 'struct heap_ext_data_elt'
-     778 |         if (!tboot_check_dtpr_size((struct acpi_table_dtpr *)elt->data,
-         |                                                              ~~~  ^
-   arch/x86/kernel/tboot.c:784:40: error: no member named 'data' in 'struct heap_ext_data_elt'
-     784 |         return (struct acpi_table_dtpr *)elt->data;
-         |                                          ~~~  ^
-   arch/x86/kernel/tboot.c:800:6: warning: variable 'ref_tpr_cnt' set but not used [-Wunused-but-set-variable]
+         |                 ^~
+   arch/x86/kernel/tboot.c: In function 'tboot_parse_dtpr_table':
+>> arch/x86/kernel/tboot.c:800:13: warning: variable 'ref_tpr_cnt' set but not used [-Wunused-but-set-variable]
      800 |         u32 ref_tpr_cnt;
-         |             ^
-   4 warnings and 3 errors generated.
+         |             ^~~~~~~~~~~
 
 
-vim +/heap_ext_data_elt +583 arch/x86/kernel/tboot.c
+vim +583 arch/x86/kernel/tboot.c
 
    582	
  > 583	struct heap_ext_data_elt {
@@ -325,7 +321,7 @@ vim +/heap_ext_data_elt +583 arch/x86/kernel/tboot.c
    775			goto err;
    776		}
    777	
- > 778		if (!tboot_check_dtpr_size((struct acpi_table_dtpr *)elt->data,
+   778		if (!tboot_check_dtpr_size((struct acpi_table_dtpr *)elt->data,
    779		                           elt->size - sizeof(*elt))) {
    780			pr_err("Invalid DTPR Table size.\n");
    781			goto err;
