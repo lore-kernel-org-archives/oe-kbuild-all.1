@@ -1,148 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A7B332621;
-	Fri, 18 Sep 2026 23:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9741C3FBED7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Sep 2026 23:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789774495; cv=none; b=Xviu7JwwURoo7ZL7eLDM2n9UAE04g+zM/C5VwW/VdgSQW1bI/vYQOrhPscEL5NdyyhhLoZfPyNgWrx+qVBlfYoXxKZViLlHRuIF+MyNmbFsFzSxz8HLo87igr/+PI3rhZVhQq9Lti+NrRCt7SMh8emM60lZ7DTLP3I3nM2Iyf0I=
+	t=1789774662; cv=none; b=m57gMMA113sCD11exwlwY6DrUGzmkhuHHezwLdBFTZUm0xTmz7CEBfd61dILZfTnok59qdoiWIvq7ZYOaR9Zlla6JXJ9AznFd8M7EMTcQ8ROtD3nSvq7WEbI1kVP6r2mIEBF07yl4dRwOPFEC5m23+eNy8GXMPNn7p1LfxNFVtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789774495; c=relaxed/simple;
-	bh=+CIDY4tHCBcNN6f3HQI80T/KHLCZoSJvg0NcmfaQzrk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nq3LKTLh+PY5PAo5tSRPaWswj9xz0qeYAaUHItUR4kQZjgUhIhJRZm8qSDoKo1P2PTgqsxQ4sVXiX2A97mMEcojuIlRacHhWn111jI+jr5QdayLTPYdfY1rkKtwUOi1VqK5MDu+Q1wxFOVczZkdYttei99dziGz1gSW2/uATYTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbQbUXVZ; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1789774662; c=relaxed/simple;
+	bh=ZoklB980vZ7foyZA1dTW0PqAb+8ol1YDfz+U1MRTHfo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RBed07A/gnzgYlwApPDr9XaiRJ8myaAA9g9kaIyB6bbxYIeGgUKRHmpM8srYh9uOcODQ0MlZAz2SH5Zfge3fDtQKPiL6WVJal6ddCQHnjRONkRb5SR6siKg9gP+Ee6nw9+P1KzwB8AXAe6DcZHvdCud+KnUbddzETOjQlunrWuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfN7C8yt; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbQbUXVZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfN7C8yt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789774494; x=1821310494;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+CIDY4tHCBcNN6f3HQI80T/KHLCZoSJvg0NcmfaQzrk=;
-  b=HbQbUXVZyYArbQBBPDWdHqt+ayc92aV5o6OpC/t4FpsknaH03IxJ9oYf
-   c1gShB+60cYgGAojx5zt5uPiO5lny4ahabNh1EK/AlxyWVs+qcqEdkjp2
-   MmekpxU9r78+zs/ce7CCxoPCQmWVwypdAymYigKfU3nvE2lrcmbccuJ7q
-   0bsGg6bizR6DgY3rz+d6V3Cu9+SaYVcOT84kvpmroTcSGVCXHwJsiAq9I
-   9edl7X6CsI01b9Rs0yZeLjQ2JW2xSwYxcv+1jDkosYYNSdMzSbJg4/P34
-   4tc47Xn4SnYuk2Z2xwh9ZKoCrSmH0/2GVVAAsmfSQ/oIDcYuo3qK/MB87
-   A==;
-X-CSE-ConnectionGUID: PwFzNEBDS+OZ2ObUp+mJZQ==
-X-CSE-MsgGUID: t6rYcfCETi2/y6YMClk79A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="89240467"
+  t=1789774658; x=1821310658;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZoklB980vZ7foyZA1dTW0PqAb+8ol1YDfz+U1MRTHfo=;
+  b=TfN7C8ytp8b4QwVDgiAvwNZidjbYJZ4lExqkyDVjxAz1rAO9ShjOHXtd
+   +wuN1YFIezhxXJ32NoY231RkkgZ03k7RwR9G5PbwGIkamsjNG+6VLLT/Y
+   d0r8fSbyALHz+PGA2Ww06OID0dPPUzUdXoV9b4rDNmKd0KyTSJJvG9mMT
+   XM9avWl7WRzC5C9ZKp/o7k8fiidDAX3VRoWJvXGetKYWImKej1sUTjxe9
+   DWh+m3HHtRnJuk5I5Ypn8hJ7aXpUKbqvw8lc1Yfu6JVWFeZ5go5uySqFf
+   rcsqjGbxLWeeaqFQSsil9/j5K59Tk4QW25JIyPSUcWxgk4g2SKqDvbYRz
+   Q==;
+X-CSE-ConnectionGUID: PchpOszJTpm7SRMJS4IWTQ==
+X-CSE-MsgGUID: 5AV/FSuYTKWzjTH0L6o2LA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="90325747"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="89240467"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 16:34:53 -0700
-X-CSE-ConnectionGUID: 9nJ7BauOSNyLmg3WxQ3PeQ==
-X-CSE-MsgGUID: DOzcEQl8Q6CsGqwOAV14zQ==
+   d="scan'208";a="90325747"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 16:37:37 -0700
+X-CSE-ConnectionGUID: AWpbISqjS7yEjCKo2WitoQ==
+X-CSE-MsgGUID: kS3E+whcSguV/lguHsuy0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="271964200"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Sep 2026 16:34:51 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="270337842"
+Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Sep 2026 16:37:35 -0700
+Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7i6O-00000000ASb-1mkJ;
-	Fri, 18 Sep 2026 23:34:44 +0000
-Date: Sat, 19 Sep 2026 07:34:16 +0800
+	id 1x7i95-000000001Ei-2Fb2;
+	Fri, 18 Sep 2026 23:37:31 +0000
+Date: Sat, 19 Sep 2026 01:37:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: Guo Zihao <guozh23@xiaopeng.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Liu Chao <liuc63@xiaopeng.com>
-Subject: Re: [PATCH] media: cobalt: bound the dv timings to the descriptor
- buffers
-Message-ID: <202609190745.z2mFq2RW-lkp@intel.com>
-References: <20260918072526.2478529-1-guozh23@xiaopeng.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/display/dc/link/protocols/link_hdmi_frl.c:694:3-4:
+ Unneeded semicolon
+Message-ID: <202609190106.nposS6Wk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260918072526.2478529-1-guozh23@xiaopeng.com>
 
-Hi Guo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linuxtv-media-pending/master]
-[also build test ERROR on media-tree/master sailus-media-tree/master linus/master v7.3-rc3 next-20260918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guo-Zihao/media-cobalt-bound-the-dv-timings-to-the-descriptor-buffers/20260918-152526
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20260918072526.2478529-1-guozh23%40xiaopeng.com
-patch subject: [PATCH] media: cobalt: bound the dv timings to the descriptor buffers
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260919/202609190745.z2mFq2RW-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7252edd9aa82ef1c570ff6694ef7f4763a8a5d2f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609190745.z2mFq2RW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   17e7b8eacf4cac800a4fc89a28729df72a2dabda
+commit: cbb8e2044b9e936dfa66f1d4a2f835316c741a67 drm/amd/display: Add DC link support for FRL
+date:   4 months ago
+config: x86_64-randconfig-103-20260911 (https://download.01.org/0day-ci/archive/20260919/202609190106.nposS6Wk-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: cbb8e2044b9e ("drm/amd/display: Add DC link support for FRL")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609190745.z2mFq2RW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609190106.nposS6Wk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/display/dc/link/protocols/link_hdmi_frl.c:694:3-4: Unneeded semicolon
 
->> drivers/media/pci/cobalt/cobalt-v4l2.c:635:3: error: use of undeclared identifier 'cobalt'
-     635 |                 cobalt_info("timings %ux%u out of range\n",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     636 |                             timings->bt.width, timings->bt.height);
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/cobalt/cobalt-driver.h:160:45: note: expanded from macro 'cobalt_info'
-     160 | #define cobalt_info(fmt, arg...) v4l2_info(&cobalt->v4l2_dev, fmt, ## arg)
-         |                                             ^~~~~~
-   1 error generated.
+vim +694 drivers/gpu/drm/amd/display/dc/link/protocols/link_hdmi_frl.c
 
-
-vim +/cobalt +635 drivers/media/pci/cobalt/cobalt-v4l2.c
-
-   615	
-   616	static int cobalt_s_dv_timings(struct file *file, void *priv,
-   617					    struct v4l2_dv_timings *timings)
-   618	{
-   619		struct cobalt_stream *s = video_drvdata(file);
-   620		int err;
-   621	
-   622		if (s->input == 1) {
-   623			*timings = cea1080p60;
-   624			return 0;
-   625		}
-   626	
-   627		if (v4l2_match_dv_timings(timings, &s->timings, 0, true))
-   628			return 0;
-   629	
-   630		if (vb2_is_busy(&s->q))
-   631			return -EBUSY;
-   632	
-   633		if (timings->bt.width > COBALT_MAX_WIDTH ||
-   634		    timings->bt.height > COBALT_MAX_HEIGHT) {
- > 635			cobalt_info("timings %ux%u out of range\n",
-   636				    timings->bt.width, timings->bt.height);
-   637			return -EINVAL;
-   638		}
-   639	
-   640		err = v4l2_subdev_call(s->sd,
-   641				pad, s_dv_timings, 0, timings);
-   642		if (!err) {
-   643			s->timings = *timings;
-   644			s->width = timings->bt.width;
-   645			s->height = timings->bt.height;
-   646			s->stride = timings->bt.width * s->bpp;
-   647		}
-   648		return err;
-   649	}
-   650	
+   669	
+   670	enum link_result hdmi_frl_perform_link_training_with_retries(
+   671		struct dc_link *link)
+   672	{
+   673		enum link_result status = LINK_RESULT_UNKNOWN;
+   674		unsigned int retry_count = 0;
+   675		unsigned int max_retries = 3;
+   676	
+   677		DC_LOGGER_INIT(link->ctx->logger);
+   678	
+   679		if (link->preferred_hdmi_frl_settings.valid)
+   680			max_retries = link->preferred_hdmi_frl_settings.max_retries;
+   681	
+   682		/* FRL Link Training */
+   683		while (status != LINK_RESULT_FALLBACK) {
+   684			if (status == LINK_RESULT_SUCCESS) {
+   685				break;
+   686			} else if (status == LINK_RESULT_LOWER_LINKRATE) {
+   687				FRL_INFO("FRL LINK TRAINING:  Sink requested lower link rate during link enable. \n");
+   688				break;
+   689			} else {
+   690				if (retry_count > 0)
+   691					msleep(200);
+   692				status = hdmi_frl_perform_link_training(link->ddc,
+   693						&link->frl_link_settings);
+ > 694			};
+   695			retry_count++;
+   696			FRL_INFO("FRL LINK TRAINING: Retry count = %u out of %u\n", retry_count, max_retries);
+   697			if (retry_count > max_retries) {
+   698				status = LINK_RESULT_FALLBACK;
+   699				break;
+   700			}
+   701		}
+   702	
+   703		return status;
+   704	}
+   705	
 
 --
 0-DAY CI Kernel Test Service
