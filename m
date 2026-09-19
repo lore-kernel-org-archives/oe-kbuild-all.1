@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CE5391829
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 07:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F4D31C567
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 08:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789803884; cv=none; b=gOS12phyu3SG9ptm6ZGM+EboEaCIUqZEPBDKR4+BwCWXHFvpTq4E2xyB95aAx6L/33XmkXntbgqzVU/OcL16h6HetwFyK7+MFh+7MCRZz5rLJOnTH31Ofo4MP8mSM/CqqDou8LbY3p9y6Qm8s2u7hKYULWavv6YP0+WZlvn5ZTU=
+	t=1789805147; cv=none; b=U7LaUgPoop3DFbzruYWhTe/Ch0h77B0Qf4yXKuBnikLSpAd2fqPrz4gWuU9zZTp0/EnTcfKmQCmCJ37ZtcmPo2f8cEf8e6bjUWC0bltmiJw7VuB6RxGZ698Ukx8TcZJljPSaCDh8R2XCTJLxVxb0J/0fzCD5J9+01J2oUGLy29M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789803884; c=relaxed/simple;
-	bh=zmQaAqUIl7//Kq0oq/8binkgmY6+p1Kj0FCnPr/APxY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HTt3Pd26DvkzzkseA3Fi980ScicTtfF2uUS91kF/HwzJqrT9R3Wb2ywMOLP96jMmdEi+aYzKUrBohPnKki+TdaMGB+A5znMDCSU/4u1I1h8xZVJ2EPcCfkoBiXbHAzB5nTtVrAsaf+z1tJFz9YOq7KpILdcdupHUa4vedPuif7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c51o0feI; arc=none smtp.client-ip=192.198.163.5
+	s=arc-20240116; t=1789805147; c=relaxed/simple;
+	bh=zH/IEjVpNxlwXJ5M63AvXIraVU6Wp0w/Vc8bBhBVPCE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p3Yj8GWi1vOhPNm++4QruF7qc8iuGXPI+u8TvcPP9U8S8YbKBRLgErV5Xu55Krh1SLWPI9HZoX6xaxhlHVQ1cxpx5gNfjDRLO1gF9vGhif/M9luK3Nrn2v0MmuZMxcXWBHzvcEQgJGXsbvYzbJJeHLkosG5ILe7U3OI9CcriB5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0o3jhQd; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c51o0feI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0o3jhQd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789803883; x=1821339883;
+  t=1789805146; x=1821341146;
   h=date:from:to:cc:subject:message-id;
-  bh=zmQaAqUIl7//Kq0oq/8binkgmY6+p1Kj0FCnPr/APxY=;
-  b=c51o0feI/H5bRdmaEnvIkxuDwWXy2I77Vva5sxK7AfYvyPNbyzfM4YNU
-   OaitW0TYKlDuC/RQATVLhGcyD0RNEfduu5X3b4+uNhmiYwrkgGFH7PsqS
-   5n7wWZN9SAA+a6/XSqU3o1vs/r3tPCNfWenWWSevSqwpsXehqyM565Pii
-   D24X2REnxAfJUc16x36ptQQ3TgKpJwvTaw0YqboY629xmCtBO6+v0u8gL
-   0I6kJmkQo6PsOHHrsGMPXKndEjvKW9zBYZsEia9H/LibCRQiezbSy7uin
-   F1by04/Z8yNkBex5FoKYqJONt6xb32lecaOg0E9f8mUG8kyWG+2vU4Opx
-   w==;
-X-CSE-ConnectionGUID: G48XqwMJSkeHeGZImo63fA==
-X-CSE-MsgGUID: W9L2+Y7oRfKBar6wrHkE/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="838849"
+  bh=zH/IEjVpNxlwXJ5M63AvXIraVU6Wp0w/Vc8bBhBVPCE=;
+  b=I0o3jhQd/GeEFHj1SHzUMivpwt4OhOxQeinjpMnbmXfi/GQtnTHvV/j3
+   /xmkEXufULvshy1tFXpLhjRjZzw1HMZbiRvQZ4bTWv2s8P2D9aaPmI9+H
+   kpUcT1Ik28N67iin2sC86YUMkCzvNm1OwaskE7SYQrSplaMEzmW+1rqEz
+   z6q5J6rtU3FOSVj4FZBhG7rWC8FNVHMnd29bNzLMwPM+q1VCqxHBryEyk
+   w3K0i/xi+j21WlPtzSsClS8xQc+rfkiLdwQu9arSSZpdVCwJ1FtJCwMOq
+   +/liT63vlQxichjfw9pXyD0TlLqTNjk0gZ2Xg6wVwNzQdXLNvp8kICxfv
+   Q==;
+X-CSE-ConnectionGUID: VNq2xLBDSaannvdm0wC1oQ==
+X-CSE-MsgGUID: TT7PzMjlQlm9o27rjGUcgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="90354781"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="838849"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 00:44:42 -0700
-X-CSE-ConnectionGUID: 9PMppINCR1mb0JhMI3QQMg==
-X-CSE-MsgGUID: BE4RmvhDQaa60m8rXisXQw==
+   d="scan'208";a="90354781"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 01:05:45 -0700
+X-CSE-ConnectionGUID: 7eAu6/dHRuue4519R7osWA==
+X-CSE-MsgGUID: K2IJQjroRm6nUNZVibmjtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="268448315"
+   d="scan'208";a="272081166"
 Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Sep 2026 00:44:40 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 19 Sep 2026 01:05:43 -0700
 Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7pkQ-000000001O6-1viq;
-	Sat, 19 Sep 2026 07:44:34 +0000
-Date: Sat, 19 Sep 2026 09:44:02 +0200
+	id 1x7q4l-000000001OS-1slO;
+	Sat, 19 Sep 2026 08:05:35 +0000
+Date: Sat, 19 Sep 2026 10:04:47 +0200
 From: kernel test robot <lkp@intel.com>
-To: Youling Tang <tangyouling@kylinos.cn>
+To: Alex Hung <alex.hung@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>
-Subject: arch/loongarch/kernel/machine_kexec.o: warning: objtool:
- kexec_shutdown_secondary+0x60: stack state mismatch: cfa1=3+0 cfa2=3+16
-Message-ID: <202609190905.OZTcO07l-lkp@intel.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>,
+ Chenyu Chen <chen-yu.chen@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c:3556:37-39:
+ WARNING !A || A && B is equivalent to !A || B
+Message-ID: <202609190901.yKTzhsGz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,27 +63,162 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Youling,
+Hi Alex,
 
-FYI, the error/warning still remains.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   40288c9206c17eb66a603262e06a58d300d0f279
-commit: d162feec6b6e7ed97986118450812fdd7e9ba202 LoongArch: Add preparatory infrastructure for kexec_file
-date:   12 months ago
-config: loongarch-randconfig-r2105-20260919 (https://download.01.org/0day-ci/archive/20260919/202609190905.OZTcO07l-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609190905.OZTcO07l-lkp@intel.com/reproduce)
+commit: 0e967e086e7519966816b76a6309b4516d365aa5 drm/amd/display: Extract connector and encoder code to amdgpu_dm_connector
+date:   3 months ago
+config: x86_64-randconfig-103-20260911 (https://download.01.org/0day-ci/archive/20260919/202609190901.yKTzhsGz-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: d162feec6b6e ("LoongArch: Add preparatory infrastructure for kexec_file")
+| Fixes: 0e967e086e75 ("drm/amd/display: Extract connector and encoder code to amdgpu_dm_connector")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609190905.OZTcO07l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609190901.yKTzhsGz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c:3556:37-39: WARNING !A || A && B is equivalent to !A || B
+--
+>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c:1382:5-19: ERROR: invalid reference to the index variable of the iterator on line 1367
 
->> arch/loongarch/kernel/machine_kexec.o: warning: objtool: kexec_shutdown_secondary+0x60: stack state mismatch: cfa1=3+0 cfa2=3+16
+vim +3556 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_connector.c
+
+  3425	
+  3426	/**
+  3427	 * amdgpu_dm_update_freesync_caps - Update Freesync capabilities
+  3428	 *
+  3429	 * @connector: Connector to query.
+  3430	 * @drm_edid: DRM EDID from monitor
+  3431	 * @do_mccs: Controls whether MCCS (Monitor Control Command Set) over
+  3432	 *	      DDC (Display Data Channel) transactions are performed. When true,
+  3433	 *	      the driver queries the monitor to get or update additional FreeSync
+  3434	 *	      capability information. When false, these transactions are skipped.
+  3435	 *
+  3436	 * Amdgpu supports Freesync in DP and HDMI displays, and it is required to keep
+  3437	 * track of some of the display information in the internal data struct used by
+  3438	 * amdgpu_dm. This function checks which type of connector we need to set the
+  3439	 * FreeSync parameters.
+  3440	 */
+  3441	void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
+  3442					    const struct drm_edid *drm_edid, bool do_mccs)
+  3443	{
+  3444		int i = 0;
+  3445		struct amdgpu_dm_connector *amdgpu_dm_connector =
+  3446				to_amdgpu_dm_connector(connector);
+  3447		struct dm_connector_state *dm_con_state = NULL;
+  3448		struct dc_sink *sink;
+  3449		struct amdgpu_device *adev = drm_to_adev(connector->dev);
+  3450		struct amdgpu_hdmi_vsdb_info vsdb_info = {0};
+  3451		const struct edid *edid;
+  3452		bool freesync_capable = false;
+  3453		enum adaptive_sync_type as_type = ADAPTIVE_SYNC_TYPE_NONE;
+  3454	
+  3455		if (!connector->state) {
+  3456			drm_err(adev_to_drm(adev), "%s - Connector has no state", __func__);
+  3457			goto update;
+  3458		}
+  3459	
+  3460		sink = amdgpu_dm_connector->dc_sink ?
+  3461			amdgpu_dm_connector->dc_sink :
+  3462			amdgpu_dm_connector->dc_em_sink;
+  3463	
+  3464		drm_edid_connector_update(connector, drm_edid);
+  3465	
+  3466		if (!drm_edid || !sink) {
+  3467			dm_con_state = to_dm_connector_state(connector->state);
+  3468	
+  3469			amdgpu_dm_connector->min_vfreq = 0;
+  3470			amdgpu_dm_connector->max_vfreq = 0;
+  3471			freesync_capable = false;
+  3472	
+  3473			goto update;
+  3474		}
+  3475	
+  3476		dm_con_state = to_dm_connector_state(connector->state);
+  3477	
+  3478		if (!adev->dm.freesync_module || !dc_supports_vrr(sink->ctx->dce_version))
+  3479			goto update;
+  3480	
+  3481		/* FIXME: Get rid of drm_edid_raw() */
+  3482		edid = drm_edid_raw(drm_edid);
+  3483	
+  3484		/* Some eDP panels only have the refresh rate range info in DisplayID */
+  3485		if ((connector->display_info.monitor_range.min_vfreq == 0 ||
+  3486		     connector->display_info.monitor_range.max_vfreq == 0))
+  3487			parse_edid_displayid_vrr(connector, edid);
+  3488	
+  3489		if (edid && (sink->sink_signal == SIGNAL_TYPE_DISPLAY_PORT ||
+  3490			     sink->sink_signal == SIGNAL_TYPE_EDP)) {
+  3491			if (amdgpu_dm_connector->dc_link &&
+  3492			    amdgpu_dm_connector->dc_link->dpcd_caps.allow_invalid_MSA_timing_param) {
+  3493				amdgpu_dm_connector->min_vfreq = connector->display_info.monitor_range.min_vfreq;
+  3494				amdgpu_dm_connector->max_vfreq = connector->display_info.monitor_range.max_vfreq;
+  3495				if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
+  3496					freesync_capable = true;
+  3497			}
+  3498	
+  3499			get_amd_vsdb(amdgpu_dm_connector, &vsdb_info);
+  3500	
+  3501			if (vsdb_info.replay_mode) {
+  3502				amdgpu_dm_connector->vsdb_info.replay_mode = vsdb_info.replay_mode;
+  3503				amdgpu_dm_connector->vsdb_info.amd_vsdb_version = vsdb_info.amd_vsdb_version;
+  3504				amdgpu_dm_connector->as_type = ADAPTIVE_SYNC_TYPE_EDP;
+  3505			}
+  3506	
+  3507		} else if (drm_edid && sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A) {
+  3508			i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
+  3509			if (i >= 0) {
+  3510				amdgpu_dm_connector->vsdb_info = vsdb_info;
+  3511				sink->edid_caps.freesync_vcp_code = vsdb_info.freesync_mccs_vcp_code;
+  3512	
+  3513				if (vsdb_info.freesync_supported) {
+  3514					amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
+  3515					amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
+  3516					if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
+  3517						freesync_capable = true;
+  3518	
+  3519					connector->display_info.monitor_range.min_vfreq = vsdb_info.min_refresh_rate_hz;
+  3520					connector->display_info.monitor_range.max_vfreq = vsdb_info.max_refresh_rate_hz;
+  3521				}
+  3522			}
+  3523		}
+  3524	
+  3525		if (amdgpu_dm_connector->dc_link)
+  3526			as_type = dm_get_adaptive_sync_support_type(amdgpu_dm_connector->dc_link);
+  3527	
+  3528		if (as_type == FREESYNC_TYPE_PCON_IN_WHITELIST) {
+  3529			i = parse_hdmi_amd_vsdb(amdgpu_dm_connector, edid, &vsdb_info);
+  3530			if (i >= 0) {
+  3531				amdgpu_dm_connector->vsdb_info = vsdb_info;
+  3532				sink->edid_caps.freesync_vcp_code = vsdb_info.freesync_mccs_vcp_code;
+  3533	
+  3534				if (vsdb_info.freesync_supported && vsdb_info.amd_vsdb_version > 0) {
+  3535					amdgpu_dm_connector->pack_sdp_v1_3 = true;
+  3536					amdgpu_dm_connector->as_type = as_type;
+  3537	
+  3538					amdgpu_dm_connector->min_vfreq = vsdb_info.min_refresh_rate_hz;
+  3539					amdgpu_dm_connector->max_vfreq = vsdb_info.max_refresh_rate_hz;
+  3540					if (amdgpu_dm_connector->max_vfreq - amdgpu_dm_connector->min_vfreq > 10)
+  3541						freesync_capable = true;
+  3542	
+  3543					connector->display_info.monitor_range.min_vfreq = vsdb_info.min_refresh_rate_hz;
+  3544					connector->display_info.monitor_range.max_vfreq = vsdb_info.max_refresh_rate_hz;
+  3545				}
+  3546			}
+  3547		}
+  3548	
+  3549		/* Handle MCCS */
+  3550		if (do_mccs)
+  3551			dm_helpers_read_mccs_caps(adev->dm.dc->ctx, amdgpu_dm_connector->dc_link, sink);
+  3552	
+  3553		if ((sink->sink_signal == SIGNAL_TYPE_HDMI_TYPE_A ||
+  3554			as_type == FREESYNC_TYPE_PCON_IN_WHITELIST) &&
+  3555			(!sink->edid_caps.freesync_vcp_code ||
+> 3556			(sink->edid_caps.freesync_vcp_code && !sink->mccs_caps.freesync_supported)))
 
 --
 0-DAY CI Kernel Test Service
