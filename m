@@ -1,111 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEE41925BC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 06:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A122236F7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 06:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789798149; cv=none; b=j2Czz8Gy5bg7mQfAsgey4X8YcLOziDw1aUy4xzLSoxSxKSJPRxH241nCEX7lwIdPya405aaBcfUEWY06dthIiOHLIbg89Wo/K9iIzeWuLkSjOgmoNr6rL/Z4KnPaLGgd65t/hV2Xr3+2uAMgctCGm4Hl/qe1FUMudqjON35HDj8=
+	t=1789798811; cv=none; b=d5dD/SJWTUnOonKgDmOP4MecCPGRq2r58fbak3nYLpO8ZQihw8XfXCkQH3aODqv4uFRtp1Sgq9w11rcBjRz7nxKDUk+I7WGEbSZJOcfllxLd2JDqPVe7IL7N8OgGK1noh/BEY+nz1SiKygfvYxnfGQtHST+PJTXtcYmMZhErem8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789798149; c=relaxed/simple;
-	bh=4MW0/xubJH+eJGIwqkiB4GCvvr0qN3GeIUgqUZvDzus=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FicmY9ZKbBEVDVCtlnM0qWdldW7xBwJGhje+y2Gz2x2khu3Sq905zY4+kcqiix9yFsT/Gd/SxriOMiLqKNFu2ApTXt4Ugp6ZMWKmao9B8eeFQW0O6GZP1/96jJPR1qgFHxd61415drYGj2ybZrTFsVFnngE6M0HdgVGFqkmyMH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3sd+Idw; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1789798811; c=relaxed/simple;
+	bh=IEW8hh64KtfdKaYBJsMyWDmAkz5mQk7B3j5P2Uhyzzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLWC/CjzJizqA5LB5fc8RUL7JSNljG6/BLin7X4lFl/SFk0y7KlKPkeGL4Nk37kMlVbBvhdH3CRkbgUNXDAiIeRwicUk1sYaz20HJrnzg1JPaI7KG97qzkMMxhLom1OTRbmpGJzMVcxj5hFykjCHgB0D/CEoO+aZj4MgkvvCbbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWP711I7; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3sd+Idw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWP711I7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789798147; x=1821334147;
-  h=date:from:to:cc:subject:message-id;
-  bh=4MW0/xubJH+eJGIwqkiB4GCvvr0qN3GeIUgqUZvDzus=;
-  b=U3sd+IdwlHTM6NhJEP82cfcSAY8tW5cY9NPvEkCx15zWb3tlxD6BBx5p
-   FyWcsPNdT9W4hXS5yTNLswIy7cvQSiC1vpq/syFjDOOnCjJUkIIcotaTR
-   Bt9Rjy8sVBDnYdw2LX3+VFgdlWU+YxfA2UOWqzrQmupRYloa5Lvd9RMRG
-   8iw6/1dYjL6iwujkgT7xKM1bONC2CDeAsIMfzJlvDJa31BK063fO5tov1
-   dU1yl9DUVObiNm+gv503X7OQloFOw9TfmF28SNTrHkNKNxcqzNzi9be3k
-   idGTyCbrqRwL3RcKfiGC/53NVe34NCSa+niZwnDaqegJm8ewVOnsQ2RNs
-   A==;
-X-CSE-ConnectionGUID: JQ0BfN3WTZObSGJqYfumhg==
-X-CSE-MsgGUID: tUfv4DvvSHyP+nwlIDqVtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="90462532"
+  t=1789798809; x=1821334809;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IEW8hh64KtfdKaYBJsMyWDmAkz5mQk7B3j5P2Uhyzzs=;
+  b=LWP711I7Ody5eWcc9qmZwJgK8wPmrVg2g57/iKexkwoEXJH1u83YAeUr
+   Ae2Ah57nvcqvdKAkP+I2It3Krjhy1HwQ9/ug8k2KFY4/ZVUbhVyB3/Wa+
+   4ulhVkUumD45dGsBZ27hBjD67WzcH4XkIpbgnRA6HewWDyHhGAouBARaZ
+   APWZquqr1U7oW5vrDmI4VtKEqAvbxtn0g2nIcMvdd70MBkbW11aqDlp9a
+   nqkQyodRCGccZ/+y6DXetcpPpUQpN1P82c8TgE3WgUw8a28VvtbjWP7Gp
+   S3HUJdiFkrFJmMWuwRTHBNX5YUYyndMuUp06YOIcm1vGJLpxA+ogm4FFB
+   g==;
+X-CSE-ConnectionGUID: cEqEM3A2S3GiY9Mqm+sBrw==
+X-CSE-MsgGUID: pkJiamVLSZ+YOgpAn9vM6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="89262277"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="90462532"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 23:09:07 -0700
-X-CSE-ConnectionGUID: /v1YYtPnTD+hOpqh3Ywnjg==
-X-CSE-MsgGUID: /vXLCdrzQzufidLniB59Ow==
+   d="scan'208";a="89262277"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 23:20:08 -0700
+X-CSE-ConnectionGUID: hMFzWDC0SRaRInEGfn6xHw==
+X-CSE-MsgGUID: W1lMWoOCRtyy4SZdVOp24A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="272054569"
+   d="scan'208";a="271370188"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Sep 2026 23:09:05 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 18 Sep 2026 23:20:07 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7oFy-00000000AhJ-3oZW;
-	Sat, 19 Sep 2026 06:09:02 +0000
-Date: Sat, 19 Sep 2026 14:08:42 +0800
+	id 1x7oQe-00000000Aht-3rAY;
+	Sat, 19 Sep 2026 06:20:04 +0000
+Date: Sat, 19 Sep 2026 14:19:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: "Baorui.Liu" <baorliu@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- arch/arm64/kvm/hyp/nvhe/trace.c:336:30: sparse: sparse: Using plain integer
- as NULL pointer
-Message-ID: <202609191413.SrVW6UPi-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [RFC PATCH 1/1] cpufreq: virtio: add driver to report host
+ frequency to guests
+Message-ID: <202609191437.OaXd0Blz-lkp@intel.com>
+References: <20260916073735.541-2-baorliu@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260916073735.541-2-baorliu@amd.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   fb15c16e04b24c94825fe17e483d325c4ac239a8
-commit: 1e1a0f8ef58c0f6c4b6a091a786db123cf5c4610 [1/1] FROMLIST: KVM: arm64: Add tracing support for the pKVM hyp
-config: arm64-randconfig-r1301-20260919 (https://download.01.org/0day-ci/archive/20260919/202609191413.SrVW6UPi-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191413.SrVW6UPi-lkp@intel.com/reproduce)
+Hi Baorui.Liu,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge mst-vhost/linux-next linus/master v7.3-rc3 next-20260918]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baorui-Liu/cpufreq-virtio-add-driver-to-report-host-frequency-to-guests/20260916-153735
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260916073735.541-2-baorliu%40amd.com
+patch subject: [RFC PATCH 1/1] cpufreq: virtio: add driver to report host frequency to guests
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260919/202609191437.OaXd0Blz-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191437.OaXd0Blz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609191413.SrVW6UPi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609191437.OaXd0Blz-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/arm64/kvm/hyp/nvhe/trace.c:37:1: sparse: sparse: symbol '__pcpu_scope_trace_rb' was not declared. Should it be static?
-   arch/arm64/kvm/hyp/nvhe/trace.c:38:1: sparse: sparse: symbol 'trace_rb_lock' was not declared. Should it be static?
->> arch/arm64/kvm/hyp/nvhe/trace.c:336:30: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +336 arch/arm64/kvm/hyp/nvhe/trace.c
+>> drivers/cpufreq/virtio-cpufreq.c:165:27: error: 'cpufreq_generic_attr' undeclared here (not in a function); did you mean 'cpufreq_generic_get'?
+     165 |         .attr           = cpufreq_generic_attr,
+         |                           ^~~~~~~~~~~~~~~~~~~~
+         |                           cpufreq_generic_get
 
-   313	
-   314	static void rb_cpu_teardown(struct hyp_rb_per_cpu *cpu_buffer)
-   315	{
-   316		int i;
-   317	
-   318		if (!rb_cpu_loaded(cpu_buffer))
-   319			return;
-   320	
-   321		rb_cpu_disable_writing(cpu_buffer);
-   322	
-   323		hyp_unpin_shared_mem((void *)cpu_buffer->meta,
-   324				     (void *)(cpu_buffer->meta) + PAGE_SIZE);
-   325	
-   326		for (i = 0; i < cpu_buffer->nr_pages; i++) {
-   327			struct hyp_buffer_page *bpage = &cpu_buffer->bpages[i];
-   328	
-   329			if (!bpage->page)
-   330				continue;
-   331	
-   332			hyp_unpin_shared_mem((void *)bpage->page,
-   333					     (void *)bpage->page + PAGE_SIZE);
-   334		}
-   335	
- > 336		cpu_buffer->bpages = 0;
-   337	}
-   338	
+
+vim +165 drivers/cpufreq/virtio-cpufreq.c
+
+   157	
+   158	static struct cpufreq_driver virtio_cpufreq_driver = {
+   159		.name		= DRV_NAME,
+   160		.flags		= CPUFREQ_CONST_LOOPS,
+   161		.init		= virtio_cpufreq_init_policy,
+   162		.verify		= cpufreq_generic_frequency_table_verify,
+   163		.target_index	= virtio_cpufreq_target_index,
+   164		.get		= virtio_cpufreq_get,
+ > 165		.attr		= cpufreq_generic_attr,
+   166	};
+   167	
 
 --
 0-DAY CI Kernel Test Service
