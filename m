@@ -1,127 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97554352027;
-	Sat, 19 Sep 2026 07:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CE5391829
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 07:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789803318; cv=none; b=DRnEDmnSeyEX2dCqycpYk7yV6fOEDefTbQ5dE4MONH0lKw1OCkgT7kfM96gSv790ZcKympyP5LWZ9gVIE2a29icK/AYonnsxO0nN4OBRL8Ok5mJoHy7MhAr55apCNp0nli/wbHq4/1Jht22wghDnS2PVyK+w2U5/A3SOnnWucFI=
+	t=1789803884; cv=none; b=gOS12phyu3SG9ptm6ZGM+EboEaCIUqZEPBDKR4+BwCWXHFvpTq4E2xyB95aAx6L/33XmkXntbgqzVU/OcL16h6HetwFyK7+MFh+7MCRZz5rLJOnTH31Ofo4MP8mSM/CqqDou8LbY3p9y6Qm8s2u7hKYULWavv6YP0+WZlvn5ZTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789803318; c=relaxed/simple;
-	bh=XxiSV9KB15uxRCUse5WjXjM7dc35/5V4z8ZQW4Zp7c8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TdlZg1uzom/CbxNd4BTlVm9d3Ywh69e7uUIOQcIQsogpnikrRw2/wK4Sj8las0yn80tDJvgTdyPOZcy6vwQ0oOd48BOFE8HKk32uQKzqRmU1ZhExRfW1mlxV24LLnaF/W3ecyIjafR1o1XcxZPYV079Z4LeXwRMHcIAjYNZon18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BgNfBydL; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1789803884; c=relaxed/simple;
+	bh=zmQaAqUIl7//Kq0oq/8binkgmY6+p1Kj0FCnPr/APxY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HTt3Pd26DvkzzkseA3Fi980ScicTtfF2uUS91kF/HwzJqrT9R3Wb2ywMOLP96jMmdEi+aYzKUrBohPnKki+TdaMGB+A5znMDCSU/4u1I1h8xZVJ2EPcCfkoBiXbHAzB5nTtVrAsaf+z1tJFz9YOq7KpILdcdupHUa4vedPuif7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c51o0feI; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BgNfBydL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c51o0feI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789803316; x=1821339316;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XxiSV9KB15uxRCUse5WjXjM7dc35/5V4z8ZQW4Zp7c8=;
-  b=BgNfBydLE4BdrbsegmX/JR74P1UEk5Qx1dO96Sx+SDO2ug+pNB8Zd0Dq
-   A/BJoSDHLg0tNLkiYfF63Nceu1+4QNZ/vyeOYHLpCi7JJjwJfEvPdojt2
-   /azMdLutGlQkxSk7ErX6j0K8NlFWXGcq91HhkmcbM5GrMxcwDqrPDqFZT
-   KOBBOv5jgLGER3al2I40ljHTXLDOM8l2rsu0AlhoFshh6t7ZSUMqz0T8l
-   MaoYJK4JgRZ5friOwLCyRThqx3l1c0/+aeTJ67z2ie6PRNXJLlZFXkz9p
-   dbzvw3fU743hUKVllS4SwDY3SxiUAf/qe1WWCTmONujUcLNw3vXITSL3P
+  t=1789803883; x=1821339883;
+  h=date:from:to:cc:subject:message-id;
+  bh=zmQaAqUIl7//Kq0oq/8binkgmY6+p1Kj0FCnPr/APxY=;
+  b=c51o0feI/H5bRdmaEnvIkxuDwWXy2I77Vva5sxK7AfYvyPNbyzfM4YNU
+   OaitW0TYKlDuC/RQATVLhGcyD0RNEfduu5X3b4+uNhmiYwrkgGFH7PsqS
+   5n7wWZN9SAA+a6/XSqU3o1vs/r3tPCNfWenWWSevSqwpsXehqyM565Pii
+   D24X2REnxAfJUc16x36ptQQ3TgKpJwvTaw0YqboY629xmCtBO6+v0u8gL
+   0I6kJmkQo6PsOHHrsGMPXKndEjvKW9zBYZsEia9H/LibCRQiezbSy7uin
+   F1by04/Z8yNkBex5FoKYqJONt6xb32lecaOg0E9f8mUG8kyWG+2vU4Opx
    w==;
-X-CSE-ConnectionGUID: fQI9BmJzSP+T6VRKKZR7aA==
-X-CSE-MsgGUID: CqOoEY50TpOP5yt1fAI8UQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="107842585"
+X-CSE-ConnectionGUID: G48XqwMJSkeHeGZImo63fA==
+X-CSE-MsgGUID: W9L2+Y7oRfKBar6wrHkE/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="838849"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="107842585"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 00:35:14 -0700
-X-CSE-ConnectionGUID: ZLvkaXWbQ1mcTnyE200BSw==
-X-CSE-MsgGUID: O9PN042rRV6YzZkAkRxv0g==
+   d="scan'208";a="838849"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 00:44:42 -0700
+X-CSE-ConnectionGUID: 9PMppINCR1mb0JhMI3QQMg==
+X-CSE-MsgGUID: BE4RmvhDQaa60m8rXisXQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="298187384"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Sep 2026 00:35:11 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="268448315"
+Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 19 Sep 2026 00:44:40 -0700
+Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7pbI-00000000AjZ-3904;
-	Sat, 19 Sep 2026 07:35:08 +0000
-Date: Sat, 19 Sep 2026 15:34:37 +0800
+	id 1x7pkQ-000000001O6-1viq;
+	Sat, 19 Sep 2026 07:44:34 +0000
+Date: Sat, 19 Sep 2026 09:44:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Sivaprakash Murugesan <sivaprak@codeaurora.org>,
-	Gokul Sriram Palanisamy <quic_gokulsri@quicinc.com>,
-	Govind Singh <govinds@codeaurora.org>,
-	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Guangshuo Li <lgs201920130244@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] remoteproc: qcom: q6v5-wcss: remove all subdevices on
- unbind
-Message-ID: <202609191513.bywryVFw-lkp@intel.com>
-References: <20260918041321.3532355-1-lgs201920130244@gmail.com>
+To: Youling Tang <tangyouling@kylinos.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>
+Subject: arch/loongarch/kernel/machine_kexec.o: warning: objtool:
+ kexec_shutdown_secondary+0x60: stack state mismatch: cfa1=3+0 cfa2=3+16
+Message-ID: <202609190905.OZTcO07l-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260918041321.3532355-1-lgs201920130244@gmail.com>
 
-Hi Guangshuo,
+Hi Youling,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on remoteproc/rproc-next]
-[also build test ERROR on linus/master v7.3-rc3 next-20260918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/remoteproc-qcom-q6v5-wcss-remove-all-subdevices-on-unbind/20260918-121321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-patch link:    https://lore.kernel.org/r/20260918041321.3532355-1-lgs201920130244%40gmail.com
-patch subject: [PATCH] remoteproc: qcom: q6v5-wcss: remove all subdevices on unbind
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260919/202609191513.bywryVFw-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7252edd9aa82ef1c570ff6694ef7f4763a8a5d2f)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191513.bywryVFw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   40288c9206c17eb66a603262e06a58d300d0f279
+commit: d162feec6b6e7ed97986118450812fdd7e9ba202 LoongArch: Add preparatory infrastructure for kexec_file
+date:   12 months ago
+config: loongarch-randconfig-r2105-20260919 (https://download.01.org/0day-ci/archive/20260919/202609190905.OZTcO07l-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609190905.OZTcO07l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: d162feec6b6e ("LoongArch: Add preparatory infrastructure for kexec_file")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609191513.bywryVFw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609190905.OZTcO07l-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/remoteproc/qcom_q6v5_wcss.c:1051:1: error: invalid argument type 'void' to unary expression
-    1051 | +       qcom_remove_ssr_subdev(rproc, &wcss->ssr_subdev);
-         | ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +/void +1051 drivers/remoteproc/qcom_q6v5_wcss.c
-
-  1039	
-  1040	static void q6v5_wcss_remove(struct platform_device *pdev)
-  1041	{
-  1042		struct rproc *rproc = platform_get_drvdata(pdev);
-  1043		struct q6v5_wcss *wcss = rproc->priv;
-  1044	
-  1045		rproc_del(rproc);
-  1046	
-  1047		qcom_q6v5_deinit(&wcss->q6v5);
-  1048		qcom_remove_glink_subdev(rproc, &wcss->glink_subdev);
-  1049		qcom_remove_pdm_subdev(rproc, &wcss->pdm_subdev);
-  1050		qcom_remove_sysmon_subdev(wcss->sysmon);
-> 1051	+	qcom_remove_ssr_subdev(rproc, &wcss->ssr_subdev);
-  1052	}
-  1053	
+>> arch/loongarch/kernel/machine_kexec.o: warning: objtool: kexec_shutdown_secondary+0x60: stack state mismatch: cfa1=3+0 cfa2=3+16
 
 --
 0-DAY CI Kernel Test Service
