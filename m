@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7152F851
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 02:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69002EDD58
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 03:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789784584; cv=none; b=sKw7CjvsClf7E7KNAf+M+ZcEhKmI0uzIb7mx7sxppa65+fUDjMGyu2NjgET35ISfERs9jlo8z5XzIxQC91e1K6yUXKZCi9h88jxYkL15JbVQ+SfP0FafkZ9xgaVsfwsrAW2MoEdAVjNiQ7OT9gn4W7ePplgPaPUZTMKDhG9qMk8=
+	t=1789790226; cv=none; b=rpWPfwohMWFHA2XU8nqlvvrxX3O3DC1ap6F5tTbq3Va/BEdAKDUWGR7IOM6Ggz2Y2ZBx3PMvmPf5nFr5oq2L22NBaE4SF9H8h2GcXFziY7QOazWEQYeDtSSLr+UR+0dcw0Z0KxYWn5oXQO8p3cBZUblWYJlkmhTiEP1z7IEm2Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789784584; c=relaxed/simple;
-	bh=F5plFVXlHqejTzkFIhtUpn09XXP5HVZlaKCxC75oCf4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bt7zZaLmq1dTpKfMEwYlZ5krAdWqWO3cHMAzPoxBKr0WLiLi0n+yoSZfuF9CzZG9JC1DafUwUk06kGtItleAEQXukWMSG+CGekgGeK7dsUjKJCgHGVM+jMo4P0m6RPdRRIhzuaIeCACQBk/x/LRrgwZx3oXWHc5ZdT+QuGtg5oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uys930np; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1789790226; c=relaxed/simple;
+	bh=o6sBMwWJLzJrJ5SLDNjVZjvXz9InjgL/y16tAhefMNI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=m/Hi983RGOXQCpgl/o/owIyy+Ciyb2y7ey0zghMB+qYnhDbUGhSG3YSIeRWzy6cMxwQcUvWK8ZTz6hhlitjl3Wng21XPvzTJCxC7v1VLjBf2pC5FxSLwa/xpGRKP/twJ/LNIOMWNYD0FHrGXaUOapvvEUBGigXb4N/HrWVr2oNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAoPt5fq; arc=none smtp.client-ip=192.198.163.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uys930np"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAoPt5fq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789784582; x=1821320582;
+  t=1789790224; x=1821326224;
   h=date:from:to:cc:subject:message-id;
-  bh=F5plFVXlHqejTzkFIhtUpn09XXP5HVZlaKCxC75oCf4=;
-  b=Uys930npeKMJX9R/vWFuAEmqvluzd+czouMfKjxo15UrvYWAuR8xs4zy
-   gucQ55KFG4SQ1vGPOix8lRThLFWrzlgdm5dXnYqCoEvVJiNORpfg2bskx
-   zPV8vyhvpC3PONSQqNyVxsb0Ti38l2U1RRm7Ns3oqpTz2357i5m/e0jX0
-   kjYcOmZPStphaTHNRAvtw2dVFFSt/yJN2ZSgaOpuXB213764Jyg5cFZ5j
-   4vhIQlAjTuZOWEIuf9lWyiLxglhEtQGjdhZyT6W4NPUzxY+ycklIR0IKk
-   3q3w4S64lJM6cf88mkT2/ZJFpZJBRtsD95qhWPtEbsoz6jCXJM8PZskdE
-   Q==;
-X-CSE-ConnectionGUID: GNNdd9BGSkWQPEsLVogilQ==
-X-CSE-MsgGUID: ZgEgOu0pS4O2HIrr5QLhrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="100922164"
+  bh=o6sBMwWJLzJrJ5SLDNjVZjvXz9InjgL/y16tAhefMNI=;
+  b=SAoPt5fq2aGRsgdTgL9w43BZthVerG4gVyvh/VigzjI2KQMb0k6XOfF8
+   Ew7w3uBtHnF7PYYsG95IolRKvKFjPR6FTe2rkUMg/UzVFgJ2XBGEQJG5M
+   f51u8T15ADUm32Eq/gpfpjrWhbHc609T22H7RwvPS3EvlL6EcTtqpYvBm
+   mnfsGh7MSouTsPELAkKkmIwmAzo1uyY7T3/52uSLtzYTdd8YAPvBgH10I
+   xINlitiM0I5olmaD1KtQKsrarDULBmcDv/5fhEgs5kopIC3vtpne94dLG
+   jwZg2s8R76vBjBBsJJyeIfhhi+/YXPw+8lAdsjawwaD+/PDP88rcfaeuD
+   g==;
+X-CSE-ConnectionGUID: UdKCfOsFS7e7ch7T4JGblg==
+X-CSE-MsgGUID: CErJNpZ0QHO+8HtSS+e6EQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="840970"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="100922164"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 19:23:01 -0700
-X-CSE-ConnectionGUID: XSMB3to/Q1KSJEOK5FcZmQ==
-X-CSE-MsgGUID: IadGu1wIT8SX6lJnVhaNtQ==
+   d="scan'208";a="840970"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 20:57:03 -0700
+X-CSE-ConnectionGUID: Sw7FsiA0QxKGn3vZoLko5Q==
+X-CSE-MsgGUID: RK1C9mBsRfy1xrfW84CsZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="279886291"
+   d="scan'208";a="299781474"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Sep 2026 19:22:59 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 18 Sep 2026 20:57:01 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7kjB-00000000Aaj-0WDK;
-	Sat, 19 Sep 2026 02:22:57 +0000
-Date: Sat, 19 Sep 2026 10:22:24 +0800
+	id 1x7mCB-00000000AdV-1TgV;
+	Sat, 19 Sep 2026 03:56:59 +0000
+Date: Sat, 19 Sep 2026 11:56:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hyunwoo Kim <imv4bel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@kernel.org>,
- "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Subject: kernel/futex/core.c:1870:21: sparse: sparse: cast removes
- address space '__percpu' of expression
-Message-ID: <202609191020.VPOLEfEq-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ drivers/android/binder.c:1373:70: sparse: sparse: Using plain integer as NULL
+ pointer
+Message-ID: <202609191123.4VCCJsjt-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,150 +60,45 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f259f446f5198d98e13756d2cd531812a0ad3064
-commit: bde0238083647381d4747355c5a19115a3422b96 futex: Fix race on the initial mm->futex.phash.ref allocation
-date:   5 weeks ago
-config: riscv-randconfig-r1307-20260919 (https://download.01.org/0day-ci/archive/20260919/202609191020.VPOLEfEq-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 05d706e9a816dbf9eff31f47869f53d6fe796089)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   428b47f4651829663d19455bcf5132040b155e86
+commit: 35014985c266face161f6d107f8d8338e02a0b2d [1/1] ANDROID: vendor_hooks: Add hooks for binder proc transaction
+config: i386-randconfig-r1307-20260917 (https://download.01.org/0day-ci/archive/20260919/202609191123.4VCCJsjt-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191020.VPOLEfEq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191123.4VCCJsjt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: bde023808364 ("futex: Fix race on the initial mm->futex.phash.ref allocation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609191020.VPOLEfEq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609191123.4VCCJsjt-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
-   kernel/futex/core.c:536:38: sparse: sparse: cast removes address space '__user' of expression
-   kernel/futex/core.c:536:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
-   kernel/futex/core.c:536:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
-   kernel/futex/core.c:536:51: sparse:     got void *
-   kernel/futex/core.c:552:38: sparse: sparse: cast removes address space '__user' of expression
-   kernel/futex/core.c:552:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
-   kernel/futex/core.c:552:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
-   kernel/futex/core.c:552:51: sparse:     got void *
->> kernel/futex/core.c:1870:21: sparse: sparse: cast removes address space '__percpu' of expression
+>> drivers/android/binder.c:1373:70: sparse: sparse: Using plain integer as NULL pointer
+   drivers/android/binder.c:2508:41: sparse: sparse: Using plain integer as NULL pointer
+   drivers/android/binder.c:4580:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   drivers/android/binder.c:4580:24: sparse:     expected restricted __poll_t
+   drivers/android/binder.c:4580:24: sparse:     got int
 
-vim +/__percpu +1870 kernel/futex/core.c
+vim +1373 drivers/android/binder.c
 
-  1836	
-  1837	static int futex_hash_allocate(unsigned int hash_slots, unsigned int flags)
-  1838	{
-  1839		struct mm_struct *mm = current->mm;
-  1840		struct futex_private_hash *fph;
-  1841		bool custom = flags & FH_CUSTOM;
-  1842		int i;
-  1843	
-  1844		if (hash_slots && (hash_slots == 1 || !is_power_of_2(hash_slots)))
-  1845			return -EINVAL;
-  1846	
-  1847		/*
-  1848		 * Once we've disabled the global hash there is no way back.
-  1849		 */
-  1850		scoped_guard(rcu) {
-  1851			fph = rcu_dereference(mm->futex.phash.hash);
-  1852			if (fph && !fph->hash_mask) {
-  1853				if (custom)
-  1854					return -EBUSY;
-  1855				return 0;
-  1856			}
-  1857		}
-  1858	
-  1859		if (!mm->futex.phash.ref) {
-  1860			unsigned int __percpu *ref = alloc_percpu(unsigned int);
-  1861	
-  1862			if (!ref)
-  1863				return -ENOMEM;
-  1864	
-  1865			/*
-  1866			 * Tasks sharing the mm can run this concurrently, so take the
-  1867			 * initial reference before publishing the counter.
-  1868			 */
-  1869			this_cpu_inc(*ref); /* 0 -> 1 */
-> 1870			if (cmpxchg(&mm->futex.phash.ref, NULL, ref))
-  1871				free_percpu(ref);
-  1872		}
-  1873	
-  1874		fph = kvzalloc(struct_size(fph, queues, hash_slots),
-  1875			       GFP_KERNEL_ACCOUNT | __GFP_NOWARN);
-  1876		if (!fph)
-  1877			return -ENOMEM;
-  1878	
-  1879		fph->hash_mask = hash_slots ? hash_slots - 1 : 0;
-  1880		fph->custom = custom;
-  1881		fph->mm = mm;
-  1882	
-  1883		for (i = 0; i < hash_slots; i++)
-  1884			futex_hash_bucket_init(&fph->queues[i]);
-  1885	
-  1886		if (custom) {
-  1887			/*
-  1888			 * Only let prctl() wait / retry; don't unduly delay clone().
-  1889			 */
-  1890	again:
-  1891			wait_var_event(mm, futex_pivot_pending(mm));
-  1892		}
-  1893	
-  1894		scoped_guard(mutex, &mm->futex.phash.lock) {
-  1895			struct futex_private_hash *free __free(kvfree) = NULL;
-  1896			struct futex_private_hash *cur, *new;
-  1897	
-  1898			cur = rcu_dereference_protected(mm->futex.phash.hash,
-  1899							lockdep_is_held(&mm->futex.phash.lock));
-  1900			new = mm->futex.phash.hash_new;
-  1901			mm->futex.phash.hash_new = NULL;
-  1902	
-  1903			if (fph) {
-  1904				if (cur && !cur->hash_mask) {
-  1905					/*
-  1906					 * If two threads simultaneously request the global
-  1907					 * hash then the first one performs the switch,
-  1908					 * the second one returns here.
-  1909					 */
-  1910					free = fph;
-  1911					mm->futex.phash.hash_new = new;
-  1912					return -EBUSY;
-  1913				}
-  1914				if (cur && !new) {
-  1915					/*
-  1916					 * If we have an existing hash, but do not yet have
-  1917					 * allocated a replacement hash, drop the initial
-  1918					 * reference on the existing hash.
-  1919					 */
-  1920					futex_ref_drop(cur);
-  1921				}
-  1922	
-  1923				if (new) {
-  1924					/*
-  1925					 * Two updates raced; throw out the lesser one.
-  1926					 */
-  1927					if (futex_hash_less(new, fph)) {
-  1928						free = new;
-  1929						new = fph;
-  1930					} else {
-  1931						free = fph;
-  1932					}
-  1933				} else {
-  1934					new = fph;
-  1935				}
-  1936				fph = NULL;
-  1937			}
-  1938	
-  1939			if (new) {
-  1940				/*
-  1941				 * Will set mm->futex.phash.new_hash on failure;
-  1942				 * futex_private_hash_get() will try again.
-  1943				 */
-  1944				if (!__futex_pivot_hash(mm, new) && custom)
-  1945					goto again;
-  1946			}
-  1947		}
-  1948		return 0;
-  1949	}
-  1950	
+  1363	
+  1364	/**
+  1365	 * binder_free_ref() - free the binder_ref
+  1366	 * @ref:	ref to free
+  1367	 *
+  1368	 * Free the binder_ref. Free the binder_node indicated by ref->node
+  1369	 * (if non-NULL) and the binder_ref_death indicated by ref->death.
+  1370	 */
+  1371	static void binder_free_ref(struct binder_ref *ref)
+  1372	{
+> 1373		trace_android_vh_binder_del_ref(ref->proc ? ref->proc->tsk : 0, ref->data.desc);
+  1374		if (ref->node)
+  1375			binder_free_node(ref->node);
+  1376		kfree(ref->death);
+  1377		kfree(ref);
+  1378	}
+  1379	
 
 --
 0-DAY CI Kernel Test Service
