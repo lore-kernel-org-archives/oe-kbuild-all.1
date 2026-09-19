@@ -1,115 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A122236F7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 06:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C020D13D51E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 06:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789798811; cv=none; b=d5dD/SJWTUnOonKgDmOP4MecCPGRq2r58fbak3nYLpO8ZQihw8XfXCkQH3aODqv4uFRtp1Sgq9w11rcBjRz7nxKDUk+I7WGEbSZJOcfllxLd2JDqPVe7IL7N8OgGK1noh/BEY+nz1SiKygfvYxnfGQtHST+PJTXtcYmMZhErem8=
+	t=1789799534; cv=none; b=LdYAJbTT5FrXMYd62PjH77SQ69XVNkYRyiVG3UgCSo3IaguKEJDWwXnEJIISOULl3n9lgKw1vM+HfmsHwMKScEiwkxnS3tOSlRKTExZKV/5tMmUr4AqNGXK4ivp2lfC0hkYPhsNNFIBMV/QflAGKsIP8Ko7wh31a42kAr6r5X5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789798811; c=relaxed/simple;
-	bh=IEW8hh64KtfdKaYBJsMyWDmAkz5mQk7B3j5P2Uhyzzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLWC/CjzJizqA5LB5fc8RUL7JSNljG6/BLin7X4lFl/SFk0y7KlKPkeGL4Nk37kMlVbBvhdH3CRkbgUNXDAiIeRwicUk1sYaz20HJrnzg1JPaI7KG97qzkMMxhLom1OTRbmpGJzMVcxj5hFykjCHgB0D/CEoO+aZj4MgkvvCbbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWP711I7; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1789799534; c=relaxed/simple;
+	bh=Dl/P0iZVMxqnJ8+239e/io7pAPnStxae1la7A5N1b4s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KcIilkjrtBHqBcnS0D0CUtHF/+uWZJtlw7rNiyf9OoxVSYlWeiPtCBGjh4psndBIMaAPH/DXm+eiJjTmZ+cCSlxjDq18AoKewWsz7QVatyWn7srfGJNoU+JdCJSjImwHCfrqDNHK7Li986uoYEdwNaFqJaCAvt4MS+hTWDUzyz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GqPMS9ff; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWP711I7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GqPMS9ff"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789798809; x=1821334809;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IEW8hh64KtfdKaYBJsMyWDmAkz5mQk7B3j5P2Uhyzzs=;
-  b=LWP711I7Ody5eWcc9qmZwJgK8wPmrVg2g57/iKexkwoEXJH1u83YAeUr
-   Ae2Ah57nvcqvdKAkP+I2It3Krjhy1HwQ9/ug8k2KFY4/ZVUbhVyB3/Wa+
-   4ulhVkUumD45dGsBZ27hBjD67WzcH4XkIpbgnRA6HewWDyHhGAouBARaZ
-   APWZquqr1U7oW5vrDmI4VtKEqAvbxtn0g2nIcMvdd70MBkbW11aqDlp9a
-   nqkQyodRCGccZ/+y6DXetcpPpUQpN1P82c8TgE3WgUw8a28VvtbjWP7Gp
-   S3HUJdiFkrFJmMWuwRTHBNX5YUYyndMuUp06YOIcm1vGJLpxA+ogm4FFB
-   g==;
-X-CSE-ConnectionGUID: cEqEM3A2S3GiY9Mqm+sBrw==
-X-CSE-MsgGUID: pkJiamVLSZ+YOgpAn9vM6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="89262277"
+  t=1789799531; x=1821335531;
+  h=date:from:to:cc:subject:message-id;
+  bh=Dl/P0iZVMxqnJ8+239e/io7pAPnStxae1la7A5N1b4s=;
+  b=GqPMS9ffbJ981wKmzRQ7neLngA8BAd2kkc/gtx7acIrtaXBKHYW7PeqE
+   DSglGzGmnpUarvz8B8Zo+NuJHcyZyimCcBntD9zGOyql/dHLHiSktdXaQ
+   VOf9Kk6xGZBLT/SqUfYgXslnMt71RyX55fHqzue2mcnRRTODtHzHFVruU
+   /he1rekDQzD4ryKV25FMgGC7GekzlR+gDzqMqBKADA3C5iw6zgiQi9V+H
+   78gcwCPlc369adLvjj5JiaiQ+STlr2DcKRt9Q9W53TM0Nuoouk4fempja
+   7iZv6EXQiWelou6kUMI/GyIvuYlN51SKbZSU127LO0MBlsAU/7Fv7e4x4
+   A==;
+X-CSE-ConnectionGUID: Q5AiQ0JsSj+JH4iGtiQlNg==
+X-CSE-MsgGUID: /RQI496PRneGuOMXhah58w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11909"; a="101683861"
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="89262277"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 23:20:08 -0700
-X-CSE-ConnectionGUID: hMFzWDC0SRaRInEGfn6xHw==
-X-CSE-MsgGUID: W1lMWoOCRtyy4SZdVOp24A==
+   d="scan'208";a="101683861"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 23:32:09 -0700
+X-CSE-ConnectionGUID: rzsnWiZ0SL6veQXUDyBcMQ==
+X-CSE-MsgGUID: RBkBR0oASLWVosgMKhqofg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,109,1787036400"; 
-   d="scan'208";a="271370188"
+   d="scan'208";a="270435068"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Sep 2026 23:20:07 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 18 Sep 2026 23:32:08 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7oQe-00000000Aht-3rAY;
-	Sat, 19 Sep 2026 06:20:04 +0000
-Date: Sat, 19 Sep 2026 14:19:39 +0800
+	id 1x7ocH-00000000AiF-3etf;
+	Sat, 19 Sep 2026 06:32:05 +0000
+Date: Sat, 19 Sep 2026 14:31:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Baorui.Liu" <baorliu@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/1] cpufreq: virtio: add driver to report host
- frequency to guests
-Message-ID: <202609191437.OaXd0Blz-lkp@intel.com>
-References: <20260916073735.541-2-baorliu@amd.com>
+Subject: [android-common:android13-5.10 1/1]
+ include/trace/trace_events.h:27:23: warning: 'str__dtask__trace_system_name'
+ defined but not used
+Message-ID: <202609191438.x6FiDv4r-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260916073735.541-2-baorliu@amd.com>
 
-Hi Baorui.Liu,
+Hi Sangmoon,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge mst-vhost/linux-next linus/master v7.3-rc3 next-20260918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Baorui-Liu/cpufreq-virtio-add-driver-to-report-host-frequency-to-guests/20260916-153735
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20260916073735.541-2-baorliu%40amd.com
-patch subject: [RFC PATCH 1/1] cpufreq: virtio: add driver to report host frequency to guests
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260919/202609191437.OaXd0Blz-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191437.OaXd0Blz-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   428b47f4651829663d19455bcf5132040b155e86
+commit: 9ad8ff902e39f37baf15904c6627ca03e8f60c27 [1/1] ANDROID: vendor_hooks: add waiting information for blocked tasks
+config: arm64-randconfig-1001-20260918 (https://download.01.org/0day-ci/archive/20260919/202609191438.x6FiDv4r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191438.x6FiDv4r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609191437.OaXd0Blz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609191438.x6FiDv4r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/cpufreq/virtio-cpufreq.c:165:27: error: 'cpufreq_generic_attr' undeclared here (not in a function); did you mean 'cpufreq_generic_get'?
-     165 |         .attr           = cpufreq_generic_attr,
-         |                           ^~~~~~~~~~~~~~~~~~~~
-         |                           cpufreq_generic_get
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dtask.h:53,
+                    from drivers/android/vendor_hooks.c:16:
+>> include/trace/trace_events.h:27:23: warning: 'str__dtask__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/futex.h:26,
+                    from drivers/android/vendor_hooks.c:15:
+   include/trace/trace_events.h:27:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/rwsem.h:38,
+                    from drivers/android/vendor_hooks.c:14:
+   include/trace/trace_events.h:27:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/binder.h:33,
+                    from drivers/android/vendor_hooks.c:13:
+   include/trace/trace_events.h:27:23: warning: 'str__binder__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fpsimd.h:26,
+                    from drivers/android/vendor_hooks.c:12:
+   include/trace/trace_events.h:27:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sched.h:85,
+                    from drivers/android/vendor_hooks.c:11:
+   include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +165 drivers/cpufreq/virtio-cpufreq.c
+vim +/str__dtask__trace_system_name +27 include/trace/trace_events.h
 
-   157	
-   158	static struct cpufreq_driver virtio_cpufreq_driver = {
-   159		.name		= DRV_NAME,
-   160		.flags		= CPUFREQ_CONST_LOOPS,
-   161		.init		= virtio_cpufreq_init_policy,
-   162		.verify		= cpufreq_generic_frequency_table_verify,
-   163		.target_index	= virtio_cpufreq_target_index,
-   164		.get		= virtio_cpufreq_get,
- > 165		.attr		= cpufreq_generic_attr,
-   166	};
-   167	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
