@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DE535B650
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 19:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476E2302CD5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 21:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789847730; cv=none; b=uaF2usE5e2UES64BI4Dqdcw3Jm9poT3uSMQpe7RO3MJVQv0YgaUiNUwUZN6rnRTRCZ6NuCz1gU8oB9tq2MKLQIfPFh+k4C+feoLrJykzJ1vVGKsklxRpSgaq1Pas9fFNeMlh5QK4l4VM9yQqXsPqiOeMpc04i6N5S2hJf2xTTsA=
+	t=1789852487; cv=none; b=hFwNKITHFcNPhX8yPRzIlkqYjeSqbO43IyShXtqbbNDq1prg3uCq5cxkiAwY2FmwdDrEeOmYFx24evcQm8+pECCB6bgvXSch6cquOghcLqHSs4EJBZ4SR0CYszZy2qn0tcagb9D5zIpRYvCubKX2Q+Lmbk6olXvEFZ0QrusQL7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789847730; c=relaxed/simple;
-	bh=WNHXIffDfte/Ua4NuaTXvX1zuqKBJXnR/e2F+mWqdCs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HLureJQMXB7xoMuruoLwDbEqcKOnGL30DzVcPfNuompmRsx7agTIkPI9LlT/p3VQGu2B/95i4ZvSN/Qa2I4cSBAwe4AxmkTCl3FF+RT947a3DRsNf9uTN4KQJ4vAnOnQv8yF4Y1mxbRrHmpq3c4YvzYJbiY0opo/2FajZVSlF50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OoX0SPDH; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1789852487; c=relaxed/simple;
+	bh=BugfzPWQEksi5N7qv6dtW/MfPONRAIDUp9+0wR8ULXc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eHiGhmTlzu0kbLXd3EbDhM5zETikM4sGdvT5mhVZ1/6mzb5UGL6PgDPHU/s6n+DPjLli/IIshZXTLvVyUFM1lnq9Y1HeDlW/WUuaZtKWoZSMrmZMEycOsWJ/z6ipbXeRLriD1c1OwJd1KdONgHgell5UrM4Cw+giQcLShqxmC4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TgHvVESh; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OoX0SPDH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TgHvVESh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789847729; x=1821383729;
+  t=1789852484; x=1821388484;
   h=date:from:to:cc:subject:message-id;
-  bh=WNHXIffDfte/Ua4NuaTXvX1zuqKBJXnR/e2F+mWqdCs=;
-  b=OoX0SPDHHJkQG6sQK7DbkSMIVTkfhDm2pDtD7aAXNmV1SrfZnwnIqfNL
-   TxeLrKVczfMq+3cmgarTsd1noMtLit9DT9Chb9n1nKK2sEv9adOm7CQOV
-   0gVwqls/Syng+wxIppxq1mYnQXEOcXd7Qas6hSXmoA9YLGslDtjXaLDgI
-   f+of9WJJ885PlMP7i1nO7hXvHbAxcWOL+Pn8YBalo6e1WG9Yl+Ps4eRBh
-   V4XUX0p9Mdqqz/qC4p8LnFsf+/U96p8GgCp71K/HUS0jQcaH1vHOj7Cvm
-   9e/i3Ye1WUcDukDIfbY4TsmOHqrdJrcBIRZ4Vi5ym6DBXn7oWlWdOev77
-   A==;
-X-CSE-ConnectionGUID: rrzujC+pTGaS400YOjvtYQ==
-X-CSE-MsgGUID: 3CvfPutrQniddLb2NrcJUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="92872821"
+  bh=BugfzPWQEksi5N7qv6dtW/MfPONRAIDUp9+0wR8ULXc=;
+  b=TgHvVEShbKxj7EFTOk8Z55NSEkMKTBy6qzo6nscQ0Gt/dqcjGGjqHswV
+   Vzp+gAZ9dDGLtgbhC9zTGn0EB1w52EEfprVZXtbi6RgB8TE9QfhkIuoRx
+   eNseoUdxV3rolWjCZo4QEprC4AccQkQgEC5cSlSHvlCVV2ccDxDpVFpHv
+   FTgcYxFy/ZtWBuybNE5fKmz+wL49NHsXcgeZlZGH9lilY6yfrGx2p2+HC
+   9Qhlw6ya8vj5NkLtR5Z/RgBN19+KsbYfYGGqAmDAkrnKSUWeFiel5L9QC
+   FG6kk6IDSaOjnIgVXxMky8qaXZG+OJ16Q8Vlwh0CLCqLw/8br/iUtn/f0
+   w==;
+X-CSE-ConnectionGUID: NercAqSnS9apZcJkVfOppQ==
+X-CSE-MsgGUID: vZonM51QTaKrssNWUaWsug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="90386655"
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="92872821"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 12:55:28 -0700
-X-CSE-ConnectionGUID: POclUcUvR32Ol8yt/zL4ew==
-X-CSE-MsgGUID: jX47BXUmSGGRkyGisTRkvA==
+   d="scan'208";a="90386655"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 14:14:44 -0700
+X-CSE-ConnectionGUID: a4AY7yr8R+qgjKeOEaDsqQ==
+X-CSE-MsgGUID: BmFzEaKaSOyj39wLDxbiEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="268595250"
+   d="scan'208";a="3105927"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Sep 2026 12:55:27 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 19 Sep 2026 14:14:42 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x819g-00000000BKJ-33Fa;
-	Sat, 19 Sep 2026 19:55:24 +0000
-Date: Sun, 20 Sep 2026 03:55:10 +0800
+	id 1x82ON-00000000BNR-1xYV;
+	Sat, 19 Sep 2026 21:14:39 +0000
+Date: Sun, 20 Sep 2026 05:13:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/2]
- drivers/tty/serial/qcom_geni_serial.c:1592:9: sparse: sparse: Initializer
- entry defined twice
-Message-ID: <202609200332.E2ctGE9E-lkp@intel.com>
+To: Florian Westphal <fw@strlen.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Pablo Neira Ayuso <pablo@netfilter.org>
+Subject: net/netfilter/ipset/ip_set_hash_netiface.c:163:25: sparse:
+ sparse: cast to non-scalar
+Message-ID: <202609200503.KbHsIjIf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,54 +60,135 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   77804d3596695c7b85fe038c81d9580283ffd2ca
-commit: 710fd74d1dbb72c237548032941e84771551546a [2/2] FROMGIT: tty: serial: qcom-geni-serial: Add support for Hibernation feature
-config: arm64-randconfig-r1305-20260919 (https://download.01.org/0day-ci/archive/20260920/202609200332.E2ctGE9E-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 05d706e9a816dbf9eff31f47869f53d6fe796089)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f259f446f5198d98e13756d2cd531812a0ad3064
+commit: e80456d79ec83b00a6bd44c377684b1632ccc3c7 netfilter: ipset: remove need to allocate memory on delete operations
+date:   5 weeks ago
+config: alpha-randconfig-r1306-20260919 (https://download.01.org/0day-ci/archive/20260920/202609200503.KbHsIjIf-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609200332.E2ctGE9E-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609200503.KbHsIjIf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e80456d79ec8 ("netfilter: ipset: remove need to allocate memory on delete operations")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609200332.E2ctGE9E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609200503.KbHsIjIf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/qcom_geni_serial.c: note: in included file (through arch/arm64/include/asm/io.h, include/linux/io.h):
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
->> drivers/tty/serial/qcom_geni_serial.c:1592:9: sparse: sparse: Initializer entry defined twice
-   drivers/tty/serial/qcom_geni_serial.c:1595:10: sparse:   also defined here
+   net/netfilter/ipset/ip_set_hash_netiface.c: note: in included file:
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
+>> net/netfilter/ipset/ip_set_hash_netiface.c:163:25: sparse: sparse: cast to non-scalar
+>> net/netfilter/ipset/ip_set_hash_netiface.c:163:25: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netiface.c: note: in included file:
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netiface.c:384:25: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_netiface.c:384:25: sparse: sparse: cast from non-scalar
+--
+   net/netfilter/ipset/ip_set_hash_netnet.c: note: in included file:
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast from non-scalar
+>> net/netfilter/ipset/ip_set_hash_netnet.c:153:21: sparse: sparse: cast to non-scalar
+>> net/netfilter/ipset/ip_set_hash_netnet.c:153:21: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netnet.c:154:21: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_netnet.c:154:21: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netnet.c: note: in included file:
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netnet.c:394:21: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_netnet.c:394:21: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netnet.c:395:21: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_netnet.c:395:21: sparse: sparse: cast from non-scalar
+--
+   net/netfilter/ipset/ip_set_hash_netportnet.c: note: in included file:
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast from non-scalar
+>> net/netfilter/ipset/ip_set_hash_netportnet.c:160:21: sparse: sparse: cast to non-scalar
+>> net/netfilter/ipset/ip_set_hash_netportnet.c:160:21: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netportnet.c:161:21: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_netportnet.c:161:21: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netportnet.c: note: in included file:
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netportnet.c:457:21: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_netportnet.c:457:21: sparse: sparse: cast from non-scalar
+   net/netfilter/ipset/ip_set_hash_netportnet.c:458:21: sparse: sparse: cast to non-scalar
+   net/netfilter/ipset/ip_set_hash_netportnet.c:458:21: sparse: sparse: cast from non-scalar
 
-vim +1592 drivers/tty/serial/qcom_geni_serial.c
+vim +163 net/netfilter/ipset/ip_set_hash_netiface.c
 
-710fd74d1dbb72 Aniket Randive              2022-09-27  1590  
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  1591  static const struct dev_pm_ops qcom_geni_serial_pm_ops = {
-b1f84dd321667d Mukesh Kumar Savaliya       2018-10-16 @1592  	SET_SYSTEM_SLEEP_PM_OPS(qcom_geni_serial_sys_suspend,
-b1f84dd321667d Mukesh Kumar Savaliya       2018-10-16  1593  					qcom_geni_serial_sys_resume)
-710fd74d1dbb72 Aniket Randive              2022-09-27  1594  	.restore = qcom_geni_serial_sys_hib_resume,
-710fd74d1dbb72 Aniket Randive              2022-09-27  1595  	.thaw = qcom_geni_serial_sys_hib_resume,
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  1596  };
-c4f528795d1add Karthikeyan Ramasubramanian 2018-03-14  1597  
+c737b7c4510026 Florian Westphal 2015-04-02  154  
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  155  static int
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  156  hash_netiface4_kadt(struct ip_set *set, const struct sk_buff *skb,
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  157  		    const struct xt_action_param *par,
+5d50e1d88336a9 Jozsef Kadlecsik 2013-04-08  158  		    enum ipset_adt adt, struct ip_set_adt_opt *opt)
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  159  {
+21956ab290f7f3 Jozsef Kadlecsik 2015-06-26  160  	struct hash_netiface4 *h = set->data;
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  161  	ipset_adtfn adtfn = set->variant->adt[adt];
+5d50e1d88336a9 Jozsef Kadlecsik 2013-04-08  162  	struct hash_netiface4_elem e = {
+8e5fd2a55e2468 Jozsef Kadlecsik 2026-07-30 @163  		.cidr = INIT_CIDR(h->rnets[0], HOST_MASK),
+bd9087e0407bfb Jozsef Kadlecsik 2012-09-10  164  		.elem = 1,
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  165  	};
+ca134ce86451f3 Jozsef Kadlecsik 2013-09-07  166  	struct ip_set_ext ext = IP_SET_INIT_KEXT(skb, opt, set);
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  167  
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  168  	if (adt == IPSET_TEST)
+5d50e1d88336a9 Jozsef Kadlecsik 2013-04-08  169  		e.cidr = HOST_MASK;
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  170  
+5d50e1d88336a9 Jozsef Kadlecsik 2013-04-08  171  	ip4addrptr(skb, opt->flags & IPSET_DIM_ONE_SRC, &e.ip);
+5d50e1d88336a9 Jozsef Kadlecsik 2013-04-08  172  	e.ip &= ip_set_netmask(e.cidr);
+e385357a2f214e Jozsef Kadlecsik 2011-06-16  173  
 
-:::::: The code at line 1592 was first introduced by commit
-:::::: b1f84dd321667d07f08fab99d042f1e39e9ee5bb tty: serial: qcom_geni_serial: Rectify UART suspend mechanism
+:::::: The code at line 163 was first introduced by commit
+:::::: 8e5fd2a55e2468f6225ef5af01ae58cdbcbae8cf netfilter: ipset: rework cidr bookkeeping
 
-:::::: TO: Mukesh Kumar Savaliya <msavaliy@codeaurora.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Jozsef Kadlecsik <kadlec@netfilter.org>
+:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
 
 --
 0-DAY CI Kernel Test Service
