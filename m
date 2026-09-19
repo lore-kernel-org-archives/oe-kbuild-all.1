@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE80257827
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 14:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EDA3655FF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Sep 2026 14:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789826582; cv=none; b=WoWGdT42Gjy33R3JpSiGQ8+2KG4jCvQyaGAFK3gHIC3Je+Xf5eNrnI0VBYl8gthL9NK28Zs3+ML8g/PAAHLqOtsPr/nwZfKKEJvzAQ0CamD+he0L+j/9WQPgpe+rEGbNuO6MNwIp/wa1Dz7YdCxCWX/7blICSaO4AD1A3OJVdy0=
+	t=1789829594; cv=none; b=ONrAeOOAwDwBeUBgA0dzXz7ni0i7hRo8L1rrN3M4Goy6oiLZqbiTNyOwLnc33KxoO6JhwlQitAt9JnSC/Ltvyv0GzslQ3EcCuUBx1eCNxyPjsjKJQjwEv3oFoLTo1OeuFaRgL0LhCPNwXHD58vMTA0hS1mN3KtTstHDsa/jiGqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789826582; c=relaxed/simple;
-	bh=X7qzkjdC/wbTAVcRzMGg/Yezgi/bEQODoZ4+wEbsuvY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=h2l/P4Zm7GjXhUleylSIqZ/7HTpXzujnzRxj3yShZmbRCXVf/F46hMuzffXF/O7uTmqIhXING7gjBhmgejFO8ezVtUgbBaHAj+oU/MZ9BQI/XzGMDGPiSGJ4NPIAAzFGJsyC/mMkERX1lZuC862mydsIPfGaEU889Tco2yzkUEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ac9nLPXm; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1789829594; c=relaxed/simple;
+	bh=i1XZK4I+ky8oYWqBeChEAbKSbIMmFUKgjEWbhixtfDE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fEjQzT6k7qCT8eWe3sT1uT4KryANVmuZW/4/PvLpB3K/bVuIZW4OPgr743La5bvjn9Y4ihx611xIlU3TVvLYZTt9hGKKeMxDwEXCxOBWqYCN+HfmF4e1bK9fPwMX204WWSKEG9/bse2En+VlyWByJF9lihuTQNbN28yxLiJ9Opc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SZOzWvmo; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ac9nLPXm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SZOzWvmo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789826580; x=1821362580;
+  t=1789829591; x=1821365591;
   h=date:from:to:cc:subject:message-id;
-  bh=X7qzkjdC/wbTAVcRzMGg/Yezgi/bEQODoZ4+wEbsuvY=;
-  b=ac9nLPXmXwjU52+/b9r9xV0ekd3FbPG7aQYtIWrVAcVLIlQ7wnp50thK
-   9StmZZMtxeIhjzoFixykHedetTYcY3wNTP0i7DMO5WHC1tj3JUVuWLlZL
-   M1mCCL2EsyXLVl2/uUECE9in40Y+ru5oLrQMENRT1RCn9/UMGyvD0LezY
-   IWxgDW9moefmb4MgZb8LVZ8YWZWPt16mHz4U0ZS+jLC4L90iTvWnInMYx
-   Utd8Jzre51jnGgQOWnY1YNAKeXdKf7l+v7R6RqJ5tYaLb4JECrRhdz0F0
-   YsFbxFEx4uZe2ZATBXR6POp0xpDwmQFinQO3wl+J/LnM8NO/KRKKwdz4H
-   A==;
-X-CSE-ConnectionGUID: hXdKoNHPSkSIUcG/lLuM+A==
-X-CSE-MsgGUID: ruXsM6PUQHqimM7aH20snA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="863527"
+  bh=i1XZK4I+ky8oYWqBeChEAbKSbIMmFUKgjEWbhixtfDE=;
+  b=SZOzWvmoYab8XXDfKCovjCRR29R250/t6e4KEKc6N8nvR4NrtvxALWt7
+   EOfKQgCf659GaYMhSVRczB+rNXLpmvd0FR16HEajCldvCyCYSBkTYa9Pc
+   owuzQzukizQORaFODNdV97bU2U70HvBF9qaXvZyvfUkDVikSmbbOX1EiS
+   TZiRGS+mpjecQfQ9QkuhM7Pw/GFk2G5dU9/djEDnC1F/rP6jjFnDgffW/
+   dbDbobVrtX5nDVBSTtaLv5mFDgxVp0/dx9EYSWnCB01/7TtAlK+Lb+n+i
+   3odiHVY2DRtuUeaB7kpCRn8O/adbR/joBycoU2Ei7K3a4kV28oOKDHLDX
+   w==;
+X-CSE-ConnectionGUID: 9vdYyrlGS6ejmrq24p/RmQ==
+X-CSE-MsgGUID: vmiDBpaQRrKBD4TKSEh8vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="857786"
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="863527"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 07:03:00 -0700
-X-CSE-ConnectionGUID: SlJISo5bS3KcktJOzdvfjg==
-X-CSE-MsgGUID: XGsKXh8CTkqPfm2IVoBywg==
+   d="scan'208";a="857786"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 07:53:09 -0700
+X-CSE-ConnectionGUID: 7EnmRA+TRc6cdif/edORJg==
+X-CSE-MsgGUID: TJreDXu2TuC9NhPXE7duLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="280023125"
-Received: from igk-lkp-server01.igk.intel.com (HELO fe5626a770c0) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Sep 2026 07:02:58 -0700
-Received: from kbuild by fe5626a770c0 with local (Exim 4.98.2)
+   d="scan'208";a="3029140"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 19 Sep 2026 07:53:08 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x7veV-000000001T6-3CfR;
-	Sat, 19 Sep 2026 14:02:51 +0000
-Date: Sat, 19 Sep 2026 16:02:06 +0200
+	id 1x7wR7-00000000B0r-1MsX;
+	Sat, 19 Sep 2026 14:53:05 +0000
+Date: Sat, 19 Sep 2026 22:52:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>
-Subject: Warning:
- drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn60/dcn60_hwseq.c:1007 Excess
- function parameter 'probe' description in 'dcn60_update_probe_status'
-Message-ID: <202609191538.mC8C4zZe-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 2/2]
+ drivers/scsi/ufs/ufs-mediatek.c:1142:5: sparse: sparse: symbol
+ 'ufs_mtk_system_suspend' was not declared. Should it be static?
+Message-ID: <202609192203.gZu2j2nJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,24 +60,74 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   40288c9206c17eb66a603262e06a58d300d0f279
-commit: 0d2f4cfa564355fcbbc71498fd8ec09243036109 drm/amd/display: Fix NULL dereference in dcn50/dcn60 init_hw
-date:   2 days ago
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260919/202609191538.mC8C4zZe-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609191538.mC8C4zZe-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   77804d3596695c7b85fe038c81d9580283ffd2ca
+commit: 4d6bab8d366a10751b50a8cce88f9b91bf207795 [2/2] scsi: ufs: ufs-mediatek: Fix the timing of configuring device regulators
+config: arm64-randconfig-r1305-20260919 (https://download.01.org/0day-ci/archive/20260919/202609192203.gZu2j2nJ-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 05d706e9a816dbf9eff31f47869f53d6fe796089)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260919/202609192203.gZu2j2nJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0d2f4cfa5643 ("drm/amd/display: Fix NULL dereference in dcn50/dcn60 init_hw")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609191538.mC8C4zZe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609192203.gZu2j2nJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/scsi/ufs/ufs-mediatek.c:1142:5: sparse: sparse: symbol 'ufs_mtk_system_suspend' was not declared. Should it be static?
+>> drivers/scsi/ufs/ufs-mediatek.c:1156:5: sparse: sparse: symbol 'ufs_mtk_system_resume' was not declared. Should it be static?
+>> drivers/scsi/ufs/ufs-mediatek.c:1165:5: sparse: sparse: symbol 'ufs_mtk_runtime_suspend' was not declared. Should it be static?
+>> drivers/scsi/ufs/ufs-mediatek.c:1179:5: sparse: sparse: symbol 'ufs_mtk_runtime_resume' was not declared. Should it be static?
 
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn60/dcn60_hwseq.c:1007 Excess function parameter 'probe' description in 'dcn60_update_probe_status'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn60/dcn60_hwseq.c:1007 Excess function parameter 'probe' description in 'dcn60_update_probe_status'
+vim +/ufs_mtk_system_suspend +1142 drivers/scsi/ufs/ufs-mediatek.c
+
+  1141	
+> 1142	int ufs_mtk_system_suspend(struct device *dev)
+  1143	{
+  1144		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1145		int ret;
+  1146	
+  1147		ret = ufshcd_system_suspend(dev);
+  1148		if (ret)
+  1149			return ret;
+  1150	
+  1151		ufs_mtk_vreg_set_lpm(hba, true);
+  1152	
+  1153		return 0;
+  1154	}
+  1155	
+> 1156	int ufs_mtk_system_resume(struct device *dev)
+  1157	{
+  1158		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1159	
+  1160		ufs_mtk_vreg_set_lpm(hba, false);
+  1161	
+  1162		return ufshcd_system_resume(dev);
+  1163	}
+  1164	
+> 1165	int ufs_mtk_runtime_suspend(struct device *dev)
+  1166	{
+  1167		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1168		int ret = 0;
+  1169	
+  1170		ret = ufshcd_runtime_suspend(dev);
+  1171		if (ret)
+  1172			return ret;
+  1173	
+  1174		ufs_mtk_vreg_set_lpm(hba, true);
+  1175	
+  1176		return 0;
+  1177	}
+  1178	
+> 1179	int ufs_mtk_runtime_resume(struct device *dev)
+  1180	{
+  1181		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1182	
+  1183		ufs_mtk_vreg_set_lpm(hba, false);
+  1184	
+  1185		return ufshcd_runtime_resume(dev);
+  1186	}
+  1187	
 
 --
 0-DAY CI Kernel Test Service
