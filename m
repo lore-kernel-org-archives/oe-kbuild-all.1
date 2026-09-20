@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA67E2E1F0E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Sep 2026 05:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0703D6CD9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Sep 2026 06:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880545; cv=none; b=V6JyxkOErk871QxW+cucemWQXJi6jTvi/7dABS1QyBJgb7yXtC6QZR9NvSUFIEbd9bCCqPU0s6/QJQmiSPn0i8Zeuw2MIk+qihmcKwxGddRQSFov33yYJT/yeLzKtKAcALA+pYo+Shux7SzcgIeCD8t2BnAxdjv1kzk+YbZIOig=
+	t=1789884755; cv=none; b=YJYK1O39eNFI/Wpk4W0el6TOXJSigWbWOwV3578YomZcjRzsyS9hxnzKz1I6447igbEyeZELCrfpDxxm5nsZ7j8+gZM5iLjiV+/V7xzpqyh07OP0JWf7mE/r+vW2O3HAG6aLmxDiIKeQMa1VNvqsqNngWA2leR7h9DLRvEcwD+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880545; c=relaxed/simple;
-	bh=DqNUiybL7oM0kDgjoZbL4SkuS2LzDEysIkKXZVlUWAY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JDhAL5v/TGwH9/efJwsKqNi0tH03zXIYmntTYab+EW0k1TnpYB0+j/xzWQ5Ik+sRXXMfRdzNEXp+yH9oTH1qxYVqnEEADWWZBcpAj6KhrJdq502qfXOlSO53sMviBooD4eu9Np/V6qwbmiXu+Mm1dTf93UYkacqKZZbkYkddJt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvZDziIV; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1789884755; c=relaxed/simple;
+	bh=rJ7JV7fe/imem88MeBzmgQzVzxxJuNxRZ6eOp/+uA4g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z3jyvGmdsqtol5g+t8vvKa9aobzcUvxSN6xE5dHShuotr8ngi43gtXhGPfcUvaTLnYjLmvoCL5o6wq+xRAZpS6cRtKtvySrRqsWlQ5EA4VopPVY4ofBEuLcy2R0MmTbZUHRoPCUhNKNAvQ6kfOuuL+q6aT1saFZQQscovR3v318=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9khwo+n; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvZDziIV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9khwo+n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789880534; x=1821416534;
+  t=1789884752; x=1821420752;
   h=date:from:to:cc:subject:message-id;
-  bh=DqNUiybL7oM0kDgjoZbL4SkuS2LzDEysIkKXZVlUWAY=;
-  b=QvZDziIVyef33hUhskqjCwALSBhifKM0fcBY75ezNWdL0ojfsaHnz1YZ
-   ciqDIF2bi10sGar4syAS60BLoOsIUBjI0KP1LvpB8DrZTJCrBc8S/sqjx
-   JSrww/FWb28/slm6XaiP0E+gOI5QiekIjId6M06Kd5SSQaFiGw7tjpB9j
-   WCMvobCdfbBDeC9CWwhlIj3RT9nYsRiZsQXZH58JqpIrMZlfaPzCN40hv
-   8agt4tem548H9HPNVTIAXb+p+UGoq4u4F6EgmPRIFLE6h+i/d2hCY583B
-   DzAc5LQqDdTEK8qvDcEThIYDbkQFqG9vVjXj67KnbccGNtyjoBj+zfVh2
+  bh=rJ7JV7fe/imem88MeBzmgQzVzxxJuNxRZ6eOp/+uA4g=;
+  b=I9khwo+nZZZctuVhUcZ/dPLXJpo/LeCvLf3TFSEWtlnlW1OC72inbhDl
+   VLOQFPpBhKmuIwFo/WjU/JY1cB2lF8tRQ/qTcInN5BghIej6+1R3AEn2B
+   MIN5mqRjeTKtNe5PaQHSDziS31SjGh2OxjWmoVT/qIL35qS0BgDnhCTQI
+   Tb10NGmxTlQR6+01ClzUlSODR15u9Z9ZtZluLDfg9ea8i+xeJpM1Q3W8x
+   kjVjlQnwK2RTcPRWxLWHPaAIhpLs4I1tUcheqvnmk0rrlP1NI0rdfI6PA
+   hXy8wvO3Mk3/8p5AChw6zf1xQNyoJzGc9v8U9TQTOb7XEyVMRaEeKQGpw
    A==;
-X-CSE-ConnectionGUID: hjhH6wFEQFSwrq1thMkN1A==
-X-CSE-MsgGUID: 1f+2G2btTh6LXuwataQ5Hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="101053129"
+X-CSE-ConnectionGUID: iS0ZNrPqTVSlmkGCv8Litg==
+X-CSE-MsgGUID: 2P3vcLfmRx2Pfukp+n8dlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="107900305"
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="101053129"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 22:02:14 -0700
-X-CSE-ConnectionGUID: LtHgL5OCS5SAwV/DyKcBxw==
-X-CSE-MsgGUID: QihTsLItS6mUTUt5Ro76BA==
+   d="scan'208";a="107900305"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 23:12:31 -0700
+X-CSE-ConnectionGUID: qM8UP+fHQOSZavZ2q/vx3g==
+X-CSE-MsgGUID: XhT5knpvTUeb9ut/zPWdWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="300110785"
+   d="scan'208";a="271673003"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Sep 2026 22:02:12 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Sep 2026 23:12:30 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x89gn-00000000Btn-3Dh2;
-	Sun, 20 Sep 2026 05:02:09 +0000
-Date: Sun, 20 Sep 2026 13:01:29 +0800
+	id 1x8Amp-00000000C0x-1GF2;
+	Sun, 20 Sep 2026 06:12:27 +0000
+Date: Sun, 20 Sep 2026 14:11:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- drivers/tty/serial/pkvm-pl011/hyp/pl011-hyp.c:38:5: sparse: sparse: symbol
- 'pl011_hyp_init' was not declared. Should it be static?
-Message-ID: <202609201247.4MEZQzzN-lkp@intel.com>
+To: Eduard Zingerman <eddyz87@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alexei Starovoitov <ast@kernel.org>
+Subject: {standard input}:6011: Error: register save offset not a
+ multiple of 4
+Message-ID: <202609201441.HMtNMLer-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,26 +60,34 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   fb15c16e04b24c94825fe17e483d325c4ac239a8
-commit: 1a8bda12e0e953d8b55f264a3ca0e33a508965ab [1/1] ANDROID: drivers: misc: Add an example pl011 driver for pKVM
-config: arm64-randconfig-r1301-20260919 (https://download.01.org/0day-ci/archive/20260920/202609201247.4MEZQzzN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+Hi Eduard,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f259f446f5198d98e13756d2cd531812a0ad3064
+commit: bf0c571f7feb6fa05a512e2a5e50702501849d61 bpf: introduce forward arg-tracking dataflow analysis
+date:   5 months ago
+config: m68k-randconfig-r1306-20260920 (https://download.01.org/0day-ci/archive/20260920/202609201441.HMtNMLer-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201247.4MEZQzzN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201441.HMtNMLer-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: bf0c571f7feb ("bpf: introduce forward arg-tracking dataflow analysis")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609201247.4MEZQzzN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609201441.HMtNMLer-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tty/serial/pkvm-pl011/hyp/pl011-hyp.c:38:5: sparse: sparse: symbol 'pl011_hyp_init' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/pl011_hyp_init +38 drivers/tty/serial/pkvm-pl011/hyp/pl011-hyp.c
-
-    37	
-  > 38	int pl011_hyp_init(const struct pkvm_module_ops *ops)
+   {standard input}: Assembler messages:
+>> {standard input}:6011: Error: register save offset not a multiple of 4
+   {standard input}:6012: Error: register save offset not a multiple of 4
+   {standard input}:6013: Error: register save offset not a multiple of 4
+   {standard input}:6014: Error: register save offset not a multiple of 4
+   {standard input}:6015: Error: register save offset not a multiple of 4
+   {standard input}:6016: Error: register save offset not a multiple of 4
 
 --
 0-DAY CI Kernel Test Service
