@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F9B13D886
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Sep 2026 09:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6819E3E00A3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Sep 2026 09:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789894922; cv=none; b=mWFUmRBMjEjJZt41oZcgIIZTOVCPubi0iRivpXKhGupyFYG78M9O+/PQi227rk44c2GKvRhW8IJaTFux+C7loQqL/6xN6VzchAeCfzCH/rPLVUkVCKghzeXPXqBgJf3Iqplr7ta88j5jA2MDvHxmbVsiJRpi4QIeAuV6cdiPArE=
+	t=1789896424; cv=none; b=og6nwuJgBYcZPIxEe8a4rQ4vC8MGBUWBVeAlVFYLE0E2iuD0dnGBQP2Q9yCwt2v1FQsmjeXjmMDpMgsu1o1VQk6maVw9TttXO1cza6uih7spr4sTWTkleI5rvfDlARp4cp6xlxyEXoskSkUtXEWhMk8kRi4y5NxuRuaaV+33zjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789894922; c=relaxed/simple;
-	bh=FMByguiepzkzYRinbZ4+2CJcC0VTS7MBU34HXdEprL4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tdfK7wJCPMX/cqaP5oITZSJQy3Pn+XPZ+MNmCFedd0Wb/nNqaZIIZ4cNP5taoqlxUMttKFxpMXwby3GW5DMnW9mTuVNCdpbjlJD6OZkL+qtcpp5NvkZ5TCkt6lRa0k9oUgnGkxo76bxSgWO67OvWN3sq+CAQhxwJH8XAeCNyw3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HmbnUZel; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1789896424; c=relaxed/simple;
+	bh=T1COPKVx8X11zHXmsl9hqTMYODiHnDq2xqBLQz5Zmrc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AWoQLI6MmQBxnJyGYZPfZyMzdu40dja3KXWncQJnAVQgAZ9wiVKHkJmD0n8Jf5NFCCDOMRxtDX/1kINJ35Sp/PgMQulCR1+uaRWUVKb3OYXxWfhTFOYwY8uv+Z2EUCb4/MzlFW8xnoakqm+wZaDPBO6KzQnS4EhQqbaVHo/2LfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOcI3v/l; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HmbnUZel"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOcI3v/l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789894921; x=1821430921;
+  t=1789896423; x=1821432423;
   h=date:from:to:cc:subject:message-id;
-  bh=FMByguiepzkzYRinbZ4+2CJcC0VTS7MBU34HXdEprL4=;
-  b=HmbnUZelFn8GRqLoLserqJvg73Tbw6nnyZM8mjOjA57PJGT3A1bcsgkN
-   Xi9x9upZ4ddBwYqisGoET/Yb/o968wuzWVvAPAX+a3QJ49vfjOIeQQ2ur
-   N86kFrzFiGNduXb83RwduOixJY4zTYDn14zpxsOoTZS29D8Cp/tbUyCu8
-   Mka5/b5xeTCugb9oGmO2Y0RRX/fWhn1qBMkNrroUbGfNybFv+1BHs3hz6
-   623E5F0Ind1nJDYhvUVj4cxUo76VaeeBOshPu+WWeCOmKZwOBYrTNJQRc
-   anVnp3CymMT0fGuV0Bbq7YvrVBM4qL3iqKw9r/2O3aHGoZIUif0lPaRbf
-   Q==;
-X-CSE-ConnectionGUID: hu2wm112Qe6WEYIsovBMFw==
-X-CSE-MsgGUID: A+ENr1W0QSeqFjZ0Ef+RlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="908705"
+  bh=T1COPKVx8X11zHXmsl9hqTMYODiHnDq2xqBLQz5Zmrc=;
+  b=iOcI3v/l484edq8CjkYUWOa8v3TN42MCrT2xTWYLaAZ/8FXIcF17qB42
+   hZw3gbIGNYIBVfFoYnQR2Bb5bIksucZRqj0s9XT1GjxVYWt1hF4M0WRcH
+   Xf14mCHhaBmc1yFCZxgwZ/DW6/Jhs+emurcHwAz+i+R1nfMjbqhs7gkAg
+   1OF7IBf9LFRfkdi12hq0A8Arv1aUwXufRzFJ4Y2zVPAJbhBWtMnhLOoXL
+   OMFqv/Z2UkF29DaMmbzz8Udgd4toK22DMi85U8bNCb9BTti+/EhQxYxLY
+   ZxMEtX89wkVq8tXIhINsrRuakv2FQGaJCehDNufYEq/Bxb6a7jHNxI3G+
+   g==;
+X-CSE-ConnectionGUID: Zi5JJzjvSs2U4k+LzhJA5g==
+X-CSE-MsgGUID: ds8fCeDBQ0eFp48k1WJmWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="90529355"
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="908705"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2026 02:02:00 -0700
-X-CSE-ConnectionGUID: Pu4igwGSR2KyVZoO8SQZSA==
-X-CSE-MsgGUID: trDWN1MTQYeeypnym5Ugyg==
+   d="scan'208";a="90529355"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2026 02:27:02 -0700
+X-CSE-ConnectionGUID: n5Y6h/Z7Tf+tDq+qyr9nyg==
+X-CSE-MsgGUID: 2frfTwrhQXKObY3x3QaR6g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="3275220"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 20 Sep 2026 02:01:59 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 20 Sep 2026 02:27:00 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x8DQp-00000000CCP-3WMS;
-	Sun, 20 Sep 2026 09:01:55 +0000
-Date: Sun, 20 Sep 2026 17:01:44 +0800
+	id 1x8Dp3-00000000CE3-3g2H;
+	Sun, 20 Sep 2026 09:26:57 +0000
+Date: Sun, 20 Sep 2026 17:25:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Hans Verkuil <hverkuil@kernel.org>
-Subject: drivers/media/i2c/max9286.c:1206:undefined reference to
- `gpiochip_get_data'
-Message-ID: <202609201612.LAlHBtN0-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/1] ERROR: modpost: module
+ f2fs uses symbol d_drop from namespace
+ VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not
+ import it.
+Message-ID: <202609201750.V0wDnZNQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,69 +59,90 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f259f446f5198d98e13756d2cd531812a0ad3064
-commit: 2fc030f9ff287efc4510f4ae5efee0f23e64b608 media: i2c: drop unneeded dependencies on OF_GPIO
-date:   5 months ago
-config: x86_64-randconfig-1006-20260920 (https://download.01.org/0day-ci/archive/20260920/202609201612.LAlHBtN0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201612.LAlHBtN0-lkp@intel.com/reproduce)
+Hi Jaegeuk,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   fb15c16e04b24c94825fe17e483d325c4ac239a8
+commit: ea1f41c3bdb92ba8e637951ac3e42f4255cb78f9 [0/1] BACKPORT: FROMGIT: f2fs: another way to set large folio by remembering inode number
+config: x86_64-buildonly-randconfig-1004-20260919 (https://download.01.org/0day-ci/archive/20260920/202609201750.V0wDnZNQ-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201750.V0wDnZNQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 2fc030f9ff28 ("media: i2c: drop unneeded dependencies on OF_GPIO")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609201612.LAlHBtN0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609201750.V0wDnZNQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   ld: drivers/media/i2c/max9286.o: in function `max9286_gpiochip_get':
->> drivers/media/i2c/max9286.c:1206:(.text+0x1318): undefined reference to `gpiochip_get_data'
-   ld: drivers/media/i2c/max9286.o: in function `max9286_gpiochip_set':
-   drivers/media/i2c/max9286.c:1199:(.text+0x13dc): undefined reference to `gpiochip_get_data'
-   ld: drivers/media/i2c/max9286.o: in function `max9286_register_gpio':
->> drivers/media/i2c/max9286.c:1227:(.text+0x47c5): undefined reference to `devm_gpiochip_add_data_with_key'
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+ERROR: modpost: module ocfs2_dlmfs uses symbol mount_nodev from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module gfs2 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module f2fs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module nbd uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module nbd uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: "devm_usb_get_phy" [drivers/power/supply/bq25890_charger.ko] undefined!
+ERROR: modpost: module snd-compress uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
 
-
-vim +1206 drivers/media/i2c/max9286.c
-
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1203  
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1204  static int max9286_gpiochip_get(struct gpio_chip *chip, unsigned int offset)
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1205  {
-66d8c9d2422da2 Kieran Bingham      2020-06-12 @1206  	struct max9286_priv *priv = gpiochip_get_data(chip);
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1207  
-10c85e00f35689 Dmitry Torokhov     2026-02-18  1208  	return !!(priv->gpio_state & BIT(offset));
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1209  }
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1210  
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1211  static int max9286_register_gpio(struct max9286_priv *priv)
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1212  {
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1213  	struct device *dev = &priv->client->dev;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1214  	struct gpio_chip *gpio = &priv->gpio;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1215  	int ret;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1216  
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1217  	/* Configure the GPIO */
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1218  	gpio->label = dev_name(dev);
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1219  	gpio->parent = dev;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1220  	gpio->owner = THIS_MODULE;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1221  	gpio->ngpio = 2;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1222  	gpio->base = -1;
-d9d87d90cc0b10 Bartosz Golaszewski 2025-07-17  1223  	gpio->set = max9286_gpiochip_set;
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1224  	gpio->get = max9286_gpiochip_get;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1225  	gpio->can_sleep = true;
-66d8c9d2422da2 Kieran Bingham      2020-06-12  1226  
-c9352df7139bc5 Jacopo Mondi        2021-12-17 @1227  	ret = devm_gpiochip_add_data(dev, gpio, priv);
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1228  	if (ret)
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1229  		dev_err(dev, "Unable to create gpio_chip\n");
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1230  
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1231  	return ret;
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1232  }
-c9352df7139bc5 Jacopo Mondi        2021-12-17  1233  
-
-:::::: The code at line 1206 was first introduced by commit
-:::::: 66d8c9d2422da21ed41f75c03ba0685987b65fe0 media: i2c: Add MAX9286 driver
-
-:::::: TO: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DP_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDCP_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
 
 --
 0-DAY CI Kernel Test Service
