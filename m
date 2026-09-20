@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3361B37A841
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Sep 2026 08:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F9B13D886
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Sep 2026 09:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789891388; cv=none; b=MeU/vYaP9gCM0Z05BJKHrU9qhiFRz+xZSIDyP5DRFwnuVBMBT6cZnC/Y4F3/o2vDS9mG0w5QoyvXIPsyPB74XcRrtuNe/KEgfz01TKo9/J7nnHyuFF43MP9GqM9rUeNTlyy26Lrpit/rxEqr1QrcO5TWvt59+YNFF5j28cy/kLY=
+	t=1789894922; cv=none; b=mWFUmRBMjEjJZt41oZcgIIZTOVCPubi0iRivpXKhGupyFYG78M9O+/PQi227rk44c2GKvRhW8IJaTFux+C7loQqL/6xN6VzchAeCfzCH/rPLVUkVCKghzeXPXqBgJf3Iqplr7ta88j5jA2MDvHxmbVsiJRpi4QIeAuV6cdiPArE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789891388; c=relaxed/simple;
-	bh=TJAUI38ifciPKKyxbLzNZ7tsLCml17RD1952LgaKqi8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WU/pea1gFWlBxtBO7grwTzCc0I4v2q8QKpdnJINbPORI7g/aSjIcdEoHBYl5yPmnHMWrPCIE/koAS8jBrIZryp5Ke2j0c2H45KwEvq4SnY5W/lTl91qLXXXdM3+3gAlxJwoDB6V82dbLSOWCDDkR+/e/9sA3B/4m9hnTD1NfKFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jfRQlWZX; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1789894922; c=relaxed/simple;
+	bh=FMByguiepzkzYRinbZ4+2CJcC0VTS7MBU34HXdEprL4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tdfK7wJCPMX/cqaP5oITZSJQy3Pn+XPZ+MNmCFedd0Wb/nNqaZIIZ4cNP5taoqlxUMttKFxpMXwby3GW5DMnW9mTuVNCdpbjlJD6OZkL+qtcpp5NvkZ5TCkt6lRa0k9oUgnGkxo76bxSgWO67OvWN3sq+CAQhxwJH8XAeCNyw3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HmbnUZel; arc=none smtp.client-ip=192.198.163.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jfRQlWZX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HmbnUZel"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789891386; x=1821427386;
+  t=1789894921; x=1821430921;
   h=date:from:to:cc:subject:message-id;
-  bh=TJAUI38ifciPKKyxbLzNZ7tsLCml17RD1952LgaKqi8=;
-  b=jfRQlWZX+GHUWqQhZxGZwpiBYQkX5wrExus2OclAa1UKPifD0Jx9gdAC
-   jLapRtmZxheqQx/LRc+vStGlMRc1s5940o8GmwkYA5ac8HHuTWzmTW/tC
-   TI7fHyS1ovbXOKbv6YblCNuhxVjAz4ccYnUeeyijPCg8EaujfNW6NXs1B
-   OogyG7tiNJFINS/riyhfnJa0rLgsO+tMyvZib9mTlwkq9BzUSJQJCxuza
-   RSdHXb1Evzy+XPj+Ic4eV03VQbfhqsYGR+Gt0/aGR6u2STH3BjPDlreSc
-   0OXvJ50piK5YQZdzyu2Cb3vmFR0gxElUJRGauunuQNRftsgDUuut5meWr
+  bh=FMByguiepzkzYRinbZ4+2CJcC0VTS7MBU34HXdEprL4=;
+  b=HmbnUZelFn8GRqLoLserqJvg73Tbw6nnyZM8mjOjA57PJGT3A1bcsgkN
+   Xi9x9upZ4ddBwYqisGoET/Yb/o968wuzWVvAPAX+a3QJ49vfjOIeQQ2ur
+   N86kFrzFiGNduXb83RwduOixJY4zTYDn14zpxsOoTZS29D8Cp/tbUyCu8
+   Mka5/b5xeTCugb9oGmO2Y0RRX/fWhn1qBMkNrroUbGfNybFv+1BHs3hz6
+   623E5F0Ind1nJDYhvUVj4cxUo76VaeeBOshPu+WWeCOmKZwOBYrTNJQRc
+   anVnp3CymMT0fGuV0Bbq7YvrVBM4qL3iqKw9r/2O3aHGoZIUif0lPaRbf
    Q==;
-X-CSE-ConnectionGUID: XEexPgfyRnqR8g4AH+pEnA==
-X-CSE-MsgGUID: 5d/6ElqHT8+EbibHy50i+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="92903119"
+X-CSE-ConnectionGUID: hu2wm112Qe6WEYIsovBMFw==
+X-CSE-MsgGUID: A+ENr1W0QSeqFjZ0Ef+RlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="908705"
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="92903119"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2026 01:02:53 -0700
-X-CSE-ConnectionGUID: EO4GnmZkSla1pa+QH97V3g==
-X-CSE-MsgGUID: HACl/gDGTLe/Cv7svC3lZg==
+   d="scan'208";a="908705"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2026 02:02:00 -0700
+X-CSE-ConnectionGUID: Pu4igwGSR2KyVZoO8SQZSA==
+X-CSE-MsgGUID: trDWN1MTQYeeypnym5Ugyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="271707177"
+   d="scan'208";a="3275220"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Sep 2026 01:02:52 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 20 Sep 2026 02:01:59 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x8CVc-00000000C9T-3Wi0;
-	Sun, 20 Sep 2026 08:02:48 +0000
-Date: Sun, 20 Sep 2026 16:02:05 +0800
+	id 1x8DQp-00000000CCP-3WMS;
+	Sun, 20 Sep 2026 09:01:55 +0000
+Date: Sun, 20 Sep 2026 17:01:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tanmay Shah <tanmay.shah@amd.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: drivers/remoteproc/xlnx_r5_remoteproc.c:837:49: sparse:
- sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202609201549.zSHml9sK-lkp@intel.com>
+ Hans Verkuil <hverkuil@kernel.org>
+Subject: drivers/media/i2c/max9286.c:1206:undefined reference to
+ `gpiochip_get_data'
+Message-ID: <202609201612.LAlHBtN0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,49 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f259f446f5198d98e13756d2cd531812a0ad3064
-commit: 5ae3dc078874693a0a7fd1cf32660bd473fe544d remoteproc: xlnx: Add crash detection mechanism
-date:   3 months ago
-config: arm64-randconfig-r1301-20260920 (https://download.01.org/0day-ci/archive/20260920/202609201549.zSHml9sK-lkp@intel.com/config)
-compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201549.zSHml9sK-lkp@intel.com/reproduce)
+commit: 2fc030f9ff287efc4510f4ae5efee0f23e64b608 media: i2c: drop unneeded dependencies on OF_GPIO
+date:   5 months ago
+config: x86_64-randconfig-1006-20260920 (https://download.01.org/0day-ci/archive/20260920/202609201612.LAlHBtN0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201612.LAlHBtN0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 5ae3dc078874 ("remoteproc: xlnx: Add crash detection mechanism")
+| Fixes: 2fc030f9ff28 ("media: i2c: drop unneeded dependencies on OF_GPIO")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609201549.zSHml9sK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609201612.LAlHBtN0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/remoteproc/xlnx_r5_remoteproc.c:571:20: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/remoteproc/xlnx_r5_remoteproc.c:749:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/remoteproc/xlnx_r5_remoteproc.c:773:24: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/remoteproc/xlnx_r5_remoteproc.c:797:25: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/remoteproc/xlnx_r5_remoteproc.c:837:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *rsc_offset @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/xlnx_r5_remoteproc.c:837:49: sparse:     expected void *rsc_offset
-   drivers/remoteproc/xlnx_r5_remoteproc.c:837:49: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +837 drivers/remoteproc/xlnx_r5_remoteproc.c
+   ld: drivers/media/i2c/max9286.o: in function `max9286_gpiochip_get':
+>> drivers/media/i2c/max9286.c:1206:(.text+0x1318): undefined reference to `gpiochip_get_data'
+   ld: drivers/media/i2c/max9286.o: in function `max9286_gpiochip_set':
+   drivers/media/i2c/max9286.c:1199:(.text+0x13dc): undefined reference to `gpiochip_get_data'
+   ld: drivers/media/i2c/max9286.o: in function `max9286_register_gpio':
+>> drivers/media/i2c/max9286.c:1227:(.text+0x47c5): undefined reference to `devm_gpiochip_add_data_with_key'
 
-   832	
-   833	static int zynqmp_r5_handle_rsc(struct rproc *rproc, u32 rsc_type, void *rsc,
-   834					int offset, int avail)
-   835	{
-   836		struct zynqmp_r5_core *r5_core = rproc->priv;
- > 837		void *rsc_offset = (r5_core->rsc_tbl_va + offset);
-   838	
-   839		if (rsc_type != XLNX_RPROC_FW_CRASH_REPORT)
-   840			return RSC_IGNORED;
-   841	
-   842		r5_core->crash_report = rsc_offset;
-   843		/* reset all values */
-   844		r5_core->crash_report->crashed = false;
-   845		r5_core->crash_report->crash_reason = 0;
-   846		r5_core->crash_report->crash_reason_str[0] = '\0';
-   847	
-   848		return RSC_HANDLED;
-   849	}
-   850	
+
+vim +1206 drivers/media/i2c/max9286.c
+
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1203  
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1204  static int max9286_gpiochip_get(struct gpio_chip *chip, unsigned int offset)
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1205  {
+66d8c9d2422da2 Kieran Bingham      2020-06-12 @1206  	struct max9286_priv *priv = gpiochip_get_data(chip);
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1207  
+10c85e00f35689 Dmitry Torokhov     2026-02-18  1208  	return !!(priv->gpio_state & BIT(offset));
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1209  }
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1210  
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1211  static int max9286_register_gpio(struct max9286_priv *priv)
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1212  {
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1213  	struct device *dev = &priv->client->dev;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1214  	struct gpio_chip *gpio = &priv->gpio;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1215  	int ret;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1216  
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1217  	/* Configure the GPIO */
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1218  	gpio->label = dev_name(dev);
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1219  	gpio->parent = dev;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1220  	gpio->owner = THIS_MODULE;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1221  	gpio->ngpio = 2;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1222  	gpio->base = -1;
+d9d87d90cc0b10 Bartosz Golaszewski 2025-07-17  1223  	gpio->set = max9286_gpiochip_set;
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1224  	gpio->get = max9286_gpiochip_get;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1225  	gpio->can_sleep = true;
+66d8c9d2422da2 Kieran Bingham      2020-06-12  1226  
+c9352df7139bc5 Jacopo Mondi        2021-12-17 @1227  	ret = devm_gpiochip_add_data(dev, gpio, priv);
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1228  	if (ret)
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1229  		dev_err(dev, "Unable to create gpio_chip\n");
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1230  
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1231  	return ret;
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1232  }
+c9352df7139bc5 Jacopo Mondi        2021-12-17  1233  
+
+:::::: The code at line 1206 was first introduced by commit
+:::::: 66d8c9d2422da21ed41f75c03ba0685987b65fe0 media: i2c: Add MAX9286 driver
+
+:::::: TO: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
