@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0633137266D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 06:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2C34EF135
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 06:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790059478; cv=none; b=Og/GbVxnNjrel/VWv6SKkUn78GsbMdQrsvHe+4Xrq2oSTmskXXyZ3xePKGWRCA9Uy01g0ujomqVxVaj44zN8/CvEKEm9r5BVS4t4zSoaCVvaw7pOPVwOdPmIFk53QtCaf2OWqa6Z9ZPoI5ksCMIQmNxIK72n6D55VlDOcov7jWU=
+	t=1790059570; cv=none; b=tNSfgA8tsNM0o30cIZ/mRJh9cuoubRs4ChmvFE4tB6kdIXVRru2elsr+j/bbINGV4PN6na+MG1HpI1SUTiGMY/YGgDyofLWB31iOlywoOIwFUboiDJ8mOEYSNxJow/5oxbdPT49RV15jrStp9GLgANB1pCAAEWuNxymrJNMkQkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790059478; c=relaxed/simple;
-	bh=Dhu0hyoCEsbj+OnFPgqYbioPlXT9FXZOJdmKeoRR6lk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XclkagIk35tHz2rOAn/TfirgAQKXKohkTuLfmm805vsF+RDxLmGrXHn0cFr9OvA196x0X3WDCeZs2EDjKasvF6jAmtzEXUEQyqrvdGuCeANsqBuJNKHQ0TRzexfWI1CdvFV8ekkvYIEZuMU2GHcjZinglbzHbgyxFD/DgVmDBis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i3S6gbqK; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1790059570; c=relaxed/simple;
+	bh=3ZYZEW562JbmVVBAR+b0hZdh9wMs9mRW6lAjzWP2vdU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=M5Q1uqQASigJTTZwLb5ouduLIpbOip2cYTn4Cr1MfA2iFIaErfjKdbuneqaovH9ZAVTXRCRIFdMZGvQ7KWikAh+Ea9Gm8To2PL7NFxOY+06wUOKobvupc96ypnUW2e6y7NCpShOatjQ27FuUw0VSFn6k/ZEBe7Vy4iX3ZLZUA5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DbbvxVBL; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i3S6gbqK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DbbvxVBL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790059476; x=1821595476;
+  t=1790059567; x=1821595567;
   h=date:from:to:cc:subject:message-id;
-  bh=Dhu0hyoCEsbj+OnFPgqYbioPlXT9FXZOJdmKeoRR6lk=;
-  b=i3S6gbqK6NKswXmuq02YSSwt1P+/ZMXG0XY3OkRmzrmUBKkRKGG1CTeG
-   aS6ejn/mi+i/+fshzYs4SoW1kT9P+C1tRjPnpkkI4+9hAoLvVB/XyCPRr
-   siNGtqK25VZvi9eQvoXuHGVdDMWIFUS+IdEbB/XLbdzWV0+tU4OrcVQ15
-   YPr+ks1FjCESIRiN6E4WKN9ZIdCD1oM+wGcNntIk16dB5YrIBJwWmXaRr
-   4WvHBjGGbUuW74pIQAoSdEnZTCu/jVk6fIGBXzsQUtfs95Rm0FW2+adz8
-   47VJZPIjqr0UztpW9zI4Rd06NLrfnyy8ORI6HgosKgstNH+/RIKEdUxVO
-   w==;
-X-CSE-ConnectionGUID: pv/nm2b/SBWv+x8TroYrPQ==
-X-CSE-MsgGUID: MIzfJWCcSmK4o0BYY0tTSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90499864"
+  bh=3ZYZEW562JbmVVBAR+b0hZdh9wMs9mRW6lAjzWP2vdU=;
+  b=DbbvxVBLZuaIkXqlnQCvhGMQad2TML9DtGXv+E+PNDJVOcdcSXJWAzV0
+   LCjROR9a4B2HHBUGEkfrj4FIlZuZjrH6RDptZbuRXR2nTxv5+7jR591vw
+   WXgLv4RyRoca62tRht3y3u5MBWSliBlle8v9BSUCf5YxvdqBmKak+FKXm
+   DLT/874mAUgQSd+9VeH+cZbLDbMrdMN2fqeQGR/e6k9kNxk47lJZRcqTy
+   fSEgJyRmAc9xtCE+ulcOEoofwIwyXoUOuO940MgDtOauZeUAKv8HaXQP/
+   YTwSHGXwgKiuweBmfYUou6s3BsdP1kV5xXznBvWk6tmJggo+V3cYPWDIs
+   A==;
+X-CSE-ConnectionGUID: IiQk4v5mSVmTnCTMpuVusQ==
+X-CSE-MsgGUID: CP5LZ+VSQ7G+m+k9FmzW5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="108131493"
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="90499864"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 23:44:35 -0700
-X-CSE-ConnectionGUID: xcaGmwPtQ3+vomBciyMznA==
-X-CSE-MsgGUID: PLWjBDEJRpWbtcLg1OSiXA==
+   d="scan'208";a="108131493"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 23:45:35 -0700
+X-CSE-ConnectionGUID: D7O639NiS8KlFPvhNJggOQ==
+X-CSE-MsgGUID: SsUubfzDTyywfPnX3sKWiQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="4302201"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Sep 2026 23:44:33 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 21 Sep 2026 23:45:33 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x8uEw-00000000F68-2fqn;
-	Tue, 22 Sep 2026 06:44:30 +0000
-Date: Tue, 22 Sep 2026 14:44:30 +0800
+	id 1x8uFu-00000000F6C-35D6;
+	Tue, 22 Sep 2026 06:45:30 +0000
+Date: Tue, 22 Sep 2026 14:44:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Georgi Djakov <djakov@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
-Subject: drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse: sparse:
+ Ulf Hansson <ulf.hansson@linaro.org>, Dan Carpenter <error27@gmail.com>
+Subject: drivers/firmware/thead,th1520-aon.c:173:22: sparse: sparse:
  incorrect type in assignment (different base types)
-Message-ID: <202609221350.3Y8MOce9-lkp@intel.com>
+Message-ID: <202609221307.brMpIrTW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,103 +62,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
-commit: c96fc14322cee45cdf751cb4ae62c9eab25bc643 interconnect: qcom: add COMPILE_TEST
-date:   9 weeks ago
-config: openrisc-randconfig-r1309-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221350.3Y8MOce9-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.1.0
+commit: 88c4bd90725557796c15878b7cb70066e9e6b5ab firmware: thead: Fix buffer overflow and use standard endian macros
+date:   6 months ago
+config: microblaze-randconfig-r1301-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221307.brMpIrTW-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221350.3Y8MOce9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221307.brMpIrTW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: c96fc14322ce ("interconnect: qcom: add COMPILE_TEST")
+| Fixes: 88c4bd907255 ("firmware: thead: Fix buffer overflow and use standard endian macros")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609221350.3Y8MOce9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609221307.brMpIrTW-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] unit @@     got unsigned int [usertype] @@
-   drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse:     expected restricted __le32 [usertype] unit
-   drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse:     got unsigned int [usertype]
->> drivers/interconnect/qcom/icc-rpmh.c:177:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] width @@     got unsigned short [usertype] @@
-   drivers/interconnect/qcom/icc-rpmh.c:177:29: sparse:     expected restricted __le16 [usertype] width
-   drivers/interconnect/qcom/icc-rpmh.c:177:29: sparse:     got unsigned short [usertype]
---
->> drivers/interconnect/qcom/bcm-voter.c:102:77: sparse: sparse: restricted __le16 degrades to integer
-   drivers/interconnect/qcom/bcm-voter.c:106:78: sparse: sparse: restricted __le16 degrades to integer
-   drivers/interconnect/qcom/bcm-voter.c:112:66: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] base @@     got restricted __le32 [usertype] unit @@
-   drivers/interconnect/qcom/bcm-voter.c:112:66: sparse:     expected unsigned int [usertype] base
-   drivers/interconnect/qcom/bcm-voter.c:112:66: sparse:     got restricted __le32 [usertype] unit
-   drivers/interconnect/qcom/bcm-voter.c:115:66: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] base @@     got restricted __le32 [usertype] unit @@
-   drivers/interconnect/qcom/bcm-voter.c:115:66: sparse:     expected unsigned int [usertype] base
-   drivers/interconnect/qcom/bcm-voter.c:115:66: sparse:     got restricted __le32 [usertype] unit
+>> drivers/firmware/thead,th1520-aon.c:173:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [usertype] resource @@     got restricted __be16 [usertype] @@
+   drivers/firmware/thead,th1520-aon.c:173:22: sparse:     expected unsigned short [addressable] [usertype] resource
+   drivers/firmware/thead,th1520-aon.c:173:22: sparse:     got restricted __be16 [usertype]
+>> drivers/firmware/thead,th1520-aon.c:174:18: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [addressable] [usertype] mode @@     got restricted __be16 [usertype] @@
+   drivers/firmware/thead,th1520-aon.c:174:18: sparse:     expected unsigned short [addressable] [usertype] mode
+   drivers/firmware/thead,th1520-aon.c:174:18: sparse:     got restricted __be16 [usertype]
 
-vim +176 drivers/interconnect/qcom/icc-rpmh.c
+vim +173 drivers/firmware/thead,th1520-aon.c
 
-976daac4a1c581 David Dai   2020-02-28  138  
-976daac4a1c581 David Dai   2020-02-28  139  /**
-976daac4a1c581 David Dai   2020-02-28  140   * qcom_icc_bcm_init - populates bcm aux data and connect qnodes
-976daac4a1c581 David Dai   2020-02-28  141   * @bcm: bcm to be initialized
-976daac4a1c581 David Dai   2020-02-28  142   * @dev: associated provider device
-976daac4a1c581 David Dai   2020-02-28  143   *
-976daac4a1c581 David Dai   2020-02-28  144   * Return: 0 on success, or an error code otherwise
-976daac4a1c581 David Dai   2020-02-28  145   */
-976daac4a1c581 David Dai   2020-02-28  146  int qcom_icc_bcm_init(struct qcom_icc_bcm *bcm, struct device *dev)
-976daac4a1c581 David Dai   2020-02-28  147  {
-976daac4a1c581 David Dai   2020-02-28  148  	struct qcom_icc_node *qn;
-976daac4a1c581 David Dai   2020-02-28  149  	const struct bcm_db *data;
-976daac4a1c581 David Dai   2020-02-28  150  	size_t data_count;
-976daac4a1c581 David Dai   2020-02-28  151  	int i;
-976daac4a1c581 David Dai   2020-02-28  152  
-976daac4a1c581 David Dai   2020-02-28  153  	/* BCM is already initialised*/
-976daac4a1c581 David Dai   2020-02-28  154  	if (bcm->addr)
-976daac4a1c581 David Dai   2020-02-28  155  		return 0;
-976daac4a1c581 David Dai   2020-02-28  156  
-976daac4a1c581 David Dai   2020-02-28  157  	bcm->addr = cmd_db_read_addr(bcm->name);
-976daac4a1c581 David Dai   2020-02-28  158  	if (!bcm->addr) {
-976daac4a1c581 David Dai   2020-02-28  159  		dev_err(dev, "%s could not find RPMh address\n",
-976daac4a1c581 David Dai   2020-02-28  160  			bcm->name);
-976daac4a1c581 David Dai   2020-02-28  161  		return -EINVAL;
-976daac4a1c581 David Dai   2020-02-28  162  	}
-976daac4a1c581 David Dai   2020-02-28  163  
-976daac4a1c581 David Dai   2020-02-28  164  	data = cmd_db_read_aux_data(bcm->name, &data_count);
-976daac4a1c581 David Dai   2020-02-28  165  	if (IS_ERR(data)) {
-976daac4a1c581 David Dai   2020-02-28  166  		dev_err(dev, "%s command db read error (%ld)\n",
-976daac4a1c581 David Dai   2020-02-28  167  			bcm->name, PTR_ERR(data));
-976daac4a1c581 David Dai   2020-02-28  168  		return PTR_ERR(data);
-976daac4a1c581 David Dai   2020-02-28  169  	}
-976daac4a1c581 David Dai   2020-02-28  170  	if (!data_count) {
-976daac4a1c581 David Dai   2020-02-28  171  		dev_err(dev, "%s command db missing or partial aux data\n",
-976daac4a1c581 David Dai   2020-02-28  172  			bcm->name);
-976daac4a1c581 David Dai   2020-02-28  173  		return -EINVAL;
-976daac4a1c581 David Dai   2020-02-28  174  	}
-976daac4a1c581 David Dai   2020-02-28  175  
-976daac4a1c581 David Dai   2020-02-28 @176  	bcm->aux_data.unit = le32_to_cpu(data->unit);
-976daac4a1c581 David Dai   2020-02-28 @177  	bcm->aux_data.width = le16_to_cpu(data->width);
-976daac4a1c581 David Dai   2020-02-28  178  	bcm->aux_data.vcd = data->vcd;
-976daac4a1c581 David Dai   2020-02-28  179  	bcm->aux_data.reserved = data->reserved;
-976daac4a1c581 David Dai   2020-02-28  180  	INIT_LIST_HEAD(&bcm->list);
-976daac4a1c581 David Dai   2020-02-28  181  	INIT_LIST_HEAD(&bcm->ws_list);
-976daac4a1c581 David Dai   2020-02-28  182  
-cb30e0292db258 Mike Tipton 2020-09-03  183  	if (!bcm->vote_scale)
-cb30e0292db258 Mike Tipton 2020-09-03  184  		bcm->vote_scale = 1000;
-cb30e0292db258 Mike Tipton 2020-09-03  185  
-976daac4a1c581 David Dai   2020-02-28  186  	/* Link Qnodes to their respective BCMs */
-976daac4a1c581 David Dai   2020-02-28  187  	for (i = 0; i < bcm->num_nodes; i++) {
-976daac4a1c581 David Dai   2020-02-28  188  		qn = bcm->nodes[i];
-976daac4a1c581 David Dai   2020-02-28  189  		qn->bcms[qn->num_bcms] = bcm;
-976daac4a1c581 David Dai   2020-02-28  190  		qn->num_bcms++;
-976daac4a1c581 David Dai   2020-02-28  191  	}
-976daac4a1c581 David Dai   2020-02-28  192  
-976daac4a1c581 David Dai   2020-02-28  193  	return 0;
-976daac4a1c581 David Dai   2020-02-28  194  }
-976daac4a1c581 David Dai   2020-02-28  195  EXPORT_SYMBOL_GPL(qcom_icc_bcm_init);
-976daac4a1c581 David Dai   2020-02-28  196  
-
-:::::: The code at line 176 was first introduced by commit
-:::::: 976daac4a1c581e5d5fd64047519fd6fcde39738 interconnect: qcom: Consolidate interconnect RPMh support
-
-:::::: TO: David Dai <daidavid1@codeaurora.org>
-:::::: CC: Georgi Djakov <georgi.djakov@linaro.org>
+   143	
+   144	/**
+   145	 * th1520_aon_power_update() - Change power state of a resource via TH1520 AON
+   146	 * @aon_chan: Pointer to the AON channel structure
+   147	 * @rsrc: Resource ID whose power state needs to be updated
+   148	 * @power_on: Boolean indicating whether the resource should be powered on (true)
+   149	 *            or powered off (false)
+   150	 *
+   151	 * This function requests the TH1520 AON subsystem to set the power mode of the
+   152	 * given resource (@rsrc) to either on or off. It constructs the message in
+   153	 * `struct th1520_aon_msg_req_set_resource_power_mode` and then invokes
+   154	 * th1520_aon_call_rpc() to make the request. If the AON call fails, an error
+   155	 * message is logged along with the specific return code.
+   156	 *
+   157	 * Return:
+   158	 * * 0 on success
+   159	 * * A negative error code in case of failures (propagated from
+   160	 *   th1520_aon_call_rpc()).
+   161	 */
+   162	int th1520_aon_power_update(struct th1520_aon_chan *aon_chan, u16 rsrc,
+   163				    bool power_on)
+   164	{
+   165		struct th1520_aon_msg_req_set_resource_power_mode msg = {};
+   166		struct th1520_aon_rpc_msg_hdr *hdr = &msg.hdr;
+   167		int ret;
+   168	
+   169		hdr->svc = TH1520_AON_RPC_SVC_PM;
+   170		hdr->func = TH1520_AON_PM_FUNC_SET_RESOURCE_POWER_MODE;
+   171		hdr->size = TH1520_AON_RPC_MSG_NUM;
+   172	
+ > 173		msg.resource = cpu_to_be16(rsrc);
+ > 174		msg.mode = cpu_to_be16(power_on ? TH1520_AON_PM_PW_MODE_ON :
+   175						  TH1520_AON_PM_PW_MODE_OFF);
+   176	
+   177		ret = th1520_aon_call_rpc(aon_chan, &msg);
+   178		if (ret)
+   179			dev_err(aon_chan->cl.dev, "failed to power %s resource %d ret %d\n",
+   180				power_on ? "up" : "off", rsrc, ret);
+   181	
+   182		return ret;
+   183	}
+   184	EXPORT_SYMBOL_GPL(th1520_aon_power_update);
+   185	
 
 --
 0-DAY CI Kernel Test Service
