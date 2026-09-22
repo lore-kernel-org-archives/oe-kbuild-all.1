@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C42749F129
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 17:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224DF3C10A0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 17:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790096619; cv=none; b=BOi86AFlNFW9hiYU3d1KjGYRpMtA2ASGB43cxeRFGSTmkyf9QXBt2OuneGpz8k/UxmM/i8HQ2YSaCk7O6HnbFXAU5MvrXiGKuHTod+gn04xjpolkK9vlkXBIVITc8ZLlfh61OxpHkxwyWR/Q04MryCCIh/2aNtepO01nJb9lNbw=
+	t=1790099154; cv=none; b=lYbvr1Yk3e4onUcHSLF18MCesrifH9kyF00yOEdfLtc7WrRDlrvkzT+D7E3oJ0PxoESXq2PTuix0qY90ejkAvDTbvqRyBQnVUDRQlYcEm/3Iw9/wEZimUCdyYQn1pX1sxZXppfbUSS0aNrYWmsFYLJY90KAf49L43+Oll680pwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790096619; c=relaxed/simple;
-	bh=vuv3LXP65HtJJDO/jOb2jpgskyphoyKJJGzgUDUNQs8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WlARZLz8TTaqa3adBrXK1EHjETj6IR9NaCqF3Z16RCsd6NChCcNPX2YOmDY2yvuQ98m50Gf1RbrwMEU5Wm2rIgXunDR+hKefVPabS/GFd2R30zSTQUQY6EzksxT5Ds4DZtgRRkFj6CtAnHVmVsJ0b8o0LXERC9J8S8kCyLuDtyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WPPpml7s; arc=none smtp.client-ip=192.198.163.5
+	s=arc-20240116; t=1790099154; c=relaxed/simple;
+	bh=cvdUdWoOkgZ3g4xFdPGzXxH6A2uWP/NHWmlfA4zoi7A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HFd/eUE+iFNnwz917u2jgNFpCKVXczROS5C92zsrG4X7ea7O5zbRivgfJHIn1HGrcqA9KDMNsMOSdmsytV7pjJxno+7PYseXknjDa4fayDPeUPhtWG6NslZQ28vsUB3LuK3lQWU5cntOcfi55V2iE7wufdKt+h2eFAsPykDxS88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbQO4EVH; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WPPpml7s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbQO4EVH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790096619; x=1821632619;
+  t=1790099153; x=1821635153;
   h=date:from:to:cc:subject:message-id;
-  bh=vuv3LXP65HtJJDO/jOb2jpgskyphoyKJJGzgUDUNQs8=;
-  b=WPPpml7spHVsoNtr0a1wtrEowtZNR6MRbbfZYHmPNuMD9SaB3Pfkv4ii
-   bkhlnh4GT7AOd47pPlbkTy6O8x98KsDzMpgimoQaDT9ajBo5iKzojG/gu
-   Qq88gKqiKrLSsCYv3BP1hB3eZoGrddNIhTTR0IkWIdQlp2SphKjIcq9SP
-   /XZ5J0O52jVTVwGFoLgc9FG6lqrrDuHQNrSlSuuth1viOm1XFV5aBARai
-   MEzUSsfiXHSmlb0Fdrt78/tajkLW4rfIhcrk3voFjRzhkOzbAgO+VaRp+
-   P3bRzlj0xSg5gozX1jVuolD+Y5zD4gNm20vkUebdikCS0atJLdpg4XCKW
-   w==;
-X-CSE-ConnectionGUID: yWuncY7KTt+b8x4mGiUHww==
-X-CSE-MsgGUID: BWOVKeYAQx6l8w84mk29UA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1223654"
+  bh=cvdUdWoOkgZ3g4xFdPGzXxH6A2uWP/NHWmlfA4zoi7A=;
+  b=bbQO4EVHWxmHjKwlhJNoLFa3cl6k9NHSffbsR/Uxu0v4Tl4CLEXZgjTc
+   wNyKEPqQhUTM3Po306UJW7ujvQBpwQpCim3d+frATRAq7Gz3w/oAqtQ98
+   T1q8kgitKowKJ1vYciWeceXHNTWDjBBLxPXSNEWPBACI0esLDyG1OqGot
+   c4bmmPgX0dR1SUg1MWLWmZUUFOKpHF5IEDM2L5hyGcfnLAGv0cSysgf32
+   IRCvvfnXeuBpezUqml7EzrB4tHmW5O71NLx8RwSDdUIt5HPge3oopCa6a
+   fC8mjKncCKodQs2QtCKtJcggoDPXqqS76mg7gq5kaGdI1ezJhVzTYS/WV
+   Q==;
+X-CSE-ConnectionGUID: /DMqCGPHRZme81ZcL1e2nw==
+X-CSE-MsgGUID: jeHLWqq2TJaJKQhqIJ+/kA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="89644760"
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="1223654"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 10:03:34 -0700
-X-CSE-ConnectionGUID: S9ejweXlS824zg/UW0bGIA==
-X-CSE-MsgGUID: adVUItJJSw+cPZ8f5oEayQ==
+   d="scan'208";a="89644760"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 10:45:41 -0700
+X-CSE-ConnectionGUID: flO297o6QXKIXzuhEkBgQg==
+X-CSE-MsgGUID: 17M0ajnbRXOteaFcSaHbtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="277975662"
+   d="scan'208";a="301133559"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2026 10:03:32 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 22 Sep 2026 10:45:39 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x93tx-00000000FmI-2QIo;
-	Tue, 22 Sep 2026 17:03:29 +0000
-Date: Wed, 23 Sep 2026 01:02:54 +0800
+	id 1x94Yi-00000000Fps-2Fwq;
+	Tue, 22 Sep 2026 17:45:36 +0000
+Date: Wed, 23 Sep 2026 01:45:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sagi Grimberg <sagi@grimberg.me>
+To: Wei Wang <weibunny@fb.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: drivers/nvme/target/tcp.c:1325:46: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <202609230152.YAKhcW2K-lkp@intel.com>
+ Jakub Kicinski <kuba@kernel.org>, Daniel Zahka <daniel.zahka@gmail.com>
+Subject: net/psp/psp_nl.c:513:13: sparse: sparse: cast removes
+ address space '__rcu' of expression
+Message-ID: <202609230135.7bC6QbWs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,80 +62,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
-commit: dbbd07d0a7020b80f6a7028e561908f7b83b3d5a nvmet-tcp: Fix potential UAF when ddgst mismatch
-date:   4 months ago
-config: microblaze-randconfig-r1307-20260922 (https://download.01.org/0day-ci/archive/20260923/202609230152.YAKhcW2K-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.3.0
+commit: 06c2dce2d0f69727144443664182052f56d1da35 psp: add new netlink cmd for dev-assoc and dev-disassoc
+date:   3 months ago
+config: riscv-randconfig-r1305-20260922 (https://download.01.org/0day-ci/archive/20260923/202609230135.7bC6QbWs-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230152.YAKhcW2K-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230135.7bC6QbWs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: dbbd07d0a702 ("nvmet-tcp: Fix potential UAF when ddgst mismatch")
+| Fixes: 06c2dce2d0f6 ("psp: add new netlink cmd for dev-assoc and dev-disassoc")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609230152.YAKhcW2K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609230135.7bC6QbWs-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/nvme/target/tcp.c:1325:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] status @@     got int @@
-   drivers/nvme/target/tcp.c:1325:46: sparse:     expected restricted __le16 [usertype] status
-   drivers/nvme/target/tcp.c:1325:46: sparse:     got int
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> net/psp/psp_nl.c:513:13: sparse: sparse: cast removes address space '__rcu' of expression
 
-vim +1325 drivers/nvme/target/tcp.c
+vim +/__rcu +513 net/psp/psp_nl.c
 
-  1288	
-  1289	static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
-  1290	{
-  1291		struct nvmet_tcp_cmd *cmd = queue->cmd;
-  1292		int ret, len;
-  1293		char cbuf[CMSG_LEN(sizeof(char))] = {};
-  1294		struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
-  1295		struct kvec iov = {
-  1296			.iov_base = (void *)&cmd->recv_ddgst + queue->offset,
-  1297			.iov_len = queue->left
-  1298		};
-  1299	
-  1300		if (queue->tls_pskid) {
-  1301			msg.msg_control = cbuf;
-  1302			msg.msg_controllen = sizeof(cbuf);
-  1303		}
-  1304		len = kernel_recvmsg(queue->sock, &msg, &iov, 1,
-  1305				iov.iov_len, msg.msg_flags);
-  1306		if (unlikely(len < 0))
-  1307			return len;
-  1308		if (queue->tls_pskid) {
-  1309			ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
-  1310			if (ret < 0)
-  1311				return ret;
-  1312		}
-  1313	
-  1314		queue->offset += len;
-  1315		queue->left -= len;
-  1316		if (queue->left)
-  1317			return -EAGAIN;
-  1318	
-  1319		if (queue->data_digest && cmd->exp_ddgst != cmd->recv_ddgst) {
-  1320			pr_err("queue %d: cmd %d pdu (%d) data digest error: recv %#x expected %#x\n",
-  1321				queue->idx, cmd->req.cmd->common.command_id,
-  1322				queue->pdu.cmd.hdr.type, le32_to_cpu(cmd->recv_ddgst),
-  1323				le32_to_cpu(cmd->exp_ddgst));
-  1324			if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED)) {
-> 1325				cmd->req.cqe->status = NVME_SC_CMD_SEQ_ERROR;
-  1326				nvmet_req_uninit(&cmd->req);
-  1327			}
-  1328			nvmet_tcp_free_cmd_buffers(cmd);
-  1329			ret = -EPROTO;
-  1330			goto out;
-  1331		}
-  1332	
-  1333		if (cmd->rbytes_done == cmd->req.transfer_len)
-  1334			nvmet_tcp_execute_request(cmd);
-  1335	
-  1336		ret = 0;
-  1337	out:
-  1338		nvmet_prepare_receive_pdu(queue);
-  1339		return ret;
-  1340	}
-  1341	
+   475	
+   476	int psp_nl_dev_assoc_doit(struct sk_buff *skb, struct genl_info *info)
+   477	{
+   478		struct psp_dev *psd = info->user_ptr[0];
+   479		struct psp_assoc_dev *psp_assoc_dev;
+   480		struct net_device *assoc_dev;
+   481		struct sk_buff *rsp;
+   482		u32 assoc_ifindex;
+   483		struct net *net;
+   484		int err;
+   485	
+   486		if (psd->assoc_dev_cnt >= PSP_ASSOC_DEV_MAX) {
+   487			NL_SET_ERR_MSG(info->extack,
+   488				       "Maximum number of associated devices reached");
+   489			return -ENOSPC;
+   490		}
+   491	
+   492		net = psp_nl_resolve_assoc_dev_ns(psd, info);
+   493		if (IS_ERR(net))
+   494			return PTR_ERR(net);
+   495	
+   496		psp_assoc_dev = kzalloc_obj(*psp_assoc_dev);
+   497		if (!psp_assoc_dev) {
+   498			err = -ENOMEM;
+   499			goto err_put_net;
+   500		}
+   501	
+   502		assoc_ifindex = nla_get_u32(info->attrs[PSP_A_DEV_IFINDEX]);
+   503		assoc_dev = netdev_get_by_index(net, assoc_ifindex,
+   504						&psp_assoc_dev->dev_tracker,
+   505						GFP_KERNEL);
+   506		if (!assoc_dev) {
+   507			NL_SET_BAD_ATTR(info->extack, info->attrs[PSP_A_DEV_IFINDEX]);
+   508			err = -ENODEV;
+   509			goto err_free_assoc;
+   510		}
+   511	
+   512		/* Check if device is already associated with a PSP device */
+ > 513		if (cmpxchg(&assoc_dev->psp_dev, NULL, RCU_INITIALIZER(psd))) {
+   514			NL_SET_ERR_MSG(info->extack,
+   515				       "Device already associated with a PSP device");
+   516			err = -EBUSY;
+   517			goto err_put_dev;
+   518		}
+   519	
+   520		psp_assoc_dev->assoc_dev = assoc_dev;
+   521		rsp = psp_nl_reply_new(info);
+   522		if (!rsp) {
+   523			err = -ENOMEM;
+   524			goto err_clean_ptr;
+   525		}
+   526	
+   527		list_add_tail(&psp_assoc_dev->dev_list, &psd->assoc_dev_list);
+   528		psd->assoc_dev_cnt++;
+   529	
+   530		put_net(net);
+   531	
+   532		psp_nl_notify_dev(psd, PSP_CMD_DEV_CHANGE_NTF);
+   533	
+   534		return psp_nl_reply_send(rsp, info);
+   535	
+   536	err_clean_ptr:
+   537		rcu_assign_pointer(assoc_dev->psp_dev, NULL);
+   538	err_put_dev:
+   539		netdev_put(assoc_dev, &psp_assoc_dev->dev_tracker);
+   540	err_free_assoc:
+   541		kfree(psp_assoc_dev);
+   542	err_put_net:
+   543		put_net(net);
+   544	
+   545		return err;
+   546	}
+   547	
 
 --
 0-DAY CI Kernel Test Service
