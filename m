@@ -1,117 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3CB542803
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 12:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C277E47D92B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 14:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790081376; cv=none; b=L+jOsfZQjSkeBhgir6Th+PO8yDZbsLRungEJYtV4pRF0LDIgEtkGfcoS5IEBCx8AXbsVLXNBEhFZsZ35YfGxm29+FHPbQDujzn7N940G1Ks65iyFZIuUU8+EbcupZIN27MWyuxMlub60Qp/thCMucuwOmNfd8EwySNGk7YquNag=
+	t=1790085880; cv=none; b=sqX1Lo9plOApCK8p8W7SHHaU+iN1vLXfayebDvFZ9GEsinvCNYMxK+TTTqH2PdvdfSfYBEAfqhmahZe5qOOtf6zBteeOZyEZSsGWtvqWidzAsg/c5Ws59GatZYxrOJYREP8AbgDVnPiiHYShf6aNxK4WJ0EPYgKC2gB/f0TdDZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790081376; c=relaxed/simple;
-	bh=UiKCpNNDPxBiylH8SJQwwy71axpEE4hwP5Y0TH7qv68=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RjT9vfmtnb/fQpVWyv/0cyaaJcDGsoGJQlmHx5yzR706TcO8jTVlKMfzy4wiq+RAq1KAlq87KjGGA8Fv1VsNQuTRh82STkf5KVItRWfYHxGVaP+P1vgxNU1VEsHx7f3Ee/HULCMo9AjCDFfLidHFSEMST1D3rkdTPlsKV8Af6oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DNQRA/L+; arc=none smtp.client-ip=192.198.163.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790085880; c=relaxed/simple;
+	bh=RZOSQoLHjExoyHvf2ro3yLewas3siWyvrgEraEJaHtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kZAMnVCWa/3CmiQ2MwcuNvX2HFxzkkGadnNdT17u7QbMzHbe+ou8DodLyp4cxNa7Q9Gvqr/vIPKRVsHEtTgQME/n4XpONMNtrjmV7/d2fuFuhxcs8+IAEDHmKZqHkeII7scMeaOuKzS07PMqWulfws6uo/U+rY+U3gKqV+4vwK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=MHaD1beQ; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DNQRA/L+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790081375; x=1821617375;
-  h=date:from:to:cc:subject:message-id;
-  bh=UiKCpNNDPxBiylH8SJQwwy71axpEE4hwP5Y0TH7qv68=;
-  b=DNQRA/L+LUYS5HcUiCr25WwXkTqGDwthujPSq5zRUgZjEh7lmTMFV3Tf
-   AmX4UdBYNL+RAU+I61Va7BkzQv4hdh3ELnDG2OlHOfnn+JeEF7TkvDcwC
-   rS/YAA4jUV1OK0FCZkmAvI4tBqaONCJmr0Drs7QQCWtUB7cndLZEUSabq
-   kGd3byVIUlU/j+m/u5gbojV/hB/x+OIuSBXpAirgHYYJh/J8t2jdnZkvt
-   Lagt8PM2MNAvRJ6sIv/qWxgtelAd8SShlmY7YrKF4XepzuAQuVnXPtpgA
-   PPNdtjhYoTE8U7/2WAiPQn5H3Rta9zmId842U72hnTreBihZ6zo6W1JW3
-   A==;
-X-CSE-ConnectionGUID: mOxOwNsvTqe6OcTxLViQ3g==
-X-CSE-MsgGUID: fQTjiYDCTBuZ9S67HbCvsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="1181931"
-X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="1181931"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 05:49:26 -0700
-X-CSE-ConnectionGUID: +J0CxiKnTCeaWtvYmC5hTQ==
-X-CSE-MsgGUID: 8fgHG1OaRMuh1ZpHv8pTAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="273298061"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Sep 2026 05:49:24 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x8zvx-00000000FVc-37au;
-	Tue, 22 Sep 2026 12:49:17 +0000
-Date: Tue, 22 Sep 2026 20:48:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Joerg Roedel <joerg.roedel@amd.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>
-Subject: include/linux/bitops.h:273:19: sparse: sparse: cast
- truncates bits from constant value (fffffffffff000 becomes fffff000)
-Message-ID: <202609222053.KvZzOstg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="MHaD1beQ"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68MBZZKB2630942;
+	Tue, 22 Sep 2026 13:59:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=bBSRIjnqJon9OX7xSzf2GOvROJ1aRH
+	WFpAtVvlhIl6M=; b=MHaD1beQUrhuVU5vxF+lBIztMNWhflpd5jN9fHyZFHCNh8
+	70GvNvidF+hfdNA7tvH/hE0ayYxd8UAx1/qttoiFb4kvyjAFJepg0IlnVDR65Vzn
+	OBJNtiut/ZPUoWWnNmtBAQIEigm0Lf6yni13Wv7Vh7BB614Jp+DwfDvVFd9aHY1q
+	g75XS0BMcdOCezPVc/NydWPr087nk/bVzoJbSOY5XD59NwlujuED9X6+Sq2dC7FB
+	LcrNdaBqdkOJZSU2PctsXSoJYxQyEqByuyCfNVVzSaJLSTR1xMyuamzs5fa4bIyK
+	NY5rrZPPpPj0s5+Ezx9WYVq2PD/1ZYUXv+leaTnw==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gske1p3fk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 22 Sep 2026 13:59:30 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68MBWcmN2774668;
+	Tue, 22 Sep 2026 13:59:30 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gt53vj5ws-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 22 Sep 2026 13:59:29 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68MDxRdA46268926
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 22 Sep 2026 13:59:28 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CE58D20043;
+	Tue, 22 Sep 2026 13:59:27 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F37F820040;
+	Tue, 22 Sep 2026 13:59:25 +0000 (GMT)
+Received: from li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com (unknown [9.39.20.139])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 22 Sep 2026 13:59:25 +0000 (GMT)
+Date: Tue, 22 Sep 2026 19:29:22 +0530
+From: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Ye Bin <yebin10@huawei.com>, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org, "Theodore Ts'o" <tytso@mit.edu>,
+        Jan Kara <jack@suse.cz>
+Subject: Re: fs/ext4/extents-test.c:59:3: sparse: sparse: symbol 'k_ctx' was
+ not declared. Should it be static?
+Message-ID: <arKJurAdccdfbZCT@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com>
+References: <202609221900.Pgwrcp41-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609221900.Pgwrcp41-lkp@intel.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: asvrTGGezCIyG6hfs4RFa60OEZndcGi_
+X-Authority-Analysis: v=2.4 cv=EOCTQFZC c=1 sm=1 tr=0 ts=6ab289c2 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8 a=VnNF1IyMAAAA:8
+ a=7kltmVDV0Umj_0yNpLMA:9 a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIyMDE5NyBTYWx0ZWRfXxIjm4qbPe5N9
+ Z6BI0nBJ4ywxSSQ2XqBItfgQlzAKtK1XXLxZ3bFcluHcEx4m0rkErScQZgYHlCkNKRsLgr3A8q/
+ 11IFib+RezBGsYcWsc9GabOQkZtTaTU=
+X-Proofpoint-GUID: asvrTGGezCIyG6hfs4RFa60OEZndcGi_
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIyMDE5NyBTYWx0ZWRfX6x6zHAa65/NK
+ ZmkMchgc1IGON0qrcwnoLuGLX90d0FII5BVnZwuwBOR7XoAroX87WtGhkGx15he7L42O6b1nLPg
+ XCh6jtR5FYYenpODL86OgydLhfK7LP9MvlvJ0rZsc4vSYJwAD1X31znJOd2CfKnixrRPZLHcoxb
+ Ve5icwkphDW+iINmVT+rjOH8WzqBdslNXLUF+TsoljeWI+Qmf0VRJduuvc0T3qnqYVpnPutALg3
+ 0wgP79ffgYUDR71Sd37gtD7mk8FPGPJdBPH0WJFpvzqNurTDIHQwoanrB3sXpNw2s8uCltRPxWq
+ Tz6TZ7uQymT4yimp7IPVZAqY0aHtZvIr8QiE4fG+Pcx26hbnUzrSWsd07vLjwRiyJrdoiHmbKwY
+ lwd5psttqU3nNf+RvLpbYOxIksQP5bJkcMRC82yA8SpqGJeLw5y7MxVOMeTlkk9lCAO/EYPMZCc
+ 657Mhs43d2nWilQ1hgQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-22_01,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 priorityscore=1501 clxscore=1011 spamscore=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609220197
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
-commit: e71e00127110dedc6a9e746178282b4dac97ed96 iommupt: Add the RISC-V page table format
-date:   6 months ago
-config: arm-randconfig-r1309-20260922 (https://download.01.org/0day-ci/archive/20260922/202609222053.KvZzOstg-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5dc57157f12f0ff676e823d9b4d98b45c07e5df2)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609222053.KvZzOstg-lkp@intel.com/reproduce)
+On Tue, Sep 22, 2026 at 07:42:05PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
+> commit: 9e1b14320b154094bb2c1bee6d8c6cb851fc3215 ext4: fix extents-test.c is not compiled when EXT4_KUNIT_TESTS=M
+> date:   6 months ago
+> config: x86_64-randconfig-1300-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221900.Pgwrcp41-lkp@intel.com/config)
+> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+> sparse: v0.6.5-rc1
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221900.Pgwrcp41-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: 9e1b14320b15 ("ext4: fix extents-test.c is not compiled when EXT4_KUNIT_TESTS=M")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609221900.Pgwrcp41-lkp@intel.com/
+> 
+> sparse warnings: (new ones prefixed by >>)
+> >> fs/ext4/extents-test.c:59:3: sparse: sparse: symbol 'k_ctx' was not declared. Should it be static?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: e71e00127110 ("iommupt: Add the RISC-V page table format")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609222053.KvZzOstg-lkp@intel.com/
+Yes, seems like a legit warning when EXT4_KUNIT_TESTS=m. I'll send a
+fix.
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/iommu/generic_pt/fmt/iommu_riscv64.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
->> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
-   include/linux/bitops.h:278:37: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
->> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
-   include/linux/bitops.h:278:37: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+Thanks,
+ojaswin
 
-vim +273 include/linux/bitops.h
-
-c320592f3f2a1e Wolfram Sang       2025-01-07  261  
-952043ac12a117 Steven Whitehouse  2009-04-23  262  /**
-952043ac12a117 Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
-952043ac12a117 Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
-952043ac12a117 Steven Whitehouse  2009-04-23  265   *
-4945cca232ce8b Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
-952043ac12a117 Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
-952043ac12a117 Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
-952043ac12a117 Steven Whitehouse  2009-04-23  269   */
-6606c8c7e81886 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
-952043ac12a117 Steven Whitehouse  2009-04-23  271  {
-952043ac12a117 Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
-952043ac12a117 Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
-952043ac12a117 Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
-952043ac12a117 Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
-952043ac12a117 Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
-952043ac12a117 Steven Whitehouse  2009-04-23  277  #endif
-952043ac12a117 Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
-952043ac12a117 Steven Whitehouse  2009-04-23  279  }
-952043ac12a117 Steven Whitehouse  2009-04-23  280  
-
-:::::: The code at line 273 was first introduced by commit
-:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
-
-:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
-:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> vim +/k_ctx +59 fs/ext4/extents-test.c
+> 
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  49  
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  50  struct kunit_ctx {
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  51  	/*
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  52  	 * Ext4 inode which has only 1 unwrit extent
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  53  	 */
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  54  	struct ext4_inode_info *k_ei;
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  55  	/*
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  56  	 * Represents the underlying data area (used for zeroout testing)
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  57  	 */
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  58  	char *k_data;
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23 @59  } k_ctx;
+> cb1e0c1d1fad5b Ojaswin Mujoo 2026-01-23  60  
+> 
+> :::::: The code at line 59 was first introduced by commit
+> :::::: cb1e0c1d1fad5bfad90d80c74ebdb53796d8a2db ext4: kunit tests for extent splitting and conversion
+> 
+> :::::: TO: Ojaswin Mujoo <ojaswin@linux.ibm.com>
+> :::::: CC: Theodore Ts'o <tytso@mit.edu>
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
