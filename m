@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95EC3B7B7F;
-	Tue, 22 Sep 2026 17:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C42749F129
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 17:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790096617; cv=none; b=Yl+L5U98zdtdl0VkKzrG4pULDvd/Z3SM0XQtltttmwpHNfPIfr/bbk9QBsrT/GJYHm7Nxp+ri53QfOpzjquoAI2C5cBrsNvnKtuFSY/B53/yyc9w0ONAFlhqXnqUOfyaeGLd/UqU5jWjboJOgJgzdXcmkHawGRB8E6nLC6cASrU=
+	t=1790096619; cv=none; b=BOi86AFlNFW9hiYU3d1KjGYRpMtA2ASGB43cxeRFGSTmkyf9QXBt2OuneGpz8k/UxmM/i8HQ2YSaCk7O6HnbFXAU5MvrXiGKuHTod+gn04xjpolkK9vlkXBIVITc8ZLlfh61OxpHkxwyWR/Q04MryCCIh/2aNtepO01nJb9lNbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790096617; c=relaxed/simple;
-	bh=0wfzdLF5Bu7q8OlGyBWjR9+dXLWGzGITyd8qdIa1Tyc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eIvMGSJ3XsDlmrdMDEIB/ii0hvu2e1UlrEkjMpQl0C3Pmk3mYghghMM7kf01l8EefZXDw7as49GeeKYOLCuO7f2J8ZGPt8FyeFsOkMFIpsi2FlXkiDn+kB35O2grOdCQ7MRXNHiQHXYQcKqhk2q41vCmZ0bBdqlSYzsn1wxE7us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmApTSGO; arc=none smtp.client-ip=192.198.163.5
+	s=arc-20240116; t=1790096619; c=relaxed/simple;
+	bh=vuv3LXP65HtJJDO/jOb2jpgskyphoyKJJGzgUDUNQs8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WlARZLz8TTaqa3adBrXK1EHjETj6IR9NaCqF3Z16RCsd6NChCcNPX2YOmDY2yvuQ98m50Gf1RbrwMEU5Wm2rIgXunDR+hKefVPabS/GFd2R30zSTQUQY6EzksxT5Ds4DZtgRRkFj6CtAnHVmVsJ0b8o0LXERC9J8S8kCyLuDtyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WPPpml7s; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmApTSGO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WPPpml7s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790096615; x=1821632615;
+  t=1790096619; x=1821632619;
   h=date:from:to:cc:subject:message-id;
-  bh=0wfzdLF5Bu7q8OlGyBWjR9+dXLWGzGITyd8qdIa1Tyc=;
-  b=MmApTSGOaHBukJf3dV9p9BqME7JX8dX+7t4Nf5BC/UD2PzdQ4z+aQva+
-   b0P1mRDO080oNwRnWQcQW5v+Oq+UWtWNWBJshetzssHjzIqYSdW4NCDG/
-   2ycjbToIi394J+G0MbjKXFPm1Caky0RJYwt48DFws+x7xaco9iNiMG2Lu
-   iFd/P4Ea0C6XqwYA4JRrPwGQFz+pVycJ8muAcntavtbV5okL2lgDL/bHg
-   h1pFOgMBo7c3ujBeeVynqdttJYsKepAUf+0IJ6OgZgLcEMl/vIp9EdpZ+
-   9MOqqDcNnNBQfxN1CZrI31d8rB+p8Gx4s+SAzPghVRbjchix+M+KSxI5/
+  bh=vuv3LXP65HtJJDO/jOb2jpgskyphoyKJJGzgUDUNQs8=;
+  b=WPPpml7spHVsoNtr0a1wtrEowtZNR6MRbbfZYHmPNuMD9SaB3Pfkv4ii
+   bkhlnh4GT7AOd47pPlbkTy6O8x98KsDzMpgimoQaDT9ajBo5iKzojG/gu
+   Qq88gKqiKrLSsCYv3BP1hB3eZoGrddNIhTTR0IkWIdQlp2SphKjIcq9SP
+   /XZ5J0O52jVTVwGFoLgc9FG6lqrrDuHQNrSlSuuth1viOm1XFV5aBARai
+   MEzUSsfiXHSmlb0Fdrt78/tajkLW4rfIhcrk3voFjRzhkOzbAgO+VaRp+
+   P3bRzlj0xSg5gozX1jVuolD+Y5zD4gNm20vkUebdikCS0atJLdpg4XCKW
    w==;
-X-CSE-ConnectionGUID: sI8vh1RNRRyVx11HzM1SeQ==
-X-CSE-MsgGUID: lBGVYzzOSauiwW/+1Xr0uA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1223653"
+X-CSE-ConnectionGUID: yWuncY7KTt+b8x4mGiUHww==
+X-CSE-MsgGUID: BWOVKeYAQx6l8w84mk29UA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1223654"
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="1223653"
+   d="scan'208";a="1223654"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 10:03:34 -0700
-X-CSE-ConnectionGUID: cGpOBy3mSTWMH4d0v8pdow==
-X-CSE-MsgGUID: 3riit4LUQ5KMP6OCndK6xA==
+X-CSE-ConnectionGUID: S9ejweXlS824zg/UW0bGIA==
+X-CSE-MsgGUID: adVUItJJSw+cPZ8f5oEayQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="277975656"
+   d="scan'208";a="277975662"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2026 10:03:31 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2026 10:03:32 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x93tx-00000000FmE-1VJB;
+	id 1x93tx-00000000FmI-2QIo;
 	Tue, 22 Sep 2026 17:03:29 +0000
-Date: Wed, 23 Sep 2026 01:02:41 +0800
+Date: Wed, 23 Sep 2026 01:02:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dominik Kaszewski <dominik.kaszewski@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "Chen-Yu Chen" <Chen-Yu.Chen@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Subject: [agd5f:amd-staging-drm-next 3081/3178]
- drivers/gpu/drm/amd/amdgpu/../display/dc/dc_memory_pool.c:87:37: warning:
- stack frame size (16560) exceeds limit (2048) in 'dc_memory_pool_create'
-Message-ID: <202609230057.SPRTbGh9-lkp@intel.com>
+To: Sagi Grimberg <sagi@grimberg.me>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: drivers/nvme/target/tcp.c:1325:46: sparse: sparse: incorrect
+ type in assignment (different base types)
+Message-ID: <202609230152.YAKhcW2K-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,77 +60,82 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   e0e9c2257911b291ef5345635a9e6dfef5b2b424
-commit: 68006eb4b8f03d723aaa66e87625795189488c04 [3081/3178] drm/amd/display: Add lock-free memory pool
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260923/202609230057.SPRTbGh9-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230057.SPRTbGh9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
+commit: dbbd07d0a7020b80f6a7028e561908f7b83b3d5a nvmet-tcp: Fix potential UAF when ddgst mismatch
+date:   4 months ago
+config: microblaze-randconfig-r1307-20260922 (https://download.01.org/0day-ci/archive/20260923/202609230152.YAKhcW2K-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230152.YAKhcW2K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: dbbd07d0a702 ("nvmet-tcp: Fix potential UAF when ddgst mismatch")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609230057.SPRTbGh9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609230152.YAKhcW2K-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/nvme/target/tcp.c:1325:46: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] status @@     got int @@
+   drivers/nvme/target/tcp.c:1325:46: sparse:     expected restricted __le16 [usertype] status
+   drivers/nvme/target/tcp.c:1325:46: sparse:     got int
 
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dc_memory_pool.c:87:37: warning: stack frame size (16560) exceeds limit (2048) in 'dc_memory_pool_create' [-Wframe-larger-than]
-      87 | __must_check struct dc_memory_pool *dc_memory_pool_create(size_t size,
-         |                                     ^
-   1 warning generated.
+vim +1325 drivers/nvme/target/tcp.c
 
-
-vim +/dc_memory_pool_create +87 drivers/gpu/drm/amd/amdgpu/../display/dc/dc_memory_pool.c
-
-    86	
-  > 87	__must_check struct dc_memory_pool *dc_memory_pool_create(size_t size,
-    88								  size_t capacity)
-    89	{
-    90		if (!size || !capacity)
-    91			return NULL;
-    92	
-    93		// Limited by split between size and generation in index_t
-    94		if (capacity >= (uint32_t)-DC_MEMORY_POOL_ENUM_SIZE)
-    95			return NULL;
-    96	
-    97		// uint32_t because that's what alloc functions take
-    98		const uint32_t block_pages = (uint32_t)size_in_pages(size);
-    99		const uint32_t lines = (uint32_t)capacity * block_pages;
-   100		const uint32_t padded_struct_size =
-   101			sizeof(struct dc_memory_pool) + PAGE_SIZE;
-   102	
-   103		void *unaligned_pool = kzalloc(padded_struct_size, GFP_KERNEL);
-   104	
-   105		if (!unaligned_pool)
-   106			return NULL;
-   107	
-   108		struct dc_memory_pool *pool = page_align_up(unaligned_pool);
-   109	
-   110		*pool = (struct dc_memory_pool){
-   111			.size = size,
-   112			.capacity = capacity,
-   113			.unaligned_pool = unaligned_pool,
-   114			.unaligned_memory = kcalloc(lines + 1, PAGE_SIZE, GFP_KERNEL),
-   115			.free_list = kcalloc((uint32_t)capacity, sizeof(atomic_t),
-   116					     GFP_KERNEL),
-   117			.free_head = ATOMIC_INIT(0),
-   118		};
-   119		pool->memory = page_align_up(pool->unaligned_memory);
-   120	
-   121		if (!pool->unaligned_memory || !pool->free_list) {
-   122			dc_memory_pool_destroy(pool);
-   123			return NULL;
-   124		}
-   125	
-   126		for (int32_t i = 0; i < (int32_t)capacity; i++)
-   127			atomic_set_release(&pool->free_list[i], i + 1);
-   128	
-   129		atomic_set_release(&pool->free_list[capacity - 1],
-   130				   DC_MEMORY_POOL_SENTINEL);
-   131	
-   132		return pool;
-   133	}
-   134	
+  1288	
+  1289	static int nvmet_tcp_try_recv_ddgst(struct nvmet_tcp_queue *queue)
+  1290	{
+  1291		struct nvmet_tcp_cmd *cmd = queue->cmd;
+  1292		int ret, len;
+  1293		char cbuf[CMSG_LEN(sizeof(char))] = {};
+  1294		struct msghdr msg = { .msg_flags = MSG_DONTWAIT };
+  1295		struct kvec iov = {
+  1296			.iov_base = (void *)&cmd->recv_ddgst + queue->offset,
+  1297			.iov_len = queue->left
+  1298		};
+  1299	
+  1300		if (queue->tls_pskid) {
+  1301			msg.msg_control = cbuf;
+  1302			msg.msg_controllen = sizeof(cbuf);
+  1303		}
+  1304		len = kernel_recvmsg(queue->sock, &msg, &iov, 1,
+  1305				iov.iov_len, msg.msg_flags);
+  1306		if (unlikely(len < 0))
+  1307			return len;
+  1308		if (queue->tls_pskid) {
+  1309			ret = nvmet_tcp_tls_record_ok(queue, &msg, cbuf);
+  1310			if (ret < 0)
+  1311				return ret;
+  1312		}
+  1313	
+  1314		queue->offset += len;
+  1315		queue->left -= len;
+  1316		if (queue->left)
+  1317			return -EAGAIN;
+  1318	
+  1319		if (queue->data_digest && cmd->exp_ddgst != cmd->recv_ddgst) {
+  1320			pr_err("queue %d: cmd %d pdu (%d) data digest error: recv %#x expected %#x\n",
+  1321				queue->idx, cmd->req.cmd->common.command_id,
+  1322				queue->pdu.cmd.hdr.type, le32_to_cpu(cmd->recv_ddgst),
+  1323				le32_to_cpu(cmd->exp_ddgst));
+  1324			if (!(cmd->flags & NVMET_TCP_F_INIT_FAILED)) {
+> 1325				cmd->req.cqe->status = NVME_SC_CMD_SEQ_ERROR;
+  1326				nvmet_req_uninit(&cmd->req);
+  1327			}
+  1328			nvmet_tcp_free_cmd_buffers(cmd);
+  1329			ret = -EPROTO;
+  1330			goto out;
+  1331		}
+  1332	
+  1333		if (cmd->rbytes_done == cmd->req.transfer_len)
+  1334			nvmet_tcp_execute_request(cmd);
+  1335	
+  1336		ret = 0;
+  1337	out:
+  1338		nvmet_prepare_receive_pdu(queue);
+  1339		return ret;
+  1340	}
+  1341	
 
 --
 0-DAY CI Kernel Test Service
