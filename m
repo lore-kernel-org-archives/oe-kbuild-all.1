@@ -1,122 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EAA4D7D22
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 07:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3AA448BAB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 08:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790063902; cv=none; b=VF5LsKxR5RWGSNrkaQGEdI+FOJ0o0wZKUDD8bYRUo0tCpsxJ15CTK/FJHnvGppQARntVM6mvOkkU92MtW0kp5Hw3qEYsgNFFSU/XI14vWycEu+/iqP1Q6uFEg/gU9HRvPgTc+7mVhCytREjQ8XTEAmLlyYhSlHzE0aT4lPaY6xA=
+	t=1790067250; cv=none; b=UA490btjNK6IJWEbwRz2tz/gUj9evtq4JJOIwnajFpvD6yMDFB3OyR5EiJVG2aAvDzuYke/jVeWHB1H40aPYgOhcqSF4cpMn2chpSYZGuLiXiPTB9KD/b27u1/Rq6GlNB/whW6my7w/LZjYdqCRy1jTvLjBU/xLLOmv3Ts/WPG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790063902; c=relaxed/simple;
-	bh=st5zqvh5AAGmU926OyFQ7dzQZEV3MT6aFNUPe3AIhJA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iYQleoG/7PWEUPfGAia0XWQgK71j+X4vbrB2/AAvCn0A+MHYCG5iY4wRQz3UyDjfPmzclFxJOGrAjjlOW8NVBI7JG7oQcQ94LCETCEO/rWuHjhkK7xdRuzpTqb18xws8SPywb86+YJciPKuK4lf64U2bYA9kIR5AnkT5V3Fa688=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FnUs8Cn7; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1790067250; c=relaxed/simple;
+	bh=uHsNq0tHql05paguIrjv0Kj3VWRU7+vCkDwp17faAck=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hht6NpwKweIBjUxx64Sh32wCJjDFo3DWJzQ9JeyE6ahiHiuHyvVHu6OjztFuF0t0PhDDx48SB2WrPyyw+TFKXPHKgPVF9ShvxEh3MVNKH9FcrCL7neyixhqsZFCzhz9k5UUXGAq6ob1DhO+tUChKV+/2o03IffmwsRdx3ApKIhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAAuwCAV; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FnUs8Cn7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAAuwCAV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790063896; x=1821599896;
-  h=date:from:to:cc:subject:message-id;
-  bh=st5zqvh5AAGmU926OyFQ7dzQZEV3MT6aFNUPe3AIhJA=;
-  b=FnUs8Cn73wUa2x1jGB+Cs5Xl13iYLrWm91wqLdq3+fM1yDvxfU3Cyeaj
-   fneL/xYo5/T7eyzbzXkRrD1VV7feo/djHT8VTI3FhezErItLzilpirpyu
-   DKDn8tNqHJBR/rwVG71Ja4GxNI8/fwyrxfg68vo2Dn/m6K0/89/xeDeKN
-   WpFyqkrXEeiiA1zdl6PaTzeFjztX5K52G0hj23hx4tle5xYgqrEbuMiP8
-   LbB/biSk/333LYyPIvZc1FNgDPO6igWl60g+GwrDO3FMQ+wXua2Tv8XaT
-   gLfOte9hHlOvCzM/ZquEn+0E2h1tIcj9g05FLL8+uverrnSSEFLAvpMec
-   g==;
-X-CSE-ConnectionGUID: KfHN9R7pRx2ZfuEgJGMIhg==
-X-CSE-MsgGUID: cfpjrbceTiGZNPB7WwJj7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="1151237"
+  t=1790067247; x=1821603247;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uHsNq0tHql05paguIrjv0Kj3VWRU7+vCkDwp17faAck=;
+  b=bAAuwCAVFY5ZK6PEi72/sghQ6WvYnTiGa4/V6c/Ghos3qJeA+DIuTFWY
+   ls+gTJvNutHTkKCIcrIOjGnws7lV7OpUEylX9cknKmC1T3V/DzXAwjXaE
+   IoZ1S5A2yiNdp3mGvCmGccMdNVtxK4BpqSME0sJFkyhq5GTTioI5KHYiV
+   TWt8nUwIhBFbbcQYxoza0pDsZzSHd82Al+duc5A0nnPmSFdzfaTlTLMp0
+   aKrGJjV7k8s+7STI/SqTlI0qfxj6g3fylz3UzeZl2M7AlXsx/17zTUNp6
+   Q++Zd4RuBmiqp9/P/k4Ggml5sk7NRaw8A70i4vr1cmOIqVam4CYWlABmK
+   Q==;
+X-CSE-ConnectionGUID: Xqrn9eCUSy+YGjKgzOsobQ==
+X-CSE-MsgGUID: rtjH+X/cRqWloIwTi4GccQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90519392"
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="1151237"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 00:58:09 -0700
-X-CSE-ConnectionGUID: I5JJwG+0SyKoJ3iUHV8qIg==
-X-CSE-MsgGUID: AnC3xvpIQeuhegzMjW/i0Q==
+   d="scan'208";a="90519392"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 01:54:02 -0700
+X-CSE-ConnectionGUID: 3ibhvx7vSky7KzBLEVmQOQ==
+X-CSE-MsgGUID: 5jIu/YYvR2iUJraZlM2+9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="281092126"
+   d="scan'208";a="300979141"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Sep 2026 00:58:07 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 22 Sep 2026 01:54:00 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x8vO8-00000000FAC-3ZlA;
-	Tue, 22 Sep 2026 07:58:04 +0000
-Date: Tue, 22 Sep 2026 15:57:23 +0800
+	id 1x8wG8-00000000FFE-3spO;
+	Tue, 22 Sep 2026 08:53:52 +0000
+Date: Tue, 22 Sep 2026 16:53:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Heiko Stuebner <heiko@sntech.de>
-Subject: drivers/gpu/drm/rockchip/cdn-dp-core.c:321:25: sparse:
- sparse: cast to restricted __le32
-Message-ID: <202609221523.NSIdRvjX-lkp@intel.com>
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ David Gow <davidgow@google.com>
+Subject: drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse:
+ cast to restricted __be64
+Message-ID: <202609221636.xKdion6f-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
-commit: 0244539f9a4f3b564604dfe4d639f61cecec381a drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP
-date:   9 months ago
-config: powerpc64-randconfig-r1308-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221523.NSIdRvjX-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
+commit: 031cdd3bc3f369553933c1b0f4cb18000162c8ff kunit: Enable PCI on UML without triggering WARN()
+date:   1 year ago
+config: um-randconfig-r1306-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221636.xKdion6f-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221523.NSIdRvjX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221636.xKdion6f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 0244539f9a4f ("drm/rockchip: Drop ROCKCHIP_IOMMU depend for DRM_ROCKCHIP")
+| Fixes: 031cdd3bc3f3 ("kunit: Enable PCI on UML without triggering WARN()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609221523.NSIdRvjX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609221636.xKdion6f-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/rockchip/cdn-dp-core.c:321:25: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
+>> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
 
-vim +321 drivers/gpu/drm/rockchip/cdn-dp-core.c
+vim +2325 drivers/scsi/cxgbi/cxgb4i/cxgb4i.c
 
-1a0f7ed3abe29c Chris Zhong 2017-02-05  312  
-1a0f7ed3abe29c Chris Zhong 2017-02-05  313  static int cdn_dp_firmware_init(struct cdn_dp_device *dp)
-1a0f7ed3abe29c Chris Zhong 2017-02-05  314  {
-1a0f7ed3abe29c Chris Zhong 2017-02-05  315  	int ret;
-1a0f7ed3abe29c Chris Zhong 2017-02-05  316  	const u32 *iram_data, *dram_data;
-1a0f7ed3abe29c Chris Zhong 2017-02-05  317  	const struct firmware *fw = dp->fw;
-1a0f7ed3abe29c Chris Zhong 2017-02-05  318  	const struct cdn_firmware_header *hdr;
-1a0f7ed3abe29c Chris Zhong 2017-02-05  319  
-1a0f7ed3abe29c Chris Zhong 2017-02-05  320  	hdr = (struct cdn_firmware_header *)fw->data;
-1a0f7ed3abe29c Chris Zhong 2017-02-05 @321  	if (fw->size != le32_to_cpu(hdr->size_bytes)) {
-1a0f7ed3abe29c Chris Zhong 2017-02-05  322  		DRM_DEV_ERROR(dp->dev, "firmware is invalid\n");
-1a0f7ed3abe29c Chris Zhong 2017-02-05  323  		return -EINVAL;
-1a0f7ed3abe29c Chris Zhong 2017-02-05  324  	}
-1a0f7ed3abe29c Chris Zhong 2017-02-05  325  
-1a0f7ed3abe29c Chris Zhong 2017-02-05  326  	iram_data = (const u32 *)(fw->data + hdr->header_size);
-1a0f7ed3abe29c Chris Zhong 2017-02-05  327  	dram_data = (const u32 *)(fw->data + hdr->header_size + hdr->iram_size);
-1a0f7ed3abe29c Chris Zhong 2017-02-05  328  
-1a0f7ed3abe29c Chris Zhong 2017-02-05  329  	ret = cdn_dp_load_firmware(dp, iram_data, hdr->iram_size,
-1a0f7ed3abe29c Chris Zhong 2017-02-05  330  				   dram_data, hdr->dram_size);
-1a0f7ed3abe29c Chris Zhong 2017-02-05  331  	if (ret)
-1a0f7ed3abe29c Chris Zhong 2017-02-05  332  		return ret;
-1a0f7ed3abe29c Chris Zhong 2017-02-05  333  
-1a0f7ed3abe29c Chris Zhong 2017-02-05  334  	ret = cdn_dp_set_firmware_active(dp, true);
-1a0f7ed3abe29c Chris Zhong 2017-02-05  335  	if (ret) {
-1a0f7ed3abe29c Chris Zhong 2017-02-05  336  		DRM_DEV_ERROR(dp->dev, "active ucpu failed: %d\n", ret);
-1a0f7ed3abe29c Chris Zhong 2017-02-05  337  		return ret;
-1a0f7ed3abe29c Chris Zhong 2017-02-05  338  	}
-1a0f7ed3abe29c Chris Zhong 2017-02-05  339  
-1a0f7ed3abe29c Chris Zhong 2017-02-05  340  	return cdn_dp_event_config(dp);
-1a0f7ed3abe29c Chris Zhong 2017-02-05  341  }
-1a0f7ed3abe29c Chris Zhong 2017-02-05  342  
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2306  
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2307  #define RX_PULL_LEN	128
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2308  static int t4_uld_rx_handler(void *handle, const __be64 *rsp,
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2309  				const struct pkt_gl *pgl)
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2310  {
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2311  	const struct cpl_act_establish *rpl;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2312  	struct sk_buff *skb;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2313  	unsigned int opc;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2314  	struct cxgbi_device *cdev = handle;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2315  
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2316  	if (pgl == NULL) {
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2317  		unsigned int len = 64 - sizeof(struct rsp_ctrl) - 8;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2318  
+24d3f95a5b6082 kxie@chelsio.com 2010-09-23  2319  		skb = alloc_wr(len, 0, GFP_ATOMIC);
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2320  		if (!skb)
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2321  			goto nomem;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2322  		skb_copy_to_linear_data(skb, &rsp[1], len);
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2323  	} else {
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2324  		if (unlikely(*(u8 *)rsp != *(u8 *)pgl->va)) {
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16 @2325  			pr_info("? FL 0x%p,RSS%#llx,FL %#llx,len %u.\n",
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2326  				pgl->va, be64_to_cpu(*rsp),
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2327  				be64_to_cpu(*(u64 *)pgl->va),
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2328  				pgl->tot_len);
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2329  			return 0;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2330  		}
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2331  		skb = cxgb4_pktgl_to_skb(pgl, RX_PULL_LEN, RX_PULL_LEN);
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2332  		if (unlikely(!skb))
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2333  			goto nomem;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2334  	}
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2335  
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2336  	rpl = (struct cpl_act_establish *)skb->data;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2337  	opc = rpl->ot.opcode;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2338  	log_debug(1 << CXGBI_DBG_TOE,
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2339  		"cdev %p, opcode 0x%x(0x%x,0x%x), skb %p.\n",
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2340  		 cdev, opc, rpl->ot.opcode_tid, ntohl(rpl->ot.opcode_tid), skb);
+ccc495efb326d1 Dan Carpenter    2018-04-03  2341  	if (opc >= ARRAY_SIZE(cxgb4i_cplhandlers) || !cxgb4i_cplhandlers[opc]) {
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2342  		pr_err("No handler for opcode 0x%x.\n", opc);
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2343  		__kfree_skb(skb);
+ccc495efb326d1 Dan Carpenter    2018-04-03  2344  	} else
+ccc495efb326d1 Dan Carpenter    2018-04-03  2345  		cxgb4i_cplhandlers[opc](cdev, skb);
+ccc495efb326d1 Dan Carpenter    2018-04-03  2346  
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2347  	return 0;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2348  nomem:
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2349  	log_debug(1 << CXGBI_DBG_TOE, "OOM bailing out.\n");
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2350  	return 1;
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2351  }
+7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2352  
 
-:::::: The code at line 321 was first introduced by commit
-:::::: 1a0f7ed3abe29cff8e652c69a8ad89aec2c40f00 drm/rockchip: cdn-dp: add cdn DP support for rk3399
+:::::: The code at line 2325 was first introduced by commit
+:::::: 7b36b6e03b0d6cee0948593a6a11841a457695b9 [SCSI] cxgb4i v5: iscsi driver
 
-:::::: TO: Chris Zhong <zyw@rock-chips.com>
-:::::: CC: Mark Yao <mark.yao@rock-chips.com>
+:::::: TO: kxie@chelsio.com <kxie@chelsio.com>
+:::::: CC: James Bottomley <James.Bottomley@suse.de>
 
 --
 0-DAY CI Kernel Test Service
