@@ -1,169 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3AA448BAB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 08:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B4C529406
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 09:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790067250; cv=none; b=UA490btjNK6IJWEbwRz2tz/gUj9evtq4JJOIwnajFpvD6yMDFB3OyR5EiJVG2aAvDzuYke/jVeWHB1H40aPYgOhcqSF4cpMn2chpSYZGuLiXiPTB9KD/b27u1/Rq6GlNB/whW6my7w/LZjYdqCRy1jTvLjBU/xLLOmv3Ts/WPG0=
+	t=1790067781; cv=none; b=Gin/ygwJOR2iR77gZIAISejJ4AuW1ZcR08xFXXNv61G7FRe1ZtismPxNrAtyXTpbtXA9Z+ico4IyA5jNHUNAW1sCp9IUO+T9bF/dR1SpbcxsqmFfARjaxYAQFq1hrbgumEJoEH2VZTruuRTbuEcsLxek4X1o8RtNzDkH81I3acU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790067250; c=relaxed/simple;
-	bh=uHsNq0tHql05paguIrjv0Kj3VWRU7+vCkDwp17faAck=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hht6NpwKweIBjUxx64Sh32wCJjDFo3DWJzQ9JeyE6ahiHiuHyvVHu6OjztFuF0t0PhDDx48SB2WrPyyw+TFKXPHKgPVF9ShvxEh3MVNKH9FcrCL7neyixhqsZFCzhz9k5UUXGAq6ob1DhO+tUChKV+/2o03IffmwsRdx3ApKIhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAAuwCAV; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1790067781; c=relaxed/simple;
+	bh=zK0UVi9dWHfDbHzuZO3crWWWwMQtMZ4hLWNPjSr0u5o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Cv3ZbaW8bd3ABEADmqwq1VvuYYVbg5TApJCejmgoZqeWtOuDpXpNUBCiwX1xgbO7/ZbOkUpSCHRgk3Jym8w6+YOyOKibqdQLUTSPHWUAY8X0csODVyTLQiSg4V8pogPCgps42GgE+JRUNPRxty0fN2SLORgKdT7pGFtc+XAzVhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nXy5zJ/0; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAAuwCAV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nXy5zJ/0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790067247; x=1821603247;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uHsNq0tHql05paguIrjv0Kj3VWRU7+vCkDwp17faAck=;
-  b=bAAuwCAVFY5ZK6PEi72/sghQ6WvYnTiGa4/V6c/Ghos3qJeA+DIuTFWY
-   ls+gTJvNutHTkKCIcrIOjGnws7lV7OpUEylX9cknKmC1T3V/DzXAwjXaE
-   IoZ1S5A2yiNdp3mGvCmGccMdNVtxK4BpqSME0sJFkyhq5GTTioI5KHYiV
-   TWt8nUwIhBFbbcQYxoza0pDsZzSHd82Al+duc5A0nnPmSFdzfaTlTLMp0
-   aKrGJjV7k8s+7STI/SqTlI0qfxj6g3fylz3UzeZl2M7AlXsx/17zTUNp6
-   Q++Zd4RuBmiqp9/P/k4Ggml5sk7NRaw8A70i4vr1cmOIqVam4CYWlABmK
-   Q==;
-X-CSE-ConnectionGUID: Xqrn9eCUSy+YGjKgzOsobQ==
-X-CSE-MsgGUID: rtjH+X/cRqWloIwTi4GccQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90519392"
+  t=1790067779; x=1821603779;
+  h=date:from:to:cc:subject:message-id;
+  bh=zK0UVi9dWHfDbHzuZO3crWWWwMQtMZ4hLWNPjSr0u5o=;
+  b=nXy5zJ/0hcKbl4rYYmbM3bYC8d6+yOJ7u6rN1RjmtIbD+//8VqyigsJN
+   YyTR1UJA9RbohpYIqWv7iBiOLJ19BFT42sRm4qQHRx3y703YJLInYF97e
+   iaTC4SjwwQNmv9c8QWOs4Ozv47phe0p0juEZtJ/pCoeJK4C6xWoUq5Isi
+   EY+rsSLo0ZeGwNISJ8Ct6Zqp4VjYyLbpgbvbyXPSQ3odFG+u1OVbuavG5
+   /dSEmmLi343E1ZRAsQTAnw8EjhwA6KGygGdWs/xZjmQ8FXvULeq9N6On2
+   RHBZzJ+VtLP0IMghNe8XpUXs1lgb3QidjBbkkO0fv/RdR9AmjSqjflh0f
+   A==;
+X-CSE-ConnectionGUID: htJG+p9nQVeSwh/SNIQrSQ==
+X-CSE-MsgGUID: acHNFdp4RGiuPx0cJOLLuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="1156305"
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="90519392"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 01:54:02 -0700
-X-CSE-ConnectionGUID: 3ibhvx7vSky7KzBLEVmQOQ==
-X-CSE-MsgGUID: 5jIu/YYvR2iUJraZlM2+9w==
+   d="scan'208";a="1156305"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 02:02:58 -0700
+X-CSE-ConnectionGUID: IdKNh2rgQBe9jevsghn1eA==
+X-CSE-MsgGUID: JltGVy5zRoeJFeJJDuRzxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="300979141"
+   d="scan'208";a="281108559"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Sep 2026 01:54:00 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Sep 2026 02:02:56 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x8wG8-00000000FFE-3spO;
-	Tue, 22 Sep 2026 08:53:52 +0000
-Date: Tue, 22 Sep 2026 16:53:01 +0800
+	id 1x8wOr-00000000FFk-3qsx;
+	Tue, 22 Sep 2026 09:02:53 +0000
+Date: Tue, 22 Sep 2026 17:02:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+To: Sami Tolvanen <samitolvanen@google.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>,
- Johannes Berg <johannes@sipsolutions.net>,
- David Gow <davidgow@google.com>
-Subject: drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse:
- cast to restricted __be64
-Message-ID: <202609221636.xKdion6f-lkp@intel.com>
+ Alexei Starovoitov <ast@kernel.org>
+Subject: kernel/bpf/crypto.c:264:18: sparse: sparse: symbol
+ 'bpf_crypto_ctx_release_dtor' was not declared. Should it be static?
+Message-ID: <202609221605.3H6cpcne-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
-commit: 031cdd3bc3f369553933c1b0f4cb18000162c8ff kunit: Enable PCI on UML without triggering WARN()
-date:   1 year ago
-config: um-randconfig-r1306-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221636.xKdion6f-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+commit: b40a5d724f29fc2eed23ff353808a9aae616b48a bpf: crypto: Use the correct destructor kfunc type
+date:   8 months ago
+config: x86_64-randconfig-1301-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221605.3H6cpcne-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221636.xKdion6f-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221605.3H6cpcne-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 031cdd3bc3f3 ("kunit: Enable PCI on UML without triggering WARN()")
+| Fixes: b40a5d724f29 ("bpf: crypto: Use the correct destructor kfunc type")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609221636.xKdion6f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609221605.3H6cpcne-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:2325:25: sparse: sparse: cast to restricted __be64
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
->> drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1304:24: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
-   drivers/scsi/cxgbi/cxgb4i/cxgb4i.c:1323:17: sparse: sparse: cast to restricted __be32
+>> kernel/bpf/crypto.c:264:18: sparse: sparse: symbol 'bpf_crypto_ctx_release_dtor' was not declared. Should it be static?
 
-vim +2325 drivers/scsi/cxgbi/cxgb4i/cxgb4i.c
+vim +/bpf_crypto_ctx_release_dtor +264 kernel/bpf/crypto.c
 
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2306  
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2307  #define RX_PULL_LEN	128
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2308  static int t4_uld_rx_handler(void *handle, const __be64 *rsp,
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2309  				const struct pkt_gl *pgl)
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2310  {
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2311  	const struct cpl_act_establish *rpl;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2312  	struct sk_buff *skb;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2313  	unsigned int opc;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2314  	struct cxgbi_device *cdev = handle;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2315  
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2316  	if (pgl == NULL) {
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2317  		unsigned int len = 64 - sizeof(struct rsp_ctrl) - 8;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2318  
-24d3f95a5b6082 kxie@chelsio.com 2010-09-23  2319  		skb = alloc_wr(len, 0, GFP_ATOMIC);
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2320  		if (!skb)
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2321  			goto nomem;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2322  		skb_copy_to_linear_data(skb, &rsp[1], len);
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2323  	} else {
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2324  		if (unlikely(*(u8 *)rsp != *(u8 *)pgl->va)) {
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16 @2325  			pr_info("? FL 0x%p,RSS%#llx,FL %#llx,len %u.\n",
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2326  				pgl->va, be64_to_cpu(*rsp),
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2327  				be64_to_cpu(*(u64 *)pgl->va),
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2328  				pgl->tot_len);
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2329  			return 0;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2330  		}
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2331  		skb = cxgb4_pktgl_to_skb(pgl, RX_PULL_LEN, RX_PULL_LEN);
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2332  		if (unlikely(!skb))
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2333  			goto nomem;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2334  	}
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2335  
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2336  	rpl = (struct cpl_act_establish *)skb->data;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2337  	opc = rpl->ot.opcode;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2338  	log_debug(1 << CXGBI_DBG_TOE,
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2339  		"cdev %p, opcode 0x%x(0x%x,0x%x), skb %p.\n",
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2340  		 cdev, opc, rpl->ot.opcode_tid, ntohl(rpl->ot.opcode_tid), skb);
-ccc495efb326d1 Dan Carpenter    2018-04-03  2341  	if (opc >= ARRAY_SIZE(cxgb4i_cplhandlers) || !cxgb4i_cplhandlers[opc]) {
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2342  		pr_err("No handler for opcode 0x%x.\n", opc);
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2343  		__kfree_skb(skb);
-ccc495efb326d1 Dan Carpenter    2018-04-03  2344  	} else
-ccc495efb326d1 Dan Carpenter    2018-04-03  2345  		cxgb4i_cplhandlers[opc](cdev, skb);
-ccc495efb326d1 Dan Carpenter    2018-04-03  2346  
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2347  	return 0;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2348  nomem:
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2349  	log_debug(1 << CXGBI_DBG_TOE, "OOM bailing out.\n");
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2350  	return 1;
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2351  }
-7b36b6e03b0d6c kxie@chelsio.com 2010-08-16  2352  
-
-:::::: The code at line 2325 was first introduced by commit
-:::::: 7b36b6e03b0d6cee0948593a6a11841a457695b9 [SCSI] cxgb4i v5: iscsi driver
-
-:::::: TO: kxie@chelsio.com <kxie@chelsio.com>
-:::::: CC: James Bottomley <James.Bottomley@suse.de>
+   263	
+ > 264	__bpf_kfunc void bpf_crypto_ctx_release_dtor(void *ctx)
+   265	{
+   266		bpf_crypto_ctx_release(ctx);
+   267	}
+   268	CFI_NOSEAL(bpf_crypto_ctx_release_dtor);
+   269	
 
 --
 0-DAY CI Kernel Test Service
