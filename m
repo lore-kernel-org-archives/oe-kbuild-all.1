@@ -1,60 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3924A64CA;
-	Tue, 22 Sep 2026 06:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0633137266D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 06:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790058576; cv=none; b=nrXilElNE6C7Ls34IiKtwIzen92Alns81m81Yh4CnFRP+1dfmeDl7UIhdYb2kfWK7mGtfBwqEnmUL9xcYoeaXhtl5b6hzF6g03dVJ8jVJMBfY5bsrjayAPsBe74mhCch8UFTruD58RAtwD2g8xDP8YQsxwCxuPsbvaMJAW11cU8=
+	t=1790059478; cv=none; b=Og/GbVxnNjrel/VWv6SKkUn78GsbMdQrsvHe+4Xrq2oSTmskXXyZ3xePKGWRCA9Uy01g0ujomqVxVaj44zN8/CvEKEm9r5BVS4t4zSoaCVvaw7pOPVwOdPmIFk53QtCaf2OWqa6Z9ZPoI5ksCMIQmNxIK72n6D55VlDOcov7jWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790058576; c=relaxed/simple;
-	bh=Gwy+Gwuh9YzcmKWwVGjHycdhcK7AFlVdL6XxozLPGdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RbrHCfTxg5z07/oDLANvlZi7zTNCiXXQe/re+NMRIylxHKG44hM1jasQYTg7RtrGUleRKUEPwxeZuUl0pQ7ME2unUeMEjnvp3zTP1UHM8A0vcVQnPjxhCUGO2F/59W3LzouJ6RCcPzmYUPmLCkPOH3pDELQKANMS3nFoU4UEpxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1Sfoz61; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1790059478; c=relaxed/simple;
+	bh=Dhu0hyoCEsbj+OnFPgqYbioPlXT9FXZOJdmKeoRR6lk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XclkagIk35tHz2rOAn/TfirgAQKXKohkTuLfmm805vsF+RDxLmGrXHn0cFr9OvA196x0X3WDCeZs2EDjKasvF6jAmtzEXUEQyqrvdGuCeANsqBuJNKHQ0TRzexfWI1CdvFV8ekkvYIEZuMU2GHcjZinglbzHbgyxFD/DgVmDBis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i3S6gbqK; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1Sfoz61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i3S6gbqK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790058574; x=1821594574;
+  t=1790059476; x=1821595476;
   h=date:from:to:cc:subject:message-id;
-  bh=Gwy+Gwuh9YzcmKWwVGjHycdhcK7AFlVdL6XxozLPGdQ=;
-  b=R1Sfoz61p/vfSummnj9VW8xQIs/k/btZr0ODNaDmK9GBACRlpm4xQeqz
-   RvyTJK69Zbe0H98qpC1dvdVH6dvuQF3OojDwPnB3oZ4RD8k+iEeY+eIWX
-   NsMn7B/rOgvcxQZMejS3NTlxrsnPHBy+yR6mFVOrZKjk4UmYAPdBxd5Yb
-   UbU5ZXAm/ATfcdO3soTz5396RRweLYfyGLyOY7x9n7x7oqZtkVWP41z7q
-   HoN2pAbpqtP/Up/8Dc/v+61PQXo9u+LKpRNep9c/Erscn3KgtcOZ5YR1y
-   OnOP22b2jawXUPg4okzW8YitHdW/8VhOQo2YxG3CciDQt2426p5X9nc4o
+  bh=Dhu0hyoCEsbj+OnFPgqYbioPlXT9FXZOJdmKeoRR6lk=;
+  b=i3S6gbqK6NKswXmuq02YSSwt1P+/ZMXG0XY3OkRmzrmUBKkRKGG1CTeG
+   aS6ejn/mi+i/+fshzYs4SoW1kT9P+C1tRjPnpkkI4+9hAoLvVB/XyCPRr
+   siNGtqK25VZvi9eQvoXuHGVdDMWIFUS+IdEbB/XLbdzWV0+tU4OrcVQ15
+   YPr+ks1FjCESIRiN6E4WKN9ZIdCD1oM+wGcNntIk16dB5YrIBJwWmXaRr
+   4WvHBjGGbUuW74pIQAoSdEnZTCu/jVk6fIGBXzsQUtfs95Rm0FW2+adz8
+   47VJZPIjqr0UztpW9zI4Rd06NLrfnyy8ORI6HgosKgstNH+/RIKEdUxVO
    w==;
-X-CSE-ConnectionGUID: NWr2t0dFSA6miBb+V4YyoA==
-X-CSE-MsgGUID: /Vg+RhcsQ4OOCIq1N8fkGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90749636"
-X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="90749636"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 23:29:29 -0700
-X-CSE-ConnectionGUID: gPUruDJLTn2HfcljImvf7Q==
-X-CSE-MsgGUID: amD80WbiSOOQIN5vSzYmXw==
+X-CSE-ConnectionGUID: pv/nm2b/SBWv+x8TroYrPQ==
+X-CSE-MsgGUID: MIzfJWCcSmK4o0BYY0tTSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90499864"
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="90499864"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 23:44:35 -0700
+X-CSE-ConnectionGUID: xcaGmwPtQ3+vomBciyMznA==
+X-CSE-MsgGUID: PLWjBDEJRpWbtcLg1OSiXA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="4101158"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 21 Sep 2026 23:29:27 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 21 Sep 2026 23:44:33 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x8u0K-00000000F4y-1sbW;
-	Tue, 22 Sep 2026 06:29:24 +0000
-Date: Tue, 22 Sep 2026 14:28:44 +0800
+	id 1x8uEw-00000000F68-2fqn;
+	Tue, 22 Sep 2026 06:44:30 +0000
+Date: Tue, 22 Sep 2026 14:44:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "Martin K. Petersen (Oracle)" <mkp@kernel.org>,
- Johannes Thumshirn <johannes.thumshirn@wdc.com>,
- Hannes Reinecke <hare@kernel.org>
-Subject: [linux-next:master 6088/8413]
- include/scsi/scsi_sense.h:34:9: warning: 'ASC' macro redefined
-Message-ID: <202609221331.ibh0yv1y-lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Georgi Djakov <djakov@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>
+Subject: drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202609221350.3Y8MOce9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,41 +58,105 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5c4d4169604b335c38bbc79bc1fc03042981fc6f
-commit: 72c54bd0cbb2e0c35f4acd056e91c596469edc5f [6088/8413] scsi: core: Define all additional sense codes and their qualifiers
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20260922/202609221331.ibh0yv1y-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221331.ibh0yv1y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
+commit: c96fc14322cee45cdf751cb4ae62c9eab25bc643 interconnect: qcom: add COMPILE_TEST
+date:   9 weeks ago
+config: openrisc-randconfig-r1309-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221350.3Y8MOce9-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221350.3Y8MOce9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: c96fc14322ce ("interconnect: qcom: add COMPILE_TEST")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609221331.ibh0yv1y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609221350.3Y8MOce9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] unit @@     got unsigned int [usertype] @@
+   drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse:     expected restricted __le32 [usertype] unit
+   drivers/interconnect/qcom/icc-rpmh.c:176:28: sparse:     got unsigned int [usertype]
+>> drivers/interconnect/qcom/icc-rpmh.c:177:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] width @@     got unsigned short [usertype] @@
+   drivers/interconnect/qcom/icc-rpmh.c:177:29: sparse:     expected restricted __le16 [usertype] width
+   drivers/interconnect/qcom/icc-rpmh.c:177:29: sparse:     got unsigned short [usertype]
+--
+>> drivers/interconnect/qcom/bcm-voter.c:102:77: sparse: sparse: restricted __le16 degrades to integer
+   drivers/interconnect/qcom/bcm-voter.c:106:78: sparse: sparse: restricted __le16 degrades to integer
+   drivers/interconnect/qcom/bcm-voter.c:112:66: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] base @@     got restricted __le32 [usertype] unit @@
+   drivers/interconnect/qcom/bcm-voter.c:112:66: sparse:     expected unsigned int [usertype] base
+   drivers/interconnect/qcom/bcm-voter.c:112:66: sparse:     got restricted __le32 [usertype] unit
+   drivers/interconnect/qcom/bcm-voter.c:115:66: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] base @@     got restricted __le32 [usertype] unit @@
+   drivers/interconnect/qcom/bcm-voter.c:115:66: sparse:     expected unsigned int [usertype] base
+   drivers/interconnect/qcom/bcm-voter.c:115:66: sparse:     got restricted __le32 [usertype] unit
 
-   In file included from drivers/block/floppy.c:252:
-   In file included from include/linux/cdrom.h:17:
-   In file included from include/scsi/scsi_common.h:11:
-   In file included from include/scsi/scsi_proto.h:15:
->> include/scsi/scsi_sense.h:34:9: warning: 'ASC' macro redefined [-Wmacro-redefined]
-      34 | #define ASC(name, code)                                 \
-         |         ^
-   arch/sparc/include/asm/ns87303.h:23:9: note: previous definition is here
-      23 | #define ASC     0x09
-         |         ^
-   1 warning generated.
+vim +176 drivers/interconnect/qcom/icc-rpmh.c
 
+976daac4a1c581 David Dai   2020-02-28  138  
+976daac4a1c581 David Dai   2020-02-28  139  /**
+976daac4a1c581 David Dai   2020-02-28  140   * qcom_icc_bcm_init - populates bcm aux data and connect qnodes
+976daac4a1c581 David Dai   2020-02-28  141   * @bcm: bcm to be initialized
+976daac4a1c581 David Dai   2020-02-28  142   * @dev: associated provider device
+976daac4a1c581 David Dai   2020-02-28  143   *
+976daac4a1c581 David Dai   2020-02-28  144   * Return: 0 on success, or an error code otherwise
+976daac4a1c581 David Dai   2020-02-28  145   */
+976daac4a1c581 David Dai   2020-02-28  146  int qcom_icc_bcm_init(struct qcom_icc_bcm *bcm, struct device *dev)
+976daac4a1c581 David Dai   2020-02-28  147  {
+976daac4a1c581 David Dai   2020-02-28  148  	struct qcom_icc_node *qn;
+976daac4a1c581 David Dai   2020-02-28  149  	const struct bcm_db *data;
+976daac4a1c581 David Dai   2020-02-28  150  	size_t data_count;
+976daac4a1c581 David Dai   2020-02-28  151  	int i;
+976daac4a1c581 David Dai   2020-02-28  152  
+976daac4a1c581 David Dai   2020-02-28  153  	/* BCM is already initialised*/
+976daac4a1c581 David Dai   2020-02-28  154  	if (bcm->addr)
+976daac4a1c581 David Dai   2020-02-28  155  		return 0;
+976daac4a1c581 David Dai   2020-02-28  156  
+976daac4a1c581 David Dai   2020-02-28  157  	bcm->addr = cmd_db_read_addr(bcm->name);
+976daac4a1c581 David Dai   2020-02-28  158  	if (!bcm->addr) {
+976daac4a1c581 David Dai   2020-02-28  159  		dev_err(dev, "%s could not find RPMh address\n",
+976daac4a1c581 David Dai   2020-02-28  160  			bcm->name);
+976daac4a1c581 David Dai   2020-02-28  161  		return -EINVAL;
+976daac4a1c581 David Dai   2020-02-28  162  	}
+976daac4a1c581 David Dai   2020-02-28  163  
+976daac4a1c581 David Dai   2020-02-28  164  	data = cmd_db_read_aux_data(bcm->name, &data_count);
+976daac4a1c581 David Dai   2020-02-28  165  	if (IS_ERR(data)) {
+976daac4a1c581 David Dai   2020-02-28  166  		dev_err(dev, "%s command db read error (%ld)\n",
+976daac4a1c581 David Dai   2020-02-28  167  			bcm->name, PTR_ERR(data));
+976daac4a1c581 David Dai   2020-02-28  168  		return PTR_ERR(data);
+976daac4a1c581 David Dai   2020-02-28  169  	}
+976daac4a1c581 David Dai   2020-02-28  170  	if (!data_count) {
+976daac4a1c581 David Dai   2020-02-28  171  		dev_err(dev, "%s command db missing or partial aux data\n",
+976daac4a1c581 David Dai   2020-02-28  172  			bcm->name);
+976daac4a1c581 David Dai   2020-02-28  173  		return -EINVAL;
+976daac4a1c581 David Dai   2020-02-28  174  	}
+976daac4a1c581 David Dai   2020-02-28  175  
+976daac4a1c581 David Dai   2020-02-28 @176  	bcm->aux_data.unit = le32_to_cpu(data->unit);
+976daac4a1c581 David Dai   2020-02-28 @177  	bcm->aux_data.width = le16_to_cpu(data->width);
+976daac4a1c581 David Dai   2020-02-28  178  	bcm->aux_data.vcd = data->vcd;
+976daac4a1c581 David Dai   2020-02-28  179  	bcm->aux_data.reserved = data->reserved;
+976daac4a1c581 David Dai   2020-02-28  180  	INIT_LIST_HEAD(&bcm->list);
+976daac4a1c581 David Dai   2020-02-28  181  	INIT_LIST_HEAD(&bcm->ws_list);
+976daac4a1c581 David Dai   2020-02-28  182  
+cb30e0292db258 Mike Tipton 2020-09-03  183  	if (!bcm->vote_scale)
+cb30e0292db258 Mike Tipton 2020-09-03  184  		bcm->vote_scale = 1000;
+cb30e0292db258 Mike Tipton 2020-09-03  185  
+976daac4a1c581 David Dai   2020-02-28  186  	/* Link Qnodes to their respective BCMs */
+976daac4a1c581 David Dai   2020-02-28  187  	for (i = 0; i < bcm->num_nodes; i++) {
+976daac4a1c581 David Dai   2020-02-28  188  		qn = bcm->nodes[i];
+976daac4a1c581 David Dai   2020-02-28  189  		qn->bcms[qn->num_bcms] = bcm;
+976daac4a1c581 David Dai   2020-02-28  190  		qn->num_bcms++;
+976daac4a1c581 David Dai   2020-02-28  191  	}
+976daac4a1c581 David Dai   2020-02-28  192  
+976daac4a1c581 David Dai   2020-02-28  193  	return 0;
+976daac4a1c581 David Dai   2020-02-28  194  }
+976daac4a1c581 David Dai   2020-02-28  195  EXPORT_SYMBOL_GPL(qcom_icc_bcm_init);
+976daac4a1c581 David Dai   2020-02-28  196  
 
-vim +/ASC +34 include/scsi/scsi_sense.h
+:::::: The code at line 176 was first introduced by commit
+:::::: 976daac4a1c581e5d5fd64047519fd6fcde39738 interconnect: qcom: Consolidate interconnect RPMh support
 
-    32	
-    33	#define ASC_DEF(name)	ASC_##name
-  > 34	#define ASC(name, code)					\
-    35		ASC_DEF(name)	= (code),			\
-    36		name		= ((code) << 8) | 0x00
-    37	
+:::::: TO: David Dai <daidavid1@codeaurora.org>
+:::::: CC: Georgi Djakov <georgi.djakov@linaro.org>
 
 --
 0-DAY CI Kernel Test Service
