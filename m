@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA364A840E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 19:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D66832E128
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 23:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790107160; cv=none; b=Yp6BcP2+05f/QFC1+A0/Lu/wlBxWcblE1iknQ7bBkX/azsmii6loyksFOz9r7ITYd5QGLhbiG/8JnruLKq6P1fnTgYbLyqF4yxYF35FLdxjPo/cdT9SA11xPqlEdcE4XWYN2axjk5yXfE2McL8Y3TEtkE2+DItwr1G+GtwDJpCc=
+	t=1790119383; cv=none; b=JNREa2BMbUz7YIiJpitXkrv9WHkbw0Sa523yhb6yWwu7YRRlJ17Ll3++yTy7tAmdIw5Z2PfeXfgRIl21MnpREaE8j3AZeqF2N0BtqAmn86kM5RRKxEFbPubfg4jFrU6av7UeTwJuTRU5uKM0azScCMcPtdH99Vfp+ojTLPeCnNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790107160; c=relaxed/simple;
-	bh=28zEr8iH+t2B4GCKqddrfZccDG+MVOREujiEBjboFkw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kNdXuY/d7IYN78mfDdNv5TNJ+LLXGSuXPp9aE/YNBOVi3OZHZrKzzDLrWFNJ4w/j84iFu+b87559/u/5tqjpIl+sPH/QX97M1irMENM9eajortqZ7lDIgAgefEvCg4ptYdbZtSh4lHqFCitKKOs1dk0h07+FYIfqQYiI2rT2uTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=APb9S6tU; arc=none smtp.client-ip=192.198.163.5
+	s=arc-20240116; t=1790119383; c=relaxed/simple;
+	bh=1WwLo4Epts+RqDE15utZEzqopHDhbP3UU4Gr2xTD1+M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ypv7rmNq38DkWKbrRsuOGPiWPu8E4BL06C/70QxwETKpok5MeowK9gMBt2kaRsqT813hGydVDQAC9fe+QXM7VcKy88aCwvnNFBviHBgRDlgRpgCsyRwe2tTyMv/ehjg2Clug+xC5O+sPmAx23c7kzsGrLu119zpskIQbDSKhmk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuEpqvLN; arc=none smtp.client-ip=192.198.163.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APb9S6tU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuEpqvLN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790107157; x=1821643157;
+  t=1790119381; x=1821655381;
   h=date:from:to:cc:subject:message-id;
-  bh=28zEr8iH+t2B4GCKqddrfZccDG+MVOREujiEBjboFkw=;
-  b=APb9S6tU9YUYZye3NQgyU7iJNsslxebrSmgtyurWVIhUhRkN1fCSzjSk
-   IhUlZX2JWjjFE2AO42CdtXk3fyIt1OBS8Jhf0l+hqlotLP2CS8cDM0rUO
-   wg3eC5+eQegVsUm4K1okXzsu4+DZTlP2kIJR9g8PqdWUCuCg+pcU3/mUb
-   lv35FCqN11/bJouyuLknm6LbNQIgqx2XYhKvI+VnFr6l8jnVGPB6hK4i0
-   e5Za1d5h4CwVMr7JyIIi8JedD+Nv3YBXXGI86V/DJ8m/5/UhEh3CFQrF+
-   AhlTUmgWFwQd2PxNksYh8H0MhXlPaiEs+eA+BGo8L6cza7r3RTwLs0F3X
-   A==;
-X-CSE-ConnectionGUID: 3GKtqAhsTSWIUh/V7HMgUA==
-X-CSE-MsgGUID: GN9/eJjtTIG5Nr3IGTJM6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1250689"
+  bh=1WwLo4Epts+RqDE15utZEzqopHDhbP3UU4Gr2xTD1+M=;
+  b=JuEpqvLNwx1Th9/vZksbFMMSjOIlWtYLc+mTahhl28pDGj7vQa/ocHE3
+   ZqWVe2LY4us/a7g+1BUGc9DOsmfv+SjeQ3DgJKJujNRM0s4M4pnj6k3C+
+   Aa8OeUs1xzcJ6hZXM3H7xK0Z2y9tb+zbdSWOYL3bAB23Z+mJgEDj9wig4
+   Nhu4Nup9DuqpX2vuDETmNuOWTxG2F+sCAibnJZJGEiXZcgXu74m/Ijexg
+   fcu5RAkuwgEtL2oFUZa2xjBYYt//csMehPIjZ7Dc4eeC4RadeKev7DzFr
+   K8WlmmGztchHJGe50n+6GeF32sIsrf73HeULykVUaDV6wTYgF4EFA5Jz/
+   Q==;
+X-CSE-ConnectionGUID: y7wViog2TM+riEYuVpd3LA==
+X-CSE-MsgGUID: Z2x/e2UMROGHD7JRMs/bTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1282508"
 X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="1250689"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 12:59:11 -0700
-X-CSE-ConnectionGUID: Uc6lPBHxSciIdi8LOmdmvA==
-X-CSE-MsgGUID: TLsZkg1eStOKjQ9sxqSJ5w==
+   d="scan'208";a="1282508"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 16:23:00 -0700
+X-CSE-ConnectionGUID: d0dDCTGRQ4OjIY5FCtrpsg==
+X-CSE-MsgGUID: XP0Eg/CoTO2uIUz93Z5jEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="281359528"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Sep 2026 12:59:09 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="4637806"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 22 Sep 2026 16:23:00 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x96du-00000000G25-1er1;
-	Tue, 22 Sep 2026 19:59:06 +0000
-Date: Wed, 23 Sep 2026 03:58:42 +0800
+	id 1x99pB-000000000Nf-13vf;
+	Tue, 22 Sep 2026 23:22:57 +0000
+Date: Wed, 23 Sep 2026 01:22:28 +0200
 From: kernel test robot <lkp@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:962:17:
- sparse: sparse: incompatible types in conditional expression (different base
- types):
-Message-ID: <202609230340.Go9OsvQc-lkp@intel.com>
+To: Marek Vasut <marex@nabladev.com>
+Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+Subject: [linux-next:master 1377/8910]
+ arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb:
+ vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not
+ allowed ('no-map', 'reg' were unexpected)
+Message-ID: <202609230104.FiyyplfO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,148 +61,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe2ec83746e501645709761605c2464a44fd2929
-commit: af3f2f5db2659a13c256d2fb096c473eb50412ef drm/amdgpu: Remove UML build exclusion from Kconfig
-date:   4 months ago
-config: um-randconfig-r1307-20260922 (https://download.01.org/0day-ci/archive/20260923/202609230340.Go9OsvQc-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230340.Go9OsvQc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3f2425f5b5bbbdd991ca9cdfd5502e68d8895998
+commit: 9a14f327dfcbbb0fa24974cb3a928ea3d7409768 [1377/8910] arm64: dts: imx8mm: imx8mp: Add CM DTOs for Data Modul i.MX8M Mini and Plus eDM SBC
+config: arm64-randconfig-2400-20260921 (https://download.01.org/0day-ci/archive/20260923/202609230104.FiyyplfO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.10.dev2+g840a01d41
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230104.FiyyplfO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: af3f2f5db265 ("drm/amdgpu: Remove UML build exclusion from Kconfig")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609230340.Go9OsvQc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609230104.FiyyplfO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgv_sriovmsg.h:519:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:962:17: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:962:17: sparse:    void
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:962:17: sparse:    int
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1235:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1235:9: sparse:    void
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1235:9: sparse:    int
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1267:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1267:9: sparse:    void
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1267:9: sparse:    int
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1449:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1449:9: sparse:    void
-   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:1449:9: sparse:    int
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+>> arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb: vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
 --
-   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:519:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1402:9: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1402:9: sparse:    void
-   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:1402:9: sparse:    int
---
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:519:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:427:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:427:13: sparse:    struct dma_fence [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:427:13: sparse:    struct dma_fence *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:41:26: sparse:    struct dma_fence_ops const *
-
-vim +962 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c
-
-c6ce68e67659fd drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-03-19  905  
-3138ab2c5b32ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Sunil Khatri  2024-09-26  906  static int smu_late_init(struct amdgpu_ip_block *ip_block)
-bee71d26d22339 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-01-30  907  {
-3138ab2c5b32ec drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Sunil Khatri  2024-09-26  908  	struct amdgpu_device *adev = ip_block->adev;
-ebfc253335af81 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-11-22  909  	struct smu_context *smu = adev->powerplay.pp_handle;
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  910  	int ret = 0;
-a254bfa2c5fbd4 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-05-08  911  
-93a8024130e218 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Xiaojian Du   2020-11-12  912  	smu_set_fine_grain_gfx_freq_parameters(smu);
-93a8024130e218 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Xiaojian Du   2020-11-12  913  
-a254bfa2c5fbd4 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-05-08  914  	if (!smu->pm_enabled)
-a254bfa2c5fbd4 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-05-08  915  		return 0;
-51548c0fe3d348 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Huang Rui     2019-07-24  916  
-4bdd4d25ed0d31 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2020-09-01  917  	ret = smu_post_init(smu);
-4bdd4d25ed0d31 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2020-09-01  918  	if (ret) {
-4bdd4d25ed0d31 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2020-09-01  919  		dev_err(adev->dev, "Failed to post smu init!\n");
-4bdd4d25ed0d31 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2020-09-01  920  		return ret;
-4bdd4d25ed0d31 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2020-09-01  921  	}
-4bdd4d25ed0d31 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2020-09-01  922  
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  923  	/*
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  924  	 * Explicitly notify PMFW the power mode the system in. Since
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  925  	 * the PMFW may boot the ASIC with a different mode.
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  926  	 * For those supporting ACDC switch via gpio, PMFW will
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  927  	 * handle the switch automatically. Driver involvement
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  928  	 * is unnecessary.
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  929  	 */
-42ffb3c396b5a5 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Ma Jun        2024-01-17  930  	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-42ffb3c396b5a5 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Ma Jun        2024-01-17  931  	smu_set_ac_dc(smu);
-572773992e31e0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2023-05-11  932  
-4e8303cf2c4dd2 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lijo Lazar    2023-09-11  933  	if ((amdgpu_ip_version(adev, MP1_HWIP, 0) == IP_VERSION(13, 0, 1)) ||
-4e8303cf2c4dd2 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lijo Lazar    2023-09-11  934  	    (amdgpu_ip_version(adev, MP1_HWIP, 0) == IP_VERSION(13, 0, 3)))
-c16e87d6f43184 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Aaron Liu     2021-01-25  935  		return 0;
-c16e87d6f43184 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Aaron Liu     2021-01-25  936  
-4215a11923362e drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Horace Chen   2021-02-25  937  	if (!amdgpu_sriov_vf(adev) || smu->od_enabled) {
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  938  		ret = smu_set_default_od_settings(smu);
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  939  		if (ret) {
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  940  			dev_err(adev->dev, "Failed to setup default OD settings!\n");
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  941  			return ret;
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  942  		}
-4215a11923362e drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Horace Chen   2021-02-25  943  	}
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  944  
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  945  	ret = smu_populate_umd_state_clk(smu);
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  946  	if (ret) {
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  947  		dev_err(adev->dev, "Failed to populate UMD state clocks!\n");
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  948  		return ret;
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  949  	}
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  950  
-488f211dab7d2f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-05-19  951  	ret = smu_get_asic_power_limits(smu,
-488f211dab7d2f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-05-19  952  					&smu->current_power_limit,
-488f211dab7d2f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-05-19  953  					&smu->default_power_limit,
-1958946858a62b drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Ma Jun        2023-10-12  954  					&smu->max_power_limit,
-1958946858a62b drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Ma Jun        2023-10-12  955  					&smu->min_power_limit);
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  956  	if (ret) {
-a141b4e3c722c1 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-08  957  		dev_err(adev->dev, "Failed to get asic power limits!\n");
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  958  		return ret;
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  959  	}
-02cf91c113eacd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-04  960  
-5228cd65742abd drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Jiawei Gu     2021-05-13  961  	if (!amdgpu_sriov_vf(adev))
-81a16241114ba4 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kent Russell  2020-04-27 @962  		smu_get_unique_id(smu);
-81a16241114ba4 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kent Russell  2020-04-27  963  
-337b57aecb3e11 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Alex Deucher  2020-08-26  964  	smu_get_fan_parameters(smu);
-337b57aecb3e11 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Alex Deucher  2020-08-26  965  
-ebfc253335af81 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-11-22  966  	smu_handle_task(smu,
-bee71d26d22339 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-01-30  967  			smu->smu_dpm.dpm_level,
-e0638c7abc4d3d drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-11-29  968  			AMD_PP_TASK_COMPLETE_INIT);
-bee71d26d22339 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-01-30  969  
-b874c6671b911f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2022-01-19  970  	ret = smu_apply_default_config_table_settings(smu);
-b874c6671b911f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2022-01-19  971  	if (ret && (ret != -EOPNOTSUPP)) {
-b874c6671b911f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2022-01-19  972  		dev_err(adev->dev, "Failed to apply default DriverSmuConfig settings!\n");
-b874c6671b911f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2022-01-19  973  		return ret;
-b874c6671b911f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2022-01-19  974  	}
-b874c6671b911f drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2022-01-19  975  
-eb3b425166cbdb drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Arunpravin    2021-01-19  976  	smu_restore_dpm_user_profile(smu);
-eb3b425166cbdb drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Arunpravin    2021-01-19  977  
-bee71d26d22339 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-01-30  978  	return 0;
-bee71d26d22339 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-01-30  979  }
-bee71d26d22339 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Chengming Gui 2019-01-30  980  
-
-:::::: The code at line 962 was first introduced by commit
-:::::: 81a16241114ba4e0b188e517e5e8522951dfeb7b drm/amdgpu: Add unique_id and serial_number for Arcturus v3
-
-:::::: TO: Kent Russell <kent.russell@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+>> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc-overlay-cm7.dtb: vdev0buffer@55400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
 
 --
 0-DAY CI Kernel Test Service
