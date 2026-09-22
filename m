@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B54343896
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 01:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640E625B0AA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Sep 2026 03:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790040404; cv=none; b=XN6Bf4YU63lly3o6mfzEqw21q3ucGHZPm5Z6FjxxDFKQX33T8tf47PUaKehVqaovB/G3ocNOSkfLLp3B8QSjy4jsNB6e/IDOh74359CreVhw1BJp9PCdZx24kYzftFfhoZ59Payh0Y8EZQVeivNawcfNr395N/v2lIfFDZYzSOE=
+	t=1790046056; cv=none; b=DnOzL9OACXj4yi4A3LPT507QzjdFNUQyQ4BbYebz1Zyx6Snd/WqX4JjrzTlgPo2B1d6UljLU9rD01PKIGaOy9/pehyRACmz/y9xp/XVV97AUGjMffUXC1REkas4k0Dg9Q2BoMhgdo4apD6trt5KXPUxFZx9ustmJ8BdDEjXtbv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790040404; c=relaxed/simple;
-	bh=eG6/Dp2vhNQwPzMI2PuLBbW3YR7Bca+T29ePmeJTJhM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RdiWGLP+NVL67gJG2oXAropQ1s7DVSHvqosUPBhneci1e9nMUlLCIS8OegADkBdy7rFP8i9MT4pdLWDpaqZgrZop6l9HbyqfTQD36Eahw6M+Zfn4klKkz5HAEpXA4HctND5Rs72NfRNL0lTXvRxyInCrGF00YDh/Qjn1NdrCDWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RaGl4IBU; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1790046056; c=relaxed/simple;
+	bh=1ZU0+X1d2cywrx86Fqj9z6rYYmAHzboHymdOUv/toEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=llL20hq0Y/ZNbzenaFK/rDDm5D0cKuA/UxSUyRlthtl0gajj+5XnyGrp6VJ+snY5TTmPGzRGNZ+6jBMdGO0zUPSooPvzlRbx/pprbhfS61lfpxdGS4bll6w8MKO/KyLAKkf69IB/GV7zWiA64OAUCaodrvwS5KDQnlffAZjAafs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcEl7JVg; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RaGl4IBU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcEl7JVg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790040403; x=1821576403;
+  t=1790046055; x=1821582055;
   h=date:from:to:cc:subject:message-id;
-  bh=eG6/Dp2vhNQwPzMI2PuLBbW3YR7Bca+T29ePmeJTJhM=;
-  b=RaGl4IBU7G5nHbhRO+yNRkaXDZ7kRBtR2sGcnUv/whtuuQ7qvPmx6cnQ
-   6jUrJgJAlSp9Ttggf7J6OIjvy5ENg9lu2hqUmi8XwEt+GsCszswvNfvfi
-   IuT2xQR0nAwK6HrNxOkK1EVt7Rf0SYMu7NRbrpn2AAkVP26P69fnvs4Td
-   mU5z/J6EXi8a27gDuRaGetTWv0ZML/lY+UCrPtzzadWd0cZ0Fm8wkwIA/
-   vYhAQGp8gDxEUtJhkb7j8NQua8Hq1yjDoFtxPcd7zX9/JOVlBDK97hZTA
-   4vMgDcOoz0Wlo3SFlOq1BlqoHlUV9DFgpJRY+zrXGM5QkSIeLt5PTQ8ZW
+  bh=1ZU0+X1d2cywrx86Fqj9z6rYYmAHzboHymdOUv/toEQ=;
+  b=bcEl7JVgQRoZDY0t0xnwAmXr0GbiPwHG7XJfjTtgJEX9Qw+36QDeTEB+
+   voWreq8YzYkQVPntTTJwtWxxw3IuBwI30rvTB1Hs+SoWDjMYbw1EaiK2I
+   IC5qGrJRmHVkpNSg1A4xgBOtoSrBXAmbXYQ0ojz6Rl2V3o4KQ4Wr6nAfX
+   zrKIJmVOWseDZu5UrJ+BQ5joQ7kteBipHK3OeGriwucd48YJEJQ5KDh0W
+   JMF8IKmDc8h6jIaHjLmgseLfBfJakBB8KNcC5FC9hcW/6FLARzoJ8rruJ
+   kuAm/GrorLjp6t3/pEClIyzsPrQDKILLsKKquPT2kWsWgWNezooef8Z5P
    A==;
-X-CSE-ConnectionGUID: cwOmBp+MRIqbHv+euvw7bA==
-X-CSE-MsgGUID: xPK9CEDrSdW4lwEr4w63Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="108101146"
+X-CSE-ConnectionGUID: rGWBtMFlQDic+XOSbvIb5w==
+X-CSE-MsgGUID: mRc51Qo8S0+uhFNQWWPUlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="94441426"
 X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="108101146"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 18:26:35 -0700
-X-CSE-ConnectionGUID: KwxGtdtwQ86azhF8aBaAmw==
-X-CSE-MsgGUID: sj0kDsmOTP+dAIbljuugiA==
+   d="scan'208";a="94441426"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 20:00:54 -0700
+X-CSE-ConnectionGUID: w3K8kQykSn6giFZIW09LUQ==
+X-CSE-MsgGUID: PcWx9JMgSc26dEcK7XGPog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
-   d="scan'208";a="3892565"
+   d="scan'208";a="277716378"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 21 Sep 2026 18:26:32 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 Sep 2026 20:00:51 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x8pHB-00000000EjY-3cRu;
-	Tue, 22 Sep 2026 01:26:29 +0000
-Date: Tue, 22 Sep 2026 09:25:41 +0800
+	id 1x8qkS-00000000EqH-2dIM;
+	Tue, 22 Sep 2026 03:00:48 +0000
+Date: Tue, 22 Sep 2026 10:59:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
+To: Alejandro Lucero <alucerop@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: loongarch64-linux-gcc: error: unrecognized argument in
- option '-march=la32v1.0'
-Message-ID: <202609220915.ct59FnOW-lkp@intel.com>
+ Dave Jiang <dave.jiang@intel.com>
+Subject: efx_cxl.c:undefined reference to `devm_cxl_probe_mem'
+Message-ID: <202609221035.8i5jprQK-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,48 +59,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Huacai,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   f0100363d8c374bd8e9ea7c9ba02744f0b802ca4
-commit: 3d9aba6618d115750729bba2d1f8af180bd7d3bd LoongArch: Adjust build infrastructure for 32BIT/64BIT
-date:   5 months ago
-config: loongarch-randconfig-r1301-20260922 (https://download.01.org/0day-ci/archive/20260922/202609220915.ct59FnOW-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609220915.ct59FnOW-lkp@intel.com/reproduce)
+commit: 0418860ef2ca8ab4e696ce3913fd76660c881c0e sfc: obtain and map cxl range using devm_cxl_probe_mem
+date:   3 months ago
+config: powerpc64-randconfig-1000-20260922 (https://download.01.org/0day-ci/archive/20260922/202609221035.8i5jprQK-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260922/202609221035.8i5jprQK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3d9aba6618d1 ("LoongArch: Adjust build infrastructure for 32BIT/64BIT")
+| Fixes: 0418860ef2ca ("sfc: obtain and map cxl range using devm_cxl_probe_mem")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609220915.ct59FnOW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609221035.8i5jprQK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> loongarch64-linux-gcc: error: unrecognized argument in option '-march=la32v1.0'
-   loongarch64-linux-gcc: note: valid arguments to '-march=' are: abi-default la464 la64v1.0 la64v1.1 la664 loongarch64 native; did you mean 'la64v1.0'?
->> loongarch64-linux-gcc: error: unrecognized argument in option '-mabi=ilp32s'
-   loongarch64-linux-gcc: note: valid arguments to '-mabi=' are: lp64d lp64f lp64s
->> loongarch64-linux-gcc: error: unrecognized argument in option '-march=la32v1.0'
-   loongarch64-linux-gcc: note: valid arguments to '-march=' are: abi-default la464 la64v1.0 la64v1.1 la664 loongarch64 native; did you mean 'la64v1.0'?
->> loongarch64-linux-gcc: error: unrecognized argument in option '-mabi=ilp32s'
-   loongarch64-linux-gcc: note: valid arguments to '-mabi=' are: lp64d lp64f lp64s
-   make[3]: *** [scripts/Makefile.build:289: scripts/mod/empty.o] Error 1 shuffle=2573320594
->> loongarch64-linux-gcc: error: unrecognized argument in option '-march=la32v1.0'
-   loongarch64-linux-gcc: note: valid arguments to '-march=' are: abi-default la464 la64v1.0 la64v1.1 la664 loongarch64 native; did you mean 'la64v1.0'?
->> loongarch64-linux-gcc: error: unrecognized argument in option '-mabi=ilp32s'
-   loongarch64-linux-gcc: note: valid arguments to '-mabi=' are: lp64d lp64f lp64s
-   make[3]: *** [scripts/Makefile.build:184: scripts/mod/devicetable-offsets.s] Error 1 shuffle=2573320594
-   make[3]: Target 'scripts/mod/' not remade because of errors.
-   make[2]: *** [Makefile:1336: prepare0] Error 2 shuffle=2573320594
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2573320594
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2573320594
-   make: Target 'prepare' not remade because of errors.
+   powerpc64-linux-ld: drivers/net/ethernet/sfc/efx_cxl.o: in function `efx_cxl_init':
+>> efx_cxl.c:(.text+0x100): undefined reference to `devm_cxl_probe_mem'
 
 --
 0-DAY CI Kernel Test Service
