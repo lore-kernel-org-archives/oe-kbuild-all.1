@@ -1,177 +1,308 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3708F2EEE96;
-	Wed, 23 Sep 2026 23:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB17133D6D6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 23:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790205417; cv=none; b=cU//fUXOx3sIcvAuELzE+sUjX2wXNa6xUtUfWuFRdLSNzg7JE+BKSA1APQAa77IarxLPHjScwpqYpQaANk3aaXdUe+ypWp6gUmowZvURkoZPH80QyhwnJMEpYUIrJ0vKpLPdu2L/bA6jUc3mcHv9Dj6AL7MmBXUggColMdqGetM=
+	t=1790206136; cv=none; b=c5jGYZ41SRMBlcCNSAHyHkLN0SUXHKyFL12+ZBHKZNy/RGcy9rcIME21CH4gII0sb/4+OuE+j/9R7pNlJf+i6N6yE5EJxbjjEiTacUBW3LAmXch3YywwMMoO3thYOQcMlyjnpQ+dhu/DNyudZ6+N7HAlbLIXQXRRZNg92ImW9q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790205417; c=relaxed/simple;
-	bh=pJiQzfEtxkf5k9yaCp4XwKPrj6ad9HuAVEdVLL0rdQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DbLxLsXUgLelDYTBDRVcaOOKhJsxyLv5+x07NXkS3fL/pRjj55hJ/SL4be1y6240PnPepHZLFqAYBzYiQM7FCsmM2ZviaGn9xCTAloAlxxlS9W/COeTd+PbWQyE4TkdldEMD9dQbo5V3dawa7e8477Mm+F6CzokQgVmwSRXiMh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jFzNTnov; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790206136; c=relaxed/simple;
+	bh=ZJH337nx82rkGT+EMxxiu7nJaFCjl+E3JQps3oMeuPc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YiHPspf5QTOP+e25hHdiLsbwJL/62IflKfVY2Wke+fwX8C6J7oNcafpTLtebWGwWtmnJ//rZUHyP3F+ppZ16wnAt3GHe0/Rt1Virt8suhswZ1+UQoTtcmQ0uO6c9QQqFyZSblZT3ouCa1k8nKzls0AOC3CsKjvAmPdUELepRIVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=guAnVlpZ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jFzNTnov"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guAnVlpZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790205415; x=1821741415;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pJiQzfEtxkf5k9yaCp4XwKPrj6ad9HuAVEdVLL0rdQg=;
-  b=jFzNTnovHhGxUhlZuvw/5utOLHsDqv+JO1I3trU7nIGvTP/YZmGOI/Db
-   8gg9vfKDcTw7QccrT+uGK1FUZXwiqnLj+FMs8Yjq3rnj02Z8H6TlAoskK
-   Vrs2RHlrkrJhdB4IBxrHsl4q/4Zw7STM1vjGX9GY34hEoHuU77g/yjwmF
-   CGo3kjgJUJxk4jKCJDUR8ZP+xt6PkGDyoHAUndG56BO1vfJlSSGANBdmT
-   RTiCw+Awrb96jKH7RJ+iosg+rNHE64q1heHS0zPW8YXvzHZPSieUm4EQu
-   TC8yGF37abB3GUHEl00XF5f//u2BGmSYFZuAWppmqE3frU99+Zhy8HYCM
+  t=1790206134; x=1821742134;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZJH337nx82rkGT+EMxxiu7nJaFCjl+E3JQps3oMeuPc=;
+  b=guAnVlpZPpT8eNITerGHYYdTo/yI4SVqjVVfrhc1HoKCLt4jAjbgf45s
+   DrT4OVJcle7fEwW8LyqU2YNPKj6ObOJkFGpz6gaXQEMnfi0+No4RaEGNQ
+   cvNbp2gHnq2pdUo4afIlnNVoWoQePdrGbESz7tAi5WbWMV6LemWs2m+VL
+   v9SRBxbjNUKWM3zuXaSCQigEwijDvOZTnglZOaZOse66EYQkYvLNABBba
+   UOEu+KapBeR/0kmMe+ZkBEMO1w6lNfNffH3bUpCKajR5qeHgY2Y4xgJ2N
+   bbi+SMe0Mks+UhKREXXdXiWnkEWw4J2MNLtsJM+ptdFUvrt3DpoVz5PjU
    w==;
-X-CSE-ConnectionGUID: NWVHgOwkRJ6E0Gs9Jd2ZMg==
-X-CSE-MsgGUID: FT0S4QWIS6mXQe7bsmVbdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="116476155"
+X-CSE-ConnectionGUID: 79u4oHzETVuVT2miqn2QCQ==
+X-CSE-MsgGUID: NLteWG1DSEeLVKnv/RtOHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="90079701"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="116476155"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 16:16:55 -0700
-X-CSE-ConnectionGUID: 60YdIln9QK2Mk04bYRgL3g==
-X-CSE-MsgGUID: xN7tmTuoQa+vPJTNSyldsQ==
+   d="scan'208";a="90079701"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 16:28:52 -0700
+X-CSE-ConnectionGUID: +1a8C/QZRcuS6oNdQwQgAA==
+X-CSE-MsgGUID: RizR0EucSpqNy5Rb7i/UKQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
+   d="scan'208";a="300082431"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2026 16:16:51 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2026 16:28:51 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9WCl-00000000Hwc-3oRt;
-	Wed, 23 Sep 2026 23:16:47 +0000
-Date: Thu, 24 Sep 2026 07:16:40 +0800
+	id 1x9WOO-00000000HxC-2RUX;
+	Wed, 23 Sep 2026 23:28:48 +0000
+Date: Thu, 24 Sep 2026 07:28:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jose Abreu <Jose.Abreu@synopsys.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>
-Subject: Re: [PATCH net] net: stmmac: propagate PTP addend and system time
- programming errors
-Message-ID: <202609240727.6U1AzUEr-lkp@intel.com>
-References: <20260920-stmmac-ptp-added-systime-error-v1-1-8ac9e7a3fce2@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__preemptirq__trace_system_name' defined but not used
+Message-ID: <202609240750.DdVZDCYb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260920-stmmac-ptp-added-systime-error-v1-1-8ac9e7a3fce2@oss.qualcomm.com>
 
-Hi Lorenzo,
+Hi Pavankumar,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 1e24c4f2ee44be0eee94092b5d13cbdb4bdf0d60]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-stmmac-propagate-PTP-addend-and-system-time-programming-errors/20260920-150002
-base:   1e24c4f2ee44be0eee94092b5d13cbdb4bdf0d60
-patch link:    https://lore.kernel.org/r/20260920-stmmac-ptp-added-systime-error-v1-1-8ac9e7a3fce2%40oss.qualcomm.com
-patch subject: [PATCH net] net: stmmac: propagate PTP addend and system time programming errors
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20260924/202609240727.6U1AzUEr-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240727.6U1AzUEr-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   9b98c0cbf9c92b8fcc9077e711bed14b4e40ce3b
+commit: 2e14f01dc4abfa95ab6192deea9b99c235f53ca3 [1/1] ANDROID: tracing: Add restricted vendor hooks for preemptirq events
+config: arm64-randconfig-1001-20260918 (https://download.01.org/0day-ci/archive/20260924/202609240750.DdVZDCYb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240750.DdVZDCYb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609240727.6U1AzUEr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609240750.DdVZDCYb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: warning: variable 'sec_inc' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     614 |                                            priv->plat->clk_ptp_rate,
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~
-     615 |                                            xmac, &sec_inc);
-         |                                            ~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
-     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:6: note: expanded from macro 'stmmac_do_void_callback'
-      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:617:25: note: uninitialized use occurs here
-     617 |         priv->sub_second_inc = sec_inc;
-         |                                ^~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: note: remove the 'if' if its condition is always true
-     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
-         |         ^
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
-     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
-         |         ^
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:2: note: expanded from macro 'stmmac_do_void_callback'
-      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
-         |         ^
->> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: warning: variable 'sec_inc' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     614 |                                            priv->plat->clk_ptp_rate,
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~
-     615 |                                            xmac, &sec_inc);
-         |                                            ~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
-     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:6: note: expanded from macro 'stmmac_do_void_callback'
-      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:617:25: note: uninitialized use occurs here
-     617 |         priv->sub_second_inc = sec_inc;
-         |                                ^~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: note: remove the '&&' if its condition is always true
-     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
-         |         ^
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
-     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
-         |         ^
-   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:6: note: expanded from macro 'stmmac_do_void_callback'
-      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
-         |             ^
-   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:609:13: note: initialize the variable 'sec_inc' to silence this warning
-     609 |         u32 sec_inc;
-         |                    ^
-         |                     = 0
-   2 warnings generated.
+   include/trace/define_trace.h:73:28: note: in expansion of macro 'PARAMS'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                            ^~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:20:9: note: in expansion of macro 'TP_PROTO'
+      20 |         TP_PROTO(struct cpufreq_policy *policy, unsigned int min_freq,
+         |         ^~~~~~~~
+   include/linux/tracepoint.h:303:13: error: conflicting types for '__traceiter_android_vh_freq_table_limits'; have 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+     303 |         int __traceiter_##_name(void *__data, proto)                    \
+         |             ^~~~~~~~~~~~
+   include/linux/tracepoint.h:320:9: note: in expansion of macro 'DEFINE_TRACE_FN'
+     320 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~
+   include/trace/define_trace.h:73:9: note: in expansion of macro 'DEFINE_TRACE'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   include/linux/tracepoint.h:235:20: note: previous declaration of '__traceiter_android_vh_freq_table_limits' with type 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+     235 |         extern int __traceiter_##name(data_proto);                      \
+         |                    ^~~~~~~~~~~~
+   include/linux/tracepoint.h:411:9: note: in expansion of macro '__DECLARE_TRACE'
+     411 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^~~~~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   In file included from <command-line>:
+   include/linux/static_call_types.h:13:41: error: conflicting types for '__SCT__tp_func_android_vh_freq_table_limits'; have 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+      13 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/compiler_types.h:59:23: note: in definition of macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/static_call_types.h:16:41: note: in expansion of macro '__PASTE'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:16:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:128:29: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     128 |         extern typeof(func) STATIC_CALL_TRAMP(name);
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:244:9: note: in expansion of macro 'DECLARE_STATIC_CALL'
+     244 |         DECLARE_STATIC_CALL(name, _func);                               \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:317:9: note: in expansion of macro 'DEFINE_STATIC_CALL'
+     317 |         DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:320:9: note: in expansion of macro 'DEFINE_TRACE_FN'
+     320 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~
+   include/trace/define_trace.h:73:9: note: in expansion of macro 'DEFINE_TRACE'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   include/linux/static_call_types.h:13:41: note: previous declaration of '__SCT__tp_func_android_vh_freq_table_limits' with type 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+      13 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/compiler_types.h:59:23: note: in definition of macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/static_call_types.h:16:41: note: in expansion of macro '__PASTE'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:16:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:128:29: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     128 |         extern typeof(func) STATIC_CALL_TRAMP(name);
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:236:9: note: in expansion of macro 'DECLARE_STATIC_CALL'
+     236 |         DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);        \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:411:9: note: in expansion of macro '__DECLARE_TRACE'
+     411 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^~~~~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/preemptirq.h:43,
+                    from drivers/android/vendor_hooks.c:29:
+>> include/trace/trace_events.h:27:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mm.h:38,
+                    from drivers/android/vendor_hooks.c:28:
+   include/trace/trace_events.h:27:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpufreq.h:32,
+                    from drivers/android/vendor_hooks.c:27:
+   include/trace/trace_events.h:27:23: warning: 'str__cpufreq__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/epoch.h:31,
+                    from drivers/android/vendor_hooks.c:26:
+   include/trace/trace_events.h:27:23: warning: 'str__epoch__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic_v3.h:29,
+                    from drivers/android/vendor_hooks.c:25:
+   include/trace/trace_events.h:27:23: warning: 'str__gic_v3__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/printk.h:27,
+                    from drivers/android/vendor_hooks.c:24:
+   include/trace/trace_events.h:27:23: warning: 'str__printk__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +613 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+vim +/str__preemptirq__trace_system_name +27 include/trace/trace_events.h
 
-   603	
-   604	static void stmmac_restore_subsecond_increment(struct stmmac_priv *priv,
-   605						       u32 default_addend,
-   606						       u32 systime_flags)
-   607	{
-   608		bool xmac = dwmac_is_xmac(priv->plat->core_type);
-   609		u32 sec_inc;
-   610	
-   611		stmmac_config_addend(priv, priv->ptpaddr, default_addend);
-   612		stmmac_config_hw_tstamping(priv, priv->ptpaddr, systime_flags);
- > 613		stmmac_config_sub_second_increment(priv, priv->ptpaddr,
-   614						   priv->plat->clk_ptp_rate,
-   615						   xmac, &sec_inc);
-   616		priv->default_addend = default_addend;
-   617		priv->sub_second_inc = sec_inc;
-   618	}
-   619	
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
