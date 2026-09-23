@@ -1,116 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CC6418362
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 22:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CED38332A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 23:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790203730; cv=none; b=NdxHaZIhOKj/E7VNTOSUKdzhv0OYgoMfjKZAyQ9U8hmCyupqALdMl4uKq4JDduYtPK1AIDnSSvX0bO7CMKcQg3fiO1QzUnbYAH2iIZ6oAT6AIuwjlcLUP5oEe7Up889aImKBHOQj4JJZJjbNaZgRyBegUFQU8WYTc19aEV3zWRM=
+	t=1790204573; cv=none; b=RfKUEID94aSYeNO9zLNs1cNucny419T6nUBlbR1JHdA40aWbcQeKK7sHVydclUx/ZGXBgLRc7WPkMThmDvaFQUNai4C/mGrsTNSImaY2d8VNufI3VKXhmSmlLZOK4Z0qghER4oSH/GvZS72QIhGa91Vrf77NNniZZrt24aEsd0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790203730; c=relaxed/simple;
-	bh=NmEv/qxXrsEi6cbyCoQZggpw+8yoPFgh6OmcmV8YW/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MGqLsToKvkjum0SGpdwyPj21iEc0m4QXMFsR1EPdKb9N1hTeGCvu5voXJAiRw3R67zmhh4H/3HM8QCdsOIKB4ZTt9DVJLoWVb2NGj2e4nvaRRy836cu9pBIOMMtMwrD2nyBW6MBMZZwGfPdAB/DpJCcfezRW4J2koceFSaipnZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cdrgcv5a; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790204573; c=relaxed/simple;
+	bh=aDqfZ1ffOPHuAFlxQE32BvxlClrmIe0hd8jEibV3r+8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tzp9hfczhH0P94IVHE/5M3K7+UIY+hx0pCH8jMQpqhETvQofvBsHtpRk0md9oOh3IEgtvSM6lrIJqyVXsRZ3qxNH6vuzVoXldG2D8LFHEePHh7VHf7SYTO92b+jxAhBYu2aDEreooZQoNImecAR035rWkTGAiJaoJ8WQGyS4Cvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTzuiSLE; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cdrgcv5a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTzuiSLE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790203728; x=1821739728;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NmEv/qxXrsEi6cbyCoQZggpw+8yoPFgh6OmcmV8YW/s=;
-  b=Cdrgcv5aWYztW0Vt2y4BJU4X522A5QbKerj58Cr0U0hg0qcCyFvCgSKt
-   hz+wOoDi/QfoOrGRDhDSDmjyX7/P/LT1hQC7nLNE+BjdJ9RF9PeyfxoL6
-   nFzoDUR0ji1T1MQ6ikSCjXFU/DpZZazdn5Hn8OKbyBlf1h1tQ1RhaVf/u
-   AJeHsHN7qBSJxV/3R+0lrDRVrbtoDCzQuRHUj3FEqAouegcVyTBoiicIV
-   bGAHiSFJSicnwLcNZU5wLQINWdsX81higZtqTZ0HZiCmFyZLVQm6zh351
-   plErj3YDsV5DdvBTQ7aA0VCNWIEbrubaQJuQvc8zPcQcWl6BV4T7xnAiI
+  t=1790204572; x=1821740572;
+  h=date:from:to:cc:subject:message-id;
+  bh=aDqfZ1ffOPHuAFlxQE32BvxlClrmIe0hd8jEibV3r+8=;
+  b=OTzuiSLEo1DyOxuM42smBGXLt+QrmGA6vP1VNf93oRu8qkkU0Mq6B/J4
+   vpwPElCse2dOXJUXMwGXzdkM7yxYwpFYTrEEWhB2TS2z/ZiO5Hit+I+VU
+   B3KHwHl80w0JXlWx5cUCn2o2m9XNIJ4Eq7Vl4aKhNhmaQAHY3DWVf+kX5
+   5lBlyhOPLnf3Rjs/cQ7RYgQpVhZPqsPHaBx2oLUlBk5xHGXfbHgeBp1J9
+   cfYO4M3SuMDas5D/0lx7IOAFGHNhN9AHBlZiwkMpUNdQ6+ga/J1ixLaM1
+   WMaQFEGo/VSKOpur1N2/Czjmv5uEcGWHSck2AdErl9Ns300EVnY6eFwcv
    g==;
-X-CSE-ConnectionGUID: I0Ysp+WLQfCrob/Q7fdlaQ==
-X-CSE-MsgGUID: VZeVb94TSH6hxUbm7wkvyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="102311504"
+X-CSE-ConnectionGUID: gAF+0j36S7S9Mo6dLVRZag==
+X-CSE-MsgGUID: IT+H4NJmTluk9oU8fZ8SPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="93454285"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="102311504"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 15:48:46 -0700
-X-CSE-ConnectionGUID: Gkf+Cu2TRRW5r95GNuXO2w==
-X-CSE-MsgGUID: tB01F8yuSC6NmYi8YE7VTw==
+   d="scan'208";a="93454285"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 16:02:51 -0700
+X-CSE-ConnectionGUID: BReFdPeoQ9ea754pXSXS3Q==
+X-CSE-MsgGUID: eGvxwmyXRsCSSmarUDCMzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="272402617"
+   d="scan'208";a="273998603"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Sep 2026 15:48:44 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 Sep 2026 16:02:49 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9VlZ-00000000HtK-0vuu;
-	Wed, 23 Sep 2026 22:48:41 +0000
-Date: Thu, 24 Sep 2026 06:48:37 +0800
+	id 1x9VzC-00000000HvY-2c9Q;
+	Wed, 23 Sep 2026 23:02:46 +0000
+Date: Thu, 24 Sep 2026 07:02:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>,
-	gregkh@linuxfoundation.org
+To: Feifei Xu <Feifei.Xu@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Samuel Thibault <samuel.thibault@ens-lyon.org>, w.d.hubbs@gmail.com,
-	chris@the-brannons.com, kirk@reisers.ca, speakup@linux-speakup.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] speakup: Drop now-unused serialio operations
-Message-ID: <202609240615.5JumpThZ-lkp@intel.com>
-References: <20260922063047.1392828-1-samuel.thibault@ens-lyon.org>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 817/8910] Warning:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:2448 This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202609240635.M2G0xdSh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260922063047.1392828-1-samuel.thibault@ens-lyon.org>
 
-Hi Samuel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on staging/staging-testing]
-[also build test WARNING on staging/staging-next staging/staging-linus linus/master v7.3-rc4 next-20260922]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Thibault/speakup-Drop-now-unused-serialio-operations/20260922-083047
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260922063047.1392828-1-samuel.thibault%40ens-lyon.org
-patch subject: [PATCH] speakup: Drop now-unused serialio operations
-config: powerpc-randconfig-1000-20260924 (https://download.01.org/0day-ci/archive/20260924/202609240615.5JumpThZ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240615.5JumpThZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a8c591ed6b672915e0be57843f943a2a723aff40
+commit: 7b2e99877db54cf762994af9239d7fb908f96857 [817/8910] drm/amdgpu: add amdgpu_discovery_get_mem_reserved_region_by_id
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260924/202609240635.M2G0xdSh-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240635.M2G0xdSh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609240615.5JumpThZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609240635.M2G0xdSh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/accessibility/speakup/serialio.c:24:38: warning: 'serstate' defined but not used [-Wunused-variable]
-    static const struct old_serial_port *serstate;
-                                         ^~~~~~~~
->> drivers/accessibility/speakup/serialio.c:20:37: warning: 'rs_table' defined but not used [-Wunused-const-variable=]
-    static const struct old_serial_port rs_table[] = {
-                                        ^~~~~~~~
-
-
-vim +/serstate +24 drivers/accessibility/speakup/serialio.c
-
-5e6dc548e453c6 drivers/staging/speakup/serialio.c Chen Gang      2013-10-31  19  
-3ee0017e03cd79 drivers/staging/speakup/serialio.c Jiri Slaby     2012-03-05 @20  static const struct old_serial_port rs_table[] = {
-c6e3fd22cd5383 drivers/staging/speakup/serialio.c William Hubbs  2010-10-07  21  	SERIAL_PORT_DFNS
-c6e3fd22cd5383 drivers/staging/speakup/serialio.c William Hubbs  2010-10-07  22  };
-defaa9ad58dfc5 drivers/staging/speakup/serialio.c Arushi Singhal 2017-03-14  23  
-3ee0017e03cd79 drivers/staging/speakup/serialio.c Jiri Slaby     2012-03-05 @24  static const struct old_serial_port *serstate;
-c6e3fd22cd5383 drivers/staging/speakup/serialio.c William Hubbs  2010-10-07  25  static int timeouts;
-c6e3fd22cd5383 drivers/staging/speakup/serialio.c William Hubbs  2010-10-07  26  
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:2448 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Query mem_reserved_info by region ID
 
 --
 0-DAY CI Kernel Test Service
