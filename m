@@ -1,201 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82398485924
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 11:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F18F4D17B4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 12:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790164406; cv=none; b=ao9yGyKX7nLkpJt2nrM3n9KRE3AJfJY0dn2/wybyETWplDhWn05fQgKtNJlXxDZO5NHtD+IVj42Nxvq+CZEhlrAcOw09VcIf9+545jdfWcQruw5vCHYpHvC/MJH1UqdLADQ8CQCNbMfvSbOqU0Lyx6JxZUxLZRoOU57/T+FkouI=
+	t=1790166268; cv=none; b=CXFJiWrnf3ANWvmuy1o6dvFVa+1QPXFMgkO0DqKvRCwCfY6KB6rWnovIwUjZO50GTgItIKg8FmLBB4ok7KSacd4tsSZ5k9fF7C2qMu3SwK9JBv2chN/ff8/KspKGEyZOmQLcc4uFnKyoOSKLC5t4p23zMlhD5u3FpTrJc/xQxG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790164406; c=relaxed/simple;
-	bh=CoC0oEZ5xes023V7UhZW0cTF7bJnvpGbvkKhjlfB5Ns=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=iAqHSdzBees6/vy7LgsmW0AiIUt9gbOFR4GaDl/Q3LT1ySODsc8ZnzHPfjYUNGOEZcBI58g8MCLuh0WTRWQ5i+llx5sik83izWmu6iv3Xsq0QXQ0gU2cZBVlYJilc2uap1/UQQZduELU8NEYgIfPTlGhTlRSVHZ+qxz+cOi8V4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ggAPYC61; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790166268; c=relaxed/simple;
+	bh=TTTf1pzXqYS3YiVd1T+dx4m8vG0kR/G3+431UOsKMYk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qoR5YWCCiP8AaJ2PX7f5KDCrQlohbzHfoX70jDXBuChWh+2uo1OCbdGVnZlWygVfLA7Jlvkx9E2nka0xKXFRsl9vC+G+ErdYw87QEuyPpmLJQi2JWHQq8FpT6eQwmR7UkO8GADff9ze+R5lKGTYUDARvHPzRbg6STsyXjogHr2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PfYADc7L; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ggAPYC61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PfYADc7L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790164395; x=1821700395;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CoC0oEZ5xes023V7UhZW0cTF7bJnvpGbvkKhjlfB5Ns=;
-  b=ggAPYC619crnEylvsdKtYwBiAvwhiepdXv52BikB73l9T0tKFCUCHau+
-   xgrtcpkJVZMInZsnfaw8X5jtEd+RP9ltYCJdib3t43AxrwEKDhuI3RNmF
-   YVmyTk+nlzTsPM692hBItNmCJCmZWpxhVtGAQiVW+XXiAd0piI7mzV7BZ
-   mS+xa4nFG6AlOcw7KhtFcSolvFM6qu5+lU+qpvxnxQQQzqakQU6aI4tKp
-   ogV2+Nux9DHE1odU9QrkYmasnPCRykW4ahxG5eTLusm3z7jn1556G4+mp
-   EuwUQJgKUhcRzZYd94y4giFKicskuXb56t4zX562ECwsh4rTZrpO8lIpt
-   Q==;
-X-CSE-ConnectionGUID: 6cmqRbizSnaJZOFgE0e4wQ==
-X-CSE-MsgGUID: bX94LosLQU2cymgdk9m7YA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="116372437"
+  t=1790166266; x=1821702266;
+  h=date:from:to:cc:subject:message-id;
+  bh=TTTf1pzXqYS3YiVd1T+dx4m8vG0kR/G3+431UOsKMYk=;
+  b=PfYADc7LueUcvlPjoG79WdgzEwLwpyLGlkMoFyBOe3MooGRTACLpP1vw
+   HUGbNGzpvEX7rcKq0Tx9K5s9lLCuzPwnOknG2BiqdvKWiujIMvRXIlP+P
+   V729fJu51wD9TuPz/bemU2O4Eu15dFnYTSs9/QcF60EvhiZkO5/It+L4O
+   LbjHnx1xhbBVEKXd8IvBoXcTtXYiOsJw3cSUIZrh5+LndHK2NMXMpLMCP
+   pxia8JsXOIs9SfVA81I0XjQXYABaKTHPN9T5c/LqFtsSIO8/EQkaKrtNG
+   MWd5K6gG+dS56NYfAytWeZlL4aZjDQMhvaj0hSBtjwKtJqmjTAHnGmz9m
+   g==;
+X-CSE-ConnectionGUID: 4j5OXMQYSDiDmaxrqsZtyg==
+X-CSE-MsgGUID: /0KMcujwSCGQFUdG7qG8TQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="90877835"
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="116372437"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 04:53:11 -0700
-X-CSE-ConnectionGUID: M+H3r649SFS/h9GpqY+kkw==
-X-CSE-MsgGUID: iZEWFRAuSnmjwcuwXbntlA==
+   d="scan'208";a="90877835"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 05:24:24 -0700
+X-CSE-ConnectionGUID: gaODGk/aTrOUqtFvLqoVeg==
+X-CSE-MsgGUID: B44auUMMTsqdAJD9reXicw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="301492200"
+   d="scan'208";a="281660568"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Sep 2026 04:53:09 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 05:24:22 -0700
 Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9LX9-000000000e3-1ZzY;
-	Wed, 23 Sep 2026 11:53:07 +0000
-Date: Wed, 23 Sep 2026 13:52:27 +0200
+	id 1x9M1M-000000000fk-3POr;
+	Wed, 23 Sep 2026 12:24:20 +0000
+Date: Wed, 23 Sep 2026 14:23:58 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dyndbg-bonsai-clean 58/67]
- include/linux/extable.h:57:10: error: use of undeclared identifier 'ENODEV'
-Message-ID: <202609231347.cy2zcAKu-lkp@intel.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: error[E0463]: can't find crate for `syn`
+Message-ID: <202609231457.9ssfBSKL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dyndbg-bonsai-clean
-head:   1b386f2c853c6e84025fa93d485e69ba8c1d76f4
-commit: 1004de649431d4488b747496cffa70b779e91550 [58/67] kernel/extable: Accelerate exception table search with Bonsai Tree
-config: hexagon-randconfig-r2102-20260923 (https://download.01.org/0day-ci/archive/20260923/202609231347.cy2zcAKu-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231347.cy2zcAKu-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes-ARM/kbuild-do-not-allocate-modinfo-in-vmlinux/20260914-102200
+head:   e4c41ad4c255b1ef4323410ddd136c5beff8ee3f
+commit: 799dcd195cfbecb881a8100ad7fb075179b1b030 kbuild: build rust crates in parallel with the rest of the build
+date:   9 days ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260923/202609231457.9ssfBSKL-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231457.9ssfBSKL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231347.cy2zcAKu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231457.9ssfBSKL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/module/main.c:11:
->> include/linux/extable.h:57:10: error: use of undeclared identifier 'ENODEV'
-      57 |         return -ENODEV;
-         |                 ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/module/main.c:15:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-
-
-vim +/ENODEV +57 include/linux/extable.h
-
-    47	
-    48	#if IS_ENABLED(CONFIG_TEST_BONSAI_TREE)
-    49	int extable_export_bonsai_tree(struct bonsai_tree **bt,
-    50				       const struct exception_table_entry **start,
-    51				       size_t *count);
-    52	#else
-    53	static inline int extable_export_bonsai_tree(struct bonsai_tree **bt,
-    54						     const struct exception_table_entry **start,
-    55						     size_t *count)
-    56	{
-  > 57		return -ENODEV;
-    58	}
-    59	#endif
-    60	
+>> error[E0463]: can't find crate for `syn`
+   --> rust/macros/concat_idents.rs:8:5
+   |
+   8 | use syn::{
+   |     ^^^ can't find crate
+--
+>> error[E0463]: can't find crate for `syn`
+   --> rust/pin-init/internal/src/lib.rs:13:5
+   |
+   13 | use syn::parse_macro_input;
+   |     ^^^ can't find crate
+--
+>> error[E0463]: can't find crate for `syn`
+   --> rust/zerocopy-derive/derive/from_bytes.rs:4:5
+   |
+   4 | use syn::{
+   |     ^^^ can't find crate
 
 --
 0-DAY CI Kernel Test Service
