@@ -1,145 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f37.google.com (mail-ej2-f37.google.com [74.125.228.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132C2346E64
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 08:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE77D3C2798
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 08:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790152424; cv=none; b=apiWJALkKtqdsaM6vCfACrlYsssMxn3lYzVRqBRizUEoypySRR9LOECVRGHOzq2kWhhT/nTEz/K0UxEz2Nlz6vN/gU8IFAeOIYBGsOQaTnEn2pq9OqLqEJNHxtY8xc7SZsY6e+bTSblS9KS//3sgMLQ3Pll9BkwHFYySL3LTa18=
+	t=1790152678; cv=none; b=Md4g6Y1PkXmEf8nhPQa88X7eAp9UlRu1nC8d2FfU2eg8liTbKnJ1S6SlQ2mGOeJFbXV3VfzWAkC1wjUYYyPcD9d2xN4znb330Y5AuMMdvTULCGGZQTzuheVtF4V+vIcxVppjk9DrWcen9YD11pTQk4h4tVbRXq3VxKzFOu0Z/Kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790152424; c=relaxed/simple;
-	bh=sqRX2DRVt+fK2Kb7CogVvaAtim6kiOW+ei6eRD/sK6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SeFy82gPhAai8/aD6RgdLkrs+2u58bE5dNsHRN7RzvCB7+7Xl5q4gBWFA1hGWKbmyBbrevUlJFOIZGb4rETnVslQ/7UbvqvVsnG6VY8aK05yAnQwgJThBMuGTbXFk3QgQ2sUZ7Oen4RmjFlHcAo3Un+A68tqQlABp1KZOX4rDBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y0YHt1Az; arc=none smtp.client-ip=192.198.163.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790152678; c=relaxed/simple;
+	bh=uRjcUxeEQmV6ec9npQjX5uza5dm9WIobiw1akWmO/XA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VFCAM5SDFSrbbeCPy26MXNMzIC5HXNNMAYzEpcnqp3gUyPSnP27Mha1G7Mt1fPjly1Co/ofH+gNyZ8BUaaxhoNN0VAp7u4SZ1GN9lzUuu+mK0UYomBDfeoNqkaSxLDmU2/q8j8466MSGm8bnB2jgCVBKlJKgGijUjLzwE4m1gj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIQcyBh4; arc=none smtp.client-ip=74.125.228.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y0YHt1Az"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790152422; x=1821688422;
-  h=date:from:to:cc:subject:message-id;
-  bh=sqRX2DRVt+fK2Kb7CogVvaAtim6kiOW+ei6eRD/sK6Q=;
-  b=Y0YHt1AzVEgg7X7K3zE0MPHk0P2rtsR5q51qStsm8EOJ8PjeszeYWXZc
-   s35q61rsQo14IW99Sy/XpeggBLaSzkZBgknIprl1Bcq0mWaizXUSJQoap
-   S5az7TLMglyV/zY+i9neWfpHtX3ic+q43IK7ZRC+lMUhRi6qHHUUcTbBv
-   sN0c0apR/I47Mc7quapH3fm55uszRvzlxu6KBYelMYepybE0dqrZDghFd
-   6VDIYt+lAnvL0XeofFIi+C+a/FGrmHvLuHdHJKnPAU/Jo+YhKdS5p4y4k
-   RfAHixnsFBgM2GrqWOqn9t7xHRbXEDOGOeHJ7OGAyfiOl/lVtMzDGzMH2
-   Q==;
-X-CSE-ConnectionGUID: 5hH5+1OsS/eMOvdfj7gzqw==
-X-CSE-MsgGUID: K21xvej0QoGRSt99qgla2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1330229"
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="1330229"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 01:33:41 -0700
-X-CSE-ConnectionGUID: /19TCvEjQ1OO/5puM/1mTA==
-X-CSE-MsgGUID: yhKKaShYSRCIkwql3ksYXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="272993122"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Sep 2026 01:33:40 -0700
-Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9IQ5-000000000aR-3fby;
-	Wed, 23 Sep 2026 08:33:37 +0000
-Date: Wed, 23 Sep 2026 10:33:09 +0200
-From: kernel test robot <lkp@intel.com>
-To: Andi Kleen <ak@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/trace/ptwrite-uprobes.rst:180:
- WARNING: Definition list ends without a blank line; unexpected unindent.
- [docutils]
-Message-ID: <202609231044.y1IuI9u7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIQcyBh4"
+Received: by mail-ej2-f37.google.com with SMTP id a640c23a62f3a-c294af0caa8so83412466b.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 01:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790152655; x=1790757455; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pxCaWNZSnkou9hfi8CjdDjOclTIQWCL/F4nwtl/yEwI=;
+        b=lIQcyBh4bR9Ep8MG75eQyS182ShKWK1OOrdogXYOe4I0MsFTVKsU3niFIz0c4VWVlm
+         2REUlMdKK6cvCDVls54Lx9k1DK1kE7/f4UZg7gymTj+vIS8VJp37d5yZHtEc6ng+dXDe
+         rLCfkTcfgzxDutxFjlzVH5DBl41E/a1heC7mg/E9qcffNKF52DYNe1Oq1KDCw48AWzO8
+         kuk5ONO0wYlEJrffkhGCB1EPF67PNbBxFVt+O4jvvJjLYBc+CWEjgY79fPe1iyTj9LdM
+         NhMAXQRBwQvFPctoR9aTKAKwSeeFc0wMB1PSUbUUTymy5v117W4rPK2s6vRPxZQpwf8I
+         INOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790152655; x=1790757455;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pxCaWNZSnkou9hfi8CjdDjOclTIQWCL/F4nwtl/yEwI=;
+        b=aLfsOrz/L4JBZSIA9BU+5QBsSthYQRJcDr7YPxxXHkzjEbFr9/hju68a2ynPoYACXw
+         cwbw1R06A3clxdl5eWbh098hJSIS/ObuFE+Qej9jPN1G9DNYEuiZ/EHT7G3jUGxVEFjg
+         GOO1AzV5nhyzcvQcV2V8yXgFUgBmwlraP+FYlsvdA+vIsOmq1D1CemvFJnWt4L28KNnJ
+         009Lf9mBFFTIV6rveaCIOOhXGMt7r/un0XRYPGW0PZR88Jd60l7tfKYvTFbcXuyPIUcM
+         vM6AkbCspEJL8ESugogYvhw5XaaxEnILgxG62l17ZUD5jmve3gYQWvCKFG6yTyWCMXd2
+         PHnw==
+X-Forwarded-Encrypted: i=1; AKwUvBz4bneAg7hIBvpsfkFCBZqVvjsjVEEfLdTY6lh6kaGqsPFSb/p3ZvSkEYgXeW+jc/rl0oPyb2L+PuGMJmf2@lists.linux.dev
+X-Gm-Message-State: AFuF++kkIFgRG/HvwXADifuc/+lOaaK33g2kJF9hxbT/TCN9BnWLy2OF
+	OZMnBiUFCNTZYA9nnXHFboezUXFEoCKzlYTJV/DRRLuJ2fQBiPKh3+Y5
+X-Gm-Gg: AYBFou34qMwyFWrfwP9z6OIhFXv0GnmRHOns3WyiZpbufT2zfiTAcyI+uA5TPw4A04z
+	eDbh44SORC01K6XqfU8FAODL1d8Z2jmNNuv1Y11lU33GBs4dOL9+2OIxqWGPOFroeGZ29BW8Cp+
+	b9PEZ15S3wuoHzWsKFO9yciLvRqqTkl67Oa24DKeLF9yaTW/SkAHlayU2aCTDRKpnpm9h2oBaej
+	u9kd1te6EI8jn+oBKTB4cIOGSv+Vt/i8qdcdNw+5tcxojSHH9+P8fRdrwzhPNpiU8+LDD2ipT9Z
+	lEtxGY/OY4RnMmfUZa5lMnkuxhe6VBOks/JJZOTvlww8lMCxoQGxk1kB8D+plTJXNAaZeSZHJlf
+	FQavXHUXIaIxPiv2viyHImBLoZJ6Bv+zJZeH3Qw5HP00rP/W+ozOJRGLBqgmI64RlY8DwJ0X1dK
+	F0uN8WF3kK2Dv6ILL6Q3qzyAlmthxv4L8GhkNLjEHqswgicUI9a3VGp5wzQGVN6ljhSw8=
+X-Received: by 2002:a17:907:e84b:b0:c25:cb7e:1cc9 with SMTP id a640c23a62f3a-c2aade3f821mr149296466b.7.1790152654819;
+        Wed, 23 Sep 2026 01:37:34 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae6b9b2bsm72131866b.50.2026.09.23.01.37.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 01:37:33 -0700 (PDT)
+Date: Wed, 23 Sep 2026 11:37:30 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [jimc:m10 35/44] lib/dynamic_debug.c:854
+ param_set_dyndbg_module_classes() error: we previously assumed 'map' could
+ be null (see line 841)
+Message-ID: <202609230952.6jFrseQb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Andi-Kleen/ptwrite-uprobes-Add-minimal-low-level-support-for-x86/20260917-160029
-head:   d3e06d9b6740df5ab41aab7ef2dd8661f80b774f
-commit: 17103df8b292f69d812df6895c842ff3fba63fc0 ptwrite uprobes: Add a tutorial and overview documentation
-date:   5 days ago
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260923/202609231044.y1IuI9u7-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git m10
+head:   f95e4f1e4ce035c9b5f8da68c66d83f2452d92d5
+commit: feb8ec0044ac67921562346a4a6b831204667ea9 [35/44] dyndbg: resolve "protection" of class'd pr_debug
+config: x86_64-randconfig-2200-20260923 (https://download.01.org/0day-ci/archive/20260923/202609230952.6jFrseQb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231044.y1IuI9u7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609230952.6jFrseQb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+lib/dynamic_debug.c:854 param_set_dyndbg_module_classes() error: we previously assumed 'map' could be null (see line 841)
 
-   Relational referents
-   ~~~~~~~~~~~~~~~~~~~~~ [docutils]
->> Documentation/trace/ptwrite-uprobes.rst:180: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/trace/ptwrite-uprobes.rst:204: ERROR: Unexpected indentation. [docutils]
->> Documentation/trace/ptwrite-uprobes.rst:209: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/trace/ptwrite-uprobes.rst:212: ERROR: Unexpected indentation. [docutils]
-   Documentation/trace/ptwrite-uprobes.rst:214: ERROR: Unexpected indentation. [docutils]
-   Documentation/trace/ptwrite-uprobes.rst:216: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/trace/ptwrite-uprobes.rst:219: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/trace/ptwrite-uprobes.rst:321: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
+vim +/map +854 lib/dynamic_debug.c
 
+7f10c4fc568572 Jim Cromie 2025-11-18  832  static int param_set_dyndbg_module_classes(const char *instr,
+7f10c4fc568572 Jim Cromie 2025-11-18  833  					   const struct kernel_param *kp,
+7f10c4fc568572 Jim Cromie 2025-11-18  834  					   const char *mod_name)
+b9400852c0801a Jim Cromie 2022-09-04  835  {
+feb8ec0044ac67 Jim Cromie 2025-11-18  836  	struct ddebug_class_param *dcp = kp->arg;
+feb8ec0044ac67 Jim Cromie 2025-11-18  837  	struct ddebug_class_map *map = dcp->map;
+62b32b2a95ef1c Jim Cromie 2025-11-18  838  	u32 inrep, new_bits, old_bits, old_val;
+b9400852c0801a Jim Cromie 2022-09-04  839  	int rc, totct = 0;
+b9400852c0801a Jim Cromie 2022-09-04  840  
+feb8ec0044ac67 Jim Cromie 2025-11-18 @841  	if (map && !map->controlling_param)
+                                                    ^^^
+Can map really be NULL?
 
-vim +180 Documentation/trace/ptwrite-uprobes.rst
+feb8ec0044ac67 Jim Cromie 2025-11-18  842  		map->controlling_param = dcp;
+feb8ec0044ac67 Jim Cromie 2025-11-18  843  
+62b32b2a95ef1c Jim Cromie 2025-11-18  844  	rc = kstrtou32(instr, 0, &inrep);
+b9400852c0801a Jim Cromie 2022-09-04  845  	if (rc) {
+cec8bafd130370 Jim Cromie 2025-11-18  846  		int len = strcspn(instr, "\n");
+cec8bafd130370 Jim Cromie 2025-11-18  847  
+cec8bafd130370 Jim Cromie 2025-11-18  848  		pr_err("expecting numeric input, not: %.*s > %s\n",
+cec8bafd130370 Jim Cromie 2025-11-18  849  		       len, instr, KP_NAME(kp));
+b9400852c0801a Jim Cromie 2022-09-04  850  		return -EINVAL;
+b9400852c0801a Jim Cromie 2022-09-04  851  	}
+d88925c4b39c80 Jim Cromie 2025-11-18  852  	ddebug_class_param_clamp_input(&inrep, kp);
+b9400852c0801a Jim Cromie 2022-09-04  853  
+b9400852c0801a Jim Cromie 2022-09-04 @854  	switch (map->map_type) {
+                                                        ^^^^^
+Because if so we are in trouble.
 
-   174	
-   175	  ptw[:[GRP/][EVENT]] PATH:OFFSET [FETCHARGS] : set a ptwrite probe
-   176	  -:[GRP/][EVENT]                             : clear a probe
-   177	
-   178	  GRP      : group name. If omitted, "uprobes" is the default (the
-   179	             event appears under events/uprobes/).
- > 180	  EVENT    : event name. If omitted, one is generated from PATH+OFFSET.
-   181	  PATH     : path to an executable or a library.
-   182	  OFFSET   : file offset of the probe site (0x-prefixed hex, see above).
-   183	  FETCHARGS: probe arguments, up to 8 (see "Argument syntax" below).
-   184	
-   185	After creating the ptwrite uprobe it becomes available with its name
-   186	in ``/sys/kernel/tracing/uprobe_events``. There it can be enabled
-   187	by writing 1 to its enable field. However it only logs data
-   188	when a Linux perf PT recording session with ptw=1 is active.
-   189	
-   190	perf probe
-   191	----------
-   192	
-   193	``perf probe --ptwrite -x <file>`` creates ptwrite uprobes instead of
-   194	the classic trap-based ones. The example below uses SDT probes.
-   195	
-   196	(this requires installing systemtap-devel or an equivalent package)
-   197	
-   198	    $ cat > t.c <<'EOF'
-   199	    #include <stdio.h>
-   200	    #include <sys/sdt.h>
-   201	    __attribute__((noinline, noclone)) static unsigned long
-   202	    target(unsigned long a, unsigned long b)
-   203	    {
-   204	        unsigned long local = a * 2;
-   205	        STAP_PROBE1(test, rarg, a);
-   206	        STAP_PROBE1(test, carg, 42);
-   207	        STAP_PROBE2(test, marg, &local, b);
-   208	        return a * 31 + b;
- > 209	    }
-   210	    int main(void)
-   211	    {
-   212	        unsigned long i, acc = 0;
-   213	        for (i = 0; i < 20; i++) {
-   214	            acc += target(i, i + 1);
-   215	            asm volatile("pause");
-   216	        }
-   217	        printf("acc=%lu\n", acc);
-   218	        return 0;
-   219	    }
-   220	    EOF
-   221	    $ gcc -O2 -no-pie -o t t.c
-   222	
+b9400852c0801a Jim Cromie 2022-09-04  855  	case DD_CLASS_TYPE_DISJOINT_BITS:
+7f10c4fc568572 Jim Cromie 2025-11-18  856  		old_val = READ_ONCE(*dcp->bits);
+62b32b2a95ef1c Jim Cromie 2025-11-18  857  		v2pr_info("bits:0x%x > %s.%s\n", inrep, mod_name ?: "*", KP_NAME(kp));
+a62837264de615 Jim Cromie 2025-11-18  858  		totct += ddebug_apply_class_bitmap(dcp, &inrep, old_val, mod_name);
+7f10c4fc568572 Jim Cromie 2025-11-18  859  		WRITE_ONCE(*dcp->bits, inrep);
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
