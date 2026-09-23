@@ -1,104 +1,177 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B611233D6D6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 23:16:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3708F2EEE96;
+	Wed, 23 Sep 2026 23:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790205414; cv=none; b=u68gROPE/zlMqfMyr15dizFF0HzqrhDWOlTdmYEk8iDEVCfV/tRhWJ1JqfUkxPdsgYdZEhx98rZgo4vmfkXsdg3HmjCmqHg6axDy/NVqGwrb5SErlBImq4/RIY/C08/YxceS5kXQWVG+OOl4hLJVqYSH7yxAHvb1BIXHBSUFRvE=
+	t=1790205417; cv=none; b=cU//fUXOx3sIcvAuELzE+sUjX2wXNa6xUtUfWuFRdLSNzg7JE+BKSA1APQAa77IarxLPHjScwpqYpQaANk3aaXdUe+ypWp6gUmowZvURkoZPH80QyhwnJMEpYUIrJ0vKpLPdu2L/bA6jUc3mcHv9Dj6AL7MmBXUggColMdqGetM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790205414; c=relaxed/simple;
-	bh=KV+rMDaF2fP0KmaoMOGig6kBWKI44EGJ42EmjXN27pE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y5HVq8k60hvI9RtrHQEOW7OGjvg0HZmUzbQij2J3UqatLqyx9bWf/Kckzj2HZyOtKLjQoPw44znTg8A/Xx3jjh7FjWB+ApF3YP3lnPQv/pKOp9V3v1YaWkMmnEvULsmE9ubXUdNvqbEi6grVRXx6ILaDMgiXmb+jDCA1Jdy9/H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bnJRAEH8; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790205417; c=relaxed/simple;
+	bh=pJiQzfEtxkf5k9yaCp4XwKPrj6ad9HuAVEdVLL0rdQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DbLxLsXUgLelDYTBDRVcaOOKhJsxyLv5+x07NXkS3fL/pRjj55hJ/SL4be1y6240PnPepHZLFqAYBzYiQM7FCsmM2ZviaGn9xCTAloAlxxlS9W/COeTd+PbWQyE4TkdldEMD9dQbo5V3dawa7e8477Mm+F6CzokQgVmwSRXiMh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jFzNTnov; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bnJRAEH8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jFzNTnov"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790205413; x=1821741413;
-  h=date:from:to:cc:subject:message-id;
-  bh=KV+rMDaF2fP0KmaoMOGig6kBWKI44EGJ42EmjXN27pE=;
-  b=bnJRAEH8hrsCXK5ZMA6YE4wadavXP9naj1eRVfaTYAauafFr0CKn8i/X
-   hPxdHA11Zntz4bAvyCQDcWlOJx15fvNlSvhLg0NaMkWTMDEEBJgwnIr6O
-   DsEeRpiS6YudZAQ249T6p5EflMaT8QMbgI6FW1Oc0hwyyxVkxKVRnKWi9
-   AYpRNmrVrlmBIBYSqrP442RjqnLCSmVdC5Da5lmR1bWBL9FtJfUR4XruO
-   wBPVDNpkdmiAzIj5PNoya9Z3PNyfZ5ED3wYIzNiOEmE2beoyh+pNXdJer
-   P2MsCiJ7ks/PrLrLKO/H5PF5NueBPUMA14pucsRxbXMwbgbjLLxa2jCmv
+  t=1790205415; x=1821741415;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pJiQzfEtxkf5k9yaCp4XwKPrj6ad9HuAVEdVLL0rdQg=;
+  b=jFzNTnovHhGxUhlZuvw/5utOLHsDqv+JO1I3trU7nIGvTP/YZmGOI/Db
+   8gg9vfKDcTw7QccrT+uGK1FUZXwiqnLj+FMs8Yjq3rnj02Z8H6TlAoskK
+   Vrs2RHlrkrJhdB4IBxrHsl4q/4Zw7STM1vjGX9GY34hEoHuU77g/yjwmF
+   CGo3kjgJUJxk4jKCJDUR8ZP+xt6PkGDyoHAUndG56BO1vfJlSSGANBdmT
+   RTiCw+Awrb96jKH7RJ+iosg+rNHE64q1heHS0zPW8YXvzHZPSieUm4EQu
+   TC8yGF37abB3GUHEl00XF5f//u2BGmSYFZuAWppmqE3frU99+Zhy8HYCM
    w==;
-X-CSE-ConnectionGUID: FPzYRHYRRZO9z0oFi87sGw==
-X-CSE-MsgGUID: t2sZ/DeJSr+IK8rFXWh7qA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="116476148"
+X-CSE-ConnectionGUID: NWVHgOwkRJ6E0Gs9Jd2ZMg==
+X-CSE-MsgGUID: FT0S4QWIS6mXQe7bsmVbdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="116476155"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="116476148"
+   d="scan'208";a="116476155"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 16:16:52 -0700
-X-CSE-ConnectionGUID: ZKNCErnaRxurgdlALmeYQA==
-X-CSE-MsgGUID: qQQUmG8oTSmJj1jPcHniqw==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 16:16:55 -0700
+X-CSE-ConnectionGUID: 60YdIln9QK2Mk04bYRgL3g==
+X-CSE-MsgGUID: xN7tmTuoQa+vPJTNSyldsQ==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2026 16:16:50 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2026 16:16:51 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9WCl-00000000Hwe-40pC;
+	id 1x9WCl-00000000Hwc-3oRt;
 	Wed, 23 Sep 2026 23:16:47 +0000
-Date: Thu, 24 Sep 2026 07:16:43 +0800
+Date: Thu, 24 Sep 2026 07:16:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sreeshankar K <sreeshankar0910@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abel Vesa <abel.vesa@oss.qualcomm.com>
-Subject: [linux-next:master 1663/8910]
- drivers/soc/qcom/socinfo.c:25:27: error: 'QCOM_ID_SM7250' undeclared here
- (not in a function); did you mean 'QCOM_ID_SM7750'?
-Message-ID: <202609240715.gpsuNHCe-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jose Abreu <Jose.Abreu@synopsys.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>
+Subject: Re: [PATCH net] net: stmmac: propagate PTP addend and system time
+ programming errors
+Message-ID: <202609240727.6U1AzUEr-lkp@intel.com>
+References: <20260920-stmmac-ptp-added-systime-error-v1-1-8ac9e7a3fce2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260920-stmmac-ptp-added-systime-error-v1-1-8ac9e7a3fce2@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a8c591ed6b672915e0be57843f943a2a723aff40
-commit: aa186658b79e993365b4b2153813474d8b928da1 [1663/8910] soc: qcom: socinfo: Add SM7250 SoC ID
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260924/202609240715.gpsuNHCe-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240715.gpsuNHCe-lkp@intel.com/reproduce)
+Hi Lorenzo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1e24c4f2ee44be0eee94092b5d13cbdb4bdf0d60]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/net-stmmac-propagate-PTP-addend-and-system-time-programming-errors/20260920-150002
+base:   1e24c4f2ee44be0eee94092b5d13cbdb4bdf0d60
+patch link:    https://lore.kernel.org/r/20260920-stmmac-ptp-added-systime-error-v1-1-8ac9e7a3fce2%40oss.qualcomm.com
+patch subject: [PATCH net] net: stmmac: propagate PTP addend and system time programming errors
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20260924/202609240727.6U1AzUEr-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240727.6U1AzUEr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609240715.gpsuNHCe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609240727.6U1AzUEr-lkp@intel.com/
 
-Note: the linux-next/master HEAD a8c591ed6b672915e0be57843f943a2a723aff40 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: warning: variable 'sec_inc' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     614 |                                            priv->plat->clk_ptp_rate,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+     615 |                                            xmac, &sec_inc);
+         |                                            ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
+     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:6: note: expanded from macro 'stmmac_do_void_callback'
+      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:617:25: note: uninitialized use occurs here
+     617 |         priv->sub_second_inc = sec_inc;
+         |                                ^~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: note: remove the 'if' if its condition is always true
+     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
+         |         ^
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
+     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
+         |         ^
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:2: note: expanded from macro 'stmmac_do_void_callback'
+      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
+         |         ^
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: warning: variable 'sec_inc' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     614 |                                            priv->plat->clk_ptp_rate,
+         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+     615 |                                            xmac, &sec_inc);
+         |                                            ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
+     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:6: note: expanded from macro 'stmmac_do_void_callback'
+      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:617:25: note: uninitialized use occurs here
+     617 |         priv->sub_second_inc = sec_inc;
+         |                                ^~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:613:2: note: remove the '&&' if its condition is always true
+     613 |         stmmac_config_sub_second_increment(priv, priv->ptpaddr,
+         |         ^
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:517:2: note: expanded from macro 'stmmac_config_sub_second_increment'
+     517 |         stmmac_do_void_callback(__priv, ptp, config_sub_second_increment, __args)
+         |         ^
+   drivers/net/ethernet/stmicro/stmmac/hwif.h:15:6: note: expanded from macro 'stmmac_do_void_callback'
+      15 |         if ((__priv)->hw->__module && (__priv)->hw->__module->__cname) { \
+         |             ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:609:13: note: initialize the variable 'sec_inc' to silence this warning
+     609 |         u32 sec_inc;
+         |                    ^
+         |                     = 0
+   2 warnings generated.
 
->> drivers/soc/qcom/socinfo.c:25:27: error: 'QCOM_ID_SM7250' undeclared here (not in a function); did you mean 'QCOM_ID_SM7750'?
-      25 | #define qcom_board_id(id) QCOM_ID_ ## id, __stringify(id)
-         |                           ^~~~~~~~
-   drivers/soc/qcom/socinfo.c:453:11: note: in expansion of macro 'qcom_board_id'
-     453 |         { qcom_board_id(SM7250) },
-         |           ^~~~~~~~~~~~~
 
+vim +613 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-vim +25 drivers/soc/qcom/socinfo.c
-
-34ec89e68db268 Krzysztof Kozlowski 2022-08-30  23  
-34ec89e68db268 Krzysztof Kozlowski 2022-08-30  24  /* Helper macros to create soc_id table */
-34ec89e68db268 Krzysztof Kozlowski 2022-08-30 @25  #define qcom_board_id(id) QCOM_ID_ ## id, __stringify(id)
-34ec89e68db268 Krzysztof Kozlowski 2022-08-30  26  #define qcom_board_id_named(id, name) QCOM_ID_ ## id, (name)
-34ec89e68db268 Krzysztof Kozlowski 2022-08-30  27  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: 34ec89e68db2682469a9a51d9ed4022ee3992389 soc: qcom: socinfo: create soc_id table from bindings
-
-:::::: TO: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-:::::: CC: Bjorn Andersson <andersson@kernel.org>
+   603	
+   604	static void stmmac_restore_subsecond_increment(struct stmmac_priv *priv,
+   605						       u32 default_addend,
+   606						       u32 systime_flags)
+   607	{
+   608		bool xmac = dwmac_is_xmac(priv->plat->core_type);
+   609		u32 sec_inc;
+   610	
+   611		stmmac_config_addend(priv, priv->ptpaddr, default_addend);
+   612		stmmac_config_hw_tstamping(priv, priv->ptpaddr, systime_flags);
+ > 613		stmmac_config_sub_second_increment(priv, priv->ptpaddr,
+   614						   priv->plat->clk_ptp_rate,
+   615						   xmac, &sec_inc);
+   616		priv->default_addend = default_addend;
+   617		priv->sub_second_inc = sec_inc;
+   618	}
+   619	
 
 --
 0-DAY CI Kernel Test Service
