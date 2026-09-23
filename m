@@ -1,87 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50BF3BAD8B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 11:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6353A4749CD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 11:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790161850; cv=none; b=DwTgh5VjJNsAkXy0LwXxSNs+E/IPnq8HIkmb5rARtGXPk0EiZpXvDAjJMz4+Im/pDyaFWQrBoAJ75+Xx27xgvvDw3pX2og9CBGUvgCVIXe4r97M9sMGhFxtehII42cnM2kVdd9oDpRELrWIJJq8jsxpr8d1g60yOI+yoIP3u3hg=
+	t=1790163143; cv=none; b=ipbpyZeOcG2HDAEPSAsikwoz3o3u+sQzPK+eTNliPSTGpHauXemoF1dhZSvn28DHkWcPa/QxfRSTD1v4fKUmVeCVnrDsaY5tE+atcMyyt3kwlMpeW8hMRMJ7eYgt6oNy2luefHUwIPfhJzy6iaEUyPWOPxGtr+F8/3o6jqTskEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790161850; c=relaxed/simple;
-	bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MYwU7NnM5N0W3qSA9hdLXEWF+jfQdPTVNybk6GQo8jA8jPvxvhKyOHW2xq+8/55MC1KMHc8+DmUJO5T3KqK2pA6EUEooSVillzugdosqDSIntwc+Tjzl1t6j9+IRoYKaGu/0yhs0NnKvytyq1zJKwlX0GnbjL/ddYhN7hgQKvr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJrLiFbx; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790163143; c=relaxed/simple;
+	bh=wyw5IrOIWUSFYhVol9zJ3LTLo3oAY26bfS9Ls6E//Ho=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=mYO9ig+ekaVuXns9TAypaxmxQyU4JTWBPXvWzJRxp5qgQhN//X1Kw8cKrZsys8vRTYy+vt6wccWUSk/jg6lRGz5McHHFkhU0BGTycb6JyPw7S6sa2wv6R0cqSuNNkWS1L+icWkdjHqR7OxB6XAbhNRV2m7w37bfbRTa6BfIRcg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAvH6h3g; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJrLiFbx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAvH6h3g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790161848; x=1821697848;
-  h=date:from:to:cc:subject:message-id;
-  bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
-  b=eJrLiFbxaJNHMrMNLKg+GAsVQ6B6ghXh2mymrJlIzsnrApH/rwi4tvYG
-   J9XoZeZWpOSuSCqNlHS2stB7hWkLstbRI5fNIzUgPXh1+nLhrxqns9jja
-   k5bvfUtjNp5CLkx93FpcAkCGZLgxm2cXKkawhJL4N5s7PeZUhXW2erxr5
-   SpJf3ZAMZcNq2jeBn3IgAcdE1pXzwBXm1K/VUeHaImrIs6XLvi2fuONsq
-   hSEdd8XQ2+cMvcbmdxCjFtKSJQROzOAMkMKywYDcmaxcSmFDUkiM6kly/
-   1ofVt86Z4SGgFxp8EtYadPcwMUuvll4aJ8i1HC7eqetJ5hsklLCppJ1ZH
-   A==;
-X-CSE-ConnectionGUID: E3BdD37QTAyYIbz+4Lt/ag==
-X-CSE-MsgGUID: SHQ1oXefRBCUdxe2xle0Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="116367954"
+  t=1790163134; x=1821699134;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wyw5IrOIWUSFYhVol9zJ3LTLo3oAY26bfS9Ls6E//Ho=;
+  b=GAvH6h3gub7GR2P8MweSxrSTgOo8Yf9dnjkTfgovNS3bjV0FNqDmLkNg
+   LX2xFcUTxcbyjJ3TUlTa73UhUSrPRq6H0jBzcyEdlNv+LHZEYUf3J4qw0
+   oPHKNHaNUyGTS7waail9CuVs6mRFfwHzFkq3xns8YHeYJtuD765Vp//9J
+   rLDnFZt5vlHR6pFNCYWNrQS7+Aheqkgifd+NOYmRK/tU2ptDw6U2MPn77
+   DHUEcxi8ZR3ptMjOqpouIKPkRe+QxR+mbdJmb1DUPjpR/FkSvy1EqpDTM
+   1gQuga9cKqG7kpZ1tSROKUlnO517Nq92jbNuNqG6ftfeWwmEcWO0wXiez
+   g==;
+X-CSE-ConnectionGUID: UUUvBFvrQQm2we+qNlDi1g==
+X-CSE-MsgGUID: M7ZGawmgTUmlsX1xKPCQDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1352681"
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="116367954"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 04:10:47 -0700
-X-CSE-ConnectionGUID: v1GJUr6zT0WjRSAziGgkYg==
-X-CSE-MsgGUID: 33DscqJnSYOwgILm4h9Brw==
+   d="scan'208";a="1352681"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 04:32:07 -0700
+X-CSE-ConnectionGUID: qmSgey9GTFOKwz7VQB+4hA==
+X-CSE-MsgGUID: Tg3cVlZuQsSZEzGGyZZHEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="272756134"
+   d="scan'208";a="270091792"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2026 04:10:46 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2026 04:32:00 -0700
 Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9Ks8-000000000cx-0XlG;
-	Wed, 23 Sep 2026 11:10:44 +0000
-Date: Wed, 23 Sep 2026 13:10:14 +0200
+	id 1x9LCf-000000000dV-1nre;
+	Wed, 23 Sep 2026 11:31:57 +0000
+Date: Wed, 23 Sep 2026 13:31:04 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Alastair D'Silva" <alastair@d-silva.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: Warning: drivers/net/phy/ac300-phy.c:2 This comment starts
- with '/**', but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202609231302.L5QfwVqw-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dyndbg-bonsai-clean 63/67]
+ kernel/trace/trace_fprobe.c:1002:13: warning: '__find_tracepoint_cb' defined
+ but not used
+Message-ID: <202609231335.ieFFNeIA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-Hi Alastair,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/intel-lab-lkp/linux/commits/Alastair-D-Silva/dt-bindings-net-phy-Add-Allwinner-AC300-EPHY-binding/20260916-144116
-head:   6d0087c5c37fcf119011a936fef3fa18ce5d7686
-commit: 5c03e0fe215f96bf5b0511b77301f5dcca2adbf6 net: phy: Add Allwinner AC300 EPHY driver
-date:   7 days ago
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dyndbg-bonsai-clean
+head:   1b386f2c853c6e84025fa93d485e69ba8c1d76f4
+commit: 2d32fc9005222d1458283246043d8f704eb28f74 [63/67] kernel/tracepoint: Accelerate kernel tracepoint lookups with Bonsai Tree
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260923/202609231335.ieFFNeIA-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231335.ieFFNeIA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231302.L5QfwVqw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231335.ieFFNeIA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/net/phy/ac300-phy.c:2 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Driver for X-Powers AC300 Ethernet PHY
+>> kernel/trace/trace_fprobe.c:1002:13: warning: '__find_tracepoint_cb' defined but not used [-Wunused-function]
+    1002 | static void __find_tracepoint_cb(struct tracepoint *tp, void *priv)
+         |             ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/__find_tracepoint_cb +1002 kernel/trace/trace_fprobe.c
+
+67e9a9ee476e86 Masami Hiramatsu (Google  2024-08-18  1001) 
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06 @1002) static void __find_tracepoint_cb(struct tracepoint *tp, void *priv)
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  1003) {
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  1004) 	struct __find_tracepoint_cb_data *data = priv;
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  1005) 
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  1006) 	if (!data->tpoint && !strcmp(data->tp_name, tp->name))
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  1007) 		data->tpoint = tp;
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  1008) }
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  1009) 
+
+:::::: The code at line 1002 was first introduced by commit
+:::::: e2d0d7b2f42dcaf924e9c891c91c9aa22cbbebce tracing/probes: Add tracepoint support on fprobe_events
+
+:::::: TO: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+:::::: CC: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
