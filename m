@@ -1,185 +1,321 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8326C415B7E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 05:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB1C43D4EF;
+	Wed, 23 Sep 2026 06:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790142320; cv=none; b=cs5791qmhgbmiqq9aoz3vQShdqmzQGmXsDG9TCOiwLG0m7oaS1AV4I0nVnfQkdFfTpJ6V5OUOXoNrXhHGUuI/QSCW2tOycMKS2jpTV0kE4jC1+wfQSjlAuzctebEW0Ip3WIkJEl7ipd/P+xo9gHViUIxHN63o9kwqHjxqNHdjp8=
+	t=1790144098; cv=none; b=L9YsrudV0DPHQTdKLfpUDR9nVhzx6mQ4m5xzz96qp44GuQVi5QCsWLjAzr1xBf2Br3OC7quBCJ1NbFZTpp4BMn/ukHJFn1oSCeNQMyrsOaDC4Cc1HrmjTXqtJFB6gEhkgHakLeDwMVJqxqHWprLGTwMKBjGD1s+KKtbWTj83eHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790142320; c=relaxed/simple;
-	bh=j+tg3tYTAxcFVa28hA2mOcdgmEsEaFuQ8BaZ8PMSKLk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mM7SEU1ABIcKUqQMivCkpfB+WLB6Xm0WU/WHn2R7+pOXzn9XpOB1LTwlPZwTZotwY3y3K6s5yy9B5YVtXkskouckGX1Ag8OM7jrlpsUQ8YCLlkGvd5W6D6NHn0z8T8OXZrhEWT+ruGMM7Aijbx2nbZW8JBQyIfldw0FVktTbUsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKzI3pJD; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790144098; c=relaxed/simple;
+	bh=a/yAIKWkmXan8JFHfAMCcyrMGaiwv/YwnROXQ+PfgUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lBuY/012DWN2Hc5cm5e4OIErGEKMNAiIqyUYK93iW82c/ZRK+CNdopasaPr+kqAR6GL9ux6cI8VpSxlbHr62z7qXkNfgLu5FYEDpxBnE/lwQfP8cLyLs7UzG3XxwHSyfLArazhqrjTLANMD/++FwCZamSPHafAPNKpxO9Czv5RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VKzx+rt/; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKzI3pJD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VKzx+rt/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790142319; x=1821678319;
-  h=date:from:to:cc:subject:message-id;
-  bh=j+tg3tYTAxcFVa28hA2mOcdgmEsEaFuQ8BaZ8PMSKLk=;
-  b=mKzI3pJDieYACsBsJ9ER1otJraEb7RWSPsS9J8UjXv5RZJm4No5Dt/X9
-   vuf1lzSWmFgOW6VP9n3qpzAJdyzuWDJHMeQ3AP69R9DrdbYSX+L5jdp3Y
-   uNfZXnCjo1kI6W2RRkM3Hf+2Nde5KEpU5nl3IeEcwlJWoub9rCWudFH/v
-   RZfOVy+uqIePgnoG6SBJiTbn7AjxBk6EJSv94lo4txkM7xvxW7S6sT+AT
-   1hPp/8ze6d6QuRUykCHCij9zuRQ+/oe9lZOxzpdrmIGi+1owZB4YefgSZ
-   3bsSW2pnVDYHPbT8ie4nVZi4q9lc8/N3TldKV2Bp1M+JRkUY1rhdGIJC/
-   A==;
-X-CSE-ConnectionGUID: M90jaNjIT0CXHW7O16JuzA==
-X-CSE-MsgGUID: 0yKUJLNvSPe+jef3CPJyPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="102160710"
-X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="102160710"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 22:45:15 -0700
-X-CSE-ConnectionGUID: 5xs9ohy4QeewnSy5xxS5Xg==
-X-CSE-MsgGUID: Lpjfu7PISBWcvT8Eb+6NAw==
+  t=1790144093; x=1821680093;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a/yAIKWkmXan8JFHfAMCcyrMGaiwv/YwnROXQ+PfgUg=;
+  b=VKzx+rt/fcN1n8t+5C4c41doYgPqC8Ufl8qNqVB5yM38tm3uWaqh+PIh
+   TPRPvnH7KTVjWsS1kWbjGVamG7FNh6DdPIF2rFnBeqq8J3YpeOGJRLL3h
+   +hpakD5kr+pr0RnDCseh07O/27cgB7iJw+jrl+AcRvpYsX2WpEFzKu/5e
+   YKoF2HdAAEc25+FRPNGn1seoczcPqbMACCA64+kTo8/CH6YXwolW7uzve
+   6eB99rEMnd+Bvsgu/g4tju2NgHtFdE4YkaZ7Krx1taLjcyUzGxY/Wf+NZ
+   N1+UBIBhxNIFA1kURZyqF5QPYzlY4lN1yMtwzMcBx/jZC2+vMn84b5Fpm
+   g==;
+X-CSE-ConnectionGUID: 6tP3BmAARvik9FZ06rHc3g==
+X-CSE-MsgGUID: lXIj0kP7T4eILR6WDj3jAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="93308341"
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="93308341"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 23:14:48 -0700
+X-CSE-ConnectionGUID: hLya9EFtR/y1enJ0JUuIIA==
+X-CSE-MsgGUID: M4RV5WF7RX6FyeBjg5MQhQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="272656864"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Sep 2026 22:45:13 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="301381223"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Sep 2026 23:14:44 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9Fn4-00000000Gam-45RD;
-	Wed, 23 Sep 2026 05:45:10 +0000
-Date: Wed, 23 Sep 2026 13:44:47 +0800
+	id 1x9GFe-000000000Xz-0EVf;
+	Wed, 23 Sep 2026 06:14:42 +0000
+Date: Wed, 23 Sep 2026 08:13:49 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jon Hunter <jonathanh@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jonhunter:tegra/phy 7/8] drivers/phy/tegra/xusb.c:1260:48:
- warning: too many arguments for format
-Message-ID: <202609231315.OCykhu1i-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>, jic23@kernel.org,
+	gregkh@linuxfoundation.org, nuno.sa@analog.com,
+	Michael.Hennerich@analog.com
+Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com, andy@kernel.org,
+	linux@analog.com, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	joshua.crofts1@gmail.com, error27@gmail.com,
+	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Subject: Re: [PATCH v2] staging: iio: adc: ad7816: Protect sysfs attributes
+ with mutex
+Message-ID: <202609230855.IEzAf41u-lkp@intel.com>
+References: <20260920091522.15507-1-abdelnasserhussein11@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260920091522.15507-1-abdelnasserhussein11@gmail.com>
 
-tree:   https://github.com/jonhunter/linux tegra/phy
-head:   9e9fa3f13e336e32163c18c43a5543007dd180fc
-commit: 2116b46dd4b4aa9036f83bdbd828d6aa6fec9bed [7/8] phy: tegra: xusb: Use dev_err_probe()
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260923/202609231315.OCykhu1i-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231315.OCykhu1i-lkp@intel.com/reproduce)
+Hi Abdelnasser,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abdelnasser-Hussein/staging-iio-adc-ad7816-Protect-sysfs-attributes-with-mutex/20260920-121522
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260920091522.15507-1-abdelnasserhussein11%40gmail.com
+patch subject: [PATCH v2] staging: iio: adc: ad7816: Protect sysfs attributes with mutex
+config: sparc-randconfig-2001-20260923 (https://download.01.org/0day-ci/archive/20260923/202609230855.IEzAf41u-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230855.IEzAf41u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231315.OCykhu1i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609230855.IEzAf41u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/phy/tegra/xusb.c: In function 'tegra_xusb_padctl_probe':
->> drivers/phy/tegra/xusb.c:1260:48: warning: too many arguments for format [-Wformat-extra-args]
-    1260 |                 dev_err_probe(&pdev->dev, err, "failed to setup XUSB ports\n",
-         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/irqflags.h:17,
+                    from include/asm-generic/cmpxchg-local.h:6,
+                    from arch/sparc/include/asm/cmpxchg_32.h:67,
+                    from arch/sparc/include/asm/cmpxchg.h:7,
+                    from arch/sparc/include/asm/atomic_32.h:17,
+                    from arch/sparc/include/asm/atomic.h:7,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/sparc/include/asm/bitops_32.h:102,
+                    from arch/sparc/include/asm/bitops.h:7,
+                    from include/linux/bitops.h:67,
+                    from include/linux/kernel.h:23,
+                    from include/linux/interrupt.h:6,
+                    from drivers/staging/iio/adc/ad7816.c:8:
+   drivers/staging/iio/adc/ad7816.c: In function 'ad7816_store_mode':
+>> drivers/staging/iio/adc/ad7816.c:139:27: error: 'struct ad7816_chip_info' has no member named 'lock'
+     139 |         guard(mutex)(&chip->lock);
+         |                           ^~
+   include/linux/cleanup.h:558:37: note: in definition of macro 'WITH_LOCK_GUARD_1_ATTRS'
+     558 |         class_##_name##_constructor(_T),                                \
+         |                                     ^~
+   include/linux/cleanup.h:303:17: note: in expansion of macro 'class_mutex_constructor'
+     303 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:423:9: note: in expansion of macro 'CLASS'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   drivers/staging/iio/adc/ad7816.c:139:9: note: in expansion of macro 'guard'
+     139 |         guard(mutex)(&chip->lock);
+         |         ^~~~~
+>> drivers/staging/iio/adc/ad7816.c:139:27: error: 'struct ad7816_chip_info' has no member named 'lock'
+     139 |         guard(mutex)(&chip->lock);
+         |                           ^~
+   include/linux/cleanup.h:559:97: note: in definition of macro 'WITH_LOCK_GUARD_1_ATTRS'
+     559 |         *__UNIQUE_ID(unlock) __cleanup(__class_##_name##_cleanup_ctx) = (void *)(unsigned long)(_T)
+         |                                                                                                 ^~
+   include/linux/cleanup.h:303:17: note: in expansion of macro 'class_mutex_constructor'
+     303 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:423:9: note: in expansion of macro 'CLASS'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   drivers/staging/iio/adc/ad7816.c:139:9: note: in expansion of macro 'guard'
+     139 |         guard(mutex)(&chip->lock);
+         |         ^~~~~
+   drivers/staging/iio/adc/ad7816.c: In function 'ad7816_store_channel':
+   drivers/staging/iio/adc/ad7816.c:205:27: error: 'struct ad7816_chip_info' has no member named 'lock'
+     205 |         guard(mutex)(&chip->lock);
+         |                           ^~
+   include/linux/cleanup.h:558:37: note: in definition of macro 'WITH_LOCK_GUARD_1_ATTRS'
+     558 |         class_##_name##_constructor(_T),                                \
+         |                                     ^~
+   include/linux/cleanup.h:303:17: note: in expansion of macro 'class_mutex_constructor'
+     303 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:423:9: note: in expansion of macro 'CLASS'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   drivers/staging/iio/adc/ad7816.c:205:9: note: in expansion of macro 'guard'
+     205 |         guard(mutex)(&chip->lock);
+         |         ^~~~~
+   drivers/staging/iio/adc/ad7816.c:205:27: error: 'struct ad7816_chip_info' has no member named 'lock'
+     205 |         guard(mutex)(&chip->lock);
+         |                           ^~
+   include/linux/cleanup.h:559:97: note: in definition of macro 'WITH_LOCK_GUARD_1_ATTRS'
+     559 |         *__UNIQUE_ID(unlock) __cleanup(__class_##_name##_cleanup_ctx) = (void *)(unsigned long)(_T)
+         |                                                                                                 ^~
+   include/linux/cleanup.h:303:17: note: in expansion of macro 'class_mutex_constructor'
+     303 |                 class_##_name##_constructor
+         |                 ^~~~~~
+   include/linux/cleanup.h:423:9: note: in expansion of macro 'CLASS'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^~~~~
+   drivers/staging/iio/adc/ad7816.c:205:9: note: in expansion of macro 'guard'
+     205 |         guard(mutex)(&chip->lock);
+         |         ^~~~~
 
 
-vim +1260 drivers/phy/tegra/xusb.c
+vim +139 drivers/staging/iio/adc/ad7816.c
 
-  1180	
-  1181	static int tegra_xusb_padctl_probe(struct platform_device *pdev)
-  1182	{
-  1183		struct device_node *np = pdev->dev.of_node;
-  1184		const struct tegra_xusb_padctl_soc *soc;
-  1185		struct tegra_xusb_padctl *padctl;
-  1186		const struct of_device_id *match;
-  1187		int err;
-  1188	
-  1189		/* for backwards compatibility with old device trees */
-  1190		np = of_get_child_by_name(np, "pads");
-  1191		if (!np) {
-  1192			dev_warn(&pdev->dev, "deprecated DT, using legacy driver\n");
-  1193			return tegra_xusb_padctl_legacy_probe(pdev);
-  1194		}
-  1195	
-  1196		of_node_put(np);
-  1197	
-  1198		match = of_match_node(tegra_xusb_padctl_of_match, pdev->dev.of_node);
-  1199		soc = match->data;
-  1200	
-  1201		padctl = soc->ops->probe(&pdev->dev, soc);
-  1202		if (IS_ERR(padctl))
-  1203			return PTR_ERR(padctl);
-  1204	
-  1205		platform_set_drvdata(pdev, padctl);
-  1206		INIT_LIST_HEAD(&padctl->ports);
-  1207		INIT_LIST_HEAD(&padctl->lanes);
-  1208		INIT_LIST_HEAD(&padctl->pads);
-  1209		mutex_init(&padctl->lock);
-  1210	
-  1211		padctl->regs = devm_platform_ioremap_resource(pdev, 0);
-  1212		if (IS_ERR(padctl->regs)) {
-  1213			err = PTR_ERR(padctl->regs);
-  1214			goto remove;
-  1215		}
-  1216	
-  1217		padctl->rst = devm_reset_control_get(&pdev->dev, NULL);
-  1218		if (IS_ERR(padctl->rst)) {
-  1219			err = PTR_ERR(padctl->rst);
-  1220			goto remove;
-  1221		}
-  1222	
-  1223		padctl->supplies = devm_kcalloc(&pdev->dev, padctl->soc->num_supplies,
-  1224						sizeof(*padctl->supplies), GFP_KERNEL);
-  1225		if (!padctl->supplies) {
-  1226			err = -ENOMEM;
-  1227			goto remove;
-  1228		}
-  1229	
-  1230		regulator_bulk_set_supply_names(padctl->supplies,
-  1231						padctl->soc->supply_names,
-  1232						padctl->soc->num_supplies);
-  1233	
-  1234		err = devm_regulator_bulk_get(&pdev->dev, padctl->soc->num_supplies,
-  1235					      padctl->supplies);
-  1236		if (err < 0) {
-  1237			dev_err_probe(&pdev->dev, err, "failed to get regulators\n");
-  1238			goto remove;
-  1239		}
-  1240	
-  1241		err = reset_control_deassert(padctl->rst);
-  1242		if (err < 0)
-  1243			goto remove;
-  1244	
-  1245		err = regulator_bulk_enable(padctl->soc->num_supplies,
-  1246					    padctl->supplies);
-  1247		if (err < 0) {
-  1248			dev_err(&pdev->dev, "failed to enable supplies: %d\n", err);
-  1249			goto reset;
-  1250		}
-  1251	
-  1252		err = tegra_xusb_setup_pads(padctl);
-  1253		if (err < 0) {
-  1254			dev_err(&pdev->dev, "failed to setup pads: %d\n", err);
-  1255			goto power_down;
-  1256		}
-  1257	
-  1258		err = tegra_xusb_setup_ports(padctl);
-  1259		if (err) {
-> 1260			dev_err_probe(&pdev->dev, err, "failed to setup XUSB ports\n",
-  1261				      err);
-  1262			goto remove_pads;
-  1263		}
-  1264	
-  1265		return 0;
-  1266	
-  1267	remove_pads:
-  1268		tegra_xusb_remove_pads(padctl);
-  1269	power_down:
-  1270		regulator_bulk_disable(padctl->soc->num_supplies, padctl->supplies);
-  1271	reset:
-  1272		reset_control_assert(padctl->rst);
-  1273	remove:
-  1274		platform_set_drvdata(pdev, NULL);
-  1275		soc->ops->remove(padctl);
-  1276		return err;
-  1277	}
-  1278	
+   > 8	#include <linux/interrupt.h>
+     9	#include <linux/gpio/consumer.h>
+    10	#include <linux/device.h>
+    11	#include <linux/kernel.h>
+    12	#include <linux/slab.h>
+    13	#include <linux/sysfs.h>
+    14	#include <linux/list.h>
+    15	#include <linux/spi/spi.h>
+    16	#include <linux/module.h>
+    17	
+    18	#include <linux/iio/iio.h>
+    19	#include <linux/iio/sysfs.h>
+    20	#include <linux/iio/events.h>
+    21	
+    22	/*
+    23	 * AD7816 config masks
+    24	 */
+    25	#define AD7816_FULL			0x1
+    26	#define AD7816_PD			0x2
+    27	#define AD7816_CS_MASK			0x7
+    28	#define AD7816_CS_MAX			0x4
+    29	
+    30	/*
+    31	 * AD7816 temperature masks
+    32	 */
+    33	#define AD7816_VALUE_OFFSET		6
+    34	#define AD7816_BOUND_VALUE_BASE		0x8
+    35	#define AD7816_BOUND_VALUE_MIN		-95
+    36	#define AD7816_BOUND_VALUE_MAX		152
+    37	#define AD7816_TEMP_FLOAT_OFFSET	2
+    38	#define AD7816_TEMP_FLOAT_MASK		0x3
+    39	
+    40	/*
+    41	 * struct ad7816_chip_info - chip specific information
+    42	 */
+    43	
+    44	struct ad7816_chip_info {
+    45		kernel_ulong_t id;
+    46		struct spi_device *spi_dev;
+    47		struct gpio_desc *rdwr_pin;
+    48		struct gpio_desc *convert_pin;
+    49		struct gpio_desc *busy_pin;
+    50		u8  oti_data[AD7816_CS_MAX + 1];
+    51		u8  channel_id;	/* 0 always be temperature */
+    52		u8  mode;
+    53	};
+    54	
+    55	enum ad7816_type {
+    56		ID_AD7816,
+    57		ID_AD7817,
+    58		ID_AD7818,
+    59	};
+    60	
+    61	/*
+    62	 * ad7816 data access by SPI
+    63	 */
+    64	static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+    65	{
+    66		struct spi_device *spi_dev = chip->spi_dev;
+    67		int ret;
+    68		__be16 buf;
+    69	
+    70		gpiod_set_value(chip->rdwr_pin, 1);
+    71		gpiod_set_value(chip->rdwr_pin, 0);
+    72		ret = spi_write(spi_dev, &chip->channel_id, sizeof(chip->channel_id));
+    73		if (ret < 0) {
+    74			dev_err(&spi_dev->dev, "SPI channel setting error\n");
+    75			return ret;
+    76		}
+    77		gpiod_set_value(chip->rdwr_pin, 1);
+    78	
+    79		if (chip->mode == AD7816_PD) { /* operating mode 2 */
+    80			gpiod_set_value(chip->convert_pin, 1);
+    81			gpiod_set_value(chip->convert_pin, 0);
+    82		} else { /* operating mode 1 */
+    83			gpiod_set_value(chip->convert_pin, 0);
+    84			gpiod_set_value(chip->convert_pin, 1);
+    85		}
+    86	
+    87		if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
+    88			while (gpiod_get_value(chip->busy_pin))
+    89				cpu_relax();
+    90		}
+    91	
+    92		gpiod_set_value(chip->rdwr_pin, 0);
+    93		gpiod_set_value(chip->rdwr_pin, 1);
+    94		ret = spi_read(spi_dev, &buf, sizeof(*data));
+    95		if (ret < 0) {
+    96			dev_err(&spi_dev->dev, "SPI data read error\n");
+    97			return ret;
+    98		}
+    99	
+   100		*data = be16_to_cpu(buf);
+   101	
+   102		return ret;
+   103	}
+   104	
+   105	static int ad7816_spi_write(struct ad7816_chip_info *chip, u8 data)
+   106	{
+   107		struct spi_device *spi_dev = chip->spi_dev;
+   108		int ret;
+   109	
+   110		gpiod_set_value(chip->rdwr_pin, 1);
+   111		gpiod_set_value(chip->rdwr_pin, 0);
+   112		ret = spi_write(spi_dev, &data, sizeof(data));
+   113		if (ret < 0)
+   114			dev_err(&spi_dev->dev, "SPI oti data write error\n");
+   115	
+   116		return ret;
+   117	}
+   118	
+   119	static ssize_t ad7816_show_mode(struct device *dev,
+   120					struct device_attribute *attr,
+   121					char *buf)
+   122	{
+   123		struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+   124		struct ad7816_chip_info *chip = iio_priv(indio_dev);
+   125	
+   126		if (chip->mode)
+   127			return sysfs_emit(buf, "power-save\n");
+   128		return sysfs_emit(buf, "full\n");
+   129	}
+   130	
+   131	static ssize_t ad7816_store_mode(struct device *dev,
+   132					 struct device_attribute *attr,
+   133					 const char *buf,
+   134					 size_t len)
+   135	{
+   136		struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+   137		struct ad7816_chip_info *chip = iio_priv(indio_dev);
+   138	
+ > 139		guard(mutex)(&chip->lock);
+   140	
+   141		if (strcmp(buf, "full") == 0) {
+   142			gpiod_set_value(chip->rdwr_pin, 1);
+   143			chip->mode = AD7816_FULL;
+   144		} else {
+   145			gpiod_set_value(chip->rdwr_pin, 0);
+   146			chip->mode = AD7816_PD;
+   147		}
+   148	
+   149		return len;
+   150	}
+   151	
 
 --
 0-DAY CI Kernel Test Service
