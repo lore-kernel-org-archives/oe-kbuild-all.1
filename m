@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258A737F301
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 02:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D763356773
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 02:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790131253; cv=none; b=D4ZFA7EJHFGO8ISvPFnkOMXyeddVs7c3HvZmJUEVNloqWNrUt+t4i6l730UBzwlyn5lgYqtV8hYnztNNq+GI/Z9p9ehCue4vrK1BkZxojY6l+3KgtYPMfn5pZpbQfSpeUZRnCeNPdtUgl+5bEyj0NGbJzmyf2Muayuep2xWeTtg=
+	t=1790131548; cv=none; b=DNNfZt0VDslR58CqzCEkHAGTvGYcNcpv4m6yGJtsWCuDaekbezulbw6MtiZnYNqDpa4m6moIFwKocGx1FeGKgpyKYq+g6QAb4GCOO58+bj9nN/HFk5IBVGEtcqRQ5+PdXUAvFcTjKp2DKbVORQZGgJAYnk92qXQUJyrnBAVIgPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790131253; c=relaxed/simple;
-	bh=LbZgog7ajIEumnPGbDzWTetNw/gdFVzO75lzLEaDae8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YcLARjL3Grtu5tLNeKihD8mp3ExdETXGtCxOEIVu+BuXgSpJK9gRY6owPDiL8fSw9SFroHU4suaxDuvz3B9DQPs2yowFrtl7pVvlDw0k+d23k9llmGyfgwBv41DhnjNKesgsLPF8O1USVyNZKURRg6ef00bjYoELBFcSPvy2yEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C57GfFHG; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1790131548; c=relaxed/simple;
+	bh=VB2sm3BJX28kmZNcy4GN9OrMANnr3pFTUCkQwngc07g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gnSQ80Fo9rxB13opPqnHLNArzjkykli+U0AONm+b9UoFLEy7QdQElbQgyCwuoevb7OPEf/ZcTZ2b1ywrHGi0hN9ppSzkmv8aMu1ib793AXVd5GiYfAWvfAhZAk90Ro0cBFynF9Rvf6+/rAqgDOdyMa4XGEbsFcHTWlu8tBXWe60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nU9HzMIx; arc=none smtp.client-ip=192.198.163.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C57GfFHG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nU9HzMIx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790131251; x=1821667251;
+  t=1790131541; x=1821667541;
   h=date:from:to:cc:subject:message-id;
-  bh=LbZgog7ajIEumnPGbDzWTetNw/gdFVzO75lzLEaDae8=;
-  b=C57GfFHGOkUQ7v6g7EWLXxtryDl0EuMJbZ0pa5dnzTT+3EfVCTq/oGqr
-   XegG/TUwL5L7IkO9v/NGPLswIxk3KY5gM2flbnpP8G8WeK1Zrj2hLN0eY
-   hfzl8oekTcUAdxeldzdUcBLLCmEX6kUj4NuNgekP0oogRShLVRnfdlorp
-   g+R3pZTo4pPN4zyfazERB/CpLs09PHfxuRnrKbFfxClCMeEgYHI/9NNEd
-   Fx1+4Cit0kbh35JT44GMuN4rYJpsjFg11e+MGRHqqQRpC1FanG4unQi7I
-   kvzfrjdJeKRvIN3gBbghFVEVRcJHq1R61kDaZ8new0zQk+e6mZJFfY4P+
-   A==;
-X-CSE-ConnectionGUID: s0rou93hR7KBWLTd7xmaQA==
-X-CSE-MsgGUID: KQD71YF5RPOoQF81m5c2qQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="89708066"
+  bh=VB2sm3BJX28kmZNcy4GN9OrMANnr3pFTUCkQwngc07g=;
+  b=nU9HzMIxg5Ky1VV4p4Trt/ImwUVvptyipbrYfZecoes4QnJtGPGiReME
+   +s1evgKOVsJXbGRYzojR4EpKqbM5ASzFkXmizPAJLXpIf0irhZc7N8Xxh
+   Bj2T8nN0s2T1lGD52H7SiLqQ6kUkAQg5nJo+QngobF6zmFQNnW6+0fzN0
+   puexDAyF6FWR8Pm+VfXJ3f1bfQwRpy+j0z0a2Se0h3PvewE1i1rPxJwYx
+   bzUGF65RXObbVCEF9A9haOYGvvqOzG3RTlkOoIyfJ5C6hRrSLV+Emx1lc
+   3kyubpdP7CG06iGLvATj8SZkNv2DWA37kn1aSynSTOjZLcxtg2DKE7H8c
+   g==;
+X-CSE-ConnectionGUID: y4D/JREDTvukkBzlyMjt5g==
+X-CSE-MsgGUID: OHFOqKqoSOihWBiIYrPOiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1300365"
 X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="89708066"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 19:40:51 -0700
-X-CSE-ConnectionGUID: KRkq9fdrRUyFBbjN5g9q8g==
-X-CSE-MsgGUID: oDH33qZtROiUjLa4G25D1Q==
+   d="scan'208";a="1300365"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 19:45:38 -0700
+X-CSE-ConnectionGUID: PXUab6xIR+CcpC/ntomfwQ==
+X-CSE-MsgGUID: ko7eKGFFS5Cp9ar9VQRXaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="4694304"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 22 Sep 2026 19:40:49 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="4425921"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 22 Sep 2026 19:45:36 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9Cud-00000000GPm-03cE;
-	Wed, 23 Sep 2026 02:40:47 +0000
-Date: Wed, 23 Sep 2026 10:40:11 +0800
+	id 1x9Cz6-000000000RD-21XK;
+	Wed, 23 Sep 2026 02:45:24 +0000
+Date: Wed, 23 Sep 2026 04:45:20 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ljs:v3-build-speed-up 38/49]
- arch/sh/tools/.depcheck.mk.tmp: No such file or directory
-Message-ID: <202609231019.kNcdslGA-lkp@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>
+Subject: mm/zswap.c:58:12: warning: variable 'zswap_pool_limit_hit'
+ set but not used
+Message-ID: <202609230402.t5SIdVPp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,21 +60,75 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ljs/linux.git v3-build-speed-up
-head:   789909cb4fd0730510265f0059c1579b5687f51a
-commit: c096548eb67d62de7340454d8d0fd621687d196a [38/49] kbuild: implement and use depcheck to check dependency timestamps
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260923/202609231019.kNcdslGA-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231019.kNcdslGA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe2ec83746e501645709761605c2464a44fd2929
+commit: f5caeb3689ea2d8a8c0790d9eea68b63e8f15496 xfs: XFS_ONLINE_SCRUB_STATS should depend on DEBUG_FS
+date:   11 months ago
+config: sparc64-randconfig-r2107-20260923 (https://download.01.org/0day-ci/archive/20260923/202609230402.t5SIdVPp-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 4b99afb361a8cfd45fc17aebc637688661e9e472)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230402.t5SIdVPp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f5caeb3689ea ("xfs: XFS_ONLINE_SCRUB_STATS should depend on DEBUG_FS")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231019.kNcdslGA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609230402.t5SIdVPp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/sh/tools/.depcheck.mk.tmp: No such file or directory
+>> mm/zswap.c:58:12: warning: variable 'zswap_pool_limit_hit' set but not used [-Wunused-but-set-global]
+      58 | static u64 zswap_pool_limit_hit;
+         |            ^
+>> mm/zswap.c:60:12: warning: variable 'zswap_written_back_pages' set but not used [-Wunused-but-set-global]
+      60 | static u64 zswap_written_back_pages;
+         |            ^
+>> mm/zswap.c:62:12: warning: variable 'zswap_reject_reclaim_fail' set but not used [-Wunused-but-set-global]
+      62 | static u64 zswap_reject_reclaim_fail;
+         |            ^
+>> mm/zswap.c:64:12: warning: variable 'zswap_reject_compress_fail' set but not used [-Wunused-but-set-global]
+      64 | static u64 zswap_reject_compress_fail;
+         |            ^
+>> mm/zswap.c:66:12: warning: variable 'zswap_reject_compress_poor' set but not used [-Wunused-but-set-global]
+      66 | static u64 zswap_reject_compress_poor;
+         |            ^
+>> mm/zswap.c:68:12: warning: variable 'zswap_decompress_fail' set but not used [-Wunused-but-set-global]
+      68 | static u64 zswap_decompress_fail;
+         |            ^
+>> mm/zswap.c:70:12: warning: variable 'zswap_reject_alloc_fail' set but not used [-Wunused-but-set-global]
+      70 | static u64 zswap_reject_alloc_fail;
+         |            ^
+>> mm/zswap.c:72:12: warning: variable 'zswap_reject_kmemcache_fail' set but not used [-Wunused-but-set-global]
+      72 | static u64 zswap_reject_kmemcache_fail;
+         |            ^
+   8 warnings generated.
+
+
+vim +/zswap_pool_limit_hit +58 mm/zswap.c
+
+2b2811178e8555 Seth Jennings 2013-07-10  56  
+2b2811178e8555 Seth Jennings 2013-07-10  57  /* Pool limit was hit (see zswap_max_pool_percent) */
+2b2811178e8555 Seth Jennings 2013-07-10 @58  static u64 zswap_pool_limit_hit;
+2b2811178e8555 Seth Jennings 2013-07-10  59  /* Pages written back when pool limit was reached */
+2b2811178e8555 Seth Jennings 2013-07-10 @60  static u64 zswap_written_back_pages;
+2b2811178e8555 Seth Jennings 2013-07-10  61  /* Store failed due to a reclaim failure after pool limit was reached */
+2b2811178e8555 Seth Jennings 2013-07-10 @62  static u64 zswap_reject_reclaim_fail;
+cb61dad80fdc6a Nhat Pham     2023-10-24  63  /* Store failed due to compression algorithm failure */
+cb61dad80fdc6a Nhat Pham     2023-10-24 @64  static u64 zswap_reject_compress_fail;
+2b2811178e8555 Seth Jennings 2013-07-10  65  /* Compressed page was too big for the allocator to (optimally) store */
+2b2811178e8555 Seth Jennings 2013-07-10 @66  static u64 zswap_reject_compress_poor;
+ff22f9299d7b2c Nhat Pham     2025-03-06  67  /* Load or writeback failed due to decompression failure */
+ff22f9299d7b2c Nhat Pham     2025-03-06 @68  static u64 zswap_decompress_fail;
+2b2811178e8555 Seth Jennings 2013-07-10  69  /* Store failed because underlying allocator could not get memory */
+2b2811178e8555 Seth Jennings 2013-07-10 @70  static u64 zswap_reject_alloc_fail;
+2b2811178e8555 Seth Jennings 2013-07-10  71  /* Store failed because the entry metadata could not be allocated (rare) */
+2b2811178e8555 Seth Jennings 2013-07-10 @72  static u64 zswap_reject_kmemcache_fail;
+2b2811178e8555 Seth Jennings 2013-07-10  73  
+
+:::::: The code at line 58 was first introduced by commit
+:::::: 2b2811178e85553405b86e3fe78357b9b95889ce zswap: add to mm/
+
+:::::: TO: Seth Jennings <sjenning@linux.vnet.ibm.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
