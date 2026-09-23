@@ -1,172 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F67451DAE6;
-	Wed, 23 Sep 2026 12:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0419524B19
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 13:18:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790167539; cv=none; b=XFWV1PzldQveMqaw/mBV694a6EUh9FPt6f+ND7gIQ+mv3cFPPm155DkulzQbcLUqtcuxoi3SxV5L6K91MmLJb+Z9hEj/6hR9eMMg8pC+LESqf7mB+6Z/0drYShWpUw3YYxuMVKaNW/Kgrqjy1raG/YJurW+syX3Jc29Ihy1jncI=
+	t=1790169492; cv=none; b=T7CoYikRCVEH5c1xXqfLEY0Wm/sx3+Pqf9lfXD8C+n+n/vcAmEp1nzCnoT0spx+YCn1yW6DKAcJcRBZvvrcmUrkUEA/TYUv1G6Pa6OWbMWMWbIjmJAXsPeLAW6wlzN/XeQMtN06jgB/4SSDDibfsoTKrmFPZT8iLaC9v160XPec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790167539; c=relaxed/simple;
-	bh=srCTUfGk224K2epI4LhecoseeQTZJt7xRLCenRtI98c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SnhIe0pFLkvtP7K6Fw74likGcmTIaiQDJujVwfNQ3uzVEl4YpyzQD39H2Dq0CTu9YwLTyB7HoGOQbbdqf7oJKG1yaIy1oXhSsf4PsosNqFUYf7DPQ/fnxrG7jolA2wjx8LXSWJXWKtr9ebWDWGRmDtYyXX70gJw3GnwxRXEBPmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYFmIeTk; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1790169492; c=relaxed/simple;
+	bh=VqTuNWTEVQUTU9m6cK3XARaLQEY06U77JRvzuEC1uVU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HHjATX1Eod8WanSFyeiZFFAA85vPqmN5BSWuWcA59vtDNmXduZecbrre8vetudXGumz4rp+WicHmBXTNaGHzMd8wuBZ723Q96oEU8EfoqL9RxVRh/qzQErTp1Plecx9fKcYVHSuHzeYmAupNxxFALfHx02OcNnAYWpDsh2j/6jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JrpYc15N; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYFmIeTk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JrpYc15N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790167537; x=1821703537;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=srCTUfGk224K2epI4LhecoseeQTZJt7xRLCenRtI98c=;
-  b=RYFmIeTkEB7lpf4D5RYumJnSuFj7+ZhwNbvN4leZBCSM4u4VpZTaSaSs
-   nHHryf1wS+dpUcsFzR0jpsVCXJwPaNhmt9uf5VUG9+QVCuEuSZPYNCBPb
-   w99sVBUuBrDzUz2qxIiiehnlPayllOLvqZEKhY5X927MFk/JabpaXf+Cn
-   JtuiNy4jI4dBmN1QoA2+ThZWA4yZ3Tw/ZdBHIKTWRHZ57IAb6vD28r23V
-   nFHw7g0oLettAp8On1bpQXzLCl+g9+42YrhmtLdkLrmE/n3O/lAEEom03
-   p8otoUcuIdpTcxcI7NmDchVDQcQvOK4qf5pOP2CFMrIrdhuTcJDRnOAv1
-   g==;
-X-CSE-ConnectionGUID: cus1lG/wR3mLFye0r0kVLw==
-X-CSE-MsgGUID: rCOtPvnJTtqiU5BcBI+PWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="90881972"
+  t=1790169490; x=1821705490;
+  h=date:from:to:cc:subject:message-id;
+  bh=VqTuNWTEVQUTU9m6cK3XARaLQEY06U77JRvzuEC1uVU=;
+  b=JrpYc15NnkUJOuZ2vShtXTuOwmy7TXgWUM2CKBW+bWy5itEzYXm7LQRp
+   A8u28etSbsFrV9tqjaC9kB4bMxMOfvsmZVqS+0VaS2ct59yrItDXtjl1j
+   9XWf6f2jBL15FjZ0qFrTgjnc4g73FSnprv9ucZczIuOGQS/opfHQSPvVC
+   Jhv2MB2Gqln+0Xd4ZBvsuxDn6MLH/0aMqsHMTuELNyM9GviHUST/LkC0i
+   /+l9IJgd/+FJclNIBr+PC/2GMIIchaT28rpqA0PB4WEdvqeedLRne78t0
+   J+ANzpBPZGb1rb9TF53SUDklvADjBgmVsVdsV9DWMA+j9cDwBojxx4qMq
+   w==;
+X-CSE-ConnectionGUID: PPNpmMmXTlGlMv6Zyg4GJg==
+X-CSE-MsgGUID: zX4ht3BhTcWHDRdIJ6rYvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="1371209"
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="90881972"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 05:45:36 -0700
-X-CSE-ConnectionGUID: Yu5aMw31QG+JaBjiPlYb+g==
-X-CSE-MsgGUID: albm4oKHT2uyANLH+mKeKg==
+   d="scan'208";a="1371209"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 06:18:09 -0700
+X-CSE-ConnectionGUID: UksniICeRMaFP9GzcnD68w==
+X-CSE-MsgGUID: Z7hQ9IX4TyeV6agQAltUOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="281671148"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 05:45:33 -0700
-Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
+   d="scan'208";a="272218126"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 23 Sep 2026 06:18:07 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9MLr-000000000g7-2OUk;
-	Wed, 23 Sep 2026 12:45:31 +0000
-Date: Wed, 23 Sep 2026 14:44:35 +0200
+	id 1x9MrM-00000000H7K-1qtX;
+	Wed, 23 Sep 2026 13:18:04 +0000
+Date: Wed, 23 Sep 2026 21:17:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>, jic23@kernel.org,
-	gregkh@linuxfoundation.org, nuno.sa@analog.com,
-	Michael.Hennerich@analog.com
-Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com, andy@kernel.org,
-	linux@analog.com, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	joshua.crofts1@gmail.com, error27@gmail.com,
-	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: Re: [PATCH v2] staging: iio: adc: ad7816: Protect sysfs attributes
- with mutex
-Message-ID: <202609231453.RPvUxbGl-lkp@intel.com>
-References: <20260920091522.15507-1-abdelnasserhussein11@gmail.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>,
+ David Disseldorp <ddiss@suse.de>, SeongJae Park <sj@kernel.org>
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ trace_initcall_level+0x88 (section: .text.unlikely) -> initcall_level_names
+ (section: .init.data)
+Message-ID: <202609232149.A8u4hH6s-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260920091522.15507-1-abdelnasserhussein11@gmail.com>
 
-Hi Abdelnasser,
+Hi Mike,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abdelnasser-Hussein/staging-iio-adc-ad7816-Protect-sysfs-attributes-with-mutex/20260920-121522
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260920091522.15507-1-abdelnasserhussein11%40gmail.com
-patch subject: [PATCH v2] staging: iio: adc: ad7816: Protect sysfs attributes with mutex
-config: i386-randconfig-2102-20260923 (https://download.01.org/0day-ci/archive/20260923/202609231453.RPvUxbGl-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231453.RPvUxbGl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe2ec83746e501645709761605c2464a44fd2929
+commit: 3fb2d124b64716f16355b9b722b2f062c0702f24 init: do_mounts: use kmalloc() for allocations of temporary buffers
+date:   4 months ago
+config: xtensa-randconfig-r1303-20260923 (https://download.01.org/0day-ci/archive/20260923/202609232149.A8u4hH6s-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609232149.A8u4hH6s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 3fb2d124b647 ("init: do_mounts: use kmalloc() for allocations of temporary buffers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231453.RPvUxbGl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609232149.A8u4hH6s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/staging/iio/adc/ad7816.c:139:22: error: no member named 'lock' in 'struct ad7816_chip_info'
-     139 |         guard(mutex)(&chip->lock);
-         |                       ~~~~  ^
-   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
-     423 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
-     303 |                 class_##_name##_constructor
-         |                 ^
-   <scratch space>:67:1: note: expanded from here
-      67 | class_mutex_constructor
-         | ^
->> drivers/staging/iio/adc/ad7816.c:139:22: error: no member named 'lock' in 'struct ad7816_chip_info'
-     139 |         guard(mutex)(&chip->lock);
-         |                       ~~~~  ^
-   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
-     423 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
-     303 |                 class_##_name##_constructor
-         |                 ^
-   <scratch space>:67:1: note: expanded from here
-      67 | class_mutex_constructor
-         | ^
-   drivers/staging/iio/adc/ad7816.c:205:22: error: no member named 'lock' in 'struct ad7816_chip_info'
-     205 |         guard(mutex)(&chip->lock);
-         |                       ~~~~  ^
-   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
-     423 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
-     303 |                 class_##_name##_constructor
-         |                 ^
-   <scratch space>:107:1: note: expanded from here
-     107 | class_mutex_constructor
-         | ^
-   drivers/staging/iio/adc/ad7816.c:205:22: error: no member named 'lock' in 'struct ad7816_chip_info'
-     205 |         guard(mutex)(&chip->lock);
-         |                       ~~~~  ^
-   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
-     423 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
-     303 |                 class_##_name##_constructor
-         |                 ^
-   <scratch space>:107:1: note: expanded from here
-     107 | class_mutex_constructor
-         | ^
-   4 errors generated.
-
-
-vim +139 drivers/staging/iio/adc/ad7816.c
-
-   130	
-   131	static ssize_t ad7816_store_mode(struct device *dev,
-   132					 struct device_attribute *attr,
-   133					 const char *buf,
-   134					 size_t len)
-   135	{
-   136		struct iio_dev *indio_dev = dev_to_iio_dev(dev);
-   137		struct ad7816_chip_info *chip = iio_priv(indio_dev);
-   138	
- > 139		guard(mutex)(&chip->lock);
-   140	
-   141		if (strcmp(buf, "full") == 0) {
-   142			gpiod_set_value(chip->rdwr_pin, 1);
-   143			chip->mode = AD7816_FULL;
-   144		} else {
-   145			gpiod_set_value(chip->rdwr_pin, 0);
-   146			chip->mode = AD7816_PD;
-   147		}
-   148	
-   149		return len;
-   150	}
-   151	
+>> WARNING: modpost: vmlinux: section mismatch in reference: trace_initcall_level+0x88 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/xtensa/platforms/iss/simdisk.o
 
 --
 0-DAY CI Kernel Test Service
