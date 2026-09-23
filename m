@@ -1,86 +1,80 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BD22D9EE4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 00:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258A737F301
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 02:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790123275; cv=none; b=cJhpwRlHIIc4sybHr74SJxF+5Mkb0MJS+KT8Lx2VXd6XUJD/orvJJTwpjIk4O7NL9m75HgrcAkaPq+CX22USPSzLj5WwlifoMQbAR5PaKDH1gNqlRT7NFrl8AU4CY8P0Rhhhu7Y/8lvqVlrfNlHYejm+Gc5XWQBZUwxSYa3ju6A=
+	t=1790131253; cv=none; b=D4ZFA7EJHFGO8ISvPFnkOMXyeddVs7c3HvZmJUEVNloqWNrUt+t4i6l730UBzwlyn5lgYqtV8hYnztNNq+GI/Z9p9ehCue4vrK1BkZxojY6l+3KgtYPMfn5pZpbQfSpeUZRnCeNPdtUgl+5bEyj0NGbJzmyf2Muayuep2xWeTtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790123275; c=relaxed/simple;
-	bh=Dju8DlHWoY23EMXCmr18d+M4NZ73zKiFnVeQhsH1jXk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nWqnRiDZni3vF7naOirbEUFnOko0eoxned+p9noHcWPCowNfW0UthGvCDxGnscHM7Z3Ft4Mvx1g5mekzgeg+qV7IfrZOtLIEufwbkUcR8n+FmyOkFWgKjTyDf8iBz3liSXkKmmIs1XMWc0d65L13kFDSFVaPQLfOYBP5WIub9X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=bC7QrqZH; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1790131253; c=relaxed/simple;
+	bh=LbZgog7ajIEumnPGbDzWTetNw/gdFVzO75lzLEaDae8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YcLARjL3Grtu5tLNeKihD8mp3ExdETXGtCxOEIVu+BuXgSpJK9gRY6owPDiL8fSw9SFroHU4suaxDuvz3B9DQPs2yowFrtl7pVvlDw0k+d23k9llmGyfgwBv41DhnjNKesgsLPF8O1USVyNZKURRg6ef00bjYoELBFcSPvy2yEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C57GfFHG; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="bC7QrqZH"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C3C4A1032E7;
-	Wed, 23 Sep 2026 02:27:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1790123259;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Eev5+G/x4t3sQeLRC1blfNUuY5QWg5E+uJVwU9rTOW4=;
-	b=bC7QrqZHDKaWYGCzuxNM95U26tVGBAAnSqHKVNbzHNi7SXvCh+0WHLBbv25RiNFPRXYse7
-	eSu/NsIM7ou80I305n/6depqG9nc7TMYqZ70iHYLf9IMVGyEtTfWHBAEsCTWh46ArOe1Fc
-	8f+Nic16n4hUfJYBaoBMCb7ETEvTscQLYDFvdGJL4lvEagtl2DQVcGXwsWdHMl0G5P/P0G
-	GUmqnMXbVwC5CN+8PyLCBAQEbGpJhi2+g/S0hBKxhcMa5shbPHGBXORk3M+ykzxqyRhFEh
-	jA3gfjxQdLfxYmHuIsjnnDLkTtuzLnGyQEBncsLdIeiu4ZP2p35U+zWw4o92Ug==
-Message-ID: <ecaad12c-f084-4dc2-a38b-aa0f6b661152@nabladev.com>
-Date: Wed, 23 Sep 2026 02:27:37 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C57GfFHG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790131251; x=1821667251;
+  h=date:from:to:cc:subject:message-id;
+  bh=LbZgog7ajIEumnPGbDzWTetNw/gdFVzO75lzLEaDae8=;
+  b=C57GfFHGOkUQ7v6g7EWLXxtryDl0EuMJbZ0pa5dnzTT+3EfVCTq/oGqr
+   XegG/TUwL5L7IkO9v/NGPLswIxk3KY5gM2flbnpP8G8WeK1Zrj2hLN0eY
+   hfzl8oekTcUAdxeldzdUcBLLCmEX6kUj4NuNgekP0oogRShLVRnfdlorp
+   g+R3pZTo4pPN4zyfazERB/CpLs09PHfxuRnrKbFfxClCMeEgYHI/9NNEd
+   Fx1+4Cit0kbh35JT44GMuN4rYJpsjFg11e+MGRHqqQRpC1FanG4unQi7I
+   kvzfrjdJeKRvIN3gBbghFVEVRcJHq1R61kDaZ8new0zQk+e6mZJFfY4P+
+   A==;
+X-CSE-ConnectionGUID: s0rou93hR7KBWLTd7xmaQA==
+X-CSE-MsgGUID: KQD71YF5RPOoQF81m5c2qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="89708066"
+X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
+   d="scan'208";a="89708066"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 19:40:51 -0700
+X-CSE-ConnectionGUID: KRkq9fdrRUyFBbjN5g9q8g==
+X-CSE-MsgGUID: oDH33qZtROiUjLa4G25D1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
+   d="scan'208";a="4694304"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 22 Sep 2026 19:40:49 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9Cud-00000000GPm-03cE;
+	Wed, 23 Sep 2026 02:40:47 +0000
+Date: Wed, 23 Sep 2026 10:40:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ljs:v3-build-speed-up 38/49]
+ arch/sh/tools/.depcheck.mk.tmp: No such file or directory
+Message-ID: <202609231019.kNcdslGA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 1377/8910]
- arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb:
- vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not
- allowed ('no-map', 'reg' were unexpected)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-References: <202609230104.FiyyplfO-lkp@intel.com>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <202609230104.FiyyplfO-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-On 9/23/26 1:22 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   3f2425f5b5bbbdd991ca9cdfd5502e68d8895998
-> commit: 9a14f327dfcbbb0fa24974cb3a928ea3d7409768 [1377/8910] arm64: dts: imx8mm: imx8mp: Add CM DTOs for Data Modul i.MX8M Mini and Plus eDM SBC
-> config: arm64-randconfig-2400-20260921 (https://download.01.org/0day-ci/archive/20260923/202609230104.FiyyplfO-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 8.5.0
-> dtschema: 2026.10.dev2+g840a01d41
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609230104.FiyyplfO-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609230104.FiyyplfO-lkp@intel.com/
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->     	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>> arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb: vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
->     	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
-> --
->     	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc-overlay-cm7.dtb: vdev0buffer@55400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
->     	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
-$ make W=1 CHECK_DTBS=y 
-freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtbo 
-freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb
-   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
-   DTC 
-arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtbo
-   DTC [C] arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc.dtb
-   OVL [C] 
-arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ljs/linux.git v3-build-speed-up
+head:   789909cb4fd0730510265f0059c1579b5687f51a
+commit: c096548eb67d62de7340454d8d0fd621687d196a [38/49] kbuild: implement and use depcheck to check dependency timestamps
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20260923/202609231019.kNcdslGA-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231019.kNcdslGA-lkp@intel.com/reproduce)
 
-seems to pass fine on next-20260922 with dt-schema 2026.09 ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231019.kNcdslGA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> arch/sh/tools/.depcheck.mk.tmp: No such file or directory
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
