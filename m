@@ -1,249 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE0C54281E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 15:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5AF538D81
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 15:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790177029; cv=none; b=TnJs1/xF8p/otcL9eRCabWV9zvSvOdwXH09eqzIbpHXjDvRAKbo5UhEBlun9wA71DxLJhRXDiOojCu0GioXe3QIx7eqPhgC/bbhB/ysJHwceQmJp+P99XJm+OfoT4iw7LZMNLmDxGiJeE5owEzQJAip/nlc2we3QJ2FgVatCIr8=
+	t=1790178846; cv=none; b=kX2wVhGHndWSFjYHYQwTnHy4u9TeysZtEOHAvuDoYWdFAUc6Pjs8ezbYT63yrsHZNhVpTdbtL+CP7f43vbvUgtnMWcCLYnPjVRk75Zhcrs/+zENjknJTZfmXlBTwmHtNUD2Xzwv48qKK3XSEqGfl3O4YvtMXHvvLHiPI03cOCQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790177029; c=relaxed/simple;
-	bh=T57OyQWhHiXz0w/Fv/fPwSnG+4bnBA3Tlf+mXnks8bk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HJr5DP2zJKcjG4JpaXitmjFqwauzUypMaGH19QdVH4mS989klmSrvWfqydwXbNu3dH7bAg5twzElbLIftPylIY6uCConlViCRik7ROd9grhtQ7SgKWbCSZQbs3KL3/3ZOx2xUB1RwdG9Afjl+yZnFCmRcYkp9RvRcHvFXq6Ulyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jx9reRI4; arc=none smtp.client-ip=192.198.163.6
+	s=arc-20240116; t=1790178846; c=relaxed/simple;
+	bh=u/EwzTM/NnzSfEVRVlTGSUu5KUBYwA6lJMr21sRdsVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oSMcaBTURMNHmzx7DhcM4OTzTI37fwHyjlgP+kemzf5UnX1PpZpsfgPUHI+Sxm1RqC1IEpsYyi2sNsdjbn1kJC/dGVIB/vPP6V87SeBhhwOY8sZ2+H8f//PGcumkwbGspu+i31TBdVt5KPA+HxqObYsQ0IpZfoqpx9NDJKdHFRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XswdCqAa; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jx9reRI4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XswdCqAa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790177026; x=1821713026;
-  h=date:from:to:cc:subject:message-id;
-  bh=T57OyQWhHiXz0w/Fv/fPwSnG+4bnBA3Tlf+mXnks8bk=;
-  b=jx9reRI4dh/5RHrRAcudghy86TmjeyBbRF19I4r0fPBwD1MVjOkap75R
-   W/ZziXR2agOwLCLHLi7LjMfYK/LfQ5U4/hFlo5zSsIIsSur1mZj27DAKk
-   kx+EzHz24cv1eAjD0LXGfU/N6U4afTcLqDQu8rIqQEtxdA6ATBGYBMzvY
-   D3gjnUPrHvbT6tT5wOdKjC39C4nZqJqDgk4q8NwgS58CIhDKG7AAovG9D
-   4ia1NQuUtwZr0wWZ/pqHRPrzI4/+XfZP2zJH/EM67nM3La8mvB47MKlGi
-   ApZ7+Zbg0pMbEPyrNSeObguudMK7HU4WMSclnpxvnZM5EJuPvMOr4FIKO
-   w==;
-X-CSE-ConnectionGUID: P9cxW3RsQDyYOFYKE5zWCw==
-X-CSE-MsgGUID: Qc1lGNpoRyCREu+TNJ0uNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="1378430"
+  t=1790178844; x=1821714844;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u/EwzTM/NnzSfEVRVlTGSUu5KUBYwA6lJMr21sRdsVY=;
+  b=XswdCqAaCIbFxxdECoTsS3fZ3p+tPQkUv6iFPIPpLrbxqiF/aMh1rj9f
+   LmiXy/DnqbJjV5Dl4AfKftA8LtIERv14LPVaM+uRDigL6pwWqFtHmqCLZ
+   THOvlId3RGGMCEgJml08AFKYAtqfxp2OvYeDO/aOZyB9fQjKb7jFKwdsY
+   S3So9IOPb6jT2l5lMHObsWIDBDvMX5OUzEFl8iYoBDy1E2mfoHuxVSO9i
+   NNaWgk0d+B1xRakvsJ/or8+3A/Qiy+rvi5SHwEQVqCs895US3CZx2r7BC
+   FNq3q8VZeb0C+vorO0ZOHfo0ohb9abfh8SQk1wq5aAWiKAXmlT6l2AZ4G
+   Q==;
+X-CSE-ConnectionGUID: rS2n0AJjQW+zk2VbyYcK6g==
+X-CSE-MsgGUID: HJfFnB7eQTCZl5Zu274RFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="78445060"
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="1378430"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 08:23:46 -0700
-X-CSE-ConnectionGUID: j+AekqumSv2suc3SAY8xEQ==
-X-CSE-MsgGUID: xFhLoU4iQ7q7aTQHQjGYZA==
+   d="scan'208";a="78445060"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 08:54:03 -0700
+X-CSE-ConnectionGUID: 7lue524bROaPLXzmdodnwA==
+X-CSE-MsgGUID: 36FTiqfuQTOcmIIrMf9pGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="270162607"
+   d="scan'208";a="4756769"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2026 08:23:44 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 23 Sep 2026 08:54:00 -0700
 Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9Oov-000000000il-2gEl;
-	Wed, 23 Sep 2026 15:23:41 +0000
-Date: Wed, 23 Sep 2026 17:22:35 +0200
+	id 1x9PIA-000000000j5-0Jdb;
+	Wed, 23 Sep 2026 15:53:54 +0000
+Date: Wed, 23 Sep 2026 17:53:25 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- include/linux/iommu.h:1567:1: warning: control reaches end of non-void
- function
-Message-ID: <202609231706.0KvOnTpL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Coia Prant <coiaprant@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	netdev@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Coia Prant <coiaprant@gmail.com>
+Subject: Re: [PATCH net] net: ethernet: stmmac: dwmac-rk: fix bulk clock leak
+ when the PHY clock fails
+Message-ID: <202609231728.boP5N9Xr-lkp@intel.com>
+References: <20260919174223.2356964-1-coiaprant@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260919174223.2356964-1-coiaprant@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   be012b3f0e2ba884d014d4736652511302214a95
-commit: 06f8e52b34f38555bb820ac1cb1d9547a3c9c50a [1/1] ANDROID: GKI: Introduce GKI_HIDDEN_IOMMU_CONFIGS
-config: x86_64-randconfig-2200-20260923 (https://download.01.org/0day-ci/archive/20260923/202609231706.0KvOnTpL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231706.0KvOnTpL-lkp@intel.com/reproduce)
+Hi Coia,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Coia-Prant/net-ethernet-stmmac-dwmac-rk-fix-bulk-clock-leak-when-the-PHY-clock-fails/20260920-014223
+base:   net/main
+patch link:    https://lore.kernel.org/r/20260919174223.2356964-1-coiaprant%40gmail.com
+patch subject: [PATCH net] net: ethernet: stmmac: dwmac-rk: fix bulk clock leak when the PHY clock fails
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260923/202609231728.boP5N9Xr-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231728.boP5N9Xr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231706.0KvOnTpL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231728.boP5N9Xr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:503:27: error: expression in static assertion is not an integer
-     503 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/linux/list.h:601:9: note: in expansion of macro 'container_of'
-     601 |         container_of(ptr, type, member)
-         |         ^~~~~~~~~~~~
-   include/linux/list.h:612:9: note: in expansion of macro 'list_entry'
-     612 |         list_entry((ptr)->next, type, member)
-         |         ^~~~~~~~~~
-   include/linux/list.h:770:20: note: in expansion of macro 'list_first_entry'
-     770 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
-         |                    ^~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:114:9: note: in expansion of macro 'list_for_each_entry'
-     114 |         list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/random.h:8,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:17:
-   drivers/iommu/iommu-sva.c:114:50: error: invalid use of undefined type 'struct iommu_mm_data'
-     114 |         list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
-         |                                                  ^~
-   include/linux/list.h:761:37: note: in definition of macro 'list_entry_is_head'
-     761 |         list_is_head(&pos->member, (head))
-         |                                     ^~~~
-   drivers/iommu/iommu-sva.c:114:9: note: in expansion of macro 'list_for_each_entry'
-     114 |         list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iommu-sva.c:115:70: error: invalid use of undefined type 'struct iommu_mm_data'
-     115 |                 ret = iommu_attach_device_pasid(domain, dev, iommu_mm->pasid,
-         |                                                                      ^~
-   drivers/iommu/iommu-sva.c:116:56: error: invalid use of undefined type 'struct iommu_sva'
-     116 |                                                 &handle->handle);
-         |                                                        ^~
-   drivers/iommu/iommu-sva.c:130:62: error: invalid use of undefined type 'struct iommu_mm_data'
-     130 |         ret = iommu_attach_device_pasid(domain, dev, iommu_mm->pasid,
-         |                                                              ^~
-   drivers/iommu/iommu-sva.c:131:48: error: invalid use of undefined type 'struct iommu_sva'
-     131 |                                         &handle->handle);
-         |                                                ^~
-   drivers/iommu/iommu-sva.c:135:46: error: invalid use of undefined type 'struct iommu_mm_data'
-     135 |         list_add(&domain->next, &mm->iommu_mm->sva_domains);
-         |                                              ^~
-   drivers/iommu/iommu-sva.c:138:29: error: invalid use of undefined type 'struct iommu_sva'
-     138 |         refcount_set(&handle->users, 1);
-         |                             ^~
-   drivers/iommu/iommu-sva.c:140:15: error: invalid use of undefined type 'struct iommu_sva'
-     140 |         handle->dev = dev;
-         |               ^~
-   drivers/iommu/iommu-sva.c: In function 'iommu_sva_unbind_device':
-   drivers/iommu/iommu-sva.c:163:45: error: invalid use of undefined type 'struct iommu_sva'
-     163 |         struct iommu_domain *domain = handle->handle.domain;
-         |                                             ^~
-   drivers/iommu/iommu-sva.c:165:36: error: invalid use of undefined type 'struct iommu_sva'
-     165 |         struct device *dev = handle->dev;
-         |                                    ^~
-   drivers/iommu/iommu-sva.c:168:43: error: invalid use of undefined type 'struct iommu_sva'
-     168 |         if (!refcount_dec_and_test(&handle->users)) {
-         |                                           ^~
-   drivers/iommu/iommu-sva.c:173:56: error: invalid use of undefined type 'struct iommu_mm_data'
-     173 |         iommu_detach_device_pasid(domain, dev, iommu_mm->pasid);
-         |                                                        ^~
-   drivers/iommu/iommu-sva.c: In function 'iommu_sva_get_pasid':
-   drivers/iommu/iommu-sva.c:185:45: error: invalid use of undefined type 'struct iommu_sva'
-     185 |         struct iommu_domain *domain = handle->handle.domain;
-         |                                             ^~
-   drivers/iommu/iommu-sva.c: In function 'mm_pasid_drop':
-   drivers/iommu/iommu-sva.c:198:41: error: invalid use of undefined type 'struct iommu_mm_data'
-     198 |         iommu_free_global_pasid(iommu_mm->pasid);
-         |                                         ^~
-   drivers/iommu/iommu-sva.c: In function 'iommu_sva_handle_iopf':
-   drivers/iommu/iommu-sva.c:275:66: error: invalid use of undefined type 'struct iommu_attach_handle'
-     275 |                                              group->attach_handle->domain->mm);
-         |                                                                  ^~
-   drivers/iommu/iommu-sva.c: In function 'iommu_sva_iopf_handler':
-   drivers/iommu/iommu-sva.c:287:36: error: 'struct iommu_fault_param' has no member named 'queue'
-     287 |         if (!queue_work(fault_param->queue->wq, &group->work))
-         |                                    ^~
-   drivers/iommu/iommu-sva.c: In function 'iommu_sva_domain_alloc':
-   drivers/iommu/iommu-sva.c:299:17: error: 'const struct iommu_ops' has no member named 'domain_alloc_sva'
-     299 |         if (!ops->domain_alloc_sva)
-         |                 ^~
-   drivers/iommu/iommu-sva.c:302:21: error: 'const struct iommu_ops' has no member named 'domain_alloc_sva'
-     302 |         domain = ops->domain_alloc_sva(dev, mm);
-         |                     ^~
-   drivers/iommu/iommu-priv.h: In function 'dev_iommu_ops':
-   drivers/iommu/iommu-priv.h:19:1: warning: control reaches end of non-void function [-Wreturn-type]
-      19 | }
+   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: In function 'gmac_clk_enable':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1165:25: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    1165 |                         if (ret)
+         |                         ^~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1168:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+    1168 |                                 return ret;
+         |                                 ^~~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: At top level:
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1177:11: error: expected identifier or '(' before 'else'
+    1177 |         } else {
+         |           ^~~~
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1189:9: error: expected identifier or '(' before 'return'
+    1189 |         return 0;
+         |         ^~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1190:1: error: expected identifier or '(' before '}' token
+    1190 | }
          | ^
-   include/linux/iommu.h: In function 'mm_get_enqcmd_pasid':
->> include/linux/iommu.h:1567:1: warning: control reaches end of non-void function [-Wreturn-type]
-    1567 | }
-         | ^
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_SVA
-   Depends on [n]: IOMMU_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: In function 'gmac_clk_enable':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:1177:9: warning: control reaches end of non-void function [-Wreturn-type]
+    1177 |         } else {
+         |         ^
+   drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c: At top level:
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c:199:12: warning: 'rk_gate_rmii_clock' defined but not used [-Wunused-function]
+     199 | static int rk_gate_rmii_clock(struct rk_priv_data *bsp_priv)
+         |            ^~~~~~~~~~~~~~~~~~
 
 
-vim +1567 include/linux/iommu.h
+vim +1177 drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c
 
-2396046d75d3c0 Tina Zhang 2023-10-27  1559  
-2396046d75d3c0 Tina Zhang 2023-10-27  1560  static inline u32 mm_get_enqcmd_pasid(struct mm_struct *mm)
-2396046d75d3c0 Tina Zhang 2023-10-27  1561  {
-092edaddb66037 Tina Zhang 2023-10-27  1562  	struct iommu_mm_data *iommu_mm = READ_ONCE(mm->iommu_mm);
-092edaddb66037 Tina Zhang 2023-10-27  1563  
-092edaddb66037 Tina Zhang 2023-10-27  1564  	if (!iommu_mm)
-092edaddb66037 Tina Zhang 2023-10-27  1565  		return IOMMU_PASID_INVALID;
-092edaddb66037 Tina Zhang 2023-10-27  1566  	return iommu_mm->pasid;
-2396046d75d3c0 Tina Zhang 2023-10-27 @1567  }
-2396046d75d3c0 Tina Zhang 2023-10-27  1568  
-
-:::::: The code at line 1567 was first introduced by commit
-:::::: 2396046d75d3c0b2cfead852a77efd023f8539dc iommu: Add mm_get_enqcmd_pasid() helper function
-
-:::::: TO: Tina Zhang <tina.zhang@intel.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+7ad269ea1a2b7d Roger Chen            2014-12-29  1152  
+7ad269ea1a2b7d Roger Chen            2014-12-29  1153  static int gmac_clk_enable(struct rk_priv_data *bsp_priv, bool enable)
+7ad269ea1a2b7d Roger Chen            2014-12-29  1154  {
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1155  	int ret;
+7ad269ea1a2b7d Roger Chen            2014-12-29  1156  
+7ad269ea1a2b7d Roger Chen            2014-12-29  1157  	if (enable) {
+7ad269ea1a2b7d Roger Chen            2014-12-29  1158  		if (!bsp_priv->clk_enabled) {
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1159  			ret = clk_bulk_prepare_enable(bsp_priv->num_clks,
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1160  						      bsp_priv->clks);
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1161  			if (ret)
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1162  				return ret;
+7ad269ea1a2b7d Roger Chen            2014-12-29  1163  
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1164  			ret = clk_prepare_enable(bsp_priv->clk_phy);
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07 @1165  			if (ret)
+cb278e6780d874 Coia Prant            2026-09-20  1166  				clk_bulk_disable_unprepare(bsp_priv->num_clks,
+cb278e6780d874 Coia Prant            2026-09-20  1167  							   bsp_priv->clks);
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1168  				return ret;
+cb278e6780d874 Coia Prant            2026-09-20  1169  			}
+23c94d63a7e395 David Wu              2018-06-28  1170  
+5c1fc7cb81dfed Russell King (Oracle  2026-02-04  1171) 			rk_configure_io_clksel(bsp_priv);
+5c1fc7cb81dfed Russell King (Oracle  2026-02-04  1172) 			rk_ungate_rmii_clock(bsp_priv);
+2f2b60a0ec2826 David Wu              2022-08-30  1173  
+7ad269ea1a2b7d Roger Chen            2014-12-29  1174  			mdelay(5);
+7ad269ea1a2b7d Roger Chen            2014-12-29  1175  			bsp_priv->clk_enabled = true;
+7ad269ea1a2b7d Roger Chen            2014-12-29  1176  		}
+7ad269ea1a2b7d Roger Chen            2014-12-29 @1177  	} else {
+7ad269ea1a2b7d Roger Chen            2014-12-29  1178  		if (bsp_priv->clk_enabled) {
+5c1fc7cb81dfed Russell King (Oracle  2026-02-04  1179) 			rk_gate_rmii_clock(bsp_priv);
+7f864458e9a6d2 Sebastian Reichel     2025-10-14  1180  
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1181  			clk_bulk_disable_unprepare(bsp_priv->num_clks,
+ea449f7fa0bf3f Sebastian Reichel     2023-04-07  1182  						   bsp_priv->clks);
+fecd4d7eef8b21 David Wu              2017-08-10  1183  			clk_disable_unprepare(bsp_priv->clk_phy);
+fecd4d7eef8b21 David Wu              2017-08-10  1184  
+7ad269ea1a2b7d Roger Chen            2014-12-29  1185  			bsp_priv->clk_enabled = false;
+7ad269ea1a2b7d Roger Chen            2014-12-29  1186  		}
+7ad269ea1a2b7d Roger Chen            2014-12-29  1187  	}
+7ad269ea1a2b7d Roger Chen            2014-12-29  1188  
+7ad269ea1a2b7d Roger Chen            2014-12-29 @1189  	return 0;
+7ad269ea1a2b7d Roger Chen            2014-12-29 @1190  }
+7ad269ea1a2b7d Roger Chen            2014-12-29  1191  
 
 --
 0-DAY CI Kernel Test Service
