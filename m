@@ -1,515 +1,358 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5244D57C736;
-	Wed, 23 Sep 2026 22:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C243D0910
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 22:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790201229; cv=none; b=TsYOnEJ8anPvQKkdv4THSHK2bNCJ1qHcrBcPiz8IoJ/FH8NKrs1DCTFK0IPAVTqDRExy/+mFyiUgJIm9Zj/c1k7Whwz5wdvz2R0+ImysAzbSSjPnebRvWe8FbNULGZfT3DWicwcCDKHbklBHrD7wR+IrvKPnIe001HrJ3a5JZy4=
+	t=1790202230; cv=none; b=ItcKFy4qk6RepvFw8kh7d+7ewOejx9urOjGmFanQWwmMIv/+1mWT8L/tJHxhh3XZWnZawE6Q46GZLUOqPIGJVmcTPGweVZTlOBCInRROuJee9NjkohjKT/ZsAIlHCR63JR+OlKhCBI3vxSPJBRktumoAE1dhY1gHDxMRX6QSC/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790201229; c=relaxed/simple;
-	bh=yK/yXkASRxIsYTnvD8vH6zazE3XFm4WzWgKc0CpmxKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tko1Mp3t86/I44DSVpLfuqxK2/uor/+hXbALYlzBOAyisfb+Z8C7+rEIlGk+En8Oueqlv5K2LbNpPeGSSM2cmTHu4oZVn++qNdDZR9vpgCwhNxSTFX0IQWDDxASipKsyWjz4f4kE15wAF4F8w5v6lffDKTo/Az65fb0FD5vP34k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/cK3b01; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790202230; c=relaxed/simple;
+	bh=xyl62XTtN7tFBYp5zlbyuqGozAi6nquAndB5KieVR2U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k4+wJH5cpz8zOdNFiLl7/xcXqqEguw+JFWCjdaXm2gDNw8U3xMKctNvlk+hQLgKU3e9f7+bkuT9ainKSlN6kKzELmLYOuIvCSiXT3kuqynxkACi3dCFcKcR6KS7ZQEEDLaFVwiY0CGFUmYDfNAX+Cq71q+m2YqTL5txsJsGVlKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jrsHCpqz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/cK3b01"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790201223; x=1821737223;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yK/yXkASRxIsYTnvD8vH6zazE3XFm4WzWgKc0CpmxKo=;
-  b=E/cK3b01oFNZJU7/HP4RanEISucndy9qLdRTm29+jDAI5YvVareta8Dt
-   L+PDuju5QV8H5su6e7/NKc8P1aaJcfHtSF0Cb/f8Vbko1uTE3HnqTLQ7j
-   NxlfcIzsmfr2+pr+eMq8T/LF0q4FuxGKE7gKUBALe4Wo5sII2847T28rw
-   teezU/wbDKSBjwIXcnYacycbLZesKXzyW6v+QxkAINPTXF8h/3sUPLB2R
-   hhW9zgV6uUT9zcE4BtyeOCpEWCDVgUk2akr29wrnGVpB+MkNW9O+wEz/Y
-   zifXnIsN48j5cpKBAQqM/2O/m7qS2yF3XNXPUHzz8z7VpH80gXLXuKNSq
-   g==;
-X-CSE-ConnectionGUID: I1YiWpk6TGm3Al8vfzoChQ==
-X-CSE-MsgGUID: 8GWzC79PTVav1MBPji4sNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="94765092"
-X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="94765092"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 15:06:43 -0700
-X-CSE-ConnectionGUID: Fm1hWdSISnCVeTbU9HcRKw==
-X-CSE-MsgGUID: UubW0czlQKu8bdX65YRmVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="5056501"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 23 Sep 2026 15:06:40 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9V6q-00000000Hr4-3qgT;
-	Wed, 23 Sep 2026 22:06:36 +0000
-Date: Thu, 24 Sep 2026 06:06:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fernando Fernandez Mancera <fmancera@suse.de>,
-	netfilter-devel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	coreteam@netfilter.org, pablo@netfilter.org, fw@strlen.de,
-	phil@nwl.cc, eric@regit.org,
-	Fernando Fernandez Mancera <fmancera@suse.de>,
-	Yu Junzhe <junzheyu1@gmail.com>
-Subject: Re: [PATCH nf v2] netfilter: nft_reject: prevent unbounded recursion
- in output hooks
-Message-ID: <202609240611.MRXjmn1k-lkp@intel.com>
-References: <20260922092503.3238-1-fmancera@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jrsHCpqz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87BD41F000FF;
+	Wed, 23 Sep 2026 22:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790202228;
+	bh=CllAy68dVAdNNPSV8SFuNXI1WK7LFo+P5F5iG1kOxBI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jrsHCpqzKimFOD7PTf6Rgp5hoeIYjf7FlkKcGXIe3ZbY6mnAWmmVXmmcWPi1ysj7o
+	 cAVd0M6aFWdnWRCiCRiqh3w5rqSmUVE3g4wDQmJyK4Amgi1yEB1gDxm/VuPbouKqv/
+	 5ZVxRC1lKXYeRyBmfTRhh2ZtOpNtnE6yUjMPJZ6F7dO+tM4Fn2L2mBmxGgqJhkEMde
+	 NcFJWGxtONjFLeHgc/s8UvGK5+P3gddh7o7xu+WkW/FMsyNSkZvZ3y3zZuQkVd6PS9
+	 ApCg4hw3NiuNlBJVyiLltfa+eB0AM2EhuxH4lrXFzWpSs4s6A0WvPyZYLE709/YunC
+	 PMfLyzndfhiTw==
+Message-ID: <9e7b3428-d462-4551-8aa8-258d10f90b96@kernel.org>
+Date: Wed, 23 Sep 2026 15:23:47 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260922092503.3238-1-fmancera@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
+ arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
+To: Bradley Morgan <brads@mainlining.org>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org,
+ "Paul E. McKenney" <paulmck@kernel.org>
+References: <202609240539.AkulvjVe-lkp@intel.com>
+ <1849D2CD-4FCF-41BE-86D2-B4DDCF59D20B@mainlining.org>
+From: Vineet Gupta <vgupta@kernel.org>
+Content-Language: en-US
+In-Reply-To: <1849D2CD-4FCF-41BE-86D2-B4DDCF59D20B@mainlining.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Fernando,
+On 9/23/26 14:13, Bradley Morgan wrote:
+> On 23 September 2026 22:12:09 BST, kernel test robot <lkp@intel.com> wrote:
+>> tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
+>> head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
+>> commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emulate two-byte cmpxchg
+>> config: arc-randconfig-1001-20260924 (https://download.01.org/0day-ci/archive/20260924/202609240539.AkulvjVe-lkp@intel.com/config)
+>> compiler: arc-linux-gcc (GCC) 14.3.0
+>> reproduce (this is a W=1 build):
+>> (https://download.01.org/0day-ci/archive/20260924/202609240539.AkulvjVe-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new
+>> version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes:
+>> https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>    In file included from arch/arc/include/asm/atomic.h:13,
+>>                     from include/linux/atomic.h:7,
+>>                     from include/asm-generic/bitops/lock.h:5,
+>>                     from arch/arc/include/asm/bitops.h:190,
+>>                     from include/linux/bitops.h:67,
+>>                     from include/linux/log2.h:12,
+>>                     from kernel/bounds.c:14:
+>>    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg':
+>>    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (first use in this function); did you mean '_p_'?
+>>       80 |         if (_prev_ == _o_)                                              \
+>>          |                       ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+>>       55 | #define raw_cmpxchg arch_cmpxchg
+>>          |                     ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+>>     2026 |         return raw_cmpxchg(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~
+>>    arch/arc/include/asm/cmpxchg.h:80:23: note: each undeclared identifier is reported only once for each function it appears in
+>>       80 |         if (_prev_ == _o_)                                              \
+>>          |                       ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+>>       55 | #define raw_cmpxchg arch_cmpxchg
+>>          |                     ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+>>     2026 |         return raw_cmpxchg(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~
+>>    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (first use in this function); did you mean '_p_'?
+>>       81 |                 *_p_ = _n_;                                             \
+>>          |                        ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+>>       55 | #define raw_cmpxchg arch_cmpxchg
+>>          |                     ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+>>     2026 |         return raw_cmpxchg(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
+>> [-Wunused-variable]
+>>       71 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+>>       55 | #define raw_cmpxchg arch_cmpxchg
+>>          |                     ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+>>     2026 |         return raw_cmpxchg(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_old_'
+>> [-Wunused-variable]
+>>       70 |         unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:55:21: note: in expansion of macro 'arch_cmpxchg'
+>>       55 | #define raw_cmpxchg arch_cmpxchg
+>>          |                     ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2026:16: note: in expansion of macro 'raw_cmpxchg'
+>>     2026 |         return raw_cmpxchg(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg_acquire':
+>>    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (first use in this function); did you mean '_p_'?
+>>       80 |         if (_prev_ == _o_)                                              \
+>>          |                       ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expansion of macro 'arch_cmpxchg'
+>>       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expansion of macro 'raw_cmpxchg_acquire'
+>>     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (first use in this function); did you mean '_p_'?
+>>       81 |                 *_p_ = _n_;                                             \
+>>          |                        ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expansion of macro 'arch_cmpxchg'
+>>       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expansion of macro 'raw_cmpxchg_acquire'
+>>     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
+>> [-Wunused-variable]
+>>       71 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expansion of macro 'arch_cmpxchg'
+>>       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expansion of macro 'raw_cmpxchg_acquire'
+>>     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_old_'
+>> [-Wunused-variable]
+>>       70 |         unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:70:29: note: in expansion of macro 'arch_cmpxchg'
+>>       70 | #define raw_cmpxchg_acquire arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2055:16: note: in expansion of macro 'raw_cmpxchg_acquire'
+>>     2055 |         return raw_cmpxchg_acquire(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg_release':
+>>    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (first use in this function); did you mean '_p_'?
+>>       80 |         if (_prev_ == _o_)                                              \
+>>          |                       ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expansion of macro 'arch_cmpxchg'
+>>       82 | #define raw_cmpxchg_release arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expansion of macro 'raw_cmpxchg_release'
+>>     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (first use in this function); did you mean '_p_'?
+>>       81 |                 *_p_ = _n_;                                             \
+>>          |                        ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expansion of macro 'arch_cmpxchg'
+>>       82 | #define raw_cmpxchg_release arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expansion of macro 'raw_cmpxchg_release'
+>>     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
+>> [-Wunused-variable]
+>>       71 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expansion of macro 'arch_cmpxchg'
+>>       82 | #define raw_cmpxchg_release arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expansion of macro 'raw_cmpxchg_release'
+>>     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_old_'
+>> [-Wunused-variable]
+>>       70 |         unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:82:29: note: in expansion of macro 'arch_cmpxchg'
+>>       82 | #define raw_cmpxchg_release arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2083:16: note: in expansion of macro 'raw_cmpxchg_release'
+>>     2083 |         return raw_cmpxchg_release(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h: In function 'raw_atomic_cmpxchg_relaxed':
+>>    arch/arc/include/asm/cmpxchg.h:80:23: error: '_o_' undeclared (first use in this function); did you mean '_p_'?
+>>       80 |         if (_prev_ == _o_)                                              \
+>>          |                       ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
+>>       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expansion of macro 'raw_cmpxchg_relaxed'
+>>     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>    arch/arc/include/asm/cmpxchg.h:81:24: error: '_n_' undeclared (first use in this function); did you mean '_p_'?
+>>       81 |                 *_p_ = _n_;                                             \
+>>          |                        ^~~
+>>    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
+>>       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expansion of macro 'raw_cmpxchg_relaxed'
+>>     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:71:23: warning: unused variable '_new_'
+>> [-Wunused-variable]
+>>       71 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
+>>       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expansion of macro 'raw_cmpxchg_relaxed'
+>>     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>>> arch/arc/include/asm/cmpxchg.h:70:23: warning: unused variable '_old_'
+>> [-Wunused-variable]
+>>       70 |         unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));              \
+>>          |                       ^~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:91:29: note: in expansion of macro 'arch_cmpxchg'
+>>       91 | #define raw_cmpxchg_relaxed arch_cmpxchg
+>>          |                             ^~~~~~~~~~~~
+>>    include/linux/atomic/atomic-arch-fallback.h:2108:16: note: in expansion of macro 'raw_cmpxchg_relaxed'
+>>     2108 |         return raw_cmpxchg_relaxed(&v->counter, old, new);
+>>          |                ^~~~~~~~~~~~~~~~~~~
+>>    make[3]: *** [scripts/Makefile.build:185: kernel/bounds.s] Error 1 shuffle=1050985161
+>>    make[3]: Target 'prepare' not remade because of errors.
+>>    make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=1050985161
+>>    make[2]: Target 'prepare' not remade because of errors.
+>>    make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1050985161
+>>    make[1]: Target 'prepare' not remade because of errors.
+>>    make: *** [Makefile:248: __sub-make] Error 2 shuffle=1050985161
+>>    make: Target 'prepare' not remade because of errors.
+>>
+>>
+>> vim +/_new_ +71 arch/arc/include/asm/cmpxchg.h
+>>
+>>     66	
+>>     67	#define arch_cmpxchg(ptr, old, new)				        \
+>>     68	({									\
+>>     69		volatile __typeof__(ptr) _p_ = (ptr);				\
+>>   > 70		unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));		\
+>>   > 71		unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));		\
+>>     72		__typeof__(*(ptr)) _prev_;					\
+>>     73		unsigned long __flags;						\
+>>     74										\
+>>     75		/*								\
+>>     76		 * spin lock/unlock provide the needed smp_mb() before/after	\
+>>     77		 */								\
+>>     78		atomic_ops_lock(__flags);					\
+>>     79		_prev_ = *_p_;							\
+>>     80		if (_prev_ == _o_)						\
+>>     81			*_p_ = _n_;						\
+>>     82		atomic_ops_unlock(__flags);					\
+>>     83		_prev_;								\
+>>     84	})
+>>     85	
+>>
+>> --
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
+> Apparently nobody uses arc
 
-kernel test robot noticed the following build errors:
+Yes the development has slowed down compared to five years ago, but its 
+not dead, if anything it is still my hobby project, like so many other 
+things open source and you repeating this hurts.
 
-[auto build test ERROR on netfilter-nf/main]
+You stumbled onto a real issue: typeof ptr vs. *ptr which unmasked an 
+existing shortcoming.
+@Paul can you please apply this in your tree and rebase the series on top.
+If not I can send this fix to Linus urgently, but it will cause some 
+collisions.
+---------->
+ From f3e2402f62bebfa9f1ad21e23d1663a0a3e5a58d Mon Sep 17 00:00:00 2001
+From: Vineet Gupta <vgupta@kernel.org>
+Date: Wed, 23 Sep 2026 15:01:38 -0700
+Subject: [PATCH] ARC: arch_cmpxchg_relaxed to use size of pointed type not
+  pointer
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fernando-Fernandez-Mancera/netfilter-nft_reject-prevent-unbounded-recursion-in-output-hooks/20260922-112503
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20260922092503.3238-1-fmancera%40suse.de
-patch subject: [PATCH nf v2] netfilter: nft_reject: prevent unbounded recursion in output hooks
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20260924/202609240611.MRXjmn1k-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240611.MRXjmn1k-lkp@intel.com/reproduce)
+Bradley spotted this snafu when working on two-byte cmpxchg emulation.
+He originally folded this fix into his series but the fix itself
+uncovered a pre-existing issue, missing arch_atomic64_cmpxchg_relaxed
+which just needed to be wired up.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609240611.MRXjmn1k-lkp@intel.com/
+Fixes: e188f3330a13 ("ARC: cmpxchg/xchg: rewrite as macros to make type 
+safe")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: 
+https://lore.kernel.org/oe-kbuild-all/202609240539.AkulvjVe-lkp@intel.com/
+Suggested-by: Bradley Morgan <brads@mainlining.org>
+Signed-off-by: Vineet Gupta <vgupta@kernel.org>
+---
+  arch/arc/include/asm/atomic64-arcv2.h | 6 ++++++
+  arch/arc/include/asm/cmpxchg.h        | 4 ++--
+  2 files changed, 8 insertions(+), 2 deletions(-)
 
-All errors (new ones prefixed by >>):
+diff --git a/arch/arc/include/asm/atomic64-arcv2.h 
+b/arch/arc/include/asm/atomic64-arcv2.h
+index 73080a664369..1ca4a1047fb3 100644
+--- a/arch/arc/include/asm/atomic64-arcv2.h
++++ b/arch/arc/include/asm/atomic64-arcv2.h
+@@ -156,6 +156,12 @@ static inline u64 __arch_cmpxchg64_relaxed(volatile 
+void *ptr, u64 old, u64 new)
+  }
+  #define arch_cmpxchg64_relaxed __arch_cmpxchg64_relaxed
 
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:317:16: note: expanded from macro '__pcpu_size_call_return'
-     317 |         TYPEOF_UNQUAL(variable) pscr_ret__;                             \
-         |                       ^~~~~~~~
-   include/linux/compiler.h:237:47: note: expanded from macro 'TYPEOF_UNQUAL'
-     237 | # define TYPEOF_UNQUAL(exp) __typeof_unqual__(exp)
-         |                                               ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:318:22: note: expanded from macro '__pcpu_size_call_return'
-     318 |         __verify_pcpu_ptr(&(variable));                                 \
-         |                             ^~~~~~~~
-   include/linux/percpu-defs.h:216:47: note: expanded from macro '__verify_pcpu_ptr'
-     216 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:319:16: note: expanded from macro '__pcpu_size_call_return'
-     319 |         switch(sizeof(variable)) {                                      \
-         |                       ^~~~~~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:320:31: note: expanded from macro '__pcpu_size_call_return'
-     320 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:94:45: note: expanded from macro '__my_cpu_ptr'
-      94 | # define __my_cpu_ptr(ptr)      (__my_cpu_type(*(ptr))*)(__force uintptr_t)(ptr)
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:93:36: note: expanded from macro '__my_cpu_type'
-      93 | # define __my_cpu_type(var)     typeof(var) __percpu_seg_override
-         |                                        ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:320:31: note: expanded from macro '__pcpu_size_call_return'
-     320 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:95:45: note: expanded from macro '__my_cpu_var'
-      95 | # define __my_cpu_var(var)      (*__my_cpu_ptr(&(var)))
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:94:72: note: expanded from macro '__my_cpu_ptr'
-      94 | # define __my_cpu_ptr(ptr)      (__my_cpu_type(*(ptr))*)(__force uintptr_t)(ptr)
-         |                                                                             ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:320:31: note: expanded from macro '__pcpu_size_call_return'
-     320 |         case 1: pscr_ret__ = stem##1(variable); break;                  \
-         |                                      ^~~~~~~~
-   arch/x86/include/asm/percpu.h:450:52: note: expanded from macro 'raw_cpu_read_1'
-     450 | #define raw_cpu_read_1(pcp)                             __raw_cpu_read(1, , pcp)
-         |                                                                             ^~~
-   arch/x86/include/asm/percpu.h:156:10: note: expanded from macro '__raw_cpu_read'
-     156 |         (typeof(_var))(unsigned long) pfo_val__;                        \
-         |                 ^~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:321:31: note: expanded from macro '__pcpu_size_call_return'
-     321 |         case 2: pscr_ret__ = stem##2(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:94:45: note: expanded from macro '__my_cpu_ptr'
-      94 | # define __my_cpu_ptr(ptr)      (__my_cpu_type(*(ptr))*)(__force uintptr_t)(ptr)
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:93:36: note: expanded from macro '__my_cpu_type'
-      93 | # define __my_cpu_type(var)     typeof(var) __percpu_seg_override
-         |                                        ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:321:31: note: expanded from macro '__pcpu_size_call_return'
-     321 |         case 2: pscr_ret__ = stem##2(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:95:45: note: expanded from macro '__my_cpu_var'
-      95 | # define __my_cpu_var(var)      (*__my_cpu_ptr(&(var)))
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:94:72: note: expanded from macro '__my_cpu_ptr'
-      94 | # define __my_cpu_ptr(ptr)      (__my_cpu_type(*(ptr))*)(__force uintptr_t)(ptr)
-         |                                                                             ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:321:31: note: expanded from macro '__pcpu_size_call_return'
-     321 |         case 2: pscr_ret__ = stem##2(variable); break;                  \
-         |                                      ^~~~~~~~
-   arch/x86/include/asm/percpu.h:451:52: note: expanded from macro 'raw_cpu_read_2'
-     451 | #define raw_cpu_read_2(pcp)                             __raw_cpu_read(2, , pcp)
-         |                                                                             ^~~
-   arch/x86/include/asm/percpu.h:156:10: note: expanded from macro '__raw_cpu_read'
-     156 |         (typeof(_var))(unsigned long) pfo_val__;                        \
-         |                 ^~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:322:31: note: expanded from macro '__pcpu_size_call_return'
-     322 |         case 4: pscr_ret__ = stem##4(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:94:45: note: expanded from macro '__my_cpu_ptr'
-      94 | # define __my_cpu_ptr(ptr)      (__my_cpu_type(*(ptr))*)(__force uintptr_t)(ptr)
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:93:36: note: expanded from macro '__my_cpu_type'
-      93 | # define __my_cpu_type(var)     typeof(var) __percpu_seg_override
-         |                                        ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:322:31: note: expanded from macro '__pcpu_size_call_return'
-     322 |         case 4: pscr_ret__ = stem##4(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:95:45: note: expanded from macro '__my_cpu_var'
-      95 | # define __my_cpu_var(var)      (*__my_cpu_ptr(&(var)))
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:94:72: note: expanded from macro '__my_cpu_ptr'
-      94 | # define __my_cpu_ptr(ptr)      (__my_cpu_type(*(ptr))*)(__force uintptr_t)(ptr)
-         |                                                                             ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:322:31: note: expanded from macro '__pcpu_size_call_return'
-     322 |         case 4: pscr_ret__ = stem##4(variable); break;                  \
-         |                                      ^~~~~~~~
-   arch/x86/include/asm/percpu.h:452:52: note: expanded from macro 'raw_cpu_read_4'
-     452 | #define raw_cpu_read_4(pcp)                             __raw_cpu_read(4, , pcp)
-         |                                                                             ^~~
-   arch/x86/include/asm/percpu.h:156:10: note: expanded from macro '__raw_cpu_read'
-     156 |         (typeof(_var))(unsigned long) pfo_val__;                        \
-         |                 ^~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:323:31: note: expanded from macro '__pcpu_size_call_return'
-     323 |         case 8: pscr_ret__ = stem##8(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:240:20: note: expanded from macro 'raw_cpu_ptr'
-     240 |         __verify_pcpu_ptr(ptr);                                         \
-         |                           ^~~
-   include/linux/percpu-defs.h:216:47: note: expanded from macro '__verify_pcpu_ptr'
-     216 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:323:31: note: expanded from macro '__pcpu_size_call_return'
-     323 |         case 8: pscr_ret__ = stem##8(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/percpu-defs.h:241:19: note: expanded from macro 'raw_cpu_ptr'
-     241 |         arch_raw_cpu_ptr(ptr);                                          \
-         |                          ^~~
-   arch/x86/include/asm/percpu.h:66:39: note: expanded from macro 'arch_raw_cpu_ptr'
-      66 |         tcp_ptr__ += (__force unsigned long)(_ptr);                     \
-         |                                              ^~~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
->> include/net/netfilter/nf_recursion.h:12:52: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      12 |         return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-         |                                         ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:432:15: note: expanded from macro '__this_cpu_read'
-     432 |         raw_cpu_read(pcp);                                              \
-         |                      ^~~
-   include/linux/percpu-defs.h:407:67: note: expanded from macro 'raw_cpu_read'
-     407 | #define raw_cpu_read(pcp)               __pcpu_size_call_return(raw_cpu_read_, pcp)
-         |                                                                                ^~~
-   include/linux/percpu-defs.h:323:31: note: expanded from macro '__pcpu_size_call_return'
-     323 |         case 8: pscr_ret__ = stem##8(variable); break;                  \
-         |                                      ^~~~~~~~
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:67:19: note: expanded from macro 'arch_raw_cpu_ptr'
-      67 |         (TYPEOF_UNQUAL(*(_ptr)) __force __kernel *)tcp_ptr__;           \
-         |                          ^~~~
-   include/linux/compiler.h:237:47: note: expanded from macro 'TYPEOF_UNQUAL'
-     237 | # define TYPEOF_UNQUAL(exp) __typeof_unqual__(exp)
-         |                                               ^~~
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
-   include/net/netfilter/nf_recursion.h:18:35: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      18 |         __this_cpu_inc(softnet_data.xmit.nf_dup_skb_recursion);
-         |                        ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:484:45: note: expanded from macro '__this_cpu_inc'
-     484 | #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-         |                                                        ^~~
-   include/linux/percpu-defs.h:444:14: note: expanded from macro '__this_cpu_add'
-     444 |         raw_cpu_add(pcp, val);                                          \
-         |                     ^~~
-   include/linux/percpu-defs.h:409:63: note: expanded from macro 'raw_cpu_add'
-     409 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
-         |                                                                        ^~~
-   include/linux/percpu-defs.h:362:22: note: expanded from macro '__pcpu_size_call'
-     362 |         __verify_pcpu_ptr(&(variable));                                 \
-         |                             ^~~~~~~~
-   include/linux/percpu-defs.h:216:47: note: expanded from macro '__verify_pcpu_ptr'
-     216 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
-   include/net/netfilter/nf_recursion.h:18:35: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      18 |         __this_cpu_inc(softnet_data.xmit.nf_dup_skb_recursion);
-         |                        ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:484:45: note: expanded from macro '__this_cpu_inc'
-     484 | #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-         |                                                        ^~~
-   include/linux/percpu-defs.h:444:14: note: expanded from macro '__this_cpu_add'
-     444 |         raw_cpu_add(pcp, val);                                          \
-         |                     ^~~
-   include/linux/percpu-defs.h:409:63: note: expanded from macro 'raw_cpu_add'
-     409 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
-         |                                                                        ^~~
-   include/linux/percpu-defs.h:363:16: note: expanded from macro '__pcpu_size_call'
-     363 |         switch(sizeof(variable)) {                                      \
-         |                       ^~~~~~~~
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
-   include/net/netfilter/nf_recursion.h:18:35: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      18 |         __this_cpu_inc(softnet_data.xmit.nf_dup_skb_recursion);
-         |                        ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:484:45: note: expanded from macro '__this_cpu_inc'
-     484 | #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-         |                                                        ^~~
-   include/linux/percpu-defs.h:444:14: note: expanded from macro '__this_cpu_add'
-     444 |         raw_cpu_add(pcp, val);                                          \
-         |                     ^~~
-   include/linux/percpu-defs.h:409:63: note: expanded from macro 'raw_cpu_add'
-     409 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
-         |                                                                        ^~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:468:56: note: expanded from macro 'raw_cpu_add_1'
-     468 | #define raw_cpu_add_1(pcp, val)                         percpu_add_op(1, , (pcp), val)
-         |                                                                             ^~~
-   arch/x86/include/asm/percpu.h:226:17: note: expanded from macro 'percpu_add_op'
-     226 |                 TYPEOF_UNQUAL(var) pao_tmp__;                           \
-         |                               ^~~
-   include/linux/compiler.h:237:47: note: expanded from macro 'TYPEOF_UNQUAL'
-     237 | # define TYPEOF_UNQUAL(exp) __typeof_unqual__(exp)
-         |                                               ^~~
-   In file included from net/ipv4/netfilter/nf_reject_ipv4.c:13:
-   include/net/netfilter/nf_recursion.h:18:35: error: no member named 'nf_dup_skb_recursion' in 'struct netdev_xmit'
-      18 |         __this_cpu_inc(softnet_data.xmit.nf_dup_skb_recursion);
-         |                        ~~~~~~~~~~~~~~~~~ ^
-   include/linux/percpu-defs.h:484:45: note: expanded from macro '__this_cpu_inc'
-     484 | #define __this_cpu_inc(pcp)             __this_cpu_add(pcp, 1)
-         |                                                        ^~~
-   include/linux/percpu-defs.h:444:14: note: expanded from macro '__this_cpu_add'
-     444 |         raw_cpu_add(pcp, val);                                          \
-         |                     ^~~
-   include/linux/percpu-defs.h:409:63: note: expanded from macro 'raw_cpu_add'
-     409 | #define raw_cpu_add(pcp, val)           __pcpu_size_call(raw_cpu_add_, pcp, val)
-         |                                                                        ^~~
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   arch/x86/include/asm/percpu.h:95:45: note: expanded from macro '__my_cpu_var'
-      95 | # define __my_cpu_var(var)      (*__my_cpu_ptr(&(var)))
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:94:45: note: expanded from macro '__my_cpu_ptr'
-      94 | # define __my_cpu_ptr(ptr)      (__my_cpu_type(*(ptr))*)(__force uintptr_t)(ptr)
-         |                                                  ^~~
-   arch/x86/include/asm/percpu.h:93:36: note: expanded from macro '__my_cpu_type'
++static inline s64 arch_atomic64_cmpxchg_relaxed(atomic64_t *v, s64 old, 
+s64 new)
++{
++    return arch_cmpxchg64_relaxed(&v->counter, old, new);
++}
++#define arch_atomic64_cmpxchg_relaxed arch_atomic64_cmpxchg_relaxed
++
+  static inline s64 arch_atomic64_xchg(atomic64_t *ptr, s64 new)
+  {
+      s64 prev;
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index 76f43db0890f..66b3743c9400 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -46,7 +46,7 @@
+      __typeof__(*(ptr)) _n_ = (new);                    \
+      __typeof__(*(ptr)) _prev_;                    \
+                                      \
+-    switch(sizeof((_p_))) {                        \
++    switch (sizeof(*(_p_))) {                        \
+      case 1:                                \
+          _prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 
+*__force)_p_, (uintptr_t)_o_, (uintptr_t)_n_);    \
+          break;                            \
+@@ -102,7 +102,7 @@
+      __typeof__(ptr) _p_ = (ptr);                    \
+      __typeof__(*(ptr)) _val_ = (val);                \
+                                      \
+-    switch(sizeof(*(_p_))) {                    \
++    switch (sizeof(*(_p_))) {                    \
+      case 4:                                \
+          _val_ = __arch_xchg(_p_, _val_);            \
+          break;                            \
+-- 
+2.53.0
 
-
-vim +12 include/net/netfilter/nf_recursion.h
-
-     8	
-     9	#ifndef CONFIG_PREEMPT_RT
-    10	static inline bool nf_dev_xmit_recursion(void)
-    11	{
-  > 12		return unlikely(__this_cpu_read(softnet_data.xmit.nf_dup_skb_recursion) >
-    13				NF_RECURSION_LIMIT);
-    14	}
-    15	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
