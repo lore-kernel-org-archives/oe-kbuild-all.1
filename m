@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FD1496D24
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 10:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50BF3BAD8B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Sep 2026 11:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790160613; cv=none; b=VZHLfpRoG4yKlQLCTV81E+YT8mUHVysYuDlYNa8EEi1wK5oThuS2xAB+FL2kwRB8Qaem+/32nClQI1e5Gwm4et8WGRhkFcGMOHEOoxurFsKB7riyDTK63x3a7ADUAyFS+hATdwHI/Qi2g6TppUIW/MsgC4+1ARbsLvhzYcqXn20=
+	t=1790161850; cv=none; b=DwTgh5VjJNsAkXy0LwXxSNs+E/IPnq8HIkmb5rARtGXPk0EiZpXvDAjJMz4+Im/pDyaFWQrBoAJ75+Xx27xgvvDw3pX2og9CBGUvgCVIXe4r97M9sMGhFxtehII42cnM2kVdd9oDpRELrWIJJq8jsxpr8d1g60yOI+yoIP3u3hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790160613; c=relaxed/simple;
-	bh=9YVglxgi/gmLjJr6PvGn+O793fCf4qaK/LYAtK23DUg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EWHsTMK2X7xlZjg+n5G/imOQk2qsCLADeuvw3aWXBwNAPxQAHxH0wD6ffKY+snY+jtW1mgankJtbyD8UDO3rjZnKcvNOFlfzSo+JBuDuQ/KBO5S7fT4RHj5mQnrrsQGHk6To8toyc+Tcg4eUH5It5GvOwf9J7jnNYfz1J1UlCEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QvNtslP+; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1790161850; c=relaxed/simple;
+	bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MYwU7NnM5N0W3qSA9hdLXEWF+jfQdPTVNybk6GQo8jA8jPvxvhKyOHW2xq+8/55MC1KMHc8+DmUJO5T3KqK2pA6EUEooSVillzugdosqDSIntwc+Tjzl1t6j9+IRoYKaGu/0yhs0NnKvytyq1zJKwlX0GnbjL/ddYhN7hgQKvr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJrLiFbx; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QvNtslP+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJrLiFbx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790160605; x=1821696605;
+  t=1790161848; x=1821697848;
   h=date:from:to:cc:subject:message-id;
-  bh=9YVglxgi/gmLjJr6PvGn+O793fCf4qaK/LYAtK23DUg=;
-  b=QvNtslP+N9cNVpOSIZXvdIycG8AmeD7JSoyLyUBGnWuB8qFqhsg+jrfx
-   78K6cWXSV7zcgpfJgxnvZ/krzveTrtmwZ4A0kZ5UwcU3ptPiTWlmaGN2V
-   gjh7RNBl3FaZSBfyCeM546b3eXLsjvTONM+9vaduPz9xucoeRsTkfpV/g
-   nIDb5I1Ln59CM1b+HzdO/vQk0bAfZV4LAWiYa4Ota4D8Jj76EKKoC9PJC
-   02Ibb0jK7gZyXa70an4lKHDxhltfoUuP2+ZWnbPO1tKZ3B5RrA9sIgCy6
-   QmcvWdUBXqSjmHww+nRHl+Yb/Cs5i7l8fYF0s9UGn4w1QTHKVXD2r127N
-   w==;
-X-CSE-ConnectionGUID: VlD1LIDtR1mBhiLkbrCriQ==
-X-CSE-MsgGUID: duOyNTB2Q5KOG/WWd8VEKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="108339023"
+  bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
+  b=eJrLiFbxaJNHMrMNLKg+GAsVQ6B6ghXh2mymrJlIzsnrApH/rwi4tvYG
+   J9XoZeZWpOSuSCqNlHS2stB7hWkLstbRI5fNIzUgPXh1+nLhrxqns9jja
+   k5bvfUtjNp5CLkx93FpcAkCGZLgxm2cXKkawhJL4N5s7PeZUhXW2erxr5
+   SpJf3ZAMZcNq2jeBn3IgAcdE1pXzwBXm1K/VUeHaImrIs6XLvi2fuONsq
+   hSEdd8XQ2+cMvcbmdxCjFtKSJQROzOAMkMKywYDcmaxcSmFDUkiM6kly/
+   1ofVt86Z4SGgFxp8EtYadPcwMUuvll4aJ8i1HC7eqetJ5hsklLCppJ1ZH
+   A==;
+X-CSE-ConnectionGUID: E3BdD37QTAyYIbz+4Lt/ag==
+X-CSE-MsgGUID: SHQ1oXefRBCUdxe2xle0Vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="116367954"
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="108339023"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 03:49:58 -0700
-X-CSE-ConnectionGUID: Emj6mXmSR0GTwBm8yrQ5gA==
-X-CSE-MsgGUID: 2lVbd/o/Q6SxxzKNXQGPEg==
+   d="scan'208";a="116367954"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 04:10:47 -0700
+X-CSE-ConnectionGUID: v1GJUr6zT0WjRSAziGgkYg==
+X-CSE-MsgGUID: 33DscqJnSYOwgILm4h9Brw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="278287252"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Sep 2026 03:49:56 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="272756134"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2026 04:10:46 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9KXx-00000000Gxg-2rcB;
-	Wed, 23 Sep 2026 10:49:53 +0000
-Date: Wed, 23 Sep 2026 18:49:27 +0800
+	id 1x9Ks8-000000000cx-0XlG;
+	Wed, 23 Sep 2026 11:10:44 +0000
+Date: Wed, 23 Sep 2026 13:10:14 +0200
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: net/netfilter/nfnetlink_cthelper.c:254:22: sparse: sparse:
- incorrect type in assignment (different address spaces)
-Message-ID: <202609231853.Y4WT9aF7-lkp@intel.com>
+To: "Alastair D'Silva" <alastair@d-silva.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: Warning: drivers/net/phy/ac300-phy.c:2 This comment starts
+ with '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202609231302.L5QfwVqw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,110 +61,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe2ec83746e501645709761605c2464a44fd2929
-commit: ac46f3f35b6e68fb062ae7cf780d516c0cf4c00a netfilter: nf_conntrack_helper: add refcounting from datapath
-date:   4 months ago
-config: parisc-randconfig-r1301-20260923 (https://download.01.org/0day-ci/archive/20260923/202609231853.Y4WT9aF7-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231853.Y4WT9aF7-lkp@intel.com/reproduce)
+Hi Alastair,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/intel-lab-lkp/linux/commits/Alastair-D-Silva/dt-bindings-net-phy-Add-Allwinner-AC300-EPHY-binding/20260916-144116
+head:   6d0087c5c37fcf119011a936fef3fa18ce5d7686
+commit: 5c03e0fe215f96bf5b0511b77301f5dcca2adbf6 net: phy: Add Allwinner AC300 EPHY driver
+date:   7 days ago
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ac46f3f35b6e ("netfilter: nf_conntrack_helper: add refcounting from datapath")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231853.Y4WT9aF7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231302.L5QfwVqw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/netfilter/nfnetlink_cthelper.c:254:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected int ( [noderef] __rcu *help )( ... ) @@     got int ( * )( ... ) @@
-   net/netfilter/nfnetlink_cthelper.c:254:22: sparse:     expected int ( [noderef] __rcu *help )( ... )
-   net/netfilter/nfnetlink_cthelper.c:254:22: sparse:     got int ( * )( ... )
+All warnings (new ones prefixed by >>):
 
-vim +254 net/netfilter/nfnetlink_cthelper.c
-
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  212  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  213  static int
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  214  nfnl_cthelper_create(const struct nlattr * const tb[],
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  215  		     struct nf_conntrack_tuple *tuple)
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  216  {
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  217  	struct nf_conntrack_helper *helper;
-83d90219a5df8d9 Liping Zhang      2017-03-25  218  	struct nfnl_cthelper *nfcth;
-157ffffeb5dc1b5 Florian Westphal  2017-04-16  219  	unsigned int size;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  220  	int ret;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  221  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  222  	if (!tb[NFCTH_TUPLE] || !tb[NFCTH_POLICY] || !tb[NFCTH_PRIV_DATA_LEN])
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  223  		return -EINVAL;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  224  
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  225  	nfcth = kzalloc_obj(*nfcth, GFP_KERNEL_ACCOUNT);
-83d90219a5df8d9 Liping Zhang      2017-03-25  226  	if (nfcth == NULL)
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  227  		return -ENOMEM;
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  228  
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  229  	helper = kzalloc_obj(*helper, GFP_KERNEL_ACCOUNT);
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  230  	if (!helper) {
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  231  		ret = -ENOMEM;
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  232  		goto err_cth;
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  233  	}
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  234  
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  235  	nfcth->helper = helper;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  236  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  237  	ret = nfnl_cthelper_parse_expect_policy(helper, tb[NFCTH_POLICY]);
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  238  	if (ret < 0)
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  239  		goto err_helper;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  240  
-872f690341948b5 Francis Laniel    2020-11-15  241  	nla_strscpy(helper->name,
-4b83a9049a983b2 Eric Dumazet      2018-05-21  242  		    tb[NFCTH_NAME], NF_CT_HELPER_NAME_LEN);
-157ffffeb5dc1b5 Florian Westphal  2017-04-16  243  	size = ntohl(nla_get_be32(tb[NFCTH_PRIV_DATA_LEN]));
-c593642c8be0469 Pankaj Bharadiya  2019-12-09  244  	if (size > sizeof_field(struct nf_conn_help, data)) {
-157ffffeb5dc1b5 Florian Westphal  2017-04-16  245  		ret = -ENOMEM;
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  246  		goto err_helper;
-157ffffeb5dc1b5 Florian Westphal  2017-04-16  247  	}
-703acd70f249653 Pablo Neira Ayuso 2020-05-24  248  	helper->data_len = size;
-157ffffeb5dc1b5 Florian Westphal  2017-04-16  249  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  250  	helper->flags |= NF_CT_HELPER_F_USERSPACE;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  251  	memcpy(&helper->tuple, tuple, sizeof(struct nf_conntrack_tuple));
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  252  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  253  	helper->me = THIS_MODULE;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13 @254  	helper->help = nfnl_userspace_cthelper;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  255  	helper->from_nlattr = nfnl_cthelper_from_nlattr;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  256  	helper->to_nlattr = nfnl_cthelper_to_nlattr;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  257  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  258  	/* Default to queue number zero, this can be updated at any time. */
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  259  	if (tb[NFCTH_QUEUE_NUM])
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  260  		helper->queue_num = ntohl(nla_get_be32(tb[NFCTH_QUEUE_NUM]));
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  261  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  262  	if (tb[NFCTH_STATUS]) {
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  263  		int status = ntohl(nla_get_be32(tb[NFCTH_STATUS]));
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  264  
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  265  		switch(status) {
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  266  		case NFCT_HELPER_STATUS_ENABLED:
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  267  			helper->flags |= NF_CT_HELPER_F_CONFIGURED;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  268  			break;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  269  		case NFCT_HELPER_STATUS_DISABLED:
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  270  			helper->flags &= ~NF_CT_HELPER_F_CONFIGURED;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  271  			break;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  272  		}
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  273  	}
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  274  
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  275  	ret = __nf_conntrack_helper_register(helper);
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  276  	if (ret < 0)
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  277  		goto err_helper;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  278  
-83d90219a5df8d9 Liping Zhang      2017-03-25  279  	list_add_tail(&nfcth->list, &nfnl_cthelper_list);
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  280  	return 0;
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  281  err_helper:
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  282  	kfree(helper);
-6031487d4e273d7 Pablo Neira Ayuso 2026-06-04  283  err_cth:
-83d90219a5df8d9 Liping Zhang      2017-03-25  284  	kfree(nfcth);
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  285  	return ret;
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  286  }
-12f7a505331e6b2 Pablo Neira Ayuso 2012-05-13  287  
-
-:::::: The code at line 254 was first introduced by commit
-:::::: 12f7a505331e6b2754684b509f2ac8f0011ce644 netfilter: add user-space connection tracking helper infrastructure
-
-:::::: TO: Pablo Neira Ayuso <pablo@netfilter.org>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+>> Warning: drivers/net/phy/ac300-phy.c:2 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Driver for X-Powers AC300 Ethernet PHY
 
 --
 0-DAY CI Kernel Test Service
