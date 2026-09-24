@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C073AE6F5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 06:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792133546ED;
+	Thu, 24 Sep 2026 06:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790231677; cv=none; b=EPYU8iWvCZYyWTbtuSB+TD65YW/NkyYFJuEYVFhDGaacKBAtY0pqnvAlGG6/LGY+CJG9WuCFAlRM5Aqp+jOHgMsv4vipqVyBsJhzBpYR9lrNh1uFasKLfmGfmMOJQRa4qiegoJmit43iPfIPbKSi23Q6FtI8hOvenHzfUzC+2io=
+	t=1790232340; cv=none; b=MMctCpS4V+aVIt1I4Zbl1F63x7VzzBeGqJAYTFfaDXwJvKNjxaehw+MZJW9sg+0rthye4bPMxfjqu949rtZGNZhyn4qZnblIutNEGqo9sDgMAe40sdA94gpHnt5P4exTqyIOJII4C95EP869+SD8/jzqAhn0Gph1vbF6hRYoVJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790231677; c=relaxed/simple;
-	bh=CPJRf7gRNj/9taaUkeCHd4Juy8C34NUbhj1UqLgZlv8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mVRoXCK+QNR8TaXPIe2aCa+A9nzEWFFrFKnrxOi3WOO+bQbl0U6AMyc/lFVdyxkkenlncK6eRfE7PxgeRGuX+3hTcaM0eFVO3A86G5gHcs8qWLvRfVjBfrPYgcj24bj1vkmw/AS49q4NdE3ixGCkfUkOV8dORrEhy0rF2Xsn2JQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bMhLhF4G; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1790232340; c=relaxed/simple;
+	bh=16KcMGnIzgpByFAvBupucf4khLXuAp1zGp+9EhJvYsw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pj7jW2J5lRpvJ66ITnefIRViZ5XEkur13OAKmTlBrvMRF1Ce9TWL0AbowGpkyuMp0M/IJJBguVSwjIPirYS1ToXq61yBilvMin4sfN04Ffoi00BSSy+bVq00/NXHMiDXUnDDgDh4bWaavskXo7Ta+Ejyh5tzFsvnjsDP+gfYe1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c/3Tco82; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bMhLhF4G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/3Tco82"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790231676; x=1821767676;
+  t=1790232339; x=1821768339;
   h=date:from:to:cc:subject:message-id;
-  bh=CPJRf7gRNj/9taaUkeCHd4Juy8C34NUbhj1UqLgZlv8=;
-  b=bMhLhF4GgqmMoLVV3S1pSR70yc5KrW12pUHCWkcX+pCkmpm0zpbQGrx5
-   iiziY1SPbZiLuI/bG5fdhITOr19d5m8mSIoK/JNDF39U6S8L++ZWYsLmw
-   zd8hHjpZaWrd+T78wURhv1jLaqsSEXmyyivcnyxs4MA3mxBs8Gr09FyST
-   OjkqkJxZ2AvwBU9/3Ji47D2klhnI8lf9KPVjUiyutSJF+/XgK+rwX4859
-   S0tSsBz9AiIcPsxwm3YHAk4vdXKHNuFdwoXKNzPxQt87+3KrWXpkBxvnl
-   4Ue9RbOlLC6ICp5xhMkk7egs5igq4OJ7Z3zU+lZjTdzZK6ffUwhbOqE7y
-   w==;
-X-CSE-ConnectionGUID: qipVnh4iTBqBPCMEhwdfGQ==
-X-CSE-MsgGUID: hN1LATfKQsuZMgaPKXNtUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="89854527"
+  bh=16KcMGnIzgpByFAvBupucf4khLXuAp1zGp+9EhJvYsw=;
+  b=c/3Tco82GMoPOaajha6+t22QmhyRX2ltELwKK2kIzOeOMvpw5KAkyll8
+   U467QhL+V+9YZayaa28ZABhBdyha3U2SLUIrqXdn1ReXkvV/hq+KTtdd6
+   06w3e5zvS6QD9WmPmab/bz5NwEcrD9oDQm7Ti/Q+8bwgVX71z5tZ9RNpm
+   4sBmpWmrxtlaWYl2SPzZdg/B58aI72KC8mSGk+XIPCW3ve75+GR/QkhnR
+   x8to/q5Hr9xruBXczMDkDoqckhXtcrRyvobt91R1Nu9SxRco1S6DrHSH7
+   Mawm7CKhbtGf3H8643FcsA7jpAfcQHuIhyUP8SEFTY/OeO7gQa75ztT2h
+   g==;
+X-CSE-ConnectionGUID: 0rhum2GHRee169nixAy0xQ==
+X-CSE-MsgGUID: CBvujf7UTiiab6HGwD524Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="90114530"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="89854527"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 23:34:35 -0700
-X-CSE-ConnectionGUID: v6SqidPDQmq6bGBXUr3naA==
-X-CSE-MsgGUID: lZrj1ptiQBSQIJvjRHhr+w==
+   d="scan'208";a="90114530"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 23:45:38 -0700
+X-CSE-ConnectionGUID: vLZDnkQcQTeiZ+xEdsprSA==
+X-CSE-MsgGUID: 6fy64fmGRwi6Thmdnc3HMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="270425862"
+   d="scan'208";a="277100100"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2026 23:34:33 -0700
+  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2026 23:45:35 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9d2N-00000000IIw-1P37;
-	Thu, 24 Sep 2026 06:34:31 +0000
-Date: Thu, 24 Sep 2026 14:33:53 +0800
+	id 1x9dD3-00000000IKS-0FY9;
+	Thu, 24 Sep 2026 06:45:33 +0000
+Date: Thu, 24 Sep 2026 14:44:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dominik Kaszewski <dominik.kaszewski@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Chen-Yu Chen" <Chen-Yu.Chen@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- linux-doc@vger.kernel.org
-Subject: [agd5f:amd-staging-drm-next 3081/3178] Warning:
- drivers/gpu/drm/amd/amdgpu/../display/dc/dc_memory_pool.c:1 This comment
- starts with '/**', but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202609241434.CC3nuqXT-lkp@intel.com>
+To: Philip Yang <Philip.Yang@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>
+Subject: [linux-next:master 2192/8910] Warning:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:1557 bad line:
+Message-ID: <202609241408.IMa4iXtW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,26 +61,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Dominik,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   e0e9c2257911b291ef5345635a9e6dfef5b2b424
-commit: 68006eb4b8f03d723aaa66e87625795189488c04 [3081/3178] drm/amd/display: Add lock-free memory pool
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20260924/202609241434.CC3nuqXT-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241434.CC3nuqXT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a8c591ed6b672915e0be57843f943a2a723aff40
+commit: 5d7094267d4dbfff4e19de2395ed004751041741 [2192/8910] drm/amdgpu: Add UALink NPA address computation for ring buffers
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260924/202609241408.IMa4iXtW-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241408.IMa4iXtW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241434.CC3nuqXT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241408.IMa4iXtW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/dc_memory_pool.c:1 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C) Advanced Micro Devices, Inc. All rights reserved.
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:1557 bad line: 
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c:1564 expecting prototype for amdgpu_ualink_gart_npa_addr(). Prototype was for AMDGPU_UALINK_GART_NPA_ADDR_GPUID_SHIFT() instead
 
 --
 0-DAY CI Kernel Test Service
