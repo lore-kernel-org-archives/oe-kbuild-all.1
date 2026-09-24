@@ -1,62 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5548D39DBF7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 01:59:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70193242BD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 02:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790215163; cv=none; b=hoOOWUC8M61G3lxF0RVTMDV3nSxGxdCXUGOkbFOWyCrlnwKtZb6klSbbOum8T9FWku5wQtJHs4h3JCnCEEK4fwVGXpum+XO9C/HDWy3CimYkEKUhBe/fyGk2DSzPMhnrQZSBFgjqGJX2qB8gYEvEYbVH6+1XxWLtu8LWUAD8iks=
+	t=1790215833; cv=none; b=lxEfageZBCoKQ8gWymojgyWLccjh3dEBHMYD+AyE7y5F/iK2sf0jMm86r51BcdN+rRW+6+uEO1rJnQvCiD2v0YaNKTbv6YVZmqwIbw7T4zIoqJaYnzHTnAJSHRw5F/VtdxFPV4UrBhNa2gQ6Tx/2y3c+btM80AuQoO+tpIckQnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790215163; c=relaxed/simple;
-	bh=TVRHx69X6GgaWbqjZ2+lVCyhOHXTPChxXHtl2drbFCo=;
+	s=arc-20240116; t=1790215833; c=relaxed/simple;
+	bh=ACw+v8q9HJglXsBWYNk5QW21ScNlTem+t6YcCssEcOA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZMTCh59JhhIEoTareulU8wGwtRR9pGpqYQ3gVZ38uyqyGeOKAlG5oNOPlraKxNBK/eEWbPAt2qUYvMoJ8ryRcmJxxKilh6+Q8eGi5MKHZvLXLc0hUYVxmduvbKxJrK8FWHxQYw33LyWbD9eP0veKZ3dwhFKkARqoSaRDwvYm33M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RtaDkNMX; arc=none smtp.client-ip=192.198.163.4
+	 Content-Type:Content-Disposition:In-Reply-To; b=kwYCUpo2PSNHzwckU0n/Aq07Ypyv4R0orQK7CFXFVV37NJ/4GELeerUh8PsRajb6MhOSINCXvw1RzSgQsHO1CKUl71AmZs4BaaScElW2IjwTIrtfwlyaryLv8M4r4X/GVnM6c1mfMYyxYpTSc082ad6xy9aYyvOJITsT6x7E/X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H29+z0G4; arc=none smtp.client-ip=192.198.163.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RtaDkNMX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H29+z0G4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790215162; x=1821751162;
+  t=1790215833; x=1821751833;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TVRHx69X6GgaWbqjZ2+lVCyhOHXTPChxXHtl2drbFCo=;
-  b=RtaDkNMXRyzvDygZvFMMF51BWBrN/TjdlKViZ60Ed94awQku0q1IoV4N
-   ZdPNvsinT03lY+VwAYtVuHg6lOlqJTRxpD/zQlYFPdU984b6zjghzXwNS
-   D6BXjOk+Jez2iKgO98wmzEZ4zjr6HDLpZOo+BBvPXurE9jN8+1CMB65bP
-   mERZcEnI7Q42ei7m30EBSj/qH8gDTYiorvoq8JC6xKhmTihDrZPM8UPZn
-   2568ojmllrxon4vshgWVJ+seLtRKnH2tXJGfKdNvgE0vuUQSOZyr553A5
-   tjvQtyE/opoTc8kfv8uImUDNlOKMEGJ/MayHc0gr/39zsacSb7lLcqATv
-   g==;
-X-CSE-ConnectionGUID: Ua26O5y+SoqDLpvAl9UYqQ==
-X-CSE-MsgGUID: uwmYse1zREGanu9UetpjPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="1481851"
+  bh=ACw+v8q9HJglXsBWYNk5QW21ScNlTem+t6YcCssEcOA=;
+  b=H29+z0G4cq2nAfNGLRj54Ml3tWe+lNorkz5a3eu2aACCGEH0Na93rQGv
+   L52NMM6DOPwO4gtHVHXQLdPTZyJp6Ump13dAxys+faUsWGCcOzTr0OjAL
+   fUZ07IuXiJ1GqKS7OjluvNAhHdtqyfN5arB1DP2POEqJoNyU58ce3yr9Q
+   qQCrXSjUv2bRo2hiXNcVSjhMYpQPnUNPafVek3t6B/f/FEn3EgkRaqTLq
+   uYtVdjO0wrvfBtMW1DauFr/4iYG9Kn51mNUK9J/qS/CKgsPD1tFmR3sIg
+   q/xIwiFY1ucIBO539leXe3w1/l/lQ+tf88jPOrudjvYCluwATUF8Gq+TM
+   Q==;
+X-CSE-ConnectionGUID: RZU/zMmlR4uQb59BBp/Q6A==
+X-CSE-MsgGUID: 8TffQP8mTH6T+6HneBmAJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="1483050"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="1481851"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 18:59:21 -0700
-X-CSE-ConnectionGUID: Jes9aVRwRbKu33hMBXvTtQ==
-X-CSE-MsgGUID: swjtQWWdTBCYYc/QOcedFA==
+   d="scan'208";a="1483050"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 19:10:22 -0700
+X-CSE-ConnectionGUID: 8oOBvtnYT5uuRb0qIqwBQA==
+X-CSE-MsgGUID: 4jXlXmiHTn6WuPXX8lIZ0w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
+   d="scan'208";a="300124716"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2026 18:59:18 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2026 19:10:18 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9Yjz-00000000I5c-0xf8;
-	Thu, 24 Sep 2026 01:59:15 +0000
-Date: Thu, 24 Sep 2026 09:58:21 +0800
+	id 1x9Yud-00000000I6E-2f8T;
+	Thu, 24 Sep 2026 02:10:15 +0000
+Date: Thu, 24 Sep 2026 10:09:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: chipang_kao <prozac2734@gmail.com>, hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com, W_Armin@gmx.de
-Cc: oe-kbuild-all@lists.linux.dev, corentin.chary@gmail.com,
-	luke@ljones.dev, denis.benato@linux.dev, scardracs@disroot.org,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	chipang_kao <chipang_kao@asus.com>
-Subject: Re: [PATCH v3] platform/wmi: Move ASUS platform drivers from x86 to
- wmi/asus
-Message-ID: <202609240939.vOix0FZl-lkp@intel.com>
-References: <20260922032157.120188-1-chipang_kao@asus.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>,
+	Dave Airlie <airlied@redhat.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: Re: [PATCH] pci/vgaarb: pass a data pointer to be used in the decode
+ callback
+Message-ID: <202609241015.1yXHBzfy-lkp@intel.com>
+References: <20260922064111.2468741-1-airlied@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,44 +69,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260922032157.120188-1-chipang_kao@asus.com>
+In-Reply-To: <20260922064111.2468741-1-airlied@gmail.com>
 
-Hi chipang_kao,
+Hi Dave,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v7.3-rc4 next-20260922]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on pci/next pci/for-linus drm-tip/drm-tip linus/master v7.3-rc4 next-20260922]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/chipang_kao/platform-wmi-Move-ASUS-platform-drivers-from-x86-to-wmi-asus/20260922-112157
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260922032157.120188-1-chipang_kao%40asus.com
-patch subject: [PATCH v3] platform/wmi: Move ASUS platform drivers from x86 to wmi/asus
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260924/202609240939.vOix0FZl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240939.vOix0FZl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/pci-vgaarb-pass-a-data-pointer-to-be-used-in-the-decode-callback/20260922-164111
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260922064111.2468741-1-airlied%40gmail.com
+patch subject: [PATCH] pci/vgaarb: pass a data pointer to be used in the decode callback
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260924/202609241015.1yXHBzfy-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241015.1yXHBzfy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609240939.vOix0FZl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241015.1yXHBzfy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/platform/x86/eeepc-wmi.c:25:10: fatal error: asus-wmi.h: No such file or directory
-      25 | #include "asus-wmi.h"
-         |          ^~~~~~~~~~~~
-   compilation terminated.
-
-
-vim +25 drivers/platform/x86/eeepc-wmi.c
-
-e12e6d94db24e9 Corentin Chary 2011-02-26  24  
-e12e6d94db24e9 Corentin Chary 2011-02-26 @25  #include "asus-wmi.h"
-e12e6d94db24e9 Corentin Chary 2011-02-26  26  
+>> Warning: drivers/gpu/drm/radeon/radeon_device.c:1079 function parameter 'data' not described in 'radeon_vga_set_decode'
+>> Warning: drivers/gpu/drm/radeon/radeon_device.c:1079 Excess function parameter 'pdev' description in 'radeon_vga_set_decode'
+>> Warning: drivers/gpu/drm/radeon/radeon_device.c:1079 function parameter 'data' not described in 'radeon_vga_set_decode'
+>> Warning: drivers/gpu/drm/radeon/radeon_device.c:1079 Excess function parameter 'pdev' description in 'radeon_vga_set_decode'
 
 --
 0-DAY CI Kernel Test Service
