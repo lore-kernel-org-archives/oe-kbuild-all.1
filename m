@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13EB4A0926
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 15:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01A13BCD2B;
+	Thu, 24 Sep 2026 16:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790265213; cv=none; b=DUmf7quCUugHXH9FZsdSFRLInwpLUuBM3sk/Oi5ESpRYzgzB18Pf+NWI0Y2OX9jMXYok2fzGkM6RAisykPJnYb3bHJyNB5CnJMs+OyCRA8h3mfJeIrKYiYINfEg/OArEK/mFs8thw02VDoKhukbURE9iaFrscnR/0xNwk7ft+us=
+	t=1790267418; cv=none; b=QSUNXCI059MYst1fDtuRApCztirXXVNfnjjBXL0MobEfw7bh7UsxXThSIXplWIq3yMzX7VMizMbfnTS1tOQsUhTENJynnrU6nOID+KzJCAXsY2czat8FpHJDnmLVsmyWfPhruteewonRMuJ0xERPyRsBA3xiRkSnm3Xj6b3u5dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790265213; c=relaxed/simple;
-	bh=eStv+h3uTDusNCAxiG7qkd1dbD1nhlZRX/ogsiYNcDY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=db0tZ9N3wVVB66vLtqDJCchz6lPMcWa6PLoMuaIfUf69uEdNfMTlyMDCgfB1jL5Ys/4PEANh4lVzE4AO3B2aK496pj6jxoE+Ff5Y00fkTA+fwIgdstncvLKrrFze+HZ48SdljHir4IrUtMhv+52UCjKUyENXOnb13vHvDghDOHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RNeF4YIb; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790267418; c=relaxed/simple;
+	bh=ChSKxKuMRhuRcdm9DL5Ni+z0ydPSTd/FYWe/Lxf7/ik=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VoShWH03ZfjSNmckcJgpug0QMPycXr1PccJMY7BIfqyRRzP4gQfKD9w22Cc91EqOaZEl7KzWdohzZt2QIdJ+At/X6KoWaaRnlptQe0QCdzVW1uHEUrRyOLV7bghORvZQZLwS9i8MkIjJ4v4x1Es0bEpEOBcZG+GlznvFNy0eRHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVRzYcQt; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RNeF4YIb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVRzYcQt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790265211; x=1821801211;
+  t=1790267417; x=1821803417;
   h=date:from:to:cc:subject:message-id;
-  bh=eStv+h3uTDusNCAxiG7qkd1dbD1nhlZRX/ogsiYNcDY=;
-  b=RNeF4YIbcrm9Q0yP6IH2XmlfUoMUq+MTbG6inVmouHziYvDK01cQxJJQ
-   SbYMdvrTbNVnFTzflbkIyMdy0k8yGwMR+WEZLp3QPsG7SMAFbjqWDJ0oz
-   xl+53JYcyrdVZ8Z8EJ/KQHF9GpXc8cWP7aXHQFQQZFs+9bXuo+H3Qjzqs
-   yoo0PzusH78zU93W1QvpBNZDRiassq675nUH6Rr7T2nfTGBP6QAUjxr4O
-   yy8UarECgiuEFB+zuU34rmlKUmuct25kwGzfSfvd1A4znmWSY2B0E1TwY
-   607BHDEqgOMStj/ab727pp4KMWWTz1anZQTz9Ktb7Ok0LKvBP5jcaZo2H
-   g==;
-X-CSE-ConnectionGUID: 6OEu1J6/Qd++HTAvAldHBw==
-X-CSE-MsgGUID: mhBOSJ82RSiKWe3zuhnXzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="102401471"
+  bh=ChSKxKuMRhuRcdm9DL5Ni+z0ydPSTd/FYWe/Lxf7/ik=;
+  b=QVRzYcQtssAvEDjFO+KS1bq1O/UaCcsGGKG3hayiamIfM5R+xzSWyWAz
+   ra4M43v6Og3Udx+sN/lYkmay/xfT6UEtMnKG2ckQrdzzFqYrjjPt982nW
+   LvT0H/3+MwjQh9DoOSl5SkeNbPYHOLUGOxN9v8rtDpCkUUOWE5CVLiLfi
+   ZxqCfxWFhifhv9cF9y1HYH+r/DnGJ2pJf/u/rhnNy+MVLkl11o0PPX7Rj
+   1e0AWBUIprHMUs1zOIqxk4qM2B+skbFN+YiF7uBIrzjPetbttVJXM43Fx
+   e6S1mrPbZ1wOyjiZL/kx2Ls2PlR38kZarvwVOZlLiXNJcFKVDFyxQWi9q
+   w==;
+X-CSE-ConnectionGUID: ZzIIP1TtQ52SkWwPskOV7g==
+X-CSE-MsgGUID: Xg0ICtZxQMO2wyuPhtBEsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="101221711"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="102401471"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 08:53:30 -0700
-X-CSE-ConnectionGUID: 9sh/RzsvQaa13fgFXU2l6Q==
-X-CSE-MsgGUID: ekQbJoBCTPWTqlnuxLteWA==
+   d="scan'208";a="101221711"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 09:30:07 -0700
+X-CSE-ConnectionGUID: KHEu3w5dRHW336B+lLzJaQ==
+X-CSE-MsgGUID: 8fmhS75IRdORFtoQzypW3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="273634334"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2026 08:53:29 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+   d="scan'208";a="282164748"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Sep 2026 09:30:05 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9llG-000000000MM-35Cp;
-	Thu, 24 Sep 2026 15:53:26 +0000
-Date: Thu, 24 Sep 2026 17:52:28 +0200
+	id 1x9mKg-00000000JA2-3G1L;
+	Thu, 24 Sep 2026 16:30:02 +0000
+Date: Fri, 25 Sep 2026 00:29:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Eric Biggers <ebiggers@kernel.org>,
- Namjae Jeon <linkinjeon@kernel.org>
-Subject: [linux-next:master 9052/9480] ld.lld: error: undefined
- symbol: __memset
-Message-ID: <202609241716.bAuueGPP-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:efi-panic 11/11]
+ drivers/firmware/efi/libstub/efi-stub-helper.c:841:3: error: use of
+ undeclared identifier 'messsage'; did you mean 'message'?
+Message-ID: <202609250012.uKa5O0Sw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,27 +60,86 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3d7783543c2646af69ad65825e810060494bea21
-commit: 09eb210b7deb53eb863cadae6f9947e8312a6bbb [9052/9480] lib/crypto: sha2: Provide functions for zeroizing SHA2 hmac_sha* structures
-config: x86_64-randconfig-2101-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241716.bAuueGPP-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241716.bAuueGPP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-panic
+head:   26122a1889cbac101c0fabcddf161a87db4ba38c
+commit: 26122a1889cbac101c0fabcddf161a87db4ba38c [11/11] efi/libstub: Implement efi_panic()
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260925/202609250012.uKa5O0Sw-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609250012.uKa5O0Sw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241716.bAuueGPP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609250012.uKa5O0Sw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __memset
-   >>> referenced by string.c
-   >>>               arch/x86/purgatory/purgatory.ro:(__UNIQUE_ID_addressable___memset_10)
---
->> ld.lld: error: undefined symbol: __memmove
-   >>> referenced by string.c
-   >>>               arch/x86/purgatory/purgatory.ro:(__UNIQUE_ID_addressable___memmove_11)
+   drivers/firmware/efi/libstub/efi-stub-helper.c:826:54: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     826 |                 efi_warn("Found panic report from previous boot (%lu bytes)\n");
+         |                                                                  ~~^
+   drivers/firmware/efi/libstub/efistub.h:77:38: note: expanded from macro 'efi_warn'
+      77 |         efi_printk(KERN_WARNING "WARNING: " fmt, ##__VA_ARGS__)
+         |                                             ^~~
+   drivers/firmware/efi/libstub/efi-stub-helper.c:838:49: warning: format specifies type 'double' but the argument has type 'const char *' [-Wformat]
+     838 |                         efi_err("%a(): Failed to allocate memory\n", __func__);
+         |                                  ~~                                  ^~~~~~~~
+         |                                  %s
+   drivers/firmware/efi/libstub/efistub.h:79:39: note: expanded from macro 'efi_err'
+      79 |         efi_printk(KERN_ERR "ERROR: " fmt, ##__VA_ARGS__)
+         |                                       ~~~    ^~~~~~~~~~~
+>> drivers/firmware/efi/libstub/efi-stub-helper.c:841:3: error: use of undeclared identifier 'messsage'; did you mean 'message'?
+     841 |                 messsage = p;
+         |                 ^~~~~~~~
+         |                 message
+   drivers/firmware/efi/libstub/efi-stub-helper.c:811:22: note: 'message' declared here
+     811 |         const efi_char16_t *message;
+         |                             ^
+   drivers/firmware/efi/libstub/efi-stub-helper.c:809:6: warning: no previous prototype for function 'efi_check_panic' [-Wmissing-prototypes]
+     809 | void efi_check_panic(void)
+         |      ^
+   drivers/firmware/efi/libstub/efi-stub-helper.c:809:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     809 | void efi_check_panic(void)
+         | ^
+         | static 
+   3 warnings and 1 error generated.
+
+
+vim +841 drivers/firmware/efi/libstub/efi-stub-helper.c
+
+   808	
+   809	void efi_check_panic(void)
+   810	{
+   811		const efi_char16_t *message;
+   812		void *p;
+   813	
+   814		p = get_efi_config_table(capsule_header.guid);
+   815	
+   816		if (p) {
+   817			message = p + sizeof(efi_capsule_header_t);
+   818		} else {
+   819			unsigned long size = 0;
+   820			efi_status_t status;
+   821	
+   822			get_efi_var(panic_reason, &capsule_header.guid, NULL, &size, NULL);
+   823			if (!size)
+   824				return;
+   825	
+   826			efi_warn("Found panic report from previous boot (%lu bytes)\n");
+   827	
+   828			status = efi_bs_call(allocate_pool, EFI_LOADER_DATA, size, &p);
+   829			if (status == EFI_SUCCESS)
+   830				get_efi_var(panic_reason, &capsule_header.guid, NULL, &size, p);
+   831	
+   832			/* clear the reason even on allocation failure */
+   833			set_efi_var(panic_reason, &capsule_header.guid,
+   834				    EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_NON_VOLATILE,
+   835				    0, NULL);
+   836	
+   837			if (status != EFI_SUCCESS) {
+   838				efi_err("%a(): Failed to allocate memory\n", __func__);
+   839				return;
+   840			}
+ > 841			messsage = p;
 
 --
 0-DAY CI Kernel Test Service
