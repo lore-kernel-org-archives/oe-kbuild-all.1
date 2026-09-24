@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A1C3A48D9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 04:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90763A48E6;
+	Thu, 24 Sep 2026 04:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790224410; cv=none; b=tNt7pFej9QwMVa/1BVRqmSOg8uan0+CIoWKNg3RiYkhOxKdRQc/EstL/LVmGSW/qU/Bou8QWpawjgRbcnu66jbIiaNyv+7Un/uwfrObMzLvK8Wj9zKWg/LOmtKyMwNN1cdpqCZE/3FEUy5t+Sc8hZd6qtYZyoY3Chi9CyRIP34M=
+	t=1790224411; cv=none; b=nT4yq/a4PfGa8NMYgDEdZiWJx7nBLlKeHnM8ayJ3IROjWHEMt2091AZiZVXrxZDTOy7UfQuCv9gdeI9M/teB7V39R8Px5rEf84FTzQmUgT5QO8/uVdYgWSNrvSUnXZv/IhbHahN7UL6fl+PPHN69gSG3tmGEbCkFTwWhQOmISdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790224410; c=relaxed/simple;
-	bh=OrSXABowRLKXcfGGx5eoS81GIA6P1ugsfb9hzNaC6lg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q+3H9gs8qOrBk4gC3/AFyITIWUvpbV5ODEKl02fdCoFkY1voFDFN/YZqWeNcVulvFx9hNnoLqP4c/u4lEBWgF2RuM4D5N0pfBn7R2KZTe+Q3u50eS8C+P4R2sC7NgCAIU13pBSXCEARs4ZFF1o+q+OfCZXJWFoi4Wcwl8IQyURM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YySIPBb9; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1790224411; c=relaxed/simple;
+	bh=l/3RpbMTkBtUBduClSIAgkGXjIpmb3CiegZTLuQ0WPo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rwzfuuvZ7LAirlTEt8lts8i+IXPFxC47i0LsUKv1lIwItM1Zz0QImstPfPm27ArL6Vj5eSAP+7BVX6S2pzsNLZnQ3HPt8swfST3e4bppZJgNVwJpurZPniV6422vqNLzHIm/+BKHgDCBAFWGzi0UyTdXMK4Pj6HuUnSUELiqlBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYuLTJc+; arc=none smtp.client-ip=192.198.163.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YySIPBb9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYuLTJc+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790224408; x=1821760408;
+  t=1790224409; x=1821760409;
   h=date:from:to:cc:subject:message-id;
-  bh=OrSXABowRLKXcfGGx5eoS81GIA6P1ugsfb9hzNaC6lg=;
-  b=YySIPBb9Tjc5xYM0sKpNVBmrG0nKR88ahl5z4DjE9kaZPc3mjNz14Efu
-   rdSUeIW1Pb6oZdJfKgujvVO73/Ug5nAl1zJM9ZYLcu3dKp//4CsN3cpvl
-   WsVG1B2VYWMuXMAf/3kqygol2ymBKZP5K5hDyEha4+H8eeQ3IEqz0mmpA
-   0tK9nYcirS3twhNLXE5m1rftRk210zCZfLbZMdW8cc4II+zTi35BdeU28
-   oi37exe47dD/g4Mr10EHBEHoA76Wy6qHNykmbgesj1sKGrmCkqjYWqfS/
-   bwH97ghhQW4ECBml6Ir0k6Hy3YbFg+NrM+zgH3YLO4kytSttmA9zjpOUf
-   Q==;
-X-CSE-ConnectionGUID: Q3PnO8ZkQ1CH2Zn21oMnyw==
-X-CSE-MsgGUID: n88LfgzZTfmDIm4yW/mmRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="108478354"
+  bh=l/3RpbMTkBtUBduClSIAgkGXjIpmb3CiegZTLuQ0WPo=;
+  b=UYuLTJc+co1AqdbtzZDbbSXxueI+rPTpuUCB1Z6go98NvlqzsS8sA06p
+   A+nDmgwmaCdAXWTBqUGEsKlus6c7OmGYPd1XW9DVy7i8Engy8kt9fpgIz
+   imL+FwuBnHUZIL4r6Fi1bMEm2wK3tef29C4a7hBs7hlY9LUbJt+Sv+Nwy
+   b7t3D/A6M+fxcAb2/r0ELWQaPFnb7CwzgZTQLdW+3q7DOzbipq7bPyTzS
+   69wt++Dz0sZtiF3OFThFj4DWbjhuanZdI8ZW1oR+awj1HEKO1yio9uArZ
+   JXJGCM+KFBM4tRprHMFvkxeZcG7oZbe2jR1sNNxH5yPVFF1Md7WO2olbP
+   w==;
+X-CSE-ConnectionGUID: fMIkzfQATSuiiiC3bQZq5g==
+X-CSE-MsgGUID: cqI75ltjT1Sub/k811g0Xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="1481283"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="108478354"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 21:33:27 -0700
-X-CSE-ConnectionGUID: ZqLHcQoJRZGUDAeBK26G6Q==
-X-CSE-MsgGUID: 5XRDI0pZTviHi1my+ES0WA==
+   d="scan'208";a="1481283"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa115.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 21:33:28 -0700
+X-CSE-ConnectionGUID: U5kyPlrRTOyLaEnfDIvoFw==
+X-CSE-MsgGUID: CIks3rG3Say75ey3L0S3MA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="5032935"
+   d="scan'208";a="271747055"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 23 Sep 2026 21:33:26 -0700
+  by orviesa006.jf.intel.com with ESMTP; 23 Sep 2026 21:33:26 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9b99-00000000ID2-1xAm;
+	id 1x9b99-00000000ID0-1qFS;
 	Thu, 24 Sep 2026 04:33:23 +0000
-Date: Thu, 24 Sep 2026 12:32:41 +0800
+Date: Thu, 24 Sep 2026 12:32:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: security/apparmor/af_unix.c:764:50: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202609241230.DoBklUpQ-lkp@intel.com>
+To: Mehmet Fide <mehmet.fide@screeningeagle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [linux-next:master 7345/8910]
+ include/linux/pinctrl/consumer.h:110:10: error: use of undeclared identifier
+ 'ENOTSUPP'
+Message-ID: <202609241240.61Hz5rix-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,122 +62,134 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe2ec83746e501645709761605c2464a44fd2929
-commit: 4483efe4f21510b30c24bc97d9fd0e8feab94125 apparmor: fix shadowing of plabel that prevents cache from being updated
-date:   3 months ago
-config: sparc-randconfig-r1307-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241230.DoBklUpQ-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241230.DoBklUpQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a8c591ed6b672915e0be57843f943a2a723aff40
+commit: b44aec87658e5d1882503ad1208ebf0b052f0ac0 [7345/8910] pinctrl: make the CONFIG_PINCTRL=n gpio config stubs return -ENOTSUPP
+config: i386-buildonly-randconfig-1002-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241240.61Hz5rix-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241240.61Hz5rix-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4483efe4f215 ("apparmor: fix shadowing of plabel that prevents cache from being updated")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241230.DoBklUpQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241240.61Hz5rix-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> security/apparmor/af_unix.c:764:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct aa_label *l @@     got struct aa_label [noderef] __rcu *label @@
-   security/apparmor/af_unix.c:764:50: sparse:     expected struct aa_label *l
-   security/apparmor/af_unix.c:764:50: sparse:     got struct aa_label [noderef] __rcu *label
+All errors (new ones prefixed by >>):
 
-vim +764 security/apparmor/af_unix.c
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-gpio.c:8:
+>> include/linux/pinctrl/consumer.h:110:10: error: use of undeclared identifier 'ENOTSUPP'
+     110 |         return -ENOTSUPP;
+         |                 ^~~~~~~~
+   include/linux/pinctrl/consumer.h:117:10: error: use of undeclared identifier 'ENOTSUPP'
+     117 |         return -ENOTSUPP;
+         |                 ^~~~~~~~
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-gpio.c:10:
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-common.h:11:
+   In file included from include/sound/soc.h:26:
+   In file included from include/sound/ac97_codec.h:17:
+   In file included from include/sound/pcm.h:14:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-gpio.c:10:
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-common.h:11:
+   In file included from include/sound/soc.h:26:
+   In file included from include/sound/ac97_codec.h:17:
+   In file included from include/sound/pcm.h:14:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-gpio.c:10:
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-common.h:11:
+   In file included from include/sound/soc.h:26:
+   In file included from include/sound/ac97_codec.h:17:
+   In file included from include/sound/pcm.h:14:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-gpio.c:10:
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-common.h:11:
+   In file included from include/sound/soc.h:26:
+   In file included from include/sound/ac97_codec.h:17:
+   In file included from include/sound/pcm.h:14:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-gpio.c:10:
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-common.h:11:
+   In file included from include/sound/soc.h:26:
+   In file included from include/sound/ac97_codec.h:17:
+   In file included from include/sound/pcm.h:14:
+   In file included from include/linux/poll.h:10:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-gpio.c:10:
+   In file included from sound/soc/mediatek/mt8186/mt8186-afe-common.h:11:
+   In file included from include/sound/soc.h:26:
+   In file included from include/sound/ac97_codec.h:17:
+   In file included from include/sound/pcm.h:14:
 
-   705	
-   706	/* This fn is only checked if something has changed in the security
-   707	 * boundaries. Otherwise cached info off file is sufficient
-   708	 */
-   709	int aa_unix_file_perm(const struct cred *subj_cred, struct aa_label *label,
-   710			      const char *op, u32 request, struct file *file)
-   711	{
-   712		struct socket *sock = (struct socket *) file->private_data;
-   713		struct sockaddr_un *addr, *peer_addr;
-   714		int addrlen, peer_addrlen;
-   715		struct aa_label *plabel = NULL;
-   716		struct sock *peer_sk = NULL;
-   717		u32 sk_req = request & ~NET_PEER_MASK;
-   718		struct path path;
-   719		bool is_sk_fs;
-   720		int error = 0;
-   721	
-   722		AA_BUG(!label);
-   723		AA_BUG(!sock);
-   724		AA_BUG(!sock->sk);
-   725		AA_BUG(sock->sk->sk_family != PF_UNIX);
-   726	
-   727		/* investigate only using lock via unix_peer_get()
-   728		 * addr only needs the memory barrier, but need to investigate
-   729		 * path
-   730		 */
-   731		unix_state_lock(sock->sk);
-   732		peer_sk = unix_peer(sock->sk);
-   733		if (peer_sk)
-   734			sock_hold(peer_sk);
-   735	
-   736		is_sk_fs = is_unix_fs(sock->sk);
-   737		addr = aa_sunaddr(unix_sk(sock->sk), &addrlen);
-   738		path = unix_sk(sock->sk)->path;
-   739		unix_state_unlock(sock->sk);
-   740	
-   741		if (is_sk_fs && peer_sk)
-   742			sk_req = request;
-   743		if (sk_req) {
-   744				error = aa_unix_label_sk_perm(subj_cred, label, op,
-   745							      sk_req, sock->sk,
-   746							      is_sk_fs ? &path : NULL);
-   747		}
-   748		if (!peer_sk)
-   749			goto out;
-   750	
-   751		peer_addr = aa_sunaddr(unix_sk(peer_sk), &peer_addrlen);
-   752	
-   753		struct path peer_path;
-   754	
-   755		peer_path = unix_sk(peer_sk)->path;
-   756		if (!is_sk_fs && is_unix_fs(peer_sk)) {
-   757			last_error(error,
-   758				   unix_fs_perm(op, request, subj_cred, label,
-   759						is_unix_fs(peer_sk) ? &peer_path : NULL));
-   760		} else if (!is_sk_fs) {
-   761			struct aa_sk_ctx *pctx = aa_sock(peer_sk);
-   762	
-   763			rcu_read_lock();
- > 764			plabel = aa_get_newest_label(pctx->label);
-   765			rcu_read_unlock();
-   766			/* no fs check of aa_unix_peer_perm because conditions above
-   767			 * ensure they will never be done
-   768			 */
-   769			last_error(error,
-   770				xcheck(unix_peer_perm(subj_cred, label, op,
-   771						      MAY_READ | MAY_WRITE, sock->sk,
-   772						      is_sk_fs ? &path : NULL,
-   773						      peer_addr, peer_addrlen,
-   774						      is_unix_fs(peer_sk) ?
-   775								&peer_path : NULL,
-   776						      plabel),
-   777				       unix_peer_perm(file->f_cred, plabel, op,
-   778						      MAY_READ | MAY_WRITE, peer_sk,
-   779						      is_unix_fs(peer_sk) ?
-   780								&peer_path : NULL,
-   781						      addr, addrlen,
-   782						      is_sk_fs ? &path : NULL,
-   783						      label)));
-   784			if (!error && !__aa_subj_label_is_cached(plabel, label))
-   785				update_peer_ctx(peer_sk, pctx, label);
-   786		}
-   787		sock_put(peer_sk);
-   788	
-   789	out:
-   790	
-   791		/* update peer cache to latest successful perm check */
-   792		if (error == 0)
-   793			update_sk_ctx(sock->sk, label, plabel);
-   794		aa_put_label(plabel);
-   795	
-   796		return error;
-   797	}
-   798	
+
+vim +/ENOTSUPP +110 include/linux/pinctrl/consumer.h
+
+   105	
+   106	static inline int
+   107	pinctrl_gpio_get_config(struct gpio_chip *gc, unsigned int offset,
+   108				unsigned long *config)
+   109	{
+ > 110		return -ENOTSUPP;
+   111	}
+   112	
 
 --
 0-DAY CI Kernel Test Service
