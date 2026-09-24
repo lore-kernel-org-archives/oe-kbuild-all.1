@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59763145B27
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 03:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8C03E5EF1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 03:48:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790220548; cv=none; b=F7CMNHMX6DsQpiKE2/YIEoqXw9+o7G9uzq6ub5oKUW+YeG3UkPnjAZDYB8F5LicA/0Q6Hfe8Aq8cxGThptggUdtuCXksG4skVAWqNH+nscml71SG2lbXadTpH/gmaQJZOJ9/0qqXE0VRB7z2uTL9PrrSTajmIJmATQJku4dGUEc=
+	t=1790221709; cv=none; b=HrvyGDlWkmGmrryenaKjiu0pGnHDV2pexqB/zlxViApmHBzCZb12QKG0si7jGiVMKrMEz19/pwGajk7X/MwRJvFzb33Q6yPfabk0AKgFoYJT8v5EynZos1XtXtfD0JrMFv9ccV9JZzC9MVpy+/D24b6AYsvFJ0l9fh6gFkNxG60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790220548; c=relaxed/simple;
-	bh=9q1YAELp6JG8mDc8Gdf8iC+jvCHjrbepNTx67/Z/3OA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kYeKR+Tk4prWc+kwiMgn/aZaS5RfDG6Uf5rWNCiWH0DOwc04Z3+0aUYCILtuUDXfA4MRexvxFbw3BDXjTFpl+wrZ0KrB6clRUndME8bs8G71xEli74G0NZ4alSd5lELSu1ANqflp+20zM+4Tlw4VkQY29odJz1u35S5XZY9ypy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhHAtS0v; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1790221709; c=relaxed/simple;
+	bh=XpNk1q5111XBtD3ATUFRM0hRDnhnDffjoK5AeYZoBFE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TH5pvg+QHuqlZptDy+Mi98OPHu6WbR4IFc6mN81X/4obOxjVrNMQ72AL00SWvIZb8ykAy2sLCDYkr8nrBb6KCiw4lofNcBF9laUQnDCBThV778x7f/3LYgB98w7XYoDymZyi+VV2ZuV88WRT2Lz75M/lnLrnYtVgyaZonua36VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOpfPbPr; arc=none smtp.client-ip=192.198.163.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhHAtS0v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOpfPbPr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790220545; x=1821756545;
+  t=1790221707; x=1821757707;
   h=date:from:to:cc:subject:message-id;
-  bh=9q1YAELp6JG8mDc8Gdf8iC+jvCHjrbepNTx67/Z/3OA=;
-  b=XhHAtS0vpR9WPRfVqj/ct4GmBbIhfxRu7uLqiLM6eekyo4+IjmDsJLTm
-   7iprPUv4YdTw6GzCb0gXVuKmaAGz9HPJ+XHY/2U23J9GUYsDS6HsymrNT
-   tW71M2sRTJ7TwQhKtnfMLSvNawo9zAtsjFfntTeEIFnvnlRN+vSzof0NB
-   7odFQejXXTB9V9OH54vH3V7kvr28slQJqns6md97yi13iMbpjZNXRSeI9
-   xJkfs865tVpSXuVVmJrLj8bomWu/lZtGw8VKzYIA0KpNj5ELoLuof7uQh
-   PJydlP2H6bqm46VS3FFlM20Z4+R/Sd+WdQ3nNP4Yde4po8+f2vATgQnVi
-   A==;
-X-CSE-ConnectionGUID: uGPQSmY/Tc6Zi8GGDN8F8Q==
-X-CSE-MsgGUID: Lj3ryWgLQZK6ATpyTmCZPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="94798196"
+  bh=XpNk1q5111XBtD3ATUFRM0hRDnhnDffjoK5AeYZoBFE=;
+  b=HOpfPbPr2so1RcRG9lBuREKk5rzFUGgG6XpHCR5SMFiotCP7PvUkqk22
+   i71SCuTN9CfW7amBwdY7idPVrDIBdhOgGi60d+ueYMhYS8+5FMiP1jvWE
+   YDPdI56zzaICuRuhAw7FS0eBGvkFMGycM6sbbvdlCH6W/VQOQqtx56Znz
+   Tr/ZEUj/676hYR0O+ec2bgVPr75q5ysKTwKlTXC/enI+qFRBtQ81dvmRH
+   HmvrtxfAJ3yQKDQB0pn3qZo3sv5LUPsn68X9zWfyjmXmIYB2ckA24ZJCM
+   /Te+NwC15Ao87q+GwlrY/7tnPKgMrItEgUH/O+V2HhCWSioddIqQ9gWeN
+   Q==;
+X-CSE-ConnectionGUID: ZHXgUBLAQR28clVZF8Q83Q==
+X-CSE-MsgGUID: dXItRo/1SNGu22yeAxx1UA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="1494506"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="94798196"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 20:29:04 -0700
-X-CSE-ConnectionGUID: tj68F0DUR/OeSRMk9WaQHg==
-X-CSE-MsgGUID: aCHy+eLuRHGPJjfRN1n+Mw==
+   d="scan'208";a="1494506"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 20:48:24 -0700
+X-CSE-ConnectionGUID: m6g9dujdQE2yCE9iA7F9Ug==
+X-CSE-MsgGUID: 6cEOReRkQIuMjqDHc/iGgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="300142131"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2026 20:29:02 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+   d="scan'208";a="281992716"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 20:48:22 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9a8q-000000000BS-19ch;
-	Thu, 24 Sep 2026 03:29:00 +0000
-Date: Thu, 24 Sep 2026 05:28:30 +0200
+	id 1x9aRX-00000000IAi-355I;
+	Thu, 24 Sep 2026 03:48:19 +0000
+Date: Thu, 24 Sep 2026 11:47:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nazim Amirul <muhammad.nazim.amirul.nazle.asmade@altera.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 6945/8910]
- arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb:
- ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are
- not allowed ('phy-addr' was unexpected)
-Message-ID: <202609240545.g8CnJKQP-lkp@intel.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202609241102.b0Z14B7C-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,305 +61,90 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a8c591ed6b672915e0be57843f943a2a723aff40
-commit: 0a9b6e9385dc1e2f56f8ec58e64a8dfc36771e74 [6945/8910] dt-bindings: net: snps,dwmac: allow stmmaceth-ocp reset name
-config: arm-randconfig-2400-20260923 (https://download.01.org/0day-ci/archive/20260924/202609240545.g8CnJKQP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema: 2026.10.dev2+g840a01d41
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240545.g8CnJKQP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe2ec83746e501645709761605c2464a44fd2929
+commit: f08e7a4e8d6ac4de677727af352ea33c6ce9f444 pmdomain: mediatek: Add support for MFlexGraphics
+date:   10 months ago
+config: sparc-randconfig-r1301-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241102.b0Z14B7C-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241102.b0Z14B7C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f08e7a4e8d6a ("pmdomain: mediatek: Add support for MFlexGraphics")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609240545.g8CnJKQP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241102.b0Z14B7C-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('partition@raw', 'u-boot,dm-pre-reloc' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: /soc/i2c@ffc02300/clock-controller@70: failed to match any schema with compatible: ['silabs,si5338']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_emmc.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('partition@raw', 'u-boot,dm-pre-reloc' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_qspi.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: /soc/i2c@ffc02300/clock-controller@70: failed to match any schema with compatible: ['silabs,si5338']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('partition@raw', 'u-boot,dm-pre-reloc' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_qspi.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr', 'txd0-skew-ps', 'txd1-skew-ps', 'txd2-skew-ps', 'txd3-skew-ps' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_sdmmc.dtb: /soc/spi@ffda5000/resource-manager@0: failed to match any schema with compatible: ['altr,a10sr']
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr', 'txd0-skew-ps', 'txd1-skew-ps', 'txd2-skew-ps', 'txd3-skew-ps' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_qspi.dtb: /soc/spi@ffda5000/resource-manager@0: failed to match any schema with compatible: ['altr,a10sr']
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_sdmmc.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: /soc/i2c@ffc02300/clock-controller@70: failed to match any schema with compatible: ['silabs,si5338']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_sdmmc.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe3_emmc.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: /soc/i2c@ffc02300/clock-controller@70: failed to match any schema with compatible: ['silabs,si5338']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_emmc.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr', 'txd0-skew-ps', 'txd1-skew-ps', 'txd2-skew-ps', 'txd3-skew-ps' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/i2c@ffc02300/ltc@5c: failed to match any schema with compatible: ['ltc2977']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: spi@ffda5000 (snps,dw-apb-ssi): Unevaluated properties are not allowed ('rx-dma-channel', 'tx-dma-channel' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/snps,dw-apb-ssi.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_socdk_nand.dtb: /soc/spi@ffda5000/resource-manager@0: failed to match any schema with compatible: ['altr,a10sr']
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: /soc/i2c@ffc02300/clock-controller@70: failed to match any schema with compatible: ['silabs,si5338']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_st1_sdmmc.dtb: timer0@ffc02700 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
---
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: pdma@ffda1000 (arm,pl330): $nodename:0: 'pdma@ffda1000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: cb_intosc_hs_div2_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: cb_intosc_ls_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: f2s_free_clk (fixed-clock): 'clock-frequency' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): phy-addr: b'\xff\xff\xff\xff' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: /soc/fpga-mgr@ffd03000: failed to match any schema with compatible: ['altr,socfpga-a10-fpga-mgr']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: /soc/i2c@ffc02300/clock-controller@70: failed to match any schema with compatible: ['silabs,si5338']
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): tx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: spi@ffda5000 (snps,dw-apb-ssi): rx-dma-channel: b'\x00\x00\x00"\x00\x00\x00\x11' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: flash@0 (jedec,spi-nor): Unevaluated properties are not allowed ('partition@raw', 'u-boot,dm-pre-reloc' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/jedec,spi-nor.yaml
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10_mercury_aa1_pe1_qspi.dtb: flash@0 (jedec,spi-nor): 'partition@raw' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', '^pinctrl-[0-9]+$'
+sparse warnings: (new ones prefixed by >>)
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned long @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     expected restricted __le32 [usertype] magic
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     got unsigned long
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] ipi_magic @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     expected restricted __le32 [usertype] magic
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     got unsigned int [usertype] ipi_magic
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:472:19: sparse: sparse: restricted signed int degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [assigned] [usertype] base @@     got unsigned int [usertype] shared_mem_phys @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     expected restricted __le64 [assigned] [usertype] base
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     got unsigned int [usertype] shared_mem_phys
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] size @@     got unsigned int shared_mem_size @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     expected restricted __le32 [assigned] [usertype] size
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     got unsigned int shared_mem_size
+>> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     expected restricted __le32 [usertype] cmd
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     got int
+>> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] power_state @@     got int @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     expected restricted __le32 [usertype] power_state
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     got int
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     expected restricted __le32 [usertype] cmd
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     got int
+>> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] gpu_oppidx @@     got unsigned int opp_idx @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     expected restricted signed int [usertype] gpu_oppidx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     got unsigned int opp_idx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] stack_oppidx @@     got unsigned int opp_idx @@
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     expected restricted signed int [usertype] stack_oppidx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     got unsigned int opp_idx
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:578:42: sparse: sparse: restricted __le32 degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:579:44: sparse: sparse: restricted __le32 degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:593:44: sparse: sparse: restricted __le32 degrades to integer
+   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:594:46: sparse: sparse: restricted __le32 degrades to integer
+
+vim +509 drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
+
+   504	
+   505	static int mtk_mfg_power_control(struct mtk_mfg *mfg, bool enabled)
+   506	{
+   507		struct mtk_mfg_ipi_msg msg = {};
+   508	
+ > 509		msg.cmd = CMD_POWER_CONTROL;
+ > 510		msg.u.power_state = enabled ? 1 : 0;
+   511	
+   512		return mtk_mfg_send_ipi(mfg, &msg);
+   513	}
+   514	
+   515	static int mtk_mfg_set_oppidx(struct mtk_mfg *mfg, unsigned int opp_idx)
+   516	{
+   517		struct mtk_mfg_ipi_msg msg = {};
+   518		int ret;
+   519	
+   520		if (opp_idx >= mfg->num_gpu_opps)
+   521			return -EINVAL;
+   522	
+   523		msg.cmd = CMD_FIX_DUAL_TARGET_OPPIDX;
+ > 524		msg.u.dual_commit.gpu_oppidx = opp_idx;
+   525		msg.u.dual_commit.stack_oppidx = opp_idx;
+   526	
+   527		ret = mtk_mfg_send_ipi(mfg, &msg);
+   528		if (ret) {
+   529			dev_err(&mfg->pdev->dev, "Failed to set OPP %u: %pe\n",
+   530				opp_idx, ERR_PTR(ret));
+   531			return ret;
+   532		}
+   533	
+   534		return 0;
+   535	}
+   536	
 
 --
 0-DAY CI Kernel Test Service
