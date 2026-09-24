@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E43473C67
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 10:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6891037F337
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 11:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790245548; cv=none; b=HRdwFCU6K6b+Y13FjcCiGCo2x5pSCqrotr9CQAtIHnPSGEcOfj5kYV3LmZ1G9hOSkAn8Pyi9wEGtiayUS2rZUDSJ2ThZCbL9NZbw1hRN8KW9/HbERYnpYZmxAG+K3IusePRBDeITv05/wMh60TXC7abbhrlSk1Yci2yQIJKZXEI=
+	t=1790248618; cv=none; b=czBsmebl9/iW9K1orIqvHmVbRez/Mz3h1gqDN1JFNKDeesffB35JVMBUmjPPsgIIbb3rSJXBeAG/H6u+ZxvProq0L418k744O4j0ZoRw9Q5FMhQoycnxNX1dPqjZtQ0B1se3wxFMhA9p/s/3gl1W4KXUCYr76lSsuXWqOgORjKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790245548; c=relaxed/simple;
-	bh=TIFUfvmD613xJuu3PjTTiXKgbnl9qU3sX1uWJybPsK0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LgitCzqqQmBrygJF6KlY3gIv51EXohyDEZAmXiWY3eBF2rPW98sR31TcdoMD3ppa/12IjiJHu5syUDgQO+fc/fk1ci9Zp5wL+pN5tQ2s7OnQOYFEvRu8LDLrQOcaeWZQeMVziLgOVp4ZoxJYCICBh2C6dOBMm6x7de+JkQ1zPQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8Vi1pNx; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1790248618; c=relaxed/simple;
+	bh=Mlg5fsw6WCTKic3vHFpdmtywrghSfbJGiccWZjjkbqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mR2MC0bWv3cUzGDULRZVVSleUCObjq8jAujssa8swDCMfz03CSFPxjl/1sRVXVu4AS5cMlhcNoboaxggRiV4rC5ohO64KtRTRz23c49ZN0QwXSrGDcdlCzMBJN2/VCYQbYxGUXGRfIe3SrCwl6FfvgPnzVDZ4j8rz5wo8Q55IIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtMuQ/HZ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8Vi1pNx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtMuQ/HZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790245546; x=1821781546;
+  t=1790248613; x=1821784613;
   h=date:from:to:cc:subject:message-id;
-  bh=TIFUfvmD613xJuu3PjTTiXKgbnl9qU3sX1uWJybPsK0=;
-  b=P8Vi1pNxkr7PDrB8dTBcIxsdIqvPRJ7vp9cn46h23dNW0Osf6thcJko3
-   au2QJ5/kd7o3u5wPeH9O4xbb/y6B/N3iPB9gSrOJM6QWvnFIAjk49VMg0
-   e+Ov4sk063o6pmlyF1QtjW1FyZtZXHWNRpztwkX36aLfwy/+VEpZYi11m
-   305Z5fWhoewp5hOwSGh9cpXxnoFFKHyhcyDjo/JmLfvElcMs9wg4dD7i3
-   oglRMUyx6TMmVvId0FhmQ4bSos3opdhuxMVdPNs4v94qmbCNQjRh3wJMW
-   /E4RUNe/gepDIDbiKVknZDM3hjFpuIxYEjEjnkBFl2MLDW5W+cErAUgPK
-   w==;
-X-CSE-ConnectionGUID: DwW15FZiRCSGwuLLIbViYQ==
-X-CSE-MsgGUID: IdXWH49rSeGawDMv0he/7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="93509842"
+  bh=Mlg5fsw6WCTKic3vHFpdmtywrghSfbJGiccWZjjkbqQ=;
+  b=YtMuQ/HZIAzNx9RkiS7Zm7QBcee9umH2fmsk2Rsa68xWG07iZH7T9iQd
+   zXIorRFyb3taZ7eKOnZHMqLUIAvvpAFE7RfU3kA9wBCSjDNMhJ2480eQF
+   dvx61ZiQSg3XgJXd39q8f/VAtytsuDXDJbhNhcGtHWH68YMl0cJL+DKL6
+   m/3jormAbGcnFkncX11v0SkBOcBFPYUVyrByJ5N17g9upPVt09HFSCfMB
+   WgwRY4HbI0OcxXylWNZHvx+00hr/F/vpBlhokkjRdinKWWlyFXpJutcxp
+   g+iQnQrOvmU8gmu+xgU+Bq0JzU/786EGtAjDZjB4UagBTkewVKu/nyFJK
+   Q==;
+X-CSE-ConnectionGUID: L+MgOtBXTS6cl/M7LsBqxg==
+X-CSE-MsgGUID: yWjlqNZLSea0vx71vSitzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="101671647"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="93509842"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 03:25:45 -0700
-X-CSE-ConnectionGUID: 4Z6kbfDSSoi1GskAE1aMSw==
-X-CSE-MsgGUID: NWiv7SWtTVCQRJwgbyUzSA==
+   d="scan'208";a="101671647"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 04:16:48 -0700
+X-CSE-ConnectionGUID: i/8MO6lnTW6UEBHe4Fiz8A==
+X-CSE-MsgGUID: pZttZg01StCEGoO2yP2lvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="274102428"
+   d="scan'208";a="274202131"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 24 Sep 2026 03:25:44 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 24 Sep 2026 04:16:47 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9ge5-000000000Iw-3xSh;
-	Thu, 24 Sep 2026 10:25:41 +0000
-Date: Thu, 24 Sep 2026 12:25:25 +0200
+	id 1x9hRU-000000000JK-3KGz;
+	Thu, 24 Sep 2026 11:16:44 +0000
+Date: Thu, 24 Sep 2026 13:16:17 +0200
 From: kernel test robot <lkp@intel.com>
-To: Joseph Guo <qijian.guo@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-Subject: [linux-next:master 1369/9480]
- arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: linux,cma (shared-dma-pool):
- Unevaluated properties are not allowed ('alloc-ranges', 'reusable', 'size'
- were unexpected)
-Message-ID: <202609241238.9lceqt7q-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2] mm/gup.c:408:6: warning:
+ no previous prototype for '_trace_android_vh_mm_customize_longterm_pinnable'
+Message-ID: <202609241302.ZwTBLS5p-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,26 +59,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3d7783543c2646af69ad65825e810060494bea21
-commit: cac63565a186028ed6c6564c277910cdfe592828 [1369/9480] arm64: dts: imx93: Add i.MX93 Wireless FRDM board support
-config: arm64-randconfig-2400-20260921 (https://download.01.org/0day-ci/archive/20260924/202609241238.9lceqt7q-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema: 2026.10.dev2+g840a01d41
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241238.9lceqt7q-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   c905c29016dd2dbf8df45e7c0287455f67ef165b
+commit: 9309f0022ffe8a1b6714f8d70dfa9f57e428a6d2 [2/2] ANDROID: vendor_hook: Added hook to tune reclaimed huge page
+config: arm-randconfig-r2105-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241302.ZwTBLS5p-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241302.ZwTBLS5p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241238.9lceqt7q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241302.ZwTBLS5p-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->> arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: linux,cma (shared-dma-pool): Unevaluated properties are not allowed ('alloc-ranges', 'reusable', 'size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
-   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->> arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: vdevbuffer@a4020000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+All warnings (new ones prefixed by >>):
+
+>> mm/gup.c:408:6: warning: no previous prototype for '_trace_android_vh_mm_customize_longterm_pinnable' [-Wmissing-prototypes]
+     408 | void _trace_android_vh_mm_customize_longterm_pinnable(struct folio *folio,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/_trace_android_vh_mm_customize_longterm_pinnable +408 mm/gup.c
+
+   402	
+   403	/*
+   404	 * trace_android_vh_mm_customize_longterm_pinnable is called in include/linux/mm.h
+   405	 * by including include/trace/hooks/mm.h, which will result to build-err.
+   406	 * So we create func: _trace_android_vh_mm_customize_longterm_pinnable.
+   407	 */
+ > 408	void _trace_android_vh_mm_customize_longterm_pinnable(struct folio *folio,
+   409			bool *is_longterm_pinnable)
+   410	{
+   411		trace_android_vh_mm_customize_longterm_pinnable(folio, is_longterm_pinnable);
+   412	}
+   413	
 
 --
 0-DAY CI Kernel Test Service
