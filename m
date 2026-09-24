@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0853330676
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 13:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F94381AE3;
+	Thu, 24 Sep 2026 14:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790257161; cv=none; b=Uo3WsbPRvq6cynwH0KlBVNdQPzw9WRFY2KuFsjntMxge3IKJRxFoIFqXseIqiFhdlRb6Kw4aAYpSZa74FbtJHXzJgL7HPKHsHBCZ0HB56DbrPkJ5becDlbVJWxSH/brvRZNycYJXZkx27n/NTX2VlLgG2WJX1HtDE+FlQp/nbSo=
+	t=1790258514; cv=none; b=ZE2L/QbCp65EMsSr8FUSNFHaS6qcN781cZLQvJc62buBoHFwdmxYPUafYbFkgUMFZsd8c48jMtJZdcZ7or69yVO+j8C0g3TpCLAXiwNYpkEVYbycAvGteSg+BAcP5Ra5tmjm3bCRxcW7/4LRp7mSdcXBceWmh9ozA7ZdoGSRyI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790257161; c=relaxed/simple;
-	bh=Q4DMe6udOxkGyzvb8BBBa14qugZDHVyIaZ9M34UwcOg=;
-	h=Date:From:Cc:Subject:Message-ID; b=eJkSCug2GUBzKT2HV7Q/qNm9lLFxlF06lyEbFuIfWRRgwy0jQFRdTqby5bdUla9WE6FNuQTfFx5P9TMkCBJmlfBmu88lvIbW9C3GpbvhToe122ibSBZEU0ILQZkISIfSOTSK5IgbmP3siaPCFfLan50vldnAGEXZW+G+OvLbFgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DbhYXOLD; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1790258514; c=relaxed/simple;
+	bh=+OVQB3N3eBFeNejVCQVBdT6Jz82bf0N3P8Wu8VdNODw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sD2t5JlPJ1mdSmCDkgKlKnWC1FaFXZDCw3bCmyox3mgnAS0ETqFGq/5ahhGn03iIxFQpseQT6h7IPdXHLn9rquO8vVW3I+/OMsC1mkhmD6L0xbHmdY0gMXhAjQ11Juzwj2zsnW4j2b+zLG6XXJWqtPsP5Ew5onx+epgBkXwmATU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JIXwkd0j; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DbhYXOLD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIXwkd0j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790257155; x=1821793155;
-  h=date:from:cc:subject:message-id;
-  bh=Q4DMe6udOxkGyzvb8BBBa14qugZDHVyIaZ9M34UwcOg=;
-  b=DbhYXOLDSJpHYHyUyDh/VGJ3Oi+tY4BjndoFRw5K3DEPdg8ibnSol+Y3
-   NiSXlHqiwJoE4X4uTOvhETS227hxTDGIdaivcQRDkuftqIVsTFmodRKkC
-   KuAuLz+3PvuWqYdTAgQM25qtk00Irn0zUDpxfg6rylvPi3RPJ7DZu61hy
-   ANmbJvxZ7z/uvtlxmYQny+RK2jJuCYPx0GUaaHPXD9dpZNmopr29QWy07
-   QH15VMx71K+HtpKkySxmJ91s2+k8rnbmd8wqiYM9A6UdU0e0+4gguLnoc
-   PUmuwAwomVSIpA9BaFGamHIDON4rRP6aC1SrpfpjqEAX3tpLF9dc4YVcK
-   A==;
-X-CSE-ConnectionGUID: AMG3eRGtQ7eCvEIJK80n2Q==
-X-CSE-MsgGUID: eytEPPIVQaGwONAkLqJ+Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="108522537"
+  t=1790258512; x=1821794512;
+  h=date:from:to:cc:subject:message-id;
+  bh=+OVQB3N3eBFeNejVCQVBdT6Jz82bf0N3P8Wu8VdNODw=;
+  b=JIXwkd0jcTCORrnNdOjLb8CobzdAcLz1+mbLlNhcK1hVAWvHUtFryovU
+   J3tM45mtiZAc6mlVVYK4mban38hrLyzBFzR9PsLnqNv719xIzXBOQRCEj
+   YxwS8kwJ0bep8MW6yYPCDEM3qlykJ+ePidGnj4MS3QpHu/Qs98ZT/DFqP
+   zLA5qNm595mUe1IVCmNViND4frflPiZaRJh5Jxyw3oZcepgd0wbPOp/Ww
+   xMyUUuvCwnWtO+BGLMRglMB4cvA+tPlzKLI2c6HkVEt0cWdIyyn5lMbpR
+   Jjjg3WbejaywddDMoi/GQENLvSF4RFtpv34u01fuyoC3Qi6DOMy/cRzdP
+   Q==;
+X-CSE-ConnectionGUID: SJ/cWHY5QlWUXOmlsVPpPw==
+X-CSE-MsgGUID: 0D9kCYkRQ5SXIO46j8kktQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90151579"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="108522537"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 06:39:11 -0700
-X-CSE-ConnectionGUID: yk127oExR/aXhJgRdra1cA==
-X-CSE-MsgGUID: 7mfT1HQzTKewAcBp2wwLpg==
+   d="scan'208";a="90151579"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 07:01:49 -0700
+X-CSE-ConnectionGUID: 5u7W/17PS6255tg84HDNDw==
+X-CSE-MsgGUID: W7rz2cOSSOi3xq+bgOVSug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="301961222"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Sep 2026 06:39:10 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 24 Sep 2026 07:01:47 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9jfH-000000000Kw-43Lw;
-	Thu, 24 Sep 2026 13:39:07 +0000
-Date: Thu, 24 Sep 2026 15:38:16 +0200
+	id 1x9k1B-00000000IuQ-1Woe;
+	Thu, 24 Sep 2026 14:01:45 +0000
+Date: Thu, 24 Sep 2026 22:00:54 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Zhenzhong Duan <zhenzhong.duan@intel.com>
-Subject: [intel-tdx:v7.3-rc4_tdx_connect_phase2.for_upstream 8/44]
- include/linux/device/trust.h:35:61: error: invalid use of undefined type
- 'struct module'
-Message-ID: <202609241546.VygTNKX1-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:efi-panic 11/11]
+ drivers/firmware/efi/libstub/efi-stub-helper.c:826:54: warning: more '%'
+ conversions than data arguments
+Message-ID: <202609242143.wxkynTQV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,67 +58,83 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/intel/tdx.git v7.3-rc4_tdx_connect_phase2.for_upstream
-head:   69fd611d89afafa408b11f0e1304297433d3d471
-commit: fa72ad859365251f835846b18b5c1beb2fd36de9 [8/44] device core: Initial device trust infrastructure
-config: sparc-randconfig-2000-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241546.VygTNKX1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241546.VygTNKX1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-panic
+head:   26122a1889cbac101c0fabcddf161a87db4ba38c
+commit: 26122a1889cbac101c0fabcddf161a87db4ba38c [11/11] efi/libstub: Implement efi_panic()
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260924/202609242143.wxkynTQV-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609242143.wxkynTQV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241546.VygTNKX1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609242143.wxkynTQV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/sparc/include/asm/bug.h:25,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/percpu.h:5,
-                    from include/linux/prandom.h:13,
-                    from kernel/sched/sched.h:8,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/device/trust.h: In function 'module_driver_trust':
->> include/linux/device/trust.h:35:61: error: invalid use of undefined type 'struct module'
-      35 |         pr_warn("module: %s: trust= support disabled\n", mod->name);
-         |                                                             ^~
-   include/linux/printk.h:483:33: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:564:9: note: in expansion of macro 'printk'
-     564 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/device/trust.h:35:9: note: in expansion of macro 'pr_warn'
-      35 |         pr_warn("module: %s: trust= support disabled\n", mod->name);
-         |         ^~~~~~~
-   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1 shuffle=3302653350
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=3302653350
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3302653350
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3302653350
-   make: Target 'prepare' not remade because of errors.
+>> drivers/firmware/efi/libstub/efi-stub-helper.c:826:54: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     826 |                 efi_warn("Found panic report from previous boot (%lu bytes)\n");
+         |                                                                  ~~^
+   drivers/firmware/efi/libstub/efistub.h:77:38: note: expanded from macro 'efi_warn'
+      77 |         efi_printk(KERN_WARNING "WARNING: " fmt, ##__VA_ARGS__)
+         |                                             ^~~
+>> drivers/firmware/efi/libstub/efi-stub-helper.c:838:49: warning: format specifies type 'double' but the argument has type 'const char *' [-Wformat]
+     838 |                         efi_err("%a(): Failed to allocate memory\n", __func__);
+         |                                  ~~                                  ^~~~~~~~
+         |                                  %s
+   drivers/firmware/efi/libstub/efistub.h:79:39: note: expanded from macro 'efi_err'
+      79 |         efi_printk(KERN_ERR "ERROR: " fmt, ##__VA_ARGS__)
+         |                                       ~~~    ^~~~~~~~~~~
+   drivers/firmware/efi/libstub/efi-stub-helper.c:841:3: error: use of undeclared identifier 'messsage'; did you mean 'message'?
+     841 |                 messsage = p;
+         |                 ^~~~~~~~
+         |                 message
+   drivers/firmware/efi/libstub/efi-stub-helper.c:811:22: note: 'message' declared here
+     811 |         const efi_char16_t *message;
+         |                             ^
+   drivers/firmware/efi/libstub/efi-stub-helper.c:809:6: warning: no previous prototype for function 'efi_check_panic' [-Wmissing-prototypes]
+     809 | void efi_check_panic(void)
+         |      ^
+   drivers/firmware/efi/libstub/efi-stub-helper.c:809:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     809 | void efi_check_panic(void)
+         | ^
+         | static 
+   3 warnings and 1 error generated.
 
 
-vim +35 include/linux/device/trust.h
+vim +826 drivers/firmware/efi/libstub/efi-stub-helper.c
 
-    28	
-    29	#ifdef CONFIG_DEVICE_TRUST
-    30	void module_driver_trust(struct module *mod, const char *val);
-    31	void module_driver_trust_init(struct module *mod, bool distrust);
-    32	#else
-    33	static inline void module_driver_trust(struct module *mod, const char *val)
-    34	{
-  > 35		pr_warn("module: %s: trust= support disabled\n", mod->name);
-    36	}
-    37	static inline void module_driver_trust_init(struct module *mod, bool distrust)
-    38	{
-    39	}
-    40	#endif
-    41	
+   808	
+   809	void efi_check_panic(void)
+   810	{
+   811		const efi_char16_t *message;
+   812		void *p;
+   813	
+   814		p = get_efi_config_table(capsule_header.guid);
+   815	
+   816		if (p) {
+   817			message = p + sizeof(efi_capsule_header_t);
+   818		} else {
+   819			unsigned long size = 0;
+   820			efi_status_t status;
+   821	
+   822			get_efi_var(panic_reason, &capsule_header.guid, NULL, &size, NULL);
+   823			if (!size)
+   824				return;
+   825	
+ > 826			efi_warn("Found panic report from previous boot (%lu bytes)\n");
+   827	
+   828			status = efi_bs_call(allocate_pool, EFI_LOADER_DATA, size, &p);
+   829			if (status == EFI_SUCCESS)
+   830				get_efi_var(panic_reason, &capsule_header.guid, NULL, &size, p);
+   831	
+   832			/* clear the reason even on allocation failure */
+   833			set_efi_var(panic_reason, &capsule_header.guid,
+   834				    EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_NON_VOLATILE,
+   835				    0, NULL);
+   836	
+   837			if (status != EFI_SUCCESS) {
+ > 838				efi_err("%a(): Failed to allocate memory\n", __func__);
 
 --
 0-DAY CI Kernel Test Service
