@@ -1,154 +1,174 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7972D592C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 04:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678844119F9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 04:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790223028; cv=none; b=tLJ1DFZgwbJvRKQucXDg90zPgomyd385AiGg/sIZa5oH55hw1akWW9iByL6AQwUAQkhjjArbdNTdBai2uSTQuwwrj+9PPbrC9zKXgIIJWmo2xwgkIAmq6o3y2Bw8+TEpdt5oLxT3VoKlDOVIN0YSSjl21FOuF93NeiVB708+Q8I=
+	t=1790223030; cv=none; b=h6YdgW83xZ7jXKILaF4gqqcC7zNEClfwwBmdAIRSTFcN8fs3m/Dn6LAuCom7FTmehbUj1OOqbu8puLguh0PUW26LyuBcxGIEdZjcdKeZynRntHEVpo2GWbTQTSMwu6WyyTz0Ah7+C70mP6v0IrpXdHkQjnGwTMfyAyaiDhFlw1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790223028; c=relaxed/simple;
-	bh=/R79mf0UN30aDwOcAu+xr3w+bnwKPwqVeOzknFxhMtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MG231FXdqpkJXSMaUQ6exq/nVQ4ZAf0JTsgZhwJs4Q3qiXqXgAbQSYgwIIh4uvdQQu+3LSGqRzKzfc/hbDDaU1LgpsVIQp1Sq6rP65AHedbZ9qzzZP6i3gYqU979jFpneXBCK0DkeBSf/o4rmaPSL5ceCyf53rJbt2Nsc6Ewe9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QQf1+PxM; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1790223030; c=relaxed/simple;
+	bh=a28o2eYLBxIkXLJgCCTn4PBKsfhZtRnrpdSGrTZ8LWs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FisEuI8EkbZQ+qWQY0Y1CI3CU7/qM8Bw1hbGXYiLA/KBXex5LDLuWUfDIwkkvcZrbBexRX5BUE4kGi5SXd4/4zGZo0bfhm0TphNUUJhytDDWhbjd60wQDPHJvEeML2BMZOC3ViiyxQD8Qq3Sg52GnrBc01wN+qG7bmVMNnnNNyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iIhp23KD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QQf1+PxM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iIhp23KD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790223025; x=1821759025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/R79mf0UN30aDwOcAu+xr3w+bnwKPwqVeOzknFxhMtI=;
-  b=QQf1+PxMJDnC0sx2IoGQcA4WAKmd432UoIhBT+SKtCIGvryWfaivpu4N
-   dtnwUKp43ZZSHRA8os5vvpZvymjxaUwYTOg2vYjLEMgiYB6UrHqkgmyhQ
-   hQlG5WftOCYBr6aKdITU0yRNz3MOCk/tw9ZB4ABKsQi8w44YUmmKg7Zf/
-   DVwaEJI3AnNpmrbhDPXjtQ02Sq7b/PIwvR/DKd/ftK3wAAhMk8RpXsgqc
-   ke2CP/wUDwfEq6rKwD9SrjVDS4NMPxDKlibwNoPliWnlRFghqAR/8mFko
-   3QCfVfvs6rXVWTNhNb2WTNSdlGnn8hYdwPbEIxtMWycfkmuU7sXbITmR0
+  t=1790223028; x=1821759028;
+  h=date:from:to:cc:subject:message-id;
+  bh=a28o2eYLBxIkXLJgCCTn4PBKsfhZtRnrpdSGrTZ8LWs=;
+  b=iIhp23KDo/mQ13fUuqFwXiWToNOgA1QCkX804+5b4XG6kCN9jHjrDr3T
+   Yaq2m/ERxdipU5Ly4YvUFAOgyUYkBn6FSiv5ZsN0LfW/maZWgMKU+lbYH
+   VB+4XVTAc0UuArVDBLh0Ul+jUL88JqywrfRWlUI6RghNFSUHd8aqgoUyf
+   +ljUC2leiS62WPO4zt9sy62hA8dETy4Eojut03P+6I+ox5RMWi65s+7fz
+   AJ7FdnRX73fRx1S95r7vFhYazotvVN/RIvIZGl0wrbzl+CYTjhNqBCXWI
+   uQM5Y11Q3JBNZ8BToF+D1pJoGEZ9qQsLcVb7iq3mMLH4nvjk1+J5biiTc
    g==;
-X-CSE-ConnectionGUID: RM9lru4eQnCxkFKxf9IkIQ==
-X-CSE-MsgGUID: 3LReSSxcQRCGyDQ5BFmmwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="91088593"
+X-CSE-ConnectionGUID: 1qIgD5ZDQbaanJTeqPMZDQ==
+X-CSE-MsgGUID: TbynIjq9Ra+7+NUxCOYZiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="91088594"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="91088593"
+   d="scan'208";a="91088594"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 21:10:25 -0700
-X-CSE-ConnectionGUID: +Z9BmMAST3utUSdVgPQUBg==
-X-CSE-MsgGUID: wuav5v6NQAuyY7aW/32L3A==
+X-CSE-ConnectionGUID: 3g59uvEsS8OIcmswCVT7qg==
+X-CSE-MsgGUID: cN1GapasSGKzBORcnfc/GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="300154550"
+   d="scan'208";a="300154557"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2026 21:10:23 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9amq-00000000IBa-2izI;
+	id 1x9amq-00000000IBc-2qmn;
 	Thu, 24 Sep 2026 04:10:20 +0000
-Date: Thu, 24 Sep 2026 12:09:46 +0800
+Date: Thu, 24 Sep 2026 12:09:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+1075f6dc93f398c1857e@syzkaller.appspotmail.com
-Subject: Re: [PATCH] Input: serio - don't sleep on serio_mutex from
- drvctl_store()
-Message-ID: <202609241230.lUW53GKL-lkp@intel.com>
-References: <20260919124604.210505-1-ngocthang2710.1999@gmail.com>
+To: Marco Elver <elver@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:
+ sparse: incorrect type in assignment (different modifiers)
+Message-ID: <202609241216.DmuxwLRI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260919124604.210505-1-ngocthang2710.1999@gmail.com>
 
-Hi Nguyen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus linus/master v7.3-rc4 next-20260922]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nguyen-Ngoc-Thang/Input-serio-don-t-sleep-on-serio_mutex-from-drvctl_store/20260919-194604
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20260919124604.210505-1-ngocthang2710.1999%40gmail.com
-patch subject: [PATCH] Input: serio - don't sleep on serio_mutex from drvctl_store()
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260924/202609241230.lUW53GKL-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fe2ec83746e501645709761605c2464a44fd2929
+commit: f0b7ce22d71810c8c11abcd912fbd6f57c2e9677 srcu: Support Clang's context analysis
+date:   9 months ago
+config: i386-randconfig-1300-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241216.DmuxwLRI-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241230.lUW53GKL-lkp@intel.com/reproduce)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241216.DmuxwLRI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f0b7ce22d718 ("srcu: Support Clang's context analysis")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241230.lUW53GKL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241216.DmuxwLRI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected int ( *handler )( ... ) @@     got int ( [noderef] *__v )( ... ) @@
+   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     expected int ( *handler )( ... )
+   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     got int ( [noderef] *__v )( ... )
 
-   In file included from include/linux/jump_label.h:78,
-                    from include/linux/dynamic_debug.h:6,
-                    from include/linux/printk.h:620,
-                    from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:195,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from drivers/input/serio/serio.c:14:
-   drivers/input/serio/serio.c: In function 'drvctl_store':
->> drivers/input/serio/serio.c:361:45: error: implicit declaration of function 'restart_syscall'; did you mean 'do_no_restart_syscall'? [-Wimplicit-function-declaration]
-     361 |         scoped_cond_guard(mutex_try, return restart_syscall(), &serio_mutex) {
-         |                                             ^~~~~~~~~~~~~~~
-   include/linux/cleanup.h:457:25: note: in definition of macro '__scoped_cond_guard'
-     457 |                         _fail;                                          \
-         |                         ^~~~~
-   drivers/input/serio/serio.c:361:9: note: in expansion of macro 'scoped_cond_guard'
-     361 |         scoped_cond_guard(mutex_try, return restart_syscall(), &serio_mutex) {
-         |         ^~~~~~~~~~~~~~~~~
+vim +440 drivers/infiniband/core/uverbs_ioctl.c
 
+fac9658cabb98af Matan Barak         2017-08-03  427  
+3a863577a749627 Jason Gunthorpe     2018-08-09  428  static int ib_uverbs_run_method(struct bundle_priv *pbundle,
+3a863577a749627 Jason Gunthorpe     2018-08-09  429  				unsigned int num_attrs)
+fac9658cabb98af Matan Barak         2017-08-03  430  {
+15a1b4becba8861 Jason Gunthorpe     2018-11-25  431  	int (*handler)(struct uverbs_attr_bundle *attrs);
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  432  	struct uverbs_attr_bundle *bundle =
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  433  		container_of(&pbundle->bundle, struct uverbs_attr_bundle, hdr);
+3a863577a749627 Jason Gunthorpe     2018-08-09  434  	size_t uattrs_size = array_size(sizeof(*pbundle->uattrs), num_attrs);
+3a863577a749627 Jason Gunthorpe     2018-08-09  435  	unsigned int destroy_bkey = pbundle->method_elm->destroy_bkey;
+3a863577a749627 Jason Gunthorpe     2018-08-09  436  	unsigned int i;
+fac9658cabb98af Matan Barak         2017-08-03  437  	int ret;
+fac9658cabb98af Matan Barak         2017-08-03  438  
+3a863577a749627 Jason Gunthorpe     2018-08-09  439  	/* See uverbs_disassociate_api() */
+3a863577a749627 Jason Gunthorpe     2018-08-09 @440  	handler = srcu_dereference(
+3a863577a749627 Jason Gunthorpe     2018-08-09  441  		pbundle->method_elm->handler,
+3a863577a749627 Jason Gunthorpe     2018-08-09  442  		&pbundle->bundle.ufile->device->disassociate_srcu);
+3a863577a749627 Jason Gunthorpe     2018-08-09  443  	if (!handler)
+3a863577a749627 Jason Gunthorpe     2018-08-09  444  		return -EIO;
+3a863577a749627 Jason Gunthorpe     2018-08-09  445  
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  446  	pbundle->uattrs = uverbs_alloc(bundle, uattrs_size);
+3a863577a749627 Jason Gunthorpe     2018-08-09  447  	if (IS_ERR(pbundle->uattrs))
+3a863577a749627 Jason Gunthorpe     2018-08-09  448  		return PTR_ERR(pbundle->uattrs);
+3a863577a749627 Jason Gunthorpe     2018-08-09  449  	if (copy_from_user(pbundle->uattrs, pbundle->user_attrs, uattrs_size))
+3a863577a749627 Jason Gunthorpe     2018-08-09  450  		return -EFAULT;
+3a863577a749627 Jason Gunthorpe     2018-08-09  451  
+3a863577a749627 Jason Gunthorpe     2018-08-09  452  	for (i = 0; i != num_attrs; i++) {
+3a863577a749627 Jason Gunthorpe     2018-08-09  453  		ret = uverbs_set_attr(pbundle, &pbundle->uattrs[i]);
+3a863577a749627 Jason Gunthorpe     2018-08-09  454  		if (unlikely(ret))
+3a863577a749627 Jason Gunthorpe     2018-08-09  455  			return ret;
+3a863577a749627 Jason Gunthorpe     2018-08-09  456  	}
+3a863577a749627 Jason Gunthorpe     2018-08-09  457  
+3a863577a749627 Jason Gunthorpe     2018-08-09  458  	/* User space did not provide all the mandatory attributes */
+3a863577a749627 Jason Gunthorpe     2018-08-09  459  	if (unlikely(!bitmap_subset(pbundle->method_elm->attr_mandatory,
+3a863577a749627 Jason Gunthorpe     2018-08-09  460  				    pbundle->bundle.attr_present,
+3a863577a749627 Jason Gunthorpe     2018-08-09  461  				    pbundle->method_elm->key_bitmap_len)))
+fac9658cabb98af Matan Barak         2017-08-03  462  		return -EINVAL;
+fac9658cabb98af Matan Barak         2017-08-03  463  
+07f05f40d956d40 Jason Gunthorpe     2018-11-25  464  	if (pbundle->method_elm->has_udata)
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  465  		uverbs_fill_udata(bundle, &pbundle->bundle.driver_udata,
+4785860e04bc8d7 Jason Gunthorpe     2018-11-30  466  				  UVERBS_ATTR_UHW_IN, UVERBS_ATTR_UHW_OUT);
+f89adedaf3feb2e Gal Pressman        2019-04-30  467  	else
+f89adedaf3feb2e Gal Pressman        2019-04-30  468  		pbundle->bundle.driver_udata = (struct ib_udata){};
+07f05f40d956d40 Jason Gunthorpe     2018-11-25  469  
+3a863577a749627 Jason Gunthorpe     2018-08-09  470  	if (destroy_bkey != UVERBS_API_ATTR_BKEY_LEN) {
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  471  		struct uverbs_obj_attr *destroy_attr = &bundle->attrs[destroy_bkey].obj_attr;
+fac9658cabb98af Matan Barak         2017-08-03  472  
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  473  		ret = uobj_destroy(destroy_attr->uobject, bundle);
+aa72c9a5f986444 Jason Gunthorpe     2018-07-26  474  		if (ret)
+3a863577a749627 Jason Gunthorpe     2018-08-09  475  			return ret;
+3a863577a749627 Jason Gunthorpe     2018-08-09  476  		__clear_bit(destroy_bkey, pbundle->uobj_finalize);
+aa72c9a5f986444 Jason Gunthorpe     2018-07-26  477  
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  478  		ret = handler(bundle);
+3a863577a749627 Jason Gunthorpe     2018-08-09  479  		uobj_put_destroy(destroy_attr->uobject);
+3a863577a749627 Jason Gunthorpe     2018-08-09  480  	} else {
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  481  		ret = handler(bundle);
+7452a3c745a2e7e Jason Gunthorpe     2018-07-25  482  	}
+7452a3c745a2e7e Jason Gunthorpe     2018-07-25  483  
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  484  	/*
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  485  	 * Until the drivers are revised to use the bundle directly we have to
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  486  	 * assume that the driver wrote to its UHW_OUT and flag userspace
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  487  	 * appropriately.
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  488  	 */
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  489  	if (!ret && pbundle->method_elm->has_udata) {
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  490  		const struct uverbs_attr *attr =
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  491  			uverbs_attr_get(bundle, UVERBS_ATTR_UHW_OUT);
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  492  
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  493  		if (!IS_ERR(attr))
+155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  494  			ret = uverbs_set_output(bundle, attr);
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  495  	}
+d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  496  
+3a863577a749627 Jason Gunthorpe     2018-08-09  497  	/*
+3a863577a749627 Jason Gunthorpe     2018-08-09  498  	 * EPROTONOSUPPORT is ONLY to be returned if the ioctl framework can
+3a863577a749627 Jason Gunthorpe     2018-08-09  499  	 * not invoke the method because the request is not supported.  No
+3a863577a749627 Jason Gunthorpe     2018-08-09  500  	 * other cases should return this code.
+3a863577a749627 Jason Gunthorpe     2018-08-09  501  	 */
+3a863577a749627 Jason Gunthorpe     2018-08-09  502  	if (WARN_ON_ONCE(ret == -EPROTONOSUPPORT))
+3a863577a749627 Jason Gunthorpe     2018-08-09  503  		return -EINVAL;
+fac9658cabb98af Matan Barak         2017-08-03  504  
+3a863577a749627 Jason Gunthorpe     2018-08-09  505  	return ret;
+fac9658cabb98af Matan Barak         2017-08-03  506  }
+fac9658cabb98af Matan Barak         2017-08-03  507  
 
-vim +361 drivers/input/serio/serio.c
+:::::: The code at line 440 was first introduced by commit
+:::::: 3a863577a7496278892360a69d90d8465733100c IB/uverbs: Use uverbs_api to unmarshal ioctl commands
 
-   353	
-   354	static ssize_t drvctl_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
-   355	{
-   356		struct serio *serio = to_serio_port(dev);
-   357		struct device_driver *drv;
-   358		int error;
-   359	
-   360		/* Port removal holds serio_mutex and drains us: don't wait for it. */
- > 361		scoped_cond_guard(mutex_try, return restart_syscall(), &serio_mutex) {
-   362			if (!strncmp(buf, "none", count)) {
-   363				serio_disconnect_port(serio);
-   364			} else if (!strncmp(buf, "reconnect", count)) {
-   365				serio_reconnect_subtree(serio);
-   366			} else if (!strncmp(buf, "rescan", count)) {
-   367				serio_disconnect_port(serio);
-   368				serio_find_driver(serio);
-   369				serio_remove_duplicate_events(serio, SERIO_RESCAN_PORT);
-   370			} else if ((drv = driver_find(buf, &serio_bus)) != NULL) {
-   371				serio_disconnect_port(serio);
-   372				error = serio_bind_driver(serio, to_serio_driver(drv));
-   373				serio_remove_duplicate_events(serio, SERIO_RESCAN_PORT);
-   374				if (error)
-   375					return error;
-   376			} else {
-   377				return -EINVAL;
-   378			}
-   379		}
-   380	
-   381		return count;
-   382	}
-   383	
+:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
+:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
 
 --
 0-DAY CI Kernel Test Service
