@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D7524A06D;
-	Thu, 24 Sep 2026 14:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA4C3CBE89
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 14:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790259569; cv=none; b=mTUXA8ESsEFrSu0XqzvS0ZiFFpzOWz09bn94PAvM5zr4+x7Qhhngby9QGQYdH3z5qK5qiVcYKc4IJShYtxqrNM4h1l7F4UwArjEEn97VoiBYAPKV3YTf63zrRfTnBMG5HcchtBTtJDBoM2LHJW+vlolENcA8WbVOXB5JNgIY7gY=
+	t=1790260227; cv=none; b=Nyrlnv92g5IAKy8YH1m5MQ7orkdGI2ru2+zTde+BR67qsda8qT5slUs9ux7hQLC9edwYvtJK4CXE05SZeHm8zRJVsNpF3+xesy0Bzc0peyp62ytSlnGFLRJ6qGaYCzs9rIgwa47Mnhwj+Sho3ha+aOi9662z/ODAEqLisQhzHAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790259569; c=relaxed/simple;
-	bh=4lE5w++DUA64LCVqQQkUOxoRe/oo2Aj0Polh1lZ71CI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UOXfm1HzIw0FCZKoS26YTJv48KcZd909ERL49VOMcDe2f7jLVYmHlOQMKmLmqndm4ecE5+22wSu9Q+FQMJcdE3h+IsavNfl6ACPu3MplHTHplKuv/yH2lFACdtsMTMesgnJE+aJ/Y3FitisK6FSEXgPHMVvHEULM9P0EIJsUxng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5AnZhSA; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1790260227; c=relaxed/simple;
+	bh=0pUe3Xd6rCk2mQG6Ewe1CtK0oMmo45Z2/RmYYxm1e9E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WzPbt+RrbZMDGx8k8k5wh69eEaek4yjWvh28VT4ZsIPOb4QO13mjB5yLXuJ/Vz3a4wAUBYBjiQwy5Y+ZyfsDTTLN5fMwXjZQn2GWCpneV5kVT/m4x2V0ooGsLA7qhYc3qJQ7RSnRHgzq/leEqFxw7dBntSI8fd2EokQA5YWgCqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbe4asaY; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5AnZhSA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dbe4asaY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790259567; x=1821795567;
+  t=1790260225; x=1821796225;
   h=date:from:to:cc:subject:message-id;
-  bh=4lE5w++DUA64LCVqQQkUOxoRe/oo2Aj0Polh1lZ71CI=;
-  b=I5AnZhSAefj0hQyYP1RpsWKVxbuxJf+vhLw95sSIqf9y7p5jswgpFbmr
-   2/A6tjx56ne1rFnWDGLuWbwaLQochv0pBNiBvkBrqNKvMrQ174ZTU5Tsv
-   wnCH9B3xsFykJ0WFfqnDGaC2/XkuffDDQq+I+vhKc0/BZ4SpBQ279wqNd
-   3aTOTVgI0MiDLpcoqC5KQH2ZcFeoLLs1wLjlxSGRFqR480xe3D7DlDHSP
-   sKVNTZLiVVJ60GCH701lUX49jtjM7nDaXfVy9Z6VeSBIucpCY7xhOZo/+
-   sWQebmgTVdmTtAVPdCuAgQ6yxP5mRVLXHqleWEn5DHnN5MBD+E6gidIfh
-   g==;
-X-CSE-ConnectionGUID: aEqw1BsDSmGswl4tDtYcRg==
-X-CSE-MsgGUID: V3AvAwXcTCSvm/TeQ/AJBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89988787"
+  bh=0pUe3Xd6rCk2mQG6Ewe1CtK0oMmo45Z2/RmYYxm1e9E=;
+  b=dbe4asaY+eF9rAYVZyvUYAEhxKuR8v3vizibMJyJQk5S7cOKh9l/88WS
+   2T5E5kmJGrZxRnGgrv5NTBvrVIpz9E43N+EKA2SUtHMi5fOfc73EbKyvz
+   J73AU3Bg5zM2HOgkiqlNp3ErFiKBaDM54hJH+bk4QYCdy17+i3eE9Kc8o
+   2VqpYDOLpxKVFLq0KX3TXqTKseGXqz2/QxeySj/n+yYpzD/1dskVfGypl
+   OJsPA+GT8wJeTMMBe74zZLbJkUudQdqg3pytxY1IDWajSLTe4BseveBIa
+   XrqOUct/d/uHydfIA6ec7S1XrZpsNIGS7Q3tFJBOyEul+UqxsvUMb6OGr
+   Q==;
+X-CSE-ConnectionGUID: Bsg8eyrRTui/xqo7dDDsbA==
+X-CSE-MsgGUID: YQcTeEK7RUq/HRO28W+q9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="101611870"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="89988787"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 07:19:25 -0700
-X-CSE-ConnectionGUID: EAzovXSjTGiBzkw8Gob4EA==
-X-CSE-MsgGUID: oT1zvVhDSN2zjop3wOKqlw==
+   d="scan'208";a="101611870"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 07:30:25 -0700
+X-CSE-ConnectionGUID: WXJZ2YoBTFGeUJ38SQ6OzA==
+X-CSE-MsgGUID: rPGBVcbfSoWs1ExPLNahdw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="277797370"
+   d="scan'208";a="311961112"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 24 Sep 2026 07:19:23 -0700
+  by orviesa001.jf.intel.com with ESMTP; 24 Sep 2026 07:30:23 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9kID-000000000LG-001i;
-	Thu, 24 Sep 2026 14:19:21 +0000
-Date: Thu, 24 Sep 2026 16:19:03 +0200
+	id 1x9kSr-000000000LS-2WWF;
+	Thu, 24 Sep 2026 14:30:21 +0000
+Date: Thu, 24 Sep 2026 16:29:34 +0200
 From: kernel test robot <lkp@intel.com>
 To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- 0day robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
 Subject: include/linux/pgtable.h:493:21: error: conflicting types for
- 'ptep_get'
-Message-ID: <202609241621.VOcb82Um-lkp@intel.com>
+ 'ptep_get'; have 'pte_t(pte_t *)'
+Message-ID: <202609241639.Lqps1A4Q-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,143 +63,66 @@ tree:   https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/s390-mm
 head:   b212352b7f2fdd6516ee447704e5e31fde0c2a8d
 commit: 85ab0e85fd6ebe9757f9ba20e039988b46c03efb s390/mm: Drop all pxdp_get()
 date:   34 hours ago
-config: s390-randconfig-2001-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241621.VOcb82Um-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7e4b8ae111298941e0c31052a7124ab36f5365b5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241621.VOcb82Um-lkp@intel.com/reproduce)
+config: s390-randconfig-2000-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241639.Lqps1A4Q-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241639.Lqps1A4Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241621.VOcb82Um-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241639.Lqps1A4Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
    In file included from arch/s390/kernel/asm-offsets.c:12:
->> include/linux/pgtable.h:493:21: error: conflicting types for 'ptep_get'
+>> include/linux/pgtable.h:493:21: error: conflicting types for 'ptep_get'; have 'pte_t(pte_t *)'
      493 | static inline pte_t ptep_get(pte_t *ptep)
-         |                     ^
-   arch/s390/include/asm/pgtable.h:28:21: note: previous declaration is here
+         |                     ^~~~~~~~
+   In file included from include/linux/pgtable.h:6:
+   arch/s390/include/asm/pgtable.h:28:21: note: previous declaration of 'ptep_get' with type 'pte_t(const pte_t *)'
       28 | static inline pte_t ptep_get(const pte_t *ptep);
-         |                     ^
-   In file included from arch/s390/kernel/asm-offsets.c:12:
->> include/linux/pgtable.h:507:21: error: conflicting types for 'pudp_get'
+         |                     ^~~~~~~~
+>> include/linux/pgtable.h:507:21: error: conflicting types for 'pudp_get'; have 'pud_t(pud_t *)'
      507 | static inline pud_t pudp_get(pud_t *pudp)
-         |                     ^
-   arch/s390/include/asm/pgtable.h:29:21: note: previous declaration is here
+         |                     ^~~~~~~~
+   arch/s390/include/asm/pgtable.h:29:21: note: previous declaration of 'pudp_get' with type 'pud_t(const pud_t *)'
       29 | static inline pud_t pudp_get(const pud_t *pudp);
-         |                     ^
-   In file included from arch/s390/kernel/asm-offsets.c:12:
->> include/linux/pgtable.h:514:21: error: conflicting types for 'p4dp_get'
+         |                     ^~~~~~~~
+>> include/linux/pgtable.h:514:21: error: conflicting types for 'p4dp_get'; have 'p4d_t(p4d_t *)'
      514 | static inline p4d_t p4dp_get(p4d_t *p4dp)
-         |                     ^
-   arch/s390/include/asm/pgtable.h:30:21: note: previous declaration is here
+         |                     ^~~~~~~~
+   arch/s390/include/asm/pgtable.h:30:21: note: previous declaration of 'p4dp_get' with type 'p4d_t(const p4d_t *)'
       30 | static inline p4d_t p4dp_get(const p4d_t *p4dp);
-         |                     ^
-   In file included from arch/s390/kernel/asm-offsets.c:12:
->> include/linux/pgtable.h:521:21: error: conflicting types for 'pgdp_get'
+         |                     ^~~~~~~~
+>> include/linux/pgtable.h:521:21: error: conflicting types for 'pgdp_get'; have 'pgd_t(pgd_t *)'
      521 | static inline pgd_t pgdp_get(pgd_t *pgdp)
-         |                     ^
-   arch/s390/include/asm/pgtable.h:31:21: note: previous declaration is here
+         |                     ^~~~~~~~
+   arch/s390/include/asm/pgtable.h:31:21: note: previous declaration of 'pgdp_get' with type 'pgd_t(const pgd_t *)'
       31 | static inline pgd_t pgdp_get(const pgd_t *pgdp);
-         |                     ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     116 |                         (set1->sig[1] == set2->sig[1]) &&
-         |                          ^         ~
-   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
-      22 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/s390/kernel/asm-offsets.c:16:
-   In file included from arch/s390/include/asm/stacktrace.h:7:
-   In file included from include/linux/ptrace.h:7:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:116:21: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+         |                     ^~~~~~~~
+>> arch/s390/include/asm/pgtable.h:28:21: warning: 'ptep_get' used but never defined
+      28 | static inline pte_t ptep_get(const pte_t *ptep);
+         |                     ^~~~~~~~
+>> arch/s390/include/asm/pgtable.h:29:21: warning: 'pudp_get' used but never defined
+      29 | static inline pud_t pudp_get(const pud_t *pudp);
+         |                     ^~~~~~~~
+>> arch/s390/include/asm/pgtable.h:30:21: warning: 'p4dp_get' used but never defined
+      30 | static inline p4d_t p4dp_get(const p4d_t *p4dp);
+         |                     ^~~~~~~~
+>> arch/s390/include/asm/pgtable.h:31:21: warning: 'pgdp_get' used but never defined
+      31 | static inline pgd_t pgdp_get(const pgd_t *pgdp);
+         |                     ^~~~~~~~
+   make[3]: *** [scripts/Makefile.build:185: arch/s390/kernel/asm-offsets.s] Error 1 shuffle=1039089513
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=1039089513
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1039089513
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1039089513
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/ptep_get +493 include/linux/pgtable.h
+vim +493 include/linux/pgtable.h
 
 ^1da177e4c3f41 include/asm-generic/pgtable.h Linus Torvalds  2005-04-16  491  
 6c1d2a073a1d85 include/linux/pgtable.h       Ryan Roberts    2023-06-12  492  #ifndef ptep_get
