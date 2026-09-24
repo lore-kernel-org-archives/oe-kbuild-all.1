@@ -1,144 +1,193 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2631C4BC029
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 19:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E8F47ECDF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 19:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790278791; cv=none; b=O654sEBQWNwgsQBLIyzM8SoEZtX9+SlY+2j8DRykiPXnUn8RdC9vY2zOt3gh9hrlK7uepQp6fbyRY8GwGzkSaUnl2EnrvAgdIZ8wezFfwApAKrEENMwo4H9SaAkDUby5UgLIxjWv6CfaJV3MEjLfn1E+yn7aK+qvkU5kieik26o=
+	t=1790278817; cv=none; b=NwozAxYfrwTB7rpPyGP2lLLSwvq8KcAudy+ynS3Q50JbC4iwUgfLXvJumlkUWgfhF4v3T1bIOBFa9F2MBd8c1fEp5qCXDC7GO+XJtjSyjrrW3g3djkBb+x2SEXtDw3K4uNEI0Mg5t/+Y/iH66htVdH7ELZakIYmi5nqDyg5o8O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790278791; c=relaxed/simple;
-	bh=cdOH0TQFx2/yle8Oxw+LbUiqtgMIOe8sbY3XW9lC+1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lnE3AXFd+czR+vl6rx9I5pGAnrP1i0RliUi/zg5J7rXvxcKFSD1pHENV9t0fv09Hd8etLRRLIsv/1hu7oD6hE7eGXCh3AelIsduD0sTamMkjfPoErCYmjrwy/OxtcvkIWezfqvo+45NGg9hazvJfdOgOXUbXhFTyYDbAb0obdDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4zrpKXL; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790278817; c=relaxed/simple;
+	bh=JXy430elWLlAAqNbsez+Vf955WrJ6dfpCJSJAbfX2cc=;
+	h=Date:From:Cc:Subject:Message-ID; b=rBJ6qDtzyfHxLO30uuPbh7MEg5WI7vePhPQ3zShtVfCq/k3n717VjE7xbRPYy7IbBMCEY19YY47G5LURmr3bRyDuMDp+Vj1wAfMtfSRAz2TOIg5OaeOJJU6N4qivSNNroktXsNTCaY5vx2qrb4qLo4vmjY7S0M/ptRL7WGVKe/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cgLVKh/U; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4zrpKXL"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so1128655e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 12:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790278786; x=1790883586; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XVpUm2vxAmiJvxOEbkoDqlOy/q982BD2NVBKlRMKmW4=;
-        b=Y4zrpKXLdUCfX8+8n0F1UUbi/SbzQadWAp9ENWrGrsHRnBWJha89pvQu1JGrVYbyrw
-         y9vfs62gtjDb8BVEWNU3LdRFTHqPkO+HHLs6YgefcfZFuPZV6HfEEchmA60PIqWtO2i5
-         s+K4dMxaiADORQb/thg7eityQUJQY38Uv5LgUk3y2FcYeq/DIehaAOjAhz7dDA87J3IU
-         RHdzbNavlL0nS5BPmEk3JPELAlW61yciqcX6rvP/7daaa2uz1Xhvkg9g8lbHYow0y1YH
-         KCLT5yx1IYQqwscfdeToHMGpm/iiQ2Ig6wIBz6VeA+yU+6IByNEnbEl69BW7GHtFGOv7
-         HMcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790278786; x=1790883586;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XVpUm2vxAmiJvxOEbkoDqlOy/q982BD2NVBKlRMKmW4=;
-        b=tt8BgI5QS1oNX6RuBISZ8fWWcD+OuTG0jJmb97aNfVs/6kTc2vZiTTK2CFKgasgaZX
-         agI3G5I/hd4M1ib0Lt4r0VEDiaH8E3ZM9lFhhmUF/aRBFMziKw8uyTe3QmhcNmp3mzTh
-         ahlfHHp8tFN47E70yzYW/m/xHTJvKHqA6pTj4+YMqHOMPd6Ac0pnVzGdsWIVtyNp7sg3
-         y8qZa4rXUo9waBXAXceFDR1GhxhY+ELnDJhAC7d03r5Sz5tL33EDUtjMFQ13zMiE5QYa
-         tDI5PD43nFrpDB8ksZvKfjnaeeIsDWH/SNJ6FC1XB55GQGIGpNac2lLDHk/qaHO8/6NY
-         6u+A==
-X-Forwarded-Encrypted: i=1; AKwUvBy1XclJCvh9bh7sNmuZ9s/98d/Hem7bf54oH+D1lsURsePSYnYX0kk8selF8Ey4bVCRfC8DEUmfO13gBRgb@lists.linux.dev
-X-Gm-Message-State: AFuF++lbNjrXCn1laig5Sj9aoUweHuylox7scklqFXajroz9YdVJMAyY
-	Zyrz12kac/uynsqUvb/GSYuw2OSpZQqvC7MfnadL1H1TmpbsFMisc29I
-X-Gm-Gg: AYBFou2s/sZP+WP4iihWew1Q6Fp7+7XLhAyMFTYMz1hYxk+5JNsxer1JOzKM3MEC4KP
-	ZKTv8CxfmGEZhQQa7EB25BGFECVjfO9vAQOvopVPUjBt6pKhuD6oVnlT49m7jMeeVPCDFEUbIB+
-	jlniPfHlhc2V4XGDNPeZ2NH6Hlt4bo7XbddzJd9ygMe5rZS/ksyFpNjifdaTuCFIEihky+SQdNr
-	sMp08E0bPO6hyE+L0rtKkrgedHs1c4jKwFU3vm7yjkxBGGapV+c2Bxu0+pNjIyWwSihRZ9Tp2F4
-	qbibuZJQU7nrwbLgmPNIvPir5fD5UBxhgyJFenIxD4YoHx8lxo4OhuVwKm0tLMnuVJN8XFFQ/wx
-	kUusWeJTe8aoN298FuQ+F72UjzniLEpXtCSCa6COoICD8nJVYY4XLz/tBnKJDD+NO8V1721KRBS
-	gW2Yue/CTpq5LzChVjlSrmzdOXYu/5xB3j2/vs1ZQ8lGQZcSmXpIwoOHyQ7webMF3fqP8=
-X-Received: by 2002:a05:600c:468f:b0:49c:fa20:cc02 with SMTP id 5b1f17b1804b1-49fe66f4fc6mr58492795e9.25.1790278785696;
-        Thu, 24 Sep 2026 12:39:45 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff023f12esm1758795e9.0.2026.09.24.12.39.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 12:39:44 -0700 (PDT)
-Date: Thu, 24 Sep 2026 22:39:41 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/xen/gntdev.c:817 gntdev_get_page() warn: mask and shift to
- zero: expr='(addr & ~(~((1 << 12) - 1))) >> 12'
-Message-ID: <202609241805.VsLzGPLn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgLVKh/U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790278814; x=1821814814;
+  h=date:from:cc:subject:message-id;
+  bh=JXy430elWLlAAqNbsez+Vf955WrJ6dfpCJSJAbfX2cc=;
+  b=cgLVKh/U0/JraNNuz4N+qe1X2mAp+m1t5egZdWc3estKBPMcmvdueHm9
+   dPp6N+I4JnMgL639T97+DJ6YlXt6DIyYo4OppeSW77QZqHiLPL2dPoG6t
+   cEMqLN8k5tOfENEELkHU0PxKQ3pvzY86OCQ2/fn8selkxssNd/kWU24II
+   6vtoeyAgVilKOnqOzH0s5GZN326jYpABgd/vFqHP7Y5duOc1cXIDIAvjz
+   wLbYQPRnrg/jC+S9EIF6ILB6q8qbKgMbVIWoeSu7U5rSgP5hbyKdSsDiu
+   IoAB5ceq1NfPcdlT3v16SwQBURCFdWDZe3ycqUGFteCv5N3E8cXUzGUiQ
+   Q==;
+X-CSE-ConnectionGUID: /ggHATQ6Txee9ccKQbnHFg==
+X-CSE-MsgGUID: xQNnT21OQjuYChrGiYkqNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89926496"
+X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
+   d="scan'208";a="89926496"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 12:40:12 -0700
+X-CSE-ConnectionGUID: VAj6lvCaSiaC9wxFX7Fnng==
+X-CSE-MsgGUID: B9lLp4u2QcKHd9MERa6/FQ==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 24 Sep 2026 12:40:11 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9pIf-000000000PG-0r43;
+	Thu, 24 Sep 2026 19:40:09 +0000
+Date: Thu, 24 Sep 2026 21:39:27 +0200
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Zhenzhong Duan <zhenzhong.duan@intel.com>
+Subject: [intel-tdx:v7.3-rc4_tdx_connect_phase2.for_upstream 17/44]
+ include/uapi/linux/const.h:20:25: warning: conversion from 'long long
+ unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from
+ '4294967296' to '0'
+Message-ID: <202609242140.qZJIMn5F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   62f4c998b297cf233997a2b4cd6fc2d2df0319c9
-commit: d70242427110123b65c095594eb74a703d3af156 ARM: rework ARM11 CPU selection logic
-config: arm-randconfig-r2200-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241805.VsLzGPLn-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/intel/tdx.git v7.3-rc4_tdx_connect_phase2.for_upstream
+head:   69fd611d89afafa408b11f0e1304297433d3d471
+commit: 8d401a08daff7db72c8affddf302b70aa2dcb8e7 [17/44] samples/devsec: Introduce a PCI device-security bus + endpoint sample
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260924/202609242140.qZJIMn5F-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609242140.qZJIMn5F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: d70242427110 ("ARM: rework ARM11 CPU selection logic")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609241805.VsLzGPLn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609242140.qZJIMn5F-lkp@intel.com/
 
-smatch warnings:
-drivers/xen/privcmd.c:488 privcmd_ioctl_mmap_batch() warn: potential user controlled sizeof overflow 'm.num * 8' '0-u32max * 8'
-drivers/xen/privcmd.c:495 privcmd_ioctl_mmap_batch() warn: potential user controlled sizeof overflow 'm.num * (4)' '0-u32max * 4'
+All warnings (new ones prefixed by >>):
 
-vim +817 drivers/xen/gntdev.c
-   470  static long privcmd_ioctl_mmap_batch(
-   471          struct file *file, void __user *udata, int version)
-   472  {
-   473          struct privcmd_data *data = file->private_data;
-   474          int ret;
-   475          struct privcmd_mmapbatch_v2 m;
-   476          struct mm_struct *mm = current->mm;
-   477          struct vm_area_struct *vma;
-   478          unsigned long nr_pages;
-   479          LIST_HEAD(pagelist);
-   480          struct mmap_batch_state state;
-   481  
-   482          switch (version) {
-   483          case 1:
-   484                  if (copy_from_user(&m, udata, sizeof(struct privcmd_mmapbatch)))
-   485                          return -EFAULT;
-   486                  /* Returns per-frame error in m.arr. */
-   487                  m.err = NULL;
-   488                  if (!access_ok(m.arr, m.num * sizeof(*m.arr)))
-                                              ^^^^^^^^^^^^^^^^^^^^^^
+   In file included from include/vdso/const.h:5,
+                    from include/vdso/bits.h:5,
+                    from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/device/faux.h:17,
+                    from samples/devsec/bus.c:6:
+   samples/devsec/bus.c: In function 'devsec_add_host_bridge':
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^~~~~~
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   samples/devsec/bus.c:665:59: note: in expansion of macro 'SZ_4G'
+     665 |                                MMIO_SIZE * NR_DEVICES, 0, SZ_4G, MMIO_SIZE,
+         |                                                           ^~~~~
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^~~~~~
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   samples/devsec/bus.c:679:60: note: in expansion of macro 'SZ_4G'
+     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
+         |                                                            ^~~~~
+   In file included from include/linux/overflow.h:6,
+                    from include/linux/bits.h:32:
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^~~~~~~~~~~~
+   samples/devsec/bus.c:679:67: note: in expansion of macro 'U64_MAX'
+     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
+         |                                                                   ^~~~~~~
+--
+   In file included from include/vdso/const.h:5,
+                    from include/vdso/bits.h:5,
+                    from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/device/faux.h:17,
+                    from bus.c:6:
+   bus.c: In function 'devsec_add_host_bridge':
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^~~~~~
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   bus.c:665:59: note: in expansion of macro 'SZ_4G'
+     665 |                                MMIO_SIZE * NR_DEVICES, 0, SZ_4G, MMIO_SIZE,
+         |                                                           ^~~~~
+>> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
+      20 | #define __AC(X,Y)       (X##Y)
+         |                         ^~~~~~
+   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
+      21 | #define _AC(X,Y)        __AC(X,Y)
+         |                         ^~~~
+   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
+      54 | #define SZ_4G                           _AC(0x100000000, ULL)
+         |                                         ^~~
+   bus.c:679:60: note: in expansion of macro 'SZ_4G'
+     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
+         |                                                            ^~~~~
+   In file included from include/linux/overflow.h:6,
+                    from include/linux/bits.h:32:
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^~~~~~~~~~~~
+   bus.c:679:67: note: in expansion of macro 'U64_MAX'
+     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
+         |                                                                   ^~~~~~~
 
-   489                          return -EFAULT;
-   490                  break;
-   491          case 2:
-   492                  if (copy_from_user(&m, udata, sizeof(struct privcmd_mmapbatch_v2)))
-   493                          return -EFAULT;
-   494                  /* Returns per-frame error code in m.err. */
-   495                  if (!access_ok(m.err, m.num * (sizeof(*m.err))))
-                                              ^^^^^^^^^^^^^^^^^^^^^^^
-These integer overflow bugs are from 2012, but I guess your patch exposed
-the arm32 build to the zero day bot.  The bugs only affect 32bit systems.
 
-   496                          return -EFAULT;
-   497                  break;
-   498          default:
-   499                  return -EINVAL;
-   500          }
-   501  
-   502          /* If restriction is in place, check the domid matches */
-   503          if (data->domid != DOMID_INVALID && data->domid != m.dom)
-   504                  return -EPERM;
-   505  
+vim +20 include/uapi/linux/const.h
 
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
+6df95fd7ad9a84 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  19  #else
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02 @20  #define __AC(X,Y)	(X##Y)
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define _AC(X,Y)	__AC(X,Y)
+74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  22  #define _AT(T,X)	((T)(X))
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  23  #endif
+9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  24  
+
+:::::: The code at line 20 was first introduced by commit
+:::::: 9d291e787b2b71d1b57e5fbb24ba9c70e748ed84 [PATCH] x86-64: Assembly safe page.h and pgtable.h
+
+:::::: TO: Vivek Goyal <vgoyal@in.ibm.com>
+:::::: CC: Andi Kleen <andi@basil.nowhere.org>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
