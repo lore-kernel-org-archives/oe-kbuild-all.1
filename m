@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678844119F9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 04:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A1C3A48D9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 04:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790223030; cv=none; b=h6YdgW83xZ7jXKILaF4gqqcC7zNEClfwwBmdAIRSTFcN8fs3m/Dn6LAuCom7FTmehbUj1OOqbu8puLguh0PUW26LyuBcxGIEdZjcdKeZynRntHEVpo2GWbTQTSMwu6WyyTz0Ah7+C70mP6v0IrpXdHkQjnGwTMfyAyaiDhFlw1Y=
+	t=1790224410; cv=none; b=tNt7pFej9QwMVa/1BVRqmSOg8uan0+CIoWKNg3RiYkhOxKdRQc/EstL/LVmGSW/qU/Bou8QWpawjgRbcnu66jbIiaNyv+7Un/uwfrObMzLvK8Wj9zKWg/LOmtKyMwNN1cdpqCZE/3FEUy5t+Sc8hZd6qtYZyoY3Chi9CyRIP34M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790223030; c=relaxed/simple;
-	bh=a28o2eYLBxIkXLJgCCTn4PBKsfhZtRnrpdSGrTZ8LWs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FisEuI8EkbZQ+qWQY0Y1CI3CU7/qM8Bw1hbGXYiLA/KBXex5LDLuWUfDIwkkvcZrbBexRX5BUE4kGi5SXd4/4zGZo0bfhm0TphNUUJhytDDWhbjd60wQDPHJvEeML2BMZOC3ViiyxQD8Qq3Sg52GnrBc01wN+qG7bmVMNnnNNyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iIhp23KD; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1790224410; c=relaxed/simple;
+	bh=OrSXABowRLKXcfGGx5eoS81GIA6P1ugsfb9hzNaC6lg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q+3H9gs8qOrBk4gC3/AFyITIWUvpbV5ODEKl02fdCoFkY1voFDFN/YZqWeNcVulvFx9hNnoLqP4c/u4lEBWgF2RuM4D5N0pfBn7R2KZTe+Q3u50eS8C+P4R2sC7NgCAIU13pBSXCEARs4ZFF1o+q+OfCZXJWFoi4Wcwl8IQyURM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YySIPBb9; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iIhp23KD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YySIPBb9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790223028; x=1821759028;
+  t=1790224408; x=1821760408;
   h=date:from:to:cc:subject:message-id;
-  bh=a28o2eYLBxIkXLJgCCTn4PBKsfhZtRnrpdSGrTZ8LWs=;
-  b=iIhp23KDo/mQ13fUuqFwXiWToNOgA1QCkX804+5b4XG6kCN9jHjrDr3T
-   Yaq2m/ERxdipU5Ly4YvUFAOgyUYkBn6FSiv5ZsN0LfW/maZWgMKU+lbYH
-   VB+4XVTAc0UuArVDBLh0Ul+jUL88JqywrfRWlUI6RghNFSUHd8aqgoUyf
-   +ljUC2leiS62WPO4zt9sy62hA8dETy4Eojut03P+6I+ox5RMWi65s+7fz
-   AJ7FdnRX73fRx1S95r7vFhYazotvVN/RIvIZGl0wrbzl+CYTjhNqBCXWI
-   uQM5Y11Q3JBNZ8BToF+D1pJoGEZ9qQsLcVb7iq3mMLH4nvjk1+J5biiTc
-   g==;
-X-CSE-ConnectionGUID: 1qIgD5ZDQbaanJTeqPMZDQ==
-X-CSE-MsgGUID: TbynIjq9Ra+7+NUxCOYZiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="91088594"
+  bh=OrSXABowRLKXcfGGx5eoS81GIA6P1ugsfb9hzNaC6lg=;
+  b=YySIPBb9Tjc5xYM0sKpNVBmrG0nKR88ahl5z4DjE9kaZPc3mjNz14Efu
+   rdSUeIW1Pb6oZdJfKgujvVO73/Ug5nAl1zJM9ZYLcu3dKp//4CsN3cpvl
+   WsVG1B2VYWMuXMAf/3kqygol2ymBKZP5K5hDyEha4+H8eeQ3IEqz0mmpA
+   0tK9nYcirS3twhNLXE5m1rftRk210zCZfLbZMdW8cc4II+zTi35BdeU28
+   oi37exe47dD/g4Mr10EHBEHoA76Wy6qHNykmbgesj1sKGrmCkqjYWqfS/
+   bwH97ghhQW4ECBml6Ir0k6Hy3YbFg+NrM+zgH3YLO4kytSttmA9zjpOUf
+   Q==;
+X-CSE-ConnectionGUID: Q3PnO8ZkQ1CH2Zn21oMnyw==
+X-CSE-MsgGUID: n88LfgzZTfmDIm4yW/mmRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="108478354"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="91088594"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 21:10:25 -0700
-X-CSE-ConnectionGUID: 3g59uvEsS8OIcmswCVT7qg==
-X-CSE-MsgGUID: cN1GapasSGKzBORcnfc/GA==
+   d="scan'208";a="108478354"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 21:33:27 -0700
+X-CSE-ConnectionGUID: ZqLHcQoJRZGUDAeBK26G6Q==
+X-CSE-MsgGUID: 5XRDI0pZTviHi1my+ES0WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="300154557"
+   d="scan'208";a="5032935"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2026 21:10:23 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 23 Sep 2026 21:33:26 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9amq-00000000IBc-2qmn;
-	Thu, 24 Sep 2026 04:10:20 +0000
-Date: Thu, 24 Sep 2026 12:09:45 +0800
+	id 1x9b99-00000000ID2-1xAm;
+	Thu, 24 Sep 2026 04:33:23 +0000
+Date: Thu, 24 Sep 2026 12:32:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marco Elver <elver@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>
-Subject: drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:
- sparse: incorrect type in assignment (different modifiers)
-Message-ID: <202609241216.DmuxwLRI-lkp@intel.com>
+To: John Johansen <john.johansen@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: security/apparmor/af_unix.c:764:50: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202609241230.DoBklUpQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,113 +61,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   fe2ec83746e501645709761605c2464a44fd2929
-commit: f0b7ce22d71810c8c11abcd912fbd6f57c2e9677 srcu: Support Clang's context analysis
-date:   9 months ago
-config: i386-randconfig-1300-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241216.DmuxwLRI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+commit: 4483efe4f21510b30c24bc97d9fd0e8feab94125 apparmor: fix shadowing of plabel that prevents cache from being updated
+date:   3 months ago
+config: sparc-randconfig-r1307-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241230.DoBklUpQ-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 16.1.0
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241216.DmuxwLRI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241230.DoBklUpQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f0b7ce22d718 ("srcu: Support Clang's context analysis")
+| Fixes: 4483efe4f215 ("apparmor: fix shadowing of plabel that prevents cache from being updated")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241216.DmuxwLRI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241230.DoBklUpQ-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected int ( *handler )( ... ) @@     got int ( [noderef] *__v )( ... ) @@
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     expected int ( *handler )( ... )
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     got int ( [noderef] *__v )( ... )
+>> security/apparmor/af_unix.c:764:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct aa_label *l @@     got struct aa_label [noderef] __rcu *label @@
+   security/apparmor/af_unix.c:764:50: sparse:     expected struct aa_label *l
+   security/apparmor/af_unix.c:764:50: sparse:     got struct aa_label [noderef] __rcu *label
 
-vim +440 drivers/infiniband/core/uverbs_ioctl.c
+vim +764 security/apparmor/af_unix.c
 
-fac9658cabb98af Matan Barak         2017-08-03  427  
-3a863577a749627 Jason Gunthorpe     2018-08-09  428  static int ib_uverbs_run_method(struct bundle_priv *pbundle,
-3a863577a749627 Jason Gunthorpe     2018-08-09  429  				unsigned int num_attrs)
-fac9658cabb98af Matan Barak         2017-08-03  430  {
-15a1b4becba8861 Jason Gunthorpe     2018-11-25  431  	int (*handler)(struct uverbs_attr_bundle *attrs);
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  432  	struct uverbs_attr_bundle *bundle =
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  433  		container_of(&pbundle->bundle, struct uverbs_attr_bundle, hdr);
-3a863577a749627 Jason Gunthorpe     2018-08-09  434  	size_t uattrs_size = array_size(sizeof(*pbundle->uattrs), num_attrs);
-3a863577a749627 Jason Gunthorpe     2018-08-09  435  	unsigned int destroy_bkey = pbundle->method_elm->destroy_bkey;
-3a863577a749627 Jason Gunthorpe     2018-08-09  436  	unsigned int i;
-fac9658cabb98af Matan Barak         2017-08-03  437  	int ret;
-fac9658cabb98af Matan Barak         2017-08-03  438  
-3a863577a749627 Jason Gunthorpe     2018-08-09  439  	/* See uverbs_disassociate_api() */
-3a863577a749627 Jason Gunthorpe     2018-08-09 @440  	handler = srcu_dereference(
-3a863577a749627 Jason Gunthorpe     2018-08-09  441  		pbundle->method_elm->handler,
-3a863577a749627 Jason Gunthorpe     2018-08-09  442  		&pbundle->bundle.ufile->device->disassociate_srcu);
-3a863577a749627 Jason Gunthorpe     2018-08-09  443  	if (!handler)
-3a863577a749627 Jason Gunthorpe     2018-08-09  444  		return -EIO;
-3a863577a749627 Jason Gunthorpe     2018-08-09  445  
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  446  	pbundle->uattrs = uverbs_alloc(bundle, uattrs_size);
-3a863577a749627 Jason Gunthorpe     2018-08-09  447  	if (IS_ERR(pbundle->uattrs))
-3a863577a749627 Jason Gunthorpe     2018-08-09  448  		return PTR_ERR(pbundle->uattrs);
-3a863577a749627 Jason Gunthorpe     2018-08-09  449  	if (copy_from_user(pbundle->uattrs, pbundle->user_attrs, uattrs_size))
-3a863577a749627 Jason Gunthorpe     2018-08-09  450  		return -EFAULT;
-3a863577a749627 Jason Gunthorpe     2018-08-09  451  
-3a863577a749627 Jason Gunthorpe     2018-08-09  452  	for (i = 0; i != num_attrs; i++) {
-3a863577a749627 Jason Gunthorpe     2018-08-09  453  		ret = uverbs_set_attr(pbundle, &pbundle->uattrs[i]);
-3a863577a749627 Jason Gunthorpe     2018-08-09  454  		if (unlikely(ret))
-3a863577a749627 Jason Gunthorpe     2018-08-09  455  			return ret;
-3a863577a749627 Jason Gunthorpe     2018-08-09  456  	}
-3a863577a749627 Jason Gunthorpe     2018-08-09  457  
-3a863577a749627 Jason Gunthorpe     2018-08-09  458  	/* User space did not provide all the mandatory attributes */
-3a863577a749627 Jason Gunthorpe     2018-08-09  459  	if (unlikely(!bitmap_subset(pbundle->method_elm->attr_mandatory,
-3a863577a749627 Jason Gunthorpe     2018-08-09  460  				    pbundle->bundle.attr_present,
-3a863577a749627 Jason Gunthorpe     2018-08-09  461  				    pbundle->method_elm->key_bitmap_len)))
-fac9658cabb98af Matan Barak         2017-08-03  462  		return -EINVAL;
-fac9658cabb98af Matan Barak         2017-08-03  463  
-07f05f40d956d40 Jason Gunthorpe     2018-11-25  464  	if (pbundle->method_elm->has_udata)
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  465  		uverbs_fill_udata(bundle, &pbundle->bundle.driver_udata,
-4785860e04bc8d7 Jason Gunthorpe     2018-11-30  466  				  UVERBS_ATTR_UHW_IN, UVERBS_ATTR_UHW_OUT);
-f89adedaf3feb2e Gal Pressman        2019-04-30  467  	else
-f89adedaf3feb2e Gal Pressman        2019-04-30  468  		pbundle->bundle.driver_udata = (struct ib_udata){};
-07f05f40d956d40 Jason Gunthorpe     2018-11-25  469  
-3a863577a749627 Jason Gunthorpe     2018-08-09  470  	if (destroy_bkey != UVERBS_API_ATTR_BKEY_LEN) {
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  471  		struct uverbs_obj_attr *destroy_attr = &bundle->attrs[destroy_bkey].obj_attr;
-fac9658cabb98af Matan Barak         2017-08-03  472  
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  473  		ret = uobj_destroy(destroy_attr->uobject, bundle);
-aa72c9a5f986444 Jason Gunthorpe     2018-07-26  474  		if (ret)
-3a863577a749627 Jason Gunthorpe     2018-08-09  475  			return ret;
-3a863577a749627 Jason Gunthorpe     2018-08-09  476  		__clear_bit(destroy_bkey, pbundle->uobj_finalize);
-aa72c9a5f986444 Jason Gunthorpe     2018-07-26  477  
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  478  		ret = handler(bundle);
-3a863577a749627 Jason Gunthorpe     2018-08-09  479  		uobj_put_destroy(destroy_attr->uobject);
-3a863577a749627 Jason Gunthorpe     2018-08-09  480  	} else {
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  481  		ret = handler(bundle);
-7452a3c745a2e7e Jason Gunthorpe     2018-07-25  482  	}
-7452a3c745a2e7e Jason Gunthorpe     2018-07-25  483  
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  484  	/*
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  485  	 * Until the drivers are revised to use the bundle directly we have to
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  486  	 * assume that the driver wrote to its UHW_OUT and flag userspace
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  487  	 * appropriately.
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  488  	 */
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  489  	if (!ret && pbundle->method_elm->has_udata) {
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  490  		const struct uverbs_attr *attr =
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  491  			uverbs_attr_get(bundle, UVERBS_ATTR_UHW_OUT);
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  492  
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  493  		if (!IS_ERR(attr))
-155f04366e3cad7 Gustavo A. R. Silva 2024-03-01  494  			ret = uverbs_set_output(bundle, attr);
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  495  	}
-d6f4a21f309dfe1 Jason Gunthorpe     2019-01-11  496  
-3a863577a749627 Jason Gunthorpe     2018-08-09  497  	/*
-3a863577a749627 Jason Gunthorpe     2018-08-09  498  	 * EPROTONOSUPPORT is ONLY to be returned if the ioctl framework can
-3a863577a749627 Jason Gunthorpe     2018-08-09  499  	 * not invoke the method because the request is not supported.  No
-3a863577a749627 Jason Gunthorpe     2018-08-09  500  	 * other cases should return this code.
-3a863577a749627 Jason Gunthorpe     2018-08-09  501  	 */
-3a863577a749627 Jason Gunthorpe     2018-08-09  502  	if (WARN_ON_ONCE(ret == -EPROTONOSUPPORT))
-3a863577a749627 Jason Gunthorpe     2018-08-09  503  		return -EINVAL;
-fac9658cabb98af Matan Barak         2017-08-03  504  
-3a863577a749627 Jason Gunthorpe     2018-08-09  505  	return ret;
-fac9658cabb98af Matan Barak         2017-08-03  506  }
-fac9658cabb98af Matan Barak         2017-08-03  507  
-
-:::::: The code at line 440 was first introduced by commit
-:::::: 3a863577a7496278892360a69d90d8465733100c IB/uverbs: Use uverbs_api to unmarshal ioctl commands
-
-:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+   705	
+   706	/* This fn is only checked if something has changed in the security
+   707	 * boundaries. Otherwise cached info off file is sufficient
+   708	 */
+   709	int aa_unix_file_perm(const struct cred *subj_cred, struct aa_label *label,
+   710			      const char *op, u32 request, struct file *file)
+   711	{
+   712		struct socket *sock = (struct socket *) file->private_data;
+   713		struct sockaddr_un *addr, *peer_addr;
+   714		int addrlen, peer_addrlen;
+   715		struct aa_label *plabel = NULL;
+   716		struct sock *peer_sk = NULL;
+   717		u32 sk_req = request & ~NET_PEER_MASK;
+   718		struct path path;
+   719		bool is_sk_fs;
+   720		int error = 0;
+   721	
+   722		AA_BUG(!label);
+   723		AA_BUG(!sock);
+   724		AA_BUG(!sock->sk);
+   725		AA_BUG(sock->sk->sk_family != PF_UNIX);
+   726	
+   727		/* investigate only using lock via unix_peer_get()
+   728		 * addr only needs the memory barrier, but need to investigate
+   729		 * path
+   730		 */
+   731		unix_state_lock(sock->sk);
+   732		peer_sk = unix_peer(sock->sk);
+   733		if (peer_sk)
+   734			sock_hold(peer_sk);
+   735	
+   736		is_sk_fs = is_unix_fs(sock->sk);
+   737		addr = aa_sunaddr(unix_sk(sock->sk), &addrlen);
+   738		path = unix_sk(sock->sk)->path;
+   739		unix_state_unlock(sock->sk);
+   740	
+   741		if (is_sk_fs && peer_sk)
+   742			sk_req = request;
+   743		if (sk_req) {
+   744				error = aa_unix_label_sk_perm(subj_cred, label, op,
+   745							      sk_req, sock->sk,
+   746							      is_sk_fs ? &path : NULL);
+   747		}
+   748		if (!peer_sk)
+   749			goto out;
+   750	
+   751		peer_addr = aa_sunaddr(unix_sk(peer_sk), &peer_addrlen);
+   752	
+   753		struct path peer_path;
+   754	
+   755		peer_path = unix_sk(peer_sk)->path;
+   756		if (!is_sk_fs && is_unix_fs(peer_sk)) {
+   757			last_error(error,
+   758				   unix_fs_perm(op, request, subj_cred, label,
+   759						is_unix_fs(peer_sk) ? &peer_path : NULL));
+   760		} else if (!is_sk_fs) {
+   761			struct aa_sk_ctx *pctx = aa_sock(peer_sk);
+   762	
+   763			rcu_read_lock();
+ > 764			plabel = aa_get_newest_label(pctx->label);
+   765			rcu_read_unlock();
+   766			/* no fs check of aa_unix_peer_perm because conditions above
+   767			 * ensure they will never be done
+   768			 */
+   769			last_error(error,
+   770				xcheck(unix_peer_perm(subj_cred, label, op,
+   771						      MAY_READ | MAY_WRITE, sock->sk,
+   772						      is_sk_fs ? &path : NULL,
+   773						      peer_addr, peer_addrlen,
+   774						      is_unix_fs(peer_sk) ?
+   775								&peer_path : NULL,
+   776						      plabel),
+   777				       unix_peer_perm(file->f_cred, plabel, op,
+   778						      MAY_READ | MAY_WRITE, peer_sk,
+   779						      is_unix_fs(peer_sk) ?
+   780								&peer_path : NULL,
+   781						      addr, addrlen,
+   782						      is_sk_fs ? &path : NULL,
+   783						      label)));
+   784			if (!error && !__aa_subj_label_is_cached(plabel, label))
+   785				update_peer_ctx(peer_sk, pctx, label);
+   786		}
+   787		sock_put(peer_sk);
+   788	
+   789	out:
+   790	
+   791		/* update peer cache to latest successful perm check */
+   792		if (error == 0)
+   793			update_sk_ctx(sock->sk, label, plabel);
+   794		aa_put_label(plabel);
+   795	
+   796		return error;
+   797	}
+   798	
 
 --
 0-DAY CI Kernel Test Service
