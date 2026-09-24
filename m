@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0CC41E6C5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 07:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3823446B0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 09:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790236306; cv=none; b=MT8e1wQjDkphajZ9Fk4PRdIv+9xnoJLVfF5yCIaJzzM0IrWY2OYNHbugeUX572C/w0BZpGlDfByir/N/vwDRmGs3dKtpQsPpFOWCnhg0nmUz83LlDwpZrTsiJzqVhjUlM2ZSEwaAaxBGa/OvNLLyy/ACk4EwbMdH/kMyeuItJuc=
+	t=1790242811; cv=none; b=FlSBfYk77gXZ1dFS8IlN0dZwHIuViJhMZdcPvTlWcSlBxN77FQWDqOOyrwAsqqkwnLWJIc4BH5fpO8gyEz5uyFOW8zhGQrblk5vX9BRVYpIATMenV9uI3jfKDONQe2KLwAhMul71ysag7JHWhXEanUSDY94r1b65pThllOjHn7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790236306; c=relaxed/simple;
-	bh=RHmy0Can0xez2ljF2NxOHqoZ31lResgifk22BTLGvY8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=efJ4nHRPsUVwoJhMshOyN+sF9wrwCUV0VSuZxbjobbC+qOq7Yc/H3fstO0AEpNviEwZhZ5TyX1akgl0grOZt0oSenziM7vg4C08G42s6G/ClEfXW/HkA9M/nW+0A3qrKppOC7TzEpMoCo2KgTe3Tq5CaLvkugXJyuIiGUplcAfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=khKFcsyk; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1790242811; c=relaxed/simple;
+	bh=aKFUJ0fW57ZPs87BclFIm3xqqnrs9rlNXx7Nh0zwpa4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UfB6MUUscrjL6osdB8R0JcxkDvBQKctWD+flPtt+eXmT1gpGj1kBr0r77Qfkdgwosoq5Z+DvOaQjDC6LbfAxCUWLKyGEhwHGh1aJc6DWionMG6FCMyZIlyl55nNAMaj96Y7LsGSlh2AU/uczp1B4/LH8sKAhOcJlYDFb3NRAgXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+qJnKWg; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="khKFcsyk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+qJnKWg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790236304; x=1821772304;
+  t=1790242808; x=1821778808;
   h=date:from:to:cc:subject:message-id;
-  bh=RHmy0Can0xez2ljF2NxOHqoZ31lResgifk22BTLGvY8=;
-  b=khKFcsykr+ryv6/Q8ZqMGJ7lD9b+B45PKd6uBqzPvtZpceL5ReOu8hcg
-   9mJY2d6lvBMRYFW44hw1x0TQQZJrkQ31qHnBBVxh0s33EjuUZ8ptEk2U7
-   +A64LRMhpN9pinyA+Cc3ilDAGkM8PnKhyQi9xu5q3XiS9S32yzQRp6zh5
-   xpNuL0I8c1dIk9ynpY4GXr/1grc7JXhfzyybB32SKXVHe3f7ygWO/UZxZ
-   wQRX/DG3epkfXtvShmbjgtSUB9AI+uYkViAWN2yemx8ZGywytV4DKIwO0
-   MoJVgOmOcOK5KlNNlzJtrKmiY4LLF4R2A3cs7opYtTQNpg4ZXrbXg4WFR
-   g==;
-X-CSE-ConnectionGUID: LCu+SHAyTbK4T7I7oogoEg==
-X-CSE-MsgGUID: 6+WxGJYzQpKntBSuqx7U0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="91016577"
+  bh=aKFUJ0fW57ZPs87BclFIm3xqqnrs9rlNXx7Nh0zwpa4=;
+  b=L+qJnKWgwwWlodRLC0NZR3WU7RPJhIOeJHUaSFhaGET30/Ki8VmQ9vOH
+   xJhNu0FY8/NAuJxYcEzFx95edKWSG693MAerRxMylz8Q6HI3IzNvGxDQ/
+   heOAf9VTPmuvOaqHMS1oyHA+zQwk1rydqAzOmXDt2jDG5YO/lUK+h8/tF
+   eaznJnJJWrH1FBFeaWG4Ppizv7ncHhkIRS6AbaUg63FWgbm75fOLlQpen
+   EgmNZoOlG7Ftv3BT05SHHC7pdeTSuo4rbAOmIE4s4i0YVLPj/BEaSTszF
+   lov0lRduWA2/KTUKb+JYJkOtXN1SizT6ORX9bDz9XVOp2X8lmpD2yItwu
+   w==;
+X-CSE-ConnectionGUID: n89h6rMmSNSfVUMhtpfbEg==
+X-CSE-MsgGUID: DfFgS0UjSJqYiZ17ihm9hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="107393610"
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="91016577"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 00:51:43 -0700
-X-CSE-ConnectionGUID: 9yUfAK+vTb2XfiWzWqeNFg==
-X-CSE-MsgGUID: xvEq+xDQRcuF/hvz1MZ7SA==
+   d="scan'208";a="107393610"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 02:40:07 -0700
+X-CSE-ConnectionGUID: tZD4gXR4SpyE4oaNgTZ0fA==
+X-CSE-MsgGUID: bFHtPK5iRl+C395pbO9lEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="277111298"
+   d="scan'208";a="301910445"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 24 Sep 2026 00:51:42 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Sep 2026 02:40:05 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9eF1-00000000INy-2EfZ;
-	Thu, 24 Sep 2026 07:51:39 +0000
-Date: Thu, 24 Sep 2026 15:51:13 +0800
+	id 1x9fvv-00000000IZm-0h5S;
+	Thu, 24 Sep 2026 09:40:03 +0000
+Date: Thu, 24 Sep 2026 17:39:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org,
- "Paul E. McKenney" <paulmck@kernel.org>
-Subject: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
- arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in
- conditional expression
-Message-ID: <202609241517.SSV1Goz3-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ include/trace/trace_events.h:27:23: warning: 'str__timer__trace_system_name'
+ defined but not used
+Message-ID: <202609241749.ibFsSF89-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,113 +60,249 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
-head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
-commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emulate two-byte cmpxchg
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/reproduce)
+Hi Huang,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   9b98c0cbf9c92b8fcc9077e711bed14b4e40ce3b
+commit: 9789a88f4273089cad704a5ef219ea41882d5d55 [1/1] ANDROID: timer: Add vendor hook for timer calc index
+config: arm64-randconfig-1001-20260918 (https://download.01.org/0day-ci/archive/20260924/202609241749.ibFsSF89-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241749.ibFsSF89-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241517.SSV1Goz3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241749.ibFsSF89-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arc/include/asm/atomic.h:13,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:190,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/arc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/fscrypt.h:16,
-                    from fs/crypto/fscrypt_private.h:15,
-                    from fs/crypto/hooks.c:10:
-   fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
->> arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in conditional expression [-Wincompatible-pointer-types]
-      46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
-         |                                                          ^
-   include/linux/atomic.h:68:9: note: in expansion of macro 'arch_cmpxchg_relaxed'
-      68 |         op##_relaxed(args);                                             \
-         |         ^~
-   include/linux/atomic/atomic-arch-fallback.h:80:9: note: in expansion of macro '__atomic_op_release'
-      80 |         __atomic_op_release(arch_cmpxchg, __VA_ARGS__)
+   include/trace/define_trace.h:73:28: note: in expansion of macro 'PARAMS'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                            ^~~~~~
+   include/trace/hooks/vendor_hooks.h:14:22: note: in expansion of macro 'DECLARE_TRACE'
+      14 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:18:9: note: in expansion of macro 'TP_PROTO'
+      18 |         TP_PROTO(struct cpufreq_policy *policy, unsigned int min_freq,
+         |         ^~~~~~~~
+   include/linux/tracepoint.h:303:13: error: conflicting types for '__traceiter_android_vh_freq_table_limits'; have 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+     303 |         int __traceiter_##_name(void *__data, proto)                    \
+         |             ^~~~~~~~~~~~
+   include/linux/tracepoint.h:320:9: note: in expansion of macro 'DEFINE_TRACE_FN'
+     320 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~
+   include/trace/define_trace.h:73:9: note: in expansion of macro 'DEFINE_TRACE'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:14:22: note: in expansion of macro 'DECLARE_TRACE'
+      14 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:17:1: note: in expansion of macro 'DECLARE_HOOK'
+      17 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   include/linux/tracepoint.h:235:20: note: previous declaration of '__traceiter_android_vh_freq_table_limits' with type 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+     235 |         extern int __traceiter_##name(data_proto);                      \
+         |                    ^~~~~~~~~~~~
+   include/linux/tracepoint.h:411:9: note: in expansion of macro '__DECLARE_TRACE'
+     411 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^~~~~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:14:22: note: in expansion of macro 'DECLARE_TRACE'
+      14 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:17:1: note: in expansion of macro 'DECLARE_HOOK'
+      17 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   In file included from <command-line>:
+   include/linux/static_call_types.h:13:41: error: conflicting types for '__SCT__tp_func_android_vh_freq_table_limits'; have 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+      13 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/compiler_types.h:59:23: note: in definition of macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/static_call_types.h:16:41: note: in expansion of macro '__PASTE'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:16:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:128:29: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     128 |         extern typeof(func) STATIC_CALL_TRAMP(name);
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:244:9: note: in expansion of macro 'DECLARE_STATIC_CALL'
+     244 |         DECLARE_STATIC_CALL(name, _func);                               \
          |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
+   include/linux/tracepoint.h:317:9: note: in expansion of macro 'DEFINE_STATIC_CALL'
+     317 |         DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:320:9: note: in expansion of macro 'DEFINE_TRACE_FN'
+     320 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~
+   include/trace/define_trace.h:73:9: note: in expansion of macro 'DEFINE_TRACE'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:14:22: note: in expansion of macro 'DECLARE_TRACE'
+      14 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:17:1: note: in expansion of macro 'DECLARE_HOOK'
+      17 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   include/linux/static_call_types.h:13:41: note: previous declaration of '__SCT__tp_func_android_vh_freq_table_limits' with type 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+      13 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/compiler_types.h:59:23: note: in definition of macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/static_call_types.h:16:41: note: in expansion of macro '__PASTE'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:16:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:128:29: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     128 |         extern typeof(func) STATIC_CALL_TRAMP(name);
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:236:9: note: in expansion of macro 'DECLARE_STATIC_CALL'
+     236 |         DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);        \
          |         ^~~~~~~~~~~~~~~~~~~
-   fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
-     420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
-         |             ^~~~~~~~~~~~~~~
-   arch/arc/include/asm/cmpxchg.h:46:51: note: first expression has type 'char *'
-      46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
-         |                                                   ^~~~~~
-   include/linux/atomic.h:68:9: note: in expansion of macro 'arch_cmpxchg_relaxed'
-      68 |         op##_relaxed(args);                                             \
-         |         ^~
-   include/linux/atomic/atomic-arch-fallback.h:80:9: note: in expansion of macro '__atomic_op_release'
-      80 |         __atomic_op_release(arch_cmpxchg, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
-     420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
-         |             ^~~~~~~~~~~~~~~
-   arch/arc/include/asm/cmpxchg.h:46:60: note: second expression has type 'unsigned char *'
-      46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
-         |                                                            ^~~~~
-   include/linux/atomic.h:68:9: note: in expansion of macro 'arch_cmpxchg_relaxed'
-      68 |         op##_relaxed(args);                                             \
-         |         ^~
-   include/linux/atomic/atomic-arch-fallback.h:80:9: note: in expansion of macro '__atomic_op_release'
-      80 |         __atomic_op_release(arch_cmpxchg, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
-    4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~
-   fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
-     420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
-         |             ^~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:411:9: note: in expansion of macro '__DECLARE_TRACE'
+     411 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^~~~~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:14:22: note: in expansion of macro 'DECLARE_TRACE'
+      14 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:17:1: note: in expansion of macro 'DECLARE_HOOK'
+      17 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:19,
+                    from drivers/android/vendor_hooks.c:34:
+>> include/trace/trace_events.h:27:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/bug.h:22,
+                    from drivers/android/vendor_hooks.c:33:
+   include/trace/trace_events.h:27:23: warning: 'str__bug__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/pm_domain.h:23,
+                    from drivers/android/vendor_hooks.c:32:
+   include/trace/trace_events.h:27:23: warning: 'str__pm_domain__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ftrace_dump.h:40,
+                    from drivers/android/vendor_hooks.c:31:
+   include/trace/trace_events.h:27:23: warning: 'str__ftrace_dump__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/preemptirq.h:34,
+                    from drivers/android/vendor_hooks.c:30:
+   include/trace/trace_events.h:27:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mm.h:30,
+                    from drivers/android/vendor_hooks.c:29:
+   include/trace/trace_events.h:27:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +46 arch/arc/include/asm/cmpxchg.h
+vim +/str__timer__trace_system_name +27 include/trace/trace_events.h
 
-    41	
-    42	#define arch_cmpxchg_relaxed(ptr, old, new)				\
-    43	({									\
-    44		__typeof__(ptr) _p_ = (ptr);					\
-    45		unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));		\
-  > 46		unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));		\
-    47		__typeof__(*(ptr)) _prev_;					\
-    48										\
-    49		switch (sizeof(*(_p_))) {						\
-    50		case 1:								\
-    51			_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, _old_, _new_);	\
-    52			break;							\
-    53		case 2:								\
-    54			_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u16((volatile u16 *__force)_p_, _old_, _new_);	\
-    55			break;							\
-    56		case 4:								\
-    57			_prev_ = (__typeof__(*(ptr)))__cmpxchg(_p_, _old_, _new_);			\
-    58			break;							\
-    59		default:							\
-    60			BUILD_BUG();						\
-    61		}								\
-    62		_prev_;								\
-    63	})
-    64	
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
