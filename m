@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8C03E5EF1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 03:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A926630DECB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 03:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790221709; cv=none; b=HrvyGDlWkmGmrryenaKjiu0pGnHDV2pexqB/zlxViApmHBzCZb12QKG0si7jGiVMKrMEz19/pwGajk7X/MwRJvFzb33Q6yPfabk0AKgFoYJT8v5EynZos1XtXtfD0JrMFv9ccV9JZzC9MVpy+/D24b6AYsvFJ0l9fh6gFkNxG60=
+	t=1790222366; cv=none; b=ZMMf13PZO+4RHCpjbn8Db47wV4roVupCO6jIv35z+OzwE4RSxb1fIZskq+ZP6ys5ktNmeNHARt2RRkw9eJSeGOjR7ikM+BQmf2hCFUK4kgnf/Avu6UT1XUR8RvliDSFDlJgN5sa0sznkFizM8HInAKZF2SSDGRv6jsee/EWWU+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790221709; c=relaxed/simple;
-	bh=XpNk1q5111XBtD3ATUFRM0hRDnhnDffjoK5AeYZoBFE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TH5pvg+QHuqlZptDy+Mi98OPHu6WbR4IFc6mN81X/4obOxjVrNMQ72AL00SWvIZb8ykAy2sLCDYkr8nrBb6KCiw4lofNcBF9laUQnDCBThV778x7f/3LYgB98w7XYoDymZyi+VV2ZuV88WRT2Lz75M/lnLrnYtVgyaZonua36VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOpfPbPr; arc=none smtp.client-ip=192.198.163.4
+	s=arc-20240116; t=1790222366; c=relaxed/simple;
+	bh=tAiQ2BTpWsugDWIA5F2BihliKdd+je1PVIWjDSTexGw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=seQxrVPkZRGASTFpRB4GlA7POYJkp0c1YUQ5tTQwf1slj1NP3cuun6DRT88jl93CTZFf+fnFBeiSn6q91kQSlPRvDJ/guMpuOqOxNnSjZw/iSCzK1SFhkmNVBir/qihM3FkZeqlMSTdatuobYVB5eEqIkk9eBqASr/cXPqHruK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DU4flF6L; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOpfPbPr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DU4flF6L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790221707; x=1821757707;
+  t=1790222365; x=1821758365;
   h=date:from:to:cc:subject:message-id;
-  bh=XpNk1q5111XBtD3ATUFRM0hRDnhnDffjoK5AeYZoBFE=;
-  b=HOpfPbPr2so1RcRG9lBuREKk5rzFUGgG6XpHCR5SMFiotCP7PvUkqk22
-   i71SCuTN9CfW7amBwdY7idPVrDIBdhOgGi60d+ueYMhYS8+5FMiP1jvWE
-   YDPdI56zzaICuRuhAw7FS0eBGvkFMGycM6sbbvdlCH6W/VQOQqtx56Znz
-   Tr/ZEUj/676hYR0O+ec2bgVPr75q5ysKTwKlTXC/enI+qFRBtQ81dvmRH
-   HmvrtxfAJ3yQKDQB0pn3qZo3sv5LUPsn68X9zWfyjmXmIYB2ckA24ZJCM
-   /Te+NwC15Ao87q+GwlrY/7tnPKgMrItEgUH/O+V2HhCWSioddIqQ9gWeN
-   Q==;
-X-CSE-ConnectionGUID: ZHXgUBLAQR28clVZF8Q83Q==
-X-CSE-MsgGUID: dXItRo/1SNGu22yeAxx1UA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="1494506"
+  bh=tAiQ2BTpWsugDWIA5F2BihliKdd+je1PVIWjDSTexGw=;
+  b=DU4flF6LZ9ioevZ43aRjcBB7O+gI3xzGKuDkoZUVqTUYefK+2jNchgmP
+   v59sfYPNWvdrN5e8QlNIIA5bI2XT0cI2f2M1olyRuTdT5/JKrEg5nnMeY
+   k3hDPqAIwnerux3h6xdLeqrsimnWFzTa+6Zrujnk3pBFJING2QcuFMEWM
+   Ehm8fZ3tldSdZA8Y57sWP3F86MQ6D5TXS5tO1B/PjMTXrGs7ntkf/q5on
+   KKIcoBUjOWKnM8UhKc42sfP7vNVqTud0uGmHtOT/iLgbG2yuYDWTuitda
+   0Sm8o4kWCNvTL1XELIIjqWKlIQsYuCxTtSAjE0BN6dkKUJkRTa4gF+fob
+   g==;
+X-CSE-ConnectionGUID: m1uQCNZdQG2b3d7Ye7EeLQ==
+X-CSE-MsgGUID: 1JGvLo0DT4uLj6pS6qO7mQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="94801162"
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="1494506"
+   d="scan'208";a="94801162"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa114.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 20:48:24 -0700
-X-CSE-ConnectionGUID: m6g9dujdQE2yCE9iA7F9Ug==
-X-CSE-MsgGUID: 6cEOReRkQIuMjqDHc/iGgQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 20:59:24 -0700
+X-CSE-ConnectionGUID: 4DzQob0OR3O8mJCavWKb8A==
+X-CSE-MsgGUID: oFRAw8+xSQ2WCZNxdZAOjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
-   d="scan'208";a="281992716"
+   d="scan'208";a="281996178"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 20:48:22 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 20:59:22 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9aRX-00000000IAi-355I;
-	Thu, 24 Sep 2026 03:48:19 +0000
-Date: Thu, 24 Sep 2026 11:47:41 +0800
+	id 1x9acC-00000000IBK-1R4L;
+	Thu, 24 Sep 2026 03:59:20 +0000
+Date: Thu, 24 Sep 2026 11:58:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ulf Hansson <ulf.hansson@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202609241102.b0Z14B7C-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__pm_domain__trace_system_name' defined but not used
+Message-ID: <202609241118.p9BLfFnw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,90 +60,249 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fe2ec83746e501645709761605c2464a44fd2929
-commit: f08e7a4e8d6ac4de677727af352ea33c6ce9f444 pmdomain: mediatek: Add support for MFlexGraphics
-date:   10 months ago
-config: sparc-randconfig-r1301-20260924 (https://download.01.org/0day-ci/archive/20260924/202609241102.b0Z14B7C-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241102.b0Z14B7C-lkp@intel.com/reproduce)
+Hi Lina,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   9b98c0cbf9c92b8fcc9077e711bed14b4e40ce3b
+commit: 35e4214e997a56eb3b85ff673510c4bbe5247a06 [1/1] ANDROID: PM / Domains: add vendor_hook to disallow domain idle state
+config: arm64-randconfig-1001-20260918 (https://download.01.org/0day-ci/archive/20260924/202609241118.p9BLfFnw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241118.p9BLfFnw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f08e7a4e8d6a ("pmdomain: mediatek: Add support for MFlexGraphics")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609241102.b0Z14B7C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609241118.p9BLfFnw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned long @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:418:26: sparse:     got unsigned long
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] ipi_magic @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     expected restricted __le32 [usertype] magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:458:20: sparse:     got unsigned int [usertype] ipi_magic
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:472:19: sparse: sparse: restricted signed int degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [assigned] [usertype] base @@     got unsigned int [usertype] shared_mem_phys @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     expected restricted __le64 [assigned] [usertype] base
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:490:31: sparse:     got unsigned int [usertype] shared_mem_phys
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [assigned] [usertype] size @@     got unsigned int shared_mem_size @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     expected restricted __le32 [assigned] [usertype] size
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:491:31: sparse:     got unsigned int shared_mem_size
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:509:17: sparse:     got int
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] power_state @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     expected restricted __le32 [usertype] power_state
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:510:27: sparse:     got int
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] cmd @@     got int @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     expected restricted __le32 [usertype] cmd
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:523:17: sparse:     got int
->> drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] gpu_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     expected restricted signed int [usertype] gpu_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:524:38: sparse:     got unsigned int opp_idx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted signed int [usertype] stack_oppidx @@     got unsigned int opp_idx @@
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     expected restricted signed int [usertype] stack_oppidx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:525:40: sparse:     got unsigned int opp_idx
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:578:42: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:579:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:593:44: sparse: sparse: restricted __le32 degrades to integer
-   drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c:594:46: sparse: sparse: restricted __le32 degrades to integer
+All warnings (new ones prefixed by >>):
 
-vim +509 drivers/pmdomain/mediatek/mtk-mfg-pmdomain.c
+   include/trace/define_trace.h:73:28: note: in expansion of macro 'PARAMS'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                            ^~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:20:9: note: in expansion of macro 'TP_PROTO'
+      20 |         TP_PROTO(struct cpufreq_policy *policy, unsigned int min_freq,
+         |         ^~~~~~~~
+   include/linux/tracepoint.h:303:13: error: conflicting types for '__traceiter_android_vh_freq_table_limits'; have 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+     303 |         int __traceiter_##_name(void *__data, proto)                    \
+         |             ^~~~~~~~~~~~
+   include/linux/tracepoint.h:320:9: note: in expansion of macro 'DEFINE_TRACE_FN'
+     320 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~
+   include/trace/define_trace.h:73:9: note: in expansion of macro 'DEFINE_TRACE'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   include/linux/tracepoint.h:235:20: note: previous declaration of '__traceiter_android_vh_freq_table_limits' with type 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+     235 |         extern int __traceiter_##name(data_proto);                      \
+         |                    ^~~~~~~~~~~~
+   include/linux/tracepoint.h:411:9: note: in expansion of macro '__DECLARE_TRACE'
+     411 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^~~~~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   In file included from <command-line>:
+   include/linux/static_call_types.h:13:41: error: conflicting types for '__SCT__tp_func_android_vh_freq_table_limits'; have 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+      13 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/compiler_types.h:59:23: note: in definition of macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/static_call_types.h:16:41: note: in expansion of macro '__PASTE'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:16:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:128:29: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     128 |         extern typeof(func) STATIC_CALL_TRAMP(name);
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:244:9: note: in expansion of macro 'DECLARE_STATIC_CALL'
+     244 |         DECLARE_STATIC_CALL(name, _func);                               \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:317:9: note: in expansion of macro 'DEFINE_STATIC_CALL'
+     317 |         DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:320:9: note: in expansion of macro 'DEFINE_TRACE_FN'
+     320 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~
+   include/trace/define_trace.h:73:9: note: in expansion of macro 'DEFINE_TRACE'
+      73 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   include/linux/static_call_types.h:13:41: note: previous declaration of '__SCT__tp_func_android_vh_freq_table_limits' with type 'int(void *, struct cpufreq_policy *, unsigned int,  unsigned int)'
+      13 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   include/linux/compiler_types.h:59:23: note: in definition of macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^
+   include/linux/static_call_types.h:16:41: note: in expansion of macro '__PASTE'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   include/linux/static_call_types.h:16:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      16 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:128:29: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     128 |         extern typeof(func) STATIC_CALL_TRAMP(name);
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:236:9: note: in expansion of macro 'DECLARE_STATIC_CALL'
+     236 |         DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);        \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:411:9: note: in expansion of macro '__DECLARE_TRACE'
+     411 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^~~~~~~~~~~~~~~
+   include/trace/hooks/vendor_hooks.h:12:22: note: in expansion of macro 'DECLARE_TRACE'
+      12 | #define DECLARE_HOOK DECLARE_TRACE
+         |                      ^~~~~~~~~~~~~
+   include/trace/hooks/cpufreq.h:19:1: note: in expansion of macro 'DECLARE_HOOK'
+      19 | DECLARE_HOOK(android_vh_freq_table_limits,
+         | ^~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/pm_domain.h:26,
+                    from drivers/android/vendor_hooks.c:31:
+>> include/trace/trace_events.h:27:23: warning: 'str__pm_domain__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ftrace_dump.h:50,
+                    from drivers/android/vendor_hooks.c:30:
+   include/trace/trace_events.h:27:23: warning: 'str__ftrace_dump__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/preemptirq.h:43,
+                    from drivers/android/vendor_hooks.c:29:
+   include/trace/trace_events.h:27:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mm.h:38,
+                    from drivers/android/vendor_hooks.c:28:
+   include/trace/trace_events.h:27:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpufreq.h:32,
+                    from drivers/android/vendor_hooks.c:27:
+   include/trace/trace_events.h:27:23: warning: 'str__cpufreq__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/epoch.h:31,
+                    from drivers/android/vendor_hooks.c:26:
+   include/trace/trace_events.h:27:23: warning: 'str__epoch__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
-   504	
-   505	static int mtk_mfg_power_control(struct mtk_mfg *mfg, bool enabled)
-   506	{
-   507		struct mtk_mfg_ipi_msg msg = {};
-   508	
- > 509		msg.cmd = CMD_POWER_CONTROL;
- > 510		msg.u.power_state = enabled ? 1 : 0;
-   511	
-   512		return mtk_mfg_send_ipi(mfg, &msg);
-   513	}
-   514	
-   515	static int mtk_mfg_set_oppidx(struct mtk_mfg *mfg, unsigned int opp_idx)
-   516	{
-   517		struct mtk_mfg_ipi_msg msg = {};
-   518		int ret;
-   519	
-   520		if (opp_idx >= mfg->num_gpu_opps)
-   521			return -EINVAL;
-   522	
-   523		msg.cmd = CMD_FIX_DUAL_TARGET_OPPIDX;
- > 524		msg.u.dual_commit.gpu_oppidx = opp_idx;
-   525		msg.u.dual_commit.stack_oppidx = opp_idx;
-   526	
-   527		ret = mtk_mfg_send_ipi(mfg, &msg);
-   528		if (ret) {
-   529			dev_err(&mfg->pdev->dev, "Failed to set OPP %u: %pe\n",
-   530				opp_idx, ERR_PTR(ret));
-   531			return ret;
-   532		}
-   533	
-   534		return 0;
-   535	}
-   536	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+
+vim +/str__pm_domain__trace_system_name +27 include/trace/trace_events.h
+
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
