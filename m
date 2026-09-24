@@ -1,193 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E8F47ECDF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 19:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C73635C6B2
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Sep 2026 20:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790278817; cv=none; b=NwozAxYfrwTB7rpPyGP2lLLSwvq8KcAudy+ynS3Q50JbC4iwUgfLXvJumlkUWgfhF4v3T1bIOBFa9F2MBd8c1fEp5qCXDC7GO+XJtjSyjrrW3g3djkBb+x2SEXtDw3K4uNEI0Mg5t/+Y/iH66htVdH7ELZakIYmi5nqDyg5o8O4=
+	t=1790283177; cv=none; b=YLO0pASuwZ4xurz7TCQ1uoJXqo9HEt2IyDQCl4EFYnmkbQ8yl0a3UqAJ8lAz5Yj8hSfhk4AAQ5Nlc+F+y1pRIEiPltsCfKy1hGA0R82GN0K3CJXb/lC9ydo6CKCt5yZM4v+5OECyxHkGIewKSmh49yvQturukMli9NLlocRfOBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790278817; c=relaxed/simple;
-	bh=JXy430elWLlAAqNbsez+Vf955WrJ6dfpCJSJAbfX2cc=;
-	h=Date:From:Cc:Subject:Message-ID; b=rBJ6qDtzyfHxLO30uuPbh7MEg5WI7vePhPQ3zShtVfCq/k3n717VjE7xbRPYy7IbBMCEY19YY47G5LURmr3bRyDuMDp+Vj1wAfMtfSRAz2TOIg5OaeOJJU6N4qivSNNroktXsNTCaY5vx2qrb4qLo4vmjY7S0M/ptRL7WGVKe/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cgLVKh/U; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790283177; c=relaxed/simple;
+	bh=9UpFwI862u3aAloVW9yON1KJGBoWf8WByoba6S30BiE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aPaPObwrcXmg0SIRftfIugIWOuLB2hRNwJDL4UIiX0M5yP+P59uxbOoW/aOddAnTuD1gz3GqfnrlCPlvg91/uCY8XSD4AQH7LvPgWNfnlYAJsaM/PLG0apVcpxqAnSwvjpt+reKnhbyeBQZZRnbwWbT32A091rj5ulW5uUvetrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YwqtcG9r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgLVKh/U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790278814; x=1821814814;
-  h=date:from:cc:subject:message-id;
-  bh=JXy430elWLlAAqNbsez+Vf955WrJ6dfpCJSJAbfX2cc=;
-  b=cgLVKh/U0/JraNNuz4N+qe1X2mAp+m1t5egZdWc3estKBPMcmvdueHm9
-   dPp6N+I4JnMgL639T97+DJ6YlXt6DIyYo4OppeSW77QZqHiLPL2dPoG6t
-   cEMqLN8k5tOfENEELkHU0PxKQ3pvzY86OCQ2/fn8selkxssNd/kWU24II
-   6vtoeyAgVilKOnqOzH0s5GZN326jYpABgd/vFqHP7Y5duOc1cXIDIAvjz
-   wLbYQPRnrg/jC+S9EIF6ILB6q8qbKgMbVIWoeSu7U5rSgP5hbyKdSsDiu
-   IoAB5ceq1NfPcdlT3v16SwQBURCFdWDZe3ycqUGFteCv5N3E8cXUzGUiQ
-   Q==;
-X-CSE-ConnectionGUID: /ggHATQ6Txee9ccKQbnHFg==
-X-CSE-MsgGUID: xQNnT21OQjuYChrGiYkqNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89926496"
-X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="89926496"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 12:40:12 -0700
-X-CSE-ConnectionGUID: VAj6lvCaSiaC9wxFX7Fnng==
-X-CSE-MsgGUID: B9lLp4u2QcKHd9MERa6/FQ==
-X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Sep 2026 12:40:11 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9pIf-000000000PG-0r43;
-	Thu, 24 Sep 2026 19:40:09 +0000
-Date: Thu, 24 Sep 2026 21:39:27 +0200
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Zhenzhong Duan <zhenzhong.duan@intel.com>
-Subject: [intel-tdx:v7.3-rc4_tdx_connect_phase2.for_upstream 17/44]
- include/uapi/linux/const.h:20:25: warning: conversion from 'long long
- unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from
- '4294967296' to '0'
-Message-ID: <202609242140.qZJIMn5F-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YwqtcG9r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D84151F000FF;
+	Thu, 24 Sep 2026 20:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790283176;
+	bh=uIzmfV9F/XZ6X4H7F7PdFSUESsZ401D4IoK+Dp/1stI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=YwqtcG9rugUyeHKQGr9znFj6B8QtleUN+ddXtgK1nx0Agu7XQz7u/HBtB3tbLIOix
+	 2GlbBC7tBvklzFKd/WcOlyW0RZuTwFxC29MD0LK5VzwW2p38t30eoBuVOMJW/DBj1w
+	 RUiiTC0JSshK622YXiDMe+TDEqemi4Z9Xq2y5G115ow8/kLNjIrHr/MC267h6pUjo5
+	 v5WkmZEbCS91jSPW471BVOShJS96mBjy/JHsKQVlB4V1yDa5uSOviXU6vMqZYk6LBM
+	 DEfxZABa4Ns0dyVkM+sL1GYUTELKBoGv5aaKNmKpPEBRlDvFtEyd60vvIgEQFx9gLU
+	 2RC93+llJ7cIw==
+Message-ID: <3cbe5de8-d04b-4afe-b19f-ad755d4ea320@kernel.org>
+Date: Thu, 24 Sep 2026 13:52:55 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
+ arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in
+ conditional expression
+To: kernel test robot <lkp@intel.com>, Bradley Morgan <brads@mainlining.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org,
+ "Paul E. McKenney" <paulmck@kernel.org>
+References: <202609241517.SSV1Goz3-lkp@intel.com>
+From: Vineet Gupta <vgupta@kernel.org>
+Content-Language: en-US
+In-Reply-To: <202609241517.SSV1Goz3-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/intel/tdx.git v7.3-rc4_tdx_connect_phase2.for_upstream
-head:   69fd611d89afafa408b11f0e1304297433d3d471
-commit: 8d401a08daff7db72c8affddf302b70aa2dcb8e7 [17/44] samples/devsec: Introduce a PCI device-security bus + endpoint sample
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260924/202609242140.qZJIMn5F-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609242140.qZJIMn5F-lkp@intel.com/reproduce)
+On 9/24/26 00:51, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
+> head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
+> commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emulate two-byte cmpxchg
+> config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 16.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609241517.SSV1Goz3-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>     In file included from arch/arc/include/asm/atomic.h:13,
+>                      from include/linux/atomic.h:7,
+>                      from include/asm-generic/bitops/lock.h:5,
+>                      from arch/arc/include/asm/bitops.h:190,
+>                      from include/linux/bitops.h:67,
+>                      from include/linux/log2.h:12,
+>                      from include/asm-generic/div64.h:55,
+>                      from ./arch/arc/include/generated/asm/div64.h:1,
+>                      from include/linux/math.h:6,
+>                      from include/linux/math64.h:6,
+>                      from include/linux/time.h:6,
+>                      from include/linux/stat.h:19,
+>                      from include/linux/fs_dirent.h:5,
+>                      from include/linux/fs/super_types.h:5,
+>                      from include/linux/fs/super.h:5,
+>                      from include/linux/fs.h:5,
+>                      from include/linux/fscrypt.h:16,
+>                      from fs/crypto/fscrypt_private.h:15,
+>                      from fs/crypto/hooks.c:10:
+>     fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
+>>> arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in conditional expression [-Wincompatible-pointer-types]
+>        46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609242140.qZJIMn5F-lkp@intel.com/
+Issue is in  fs/crypto/hooks.c doing cmpxchg_release(&inode->i_link, 
+NULL, pstr.name)
+where i_link is char * and pstr.name is unsigned char *),
 
-All warnings (new ones prefixed by >>):
+The problem is when pointer types are incompatible and that's exactly 
+the W toggle above.
 
-   In file included from include/vdso/const.h:5,
-                    from include/vdso/bits.h:5,
-                    from include/linux/bits.h:5,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/device/faux.h:17,
-                    from samples/devsec/bus.c:6:
-   samples/devsec/bus.c: In function 'devsec_add_host_bridge':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
-      54 | #define SZ_4G                           _AC(0x100000000, ULL)
-         |                                         ^~~
-   samples/devsec/bus.c:665:59: note: in expansion of macro 'SZ_4G'
-     665 |                                MMIO_SIZE * NR_DEVICES, 0, SZ_4G, MMIO_SIZE,
-         |                                                           ^~~~~
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
-      54 | #define SZ_4G                           _AC(0x100000000, ULL)
-         |                                         ^~~
-   samples/devsec/bus.c:679:60: note: in expansion of macro 'SZ_4G'
-     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
-         |                                                            ^~~~~
-   In file included from include/linux/overflow.h:6,
-                    from include/linux/bits.h:32:
->> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-      25 | #define U64_MAX         ((u64)~0ULL)
-         |                         ^~~~~~~~~~~~
-   samples/devsec/bus.c:679:67: note: in expansion of macro 'U64_MAX'
-     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
-         |                                                                   ^~~~~~~
---
-   In file included from include/vdso/const.h:5,
-                    from include/vdso/bits.h:5,
-                    from include/linux/bits.h:5,
-                    from include/linux/ratelimit_types.h:5,
-                    from include/linux/ratelimit.h:5,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/device/faux.h:17,
-                    from bus.c:6:
-   bus.c: In function 'devsec_add_host_bridge':
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
-      54 | #define SZ_4G                           _AC(0x100000000, ULL)
-         |                                         ^~~
-   bus.c:665:59: note: in expansion of macro 'SZ_4G'
-     665 |                                MMIO_SIZE * NR_DEVICES, 0, SZ_4G, MMIO_SIZE,
-         |                                                           ^~~~~
->> include/uapi/linux/const.h:20:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '4294967296' to '0' [-Woverflow]
-      20 | #define __AC(X,Y)       (X##Y)
-         |                         ^~~~~~
-   include/uapi/linux/const.h:21:25: note: in expansion of macro '__AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~
-   include/linux/sizes.h:54:41: note: in expansion of macro '_AC'
-      54 | #define SZ_4G                           _AC(0x100000000, ULL)
-         |                                         ^~~
-   bus.c:679:60: note: in expansion of macro 'SZ_4G'
-     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
-         |                                                            ^~~~~
-   In file included from include/linux/overflow.h:6,
-                    from include/linux/bits.h:32:
->> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'resource_size_t' {aka 'unsigned int'} changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-      25 | #define U64_MAX         ((u64)~0ULL)
-         |                         ^~~~~~~~~~~~
-   bus.c:679:67: note: in expansion of macro 'U64_MAX'
-     679 |                                PREFETCH_SIZE * NR_DEVICES, SZ_4G, U64_MAX,
-         |                                                                   ^~~~~~~
+So Bradley's patch needs this fixup
 
+diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+index 4596edfefa95..9053098bb152 100644
+--- a/arch/arc/include/asm/cmpxchg.h
++++ b/arch/arc/include/asm/cmpxchg.h
+@@ -42,8 +42,10 @@
+  #define arch_cmpxchg_relaxed(ptr, old, new)     \
+  ({    \
+         __typeof__(ptr) _p_ = (ptr);     \
+-       unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));       
+       \
+-       unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));       
+       \
++       __typeof__(*(ptr)) _o_ = (old);    \
++       __typeof__(*(ptr)) _n_ = (new);    \
++       unsigned long _old_ = (unsigned long)_o_;            \
++       unsigned long _new_ = (unsigned long)_n_;            \
 
-vim +20 include/uapi/linux/const.h
+P.S: For arch changes shouldn't the submitter be required to at least 
+test the building, specially when this involves the macro maze. Its 
+really easy with crosstool hosting all the cross-compilers [1] - just 
+download and untar.
 
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   6  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   7  /* Some constant macros are used in both assembler and
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02   8   * C code.  Therefore we cannot annotate them always with
-6df95fd7ad9a84 include/linux/const.h      Randy Dunlap        2007-05-08   9   * 'UL' and other type specifiers unilaterally.  We
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  10   * use the following macros to deal with this.
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  11   *
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  12   * Similarly, _AT() will cast an expression with a type in C, but
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  13   * leave it unchanged in asm.
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  14   */
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  15  
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  16  #ifdef __ASSEMBLY__
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  17  #define _AC(X,Y)	X
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  18  #define _AT(T,X)	X
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  19  #else
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02 @20  #define __AC(X,Y)	(X##Y)
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  21  #define _AC(X,Y)	__AC(X,Y)
-74ef649fe847fd include/linux/const.h      Jeremy Fitzhardinge 2008-01-30  22  #define _AT(T,X)	((T)(X))
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  23  #endif
-9d291e787b2b71 include/asm-x86_64/const.h Vivek Goyal         2007-05-02  24  
+[1] 
+https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/16.2.0/
 
-:::::: The code at line 20 was first introduced by commit
-:::::: 9d291e787b2b71d1b57e5fbb24ba9c70e748ed84 [PATCH] x86-64: Assembly safe page.h and pgtable.h
+Thx,
+-Vineet
 
-:::::: TO: Vivek Goyal <vgoyal@in.ibm.com>
-:::::: CC: Andi Kleen <andi@basil.nowhere.org>
+>           |                                                          ^
+>     include/linux/atomic.h:68:9: note: in expansion of macro 'arch_cmpxchg_relaxed'
+>        68 |         op##_relaxed(args);                                             \
+>           |         ^~
+>     include/linux/atomic/atomic-arch-fallback.h:80:9: note: in expansion of macro '__atomic_op_release'
+>        80 |         __atomic_op_release(arch_cmpxchg, __VA_ARGS__)
+>           |         ^~~~~~~~~~~~~~~~~~~
+>     include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
+>      4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
+>           |         ^~~~~~~~~~~~~~~~~~~
+>     fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
+>       420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
+>           |             ^~~~~~~~~~~~~~~
+>     arch/arc/include/asm/cmpxchg.h:46:51: note: first expression has type 'char *'
+>        46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
+>           |                                                   ^~~~~~
+>     include/linux/atomic.h:68:9: note: in expansion of macro 'arch_cmpxchg_relaxed'
+>        68 |         op##_relaxed(args);                                             \
+>           |         ^~
+>     include/linux/atomic/atomic-arch-fallback.h:80:9: note: in expansion of macro '__atomic_op_release'
+>        80 |         __atomic_op_release(arch_cmpxchg, __VA_ARGS__)
+>           |         ^~~~~~~~~~~~~~~~~~~
+>     include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
+>      4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
+>           |         ^~~~~~~~~~~~~~~~~~~
+>     fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
+>       420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
+>           |             ^~~~~~~~~~~~~~~
+>     arch/arc/include/asm/cmpxchg.h:46:60: note: second expression has type 'unsigned char *'
+>        46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));              \
+>           |                                                            ^~~~~
+>     include/linux/atomic.h:68:9: note: in expansion of macro 'arch_cmpxchg_relaxed'
+>        68 |         op##_relaxed(args);                                             \
+>           |         ^~
+>     include/linux/atomic/atomic-arch-fallback.h:80:9: note: in expansion of macro '__atomic_op_release'
+>        80 |         __atomic_op_release(arch_cmpxchg, __VA_ARGS__)
+>           |         ^~~~~~~~~~~~~~~~~~~
+>     include/linux/atomic/atomic-instrumented.h:4803:9: note: in expansion of macro 'raw_cmpxchg_release'
+>      4803 |         raw_cmpxchg_release(__ai_ptr, __VA_ARGS__); \
+>           |         ^~~~~~~~~~~~~~~~~~~
+>     fs/crypto/hooks.c:420:13: note: in expansion of macro 'cmpxchg_release'
+>       420 |             cmpxchg_release(&inode->i_link, NULL, pstr.name) != NULL)
+>           |             ^~~~~~~~~~~~~~~
+>
+>
+> vim +46 arch/arc/include/asm/cmpxchg.h
+>
+>      41	
+>      42	#define arch_cmpxchg_relaxed(ptr, old, new)				\
+>      43	({									\
+>      44		__typeof__(ptr) _p_ = (ptr);					\
+>      45		unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));		\
+>    > 46		unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));		\
+>      47		__typeof__(*(ptr)) _prev_;					\
+>      48										\
+>      49		switch (sizeof(*(_p_))) {						\
+>      50		case 1:								\
+>      51			_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u8((volatile u8 *__force)_p_, _old_, _new_);	\
+>      52			break;							\
+>      53		case 2:								\
+>      54			_prev_ = (__typeof__(*(ptr)))cmpxchg_emu_u16((volatile u16 *__force)_p_, _old_, _new_);	\
+>      55			break;							\
+>      56		case 4:								\
+>      57			_prev_ = (__typeof__(*(ptr)))__cmpxchg(_p_, _old_, _new_);			\
+>      58			break;							\
+>      59		default:							\
+>      60			BUILD_BUG();						\
+>      61		}								\
+>      62		_prev_;								\
+>      63	})
+>      64	
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
+> _______________________________________________
+> linux-snps-arc mailing list
+> linux-snps-arc@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-snps-arc
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
