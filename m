@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2B837B010;
-	Fri, 25 Sep 2026 15:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7114F4D5974
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 15:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790349928; cv=none; b=aUZURXCyxeeqYgJVVRMawlg4gxNCaq2hRxKWXroOpTqBlaMz7tGkW+MhbZSRm8gmmmB65Nh1qRb2Wkkw8+V+bSieAdrAKU2qS/sikpjrAbM3tsyZiPm06ef02lY3VIspuqeOYJkfTJuVwvnFoTxb6JV/J4dqxnq4MEPaSCj9kUA=
+	t=1790350794; cv=none; b=WZiTmuY5j8U+5NHUmQs9i0AdTGPP58obPv+dW7kbr9CWRTRhRAYYeqQa8zaljnnwyU9Gh2vD5G4J9/YJuLnf14aVi2O4TMoPf/V2scL58AVOVynchl9vXKHTtfUgWkIrTEkqq56+YDG8NnPYUzyio9CuxqA2xB79uEJ14yk7ekc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790349928; c=relaxed/simple;
-	bh=q3X2P4WMDh6Ao+dyfL77r71gHFNOtCFZtV6OiZrXnGE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VXB80eFd15j4NUhvIVhM3yIff+KeKYUa0xKzlWwlj0pVhPjuglJFRVZgIA6FraYi52O6a+07baEaKT/CjiHhn/WdhWvj8/r8iNr2yUsaCHRG6Ufq/FWn/w3NyKIZ5uu27aZH+oEndSipACIrm9FaENvlYpp2tQ/Om3AMi8wbe84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcIMWr5u; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1790350794; c=relaxed/simple;
+	bh=oyfZc8QGmpTxZC9TZKNxXJleoBm39tCdAH6Z0Cndv6o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZTyj3/0AwWSEM2dTNjO4tqUIyJ3h5uA7VzS8DC3fAGDRyhtp0t0vWQrxlPWJ3cCDZTg5apvSbis8ormqixcCNj61suErbK1tLGMOY7TbVdlm+6Pq+QGGwIyXzjBoVQ9YjW//G/Ck0kt40x4D4a/TrrP5hAX2fCmfEMjAbZ5+9vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghnstwgd; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcIMWr5u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghnstwgd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790349927; x=1821885927;
+  t=1790350792; x=1821886792;
   h=date:from:to:cc:subject:message-id;
-  bh=q3X2P4WMDh6Ao+dyfL77r71gHFNOtCFZtV6OiZrXnGE=;
-  b=mcIMWr5upyN81qjLDJi66kOBgl3iGKlkLS3CV+MVrVKl5HYRKHkoU5y9
-   0VrPNduzhHjDlQKpgqaCJ6pCXM5cVHGtIXC/bE440yBTnZHoivlk9oYVh
-   GXFxQ1FwWCSdxcg/5yPenkLUDG/G1gjE+w5yUVigN46IqkNX7+qCkeGbq
-   xAvWKsjPWnIPvlKGpJ24hKSdod0943vpsv5FZ8VsNMkLfEn84XCVzdj5v
-   TNy+v1ICrgQvvLOgd9hGsfGqutCRfOJN3SCFMy/VAfKUmZYjJ0FC7Dqzs
-   PiczQbMu+DRAVK8DqsjZr2F/Z4+/EQFqLpUlfrlVMGzbbQQ99DDVj4rBE
-   A==;
-X-CSE-ConnectionGUID: n4IRGXnwSXqjWCnvty531A==
-X-CSE-MsgGUID: PDghPj8BQ16+ukNnvri8Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="100470348"
+  bh=oyfZc8QGmpTxZC9TZKNxXJleoBm39tCdAH6Z0Cndv6o=;
+  b=ghnstwgdZxCrQMspnS26/qt5DWJ2QLUAXAP8ODgYPMU8Jzqz+43sG+ab
+   2i3BuCfL9W6p1wl227t3x7BYNUpEKQ9SGXyJ7I1Vva1qrrPgX5aa/so1l
+   ESwW4Z5ANtsSi8DDQx1rdZm6UTcUDIKOdEThJUYNGX/4OffQxcuzQzsQc
+   1RijYOSFwVdwPNYpGq1ZyRMQGRKz2tWvmJDbz6bWeRTwuOR7iunP6zhSw
+   os/mo2kxAfCoESx+Bxe3MWdH5//8rngulai3IB10Jin4jC845FBAjIvl/
+   n9rxyEzh/+fQ7ze523Vnav41R+IswzsID7Cm+jlu7HIulcwXOIDqZPPeP
+   g==;
+X-CSE-ConnectionGUID: XMF2frhaSVegqFxd0Yt6/Q==
+X-CSE-MsgGUID: vJbqlV28TC2Arp/Y7VAlSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="91155505"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="100470348"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 08:25:27 -0700
-X-CSE-ConnectionGUID: nIbuaHDoQQWbEn7ZfrqIYQ==
-X-CSE-MsgGUID: /E0OV6qhRT67KjIhKlm/4A==
+   d="scan'208";a="91155505"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 08:39:51 -0700
+X-CSE-ConnectionGUID: ANmwTY+XTY2H3VDKycWS4A==
+X-CSE-MsgGUID: eBDYurDMTGy3tEFYi9ORxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="272500311"
+   d="scan'208";a="277728605"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2026 08:25:25 -0700
+  by orviesa004.jf.intel.com with ESMTP; 25 Sep 2026 08:39:49 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xA7nc-000000000nU-3P4s;
-	Fri, 25 Sep 2026 15:25:20 +0000
-Date: Fri, 25 Sep 2026 17:25:13 +0200
+	id 1xA81a-000000000ni-47ya;
+	Fri, 25 Sep 2026 15:39:46 +0000
+Date: Fri, 25 Sep 2026 17:38:47 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:tdx/triple_fault_on_pending_sept 93/95]
- include/linux/kvm_host.h:2529:8: error: no member named 'mmio_needed' in
- 'struct kvm_vcpu'
-Message-ID: <202609251734.J8cFxevw-lkp@intel.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>
+Subject: [akpm-mm:mm-new 661/676] ld.lld: error: undefined symbol:
+ __check_safe_pte_update
+Message-ID: <202609251702.X00bYqkV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,36 +62,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/sean-jc/linux tdx/triple_fault_on_pending_sept
-head:   bdd6b6c0176b2b8645c34a3326f6aa5b9cb66d14
-commit: c238f70d432aeea545b2d74b7d9815386530474d [93/95] KVM: x86: Add a helper to prepare vcpu->run for a SHUTDOWN exit to userspace
-config: s390-randconfig-2001-20260925 (https://download.01.org/0day-ci/archive/20260925/202609251734.J8cFxevw-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   2589c5593c200e5146db848730baa1d7dd0c9f4e
+commit: f0284d9baaf7144fa87bc9ef9f3c64ccfd9600e1 [661/676] arm64/mm: move __check_safe_pte_update()
+config: arm64-randconfig-r2200-20260925 (https://download.01.org/0day-ci/archive/20260925/202609251702.X00bYqkV-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7e4b8ae111298941e0c31052a7124ab36f5365b5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251734.J8cFxevw-lkp@intel.com/reproduce)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251702.X00bYqkV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609251734.J8cFxevw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609251702.X00bYqkV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/s390/kernel/nmi.c:24:
->> include/linux/kvm_host.h:2529:8: error: no member named 'mmio_needed' in 'struct kvm_vcpu'
-    2529 |         vcpu->mmio_needed = 0;
-         |         ~~~~  ^
-   1 error generated.
-
-
-vim +2529 include/linux/kvm_host.h
-
-  2525	
-  2526	static inline void kvm_prepare_shutdown_exit(struct kvm_vcpu *vcpu)
-  2527	{
-  2528		vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
-> 2529		vcpu->mmio_needed = 0;
-  2530	}
-  2531	
+>> ld.lld: error: undefined symbol: __check_safe_pte_update
+   >>> referenced by pgtable.h:659 (arch/arm64/include/asm/pgtable.h:659)
+   >>>               arch/arm64/mm/mmu.o:(modify_prot_commit_ptes) in archive vmlinux.a
+   >>> referenced by pgtable.h:659 (arch/arm64/include/asm/pgtable.h:659)
+   >>>               arch/arm64/mm/mmu.o:(modify_prot_commit_ptes) in archive vmlinux.a
+   >>> referenced by pgtable.h:659 (arch/arm64/include/asm/pgtable.h:659)
+   >>>               kernel/bpf/arena.o:(apply_range_set_cb) in archive vmlinux.a
+   >>> referenced 57 more times
 
 --
 0-DAY CI Kernel Test Service
