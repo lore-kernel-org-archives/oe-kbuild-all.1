@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A922E48096F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 10:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE67472F6C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 11:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790333997; cv=none; b=hqVB5vb3lg4jFXAxd70GZpAtj7DQ9w/4FtTTwPwGxZILAFL/cfSi+kzUf6G6dgbhym4CEJdU+1vAIeQ0blVfcAHATZ5kIu4bzAZmB/RU1QYDwArhJhk00G6QuYzdgE8E4WuL6bdi/+OOse0/NmnUhsznUgrTlXAn3KFzcZydJjk=
+	t=1790334053; cv=none; b=lT2uW9u0Z381w6g0lU79NiAOoDxTviwkjBZAZDNVfogVCfMg23t5v35afjsQIWu9AiRMfZxe99mSZ9r8dzx9FWxhl7soQoL5wskV5z4mSr4MPpp3Nda7Nns+kLvpkt2jg4itmoBaZgIEA6kQZLkNa8BCHnr3AHNas67RsXciIEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790333997; c=relaxed/simple;
-	bh=VSb0iIz1rFRxaZA2ikcu1CLD5d+FIEgq37SI144PMMU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TYEN2TovPDp6TG25OdmNspT1Vo8UvbNFKsZuDhKFG7TKWSmlilYOF5rESumKnnJdWdhKFQHCg0bHFbzvC89GRQrsrksOJ3ZDw0OpqLYTdKYWQPmNEKUyfRaykFfUBLyRyVDkVAc02PFRoFaGmI7ZsTp8iP+rhadMODWKhkKptGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRmVyQET; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1790334053; c=relaxed/simple;
+	bh=HweJlTFp1tvId5tQL68CBapOJnr5PiFUavLLnJx8ZoY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hY4lw8OzHCAkyhn4gQUBXUZ3Gnjk2oBcSakldcF/7pN0HQ9wUaRJ6o1x3WgEcTXHrYJfzeXCDivXiIXK9dpotnb+QlJAigLI1X9cVkJzLxSUQSI6abDGWFDkXPmfxUKA5ZGjKwbY72VuqbDUbZT5XPeiUs/M/7il9+1GrNZwmxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9VXF3lc; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRmVyQET"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9VXF3lc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790333994; x=1821869994;
+  t=1790334052; x=1821870052;
   h=date:from:to:cc:subject:message-id;
-  bh=VSb0iIz1rFRxaZA2ikcu1CLD5d+FIEgq37SI144PMMU=;
-  b=dRmVyQET/lhKIWkWssT5R+uGA5/bN83osgMtdPrVR4Owz+xlYzbRgeWF
-   2JmiaC89zU0EguIPemkOEe5Dj6gDAvWSn62Y0SaEjBmJzwQu2vbP1zs84
-   b7swlbOYPPUHRIOC+CENMt8qmxdNzTZFC8ooI6YVxjSGTZW418GLy+Qbr
-   GBZLUTDYAKyJ3sAFtAnwdh3/LmOiprh3Hi8L+aRYATih6z76tjKvgonDq
-   sU4GsiGEU8+qnJODjNqeyYEa7uUP/XEhSyyv44vfzlFNaIPVns9okQi25
-   ymZv7o7y0muviU1VZIXGXg9Dxg1UX342EH+T/gcJoSak5zLSA2Budv/r2
-   g==;
-X-CSE-ConnectionGUID: jBpvIe71TeCC7umCepe43A==
-X-CSE-MsgGUID: 7MSCSXgYRjiAj8C6scUj0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="93837026"
+  bh=HweJlTFp1tvId5tQL68CBapOJnr5PiFUavLLnJx8ZoY=;
+  b=n9VXF3lcr5dVAoYFQdiGW4B9CshOCa6zxZDRsN8n162vgHl/OHOdmE7W
+   Ao+7X3INH55p+E0d7VEGpdAx1sd62ANPgL9mKKaaJ1oWNg9RhrpfBqa79
+   jRUcHIV8brkF8DefUKwqEIBcKvKv1D56P2Ew2henap4Qvmh+8xV9dhm3s
+   BfWuWtDCu8zfi+6t0Vxvx1adn/hmgml72xBesyaGoMVIiblv5dMEVDMHY
+   ugUKEPovETmTrVsel46nOv9n/1Ht+/GD5UCMTVo6NW6P8ChTbkkORKaMJ
+   ZUXmu8yc5AfTwB3zTAu/qMKFxPk6JWbcw7n2YUPLewa3UzNHQy14ievlj
+   w==;
+X-CSE-ConnectionGUID: 8WdxLWCxRJ2JUYIz2KZ72Q==
+X-CSE-MsgGUID: RcreBrt0T4CrTfSILPMDGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90024674"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="93837026"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 03:59:53 -0700
-X-CSE-ConnectionGUID: Emc4V/vLSLSi5QqGK870WA==
-X-CSE-MsgGUID: 14ifftEsTYefrhw20VKdHA==
+   d="scan'208";a="90024674"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 04:00:51 -0700
+X-CSE-ConnectionGUID: mcrqhlh7S66uUw98wJiAzw==
+X-CSE-MsgGUID: Yqg7xf7uTkOgDtLhKUqUaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="302252968"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Sep 2026 03:59:51 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="273799286"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 25 Sep 2026 04:00:50 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xA3ef-00000000KTu-1dpu;
-	Fri, 25 Sep 2026 10:59:49 +0000
-Date: Fri, 25 Sep 2026 18:59:20 +0800
+	id 1xA3fb-000000000gY-334W;
+	Fri, 25 Sep 2026 11:00:47 +0000
+Date: Fri, 25 Sep 2026 13:00:05 +0200
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
+To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-7.3-next 426/673]
- arch/powerpc/include/asm/io.h:831:17: error: conflicting types for 'iounmap';
- have 'void(volatile void *)'
-Message-ID: <202609251813.qFwEdkwe-lkp@intel.com>
+Subject: [cris:scmi_telemetry_ng_V12 33/51]
+ drivers/firmware/arm_scmi/telemetry.c:1531:35: warning: cast from pointer to
+ integer of different size
+Message-ID: <202609251246.Zh5Zsk6W-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,93 +60,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
-head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
-commit: 34a7b291ebc9fbf0074ef62ba0bdc12fd356c2b1 [426/673] mmio: remove extraneous 'volatile' annotations'
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20260925/202609251813.qFwEdkwe-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251813.qFwEdkwe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_ng_V12
+head:   efa664d9faf1d413ef8a0adfe04a7ce843478cea
+commit: 4b310f0a814e5df0394b74b6539cbc2a917b9a73 [33/51] firmware: arm_scmi: Add support to parse SHMTIs areas
+config: sh-randconfig-2001-20260925 (https://download.01.org/0day-ci/archive/20260925/202609251246.Zh5Zsk6W-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251246.Zh5Zsk6W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609251813.qFwEdkwe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609251246.Zh5Zsk6W-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/io.h:12,
-                    from arch/powerpc/mm/ioremap_32.c:3:
->> arch/powerpc/include/asm/io.h:831:17: error: conflicting types for 'iounmap'; have 'void(volatile void *)'
-     831 | #define iounmap iounmap
-         |                 ^~~~~~~
-   arch/powerpc/mm/ioremap_32.c:81:6: note: in expansion of macro 'iounmap'
-      81 | void iounmap(volatile void __iomem *addr)
-         |      ^~~~~~~
-   arch/powerpc/include/asm/io.h:831:17: note: previous declaration of 'iounmap' with type 'void(void *)'
-     831 | #define iounmap iounmap
-         |                 ^~~~~~~
-   include/asm-generic/io.h:1125:6: note: in expansion of macro 'iounmap'
-    1125 | void iounmap(void __iomem *addr);
-         |      ^~~~~~~
-   arch/powerpc/mm/ioremap_32.c: In function 'iounmap':
->> arch/powerpc/mm/ioremap_32.c:90:25: warning: passing argument 1 of 'generic_iounmap' discards 'volatile' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      90 |         generic_iounmap(addr);
-         |                         ^~~~
-   In file included from arch/powerpc/include/asm/io.h:962:
-   include/asm-generic/io.h:1126:36: note: expected 'void *' but argument is of type 'volatile void *'
-    1126 | void generic_iounmap(void __iomem *addr);
-         |                      ~~~~~~~~~~~~~~^~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/printk.h:8,
-                    from include/asm-generic/bug.h:31,
-                    from arch/powerpc/include/asm/bug.h:116,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from arch/powerpc/include/asm/processor.h:41,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from arch/powerpc/include/asm/io.h:22:
-   arch/powerpc/mm/ioremap_32.c: At top level:
->> arch/powerpc/include/asm/io.h:831:17: error: conflicting types for 'iounmap'; have 'void(volatile void *)'
-     831 | #define iounmap iounmap
-         |                 ^~~~~~~
-   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
-      76 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   include/linux/export.h:89:41: note: in expansion of macro '_EXPORT_SYMBOL'
-      89 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^~~~~~~~~~~~~~
-   arch/powerpc/mm/ioremap_32.c:92:1: note: in expansion of macro 'EXPORT_SYMBOL'
-      92 | EXPORT_SYMBOL(iounmap);
-         | ^~~~~~~~~~~~~
-   arch/powerpc/mm/ioremap_32.c:92:15: note: in expansion of macro 'iounmap'
-      92 | EXPORT_SYMBOL(iounmap);
-         |               ^~~~~~~
-   arch/powerpc/include/asm/io.h:831:17: note: previous declaration of 'iounmap' with type 'void(void *)'
-     831 | #define iounmap iounmap
-         |                 ^~~~~~~
-   include/asm-generic/io.h:1125:6: note: in expansion of macro 'iounmap'
-    1125 | void iounmap(void __iomem *addr);
-         |      ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c: In function 'scmi_telemetry_blkts_create':
+>> drivers/firmware/arm_scmi/telemetry.c:1531:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1531 |         trace_scmi_tlm_collect(0, (__force u64)payld, 0, "SHMTI_NEW_BLKTS");
+         |                                   ^
+   drivers/firmware/arm_scmi/telemetry.c: In function 'scmi_telemetry_uuid_register':
+   drivers/firmware/arm_scmi/telemetry.c:1641:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1641 |         trace_scmi_tlm_collect(0, (__force u64)payld, 0, "SHMTI_NEW_UUID");
+         |                                   ^
+   drivers/firmware/arm_scmi/telemetry.c: At top level:
+   drivers/firmware/arm_scmi/telemetry.c:2008:12: warning: 'scmi_telemetry_shmti_scan' defined but not used [-Wunused-function]
+    2008 | static int scmi_telemetry_shmti_scan(struct telemetry_info *ti,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   Assembler messages:
+   {standard input}:1501: Error: offset to unaligned destination
+   {standard input}:1951: Error: offset to unaligned destination
+   {standard input}:2148: Error: offset to unaligned destination
 
 
-vim +831 arch/powerpc/include/asm/io.h
+vim +1531 drivers/firmware/arm_scmi/telemetry.c
 
-894fa235eb4ca0b arch/powerpc/include/asm/io.h Christophe Leroy       2020-11-21  826  
-86c391bd5f47101 arch/powerpc/include/asm/io.h Christophe Leroy       2018-10-09  827  void __iomem *ioremap_coherent(phys_addr_t address, unsigned long size);
-f855b2f544d664c arch/powerpc/include/asm/io.h Oliver O'Halloran      2017-04-12  828  #define ioremap_cache(addr, size) \
-86758b504864913 arch/powerpc/include/asm/io.h Ryan Roberts           2025-02-18  829  	ioremap_prot((addr), (size), PAGE_KERNEL)
-a1f242ff460e4b5 include/asm-powerpc/io.h      Benjamin Herrenschmidt 2008-07-23  830  
-8d05554dca2af6a arch/powerpc/include/asm/io.h Christophe Leroy       2023-07-06 @831  #define iounmap iounmap
-4cb3cee03d558fd include/asm-powerpc/io.h      Benjamin Herrenschmidt 2006-11-11  832  
-
-:::::: The code at line 831 was first introduced by commit
-:::::: 8d05554dca2af6a77dc38a152f4e84fdf7e35179 powerpc: mm: convert to GENERIC_IOREMAP
-
-:::::: TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+  1513	
+  1514	static struct telemetry_block_ts *
+  1515	scmi_telemetry_blkts_create(struct telemetry_info *ti,
+  1516				    struct payload __iomem *payld)
+  1517	{
+  1518		struct telemetry_block_ts *bts;
+  1519		int ret;
+  1520	
+  1521		bts = kzalloc_obj(*bts);
+  1522		if (!bts)
+  1523			return NULL;
+  1524	
+  1525		ret = scmi_telemetry_line_init(ti, &bts->line, payld, TDCF_BLK_TS_LINE);
+  1526		if (ret) {
+  1527			kfree(bts);
+  1528			return NULL;
+  1529		}
+  1530	
+> 1531		trace_scmi_tlm_collect(0, (__force u64)payld, 0, "SHMTI_NEW_BLKTS");
+  1532	
+  1533		return bts;
+  1534	}
+  1535	
 
 --
 0-DAY CI Kernel Test Service
