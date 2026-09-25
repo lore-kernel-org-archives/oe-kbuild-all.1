@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095DC260565
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 17:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051934AC177
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 17:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790357515; cv=none; b=r0nZBEOKiIZSBTJBfcBjBoSUMNIJzOhgGDXHltUAHCP/pfF7qIruPFCPT+dwUi/Gs0V9PrIeHrYcs7zVzJrIUy+rlqkfX00HPJW4Xa8PzBDQeGb9UV0zpG40LOuijJEg6mxRikMlA3lxH5NKP/r0rxcILQu8+b1o0KW7SxvYSpA=
+	t=1790357518; cv=none; b=iu5TH1lr0eUBcgUvtV7T+5nZw6tsLyRuUtJUXRHYLxVmLWhDRgsCEQW11OWfh0OGy242Gfr+oxbz0vixCRRgF9TFdjMCzMtQSLbWBJlaGCqnlxC5zxJaZmute4rtg+CzeGJi5o2tgA8TeDBEhrHPB7XYQVdIaMV1sMhj1IFr+JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790357515; c=relaxed/simple;
-	bh=bc/Y8AYOBCduvHYYx0l5bMZFFc03aWLqdNDG8RjQeQk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RPtHXqwdO0xm8mkp2kvLqiGj8AdVY021+ubqVYLwTJJCG2J6mFO6pcrD70HUfAF7pgXOf7DL5Swr+CVbb9vYgEce54LPtcg+8UlP/FmdfEsbbwQc0BAEbz/w3JxR9iuXy6dvXFVTAtt7PYI/RL2jIErYw+nv75RlXImPigccKzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOin8yxw; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1790357518; c=relaxed/simple;
+	bh=QDa7wnedvgNfnyK4sByY2bOQExOY/OFvDG2xHnIiLa4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JpFvzZvDBcoUpvmTDQV4tiLbvrSxcnbZ847tdFnzWa8rhf9MsVM2V0v4oJv/TecHDZbpmpU6xHDLVmCvDbrbRevtsWJe+RJuU72lfYEoumDiT9rHitCXeooe1Fhb3bkPyjAR33lQb9vfkEnQ8yXx2lWZQc5MMi9BrXA01KZz+G0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hcfm3KAl; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOin8yxw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hcfm3KAl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790357513; x=1821893513;
+  t=1790357516; x=1821893516;
   h=date:from:to:cc:subject:message-id;
-  bh=bc/Y8AYOBCduvHYYx0l5bMZFFc03aWLqdNDG8RjQeQk=;
-  b=SOin8yxw7QHl7DMVz+gRwEODQQBLjortAWMCTZrsAVD1FltyRm08Stsc
-   CxMsCGAFkmShwPbQolr9g8pky1SZast55lkk5sI1hWzD6cmK7/itEg4iz
-   gtSZIXH+wLI3BTOSHAPOq0c2jS5ZAUGFksmIo5pyTdkP3xZhfCySKG6KV
-   NXxp5Zd89nMGSe+7iC8MXHbpXI1z8wyxW7WAVcLnB+/C6qsBUAENu3u8K
-   4RnKSTFq/NUL5l+maVHV35tE0/wUxTNcTC4+U7YpmRz4WmUoA76VSfMBe
-   Ni/rhhfubuGEBkWr77AYMZ0fsj7QqYh5c9FCV0IzaWSDVhOqUFJOf/VQn
-   w==;
-X-CSE-ConnectionGUID: XkwD3oJTTTSd39G6ezd2aQ==
-X-CSE-MsgGUID: 57vFvmW/TsqrGWbwzBdfzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="108640156"
+  bh=QDa7wnedvgNfnyK4sByY2bOQExOY/OFvDG2xHnIiLa4=;
+  b=hcfm3KAlkInFTLcuQwPYKmlEUtv95RYEJa1CCfeoP9eo4vkZW+d9ULur
+   iTocZUX+6BmAREKFqA2RgmNIksnl2eU70DTIp8IXskoA8yjMX9Xa6EVn6
+   kfS5DmJlse+y9tKlbbiURgDpuOAyWwgk7x46K8OTtbrakHG5hM359spuR
+   TsL8F2zB7vdt9cd5LO9LzeP6vQyH9/AZRfnhGlehQBa6UzidPAUpKhBVm
+   ZXYvPB676XGsbn0UGERIRqdjAWWEu/mBpmA5CuCuMoGEnJ0pcjqQG/1sl
+   fu0VbiWtgmUCZ7RddwkplUDqVS6lbrjMFXY2hPM4qJ0xAG7rKljmY2f31
+   Q==;
+X-CSE-ConnectionGUID: p4bsKwvCQKKwQLr4slyUwA==
+X-CSE-MsgGUID: SKEJ3Kn4TRyqfgfYe7If+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="108640158"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="108640156"
+   d="scan'208";a="108640158"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 10:31:52 -0700
-X-CSE-ConnectionGUID: /rZpXHVbRK6R78PV7hNDrQ==
-X-CSE-MsgGUID: ORjPvnMpREumXloCOqxh7w==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 10:31:53 -0700
+X-CSE-ConnectionGUID: JjtFgE+XQpyShs7MFsbH6w==
+X-CSE-MsgGUID: mg06O3VrSqy55jnQfXb7jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="273899664"
+   d="scan'208";a="273899666"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
   by fmviesa007.fm.intel.com with ESMTP; 25 Sep 2026 10:31:51 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xA9m0-000000000qI-3oX6;
-	Fri, 25 Sep 2026 17:31:48 +0000
-Date: Fri, 25 Sep 2026 19:31:45 +0200
+	id 1xA9m0-000000000qK-49og;
+	Fri, 25 Sep 2026 17:31:49 +0000
+Date: Fri, 25 Sep 2026 19:31:43 +0200
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-7.3-next 562/673]
- drivers/tty/serial/8250/8250_aspeed_vuart.c:526:1: warning: the frame size of
- 772 bytes is larger than 768 bytes
-Message-ID: <202609251907.H5M2EUs4-lkp@intel.com>
+To: Gerhard Engleder <eg@keba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Lukas Wunner <lukas@wunner.de>
+Subject: drivers/tty/serial/8250/8250_keba.c:250:1: warning: the
+ frame size of 1056 bytes is larger than 1024 bytes
+Message-ID: <202609251951.KVWH0guw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,148 +60,124 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
-head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
-commit: 065c245ab6ac3537488e5c410d38d4768824dd07 [562/673] random hacks
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260925/202609251907.H5M2EUs4-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251907.H5M2EUs4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   165768bb70265b5c38cf0b73fafd75be235f8b14
+commit: ab9a30d6febf768c057fcde74a46597862db443e serial: 8250: add driver for KEBA UART
+date:   10 months ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20260925/202609251951.KVWH0guw-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251951.KVWH0guw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ab9a30d6febf ("serial: 8250: add driver for KEBA UART")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609251907.H5M2EUs4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609251951.KVWH0guw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_aspeed_vuart.c: In function 'aspeed_vuart_probe':
->> drivers/tty/serial/8250/8250_aspeed_vuart.c:526:1: warning: the frame size of 772 bytes is larger than 768 bytes [-Wframe-larger-than=]
-     526 | }
+   drivers/tty/serial/8250/8250_keba.c: In function 'kuart_probe':
+>> drivers/tty/serial/8250/8250_keba.c:250:1: warning: the frame size of 1056 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     250 | }
          | ^
 
 
-vim +526 drivers/tty/serial/8250/8250_aspeed_vuart.c
+vim +250 drivers/tty/serial/8250/8250_keba.c
 
-ca03042f0f1221 Zev Weiss          2021-04-11  414  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  415  static int aspeed_vuart_probe(struct platform_device *pdev)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  416  {
-8d310c9107a2a3 Oskar Senft        2019-09-05  417  	struct of_phandle_args sirq_polarity_sense_args;
-e8bbaeac25503a Andy Shevchenko    2023-09-12  418  	struct device *dev = &pdev->dev;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  419  	struct uart_8250_port port;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  420  	struct aspeed_vuart *vuart;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  421  	struct device_node *np;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  422  	struct resource *res;
-ca03042f0f1221 Zev Weiss          2021-04-11  423  	int rc, sirq_polarity;
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  424  	u32 prop, sirq[2];
-182fb83d596b69 Andy Shevchenko    2023-09-19  425  	struct clk *vclk;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  426  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  427  	np = pdev->dev.of_node;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  428  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  429  	vuart = devm_kzalloc(&pdev->dev, sizeof(*vuart), GFP_KERNEL);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  430  	if (!vuart)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  431  		return -ENOMEM;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  432  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  433  	vuart->dev = &pdev->dev;
-5909c0bf9c7a17 Jeremy Kerr        2018-03-27  434  	timer_setup(&vuart->unthrottle_timer, aspeed_vuart_unthrottle_exp, 0);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  435  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  436  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-0e0fd55719fa08 Miaoqian Lin       2022-04-04  437  	if (!res)
-0e0fd55719fa08 Miaoqian Lin       2022-04-04  438  		return -EINVAL;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  439  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  440  	memset(&port, 0, sizeof(port));
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  441  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  442  	rc = sysfs_create_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  443  	if (rc < 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  444  		return rc;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  445  
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  446  	if (rc)
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  447  		goto err_sysfs_remove;
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  448  
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  449  	/* Get clk rate through clk driver if present */
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  450  	if (!port.port.uartclk) {
-182fb83d596b69 Andy Shevchenko    2023-09-19  451  		vclk = devm_clk_get_enabled(dev, NULL);
-182fb83d596b69 Andy Shevchenko    2023-09-19  452  		if (IS_ERR(vclk)) {
-182fb83d596b69 Andy Shevchenko    2023-09-19  453  			rc = dev_err_probe(dev, PTR_ERR(vclk), "clk or clock-frequency not defined\n");
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  454  			goto err_sysfs_remove;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  455  		}
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  456  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  457  	}
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  458  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  459  	/* If current-speed was set, then try not to change it. */
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  460  	if (of_property_read_u32(np, "current-speed", &prop) == 0)
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  461  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  462  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  463  	if (of_property_read_bool(np, "auto-flow-control"))
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  464  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  465  	rc = serial8250_register_8250_port(&port);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  466  	if (rc < 0)
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  467  		goto err_sysfs_remove;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  468  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  469  	vuart->line = rc;
-c9805fbf9d89c3 Zev Weiss          2021-05-09  470  	vuart->port = serial8250_get_port(vuart->line);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  471  
-8d310c9107a2a3 Oskar Senft        2019-09-05  472  	rc = of_parse_phandle_with_fixed_args(
-8d310c9107a2a3 Oskar Senft        2019-09-05  473  		np, "aspeed,sirq-polarity-sense", 2, 0,
-8d310c9107a2a3 Oskar Senft        2019-09-05  474  		&sirq_polarity_sense_args);
-8d310c9107a2a3 Oskar Senft        2019-09-05  475  	if (rc < 0) {
-8d310c9107a2a3 Oskar Senft        2019-09-05  476  		dev_dbg(&pdev->dev,
-8d310c9107a2a3 Oskar Senft        2019-09-05  477  			"aspeed,sirq-polarity-sense property not found\n");
-8d310c9107a2a3 Oskar Senft        2019-09-05  478  	} else {
-8d310c9107a2a3 Oskar Senft        2019-09-05  479  		aspeed_vuart_auto_configure_sirq_polarity(
-8d310c9107a2a3 Oskar Senft        2019-09-05  480  			vuart, sirq_polarity_sense_args.np,
-8d310c9107a2a3 Oskar Senft        2019-09-05  481  			sirq_polarity_sense_args.args[0],
-8d310c9107a2a3 Oskar Senft        2019-09-05  482  			BIT(sirq_polarity_sense_args.args[1]));
-8d310c9107a2a3 Oskar Senft        2019-09-05  483  		of_node_put(sirq_polarity_sense_args.np);
-8d310c9107a2a3 Oskar Senft        2019-09-05  484  	}
-8d310c9107a2a3 Oskar Senft        2019-09-05  485  
-ca03042f0f1221 Zev Weiss          2021-04-11  486  	rc = of_property_read_u32(np, "aspeed,lpc-io-reg", &prop);
-ca03042f0f1221 Zev Weiss          2021-04-11  487  	if (rc < 0)
-ca03042f0f1221 Zev Weiss          2021-04-11  488  		prop = ASPEED_VUART_DEFAULT_LPC_ADDR;
-ca03042f0f1221 Zev Weiss          2021-04-11  489  
-ca03042f0f1221 Zev Weiss          2021-04-11  490  	rc = aspeed_vuart_set_lpc_address(vuart, prop);
-ca03042f0f1221 Zev Weiss          2021-04-11  491  	if (rc < 0) {
-e8bbaeac25503a Andy Shevchenko    2023-09-12  492  		dev_err_probe(dev, rc, "invalid value in aspeed,lpc-io-reg property\n");
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  493  		goto err_sysfs_remove;
-ca03042f0f1221 Zev Weiss          2021-04-11  494  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  495  
-ca03042f0f1221 Zev Weiss          2021-04-11  496  	rc = of_property_read_u32_array(np, "aspeed,lpc-interrupts", sirq, 2);
-ca03042f0f1221 Zev Weiss          2021-04-11  497  	if (rc < 0) {
-ca03042f0f1221 Zev Weiss          2021-04-11  498  		sirq[0] = ASPEED_VUART_DEFAULT_SIRQ;
-ca03042f0f1221 Zev Weiss          2021-04-11  499  		sirq[1] = ASPEED_VUART_DEFAULT_SIRQ_POLARITY;
-ca03042f0f1221 Zev Weiss          2021-04-11  500  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  501  
-ca03042f0f1221 Zev Weiss          2021-04-11  502  	rc = aspeed_vuart_set_sirq(vuart, sirq[0]);
-ca03042f0f1221 Zev Weiss          2021-04-11  503  	if (rc < 0) {
-e8bbaeac25503a Andy Shevchenko    2023-09-12  504  		dev_err_probe(dev, rc, "invalid sirq number in aspeed,lpc-interrupts property\n");
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  505  		goto err_sysfs_remove;
-ca03042f0f1221 Zev Weiss          2021-04-11  506  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  507  
-ca03042f0f1221 Zev Weiss          2021-04-11  508  	sirq_polarity = aspeed_vuart_map_irq_polarity(sirq[1]);
-ca03042f0f1221 Zev Weiss          2021-04-11  509  	if (sirq_polarity < 0) {
-e8bbaeac25503a Andy Shevchenko    2023-09-12  510  		rc = dev_err_probe(dev, sirq_polarity,
-e8bbaeac25503a Andy Shevchenko    2023-09-12  511  				   "invalid sirq polarity in aspeed,lpc-interrupts property\n");
-dcdc7e09cfe31a Andy Shevchenko    2024-03-04  512  		goto err_sysfs_remove;
-ca03042f0f1221 Zev Weiss          2021-04-11  513  	}
-ca03042f0f1221 Zev Weiss          2021-04-11  514  
-ca03042f0f1221 Zev Weiss          2021-04-11  515  	aspeed_vuart_set_sirq_polarity(vuart, sirq_polarity);
-ca03042f0f1221 Zev Weiss          2021-04-11  516  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  517  	aspeed_vuart_set_enabled(vuart, true);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  518  	aspeed_vuart_set_host_tx_discard(vuart, true);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  519  	platform_set_drvdata(pdev, vuart);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  520  
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  521  	return 0;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  522  
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  523  err_sysfs_remove:
-cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  524  	sysfs_remove_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  525  	return rc;
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02 @526  }
-7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  527  
-
-:::::: The code at line 526 was first introduced by commit
-:::::: 7fbcf3afe6e8e180bfc39fb3f41657fa6e4af55c drivers/serial: Add driver for Aspeed virtual UART
-
-:::::: TO: Jeremy Kerr <jk@ozlabs.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   158	
+   159	static int kuart_probe(struct auxiliary_device *auxdev,
+   160			       const struct auxiliary_device_id *id)
+   161	{
+   162		struct device *dev = &auxdev->dev;
+   163		struct uart_8250_port uart = {};
+   164		struct resource res;
+   165		struct kuart *kuart;
+   166		int retval;
+   167	
+   168		kuart = devm_kzalloc(dev, sizeof(*kuart), GFP_KERNEL);
+   169		if (!kuart)
+   170			return -ENOMEM;
+   171		kuart->auxdev = container_of(auxdev, struct keba_uart_auxdev, auxdev);
+   172		kuart->flags = id->driver_data;
+   173		auxiliary_set_drvdata(auxdev, kuart);
+   174	
+   175		/*
+   176		 * map only memory in front of UART registers, UART registers will be
+   177		 * mapped by serial port
+   178		 */
+   179		res = kuart->auxdev->io;
+   180		res.end = res.start + KUART_BASE - 1;
+   181		kuart->base = devm_ioremap_resource(dev, &res);
+   182		if (IS_ERR(kuart->base))
+   183			return PTR_ERR(kuart->base);
+   184	
+   185		if (kuart->flags & KUART_USE_CAPABILITY) {
+   186			/*
+   187			 * supported modes are read from capability register, at least
+   188			 * one mode other than none must be supported
+   189			 */
+   190			kuart->capability = ioread8(kuart->base + KUART_CAPABILITY) &
+   191					    KUART_CAPABILITY_MASK;
+   192			if ((kuart->capability & ~KUART_CAPABILITY_NONE) == 0)
+   193				return -EIO;
+   194		}
+   195	
+   196		spin_lock_init(&uart.port.lock);
+   197		uart.port.dev = dev;
+   198		uart.port.mapbase = kuart->auxdev->io.start + KUART_BASE;
+   199		uart.port.irq = kuart->auxdev->irq;
+   200		uart.port.uartclk = KUART_CLK;
+   201		uart.port.private_data = kuart;
+   202	
+   203		/* 8 bit registers are 32 bit aligned => shift register offset */
+   204		uart.port.iotype = UPIO_MEM32;
+   205		uart.port.regshift = KUART_REGSHIFT;
+   206	
+   207		/*
+   208		 * UART mixes 16550, 16750 and 16C950 (for RS485) standard => auto
+   209		 * configuration works best
+   210		 */
+   211		uart.port.flags = UPF_SKIP_TEST | UPF_BOOT_AUTOCONF | UPF_IOREMAP;
+   212	
+   213		/*
+   214		 * UART supports RS485, RS422 and RS232 with switching of physical
+   215		 * interface
+   216		 */
+   217		uart.port.rs485_config = kuart_rs485_config;
+   218		if (kuart->flags & KUART_RS485) {
+   219			uart.port.rs485_supported.flags = SER_RS485_ENABLED |
+   220							  SER_RS485_RTS_ON_SEND;
+   221			uart.port.rs485.flags = SER_RS485_ENABLED |
+   222						SER_RS485_RTS_ON_SEND;
+   223		}
+   224		if (kuart->flags & KUART_USE_CAPABILITY) {
+   225			/* default mode priority is RS485 > RS422 > RS232 */
+   226			if (kuart->capability & KUART_CAPABILITY_RS422) {
+   227				uart.port.rs485_supported.flags |= SER_RS485_ENABLED |
+   228								   SER_RS485_RTS_ON_SEND |
+   229								   SER_RS485_MODE_RS422;
+   230				uart.port.rs485.flags = SER_RS485_ENABLED |
+   231							SER_RS485_RTS_ON_SEND |
+   232							SER_RS485_MODE_RS422;
+   233			}
+   234			if (kuart->capability & KUART_CAPABILITY_RS485) {
+   235				uart.port.rs485_supported.flags |= SER_RS485_ENABLED |
+   236								   SER_RS485_RTS_ON_SEND;
+   237				uart.port.rs485.flags = SER_RS485_ENABLED |
+   238							SER_RS485_RTS_ON_SEND;
+   239			}
+   240		}
+   241	
+   242		retval = serial8250_register_8250_port(&uart);
+   243		if (retval < 0) {
+   244			dev_err(&auxdev->dev, "UART registration failed!\n");
+   245			return retval;
+   246		}
+   247		kuart->line = retval;
+   248	
+   249		return 0;
+ > 250	}
+   251	
 
 --
 0-DAY CI Kernel Test Service
