@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525EA4078C7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 21:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56D73CB571
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 21:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790371598; cv=none; b=Zvje+FbVwLT4oFWiILCqIeoDj7ZcV8JpJC6A8hW5NuM/J6U6zL6xmNeU1ViekQuHZ8y3xKC/n6ThTlxOcYcVj5WFkkyilHuoNP6K/UxF3etFPHXM84H8qry1be6Qg1WW6fVWYpUTtSkAvuZWlolUqi7nwnBKfgfMl5YezMljKEQ=
+	t=1790372809; cv=none; b=K+HJYGrJ5s/5WSl5nIwZ3vplESi7/07xUpjeAxeixODOBntrm8t8Onf2kDjW00FiNubSuTXYT2Ovj3WwS6DyXjWqETx3PpFgnJOUIt+Vg9rER9H4vLp9hn/GlokOZRuw+F06Z74KUMD+HWoxwiaYF7BlmOLiMLnO1r1vJLqfRas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790371598; c=relaxed/simple;
-	bh=NybjhqcBb3PgbU0+a0pb2ji7URsyLfEhascU6JbA3sc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CqHFU526yAxR3IgwjOf2XKLSuPNaxSUDDJ4w+FhREzvNyBxq2dUwYr/3WVB3AmtKgyHks2GaqAgrqmkICTidlIZ1el5SORZL8hBfpKuBuuE4TGV4F2aYpXs/S3YY5h52AKaakG8/8xYmXfV9dvZ/E+B0pVIfWMATKRL0W1JaHWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UkxLooK9; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1790372809; c=relaxed/simple;
+	bh=Ar6pMvavX1GhPvKo3YFotP+qM4fEq1G/BtmlJyQ7Ubo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eNqVUVj/xJJry3aZPJuwizRh22AgKf9UU7zkQBd7OeOLaYUDwXvz6rciFy3q9nXKBHB6zTbi631FSJpyLoehAEWDagTYv1zptsHdWCTMYARwPb0oAF3xR8ilijDnsxlUn0ydUAKeQ6onSMVD0dy5weAnEjYcJBYzINh6MvuPXGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fUTV2cQ2; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UkxLooK9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fUTV2cQ2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790371596; x=1821907596;
+  t=1790372806; x=1821908806;
   h=date:from:to:cc:subject:message-id;
-  bh=NybjhqcBb3PgbU0+a0pb2ji7URsyLfEhascU6JbA3sc=;
-  b=UkxLooK9WsCD4sPMGisZg0MJfxHRPgQT33bIpDqxmDV9+r40oJV6lRN3
-   gZ96U9ShZ/MKc5kbIPPcAUjmTiGDvJJuOZuzZIp7uRZvV+x4F1wZbCgm5
-   kHvI8iU1pNyQ486tkyguuIPN0G0RTG+lv8efE/ddSpM86dO6epPzt94Ds
-   B3Ab4sryL+r76iJm15Oychq2jXjLJhJgS/T6rplJVq/L1BGClSdJ7qXvW
-   rN3EECWHnLKQztMfmOsDWsiubNFVjbFNHWmne21GytNIhbfxshOGfBozJ
-   YS7R072ZVNXWHlPOK7GzBf/fjj1ar6j3z7JCIBBfHLQXPMaNGTfjRfBeh
+  bh=Ar6pMvavX1GhPvKo3YFotP+qM4fEq1G/BtmlJyQ7Ubo=;
+  b=fUTV2cQ2CFPkSG+XPOtLuMZGJzsohmKfqULnY+TOX8pr1J6xDaLRgng/
+   pTmguesuZsgs27WLi+36dbcmodKTZOqrWnGrlp0v2LXIdHLN0oUPyOPEr
+   xr5cRNDNUtJXf+D9lXY7aEtyRLByKGzxRtGwig2dkgBmyB1peHi19mm/y
+   vo1XBqm8/InXyhHVtdcnN8CMInMyZNtDGkYWn4Rx9sLr9Hcb9cN67YRnX
+   LCcNO3M3vo92su0sB9AdiCDneZZIDFdLpGpXy7QlPPBCyt4Jp2bmCKtpA
+   xn2Xl/7nU3uPrMJW7K/mxG3eHpHDRxE1nLm43GXxc64Hmqm5aGb3xSarh
    A==;
-X-CSE-ConnectionGUID: Efi9myLfTyiY/NH97W9XlA==
-X-CSE-MsgGUID: 1uAJ4LM6SPWuhXAWyh8/WQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="93658237"
+X-CSE-ConnectionGUID: y5YZ7OQITxKsCb6i5B3TEg==
+X-CSE-MsgGUID: paIFT49bTyOj1LsWq8xxsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="89931969"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="93658237"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:26:35 -0700
-X-CSE-ConnectionGUID: c7FZGBC7QUaQcGEVdoHI8g==
-X-CSE-MsgGUID: rKHG5rw5SF2WofXr46gxpw==
+   d="scan'208";a="89931969"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:46:44 -0700
+X-CSE-ConnectionGUID: w5Jkx7cqSFqYDrz63QHjFA==
+X-CSE-MsgGUID: gHMd5qg2TqiwvxQ4A8R9sQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="273654434"
+   d="scan'208";a="273951872"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Sep 2026 14:26:34 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 25 Sep 2026 14:46:42 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xADRA-000000000uA-2IfF;
-	Fri, 25 Sep 2026 21:26:32 +0000
-Date: Fri, 25 Sep 2026 23:25:40 +0200
+	id 1xADke-000000000uY-254R;
+	Fri, 25 Sep 2026 21:46:40 +0000
+Date: Fri, 25 Sep 2026 23:46:36 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-main 214/214] Warning:
- drivers/net/phy/mxl-gpy.c:588 This comment starts with '/**', but isn't a
- kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202609252318.nLQdRgZR-lkp@intel.com>
+To: Marek Vasut <marex@nabladev.com>
+Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+Subject: [linux-next:master 1377/10910]
+ arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb:
+ vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not
+ allowed ('no-map', 'reg' were unexpected)
+Message-ID: <202609252351.5UfBIiOJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,22 +61,27 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-main
-head:   27e8d41a42f73cb2b271df0e897e25224889f6d0
-commit: de02265a2154e5f9a30e8162a283b6ee65ab5214 [214/214] net: ethtool: report PHY firmware version in PHY_GET
-config: s390-randconfig-2000-20260925 (https://download.01.org/0day-ci/archive/20260925/202609252318.nLQdRgZR-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252318.nLQdRgZR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
+commit: 9a14f327dfcbbb0fa24974cb3a928ea3d7409768 [1377/10910] arm64: dts: imx8mm: imx8mp: Add CM DTOs for Data Modul i.MX8M Mini and Plus eDM SBC
+config: arm64-randconfig-2400-20260921 (https://download.01.org/0day-ci/archive/20260925/202609252351.5UfBIiOJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.10.dev2+g840a01d41
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252351.5UfBIiOJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609252318.nLQdRgZR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609252351.5UfBIiOJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/net/phy/mxl-gpy.c:588 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * in some cases the GPY211 will link up but not RX packets
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+>> arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb: vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+--
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+>> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc-overlay-cm7.dtb: vdev0buffer@55400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
 
 --
 0-DAY CI Kernel Test Service
