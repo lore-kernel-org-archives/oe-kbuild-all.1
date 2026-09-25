@@ -1,203 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C3450C281
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 23:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AFF416851
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 23:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790379651; cv=none; b=sRg3V1mhjzmyivAKY4UxCu63gkQnxn8APelN/GFdmuMa7PLObzTXRqQB96C8IIzOkFp617xeOQfVnHg5xZBjG3ekJUCdo3w2dlCpxWpnYurgAnM00WTbqqlH3II12usQ8wNw8uCBNhIJNR/WEBTTxF43ovzdtYulzpJ2Hf8CkUE=
+	t=1790380309; cv=none; b=hDJJz7czsBQuFKGlB/vSAQPTLkMEbzwWCqXLUenihehkyULiqbUDok3mRu8W5E2d/QvRQFp4tLi7YUISXwdZivXw3PMlSqeJDjiiYUm//V6cjoiOdf628YsRs2J7yB2m9jAI1t7kLCxyNxM4t3fEQAp3dfIvUBG9km590HSUseM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790379651; c=relaxed/simple;
-	bh=uRR+LIGULq3sIogdrp81ySdpjAgHU0suquUv/eZryA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SJYPvLIkILTlQImQRKDhuiHUFxL7uje7eR4E+w9uNznIvdkuQfttlf3ipnFhm5yGj/oajzGQUQRKMCs6EqMtApQqAc7TT/HklppP3FqsussYGBiLAQ11NEj3gZFU+czveMW3jGo9i4sWp4vAoNOnjXWt/haifXde7Jt1pdR66Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huCJUmPp; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1790380309; c=relaxed/simple;
+	bh=PseVter3M4NKfsM211ry/D9zNo6iz/zrkJ09hOKgBG0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PEr2dTNXeUJUyB0tl7/cSkKHx2tJa6gMHJ4My8S0ciBxFQkjNLZtCx9bASZciIMb897t5QZ6TCrc0/9zfGd/QuTqhsk2bRqAGdoH2JQZOyvNlvAlAikpGCNwCUIFD0Getx8Syjf+j5pxtg0i4CBhL1wlscBYEjIyHWenf5H4svQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NX5X/9m3; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huCJUmPp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NX5X/9m3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790379648; x=1821915648;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uRR+LIGULq3sIogdrp81ySdpjAgHU0suquUv/eZryA8=;
-  b=huCJUmPp614aDbVCO6I/Wrh1R3hpioukLA5IMkrT9uSgKoyBNtLMxg8f
-   C/nBQ+YTDdg01aenp5wziJ/kFPeuHXah7V7B9yr4ckEwhvdNhcr0tHYDI
-   XUGvZcHBqMsgcI/K8rFOUPXh1vY2y2PfL+DxLJYbVizbD/jGbSs8NuL9f
-   Fgsk+W3rlXEKSPEDQaWIQ+yv+6bKdjEWkHBn6CaiZ3Sd4PXAqV8vncm8Q
-   OE7EHyA847vWjxJTE/glpLiMNfRNKcwgaDaK/NkFd2eUL58uMahnU3CBO
-   UBoNOG2J3MDJqWepyjZ0r9ao/fdmT8/m9mBCBQro0SL/0HA5gmT31bewS
-   Q==;
-X-CSE-ConnectionGUID: VRnRFTlUTaaVUpGQZ0la/w==
-X-CSE-MsgGUID: r9wYoIW0QRe9o9dBTnclvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="91273152"
+  t=1790380308; x=1821916308;
+  h=date:from:to:cc:subject:message-id;
+  bh=PseVter3M4NKfsM211ry/D9zNo6iz/zrkJ09hOKgBG0=;
+  b=NX5X/9m3sWVjX/0clOEoIZdSDnJKBWQ7KhC5t8kwl0fiY/9sOtu2TYm/
+   izBbEWBuj5nnVg9KvrMsynrZCJSQIDvZ/Pz1CQFGL6BfdYwyLDsCRty03
+   naHAsL+l1ADmcF1Nlo6bVIx+wiekf7HKXWhL5E5OV11r+xZNAaZzmilUV
+   jUxAiSdx6k9vTGdnCkZ2A2YsmXvOxzdO33uv7oltqt5fyO7yG1hflBdsa
+   MUYEmCbCfTh9+wFiTh82ksSSlpf/szhRgk7WOnyU8VCp4K/Lfri/2cc51
+   M1Qj8XTh2n1nj++CAYqk+uZo1On2tfJzbYzb+pxb2ETLfdMAKHX7zJahA
+   A==;
+X-CSE-ConnectionGUID: foajxqetQn+x9KLXCHkriA==
+X-CSE-MsgGUID: /uxb0SdbSZejphanvEFGVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="100504514"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="91273152"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 16:40:47 -0700
-X-CSE-ConnectionGUID: ctNNDOCaQRmQRbajfM1Gmw==
-X-CSE-MsgGUID: djMhQB28Q/CvaZNRsdXG1w==
+   d="scan'208";a="100504514"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 16:51:47 -0700
+X-CSE-ConnectionGUID: L5nuHNSITEWnW29+0pBR9Q==
+X-CSE-MsgGUID: tcya7XnSRAyl2ZKXXk0r7w==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
+   d="scan'208";a="282534564"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Sep 2026 16:40:45 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2026 16:51:45 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAFX1-00000000LL5-0KWu;
-	Fri, 25 Sep 2026 23:40:43 +0000
-Date: Sat, 26 Sep 2026 07:40:31 +0800
+	id 1xAFhf-00000000LLR-1YGF;
+	Fri, 25 Sep 2026 23:51:43 +0000
+Date: Sat, 26 Sep 2026 07:51:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Christian =?utf-8?Q?K=C3=B6nig"?= <ckoenig.leichtzumerken@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Dave Airlie <airlied@redhat.com>
-Subject: error: couldn't allocate output register for constraint 'ZB'
-Message-ID: <202609260715.renJwQgG-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2026-09 0/1]
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c:2173: warning: expecting
+ prototype for idpf_tx_splitq_has_room(). Prototype was for
+ idpf_txq_has_room() instead
+Message-ID: <202609260706.34uDMenv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5fc5768c7ca92895ccd1de94dc521e5a55ae7896
-commit: 4e28aa8f7ee26d67a4addee6e3980f1cbf861b49 drm/drm_exec: avoid indirect goto
-date:   3 months ago
-config: loongarch-randconfig-r1306-20260925 (https://download.01.org/0day-ci/archive/20260926/202609260715.renJwQgG-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260715.renJwQgG-lkp@intel.com/reproduce)
+Hi Joshua,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-09
+head:   8dba035b01c49d304dfaf20bdfaf36bf064d858a
+commit: a7a7bff258e1f5aee2bb95ebbc12bbd6533dd1e7 [0/1] idpf: stop Tx if there are insufficient buffer resources
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260926/202609260706.34uDMenv-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260706.34uDMenv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4e28aa8f7ee2 ("drm/drm_exec: avoid indirect goto")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609260715.renJwQgG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609260706.34uDMenv-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   warning: overriding the module target triple with x86_64-unknown-linux-gnu [-Woverride-module]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o': Linking two modules of different target triples: 'lib/kunit/test.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o': Linking two modules of different target triples: 'lib/maple_tree.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o': Linking two modules of different target triples: 'mm/kasan/generic.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o': Linking two modules of different target triples: 'mm/kasan/shadow.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o': Linking two modules of different target triples: 'mm/vmstat.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_vtdss.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   '-d' is not a recognized feature for this target (ignoring feature)
-   '-f' is not a recognized feature for this target (ignoring feature)
-   '-ual' is not a recognized feature for this target (ignoring feature)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   '-d' is not a recognized feature for this target (ignoring feature)
-   '-f' is not a recognized feature for this target (ignoring feature)
-   '-ual' is not a recognized feature for this target (ignoring feature)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
->> <inline asm>:1:2: error: invalid instruction mnemonic 'dbar'
-           dbar $16 
-           ^~~~
-   error: cannot compile inline asm
-   6 warnings and 14 errors generated.
---
-   warning: overriding the module target triple with x86_64-unknown-linux-gnu [-Woverride-module]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'lib/kunit/test.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'lib/maple_tree.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'mm/kasan/generic.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'mm/kasan/shadow.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o': Linking two modules of different target triples: 'mm/vmstat.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_amdv1.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   '-d' is not a recognized feature for this target (ignoring feature)
-   '-f' is not a recognized feature for this target (ignoring feature)
-   '-ual' is not a recognized feature for this target (ignoring feature)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   '-d' is not a recognized feature for this target (ignoring feature)
-   '-f' is not a recognized feature for this target (ignoring feature)
-   '-ual' is not a recognized feature for this target (ignoring feature)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
-   6 warnings and 3 errors generated.
---
-   warning: overriding the module target triple with x86_64-unknown-linux-gnu [-Woverride-module]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/kunit/test.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/maple_tree.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'mm/kasan/generic.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
->> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'mm/kasan/shadow.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'mm/vmstat.o' is 'loongarch64-unknown-linux-gnusf' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-    [-Wlinker-warnings]
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   '-d' is not a recognized feature for this target (ignoring feature)
-   '-f' is not a recognized feature for this target (ignoring feature)
-   '-ual' is not a recognized feature for this target (ignoring feature)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
-   '-d' is not a recognized feature for this target (ignoring feature)
-   '-f' is not a recognized feature for this target (ignoring feature)
-   '-ual' is not a recognized feature for this target (ignoring feature)
-   'loongarch64' is not a recognized processor for this target (ignoring processor)
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
->> error: couldn't allocate output register for constraint 'ZB'
-   note: expanded from here
-   6 warnings and 2 errors generated.
+>> drivers/net/ethernet/intel/idpf/idpf_txrx.c:2173: warning: expecting prototype for idpf_tx_splitq_has_room(). Prototype was for idpf_txq_has_room() instead
+
+
+vim +2173 drivers/net/ethernet/intel/idpf/idpf_txrx.c
+
+6818c4d5b3c2e9 Joshua Hay    2023-08-07  2162  
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2163  /**
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2164   * idpf_tx_splitq_has_room - check if enough Tx splitq resources are available
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2165   * @tx_q: the queue to be checked
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2166   * @descs_needed: number of descriptors required for this packet
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2167   * @bufs_needed: number of Tx buffers required for this packet
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2168   *
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2169   * Return: 0 if no room available, 1 otherwise
+12e40d01d6d1aa Brian Vazquez 2025-05-01  2170   */
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2171  static int idpf_txq_has_room(struct idpf_tx_queue *tx_q, u32 descs_needed,
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2172  			     u32 bufs_needed)
+12e40d01d6d1aa Brian Vazquez 2025-05-01 @2173  {
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2174  	if (IDPF_DESC_UNUSED(tx_q) < descs_needed ||
+12e40d01d6d1aa Brian Vazquez 2025-05-01  2175  	    IDPF_TX_COMPLQ_PENDING(tx_q->txq_grp) >
+12e40d01d6d1aa Brian Vazquez 2025-05-01  2176  		IDPF_TX_COMPLQ_OVERFLOW_THRESH(tx_q->txq_grp->complq) ||
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2177  	    IDPF_TX_BUF_RSV_LOW(tx_q) ||
+a7a7bff258e1f5 Joshua Hay    2025-12-15  2178  	    idpf_tx_splitq_get_free_bufs(tx_q->refillq) < bufs_needed)
+12e40d01d6d1aa Brian Vazquez 2025-05-01  2179  		return 0;
+12e40d01d6d1aa Brian Vazquez 2025-05-01  2180  	return 1;
+12e40d01d6d1aa Brian Vazquez 2025-05-01  2181  }
+12e40d01d6d1aa Brian Vazquez 2025-05-01  2182  
+
+:::::: The code at line 2173 was first introduced by commit
+:::::: 12e40d01d6d1aa9224200d6b9d9570d6aa68ef74 idpf: fix a race in txq wakeup
+
+:::::: TO: Brian Vazquez <brianvv@google.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
