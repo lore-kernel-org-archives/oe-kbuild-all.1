@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C97A212FAD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 02:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D1A36E498
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 02:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790304422; cv=none; b=uwijaJPpaWg0RaTyNb1oTyepLEyoOz85UtFV6Dn2OOxMroifOrgMjPcfK4wDenHT4pF7pt15Q8ZdYingPE4FQQ4YX3W0Ywa5+Xf9QiEwGUfTuPqs2DAEAxNOnh1M3RxD24/SsIxdLcVhqe0scTjwRzzsLoqTeL8nfgY3dnkjXDA=
+	t=1790305194; cv=none; b=iUc4rymyip2G6I/o8UXHlbPwBXviPcm+4SKaprcgkUMJOUKrtxdEOYw32CVDoIJOHtp5fqJscdJNZ/7rQmXNH8gyoxF1PX4NsUmG8Ag1jKB0GqDJ8pKx+zWB9DLADMBVrhAMb/i7UUwX9ufVIwJwrIS5UB04TW9f31nTTLnuNYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790304422; c=relaxed/simple;
-	bh=Y/Gnm58hwO4PatO7CiIFCm/GFYKJGt9C4xub0vRNOug=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DJZyABqCx+C4Lf7KitXzU86Q2o5iZ12oEyXXBGHjEGfa0Vvrf4dSUdss6tMsZFa6MBtom9IdNlVm2ncrwtWAJFxeSJfNXxGmkqCjzp71r3pDbb86cT3sKiTv7P8GWjuDcnRacAupQUA6kLIS9rJuuccLochdjX01+d1uSzKbKLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OL4BP5N9; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1790305194; c=relaxed/simple;
+	bh=oFwksy/1FwxYfbb8C//DF/btDL1BK1hlgP3nP69rgUM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OB03ZyLHZT5PWkLw40aeZtdmXX+di7OH66jysBBZABfIwD3HgligvWaD/Ft4nLsZD124YLBUva4aDq9Qwm/sBPH82QV84YDeGO/qzOW5HZa1oNFHcxLdCjIWtH+qajWcIjN7eP1sAGNcGMTUKAEKz810sns4aDXynUzYfAkaR9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eW046Mb3; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OL4BP5N9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eW046Mb3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790304420; x=1821840420;
+  t=1790305193; x=1821841193;
   h=date:from:to:cc:subject:message-id;
-  bh=Y/Gnm58hwO4PatO7CiIFCm/GFYKJGt9C4xub0vRNOug=;
-  b=OL4BP5N9flZsmXGDGmg5XaabG4Czrsfdgj4dxuedd8gsLmYBpKFLEBxq
-   HYDzm5ZzK50QVoUR/4woDSoQfGEuDHCJFnZTrDDEkefFJBUUsWtQIhVrv
-   UsagZEV6K5Sw5Lz25PScFQabL7x5SJPQcaK//VAohk78TtfB4sfpUpn5w
-   dyLAiGlDeHgdoHrvNaZr10MfTatrL+bKrzneW8BjA8BF8FroppSazlEYZ
-   lMuFEvA6hTdtb/45Wk2dnD5UwsmLF0kvMOP5TyhvqyEbMdkA3yrXW8SxB
-   HjWeokctxva578tR7mqnrTosmXuHGEAJttkiuxLlZj7uTOJG/CEDRGCag
-   g==;
-X-CSE-ConnectionGUID: wykbKnZNSdKzKIlOCvUbuw==
-X-CSE-MsgGUID: mdFSWAWBT3i+mzkR65xj+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89952068"
+  bh=oFwksy/1FwxYfbb8C//DF/btDL1BK1hlgP3nP69rgUM=;
+  b=eW046Mb3HUYNIF7XCVBjUIjcxLMM2LXWzTK+TvLjDZYPE85nK0ZmDWTi
+   Y5z87zaCpA1e9f0Ey+z+uOdll5Khd/A6eGp8ptyzajSMDlkZ2qw7EeVYJ
+   ZJm/lyZrs+XtBBl6oX0KHCQTRLhwP/WJ+Fv60a7ixSZusMjtYViuiOdRn
+   A38TZWHTT9oBtMlVjhZo/vGDhYyEPyA4Et8Y+wMtAf0ErYVOtQiGcZUwn
+   1/R8EWPRBGyox12vUvV6csRqp/jZcHjtXfPopke+ELIh2KseHKrGbHFMx
+   DhMVb0Tmk2brctX+Anax0IWjiP6Dqy7uZkj6gsF1xiQdltwNPv9SU6TRQ
+   A==;
+X-CSE-ConnectionGUID: 7jXzz0AYQt6XElkSk5u0IQ==
+X-CSE-MsgGUID: pUij9nfgQVO4jV2BGEjKYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90309152"
 X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="89952068"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 19:46:59 -0700
-X-CSE-ConnectionGUID: tKbgamVLTKWaiOBujgJJMQ==
-X-CSE-MsgGUID: LzJbJEBfS9mn8boEgimRlQ==
+   d="scan'208";a="90309152"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 19:59:53 -0700
+X-CSE-ConnectionGUID: 0CkztU7RQ9OwmfHPyIKoHA==
+X-CSE-MsgGUID: wBjqNsL+RACgUoaewF4TLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="273424593"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Sep 2026 19:46:57 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="272787784"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 24 Sep 2026 19:59:51 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9vxf-00000000Jx8-2Z03;
-	Fri, 25 Sep 2026 02:46:55 +0000
-Date: Fri, 25 Sep 2026 10:46:23 +0800
+	id 1x9wA8-000000000ZK-3SgW;
+	Fri, 25 Sep 2026 02:59:48 +0000
+Date: Fri, 25 Sep 2026 04:58:51 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-06 2/2]
- drivers/virt/halla/hvm_vm.c:435: warning: Function parameter or struct member
- 'hvm' not described in 'hvm_destroy_vm'
-Message-ID: <202609251029.5tw2ShPo-lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>
+Subject: [lee-mfd:for-mfd-next 32/35]
+ drivers/mfd/motorola-cpcap.c:267:19: warning: cast to smaller integer type
+ 'enum cpcap_variant' from 'const void *'
+Message-ID: <202609250415.snVBsAsJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,89 +60,99 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Junho,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-06
-head:   20ed81c930ecc79af10bfca7c8de6d163fe051b7
-commit: e17566975f96abbb6d6b84aa4784161e51264095 [2/2] ANDROID: virt: halla: Tie struct hvm lifetime to vcpu fds with a kref
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260925/202609251029.5tw2ShPo-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251029.5tw2ShPo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+head:   319633b06ff2bfc2a7a60d2cfcab2e681a343b27
+commit: 8b8035cbfbb8487087b87db78724a7b1a2ab1982 [32/35] mfd: motorola-cpcap: Diverge configuration per-board
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260925/202609250415.snVBsAsJ-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609250415.snVBsAsJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609251029.5tw2ShPo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609250415.snVBsAsJ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/virt/halla/hvm_vm.c:435: warning: Function parameter or struct member 'hvm' not described in 'hvm_destroy_vm'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+>> drivers/mfd/motorola-cpcap.c:267:19: warning: cast to smaller integer type 'enum cpcap_variant' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+     267 |         cpcap->variant = (enum cpcap_variant)spi_get_device_match_data(spi);
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +435 drivers/virt/halla/hvm_vm.c
+vim +267 drivers/mfd/motorola-cpcap.c
 
-e17566975f96abb Junho Choi  2026-06-10  423  
-e17566975f96abb Junho Choi  2026-06-10  424  /**
-e17566975f96abb Junho Choi  2026-06-10  425   * hvm_destroy_vm() - VM fd release path.
-e17566975f96abb Junho Choi  2026-06-10  426   *
-e17566975f96abb Junho Choi  2026-06-10  427   * Tears down everything that owns guest memory or hypervisor S2
-e17566975f96abb Junho Choi  2026-06-10  428   * resources, detaches the live vcpus from the hypervisor, removes
-e17566975f96abb Junho Choi  2026-06-10  429   * the VM from hvm_list, then drops the VM fd's kref.  The struct
-e17566975f96abb Junho Choi  2026-06-10  430   * hvm itself stays alive as long as any vcpu fd still holds a
-e17566975f96abb Junho Choi  2026-06-10  431   * reference, so a vcpu ioctl racing with VM fd close stays on
-e17566975f96abb Junho Choi  2026-06-10  432   * valid memory until the vcpu fd is also closed.
-e17566975f96abb Junho Choi  2026-06-10  433   */
-9007a992df6c7fb Kim Mankyum 2025-08-27  434  static void hvm_destroy_vm(struct hvm *hvm)
-9007a992df6c7fb Kim Mankyum 2025-08-27 @435  {
-e17566975f96abb Junho Choi  2026-06-10  436  	unsigned long ret;
-9007a992df6c7fb Kim Mankyum 2025-08-27  437  
-9007a992df6c7fb Kim Mankyum 2025-08-27  438  	mutex_lock(&hvm->lock);
-9007a992df6c7fb Kim Mankyum 2025-08-27  439  
-f2801c7c470f11d Kim Mankyum 2026-04-14  440  	hvm_pre_destroy_vm(hvm);
-9007a992df6c7fb Kim Mankyum 2025-08-27  441  
-9007a992df6c7fb Kim Mankyum 2025-08-27  442  	hvm_vm_irqfd_release(hvm);
-9007a992df6c7fb Kim Mankyum 2025-08-27  443  
-9007a992df6c7fb Kim Mankyum 2025-08-27  444  	ret = hvm_reclaim_guest_memory(hvm);
-9007a992df6c7fb Kim Mankyum 2025-08-27  445  	hvm_reclaim_guest_stage2_pgtable(hvm);
-9007a992df6c7fb Kim Mankyum 2025-08-27  446  
-9007a992df6c7fb Kim Mankyum 2025-08-27  447  	hvm_destroy_vcpus(hvm);
-9007a992df6c7fb Kim Mankyum 2025-08-27  448  
-9007a992df6c7fb Kim Mankyum 2025-08-27  449  	mutex_lock(&hvm_list_lock);
-9007a992df6c7fb Kim Mankyum 2025-08-27  450  	list_del(&hvm->vm_list);
-9007a992df6c7fb Kim Mankyum 2025-08-27  451  	mutex_unlock(&hvm_list_lock);
-9007a992df6c7fb Kim Mankyum 2025-08-27  452  
-9007a992df6c7fb Kim Mankyum 2025-08-27  453  	mutex_unlock(&hvm->lock);
-9007a992df6c7fb Kim Mankyum 2025-08-27  454  
-9007a992df6c7fb Kim Mankyum 2025-08-27  455  	/**
-9007a992df6c7fb Kim Mankyum 2025-08-27  456  	 * Have to leave the page pinned as we don't know whether its
-9007a992df6c7fb Kim Mankyum 2025-08-27  457  	 * save to access
-9007a992df6c7fb Kim Mankyum 2025-08-27  458  	 */
-9007a992df6c7fb Kim Mankyum 2025-08-27  459  	if (!ret) {
-9007a992df6c7fb Kim Mankyum 2025-08-27  460  		/**
-9007a992df6c7fb Kim Mankyum 2025-08-27  461  		 * No need to lock here becauese it's single-threaded
-9007a992df6c7fb Kim Mankyum 2025-08-27  462  		 * execution
-9007a992df6c7fb Kim Mankyum 2025-08-27  463  		 */
-9007a992df6c7fb Kim Mankyum 2025-08-27  464  		hvm_destroy_all_ppage(hvm);
-9007a992df6c7fb Kim Mankyum 2025-08-27  465  	}
-9007a992df6c7fb Kim Mankyum 2025-08-27  466  
-e17566975f96abb Junho Choi  2026-06-10  467  	hvm_vm_put(hvm);
-9007a992df6c7fb Kim Mankyum 2025-08-27  468  }
-9007a992df6c7fb Kim Mankyum 2025-08-27  469  
-
-:::::: The code at line 435 was first introduced by commit
-:::::: 9007a992df6c7fbc50cbcc21613b3a5c3c019ab6 ANDROID: drivers: virt: Initialization halla module
-
-:::::: TO: Kim Mankyum <mankyum.kim@samsung.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@google.com>
+   255	
+   256	static int cpcap_probe(struct spi_device *spi)
+   257	{
+   258		struct cpcap_ddata *cpcap;
+   259		const struct mfd_cell *cells;
+   260		unsigned int num_cells;
+   261		int ret;
+   262	
+   263		cpcap = devm_kzalloc(&spi->dev, sizeof(*cpcap), GFP_KERNEL);
+   264		if (!cpcap)
+   265			return -ENOMEM;
+   266	
+ > 267		cpcap->variant = (enum cpcap_variant)spi_get_device_match_data(spi);
+   268	
+   269		switch (cpcap->variant) {
+   270		case CPCAP_DEFAULT:
+   271			cells = cpcap_default_devices;
+   272			num_cells = ARRAY_SIZE(cpcap_default_devices);
+   273			break;
+   274		case CPCAP_MAPPHONE:
+   275			cells = cpcap_mapphone_devices;
+   276			num_cells = ARRAY_SIZE(cpcap_mapphone_devices);
+   277			break;
+   278		default:
+   279			return dev_err_probe(&spi->dev, -ENODEV,
+   280					     "Unknown device %d\n", cpcap->variant);
+   281		}
+   282	
+   283		cpcap->spi = spi;
+   284		spi_set_drvdata(spi, cpcap);
+   285	
+   286		spi->bits_per_word = 16;
+   287		spi->mode = SPI_MODE_0 | SPI_CS_HIGH;
+   288	
+   289		ret = spi_setup(spi);
+   290		if (ret)
+   291			return ret;
+   292	
+   293		cpcap->regmap_conf = &cpcap_regmap_config;
+   294		cpcap->regmap = devm_regmap_init_spi(spi, &cpcap_regmap_config);
+   295		if (IS_ERR(cpcap->regmap)) {
+   296			ret = PTR_ERR(cpcap->regmap);
+   297			dev_err(&cpcap->spi->dev, "Failed to initialize regmap: %d\n",
+   298				ret);
+   299	
+   300			return ret;
+   301		}
+   302	
+   303		ret = cpcap_check_revision(cpcap);
+   304		if (ret) {
+   305			dev_err(&cpcap->spi->dev, "Failed to detect CPCAP: %i\n", ret);
+   306			return ret;
+   307		}
+   308	
+   309		ret = cpcap_init_irq(cpcap);
+   310		if (ret)
+   311			return ret;
+   312	
+   313		/* Parent SPI controller uses DMA, CPCAP and child devices do not */
+   314		spi->dev.coherent_dma_mask = 0;
+   315		spi->dev.dma_mask = &spi->dev.coherent_dma_mask;
+   316	
+   317		ret = devm_mfd_add_devices(&spi->dev, 0, cpcap_common_devices,
+   318					   ARRAY_SIZE(cpcap_common_devices), NULL, 0, NULL);
+   319		if (ret)
+   320			return dev_err_probe(&spi->dev, ret,
+   321					     "Failed to add common child devices\n");
+   322	
+   323		return devm_mfd_add_devices(&spi->dev, 0, cells, num_cells, NULL, 0, NULL);
+   324	}
+   325	
 
 --
 0-DAY CI Kernel Test Service
