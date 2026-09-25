@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB0546C4AC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 13:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0807B4A3844
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 13:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790343247; cv=none; b=PkWlCI6E9Oa0zlGiF3RMjb0PrTrazuTE0MDFInBj4MTj6LUv1KeoE/AW/D1FCnGpX2wSRYucj6MylvFoiunfVzm3bTp19yv7DGLnnC1LeOe15/dPMkIrwTVTcwM/MoNRcmBh5tZ+j99sTYVBTx0l19pn3CsjmovI0uxIfXekuRE=
+	t=1790344705; cv=none; b=ZymGLgVMLosv7JQCzUoqciKtSTm3gscRNLX+fKSMcIeQCazVp9463uKyTnPqKQyjyU7kPzM9X8/u9GmR50UcMzaJpIXo8DPqGPXE/j7NJPrKTrccD0KWFDW38OOsIgy8+kkUQnzu6Gn5IbOv6wfJIAxqANHQ0O2B84RxqryKZjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790343247; c=relaxed/simple;
-	bh=qfOdDbXfHdVjgyI0lqDXu3cKCF+Km8hfXNGh2m+iB84=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UbwIpIekocpOGCIHdSoVT/T6SJPsp3YmpOvz/gIAWn0OnUB0mevGy/Wsw5RWOpruG+C61t6Y9kHsVnGNCQbulZ8XrjtFIpDUyu1/BVdYUzepYivHkphNrTir3t+/RbhtA+Q8IYfQTHu83TwWnzoxIJiLkiE8szNQS5hM+vPHhf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZhXcAzjJ; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1790344705; c=relaxed/simple;
+	bh=cIbS5Uyfv4Jjk4raAONSQKSKDocvmobXfXEuFDnkGJU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uVWW13SnKcYuCF/dJ1goyjqMrXFttdA/rSqyKiTQ4rrBuuj3Tket4+9vFpZxyWfQnT1qFXE+TSIdpDgiw7dn5o2d1LVtAIKn6FI6b1RwCoNTc8RzmMP2u80/e+zQG0CVa2E4jNryYPt4nnTYPnBjPYieXcMqcnn9+cmkyaCaZJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LY8ayc5L; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZhXcAzjJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LY8ayc5L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790343245; x=1821879245;
+  t=1790344703; x=1821880703;
   h=date:from:to:cc:subject:message-id;
-  bh=qfOdDbXfHdVjgyI0lqDXu3cKCF+Km8hfXNGh2m+iB84=;
-  b=ZhXcAzjJEiRlQxU2m0vpSPjEAIw4fngETLrG77ieoBh8sLsHEQyNs2fu
-   fJ5uWZCDAzyFIx4tCAjn3LWe+DL/QEsBhw7NP2/v/9VgiyNeLaePYwxME
-   nL1bklcoPDIWg226uIFSv8A0mk3cqmrlL1TnOlA8u/QRI2F8SygVHZjMd
-   wTLPpjyZB88i62djlJHeTe0zGd5N8Lk6QmSODydQBoeA7qRIMhELDjMgz
-   P3U6sambb54DxVAxhbktZa02XlmqsRak3jOyqQsdmdkaFO9vCm/dYfwci
-   08w+bpuNjVrN12FXJ7waOd6WpmJY5Pm9I8hIkH0DP8GxYfXswwfl3RFal
-   w==;
-X-CSE-ConnectionGUID: bYqVrzShR9OfjCbHtCybHg==
-X-CSE-MsgGUID: RYt6/NRkSS6L50TyhwHtjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="101703605"
+  bh=cIbS5Uyfv4Jjk4raAONSQKSKDocvmobXfXEuFDnkGJU=;
+  b=LY8ayc5Lmtf0nLrtJdl12pQonyhtRcOT1xdNr325ebPsXwM4Lyewa58J
+   lWsgP9ak/W+snWUoZMmXbYutikqGJwbigevGTnk0gFGPZ7d21ZS9JWrF2
+   eHMoHuScCKEnW2oiq+LxNzIF7dLWiqH4X0tW8JubCvJ7BpPoNTR9tl7J/
+   CejcLJKBheRuFHfsaIFnmkn56zqI1DValgex/Cv8nEvd0xNFZocksF1Zm
+   EFbEL/J1JluW841szpVA7hVR99jopF830ozv3g7l20yvK1pQvBu+uvQi9
+   pgEoQiJueWrr04IOPsVfn8t6oK0f5Pq+oFVwBD7dP1YWA409GU5AutxtQ
+   A==;
+X-CSE-ConnectionGUID: g4n/evxER/C4Ftik7t8C7w==
+X-CSE-MsgGUID: RTjY3r02T1C8b9j4zzzFBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="100463314"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="101703605"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 06:34:04 -0700
-X-CSE-ConnectionGUID: ixpT7yvaTv2Ano8yohutvw==
-X-CSE-MsgGUID: W7c32IU6QtGlx6lc8KRLVw==
+   d="scan'208";a="100463314"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 06:58:22 -0700
+X-CSE-ConnectionGUID: h5zk2tFxTrKvcyxLZTDF9g==
+X-CSE-MsgGUID: kAS3VC9xTmGu8o5LoYUZDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="273567838"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Sep 2026 06:34:02 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+   d="scan'208";a="272478852"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2026 06:58:21 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xA63s-000000000ly-1u7p;
-	Fri, 25 Sep 2026 13:34:00 +0000
-Date: Fri, 25 Sep 2026 15:33:38 +0200
+	id 1xA6RP-00000000KiU-00Jh;
+	Fri, 25 Sep 2026 13:58:19 +0000
+Date: Fri, 25 Sep 2026 21:57:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Gaylard <ag@ffroot.co.za>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>
-Subject: [linux-next:master 7217/10113] Warning:
- drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'bit_off' not
- described in 'sppctl_gmx_set'
-Message-ID: <202609251541.FiNQ82je-lkp@intel.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mcgrof:dmabuf-size-ceiling-v7.3-rc3 28/29]
+ include/linux/sunrpc/xdrgen/_defs.h:13:9: warning: "TRUE" redefined
+Message-ID: <202609252129.XKayNOvc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,46 +59,70 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4c253ac4b29b8c6cc6fdef8f92d4facde62e63b9
-commit: 7dcf87d2dbbe8c9c1efb69fe9be728a3dfd51d3d [7217/10113] pinctrl: fix PINCTRL_SPPCTL=m
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260925/202609251541.FiNQ82je-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251541.FiNQ82je-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git dmabuf-size-ceiling-v7.3-rc3
+head:   837ed875be1a747823a663f160a8122b60c0c88a
+commit: c5e054ccaedf0778bd70baf19cc9200fe5a7acc1 [28/29] drm/amdkfd: port AMD Infinity Storage file I/O from the amdgpu driver
+config: x86_64-randconfig-1006-20260925 (https://download.01.org/0day-ci/archive/20260925/202609252129.XKayNOvc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252129.XKayNOvc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609251541.FiNQ82je-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609252129.XKayNOvc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: drivers/pinctrl/sunplus/sppctl.c:175 function parameter 'pctl' not described in 'sppctl_func_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:175 function parameter 'func' not described in 'sppctl_func_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:175 function parameter 'val' not described in 'sppctl_func_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'pctl' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'reg_off' not described in 'sppctl_gmx_set'
->> Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'bit_off' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'bit_sz' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'val' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:261 function parameter 'chip' not described in 'sppctl_first_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:261 function parameter 'offset' not described in 'sppctl_first_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:296 function parameter 'chip' not described in 'sppctl_master_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:296 function parameter 'offset' not described in 'sppctl_master_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:695 function parameter 'offset' not described in 'sppctl_fully_pinmux_conv'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:175 function parameter 'pctl' not described in 'sppctl_func_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:175 function parameter 'func' not described in 'sppctl_func_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:175 function parameter 'val' not described in 'sppctl_func_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'pctl' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'reg_off' not described in 'sppctl_gmx_set'
->> Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'bit_off' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'bit_sz' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:228 function parameter 'val' not described in 'sppctl_gmx_set'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:261 function parameter 'chip' not described in 'sppctl_first_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:261 function parameter 'offset' not described in 'sppctl_first_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:296 function parameter 'chip' not described in 'sppctl_master_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:296 function parameter 'offset' not described in 'sppctl_master_get'
-   Warning: drivers/pinctrl/sunplus/sppctl.c:695 function parameter 'offset' not described in 'sppctl_fully_pinmux_conv'
+   In file included from include/linux/sunrpc/xdrgen/nfs4_1.h:10,
+                    from include/linux/nfs4.h:20,
+                    from include/linux/nfs_fs.h:41,
+                    from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_ais.c:57:
+>> include/linux/sunrpc/xdrgen/_defs.h:13:9: warning: "TRUE" redefined
+      13 | #define TRUE    (true)
+         |         ^~~~
+   In file included from include/acpi/acpi.h:24,
+                    from include/linux/acpi.h:27,
+                    from include/linux/i2c.h:13,
+                    from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_ras_eeprom.h:27,
+                    from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_ras.h:32,
+                    from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_gfx.h:35,
+                    from drivers/gpu/drm/amd/amdgpu/../include/kgd_kfd_interface.h:35,
+                    from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_priv.h:47,
+                    from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_ais.c:32:
+   include/acpi/actypes.h:412:9: note: this is the location of the previous definition
+     412 | #define TRUE                            (1 == 1)
+         |         ^~~~
+>> include/linux/sunrpc/xdrgen/_defs.h:14:9: warning: "FALSE" redefined
+      14 | #define FALSE   (false)
+         |         ^~~~~
+   include/acpi/actypes.h:407:9: note: this is the location of the previous definition
+     407 | #define FALSE                           (1 == 0)
+         |         ^~~~~
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_ais.c: In function 'kfd_ais_init_attr':
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_ais.c:387:36: warning: '%s' directive output truncated writing between 6 and 7 bytes into a region of size between 0 and 2 [-Wformat-truncation=]
+     387 |                 "%04x:%02x:%02x.%d:%s", pci_domain_nr(pdev->bus), pdev->bus->number,
+         |                                    ^~
+   drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_ais.c:386:9: note: 'snprintf' output between 20 and 25 bytes into a destination of size 15
+     386 |         snprintf(filename, MAX_SYSFS_FILENAME_LEN,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     387 |                 "%04x:%02x:%02x.%d:%s", pci_domain_nr(pdev->bus), pdev->bus->number,
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     388 |                 PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn), suffix);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/TRUE +13 include/linux/sunrpc/xdrgen/_defs.h
+
+4b132aacb0768ac Chuck Lever 2024-09-13  12  
+4b132aacb0768ac Chuck Lever 2024-09-13 @13  #define TRUE	(true)
+4b132aacb0768ac Chuck Lever 2024-09-13 @14  #define FALSE	(false)
+4b132aacb0768ac Chuck Lever 2024-09-13  15  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: 4b132aacb0768ac1e652cf517097ea6f237214b9 tools: Add xdrgen
+
+:::::: TO: Chuck Lever <chuck.lever@oracle.com>
+:::::: CC: Chuck Lever <chuck.lever@oracle.com>
 
 --
 0-DAY CI Kernel Test Service
