@@ -1,160 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0496D3921DD;
-	Fri, 25 Sep 2026 06:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43314396585
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 06:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790317472; cv=none; b=h0KLII13FAq3z7uH7egkGs2YuB4MLCTbWOQrlkzM4uJu7jNAs2Gupekz/wmYfpPKVu4XlwlhI1zWemHuzi0j8V/lFPalzRhpGMP5a3bibKuNcEjpPVH5JXV77nfXZU2FQDDt03AzCy76kCKRfNeAnSzfYULPgx7sjengriPugGY=
+	t=1790318542; cv=none; b=uo9nSOST4E8/iOSsxRS7+zT33qfbF0NH1+/UlOB6boP3a51IUpvEE1IJ6sWb4QF/JYrs+dSQr6f+fX7qExZ/VDU/HaprK+u6wRgI3PhlmvpkplfBjN3BfwlEqY/4TRqoIYvsJiC8luaTqroapJO0PJqVljaaRwvGoOj88z0DrJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790317472; c=relaxed/simple;
-	bh=RYwxAXEieuzmAiIxOZsQQZq48JHTZcUCM6yc9NfvMag=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HcLSu4YpC1SGZZYJENegmhyx3DSyznzL7m+8Esp/27r1Djf88/q+6aQ017W913zonUmkIjcG9fYxyHoFS2qjz9UKpXyRVmJE28xgjV9k/T+GyyZh0oQ1fueOAFXVmV6ogaQLyM50Nu/3XhS0N31PCcUvWYc+D9c7K0WAdmKcBJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyZfFfHa; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1790318542; c=relaxed/simple;
+	bh=/tFfjc4uKi3YwU00tf8ZPnQ2E4qE6et5xsJed/Fn4BM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hGLpJFobmYjjoB8GYqlNfN0+2JOyaPm2Co04SW02yhxnrnGwULN5faBFcvT5epfH4p8Due9YPsea0K7fGFK7WzX344s9ptK+tnWd1NFR5eukVfHd8u1ZPWL8uUDauBEEpjLHzKnB+L+i+bKlJsr9ipBN8ysK7hrY4+KKI8N+Uas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cy17cXVT; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyZfFfHa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cy17cXVT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790317470; x=1821853470;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=RYwxAXEieuzmAiIxOZsQQZq48JHTZcUCM6yc9NfvMag=;
-  b=iyZfFfHaD75F+qXhnAUk8zAHTn58PtX8+kscu7MrLuUxRaHzsbrGe6F5
-   7YpnnEi5XFrW+5Fz7IdVfQKB/chenv03NMflUTuXYCC1ayjeqa/az5RRW
-   Qa5aOTGs/2OrSZFvVvypNkAND34EISXTZPFfKI1D0VGRVMnEjo7EChSWv
-   /ba6RPmMwpnUZvGxOzJzJoWUxOzSU1avAnWddO41vpCAsTdFDgE+aOt+Z
-   lwsZ3rfPOEhBqHwBNrtwTsbRV2oJg6QD878KaZVOnjqHK6YbXB9wi+tcr
-   FMhlzUYpHKMsD9LakBlbRTs8S6UDc91Q0r+tUYVjhSAZKKV4BVLGPQox6
-   Q==;
-X-CSE-ConnectionGUID: luGznPOuQWuPUeoCQyTwkw==
-X-CSE-MsgGUID: Sb/KCrjQRgyNl0YgISFE2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90006447"
+  t=1790318540; x=1821854540;
+  h=date:from:to:cc:subject:message-id;
+  bh=/tFfjc4uKi3YwU00tf8ZPnQ2E4qE6et5xsJed/Fn4BM=;
+  b=Cy17cXVT23YuHXtY2K/LgvxtPC7ysKEXJy10egEPA/9ItBF0I967dyYZ
+   IpNelj1l0TLJfmmUbNm1P1nwuwOhfSzgNG/5ZC1XRBI0O7YsAX2bmN+f8
+   9TYw6tuavQRuR8zU1B5sI/CZgM2++lZaSn87QNyzwti5bUaf6GcMCaNFR
+   QW2JeAx4hKno/vec7MRI5KTe+TrA/gW8foIJJELlu3MVDIsSgTfir9+U/
+   g86qE7l6zy7AyiGX4tSQMqjTYrUdun+0qCOl6arsFydyM3HNi/6/qnZMM
+   vp5isV7cUuFI/ZbZ8gASj1yPsRi3tuU/MVqOjmQMDXsHMu97i8XHjSTxm
+   g==;
+X-CSE-ConnectionGUID: 9UnOANqPRtm2cWsd8ehrHw==
+X-CSE-MsgGUID: dWoh50ecTeWJhvVgdK30NQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="102462797"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="90006447"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 23:24:29 -0700
-X-CSE-ConnectionGUID: dr06/A5/QsekUwsIYwpNqg==
-X-CSE-MsgGUID: ioLMoF9GRlSY4xifP17PZg==
+   d="scan'208";a="102462797"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 23:42:20 -0700
+X-CSE-ConnectionGUID: VTx10zQNRYqa+P6frv0L3A==
+X-CSE-MsgGUID: mOXpLMoORpigjBp65rdolw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="278959257"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Sep 2026 23:24:28 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="273468824"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Sep 2026 23:42:18 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9zM9-00000000K8Q-3eX8;
-	Fri, 25 Sep 2026 06:24:25 +0000
-Date: Fri, 25 Sep 2026 14:24:15 +0800
+	id 1x9zdP-000000000dG-3vpH;
+	Fri, 25 Sep 2026 06:42:15 +0000
+Date: Fri, 25 Sep 2026 08:42:11 +0200
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re:
-Message-ID: <202609251426.jvxMSRpi-lkp@intel.com>
-References: <202609251426.jvxMSRpi-lkp@intel.com>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Abel Vesa <abel.vesa@oss.qualcomm.com>
+Subject: [linux-next:master 6099/10113]
+ arch/arm64/boot/dts/qcom/glymur-asus-zenbook-a14-ux3407na.dtb:
+ aop-cmd-db@81c60000 (qcom,cmd-db): Unevaluated properties are not allowed
+ ('no-map', 'reg' were unexpected)
+Message-ID: <202609250843.0CNK3oSc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609251426.jvxMSRpi-lkp@intel.com>
 
-Hi Guangshuo,
-
-kernel test robot noticed the following build errors:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/pmdomain-imx-gpc-remove-all-initialized-power-domains/20260924-222520
-base:   
-patch link:    https://lore.kernel.org/r/202609251426.jvxMSRpi-lkp%40intel.com
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20260925/202609251426.jvxMSRpi-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251426.jvxMSRpi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4c253ac4b29b8c6cc6fdef8f92d4facde62e63b9
+commit: 7e38885d78f7b008c085a0cde7173242d02d2b01 [6099/10113] arm64: dts: qcom: glymur: Add Asus Zenbook A14 (UX3407NA)
+config: arm64-randconfig-2403-20260923 (https://download.01.org/0day-ci/archive/20260925/202609250843.0CNK3oSc-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema: 2026.10.dev2+g840a01d41
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609250843.0CNK3oSc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609251426.jvxMSRpi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609250843.0CNK3oSc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/pmdomain/imx/gpc.c:554:1: error: function definition is not allowed here
-     554 | builtin_platform_driver(imx_gpc_driver)
-         | ^
-   include/linux/platform_device.h:345:2: note: expanded from macro 'builtin_platform_driver'
-     345 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^
-   include/linux/device/driver.h:294:41: note: expanded from macro 'builtin_driver'
-     294 | static int __init __driver##_init(void) \
-         |                                         ^
->> drivers/pmdomain/imx/gpc.c:554:1: error: use of undeclared identifier 'imx_gpc_driver_init'; did you mean 'imx_gpc_driver'?
-     554 | builtin_platform_driver(imx_gpc_driver)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:345:2: note: expanded from macro 'builtin_platform_driver'
-     345 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:298:17: note: expanded from macro 'builtin_driver'
-     298 | device_initcall(__driver##_init);
-         |                 ^~~~~~~~~~~~~~~
-   <scratch space>:136:1: note: expanded from here
-     136 | imx_gpc_driver_init
-         | ^~~~~~~~~~~~~~~~~~~
-   drivers/pmdomain/imx/gpc.c:546:31: note: 'imx_gpc_driver' declared here
-     546 | static struct platform_driver imx_gpc_driver = {
-         |                               ^
->> drivers/pmdomain/imx/gpc.c:554:1: error: initializing 'initcall_t' (aka 'int (*)(void)') with an expression of incompatible type 'struct platform_driver'
-     554 | builtin_platform_driver(imx_gpc_driver)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:345:2: note: expanded from macro 'builtin_platform_driver'
-     345 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:297:3: note: expanded from macro 'builtin_driver'
-     297 | } \
-         |   ^
-     298 | device_initcall(__driver##_init);
-         |                 ~~~~~~~~~~~~~~~
-   include/linux/init.h:306:30: note: expanded from macro '\
-   device_initcall'
-     306 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^                 ~~
-   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:150:1: note: expanded from here
-     150 | __initcall__kmod_gpc__425_554_imx_gpc_driver_init6
-         | ^
-   include/linux/init.h:264:20: note: expanded from macro '____define_initcall'
-     264 |         static initcall_t __name __used                         \
-         |                           ^
-     265 |                 __attribute__((__section__(__sec))) = fn;
-         |                                                       ~~
->> drivers/pmdomain/imx/gpc.c:554:40: error: expected '}'
-     554 | builtin_platform_driver(imx_gpc_driver)
-         |                                        ^
-   drivers/pmdomain/imx/gpc.c:504:1: note: to match this '{'
-     504 | {
-         | ^
-   4 errors generated.
-
-
-vim +554 drivers/pmdomain/imx/gpc.c
-
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  545  
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17 @546  static struct platform_driver imx_gpc_driver = {
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  547  	.driver = {
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  548  		.name = "imx-gpc",
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  549  		.of_match_table = imx_gpc_dt_ids,
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  550  	},
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  551  	.probe = imx_gpc_probe,
-e70140ba0d2b1a drivers/pmdomain/imx/gpc.c Linus Torvalds 2024-12-01  552  	.remove = imx_gpc_remove,
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  553  };
-721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17 @554  builtin_platform_driver(imx_gpc_driver)
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/qcom,cmd-db.yaml
+>> arch/arm64/boot/dts/qcom/glymur-asus-zenbook-a14-ux3407na.dtb: aop-cmd-db@81c60000 (qcom,cmd-db): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/qcom,cmd-db.yaml
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+>> arch/arm64/boot/dts/qcom/glymur-asus-zenbook-a14-ux3407na.dtb: adsp-rpc-remote-heap (shared-dma-pool): Unevaluated properties are not allowed ('alignment', 'alloc-ranges', 'reusable', 'size' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
+>> arch/arm64/boot/dts/qcom/glymur-asus-zenbook-a14-ux3407na.dtb: linux,cma (shared-dma-pool): Unevaluated properties are not allowed ('reusable', 'size' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
 
 --
 0-DAY CI Kernel Test Service
