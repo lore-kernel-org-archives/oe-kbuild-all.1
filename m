@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48E44AC14D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 14:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2167C4AB1CD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 14:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790346693; cv=none; b=WTAMiDQjyjM/zwtZr+ytfufEbYZ8gOlVdNh7n9Pyrcu5kWFEGCkVf1kSHMV1VBgeSgUOHQOzhr+cC9Hv4UBoZt6ONLrCmKrJ55ACcoS1teyqAyJsiaxQDOg+FbnIaWRa/7Rb1kUTKAzPjWEAuSALox117ZQ16enffe7kvg5/6DM=
+	t=1790346757; cv=none; b=sVmDbUkSSfAdCMZsy2s0fiSp4El1Zw8NL9twc0tcu9KAXRmAOJxqmfmTN90j7Tl6ePRxmMIpttpF8PBpTBf7k/weLZ/F7G9McfngYqiZWN9yLvY+kPRK9eCLhkSHugyv/9KreMdcTNVRlLaRCNDBYAam3XCIW10qV2xRtG/hQDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790346693; c=relaxed/simple;
-	bh=ZLxrbKWS8cFhmgTnXegqJTnUGfGRbmyVp45+smndAO0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F69yhsPADq3vXgxdRV4aYcVjBOyVACRa+rVCGbOQf6mJGIbmyodskVlTGLML9CzOsdxz3qMS+Qvi6MN5s93hFxlRO93J5vOuAvgwqb8MPXMJ9xBH7lglbH05gyMLlUfrVEEv+VCtMI53GJgaLp12yVXWmZSO6ZNqMCj7h0S43j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRtbr2bs; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790346757; c=relaxed/simple;
+	bh=KM/R+iLp3cW4R/VJXiddMItya1bSiiejP2+LNixUXjU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LLOOfCPa46tF70pvtY2M8emy88JOeSy9xGyf/+yfTx30SjMgDt3grj2DtmCDRfNrs+aozyfTQ8FHodxaJwm/Qxt4LapsyxPsDXXTI1GGsBaP2mCluIA/NypkkYqyBSujg4LIe1yLQn1wj6hNcciN2gxRZ9GUpGtihjBC8OvxDCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BHqHhwn9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRtbr2bs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BHqHhwn9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790346690; x=1821882690;
+  t=1790346749; x=1821882749;
   h=date:from:to:cc:subject:message-id;
-  bh=ZLxrbKWS8cFhmgTnXegqJTnUGfGRbmyVp45+smndAO0=;
-  b=JRtbr2bs1AYgf1t/2GZPLtzA5GlwIm1RLJuiYXVOn0mPy37weaAcGO/B
-   a4WO2ctnxwjtIbJ/j+JM6tDLlO9a2zidnY7Ahbj0WRRnwx6WmuufxdqhG
-   3hZeV4pjmhUQy1A0sM2U3vrVO2Xazn0EdHdLQG+fSRcARC+L9y1ECA4MH
-   8MRGvABdWoV2U29gMU5xd837x0egB/nm6z3UK3DX/Dl6ZY4laKkF81o7q
-   quu39Qwe/IbtC+RhjuMPNnStfCE/CVjkEh/4jeRhNms8aRdK5ziQQE3JY
-   QrM84ohhIOMZ2VZWSdafztbN3onf8MuBPVIJuOVNvTI61jqZ49hx+JPVd
-   A==;
-X-CSE-ConnectionGUID: nShHibv0SGWHq7NSJrEMhQ==
-X-CSE-MsgGUID: JwktMjRbSN+oCzPOqaC5Tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="116661572"
+  bh=KM/R+iLp3cW4R/VJXiddMItya1bSiiejP2+LNixUXjU=;
+  b=BHqHhwn9zu/eFp0Ds3n+dSBKAbDXBx13SEZGSzoYGrC108puooTx7n95
+   RuPWyHxocLc2tqy8VrzojdaO1tfhL7UXjMPFGzvhDKS0eLus2b+IRVwXz
+   XGnFTvZoJi7Z+94ePMnZ6hzF7+d6vzx/L4TmWVp83c6oz+qLk8Bo/Wlb/
+   2twewh+8BXOtLRjYOxAjptE6GStd90KNblPJa5imUbpj1luK+htYm5Q2+
+   ZdGABEzFe8+bURJhmcjmB1F8jDHavMRycz09SGPn9+Ex2LoGPPbUrFwoa
+   WWkrJjHMr7Y1yGclQrV/cCeSbUb7cEkNEbiOiwLxPzAiCK5Q7tYuyP4fh
+   Q==;
+X-CSE-ConnectionGUID: fz7kWgH3RzmD2taJi/LeQw==
+X-CSE-MsgGUID: Ag+WX2hcRaeuNaZAXCvZTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="93850654"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="116661572"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 07:31:26 -0700
-X-CSE-ConnectionGUID: zT7cdOwuQ4mTxS8COEIo0w==
-X-CSE-MsgGUID: /+9apZ1QT8GLvFn1kSW0mA==
+   d="scan'208";a="93850654"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 07:32:26 -0700
+X-CSE-ConnectionGUID: n88IMel7QUeJaYiiTKAZNg==
+X-CSE-MsgGUID: 1FAUY7kQROuwk/yDfjEnTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="273442317"
+   d="scan'208";a="300624217"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Sep 2026 07:31:24 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2026 07:32:25 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xA6xO-00000000Kko-2NLc;
-	Fri, 25 Sep 2026 14:31:22 +0000
-Date: Fri, 25 Sep 2026 22:30:37 +0800
+	id 1xA6yM-00000000Kl5-3Bj3;
+	Fri, 25 Sep 2026 14:32:22 +0000
+Date: Fri, 25 Sep 2026 22:31:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-7.3-next 610/673]
- arch/sparc/include/asm/page_32.h:127:9: warning: 'virt_to_phys' redefined
-Message-ID: <202609252258.3Zc17438-lkp@intel.com>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>
+Subject: [qcom:drivers-for-7.4 34/34]
+ drivers/soc/qcom/socinfo.c:25:27: error: 'QCOM_ID_SM8975' undeclared here
+ (not in a function); did you mean 'QCOM_ID_SM8475'?
+Message-ID: <202609252200.DF4SMiIa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,64 +61,47 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
-head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
-commit: d217cdb672619041e213243f6f352cb6422d3a59 [610/673] Revert "simplify asm/io.h"
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20260925/202609252258.3Zc17438-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252258.3Zc17438-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux drivers-for-7.4
+head:   f255e2055701285d6b5f11d2a6facc6614c51ed7
+commit: f255e2055701285d6b5f11d2a6facc6614c51ed7 [34/34] soc: qcom: socinfo: Add SM8975 SoC ID
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260925/202609252200.DF4SMiIa-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252200.DF4SMiIa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609252258.3Zc17438-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609252200.DF4SMiIa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/sparc/include/asm/io_32.h:21,
-                    from arch/sparc/include/asm/io.h:7,
-                    from include/linux/io.h:12,
-                    from lib/iomem_copy.c:8:
-   include/asm-generic/io.h: In function 'virt_to_phys':
-   include/asm-generic/io.h:1099:16: error: implicit declaration of function '__pa' [-Wimplicit-function-declaration]
-    1099 |         return __pa((unsigned long)address);
-         |                ^~~~
-   include/asm-generic/io.h: In function 'phys_to_virt':
-   include/asm-generic/io.h:1107:16: error: implicit declaration of function '__va' [-Wimplicit-function-declaration]
-    1107 |         return __va(address);
-         |                ^~~~
-   include/asm-generic/io.h:1107:16: error: returning 'int' from a function with return type 'void *' makes pointer from integer without a cast [-Wint-conversion]
-    1107 |         return __va(address);
-         |                ^~~~~~~~~~~~~
-   In file included from arch/sparc/include/asm/page.h:8,
-                    from include/linux/io.h:13:
-   arch/sparc/include/asm/page_32.h: At top level:
->> arch/sparc/include/asm/page_32.h:127:9: warning: 'virt_to_phys' redefined
-     127 | #define virt_to_phys            __pa
-         |         ^~~~~~~~~~~~
-   include/asm-generic/io.h:1096:9: note: this is the location of the previous definition
-    1096 | #define virt_to_phys virt_to_phys
-         |         ^~~~~~~~~~~~
->> arch/sparc/include/asm/page_32.h:128:9: warning: 'phys_to_virt' redefined
-     128 | #define phys_to_virt            __va
-         |         ^~~~~~~~~~~~
-   include/asm-generic/io.h:1104:9: note: this is the location of the previous definition
-    1104 | #define phys_to_virt phys_to_virt
-         |         ^~~~~~~~~~~~
+   drivers/soc/qcom/socinfo.c:25:27: error: 'QCOM_ID_SM7250' undeclared here (not in a function); did you mean 'QCOM_ID_SM7750'?
+      25 | #define qcom_board_id(id) QCOM_ID_ ## id, __stringify(id)
+         |                           ^~~~~~~~
+   drivers/soc/qcom/socinfo.c:453:11: note: in expansion of macro 'qcom_board_id'
+     453 |         { qcom_board_id(SM7250) },
+         |           ^~~~~~~~~~~~~
+>> drivers/soc/qcom/socinfo.c:25:27: error: 'QCOM_ID_SM8975' undeclared here (not in a function); did you mean 'QCOM_ID_SM8475'?
+      25 | #define qcom_board_id(id) QCOM_ID_ ## id, __stringify(id)
+         |                           ^~~~~~~~
+   drivers/soc/qcom/socinfo.c:545:11: note: in expansion of macro 'qcom_board_id'
+     545 |         { qcom_board_id(SM8975) },
+         |           ^~~~~~~~~~~~~
 
 
-vim +/virt_to_phys +127 arch/sparc/include/asm/page_32.h
+vim +25 drivers/soc/qcom/socinfo.c
 
-f5e706ad886b6a include/asm-sparc/page_32.h Sam Ravnborg 2008-07-17  126  
-f5e706ad886b6a include/asm-sparc/page_32.h Sam Ravnborg 2008-07-17 @127  #define virt_to_phys		__pa
-f5e706ad886b6a include/asm-sparc/page_32.h Sam Ravnborg 2008-07-17 @128  #define phys_to_virt		__va
-f5e706ad886b6a include/asm-sparc/page_32.h Sam Ravnborg 2008-07-17  129  
+34ec89e68db2682 Krzysztof Kozlowski 2022-08-30  23  
+34ec89e68db2682 Krzysztof Kozlowski 2022-08-30  24  /* Helper macros to create soc_id table */
+34ec89e68db2682 Krzysztof Kozlowski 2022-08-30 @25  #define qcom_board_id(id) QCOM_ID_ ## id, __stringify(id)
+34ec89e68db2682 Krzysztof Kozlowski 2022-08-30  26  #define qcom_board_id_named(id, name) QCOM_ID_ ## id, (name)
+34ec89e68db2682 Krzysztof Kozlowski 2022-08-30  27  
 
-:::::: The code at line 127 was first introduced by commit
-:::::: f5e706ad886b6a5eb59637830110b09ccebf01c5 sparc: join the remaining header files
+:::::: The code at line 25 was first introduced by commit
+:::::: 34ec89e68db2682469a9a51d9ed4022ee3992389 soc: qcom: socinfo: create soc_id table from bindings
 
-:::::: TO: Sam Ravnborg <sam@ravnborg.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+:::::: CC: Bjorn Andersson <andersson@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
