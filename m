@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247CB489FBC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 21:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6C94F55CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 21:08:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790370539; cv=none; b=IIFsx+z9p8WQsq/+l6B/S2fFQbNYXpsDCfJs6MpCrdXSqRbRDgOf5jPiLurSpLXSl2SKxw1O3XDI7VwG/44jPaZ+k3DxsVyWnmwdptcSiH3ggdUfj0GxIDgH+eOzkue6zsG+fO/UjPsgs95NBQbyE4E+J3hcvLG/5wJce7yMU9c=
+	t=1790370541; cv=none; b=bj28SiaZApR8O0sFBkZmJdlkfQmnQ9POhGKw/LcS9Bv2YLQC4myqx8kY+OsEvAy53KxS6nhMAP9jWQnHa9TpA5SOVs1jJqhpTQayWYkDEuvouBYAhwtEOST/qaC/0T2cLAhHSNC7POr+eDJn9H1P0T5r5xQBNXAZjPHY0NlhgDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790370539; c=relaxed/simple;
-	bh=7XPNiol0hWeyYHI2tnriwQsz7rSSPFgeWrJ/QPHWJhI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U9R6T3x+xnXqWPWMLK2ZM3dpNCtXQS/j+Hox3DEqTLOaBTrXrEklZYDg+kWxS8S2O7zMiGNmRiC4DtN2L1QFvFn+0xFPNe3oSbe+Qo4UfWGwlsoKCdPyUVvQrll87QyOTrogmmvpLcK9VUfphpjuxzzo5FvXpkbn1gVdFXYNMYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJGuxFNO; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1790370541; c=relaxed/simple;
+	bh=MKYpkT5phzkURIH63z31Qlx4z7zapfNSyu4VEXLdRXg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XazPkL83d8uLC+sJ4yskdIYLsPj3M81LkeeyoGv+4LD+OtFnim/9PIkuhWFIo6FznVvClhRKL+HInbdIVjXqvjB3R5akz7ZL+WULahkDXQr8hFxhjnqt/nHJ4pO9ilEWKS3VgCCtopzJTWVSEP9zRk0oODXmklz0rVxtVqlcS/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DG6bFhDv; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJGuxFNO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DG6bFhDv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790370537; x=1821906537;
+  t=1790370539; x=1821906539;
   h=date:from:to:cc:subject:message-id;
-  bh=7XPNiol0hWeyYHI2tnriwQsz7rSSPFgeWrJ/QPHWJhI=;
-  b=AJGuxFNOJR+yGgGg9TYgt/+CsYD1innilAfkm83mDeaUWtgOEBtHwwzX
-   5eGzcJVfZxLu397IjgvL0tzG7pHNpTXFIDewtKcnSQmzmur7z8f3l/Y1f
-   HMg3Vg5w6N8tvXdxuJjLf5ZmAMYIEdYWEV0P/O+8VwUa7yT2NhJXAFrnb
-   mYOrImqoe0LDQq6c2Vj1Nd/dsGx2ffBZQu4UJozFZRIVKcAmQZYgXhQ6z
-   LzRYz341ifc9sRV7GhCB9hs0QoclTv07LmFUqYFQ85AiXm+Abh6qweRA3
-   1aWVD9nu8PQ3v1HD8QEgHQJODbTp60upoIxhppzNltRkEpTlF47Prrugj
+  bh=MKYpkT5phzkURIH63z31Qlx4z7zapfNSyu4VEXLdRXg=;
+  b=DG6bFhDvA24lcxH8vtPGw2YEG7F2imEECNII4W2HCheW21G3kGpx8hdl
+   PdzHxCXK2AvXsxPjKdKis13BXwTJiIa6nAdHvHOsoFDsdNoV8bM3qJ+Ou
+   LDiYhUYIdTXf9M25L3xWMZRK+gmsfilnuvJ4SR+oX+FHowepmdbiHmfX8
+   Nk5lUg94Cth2bJbltOmyql6IyFWzWvwrcQBLqYxR6gzxRpvQcfuyAn1sQ
+   I8OOgMyJ2YCQkE5kdu7iADLvCoh/kiB7+OIfa2M8PvztEtgwh4Ut+XDMm
+   M1o6A1u6ps+0N+6pz8+SdqUUwcweKuarmT/0VJhDaflHOyQO5eEjvHS4w
    A==;
-X-CSE-ConnectionGUID: pVrSEOJ+RJCQsd0KB35L7A==
-X-CSE-MsgGUID: USJ4T1upSryyCY1YIq6TwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="90289533"
+X-CSE-ConnectionGUID: sBXfgu/lQ1WckulhXw+lhA==
+X-CSE-MsgGUID: rKrZ9lYiREqNLIcwRSLJrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="90289540"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="90289533"
+   d="scan'208";a="90289540"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:08:56 -0700
-X-CSE-ConnectionGUID: lv/Yir5lSWKBnaYv1VdxIw==
-X-CSE-MsgGUID: 9bM1pQ1LREmrXLuyQs8E+w==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:08:58 -0700
+X-CSE-ConnectionGUID: +BSOF8bdRrGmqNbjxXJ2WA==
+X-CSE-MsgGUID: VvsOS+QTSSi7/kLLXEvGSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="302363046"
+   d="scan'208";a="302363053"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Sep 2026 14:08:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 25 Sep 2026 14:08:57 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xADA5-000000000tK-2vLA;
-	Fri, 25 Sep 2026 21:08:53 +0000
-Date: Fri, 25 Sep 2026 23:07:54 +0200
+	id 1xADA7-000000000tP-04N8;
+	Fri, 25 Sep 2026 21:08:55 +0000
+Date: Fri, 25 Sep 2026 23:07:21 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-main 214/214]
- include/linux/pcs/pcs.h:95:12: warning: 'unregister_fwnode_pcs_notifier'
- defined but not used
-Message-ID: <202609252118.PMBZbjWw-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: drivers/regulator/mt6363-regulator.c:366:2-3: Unneeded
+ semicolon
+Message-ID: <202609252049.3VHQla9a-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,40 +60,59 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-main
-head:   27e8d41a42f73cb2b271df0e897e25224889f6d0
-commit: 72a3fd1408afa370643bca631b35d3bf25d30531 [214/214] net: ethernet: mediatek: mtkmux: harden mux/phylink lifecycle
-config: s390-randconfig-2000-20260925 (https://download.01.org/0day-ci/archive/20260925/202609252118.PMBZbjWw-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252118.PMBZbjWw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   165768bb70265b5c38cf0b73fafd75be235f8b14
+commit: 3c36965df80801344850388592e95033eceea05b regulator: Add support for MediaTek MT6363 SPMI PMIC Regulators
+date:   11 months ago
+config: i386-randconfig-2100-20260925 (https://download.01.org/0day-ci/archive/20260925/202609252049.3VHQla9a-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 3c36965df808 ("regulator: Add support for MediaTek MT6363 SPMI PMIC Regulators")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609252118.PMBZbjWw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609252049.3VHQla9a-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/regulator/mt6363-regulator.c:366:2-3: Unneeded semicolon
+   drivers/regulator/mt6363-regulator.c:843:2-3: Unneeded semicolon
 
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
-   include/linux/pcs/pcs.h:107:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
-    fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pcs/pcs.h:95:12: warning: 'unregister_fwnode_pcs_notifier' defined but not used [-Wunused-function]
-    static int unregister_fwnode_pcs_notifier(struct notifier_block *nb)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pcs/pcs.h:90:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
-    static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +366 drivers/regulator/mt6363-regulator.c
 
-
-vim +/unregister_fwnode_pcs_notifier +95 include/linux/pcs/pcs.h
-
-    94	
-  > 95	static int unregister_fwnode_pcs_notifier(struct notifier_block *nb)
-    96	{
-    97		return -EOPNOTSUPP;
-    98	}
-    99	
+   348	
+   349	static unsigned int mt6363_regulator_get_mode(struct regulator_dev *rdev)
+   350	{
+   351		struct mt6363_regulator_info *info = rdev_get_drvdata(rdev);
+   352		unsigned int val;
+   353		int ret;
+   354	
+   355		if (info->modeset_reg) {
+   356			ret = regmap_read(rdev->regmap, info->modeset_reg, &val);
+   357			if (ret) {
+   358				dev_err(&rdev->dev, "Failed to get mt6363 mode: %d\n", ret);
+   359				return ret;
+   360			}
+   361	
+   362			if (val & info->modeset_mask)
+   363				return REGULATOR_MODE_FAST;
+   364		} else {
+   365			val = 0;
+ > 366		};
+   367	
+   368		ret = regmap_read(rdev->regmap, info->hw_lp_mode_reg, &val);
+   369		val &= info->hw_lp_mode_mask;
+   370	
+   371		if (ret) {
+   372			dev_err(&rdev->dev, "Failed to get lp mode: %d\n", ret);
+   373			return ret;
+   374		}
+   375	
+   376		if (val)
+   377			return REGULATOR_MODE_IDLE;
+   378		else
+   379			return REGULATOR_MODE_NORMAL;
+   380	}
+   381	
 
 --
 0-DAY CI Kernel Test Service
