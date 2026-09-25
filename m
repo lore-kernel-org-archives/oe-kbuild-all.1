@@ -1,91 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1428C332EA2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 06:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0496D3921DD;
+	Fri, 25 Sep 2026 06:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790316737; cv=none; b=IMvKCurAnpBqK4E99HRo0mx8acYw4O0hvvKz1m2S0ugF2YYq/SHsrsABsmYt1OR1t9h8nx55En0W5elqeRisOWGm09NNdA9NgVIt6IQZgfKaLaP/muq6i2Pn4fiWEjm/6PExfMIfUtzjmF7kN2Nr2Yxpbu+rj85igVvtzO6pg9w=
+	t=1790317472; cv=none; b=h0KLII13FAq3z7uH7egkGs2YuB4MLCTbWOQrlkzM4uJu7jNAs2Gupekz/wmYfpPKVu4XlwlhI1zWemHuzi0j8V/lFPalzRhpGMP5a3bibKuNcEjpPVH5JXV77nfXZU2FQDDt03AzCy76kCKRfNeAnSzfYULPgx7sjengriPugGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790316737; c=relaxed/simple;
-	bh=P2P1AmfxEYO+zzlHQdbgxVmc0L7aQerHsV5uj3L90EU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nALLxzUTNmqfjiFaEE+rCQsNM/reEnhsTwNQQNHUi/v5+866krfA+2XqNhHAoZX09Y/boIXzdB8LkkqhCoLbuEZLbmMIq8/AFte5RT4GDOsH/QlwX6xJQ6dBKletUZArlp2TRZEwvc1Q2cNgPdaMpJs8Vxsh9AZQf9JDKKdbNk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKLZKZlh; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1790317472; c=relaxed/simple;
+	bh=RYwxAXEieuzmAiIxOZsQQZq48JHTZcUCM6yc9NfvMag=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HcLSu4YpC1SGZZYJENegmhyx3DSyznzL7m+8Esp/27r1Djf88/q+6aQ017W913zonUmkIjcG9fYxyHoFS2qjz9UKpXyRVmJE28xgjV9k/T+GyyZh0oQ1fueOAFXVmV6ogaQLyM50Nu/3XhS0N31PCcUvWYc+D9c7K0WAdmKcBJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyZfFfHa; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKLZKZlh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyZfFfHa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790316735; x=1821852735;
-  h=date:from:to:cc:subject:message-id;
-  bh=P2P1AmfxEYO+zzlHQdbgxVmc0L7aQerHsV5uj3L90EU=;
-  b=OKLZKZlhVuBOPe8r5f9cK6GaOfNMiUqg9PzqLpqqAMZ9c3cz88FaVq55
-   8/ESSnU4LTjRuqrO1j39cUUQ49NhhN72OvBKVXKMQmpW0QDWDvm5A2e5w
-   lN6Jl+DP+siyuLXIP3er56Cj1o5SyIdaQrY5QCdLmv723JJ4dTCFalWCN
-   QkxYRU+LJPso/yVNLQJd7Zw96t5xrM5eaBfJ5vlX3+4PeusfxrEzfjCqr
-   XixWEJH3Trvb/jXxTBWpZ+vvdlH/ONGHyUxkkapgaeM67kF/VG2HVw+p/
-   KGtaKbx4qOv5fF2K+2J3PeWhMN00x9yffC4HMC8uHZ8hDjdK2epXfdQ3X
-   A==;
-X-CSE-ConnectionGUID: at5V1mgzQc2ITsD46UMqZg==
-X-CSE-MsgGUID: TmlhORf6QXehxn0drBQ1XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90057988"
-X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="90057988"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 23:12:15 -0700
-X-CSE-ConnectionGUID: oaf+N8YjSEWjgyGuxxKOXA==
-X-CSE-MsgGUID: uDv87LGbRwm4AGoJ9UoICQ==
+  t=1790317470; x=1821853470;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=RYwxAXEieuzmAiIxOZsQQZq48JHTZcUCM6yc9NfvMag=;
+  b=iyZfFfHaD75F+qXhnAUk8zAHTn58PtX8+kscu7MrLuUxRaHzsbrGe6F5
+   7YpnnEi5XFrW+5Fz7IdVfQKB/chenv03NMflUTuXYCC1ayjeqa/az5RRW
+   Qa5aOTGs/2OrSZFvVvypNkAND34EISXTZPFfKI1D0VGRVMnEjo7EChSWv
+   /ba6RPmMwpnUZvGxOzJzJoWUxOzSU1avAnWddO41vpCAsTdFDgE+aOt+Z
+   lwsZ3rfPOEhBqHwBNrtwTsbRV2oJg6QD878KaZVOnjqHK6YbXB9wi+tcr
+   FMhlzUYpHKMsD9LakBlbRTs8S6UDc91Q0r+tUYVjhSAZKKV4BVLGPQox6
+   Q==;
+X-CSE-ConnectionGUID: luGznPOuQWuPUeoCQyTwkw==
+X-CSE-MsgGUID: Sb/KCrjQRgyNl0YgISFE2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90006447"
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="90006447"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 23:24:29 -0700
+X-CSE-ConnectionGUID: dr06/A5/QsekUwsIYwpNqg==
+X-CSE-MsgGUID: ioLMoF9GRlSY4xifP17PZg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="273796557"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2026 23:12:13 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="278959257"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Sep 2026 23:24:28 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9zAI-000000000c6-0kyr;
-	Fri, 25 Sep 2026 06:12:10 +0000
-Date: Fri, 25 Sep 2026 08:11:39 +0200
+	id 1x9zM9-00000000K8Q-3eX8;
+	Fri, 25 Sep 2026 06:24:25 +0000
+Date: Fri, 25 Sep 2026 14:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
- Lee Jones <lee@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [lee-leds:for-leds-next 30/40] htmldocs: Warning:
- Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file
- that doesn't exist: Documentation/devicetree/bindings/leds/leds-cpcap.txt
-Message-ID: <202609250840.ZZRuCtU9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re:
+Message-ID: <202609251426.jvxMSRpi-lkp@intel.com>
+References: <202609251426.jvxMSRpi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609251426.jvxMSRpi-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   05b4738b0078f7d6f154f68068a11c8a0635e9df
-commit: d4948551280b1d52c1896b7c80d5383b7d8ad7c5 [30/40] dt-bindings: leds: leds-cpcap: Convert to DT schema
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260925/202609250840.ZZRuCtU9-lkp@intel.com/reproduce)
+Hi Guangshuo,
+
+kernel test robot noticed the following build errors:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/pmdomain-imx-gpc-remove-all-initialized-power-domains/20260924-222520
+base:   
+patch link:    https://lore.kernel.org/r/202609251426.jvxMSRpi-lkp%40intel.com
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20260925/202609251426.jvxMSRpi-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6e714c8d91116794cb699cdf80c26afe9cda3ef3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251426.jvxMSRpi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609250840.ZZRuCtU9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609251426.jvxMSRpi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Documentation/translations/pt_BR/process/security-bugs.rst: :doc:`regular path submission </../../../process/submitting-patches>`
->> Warning: Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
->> Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/leds/leds-cpcap.txt
-   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+>> drivers/pmdomain/imx/gpc.c:554:1: error: function definition is not allowed here
+     554 | builtin_platform_driver(imx_gpc_driver)
+         | ^
+   include/linux/platform_device.h:345:2: note: expanded from macro 'builtin_platform_driver'
+     345 |         builtin_driver(__platform_driver, platform_driver_register)
+         |         ^
+   include/linux/device/driver.h:294:41: note: expanded from macro 'builtin_driver'
+     294 | static int __init __driver##_init(void) \
+         |                                         ^
+>> drivers/pmdomain/imx/gpc.c:554:1: error: use of undeclared identifier 'imx_gpc_driver_init'; did you mean 'imx_gpc_driver'?
+     554 | builtin_platform_driver(imx_gpc_driver)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:345:2: note: expanded from macro 'builtin_platform_driver'
+     345 |         builtin_driver(__platform_driver, platform_driver_register)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device/driver.h:298:17: note: expanded from macro 'builtin_driver'
+     298 | device_initcall(__driver##_init);
+         |                 ^~~~~~~~~~~~~~~
+   <scratch space>:136:1: note: expanded from here
+     136 | imx_gpc_driver_init
+         | ^~~~~~~~~~~~~~~~~~~
+   drivers/pmdomain/imx/gpc.c:546:31: note: 'imx_gpc_driver' declared here
+     546 | static struct platform_driver imx_gpc_driver = {
+         |                               ^
+>> drivers/pmdomain/imx/gpc.c:554:1: error: initializing 'initcall_t' (aka 'int (*)(void)') with an expression of incompatible type 'struct platform_driver'
+     554 | builtin_platform_driver(imx_gpc_driver)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:345:2: note: expanded from macro 'builtin_platform_driver'
+     345 |         builtin_driver(__platform_driver, platform_driver_register)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device/driver.h:297:3: note: expanded from macro 'builtin_driver'
+     297 | } \
+         |   ^
+     298 | device_initcall(__driver##_init);
+         |                 ~~~~~~~~~~~~~~~
+   include/linux/init.h:306:30: note: expanded from macro '\
+   device_initcall'
+     306 | #define device_initcall(fn)             __define_initcall(fn, 6)
+         |                                         ^                 ~~
+   note: (skipping 5 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:150:1: note: expanded from here
+     150 | __initcall__kmod_gpc__425_554_imx_gpc_driver_init6
+         | ^
+   include/linux/init.h:264:20: note: expanded from macro '____define_initcall'
+     264 |         static initcall_t __name __used                         \
+         |                           ^
+     265 |                 __attribute__((__section__(__sec))) = fn;
+         |                                                       ~~
+>> drivers/pmdomain/imx/gpc.c:554:40: error: expected '}'
+     554 | builtin_platform_driver(imx_gpc_driver)
+         |                                        ^
+   drivers/pmdomain/imx/gpc.c:504:1: note: to match this '{'
+     504 | {
+         | ^
+   4 errors generated.
+
+
+vim +554 drivers/pmdomain/imx/gpc.c
+
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  545  
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17 @546  static struct platform_driver imx_gpc_driver = {
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  547  	.driver = {
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  548  		.name = "imx-gpc",
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  549  		.of_match_table = imx_gpc_dt_ids,
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  550  	},
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  551  	.probe = imx_gpc_probe,
+e70140ba0d2b1a drivers/pmdomain/imx/gpc.c Linus Torvalds 2024-12-01  552  	.remove = imx_gpc_remove,
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17  553  };
+721cabf6c6600d drivers/soc/imx/gpc.c      Lucas Stach    2017-02-17 @554  builtin_platform_driver(imx_gpc_driver)
 
 --
 0-DAY CI Kernel Test Service
