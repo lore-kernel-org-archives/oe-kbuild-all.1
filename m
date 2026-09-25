@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2503E00B4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 21:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809F03E00B4;
+	Fri, 25 Sep 2026 21:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790370454; cv=none; b=gmlK8LH9CiTfno7HV9E1h6LjraoxGbtxeUKrM71+PLxtRV/nHnVErzphZG/VW2oddwn96Kbwy6xEvc21J6g1eDmdvbjDBkQcAchhK7IXSTdlQvZ7dWkrppNK2zmYnRM4Jkl4O3GW5rb7OrWzAH3i00J3DE1bUTCMAHonf+NGYFw=
+	t=1790370522; cv=none; b=kzjwOU3Lru8NGrg1IY5CCIPt8eIqxbjKUTr7V31JdG0IyeH4HwGWs5/303MjPjl+D9APQA+Sc/a3cu9rBQWpBytxrHWHJ2zsuJNPXkrp1fRXpx/p/qtXuSWodRrm9skVr9qnWe1ArIlhfxNBuk1Z26Pjr7QujQg1/iKD1MhoP4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790370454; c=relaxed/simple;
-	bh=lSv3zCjjYqgdYcK8MjdGkYbv8l9HrgdrBWtbctv6HKI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V6NwltGbuDaRS/xv0r5HnVCv45nQ/J3gLcQs5ZRQplR+wAdPJuWCMS8h3WWc67FAaa0eT3tpGKcA9x1POmsUltb0aUqgX3vKlX/PU9GRSgE5JQN0wl5ZPUkmjJKtu8VjSvGt/ZQ24HgU0uiPbHT4umU4XSKqVcRno70IWC+ry9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/8KcoVX; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1790370522; c=relaxed/simple;
+	bh=MaD5BhqVNzYRlyiUIJfijkXPHi35ATx90c22sedFe1U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jCMlSTKZwpesoGCWqW5PsIfwWJYGikIaw8UnRuFZwVw3kRVD72+vlaaHd++iR7s58ZoNyc2KtvFwE7lQm17YnmJb12FyEvCjDwGrjpANWkmnK/vgF9T8fWb/gPfuHJRoWRp1uP1tuvRpq+oONkTnw7x8FT1MrUFkAATewIGAZxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijVV+AtY; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/8KcoVX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijVV+AtY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790370453; x=1821906453;
+  t=1790370519; x=1821906519;
   h=date:from:to:cc:subject:message-id;
-  bh=lSv3zCjjYqgdYcK8MjdGkYbv8l9HrgdrBWtbctv6HKI=;
-  b=H/8KcoVXZXQJeEAKOYyCkBmsvcEvmrWtkaRMKED7DqSseGp0DGB4NNeF
-   GY26san6Re5N9w9/od57x0G34AueZYjQWrDnkWvow3G2mU5muOUyUsFLl
-   CMawMs26rZM3WX/TnDgXQsi4n10JYXhgQu22fxlYh2JD5XbOqjWdKwobK
-   0lYYA1aKKnsrP8mm+/tjc5WrQl0WSn/OpLytGuK+rgPJCo+uy3QM+05ke
-   tjSrjxz5spJz6xv2vFolUKtC5zBGegxtOr+LgWAh8eKPRnym6X1D2jklB
-   +BXdIX2YrNydVocZt6rJJlfIyS4mp/4y4x9/KWs49nla6NlPud1K4Cy+r
-   Q==;
-X-CSE-ConnectionGUID: ierMiKx4RGK5E4NH/xsmxw==
-X-CSE-MsgGUID: JSrmcTutQQ6gvGAg/6e2TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="90028506"
+  bh=MaD5BhqVNzYRlyiUIJfijkXPHi35ATx90c22sedFe1U=;
+  b=ijVV+AtYst6xFM4FJzwQWDPfbz0bMDgHYlSrgNaHkOi9AJHuwLynv+pz
+   bFTV8oehgFMqK3RX6pq2CURYdb+P4Tqh2QjvM/zteHknRbRUXrxkCWO5v
+   IppzfDHq46v/8ctdj6QvCrzrEs0dokbwTbS1SahCyIjQ1EC+R17aEuO7M
+   7lsXquFIVM4frWXqmouHWEQDvjuaJX6KbXMMW/vcBTi4fdpAc4W880dgw
+   RtodX8ZBHnL2eBg4b2HVATHpzzWX/f52OWDNQ8D+teSNlPtuaIrUMm5vf
+   JKXI5mZpvpxsWLC2LpJkmMslrbPgZp1yXstM1tMZfWxFKo4kXJzB6+ott
+   w==;
+X-CSE-ConnectionGUID: EUlCnem5RVG9C+4lGmL2Aw==
+X-CSE-MsgGUID: abKu4jTySoWxxoGxqvGiMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="116693074"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="90028506"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:07:32 -0700
-X-CSE-ConnectionGUID: xJkWvw1AQnGRmNDRicGKrg==
-X-CSE-MsgGUID: LGnPrwVcSLK4cHoq5d+RKg==
+   d="scan'208";a="116693074"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 14:08:38 -0700
+X-CSE-ConnectionGUID: XPu1ifYlRiaVJ3xDnTxkOw==
+X-CSE-MsgGUID: QzsVVD+mR2KOy02wyM2Vug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="282506614"
+   d="scan'208";a="279162069"
 Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2026 14:07:30 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 25 Sep 2026 14:08:36 -0700
 Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAD8h-000000000t8-248k;
-	Fri, 25 Sep 2026 21:07:27 +0000
-Date: Fri, 25 Sep 2026 23:06:55 +0200
+	id 1xAD9l-000000000tC-167Q;
+	Fri, 25 Sep 2026 21:08:33 +0000
+Date: Fri, 25 Sep 2026 23:07:37 +0200
 From: kernel test robot <lkp@intel.com>
 To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-7.3-next 467/673]
- arch/s390/kernel/setup.c:301:1: warning: the frame size of 1024 bytes is
- larger than 960 bytes
-Message-ID: <202609252053.GxTH6Qxs-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:randconfig-7.3-next 628/673]
+ include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary
+ expression
+Message-ID: <202609252035.roEHB44F-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,90 +62,361 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
 head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
-commit: acb21639a56634b326a26f5c179ba3f94ab5b6c2 [467/673] fixup! testing: allow building more quickly with W=12
-config: s390-randconfig-2000-20260925 (https://download.01.org/0day-ci/archive/20260925/202609252053.GxTH6Qxs-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252053.GxTH6Qxs-lkp@intel.com/reproduce)
+commit: 5f609cf4ad6407b1967d07a8d6383a7edb182d45 [628/673] fixup clang __diag
+config: s390-randconfig-2001-20260925 (https://download.01.org/0day-ci/archive/20260925/202609252035.roEHB44F-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 57e112ccb2a509c0e1d36963b187fccdd59566de)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252035.roEHB44F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609252053.GxTH6Qxs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609252035.roEHB44F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/s390/kernel/setup.c: In function 'conmode_default':
->> arch/s390/kernel/setup.c:301:1: warning: the frame size of 1024 bytes is larger than 960 bytes [-Wframe-larger-than=]
-    }
-    ^
+   In file included from kernel/kcov.c:11:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/kcov.c:925:7: error: assigning to 'unsigned int' from incompatible type 'void'
+     925 |         mode = context_unsafe(kcov->mode);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/kcov.c:925:30: warning: expression result unused [-Wunused-value]
+     925 |         mode = context_unsafe(kcov->mode);
+         |                               ~~~~  ^~~~
+   1 warning and 2 errors generated.
+--
+>> lib/test_context-analysis.c:24:33: error: invalid operands to binary expression ('void' and 'int')
+      24 |         BUILD_BUG_ON(context_unsafe(3) != 3); /* plain expression */
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/build_bug.h:51:19: note: expanded from macro 'BUILD_BUG_ON'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:705:22: note: expanded from macro 'compiletime_assert'
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:693:23: note: expanded from macro '_compiletime_assert'
+     693 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:685:9: note: expanded from macro '__compiletime_assert'
+     685 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   lib/test_context-analysis.c:25:42: error: invalid operands to binary expression ('void' and 'int')
+      25 |         BUILD_BUG_ON(context_unsafe((void)2; 3) != 3); /* does not swallow semi-colon */
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/build_bug.h:51:19: note: expanded from macro 'BUILD_BUG_ON'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:705:22: note: expanded from macro 'compiletime_assert'
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:693:23: note: expanded from macro '_compiletime_assert'
+     693 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:685:9: note: expanded from macro '__compiletime_assert'
+     685 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   lib/test_context-analysis.c:26:42: error: invalid operands to binary expression ('void' and 'int')
+      26 |         BUILD_BUG_ON(context_unsafe((void)2, 3) != 3); /* does not swallow commas */
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/build_bug.h:51:19: note: expanded from macro 'BUILD_BUG_ON'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:705:22: note: expanded from macro 'compiletime_assert'
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:693:23: note: expanded from macro '_compiletime_assert'
+     693 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:685:9: note: expanded from macro '__compiletime_assert'
+     685 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+>> lib/test_context-analysis.c:24:30: warning: expression result unused [-Wunused-value]
+      24 |         BUILD_BUG_ON(context_unsafe(3) != 3); /* plain expression */
+         |                                     ^
+   include/linux/compiler-context-analysis.h:218:2: note: expanded from macro 'context_unsafe'
+     218 |         __VA_ARGS__;                    \
+         |         ^~~~~~~~~~~
+   include/linux/build_bug.h:51:19: note: expanded from macro 'BUILD_BUG_ON'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |                          ^~~~~~~~~
+   include/linux/build_bug.h:40:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                                          ^~~~
+   include/linux/compiler_types.h:705:22: note: expanded from macro 'compiletime_assert'
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:693:23: note: expanded from macro '_compiletime_assert'
+     693 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:685:9: note: expanded from macro '__compiletime_assert'
+     685 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   lib/test_context-analysis.c:25:39: warning: expression result unused [-Wunused-value]
+      25 |         BUILD_BUG_ON(context_unsafe((void)2; 3) != 3); /* does not swallow semi-colon */
+         |                                              ^
+   include/linux/compiler-context-analysis.h:218:2: note: expanded from macro 'context_unsafe'
+     218 |         __VA_ARGS__;                    \
+         |         ^~~~~~~~~~~
+   include/linux/build_bug.h:51:19: note: expanded from macro 'BUILD_BUG_ON'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |                          ^~~~~~~~~
+   include/linux/build_bug.h:40:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                                          ^~~~
+   include/linux/compiler_types.h:705:22: note: expanded from macro 'compiletime_assert'
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:693:23: note: expanded from macro '_compiletime_assert'
+     693 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:685:9: note: expanded from macro '__compiletime_assert'
+     685 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   lib/test_context-analysis.c:26:39: warning: expression result unused [-Wunused-value]
+      26 |         BUILD_BUG_ON(context_unsafe((void)2, 3) != 3); /* does not swallow commas */
+         |                                              ^
+   include/linux/compiler-context-analysis.h:218:2: note: expanded from macro 'context_unsafe'
+     218 |         __VA_ARGS__;                    \
+         |         ^~~~~~~~~~~
+   include/linux/build_bug.h:51:19: note: expanded from macro 'BUILD_BUG_ON'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |                          ^~~~~~~~~
+   include/linux/build_bug.h:40:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                                          ^~~~
+   include/linux/compiler_types.h:705:22: note: expanded from macro 'compiletime_assert'
+     705 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                             ^~~~~~~~~
+   include/linux/compiler_types.h:693:23: note: expanded from macro '_compiletime_assert'
+     693 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |                              ^~~~~~~~~
+   include/linux/compiler_types.h:685:9: note: expanded from macro '__compiletime_assert'
+     685 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   lib/test_context-analysis.c:416:8: warning: expression result unused [-Wunused-value]
+     416 |         (void)unrcu_pointer(d->data);
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:500:26: note: expanded from macro 'unrcu_pointer'
+     500 | #define unrcu_pointer(p) __unrcu_pointer(p, __UNIQUE_ID(rcu))
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:491:3: note: expanded from macro '__unrcu_pointer'
+     487 | #define __unrcu_pointer(p, local)                                       \
+         |                                                                         ~
+     488 | context_unsafe(                                                         \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     489 |         typeof(*p) *local = (typeof(*p) *__force)(p);                   \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     490 |         rcu_check_sparse(p, __rcu);                                     \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     491 |         ((typeof(*p) __force __kernel *)(local))                        \
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler-context-analysis.h:218:2: note: expanded from macro '\
+   context_unsafe'
+     218 |         __VA_ARGS__;                    \
+         |         ^~~~~~~~~~~
+   4 warnings and 3 errors generated.
+--
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/stackdepot.c:512:7: error: assigning to 'void *' from incompatible type 'void'
+     512 |         pool = context_unsafe(stack_pools[pool_index]);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/stackdepot.c:512:46: warning: expression result unused [-Wunused-value]
+     512 |         pool = context_unsafe(stack_pools[pool_index]);
+         |                               ~~~~~~~~~~~ ~~~~~~~~~~^
+   1 warning and 2 errors generated.
+--
+   In file included from lib/rhashtable.c:17:
+   In file included from include/linux/irq_work.h:6:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from lib/rhashtable.c:26:
+>> include/linux/rhashtable.h:781:6: error: invalid argument type 'void' to unary expression
+     781 |         if (unlikely(rcu_access_pointer(tbl->future_tbl))) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                           ^~~~
+>> lib/rhashtable.c:521:6: error: invalid argument type 'void' to unary expression
+     521 |         if (likely(rcu_access_pointer(tbl->future_tbl)))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:76:38: note: expanded from macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                           ^~~~
+>> lib/rhashtable.c:643:3: error: statement requires expression of scalar type ('void' invalid)
+     643 |                 if (rcu_access_pointer(tbl->future_tbl))
+         |                 ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
+--
+   In file included from crypto/authencesn.c:12:
+   In file included from include/crypto/internal/hash.h:12:
+   In file included from include/crypto/hash.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:36:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   In file included from crypto/scompress.c:10:
+   In file included from include/crypto/internal/scompress.h:12:
+   In file included from include/crypto/internal/acompress.h:12:
+   In file included from include/crypto/acompress.h:18:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:36:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> crypto/scompress.c:101:3: error: statement requires expression of scalar type ('void' invalid)
+     101 |                 if (context_unsafe(scratch->src))
+         |                 ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> crypto/scompress.c:101:31: warning: expression result unused [-Wunused-value]
+     101 |                 if (context_unsafe(scratch->src))
+         |                                    ~~~~~~~~~^~~
+   include/linux/compiler-context-analysis.h:218:2: note: expanded from macro 'context_unsafe'
+     218 |         __VA_ARGS__;                    \
+         |         ^~~~~~~~~~~
+   1 warning and 2 errors generated.
+--
+   In file included from block/fops.c:8:
+   In file included from include/linux/mm.h:36:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from block/fops.c:12:
+   In file included from include/linux/buffer_head.h:15:
+>> include/linux/pagemap.h:179:7: error: assigning to 'void *' from incompatible type 'void'
+     179 |         head = rcu_access_pointer(mapping->i_pages.xa_head);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+   In file included from drivers/nvme/host/fc.c:6:
+   In file included from include/linux/module.h:20:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:36:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/host/fc.c:13:
+   In file included from drivers/nvme/host/nvme.h:21:
+   In file included from include/trace/events/block.h:10:
+   In file included from include/linux/buffer_head.h:15:
+>> include/linux/pagemap.h:179:7: error: assigning to 'void *' from incompatible type 'void'
+     179 |         head = rcu_access_pointer(mapping->i_pages.xa_head);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/host/fc.c:18:
+   In file included from include/scsi/scsi_transport_fc.h:18:
+>> include/scsi/scsi_host.h:793:9: error: returning 'void' from a function with incompatible result type 'enum scsi_host_state'
+     793 |         return context_unsafe(READ_ONCE(shost->shost_state));
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler-context-analysis.h:215:30: note: expanded from macro 'context_unsafe'
+     215 | #define context_unsafe(...)             \
+         |                                         ^
+     216 | ({                                      \
+         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     217 |         disable_context_analysis();     \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     218 |         __VA_ARGS__;                    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     219 |         enable_context_analysis()       \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     220 | })
+         | ~~
+   3 errors generated.
+--
+   In file included from drivers/nvme/host/multipath.c:6:
+   In file included from include/linux/backing-dev.h:13:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/host/multipath.c:9:
+   In file included from include/trace/events/block.h:10:
+   In file included from include/linux/buffer_head.h:15:
+>> include/linux/pagemap.h:179:7: error: assigning to 'void *' from incompatible type 'void'
+     179 |         head = rcu_access_pointer(mapping->i_pages.xa_head);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/nvme/host/multipath.c:249:10: error: invalid operands to binary expression ('struct nvme_ns *' and 'void')
+     249 |                 if (ns == rcu_access_pointer(head->current_path[node])) {
+         |                     ~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
+--
+   In file included from drivers/nvme/host/core.c:7:
+   In file included from include/linux/async.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:20:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:36:
+>> include/linux/rcuwait.h:23:10: error: invalid argument type 'void' to unary expression
+      23 |         return !!rcu_access_pointer(w->task);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/host/core.c:27:
+   In file included from drivers/nvme/host/nvme.h:21:
+   In file included from include/trace/events/block.h:10:
+   In file included from include/linux/buffer_head.h:15:
+>> include/linux/pagemap.h:179:7: error: assigning to 'void *' from incompatible type 'void'
+     179 |         head = rcu_access_pointer(mapping->i_pages.xa_head);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:3944:34: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+    3944 |         ret = dev_set_name(cdev_device, name);
+         |                                         ^~~~
+   drivers/nvme/host/core.c:3944:34: note: treat the string as an argument to avoid this
+    3944 |         ret = dev_set_name(cdev_device, name);
+         |                                         ^
+         |                                         "%s", 
+   1 warning and 2 errors generated.
 
 
-vim +301 arch/s390/kernel/setup.c
+vim +/void +23 include/linux/rcuwait.h
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  245  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  246  static void __init conmode_default(void)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  247  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  248  	char query_buffer[1024];
-^1da177e4c3f41 Linus Torvalds      2005-04-16  249  	char *ptr;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  250  
-52109a067aaa96 Heiko Carstens      2025-02-07  251  	if (machine_is_vm()) {
-740b5706b9c4b3 Heiko Carstens      2006-12-04  252  		cpcmd("QUERY CONSOLE", query_buffer, 1024, NULL);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  253  		console_devno = simple_strtoul(query_buffer + 5, NULL, 16);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  254  		ptr = strstr(query_buffer, "SUBCHANNEL =");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  255  		console_irq = simple_strtoul(ptr + 13, NULL, 16);
-740b5706b9c4b3 Heiko Carstens      2006-12-04  256  		cpcmd("QUERY TERM", query_buffer, 1024, NULL);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  257  		ptr = strstr(query_buffer, "CONMODE");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  258  		/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  259  		 * Set the conmode to 3215 so that the device recognition 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  260  		 * will set the cu_type of the console to 3215. If the
-^1da177e4c3f41 Linus Torvalds      2005-04-16  261  		 * conmode is 3270 and we don't set it back then both
-^1da177e4c3f41 Linus Torvalds      2005-04-16  262  		 * 3215 and the 3270 driver will try to access the console
-^1da177e4c3f41 Linus Torvalds      2005-04-16  263  		 * device (3215 as console and 3270 as normal tty).
-^1da177e4c3f41 Linus Torvalds      2005-04-16  264  		 */
-740b5706b9c4b3 Heiko Carstens      2006-12-04  265  		cpcmd("TERM CONMODE 3215", NULL, 0, NULL);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  266  		if (ptr == NULL) {
-8c0933eeb701eb Peter Oberparleiter 2008-02-05  267  #if defined(CONFIG_SCLP_CONSOLE) || defined(CONFIG_SCLP_VT220_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  268  			SET_CONSOLE_SCLP;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  269  #endif
-^1da177e4c3f41 Linus Torvalds      2005-04-16  270  			return;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  271  		}
-d0b319843baddc Vasily Gorbik       2019-08-19  272  		if (str_has_prefix(ptr + 8, "3270")) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  273  #if defined(CONFIG_TN3270_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  274  			SET_CONSOLE_3270;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  275  #elif defined(CONFIG_TN3215_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  276  			SET_CONSOLE_3215;
-8c0933eeb701eb Peter Oberparleiter 2008-02-05  277  #elif defined(CONFIG_SCLP_CONSOLE) || defined(CONFIG_SCLP_VT220_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  278  			SET_CONSOLE_SCLP;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  279  #endif
-d0b319843baddc Vasily Gorbik       2019-08-19  280  		} else if (str_has_prefix(ptr + 8, "3215")) {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  281  #if defined(CONFIG_TN3215_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  282  			SET_CONSOLE_3215;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  283  #elif defined(CONFIG_TN3270_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  284  			SET_CONSOLE_3270;
-8c0933eeb701eb Peter Oberparleiter 2008-02-05  285  #elif defined(CONFIG_SCLP_CONSOLE) || defined(CONFIG_SCLP_VT220_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  286  			SET_CONSOLE_SCLP;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  287  #endif
-^1da177e4c3f41 Linus Torvalds      2005-04-16  288  		}
-52109a067aaa96 Heiko Carstens      2025-02-07  289  	} else if (machine_is_kvm()) {
-a5ff1b34e16c20 Masahiro Yamada     2016-08-25  290  		if (sclp.has_vt220 && IS_ENABLED(CONFIG_SCLP_VT220_CONSOLE))
-8f50af49f564d4 Peter Oberparleiter 2016-07-07  291  			SET_CONSOLE_VT220;
-a5ff1b34e16c20 Masahiro Yamada     2016-08-25  292  		else if (sclp.has_linemode && IS_ENABLED(CONFIG_SCLP_CONSOLE))
-8f50af49f564d4 Peter Oberparleiter 2016-07-07  293  			SET_CONSOLE_SCLP;
-8f50af49f564d4 Peter Oberparleiter 2016-07-07  294  		else
-8f50af49f564d4 Peter Oberparleiter 2016-07-07  295  			SET_CONSOLE_HVC;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  296  	} else {
-8c0933eeb701eb Peter Oberparleiter 2008-02-05  297  #if defined(CONFIG_SCLP_CONSOLE) || defined(CONFIG_SCLP_VT220_CONSOLE)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  298  		SET_CONSOLE_SCLP;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  299  #endif
-^1da177e4c3f41 Linus Torvalds      2005-04-16  300  	}
-^1da177e4c3f41 Linus Torvalds      2005-04-16 @301  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  302  
+8f95c90ceb541a Davidlohr Bueso 2017-01-11  16  
+191a43be61d679 Davidlohr Bueso 2020-04-23  17  /*
+191a43be61d679 Davidlohr Bueso 2020-04-23  18   * Note: this provides no serialization and, just as with waitqueues,
+191a43be61d679 Davidlohr Bueso 2020-04-23  19   * requires care to estimate as to whether or not the wait is active.
+191a43be61d679 Davidlohr Bueso 2020-04-23  20   */
+191a43be61d679 Davidlohr Bueso 2020-04-23  21  static inline int rcuwait_active(struct rcuwait *w)
+191a43be61d679 Davidlohr Bueso 2020-04-23  22  {
+febd668d375caf Paolo Bonzini   2020-05-18 @23  	return !!rcu_access_pointer(w->task);
+191a43be61d679 Davidlohr Bueso 2020-04-23  24  }
+191a43be61d679 Davidlohr Bueso 2020-04-23  25  
 
-:::::: The code at line 301 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 23 was first introduced by commit
+:::::: febd668d375caf13a7fcd93b3498366854de854a rcuwait: avoid lockdep splats from rcuwait_active()
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Paolo Bonzini <pbonzini@redhat.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
