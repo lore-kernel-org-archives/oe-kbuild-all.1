@@ -1,339 +1,208 @@
-Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021114.outbound.protection.outlook.com [52.101.95.114])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399BA3D6491;
-	Fri, 25 Sep 2026 17:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.114
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790356028; cv=fail; b=onkaspcxvj2/lUmCtTUlnbL72C3ojZlvK/H8a3MoJ6TFTGr5nvA6bUlFj+TSnTFsbr8eg2nUKmW6TUat/5f++lVRNIdUFfZOZisKOS+INRXnt55dLTzkdl1NFAPhGIo0DeENEihjJCG7e9pRuPZHwDRjfZhiVZ115JKQ0sRKMig=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790356028; c=relaxed/simple;
-	bh=PmGZ1tU+HszD3FPrMqlU+mbn5MDzAXmXUsLEtqLM9wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ia4kE30ivZ1ndu7s5z4xpdo9XAelq+eOeTEydbkK2H4sDdO+DSTv38696/UT3W+8Epa4OzS9rtSCB0IE4+ISKl1W0c/A53YqpR+MGVfrDSiBmuirPQifMWTwRYir21QrvnsZyKlQJK6TAXT1WWp7mAOweDe6Mn4zGc1tvLYQFrA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.95.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LlsvSaRDeuQP+Vm20ogl2kngwXXLPVhQsWZQdmhiyqG9MD3wg9xWELtCZySrkp042m7n6xTo2hJB0wEvqZ225fi2wJFsA8MgR1EWWxHDxkEYKctyXV2IIFad62zy8mSlQINMWpgNnvg+xe0rj5S1ytslycEN3sMWWjZ97/QHtPzdTHeKiZ+AcqtWx4iTgTH1gwrtAv65wf3p36ThWpLVXGzkUUu7jptavamTjV7lDRd5WBFjC0TuzCbS/Qseb5BgDMuCyNparLWiSO+aoLv8DroYjRDxxIgsJN4I52qhZwrLrw8fD2wEDlm9/RP5gPsKFjTmYJO+lmhXfZA8V3oaAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=ginxbAxDpO41IuzlVyQlSUGRU69R0b1raG2CJ3Z4Z74=;
- b=QRxkf8pFlNIAsdubY9UjI8agEQRLKxnu1xSHXe4YKLWSGBcqU058+MpOnq4ahUS90kHnvLH5yo6R0yMjeHfDqs2Wx8Xqqw+9mZg/lPtUkC9pI5sIeNHCoZ9XEIXvvqIcNwMP6r9v8+V3w8doguzyvHMddNIicjd4j46V+R67kWGCpup+EzynKxlGkaEeISJJPs942VN+s6n72z1a9ZsUsSkrpZHGXmp62kARl5ZE8cOu0+fYcD4ILz+zc99ryhwOBUPkH0nfs+jlpR2xCOqvPIr2G0YL5mPIGT1ndiwPLHOJbu3gOCIXCgSTOFGI2z0kYny+B9/DRCV9iX3oD8iSPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by LODP123MB800673.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:4f0::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
- 2026 17:06:57 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0451.014; Fri, 25 Sep 2026
- 17:06:56 +0000
-Date: Fri, 25 Sep 2026 13:06:45 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>, 
-	linux-modules@vger.kernel.org
-Subject: Re: [linux-next:master 6196/6545] error[E0425]: cannot find type
- `initcall_modname` in crate `::kernel::bindings`
-Message-ID: <xurzx636nabg7bxpw54amaj2uhdayw2qau4f3y472e3yy2gafc@jmfvaxez3lia>
-References: <202609201402.NyS4lCWY-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202609201402.NyS4lCWY-lkp@intel.com>
-X-ClientProxiedBy: PAZP264CA0165.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:236::30) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095DC260565
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 17:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790357515; cv=none; b=r0nZBEOKiIZSBTJBfcBjBoSUMNIJzOhgGDXHltUAHCP/pfF7qIruPFCPT+dwUi/Gs0V9PrIeHrYcs7zVzJrIUy+rlqkfX00HPJW4Xa8PzBDQeGb9UV0zpG40LOuijJEg6mxRikMlA3lxH5NKP/r0rxcILQu8+b1o0KW7SxvYSpA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790357515; c=relaxed/simple;
+	bh=bc/Y8AYOBCduvHYYx0l5bMZFFc03aWLqdNDG8RjQeQk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RPtHXqwdO0xm8mkp2kvLqiGj8AdVY021+ubqVYLwTJJCG2J6mFO6pcrD70HUfAF7pgXOf7DL5Swr+CVbb9vYgEce54LPtcg+8UlP/FmdfEsbbwQc0BAEbz/w3JxR9iuXy6dvXFVTAtt7PYI/RL2jIErYw+nv75RlXImPigccKzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOin8yxw; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOin8yxw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790357513; x=1821893513;
+  h=date:from:to:cc:subject:message-id;
+  bh=bc/Y8AYOBCduvHYYx0l5bMZFFc03aWLqdNDG8RjQeQk=;
+  b=SOin8yxw7QHl7DMVz+gRwEODQQBLjortAWMCTZrsAVD1FltyRm08Stsc
+   CxMsCGAFkmShwPbQolr9g8pky1SZast55lkk5sI1hWzD6cmK7/itEg4iz
+   gtSZIXH+wLI3BTOSHAPOq0c2jS5ZAUGFksmIo5pyTdkP3xZhfCySKG6KV
+   NXxp5Zd89nMGSe+7iC8MXHbpXI1z8wyxW7WAVcLnB+/C6qsBUAENu3u8K
+   4RnKSTFq/NUL5l+maVHV35tE0/wUxTNcTC4+U7YpmRz4WmUoA76VSfMBe
+   Ni/rhhfubuGEBkWr77AYMZ0fsj7QqYh5c9FCV0IzaWSDVhOqUFJOf/VQn
+   w==;
+X-CSE-ConnectionGUID: XkwD3oJTTTSd39G6ezd2aQ==
+X-CSE-MsgGUID: 57vFvmW/TsqrGWbwzBdfzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="108640156"
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="108640156"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 10:31:52 -0700
+X-CSE-ConnectionGUID: /rZpXHVbRK6R78PV7hNDrQ==
+X-CSE-MsgGUID: ORjPvnMpREumXloCOqxh7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="273899664"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 25 Sep 2026 10:31:51 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xA9m0-000000000qI-3oX6;
+	Fri, 25 Sep 2026 17:31:48 +0000
+Date: Fri, 25 Sep 2026 19:31:45 +0200
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:randconfig-7.3-next 562/673]
+ drivers/tty/serial/8250/8250_aspeed_vuart.c:526:1: warning: the frame size of
+ 772 bytes is larger than 768 bytes
+Message-ID: <202609251907.H5M2EUs4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|LODP123MB800673:EE_
-X-MS-Office365-Filtering-Correlation-Id: 498d95b4-b03d-4caf-bad9-08df1b276740
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|10067099003|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	NgBYDydm3VzeIUQjO0xvnOpGYemBn1zptpz7+lrQL3DwnjsWLxsGTTC/fqYGusWcazVBm27XTnc64RnW+HcXa99mzQBgCiEjqouF5TbT/u1IUHT+De+WlUR9MA4ccdeGovkJIpYDvy6ut+9P+m4vgNjvaWZIhoCnxJU0SwMQZJ2lTp0+x29RNLvgm6DJXgQ7CxgUW1W6a0KJ4SNOANckqxIYDAg8F0uKEYObWYeCYzvShQ/9scguGZBXMj/cO4c0ZDUN3bQbep0PfqCfTSXuV4VzyQ+uhTHdDWlk/wNhyN5TVZ3iwwJWboJ3SBSx9wYVhaLl5YONnNR/8kzOtLrsEKDfD8q4h9ijGif1W1YMTt322UZy2DwbU7tgnUL/dQadYWrKhzcyG6lLH85A8l7tdwbVvXeLoLIjMLkzxGoqptbDgnDm8TVVKnOjdD5+x/aSvZab5/jMkR8TFd0Ubinha8dY2FzaNrjcbUVpJpnGz3w9D2WiZ7bkREE5rLb/vR+4nwOwf2VXlHjVWLjDuYQdVJFiZE8kIRZIRAuRtFlEZ9gNgNWCcEX0P3L5iPFuk7l5+ADm2WUEIAAlahy321Q3k3z53bEmdSvLszO1q2r9R4wKvJw4cAaxwqRy10g3C54d
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RnFKMkN2djFXc0RxaG5IcGRRNklSaTlVdGR5ZTVISWdKUEpYakNzZTR4YXBw?=
- =?utf-8?B?N2VyMkFJVVNVODh2MkFoZWtGb1ZxSVQ2WUJSa3hNbWxqaE5VemlBOXZRcUdw?=
- =?utf-8?B?Z1pVL0xybHdvOFdLWnVJa3FBSEZYTDhRYUhSOXVOTnlaVmtONlhqckJjaFlP?=
- =?utf-8?B?N1hRVUE4dzFHTnRsVHhPWXNSTndlZWE4akUyZkRnKzRiWHgyYmVSbFZsUXVP?=
- =?utf-8?B?YWhuSU9qL25xNkNjdHROTlFwMW00UXNtYmV5QWdmSTdjWTZtb1UwSUNORjhE?=
- =?utf-8?B?SjRpMC9nTGRCUGVVbTZwaEZmYXRDTno3eDRTK0I4cExMNjBwWmRTZ0pLMWZo?=
- =?utf-8?B?TUh6dytPNVJZYlVORGVJOGxudG0xaG8zWnJTM2FJaXlETm9ocmkrMU4wNWZq?=
- =?utf-8?B?bGJpbGhKV0hTVVNIWnVjSUN4MVJ0Nys5V3FBVnpseFdqZnNIb0JIdEZQQU1i?=
- =?utf-8?B?eDV5eFdKRzRuQnJPTURHenR2MWhZcENBbnYrWUhkV3JXSy9zaVhOd3ErR1FB?=
- =?utf-8?B?M1l5dkJOdlMxV1FJVEhuY0hPR3Fud1BYdGlwRlhIRkxCdFRJNXAvNzdsMWha?=
- =?utf-8?B?ZGVoY29mODdBb1hDdTRsY3lSelR3RVVKa0FndWZCZ1B6TmtDODQ2M3Z0ZThn?=
- =?utf-8?B?ckNySkQ3L0RwZGlmTnlZRHJHYVZST2h4YXhZd1N2SDZEYW1QbEM4U1FIWW9I?=
- =?utf-8?B?b3E4UVc1MWFrMGRNbWZ1WGpIZW90WDhrMzNWNmJYZ0xZclNyRHpnc2dmZ2l0?=
- =?utf-8?B?QTNjNDZCeUVPVmtEQWxpeE4wVlF4RXFodjBnelJ1dEwvTTluOENJd0VGTitT?=
- =?utf-8?B?TGNzS1hEOGt0U1ZlNWhaTHBNS1RubEM2Ky9vK2lITm55V2dpMEIwTFI3TVBE?=
- =?utf-8?B?WnVUdk9EaU40UGJabDZrYmRLSVY0bTRXcWRPam9CSWcrVnE5cjRIK21Seith?=
- =?utf-8?B?dktlSk9CaFNvNmMzYTk3NnNzbWlvK0FPSXZKajdqQmlHdlVUVzRGSW42eUxI?=
- =?utf-8?B?YitqeUc4TXBSdEsyMXFWbk5VNjZteUI5aFdkQVpuZSttcVNXTVgyaTYzd0JJ?=
- =?utf-8?B?SmxRbGhWOGs3VGVERzJncXVCVTRSNGFHY1laR2ROUEs0Q1NxaUFYbkIzVGlx?=
- =?utf-8?B?Y1AxUmlOQTZvaVcyeXlOblE2Q2d0VmdJK1hZcjg0MGFreUQ0dGlFVUxuNXJZ?=
- =?utf-8?B?YTlSUWsyMER1YVVqNEdwMnZnNkY0Z2lialJyVWpxTEhKd24yb2xzWHY2Wml0?=
- =?utf-8?B?MEpUSTZuUHBBNDRzdklBY2JQYmFDRDB4K2NzQm9QR2pBODRyLzZmVVR3QVVC?=
- =?utf-8?B?ZHErWS9XWjRxR0d5SjVkVGxiM0dldWk5bTEwSktaTngwUXlXRXZoc2FCTzgv?=
- =?utf-8?B?MXQ4dUVaWjFHd3pUY3d1UDdtMTZZWUxySVV3azUwNjVKMm13WG1rdU1rU0JZ?=
- =?utf-8?B?SmdaUVZEdGVuSlhWY1FzOFlKY0F3VzY5WklORWZNSmxwcFZCL2x0WjJJMEtu?=
- =?utf-8?B?dFpXQVRsejZ5TUlOMndtVng0T3VFWHdWcHZRWCtNNW0rMjl4K3kwY1htcnp4?=
- =?utf-8?B?a0RrdU1hY0w1TmxibjFNUlhNQVYwYWcrMjBBWHppY1Y5RzF1QnhuTngyZlIw?=
- =?utf-8?B?TENaUmVjUlYvYlluV0pYSUZtUVdRMmJJaHBENUIwSEYwM3pxNGhEUUI0ZXU3?=
- =?utf-8?B?VVlPUWxuSlhGWTFvaXRlQVJ3Mm5TVDc5SDVHK0tZcGoxeTZENWJiWFFUZDVy?=
- =?utf-8?B?R2poc2I4RDNjaHYxTVBPV0FLRmxwbitSV25XOTBqT29HQytjaVJ0Tjk0MHNx?=
- =?utf-8?B?MTNudTlXeHhhTXEwU2NOQUNDUHhSMnpHcnROZVd0enhJZ3JOdnZuT01ZTlIv?=
- =?utf-8?B?RTFjYjdIN0QxSktsQkZ0ZjI5QXA4VzRVeld4c2o0RExiK2JVcDc5SkdmVmNa?=
- =?utf-8?B?VER6bTRVcHhYUDk2NnRPMGFTTVBlVFNZL3RNZ3VLQUpjeDZaYTMwU3p2ZWdt?=
- =?utf-8?B?NERzdkNTMmRyQllGQmozRVdTRy8xcjhPaEpFT0pRUGxXKzlDU3BuRElOZHY0?=
- =?utf-8?B?UXJLZUlDOEdmbWJSbVZQY09uQXFXWWhHOE14Y1RBRmluRHkxWnAxanBXK28v?=
- =?utf-8?B?Y2U4U0NScmZpd25GbGVUTVVCQWt4K1dLMUgwWlRwZ1BGS3FuUi84OXF3bko4?=
- =?utf-8?B?UXZWc3NrYWw0T29EbTdLYXFBTktRTUdUN2lSajZxS01DV2FaQ2VWVmZpWm9H?=
- =?utf-8?B?WkFSME5US0lnQkVMWkxNZHBJbGMxTVE2NkR4bURvekhUMEFTejcweXlFcDdt?=
- =?utf-8?B?eVNPZGJJOEE4cDc2SDJJcXh1UXVaVC9DSUtZSHBxM0VydUlqUWZUQT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 498d95b4-b03d-4caf-bad9-08df1b276740
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 17:06:56.6142
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jf5oqRY9VMwTNd23Eyn2UhBRgwa+CbvFlaoQM5vwTrlbW33BGU7QZJH+Il1BOXNgbCsFn5QmNdPdimUwbJo7Ww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LODP123MB800673
 
-On Sun, Sep 20, 2026 at 02:22:08PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   3f2425f5b5bbbdd991ca9cdfd5502e68d8895998
-> commit: b83e83203582477b2ad0631e29e6fd88295cd9b1 [6196/6545] module: extend module_blacklist parameter to built-in modules
-> config: x86_64-randconfig-1010-20260919 (https://download.01.org/0day-ci/archive/20260920/202609201402.NyS4lCWY-lkp@intel.com/config)
-> compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-> rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260920/202609201402.NyS4lCWY-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202609201402.NyS4lCWY-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> error[E0425]: cannot find type `initcall_modname` in crate `::kernel::bindings`
->    --> rust/doctests_kernel_generated.rs:7459:1
->    |
->    7459 | / module! {
->    7460 | |    type: MyModule,
->    7461 | |    name: "module_firmware_test",
->    7462 | |    authors: ["Rust for Linux"],
->    7463 | |    description: "module_firmware! test module",
->    7464 | |    license: "GPL",
->    7465 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0422]: cannot find struct, variant or union type `initcall_modname` in crate `::kernel::bindings`
->    --> rust/doctests_kernel_generated.rs:7459:1
->    |
->    7459 | / module! {
->    7460 | |    type: MyModule,
->    7461 | |    name: "module_firmware_test",
->    7462 | |    authors: ["Rust for Linux"],
->    7463 | |    description: "module_firmware! test module",
->    7464 | |    license: "GPL",
->    7465 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0425]: cannot find type `initcall_modname` in crate `::kernel::bindings`
->    --> rust/doctests_kernel_generated.rs:12639:1
->    |
->    12639 | / kernel::module_phy_driver! {
->    12640 | |     drivers: [PhySample],
->    12641 | |     device_table: [
->    12642 | |         DeviceId::new_with_driver::<PhySample>()
->    ...     |
->    12647 | |     license: "GPL",
->    12648 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_phy_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0422]: cannot find struct, variant or union type `initcall_modname` in crate `::kernel::bindings`
->    --> rust/doctests_kernel_generated.rs:12639:1
->    |
->    12639 | / kernel::module_phy_driver! {
->    12640 | |     drivers: [PhySample],
->    12641 | |     device_table: [
->    12642 | |         DeviceId::new_with_driver::<PhySample>()
->    ...     |
->    12647 | |     license: "GPL",
->    12648 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_phy_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0425]: cannot find type `initcall_modname` in crate `::kernel::bindings`
->    --> samples/rust/rust_driver_serdev.rs:82:1
->    |
->    82 | / kernel::module_serdev_device_driver! {
->    83 | |     type: SampleDriver,
->    84 | |     name: "rust_driver_serdev",
->    85 | |     authors: ["Markus Probst"],
->    86 | |     description: "Rust Serial device bus device driver",
->    87 | |     license: "GPL v2",
->    88 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_serdev_device_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0422]: cannot find struct, variant or union type `initcall_modname` in crate `::kernel::bindings`
->    --> samples/rust/rust_driver_serdev.rs:82:1
->    |
->    82 | / kernel::module_serdev_device_driver! {
->    83 | |     type: SampleDriver,
->    84 | |     name: "rust_driver_serdev",
->    85 | |     authors: ["Markus Probst"],
->    86 | |     description: "Rust Serial device bus device driver",
->    87 | |     license: "GPL v2",
->    88 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_serdev_device_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0425]: cannot find type `initcall_modname` in crate `::kernel::bindings`
->    --> samples/rust/rust_driver_faux.rs:11:1
->    |
->    11 | / module! {
->    12 | |     type: SampleModule,
->    13 | |     name: "rust_faux_driver",
->    14 | |     authors: ["Lyude Paul"],
->    15 | |     description: "Rust faux device sample",
->    16 | |     license: "GPL",
->    17 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0422]: cannot find struct, variant or union type `initcall_modname` in crate `::kernel::bindings`
->    --> samples/rust/rust_driver_faux.rs:11:1
->    |
->    11 | / module! {
->    12 | |     type: SampleModule,
->    13 | |     name: "rust_faux_driver",
->    14 | |     authors: ["Lyude Paul"],
->    15 | |     description: "Rust faux device sample",
->    16 | |     license: "GPL",
->    17 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0425]: cannot find type `initcall_modname` in crate `::kernel::bindings`
->    --> samples/rust/rust_debugfs_scoped.rs:24:1
->    |
->    24 | / module! {
->    25 | |     type: RustScopedDebugFs,
->    26 | |     name: "rust_debugfs_scoped",
->    27 | |     authors: ["Matthew Maurer"],
->    28 | |     description: "Rust Scoped DebugFS usage sample",
->    29 | |     license: "GPL",
->    30 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0422]: cannot find struct, variant or union type `initcall_modname` in crate `::kernel::bindings`
->    --> samples/rust/rust_debugfs_scoped.rs:24:1
->    |
->    24 | / module! {
->    25 | |     type: RustScopedDebugFs,
->    26 | |     name: "rust_debugfs_scoped",
->    27 | |     authors: ["Matthew Maurer"],
->    28 | |     description: "Rust Scoped DebugFS usage sample",
->    29 | |     license: "GPL",
->    30 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0425]: cannot find type `initcall_modname` in crate `::kernel::bindings`
->    --> samples/rust/rust_dma.rs:136:1
->    |
->    136 | / kernel::module_pci_driver! {
->    137 | |     type: DmaSampleDriver,
->    138 | |     name: "rust_dma",
->    139 | |     authors: ["Abdiel Janulgue"],
->    140 | |     description: "Rust DMA test",
->    141 | |     license: "GPL v2",
->    142 | | }
->    | |_^ not found in `::kernel::bindings`
->    |
->    = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_pci_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
-> ..
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
+head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
+commit: 065c245ab6ac3537488e5c410d38d4768824dd07 [562/673] random hacks
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260925/202609251907.H5M2EUs4-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251907.H5M2EUs4-lkp@intel.com/reproduce)
 
-Hi 0-Day,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609251907.H5M2EUs4-lkp@intel.com/
 
-As indicated below initcall_modname is now defined immediately following
-exitcall_t under #ifndef __ASSEMBLY__ and outside #ifndef MODULE, ensuring
-bindgen (which runs with -DMODULE) generates the type into
-::kernel::bindings.
+All warnings (new ones prefixed by >>):
 
-diff --git a/include/linux/init.h b/include/linux/init.h
-index 833b837ce11d..08cb8a294375 100644
---- a/include/linux/init.h
-+++ b/include/linux/init.h
-@@ -109,6 +109,11 @@
- typedef int (*initcall_t)(void);
- typedef void (*exitcall_t)(void);
- 
-+struct initcall_modname {
-+       initcall_t initcall_fn;
-+       const char *modname;
-+};
-+
- #ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
- typedef int initcall_entry_t;
- 
-@@ -273,11 +278,6 @@ extern struct module __this_module;
-                __initcall_name(initcall, __iid, id),           \
-                __initcall_section(__sec, __iid))
- 
--struct initcall_modname {
--       initcall_t initcall_fn;
--       const char *modname;
--};
--
- #define ____define_initcall_modname(fn, id, __sec, __iid)              \
-        __unique_initcall(fn, id, __sec, __iid)                         \
-        static const char __initstr_##fn[] __used __aligned(1)          \
-
-I will send another iteration.
+   drivers/tty/serial/8250/8250_aspeed_vuart.c: In function 'aspeed_vuart_probe':
+>> drivers/tty/serial/8250/8250_aspeed_vuart.c:526:1: warning: the frame size of 772 bytes is larger than 768 bytes [-Wframe-larger-than=]
+     526 | }
+         | ^
 
 
-Kind regards,
--- 
-Aaron Tomlin
+vim +526 drivers/tty/serial/8250/8250_aspeed_vuart.c
+
+ca03042f0f1221 Zev Weiss          2021-04-11  414  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  415  static int aspeed_vuart_probe(struct platform_device *pdev)
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  416  {
+8d310c9107a2a3 Oskar Senft        2019-09-05  417  	struct of_phandle_args sirq_polarity_sense_args;
+e8bbaeac25503a Andy Shevchenko    2023-09-12  418  	struct device *dev = &pdev->dev;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  419  	struct uart_8250_port port;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  420  	struct aspeed_vuart *vuart;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  421  	struct device_node *np;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  422  	struct resource *res;
+ca03042f0f1221 Zev Weiss          2021-04-11  423  	int rc, sirq_polarity;
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  424  	u32 prop, sirq[2];
+182fb83d596b69 Andy Shevchenko    2023-09-19  425  	struct clk *vclk;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  426  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  427  	np = pdev->dev.of_node;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  428  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  429  	vuart = devm_kzalloc(&pdev->dev, sizeof(*vuart), GFP_KERNEL);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  430  	if (!vuart)
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  431  		return -ENOMEM;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  432  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  433  	vuart->dev = &pdev->dev;
+5909c0bf9c7a17 Jeremy Kerr        2018-03-27  434  	timer_setup(&vuart->unthrottle_timer, aspeed_vuart_unthrottle_exp, 0);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  435  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  436  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+0e0fd55719fa08 Miaoqian Lin       2022-04-04  437  	if (!res)
+0e0fd55719fa08 Miaoqian Lin       2022-04-04  438  		return -EINVAL;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  439  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  440  	memset(&port, 0, sizeof(port));
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  441  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  442  	rc = sysfs_create_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  443  	if (rc < 0)
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  444  		return rc;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  445  
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  446  	if (rc)
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  447  		goto err_sysfs_remove;
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  448  
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  449  	/* Get clk rate through clk driver if present */
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  450  	if (!port.port.uartclk) {
+182fb83d596b69 Andy Shevchenko    2023-09-19  451  		vclk = devm_clk_get_enabled(dev, NULL);
+182fb83d596b69 Andy Shevchenko    2023-09-19  452  		if (IS_ERR(vclk)) {
+182fb83d596b69 Andy Shevchenko    2023-09-19  453  			rc = dev_err_probe(dev, PTR_ERR(vclk), "clk or clock-frequency not defined\n");
+cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  454  			goto err_sysfs_remove;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  455  		}
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  456  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  457  	}
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  458  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  459  	/* If current-speed was set, then try not to change it. */
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  460  	if (of_property_read_u32(np, "current-speed", &prop) == 0)
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  461  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  462  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  463  	if (of_property_read_bool(np, "auto-flow-control"))
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  464  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  465  	rc = serial8250_register_8250_port(&port);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  466  	if (rc < 0)
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  467  		goto err_sysfs_remove;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  468  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  469  	vuart->line = rc;
+c9805fbf9d89c3 Zev Weiss          2021-05-09  470  	vuart->port = serial8250_get_port(vuart->line);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  471  
+8d310c9107a2a3 Oskar Senft        2019-09-05  472  	rc = of_parse_phandle_with_fixed_args(
+8d310c9107a2a3 Oskar Senft        2019-09-05  473  		np, "aspeed,sirq-polarity-sense", 2, 0,
+8d310c9107a2a3 Oskar Senft        2019-09-05  474  		&sirq_polarity_sense_args);
+8d310c9107a2a3 Oskar Senft        2019-09-05  475  	if (rc < 0) {
+8d310c9107a2a3 Oskar Senft        2019-09-05  476  		dev_dbg(&pdev->dev,
+8d310c9107a2a3 Oskar Senft        2019-09-05  477  			"aspeed,sirq-polarity-sense property not found\n");
+8d310c9107a2a3 Oskar Senft        2019-09-05  478  	} else {
+8d310c9107a2a3 Oskar Senft        2019-09-05  479  		aspeed_vuart_auto_configure_sirq_polarity(
+8d310c9107a2a3 Oskar Senft        2019-09-05  480  			vuart, sirq_polarity_sense_args.np,
+8d310c9107a2a3 Oskar Senft        2019-09-05  481  			sirq_polarity_sense_args.args[0],
+8d310c9107a2a3 Oskar Senft        2019-09-05  482  			BIT(sirq_polarity_sense_args.args[1]));
+8d310c9107a2a3 Oskar Senft        2019-09-05  483  		of_node_put(sirq_polarity_sense_args.np);
+8d310c9107a2a3 Oskar Senft        2019-09-05  484  	}
+8d310c9107a2a3 Oskar Senft        2019-09-05  485  
+ca03042f0f1221 Zev Weiss          2021-04-11  486  	rc = of_property_read_u32(np, "aspeed,lpc-io-reg", &prop);
+ca03042f0f1221 Zev Weiss          2021-04-11  487  	if (rc < 0)
+ca03042f0f1221 Zev Weiss          2021-04-11  488  		prop = ASPEED_VUART_DEFAULT_LPC_ADDR;
+ca03042f0f1221 Zev Weiss          2021-04-11  489  
+ca03042f0f1221 Zev Weiss          2021-04-11  490  	rc = aspeed_vuart_set_lpc_address(vuart, prop);
+ca03042f0f1221 Zev Weiss          2021-04-11  491  	if (rc < 0) {
+e8bbaeac25503a Andy Shevchenko    2023-09-12  492  		dev_err_probe(dev, rc, "invalid value in aspeed,lpc-io-reg property\n");
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  493  		goto err_sysfs_remove;
+ca03042f0f1221 Zev Weiss          2021-04-11  494  	}
+ca03042f0f1221 Zev Weiss          2021-04-11  495  
+ca03042f0f1221 Zev Weiss          2021-04-11  496  	rc = of_property_read_u32_array(np, "aspeed,lpc-interrupts", sirq, 2);
+ca03042f0f1221 Zev Weiss          2021-04-11  497  	if (rc < 0) {
+ca03042f0f1221 Zev Weiss          2021-04-11  498  		sirq[0] = ASPEED_VUART_DEFAULT_SIRQ;
+ca03042f0f1221 Zev Weiss          2021-04-11  499  		sirq[1] = ASPEED_VUART_DEFAULT_SIRQ_POLARITY;
+ca03042f0f1221 Zev Weiss          2021-04-11  500  	}
+ca03042f0f1221 Zev Weiss          2021-04-11  501  
+ca03042f0f1221 Zev Weiss          2021-04-11  502  	rc = aspeed_vuart_set_sirq(vuart, sirq[0]);
+ca03042f0f1221 Zev Weiss          2021-04-11  503  	if (rc < 0) {
+e8bbaeac25503a Andy Shevchenko    2023-09-12  504  		dev_err_probe(dev, rc, "invalid sirq number in aspeed,lpc-interrupts property\n");
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  505  		goto err_sysfs_remove;
+ca03042f0f1221 Zev Weiss          2021-04-11  506  	}
+ca03042f0f1221 Zev Weiss          2021-04-11  507  
+ca03042f0f1221 Zev Weiss          2021-04-11  508  	sirq_polarity = aspeed_vuart_map_irq_polarity(sirq[1]);
+ca03042f0f1221 Zev Weiss          2021-04-11  509  	if (sirq_polarity < 0) {
+e8bbaeac25503a Andy Shevchenko    2023-09-12  510  		rc = dev_err_probe(dev, sirq_polarity,
+e8bbaeac25503a Andy Shevchenko    2023-09-12  511  				   "invalid sirq polarity in aspeed,lpc-interrupts property\n");
+dcdc7e09cfe31a Andy Shevchenko    2024-03-04  512  		goto err_sysfs_remove;
+ca03042f0f1221 Zev Weiss          2021-04-11  513  	}
+ca03042f0f1221 Zev Weiss          2021-04-11  514  
+ca03042f0f1221 Zev Weiss          2021-04-11  515  	aspeed_vuart_set_sirq_polarity(vuart, sirq_polarity);
+ca03042f0f1221 Zev Weiss          2021-04-11  516  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  517  	aspeed_vuart_set_enabled(vuart, true);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  518  	aspeed_vuart_set_host_tx_discard(vuart, true);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  519  	platform_set_drvdata(pdev, vuart);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  520  
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  521  	return 0;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  522  
+cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  523  err_sysfs_remove:
+cbafe9d5c34673 Alexey Khoroshilov 2017-07-28  524  	sysfs_remove_group(&vuart->dev->kobj, &aspeed_vuart_attr_group);
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  525  	return rc;
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02 @526  }
+7fbcf3afe6e8e1 Jeremy Kerr        2017-05-02  527  
+
+:::::: The code at line 526 was first introduced by commit
+:::::: 7fbcf3afe6e8e180bfc39fb3f41657fa6e4af55c drivers/serial: Add driver for Aspeed virtual UART
+
+:::::: TO: Jeremy Kerr <jk@ozlabs.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
