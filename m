@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94051A9F84
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 03:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6715F3E7654
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 05:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790307004; cv=none; b=d4pcV81ngkpI1dw30t3j4/CuE7ZjGiQI2NBUudrDTKkjMXZtnNmuvYb/EUugcrVy6kt0K+jZqX6CKLv4r1ybFrFPGy6mBA34eBI36cGje1TLIO2H7oKGtDtAqbzxgZGBtq/OfYxqSYYSebPge2zCvN8ytJb1rWowswmE9o2tfZc=
+	t=1790313085; cv=none; b=IjFbRvHn2YqkzNRX3lyu6vKliXLerDkxoeljlkOBh7X2nhPlxW28kRROABdWM8pxz7LqIbqkoTiIhgO+BJu9Zud5QLCKLY3pXDaFKyzJCHdggXXO3TQW6LfggTNXKoeXtATK+hW9CFJcXZLS7V5zf2+gmY1Z8Q30dXibM2We2A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790307004; c=relaxed/simple;
-	bh=XsGb0667CGK/hO2jQo+Q5ReRgUhJncq+3Rut1CJPR7g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IqQ68Xq8za9piOjIPoD370OMN2LT25r+ElZuL0olDzdcdtW9rB7pkQcTmSKXjCcLms28XH9QMBHfl/gQp06nQkGLFj4iHX95OKrPpEDFqvWL6KxXkIOVF+oZxZzJJyr0vTTblNzlE+ZfkawxkDt4Xqa3u2ELpXDZIC7IDNE6KGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Edo+nD5i; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1790313085; c=relaxed/simple;
+	bh=2Xq0XMn1llceCFXEwds1PFlWXuu1jwnJqqY+A1Ir628=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UijRhOnInBLUsDaRPqpLmk0ELpAmHColngv6kw6SReFHl/VJokj7Cw2TJzDRRbNJX+m4PL8/OGQ9kFtZwwoeHCxXHtXkYkataJukg1I6eL/dgtGtki6Q8iKawjUjDpi9w8lYCt5RWeqcu/IeXMZ54/JO+ePlFZUZeqUptb2a33Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJ2IuyAH; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Edo+nD5i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJ2IuyAH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790307001; x=1821843001;
+  t=1790313083; x=1821849083;
   h=date:from:to:cc:subject:message-id;
-  bh=XsGb0667CGK/hO2jQo+Q5ReRgUhJncq+3Rut1CJPR7g=;
-  b=Edo+nD5i1EmfizCqPTWhAOCqZ0ZGwK72ReMiZ1+PzcG6ET30YT5zNZnb
-   1lt+h5dgGlAY8SqguV8nb03MlRr/CIFHQN69AmpL46t7rY4FRsHJHlFcs
-   ACQQ0tYi+4J5n4m23sD6GoMtOm3Q/9ElZNy7HQs7ToFrxjg3QAPr/LFA0
-   KICG5UaQuigrR9gRPZDeTxfGWoEdPfLkFUHG1zewuvVZOPeVI8kCKWNY9
-   r7Y10rTDEDeQCBUbvs4ukxBEw3WRiIzApK3tJxengRrINO9NwoX2nXUi9
-   1yxZOLnIxvEPL8s9MMUZmIh381oz1rd0abARmOTQhGuNMH5TUA3b43kDc
-   w==;
-X-CSE-ConnectionGUID: YmNaqmhuRvm7SELgLAk6ig==
-X-CSE-MsgGUID: faMP/78vQY6qE2/PfnfmIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="101618239"
+  bh=2Xq0XMn1llceCFXEwds1PFlWXuu1jwnJqqY+A1Ir628=;
+  b=iJ2IuyAHy7R9aEYoJFFQ3Fxi8R+zCSTPKHCyAIfI/qFFZ1XLgOv+/ewW
+   f+LeznCtLK5KLvkRaAJm8MEFUJDXCx077mAng5FI1BavqA6DyNx+TlXXF
+   Y660DlBkIdyaSSBKUJn24SHKpfn8t0/NDOZHs6e/H3eaGlrwMFwKeBorN
+   tM9HR9tZ2uBmVYb5ozZ8bkT3FQKGFK8anBU1A7ZowK2a2NTk+AADO3a2G
+   aKrAtQd7gGd164X116fjptJShfKTda6q6Wf1x8/thOFGCjaYohQVDU4Qf
+   hqAhh6Flc3mp/FEuG8VKvof0EFIzxYgLo2IMv6BHjGD/8ZfAUM2kaVKwp
+   g==;
+X-CSE-ConnectionGUID: xldOgQWpRmOa6Axs2Ha7dA==
+X-CSE-MsgGUID: 3qLFyrYdRXWyCX1Xt1UZ2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89863352"
 X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="101618239"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 20:30:01 -0700
-X-CSE-ConnectionGUID: XuxTWQwqSs+CQCGAuq8fLQ==
-X-CSE-MsgGUID: 868AKIu/QjKjcFPZNz7mCQ==
+   d="scan'208";a="89863352"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 22:11:22 -0700
+X-CSE-ConnectionGUID: VRPyxjJmT+eNTEUqQsapVg==
+X-CSE-MsgGUID: FaM/6AzoTxe/eP7MHPkwJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="272038635"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2026 20:29:58 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+   d="scan'208";a="277395854"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 24 Sep 2026 22:11:21 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1x9wdH-000000000aE-3W1H;
-	Fri, 25 Sep 2026 03:29:55 +0000
-Date: Fri, 25 Sep 2026 05:29:28 +0200
+	id 1x9yDO-00000000K2w-1Jbh;
+	Fri, 25 Sep 2026 05:11:18 +0000
+Date: Fri, 25 Sep 2026 13:10:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Li <Roman.Li@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: 
- drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c:1114
- dcn42_clk_mgr_construct() warn: inconsistent indenting
-Message-ID: <202609250538.vnefIvSp-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name'
+ defined but not used
+Message-ID: <202609251227.zYUUu7YH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,104 +60,152 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   165768bb70265b5c38cf0b73fafd75be235f8b14
-commit: 6b2dd7d37badd8bf076875397f9f39b494258ca7 drm/amd/display: Enable dcn42 DC
-date:   7 months ago
-config: i386-randconfig-r2201-20260923 (https://download.01.org/0day-ci/archive/20260925/202609250538.vnefIvSp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+Hi Frankie,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   9b98c0cbf9c92b8fcc9077e711bed14b4e40ce3b
+commit: 772beecd5b027de9fdf9f54a6646d13f5e6eb3b3 [1/1] ANDROID: Add vendor hooks when syscall prctl finished
+config: arm64-randconfig-1001-20260918 (https://download.01.org/0day-ci/archive/20260925/202609251227.zYUUu7YH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251227.zYUUu7YH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 6b2dd7d37bad ("drm/amd/display: Enable dcn42 DC")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609250538.vnefIvSp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609251227.zYUUu7YH-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c:1114 dcn42_clk_mgr_construct() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:1060 dcn42_optimize_bandwidth() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:279 dcn42_init_hw() error: we previously assumed 'dc->res_pool->funcs->update_bw_bounding_box' could be null (see line 274)
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:560 dcn42_program_rmcm_luts() warn: inconsistent indenting
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sys.h:17,
+                    from drivers/android/vendor_hooks.c:42:
+>> include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cgroup.h:17,
+                    from drivers/android/vendor_hooks.c:41:
+   include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/ufshcd.h:55,
+                    from drivers/android/vendor_hooks.c:40:
+   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/thermal.h:19,
+                    from drivers/android/vendor_hooks.c:39:
+   include/trace/trace_events.h:27:23: warning: 'str__thermal__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/iommu.h:30,
+                    from drivers/android/vendor_hooks.c:38:
+   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fault.h:36,
+                    from drivers/android/vendor_hooks.c:37:
+   include/trace/trace_events.h:27:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
-vim +1114 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
-bd096a56da7cad Roman Li 2026-02-02  1077  
-bd096a56da7cad Roman Li 2026-02-02  1078  void dcn42_clk_mgr_construct(
-bd096a56da7cad Roman Li 2026-02-02  1079  		struct dc_context *ctx,
-bd096a56da7cad Roman Li 2026-02-02  1080  		struct clk_mgr_dcn42 *clk_mgr,
-bd096a56da7cad Roman Li 2026-02-02  1081  		struct pp_smu_funcs *pp_smu,
-bd096a56da7cad Roman Li 2026-02-02  1082  		struct dccg *dccg)
-bd096a56da7cad Roman Li 2026-02-02  1083  {
-bd096a56da7cad Roman Li 2026-02-02  1084  	clk_mgr->base.base.ctx = ctx;
-bd096a56da7cad Roman Li 2026-02-02  1085  	clk_mgr->base.base.funcs = &dcn42_funcs;
-bd096a56da7cad Roman Li 2026-02-02  1086  	clk_mgr->base.regs = &clk_mgr_regs_dcn42;
-bd096a56da7cad Roman Li 2026-02-02  1087  	clk_mgr->base.clk_mgr_shift = &clk_mgr_shift_dcn42;
-bd096a56da7cad Roman Li 2026-02-02  1088  	clk_mgr->base.clk_mgr_mask = &clk_mgr_mask_dcn42;
-bd096a56da7cad Roman Li 2026-02-02  1089  
-bd096a56da7cad Roman Li 2026-02-02  1090  	clk_mgr->base.pp_smu = pp_smu;
-bd096a56da7cad Roman Li 2026-02-02  1091  
-bd096a56da7cad Roman Li 2026-02-02  1092  	clk_mgr->base.dccg = dccg;
-bd096a56da7cad Roman Li 2026-02-02  1093  	clk_mgr->base.dfs_bypass_disp_clk = 0;
-bd096a56da7cad Roman Li 2026-02-02  1094  
-bd096a56da7cad Roman Li 2026-02-02  1095  	clk_mgr->base.dprefclk_ss_percentage = 0;
-bd096a56da7cad Roman Li 2026-02-02  1096  	clk_mgr->base.dprefclk_ss_divider = 1000;
-bd096a56da7cad Roman Li 2026-02-02  1097  	clk_mgr->base.ss_on_dprefclk = false;
-bd096a56da7cad Roman Li 2026-02-02  1098  	clk_mgr->base.dfs_ref_freq_khz = 48000; /*sync with pmfw*/
-bd096a56da7cad Roman Li 2026-02-02  1099  
-bd096a56da7cad Roman Li 2026-02-02  1100  	clk_mgr->smu_wm_set.wm_set = (struct dcn42_watermarks *)dm_helpers_allocate_gpu_mem(
-bd096a56da7cad Roman Li 2026-02-02  1101  				clk_mgr->base.base.ctx,
-bd096a56da7cad Roman Li 2026-02-02  1102  				DC_MEM_ALLOC_TYPE_GART,
-bd096a56da7cad Roman Li 2026-02-02  1103  				sizeof(struct dcn42_watermarks),
-bd096a56da7cad Roman Li 2026-02-02  1104  				&clk_mgr->smu_wm_set.mc_address.quad_part);
-bd096a56da7cad Roman Li 2026-02-02  1105  
-bd096a56da7cad Roman Li 2026-02-02  1106  	ASSERT(clk_mgr->smu_wm_set.wm_set);
-bd096a56da7cad Roman Li 2026-02-02  1107  
-bd096a56da7cad Roman Li 2026-02-02  1108  	/* Changed from DCN3.2_clock_frequency doc to match
-bd096a56da7cad Roman Li 2026-02-02  1109  	 * dcn32_dump_clk_registers from 4 * dentist_vco_freq_khz /
-bd096a56da7cad Roman Li 2026-02-02  1110  	 * dprefclk DID divider
-bd096a56da7cad Roman Li 2026-02-02  1111  	 */
-bd096a56da7cad Roman Li 2026-02-02  1112  	clk_mgr->base.base.dprefclk_khz = 600000;
-bd096a56da7cad Roman Li 2026-02-02  1113  
-bd096a56da7cad Roman Li 2026-02-02 @1114  		clk_mgr->base.smu_present = false;
-bd096a56da7cad Roman Li 2026-02-02  1115  
-bd096a56da7cad Roman Li 2026-02-02  1116  		if (ctx->dc_bios->integrated_info) {
-bd096a56da7cad Roman Li 2026-02-02  1117  			clk_mgr->base.base.dentist_vco_freq_khz = ctx->dc_bios->integrated_info->dentist_vco_freq;
-bd096a56da7cad Roman Li 2026-02-02  1118  
-bd096a56da7cad Roman Li 2026-02-02  1119  			if (ctx->dc_bios->integrated_info->memory_type == LpDdr5MemType)
-bd096a56da7cad Roman Li 2026-02-02  1120  				dcn42_bw_params.wm_table = lpddr5_wm_table;
-bd096a56da7cad Roman Li 2026-02-02  1121  			else
-bd096a56da7cad Roman Li 2026-02-02  1122  				dcn42_bw_params.wm_table = ddr5_wm_table;
-bd096a56da7cad Roman Li 2026-02-02  1123  			dcn42_bw_params.vram_type = ctx->dc_bios->integrated_info->memory_type;
-bd096a56da7cad Roman Li 2026-02-02  1124  			dcn42_bw_params.dram_channel_width_bytes = ctx->dc_bios->integrated_info->memory_type == 0x22 ? 8 : 4;
-bd096a56da7cad Roman Li 2026-02-02  1125  			dcn42_bw_params.num_channels = ctx->dc_bios->integrated_info->ma_channel_number ? ctx->dc_bios->integrated_info->ma_channel_number : 4;
-bd096a56da7cad Roman Li 2026-02-02  1126  		}
-bd096a56da7cad Roman Li 2026-02-02  1127  		/* in case we don't get a value from the BIOS, use default */
-bd096a56da7cad Roman Li 2026-02-02  1128  		if (clk_mgr->base.base.dentist_vco_freq_khz == 0)
-bd096a56da7cad Roman Li 2026-02-02  1129  			clk_mgr->base.base.dentist_vco_freq_khz = 3000000; /* 3000MHz */
-bd096a56da7cad Roman Li 2026-02-02  1130  
-bd096a56da7cad Roman Li 2026-02-02  1131  		/* Saved clocks configured at boot for debug purposes */
-bd096a56da7cad Roman Li 2026-02-02  1132  		dcn42_dump_clk_registers(&clk_mgr->base.base.boot_snapshot, clk_mgr);
-bd096a56da7cad Roman Li 2026-02-02  1133  
-bd096a56da7cad Roman Li 2026-02-02  1134  	if (clk_mgr->base.smu_present)
-bd096a56da7cad Roman Li 2026-02-02  1135  		clk_mgr->base.base.dprefclk_khz = dcn42_smu_get_dprefclk(&clk_mgr->base);
-bd096a56da7cad Roman Li 2026-02-02  1136  	clk_mgr->base.base.clks.ref_dtbclk_khz = 600000;
-bd096a56da7cad Roman Li 2026-02-02  1137  	dce_clock_read_ss_info(&clk_mgr->base);
-bd096a56da7cad Roman Li 2026-02-02  1138  	/*when clk src is from FCH, it could have ss, same clock src as DPREF clk*/
-bd096a56da7cad Roman Li 2026-02-02  1139  
-bd096a56da7cad Roman Li 2026-02-02  1140  	dcn42_read_ss_info_from_lut(&clk_mgr->base);
-bd096a56da7cad Roman Li 2026-02-02  1141  
-bd096a56da7cad Roman Li 2026-02-02  1142  	clk_mgr->base.base.bw_params = &dcn42_bw_params;
-bd096a56da7cad Roman Li 2026-02-02  1143  }
-bd096a56da7cad Roman Li 2026-02-02  1144  
 
-:::::: The code at line 1114 was first introduced by commit
-:::::: bd096a56da7cad1c93c0138a64478b43f5a94736 drm/amd/display: Add dcn42 DC resources
+vim +/str__sys__trace_system_name +27 include/trace/trace_events.h
 
-:::::: TO: Roman Li <Roman.Li@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350a include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 --
 0-DAY CI Kernel Test Service
