@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE67472F6C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 11:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D39F483BF0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 11:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790334053; cv=none; b=lT2uW9u0Z381w6g0lU79NiAOoDxTviwkjBZAZDNVfogVCfMg23t5v35afjsQIWu9AiRMfZxe99mSZ9r8dzx9FWxhl7soQoL5wskV5z4mSr4MPpp3Nda7Nns+kLvpkt2jg4itmoBaZgIEA6kQZLkNa8BCHnr3AHNas67RsXciIEs=
+	t=1790334054; cv=none; b=P2vqBUrB11CHvj6/6rbxC7LXAtFAIT9XOAheboYf9SdMlJzbwYwUtCrw4YA1qT4U8ma2eF0vyfCjxQS/aBOV1r2FjsNIPloAfNTF9+1LtI4qIJjpujG7oHyRH0Er8+NKNL8g1gV1xffI/PTQtPrMV29ha1SWN8BWtoQf9XGs7ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790334053; c=relaxed/simple;
-	bh=HweJlTFp1tvId5tQL68CBapOJnr5PiFUavLLnJx8ZoY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hY4lw8OzHCAkyhn4gQUBXUZ3Gnjk2oBcSakldcF/7pN0HQ9wUaRJ6o1x3WgEcTXHrYJfzeXCDivXiIXK9dpotnb+QlJAigLI1X9cVkJzLxSUQSI6abDGWFDkXPmfxUKA5ZGjKwbY72VuqbDUbZT5XPeiUs/M/7il9+1GrNZwmxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9VXF3lc; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1790334054; c=relaxed/simple;
+	bh=OmbV5Q8Q0GLMin1X3bQ7Xer9FcDgRTAwXbx1FQo4cKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dEdYB/WkYYITSfaKdMvz/5ge7oaMi9m8zYj1xV5DxBeodbGKzjSy1YBFcSdu6mmGzqEgX0sBDQav+kTQDFrT5IGmSMH/byjGTAwMY4qCXJKOztsHV0xgu1/AfRCfFc3GljVeg8/GTRMA22VZz6BRYyb4T0tQ3HS6HiOWqq1wm/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7K7Rl30; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9VXF3lc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7K7Rl30"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790334052; x=1821870052;
+  t=1790334054; x=1821870054;
   h=date:from:to:cc:subject:message-id;
-  bh=HweJlTFp1tvId5tQL68CBapOJnr5PiFUavLLnJx8ZoY=;
-  b=n9VXF3lcr5dVAoYFQdiGW4B9CshOCa6zxZDRsN8n162vgHl/OHOdmE7W
-   Ao+7X3INH55p+E0d7VEGpdAx1sd62ANPgL9mKKaaJ1oWNg9RhrpfBqa79
-   jRUcHIV8brkF8DefUKwqEIBcKvKv1D56P2Ew2henap4Qvmh+8xV9dhm3s
-   BfWuWtDCu8zfi+6t0Vxvx1adn/hmgml72xBesyaGoMVIiblv5dMEVDMHY
-   ugUKEPovETmTrVsel46nOv9n/1Ht+/GD5UCMTVo6NW6P8ChTbkkORKaMJ
-   ZUXmu8yc5AfTwB3zTAu/qMKFxPk6JWbcw7n2YUPLewa3UzNHQy14ievlj
-   w==;
-X-CSE-ConnectionGUID: 8WdxLWCxRJ2JUYIz2KZ72Q==
-X-CSE-MsgGUID: RcreBrt0T4CrTfSILPMDGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90024674"
+  bh=OmbV5Q8Q0GLMin1X3bQ7Xer9FcDgRTAwXbx1FQo4cKQ=;
+  b=K7K7Rl30nE7llXSI6QiCo0bWqUjhjOvZpWMFRUu4fJMMTHewO+0YIhVB
+   k9zKvFyQgR4B1oBq1kBBhS+8Lqng7XF8uPK2rT89gl60YPag8gxcO28XL
+   mecuxZ+mXcyR/L9b/s8b3/g5PmaM0EpZNrT3snmyJc07SGxzmSp570fLc
+   0hgFiTQKr4hnHORcdcdyuo+OIyT4QrS5rDRPKfsHrOJW88ZO/OYH0lKob
+   3huA6xbvtDm6zqFAj2wzOhwkApcxHEh0Z/HXXmGy3oaEOCzaqE3Edvvdl
+   0TgSHbGYLlGSD+ADqgsqSMDCxPlsYj+gDrDnnKbmf6PHh71g8pl/Mawdy
+   g==;
+X-CSE-ConnectionGUID: v3Bfe0WBTdWllI6L1V3DnA==
+X-CSE-MsgGUID: peejNB7HQYCDS1bpx0MKIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89886395"
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="90024674"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 04:00:51 -0700
-X-CSE-ConnectionGUID: mcrqhlh7S66uUw98wJiAzw==
-X-CSE-MsgGUID: Yqg7xf7uTkOgDtLhKUqUaQ==
+   d="scan'208";a="89886395"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 04:00:53 -0700
+X-CSE-ConnectionGUID: RP64xJcEQ46Do1a2Iag3iw==
+X-CSE-MsgGUID: HDFhlOVaSNaBEpE2Sc7Adw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
-   d="scan'208";a="273799286"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Sep 2026 04:00:50 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+   d="scan'208";a="274402904"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 25 Sep 2026 04:00:52 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xA3fb-000000000gY-334W;
-	Fri, 25 Sep 2026 11:00:47 +0000
-Date: Fri, 25 Sep 2026 13:00:05 +0200
+	id 1xA3fd-00000000KTy-29xx;
+	Fri, 25 Sep 2026 11:00:49 +0000
+Date: Fri, 25 Sep 2026 19:00:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cris:scmi_telemetry_ng_V12 33/51]
- drivers/firmware/arm_scmi/telemetry.c:1531:35: warning: cast from pointer to
- integer of different size
-Message-ID: <202609251246.Zh5Zsk6W-lkp@intel.com>
+Subject: [android-common:android17-6.18-2026-04 2/2]
+ drivers/iommu/intel/iommu.c:1122:14: warning: variable 'leaf_ptes_only' set
+ but not used
+Message-ID: <202609251856.6bDwtyNf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,63 +60,49 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_ng_V12
-head:   efa664d9faf1d413ef8a0adfe04a7ce843478cea
-commit: 4b310f0a814e5df0394b74b6539cbc2a917b9a73 [33/51] firmware: arm_scmi: Add support to parse SHMTIs areas
-config: sh-randconfig-2001-20260925 (https://download.01.org/0day-ci/archive/20260925/202609251246.Zh5Zsk6W-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251246.Zh5Zsk6W-lkp@intel.com/reproduce)
+Hi Vineeth,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-04
+head:   643df54b14b912667e5e41666126ce8f21e15214
+commit: 019c99390aba092e5e9be673e096a2aaf5d07bf6 [2/2] ANDROID: iommu/vt-d: pKVM: Prevent host from donating DMA pages
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20260925/202609251856.6bDwtyNf-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609251856.6bDwtyNf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609251246.Zh5Zsk6W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609251856.6bDwtyNf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/arm_scmi/telemetry.c: In function 'scmi_telemetry_blkts_create':
->> drivers/firmware/arm_scmi/telemetry.c:1531:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1531 |         trace_scmi_tlm_collect(0, (__force u64)payld, 0, "SHMTI_NEW_BLKTS");
-         |                                   ^
-   drivers/firmware/arm_scmi/telemetry.c: In function 'scmi_telemetry_uuid_register':
-   drivers/firmware/arm_scmi/telemetry.c:1641:35: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-    1641 |         trace_scmi_tlm_collect(0, (__force u64)payld, 0, "SHMTI_NEW_UUID");
-         |                                   ^
-   drivers/firmware/arm_scmi/telemetry.c: At top level:
-   drivers/firmware/arm_scmi/telemetry.c:2008:12: warning: 'scmi_telemetry_shmti_scan' defined but not used [-Wunused-function]
-    2008 | static int scmi_telemetry_shmti_scan(struct telemetry_info *ti,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   Assembler messages:
-   {standard input}:1501: Error: offset to unaligned destination
-   {standard input}:1951: Error: offset to unaligned destination
-   {standard input}:2148: Error: offset to unaligned destination
+   drivers/iommu/intel/iommu.c: In function 'domain_unmap':
+>> drivers/iommu/intel/iommu.c:1122:14: warning: variable 'leaf_ptes_only' set but not used [-Wunused-but-set-variable]
+    1122 |         bool leaf_ptes_only;
+         |              ^~~~~~~~~~~~~~
 
 
-vim +1531 drivers/firmware/arm_scmi/telemetry.c
+vim +/leaf_ptes_only +1122 drivers/iommu/intel/iommu.c
 
-  1513	
-  1514	static struct telemetry_block_ts *
-  1515	scmi_telemetry_blkts_create(struct telemetry_info *ti,
-  1516				    struct payload __iomem *payld)
-  1517	{
-  1518		struct telemetry_block_ts *bts;
-  1519		int ret;
-  1520	
-  1521		bts = kzalloc_obj(*bts);
-  1522		if (!bts)
-  1523			return NULL;
-  1524	
-  1525		ret = scmi_telemetry_line_init(ti, &bts->line, payld, TDCF_BLK_TS_LINE);
-  1526		if (ret) {
-  1527			kfree(bts);
-  1528			return NULL;
-  1529		}
-  1530	
-> 1531		trace_scmi_tlm_collect(0, (__force u64)payld, 0, "SHMTI_NEW_BLKTS");
-  1532	
-  1533		return bts;
-  1534	}
-  1535	
+  1115	
+  1116	/* We can't just free the pages because the IOMMU may still be walking
+  1117	   the page tables, and may have cached the intermediate levels. The
+  1118	   pages can only be freed after the IOTLB flush has been done. */
+  1119	void domain_unmap(struct dmar_domain *domain, unsigned long start_pfn,
+  1120			  unsigned long last_pfn, struct iommu_pages_list *freelist)
+  1121	{
+> 1122		bool leaf_ptes_only;
+  1123	
+  1124		if (WARN_ON(!domain_pfn_supported(domain, last_pfn)) ||
+  1125		    WARN_ON(start_pfn > last_pfn))
+  1126			return;
+  1127	
+  1128		/* we don't need lock here; nobody else touches the iova range */
+  1129		leaf_ptes_only = dma_pte_clear_level(domain, agaw_to_level(domain->agaw),
+  1130						     domain->pgd, 0, start_pfn, last_pfn, freelist);
+  1131	
 
 --
 0-DAY CI Kernel Test Service
