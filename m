@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AFF416851
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 23:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3818B509F1C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 23:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790380309; cv=none; b=hDJJz7czsBQuFKGlB/vSAQPTLkMEbzwWCqXLUenihehkyULiqbUDok3mRu8W5E2d/QvRQFp4tLi7YUISXwdZivXw3PMlSqeJDjiiYUm//V6cjoiOdf628YsRs2J7yB2m9jAI1t7kLCxyNxM4t3fEQAp3dfIvUBG9km590HSUseM=
+	t=1790380309; cv=none; b=Vbgi/N+pIcf8pU6vzUYr61v/hZAdJM5tk6AWvU1e5GoExyT4OjQWVqXNREwOdyEj4JYfWob+v/9fpGb703jwbQXVScNZVNE4xfHZcy9qAYtN3NND3wh7NpH/z0OQIiXvSZ02ibYzg/Vq9EmxqWhNVcbOZ9UVZmb0FTi4OGKmi2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790380309; c=relaxed/simple;
-	bh=PseVter3M4NKfsM211ry/D9zNo6iz/zrkJ09hOKgBG0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PEr2dTNXeUJUyB0tl7/cSkKHx2tJa6gMHJ4My8S0ciBxFQkjNLZtCx9bASZciIMb897t5QZ6TCrc0/9zfGd/QuTqhsk2bRqAGdoH2JQZOyvNlvAlAikpGCNwCUIFD0Getx8Syjf+j5pxtg0i4CBhL1wlscBYEjIyHWenf5H4svQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NX5X/9m3; arc=none smtp.client-ip=198.175.65.11
+	bh=3QLNsaPkK3curOoC1ICtLFEmh0y4zwg0WbKg78hReDo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bDrSajPOSNxb2tH5IFclcXCWi59Ba66koOasUzhQhPXxL/UnDCEKmepPKku0TM/186zL6qUdBaApPmR6TNmGItw0Xo127xEiqr6rsytgfnK6Xp5iVEUmd7+mSlvwxwrf74r4cqyiuigjmZvIStURvXkBr5iWzuK4FRyYChujeoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VaSjW78O; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NX5X/9m3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VaSjW78O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1790380308; x=1821916308;
   h=date:from:to:cc:subject:message-id;
-  bh=PseVter3M4NKfsM211ry/D9zNo6iz/zrkJ09hOKgBG0=;
-  b=NX5X/9m3sWVjX/0clOEoIZdSDnJKBWQ7KhC5t8kwl0fiY/9sOtu2TYm/
-   izBbEWBuj5nnVg9KvrMsynrZCJSQIDvZ/Pz1CQFGL6BfdYwyLDsCRty03
-   naHAsL+l1ADmcF1Nlo6bVIx+wiekf7HKXWhL5E5OV11r+xZNAaZzmilUV
-   jUxAiSdx6k9vTGdnCkZ2A2YsmXvOxzdO33uv7oltqt5fyO7yG1hflBdsa
-   MUYEmCbCfTh9+wFiTh82ksSSlpf/szhRgk7WOnyU8VCp4K/Lfri/2cc51
-   M1Qj8XTh2n1nj++CAYqk+uZo1On2tfJzbYzb+pxb2ETLfdMAKHX7zJahA
-   A==;
-X-CSE-ConnectionGUID: foajxqetQn+x9KLXCHkriA==
-X-CSE-MsgGUID: /uxb0SdbSZejphanvEFGVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="100504514"
+  bh=3QLNsaPkK3curOoC1ICtLFEmh0y4zwg0WbKg78hReDo=;
+  b=VaSjW78Og7cLpH4/0AbrNDfvOFz0kBZA0k/xy3Tz+l6afndu1h8PvFHE
+   keQWWY3b+C7ruFPZWCamwDrZCmohUaMIx5sSO1R7KD6cDBbXnCwXe8sMU
+   ImAJtXJv5g+HMCet/DE/k+os1rENkprbTPiTIWc8J8A+3A0vFjz3hp8r6
+   CRiHfsAq5yeYRH1bVKCkICJktuI/7UrZvgiFxBvEIkhYoYMdrI9+/KRbX
+   /80Ub6Hj4U/KhTBD/mbxav4r821pZjlRxlRarME/vrdj57NtjtjxydGvZ
+   Y1XXJHM+N2E4Hp0bYQfH7m5fPKY/OCPuaGAjh03C4Lnkriozn01se02PJ
+   g==;
+X-CSE-ConnectionGUID: COG9nC7ITIeqX09ChUMyDw==
+X-CSE-MsgGUID: tuRzvoiZRHm9VFSZFiS0mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="89938234"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="100504514"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 16:51:47 -0700
-X-CSE-ConnectionGUID: L5nuHNSITEWnW29+0pBR9Q==
-X-CSE-MsgGUID: tcya7XnSRAyl2ZKXXk0r7w==
+   d="scan'208";a="89938234"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 16:51:48 -0700
+X-CSE-ConnectionGUID: 3H4GkYmxRW+bpMvRsqGLBg==
+X-CSE-MsgGUID: OtmC+MdwSjWhesEr3AthSg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="282534564"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2026 16:51:45 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 25 Sep 2026 16:51:46 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAFhf-00000000LLR-1YGF;
+	id 1xAFhf-00000000LLT-1jgc;
 	Fri, 25 Sep 2026 23:51:43 +0000
-Date: Sat, 26 Sep 2026 07:51:32 +0800
+Date: Sat, 26 Sep 2026 07:51:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-09 0/1]
- drivers/net/ethernet/intel/idpf/idpf_txrx.c:2173: warning: expecting
- prototype for idpf_tx_splitq_has_room(). Prototype was for
- idpf_txq_has_room() instead
-Message-ID: <202609260706.34uDMenv-lkp@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Jon Hunter <jonathanh@nvidia.com>
+Subject: arch/xtensa/boot/boot-elf/bootstrap.S:68: Warning: value
+ 0x1a0003000 truncated to 0xa0003000
+Message-ID: <202609260743.V1BFyc9T-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,56 +59,49 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Joshua,
+Hi Guenter,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-09
-head:   8dba035b01c49d304dfaf20bdfaf36bf064d858a
-commit: a7a7bff258e1f5aee2bb95ebbc12bbd6533dd1e7 [0/1] idpf: stop Tx if there are insufficient buffer resources
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260926/202609260706.34uDMenv-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260706.34uDMenv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5fc5768c7ca92895ccd1de94dc521e5a55ae7896
+commit: 916aa36042db8ee230543ffe0d192f900e8b8c9f clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation
+date:   1 year ago
+config: xtensa-randconfig-r1303-20260925 (https://download.01.org/0day-ci/archive/20260926/202609260743.V1BFyc9T-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260743.V1BFyc9T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 916aa36042db ("clocksource/drivers/timer-tegra186: Avoid 64-bit divide operation")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609260706.34uDMenv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609260743.V1BFyc9T-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/idpf/idpf_txrx.c:2173: warning: expecting prototype for idpf_tx_splitq_has_room(). Prototype was for idpf_txq_has_room() instead
+   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
+   arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
+>> arch/xtensa/boot/boot-elf/bootstrap.S:68: Warning: value 0x1a0003000 truncated to 0xa0003000
 
 
-vim +2173 drivers/net/ethernet/intel/idpf/idpf_txrx.c
+vim +68 arch/xtensa/boot/boot-elf/bootstrap.S
 
-6818c4d5b3c2e9 Joshua Hay    2023-08-07  2162  
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2163  /**
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2164   * idpf_tx_splitq_has_room - check if enough Tx splitq resources are available
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2165   * @tx_q: the queue to be checked
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2166   * @descs_needed: number of descriptors required for this packet
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2167   * @bufs_needed: number of Tx buffers required for this packet
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2168   *
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2169   * Return: 0 if no room available, 1 otherwise
-12e40d01d6d1aa Brian Vazquez 2025-05-01  2170   */
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2171  static int idpf_txq_has_room(struct idpf_tx_queue *tx_q, u32 descs_needed,
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2172  			     u32 bufs_needed)
-12e40d01d6d1aa Brian Vazquez 2025-05-01 @2173  {
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2174  	if (IDPF_DESC_UNUSED(tx_q) < descs_needed ||
-12e40d01d6d1aa Brian Vazquez 2025-05-01  2175  	    IDPF_TX_COMPLQ_PENDING(tx_q->txq_grp) >
-12e40d01d6d1aa Brian Vazquez 2025-05-01  2176  		IDPF_TX_COMPLQ_OVERFLOW_THRESH(tx_q->txq_grp->complq) ||
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2177  	    IDPF_TX_BUF_RSV_LOW(tx_q) ||
-a7a7bff258e1f5 Joshua Hay    2025-12-15  2178  	    idpf_tx_splitq_get_free_bufs(tx_q->refillq) < bufs_needed)
-12e40d01d6d1aa Brian Vazquez 2025-05-01  2179  		return 0;
-12e40d01d6d1aa Brian Vazquez 2025-05-01  2180  	return 1;
-12e40d01d6d1aa Brian Vazquez 2025-05-01  2181  }
-12e40d01d6d1aa Brian Vazquez 2025-05-01  2182  
+e85e335f8ff615 Max Filippov 2012-12-03  60  
+e85e335f8ff615 Max Filippov 2012-12-03  61  	rsil    a0, XCHAL_DEBUGLEVEL-1
+e85e335f8ff615 Max Filippov 2012-12-03  62  	rsync
+4bedea94545165 Chris Zankel 2005-06-23  63  reset:
+037602705109ec Max Filippov 2018-12-05  64  #if defined(CONFIG_INITIALIZE_XTENSA_MMU_INSIDE_VMLINUX) && \
+037602705109ec Max Filippov 2018-12-05  65  	XCHAL_HAVE_PTP_MMU && XCHAL_HAVE_SPANNING_WAY
+037602705109ec Max Filippov 2018-12-05  66  	movi	a0, CONFIG_KERNEL_LOAD_ADDRESS
+037602705109ec Max Filippov 2018-12-05  67  #else
+037602705109ec Max Filippov 2018-12-05 @68  	movi	a0, KERNELOFFSET
 
-:::::: The code at line 2173 was first introduced by commit
-:::::: 12e40d01d6d1aa9224200d6b9d9570d6aa68ef74 idpf: fix a race in txq wakeup
+:::::: The code at line 68 was first introduced by commit
+:::::: 037602705109ec2ab96340bea93ad87daa3ac046 xtensa: don't use l32r opcode directly
 
-:::::: TO: Brian Vazquez <brianvv@google.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
 
 --
 0-DAY CI Kernel Test Service
