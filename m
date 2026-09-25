@@ -1,118 +1,82 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05383396585;
-	Fri, 25 Sep 2026 06:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF803A7593
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Sep 2026 07:03:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790318663; cv=none; b=btFHBgZmUhb5hfWNf8WEcpylgimZ3qM5MucoBiyWX/w7onVTr0Y+mvZc1nOpQcluK06wT9Rmxv7Gc6vTyjvX2hQFdgOd1CHg0G326pWloSwdF5LJg5VQYl0v+gwqnWVIdp0PXiBJ4uzoNU3YhRqn7JtkO7ioAzAzyoRhAZaGMc0=
+	t=1790319803; cv=none; b=IUXrzKkl0zDVBoGQQNdVAdabiyA2s9SD0z9JIBM7vgaNIadmu6Rr9n25MHS0weFGW4swERrdpVCMMofbNO3YOGpZhL2pzdD8N378B/STcuYI5kkXStme89+Ter0beBhTE49P9gdEnXvnfNh9WSVad7oN7ProhAjcBAwZePQ9TlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790318663; c=relaxed/simple;
-	bh=03IrB9vAF/bkxYF/q/kywUS8ATF2rd0t56Gfd6VXeNs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=tvuMwCUQwvJdTE/j7VPfeHH1QJ0oJs3VXE70yhNViVhpC7vTdur4SChtEtP3/mhyKQF+zC2V00BA7TeCfruSWyfocTDizAO5KY+jAu4B+FlBIlGTjNIKCCAtdyq3QLf8nJMY1BBuqVasqiWZw5G2X3bhyUfH8QfwaggKnTys8r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Nu0oj7Ul; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BgM0Gyvv; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1790319803; c=relaxed/simple;
+	bh=I1t/vpz6GRbojiZSFcPE+mSXbLkM8RRJKqxkf6bPRMw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UYJeacWeYDw15mcdZqejEANXZKX4ovG7XqcxyFuarPLDWGxdmBJq9/CdtuTj+axnUJbKPCJFNUelmtrmdrOXSnadWbTNIf9+4WHWv0Fj3i2SIsO8iQ9pXD3w0zTbj6wDx7kIJB+sUHocXr1IuYKKUmf77EfS0ZJd8l8c1ZCoY44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H3GYB4vh; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Nu0oj7Ul";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BgM0Gyvv"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 33DC71400150;
-	Fri, 25 Sep 2026 02:44:20 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Fri, 25 Sep 2026 02:44:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1790318659;
-	 x=1790405059; bh=NaZmI7t4xspdCcSwZ61TEkj8dOh5uZ/p24PV+ZMnDZw=; b=
-	Nu0oj7UlIMonbzdFuiOnXEWPF2hJYzyzOAljnTNeALWZYE+crT5NlZVumdUphWuo
-	RZfkszIAbYJ63RItV/vEeOiQ74DLVVtT9yETf+2AJF3Il3Eex3n0xgcWnaeuY6cY
-	6wAQ652I4qv5mzSSgasKwoKYU+wCzLh52vxBQtMU0A1NGLzTkU08uoOOv1YJHDNS
-	ckaCEp+UHTtrcaBH6hQjxny3jF7C9TpRGj0uTrpkGWUCUr66kKW6kP3H8y7Ud+l1
-	gwVry7mP+a34dtogloyKtXCbn8Yshbn9oEBHJaRjbb4wzCv636+Ld2fSI4+wZHCL
-	bp3lDOJZ7vw0Y/KnzuS3FQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790318659; x=
-	1790405059; bh=NaZmI7t4xspdCcSwZ61TEkj8dOh5uZ/p24PV+ZMnDZw=; b=B
-	gM0Gyvv3PiGDCIXQOHuxl6hJHi3qhgh7HkwPgl/OcTXEjOB3+UqitNM84mISi+iz
-	+ycfiYljhdmWBwO0wKZRXBfXuBfOqTioznIm+HWkfsKX23zU2Sb00pQljzDUbuIr
-	HkCvLt+gVhdFM5OfjBUcWNpyOT7+RVLygdng5266IoTu+8jNHrxCxDIzdsBEBvPw
-	++iA2YoJUtZuy7QvTTU1Uv+PgEFSueGgJvqQzKnpBprx9voPJ3rNvJQFKBk96l2m
-	O0NqblZtGOUxFcZGNEIVKtIRSuIVTPDsCyZDqC1Ue/3ZAE0DCEy27p98K+Oq1l3t
-	kwmxWfaZ1uuOee0Vrj96Q==
-X-ME-Sender: <xms:Phi2apPO9ujYSIDasbhJpnMTzke4qSpbwvrwzhlkXuIAI7-cnSWZfw>
-    <xme:Phi2amzawLOHn6D_TcxFB_sryNZBvDNGlXG3Mk5xGBUhjGYtjqB5YZpcBGi2Vvxu4
-    LO4jainLSHlBfr9xfRwMoKueRag02HeC2zWkT5k5Me375Lln4hJE4Xm>
-X-ME-Proxy-Cause: dmFkZTFwSDqkQ+iCgv9bfoZ7OnGDv2/E32uPE8Fd0Y8/G3hqdMfXKGBRJsqwYtMQUVYQrL
-    6rBdD5WBkmP95rwBjb56UCQmEFVpH1MQeNf2EH79A9tcFirxDEH49FPSDtgesI6qTlZLhS
-    FyGt8jwZs6/BRCK8WQBtj8/8wSniM5z0sAeYIZUw6RfTL0VgIo3U3fygtLYZE95pxCSHFZ
-    WepR8wEVKtPNAYRuRFUV+Y6YLWfdH1/Sqbu3qA9d12FobAwCl+aIFvcISyJveD7NAd69ne
-    nat+mzAMqvQmRT39Um5yv7DBEV4FS8+RYnZbN6r0+WRL47rc70az+oyh1zU2Ychr2GGWJK
-    u2fZydkW07nhk+soJMbSuvqR99kgSdHxX+7M/qJVrV5nxIlqC/RPoPvuKCMjyhYck5Mn+f
-    AdFbaAQW7BZ/q/bJBeQ9EqwX0ccvLKpZIf0UH39rOJ8ygTbhJoyyJz7XCaowgaxqDiq2/t
-    d7BY1jleB6/ow+3+ojRHL8gX24SKUACYZjIQrd7G0Brdt9XWe0nPXJMcfi9IIQWoiFdlP5
-    UsrXZxRyK7FVGTK3USyOhdqLn7j9uBACH1EQaZAZnz0Wxhmaz8p7Rx9+/rfD741yv1TZ5H
-    xDqojH1YmlZuRqBLUIoKWOM7MzgbFiWpplx5yWj8NVeSv+K0ybsfoQUp/sgQ
-X-ME-Proxy: <xmx:QBi2aks9cVmtVVgDWOpZQLMYJnnq0WiDCmfwfRCxnKtd462F6IWytw>
-    <xmx:QBi2akh84Y1eWIqTMNJITEkMXmXRjN7zw_8ZM-RSgwQZXQSLDngT3Q>
-    <xmx:QBi2aqZyKF1u83uvY6x5VtDegQdByG0waYvUbau_-OqIjkhMPjJFWg>
-    <xmx:QBi2ajZsRH8i_I6LnZImUEKiEH8hyvZa7XSe454pHywC3zynHKSWFA>
-    <xmx:Qxi2aoPDxdGsEJ87ytSqbbO4qDTPCBr6tYWu0Df0M_3PB94lWMJwcP_a>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 7288232A0087; Fri, 25 Sep 2026 02:44:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H3GYB4vh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790319802; x=1821855802;
+  h=date:from:to:cc:subject:message-id;
+  bh=I1t/vpz6GRbojiZSFcPE+mSXbLkM8RRJKqxkf6bPRMw=;
+  b=H3GYB4vhaHNr6jIaCdWQExsMiIv+VHIgWCwVqgkV19pJQD5IcjFKW1xR
+   FKdVAsr8H5stvfdiZIIpkkigTTVka5jjZcWr1tLGr+kwPmesocTMwKThq
+   5Tvd0AV5R7/3SqPCvzVviRQ5CT9GigLEnkOMuwaCmbVHy75ZdB+sCjZpZ
+   cBAZnAjgPi4b0UJt7hLBKKKeMuXQSWmM8/m5VNLpsVYjWXtoJaLETE+0e
+   CIKMlwJZjrs9uLd8XTULMbOV3KnRGyIyH4Kex9Ry80I5o20roEVwUuBaY
+   uNxoW5u+Isux/3h0a36ShhweZTqeEevZ4t8Fyw7Dz3RAZBXyN8mDDeRjU
+   Q==;
+X-CSE-ConnectionGUID: j2+wNjW6RgmJoThFKDM7vw==
+X-CSE-MsgGUID: MU4CLFErQoSmaBcmjcfyfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="91120455"
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="91120455"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 00:03:21 -0700
+X-CSE-ConnectionGUID: TnPpqDSWRFCDkF4g0AKCnA==
+X-CSE-MsgGUID: MQ7Izl1aRamGsVdGSbKCMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="273811269"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 25 Sep 2026 00:03:20 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9zxl-000000000di-2bCv;
+	Fri, 25 Sep 2026 07:03:17 +0000
+Date: Fri, 25 Sep 2026 09:02:46 +0200
+From: kernel test robot <lkp@intel.com>
+To: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cornelisnetworks:for-upstream-20260924-1644 22/25] Warning:
+ drivers/infiniband/sw/rdmavt/mmap.c:134 function parameter 'context' not
+ described in 'rvt_create_mmap_info_context'
+Message-ID: <202609250859.sDhZRhDI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-ThreadId: Am_z2EeL-WEB
-Date: Fri, 25 Sep 2026 08:43:54 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Dan Carpenter" <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, "Juergen Gross" <jgross@suse.com>,
- xen-devel@lists.xenproject.org,
- "Stefano Stabellini" <sstabellini@kernel.org>,
- "Oleksandr Tyshchenko" <oleksandr_tyshchenko@epam.com>
-Message-Id: <94cbe491-1b32-47ec-a9b5-bed69bc4d52c@app.fastmail.com>
-In-Reply-To: <202609241805.VsLzGPLn-lkp@intel.com>
-References: <202609241805.VsLzGPLn-lkp@intel.com>
-Subject: Re: drivers/xen/gntdev.c:817 gntdev_get_page() warn: mask and shift to zero:
- expr='(addr & ~(~((1 << 12) - 1))) >> 12'
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 24, 2026, at 21:39, Dan Carpenter wrote:
+tree:   https://github.com/cornelisnetworks/linux.git for-upstream-20260924-1644
+head:   9cb4ed8dad868fd48ce7562aec2284c6102a17ac
+commit: 33965a8169931ed9c286a1f9785438145e6ed0a5 [22/25] RDMA/rdmavt: Fix SRQ resize locking and mmap lifetime
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20260925/202609250859.sDhZRhDI-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609250859.sDhZRhDI-lkp@intel.com/reproduce)
 
->    489                          return -EFAULT;
->    490                  break;
->    491          case 2:
->    492                  if (copy_from_user(&m, udata, sizeof(struct 
-> privcmd_mmapbatch_v2)))
->    493                          return -EFAULT;
->    494                  /* Returns per-frame error code in m.err. */
->    495                  if (!access_ok(m.err, m.num * (sizeof(*m.err))))
->                                               ^^^^^^^^^^^^^^^^^^^^^^^
-> These integer overflow bugs are from 2012, but I guess your patch 
-> exposed
-> the arm32 build to the zero day bot.  The bugs only affect 32bit 
-> systems.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609250859.sDhZRhDI-lkp@intel.com/
 
-Right, the randconfig came up with an ARMv6 Xen build, which was not
-possible before my patch. I'm sure this was reported for other configs
-before and just showed up as introduced by my patch here.
+All warnings (new ones prefixed by >>):
 
-This is clearly a bug but it does look harmless to me, as it only
-results in the userspace corrupting itself when passing invalid
-data.
+>> Warning: drivers/infiniband/sw/rdmavt/mmap.c:134 function parameter 'context' not described in 'rvt_create_mmap_info_context'
+>> Warning: drivers/infiniband/sw/rdmavt/mmap.c:134 expecting prototype for rvt_create_mmap_info(). Prototype was for rvt_create_mmap_info_context() instead
 
-      Arnd
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
