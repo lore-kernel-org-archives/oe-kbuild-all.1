@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABF6243964
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 02:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C15135AC10
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 02:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790388114; cv=none; b=QK5T2K4BE+n55efy+q2t81wO1F66s43vVi5pD2kfan7+aViupC/SJ6kJmxKSGi2FlhCqV5CYElM377FMHb3u3+jzx2OyIGHbUT3eDAHvuI5Tk+ZcFp1+0BIm06M1My7EcGR5vN4L+2AVjmwRUyKIb0Jju4jwP/tYCfOhzNiiuzE=
+	t=1790388782; cv=none; b=lg4csHFBF8Jkq5GrdMCYofWfEfa5z+62GTb7AzGa3RrggQTeG8/WR4wDqwbRO2t7wdcHmJQCDVAfvUejm4TuqBZejtn+EXnsxiW6BzuzXpLPX7jekINiqFHjq71rYNL1L+1fXbNeTRotg12gScYKLEl+tQzExCQ51fM3neVLiAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790388114; c=relaxed/simple;
-	bh=TyHMa884rEn3IuH6JzFdcB5NA7GYjcaY9Thmo8jQjK8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KbtXHNt5R8k+lGwVK55+N2LXORoE4HXGMG6CXa3VNh1Ps75bBD7CR0lgxVcAPa98zMhT2PVOlzIpj7QsqQunEVxA8BW/3Ap2tchRegZPmJHt2rTz7kCGi/RpTX/7cPyFDN5W/UCBukQlXfnGz27w/HmcePa2LEUBBBqc2a57JVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVbyw/fo; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1790388782; c=relaxed/simple;
+	bh=D8hznBV3X9vputz0GDesxMtEVSlFLBL/MYWFRs7IiFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RimhdTiBHxoREwIXeopmMDr//xqcF57CShpxt3/2S2VfUO6N87sAMTAMeL3/faN+0XVJekvrdT1tjiLxscfEwRySYmVvoVnPm2GVsJkTMFnXYbSsTnCH/WQfs0HZWU5f3nctm5qL5pDCLGnI8Cv1xg1N3Z+KbBd/zl0PgBDBJ8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWpTVNBo; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVbyw/fo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWpTVNBo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790388112; x=1821924112;
+  t=1790388780; x=1821924780;
   h=date:from:to:cc:subject:message-id;
-  bh=TyHMa884rEn3IuH6JzFdcB5NA7GYjcaY9Thmo8jQjK8=;
-  b=lVbyw/fozJrhshGmpYVzTs4CCmB0QJ57Zce6kUiYWFKfogytXsVWjwCt
-   w/QQf6fEZ9T+iaNRrszRXoNI/m3NLSNVS4u76PjTuaRVp8fVYbZWMSUF9
-   lp2OvpBI4Fv3dlJlBBwGlyLqozWAlABvsjY8eUKK03cF1eQbmofnoafH1
-   mEG0qHh7FlCRlgXgQilWs8GEEDlOMg6KAtmL9M98o+3XRrt/RybB8BFAx
-   fEoI2QUx50oIRxqlpqKB41Iyi03cN+SYhjCOPdHdDYf6WUKAPn3nMS9D1
-   vhAvuV13fm1vG2N3hB8lnGBnvtFTNu76Tf/L9XK/ph//+uE7IiVk4i+sC
-   Q==;
-X-CSE-ConnectionGUID: phWVVOegRi+1Ra94AV5wLA==
-X-CSE-MsgGUID: tQFbHX5uTe63T2x50cfXQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="107555457"
+  bh=D8hznBV3X9vputz0GDesxMtEVSlFLBL/MYWFRs7IiFQ=;
+  b=QWpTVNBo2sA3SpKBY7cKjGyXUOups7W6K47W/uotFT1h9i9J4dCfhfLG
+   nBJVzDmti7jN/4Bokx5A2/3Tr2vMBRJXx7HCTInBWfWWidkf61NNpJcte
+   RTobjRqgIZW03r3pqyPtJleDOkXNQIZpC7xXXTYuoSVwofxwta13lawgA
+   6OVDz+heZBhBeECEguS6WBhSt2XN4AFVFcNNCpTeRLgJZbIIm92vwWueR
+   aPcSuP9gpCPlG0LS85398ROt0QXvqMcpMAIYaWnkddcehP/9QGIMfjpH7
+   a8KRdH5ugQiztT8k2FaAowpoMzxDkDgH/4LFogbB6cAKX2cBVmPLpAB3R
+   g==;
+X-CSE-ConnectionGUID: v5DQsgJESnmxNjFR8TIgKQ==
+X-CSE-MsgGUID: DuA3Zn+nQwi2595TGYqgxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="90217466"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="107555457"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 19:01:52 -0700
-X-CSE-ConnectionGUID: y+WaXH3GTCWYcxKQDdNXnA==
-X-CSE-MsgGUID: WDdPEBriRtSLSkADRKwywA==
+   d="scan'208";a="90217466"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 19:12:55 -0700
+X-CSE-ConnectionGUID: 1bsXdshRREOVTEPOUUUn7A==
+X-CSE-MsgGUID: fVLyPTw9R9OkJQ6SOK+A2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="303985537"
+   d="scan'208";a="312398477"
 Received: from igk-lkp-server01.igk.intel.com (HELO 7278393c7b39) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 25 Sep 2026 19:01:50 -0700
+  by orviesa001.jf.intel.com with ESMTP; 25 Sep 2026 19:12:53 -0700
 Received: from kbuild by 7278393c7b39 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAHjX-000000000AN-32kx;
-	Sat, 26 Sep 2026 02:01:47 +0000
-Date: Sat, 26 Sep 2026 04:01:15 +0200
+	id 1xAHuD-000000000Ab-2cCl;
+	Sat, 26 Sep 2026 02:12:49 +0000
+Date: Sat, 26 Sep 2026 04:12:04 +0200
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>
+To: John Ogness <john.ogness@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/linux/compiler.h:200:82: error: expression in static
- assertion is not an integer
-Message-ID: <202609260356.tJWbd1WU-lkp@intel.com>
+Subject: drivers/tty/serial/8250/8250_dfl.c:137:1: warning: the frame
+ size of 1040 bytes is larger than 1024 bytes
+Message-ID: <202609260435.D0DdZXo2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,79 +59,73 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Rosen,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6812ce4e4379ffc99c52401ec28f0d7ffbc36206
-commit: 4d105880666ab7f7914a75716d3e95b0d8b879dc tty: serial: mpc52xx_uart: add bounds check for psc_num array index
-date:   3 months ago
-config: powerpc-randconfig-r2101-20260926 (https://download.01.org/0day-ci/archive/20260926/202609260356.tJWbd1WU-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260356.tJWbd1WU-lkp@intel.com/reproduce)
+commit: d3539347022ad4eeb9dbd29c50bfca17b9d8a146 serial: 8250: Switch to nbcon console, take 2
+date:   8 weeks ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20260926/202609260435.D0DdZXo2-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260435.D0DdZXo2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 4d105880666a ("tty: serial: mpc52xx_uart: add bounds check for psc_num array index")
+| Fixes: d3539347022a ("serial: 8250: Switch to nbcon console, take 2")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609260356.tJWbd1WU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609260435.D0DdZXo2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:16,
-                    from arch/powerpc/include/asm/page.h:11,
-                    from arch/powerpc/include/asm/thread_info.h:13,
-                    from include/linux/thread_info.h:62,
-                    from arch/powerpc/include/asm/processor.h:41,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/tty/serial/mpc52xx_uart.c:31:
-   drivers/tty/serial/mpc52xx_uart.c: In function 'mpc512x_psc_handle_irq':
-   drivers/tty/serial/mpc52xx_uart.c:648:35: error: 'psc_mclk_clk' undeclared (first use in this function)
-     648 |         if (psc_num >= ARRAY_SIZE(psc_mclk_clk))
-         |                                   ^~~~~~~~~~~~
-   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                 ^~~
-   drivers/tty/serial/mpc52xx_uart.c:648:35: note: each undeclared identifier is reported only once for each function it appears in
-     648 |         if (psc_num >= ARRAY_SIZE(psc_mclk_clk))
-         |                                   ^~~~~~~~~~~~
-   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                 ^~~
-   In file included from include/linux/dev_printk.h:14:
->> include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
-     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   drivers/tty/serial/mpc52xx_uart.c:648:24: note: in expansion of macro 'ARRAY_SIZE'
-     648 |         if (psc_num >= ARRAY_SIZE(psc_mclk_clk))
-         |                        ^~~~~~~~~~
+   drivers/tty/serial/8250/8250_dfl.c: In function 'dfl_uart_probe':
+>> drivers/tty/serial/8250/8250_dfl.c:137:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     137 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_of.c: In function 'of_platform_serial_probe':
+>> drivers/tty/serial/8250/8250_of.c:284:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     284 | }
+         | ^
 
 
-vim +200 include/linux/compiler.h
+vim +137 drivers/tty/serial/8250/8250_dfl.c
 
-230fa253df6352 Christian Borntraeger 2014-11-25  196  
-cb7380de9e4cbc Kees Cook             2025-02-05  197  #ifdef __CHECKER__
-243c90e917f5cf Vincent Mailhol       2025-03-29  198  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) (0)
-cb7380de9e4cbc Kees Cook             2025-02-05  199  #else /* __CHECKER__ */
-243c90e917f5cf Vincent Mailhol       2025-03-29 @200  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-cb7380de9e4cbc Kees Cook             2025-02-05  201  #endif /* __CHECKER__ */
-cb7380de9e4cbc Kees Cook             2025-02-05  202  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  107  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  108  static int dfl_uart_probe(struct dfl_device *dfl_dev)
+e34a79d0b320ea Matthew Gerlach 2023-01-15  109  {
+e34a79d0b320ea Matthew Gerlach 2023-01-15  110  	struct device *dev = &dfl_dev->dev;
+e34a79d0b320ea Matthew Gerlach 2023-01-15  111  	struct uart_8250_port uart = { };
+e34a79d0b320ea Matthew Gerlach 2023-01-15  112  	struct dfl_uart *dfluart;
+e34a79d0b320ea Matthew Gerlach 2023-01-15  113  	int ret;
+e34a79d0b320ea Matthew Gerlach 2023-01-15  114  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  115  	uart.port.flags = UPF_IOREMAP;
+e34a79d0b320ea Matthew Gerlach 2023-01-15  116  	uart.port.mapbase = dfl_dev->mmio_res.start;
+e34a79d0b320ea Matthew Gerlach 2023-01-15  117  	uart.port.mapsize = resource_size(&dfl_dev->mmio_res);
+e34a79d0b320ea Matthew Gerlach 2023-01-15  118  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  119  	ret = dfl_uart_get_params(dfl_dev, &uart);
+e34a79d0b320ea Matthew Gerlach 2023-01-15  120  	if (ret < 0)
+e34a79d0b320ea Matthew Gerlach 2023-01-15  121  		return dev_err_probe(dev, ret, "failed uart feature walk\n");
+e34a79d0b320ea Matthew Gerlach 2023-01-15  122  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  123  	if (dfl_dev->num_irqs == 1)
+e34a79d0b320ea Matthew Gerlach 2023-01-15  124  		uart.port.irq = dfl_dev->irqs[0];
+e34a79d0b320ea Matthew Gerlach 2023-01-15  125  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  126  	dfluart = devm_kzalloc(dev, sizeof(*dfluart), GFP_KERNEL);
+e34a79d0b320ea Matthew Gerlach 2023-01-15  127  	if (!dfluart)
+e34a79d0b320ea Matthew Gerlach 2023-01-15  128  		return -ENOMEM;
+e34a79d0b320ea Matthew Gerlach 2023-01-15  129  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  130  	dfluart->line = serial8250_register_8250_port(&uart);
+e34a79d0b320ea Matthew Gerlach 2023-01-15  131  	if (dfluart->line < 0)
+e34a79d0b320ea Matthew Gerlach 2023-01-15  132  		return dev_err_probe(dev, dfluart->line, "unable to register 8250 port.\n");
+e34a79d0b320ea Matthew Gerlach 2023-01-15  133  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  134  	dev_set_drvdata(dev, dfluart);
+e34a79d0b320ea Matthew Gerlach 2023-01-15  135  
+e34a79d0b320ea Matthew Gerlach 2023-01-15  136  	return 0;
+e34a79d0b320ea Matthew Gerlach 2023-01-15 @137  }
+e34a79d0b320ea Matthew Gerlach 2023-01-15  138  
 
-:::::: The code at line 200 was first introduced by commit
-:::::: 243c90e917f5cfc99821e5104d1c8a81c11cda4c build_bug.h: more user friendly error messages in BUILD_BUG_ON_ZERO()
+:::::: The code at line 137 was first introduced by commit
+:::::: e34a79d0b320ea8248e1ee3482eb5c388a27d303 tty: serial: 8250: add DFL bus driver for Altera 16550.
 
-:::::: TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-:::::: CC: Yury Norov <yury.norov@gmail.com>
+:::::: TO: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
