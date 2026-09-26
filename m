@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5704A288C2D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 01:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABF6243964
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 02:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790387452; cv=none; b=nSAqA2nCJQdIKwoiY7JBEn+1DrGt4QeYIuiG4l+6Xgn9V9sA4KNuE0MFdURz0QJ70wIeApVcuVOxWdyWYfpmomShidsLEfJ9T4Mxog3u+/ue1y3ySzpoTSR6MoSRnv3syO24dkSRffl0+/3sFZ6ASiZWCOogf6cRlhM1bpok9Mg=
+	t=1790388114; cv=none; b=QK5T2K4BE+n55efy+q2t81wO1F66s43vVi5pD2kfan7+aViupC/SJ6kJmxKSGi2FlhCqV5CYElM377FMHb3u3+jzx2OyIGHbUT3eDAHvuI5Tk+ZcFp1+0BIm06M1My7EcGR5vN4L+2AVjmwRUyKIb0Jju4jwP/tYCfOhzNiiuzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790387452; c=relaxed/simple;
-	bh=fJvqgCEqoJ4RoM4Rtko73xTGlUEsXDdItS5vo+Io4yw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tn7GaRgX//uuw4vorP2s43VjW+I45LYg8csSljgmDO3EgSj05yR0mAsrGZH7C5K+YX1Armi2IZhFDDRYMGS4+HVGCXDxSCQZG2rHjP6KHHKcNLOLnZ++BHSPTh35kkpFO1hhX9xzh3fQanIIjtwnTl0rpM4rcl6/kMIfdASz2GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZC+t9ZBU; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790388114; c=relaxed/simple;
+	bh=TyHMa884rEn3IuH6JzFdcB5NA7GYjcaY9Thmo8jQjK8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KbtXHNt5R8k+lGwVK55+N2LXORoE4HXGMG6CXa3VNh1Ps75bBD7CR0lgxVcAPa98zMhT2PVOlzIpj7QsqQunEVxA8BW/3Ap2tchRegZPmJHt2rTz7kCGi/RpTX/7cPyFDN5W/UCBukQlXfnGz27w/HmcePa2LEUBBBqc2a57JVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lVbyw/fo; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC+t9ZBU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lVbyw/fo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790387450; x=1821923450;
+  t=1790388112; x=1821924112;
   h=date:from:to:cc:subject:message-id;
-  bh=fJvqgCEqoJ4RoM4Rtko73xTGlUEsXDdItS5vo+Io4yw=;
-  b=ZC+t9ZBUAabBTMnidXsVLA3Ow/tXDn+eMadDXdpQzVIfG2a0nsRW/Xmf
-   x+S8TTniiqCfBHyNNmJhPdyIh9uGJmkq8ldIbzli0D+9EehqPWcvjpWWt
-   k9y00G/9h/P72as500ZjtlDoiuM8LCQWbKzvCSZ2pPYGVevqILU16KcEP
-   xRCV6ArA+UmKDiVNpe8h+Gd1dc8hbLu7Z7Wx7hjJlBdzUgRa4jrIAMoZL
-   tkfQToyc4dklB21r4uBLMngzIhgFjT17itRR1Iu7xUUGpqKRFreoQxkb7
-   Vnyu3jimuynK3JfGA+9Ozs8goh6qrccWnLMsafJzMnpqipTky4mQby8Sa
+  bh=TyHMa884rEn3IuH6JzFdcB5NA7GYjcaY9Thmo8jQjK8=;
+  b=lVbyw/fozJrhshGmpYVzTs4CCmB0QJ57Zce6kUiYWFKfogytXsVWjwCt
+   w/QQf6fEZ9T+iaNRrszRXoNI/m3NLSNVS4u76PjTuaRVp8fVYbZWMSUF9
+   lp2OvpBI4Fv3dlJlBBwGlyLqozWAlABvsjY8eUKK03cF1eQbmofnoafH1
+   mEG0qHh7FlCRlgXgQilWs8GEEDlOMg6KAtmL9M98o+3XRrt/RybB8BFAx
+   fEoI2QUx50oIRxqlpqKB41Iyi03cN+SYhjCOPdHdDYf6WUKAPn3nMS9D1
+   vhAvuV13fm1vG2N3hB8lnGBnvtFTNu76Tf/L9XK/ph//+uE7IiVk4i+sC
    Q==;
-X-CSE-ConnectionGUID: OywNEu5wRxqGSSni6W3gdg==
-X-CSE-MsgGUID: roBYxks3Qc2H01HQ9zumPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="102541859"
+X-CSE-ConnectionGUID: phWVVOegRi+1Ra94AV5wLA==
+X-CSE-MsgGUID: tQFbHX5uTe63T2x50cfXQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="107555457"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="102541859"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 18:50:50 -0700
-X-CSE-ConnectionGUID: 1vcbZXFIRbajH4tGfp+HsQ==
-X-CSE-MsgGUID: T8q2iJRIS++5a2dDkQDJbQ==
+   d="scan'208";a="107555457"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 19:01:52 -0700
+X-CSE-ConnectionGUID: y+WaXH3GTCWYcxKQDdNXnA==
+X-CSE-MsgGUID: WDdPEBriRtSLSkADRKwywA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="272637008"
+   d="scan'208";a="303985537"
 Received: from igk-lkp-server01.igk.intel.com (HELO 7278393c7b39) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2026 18:50:49 -0700
+  by orviesa002.jf.intel.com with ESMTP; 25 Sep 2026 19:01:50 -0700
 Received: from kbuild by 7278393c7b39 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAHYs-000000000AB-2CPf;
-	Sat, 26 Sep 2026 01:50:46 +0000
-Date: Sat, 26 Sep 2026 03:50:34 +0200
+	id 1xAHjX-000000000AN-32kx;
+	Sat, 26 Sep 2026 02:01:47 +0000
+Date: Sat, 26 Sep 2026 04:01:15 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.2-main 214/214]
- drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1003:4-5: Unneeded semicolon
-Message-ID: <202609260328.5En1DMgN-lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/compiler.h:200:82: error: expression in static
+ assertion is not an integer
+Message-ID: <202609260356.tJWbd1WU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,43 +59,79 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-main
-head:   27e8d41a42f73cb2b271df0e897e25224889f6d0
-commit: ec42a170885c381733f406d05265ccea08e9dca0 [214/214] net: mediatek: add proprietary debugfs
-config: sparc64-randconfig-r2104-20260925 (https://download.01.org/0day-ci/archive/20260926/202609260328.5En1DMgN-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.2.0
+Hi Rosen,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6812ce4e4379ffc99c52401ec28f0d7ffbc36206
+commit: 4d105880666ab7f7914a75716d3e95b0d8b879dc tty: serial: mpc52xx_uart: add bounds check for psc_num array index
+date:   3 months ago
+config: powerpc-randconfig-r2101-20260926 (https://download.01.org/0day-ci/archive/20260926/202609260356.tJWbd1WU-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260356.tJWbd1WU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4d105880666a ("tty: serial: mpc52xx_uart: add bounds check for psc_num array index")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609260328.5En1DMgN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609260356.tJWbd1WU-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1003:4-5: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +1003 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
+   In file included from include/linux/kernel.h:16,
+                    from arch/powerpc/include/asm/page.h:11,
+                    from arch/powerpc/include/asm/thread_info.h:13,
+                    from include/linux/thread_info.h:62,
+                    from arch/powerpc/include/asm/processor.h:41,
+                    from include/linux/sched.h:13,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/tty/serial/mpc52xx_uart.c:31:
+   drivers/tty/serial/mpc52xx_uart.c: In function 'mpc512x_psc_handle_irq':
+   drivers/tty/serial/mpc52xx_uart.c:648:35: error: 'psc_mclk_clk' undeclared (first use in this function)
+     648 |         if (psc_num >= ARRAY_SIZE(psc_mclk_clk))
+         |                                   ^~~~~~~~~~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   drivers/tty/serial/mpc52xx_uart.c:648:35: note: each undeclared identifier is reported only once for each function it appears in
+     648 |         if (psc_num >= ARRAY_SIZE(psc_mclk_clk))
+         |                                   ^~~~~~~~~~~~
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   In file included from include/linux/dev_printk.h:14:
+>> include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
+     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                  ^
+   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/tty/serial/mpc52xx_uart.c:648:24: note: in expansion of macro 'ARRAY_SIZE'
+     648 |         if (psc_num >= ARRAY_SIZE(psc_mclk_clk))
+         |                        ^~~~~~~~~~
 
-   990	
-   991	static void dump_each_port(struct seq_file *seq, struct mtk_eth *eth, u32 base)
-   992	{
-   993		u32 pkt_cnt = 0;
-   994		int i = 0;
-   995	
-   996		for (i = 0; i < 7; i++) {
-   997			if (mtk_is_netsys_v3_or_greater(eth)) {
-   998				if ((base == 0x402C) && (i == 6))
-   999					base = 0x408C;
-  1000				else if ((base == 0x408C) && (i == 6))
-  1001					base = 0x402C;
-  1002				else {
-> 1003				};
-  1004			}
-  1005			pkt_cnt = mt7530_mdio_r32(eth, (base) + (i * 0x100));
-  1006			seq_printf(seq, "%8u ", pkt_cnt);
-  1007		}
-  1008		seq_puts(seq, "\n");
-  1009	}
-  1010	
+
+vim +200 include/linux/compiler.h
+
+230fa253df6352 Christian Borntraeger 2014-11-25  196  
+cb7380de9e4cbc Kees Cook             2025-02-05  197  #ifdef __CHECKER__
+243c90e917f5cf Vincent Mailhol       2025-03-29  198  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) (0)
+cb7380de9e4cbc Kees Cook             2025-02-05  199  #else /* __CHECKER__ */
+243c90e917f5cf Vincent Mailhol       2025-03-29 @200  #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+cb7380de9e4cbc Kees Cook             2025-02-05  201  #endif /* __CHECKER__ */
+cb7380de9e4cbc Kees Cook             2025-02-05  202  
+
+:::::: The code at line 200 was first introduced by commit
+:::::: 243c90e917f5cfc99821e5104d1c8a81c11cda4c build_bug.h: more user friendly error messages in BUILD_BUG_ON_ZERO()
+
+:::::: TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 --
 0-DAY CI Kernel Test Service
