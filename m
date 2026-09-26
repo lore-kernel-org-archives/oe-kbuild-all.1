@@ -1,116 +1,101 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843262750F2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 01:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5704A288C2D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 01:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790387423; cv=none; b=G2zFuK1ZjFTMY7FCSE2G1/DF64Z5ZhdDXpDaLmPoSuz1QpFZW2zAYQbSV5WIlfuQy9x7UnBixkHEfNajyX9ze7qJBbvFg0gL1vfAQOjLwFuhwZm/9KeRcfDzZTuXPW5MfNI6rso9lCHih7ffkw0DWnbNj4/SvGShaFHJu+DykoU=
+	t=1790387452; cv=none; b=nSAqA2nCJQdIKwoiY7JBEn+1DrGt4QeYIuiG4l+6Xgn9V9sA4KNuE0MFdURz0QJ70wIeApVcuVOxWdyWYfpmomShidsLEfJ9T4Mxog3u+/ue1y3ySzpoTSR6MoSRnv3syO24dkSRffl0+/3sFZ6ASiZWCOogf6cRlhM1bpok9Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790387423; c=relaxed/simple;
-	bh=gvlAMryz1WLaIdzCvIYBahSgwylu41M6JAq44ILGcJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HD8wRfcOkHeYyKjMrl8NT5DAaeDQ7qCI6PgZJFITcMGd43r+IfGmkVjNGJJW3TZS+4PJMUzkFbYlcnz/ppC7+DpLGjt5Vzt52CmeNvR85WXjU6PETFA9sz755nMpeHMQWBiPEJ+UWHYKCHN2JppvTGs1JBnK1EhEAC4gA02fvC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W+CZuW+o; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790387452; c=relaxed/simple;
+	bh=fJvqgCEqoJ4RoM4Rtko73xTGlUEsXDdItS5vo+Io4yw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tn7GaRgX//uuw4vorP2s43VjW+I45LYg8csSljgmDO3EgSj05yR0mAsrGZH7C5K+YX1Armi2IZhFDDRYMGS4+HVGCXDxSCQZG2rHjP6KHHKcNLOLnZ++BHSPTh35kkpFO1hhX9xzh3fQanIIjtwnTl0rpM4rcl6/kMIfdASz2GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZC+t9ZBU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W+CZuW+o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC+t9ZBU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790387421; x=1821923421;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gvlAMryz1WLaIdzCvIYBahSgwylu41M6JAq44ILGcJM=;
-  b=W+CZuW+ooGS9IlaGcfbPL77CKHkTGNYMyCtTBiKzVtAfBSYXUmMVQTjH
-   TVkMDnxGNY/ur68cGR7mYay8820e17kxl8OiZuAJYcf3aqhZnQ40pKVRp
-   7UTcmKu/c1eZ4hDGHGGUUTdizJpbvGUGt4pKxzY+0Eijbp+Ijx4j2Gnp3
-   0JlkT+rxAMpoPMcy2q+7l/hB+bCJz7h9eYagJw1eHLw8W+TIiM0CPC37I
-   73H38U+jnvmXTidHvypjIFpKlfYlvCeoMf9+rUu2orNzVKXhUjaWix8eM
-   XwE0DA1S5TdxcY5aIxdWi6ddXrMSMYuF40dgB3KsudlQMO48XX57JWLgC
-   g==;
-X-CSE-ConnectionGUID: T44M35pQS9GIinM8H7M+9w==
-X-CSE-MsgGUID: M6k3Ha6eRYmlvMPP3R2LAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="102541848"
+  t=1790387450; x=1821923450;
+  h=date:from:to:cc:subject:message-id;
+  bh=fJvqgCEqoJ4RoM4Rtko73xTGlUEsXDdItS5vo+Io4yw=;
+  b=ZC+t9ZBUAabBTMnidXsVLA3Ow/tXDn+eMadDXdpQzVIfG2a0nsRW/Xmf
+   x+S8TTniiqCfBHyNNmJhPdyIh9uGJmkq8ldIbzli0D+9EehqPWcvjpWWt
+   k9y00G/9h/P72as500ZjtlDoiuM8LCQWbKzvCSZ2pPYGVevqILU16KcEP
+   xRCV6ArA+UmKDiVNpe8h+Gd1dc8hbLu7Z7Wx7hjJlBdzUgRa4jrIAMoZL
+   tkfQToyc4dklB21r4uBLMngzIhgFjT17itRR1Iu7xUUGpqKRFreoQxkb7
+   Vnyu3jimuynK3JfGA+9Ozs8goh6qrccWnLMsafJzMnpqipTky4mQby8Sa
+   Q==;
+X-CSE-ConnectionGUID: OywNEu5wRxqGSSni6W3gdg==
+X-CSE-MsgGUID: roBYxks3Qc2H01HQ9zumPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="102541859"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="102541848"
+   d="scan'208";a="102541859"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 18:50:20 -0700
-X-CSE-ConnectionGUID: X3qFXGIDQuGf03P7+LteNg==
-X-CSE-MsgGUID: /hzAtJMeT7CGXtiLpgUxpw==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 18:50:50 -0700
+X-CSE-ConnectionGUID: 1vcbZXFIRbajH4tGfp+HsQ==
+X-CSE-MsgGUID: T8q2iJRIS++5a2dDkQDJbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="272636984"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2026 18:50:17 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="272637008"
+Received: from igk-lkp-server01.igk.intel.com (HELO 7278393c7b39) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 25 Sep 2026 18:50:49 -0700
+Received: from kbuild by 7278393c7b39 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAHYM-00000000LRJ-2CH3;
-	Sat, 26 Sep 2026 01:50:14 +0000
-Date: Sat, 26 Sep 2026 09:49:36 +0800
+	id 1xAHYs-000000000AB-2CPf;
+	Sat, 26 Sep 2026 01:50:46 +0000
+Date: Sat, 26 Sep 2026 03:50:34 +0200
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@sandisk.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Can Guo <can.guo@oss.qualcomm.com>, Bean Huo <beanhuo@micron.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] scsi: ufs: rpmb: register and unregister the ufs_rpmb bus
-Message-ID: <202609260913.FY1vuM99-lkp@intel.com>
-References: <20260920-fix-ufs-rpmb-v1-1-560b842c589d@oss.qualcomm.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.2-main 214/214]
+ drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1003:4-5: Unneeded semicolon
+Message-ID: <202609260328.5En1DMgN-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260920-fix-ufs-rpmb-v1-1-560b842c589d@oss.qualcomm.com>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 3f2425f5b5bbbdd991ca9cdfd5502e68d8895998]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/scsi-ufs-rpmb-register-and-unregister-the-ufs_rpmb-bus/20260920-175018
-base:   3f2425f5b5bbbdd991ca9cdfd5502e68d8895998
-patch link:    https://lore.kernel.org/r/20260920-fix-ufs-rpmb-v1-1-560b842c589d%40oss.qualcomm.com
-patch subject: [PATCH] scsi: ufs: rpmb: register and unregister the ufs_rpmb bus
-config: arc-randconfig-1001-20260926 (https://download.01.org/0day-ci/archive/20260926/202609260913.FY1vuM99-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260913.FY1vuM99-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.2-main
+head:   27e8d41a42f73cb2b271df0e897e25224889f6d0
+commit: ec42a170885c381733f406d05265ccea08e9dca0 [214/214] net: mediatek: add proprietary debugfs
+config: sparc64-randconfig-r2104-20260925 (https://download.01.org/0day-ci/archive/20260926/202609260328.5En1DMgN-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609260913.FY1vuM99-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609260328.5En1DMgN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1003:4-5: Unneeded semicolon
 
-   arc-linux-ld: drivers/ufs/core/ufs-rpmb.o: in function `ufs_rpmb_init':
->> drivers/ufs/core/ufs-rpmb.c:280: multiple definition of `init_module'; drivers/ufs/core/ufshcd.o:drivers/ufs/core/ufshcd.c:11609: first defined here
-   arc-linux-ld: drivers/ufs/core/ufs-rpmb.o: in function `ufs_rpmb_exit':
->> drivers/ufs/core/ufs-rpmb.c:285: multiple definition of `cleanup_module'; drivers/ufs/core/ufshcd.o:drivers/ufs/core/ufshcd.c:11623: first defined here
+vim +1003 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
 
-
-vim +280 drivers/ufs/core/ufs-rpmb.c
-
-   277	
-   278	static int __init ufs_rpmb_init(void)
-   279	{
- > 280		return bus_register(&ufs_rpmb_bus_type);
-   281	}
-   282	
-   283	static void __exit ufs_rpmb_exit(void)
-   284	{
- > 285		bus_unregister(&ufs_rpmb_bus_type);
-   286	}
-   287	
+   990	
+   991	static void dump_each_port(struct seq_file *seq, struct mtk_eth *eth, u32 base)
+   992	{
+   993		u32 pkt_cnt = 0;
+   994		int i = 0;
+   995	
+   996		for (i = 0; i < 7; i++) {
+   997			if (mtk_is_netsys_v3_or_greater(eth)) {
+   998				if ((base == 0x402C) && (i == 6))
+   999					base = 0x408C;
+  1000				else if ((base == 0x408C) && (i == 6))
+  1001					base = 0x402C;
+  1002				else {
+> 1003				};
+  1004			}
+  1005			pkt_cnt = mt7530_mdio_r32(eth, (base) + (i * 0x100));
+  1006			seq_printf(seq, "%8u ", pkt_cnt);
+  1007		}
+  1008		seq_puts(seq, "\n");
+  1009	}
+  1010	
 
 --
 0-DAY CI Kernel Test Service
