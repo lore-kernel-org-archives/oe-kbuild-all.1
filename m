@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1984839526F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 05:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F324D3438A1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 05:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790399391; cv=none; b=VbWdBr9fLgquxWGJys56Nwh8sAYjOYGsAd9c1RzRaj4ki4x/AZ2xzyEQNpsbLfz+fYQjxm9A19dbnaWB8U7CT+6J4SWEhJqSpvUs29j/s8bSP2kTjcYYD+D4x/rduw3ty7LNGy1afalonBdekueqKZoFlHbWAvgCLyyxrmY5WvQ=
+	t=1790401187; cv=none; b=IyTENdsO/ScuHe+62W0eVuEpB1A4woUNyj1hOJL7oFvtOAKflvlZdLK2yJrsUjxOfvv6dhMNLrBzyuxO8W5gxuLBCagL/LIM2fE71LRo4t1Fs9RO0apV59LylOB3ZMJ+STzYrg3NDgd2Q7zsutuE5XQOzg12IyzbIY68VnE4bco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790399391; c=relaxed/simple;
-	bh=wPvHnkvaNuhKYIlnSxSumS4o1qBEw/bryvaEhnIEG4M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GsPjrJYDSqMenT/yZZhA3J2gDznOkRF8SdwKBOk0UHXmeMMyBrNtgKw8OTQL1/bAKzdFgtNdTwR30r1DLlar2NA4Oi6o465zJvSYgq75Sey2LqAQ2lZwqDlvmZ8NQDpxRMCxUIekBrTyy3obTFjRh55S+zVl2yjD6P1vLiYX7RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WByy84kt; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1790401187; c=relaxed/simple;
+	bh=GxeO7ZR+43/HiQDLS0mh9PITwkx3wf4sbluS4Lw9CLM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ERExgMnsdvKOTSZhFJ2TW0oAKVLYn8etAI2D6s/pQRhd/Rv4dkDfSBAdmjphBfneiLVo6QPnyC8Jq155nPSaANu0DhP+4vInIl776f/dbzBVA5mQeHegAVyoPdsBiabSFHcJf9mKyWXXHN6KbZjo0ziFMnMEAdyy9lAdXECFrn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kD0mYF8O; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WByy84kt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kD0mYF8O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790399389; x=1821935389;
+  t=1790401186; x=1821937186;
   h=date:from:to:cc:subject:message-id;
-  bh=wPvHnkvaNuhKYIlnSxSumS4o1qBEw/bryvaEhnIEG4M=;
-  b=WByy84ktmQVQgV/xOSXy562GNhHMR0Z1rMoNFMkoHEGHTWWGFnv3O/24
-   7OfA6mFCdeciNACNQLfWxntIKrSg/zoUohDladUApSKFK0kim6YHJbiho
-   IkrADxCLrI8GhBap2cp46JFMTUC1E3V81bJk4arKDFLHkmhQS4gTCq+uH
-   oFLaRzrhu/ncczJxvc+lJTi0AEVe6Fj9NpVx5YSjSFtHVdEerwXyI+5GZ
-   fNxB78FOrV3ci4NpAf1UY/iuAPQuieb4IJ2LHV9+lJVZoipgd9Q4mK2TO
-   7TGkG+bAeAWBPpbZDnQPqnfiwUSipKFjonZqgg7F0JRhamhNEz5MUQhY/
-   A==;
-X-CSE-ConnectionGUID: LcczqxlzTVCWBNfOiTPqhA==
-X-CSE-MsgGUID: gSBgPQMdT4+gn/Xwq4RAow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="91202348"
+  bh=GxeO7ZR+43/HiQDLS0mh9PITwkx3wf4sbluS4Lw9CLM=;
+  b=kD0mYF8O4wO6UeGoXn9ui7q397i1cyLJBeC6C4CeLVL81vJjCTtQnsqd
+   r3wgq/dIc6ZHwJyE85zOeCy75JdrVLyjnHNhZ4oA3NEsxIp9nQg6qs8j2
+   ykvQJiNQqs1J9FbijQe6QOirzDaY+aIanRVIS4QIb64GHYSNgVEkWSuOL
+   amEkfpFb1YwmvhOSIRYFTv1n18plLLYrww4bf5EOgdL9H+xUyYsEI6PKK
+   4cpztzgv8qJEWreexRtujjNmX8x5OaCq76QrpS3QCOu6bFQWsMN8MfKP3
+   VVV+G1XvAa2scy55ecFUjJVra0N21lM3xXviCzPtc9hoZwL3WKRGIeJTC
+   w==;
+X-CSE-ConnectionGUID: ltiPlO0BSwe00HQ4HTDJ9w==
+X-CSE-MsgGUID: dr4ZmYf+SiCIuPGTTpeJEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="94063264"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="91202348"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 22:09:48 -0700
-X-CSE-ConnectionGUID: MN3UPBXMSjehDaDInnFi8Q==
-X-CSE-MsgGUID: Ot5YbGFRT6KXwEzPqKLwDw==
+   d="scan'208";a="94063264"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 22:39:45 -0700
+X-CSE-ConnectionGUID: 8vthwh1uQgqp7JBOH4U12A==
+X-CSE-MsgGUID: hP3LBtOBRuqKnjx8p6uegA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="274588376"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Sep 2026 22:09:47 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 7278393c7b39) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 25 Sep 2026 22:39:44 -0700
+Received: from kbuild by 7278393c7b39 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAKfQ-00000000LXV-0p7T;
-	Sat, 26 Sep 2026 05:09:44 +0000
-Date: Sat, 26 Sep 2026 13:08:47 +0800
+	id 1xAL8P-000000000Lf-3dTF;
+	Sat, 26 Sep 2026 05:39:41 +0000
+Date: Sat, 26 Sep 2026 07:38:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: Miro Kropacek <miro.kropacek@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Michael Schmitz <schmitzmic@gmail.com>
-Subject: drivers/video/fbdev/atafb.c:2457:17: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202609261313.kgFtkz2t-lkp@intel.com>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [linux-next:master 9478/10910]
+ arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@90014000
+ (renesas,r9a09g087-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai',
+ 'cmpbi'] is too short
+Message-ID: <202609260721.RtG4LmP9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,85 +60,51 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5fc5768c7ca92895ccd1de94dc521e5a55ae7896
-commit: d463633d63e6aa10384683bf39971a4b00780c56 fbdev: atafb: Add support for SuperVidel's SuperBlitter
-date:   5 weeks ago
-config: m68k-randconfig-r1308-20260926 (https://download.01.org/0day-ci/archive/20260926/202609261313.kgFtkz2t-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609261313.kgFtkz2t-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
+commit: 84cfe37c261eef10ea4030ae75bc038e04ae26a1 [9478/10910] arm64: dts: renesas: r9a09g087: Drop unwired ADC interrupts
+config: arm64-randconfig-2400-20260925 (https://download.01.org/0day-ci/archive/20260926/202609260721.RtG4LmP9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema: 2026.10.dev2+g840a01d41
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260721.RtG4LmP9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: d463633d63e6 ("fbdev: atafb: Add support for SuperVidel's SuperBlitter")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609261313.kgFtkz2t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609260721.RtG4LmP9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/atafb.c:2824:9: sparse: sparse: switch with no cases
-   drivers/video/fbdev/atafb.c:1092:34: sparse: sparse: Using plain integer as NULL pointer
->> drivers/video/fbdev/atafb.c:2457:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/atafb.c:2641:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void * @@
-   drivers/video/fbdev/atafb.c:2641:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atafb.c:2641:27: sparse:     got void *
-   drivers/video/fbdev/atafb.c:2815:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dst @@     got char [noderef] __iomem *screen_base @@
-   drivers/video/fbdev/atafb.c:2815:32: sparse:     expected void *dst
-   drivers/video/fbdev/atafb.c:2815:32: sparse:     got char [noderef] __iomem *screen_base
-   drivers/video/fbdev/atafb.c:3353:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *static [toplevel] external_screen_base @@     got void [noderef] __iomem * @@
-   drivers/video/fbdev/atafb.c:3353:38: sparse:     expected void *static [toplevel] external_screen_base
-   drivers/video/fbdev/atafb.c:3353:38: sparse:     got void [noderef] __iomem *
-   drivers/video/fbdev/atafb.c:3424:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *static [toplevel] external_screen_base @@
-   drivers/video/fbdev/atafb.c:3424:33: sparse:     expected void [noderef] __iomem *addr
-   drivers/video/fbdev/atafb.c:3424:33: sparse:     got void *static [toplevel] external_screen_base
-   drivers/video/fbdev/atafb.c:3428:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/video/fbdev/atafb.c:3428:34: sparse:     expected void [noderef] __iomem *addr
-   drivers/video/fbdev/atafb.c:3428:34: sparse:     got void *
-
-vim +/__iomem +2457 drivers/video/fbdev/atafb.c
-
-  2436	
-  2437	static void svblit_fillrect(struct fb_info *info,
-  2438				    const struct fb_fillrect *rect)
-  2439	{
-  2440		u32 bytespp = info->var.bits_per_pixel / 8;
-  2441		u32 pitch = info->fix.line_length;
-  2442		u8 *line;
-  2443		u32 pix;
-  2444	
-  2445		svblit_wait();		/* the CPU is about to touch the fb */
-  2446	
-  2447		if (rect->rop != ROP_COPY || rect->height <= 1 ||
-  2448		    rect->height > 4096) {
-  2449			cfb_fillrect(info, rect);
-  2450			return;
-  2451		}
-  2452	
-  2453		pix = (info->fix.visual == FB_VISUAL_TRUECOLOR) ?
-  2454			((u32 *)info->pseudo_palette)[rect->color] : rect->color;
-  2455	
-  2456		/* draw the first line with the CPU ... */
-> 2457		line = (u8 *)info->screen_base + rect->dy * pitch +
-  2458		       rect->dx * bytespp;
-  2459		switch (bytespp) {
-  2460		case 1:
-  2461			memset(line, pix, rect->width);
-  2462			break;
-  2463		case 2:
-  2464			memset16((u16 *)line, pix, rect->width);
-  2465			break;
-  2466		default:
-  2467			memset32((u32 *)line, pix, rect->width);
-  2468			break;
-  2469		}
-  2470	
-  2471		/* ... and let the blitter replicate it into the other lines */
-  2472		svblit_copy(external_addr + rect->dy * pitch + rect->dx * bytespp,
-  2473			    external_addr + (rect->dy + 1) * pitch +
-  2474			    rect->dx * bytespp,
-  2475			    rect->width * bytespp, 0, pitch, rect->height - 1);
-  2476	}
-  2477	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@90014000 (renesas,r9a09g087-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@90014000 (renesas,r9a09g087-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@90014000 (renesas,r9a09g087-adc): interrupts: [[0, 698, 1], [0, 699, 1], [0, 700, 1], [0, 701, 4], [0, 702, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@90014400 (renesas,r9a09g087-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@90014400 (renesas,r9a09g087-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@90014400 (renesas,r9a09g087-adc): interrupts: [[0, 703, 1], [0, 704, 1], [0, 705, 1], [0, 706, 4], [0, 707, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@80008000 (renesas,r9a09g087-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk.dtb: adc@80008000 (renesas,r9a09g087-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
+--
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@90014000 (renesas,r9a09g087-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@90014000 (renesas,r9a09g087-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+>> arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@90014000 (renesas,r9a09g087-adc): interrupts: [[0, 698, 1], [0, 699, 1], [0, 700, 1], [0, 701, 4], [0, 702, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@90014400 (renesas,r9a09g087-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@90014400 (renesas,r9a09g087-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@90014400 (renesas,r9a09g087-adc): interrupts: [[0, 703, 1], [0, 704, 1], [0, 705, 1], [0, 706, 4], [0, 707, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@80008000 (renesas,r9a09g087-adc): 'dma-names', 'dmas' do not match any of the regexes: '^channel@[0-9a-f]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/renesas,r9a09g077-adc.yaml
+   arch/arm64/boot/dts/renesas/r9a09g087m44-rzn2h-evk-cn20-lcdc.dtb: adc@80008000 (renesas,r9a09g087-adc): interrupt-names: ['adi', 'gbadi', 'gcadi', 'cmpai', 'cmpbi'] is too short
 
 --
 0-DAY CI Kernel Test Service
