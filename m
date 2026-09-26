@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A833A2E0A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 06:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7A438B127
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 06:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790403699; cv=none; b=djyuwGcnarQ2uO0nT0bYabbTMDzg37FiebbBILgwc4Ggbj60fnJ+6HRrYdJbu/hR90KwfRe2GjFDXmdYjrDHB2SGWh/RkvJxE9JCE746TRorlU73j5CbWrRmb/gFXD7yBwEqNTtfh5xUQEll4LniP3z5NkkoOlMM96KQS+htNtE=
+	t=1790404320; cv=none; b=lv1OL41YOjyC13hwHtvR6AtPIb3DA7f8ebl7emfU1mBr7e5QOeXOis1hhkiG18Gr+sHoHnuQAlhVdSGH1syv/cObonQgFaZ/Z9gEdNoGeB3aka0gqwAifn5if57CV3QNhZXREi4g8xxOqueRjqJ370aMjdMnOSh8DU3G1+bQDko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790403699; c=relaxed/simple;
-	bh=shTec4Tb9lUZdfXMXDGHSp66qNoTP4jhTIv91Rkuf8o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qknlldGhKKLgFdTFn54k9pDcnScrCbN3ekdw88wOioSFDRvmkqFdlbbHn9A+lDlWNxyW1kHxlLNXFo4S3KQFMQpddyHpL26EQm61rc8e2QoqMLPEeEoI0wp7swhC89X9KEyKrIePQsUGBOVEB47kkPtuvkQ7gknaahI1FdJsTxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jnUoJxp1; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790404320; c=relaxed/simple;
+	bh=lol4p56G0lg7EalNZ0Rkf24SBgpx8IlAtpTsX5Ba/hE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RjPWm3vRCtxcmdtlRaRPWjbmFfsbIbjS/V9ZL/crFmzK8bfrPH8hu1lzGAqpK2X5foaTNo39LRR24193bvq0Ty5RD4ncZNv6R5Su1pchWRrJtbBNUx5lVx0OX6dEmrBE+GLSJ7z6c6lBZVUHd7bcpAub9qxEKBKOpmYbHVryUgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PAz0mnqu; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jnUoJxp1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PAz0mnqu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790403697; x=1821939697;
+  t=1790404318; x=1821940318;
   h=date:from:to:cc:subject:message-id;
-  bh=shTec4Tb9lUZdfXMXDGHSp66qNoTP4jhTIv91Rkuf8o=;
-  b=jnUoJxp1E0kASuhIuuSzSfzladkX7b485k+ZBpG5ZuhvEjwdgCFBsaPI
-   6bn3gFt7OdzOhjOJolNzhvmfKhSolDmCZRMTkh7rd1UQseOkv1/MM5XjA
-   3fXK9Q0Q0+qQf9MXx3C8B/qK/N748U1nYITtFWKf6evf6MBWmpVqy+AKO
-   EP/od5+4GpYuhsgu/qCfhAVtPPecUUDggdjwUsBq4TLum3lkFILNyTKwf
-   fOGfmcf8+gMpo1E8t3qaES7INc6Si+Kczs8JZ1v+WK9rwMIFmRqVOhITA
-   eJsE56PahdnSPuFRem49qmF3Km+VIKRmFFWojDV4n+xaJNj7Hh8Gr/9oi
-   A==;
-X-CSE-ConnectionGUID: Dchnwq8mRyWNUWPBakyOjQ==
-X-CSE-MsgGUID: 9XGCxq+rTumiz6jL4mNTsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="102549740"
+  bh=lol4p56G0lg7EalNZ0Rkf24SBgpx8IlAtpTsX5Ba/hE=;
+  b=PAz0mnquuBgrsyVUZIljLSKANdQJvkIOdDQfq93aTQLdIY/lVhKgtfYY
+   I9W+k+OKBydL1JfeH4Z8MFNJ8tQhYDMa5zEn8/AawrhLf8bWxbEfFPN4K
+   zEiuilUovvXU+UY3BrdlTLbVM3lWn5ODFA1xRv9kFzG/kVAvmL0jBRx66
+   1+D0kDf2k5lJTUMaFozJWf01K7wkR3Q3r/HR9BEI57iYlDAsfRcE+poBu
+   7jZ0LMC8+L9n42fyRrkVQ9oTObYSq69SnN2+604aDszKCKhNrI8b83/Px
+   OP5x/rdykf2gd3DtLZyNrSSAi06N+s9dyfrtR0Z1N53VvV9aQhVWWSyb0
+   w==;
+X-CSE-ConnectionGUID: mKRz5vPURqeNjSKTeF+tBg==
+X-CSE-MsgGUID: i15IRIT+SPesIOvsMgBPWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="94999232"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="102549740"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 23:21:31 -0700
-X-CSE-ConnectionGUID: vO8E0HkdRFerkIDgrqdgJQ==
-X-CSE-MsgGUID: n5ZrDHJOQzCnLrqmzs5aFg==
+   d="scan'208";a="94999232"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 23:31:56 -0700
+X-CSE-ConnectionGUID: 8Ua+oinCRLOPJuDT8pC6BA==
+X-CSE-MsgGUID: 6DaFeBcmStG00p/Ny/kBQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="272306672"
+   d="scan'208";a="271001830"
 Received: from igk-lkp-server01.igk.intel.com (HELO 7278393c7b39) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 25 Sep 2026 23:21:28 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 25 Sep 2026 23:31:55 -0700
 Received: from kbuild by 7278393c7b39 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xALmk-000000000Pb-3lEn;
-	Sat, 26 Sep 2026 06:21:22 +0000
-Date: Sat, 26 Sep 2026 08:20:41 +0200
+	id 1xALwv-000000000RL-1zH9;
+	Sat, 26 Sep 2026 06:31:53 +0000
+Date: Sat, 26 Sep 2026 08:31:21 +0200
 From: kernel test robot <lkp@intel.com>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-7.3-next 551/673] checkpatch:
+Subject: [arnd-playground:randconfig-7.3-next 555/673] checkpatch:
  WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202609260859.nRVfk0UP-lkp@intel.com>
+Message-ID: <202609260854.VAsMqwPd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,13 +61,13 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
 head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
-commit: 3cac53e41a6b335dbdc7b0d0340a2781ed551e06 [551/673] initial uapi check success with -Wpadded on arm32
-reproduce: (https://download.01.org/0day-ci/archive/20260926/202609260859.nRVfk0UP-lkp@intel.com/reproduce)
+commit: a7a9731f5a0ae2c1f5b2da79117a51ed502c9554 [555/673] no abit change
+reproduce: (https://download.01.org/0day-ci/archive/20260926/202609260854.VAsMqwPd-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
 WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#5046: FILE: include/uapi/linux/mptcp.h:139:
+#6158: FILE: include/uapi/linux/mptcp.h:139:
 +	__u16 :16;				 /* sizeof(mptcp_full_info) needs to be padded to
 +						 * 64 bits, but the mptcp_info member on m68k is
 
