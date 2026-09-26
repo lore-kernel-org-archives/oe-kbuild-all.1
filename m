@@ -1,117 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA763002AB;
-	Sat, 26 Sep 2026 06:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0E638B7D7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 06:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790402577; cv=none; b=j6j/8ihVfyZEr25N85KCyeAS8j8uWYqITAzm1zqTDCW3Qd4tUaanhmD9EA9AcEU+HYexHBXLPSou/dewW5R3BDG9t/LV9lMXUcuM+8eIbrH/JV2AVoEUYprvk9gKsOmxvlGOrk0p2y759OSDyL/i8VxD0t7vZtD0HnkuQBQJ/84=
+	t=1790403691; cv=none; b=jLroa1YHdoUAs2n5M7rhrzp3pE10vLDmCt2Pjqp/slGUk8BJ3+b4x1LyEPlGwYCQzOGGconJQuvmaOsgw93te6D+7OZv8YkR1OtRqqZD32V3pnOif4AJ2w0edTHdOpeW7vMFFrIuowfrCOmKqLcLVCip8lfZ0sopy5JUgAnO6Qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790402577; c=relaxed/simple;
-	bh=k+mYgrxuJ6njYZR/YmdsqCA+vq/QLRbW9eZTubZeEfA=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Let4m5Bts3QV534sIURlHySEb5SBBoosdgO/q3gjp/1BG8Aciz7DJWV2ZR9sWrOl4gQm8NQMqwGwICuJC2NxKeksxLJlmRasyi7tMBUg5zR3p4jhUCYDpITzkmz1/7ExVp1vy4kLnNQNVwWFO78DWlWaHzX3UGbnCk68d3/tBew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FxtBIgr7; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1790403691; c=relaxed/simple;
+	bh=FsJEOoBystBOM6ZmtA3HmnD/NNCRcjmf4087p83ek00=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q0wOEGls6q2Fwm6RgIrYpgz0UTKgAcmxDEoLDC8F9397p5ImuwIQOG2Ng7RBL+puMgbqjeoNi8PG8GwNPlyw02shOQK58KtRTULACYbRqO0p0UmtO7N7XV78Pdtb+CqrsyPy2BFcMJmI57xf5lG6fjC8oG77HUw2+P3gTYTQhBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6lVPnKF; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FxtBIgr7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6lVPnKF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790402575; x=1821938575;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=k+mYgrxuJ6njYZR/YmdsqCA+vq/QLRbW9eZTubZeEfA=;
-  b=FxtBIgr7a85RxPNgz/Cq0VfKdkg/aMpp43kq1Qf6cKTShs7m+lg8PIpy
-   8jBEUc4tQzmuf8SZ55ftR5fHMfkcS2QUagK173W5+oxwxNZ4Gex+m9rPV
-   aF+3tHCBAvuY5TfCT1Gee8gyY+tknxYlwhAVu6FCjcNE8lq1yQhb/uAhe
-   rUxE3MFzzcqmu2yryVGaPcO8meKbEHFB63cC9rG7MqZql0hyZyE/DMkVP
-   ywXNsyDLBH4ZNqe8xZeumu7RN2Kgpfb7W+Lj5ZU5XSUOgEJB+HE6QEBgy
-   IE4viKLXpW26/RpA4WTyWaed9dY1I6mWhBlouzlHh1KI2XT61lNh0FLou
-   A==;
-X-CSE-ConnectionGUID: YWEyyV+FRq6YdU3KOxuvfQ==
-X-CSE-MsgGUID: D4G/YCsfQ52JO8CyHSHTmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="90242621"
+  t=1790403687; x=1821939687;
+  h=date:from:to:cc:subject:message-id;
+  bh=FsJEOoBystBOM6ZmtA3HmnD/NNCRcjmf4087p83ek00=;
+  b=O6lVPnKFRoDNUxgLoePWZAhXxDWgtZ4R3CYF6OI9zro3ckNeac15KXZ8
+   rbDVhkFbXF97WZePwZTuV53jqsAQTFgIOZxGvDWnKW8+haQ+//h7yL4OM
+   7LVSdaSWrQk/LWdlsMsEcJ9IccqEu0/lSfA/hOsnO9UgKua9Io7UUsi1x
+   tdSvIZ5wzI/2oMfQ09BIgAUPjXAEKqax4Ai+tR+cbow50lwRwgCS+6zde
+   PUShg75DclzvbcbUqvp1+dwFNqucc86Hn2V10VQtN2ehDfdqCSpVrJPiO
+   JWB2XNO51mbohvNcpnfmd1cUb2J6jxJmmphTfoKi159ASLPhgFhMGKZDB
+   g==;
+X-CSE-ConnectionGUID: rkxhYJWJRo+l4uPn+PQqxw==
+X-CSE-MsgGUID: 4yyLJcrpSdakHMqufCIhlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="101844004"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="90242621"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 23:02:51 -0700
-X-CSE-ConnectionGUID: wD2DRJQhRJefPsuxTd0yGg==
-X-CSE-MsgGUID: eHM7KaF+RJyQHGIVYddpjg==
+   d="scan'208";a="101844004"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 23:21:26 -0700
+X-CSE-ConnectionGUID: AN11i6h9QD2pygVswgjLWQ==
+X-CSE-MsgGUID: m4GTmKDdTTeeCWQvwY+SbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="300779094"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2026 23:02:50 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="273723509"
+Received: from igk-lkp-server01.igk.intel.com (HELO 7278393c7b39) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 25 Sep 2026 23:21:25 -0700
+Received: from kbuild by 7278393c7b39 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xALUm-00000000LZN-1Zxj;
-	Sat, 26 Sep 2026 06:02:48 +0000
-Date: Sat, 26 Sep 2026 14:02:33 +0800
+	id 1xALml-000000000Pj-0APo;
+	Sat, 26 Sep 2026 06:21:23 +0000
+Date: Sat, 26 Sep 2026 08:20:40 +0200
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re:
-Message-ID: <202609261355.8IxZvLnO-lkp@intel.com>
-References: <202609261355.8IxZvLnO-lkp@intel.com>
+To: Crescent Hsieh <crescentcy.hsieh@moxa.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/ptp/ptp_ocp.c:2559:1: warning: the frame size of
+ 1040 bytes is larger than 1024 bytes
+Message-ID: <202609260832.yA7jIeSA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609261355.8IxZvLnO-lkp@intel.com>
 
-Hi Xizhe,
-
-kernel test robot noticed the following build errors:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xizhe-Tang/drm-i915-dp-Only-send-AS-SDP-when-VRR-CMRR-is-enabled-or-PR-async/20260924-035159
-base:   
-patch link:    https://lore.kernel.org/r/202609261355.8IxZvLnO-lkp%40intel.com
-config: x86_64-randconfig-1014-20260926 (https://download.01.org/0day-ci/archive/20260926/202609261355.8IxZvLnO-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609261355.8IxZvLnO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6812ce4e4379ffc99c52401ec28f0d7ffbc36206
+commit: af1ba61b62be975902c5a4babcc7952f6dfdbd29 serial: 8250: allow low-level drivers to override break control
+date:   8 weeks ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20260926/202609260832.yA7jIeSA-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260832.yA7jIeSA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: af1ba61b62be ("serial: 8250: allow low-level drivers to override break control")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609261355.8IxZvLnO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609260832.yA7jIeSA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_dp.c:3117:21: error: no member named 'cmrr' in 'struct intel_crtc_state'
-    3117 |                crtc_state->cmrr.enable;
-         |                ~~~~~~~~~~  ^
-   1 error generated.
+   drivers/ptp/ptp_ocp.c: In function 'ptp_ocp_serial_line.isra':
+>> drivers/ptp/ptp_ocp.c:2559:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    2559 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_bcm2835aux.c: In function 'bcm2835aux_serial_probe':
+>> drivers/tty/serial/8250/8250_bcm2835aux.c:174:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     174 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_bcm7271.c: In function 'brcmuart_probe':
+>> drivers/tty/serial/8250/8250_bcm7271.c:1117:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1117 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_em.c: In function 'serial8250_em_probe':
+>> drivers/tty/serial/8250/8250_em.c:200:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     200 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_ingenic.c: In function 'ingenic_uart_probe':
+>> drivers/tty/serial/8250/8250_ingenic.c:315:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     315 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_ioc3.c: In function 'serial8250_ioc3_probe':
+>> drivers/tty/serial/8250/8250_ioc3.c:76:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+      76 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_loongson.c: In function 'loongson_uart_probe':
+>> drivers/tty/serial/8250/8250_loongson.c:173:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     173 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_men_mcb.c: In function 'serial_8250_men_mcb_probe':
+>> drivers/tty/serial/8250/8250_men_mcb.c:232:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     232 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_mtk.c: In function 'mtk8250_probe':
+>> drivers/tty/serial/8250/8250_mtk.c:600:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     600 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_omap.c: In function 'omap8250_probe':
+>> drivers/tty/serial/8250/8250_omap.c:1612:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1612 | }
+         | ^
+--
+   drivers/tty/serial/8250/8250_pxa.c: In function 'serial_pxa_probe':
+>> drivers/tty/serial/8250/8250_pxa.c:144:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     144 | }
+         | ^
+..
 
 
-vim +3117 drivers/gpu/drm/i915/display/intel_dp.c
+vim +2559 drivers/ptp/ptp_ocp.c
 
-  3099	
-  3100	static bool intel_dp_needs_as_sdp(struct intel_dp *intel_dp,
-  3101					  struct intel_crtc_state *crtc_state)
-  3102	{
-  3103		if (!intel_dp->as_sdp_v2_supported)
-  3104			return false;
-  3105	
-  3106		/*
-  3107		 * #TODO: Add AS SDP v1 support for PCONs (DP branch devices).
-  3108		 */
-  3109		if (drm_dp_is_branch(intel_dp->dpcd))
-  3110			return false;
-  3111	
-  3112		if (intel_psr_needs_alpm_aux_less(intel_dp, crtc_state) &&
-  3113		    !intel_psr_pr_async_video_timing_supported(intel_dp))
-  3114			return true;
-  3115	
-  3116		return crtc_state->vrr.enable ||
-> 3117		       crtc_state->cmrr.enable;
-  3118	}
-  3119	
+773bda96492153 Jonathan Lemon 2021-08-03  2538  
+773bda96492153 Jonathan Lemon 2021-08-03  2539  static int
+773bda96492153 Jonathan Lemon 2021-08-03  2540  ptp_ocp_serial_line(struct ptp_ocp *bp, struct ocp_resource *r)
+773bda96492153 Jonathan Lemon 2021-08-03  2541  {
+773bda96492153 Jonathan Lemon 2021-08-03  2542  	struct pci_dev *pdev = bp->pdev;
+773bda96492153 Jonathan Lemon 2021-08-03  2543  	struct uart_8250_port uart;
+773bda96492153 Jonathan Lemon 2021-08-03  2544  
+773bda96492153 Jonathan Lemon 2021-08-03  2545  	/* Setting UPF_IOREMAP and leaving port.membase unspecified lets
+773bda96492153 Jonathan Lemon 2021-08-03  2546  	 * the serial port device claim and release the pci resource.
+773bda96492153 Jonathan Lemon 2021-08-03  2547  	 */
+773bda96492153 Jonathan Lemon 2021-08-03  2548  	memset(&uart, 0, sizeof(uart));
+773bda96492153 Jonathan Lemon 2021-08-03  2549  	uart.port.dev = &pdev->dev;
+773bda96492153 Jonathan Lemon 2021-08-03  2550  	uart.port.iotype = UPIO_MEM;
+773bda96492153 Jonathan Lemon 2021-08-03  2551  	uart.port.regshift = 2;
+773bda96492153 Jonathan Lemon 2021-08-03  2552  	uart.port.mapbase = pci_resource_start(pdev, 0) + r->offset;
+773bda96492153 Jonathan Lemon 2021-08-03  2553  	uart.port.irq = pci_irq_vector(pdev, r->irq_vec);
+773bda96492153 Jonathan Lemon 2021-08-03  2554  	uart.port.uartclk = 50000000;
+c17c4059df2471 Jonathan Lemon 2022-03-09  2555  	uart.port.flags = UPF_FIXED_TYPE | UPF_IOREMAP | UPF_NO_THRE_TEST;
+773bda96492153 Jonathan Lemon 2021-08-03  2556  	uart.port.type = PORT_16550A;
+773bda96492153 Jonathan Lemon 2021-08-03  2557  
+773bda96492153 Jonathan Lemon 2021-08-03  2558  	return serial8250_register_8250_port(&uart);
+773bda96492153 Jonathan Lemon 2021-08-03 @2559  }
+773bda96492153 Jonathan Lemon 2021-08-03  2560  
+
+:::::: The code at line 2559 was first introduced by commit
+:::::: 773bda96492153e11d21eb63ac814669b51fc701 ptp: ocp: Expose various resources on the timecard.
+
+:::::: TO: Jonathan Lemon <jonathan.lemon@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 --
 0-DAY CI Kernel Test Service
