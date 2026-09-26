@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA61352013
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 02:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D6C2EC0A2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Sep 2026 02:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790389438; cv=none; b=kRgO0+N5sQXY0IwS2PQOKZ4YlJJx507a1NSQDYvaRk9vCZhgTRf/elfvCtm646ag5xXpiE4dIJMT27R2mrxcxmtCScw1yWiuOlFT7/xmT1ZmZ0IoW2AEUnk48hxxp1kuoh0h75k1gnTY05b8kB8xjov+urJZA1dXMM3ZBPY3iYA=
+	t=1790389466; cv=none; b=M1IuJamqYPJlrneLN2CPL7vt3U9wHhv4qYjEVBe3FCqM1oHIEhrOtck5UynY0Bx+SOj4lNCRzgBxHe5nBAYuOG17a9hRQeBGb8tZ+6ybEkg1Os882fLua+vgVduQYEuIX0n7+OB5iT2lAHm6LAp87abbWfK77FyKjBusV8eGcyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790389438; c=relaxed/simple;
-	bh=gZOvFpvEnU9Rc8zhS9iwpU0F0VrWlXlo2BgFdPpKGcc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qOePTxZ0Q4ic2lk5tsm8KQ/cCx4B8axZH5DBXeul8Kb0lNMj7Joc2LSXwuHc01JQgTRFlne5uU3+GLy/jfit5e9Vei1aGg70Ctbz8HcwPze2cMR3FKY7cj0qi1c768ZbxvWfaNndBomvQrPCiOpGxk6i1mOktLZhXr/CwfTpVMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8mTqixR; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1790389466; c=relaxed/simple;
+	bh=OZfaWwPwkKttFeBw69MnDR14o8Yr/GUlSJeAiXT4JG0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OlB5BW4n3Uil7bgeENG5dwczab45jepDGzEzSKVsMeULBDsaEZRPKzf6QnhhwivfiQetC/vbB8DAjDY5LmCka45YIhoO0j/40c7Wa/rpFEutJ4U0EXx6CiTB6lFLyawVdOHiJrVFc9zkM2SrogpTcRl0KZLgHxPetuCdfG5UXTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q/Gt6ZKn; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8mTqixR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q/Gt6ZKn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790389437; x=1821925437;
+  t=1790389466; x=1821925466;
   h=date:from:to:cc:subject:message-id;
-  bh=gZOvFpvEnU9Rc8zhS9iwpU0F0VrWlXlo2BgFdPpKGcc=;
-  b=D8mTqixRbrgxAZS3pyKnMyWnf9CrEwopT+B4rjYZEQcxS4L32xVs7gye
-   JYQbjEmykQuxqz1hQ7krw5dhJA/Z96ziHB82uzbcpIqSEFA7dMdZnr18U
-   97lyE4pYSOFl8NgDz4uamOPbvp8MpNfAvNhYWMrxyJwq9uyz8nbXKeqjT
-   K5iahDE+onpKawVLQNvPRm92cRFheTaYRNpmSl3yCnV02ld1Fv4t+kgCu
-   LJ9rk0ezo2oUdbFcbb6uEw9m6lI0ZlFPlY53/eDk93frfQ2VjjYpTpQ0A
-   LEgpt/ms/SpbIcbgsVp0NqPsS5fvZTOEpGoypQr4nZCefF+tzgOTOsmw1
+  bh=OZfaWwPwkKttFeBw69MnDR14o8Yr/GUlSJeAiXT4JG0=;
+  b=Q/Gt6ZKnnUPPNWF45Tb8GNNNtqSd4NyzXYn/ljkPbGGrQ3wNSTw0p1qA
+   eZm4Nxh/NoD1xbEQFq8C4/WFIzfHdn0pE9Ut6Yx1nVzQmTOWhDo9mCX0y
+   QmtAVvRblYDn8z9Ktt9Gv3Y+V4z0RRjKKRfepG74+BI9MOC/N1y1nhg4P
+   yS0pkq0pxVe7B/1FRZBXV+bMXUEIUrOmf0VGTtWs/1lE8UTd3llfthnY3
+   XHEUKQswprWml8ryXSDbMMMqxz6jAV5X8pAk4aeQXxeBfHK6PAW9JYTRo
+   r8r7fv9mJsaWIKdxfARfsVdm8U5HEqaRcyf02dSeLMie62N55pWAluTt6
    w==;
-X-CSE-ConnectionGUID: MXRphpmgQ7+zPzW0tRMr1A==
-X-CSE-MsgGUID: G208X3LFQSW1Yzyz84Z+lQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="91039570"
+X-CSE-ConnectionGUID: vfl4w+BaRriCj24NM7ciUQ==
+X-CSE-MsgGUID: SbHFJPHIS7mHz+Qxi6PfnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11916"; a="90396074"
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="91039570"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 19:23:54 -0700
-X-CSE-ConnectionGUID: mC84zS0OTySl5AoKnY2wtg==
-X-CSE-MsgGUID: N8iycWWTQcmrtI7u4eKvBQ==
+   d="scan'208";a="90396074"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 19:24:26 -0700
+X-CSE-ConnectionGUID: dTnF+K5AQmS8Q25xL6XkhQ==
+X-CSE-MsgGUID: FneHLJuyRnS1SVk+s4o/ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,123,1787036400"; 
-   d="scan'208";a="274626282"
-Received: from igk-lkp-server01.igk.intel.com (HELO 7278393c7b39) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Sep 2026 19:23:53 -0700
-Received: from kbuild by 7278393c7b39 with local (Exim 4.98.2)
+   d="scan'208";a="282555616"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Sep 2026 19:24:23 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAI4s-000000000At-20g6;
-	Sat, 26 Sep 2026 02:23:50 +0000
-Date: Sat, 26 Sep 2026 04:22:50 +0200
+	id 1xAI5N-00000000LRt-0qHV;
+	Sat, 26 Sep 2026 02:24:21 +0000
+Date: Sat, 26 Sep 2026 10:24:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:randconfig-7.3-next 568/673]
- include/uapi/linux/if_pppox.h:72:9: warning: alignment 1 of 'union
- <anonymous>' is less than 2
-Message-ID: <202609260403.Z3C0Z05d-lkp@intel.com>
+Subject: [linux-next:master 6888/9480]
+ kernel/rcu/../locking/rtmutex_common.h:231:35: error: static declaration of
+ 'rt_mutex_owner' follows non-static declaration
+Message-ID: <202609261005.GrnaXBXT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,45 +60,56 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.3-next
-head:   0a1affa74ef2f2c5c5ee74fc604e47a1aefdd286
-commit: de6e2753a4e2e61ad06abc40a35348ace8e0ad55 [568/673] m68k: fix up headers for -malign-int
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260926/202609260403.Z3C0Z05d-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609260403.Z3C0Z05d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3d7783543c2646af69ad65825e810060494bea21
+commit: 1eccf02fb8d5359c4143cb50e6f52313b65fe7cd [6888/9480] rcu: Add running and boosted indications to RCU task stall dump
+config: arm-randconfig-r1303-20260926 (https://download.01.org/0day-ci/archive/20260926/202609261005.GrnaXBXT-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 78ff5215e53a117851dc6e81e793a106f1a79df8)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260926/202609261005.GrnaXBXT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609260403.Z3C0Z05d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609261005.GrnaXBXT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/if_pppox.h:17,
-                    from net/core/flow_dissector.c:21:
->> include/uapi/linux/if_pppox.h:72:9: warning: alignment 1 of 'union <anonymous>' is less than 2 [-Wpacked-not-aligned]
-      72 |         } sa_addr;
-         |         ^
+   In file included from kernel/rcu/tree.c:5001:
+   kernel/rcu/tree_stall.h:333:8: error: call to undeclared function 'rt_mutex_owner'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     333 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
+         |                             ^
+   kernel/rcu/tree_stall.h:333:48: warning: comparison between pointer and integer ('int' and 'struct task_struct *') [-Wpointer-integer-compare]
+     333 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~
+   In file included from kernel/rcu/tree.c:5004:
+   In file included from kernel/rcu/tree_plugin.h:14:
+>> kernel/rcu/../locking/rtmutex_common.h:231:35: error: static declaration of 'rt_mutex_owner' follows non-static declaration
+     231 | static inline struct task_struct *rt_mutex_owner(struct rt_mutex_base *lock)
+         |                                   ^
+   kernel/rcu/tree_stall.h:333:8: note: previous implicit declaration is here
+     333 |                         if (rt_mutex_owner(&rnp->boost_mtx.rtmutex) == t)
+         |                             ^
+   1 warning and 2 errors generated.
 
 
-vim +72 include/uapi/linux/if_pppox.h
+vim +/rt_mutex_owner +231 kernel/rcu/../locking/rtmutex_common.h
 
-607ca46e97a1b6 David Howells 2012-10-13  65  
-607ca46e97a1b6 David Howells 2012-10-13  66  struct sockaddr_pppox {
-607ca46e97a1b6 David Howells 2012-10-13  67  	__kernel_sa_family_t sa_family;       /* address family, AF_PPPOX */
-607ca46e97a1b6 David Howells 2012-10-13  68  	unsigned int    sa_protocol;          /* protocol identifier */
-607ca46e97a1b6 David Howells 2012-10-13  69  	union {
-f6d72a8b724c6e Arnd Bergmann 2023-06-19  70  		struct pppoe_addr  pppoe __packed;
-f6d72a8b724c6e Arnd Bergmann 2023-06-19  71  		struct pptp_addr   pptp __packed;
-607ca46e97a1b6 David Howells 2012-10-13 @72  	} sa_addr;
-607ca46e97a1b6 David Howells 2012-10-13  73  } __packed;
-607ca46e97a1b6 David Howells 2012-10-13  74  
+c014ef69b3acdb Thomas Gleixner 2021-08-15  228  
+531ae4b06a737e Thomas Gleixner 2021-08-15  229  #else /* CONFIG_RT_MUTEXES */
+531ae4b06a737e Thomas Gleixner 2021-08-15  230  /* Used in rcu/tree_plugin.h */
+830e6acc8a1caf Peter Zijlstra  2021-08-15 @231  static inline struct task_struct *rt_mutex_owner(struct rt_mutex_base *lock)
+531ae4b06a737e Thomas Gleixner 2021-08-15  232  {
+531ae4b06a737e Thomas Gleixner 2021-08-15  233  	return NULL;
+531ae4b06a737e Thomas Gleixner 2021-08-15  234  }
+531ae4b06a737e Thomas Gleixner 2021-08-15  235  #endif  /* !CONFIG_RT_MUTEXES */
+531ae4b06a737e Thomas Gleixner 2021-08-15  236  
 
-:::::: The code at line 72 was first introduced by commit
-:::::: 607ca46e97a1b6594b29647d98a32d545c24bdff UAPI: (Scripted) Disintegrate include/linux
+:::::: The code at line 231 was first introduced by commit
+:::::: 830e6acc8a1cafe153a0d88f9b2455965b396131 locking/rtmutex: Split out the inner parts of 'struct rtmutex'
 
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
