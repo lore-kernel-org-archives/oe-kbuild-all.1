@@ -1,219 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19DB3D0930
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Sep 2026 22:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5943C10B2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Sep 2026 22:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790548297; cv=none; b=NJhHBICLsLlUFAwdCk8PzY/+kmloC7QQBX9rrB8cFjZpa2p9FBccwsR27KMjhPjACylZ2UB1fOAJOcHveAW46dIkVsCkLPgHZSuqb7nQA+rSm3Btlfy6sZlnryTyrygZcH36g0kYg8UWxyE2lzNx4PdMd5eXHxuusAM6tOkSey8=
+	t=1790548437; cv=none; b=XtFEMF605SqeAe2sspXQU0VneTLo7+WSK0uovJlj0KAdY3ZV3smB+fpWxHK9OXx1x4//giYo3XDHQ9SUXwjeMgzhRMO4bhpkChaefQeSEKNN3WKYcN0qn/ZHOJQkE9jItgYyKqgJHDiTjUDSrAFn9Qj6JLNTOJuZs7NJjQD8FhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790548297; c=relaxed/simple;
-	bh=JyjP1RlEYeqfWNrq/kM+FXnfh+gDfAiipweM2p6YwRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AWV2HftT2xC/Kc1zKsGMFB1UB6BrnYaxxQK64fEzMv4ePNlIToQzSodViD0ihGSDU9TjPqaYwbKIrJod+n+osj/9sRUgdMA3EGtPATPbIPp/4ZBZcBPbUKClo4DrSLXOX1bQDm9lIF03dEpSqtPn60qob211G5yioWdZIbvr3S0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGV9eJPv; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790548437; c=relaxed/simple;
+	bh=uP9eExfkQbPJmAXwh0yD2mmnq0I77mWIJ1VnI/FVyR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=CjljcnQ+o8XhdLVdn1e8drByIAGbfvev7A+lpqDW5JtbPKJbNcfKoqjFdkyqxAvks+XI3POUF6btNsSo2Ir/BnUbAliWQN/RG9o9lgKzUJTSXJE305uJ4IcOuN0ygpCy8ddPaRCqAt8PjtM/UJXxL25g0Ghb5ZvEr1s3Bq/HxLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCF7t4ti; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGV9eJPv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCF7t4ti"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790548294; x=1822084294;
-  h=date:from:to:cc:subject:message-id;
-  bh=JyjP1RlEYeqfWNrq/kM+FXnfh+gDfAiipweM2p6YwRQ=;
-  b=AGV9eJPvddpSJ+5ZuYoCi4uroIK1UBwIgpkz0Q/AeIeXWHh9aK/ACLGq
-   obtCMK4KoKrnA4RZgVHUjzVElKmpwqjRAZLU5QaVzqYYpOAJn3ROlWE5O
-   BOAte7NJfLu65g1Lq5N6DkrUbqJrIzEr49QUINlgCXzOlFYmmwrryowvJ
-   w6Vkekffqf1fSt7Z73nEddqKOAnxoRqH4hnU1wnGik8xvUtWoRkv4hVnd
-   lyWhA0nyfNV1mfjH79D3MFRVGYiG2jogIsQ09fTAn7NPQ5egxm0ahGiPO
-   SrhIAlcoTsoA8Y5RvVWAxsr2dvmo18inIbu+nXSbPDEvgA0g47gDXW1W1
+  t=1790548434; x=1822084434;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uP9eExfkQbPJmAXwh0yD2mmnq0I77mWIJ1VnI/FVyR8=;
+  b=YCF7t4ticcrioZ5kJSgo9jIL6iLTpbaTyy7Fhtj7979wnZ0Z+M93/ViZ
+   Jl1uXBhSiw7SB7jPqz1T/uUfRwy0Em5WWJlwcwr6E7WKRZ4Y5XgkQJuOU
+   zMZrrn1nqcLemaV3XhqTqIMAIHJv+A9ohpOMHTs4RlLB8rxEczMafL5bL
+   e523w0bJ5Xgtau5JvjDDXbqkOYklDsL5D1Z05xxfsjIW30sw2+rV+MroW
+   Yz8qXKJHseNL26pY/pPzJhhnGLQwUIgK636gyr8abf2owd6Q62KzoRmSv
+   G37798sh7Ip+n2gAIW21NqI1kRnQPhD4KX9zWptBv2ZolVc7B9zNHkui4
    w==;
-X-CSE-ConnectionGUID: gqjCkXVlSLuVDMJpFUEVQg==
-X-CSE-MsgGUID: BQT4R3XcRwGG0VUD+SgW9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="102617586"
+X-CSE-ConnectionGUID: IPMD/y8KQ4SLAbJNxhvrow==
+X-CSE-MsgGUID: JoDxo4R+TLaVw0lLqiYDlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="90012968"
 X-IronPort-AV: E=Sophos;i="6.27,127,1787036400"; 
-   d="scan'208";a="102617586"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 15:31:33 -0700
-X-CSE-ConnectionGUID: DGFbH5WxQge4Dcs8yw/CAw==
-X-CSE-MsgGUID: QEU/wtmNQLeICd0JE1RyDg==
+   d="scan'208";a="90012968"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 15:33:54 -0700
+X-CSE-ConnectionGUID: bEjcO5KqSzqENt/zvJOv7w==
+X-CSE-MsgGUID: cla0S51TSYemu+4ojoRwgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,127,1787036400"; 
-   d="scan'208";a="271365045"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Sep 2026 15:31:31 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+   d="scan'208";a="302829073"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 27 Sep 2026 15:33:53 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAxP7-000000000iZ-2CCz;
-	Sun, 27 Sep 2026 22:31:29 +0000
-Date: Mon, 28 Sep 2026 00:30:54 +0200
+	id 1xAxRO-00000000NE6-2Dm4;
+	Sun, 27 Sep 2026 22:33:50 +0000
+Date: Mon, 28 Sep 2026 06:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lijo Lazar <lijo.lazar@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-Subject: include/linux/fortify-string.h:562:4: error: call to
- '__write_overflow' declared with attribute error: detected write beyond size
- of object (1st parameter)
-Message-ID: <202609280038.eX20jfbs-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/vdso-timens-conditional 12/12]
+ arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:483:10: error:
+ implicit declaration of function 'clock_getres_fallback'; did you mean
+ 'clock_getres32_fallback'?
+Message-ID: <202609280633.sTt8J382-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
-commit: 294403fde5ba8e972d1bab88ea56be0fa2ff1f3e drm/amdgpu: bounds check VBIOS name extraction
-date:   3 months ago
-config: powerpc-randconfig-r2300-20260927 (https://download.01.org/0day-ci/archive/20260928/202609280038.eX20jfbs-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260928/202609280038.eX20jfbs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
+inux.git b4/vdso-timens-conditional
+head:   dbe6d2a5ee3233a9e819a0663236161d27841d5a
+commit: dbe6d2a5ee3233a9e819a0663236161d27841d5a [12/12] VDSO_HAS_CLOCK_GET=
+RES
+config: sparc64-randconfig-1000-20260928 (https://download.01.org/0day-ci/a=
+rchive/20260928/202609280633.sTt8J382-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260928/202609280633.sTt8J382-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
-| Fixes: 294403fde5ba ("drm/amdgpu: bounds check VBIOS name extraction")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609280038.eX20jfbs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609280633.sTt8J382-lkp@i=
+ntel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:386,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from drivers/gpu/drm/amd/amdgpu/atom.c:25:
-   In function 'fortify_memcpy_chk',
-       inlined from 'atom_get_vbios_name' at drivers/gpu/drm/amd/amdgpu/atom.c:1404:2,
-       inlined from 'amdgpu_atom_parse' at drivers/gpu/drm/amd/amdgpu/atom.c:1642:2:
->> include/linux/fortify-string.h:562:4: error: call to '__write_overflow' declared with attribute error: detected write beyond size of object (1st parameter)
-     562 |    __write_overflow();
-         |    ^~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:569:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
-     569 |    __write_overflow_field(p_size_field, size);
-         |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/sparc/vdso/vclock_gettime.c:22:
+   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c: In function=
+ '__cvdso_clock_getres_data':
+>> arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:483:10: erro=
+r: implicit declaration of function 'clock_getres_fallback'; did you mean '=
+clock_getres32_fallback'? [-Werror=3Dimplicit-function-declaration]
+      return clock_getres_fallback(clock, res);
+             ^~~~~~~~~~~~~~~~~~~~~
+             clock_getres32_fallback
+   cc1: some warnings being treated as errors
+--
+   In file included from arch/sparc/vdso/vdso32/../vclock_gettime.c:22,
+                    from arch/sparc/vdso/vdso32/vclock_gettime.c:22:
+   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c: In function=
+ '__cvdso_clock_getres_data':
+   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:483:10: erro=
+r: implicit declaration of function 'clock_getres_fallback'; did you mean '=
+clock_gettime_fallback'? [-Werror=3Dimplicit-function-declaration]
+      return clock_getres_fallback(clock, res);
+             ^~~~~~~~~~~~~~~~~~~~~
+             clock_gettime_fallback
+   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c: In function=
+ '__cvdso_clock_getres_time32_data':
+>> arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:505:10: erro=
+r: implicit declaration of function 'clock_getres32_fallback'; did you mean=
+ 'clock_gettime32_fallback'? [-Werror=3Dimplicit-function-declaration]
+      return clock_getres32_fallback(clock, res);
+             ^~~~~~~~~~~~~~~~~~~~~~~
+             clock_gettime32_fallback
+   cc1: some warnings being treated as errors
 
 
-vim +/__write_overflow +562 include/linux/fortify-string.h
+vim +483 arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  513  
-f68f2ff91512c1 Kees Cook      2021-04-20  514  /*
-f68f2ff91512c1 Kees Cook      2021-04-20  515   * To make sure the compiler can enforce protection against buffer overflows,
-f68f2ff91512c1 Kees Cook      2021-04-20  516   * memcpy(), memmove(), and memset() must not be used beyond individual
-f68f2ff91512c1 Kees Cook      2021-04-20  517   * struct members. If you need to copy across multiple members, please use
-f68f2ff91512c1 Kees Cook      2021-04-20  518   * struct_group() to create a named mirror of an anonymous struct union.
-f68f2ff91512c1 Kees Cook      2021-04-20  519   * (e.g. see struct sk_buff.) Read overflow checking is currently only
-f68f2ff91512c1 Kees Cook      2021-04-20  520   * done when a write overflow is also present, or when building with W=1.
-f68f2ff91512c1 Kees Cook      2021-04-20  521   *
-f68f2ff91512c1 Kees Cook      2021-04-20  522   * Mitigation coverage matrix
-f68f2ff91512c1 Kees Cook      2021-04-20  523   *					Bounds checking at:
-f68f2ff91512c1 Kees Cook      2021-04-20  524   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  525   *					| Compile time  |   Run time    |
-f68f2ff91512c1 Kees Cook      2021-04-20  526   * memcpy() argument sizes:		| write | read  | write | read  |
-f68f2ff91512c1 Kees Cook      2021-04-20  527   *        dest     source   length      +-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  528   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  529   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  530   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  531   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  532   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  533   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  534   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  535   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  536   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  537   *
-f68f2ff91512c1 Kees Cook      2021-04-20  538   * y = perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  539   * n = cannot perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  540   * n/a = no run-time bounds checking needed since compile-time deterministic
-f68f2ff91512c1 Kees Cook      2021-04-20  541   * B = can perform run-time bounds checking (currently unimplemented)
-f68f2ff91512c1 Kees Cook      2021-04-20  542   * V = vulnerable to run-time overflow (will need refactoring to solve)
-f68f2ff91512c1 Kees Cook      2021-04-20  543   *
-f68f2ff91512c1 Kees Cook      2021-04-20  544   */
-54d9469bc515dc Kees Cook      2021-06-24  545  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
-f68f2ff91512c1 Kees Cook      2021-04-20  546  					 const size_t p_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  547  					 const size_t q_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  548  					 const size_t p_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  549  					 const size_t q_size_field,
-475ddf1fce1ec4 Kees Cook      2023-04-07  550  					 const u8 func)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  551  {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  552  	if (__builtin_constant_p(size)) {
-f68f2ff91512c1 Kees Cook      2021-04-20  553  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  554  		 * Length argument is a constant expression, so we
-f68f2ff91512c1 Kees Cook      2021-04-20  555  		 * can perform compile-time bounds checking where
-fa35198f39571b Kees Cook      2022-09-19  556  		 * buffer sizes are also known at compile time.
-f68f2ff91512c1 Kees Cook      2021-04-20  557  		 */
-f68f2ff91512c1 Kees Cook      2021-04-20  558  
-f68f2ff91512c1 Kees Cook      2021-04-20  559  		/* Error when size is larger than enclosing struct. */
-fa35198f39571b Kees Cook      2022-09-19  560  		if (__compiletime_lessthan(p_size_field, p_size) &&
-fa35198f39571b Kees Cook      2022-09-19  561  		    __compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @562  			__write_overflow();
-fa35198f39571b Kees Cook      2022-09-19  563  		if (__compiletime_lessthan(q_size_field, q_size) &&
-fa35198f39571b Kees Cook      2022-09-19  564  		    __compiletime_lessthan(q_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  565  			__read_overflow2();
-f68f2ff91512c1 Kees Cook      2021-04-20  566  
-f68f2ff91512c1 Kees Cook      2021-04-20  567  		/* Warn when write size argument larger than dest field. */
-fa35198f39571b Kees Cook      2022-09-19  568  		if (__compiletime_lessthan(p_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20  569  			__write_overflow_field(p_size_field, size);
-f68f2ff91512c1 Kees Cook      2021-04-20  570  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  571  		 * Warn for source field over-read when building with W=1
-f68f2ff91512c1 Kees Cook      2021-04-20  572  		 * or when an over-write happened, so both can be fixed at
-f68f2ff91512c1 Kees Cook      2021-04-20  573  		 * the same time.
-f68f2ff91512c1 Kees Cook      2021-04-20  574  		 */
-fa35198f39571b Kees Cook      2022-09-19  575  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
-fa35198f39571b Kees Cook      2022-09-19  576  		     __compiletime_lessthan(p_size_field, size)) &&
-fa35198f39571b Kees Cook      2022-09-19  577  		    __compiletime_lessthan(q_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20  578  			__read_overflow2_field(q_size_field, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  579  	}
-f68f2ff91512c1 Kees Cook      2021-04-20  580  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  581  	 * At this point, length argument may not be a constant expression,
-f68f2ff91512c1 Kees Cook      2021-04-20  582  	 * so run-time bounds checking can be done where buffer sizes are
-f68f2ff91512c1 Kees Cook      2021-04-20  583  	 * known. (This is not an "else" because the above checks may only
-f68f2ff91512c1 Kees Cook      2021-04-20  584  	 * be compile-time warnings, and we want to still warn for run-time
-f68f2ff91512c1 Kees Cook      2021-04-20  585  	 * overflows.)
-f68f2ff91512c1 Kees Cook      2021-04-20  586  	 */
-f68f2ff91512c1 Kees Cook      2021-04-20  587  
-f68f2ff91512c1 Kees Cook      2021-04-20  588  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  589  	 * Always stop accesses beyond the struct that contains the
-f68f2ff91512c1 Kees Cook      2021-04-20  590  	 * field, when the buffer's remaining size is known.
-311fb40aa0569a Kees Cook      2022-09-02  591  	 * (The SIZE_MAX test is to optimize away checks where the buffer
-f68f2ff91512c1 Kees Cook      2021-04-20  592  	 * lengths are unknown.)
-f68f2ff91512c1 Kees Cook      2021-04-20  593  	 */
-475ddf1fce1ec4 Kees Cook      2023-04-07  594  	if (p_size != SIZE_MAX && p_size < size)
-3d965b33e40d97 Kees Cook      2023-04-07  595  		fortify_panic(func, FORTIFY_WRITE, p_size, size, true);
-475ddf1fce1ec4 Kees Cook      2023-04-07  596  	else if (q_size != SIZE_MAX && q_size < size)
-94fd44648dae2a Kees Cook      2025-07-29  597  		fortify_panic(func, FORTIFY_READ, q_size, size, true);
-54d9469bc515dc Kees Cook      2021-06-24  598  
-54d9469bc515dc Kees Cook      2021-06-24  599  	/*
-54d9469bc515dc Kees Cook      2021-06-24  600  	 * Warn when writing beyond destination field size.
-54d9469bc515dc Kees Cook      2021-06-24  601  	 *
-2003e483a81cc2 Kees Cook      2024-06-19  602  	 * Note the implementation of __builtin_*object_size() behaves
-54d9469bc515dc Kees Cook      2021-06-24  603  	 * like sizeof() when not directly referencing a flexible
-54d9469bc515dc Kees Cook      2021-06-24  604  	 * array member, which means there will be many bounds checks
-54d9469bc515dc Kees Cook      2021-06-24  605  	 * that will appear at run-time, without a way for them to be
-54d9469bc515dc Kees Cook      2021-06-24  606  	 * detected at compile-time (as can be done when the destination
-54d9469bc515dc Kees Cook      2021-06-24  607  	 * is specifically the flexible array member).
-54d9469bc515dc Kees Cook      2021-06-24  608  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
-54d9469bc515dc Kees Cook      2021-06-24  609  	 */
-2003e483a81cc2 Kees Cook      2024-06-19  610  	if (p_size_field != SIZE_MAX &&
-54d9469bc515dc Kees Cook      2021-06-24  611  	    p_size != p_size_field && p_size_field < size)
-54d9469bc515dc Kees Cook      2021-06-24  612  		return true;
-54d9469bc515dc Kees Cook      2021-06-24  613  
-54d9469bc515dc Kees Cook      2021-06-24  614  	return false;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  615  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  616  
+502a590a170b3b Thomas Gleixner   2019-07-28  473 =20
+08cd5e1de81584 Thomas Wei=C3=9Fschuh  2026-02-27  474  static
+ac1a42f4e4e296 Thomas Wei=C3=9Fschuh  2025-02-04  475  int __cvdso_clock_ge=
+tres_data(const struct vdso_time_data *vd, clockid_t clock,
+e876f0b69dc993 Christophe Leroy  2020-02-07  476  			      struct __kernel_=
+timespec *res)
+502a590a170b3b Thomas Gleixner   2019-07-28  477  {
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  478  	bool ok;
+00b26474c2f161 Vincenzo Frascino 2019-06-21  479 =20
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  480  	ok =3D  __cvdso_clo=
+ck_getres_common(vd, clock, res);
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  481 =20
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  482  	if (unlikely(!ok))
+00b26474c2f161 Vincenzo Frascino 2019-06-21 @483  		return clock_getres_fal=
+lback(clock, res);
+502a590a170b3b Thomas Gleixner   2019-07-28  484  	return 0;
+00b26474c2f161 Vincenzo Frascino 2019-06-21  485  }
+00b26474c2f161 Vincenzo Frascino 2019-06-21  486 =20
+e876f0b69dc993 Christophe Leroy  2020-02-07  487  static __maybe_unused
+e876f0b69dc993 Christophe Leroy  2020-02-07  488  int __cvdso_clock_getres(=
+clockid_t clock, struct __kernel_timespec *res)
+e876f0b69dc993 Christophe Leroy  2020-02-07  489  {
+df7fcbefa71090 Thomas Wei=C3=9Fschuh  2025-02-04  490  	return __cvdso_cloc=
+k_getres_data(__arch_get_vdso_u_time_data(), clock, res);
+e876f0b69dc993 Christophe Leroy  2020-02-07  491  }
+e876f0b69dc993 Christophe Leroy  2020-02-07  492 =20
+08cd5e1de81584 Thomas Wei=C3=9Fschuh  2026-02-27  493  static int
+ac1a42f4e4e296 Thomas Wei=C3=9Fschuh  2025-02-04  494  __cvdso_clock_getres=
+_time32_data(const struct vdso_time_data *vd, clockid_t clock,
+e876f0b69dc993 Christophe Leroy  2020-02-07  495  				 struct old_timespec3=
+2 *res)
+00b26474c2f161 Vincenzo Frascino 2019-06-21  496  {
+00b26474c2f161 Vincenzo Frascino 2019-06-21  497  	struct __kernel_timespec=
+ ts;
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  498  	bool ok;
+00b26474c2f161 Vincenzo Frascino 2019-06-21  499 =20
+369cecd238ac83 Thomas Wei=C3=9Fschuh  2026-07-02  500  	BUILD_BUG_ON(!IS_EN=
+ABLED(CONFIG_COMPAT_32BIT_TIME));
+369cecd238ac83 Thomas Wei=C3=9Fschuh  2026-07-02  501 =20
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  502  	ok =3D __cvdso_cloc=
+k_getres_common(vd, clock, &ts);
+c60a32ea4f459f Thomas Gleixner   2019-07-30  503 =20
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  504  	if (unlikely(!ok))
+c60a32ea4f459f Thomas Gleixner   2019-07-30 @505  		return clock_getres32_f=
+allback(clock, res);
+00b26474c2f161 Vincenzo Frascino 2019-06-21  506 =20
+a279235ddbe975 Vincenzo Frascino 2019-08-30  507  	if (likely(res)) {
+00b26474c2f161 Vincenzo Frascino 2019-06-21  508  		res->tv_sec =3D ts.tv_s=
+ec;
+00b26474c2f161 Vincenzo Frascino 2019-06-21  509  		res->tv_nsec =3D ts.tv_=
+nsec;
+00b26474c2f161 Vincenzo Frascino 2019-06-21  510  	}
+34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  511  	return 0;
+00b26474c2f161 Vincenzo Frascino 2019-06-21  512  }
+e876f0b69dc993 Christophe Leroy  2020-02-07  513 =20
 
-:::::: The code at line 562 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+:::::: The code at line 483 was first introduced by commit
+:::::: 00b26474c2f1613d7ab894c525f775c67c8a9e8f lib/vdso: Provide generic V=
+DSO implementation
 
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 --
 0-DAY CI Kernel Test Service
