@@ -1,95 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3767C81724
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Sep 2026 03:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08D981724
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Sep 2026 03:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790479161; cv=none; b=JtvLa+PBb6InYTDWzGrc3x5LwVfrGz4KIYYs8LWl1vmdHE89tceyPj4ihHy0m/PJ3CJ2ZqXkLG66wR5fNWaEr6xLNMzPmQdmaV4B3R2i4KhPgi+PEaqL2CoH2h/d/eyDoz+lVQJapN/1ngHIJQz1Be1rT+zLOlNjwwiPVCdbud0=
+	t=1790479234; cv=none; b=GXOvHPsVOEKMHRg/3rpuQNrywqo/jXbXuC1A38hxu0kQg1nsmwHCWozNqQfF1CyNHj30wAZdE32Ym501U4j2n6QaEzBk9aGX3JOzJZLThnBdlDdz3GNqbhxc9i6ZJoFPqM2lMJ782eLnvFlCU2U72FKZvpxWFFt6J0j7Pn5Nhro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790479161; c=relaxed/simple;
-	bh=aY86caGFW7LVyDoY23A0aBo5JcYrOWMendcpZB/WVpQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ONUIItJP3s20Une3keJcj1Cvt1yPbbpPmHW2G/gvWE1xBFVBiHfsMEPH2emD2UV3FQeXrRxogL5vy7Nu2O5lS+bXRz88JXDi2+ctMwOa2y9f19Y5lo1Mc/BbsxFUK5uEBSfpdA/jpTzBGWFyBuvq3+eapULyMDgRDlKlnfN+aOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwnT3+W8; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1790479234; c=relaxed/simple;
+	bh=4iWE8aqlS9h4gSgwxAkDRdqXaodRT07REcFuTLkFj0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=eZaCXq6+G2qc+7bEIA1c/2oVP1bTKOlQCcSoM/lKvEL5OWbV0Ay8CjYzp352w1fT6SrxeAzeVfPpww8Lr4fQZow2jpVrjwPjq3Oh7BWF88zML/DYPI9vNCy8YG3xH0jDME51JFBSEpMIQJwb254KMREuWaRCsCSPhiRghjkzaro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nEW7ej8c; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwnT3+W8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nEW7ej8c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790479160; x=1822015160;
-  h=date:from:to:cc:subject:message-id;
-  bh=aY86caGFW7LVyDoY23A0aBo5JcYrOWMendcpZB/WVpQ=;
-  b=CwnT3+W8Jugpx3XRsOx3PmVX5vHf5JOToTKlh/N2zrhfpQgAVeN/RaxV
-   59fKNnqkebRzieqg1Wrafs4MxrkOIYnlQj0T3fTbpgOQmef+mmXTBYl/D
-   d0ELs0spoTaSn9hs5oLlljmg0bvCD6mX32AFgs0raTXJgC9jkIjQr6c/9
-   4U3zuYXCKc6qHcR+CG0//P8iLQO18PF0T8XRLG012QsBFjPXBqRxIEBuJ
-   WIJ3xf4tmxd9zKq+X/NjeJ50CxMMmebj/UNRmU5pcr/xG2kM6ardmYqy+
-   +cylU5r2N0vcYqWbHbhRMlaslPrHSyS8CnUcFJLpPY0DmIXOwWQXNKrey
+  t=1790479232; x=1822015232;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4iWE8aqlS9h4gSgwxAkDRdqXaodRT07REcFuTLkFj0I=;
+  b=nEW7ej8c77cy/eoDbYwRpe3ok7ZFcRGfdpMhkN0doqPf3WCpoyUMscaC
+   Bk+HQLhaUr20BaOdJJIG6ZciDSMnHmGWwj5yrwKhewxc4wbsL43SsfvbH
+   8Ynn3gBXaYalGgCBMOGJGpelEpJ7JU5P8rZ/Duih3UkQMRRemeT5s9eNo
+   XrbaxjzHCgGUv2jG5H7tvtFoKyAb+g7JonepXWDw6HZdGezJRisq1qRU/
+   oKaikHdwt1ZcOqdTDwO9HmwHPpMrlzOuVt0jIQHlZ7T7raXdTWYwPZQBo
+   NUKfl0Ofmnjvk1thlOK93EqDJ1jL1oSZP+A1mVhl9SJzuj7pFR3yJk3Bz
    g==;
-X-CSE-ConnectionGUID: aWT/DRSxRimAQLIvZXTWnQ==
-X-CSE-MsgGUID: gidwup7pRvCT/Xbm4RX2hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="90272441"
+X-CSE-ConnectionGUID: EScfQVWhQCqMj4nu0H02Fg==
+X-CSE-MsgGUID: 1ED6apGwQ3SOAPbAw571FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="90433898"
 X-IronPort-AV: E=Sophos;i="6.27,125,1787036400"; 
-   d="scan'208";a="90272441"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2026 20:19:19 -0700
-X-CSE-ConnectionGUID: ca3fSGKqTC+8buULXfmoWQ==
-X-CSE-MsgGUID: pqdxmu7cTWKVwIBNf8os8Q==
+   d="scan'208";a="90433898"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2026 20:20:31 -0700
+X-CSE-ConnectionGUID: gXS7ymY/T8WHqJSDn9Kt/g==
+X-CSE-MsgGUID: JPMOE6XsR0avaVYdmBcjUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,125,1787036400"; 
-   d="scan'208";a="278521486"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Sep 2026 20:19:17 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="312632514"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 26 Sep 2026 20:20:30 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAfQ2-00000000MN7-2hJI;
-	Sun, 27 Sep 2026 03:19:14 +0000
-Date: Sun, 27 Sep 2026 11:18:31 +0800
+	id 1xAfRD-000000000P9-26zq;
+	Sun, 27 Sep 2026 03:20:27 +0000
+Date: Sun, 27 Sep 2026 05:19:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ravikanth Tuniki <ravikanth.tuniki@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
- Michal Simek <monstr@monstr.eu>,
- Srinivas Neeli <srinivas.neeli@amd.com>,
- Harini Katakam <harini.katakam@amd.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.18_LTS 29/1212] Warning: 710
-Message-ID: <202609271134.95I4M8qu-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-classmaps-v8 33/44] Warning:
+ lib/dynamic_debug.c:739 expecting prototype for param_set_dyndbg_classes().
+ Prototype was for param_set_dyndbg_module_classes() instead
+Message-ID: <202609270516.qT3lV1zN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-Hi Ravikanth,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.18_LTS
-head:   7e498a7051b6b67bed11b347e6b66e802a20d280
-commit: e4a46b3732db2752cde2ba957c5d0f3e571add3f [29/1212] net: axienet: added multichannel DMA support
-config: um-randconfig-1000-20260926 (https://download.01.org/0day-ci/archive/20260927/202609271134.95I4M8qu-lkp@intel.com/config)
+tree:   https://github.com/jimc/linux.git dd-classmaps-v8
+head:   89143f99ac8f270ba0c42d403345380fe8b6a270
+commit: e804bda0b826fce67e58cdcd931bee5d696babe8 [33/44] dyndbg-API: promote DYNAMIC_DEBUG_CLASSMAP_PARAM to API
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260927/202609270516.qT3lV1zN-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260927/202609271134.95I4M8qu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260927/202609270516.qT3lV1zN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609271134.95I4M8qu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609270516.qT3lV1zN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: 710
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OF_GPIO
-   Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-   Selected by [y]:
-   - GPIO_TB10X [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && (ARC_PLAT_TB10X || COMPILE_TEST [=y])
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [y]:
-   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+>> Warning: lib/dynamic_debug.c:739 expecting prototype for param_set_dyndbg_classes(). Prototype was for param_set_dyndbg_module_classes() instead
 
 --
 0-DAY CI Kernel Test Service
