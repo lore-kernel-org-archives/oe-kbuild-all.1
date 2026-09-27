@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A149B54704C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Sep 2026 12:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F053CCFC3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Sep 2026 12:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790512482; cv=none; b=ekHnH16Zwqt21OU9VkRGlxJOL+CnNYlblZDOXHJ7JBH05EU5+VjvkMVRJZUxMRNS2MffFAg5Rt9UzgKOK+8tyvE1ZqG1gd14Uw7XBE8ba05OQU8ArO1Zwszi/BwmACr+XpaUQvKgJ617U14zaSIS/P1RFLCV0f2+s5KXJg4Sy2o=
+	t=1790512484; cv=none; b=bnYGLFjJNPgEVrFKSyUvDLb2IlIDAqVJ3fGP8R8djmoeuxaWVbfCQLrYpZ+RQDCAznZh0Ti6yke8muBNsiVHxMOTch/7X5Z/HILK9VkiSBQTWFtkSRBFfKcT43LLFxM/RuiVUpGCFWDc3HZW5ycpYXssYPpq6BM0PVAzpyuoD6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790512482; c=relaxed/simple;
-	bh=byai12JLpRSDbCNl2hK81fCeczJy13IgM45/h9BkLrA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CpyuRqMW5UgCT/qwpF5mjmAXvpEdgVZgHw+hj8CZy+NsBzIGAgE5ucLz648UuteFffjV3JOvwvlg9hiKTpp/nYjT4W6yX+OJ7bwDmXknKrmF1nR6INijDsJY9l6H0ta95jmtVPYb8cQwtM9Ty/Oq3J4oXVJWZLHZbh4QN1eNUsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GR1VfAyQ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1790512484; c=relaxed/simple;
+	bh=J7Phmb0St5MNSr6PwsO7bSm7ZWhumBMoJ7v/xiZaW3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cb7VmEX6kc5w3eCwqpJU7eBTyWSaPtrq0gTaoqKkn/PGWrVtVH/uzPlPxMazKmrpCxQvlN7OgP8cvMKiascSgMM8EG2VRshkFiY88ymzUwHvSJbvS+2U3NUa8qLSvCzZIGnaJpzvpDGoLYe3HiTDg6/VkbWJX7NSs4GvTkFNPQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuL+XiLh; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GR1VfAyQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuL+XiLh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790512480; x=1822048480;
+  t=1790512482; x=1822048482;
   h=date:from:to:cc:subject:message-id;
-  bh=byai12JLpRSDbCNl2hK81fCeczJy13IgM45/h9BkLrA=;
-  b=GR1VfAyQ0EH34Bq8IyHBgmfoQjzCbSta+4JeUjUNdaNzV0cEapFdSlke
-   ku00G1C/NAPC2uig/CE1fdW0RTu39Gcl9dRxNckMBv9WHLvXJMoaxy18t
-   /FmEBVbiVxcQ2WVG7fBFCm6a7YHJMhK63sZa7e7H3o+msTcdWcV202GSL
-   cospyeERgdXj0sd/anyYz8/0Td+LtI0Kh+RDmV2QjRe5TCOpifTgawogj
-   4eDdHXGP6qMAl1qMMt+d4jC/X66IJdoVbQSmfk4kQgDwxHQnkPUl5sgfi
-   aYPdyHfjAbdK2flWw6F7tqVWo5n1jMpgPMTjxjbHk06S04zr0YvRxMXKF
-   Q==;
-X-CSE-ConnectionGUID: z2UsrYCBTQ6WJUgLbXLEkA==
-X-CSE-MsgGUID: DXUHYKraQt2YHgChCsYVcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="100564235"
+  bh=J7Phmb0St5MNSr6PwsO7bSm7ZWhumBMoJ7v/xiZaW3Y=;
+  b=OuL+XiLhCkmrObQBZ652AqgZKoZ7tryoppxsTdeP/VkXbMBpagKDq7Bf
+   H+k3eJ4MLg+vE9dmHm6XM8CHlSY6TIq1epE+n1QzCzVNDD0BnaCQGceTD
+   UN8Yez2azHrUoooy9KeqgNcEEYiKgfj2lE51PjVfaq2jh2XgNR4nBkDNr
+   hEhSiog/bHuWIkgoocrlNnk6fqdjE52eluZB07jAo40nx6/PQOXoEASgA
+   0+KgCPlsuSULr2dDCgFeV+5zCAGs/pxyNPkNE8rQYgChN3mmw0rPxYjcu
+   1TKLXEybE60UY5qh49EbIX+B+PQm02f3uc1iEq66piXm9PFXmj11N2YS5
+   g==;
+X-CSE-ConnectionGUID: tXariW3YSnSdD4B0Oa4v7Q==
+X-CSE-MsgGUID: ZmP2ffEASJeF4QT+m/Oxaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11917"; a="100564236"
 X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="100564235"
+   d="scan'208";a="100564236"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 05:34:40 -0700
-X-CSE-ConnectionGUID: VIoyrJTySSi2832i5JaJLA==
-X-CSE-MsgGUID: z6ZAVtFBTVae17dEGiovNw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 05:34:41 -0700
+X-CSE-ConnectionGUID: ZS8Kt445SLaiRExWkVMWsg==
+X-CSE-MsgGUID: Rloi4B63RZCgR1si+C7cGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="312725058"
+   d="scan'208";a="312725061"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
   by orviesa001.jf.intel.com with ESMTP; 27 Sep 2026 05:34:39 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xAo5V-000000000Zj-0rel;
+	id 1xAo5V-000000000Zl-1804;
 	Sun, 27 Sep 2026 12:34:37 +0000
-Date: Sun, 27 Sep 2026 14:34:14 +0200
+Date: Sun, 27 Sep 2026 14:34:15 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-2026-06 0/1]
- drivers/gpu/drm/i915/i915_gpu_error.c:692:3: sparse: sparse: symbol
- 'guc_hw_reg_state' was not declared. Should it be static?
-Message-ID: <202609271401.v3QwNzQG-lkp@intel.com>
+To: Hajime Tazaki <thehajime@gmail.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>,
+ Ricardo Koller <ricarkol@google.com>
+Subject: [linux-next:master 9572/10910] kismet: WARNING: unmet direct
+ dependencies detected for DRM_TTM when selected by DRM_RADEON
+Message-ID: <202609271435.lANS7mTP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,48 +62,29 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-06
-head:   51961f334da24f5cfbbc50030779d37e98f2ec5d
-commit: ba391a102ec11ab7f5b249e46dcf61ef836a57e7 [0/1] drm/i915/guc: Include the GuC registers in the error state
-config: i386-randconfig-2301-20260927 (https://download.01.org/0day-ci/archive/20260927/202609271401.v3QwNzQG-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260927/202609271401.v3QwNzQG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
+commit: 626ff2b34dbb7679b798f7a4962a8b3def695045 [9572/10910] um: allow deselecting CONFIG_MMU
+config: um-kismet-CONFIG_DRM_TTM-CONFIG_DRM_RADEON-0-0 (https://download.01.org/0day-ci/archive/20260927/202609271435.lANS7mTP-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260927/202609271435.lANS7mTP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ba391a102ec1 ("drm/i915/guc: Include the GuC registers in the error state")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609271401.v3QwNzQG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609271435.lANS7mTP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/i915_gpu_error.c:692:3: sparse: sparse: symbol 'guc_hw_reg_state' was not declared. Should it be static?
-
-vim +/guc_hw_reg_state +692 drivers/gpu/drm/i915/i915_gpu_error.c
-
-   687	
-   688	/* This list includes registers that are useful in debugging GuC hangs. */
-   689	const struct {
-   690		u32 start;
-   691		u32 count;
- > 692	} guc_hw_reg_state[] = {
-   693		{ 0xc0b0, 2 },
-   694		{ 0xc000, 65 },
-   695		{ 0xc140, 1 },
-   696		{ 0xc180, 16 },
-   697		{ 0xc1dc, 10 },
-   698		{ 0xc300, 79 },
-   699		{ 0xc4b4, 47 },
-   700		{ 0xc574, 1 },
-   701		{ 0xc57c, 1 },
-   702		{ 0xc584, 11 },
-   703		{ 0xc5c0, 8 },
-   704		{ 0xc5e4, 1 },
-   705		{ 0xc5ec, 103 },
-   706		{ 0xc7c0, 1 },
-   707		{ 0xc0b0, 2 }
-   708	};
-   709	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_TTM when selected by DRM_RADEON
+   WARNING: unmet direct dependencies detected for PCI
+     Depends on [n]: HAVE_PCI [=y] && MMU [=n]
+     Selected by [y]:
+     - FORCE_PCI [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_TTM
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+     Selected by [y]:
+     - DRM_TTM_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y]
+     - DRM_RADEON [=y] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && (AGP [=n] || !AGP [=n])
 
 --
 0-DAY CI Kernel Test Service
