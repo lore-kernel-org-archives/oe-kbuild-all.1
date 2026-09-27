@@ -1,141 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A5C2F6188;
-	Sun, 27 Sep 2026 20:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC7C1A6836;
+	Sun, 27 Sep 2026 20:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790540942; cv=none; b=lqyfNMx5gmnIEk0bE3gqbbBo4igmTTJMPvacWPTnlNN2aBFTJmtUHu6zOYbLWVNwHuiB0umQjCI7owVJTnrN8TcLI/Q5iILqfnnOvi8KwTrM89lBa3fFX/zJsnScEeWzLqFxm6hY1otj4kYTqffqTOJ9HetpO6iS3tTTkxnelx8=
+	t=1790541062; cv=none; b=GCed4FddnsHvKPc9ddZhhXUq1lF+scevbsGovDuUEhL74KA0pDtNlOv42+wrSdJayyiP+yfZMKbY7WsWTfK5LrSteevPEPyBmWeJQVUXJ3G6UMiv7wG7ijq3KTYABVXlIbjCAcu8gRAv/qwO6HobKDeZOzY6EAC1k5Xg+ksyf3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790540942; c=relaxed/simple;
-	bh=yJseRHOEDLQ1zK0Dj8ka8ajSpbODt8p8YW0HRntLhtk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=l5ewIal+JeWpa8vxGGNamKHchdHOLFlF8e9QsU5PIN2pj506eEGW01nID4m+bl58CuWr+QhsziaeZKbFDOewzI2n6iuHmtgKjl3JoeO6MT3hjHRjGfloW1OXn91RKYIMrAGyJ6W6PMrLWpLz87eQdomRUHTV6wA75GURrNeheeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZWWImMC; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790541062; c=relaxed/simple;
+	bh=5YQQHTAuOEar06tx6HfMtvakfC4k28uDuJgvCl6jW5k=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=pDYCk+uD1S1VgBOE6ACnXu57idF6Dn1t4wf2TeYjpZayQKFj1Oru0y47Oh8wPCVlZGYBB3xUxiZY0IjdVJkMsnguvls2fDKHT2iJyw7vnYGZARa/FPrJLH1bT+nyFKOnHTbJDcrhMlj0fgN2U9+ADut5/x5YiuWy4drJiWlvMwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bZCFoArE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZWWImMC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790540941; x=1822076941;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yJseRHOEDLQ1zK0Dj8ka8ajSpbODt8p8YW0HRntLhtk=;
-  b=CZWWImMCIo1N/CHB6zA8Gz3eqSTLq7ZoKUAyJTX8weqQbLUw4Z5Kje7Z
-   dfegB5L/cOxSUjAU/HFvQEaFcj9KjCU/O2Rp4Am4PIh68XlZfY4/2vmOj
-   8W11veT3wrHL47UXtZ3DeJ9GeEfIlg49x7Tj6Zs9Dqrc+JeOKBRCsmnXE
-   r2dkK61EFNcYsNSds0sE1QvrVSz3sMGkKbdJlJ5MCmmEDu/0dUVGpiyqX
-   VZF28yhbRPd1b/T3d5eM/5jf0rWq/cmwfnstUkQLD7GFUuq5lbxianTxp
-   JQsoil4/Kik/jCfpFNuFH0wF6rtS6RONSZxDTFcXUSCJtalI74C+6t7R0
-   w==;
-X-CSE-ConnectionGUID: W4neiYShTua3K36Fgm+JBg==
-X-CSE-MsgGUID: Cr4m9X8qTV6lA98mJamEHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="101415601"
-X-IronPort-AV: E=Sophos;i="6.27,127,1787036400"; 
-   d="scan'208";a="101415601"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 13:29:00 -0700
-X-CSE-ConnectionGUID: Htb2uIH5SwuqwPwjhXQx/Q==
-X-CSE-MsgGUID: 3YQ1B4DZReCjNLXhKyLQiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,127,1787036400"; 
-   d="scan'208";a="312788615"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 27 Sep 2026 13:28:58 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xAvUV-000000000gD-0tP4;
-	Sun, 27 Sep 2026 20:28:55 +0000
-Date: Sun, 27 Sep 2026 22:28:27 +0200
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-timens-conditional 12/12]
- arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:483:10: error:
- call to undeclared function 'clock_getres_fallback'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202609272248.elcdGKal-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bZCFoArE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72B591F000FF;
+	Sun, 27 Sep 2026 20:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1790541060;
+	bh=eO1GbP2uuZa4hrp2kTCOpYiuFc7Q8kusK/y74limaec=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=bZCFoArExGIZS0u/zlqwhpNYP3EhjQ6VjHC3TDViHMWIi14nyx1LJjiqOzHBWx+/f
+	 kkKiUa9YyEqhCSs+ddVuXJpQLrknpYA5av9fRlCWCjHW4ecvys5Zl2f8S8OM46Ji2m
+	 MkmUEqR6W5oGGtF8GihVH2w+zfJh7emXltzcHys8=
+Date: Sun, 27 Sep 2026 13:31:00 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+ oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>, Linux
+ Memory Management List <linux-mm@kvack.org>, mm-commits@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [akpm-mm:mm-new 661/679] mmu.c:undefined reference to
+ `__check_safe_pte_update'
+Message-Id: <20260927133100.46a4f7067c79280dcf83731b@linux-foundation.org>
+In-Reply-To: <202609270030.Y0QVBPmK-lkp@intel.com>
+References: <202609270030.Y0QVBPmK-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Thomas,
+On Sun, 27 Sep 2026 00:32:54 +0800 kernel test robot <lkp@intel.com> wrote:
 
-First bad commit (maybe !=3D root cause):
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   b4fc90c82982d98959af08b4320420bcfc01303b
+> commit: 2862bcaf1aca55e0b43a5692a4595281ab780f05 [661/679] arm64/mm: move __check_safe_pte_update()
+> config: arm64-randconfig-1002-20260926 (https://download.01.org/0day-ci/archive/20260927/202609270030.Y0QVBPmK-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 8.5.0
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/l=
-inux.git b4/vdso-timens-conditional
-head:   dbe6d2a5ee3233a9e819a0663236161d27841d5a
-commit: dbe6d2a5ee3233a9e819a0663236161d27841d5a [12/12] VDSO_HAS_CLOCK_GET=
-RES
-config: sparc64-randconfig-2000-20260927 (https://download.01.org/0day-ci/a=
-rchive/20260927/202609272248.elcdGKal-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 761=
-5da10b75c57286a4032eac8bb43c1b8d2ba46)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260927/202609272248.elcdGKal-lkp@intel.com/reproduce)
+Thanks.  It works for me, but I'm using gcc-15.2.0.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609272248.elcdGKal-lkp@i=
-ntel.com/
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260927/202609270030.Y0QVBPmK-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609270030.Y0QVBPmK-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+> >> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>    aarch64-linux-ld: arch/arm64/mm/mmu.o: in function `__set_ptes_anysz.isra.40.constprop.47':
+> >> mmu.c:(.text+0x9a8): undefined reference to `__check_safe_pte_update'
+>    aarch64-linux-ld: arch/arm64/mm/hugetlbpage.o: in function `__set_ptes_anysz.isra.32':
+> >> hugetlbpage.c:(.text+0x1a8): undefined reference to `__check_safe_pte_update'
+>    aarch64-linux-ld: kernel/bpf/arena.o: in function `apply_range_set_cb':
+> >> arena.c:(.text+0x11fc): undefined reference to `__check_safe_pte_update'
+>    aarch64-linux-ld: mm/gup.o: in function `follow_page_pte':
+> >> gup.c:(.text+0x2b48): undefined reference to `__check_safe_pte_update'
+>    aarch64-linux-ld: mm/memory.o: in function `__set_ptes.isra.207':
+> >> memory.c:(.text+0x3418): undefined reference to `__check_safe_pte_update'
+>    aarch64-linux-ld: mm/mprotect.o:mprotect.c:(.text+0x1080): more undefined references to `__check_safe_pte_update' follow
+> 
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/sparc/vdso/vclock_gettime.c:22:
->> arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:483:10: erro=
-r: call to undeclared function 'clock_getres_fallback'; ISO C99 and later d=
-o not support implicit function declarations [-Wimplicit-function-declarati=
-on]
-     483 |                 return clock_getres_fallback(clock, res);
-         |                        ^
-   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:483:10: note=
-: did you mean 'clock_getres32_fallback'?
-   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:97:28: note:=
- 'clock_getres32_fallback' declared here
-      97 | static __always_inline int clock_getres32_fallback(clockid_t clk=
-id, struct old_timespec32 *ts)
-         |                            ^
-   1 error generated.
-
-
-vim +/clock_getres_fallback +483 arch/sparc/include/uapi/../../../../lib/vd=
-so/gettimeofday.c
-
-502a590a170b3b Thomas Gleixner   2019-07-28  473 =20
-08cd5e1de81584 Thomas Wei=C3=9Fschuh  2026-02-27  474  static
-ac1a42f4e4e296 Thomas Wei=C3=9Fschuh  2025-02-04  475  int __cvdso_clock_ge=
-tres_data(const struct vdso_time_data *vd, clockid_t clock,
-e876f0b69dc993 Christophe Leroy  2020-02-07  476  			      struct __kernel_=
-timespec *res)
-502a590a170b3b Thomas Gleixner   2019-07-28  477  {
-34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  478  	bool ok;
-00b26474c2f161 Vincenzo Frascino 2019-06-21  479 =20
-34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  480  	ok =3D  __cvdso_clo=
-ck_getres_common(vd, clock, res);
-34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  481 =20
-34f888e3405ace Thomas Wei=C3=9Fschuh  2025-07-01  482  	if (unlikely(!ok))
-00b26474c2f161 Vincenzo Frascino 2019-06-21 @483  		return clock_getres_fal=
-lback(clock, res);
-502a590a170b3b Thomas Gleixner   2019-07-28  484  	return 0;
-00b26474c2f161 Vincenzo Frascino 2019-06-21  485  }
-00b26474c2f161 Vincenzo Frascino 2019-06-21  486 =20
-
-:::::: The code at line 483 was first introduced by commit
-:::::: 00b26474c2f1613d7ab894c525f775c67c8a9e8f lib/vdso: Provide generic V=
-DSO implementation
-
-:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
