@@ -1,111 +1,122 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D223CB907
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 19:05:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246B54EF13A;
+	Mon, 28 Sep 2026 19:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790622314; cv=none; b=osNmQcq9UC4QCQizlSXkYKyRWkbWTBqVVweilw3gkR9a4FzwkrjjoyyJUP3wx4BWYnZuqbHN9yUYu3pCMsJ3OqE+6uhSyH/ggH9CqsMAy42uGv1H1HdwheFZyhcgtsXLQ0OvQ2imbg7f6g1W6KtOx74TkBRX+KmyiNJHOnohod4=
+	t=1790624086; cv=none; b=JtZLcRgMfFpMeqP4XGHc5XPhMFWwsEmbN6z8B2jiOQwpHZh10cBToe8uHGJiSLJgBPPFLFomNZxGVMvrP8cXHs71zJsbN1IcgVMRqf46/C3BT19Y6A+C7fCiE1cHEAKseWhqYNL3zBmD0zN9TCwFe2/nl6rPRp+SmB7hGaYRBY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790622314; c=relaxed/simple;
-	bh=W/S282kE65UkR54PP+4hqJkZQuwpRd1wM6AvvsZ2hS8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iXC7XL9RJU+1Mg7/+JnyoTi0wMQqJ44Y0NX+ltn1riFyFisGXsH5ius5E1wbu6v/NubWi3jrajJhlfL3suNR4IPf4CjbsrST2Bv9G+PfwEt4zBSlW2jmbmKAVnWHiGqhrtBmtR7ngutZZvwRWJoqDarC57SH4G8MGpcb5i+hRho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=AN79AMjn; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1790624086; c=relaxed/simple;
+	bh=V/YXGiGxhcBrgsAqqJgs/KU2Y2HCiZumCGJxED0jrQ4=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bw4o//fGdbzIaMsKPK+7Zk6j+3yWzqEO8bImxg6G3+Dpw9NIFATs7eObQNN1KqTy3/jXGAszxVJxhX8VIw/7s+0o0MpDaHBSZkR20f4/XkuywZU9NTa874eCcdprIsJkbPLN1f+Qz8N6f7oIHh6qu3Iicc2qCB0QU86uIrkzyK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TQ1KNE5M; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="AN79AMjn"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 528411061E1;
-	Mon, 28 Sep 2026 21:05:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1790622305;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=oc0AMDAC/tcNF4KknV1bOq1qp5F0oUr0gA9faXbVPww=;
-	b=AN79AMjnxwHSXSDujpXb7SvNhr5BaiVHcmnS3bUTxPxOQqd6/TSYN61iFSbjeZgbSg/4Gv
-	iFn/+/iyUgcSmkR/CjglE+r/gUQhyNsmok428T03xpBUgeDiUIGwNstAm/zrJNC8OnNRoX
-	35ukgySoaTu9KO59EHwqZN3tbCz6H9ei0Yssf+eeKA4wQdO+DlONKY1gWxaOOpcP2PHwt+
-	PY05flwOlJLvsNvAx9nPpc9SC3JHc1l4gFyuTa8/b0i4bLhwYdRYTfsoAPWBTpM/eqlyTd
-	S+PwfCnpC2RxK1fnloOJYMkIdggD3g+R/0zNFocsH6pzE0CPiEmyeifv2fB/ZQ==
-Message-ID: <17c2d593-194c-47ff-9c55-b86cba82f415@nabladev.com>
-Date: Mon, 28 Sep 2026 21:05:03 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQ1KNE5M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790624084; x=1822160084;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=V/YXGiGxhcBrgsAqqJgs/KU2Y2HCiZumCGJxED0jrQ4=;
+  b=TQ1KNE5MEJ5jDyNE0MFsZ9tJB+OJaCvEBlTLLpQAKrGZkd6iVc4TQEtz
+   5uljMjaprDbdMNhHi1jhLBIn3hFNyQY3ur650CFXMUY6jTqrhRb7FUOVr
+   zID/EClYCsx831Sf53i5l+cwudXZfKI2a/QXlEqextuldf0W5hSaCNGXp
+   B11759gzlGtaSZ/DOT6ASp66BXNqtWXfOawE6ooI15LA1DfHGjEJDKJVJ
+   gp7dtNhw8D/SgRekLHux8oYZVI+kmCm43anotRW8uaf+lxdujHUhMmm8A
+   Ltu6/PPY9+9lnJXnDZgYGL4AstnQgCXNQSy2qsAwjkUVGJEkUteTuD48U
+   g==;
+X-CSE-ConnectionGUID: QUnVGAtoT0ilKsoJOsJVsQ==
+X-CSE-MsgGUID: QEcW+bSiT0iptVtXMw45bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="113120740"
+X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
+   d="scan'208";a="113120740"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 12:34:43 -0700
+X-CSE-ConnectionGUID: hHZiQKJ0T1C6dni9FOtN2A==
+X-CSE-MsgGUID: vKJdrH/RRh6W29E7s4fodA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
+   d="scan'208";a="304644055"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 28 Sep 2026 12:34:42 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xBH7Y-00000000OP1-35U9;
+	Mon, 28 Sep 2026 19:34:40 +0000
+Date: Tue, 29 Sep 2026 03:33:54 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: gpiolib: annotate struct acpi_gpio_mapping with __counted_by_ptr
+Message-ID: <202609290353.Ok95CKe3-lkp@intel.com>
+References: <202609290353.Ok95CKe3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 1377/10910]
- arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb:
- vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not
- allowed ('no-map', 'reg' were unexpected)
-To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot <lkp@intel.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-References: <202609252351.5UfBIiOJ-lkp@intel.com>
- <b70365a8-9812-434a-b514-4604835cf347@nabladev.com>
- <735d64cb-b35b-4854-8b6e-d1f32822c244@kernel.org>
- <8ed2f318-5758-4d2d-9e31-bebbb067b913@nabladev.com>
- <27062652-12e5-428f-b900-e50cff70452e@kernel.org>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <27062652-12e5-428f-b900-e50cff70452e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609290353.Ok95CKe3-lkp@intel.com>
 
-On 9/28/26 7:00 AM, Krzysztof Kozlowski wrote:
-> On 27/09/2026 20:06, Marek Vasut wrote:
->> On 9/27/26 6:59 PM, Krzysztof Kozlowski wrote:
->>> On 26/09/2026 01:00, Marek Vasut wrote:
->>>> On 9/25/26 11:46 PM, kernel test robot wrote:
->>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->>>>> head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
->>>>> commit: 9a14f327dfcbbb0fa24974cb3a928ea3d7409768 [1377/10910] arm64: dts: imx8mm: imx8mp: Add CM DTOs for Data Modul i.MX8M Mini and Plus eDM SBC
->>>>> config: arm64-randconfig-2400-20260921 (https://download.01.org/0day-ci/archive/20260925/202609252351.5UfBIiOJ-lkp@intel.com/config)
->>>>> compiler: aarch64-linux-gcc (GCC) 8.5.0
->>>>> dtschema: 2026.10.dev2+g840a01d41
->>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252351.5UfBIiOJ-lkp@intel.com/reproduce)
->>>>>
->>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>> the same patch/commit), kindly add following tags
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202609252351.5UfBIiOJ-lkp@intel.com/
->>>>>
->>>>> dtcheck warnings: (new ones prefixed by >>)
->>>>>       	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>>>>> arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb: vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
->>>>>       	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>>> --
->>>>>       	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>>>>> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc-overlay-cm7.dtb: vdev0buffer@55400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
->>>>>       	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>> +CC krzk, I just cannot reproduce this locally. Do you know what I might
->>>> be missing here ? Thank you !
->>>
->>> The things or versions listed in top of that email.
->> Linux has plenty of examples of such shared-dma-pool/no-map entries:
->>
->> arch/arm64/boot/dts/freescale/imx952-evk.dts-		vdev0buffer:
->> vdev0buffer@88020000 {
->> arch/arm64/boot/dts/freescale/imx952-evk.dts:			compatible =
->> "shared-dma-pool";
->> arch/arm64/boot/dts/freescale/imx952-evk.dts-			reg = <0 0x88020000 0
->> 0x100000>;
->> arch/arm64/boot/dts/freescale/imx952-evk.dts-			no-map;
->> arch/arm64/boot/dts/freescale/imx952-evk.dts-		};
->>
->> Are those broken and need to be fixed, or is it dt-schema that is broken ?
-> 
-> This could be caused by recent dtschema change, which was also recently
-> fixed. The LKP report had dtschema git version and as you can check it
-> points exactly to the version changing reserved nodes (which introduced
-> issues). Not to the latest one which fixes the issue.
-> 
-> If issue is reproduced with 840a01d but not with later, then obviously
-> everything is fine.
-I can confirm that the issue does not happen with current dt-schema/main 
-5687115902ba ("schemas: reserved-memory: Fix invalid oneOf match with 
-iommu-addresses") .
+Hi Bill,
+
+kernel test robot noticed the following build errors:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bill-Wendling/gpiolib-annotate-struct-acpi_gpio_mapping-with-__counted_by_ptr/20260928-063824
+base:   
+patch link:    https://lore.kernel.org/r/202609290353.Ok95CKe3-lkp%40intel.com
+config: x86_64-randconfig-1011-20260928 (https://download.01.org/0day-ci/archive/20260929/202609290353.Ok95CKe3-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290353.Ok95CKe3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609290353.Ok95CKe3-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/firmware/efi/libstub/smbios.c:5:
+   In file included from include/linux/efi.h:20:
+   In file included from include/linux/rtc.h:18:
+   In file included from include/linux/nvmem-provider.h:16:
+>> include/linux/gpio/consumer.h:670:55: error: use of undeclared identifier 'size'; did you mean 'ksize'?
+     670 |         const struct acpi_gpio_params *data __counted_by_ptr(size);
+         |                                                              ^~~~
+         |                                                              ksize
+   include/linux/compiler_types.h:392:64: note: expanded from macro '__counted_by_ptr'
+     392 | #define __counted_by_ptr(member)        __attribute__((__counted_by__(member)))
+         |                                                                       ^~~~~~
+   include/linux/slab.h:602:8: note: 'ksize' declared here
+     602 | size_t ksize(const void *objp);
+         |        ^
+   In file included from drivers/firmware/efi/libstub/smbios.c:5:
+   In file included from include/linux/efi.h:20:
+   In file included from include/linux/rtc.h:18:
+   In file included from include/linux/nvmem-provider.h:16:
+>> include/linux/gpio/consumer.h:670:55: error: 'counted_by' requires a non-boolean integer type argument
+     670 |         const struct acpi_gpio_params *data __counted_by_ptr(size);
+         |                                                              ^~~~
+   2 errors generated.
+
+
+vim +670 include/linux/gpio/consumer.h
+
+   667	
+   668	struct acpi_gpio_mapping {
+   669		const char *name;
+ > 670		const struct acpi_gpio_params *data __counted_by_ptr(size);
+   671		unsigned int size;
+   672	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
