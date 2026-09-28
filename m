@@ -1,152 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EE4397E73
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 21:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15ED50254D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 21:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790632076; cv=none; b=YEtiAEj9bk9wKryUpokCD1/0NM7UHBLSFNKt0H+9QzDiWmarS6Dy6X/12FHXqI9DghcT4A/F4SQM2unCRSOvblteGOp2Dwg/N17KfBCboN/3kSP3QlzgpGFwRDQRIfR5QsO1WD/Nc4/lwcvRhGT9xfvoBsnUcyncJZCQLVaosaY=
+	t=1790632553; cv=none; b=dtQ7ThDPm9Vzm0Jyp/laYtPchGdPjA967TRbytbmg/iI5KvBgLt8hbHpNjFGt59UXD3Drt98m0AxCiuAR/zbgLkdVNuVSOGSYjroVNSWvCVGYuMaZwQcCXhZ0Irxf5/N64tjo76lFgioBjLlP4jvFCd0FnO6TJYcon+i6zkXifg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790632076; c=relaxed/simple;
-	bh=QjXQi6T9hOG8cVQ771UnTvXuqp5BmjE8U2mPKpnPP1g=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mdc9ilV5WIIa5f3L0DDzx0CoRfHkhKp7CeLBH7tI1JggZXRVNbt9Lvvh2BhzGFPfBKYN39Z/JhcQ3b8gB8wOxj0tcFq3yqh0sVxcTS5fGZixo82P217QfRNzcWXa0ZOd83DyuCwkTI+E3RSRdAkEhvG4mNGvAkiInLWATkOqN20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AmYatXS+; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1790632553; c=relaxed/simple;
+	bh=l+x5EGdr6xdltmuEqahT381Wzz1Nfo9mldBmWIqQmQY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iW8UHbCNVkEqCnJqyS8cnBRoGqFTyJ6eiXfSPtg92D2hf3a7AlSXrMCLX9xE4VuGFtvv5VfUUud0qdS73wBBNct2j7sNikEltXDVX/vUEpCNsUXnm68NMRrTU+wJJMmsNL3ZD+hZwhwSrkOCtgBlb1b89bITQWRNnOqV4NIYdzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QG2WdUsM; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AmYatXS+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QG2WdUsM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790632075; x=1822168075;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=QjXQi6T9hOG8cVQ771UnTvXuqp5BmjE8U2mPKpnPP1g=;
-  b=AmYatXS+t+W8DCtS7Q5PHq4jlEMLlk5ImSpuka9zSiYWAq04ZLBqxiGK
-   OsdGBUURMcIAojx4vVahBBIx5O3pjEqjZhOl0dZ+RE9KCF2KQIA06QzVG
-   yeg60nj/8j6F7YpxXqxcYQCV2MJtHrHm2zjUdHOZwznbbYLxPK0IZeJB+
-   NquXjS8D2O/7fbbzZL5aG/++6ydE2ypn+Q/ITgT2m2TF/zkIOj75DYrL0
-   q/KVo08MWH8Z8K5puPenCJW2CE4U8Z3o/7HiFg5JkcsAmvd2SfRrqKH27
-   MMrDR4fq0eQVDtUiQ0TO95+f9pq3k+/TyHS8HuoHKYAWrrXnBuc3daO6o
-   Q==;
-X-CSE-ConnectionGUID: HYNop2vvTs26mnFT49k57Q==
-X-CSE-MsgGUID: yQX0GkZaQY2jwKI1sbcCQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90243808"
+  t=1790632547; x=1822168547;
+  h=date:from:to:cc:subject:message-id;
+  bh=l+x5EGdr6xdltmuEqahT381Wzz1Nfo9mldBmWIqQmQY=;
+  b=QG2WdUsM4IGM3yQQXVjMwqe4FaQo2su4si+18KcCD1crqUkms3uCKt4w
+   I51+TWVMVoqtSAK6MeJZTGqICtIGyvHBgUL028JX1VZgslAiUplP9dp31
+   mhrDZh+qpn3kEmK+akLyRb6jC+QOtE2fOcyQzMnCqseqJXzfWKyBVLjMo
+   gFmG3hNHJK42y3kAM5N+6eOl3V+HYbg1/h+ID16mJWz5aavTusCwe5PKK
+   hzRbrbtFJorANFWhMtiKTpdVxg4unX+9csMgy1iLAhiziOqhvhkolN7hN
+   6KILFor0LzjiNyJUZAXJG18tq9pZOkyKTbn9p73TIYUkfRdOlw0z3Be7q
+   g==;
+X-CSE-ConnectionGUID: NA3Q9+VcQWylb2KaoF3i4Q==
+X-CSE-MsgGUID: rvQV1Z/0Q1i3z6mHtheVvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90395806"
 X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="90243808"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 14:47:54 -0700
-X-CSE-ConnectionGUID: BLOvqkzUSqmebCuZ0xZdHA==
-X-CSE-MsgGUID: JX27Zuw1SPyBEKha70/+XA==
+   d="scan'208";a="90395806"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 14:55:44 -0700
+X-CSE-ConnectionGUID: lQcbEw/+QiqJj4cj8X+qxA==
+X-CSE-MsgGUID: GUmDzMa6RO+J5tn4YhEK+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="278986455"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 28 Sep 2026 14:47:53 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="279893644"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 28 Sep 2026 14:55:42 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBJCR-00000000OYt-0Y2m
-	for oe-kbuild-all@lists.linux.dev;
-	Mon, 28 Sep 2026 21:47:51 +0000
-Date: Tue, 29 Sep 2026 05:47:34 +0800
+	id 1xBJJx-0000000018h-32i4;
+	Mon, 28 Sep 2026 21:55:37 +0000
+Date: Mon, 28 Sep 2026 23:55:25 +0200
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: net: ethtool: add BaseC2C medium & AUI C2C link modes
-Message-ID: <202609290519.cl1XRHun-lkp@intel.com>
-References: <202609290519.cl1XRHun-lkp@intel.com>
+To: Ihor Solodrai <ihor.solodrai@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrii Nakryiko <andrii@kernel.org>
+Subject: FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or
+ directory
+Message-ID: <202609282308.BVuIaLpQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609290519.cl1XRHun-lkp@intel.com>
 
-Hi Siddaraju,
+Hi Ihor,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddaraju-DH/net-ethtool-add-BaseC2C-medium-AUI-C2C-link-modes/20260928-040656
-base:   
-patch link:    https://lore.kernel.org/r/202609290519.cl1XRHun-lkp%40intel.com
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260929/202609290519.cl1XRHun-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290519.cl1XRHun-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+commit: 522397d05e7d4a7c30b91841492360336b24f833 resolve_btfids: Change in-place update with raw binary output
+date:   9 months ago
+config: nios2-randconfig-r2308-20260928 (https://download.01.org/0day-ci/archive/20260928/202609282308.BVuIaLpQ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260928/202609282308.BVuIaLpQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 522397d05e7d ("resolve_btfids: Change in-place update with raw binary output")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609290519.cl1XRHun-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609282308.BVuIaLpQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/net/phy/phy-core.c: In function 'phy_speed_to_str':
->> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_448' declared with attribute error: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
---
-   702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   |                                             ^
-   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
-   683 |                         prefix ## suffix();                             \
-   |                         ^~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-   702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-   40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-   |                                     ^~~~~~~~~~~~~~~~~~
-   drivers/net/phy/phy-core.c:21:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-   21 |         BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 125,
-   |         ^~~~~~~~~~~~~~~~
-   In function 'phy_speed_to_str',
-   inlined from 'phy_check_downshift' at drivers/net/phy/phy-core.c:389:2:
->> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_448' declared with attribute error: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
---
-   In file included from <command-line>:
-   phy-core.c: In function 'phy_speed_to_str':
->> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_448' declared with attribute error: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
---
-   702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   |                                             ^
-   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
-   683 |                         prefix ## suffix();                             \
-   |                         ^~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-   702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-   40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-   |                                     ^~~~~~~~~~~~~~~~~~
-   phy-core.c:21:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-   21 |         BUILD_BUG_ON_MSG(__ETHTOOL_LINK_MODE_MASK_NBITS != 125,
-   |         ^~~~~~~~~~~~~~~~
-   In function 'phy_speed_to_str',
-   inlined from 'phy_check_downshift' at phy-core.c:389:2:
->> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_448' declared with attribute error: Enum ethtool_link_mode_bit_indices and phylib are out of sync. If a speed or mode has been added please update phy_speed_to_str and the PHY settings array.
+   Complex, interval and imaginary float types are not supported
+   btf_encoder__encode_cu: error encoding base_type (core_id 31): -1
+   Error while encoding BTF.
+>> FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or directory
 
-
-vim +/__compiletime_assert_448 +702 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  691  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  703  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
 
 --
 0-DAY CI Kernel Test Service
