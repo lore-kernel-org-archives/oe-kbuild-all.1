@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F1C3264C7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 20:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EAE346ADB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 20:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790626912; cv=none; b=UdaCj6wh1B9wlzNBQm02GBUgkRn38RB7PexW+RTsDXbiHNWEASADbl2ktHP6U2juTlMKQ1FKqRGQcq4KYLiiXliIhuJ6gl4SHtpsY83ZslbIK0oSWY3asTQTz/i7L4IggpmaTZjmqoodEhnH92DNnx/4wCFrK9+0eSDHwWbzHqg=
+	t=1790627361; cv=none; b=aRzbZz6Kd9btSt1w2S/MNZG7S33AjtJr+32jkeUJJc8O4UU9bW1ZomcklddSnqsWd6Py+SYBajsGDSlRbNbGa0p7bDnzEKzZSQyXKWixFJFVz7cXFdbhdg5EZITOgyXhfLH2IE4TFrkC/3ClZH54OdK6ZFzFxu83WbttNiQEhe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790626912; c=relaxed/simple;
-	bh=eNH6kQ4ThB6d3cV/rPI7WaEplLrJYbFLzNQ7c80B7jk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UEbW0OJIr1kUl/XSoWzboyrYUMYymZYTcu64ipLU7+zVQOVFFd23LZHs/E99kpClcnqETodaNnIKaz7iXWnIEBs+24Ji5pExEUas9mbZs6G4Z2TOZnD752mXEFopY4+BRrkLIyJv9tVw7y3o7Qv3CagSQvrmHTrfZ+r7MXIdQzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PVnQyq9S; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790627361; c=relaxed/simple;
+	bh=qVNfrE+NoGLrijNdhlMDOJ2YaWh2WaQMZoXGZekNrD4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Qg2VK2DOd5DQ3YNp2znRnl1gkdIaOT6tQXL2q6xxwVim9JbsqMYCHRCbQb7mLj9cFF8dvddz+l9je2wSmdblIuLLsinJdAW8gLQH1/2cdhBFHwBRH23t1nr3UL0AAnYj9Wjut6g0Da68bGlHrRTI26S/t7ne4G8/yEvIz34Yw/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+vqjXQv; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PVnQyq9S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+vqjXQv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790626910; x=1822162910;
+  t=1790627359; x=1822163359;
   h=date:from:to:cc:subject:message-id;
-  bh=eNH6kQ4ThB6d3cV/rPI7WaEplLrJYbFLzNQ7c80B7jk=;
-  b=PVnQyq9Soy95sP5mWB0zP/htggH2mGk5W15gdbHf/6ym7oe5U78vsFWq
-   tAJBILPewdaIC23r80zu201h4qhf46+pobjilEKhiZQX6kBe6msdU+hWp
-   rzk1MDB4TRILUCCPV7ezsUtWM8RMrzW2TMaxbUDm+l6tr+qbb5H7vBF5j
-   WRWzt8+KUOZCUP+gLSuMAtf7WKcyg1y2MEimEr2fI0wE6dN+sOSBWBO/5
-   NiCa/wNj6paJMhqwJuwHaSDIUytmOlwjAmQZuIs93xy7ZQVRG5sIHEg1Y
-   rG/bFPY5HZ0aiZwuMY16KZhVvJsk+sXZNEuUQ775ao9aub1uUCmoTJGyO
-   g==;
-X-CSE-ConnectionGUID: lbiNjfEbQAWh0R34EtmlfA==
-X-CSE-MsgGUID: V1VsFKJHT5K6MERagyiYLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="102709433"
+  bh=qVNfrE+NoGLrijNdhlMDOJ2YaWh2WaQMZoXGZekNrD4=;
+  b=K+vqjXQvkkwTjAe9Dfr/OyLwsR8VHuhoP7GD1IUKP0TAti48ZefTWqrX
+   hjQuiBAEKw9vXk2PB3iQHM/ssSbAa2/LvA3jK4wyXl0Nkp6Dz3eVQ0WJL
+   Re2vysBR4RlJ0+3DGEFYIwFmVh6BgD5ilRhctwRqkQATpjU0VvnKvyneG
+   WnosynH2mMVaAyWSRtM6HFoktn7tUb82xSEmn8TOfYoeXCjMn/XqbERqn
+   /pjiEQl/RydPf6Z8q+lTNMZJUB8p+AJWIY5JQOkjrir3AyW3iwaSOKbSO
+   juX37w+TuwdMsMQqeHovUwLLwm6HzDNvDMI1wVKgnaqpkx0zru8/snl+r
+   w==;
+X-CSE-ConnectionGUID: mGN7LBzcSuuj/7neyZonRQ==
+X-CSE-MsgGUID: aDfFLYBNTFOQQBkFp8CTSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="107718987"
 X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="102709433"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 13:21:49 -0700
-X-CSE-ConnectionGUID: 40ASyAgRQcaB5Roz2JVa2w==
-X-CSE-MsgGUID: ufeKwu5MSvGnTMHZx7/Lcw==
+   d="scan'208";a="107718987"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 13:29:18 -0700
+X-CSE-ConnectionGUID: nDMu+CS2QtmO0SBcQIx5Xw==
+X-CSE-MsgGUID: wvSv4M64Sn27PAIYmz69aA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="279872836"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Sep 2026 13:21:48 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="313071632"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 28 Sep 2026 13:29:17 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBHr7-00000000OTL-3WM6;
-	Mon, 28 Sep 2026 20:21:45 +0000
-Date: Tue, 29 Sep 2026 04:21:26 +0800
+	id 1xBHyM-0000000017v-0Ksa;
+	Mon, 28 Sep 2026 20:29:14 +0000
+Date: Mon, 28 Sep 2026 22:28:48 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:typed-arena 8/17] kernel/bpf/log.c:435:59:
- warning: '%s' directive output may be truncated writing up to 12 bytes into a
- region of size between 3 and 64
-Message-ID: <202609290429.usknjcji-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrea Righi <arighi@nvidia.com>
+Subject: kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202609282245.GrTRG62D-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,110 +60,231 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/kkdwivedi/linux typed-arena
-head:   f6fd10fe616e1927b9c398a528edc49c6593c06a
-commit: 51aabdea74c4d256db3227960617f361a660436f [8/17] bpf: Trust typed pointer fields of typed arena objects
-config: csky-randconfig-1000-20260928 (https://download.01.org/0day-ci/archive/20260929/202609290429.usknjcji-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290429.usknjcji-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+commit: bb70e4fb626b70895b7917ee97c256f24d019c34 sched_ext: Eject the top rescue consumer on overload
+date:   8 weeks ago
+config: arm-randconfig-r2305-20260928 (https://download.01.org/0day-ci/archive/20260928/202609282245.GrTRG62D-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7615da10b75c57286a4032eac8bb43c1b8d2ba46)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260928/202609282245.GrTRG62D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: bb70e4fb626b ("sched_ext: Eject the top rescue consumer on overload")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609290429.usknjcji-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609282245.GrTRG62D-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/deadline.c:3314:23: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:3314:23: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/deadline.c:3316:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:3316:44: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:3316:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:3578:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:3578:23: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:3578:23: sparse:    struct task_struct *
+   kernel/sched/deadline.c:3631:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/ext/ext.c:391:46: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:1423:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:1613:48: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/ext/ext.c:1613:48: sparse:    struct task_struct *
+   kernel/sched/ext/ext.c:1613:48: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/ext/ext.c:2370:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/ext/ext.c:2384:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *from @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/ext/ext.c:3302:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:4381:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:4382:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:6821:57: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:6822:51: sparse: sparse: incorrect type in argument 5 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:8357:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:8391:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/ext.c:8745:18: sparse: sparse: symbol 'scx_bpf_dsq_insert___v2' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:8767:18: sparse: sparse: symbol 'scx_bpf_dsq_insert' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:8825:1: sparse: sparse: symbol '__scx_bpf_dsq_insert_vtime' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:8844:18: sparse: sparse: symbol 'scx_bpf_dsq_insert_vtime' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:8989:17: sparse: sparse: symbol 'scx_bpf_dispatch_nr_slots' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9009:18: sparse: sparse: symbol 'scx_bpf_dispatch_cancel' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9053:18: sparse: sparse: symbol 'scx_bpf_dsq_move_to_local___v2' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9096:18: sparse: sparse: symbol 'scx_bpf_dsq_move_to_local' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9110:18: sparse: sparse: symbol 'scx_bpf_dsq_move_set_slice' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9129:18: sparse: sparse: symbol 'scx_bpf_dsq_move_set_vtime' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9163:18: sparse: sparse: symbol 'scx_bpf_dsq_move' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9188:18: sparse: sparse: symbol 'scx_bpf_dsq_move_vtime' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9229:17: sparse: sparse: symbol 'scx_bpf_reenqueue_local' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9268:17: sparse: sparse: symbol 'scx_bpf_create_dsq' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9355:18: sparse: sparse: symbol 'scx_bpf_task_set_slice' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9409:18: sparse: sparse: symbol 'scx_bpf_task_set_dsq_vtime' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9500:18: sparse: sparse: symbol 'scx_bpf_kick_cpu' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9522:18: sparse: sparse: symbol 'scx_bpf_kick_cid' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9545:17: sparse: sparse: symbol 'scx_bpf_dsq_nr_queued' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9592:18: sparse: sparse: symbol 'scx_bpf_destroy_dsq' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9613:17: sparse: sparse: symbol 'bpf_iter_scx_dsq_new' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9654:32: sparse: sparse: symbol 'bpf_iter_scx_dsq_next' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9672:18: sparse: sparse: symbol 'bpf_iter_scx_dsq_destroy' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9701:32: sparse: sparse: symbol 'scx_bpf_dsq_peek' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9740:18: sparse: sparse: symbol 'scx_bpf_dsq_reenq' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9776:18: sparse: sparse: symbol 'scx_bpf_reenqueue_local___v2' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9869:18: sparse: sparse: symbol 'scx_bpf_exit_bstr' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9894:18: sparse: sparse: symbol 'scx_bpf_error_bstr' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9921:18: sparse: sparse: symbol 'scx_bpf_dump_bstr' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9976:17: sparse: sparse: symbol 'scx_bpf_cpuperf_cap' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:9996:17: sparse: sparse: symbol 'scx_bpf_cidperf_cap' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10027:17: sparse: sparse: symbol 'scx_bpf_cpuperf_cur' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10047:17: sparse: sparse: symbol 'scx_bpf_cidperf_cur' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10134:18: sparse: sparse: symbol 'scx_bpf_cpuperf_set' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10158:17: sparse: sparse: symbol 'scx_bpf_cidperf_set' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10181:17: sparse: sparse: symbol 'scx_bpf_nr_node_ids' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10191:17: sparse: sparse: symbol 'scx_bpf_nr_cpu_ids' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10201:17: sparse: sparse: symbol 'scx_bpf_nr_cids' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10215:17: sparse: sparse: symbol 'scx_bpf_nr_online_cids' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10227:17: sparse: sparse: symbol 'scx_bpf_this_cid' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10242:34: sparse: sparse: symbol 'scx_bpf_get_possible_cpumask' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10250:34: sparse: sparse: symbol 'scx_bpf_get_online_cpumask' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10259:18: sparse: sparse: symbol 'scx_bpf_put_cpumask' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10275:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/ext/ext.c:10275:33: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/ext/ext.c:10275:33: sparse:    struct task_struct const *
+   kernel/sched/ext/ext.c:10282:17: sparse: sparse: symbol 'scx_bpf_task_cpu' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10295:17: sparse: sparse: symbol 'scx_bpf_task_cid' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10315:23: sparse: sparse: symbol 'scx_bpf_locked_rq' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10342:32: sparse: sparse: symbol 'scx_bpf_cpu_curr' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10366:32: sparse: sparse: symbol 'scx_bpf_cid_curr' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10391:32: sparse: sparse: symbol 'scx_bpf_tid_to_task' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10459:17: sparse: sparse: symbol 'scx_bpf_now' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10490:18: sparse: sparse: symbol 'scx_bpf_events' was not declared. Should it be static?
+   kernel/sched/ext/ext.c:10527:27: sparse: sparse: symbol 'scx_bpf_task_cgroup' was not declared. Should it be static?
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/ext/cid.c:467:18: sparse: sparse: symbol 'scx_bpf_cid_override' was not declared. Should it be static?
+   kernel/sched/ext/cid.c:624:17: sparse: sparse: symbol 'scx_bpf_cid_to_cpu' was not declared. Should it be static?
+   kernel/sched/ext/cid.c:646:17: sparse: sparse: symbol 'scx_bpf_cpu_to_cid' was not declared. Should it be static?
+   kernel/sched/ext/cid.c:916:18: sparse: sparse: symbol 'scx_bpf_cid_topo' was not declared. Should it be static?
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/ext/idle.c:1027:17: sparse: sparse: symbol 'scx_bpf_cpu_node' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1055:17: sparse: sparse: symbol 'scx_bpf_select_cpu_dfl' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1110:1: sparse: sparse: symbol '__scx_bpf_select_cpu_and' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1129:17: sparse: sparse: symbol 'scx_bpf_select_cpu_and' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1165:34: sparse: sparse: symbol 'scx_bpf_get_idle_cpumask_node' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1191:34: sparse: sparse: symbol 'scx_bpf_get_idle_cpumask' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1223:34: sparse: sparse: symbol 'scx_bpf_get_idle_smtmask_node' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1253:34: sparse: sparse: symbol 'scx_bpf_get_idle_smtmask' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1282:18: sparse: sparse: symbol 'scx_bpf_put_idle_cpumask' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1303:18: sparse: sparse: symbol 'scx_bpf_test_and_clear_cpu_idle' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1342:17: sparse: sparse: symbol 'scx_bpf_pick_idle_cpu_node' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1384:17: sparse: sparse: symbol 'scx_bpf_pick_idle_cpu' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1428:17: sparse: sparse: symbol 'scx_bpf_pick_any_cpu_node' was not declared. Should it be static?
+   kernel/sched/ext/idle.c:1477:17: sparse: sparse: symbol 'scx_bpf_pick_any_cpu' was not declared. Should it be static?
+   kernel/sched/build_policy.c: note: in included file:
+>> kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+>> kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+>> kernel/sched/ext/sub.c:288:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext/sub.c:2309:17: sparse: sparse: symbol 'scx_bpf_sub_grant' was not declared. Should it be static?
+   kernel/sched/ext/sub.c:2430:18: sparse: sparse: symbol 'scx_bpf_sub_revoke' was not declared. Should it be static?
+   kernel/sched/ext/sub.c:2524:17: sparse: sparse: symbol 'scx_bpf_sub_caps' was not declared. Should it be static?
+   kernel/sched/ext/sub.c:2614:17: sparse: sparse: symbol 'scx_bpf_sub_kill_bstr' was not declared. Should it be static?
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/syscalls.c:1418:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/rt.c:1313:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/rt.c:1313:23: sparse:    struct task_struct *
+   kernel/sched/rt.c:1313:23: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:1442:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/deadline.c:2339:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct *
+   kernel/sched/deadline.c:2339:15: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2481:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2481:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2470:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2470:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:1442:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:1442:25: sparse:    struct task_struct *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/syscalls.c:1343:11: sparse: sparse: dereference of noderef expression
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/rt.c:1676:15: sparse: sparse: dereference of noderef expression
 
-   kernel/bpf/log.c: In function 'reg_type_str':
->> kernel/bpf/log.c:435:59: warning: '%s' directive output may be truncated writing up to 12 bytes into a region of size between 3 and 64 [-Wformat-truncation=]
-     435 |         snprintf(prefix, sizeof(prefix), "%s%s%s%s%s%s%s%s%s",
-         |                                                           ^~
-   kernel/bpf/log.c:435:9: note: 'snprintf' output between 1 and 74 bytes into a destination of size 64
-     435 |         snprintf(prefix, sizeof(prefix), "%s%s%s%s%s%s%s%s%s",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     436 |                  type & MEM_RDONLY ? "rdonly_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     437 |                  type & MEM_RINGBUF ? "ringbuf_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     438 |                  type & MEM_USER ? "user_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     439 |                  type & MEM_PERCPU ? "percpu_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     440 |                  type & MEM_RCU ? "rcu_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     441 |                  type & PTR_UNTRUSTED ? "untrusted_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     442 |                  type & PTR_TRUSTED ? "trusted_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     443 |                  type & PTR_UNSANITIZED ? "unsanitized_" : "",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     444 |                  type & MEM_ARENA ? "typed_arena_" : ""
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     445 |         );
-         |         ~
+vim +288 kernel/sched/ext/sub.c
 
-
-vim +435 kernel/bpf/log.c
-
-   393	
-   394	/* string representation of 'enum bpf_reg_type'
-   395	 *
-   396	 * Note that reg_type_str() can not appear more than once in a single verbose()
-   397	 * statement.
-   398	 */
-   399	const char *reg_type_str(struct bpf_verifier_env *env, enum bpf_reg_type type)
-   400	{
-   401		char postfix[16] = {0}, prefix[64] = {0};
-   402		static const char * const str[] = {
-   403			[NOT_INIT]		= "?",
-   404			[SCALAR_VALUE]		= "scalar",
-   405			[PTR_TO_CTX]		= "ctx",
-   406			[CONST_PTR_TO_MAP]	= "map_ptr",
-   407			[PTR_TO_MAP_VALUE]	= "map_value",
-   408			[PTR_TO_STACK]		= "fp",
-   409			[PTR_TO_PACKET]		= "pkt",
-   410			[PTR_TO_PACKET_META]	= "pkt_meta",
-   411			[PTR_TO_PACKET_END]	= "pkt_end",
-   412			[PTR_TO_FLOW_KEYS]	= "flow_keys",
-   413			[PTR_TO_SOCKET]		= "sock",
-   414			[PTR_TO_SOCK_COMMON]	= "sock_common",
-   415			[PTR_TO_TCP_SOCK]	= "tcp_sock",
-   416			[PTR_TO_TP_BUFFER]	= "tp_buffer",
-   417			[PTR_TO_XDP_SOCK]	= "xdp_sock",
-   418			[PTR_TO_BTF_ID]		= "ptr_",
-   419			[PTR_TO_MEM]		= "mem",
-   420			[PTR_TO_ARENA]		= "arena",
-   421			[PTR_TO_BUF]		= "buf",
-   422			[PTR_TO_FUNC]		= "func",
-   423			[PTR_TO_INSN]		= "insn",
-   424			[PTR_TO_MAP_KEY]	= "map_key",
-   425			[CONST_PTR_TO_DYNPTR]	= "dynptr_ptr",
-   426		};
-   427	
-   428		if (type & PTR_MAYBE_NULL) {
-   429			if (base_type(type) == PTR_TO_BTF_ID)
-   430				strscpy(postfix, "or_null_");
-   431			else
-   432				strscpy(postfix, "_or_null");
-   433		}
-   434	
- > 435		snprintf(prefix, sizeof(prefix), "%s%s%s%s%s%s%s%s%s",
-   436			 type & MEM_RDONLY ? "rdonly_" : "",
-   437			 type & MEM_RINGBUF ? "ringbuf_" : "",
-   438			 type & MEM_USER ? "user_" : "",
-   439			 type & MEM_PERCPU ? "percpu_" : "",
-   440			 type & MEM_RCU ? "rcu_" : "",
-   441			 type & PTR_UNTRUSTED ? "untrusted_" : "",
-   442			 type & PTR_TRUSTED ? "trusted_" : "",
-   443			 type & PTR_UNSANITIZED ? "unsanitized_" : "",
-   444			 type & MEM_ARENA ? "typed_arena_" : ""
-   445		);
-   446	
-   447		snprintf(env->tmp_str_buf, TMP_STR_BUF_LEN, "%s%s%s",
-   448			 prefix, str[base_type(type)], postfix);
-   449		return env->tmp_str_buf;
-   450	}
-   451	
+   263	
+   264	/**
+   265	 * scx_rescue_charge - Charge the rescuee's runtime
+   266	 * @rq: rq the rescuee is running on
+   267	 * @delta_exec: runtime being charged
+   268	 *
+   269	 * Also ends the rescue once the admitted slice has been served in full. Ending
+   270	 * on served time rather than slice exhaustion bounds both the rescue and the
+   271	 * charging when a scheduler extends the rescuee's slice.
+   272	 */
+   273	void scx_rescue_charge(struct rq *rq, s64 delta_exec)
+   274	{
+   275		struct scx_sched_pcpu *pcpu;
+   276	
+   277		lockdep_assert_rq_held(rq);
+   278	
+   279		/*
+   280		 * A rescue slice is bounded by one quantum and tick-driven expiry can
+   281		 * overshoot by up to a tick. Clamp to avoid wild over-charges on VMs.
+   282		 */
+   283		delta_exec = min_t(s64, delta_exec, scx_rescue_quantum_ns + TICK_NSEC);
+   284	
+   285		rq->scx.rescue.budget -= delta_exec;
+   286	
+   287		/* per-cpu usage average feeds the overload victim pick */
+ > 288		pcpu = per_cpu_ptr(scx_task_sched(rq->curr)->pcpu, cpu_of(rq));
+   289		pcpu->rescue_avg = scx_rescue_decay_avg(pcpu) + delta_exec;
+   290	
+   291		if (!scx_rescue_slice_remaining(rq))
+   292			scx_task_slice_ended(rq, rq->scx.rescue.curr);
+   293	}
+   294	
 
 --
 0-DAY CI Kernel Test Service
