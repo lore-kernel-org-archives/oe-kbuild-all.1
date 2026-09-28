@@ -1,131 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB5F35675E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 04:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66EAC355048
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 04:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790568420; cv=none; b=BAltMMvtJmB8g/eU42VeEhhJVnin83a3FQBoS34L5tI2tYVZ526SbDxQBfhTxosItIpu7ofiMWnmuqqIHLfay0tn+RmVJ8j0Uc2cDDztBWAXrMeE7m2dA+tOdkcaIJbv6BdIErXPyQl/ieOxjgQvYZRTpAh/Lpvl1YYBJEKTRks=
+	t=1790570568; cv=none; b=e3d23sQq2pjYiSALHO+cEHbUpV5Zriykmv6G20giXBRw8VizbhFwwpPfMA5CqrhK0YEuQxCMT+9sVmUm5UtFDF8VoG0yGCU+abkbLYW/s+QiP6F5FSCw/8v/c7YMgQs6IJ4LuHnQk7GrfWAt4rr5hAv4F5O1u9BlcX8qFkyS6rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790568420; c=relaxed/simple;
-	bh=B8VQbx0SkAgUVCGk45UbxzRFgUWFhVNfXBpwVreuYik=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Hpnmv0hvPNuPI2sWl0Mi8714D5kh3vt9UV+kVC20hDU1aumUsM/Y8ZAPGGUSIyRBL8kMUEK+kwTYtvKhKtqjnx5eNeOwRpT567nQSbwoZ9CsjIo+D/6cRLQjGZcp01SGehq08tM86rIF4j2356L9A9H9Bc5IyXmX+pbbUWUm3pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npuDCdLf; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790570568; c=relaxed/simple;
+	bh=g9+BM8LQstyMyJtvF3kyKscq7+5czkGZL/4m6fk+efo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxJtun7Y/iMsQdaHtqkgEZT+Kf+IvX+OJo1aOhyGDNytXt5dixNL2GkEjAPLupgfNfdnd/P5quk9AFVwLIlZxPVQq4toulMcyPulXqc1uhofiCV2peDgJ4IlNBi5hdu1Fh50SmDO4t+C9q+Q/limK0BhENY2LPOucghB/IWaEg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=bKrEwt2b; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npuDCdLf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790568418; x=1822104418;
-  h=date:from:to:cc:subject:message-id;
-  bh=B8VQbx0SkAgUVCGk45UbxzRFgUWFhVNfXBpwVreuYik=;
-  b=npuDCdLf+A21poAKPRsxj0T088llFvZIyxat0P+WDUBc56i5rVIMLqL+
-   xOiRGNt13QE2aNmcwV9FGItoc7YNIXLXaNlHH+k70fhq07rGZ9OB9ufDe
-   aMnvj+neW7ThCxt28+D5eYvxl5M54YJ7gC/l601jUFyF8j8z0XHU9pXdf
-   ML3aZhVRE5g6HqK1hN/eWC65fZXG8sUXykmmDJXj/zwR+QtEb+ngn3IOx
-   SrEqgAzpYGovZG5H/dBxgm2K4jEBONiCvxBlFnSuXL/FykOJH4M/Z24+a
-   q/uN6f0vB2hu3CVC3bPLQCvfVc1ZRyBqv0mlmgEz1Rl16iPZMHW7RJejo
-   A==;
-X-CSE-ConnectionGUID: RoHYTINKQpe8yXMLzuuw3w==
-X-CSE-MsgGUID: OMYVklJhQLq2+072gOghog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="113043822"
-X-IronPort-AV: E=Sophos;i="6.27,127,1787036400"; 
-   d="scan'208";a="113043822"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 21:06:58 -0700
-X-CSE-ConnectionGUID: 8nwpXVSvRJiT7VZrzoEIlQ==
-X-CSE-MsgGUID: 4lw6r3E8QTSRKKu0moG2eA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,127,1787036400"; 
-   d="scan'208";a="283009498"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Sep 2026 21:06:56 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xB2dh-000000000rL-33VW;
-	Mon, 28 Sep 2026 04:06:53 +0000
-Date: Mon, 28 Sep 2026 06:06:52 +0200
-From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 9518/10910]
- arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: prcmu@80157000
- (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required
- property
-Message-ID: <202609280606.83GFpQ11-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="bKrEwt2b"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3B62D1595;
+	Sun, 27 Sep 2026 21:42:36 -0700 (PDT)
+Received: from localhost (a085714.arm.com [10.164.19.28])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E5F973F85F;
+	Sun, 27 Sep 2026 21:42:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790570559; bh=g9+BM8LQstyMyJtvF3kyKscq7+5czkGZL/4m6fk+efo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bKrEwt2bC/ZQWJUMqIbP/vuS1K0gagIxbK5QMww2e+iM4X8cIC/KbLm1H+8DoVNY9
+	 URi8HP8oh6BmQp553mLeKba4VYQrdZDfLFLzocjOav/O1EFyxeVVivmwCJ0iPtKlXX
+	 i5a9pmIFqdzNhYDXPlY63UsQvBcs0j0/tnvCuMnk=
+Date: Mon, 28 Sep 2026 10:12:36 +0530
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	David Hildenbrand <david@kernel.org>, Linux Memory Management List <linux-mm@kvack.org>, 
+	mm-commits@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [akpm-mm:mm-new 661/679] mmu.c:undefined reference to
+ `__check_safe_pte_update'
+Message-ID: <bao3loem52ww7aplteu4ialsb2umep6mynhofp3loamdewytxc@pexxabh7vdf4>
+References: <202609270030.Y0QVBPmK-lkp@intel.com>
+ <20260927133100.46a4f7067c79280dcf83731b@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260927133100.46a4f7067c79280dcf83731b@linux-foundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
-commit: 43be6abd6775820fdac3729962f7e7b841104fda [9518/10910] mfd: dt-bindings: ab8500: Describe codec graph and microphone wiring
-config: arm-randconfig-2401-20260925 (https://download.01.org/0day-ci/archive/20260928/202609280606.83GFpQ11-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7e4b8ae111298941e0c31052a7124ab36f5365b5)
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260928/202609280606.83GFpQ11-lkp@intel.com/reproduce)
+On Sun, Sep 27, 2026 at 01:31:00PM -0700, Andrew Morton wrote:
+> On Sun, 27 Sep 2026 00:32:54 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> > head:   b4fc90c82982d98959af08b4320420bcfc01303b
+> > commit: 2862bcaf1aca55e0b43a5692a4595281ab780f05 [661/679] arm64/mm: move __check_safe_pte_update()
+> > config: arm64-randconfig-1002-20260926 (https://download.01.org/0day-ci/archive/20260927/202609270030.Y0QVBPmK-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 8.5.0
+> 
+> Thanks.  It works for me, but I'm using gcc-15.2.0.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609280606.83GFpQ11-lkp@intel.com/
+Tried building this series with a cross compiler (gcc 14.3.1) and a native
+compiler (15.2.0). The series builds successfully in both cases.
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: gavini_cfg1: ste,config: b'\x00\x00\x000' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: gavini_cfg2: ste,config: b'\x00\x00\x00*' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: gavini_cfg3: ste,config: b'\x00\x00\x001' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: gavini_cfg1: ste,config: b'\x00\x00\x00*' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: /soc/i2c@80004000/proximity@39: failed to match any schema with compatible: ['sharp,gp2a030s00f']
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: serial@80007000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: /soc/sound: failed to match any schema with compatible: ['stericsson,snd-soc-mop500']
-   arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dtb: sound (stericsson,snd-soc-mop500): stericsson,cpu-dai: b'\x00\x00\x00h\x00\x00\x00i' is not of type 'object', 'integer', 'array', 'boolean', 'null'
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: tvk_cfg1: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: tvk_cfg2: ste,config: b'\x00\x00\x00=' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: default_href520_cfg1: ste,config: b'\x00\x00\x00=' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: default_href520_cfg2: ste,config: b'\x00\x00\x00=' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-href520-tvk.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-href520-tvk.dtb: ab8505 (stericsson,ab8505): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: ab8505 (stericsson,ab8505): gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80004000/tc35893@44: failed to match any schema with compatible: ['toshiba,tc35893']
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_gpio: failed to match any schema with compatible: ['toshiba,tc3589x-gpio']
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_keypad: failed to match any schema with compatible: ['toshiba,tc3589x-keypad']
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: spi@80111000 (arm,pl022): Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-pl022.yaml
-   arch/arm/boot/dts/st/ste-href520-tvk.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
+- Anshuman
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260927/202609270030.Y0QVBPmK-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202609270030.Y0QVBPmK-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > >> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+> > >> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+> >    aarch64-linux-ld: arch/arm64/mm/mmu.o: in function `__set_ptes_anysz.isra.40.constprop.47':
+> > >> mmu.c:(.text+0x9a8): undefined reference to `__check_safe_pte_update'
+> >    aarch64-linux-ld: arch/arm64/mm/hugetlbpage.o: in function `__set_ptes_anysz.isra.32':
+> > >> hugetlbpage.c:(.text+0x1a8): undefined reference to `__check_safe_pte_update'
+> >    aarch64-linux-ld: kernel/bpf/arena.o: in function `apply_range_set_cb':
+> > >> arena.c:(.text+0x11fc): undefined reference to `__check_safe_pte_update'
+> >    aarch64-linux-ld: mm/gup.o: in function `follow_page_pte':
+> > >> gup.c:(.text+0x2b48): undefined reference to `__check_safe_pte_update'
+> >    aarch64-linux-ld: mm/memory.o: in function `__set_ptes.isra.207':
+> > >> memory.c:(.text+0x3418): undefined reference to `__check_safe_pte_update'
+> >    aarch64-linux-ld: mm/mprotect.o:mprotect.c:(.text+0x1080): more undefined references to `__check_safe_pte_update' follow
+> > 
+> 
