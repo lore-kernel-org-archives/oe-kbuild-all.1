@@ -1,171 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C45A54CF50
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 20:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E7A2E64D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 20:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790712884; cv=none; b=sF4OfpKXk+aLezBnq9bt0uQmVlN0mET3O2pPXl/sp30Z1Iq0qBiDiEi+r+WxSu4ZmbbXBoD/AJX8dWvajcgGqrQWB8T2pygY9ho5/Z08XQqcQWWjSrXqnP43aWl8ywb9dKa0U4fvyP1M83yLKykafoIye2Dor2XxobN6Chm+zaY=
+	t=1790714834; cv=none; b=Vd7R73bpWMAv71dPauUdatl3V8uvh9fkLZ8Vl21JPfKU9mHmA7CRlDKYO0FUGgdDngA4KWwH8XLVsxgdKVVYLxedfy82VbcdltKChxoMs5ACNCkN9MmOl+/YrUaDcbBLxeSGeQpjeC5vLFYSku9kTJKzID0uCKo8JAINQbQwAQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790712884; c=relaxed/simple;
-	bh=4w4qYY8drV3/EKK1qhrLcQB0Fksbs9Uxqh5vvQjlWiI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=W2rF0rzhxdNZHVaIUZ4YikHoqh7L8VVr8KjgQhhWfsc1jVujn2k+FXX7cQmj2U6eAl84LhMlokWKr8QVc33Da0lKxMQSwcQqLfgzKVfkbPJ8liaCEynjLeZVcb8TVrLPhGohHEXsE6i+/AdDLWvQZUZ84iEhQTVWuQ8W7h/dyNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fV0eAle1; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790714834; c=relaxed/simple;
+	bh=vBt/QcHQMkFNP0/gcX9pADQ8XaZbOAmpHINb+87A5F4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sYBD6n9Psx01nFouQH8T9HyVNzFi1iVW6fNcf6su14/AkDgHlIFkpjboLT9ac7F463F4/obNt8qo+WVCy9QuX7nQaN+AENdmeKgVgsZGdvG9KUjQaCJZyNGww7EeDGJ/7VBybiiPUIWJtlJEjH0jeoraFCMNq1am0R8PIUlI9rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJEHVJyt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fV0eAle1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790712883; x=1822248883;
-  h=date:from:to:cc:subject:message-id;
-  bh=4w4qYY8drV3/EKK1qhrLcQB0Fksbs9Uxqh5vvQjlWiI=;
-  b=fV0eAle1cxl+TcoJUI+kYoMTE8WeXiEyNEKmELUyRjB5Lb9/ww+hTAZU
-   EMCqaaPrBs2Mlvngxn8zU8bqiyerEzVqxflCZ9+A9+9Ebi5L0sgBDJmkm
-   i9CgCOM9SUwLczvKSZ5xMS5nEvgGgKYf7xM4a/gnr9wxVwd6lY2AV/GFd
-   szRn6DFsIr6eO+E1C8C6uctshaV7Vb5uxK+m4cn93UegqpJDAJx7zqi0z
-   4ItqQI8OnvwELg7ADJSsk5guaCBdQP37u0Yaz3j/QZBExInbTGW1F/SY1
-   W7NC+cGPXWulw1t93OghhCGHlGnS0NKZBXKOd3+73MHVMM55E9zyhXVl/
-   A==;
-X-CSE-ConnectionGUID: wSK1BPj8RU+f13U/3cQSHQ==
-X-CSE-MsgGUID: 4NQrh1pCT6SyqQMjTb117Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90661634"
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="90661634"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 13:14:42 -0700
-X-CSE-ConnectionGUID: 2OI+4lJKSh6u/VGD+/HEoQ==
-X-CSE-MsgGUID: Pv0qJOKFQDuOC+zxvqxMDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="274676626"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Sep 2026 13:14:39 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xBeDk-000000001Xr-3CJQ;
-	Tue, 29 Sep 2026 20:14:36 +0000
-Date: Tue, 29 Sep 2026 22:13:43 +0200
-From: kernel test robot <lkp@intel.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: 
- drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:291:17: warning:
- assignment to 'struct irq_data *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202609292234.i7NglRRm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJEHVJyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED9D01F000FF;
+	Tue, 29 Sep 2026 20:47:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790714833;
+	bh=2BFmFfeht253MBOGnIl1wrKpjyXHLTNu7pKG321otBY=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=MJEHVJytdO74zAE0hqQxAJHZvvWv6B829UmwcQR5wwOWv0n2zM3R+ltHMoSpOPbhV
+	 NTqN9Zi/3W0JYCKPkRNAofos5N4zPiGVsIJ0XbrTTk253LYeqbR6JKKuy4fEH/snTn
+	 OF3BdyDBjBCVowAfhjdO/hZx1ou5aqDiaAXwBiwlB3s1qwMnndcRcFdOvZ2rbtjuIK
+	 +p1C16q1EUVk5E2zv7phZXMJ24aZFGQzBK8apahozpe1+sx1UYZDWMAAXavDdqMRoV
+	 5qCUS+lad0dK0gXuaibhKUHifNAewPRK+oZMv7qlYnJEFbX3srgOy33Ld1oLkA/kFH
+	 LWbMGz+a5JoFg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id AFE35CE3A57; Tue, 29 Sep 2026 13:47:12 -0700 (PDT)
+Date: Tue, 29 Sep 2026 13:47:12 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Vineet Gupta <vineet.gupta@linux.dev>
+Cc: Bradley Morgan <brads@mainlining.org>, Vineet Gupta <vgupta@kernel.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-snps-arc@lists.infradead.org
+Subject: Re: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
+ arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in
+ conditional expression
+Message-ID: <5c72050d-95c8-4ba1-ab15-22f774ea9319@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202609241517.SSV1Goz3-lkp@intel.com>
+ <3cbe5de8-d04b-4afe-b19f-ad755d4ea320@kernel.org>
+ <7CB37192-1AE6-4392-8D7B-89F401214C02@mainlining.org>
+ <d7a78ebb-8b5e-42e9-9560-bd731724c9f8@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d7a78ebb-8b5e-42e9-9560-bd731724c9f8@linux.dev>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Karunika-Choo/drm-panthor-Ignore-EOPNOTSUPP-for-shader-present-nvmem-lookup/20260922-214455
-head:   d1fb2a7097a879293d3b0e71e2556f48f2793224
-commit: 8d5d47f7a6f68c74679c1d6cc1214cfbbc24d401 drm/panthor: Add AM_RESOURCE_GROUP support
-date:   7 days ago
-config: sparc64-randconfig-r2303-20260929 (https://download.01.org/0day-ci/archive/20260929/202609292234.i7NglRRm-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609292234.i7NglRRm-lkp@intel.com/reproduce)
+On Thu, Sep 24, 2026 at 02:27:11PM -0700, Vineet Gupta wrote:
+> On 9/24/26 13:58, Bradley Morgan wrote:
+> > On 24 September 2026 21:52:55 BST, Vineet Gupta <vgupta@kernel.org> wrote:
+> > > On 9/24/26 00:51, kernel test robot wrote:
+> > > > tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
+> > > > head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
+> > > > commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emulate
+> > > two-byte cmpxchg
+> > > > config: arc-allyesconfig
+> > > (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/config)
+> > > > compiler: arc-linux-gcc (GCC) 16.1.0
+> > > > reproduce (this is a W=1 build):
+> > > (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/reproduce)
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > > version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes:
+> > > https://lore.kernel.org/oe-kbuild-all/202609241517.SSV1Goz3-lkp@intel.com/
+> > > > All errors (new ones prefixed by >>):
+> > > > 
+> > > >      In file included from arch/arc/include/asm/atomic.h:13,
+> > > >                       from include/linux/atomic.h:7,
+> > > >                       from include/asm-generic/bitops/lock.h:5,
+> > > >                       from arch/arc/include/asm/bitops.h:190,
+> > > >                       from include/linux/bitops.h:67,
+> > > >                       from include/linux/log2.h:12,
+> > > >                       from include/asm-generic/div64.h:55,
+> > > >                       from ./arch/arc/include/generated/asm/div64.h:1,
+> > > >                       from include/linux/math.h:6,
+> > > >                       from include/linux/math64.h:6,
+> > > >                       from include/linux/time.h:6,
+> > > >                       from include/linux/stat.h:19,
+> > > >                       from include/linux/fs_dirent.h:5,
+> > > >                       from include/linux/fs/super_types.h:5,
+> > > >                       from include/linux/fs/super.h:5,
+> > > >                       from include/linux/fs.h:5,
+> > > >                       from include/linux/fscrypt.h:16,
+> > > >                       from fs/crypto/fscrypt_private.h:15,
+> > > >                       from fs/crypto/hooks.c:10:
+> > > >      fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
+> > > > > > arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in
+> > > conditional expression [-Wincompatible-pointer-types]
+> > > >         46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) :
+> > > (new));              \
+> > > 
+> > > Issue is in  fs/crypto/hooks.c doing cmpxchg_release(&inode->i_link, NULL,
+> > > pstr.name)
+> > > where i_link is char * and pstr.name is unsigned char *),
+> > > 
+> > > The problem is when pointer types are incompatible and that's exactly the
+> > > W toggle above.
+> > > 
+> > > So Bradley's patch needs this fixup
+> > > 
+> > > diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+> > > index 4596edfefa95..9053098bb152 100644
+> > > --- a/arch/arc/include/asm/cmpxchg.h
+> > > +++ b/arch/arc/include/asm/cmpxchg.h
+> > > @@ -42,8 +42,10 @@
+> > >   #define arch_cmpxchg_relaxed(ptr, old, new)     \
+> > >   ({    \
+> > >          __typeof__(ptr) _p_ = (ptr);     \
+> > > -       unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));             \
+> > > -       unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));             \
+> > > +       __typeof__(*(ptr)) _o_ = (old);    \
+> > > +       __typeof__(*(ptr)) _n_ = (new);    \
+> > > +       unsigned long _old_ = (unsigned long)_o_;            \
+> > > +       unsigned long _new_ = (unsigned long)_n_;            \
+> > > 
+> > > P.S: For arch changes shouldn't the submitter be required to at least test
+> > > the building, specially when this involves the macro maze. Its really easy
+> > > with crosstool hosting all the cross-compilers [1] - just download and
+> > > untar.
+> > > 
+> > > [1]
+> > > https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/16.2.0/
+> > Well thanks but I didn't have a proper server till yesterday.
+> 
+> A relatively decent laptop works for me.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609292234.i7NglRRm-lkp@intel.com/
+And you will get *way* faster response time than waiting on kernel
+test robot.  ;-)
 
-All warnings (new ones prefixed by >>):
+> > I'll post all arch patches when Paul tells me how he wants it
+> 
+> Please do a minimal compile build - it will save you the re-spins.
+> 
+> > Like if he wants u16 in first then arch changes sent.
 
-   drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c: In function 'resource_group_init':
-   drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:291:19: error: implicit declaration of function 'irq_get_irq_data'; did you mean 'irq_set_irq_wake'? [-Werror=implicit-function-declaration]
-     291 |         irqdata = irq_get_irq_data(irq);
-         |                   ^~~~~~~~~~~~~~~~
-         |                   irq_set_irq_wake
->> drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:291:17: warning: assignment to 'struct irq_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     291 |         irqdata = irq_get_irq_data(irq);
-         |                 ^
-   drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:293:29: error: implicit declaration of function 'irqd_get_trigger_type' [-Werror=implicit-function-declaration]
-     293 |                 irq_flags = irqd_get_trigger_type(irqdata);
-         |                             ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+First, I queued Vineet's cmpxchg patch from his pull request to Linus.
+I have marked it "EXP" so that I don't accidentally ship it off somewhere
+myself.
 
+Given the surprises from the u8/u16 changes, I suggest the following:
 
-vim +291 drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c
+1.	One patch to add cmpxchg_emu_u16(), but without the u8/u16
+	changes.  And without the CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU
+	change.
 
-   238	
-   239	static int resource_group_init(struct panthor_arbitration *adev,
-   240				       const struct fwnode_handle *child)
-   241	{
-   242		struct panthor_arbitration_resource res;
-   243		struct panthor_resource_group *rg;
-   244		struct device *dev = adev->dev;
-   245		struct irq_data *irqdata;
-   246		void __iomem *iomem;
-   247		u32 irq_flags = 0;
-   248		char *name;
-   249		int irq;
-   250		int ret;
-   251	
-   252		ret = panthor_arbitration_parse_resource(dev, child, &res);
-   253		if (ret)
-   254			return ret;
-   255	
-   256		if (res.id >= AM_ARB_MAX_RG_COUNT)
-   257			return -ENODEV;
-   258	
-   259		if (adev->rg[res.id])
-   260			return dev_warn_probe(dev, -ENODEV, "resource-group@%llx: id (%u) already present",
-   261					      res.res.start, res.id);
-   262	
-   263		rg = devm_kzalloc(dev, sizeof(*rg), GFP_KERNEL);
-   264		if (!rg)
-   265			return -ENOMEM;
-   266	
-   267		name = devm_kasprintf(dev, GFP_KERNEL, "rg%d", res.id);
-   268	
-   269		iomem = devm_ioremap_resource(dev, &res.res);
-   270		if (IS_ERR(iomem))
-   271			return dev_err_probe(dev, PTR_ERR(iomem), "%s: Failed to ioremap", name);
-   272	
-   273		rg->name = name;
-   274		rg->dev = dev;
-   275		rg->iomem = iomem;
-   276	
-   277		rg->wq = devm_alloc_ordered_workqueue(dev, "panthor-%s-wq", 0, name);
-   278		if (!rg->wq)
-   279			return -ENOMEM;
-   280	
-   281		INIT_WORK(&rg->msg_retry_work, rg_retry_messages);
-   282	
-   283		for (int i = 0; i < AM_ARB_MAX_AW_COUNT; i++)
-   284			panthor_am_msg_init(&rg->aw_data[i].msg,
-   285					    rg->iomem + AM_RG_AW_MESSAGE(i));
-   286	
-   287		irq = fwnode_irq_get(child, 0);
-   288		if (irq < 0)
-   289			return dev_err_probe(dev, irq, "%s: Failed to get IRQ", name);
-   290	
- > 291		irqdata = irq_get_irq_data(irq);
-   292		if (irqdata)
-   293			irq_flags = irqd_get_trigger_type(irqdata);
-   294	
-   295		ret = devm_request_irq(
-   296			dev, irq, rg_irq_raw_handler, irq_flags | IRQF_SHARED,
-   297			devm_kasprintf(dev, GFP_KERNEL, "panthor-%s-irq", name), rg);
-   298		if (ret)
-   299			return ret;
-   300	
-   301		adev->rg[res.id] = rg;
-   302	
-   303		rg_irq_resume(rg);
-   304	
-   305		rg_handshake_init(rg);
-   306	
-   307		return 0;
-   308	}
-   309	
+	At Bradley's option, cmpxchg_emu_u8() could remain as is, with
+	cmpxchg_emu_u16() being born as u16.  The upside is less churn
+	later.	The downside is that more up-front testing is needed,
+	and thus greater interaction with busy architecture maintainers.
+	If it was me, I would start with cmpxchg_emu_u16() being as
+	close to cmpxchg_emu_u8() as possible in order to "get the
+	camel's nose into the tent" as quickly and easily as possible.
+	But this is Bradley's patch series, so his choice.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.	One patch each to add use of cmpxchg_emu_u16() to each
+	affected architecture.
+
+3.	Given #1, each patch for #2 can go in independently.  The patches
+	for #2 of course need acks from their respective maintainers.
+
+4.	A patch to rename CONFIG_ARCH_NEED_CMPXCHG_1_EMU to
+	CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU.  This will cross lib and
+	architectures, which should be OK because it is just a name
+	change.  We collect acks as before.
+
+5.	Convert cmpxchg_emu_u8() away from uintptr_t, and, if needed,
+	cmpxchg_emu_u16() as well.
+
+This could take a merge window or three to get in, but that is not all
+that bad for cross-architecture patch serieses such as this one.
+
+Bradley, Vineet, thoughts?
+
+							Thanx, Paul
