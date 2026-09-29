@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054A93909A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 20:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C45A54CF50
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 20:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790712223; cv=none; b=kYrmYGWBvJgYKus6Z7OgtXDpK1ajXmzTqzKdlL1OLyWFModdk6SLmssTWxOrg54lP0p4Y4G81Pmec/BNUPAMCutCjs/TTa/a0szk4JM57qdEOxnpXlI7tD8eGLmdp3MD4ctrCoV+pvxX0auGDGsmgvCIuw5rRaOpGlu7p53pRps=
+	t=1790712884; cv=none; b=sF4OfpKXk+aLezBnq9bt0uQmVlN0mET3O2pPXl/sp30Z1Iq0qBiDiEi+r+WxSu4ZmbbXBoD/AJX8dWvajcgGqrQWB8T2pygY9ho5/Z08XQqcQWWjSrXqnP43aWl8ywb9dKa0U4fvyP1M83yLKykafoIye2Dor2XxobN6Chm+zaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790712223; c=relaxed/simple;
-	bh=TGDx3E0+Ws1yBPR+prTXJB7/rxgcEsMqlcpX/C0GfCI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TIc2FVu78HAc/vuS7ucEzUqmiUxzT9GH2fidJJsRObERnLEf6x2HHaa7oSnl45+jg2zAed55EeUEVl35mT34yP4aUU1I8Y6Il3TQQNnOPMFEsAc1ChtFCmphnyqmZy7UkGVdGZ7Ar7oXM8kpsGV4XLajZFUp8iDevOW2pBKh2AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOvJvkPa; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1790712884; c=relaxed/simple;
+	bh=4w4qYY8drV3/EKK1qhrLcQB0Fksbs9Uxqh5vvQjlWiI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=W2rF0rzhxdNZHVaIUZ4YikHoqh7L8VVr8KjgQhhWfsc1jVujn2k+FXX7cQmj2U6eAl84LhMlokWKr8QVc33Da0lKxMQSwcQqLfgzKVfkbPJ8liaCEynjLeZVcb8TVrLPhGohHEXsE6i+/AdDLWvQZUZ84iEhQTVWuQ8W7h/dyNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fV0eAle1; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOvJvkPa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fV0eAle1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790712221; x=1822248221;
+  t=1790712883; x=1822248883;
   h=date:from:to:cc:subject:message-id;
-  bh=TGDx3E0+Ws1yBPR+prTXJB7/rxgcEsMqlcpX/C0GfCI=;
-  b=lOvJvkPaefpE39/mQTCTdrH/Y3inehvJWY//PhPF0k2I8c7K1mojJRme
-   eQDZefG2nBJhO2pBtsNnjI60+6a02ht1dU5EWVYPXAKwQbkA8ZUqydC4t
-   ZxYbsOfrvSoK0s2NS0kIOwoTDozaCcf7JGU/KUQdI/1NtduhhlDC0jdB6
-   uoTRiFZ7cTYBDUn1NkgtvZI70kKx31O5vfKgZiLVBF8346i2QCqsCex5F
-   cmMIGYyzEEeyKVUg3J3/HiN5vwSxxpNLsBwdH+f5NB1hfmptrscFATkfK
-   XDD1WsUwMAGkxbEMSjM01xGl8LcdLSCrFKE6nL+nM86LAFui/TqaiqQfP
-   w==;
-X-CSE-ConnectionGUID: 3CcwWzuaRm2DZArzjU24Bg==
-X-CSE-MsgGUID: u/cfGpFxQ5CRfdDrGDowJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="100772614"
+  bh=4w4qYY8drV3/EKK1qhrLcQB0Fksbs9Uxqh5vvQjlWiI=;
+  b=fV0eAle1cxl+TcoJUI+kYoMTE8WeXiEyNEKmELUyRjB5Lb9/ww+hTAZU
+   EMCqaaPrBs2Mlvngxn8zU8bqiyerEzVqxflCZ9+A9+9Ebi5L0sgBDJmkm
+   i9CgCOM9SUwLczvKSZ5xMS5nEvgGgKYf7xM4a/gnr9wxVwd6lY2AV/GFd
+   szRn6DFsIr6eO+E1C8C6uctshaV7Vb5uxK+m4cn93UegqpJDAJx7zqi0z
+   4ItqQI8OnvwELg7ADJSsk5guaCBdQP37u0Yaz3j/QZBExInbTGW1F/SY1
+   W7NC+cGPXWulw1t93OghhCGHlGnS0NKZBXKOd3+73MHVMM55E9zyhXVl/
+   A==;
+X-CSE-ConnectionGUID: wSK1BPj8RU+f13U/3cQSHQ==
+X-CSE-MsgGUID: 4NQrh1pCT6SyqQMjTb117Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90661634"
 X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="100772614"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 13:03:41 -0700
-X-CSE-ConnectionGUID: Kr7i09fuQy6LfoolILee8g==
-X-CSE-MsgGUID: ial/VZU7SSWq8LCxHj5aLA==
+   d="scan'208";a="90661634"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 13:14:42 -0700
+X-CSE-ConnectionGUID: 2OI+4lJKSh6u/VGD+/HEoQ==
+X-CSE-MsgGUID: Pv0qJOKFQDuOC+zxvqxMDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="280224514"
+   d="scan'208";a="274676626"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Sep 2026 13:03:38 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Sep 2026 13:14:39 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBe35-000000001XX-1obc;
-	Tue, 29 Sep 2026 20:03:35 +0000
-Date: Tue, 29 Sep 2026 22:03:17 +0200
+	id 1xBeDk-000000001Xr-3CJQ;
+	Tue, 29 Sep 2026 20:14:36 +0000
+Date: Tue, 29 Sep 2026 22:13:43 +0200
 From: kernel test robot <lkp@intel.com>
-To: Roman Li <Roman.Li@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
 Subject: 
- drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c:1114
- dcn42_clk_mgr_construct() warn: inconsistent indenting
-Message-ID: <202609292214.6e3hq3xI-lkp@intel.com>
+ drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:291:17: warning:
+ assignment to 'struct irq_data *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202609292234.i7NglRRm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,104 +61,110 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6f8319e3e9a44dd537d17f41565a8453c560a581
-commit: 6b2dd7d37badd8bf076875397f9f39b494258ca7 drm/amd/display: Enable dcn42 DC
-date:   7 months ago
-config: i386-randconfig-r2201-20260923 (https://download.01.org/0day-ci/archive/20260929/202609292214.6e3hq3xI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://github.com/intel-lab-lkp/linux/commits/Karunika-Choo/drm-panthor-Ignore-EOPNOTSUPP-for-shader-present-nvmem-lookup/20260922-214455
+head:   d1fb2a7097a879293d3b0e71e2556f48f2793224
+commit: 8d5d47f7a6f68c74679c1d6cc1214cfbbc24d401 drm/panthor: Add AM_RESOURCE_GROUP support
+date:   7 days ago
+config: sparc64-randconfig-r2303-20260929 (https://download.01.org/0day-ci/archive/20260929/202609292234.i7NglRRm-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609292234.i7NglRRm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 6b2dd7d37bad ("drm/amd/display: Enable dcn42 DC")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609292214.6e3hq3xI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609292234.i7NglRRm-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c:1114 dcn42_clk_mgr_construct() warn: inconsistent indenting
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:1060 dcn42_optimize_bandwidth() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:279 dcn42_init_hw() error: we previously assumed 'dc->res_pool->funcs->update_bw_bounding_box' could be null (see line 274)
-drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:560 dcn42_program_rmcm_luts() warn: inconsistent indenting
+   drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c: In function 'resource_group_init':
+   drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:291:19: error: implicit declaration of function 'irq_get_irq_data'; did you mean 'irq_set_irq_wake'? [-Werror=implicit-function-declaration]
+     291 |         irqdata = irq_get_irq_data(irq);
+         |                   ^~~~~~~~~~~~~~~~
+         |                   irq_set_irq_wake
+>> drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:291:17: warning: assignment to 'struct irq_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     291 |         irqdata = irq_get_irq_data(irq);
+         |                 ^
+   drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:293:29: error: implicit declaration of function 'irqd_get_trigger_type' [-Werror=implicit-function-declaration]
+     293 |                 irq_flags = irqd_get_trigger_type(irqdata);
+         |                             ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-vim +1114 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c
 
-bd096a56da7cad Roman Li 2026-02-02  1077  
-bd096a56da7cad Roman Li 2026-02-02  1078  void dcn42_clk_mgr_construct(
-bd096a56da7cad Roman Li 2026-02-02  1079  		struct dc_context *ctx,
-bd096a56da7cad Roman Li 2026-02-02  1080  		struct clk_mgr_dcn42 *clk_mgr,
-bd096a56da7cad Roman Li 2026-02-02  1081  		struct pp_smu_funcs *pp_smu,
-bd096a56da7cad Roman Li 2026-02-02  1082  		struct dccg *dccg)
-bd096a56da7cad Roman Li 2026-02-02  1083  {
-bd096a56da7cad Roman Li 2026-02-02  1084  	clk_mgr->base.base.ctx = ctx;
-bd096a56da7cad Roman Li 2026-02-02  1085  	clk_mgr->base.base.funcs = &dcn42_funcs;
-bd096a56da7cad Roman Li 2026-02-02  1086  	clk_mgr->base.regs = &clk_mgr_regs_dcn42;
-bd096a56da7cad Roman Li 2026-02-02  1087  	clk_mgr->base.clk_mgr_shift = &clk_mgr_shift_dcn42;
-bd096a56da7cad Roman Li 2026-02-02  1088  	clk_mgr->base.clk_mgr_mask = &clk_mgr_mask_dcn42;
-bd096a56da7cad Roman Li 2026-02-02  1089  
-bd096a56da7cad Roman Li 2026-02-02  1090  	clk_mgr->base.pp_smu = pp_smu;
-bd096a56da7cad Roman Li 2026-02-02  1091  
-bd096a56da7cad Roman Li 2026-02-02  1092  	clk_mgr->base.dccg = dccg;
-bd096a56da7cad Roman Li 2026-02-02  1093  	clk_mgr->base.dfs_bypass_disp_clk = 0;
-bd096a56da7cad Roman Li 2026-02-02  1094  
-bd096a56da7cad Roman Li 2026-02-02  1095  	clk_mgr->base.dprefclk_ss_percentage = 0;
-bd096a56da7cad Roman Li 2026-02-02  1096  	clk_mgr->base.dprefclk_ss_divider = 1000;
-bd096a56da7cad Roman Li 2026-02-02  1097  	clk_mgr->base.ss_on_dprefclk = false;
-bd096a56da7cad Roman Li 2026-02-02  1098  	clk_mgr->base.dfs_ref_freq_khz = 48000; /*sync with pmfw*/
-bd096a56da7cad Roman Li 2026-02-02  1099  
-bd096a56da7cad Roman Li 2026-02-02  1100  	clk_mgr->smu_wm_set.wm_set = (struct dcn42_watermarks *)dm_helpers_allocate_gpu_mem(
-bd096a56da7cad Roman Li 2026-02-02  1101  				clk_mgr->base.base.ctx,
-bd096a56da7cad Roman Li 2026-02-02  1102  				DC_MEM_ALLOC_TYPE_GART,
-bd096a56da7cad Roman Li 2026-02-02  1103  				sizeof(struct dcn42_watermarks),
-bd096a56da7cad Roman Li 2026-02-02  1104  				&clk_mgr->smu_wm_set.mc_address.quad_part);
-bd096a56da7cad Roman Li 2026-02-02  1105  
-bd096a56da7cad Roman Li 2026-02-02  1106  	ASSERT(clk_mgr->smu_wm_set.wm_set);
-bd096a56da7cad Roman Li 2026-02-02  1107  
-bd096a56da7cad Roman Li 2026-02-02  1108  	/* Changed from DCN3.2_clock_frequency doc to match
-bd096a56da7cad Roman Li 2026-02-02  1109  	 * dcn32_dump_clk_registers from 4 * dentist_vco_freq_khz /
-bd096a56da7cad Roman Li 2026-02-02  1110  	 * dprefclk DID divider
-bd096a56da7cad Roman Li 2026-02-02  1111  	 */
-bd096a56da7cad Roman Li 2026-02-02  1112  	clk_mgr->base.base.dprefclk_khz = 600000;
-bd096a56da7cad Roman Li 2026-02-02  1113  
-bd096a56da7cad Roman Li 2026-02-02 @1114  		clk_mgr->base.smu_present = false;
-bd096a56da7cad Roman Li 2026-02-02  1115  
-bd096a56da7cad Roman Li 2026-02-02  1116  		if (ctx->dc_bios->integrated_info) {
-bd096a56da7cad Roman Li 2026-02-02  1117  			clk_mgr->base.base.dentist_vco_freq_khz = ctx->dc_bios->integrated_info->dentist_vco_freq;
-bd096a56da7cad Roman Li 2026-02-02  1118  
-bd096a56da7cad Roman Li 2026-02-02  1119  			if (ctx->dc_bios->integrated_info->memory_type == LpDdr5MemType)
-bd096a56da7cad Roman Li 2026-02-02  1120  				dcn42_bw_params.wm_table = lpddr5_wm_table;
-bd096a56da7cad Roman Li 2026-02-02  1121  			else
-bd096a56da7cad Roman Li 2026-02-02  1122  				dcn42_bw_params.wm_table = ddr5_wm_table;
-bd096a56da7cad Roman Li 2026-02-02  1123  			dcn42_bw_params.vram_type = ctx->dc_bios->integrated_info->memory_type;
-bd096a56da7cad Roman Li 2026-02-02  1124  			dcn42_bw_params.dram_channel_width_bytes = ctx->dc_bios->integrated_info->memory_type == 0x22 ? 8 : 4;
-bd096a56da7cad Roman Li 2026-02-02  1125  			dcn42_bw_params.num_channels = ctx->dc_bios->integrated_info->ma_channel_number ? ctx->dc_bios->integrated_info->ma_channel_number : 4;
-bd096a56da7cad Roman Li 2026-02-02  1126  		}
-bd096a56da7cad Roman Li 2026-02-02  1127  		/* in case we don't get a value from the BIOS, use default */
-bd096a56da7cad Roman Li 2026-02-02  1128  		if (clk_mgr->base.base.dentist_vco_freq_khz == 0)
-bd096a56da7cad Roman Li 2026-02-02  1129  			clk_mgr->base.base.dentist_vco_freq_khz = 3000000; /* 3000MHz */
-bd096a56da7cad Roman Li 2026-02-02  1130  
-bd096a56da7cad Roman Li 2026-02-02  1131  		/* Saved clocks configured at boot for debug purposes */
-bd096a56da7cad Roman Li 2026-02-02  1132  		dcn42_dump_clk_registers(&clk_mgr->base.base.boot_snapshot, clk_mgr);
-bd096a56da7cad Roman Li 2026-02-02  1133  
-bd096a56da7cad Roman Li 2026-02-02  1134  	if (clk_mgr->base.smu_present)
-bd096a56da7cad Roman Li 2026-02-02  1135  		clk_mgr->base.base.dprefclk_khz = dcn42_smu_get_dprefclk(&clk_mgr->base);
-bd096a56da7cad Roman Li 2026-02-02  1136  	clk_mgr->base.base.clks.ref_dtbclk_khz = 600000;
-bd096a56da7cad Roman Li 2026-02-02  1137  	dce_clock_read_ss_info(&clk_mgr->base);
-bd096a56da7cad Roman Li 2026-02-02  1138  	/*when clk src is from FCH, it could have ss, same clock src as DPREF clk*/
-bd096a56da7cad Roman Li 2026-02-02  1139  
-bd096a56da7cad Roman Li 2026-02-02  1140  	dcn42_read_ss_info_from_lut(&clk_mgr->base);
-bd096a56da7cad Roman Li 2026-02-02  1141  
-bd096a56da7cad Roman Li 2026-02-02  1142  	clk_mgr->base.base.bw_params = &dcn42_bw_params;
-bd096a56da7cad Roman Li 2026-02-02  1143  }
-bd096a56da7cad Roman Li 2026-02-02  1144  
+vim +291 drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c
 
-:::::: The code at line 1114 was first introduced by commit
-:::::: bd096a56da7cad1c93c0138a64478b43f5a94736 drm/amd/display: Add dcn42 DC resources
-
-:::::: TO: Roman Li <Roman.Li@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   238	
+   239	static int resource_group_init(struct panthor_arbitration *adev,
+   240				       const struct fwnode_handle *child)
+   241	{
+   242		struct panthor_arbitration_resource res;
+   243		struct panthor_resource_group *rg;
+   244		struct device *dev = adev->dev;
+   245		struct irq_data *irqdata;
+   246		void __iomem *iomem;
+   247		u32 irq_flags = 0;
+   248		char *name;
+   249		int irq;
+   250		int ret;
+   251	
+   252		ret = panthor_arbitration_parse_resource(dev, child, &res);
+   253		if (ret)
+   254			return ret;
+   255	
+   256		if (res.id >= AM_ARB_MAX_RG_COUNT)
+   257			return -ENODEV;
+   258	
+   259		if (adev->rg[res.id])
+   260			return dev_warn_probe(dev, -ENODEV, "resource-group@%llx: id (%u) already present",
+   261					      res.res.start, res.id);
+   262	
+   263		rg = devm_kzalloc(dev, sizeof(*rg), GFP_KERNEL);
+   264		if (!rg)
+   265			return -ENOMEM;
+   266	
+   267		name = devm_kasprintf(dev, GFP_KERNEL, "rg%d", res.id);
+   268	
+   269		iomem = devm_ioremap_resource(dev, &res.res);
+   270		if (IS_ERR(iomem))
+   271			return dev_err_probe(dev, PTR_ERR(iomem), "%s: Failed to ioremap", name);
+   272	
+   273		rg->name = name;
+   274		rg->dev = dev;
+   275		rg->iomem = iomem;
+   276	
+   277		rg->wq = devm_alloc_ordered_workqueue(dev, "panthor-%s-wq", 0, name);
+   278		if (!rg->wq)
+   279			return -ENOMEM;
+   280	
+   281		INIT_WORK(&rg->msg_retry_work, rg_retry_messages);
+   282	
+   283		for (int i = 0; i < AM_ARB_MAX_AW_COUNT; i++)
+   284			panthor_am_msg_init(&rg->aw_data[i].msg,
+   285					    rg->iomem + AM_RG_AW_MESSAGE(i));
+   286	
+   287		irq = fwnode_irq_get(child, 0);
+   288		if (irq < 0)
+   289			return dev_err_probe(dev, irq, "%s: Failed to get IRQ", name);
+   290	
+ > 291		irqdata = irq_get_irq_data(irq);
+   292		if (irqdata)
+   293			irq_flags = irqd_get_trigger_type(irqdata);
+   294	
+   295		ret = devm_request_irq(
+   296			dev, irq, rg_irq_raw_handler, irq_flags | IRQF_SHARED,
+   297			devm_kasprintf(dev, GFP_KERNEL, "panthor-%s-irq", name), rg);
+   298		if (ret)
+   299			return ret;
+   300	
+   301		adev->rg[res.id] = rg;
+   302	
+   303		rg_irq_resume(rg);
+   304	
+   305		rg_handshake_init(rg);
+   306	
+   307		return 0;
+   308	}
+   309	
 
 --
 0-DAY CI Kernel Test Service
