@@ -1,440 +1,226 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82D93F6619
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 05:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6399C41A91C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 06:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790661217; cv=none; b=qmCXMqTShZ68UdyZARAB/pmHm112RLLVYGsmCLpg4dV7f0jECB3eul9ghp47oBSs346MTbRTuhfc3HMgf2c/VVqHZQShF4LGCdben76fUb1+/WTDwBtnZ9TAHur30uYz6WR9R4bqTX8Jl9hEABl4xmhywtneYDwYoaNtekNG9mY=
+	t=1790662369; cv=none; b=hqCtrmUwhmRwFE+FlEH7SX/OaPYnrEh7Dq+cimSMCGnJimXb+dub5WcpmWdfyOkh7ZbDxOhF6vz3/ywF8ukKX0ILt3BC/jLkurWStviCr767XFN59tQJmMflt9IooDKI0LM4dZNHbY+K6NesoG+pX9C42UUS7MCPB+fozXEdPeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790661217; c=relaxed/simple;
-	bh=hMGOfgMsEansUlRG5bFxArMQimr7X3xn7J5Ic3Rh5d8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=RDMwcgmuWIOwGYSCkl9LZ3coTNyD/fmlFn49BfQGPx0X/8ww2slFKa9wRvhC7uyJl91kiPM9T4FXo1NmPi+v3dN+XnqEbo5HM08zpyXVSZayMK2NdhBB/lqfrBQXjjriYBeUqu1cMy7iZ4LXUddsEupDddymLYFkMsKBegl1/MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HgvFcPt2; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790662369; c=relaxed/simple;
+	bh=G9lae3Lsn5+0FCEPnjOl/ccfareAgNkGhwXDSlmUW4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e+ReNSlrgpAtrdSmcHtAhnx4YLsvVIG6EhkaOP76WH8+zwHbMcsTUv/DfgyuefH6oKOsO2gN37bnbqo7m+WEWdNH7nwwtAW/cmA5oNRFsPqH/t9xs7B6PKq0IOiYi+nn5to1OzSfvVqkzwsoeRa5+NQLnT4NQXSUVo3dQDbrGys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtDIjbbS; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HgvFcPt2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790661214; x=1822197214;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=hMGOfgMsEansUlRG5bFxArMQimr7X3xn7J5Ic3Rh5d8=;
-  b=HgvFcPt2Rks921juhE3VCTpjJZfTp/RWlSPKbsdCSPjTuzc38aiGNFTK
-   K/bf1U5a9sbVCWvpPr9gjMzY+qB0xXm6JeO3WMMSwNjvsXXgDIvB50/4x
-   a1nZpi1gA9MqyZFk0mgqn/GYfSn8qq5DyKDx5GG1kGhjSQl+GZdUM4Bob
-   cY5UIwMKgA4b09VfH9RJeEK/WCiLGyAGvvLQZRDPeUkfIHNGwm504E9Mp
-   tx4vklpL/FzQqhINLZOfQNTkY0yP3MVINmwFJNFors52qCJquEuICcDXQ
-   uuem1Q856yBJQ+dNV/8nqnRo8l6wj1Ug2PiUJUKf7bB5G1Yy78rjwpmxg
-   Q==;
-X-CSE-ConnectionGUID: k9j1rW/rQ+Gwa9vHa8HNGQ==
-X-CSE-MsgGUID: u1MwEoLcQBeF5xu8umXGtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90413645"
-X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="90413645"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 22:53:33 -0700
-X-CSE-ConnectionGUID: AzqcecxVQlOPIGPTlThfzw==
-X-CSE-MsgGUID: CYErKAWMSq2xjcPNnaH08A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
-   d="scan'208";a="278483783"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Sep 2026 22:53:32 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xBQmP-00000000OyF-2f5x;
-	Tue, 29 Sep 2026 05:53:29 +0000
-Date: Tue, 29 Sep 2026 13:53:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1] mm/hmm.c:247:6: error:
- call to undeclared function 'pte_none_mostly'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202609291352.m2dqMolh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtDIjbbS"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887840c529so1367637f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 23:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790662365; x=1791267165; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Tt6PGN3qkJIsSLHEq6Gnh7+ySkg0p88BmXoSV+4rvhU=;
+        b=mtDIjbbS0Zyyti2WmXVrG+Pjijx3OUifbT1NGC6m8cdkS1BE46eFxFPIVPUqdgV+zf
+         rlZs6eaaZ4Zj2T3iZgfPqULt+ad4CboGxBH1kOSopWlTuJwKpJj7M4FZefU2bwXnpDm0
+         dqwV1fJPUDNQ6x5XhxcgDR9xfZo3rrCXVmOxP2lSyshkEj1i8B4W4MQXyxXOxAnCASYN
+         HNvRZyZX+VAEkpHi+Fj0fmNTYyBLAQ/CskImdYKT6rDW4JTojPi1W6yaGM9rUErPlIk6
+         ftX6t11FXKCyiqTlr1f69Q358NHhhicL3QxfS7KY1rezK7dF0nuUaUpoyOL7gzTJcgz1
+         xAbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790662365; x=1791267165;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tt6PGN3qkJIsSLHEq6Gnh7+ySkg0p88BmXoSV+4rvhU=;
+        b=ilsRvZEekT+d53PxMdX9qwkOxrdh69aNOL/d1xURbz9nVHI2ICD1apTkMXbQn3oV/5
+         8vBrLKw6zeglTE6wfu2nYR0/MbLDA1aO7lnMuXRXUrvly6rfQqngRWoV+eJVhxchtv2J
+         zH71BcZIBkioYBA8USN0vyyHmb6dCpzv75/Zh8X+Qb+2FvV/5FTagOvBjbHPmZlMUltz
+         4gSzfeazwVfE0B6Ycues3M00FI5Qe7IxxIbeLxQew/1Oc3ZEVKaZmN1PcjHPYkfJID/L
+         xNtywyUoydSuBwXauWK9EG6f85YRIiESGqPui4R90VZUP3956grp4LEYS3E6ljY6+JjA
+         pboQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwiljsXAHHdz1UVeIYs+Y1kWTaN3MopvZIaqF6dLVnp/FodJNWDWypKP957TjYhDN0ncErLbK4tcZPemlff@lists.linux.dev
+X-Gm-Message-State: AFq9FYK3l64i+LSGhG3foP0psmyO+NaCJXa46QAouPoYlh5xDQHTe8CR
+	xuyOMM9BfNn/BalBT3RJeFfE8tsb7R3GoNluF73RAOvSHqsPdmZRQnbb
+X-Gm-Gg: AYBFou2HDQvKVNTJFmVn8hq3fNS2sBP39jpJsp95YLHHzNkoYkghaFXwXsE9OLDvUcd
+	MHW8ROddGaAuAv+0DtOmmxwbKMNGqFV2tMdQSVYQFyqypkckoaUgbSdw75iOx+Pfc22bnD7AO3d
+	CZ4FEGF04bILdZxUo7No0dimq74aT22IcKf1iOgLTR33WJDEmZ6P+/vRJXOdpT4x9nxJAorXXgT
+	gd9Zh7BqX7EBUzM9uYSy6JRXw804owXI2aexa6KPMqw0nogLBOuOUVnk24LHf79FIU7PCPbbTVt
+	FvkdErhlCRKBQcV6n88/PNxQuBAExlTdc7xcNF/ZKZkDkF48MnIofvxNkMA6xkYqKk1aZ0ny70k
+	kmAIPRPDJR50B9qjtfTqEKNTnA5I3mwT+qZy8xQQs+fzmcLR3urzZVlfccnchzT9cdppFOExvXv
+	QxZbAyeS7+dMkPGeuD+FslQGvw13+uJ1rxW7bEvM6Zaq3fEctPELpFEsTKZZ+MECb+mvo=
+X-Received: by 2002:a5d:5d04:0:b0:487:146f:7c88 with SMTP id ffacd0b85a97d-48af1a8f1afmr2366650f8f.4.1790662365144;
+        Mon, 28 Sep 2026 23:12:45 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48af50923f0sm1298428f8f.31.2026.09.28.23.12.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 23:12:44 -0700 (PDT)
+Date: Tue, 29 Sep 2026 09:12:41 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-kminext 7/7]
+ kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
+Message-ID: <202609290742.QWPr7C7s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Vamsidhar,
+tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
+head:   46c9dcf34122090162fe8bdaf2c9f5c17fc95448
+commit: caeb52b32bd70bc82167f136ab287e2b7a916375 [7/7] ANDROID: cgroup: Use backport reservation for freeze time
+config: x86_64-randconfig-2200-20260929 (https://download.01.org/0day-ci/archive/20260929/202609290742.QWPr7C7s-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+smatch: v0.5.0-9187-g5189e3fb
 
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   4f02a973d94c2e1b76391568aaf9d316067b9322
-commit: ad36ecd6081db9827f1ebaa41671b0b336fd83bf [1/1] ANDROID: GKI: Enable=
- HMM_MIRROR config for all arch
-config: arm-randconfig-1001-20260929 (https://download.01.org/0day-ci/archi=
-ve/20260929/202609291352.m2dqMolh-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f6=
-09f950d2e80addf5566623013db68394334db)
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260929/202609291352.m2dqMolh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609291352.m2dqMolh-lkp@i=
-ntel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202609290742.QWPr7C7s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
 
-   mm/hmm.c:230:6: error: call to undeclared function 'pte_none'; ISO C99 a=
-nd later do not support implicit function declarations [-Wimplicit-function=
--declaration]
-     230 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(p=
-te))
-         |             ^
-   mm/hmm.c:230:24: error: call to undeclared function 'pte_present'; ISO C=
-99 and later do not support implicit function declarations [-Wimplicit-func=
-tion-declaration]
-     230 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(p=
-te))
-         |                               ^
-   mm/hmm.c:230:44: error: call to undeclared function 'pte_protnone'; ISO =
-C99 and later do not support implicit function declarations [-Wimplicit-fun=
-ction-declaration]
-     230 |         if (pte_none(pte) || !pte_present(pte) || pte_protnone(p=
-te))
-         |                                                   ^
-   mm/hmm.c:232:9: error: call to undeclared function 'pte_write'; ISO C99 =
-and later do not support implicit function declarations [-Wimplicit-functio=
-n-declaration]
-     232 |         return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) =
-: HMM_PFN_VALID;
-         |                ^
-   mm/hmm.c:232:9: note: did you mean 'pgd_write'?
-   include/linux/hugetlb.h:472:19: note: 'pgd_write' declared here
-     472 | static inline int pgd_write(pgd_t pgd)
-         |                   ^
-   mm/hmm.c:243:14: error: call to undeclared function 'ptep_get'; ISO C99 =
-and later do not support implicit function declarations [-Wimplicit-functio=
-n-declaration]
-     243 |         pte_t pte =3D ptep_get(ptep);
-         |                     ^
->> mm/hmm.c:247:6: error: call to undeclared function 'pte_none_mostly'; IS=
-O C99 and later do not support implicit function declarations [-Wimplicit-f=
-unction-declaration]
-     247 |         if (pte_none_mostly(pte)) {
-         |             ^
-   mm/hmm.c:255:7: error: call to undeclared function 'pte_present'; ISO C9=
-9 and later do not support implicit function declarations [-Wimplicit-funct=
-ion-declaration]
-     255 |         if (!pte_present(pte)) {
-         |              ^
-   mm/hmm.c:256:23: error: call to undeclared function 'pte_to_swp_entry'; =
-ISO C99 and later do not support implicit function declarations [-Wimplicit=
--function-declaration]
-     256 |                 swp_entry_t entry =3D pte_to_swp_entry(pte);
-         |                                     ^
-   mm/hmm.c:256:15: error: initializing 'swp_entry_t' with an expression of=
- incompatible type 'int'
-     256 |                 swp_entry_t entry =3D pte_to_swp_entry(pte);
-         |                             ^       ~~~~~~~~~~~~~~~~~~~~~
->> mm/hmm.c:262:7: error: call to undeclared function 'is_device_private_en=
-try'; ISO C99 and later do not support implicit function declarations [-Wim=
-plicit-function-declaration]
-     262 |                 if (is_device_private_entry(entry) &&
-         |                     ^
-   mm/hmm.c:262:7: note: did you mean 'is_device_private_page'?
-   include/linux/memremap.h:167:20: note: 'is_device_private_page' declared=
- here
-     167 | static inline bool is_device_private_page(const struct page *pag=
-e)
-         |                    ^
-   mm/hmm.c:263:18: error: call to undeclared function 'pfn_swap_entry_to_p=
-age'; ISO C99 and later do not support implicit function declarations [-Wim=
-plicit-function-declaration]
-     263 |                     page_pgmap(pfn_swap_entry_to_page(entry))->o=
-wner =3D=3D
-         |                                ^
-   mm/hmm.c:263:18: error: incompatible integer to pointer conversion passi=
-ng 'int' to parameter of type 'const struct page *' [-Wint-conversion]
-     263 |                     page_pgmap(pfn_swap_entry_to_page(entry))->o=
-wner =3D=3D
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mmzone.h:1245:65: note: passing argument to parameter 'pag=
-e' here
-    1245 | static inline struct dev_pagemap *page_pgmap(const struct page *=
-page)
-         |                                                                 ^
-   mm/hmm.c:266:8: error: call to undeclared function 'is_writable_device_p=
-rivate_entry'; ISO C99 and later do not support implicit function declarati=
-ons [-Wimplicit-function-declaration]
-     266 |                         if (is_writable_device_private_entry(ent=
-ry))
-         |                             ^
-   mm/hmm.c:268:20: error: call to undeclared function 'swp_offset_pfn'; IS=
-O C99 and later do not support implicit function declarations [-Wimplicit-f=
-unction-declaration]
-     268 |                         new_pfn_flags =3D swp_offset_pfn(entry) =
-| cpu_flags;
-         |                                         ^
-   mm/hmm.c:277:8: error: call to undeclared function 'non_swap_entry'; ISO=
- C99 and later do not support implicit function declarations [-Wimplicit-fu=
-nction-declaration]
-     277 |                 if (!non_swap_entry(entry))
-         |                      ^
-   mm/hmm.c:277:8: note: did you mean 'page_swap_entry'?
-   include/linux/swap.h:316:27: note: 'page_swap_entry' declared here
-     316 | static inline swp_entry_t page_swap_entry(struct page *page)
-         |                           ^
-   mm/hmm.c:283:7: error: call to undeclared function 'is_device_exclusive_=
-entry'; ISO C99 and later do not support implicit function declarations [-W=
-implicit-function-declaration]
-     283 |                 if (is_device_exclusive_entry(entry))
-         |                     ^
-   mm/hmm.c:286:7: error: call to undeclared function 'is_migration_entry';=
- ISO C99 and later do not support implicit function declarations [-Wimplici=
-t-function-declaration]
-     286 |                 if (is_migration_entry(entry)) {
-         |                     ^
-   mm/hmm.c:287:4: error: call to undeclared function 'pte_unmap'; ISO C99 =
-and later do not support implicit function declarations [-Wimplicit-functio=
-n-declaration]
-     287 |                         pte_unmap(ptep);
-         |                         ^
-   mm/hmm.c:287:4: note: did you mean 'memunmap'?
-   include/linux/io.h:159:6: note: 'memunmap' declared here
-     159 | void memunmap(void *addr);
-         |      ^
-   mm/hmm.c:289:4: error: call to undeclared function 'migration_entry_wait=
-'; ISO C99 and later do not support implicit function declarations [-Wimpli=
-cit-function-declaration]
-     289 |                         migration_entry_wait(walk->mm, pmdp, add=
-r);
-         |                         ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=3D]
-   20 errors generated.
+vim +/ERR_PTR +5863 kernel/cgroup/cgroup.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=3Dn] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=3Dn] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=3Dy] && CAN_DEV [=3Dy] && CAN_NETLINK [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=3Dn] && SND [=3Dn] && SND_JACK [=3Dy]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=3Dy] && WIRELESS [=3Dn] && PROC_FS [=3Dy] && WEXT_=
-CORE [=3Dy]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=3Dn] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=3Dy] && WIRELESS [=3Dn]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for HMM_MIRROR
-   Depends on [n]: MMU [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=3Dy] && DRM [=3Dy]
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-   Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && MMU [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=3Dy] && DRM [=3Dy]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=3Dn] && MEMORY_BALLOON [=3Dy]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for DRM_TTM
-   Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && MMU [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=3Dy] && HAS_IOMEM [=3Dy] && DRM [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=3Dn] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for IOMMU_SVA
-   Depends on [n]: IOMMU_SUPPORT [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_IOMMU_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=3Dy] && WIRELESS [=3Dn]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=3Dy] && WIRELESS [=3Dn] && (CFG80211_WEXT [=3Dn] |=
-| WIRELESS_EXT [=3Dy])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=3Dn] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5741  static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5742  				    umode_t mode)
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5743  {
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5744  	struct cgroup_root *root = parent->root;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5745  	struct cgroup *cgrp, *tcgrp;
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5746  	struct kernfs_node *kn;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5747  	int level = parent->level + 1;
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5748  	int ret;
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5749  
+0a950f65e1e64f kernel/cgroup.c        Tejun Heo          2012-11-19  5750  	/* allocate the cgroup and its ID, 0 is reserved for the root */
+7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5751  	cgrp = kzalloc(struct_size(cgrp, ancestors, (level + 1)), GFP_KERNEL);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5752  	if (!cgrp)
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5753  		return ERR_PTR(-ENOMEM);
+0ab02ca8f88790 kernel/cgroup.c        Li Zefan           2014-02-11  5754  
+2aad2a86f6685c kernel/cgroup.c        Tejun Heo          2014-09-24  5755  	ret = percpu_ref_init(&cgrp->self.refcnt, css_release, 0, GFP_KERNEL);
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5756  	if (ret)
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5757  		goto out_free_cgrp;
+9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5758  
+c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5759  	ret = cgroup_rstat_init(cgrp);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5760  	if (ret)
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5761  		goto out_cancel_ref;
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5762  
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5763  	/* create the directory */
+fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5764  	kn = kernfs_create_dir_ns(parent->kn, name, mode,
+fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5765  				  current_fsuid(), current_fsgid(),
+fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5766  				  cgrp, NULL);
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5767  	if (IS_ERR(kn)) {
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5768  		ret = PTR_ERR(kn);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5769  		goto out_stat_exit;
+976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5770  	}
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5771  	cgrp->kn = kn;
+976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5772  
+cc31edceee04a7 kernel/cgroup.c        Paul Menage        2008-10-18  5773  	init_cgroup_housekeeping(cgrp);
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5774  
+9d800df12d3173 kernel/cgroup.c        Tejun Heo          2014-05-14  5775  	cgrp->self.parent = &parent->self;
+ba0f4d761503bd kernel/cgroup.c        Tejun Heo          2014-05-13  5776  	cgrp->root = root;
+b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5777  	cgrp->level = level;
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5778  
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5779  	ret = psi_cgroup_alloc(cgrp);
+324bda9e6c5add kernel/cgroup/cgroup.c Alexei Starovoitov 2017-10-02  5780  	if (ret)
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5781  		goto out_kernfs_remove;
+b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5782  
+f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5783  	if (cgrp->root == &cgrp_dfl_root) {
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5784  		ret = cgroup_bpf_inherit(cgrp);
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5785  		if (ret)
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5786  			goto out_psi_free;
+f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5787  	}
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5788  
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5789  	cgrp->kmi_ext_info = kzalloc(sizeof(*cgrp->kmi_ext_info), GFP_KERNEL);
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5790  	if (!cgrp->kmi_ext_info)
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5791  		goto out_psi_free;
 
+ret = -ENOMEM;
 
-vim +/pte_none_mostly +247 mm/hmm.c
-
-2aee09d8c11642 J=C3=A9r=C3=B4me Glisse   2018-04-10  234 =20
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  235  static int hmm_vm=
-a_handle_pte(struct mm_walk *walk, unsigned long addr,
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  236  			      unsigned=
- long end, pmd_t *pmdp, pte_t *ptep,
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  237  			      unsigned long *hmm=
-_pfn)
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  238  {
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  239  	struct hmm_vma_w=
-alk *hmm_vma_walk =3D walk->private;
-f88a1e90c66540 J=C3=A9r=C3=B4me Glisse   2018-04-10  240  	struct hmm_range=
- *range =3D hmm_vma_walk->range;
-a3eb13c1579ba9 Jason Gunthorpe 2020-03-27  241  	unsigned int required_faul=
-t;
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  242  	unsigned long cpu_flags;
-c33c794828f212 Ryan Roberts    2023-06-12  243  	pte_t pte =3D ptep_get(pte=
-p);
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  244  	uint64_t pfn_req_flags =3D =
-*hmm_pfn;
-285e871884ff3d Leon Romanovsky 2025-04-28  245  	uint64_t new_pfn_flags =3D =
-0;
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  246 =20
-5c041f5d1f23d3 Peter Xu        2022-05-12 @247  	if (pte_none_mostly(pte)) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  248  		required_fault =3D
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  249  			hmm_pte_need_fault(hmm_v=
-ma_walk, pfn_req_flags, 0);
-a3eb13c1579ba9 Jason Gunthorpe 2020-03-27  250  		if (required_fault)
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  251  			goto fault;
-285e871884ff3d Leon Romanovsky 2025-04-28  252  		goto out;
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  253  	}
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  254 =20
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  255  	if (!pte_present=
-(pte)) {
-8d63e4cd62b258 Ralph Campbell  2018-01-31  256  		swp_entry_t entry =3D pte=
-_to_swp_entry(pte);
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  257 =20
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  258  		/*
-8a295dbbaf7292 Ralph Campbell  2022-07-25  259  		 * Don't fault in device =
-private pages owned by the caller,
-8a295dbbaf7292 Ralph Campbell  2022-07-25  260  		 * just report the PFN.
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  261  		 */
-8a295dbbaf7292 Ralph Campbell  2022-07-25 @262  		if (is_device_private_ent=
-ry(entry) &&
-82ba975e4c43d9 Alistair Popple 2025-02-28  263  		    page_pgmap(pfn_swap_e=
-ntry_to_page(entry))->owner =3D=3D
-8a295dbbaf7292 Ralph Campbell  2022-07-25  264  		    range->dev_private_ow=
-ner) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  265  			cpu_flags =3D HMM_PFN_VA=
-LID;
-4dd845b5a3e57a Alistair Popple 2021-06-30  266  			if (is_writable_device_p=
-rivate_entry(entry))
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  267  				cpu_flags |=3D HMM_PFN_=
-WRITE;
-285e871884ff3d Leon Romanovsky 2025-04-28  268  			new_pfn_flags =3D swp_of=
-fset_pfn(entry) | cpu_flags;
-285e871884ff3d Leon Romanovsky 2025-04-28  269  			goto out;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  270  		}
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  271 =20
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  272  		required_fault =3D
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  273  			hmm_pte_need_fault(hmm_v=
-ma_walk, pfn_req_flags, 0);
-285e871884ff3d Leon Romanovsky 2025-04-28  274  		if (!required_fault)
-285e871884ff3d Leon Romanovsky 2025-04-28  275  			goto out;
-76612d6ce4ccd2 Jason Gunthorpe 2020-02-28  276 =20
-76612d6ce4ccd2 Jason Gunthorpe 2020-02-28  277  		if (!non_swap_entry(entry=
-))
-76612d6ce4ccd2 Jason Gunthorpe 2020-02-28  278  			goto fault;
-76612d6ce4ccd2 Jason Gunthorpe 2020-02-28  279 =20
-8a295dbbaf7292 Ralph Campbell  2022-07-25  280  		if (is_device_private_ent=
-ry(entry))
-8a295dbbaf7292 Ralph Campbell  2022-07-25  281  			goto fault;
-8a295dbbaf7292 Ralph Campbell  2022-07-25  282 =20
-b756a3b5e7ead8 Alistair Popple 2021-06-30  283  		if (is_device_exclusive_e=
-ntry(entry))
-b756a3b5e7ead8 Alistair Popple 2021-06-30  284  			goto fault;
-b756a3b5e7ead8 Alistair Popple 2021-06-30  285 =20
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  286  		if (is_migratio=
-n_entry(entry)) {
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  287  			pte_unmap(ptep=
-);
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  288  			hmm_vma_walk->=
-last =3D addr;
-d2e8d551165ccb Ralph Campbell  2019-07-25  289  			migration_entry_wait(wal=
-k->mm, pmdp, addr);
-73231612dc7c90 J=C3=A9r=C3=B4me Glisse   2019-05-13  290  			return -EBUSY;
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  291  		}
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  292 =20
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  293  		/* Report error=
- for everything else */
-dfdc22078f3f06 Jason Gunthorpe 2020-02-28  294  		pte_unmap(ptep);
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  295  		return -EFAULT;
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  296  	}
-da4c3c735ea4dc J=C3=A9r=C3=B4me Glisse   2017-09-08  297 =20
-76612d6ce4ccd2 Jason Gunthorpe 2020-02-28  298  	cpu_flags =3D pte_to_hmm_p=
-fn_flags(range, pte);
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  299  	required_fault =3D
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  300  		hmm_pte_need_fault(hmm_vm=
-a_walk, pfn_req_flags, cpu_flags);
-a3eb13c1579ba9 Jason Gunthorpe 2020-03-27  301  	if (required_fault)
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  302  		goto fault;
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  303 =20
-ac541f25037229 Ralph Campbell  2019-10-23  304  	/*
-40550627492291 Jason Gunthorpe 2020-03-05  305  	 * Since each architecture=
- defines a struct page for the zero page, just
-40550627492291 Jason Gunthorpe 2020-03-05  306  	 * fall through and treat =
-it like a normal page.
-ac541f25037229 Ralph Campbell  2019-10-23  307  	 */
-87c01d57fa23de Alistair Popple 2022-01-14  308  	if (!vm_normal_page(walk->=
-vma, addr, pte) &&
-4b42fb213678d2 Li Zhijian      2021-09-08  309  	    !is_zero_pfn(pte_pfn(p=
-te))) {
-2733ea144dcce7 Jason Gunthorpe 2020-05-01  310  		if (hmm_pte_need_fault(hm=
-m_vma_walk, pfn_req_flags, 0)) {
-40550627492291 Jason Gunthorpe 2020-03-05  311  			pte_unmap(ptep);
-40550627492291 Jason Gunthorpe 2020-03-05  312  			return -EFAULT;
-40550627492291 Jason Gunthorpe 2020-03-05  313  		}
-285e871884ff3d Leon Romanovsky 2025-04-28  314  		new_pfn_flags =3D HMM_PFN=
-_ERROR;
-285e871884ff3d Leon Romanovsky 2025-04-28  315  		goto out;
-ac541f25037229 Ralph Campbell  2019-10-23  316  	}
-992de9a8b75116 J=C3=A9r=C3=B4me Glisse   2019-05-13  317 =20
-285e871884ff3d Leon Romanovsky 2025-04-28  318  	new_pfn_flags =3D pte_pfn(=
-pte) | cpu_flags;
-285e871884ff3d Leon Romanovsky 2025-04-28  319  out:
-285e871884ff3d Leon Romanovsky 2025-04-28  320  	*hmm_pfn =3D (*hmm_pfn & H=
-MM_PFN_INOUT_FLAGS) | new_pfn_flags;
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  321  	return 0;
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  322 =20
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  323  fault:
-74eee180b935fc J=C3=A9r=C3=B4me Glisse   2017-09-08  324  	pte_unmap(ptep);
-5504ed29692faa J=C3=A9r=C3=B4me Glisse   2018-04-10  325  	/* Fault any vir=
-tual address we were asked to fault */
-a3eb13c1579ba9 Jason Gunthorpe 2020-03-27  326  	return hmm_vma_fault(addr,=
- end, required_fault, walk);
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  327  }
-53f5c3f489ecdd J=C3=A9r=C3=B4me Glisse   2018-04-10  328 =20
-
-:::::: The code at line 247 was first introduced by commit
-:::::: 5c041f5d1f23d3a172dd0db3215634c484b4acd6 mm: teach core mm about pte=
- markers
-
-:::::: TO: Peter Xu <peterx@redhat.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5792  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5793  	/*
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5794  	 * New cgroup inherits effective freeze counter, and
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5795  	 * if the parent has to be frozen, the child has too.
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5796  	 */
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5797  	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5798  	seqcount_init(&cgrp->kmi_ext_info->freezer.freeze_seq);
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5799  	if (cgrp->freezer.e_freeze) {
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5800  		/*
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5801  		 * Set the CGRP_FREEZE flag, so when a process will be
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5802  		 * attached to the child cgroup, it will become frozen.
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5803  		 * At this point the new cgroup is unpopulated, so we can
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5804  		 * consider it frozen immediately.
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5805  		 */
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5806  		set_bit(CGRP_FREEZE, &cgrp->flags);
+caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5807  		cgrp->kmi_ext_info->freezer.freeze_start_nsec = ktime_get_ns();
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5808  		set_bit(CGRP_FROZEN, &cgrp->flags);
+97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5809  	}
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5810  
+4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5811  	spin_lock_irq(&css_set_lock);
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5812  	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
+7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5813  		cgrp->ancestors[tcgrp->level] = tcgrp;
+ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5814  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5815  		if (tcgrp != cgrp) {
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5816  			tcgrp->nr_descendants++;
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5817  
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5818  			/*
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5819  			 * If the new cgroup is frozen, all ancestor cgroups
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5820  			 * get a new frozen descendant, but their state can't
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5821  			 * change because of this.
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5822  			 */
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5823  			if (cgrp->freezer.e_freeze)
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5824  				tcgrp->freezer.nr_frozen_descendants++;
+76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5825  		}
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5826  	}
+4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5827  	spin_unlock_irq(&css_set_lock);
+0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5828  
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5829  	if (notify_on_release(parent))
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5830  		set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
+b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5831  
+2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5832  	if (test_bit(CGRP_CPUSET_CLONE_CHILDREN, &parent->flags))
+2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5833  		set_bit(CGRP_CPUSET_CLONE_CHILDREN, &cgrp->flags);
+97978e6d1f2da0 kernel/cgroup.c        Daniel Lezcano     2010-10-27  5834  
+0cb51d71c1fa92 kernel/cgroup.c        Tejun Heo          2014-05-16  5835  	cgrp->self.serial_nr = css_serial_nr_next++;
+53fa5261747a90 kernel/cgroup.c        Tejun Heo          2013-05-24  5836  
+4e139afc22cb98 kernel/cgroup.c        Tejun Heo          2012-11-19  5837  	/* allocation complete, commit to creation */
+d5c419b68e368f kernel/cgroup.c        Tejun Heo          2014-05-16  5838  	list_add_tail_rcu(&cgrp->self.sibling, &cgroup_parent(cgrp)->self.children);
+3c9c825b8b50de kernel/cgroup.c        Tejun Heo          2014-02-12  5839  	atomic_inc(&root->nr_cgrps);
+a590b90d472f2c kernel/cgroup/cgroup.c Tejun Heo          2017-04-28  5840  	cgroup_get_live(parent);
+415cf07a1c1c65 kernel/cgroup.c        Li Zefan           2013-04-08  5841  
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5842  	/*
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5843  	 * On the default hierarchy, a child doesn't automatically inherit
+667c24917144e3 kernel/cgroup.c        Tejun Heo          2014-07-08  5844  	 * subtree_control from the parent.  Each is configured manually.
+bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5845  	 */
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5846  	if (!cgroup_on_dfl(cgrp))
+5531dc915ba10b kernel/cgroup.c        Tejun Heo          2016-03-03  5847  		cgrp->subtree_control = cgroup_control(cgrp);
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5848  
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5849  	cgroup_propagate_control(cgrp);
+03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5850  
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5851  	return cgrp;
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5852  
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5853  out_psi_free:
+2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5854  	psi_cgroup_free(cgrp);
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5855  out_kernfs_remove:
+743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5856  	kernfs_remove(cgrp->kn);
+041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5857  out_stat_exit:
+c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5858  	cgroup_rstat_exit(cgrp);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5859  out_cancel_ref:
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5860  	percpu_ref_exit(&cgrp->self.refcnt);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5861  out_free_cgrp:
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5862  	kfree(cgrp);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03 @5863  	return ERR_PTR(ret);
+a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5864  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
