@@ -1,226 +1,340 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6399C41A91C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 06:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6240025392A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 06:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790662369; cv=none; b=hqCtrmUwhmRwFE+FlEH7SX/OaPYnrEh7Dq+cimSMCGnJimXb+dub5WcpmWdfyOkh7ZbDxOhF6vz3/ywF8ukKX0ILt3BC/jLkurWStviCr767XFN59tQJmMflt9IooDKI0LM4dZNHbY+K6NesoG+pX9C42UUS7MCPB+fozXEdPeU=
+	t=1790662465; cv=none; b=Y0Rw1vgIoz0qH6qLtQybe7sYdWvWe1taK9KnfoYCOvzZHA6rzuKV/u+NJ7HswPGsPKjUfJHTqyFudpr4aTw5vzS+yJqyNBkHmc+q94uWyz/aePqZzAS87I+pIqEsbF31Pyw4Q5RIwsvFc3Sq9Vow7YurtZxiv1RdpWtbN0nstj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790662369; c=relaxed/simple;
-	bh=G9lae3Lsn5+0FCEPnjOl/ccfareAgNkGhwXDSlmUW4M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e+ReNSlrgpAtrdSmcHtAhnx4YLsvVIG6EhkaOP76WH8+zwHbMcsTUv/DfgyuefH6oKOsO2gN37bnbqo7m+WEWdNH7nwwtAW/cmA5oNRFsPqH/t9xs7B6PKq0IOiYi+nn5to1OzSfvVqkzwsoeRa5+NQLnT4NQXSUVo3dQDbrGys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mtDIjbbS; arc=none smtp.client-ip=74.125.225.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790662465; c=relaxed/simple;
+	bh=ZENhFoZdyP/NKGY9rYObjkgY30/JK0bKqC5VklTKHj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HRDckiAPG8j+RR5Ddqq3DEQOHz5KlNxHUnEeIL0Q0ssQoXLeIHH7iU/4ko1MufO2iMVIEgmyuRIkMFX0eQdxb9w/newGIGoYqfJeJGOrkZQ8Mh2IqShP2jVw3QKhs5fN7I6BmnX99yfWzEBP8TZ5mtD80ziIA22lM9M1EDnqrzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=uAvSOMAj; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mtDIjbbS"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887840c529so1367637f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Sep 2026 23:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790662365; x=1791267165; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Tt6PGN3qkJIsSLHEq6Gnh7+ySkg0p88BmXoSV+4rvhU=;
-        b=mtDIjbbS0Zyyti2WmXVrG+Pjijx3OUifbT1NGC6m8cdkS1BE46eFxFPIVPUqdgV+zf
-         rlZs6eaaZ4Zj2T3iZgfPqULt+ad4CboGxBH1kOSopWlTuJwKpJj7M4FZefU2bwXnpDm0
-         dqwV1fJPUDNQ6x5XhxcgDR9xfZo3rrCXVmOxP2lSyshkEj1i8B4W4MQXyxXOxAnCASYN
-         HNvRZyZX+VAEkpHi+Fj0fmNTYyBLAQ/CskImdYKT6rDW4JTojPi1W6yaGM9rUErPlIk6
-         ftX6t11FXKCyiqTlr1f69Q358NHhhicL3QxfS7KY1rezK7dF0nuUaUpoyOL7gzTJcgz1
-         xAbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790662365; x=1791267165;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Tt6PGN3qkJIsSLHEq6Gnh7+ySkg0p88BmXoSV+4rvhU=;
-        b=ilsRvZEekT+d53PxMdX9qwkOxrdh69aNOL/d1xURbz9nVHI2ICD1apTkMXbQn3oV/5
-         8vBrLKw6zeglTE6wfu2nYR0/MbLDA1aO7lnMuXRXUrvly6rfQqngRWoV+eJVhxchtv2J
-         zH71BcZIBkioYBA8USN0vyyHmb6dCpzv75/Zh8X+Qb+2FvV/5FTagOvBjbHPmZlMUltz
-         4gSzfeazwVfE0B6Ycues3M00FI5Qe7IxxIbeLxQew/1Oc3ZEVKaZmN1PcjHPYkfJID/L
-         xNtywyUoydSuBwXauWK9EG6f85YRIiESGqPui4R90VZUP3956grp4LEYS3E6ljY6+JjA
-         pboQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwiljsXAHHdz1UVeIYs+Y1kWTaN3MopvZIaqF6dLVnp/FodJNWDWypKP957TjYhDN0ncErLbK4tcZPemlff@lists.linux.dev
-X-Gm-Message-State: AFq9FYK3l64i+LSGhG3foP0psmyO+NaCJXa46QAouPoYlh5xDQHTe8CR
-	xuyOMM9BfNn/BalBT3RJeFfE8tsb7R3GoNluF73RAOvSHqsPdmZRQnbb
-X-Gm-Gg: AYBFou2HDQvKVNTJFmVn8hq3fNS2sBP39jpJsp95YLHHzNkoYkghaFXwXsE9OLDvUcd
-	MHW8ROddGaAuAv+0DtOmmxwbKMNGqFV2tMdQSVYQFyqypkckoaUgbSdw75iOx+Pfc22bnD7AO3d
-	CZ4FEGF04bILdZxUo7No0dimq74aT22IcKf1iOgLTR33WJDEmZ6P+/vRJXOdpT4x9nxJAorXXgT
-	gd9Zh7BqX7EBUzM9uYSy6JRXw804owXI2aexa6KPMqw0nogLBOuOUVnk24LHf79FIU7PCPbbTVt
-	FvkdErhlCRKBQcV6n88/PNxQuBAExlTdc7xcNF/ZKZkDkF48MnIofvxNkMA6xkYqKk1aZ0ny70k
-	kmAIPRPDJR50B9qjtfTqEKNTnA5I3mwT+qZy8xQQs+fzmcLR3urzZVlfccnchzT9cdppFOExvXv
-	QxZbAyeS7+dMkPGeuD+FslQGvw13+uJ1rxW7bEvM6Zaq3fEctPELpFEsTKZZ+MECb+mvo=
-X-Received: by 2002:a5d:5d04:0:b0:487:146f:7c88 with SMTP id ffacd0b85a97d-48af1a8f1afmr2366650f8f.4.1790662365144;
-        Mon, 28 Sep 2026 23:12:45 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48af50923f0sm1298428f8f.31.2026.09.28.23.12.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 23:12:44 -0700 (PDT)
-Date: Tue, 29 Sep 2026 09:12:41 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-kminext 7/7]
- kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
-Message-ID: <202609290742.QWPr7C7s-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="uAvSOMAj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1790662453; x=1791267253; i=deller@gmx.de;
+	bh=80l5/GvUAnlUZxx03vy6GNYtJilVaov804rlFhnV9FA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=uAvSOMAj6T5KjKcamZfcgumf+hSveHqrNLTY5mA5K0PNbL2/b6oOMFbl7mZSzAld
+	 rR3gRaC5wQWQsRKD4xxZlp0jC1P3QynU/o8m4kXOFJV4F7M0cxBsJduF02JyPQnoB
+	 O+erKh4JsGlPkT5WAyQ1c/XOWbO+HK0CKyDPH7i3Fn5pIW4Ewa8I1ZJcemmCGroS4
+	 yYE15y8C5v+1oc+9baaNYWk3YWxHz6dN9t+iBwL7VwkcsAcBGusHpSECpi0wpNuOB
+	 SwNYc5npj4jnkwJHXN5M6H0sX2NAGxXln2USW/LmIne+C+btfLSawG7WOpyYuAR9a
+	 lW/066EUQV4OCgb2LA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MF3He-1ww3x709ns-00DJb1; Tue, 29
+ Sep 2026 08:14:13 +0200
+Message-ID: <c3feb4b4-4561-424c-b3a4-0998d9ac95e4@gmx.de>
+Date: Tue, 29 Sep 2026 08:14:11 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/video/fbdev/atafb.c:2457:17: sparse: sparse: cast removes
+ address space '__iomem' of expression
+To: =?UTF-8?B?TWlybyBLcm9ww6HEjWVr?= <miro.kropacek@gmail.com>,
+ kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Michael Schmitz <schmitzmic@gmail.com>
+References: <202609261313.kgFtkz2t-lkp@intel.com>
+ <CAN5rfbReCmhwCdRjXD6SXQp__Zy-HgXi4EG2PuMGhKgAqBCKyw@mail.gmail.com>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <CAN5rfbReCmhwCdRjXD6SXQp__Zy-HgXi4EG2PuMGhKgAqBCKyw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:njDWaiSZ5gbti5NKiX89Ny1R2nvgF+imJ/TkWd3pRxgz8L47oNa
+ v8pPEpgeocj07kBYDngIjjLDcLicu1+oLrbf71JmZXu65QfwmZDjZlQXAMV/8fMW9EMYfqe
+ YnJMeLKFaHWlQHpIeclveihcHKboiW26Of1FdDgwawA/+KmNb5aodBc9g+LskJ+TRJ10EFY
+ 8fbgKhKp3C5X3DaUY//Yg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:3UEgX5bpN2s=;b2xpFfH+tK6Ji3eXg2zHT2IuE27
+ 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
+ 3Qws9AkCdfg04z3qA==
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
-head:   46c9dcf34122090162fe8bdaf2c9f5c17fc95448
-commit: caeb52b32bd70bc82167f136ab287e2b7a916375 [7/7] ANDROID: cgroup: Use backport reservation for freeze time
-config: x86_64-randconfig-2200-20260929 (https://download.01.org/0day-ci/archive/20260929/202609290742.QWPr7C7s-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-smatch: v0.5.0-9187-g5189e3fb
+On 9/29/26 01:43, Miro Krop=C3=A1=C4=8Dek wrote:
+> Helge,
+>=20
+> if I read this correctly, your patch fixed the two other warnings (the
+> dead atafb_ioctl and pclock =3D 0). Since you mentioned "Fixes:
+> d463633d63e6" pointing at my commit, maybe you can take a look at the
+> line 2457, too? I'm too unfamiliar with the whole process but since I
+> got the warning email, I just wanted to point your attention to it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202609290742.QWPr7C7s-lkp@intel.com/
+I just send a patch to fix this to the mailing lists and added it
+into my for-next tree. You may respond to the patch with an Acked-by
+or Reviewed-by tag if you like.
 
-smatch warnings:
-kernel/cgroup/cgroup.c:5863 cgroup_create() warn: passing zero to 'ERR_PTR'
-
-vim +/ERR_PTR +5863 kernel/cgroup/cgroup.c
-
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5741  static struct cgroup *cgroup_create(struct cgroup *parent, const char *name,
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5742  				    umode_t mode)
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5743  {
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5744  	struct cgroup_root *root = parent->root;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5745  	struct cgroup *cgrp, *tcgrp;
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5746  	struct kernfs_node *kn;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5747  	int level = parent->level + 1;
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5748  	int ret;
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5749  
-0a950f65e1e64f kernel/cgroup.c        Tejun Heo          2012-11-19  5750  	/* allocate the cgroup and its ID, 0 is reserved for the root */
-7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5751  	cgrp = kzalloc(struct_size(cgrp, ancestors, (level + 1)), GFP_KERNEL);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5752  	if (!cgrp)
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5753  		return ERR_PTR(-ENOMEM);
-0ab02ca8f88790 kernel/cgroup.c        Li Zefan           2014-02-11  5754  
-2aad2a86f6685c kernel/cgroup.c        Tejun Heo          2014-09-24  5755  	ret = percpu_ref_init(&cgrp->self.refcnt, css_release, 0, GFP_KERNEL);
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5756  	if (ret)
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5757  		goto out_free_cgrp;
-9d755d33f0db8c kernel/cgroup.c        Tejun Heo          2014-05-14  5758  
-c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5759  	ret = cgroup_rstat_init(cgrp);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5760  	if (ret)
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5761  		goto out_cancel_ref;
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5762  
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5763  	/* create the directory */
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5764  	kn = kernfs_create_dir_ns(parent->kn, name, mode,
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5765  				  current_fsuid(), current_fsgid(),
-fe3de0102bc830 kernel/cgroup/cgroup.c Max Kellermann     2023-12-08  5766  				  cgrp, NULL);
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5767  	if (IS_ERR(kn)) {
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5768  		ret = PTR_ERR(kn);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5769  		goto out_stat_exit;
-976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5770  	}
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5771  	cgrp->kn = kn;
-976c06bcccc505 kernel/cgroup.c        Tejun Heo          2012-11-05  5772  
-cc31edceee04a7 kernel/cgroup.c        Paul Menage        2008-10-18  5773  	init_cgroup_housekeeping(cgrp);
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5774  
-9d800df12d3173 kernel/cgroup.c        Tejun Heo          2014-05-14  5775  	cgrp->self.parent = &parent->self;
-ba0f4d761503bd kernel/cgroup.c        Tejun Heo          2014-05-13  5776  	cgrp->root = root;
-b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5777  	cgrp->level = level;
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5778  
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5779  	ret = psi_cgroup_alloc(cgrp);
-324bda9e6c5add kernel/cgroup/cgroup.c Alexei Starovoitov 2017-10-02  5780  	if (ret)
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5781  		goto out_kernfs_remove;
-b11cfb5807e303 kernel/cgroup.c        Tejun Heo          2015-11-20  5782  
-f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5783  	if (cgrp->root == &cgrp_dfl_root) {
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5784  		ret = cgroup_bpf_inherit(cgrp);
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5785  		if (ret)
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5786  			goto out_psi_free;
-f390525e496920 kernel/cgroup/cgroup.c Chen Ridong        2024-10-18  5787  	}
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5788  
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5789  	cgrp->kmi_ext_info = kzalloc(sizeof(*cgrp->kmi_ext_info), GFP_KERNEL);
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5790  	if (!cgrp->kmi_ext_info)
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5791  		goto out_psi_free;
-
-ret = -ENOMEM;
-
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5792  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5793  	/*
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5794  	 * New cgroup inherits effective freeze counter, and
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5795  	 * if the parent has to be frozen, the child has too.
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5796  	 */
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5797  	cgrp->freezer.e_freeze = parent->freezer.e_freeze;
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5798  	seqcount_init(&cgrp->kmi_ext_info->freezer.freeze_seq);
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5799  	if (cgrp->freezer.e_freeze) {
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5800  		/*
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5801  		 * Set the CGRP_FREEZE flag, so when a process will be
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5802  		 * attached to the child cgroup, it will become frozen.
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5803  		 * At this point the new cgroup is unpopulated, so we can
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5804  		 * consider it frozen immediately.
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5805  		 */
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5806  		set_bit(CGRP_FREEZE, &cgrp->flags);
-caeb52b32bd70b kernel/cgroup/cgroup.c Tiffany Yang       2025-09-13  5807  		cgrp->kmi_ext_info->freezer.freeze_start_nsec = ktime_get_ns();
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5808  		set_bit(CGRP_FROZEN, &cgrp->flags);
-97a61369830ab0 kernel/cgroup/cgroup.c Roman Gushchin     2019-09-12  5809  	}
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5810  
-4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5811  	spin_lock_irq(&css_set_lock);
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5812  	for (tcgrp = cgrp; tcgrp; tcgrp = cgroup_parent(tcgrp)) {
-7f203bc89eb66d kernel/cgroup/cgroup.c Tejun Heo          2022-07-29  5813  		cgrp->ancestors[tcgrp->level] = tcgrp;
-ddbcc7e8e50aef kernel/cgroup.c        Paul Menage        2007-10-18  5814  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5815  		if (tcgrp != cgrp) {
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5816  			tcgrp->nr_descendants++;
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5817  
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5818  			/*
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5819  			 * If the new cgroup is frozen, all ancestor cgroups
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5820  			 * get a new frozen descendant, but their state can't
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5821  			 * change because of this.
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5822  			 */
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5823  			if (cgrp->freezer.e_freeze)
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5824  				tcgrp->freezer.nr_frozen_descendants++;
-76f969e8948d82 kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5825  		}
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5826  	}
-4dcabece4c3a9f kernel/cgroup/cgroup.c Roman Gushchin     2019-04-19  5827  	spin_unlock_irq(&css_set_lock);
-0679dee03c6d70 kernel/cgroup/cgroup.c Roman Gushchin     2017-08-02  5828  
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5829  	if (notify_on_release(parent))
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5830  		set_bit(CGRP_NOTIFY_ON_RELEASE, &cgrp->flags);
-b6abdb0e6ca5c2 kernel/cgroup.c        Li Zefan           2008-03-04  5831  
-2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5832  	if (test_bit(CGRP_CPUSET_CLONE_CHILDREN, &parent->flags))
-2260e7fc1f18ad kernel/cgroup.c        Tejun Heo          2012-11-19  5833  		set_bit(CGRP_CPUSET_CLONE_CHILDREN, &cgrp->flags);
-97978e6d1f2da0 kernel/cgroup.c        Daniel Lezcano     2010-10-27  5834  
-0cb51d71c1fa92 kernel/cgroup.c        Tejun Heo          2014-05-16  5835  	cgrp->self.serial_nr = css_serial_nr_next++;
-53fa5261747a90 kernel/cgroup.c        Tejun Heo          2013-05-24  5836  
-4e139afc22cb98 kernel/cgroup.c        Tejun Heo          2012-11-19  5837  	/* allocation complete, commit to creation */
-d5c419b68e368f kernel/cgroup.c        Tejun Heo          2014-05-16  5838  	list_add_tail_rcu(&cgrp->self.sibling, &cgroup_parent(cgrp)->self.children);
-3c9c825b8b50de kernel/cgroup.c        Tejun Heo          2014-02-12  5839  	atomic_inc(&root->nr_cgrps);
-a590b90d472f2c kernel/cgroup/cgroup.c Tejun Heo          2017-04-28  5840  	cgroup_get_live(parent);
-415cf07a1c1c65 kernel/cgroup.c        Li Zefan           2013-04-08  5841  
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5842  	/*
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5843  	 * On the default hierarchy, a child doesn't automatically inherit
-667c24917144e3 kernel/cgroup.c        Tejun Heo          2014-07-08  5844  	 * subtree_control from the parent.  Each is configured manually.
-bd53d617b34c78 kernel/cgroup.c        Tejun Heo          2014-04-23  5845  	 */
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5846  	if (!cgroup_on_dfl(cgrp))
-5531dc915ba10b kernel/cgroup.c        Tejun Heo          2016-03-03  5847  		cgrp->subtree_control = cgroup_control(cgrp);
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5848  
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5849  	cgroup_propagate_control(cgrp);
-03970d3c11faf8 kernel/cgroup.c        Tejun Heo          2016-03-03  5850  
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5851  	return cgrp;
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5852  
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5853  out_psi_free:
-2ce7135adc9ad0 kernel/cgroup/cgroup.c Johannes Weiner    2018-10-26  5854  	psi_cgroup_free(cgrp);
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5855  out_kernfs_remove:
-743210386c0354 kernel/cgroup/cgroup.c Tejun Heo          2019-11-04  5856  	kernfs_remove(cgrp->kn);
-041cd640b2f3c5 kernel/cgroup/cgroup.c Tejun Heo          2017-09-25  5857  out_stat_exit:
-c58632b3631cb2 kernel/cgroup/cgroup.c Tejun Heo          2018-04-26  5858  	cgroup_rstat_exit(cgrp);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5859  out_cancel_ref:
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5860  	percpu_ref_exit(&cgrp->self.refcnt);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5861  out_free_cgrp:
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5862  	kfree(cgrp);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03 @5863  	return ERR_PTR(ret);
-a5bca2152036de kernel/cgroup.c        Tejun Heo          2016-03-03  5864  }
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
+Helge
+ =20
+> Thanks,
+> Miro
+>=20
+> On Sat, 26 Sept 2026 at 15:09, kernel test robot <lkp@intel.com> wrote:
+>>
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+>> head:   5fc5768c7ca92895ccd1de94dc521e5a55ae7896
+>> commit: d463633d63e6aa10384683bf39971a4b00780c56 fbdev: atafb: Add supp=
+ort for SuperVidel's SuperBlitter
+>> date:   5 weeks ago
+>> config: m68k-randconfig-r1308-20260926 (https://download.01.org/0day-ci=
+/archive/20260926/202609261313.kgFtkz2t-lkp@intel.com/config)
+>> compiler: m68k-linux-gcc (GCC) 16.1.0
+>> sparse: v0.6.5-rc1
+>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20260926/202609261313.kgFtkz2t-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+>> the same patch/commit), kindly add following tags
+>> | Fixes: d463633d63e6 ("fbdev: atafb: Add support for SuperVidel's Supe=
+rBlitter")
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202609261313.kgFtkz2t-l=
+kp@intel.com/
+>>
+>> sparse warnings: (new ones prefixed by >>)
+>>     drivers/video/fbdev/atafb.c:2824:9: sparse: sparse: switch with no =
+cases
+>>     drivers/video/fbdev/atafb.c:1092:34: sparse: sparse: Using plain in=
+teger as NULL pointer
+>>>> drivers/video/fbdev/atafb.c:2457:17: sparse: sparse: cast removes add=
+ress space '__iomem' of expression
+>>     drivers/video/fbdev/atafb.c:2641:27: sparse: sparse: incorrect type=
+ in assignment (different address spaces) @@     expected char [noderef] _=
+_iomem *screen_base @@     got void * @@
+>>     drivers/video/fbdev/atafb.c:2641:27: sparse:     expected char [nod=
+eref] __iomem *screen_base
+>>     drivers/video/fbdev/atafb.c:2641:27: sparse:     got void *
+>>     drivers/video/fbdev/atafb.c:2815:32: sparse: sparse: incorrect type=
+ in argument 1 (different address spaces) @@     expected void *dst @@    =
+ got char [noderef] __iomem *screen_base @@
+>>     drivers/video/fbdev/atafb.c:2815:32: sparse:     expected void *dst
+>>     drivers/video/fbdev/atafb.c:2815:32: sparse:     got char [noderef]=
+ __iomem *screen_base
+>>     drivers/video/fbdev/atafb.c:3353:38: sparse: sparse: incorrect type=
+ in assignment (different address spaces) @@     expected void *static [to=
+plevel] external_screen_base @@     got void [noderef] __iomem * @@
+>>     drivers/video/fbdev/atafb.c:3353:38: sparse:     expected void *sta=
+tic [toplevel] external_screen_base
+>>     drivers/video/fbdev/atafb.c:3353:38: sparse:     got void [noderef]=
+ __iomem *
+>>     drivers/video/fbdev/atafb.c:3424:33: sparse: sparse: incorrect type=
+ in argument 1 (different address spaces) @@     expected void [noderef] _=
+_iomem *addr @@     got void *static [toplevel] external_screen_base @@
+>>     drivers/video/fbdev/atafb.c:3424:33: sparse:     expected void [nod=
+eref] __iomem *addr
+>>     drivers/video/fbdev/atafb.c:3424:33: sparse:     got void *static [=
+toplevel] external_screen_base
+>>     drivers/video/fbdev/atafb.c:3428:34: sparse: sparse: incorrect type=
+ in argument 1 (different address spaces) @@     expected void [noderef] _=
+_iomem *addr @@     got void * @@
+>>     drivers/video/fbdev/atafb.c:3428:34: sparse:     expected void [nod=
+eref] __iomem *addr
+>>     drivers/video/fbdev/atafb.c:3428:34: sparse:     got void *
+>>
+>> vim +/__iomem +2457 drivers/video/fbdev/atafb.c
+>>
+>>    2436
+>>    2437  static void svblit_fillrect(struct fb_info *info,
+>>    2438                              const struct fb_fillrect *rect)
+>>    2439  {
+>>    2440          u32 bytespp =3D info->var.bits_per_pixel / 8;
+>>    2441          u32 pitch =3D info->fix.line_length;
+>>    2442          u8 *line;
+>>    2443          u32 pix;
+>>    2444
+>>    2445          svblit_wait();          /* the CPU is about to touch t=
+he fb */
+>>    2446
+>>    2447          if (rect->rop !=3D ROP_COPY || rect->height <=3D 1 ||
+>>    2448              rect->height > 4096) {
+>>    2449                  cfb_fillrect(info, rect);
+>>    2450                  return;
+>>    2451          }
+>>    2452
+>>    2453          pix =3D (info->fix.visual =3D=3D FB_VISUAL_TRUECOLOR) =
+?
+>>    2454                  ((u32 *)info->pseudo_palette)[rect->color] : r=
+ect->color;
+>>    2455
+>>    2456          /* draw the first line with the CPU ... */
+>>> 2457          line =3D (u8 *)info->screen_base + rect->dy * pitch +
+>>    2458                 rect->dx * bytespp;
+>>    2459          switch (bytespp) {
+>>    2460          case 1:
+>>    2461                  memset(line, pix, rect->width);
+>>    2462                  break;
+>>    2463          case 2:
+>>    2464                  memset16((u16 *)line, pix, rect->width);
+>>    2465                  break;
+>>    2466          default:
+>>    2467                  memset32((u32 *)line, pix, rect->width);
+>>    2468                  break;
+>>    2469          }
+>>    2470
+>>    2471          /* ... and let the blitter replicate it into the other=
+ lines */
+>>    2472          svblit_copy(external_addr + rect->dy * pitch + rect->d=
+x * bytespp,
+>>    2473                      external_addr + (rect->dy + 1) * pitch +
+>>    2474                      rect->dx * bytespp,
+>>    2475                      rect->width * bytespp, 0, pitch, rect->hei=
+ght - 1);
+>>    2476  }
+>>    2477
+>>
+>> --
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
+>=20
+>=20
+>=20
 
