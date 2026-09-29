@@ -1,122 +1,112 @@
-Received: from mx.nabladev.com (mx.nabladev.com [178.251.229.89])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4243E024D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 03:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD453DDDCC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Sep 2026 03:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790651436; cv=none; b=BO0DiF5zfFJ8U4DnI6jJI6u+BHFXyjiRNczZ5wX0la100C1YQYsNGJLJWmHszEUay24VpHNB0oEeQTIF9YNhGm4Q86jNOMospe87hB4RSmx0wK+x5uv3U9l5QgGdcULWYmeF+tMcF0OkeiAnX79uiGfQoH56ku/eTJ4rfgqWOzc=
+	t=1790651588; cv=none; b=IQ0mElEbIHuc29uo70WvOqtElCG3PxC1sMT8hQcttQHpJ11tnFdgiNqg2BqAGx4I31gJgkBdp28qGc6Zt4SR/gQzdS3qVn2BPvqaBbnYT39Q4V8YUKOP9RHTKGLeFG7Eelm6aXM0N5GEO/izCdYZxh/y70iMUq5vGwrPAe63cTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790651436; c=relaxed/simple;
-	bh=dudPjvz3RpcTrW4LUJtkx0q5WX37D8QEs/OK/NCl+Bk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k70t5IxMYK14lyPW4TwpjcdA/xnbBNd7Iek1JEIbwlvSMuZavNQGHr2ZtP3UgbeAP7/aYbbFCBAsJd1w0FcVaiOQHy7bcOY9g+HXXFjnMIjLystSXXoOty6mvAYIQr6WfQ+R2ReSS2CVeyTWtJcwMUYVY09r7sa7n2Y2sFzrNHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com; spf=pass smtp.mailfrom=nabladev.com; dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b=M222KNMg; arc=none smtp.client-ip=178.251.229.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nabladev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabladev.com
+	s=arc-20240116; t=1790651588; c=relaxed/simple;
+	bh=NS9UQSGFVxlquTZHxhdQWc4jhhurGBs301T5LCyWhLw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UIVZUFSanEr1YJ7/zHEAo8Yb4g6RGpC0j8j1C9tsk0DLFbYGU0WwSsbRy2sv99pigYjJBZp/X0Gp253FITbVnOp0NUxr/aJoMMAmQ6DqkbLT/4HrIhgGnxhMXdWfxZwg+wUF5xnICBA/qCx5ni/7DddQ+7vqqut1E+yQSl/blM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxE+UbTx; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nabladev.com header.i=@nabladev.com header.b="M222KNMg"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 38E33104787;
-	Tue, 29 Sep 2026 05:10:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nabladev.com;
-	s=dkim; t=1790651423;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=J8HsgviU3zevlrat0s0P/sWHT6xXKPsx2tZa8Z5Ff6I=;
-	b=M222KNMg3h7FTVLgc3iK6yooSNbPNS4vx0P8VPi+Fw43e5VhX8lwIW6GCtZGFV2YTYaV+n
-	EPExBhI1vucBKalZ6R7oVoFiwQf82Cj401CazUQ/cYZlEuIKUzKv9vtSl3TeeD68EqEweA
-	TfEj0oJK1SsMBW+Tk8+tCA9+u+Icq2XiIBo6rWmDit8RcXoOYcb12jHlepPzHWx3O9PuoX
-	uUQuQhO24QbSfQdkKoEY01DP10aBWqTNvmD9LzspdVZghYbk33+O/mI6XTmkwOwhY6psQa
-	3mk/TOcGpSfU1uOy1ajdOePvp0iD0AYpytT2iprbzB0T21qbJEuhGI55fiXWrA==
-Message-ID: <71fa8ee2-6425-452a-8581-85280c89c7c5@nabladev.com>
-Date: Tue, 29 Sep 2026 05:10:20 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxE+UbTx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790651585; x=1822187585;
+  h=date:from:to:cc:subject:message-id;
+  bh=NS9UQSGFVxlquTZHxhdQWc4jhhurGBs301T5LCyWhLw=;
+  b=nxE+UbTx8sZ2U1fcRqeTfr4kLeqbZb9+emaudmZ6Amuz+i1JGYFb5r0X
+   SJG0JE432UUmTKd6f3z94rFjZWa/IMwDsqs5Z4xkyc7VSmBH+FBDb6gtQ
+   HpraauwelkMM1VpE+uzOXV1mfA3gE7wvrGmokxlbP7SC06tZe5PMMBrb1
+   Lk/OVhIZzjOBu+z06y4CAj/K+xmZ7HLnQu8wh5vXbYtcn1TlMlS2zm3Uh
+   cDWme5/fn4VwyWXrbA/9ah7hoY+XBn72BiEQ7u+vIBSCT/aINoriVq+hl
+   Uyl5+IUskmktE2CKp+9QogPMuudJNtsvPIgy0P6svPQc7J1yOBQRQBWvN
+   g==;
+X-CSE-ConnectionGUID: 1eBYeKsZRsuq0+JeG0niXw==
+X-CSE-MsgGUID: BnJ/cQ2AR5yvPHGkO9zIxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90581203"
+X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
+   d="scan'208";a="90581203"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 20:13:04 -0700
+X-CSE-ConnectionGUID: lg2WNapDSUOS//YvZKguFA==
+X-CSE-MsgGUID: BXT/6PCLSHKGnzqxY/w+Vg==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 28 Sep 2026 20:13:02 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xBOH5-000000001HH-3ZnA;
+	Tue, 29 Sep 2026 03:12:59 +0000
+Date: Tue, 29 Sep 2026 05:12:52 +0200
+From: kernel test robot <lkp@intel.com>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thesofproject:topic/sof-dev 7661/8676]
+ sound/soc/sof/mediatek/mtk-adsp-common.c:99: undefined reference to
+ `mtk_adsp_ipc_send'
+Message-ID: <202609290540.xLiP5Uqm-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 1377/10910]
- arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb:
- vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not
- allowed ('no-map', 'reg' were unexpected)
-To: Philip Li <philip.li@intel.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot <lkp@intel.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, oe-kbuild-all@lists.linux.dev,
- Frank Li <Frank.Li@nxp.com>
-References: <202609252351.5UfBIiOJ-lkp@intel.com>
- <b70365a8-9812-434a-b514-4604835cf347@nabladev.com>
- <735d64cb-b35b-4854-8b6e-d1f32822c244@kernel.org>
- <8ed2f318-5758-4d2d-9e31-bebbb067b913@nabladev.com>
- <27062652-12e5-428f-b900-e50cff70452e@kernel.org>
- <17c2d593-194c-47ff-9c55-b86cba82f415@nabladev.com>
- <arsVX0tTq2WaVM9S@rli9-mobl>
-Content-Language: en-US
-From: Marek Vasut <marex@nabladev.com>
-In-Reply-To: <arsVX0tTq2WaVM9S@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-On 9/29/26 3:33 AM, Philip Li wrote:
-> On Mon, Sep 28, 2026 at 09:05:03PM +0200, Marek Vasut wrote:
->> On 9/28/26 7:00 AM, Krzysztof Kozlowski wrote:
->>> On 27/09/2026 20:06, Marek Vasut wrote:
->>>> On 9/27/26 6:59 PM, Krzysztof Kozlowski wrote:
->>>>> On 26/09/2026 01:00, Marek Vasut wrote:
->>>>>> On 9/25/26 11:46 PM, kernel test robot wrote:
->>>>>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->>>>>>> head:   f5f84daefcd92d7a630066635ecea1433ed5eac7
->>>>>>> commit: 9a14f327dfcbbb0fa24974cb3a928ea3d7409768 [1377/10910] arm64: dts: imx8mm: imx8mp: Add CM DTOs for Data Modul i.MX8M Mini and Plus eDM SBC
->>>>>>> config: arm64-randconfig-2400-20260921 (https://download.01.org/0day-ci/archive/20260925/202609252351.5UfBIiOJ-lkp@intel.com/config)
->>>>>>> compiler: aarch64-linux-gcc (GCC) 8.5.0
->>>>>>> dtschema: 2026.10.dev2+g840a01d41
->>>>>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260925/202609252351.5UfBIiOJ-lkp@intel.com/reproduce)
->>>>>>>
->>>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>>>> the same patch/commit), kindly add following tags
->>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202609252351.5UfBIiOJ-lkp@intel.com/
->>>>>>>
->>>>>>> dtcheck warnings: (new ones prefixed by >>)
->>>>>>>        	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>>>>>>> arch/arm64/boot/dts/freescale/imx8mm-data-modul-edm-sbc-overlay-cm4.dtb: vdev0buffer@b8400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
->>>>>>>        	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>>>>> --
->>>>>>>        	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>>>>>>> arch/arm64/boot/dts/freescale/imx8mp-data-modul-edm-sbc-overlay-cm7.dtb: vdev0buffer@55400000 (shared-dma-pool): Unevaluated properties are not allowed ('no-map', 'reg' were unexpected)
->>>>>>>        	from schema $id: http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml
->>>>>> +CC krzk, I just cannot reproduce this locally. Do you know what I might
->>>>>> be missing here ? Thank you !
->>>>>
->>>>> The things or versions listed in top of that email.
->>>> Linux has plenty of examples of such shared-dma-pool/no-map entries:
->>>>
->>>> arch/arm64/boot/dts/freescale/imx952-evk.dts-		vdev0buffer:
->>>> vdev0buffer@88020000 {
->>>> arch/arm64/boot/dts/freescale/imx952-evk.dts:			compatible =
->>>> "shared-dma-pool";
->>>> arch/arm64/boot/dts/freescale/imx952-evk.dts-			reg = <0 0x88020000 0
->>>> 0x100000>;
->>>> arch/arm64/boot/dts/freescale/imx952-evk.dts-			no-map;
->>>> arch/arm64/boot/dts/freescale/imx952-evk.dts-		};
->>>>
->>>> Are those broken and need to be fixed, or is it dt-schema that is broken ?
->>>
->>> This could be caused by recent dtschema change, which was also recently
->>> fixed. The LKP report had dtschema git version and as you can check it
->>> points exactly to the version changing reserved nodes (which introduced
->>> issues). Not to the latest one which fixes the issue.
->>>
->>> If issue is reproduced with 840a01d but not with later, then obviously
->>> everything is fine.
->> I can confirm that the issue does not happen with current dt-schema/main
->> 5687115902ba ("schemas: reserved-memory: Fix invalid oneOf match with
->> iommu-addresses") .
-> 
-> Sorry for the false positive report, I will fix the bot to upgrade the dtschema
-> to use 2026.10.dev4+g568711590 version.
-No worries.
+tree:   https://github.com/thesofproject/linux topic/sof-dev
+head:   31d325add7cc39aaf227bb8f5e5dc292b735db25
+commit: 3e55a76d727eddf6b3bad82139a6788172168a01 [7661/8676] Merge branch 'sound/upstream-20250414' into merge/sound-upstream-20250414
+config: nios2-randconfig-r2104-20260928 (https://download.01.org/0day-ci/archive/20260929/202609290540.xLiP5Uqm-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260929/202609290540.xLiP5Uqm-lkp@intel.com/reproduce)
 
-Thank you !
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609290540.xLiP5Uqm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   nios2-linux-ld: sound/soc/sof/mediatek/mtk-adsp-common.o: in function `mtk_adsp_send_msg':
+>> sound/soc/sof/mediatek/mtk-adsp-common.c:99: undefined reference to `mtk_adsp_ipc_send'
+>> sound/soc/sof/mediatek/mtk-adsp-common.c:99:(.text+0xb4): relocation truncated to fit: R_NIOS2_CALL26 against `mtk_adsp_ipc_send'
+   nios2-linux-ld: sound/soc/sof/mediatek/mtk-adsp-common.o: in function `mtk_adsp_handle_request':
+   sound/soc/sof/mediatek/mtk-adsp-common.c:139: undefined reference to `mtk_adsp_ipc_send'
+   sound/soc/sof/mediatek/mtk-adsp-common.c:139:(.text+0x1f0): relocation truncated to fit: R_NIOS2_CALL26 against `mtk_adsp_ipc_send'
+   nios2-linux-ld: sound/soc/sof/mediatek/mt8365/mt8365.o:(.data+0x7c): undefined reference to `sof_of_pm'
+
+
+vim +99 sound/soc/sof/mediatek/mtk-adsp-common.c
+
+698c1e99a0a3b8 YC Hung                    2022-05-17   86  
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   87  /**
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   88   * mtk_adsp_send_msg - Send message to Audio DSP
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   89   * @sdev: SOF device
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   90   * @msg: SOF IPC Message to send
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   91   */
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   92  int mtk_adsp_send_msg(struct snd_sof_dev *sdev, struct snd_sof_ipc_msg *msg)
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   93  {
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   94  	struct adsp_priv *priv = sdev->pdata->hw_pdata;
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   95  
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   96  	sof_mailbox_write(sdev, sdev->host_box.offset, msg->msg_data,
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   97  			  msg->msg_size);
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20   98  
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  @99  	return mtk_adsp_ipc_send(priv->dsp_ipc, MTK_ADSP_IPC_REQ, MTK_ADSP_IPC_OP_REQ);
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  100  }
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  101  EXPORT_SYMBOL(mtk_adsp_send_msg);
+24489150c5d9af AngeloGioacchino Del Regno 2025-03-20  102  
+
+:::::: The code at line 99 was first introduced by commit
+:::::: 24489150c5d9afea54c6909ba05c4dbdd8846dc0 ASoC: SOF: mediatek: Commonize duplicated functions
+
+:::::: TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
