@@ -1,191 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1D73F23CC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 06:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E316F449B2E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 06:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790751553; cv=none; b=uSeWLWE2OQe6JA+tHJh2qnrS5WLNwVkLo1yeYxObATbwNX+t+ZGfBd3O0RnWqNtmnNKLMi4rSUeDDrECIUBZbq6n+RRvDGYdnv2vEmeGDwSQkz2jG8qZi/c3QmYRiDLGrY6WezbSas3ioN89t+bwSbOz+W5a2obLOQHvik1OLKc=
+	t=1790751565; cv=none; b=qrTveb8+rzWhsa5XmRxcv9Yb2e6RYKMI4a1DOwZeYFTnBLWySLMoBdjpHH1KPRydMBJeI/e20cMgDbTTpaUJqtKQLFgUpnfMRtlRFG5NHdJcDvroyz8OM7CYvnDTsa7wrM57j8JQENIzncmYmBJPR2ak/34T4UlLtxUT9hmP4IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790751553; c=relaxed/simple;
-	bh=JqusB2R5n7cwMWBb2E41DOXH9okZNenxlMzpJ5fC3XM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U8aSYAvWrq49/jUSzI9VThIhSN+rsLJkVFqUE09iVT1mmOkRC2OszR0E3AhF276q0QPzyAzXa64I2Rs51tJa84OCcofgn2cKRvyrMvCWFjg2Oa+LKErVucbFZzni3tcePbEBxZU4Z3EEDcu66aB8wOjgM5ei9Fd6QnkKQgFohOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=byRJdqYq; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1790751565; c=relaxed/simple;
+	bh=kZvLo1FFKFWhBb97k6AHUNURCQMklbQDZScdxPucT2Y=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NFs5YGsX41bsvDSnUJeVyG9gWm8F8cz71KuuJ1U+oddqEM84Fj2RCG4vqWpxq5pc7ShDIXu5o1HOOhYF9MU+38wgmqC7HYwKPEWfySp7xnzXGJYzE1AhL1XP9ETIpajYXgsk8HmIBgbVa6sTmT0NtF6mthCyVbDCAINT2wqWjOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gxh+FF/I; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byRJdqYq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gxh+FF/I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790751540; x=1822287540;
-  h=date:from:to:cc:subject:message-id;
-  bh=JqusB2R5n7cwMWBb2E41DOXH9okZNenxlMzpJ5fC3XM=;
-  b=byRJdqYqYfJyNpnmIns1tQ4a+bFWUl6Ex2aSq6UD6w3/s088VqluJJ2T
-   XkUVFHUZgzjN5c6bFPihKAjCh4uPFr58mY7OsXtQAdG18C1wsuCHCKE3O
-   wRL10iRDR2hLFIkEccr81/PXV3/NmyZm/3RvJ07ZWIA2OcjRyAzeOTVya
-   G9m/8aJ7wA6QQevBVIPWbs+U3kezG/KCmfB7Ah9X3dgLcqtO93DEI9003
-   032BzgYWzcfRm8ypHIKDIOPcHeHT1CbDpYKI/x8YzEF9LU5kfrod2f+1W
-   cuQabqd4F9GwoLIhoLi4109AIwDgiysF5a5zwtFvEgf49D3FVzW5V4ZOk
-   A==;
-X-CSE-ConnectionGUID: R+5SHiTlRNOMUdBDkZglUQ==
-X-CSE-MsgGUID: LOtOztMiSmCLF196anALmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="102853332"
+  t=1790751537; x=1822287537;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=kZvLo1FFKFWhBb97k6AHUNURCQMklbQDZScdxPucT2Y=;
+  b=Gxh+FF/ITi6X5pLkhEFhYDNWIfLQtXBVbzmOSapbi6C1w3WJLnJrIweg
+   4k3n75mmOIVoHqXYUFcAfzU2cM+ej1AzmWzaOHDpWX/kXks+/ZxuhZyYg
+   9ChcBzWkm0O4Aj8CRwNf3greY8k3mZogBfx5IlQ1DIUP25qnTryVn5ycn
+   kQggo80mBoblCzePZQrbjV5feyZZ6KoazTaYl3jvQYP2kjDFblY+vRoxp
+   W3ygcjCQphl09p325sczrLKe/ByEXLgQbKQ1Ap12gi6u4Q1sePra6fTrx
+   3mH7SBKFomFZLemBKXV5Y4ZGs0LniU/q36bSwpS0T9ITGcNDCxpEE3uhu
+   w==;
+X-CSE-ConnectionGUID: dmdgf7ngTbOGHCLb3Ghm9g==
+X-CSE-MsgGUID: SvsU/CmYQwWXtri6dwEHFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="79047062"
 X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="102853332"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 23:58:41 -0700
-X-CSE-ConnectionGUID: 8Xrfq/UVTUmsGxUWwkNYZw==
-X-CSE-MsgGUID: oPdV/zWTRNWurneUJD+ANA==
+   d="scan'208";a="79047062"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 23:58:54 -0700
+X-CSE-ConnectionGUID: fRWXIVAqTuC+9aWwn18eLA==
+X-CSE-MsgGUID: muiX+IS/TkKKcOyfMXK/lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="278810550"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 29 Sep 2026 23:58:39 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+   d="scan'208";a="274803651"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 29 Sep 2026 23:58:53 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBoGz-000000001lf-0s5b;
-	Wed, 30 Sep 2026 06:58:37 +0000
-Date: Wed, 30 Sep 2026 08:57:54 +0200
+	id 1xBoHC-00000000QFM-3Z9R
+	for oe-kbuild-all@lists.linux.dev;
+	Wed, 30 Sep 2026 06:58:50 +0000
+Date: Wed, 30 Sep 2026 14:58:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 2/2]
- drivers/gpu/drm/xe/xe_guc_ct.c:1814:24: error: implicit declaration of
- function 'xe_guc_log_snapshot_capture'; did you mean
- 'xe_guc_ct_snapshot_capture'?
-Message-ID: <202609300858.JIsCm6RF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: futex: Fix mm reuse handling for FUT_OFF_MMSHARED
+Message-ID: <202609301426.SAWrhIfj-lkp@intel.com>
+References: <202609301426.SAWrhIfj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609301426.SAWrhIfj-lkp@intel.com>
 
-Hi John,
+Hi Jann,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   7b10fdf41f2bb0df0fd897e463ab48b31c4b94fb
-commit: ff6482fb458953e111a82b7c537363d9aacf04bf [2/2] drm/xe/guc: Dead CT helper
-config: x86_64-randconfig-2200-20260930 (https://download.01.org/0day-ci/archive/20260930/202609300858.JIsCm6RF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609300858.JIsCm6RF-lkp@intel.com/reproduce)
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/futex-Fix-mm-reuse-handling-for-FUT_OFF_MMSHARED/20260929-183132
+base:   
+patch link:    https://lore.kernel.org/r/202609301426.SAWrhIfj-lkp%40intel.com
+config: arm-randconfig-1001-20260930 (https://download.01.org/0day-ci/archive/20260930/202609301426.SAWrhIfj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609301426.SAWrhIfj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609300858.JIsCm6RF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609301426.SAWrhIfj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/xe/xe_guc_ct.c: In function 'ct_dead_capture':
->> drivers/gpu/drm/xe/xe_guc_ct.c:1814:24: error: implicit declaration of function 'xe_guc_log_snapshot_capture'; did you mean 'xe_guc_ct_snapshot_capture'? [-Wimplicit-function-declaration]
-    1814 |         snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        xe_guc_ct_snapshot_capture
->> drivers/gpu/drm/xe/xe_guc_ct.c:1814:22: error: assignment to 'struct xe_guc_log_snapshot *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1814 |         snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-         |                      ^
->> drivers/gpu/drm/xe/xe_guc_ct.c:1821:17: error: implicit declaration of function 'xe_guc_log_snapshot_free'; did you mean 'xe_guc_ct_snapshot_free'? [-Wimplicit-function-declaration]
-    1821 |                 xe_guc_log_snapshot_free(snapshot_log);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                 xe_guc_ct_snapshot_free
-   drivers/gpu/drm/xe/xe_guc_ct.c: In function 'ct_dead_print':
->> drivers/gpu/drm/xe/xe_guc_ct.c:1840:33: error: implicit declaration of function 'drm_line_printer'; did you mean 'drm_info_printer'? [-Wimplicit-function-declaration]
-    1840 |         struct drm_printer lp = drm_line_printer(&ip, "Capture", ++g_count);
-         |                                 ^~~~~~~~~~~~~~~~
-         |                                 drm_info_printer
->> drivers/gpu/drm/xe/xe_guc_ct.c:1840:33: error: invalid initializer
->> drivers/gpu/drm/xe/xe_guc_ct.c:1857:9: error: implicit declaration of function 'xe_guc_log_snapshot_print'; did you mean 'xe_guc_ct_snapshot_print'? [-Wimplicit-function-declaration]
-    1857 |         xe_guc_log_snapshot_print(dead->snapshot_log, &lp);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         xe_guc_ct_snapshot_print
+   arm-linux-gnueabi-ld: kernel/fork.o: in function `mm_init':
+>> kernel/fork.c:1119: undefined reference to `futex_mm_init'
 
 
-vim +1814 drivers/gpu/drm/xe/xe_guc_ct.c
+vim +1119 kernel/fork.c
 
-  1785	
-  1786	#if IS_ENABLED(CONFIG_DRM_XE_DEBUG)
-  1787	static void ct_dead_capture(struct xe_guc_ct *ct, struct guc_ctb *ctb, u32 reason_code)
-  1788	{
-  1789		struct xe_guc_log_snapshot *snapshot_log;
-  1790		struct xe_guc_ct_snapshot *snapshot_ct;
-  1791		struct xe_guc *guc = ct_to_guc(ct);
-  1792		unsigned long flags;
-  1793		bool have_capture;
-  1794	
-  1795		if (ctb)
-  1796			ctb->info.broken = true;
-  1797	
-  1798		/* Ignore further errors after the first dump until a reset */
-  1799		if (ct->dead.reported)
-  1800			return;
-  1801	
-  1802		spin_lock_irqsave(&ct->dead.lock, flags);
-  1803	
-  1804		/* And only capture one dump at a time */
-  1805		have_capture = ct->dead.reason & (1 << CT_DEAD_STATE_CAPTURE);
-  1806		ct->dead.reason |= (1 << reason_code) |
-  1807				   (1 << CT_DEAD_STATE_CAPTURE);
-  1808	
-  1809		spin_unlock_irqrestore(&ct->dead.lock, flags);
-  1810	
-  1811		if (have_capture)
-  1812			return;
-  1813	
-> 1814		snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-  1815		snapshot_ct = xe_guc_ct_snapshot_capture((ct), true);
-  1816	
-  1817		spin_lock_irqsave(&ct->dead.lock, flags);
-  1818	
-  1819		if (ct->dead.snapshot_log || ct->dead.snapshot_ct) {
-  1820			xe_gt_err(ct_to_gt(ct), "Got unexpected dead CT capture!\n");
-> 1821			xe_guc_log_snapshot_free(snapshot_log);
-  1822			xe_guc_ct_snapshot_free(snapshot_ct);
-  1823		} else {
-  1824			ct->dead.snapshot_log = snapshot_log;
-  1825			ct->dead.snapshot_ct = snapshot_ct;
-  1826		}
-  1827	
-  1828		spin_unlock_irqrestore(&ct->dead.lock, flags);
-  1829	
-  1830		queue_work(system_unbound_wq, &(ct)->dead.worker);
-  1831	}
-  1832	
-  1833	static void ct_dead_print(struct xe_dead_ct *dead)
-  1834	{
-  1835		struct xe_guc_ct *ct = container_of(dead, struct xe_guc_ct, dead);
-  1836		struct xe_device *xe = ct_to_xe(ct);
-  1837		struct xe_gt *gt = ct_to_gt(ct);
-  1838		static int g_count;
-  1839		struct drm_printer ip = xe_gt_info_printer(gt);
-> 1840		struct drm_printer lp = drm_line_printer(&ip, "Capture", ++g_count);
-  1841	
-  1842		if (!dead->reason) {
-  1843			xe_gt_err(gt, "CTB is dead for no reason!?\n");
-  1844			return;
-  1845		}
-  1846	
-  1847		drm_printf(&lp, "CTB is dead - reason=0x%X\n", dead->reason);
-  1848	
-  1849		/* Can't generate a genuine core dump at this point, so just do the good bits */
-  1850		drm_puts(&lp, "**** Xe Device Coredump ****\n");
-  1851		xe_device_snapshot_print(xe, &lp);
-  1852	
-  1853		drm_printf(&lp, "**** GT #%d ****\n", gt->info.id);
-  1854		drm_printf(&lp, "\tTile: %d\n", gt->tile->id);
-  1855	
-  1856		drm_puts(&lp, "**** GuC Log ****\n");
-> 1857		xe_guc_log_snapshot_print(dead->snapshot_log, &lp);
-  1858	
-  1859		drm_puts(&lp, "**** GuC CT ****\n");
-  1860		xe_guc_ct_snapshot_print(dead->snapshot_ct, &lp);
-  1861	
-  1862		drm_puts(&lp, "Done.\n");
-  1863	}
-  1864	
+ce0853966085dd8 Suren Baghdasaryan           2025-02-13  1090  
+6b1c66c9cca99bf Christian Brauner (Amutable  2026-05-20  1091) static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p)
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1092  {
+d4af56c5c7c6781 Liam R. Howlett              2022-09-06  1093  	mt_init_flags(&mm->mm_mt, MM_MT_FLAGS);
+d4af56c5c7c6781 Liam R. Howlett              2022-09-06  1094  	mt_set_external_lock(&mm->mm_mt, &mm->mmap_lock);
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1095  	atomic_set(&mm->mm_users, 1);
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1096  	atomic_set(&mm->mm_count, 1);
+57efa1fe5957694 Jason Gunthorpe              2020-12-14  1097  	seqcount_init(&mm->write_protect_seq);
+d8ed45c5dcd455f Michel Lespinasse            2020-06-08  1098  	mmap_init_lock(mm);
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1099  	INIT_LIST_HEAD(&mm->mmlist);
+af5b0f6a09e42c9 Kiryl Shutsemau              2017-11-15  1100  	mm_pgtables_bytes_init(mm);
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1101  	mm->map_count = 0;
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1102  	mm->locked_vm = 0;
+70f8a3ca68d3e1f Davidlohr Bueso              2019-02-06  1103  	atomic64_set(&mm->pinned_vm, 0);
+d559db086ff5be9 KAMEZAWA Hiroyuki            2010-03-05  1104  	memset(&mm->rss_stat, 0, sizeof(mm->rss_stat));
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1105  	spin_lock_init(&mm->page_table_lock);
+88aa7cc688d48dd Yang Shi                     2018-06-07  1106  	spin_lock_init(&mm->arg_lock);
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1107  	mm_init_cpumask(mm);
+858f09930b32c11 Alexey Dobriyan              2009-09-23  1108  	mm_init_aio(mm);
+cf475ad28ac35cc Balbir Singh                 2008-04-29  1109  	mm_init_owner(mm, p);
+a6cbd44093ef305 Fenghua Yu                   2022-02-07  1110  	mm_pasid_init(mm);
+2b7e8665b4ff51c Eric Biggers                 2017-08-25  1111  	RCU_INIT_POINTER(mm->exe_file, NULL);
+984cfe4e252681d Jason Gunthorpe              2019-12-18  1112  	mmu_notifier_subscriptions_init(mm);
+16af97dc5a89753 Nadav Amit                   2017-08-10  1113  	init_tlb_flush_pending(mm);
+394290cba9664ed David Hildenbrand            2024-07-26  1114  #if defined(CONFIG_TRANSPARENT_HUGEPAGE) && !defined(CONFIG_SPLIT_PMD_PTLOCKS)
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1115  	mm->pmd_huge_pte = NULL;
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1116  #endif
+355627f518978b5 Eric Biggers                 2017-08-31  1117  	mm_init_uprobes_state(mm);
+13db8c50477d83a Liu Zixian                   2021-09-08  1118  	hugetlb_count_init(mm);
+d7b3f52c861f54b Thomas Gleixner              2026-06-02 @1119  	futex_mm_init(mm);
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1120  
+19148a19da86f1b Lorenzo Stoakes              2025-08-12  1121  	mm_flags_clear_all(mm);
+a0715cc22601e88 Alex Thorlton                2014-04-07  1122  	if (current->mm) {
+19148a19da86f1b Lorenzo Stoakes              2025-08-12  1123  		unsigned long flags = __mm_flags_get_word(current->mm);
+19148a19da86f1b Lorenzo Stoakes              2025-08-12  1124  
+58eac97a8ba0bcf Lorenzo Stoakes              2025-11-25  1125  		__mm_flags_overwrite_word(mm, mmf_init_legacy_flags(flags));
+a0715cc22601e88 Alex Thorlton                2014-04-07  1126  		mm->def_flags = current->mm->def_flags & VM_INIT_DEF_MASK;
+a0715cc22601e88 Alex Thorlton                2014-04-07  1127  	} else {
+380369ea2e9d3c4 Thorsten Blum                2025-12-15  1128  		__mm_flags_overwrite_word(mm, coredump_filter);
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1129  		mm->def_flags = 0;
+a0715cc22601e88 Alex Thorlton                2014-04-07  1130  	}
+a0715cc22601e88 Alex Thorlton                2014-04-07  1131  
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1132  	if (mm_alloc_pgd(mm))
+d7b3f52c861f54b Thomas Gleixner              2026-06-02  1133  		goto fail_mm_init;
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1134  
+6af8cb80d3a9a6b David Hildenbrand            2025-03-03  1135  	if (mm_alloc_id(mm))
+6af8cb80d3a9a6b David Hildenbrand            2025-03-03  1136  		goto fail_noid;
+6af8cb80d3a9a6b David Hildenbrand            2025-03-03  1137  
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1138  	if (init_new_context(p, mm))
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1139  		goto fail_nocontext;
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1140  
+7e019dcc470f270 Mathieu Desnoyers            2024-10-09  1141  	if (mm_alloc_cid(mm, p))
+223baf9d17f25e2 Mathieu Desnoyers            2023-04-20  1142  		goto fail_cid;
+223baf9d17f25e2 Mathieu Desnoyers            2023-04-20  1143  
+df0d98475954d65 Peter Zijlstra (Intel        2026-04-01  1144) 	if (mm_alloc_sched(mm))
+df0d98475954d65 Peter Zijlstra (Intel        2026-04-01  1145) 		goto fail_sched;
+df0d98475954d65 Peter Zijlstra (Intel        2026-04-01  1146) 
+14ef95be6f5558f Mateusz Guzik                2023-08-23  1147  	if (percpu_counter_init_many(mm->rss_stat, 0, GFP_KERNEL_ACCOUNT,
+14ef95be6f5558f Mateusz Guzik                2023-08-23  1148  				     NR_MM_COUNTERS))
+f1a7941243c102a Shakeel Butt                 2022-10-24  1149  		goto fail_pcpu;
+f1a7941243c102a Shakeel Butt                 2022-10-24  1150  
+bd74fdaea146029 Yu Zhao                      2022-09-18  1151  	lru_gen_init_mm(mm);
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1152  	return mm;
+78fb74669e80883 Pavel Emelianov              2008-02-07  1153  
+f1a7941243c102a Shakeel Butt                 2022-10-24  1154  fail_pcpu:
+df0d98475954d65 Peter Zijlstra (Intel        2026-04-01  1155) 	mm_destroy_sched(mm);
+df0d98475954d65 Peter Zijlstra (Intel        2026-04-01  1156) fail_sched:
+223baf9d17f25e2 Mathieu Desnoyers            2023-04-20  1157  	mm_destroy_cid(mm);
+223baf9d17f25e2 Mathieu Desnoyers            2023-04-20  1158  fail_cid:
+b20b0368c614c60 Mathieu Desnoyers            2023-03-30  1159  	destroy_context(mm);
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1160  fail_nocontext:
+6af8cb80d3a9a6b David Hildenbrand            2025-03-03  1161  	mm_free_id(mm);
+6af8cb80d3a9a6b David Hildenbrand            2025-03-03  1162  fail_noid:
+41f727fde1fe40e Vladimir Davydov             2014-08-08  1163  	mm_free_pgd(mm);
+56180dd20c19e5b Peter Zijlstra               2025-07-10  1164  fail_mm_init:
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1165  	free_mm(mm);
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1166  	return NULL;
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1167  }
+^1da177e4c3f415 Linus Torvalds               2005-04-16  1168  
 
 --
 0-DAY CI Kernel Test Service
