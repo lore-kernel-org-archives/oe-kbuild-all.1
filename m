@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554EB1AA797;
-	Wed, 30 Sep 2026 04:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5272BFC60
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 05:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790743846; cv=none; b=KnvfqJ7lN78baHY9kR2q1ORWIM7CZ43kHZXuGjMbR9Zve9Etx/H8ZLsiiRL05HnPq0sZb0PzisA+oMRcJzgMDvOOH7RlWCcHdSuks4JuApu9UVm+IrH5AvDOW3Spe/ChllmFB83g8bO1B0U9v4cTxVBfWmqG6UEVROI/Plofm70=
+	t=1790745227; cv=none; b=HhYIxF2rtvLJoU1T9iUxHFf44cG5uK/fgcjmXAF6jkYsqnF+QOb26tXGvz5tidl1XccrHI6u0AqGHjRCnFGus4tJ31X7TjX4H6BLxWIOMxopvRSDlpvraezuPIhTmUW5aXQRpJnXbK6V0j/6WAOOY2JCl+G4gvxHkJ0aAVYZPVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790743846; c=relaxed/simple;
-	bh=s4SvWS+RrKkW9kXaivHHYotM9p7nyBnO2rAcFghSPOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=heenzBbbqMaGsFtajyFW+pULwIixLSfF61Sm7P2TlxBLjOGTE8aj6emHB5aFg1W1D0/9NSZLupUrBkTtLW8mp/fbtxhOYupLC6abnXnvIHnJWptCji5X1Vc4bXUj/CQJ5sSEyZX/kExdIxfrftIoXjjUGKpXfcWVsznbAF2ToMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XletSvNa; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1790745227; c=relaxed/simple;
+	bh=H/tmicNDpxUtvIke845g59poB6J8KdJJDFYK44XO+ZI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=G20e9mxIHhBdpjG7D7tqUZ7j1pE5yu2ANxAsspRckdtpcz8TqsiqimhSR9I1KiaiD80AcLUZyvGm1oPvor7mqNkArimT0BmKx4aHl544dK9eV30lsH8zIE8mVbTFDCB0Xw0Dg82JOnyjZhScO7LicQy966nMS9ovgr/+GPvSXL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+pBMBW+; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XletSvNa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+pBMBW+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790743844; x=1822279844;
+  t=1790745226; x=1822281226;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=s4SvWS+RrKkW9kXaivHHYotM9p7nyBnO2rAcFghSPOg=;
-  b=XletSvNaakvjFLL5kKF4iDkcEHR1HLcbb7rmYbw023EFgq2gOA4zya4m
-   rDy2w10zW/L6su2uWax6UWOmWAGlHpm8roXTuFRvTekFN/5HzqBPHcwgY
-   LSaRAURfphdnjzxMmyL2nqNNdTsnhPAQfntTl8xWXuKFt+r1mPXlLSpNi
-   b2x0gowiD2tgjmAObEbaD97+8qZCwcQ7+cl4D8c/iVRqxBbw+MwHzi4bN
-   /A/Um4Xi6lMVvOffMgxp+MAG9duC1fq/GMJZiDyQ/Rtnuv13hPIISgcWa
-   n5o0zhCRLG5DB+XNIWH9cQSQeRMomEZE3dl48/u+IgPUF2rxWvj4RDe9A
-   w==;
-X-CSE-ConnectionGUID: bwGpsnoFQfSf4c2O7xefqw==
-X-CSE-MsgGUID: pxWA3PnASqatSKZXzgaW2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90523784"
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="90523784"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 21:50:44 -0700
-X-CSE-ConnectionGUID: JFYVe0DLRIqHxawlK6Oc6w==
-X-CSE-MsgGUID: +MB7WyA6QDOFexzExUZbOA==
+  bh=H/tmicNDpxUtvIke845g59poB6J8KdJJDFYK44XO+ZI=;
+  b=Q+pBMBW+GbopBxQrfdsE0QdJcx6XDpGwF6n1ZNDQfOOyYYkOgkKxInqY
+   C4G+OSh/nhBgGs5JlUXQoSD83siJocjYWUTgR3IZG61TkTOst6/xIo46Q
+   OIZzn+N1X1qql5ic0naEDDcrMJbcTKSK4gHltRqLtXizoF2eFiLWp2oen
+   2tvjlRcdI4pfVlyQSwolK2hP0nKBxdoUwfzXk/Puk8CcaXOkwBnM5IUFm
+   2B7Qz698VyjTbWtlputRw06a0aeecTEZSSMvpyT2AZC4ttqYqEIumWKnZ
+   XdPH9weTTwA27NLGo8fYEqdl/EYRv3QkDZqC/vdcX/Ahpq1q92eUWkF6r
+   A==;
+X-CSE-ConnectionGUID: X/Ph1ESKTHi/yPfqcfcTJA==
+X-CSE-MsgGUID: rxZvbyg5ToGuurX7WMYdig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90516874"
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="90516874"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 22:13:45 -0700
+X-CSE-ConnectionGUID: nT7239o8QnSnaakxcWdIsA==
+X-CSE-MsgGUID: 3kfvvcuAQdi3YQQRKvcHmQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="279376522"
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="274694669"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 29 Sep 2026 21:50:43 -0700
+  by orviesa008.jf.intel.com with ESMTP; 29 Sep 2026 22:13:44 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBmHA-00000000Q9E-1s58;
-	Wed, 30 Sep 2026 04:50:40 +0000
-Date: Wed, 30 Sep 2026 12:50:24 +0800
+	id 1xBmdR-00000000QA0-0gbV;
+	Wed, 30 Sep 2026 05:13:41 +0000
+Date: Wed, 30 Sep 2026 13:13:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:timekeeping 10/14] kernel/time/timekeeping.c:2957:49:
- warning: shift count >= width of type
-Message-ID: <202609301233.YZC3mUrE-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:timekeeping 10/14] kernel/time/timekeeping.c:2957:56:
+ warning: left shift count >= width of type
+Message-ID: <202609301335.NZqudgSP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -67,29 +67,34 @@ tree:   git://git.infradead.org/users/dwmw2/linux timekeeping
 head:   6000baa1ec08e9e0880ad0b51db6574882d09ae1
 commit: ff4e31e721392e007b2b38a9815e3c01f497ce2d [10/14] timekeeping: Add a=
 bsolute reference for feed-forward clock discipline
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260930/2=
-02609301233.YZC3mUrE-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 600970=
-8b4367171ccdbf4b5905cb6a803753fe18)
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20260930/=
+202609301335.NZqudgSP-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260930/202609301233.YZC3mUrE-lkp@intel.com/reproduce)
+/20260930/202609301335.NZqudgSP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609301233.YZC3mUrE-lkp@i=
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609301335.NZqudgSP-lkp@i=
 ntel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/time/timekeeping.c:2957:49: warning: shift count >=3D width of ty=
-pe [-Wshift-count-overflow]
+   kernel/time/timekeeping.c: In function 'timekeeping_set_reference':
+>> kernel/time/timekeeping.c:2957:56: warning: left shift count >=3D width =
+of type [-Wshift-count-overflow]
     2957 |         offset_scaled =3D (sec_diff * (s64)(NSEC_PER_SEC << NTP_=
 SCALE_SHIFT)) +
-         |                                                        ^  ~~~~~~=
-~~~~~~~~~
-   1 warning generated.
+         |                                                        ^~
+--
+>> Warning: kernel/time/ntp.c:581 function parameter 'ntpdata' not describe=
+d in 'ntp_update_skew_delta'
+>> Warning: kernel/time/ntp.c:581 function parameter 'settle' not described=
+ in 'ntp_update_skew_delta'
+>> Warning: kernel/time/ntp.c:581 expecting prototype for ntp_set_time_offs=
+et(). Prototype was for ntp_update_skew_delta() instead
 
 
 vim +2957 kernel/time/timekeeping.c
