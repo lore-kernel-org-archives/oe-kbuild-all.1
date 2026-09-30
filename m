@@ -1,115 +1,128 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE9A3B3894
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 19:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BA633A6F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 19:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790795493; cv=none; b=TYBzNgcUtUIAuX0zL9Wl2FrMTmr/lMJ3HIdiuMmfdX0SqHxTbw2nlYwtYNPtt9Qy4oQmfDzRmCW91Ev0BkGMdX4MF+iZ0aE1xUBRs6QIvs85IG0dZYcm4lMEcVOeCyFaGXlMR/Q0+Q/yiQnt858N9LK7xtVo/JWtShF8GMrjnQk=
+	t=1790795512; cv=none; b=hY+JhKuuSqSBb0YakkK/Sl2HdYFFcgVSHEj9jUIi4433WlUTr/9TRRg9+ArHs1nUC19neWK1ucr+LV7PN8bYaQqhwO5z8rr2DBcUffHXPW3HV4kCuUdNdmWD7sd2vsftduZG4/dTmLMjS4W1CvG7IcTEiq7x8PjiGk3LPATiiyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790795493; c=relaxed/simple;
-	bh=gb8eQ5i4BC3qVK7yqNs13352HPC6Q22p6a71yUgU0LM=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=LXJKYPxf4skk4ssG5URB4BCafuDP2P/20/g89qhyceFvEsQiL21n13w1Xl/EwEnmpcFSar039E7UzPE31xxt8pfQ2mwv5IIwRpzzEt27REO1jReLGl3cQIy2QIFQWr4lzsPWYQ98I8uFNVDL8JrHJsVG7ZXpasQomcpDqk592KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=ObDhVDvx; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=10WkqNZu; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790795512; c=relaxed/simple;
+	bh=bCZwphPTkWZ8bI2tCG0wipTDKA4QeN/XoL4pJVEJwkU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WvjsJitoYQUEfZQJ5+nEW7Y1KvPaQ/jC2z5GlrJR8bnkl+ddgSbbXMeC3yo7I3+JCJgsi3d+4SInbbIHcaQtZd//IsrszQBG+tb7qisecTNB/622T5gEsTqTLicPCb2fI+yb2YkhUuI5Uy29Dru0J1FqXL0bEPo4RvQhb8OBfpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDV6RmrR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="ObDhVDvx";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="10WkqNZu"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790795479; bh=VpZV97Cwjs5goSri4w8L3iV
-	cVdvLrP3PUPbT0IsRN1A=; b=ObDhVDvx7MRGSnb33FXqa4ATiT9Spj1zkKsc5qH7v54nJCY1wP
-	54vZZOySYgoDiEITHKK/Lgtm53SWAPEicKhLQ3+IOzBklqoTnjI0HmiKVCSI++/D3+tGN0jGKuS
-	SV0xafniay5gaDxFQh0snFTEOJCUDx67Zm37m+G9sr3uBxEFIV/AkcAIGhEZvScW59CnTHPjpNx
-	9ZilIb/IOP5uZp4g0o562pB2Wlcij8gxc0OYGzuaZo0LtlrvSd0HQNK8wv2R4H+JT7o46geEHdE
-	Hj+BJzW2oc15wPkPUB+sO64MvQRYeiRJR2HJvoRJ4wceoG5MoKVYB0+2jeSlyJNmM3g==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790795479; bh=VpZV97Cwjs5goSri4w8L3iV
-	cVdvLrP3PUPbT0IsRN1A=; b=10WkqNZuKbJLsSANU3U5j9TXOBMIXBDVdf/sr/x0AWhW1qFwg1
-	4dsET1VrCiUW/7eL9EwDp+BTJClKJVbSnPAQ==;
-Date: Wed, 30 Sep 2026 20:11:18 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>
-CC: Josh Law <objecting@objecting.org>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-mips@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_arch/mips/boot/compressed/decompre?=
- =?US-ASCII?Q?ss=2Ec=3Aundefined_reference_to_=60=5F=5Fashldi3=27?=
-In-Reply-To: <20260930120159.7e4f29a82d461bd8b040454e@linux-foundation.org>
-References: <202609301826.MFaFMsmd-lkp@intel.com> <20260930120159.7e4f29a82d461bd8b040454e@linux-foundation.org>
-Message-ID: <B2E9C8DD-202A-4C86-B349-C0FCCE3AF17B@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDV6RmrR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333931F000FF;
+	Wed, 30 Sep 2026 19:11:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790795511;
+	bh=kE8pDKMHhJJO0v4VnpmkAKwkU7ki/QVCx0Id22f43DA=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=PDV6RmrR9ljlTquOLCocToP7dKRG4A7CKByKBTrIRYZIrswmpdb5mvIPoXypl0wXv
+	 8iPry0WNyaw3FAntG0l6wlHLjUnr3ljGJRwD0sZJvcYPVXwjmtYsF0vJVhE260kQwr
+	 Hp/wLnEXIFmztHariqKB9IJ674ZzbUrLrW9AbCwhnO2ZWjz8Jh/CdBxQxUPPDopswZ
+	 H+bAylrDsQ88SX9Pk8wNEZSE+QxeILfQ02NO1FxWqrgNpjYumWOAFXHxhtMQndw0qr
+	 18sdcdYNZUqtLmlU7HdjjB+JlcSAhAN6HYgDgxIZKUF8/Pu76LRnBR5GTYeUQTUdtc
+	 NKIjujb4WWPOg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id B2232CE097C; Wed, 30 Sep 2026 12:11:50 -0700 (PDT)
+Date: Wed, 30 Sep 2026 12:11:50 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Bradley Morgan <brads@mainlining.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:dev.2026.09.18a 24/34] ERROR: modpost:
+ fs/btrfs/btrfs.ko: symbol 'cmpxchg_emu_u8' undefined!
+Message-ID: <4cecf5e2-3d35-45a9-8632-6d77ffc9b85f@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202610010054.roP05vYH-lkp@intel.com>
+ <D067807D-352D-4B55-AEE6-B1334711EBD4@mainlining.org>
+ <ce4ed8b6-cf07-44c4-b4e2-9cdb2b452772@paulmck-laptop>
+ <F871853E-8AB8-4BDC-BAC8-10B56C4AE330@mainlining.org>
+ <77b3d63b-4a41-4415-969d-a043ced63304@paulmck-laptop>
+ <50436E31-D2B5-4DF7-B6D0-36E23CCC14C6@mainlining.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50436E31-D2B5-4DF7-B6D0-36E23CCC14C6@mainlining.org>
 
-On 30 September 2026 20:01:59 BST, Andrew Morton
-<akpm@linux-foundation.org> wrote:
->On Wed, 30 Sep 2026 18:36:50 +0200 kernel test robot <lkp@intel.com>
->wrote:
->
->> tree:  
->https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->> head:   551c722f40809618230001baccf219193e22fc5a
->> commit: d4dba3b9c03a326cfa73833d6b166aeb442f82b5 lib:
->decompress_bunzip2: fix 32-bit shift undefined behavior
->> date:   6 months ago
->> config: mips-randconfig-r2300-20260930
->(https://download.01.org/0day-ci/archive/20260930/202609301826.MFaFMsmd-lkp@intel.com/config)
->> compiler: mips-linux-gcc (GCC) 15.2.0
->> sparse: v0.6.5-rc1
->> reproduce (this is a W=1 build):
->(https://download.01.org/0day-ci/archive/20260930/202609301826.MFaFMsmd-lkp@intel.com/reproduce)
->> 
->> If you fix the issue in a separate patch/commit (i.e. not just a new
->version of
->> the same patch/commit), kindly add following tags
->> | Fixes: d4dba3b9c03a ("lib: decompress_bunzip2: fix 32-bit shift
->undefined behavior")
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes:
->https://lore.kernel.org/oe-kbuild-all/202609301826.MFaFMsmd-lkp@intel.com/
->> 
->> All errors (new ones prefixed by >>):
->> 
->>    mips-linux-ld: arch/mips/boot/compressed/decompress.o: in function
->`get_bits':
->> >> arch/mips/boot/compressed/decompress.c:(.text+0xf4): undefined
->reference to `__ashldi3'
->> >> mips-linux-ld: arch/mips/boot/compressed/decompress.c:(.text+0x168):
->undefined reference to `__ashldi3'
->
->I dunno, I'd be suspecting a toolchain issue here?
->
->--- a/lib/decompress_bunzip2.c
->+++ b/lib/decompress_bunzip2.c
->@@ -135,7 +135,7 @@ static unsigned int INIT get_bits(struct bunzip_data *bd, char bits_wanted)
-> 		}
-> 		/* Avoid 32-bit overflow (dump bit buffer to top of output) */
-> 		if (bd->inbufBitCount >= 24) {
->-			bits = bd->inbufBits&((1 << bd->inbufBitCount)-1);
->+			bits = bd->inbufBits & ((1ULL << bd->inbufBitCount) - 1);
-> 			bits_wanted -= bd->inbufBitCount;
-> 			bits <<= bits_wanted;
-> 			bd->inbufBitCount = 0;
->@@ -146,7 +146,7 @@ static unsigned int INIT get_bits(struct bunzip_data *bd, char bits_wanted)
-> 	}
-> 	/* Calculate result */
-> 	bd->inbufBitCount -= bits_wanted;
->-	bits |= (bd->inbufBits >> bd->inbufBitCount)&((1 << bits_wanted)-1);
->+	bits |= (bd->inbufBits >> bd->inbufBitCount) & ((1ULL << bits_wanted) - 1);
+On Wed, Sep 30, 2026 at 06:54:02PM +0100, Bradley Morgan wrote:
+> On 30 September 2026 18:51:53 BST, "Paul E. McKenney" <paulmck@kernel.org>
+> wrote:
+> >On Wed, Sep 30, 2026 at 06:41:08PM +0100, Bradley Morgan wrote:
+> >> On 30 September 2026 18:39:55 BST, "Paul E. McKenney"
+> ><paulmck@kernel.org>
+> >> wrote:
+> >> >On Wed, Sep 30, 2026 at 06:07:46PM +0100, Bradley Morgan wrote:
+> >> >> On 30 September 2026 17:48:44 BST, kernel test robot <lkp@intel.com>
+> >> >wrote:
+> >> >> >tree:   https://github.com/paulmckrcu/linux dev.2026.09.18a
+> >> >> >head:   90599c372e13369d11f6c1a01ff0094b16f72cf8
+> >> >> >commit: c98d10b438b5626edb3f4e06f4f62bcb6ed6fe90 [24/34] lib: Add
+> >> >two-byte cmpxchg emulation function
+> >> >> >config: xtensa-randconfig-1001-20260930
+> >>
+> >>(https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/config)
+> >> >> >compiler: xtensa-linux-gcc (GCC) 8.5.0
+> >> >> >reproduce (this is a W=1 build):
+> >> >>
+> >>
+> >>>(https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/reproduce)
+> >> >> >
+> >> >> >If you fix the issue in a separate patch/commit (i.e. not just a new
+> >> >> >version of
+> >> >> >the same patch/commit), kindly add following tags
+> >> >> >| Reported-by: kernel test robot <lkp@intel.com>
+> >> >> >| Closes:
+> >> >>
+> >>
+> >>>https://lore.kernel.org/oe-kbuild-all/202610010054.roP05vYH-lkp@intel.com/
+> >> >> >
+> >> >> >All errors (new ones prefixed by >>, old ones prefixed by <<):
+> >> >> >
+> >> >> >>> ERROR: modpost: fs/btrfs/btrfs.ko: symbol 'cmpxchg_emu_u8'
+> >> >undefined!
+> >> >> 
+> >> >> What?
+> >> >
+> >> >My bad, allegedly fixed:
+> >> >
+> >> >2395ec347553 ("lib: Add two-byte cmpxchg emulation function")
+> >> 
+> >> Have you merged 2395ec347553 ("lib: Add two-byte cmpxchg emulation
+> >> function") to your tree?
+> >
+> >Yes, it is on the current "dev" branch as of yesterday afternoon,
+> >Pacific Time.
 > 
-> 	return bits;
-> }
->
->32-bit MIPS should be able to do this?
-May I ask why I got CCed in this..??
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+> Cheers, anything you want me to do today for it?
+
+And I just now refreshed it to add fixes for the bugs kernel test
+robot found.  Still the "dev" branch.
+
+846dac459e05 ("lib: Add two-byte cmpxchg emulation function")
+de32e93890c5 ("sh: Emulate two-byte cmpxchg")
+
+Please look at these and call out any needed changes, supplying fixup
+patches as needed.  (Or calling out changes to the commit logs.)  One
+question that I have is why the "(uintptr_t)" casts in cmpxchg_emu_u16()
+instead of casting using "(unsigned long)"?
+
+Then please send patches for the other architectures.
+
+Then the ARCH_NEED_CMPXCHG_1_EMU to ARCH_NEED_CMPXCHG_1_2_EMU name
+change (for the full set in one patch).  This must wait for all the
+per-architecture patches to be accepted.
+
+Then, if you wish, a patch changing the cmpxchg_emu_u8() function's
+"uintptr_t" to "unsigned long".
+
+Anything that I am missing?
+
+							Thanx, Paul
