@@ -1,91 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BA851B17E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 18:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A675172C0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 18:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790791390; cv=none; b=tJYFgcPT+pkhnpEY5FaitdmB6mIO10vc0dsDOUSu89rajYZh+2p0X5TMBmfA8WSvEy3nwjOVVLT1ZUrWFSr0RP5kuve4ZrDf1SQlupegEauWgnPrU2yPHTTpOydZTw1icpdimH8BgqFDYU5Y1Cd0wRAyy0EEzanGsBVlWJkPug4=
+	t=1790793646; cv=none; b=b7oaeAZQxDDGpXF57Rjb05u6rR7KfpYajAlFJ+3vDSv/Zg9/4qT/UyELSDPkbyRrSJH0oaa+fQ+T7AUbNe6K/1pZmcCRVj0SdOe3C8wKTjMOXl464AZ1UX2TPt1OHAzcJ1Fvhw4hp5CSVC0MHn7/B8pPlIJ49yP8tV9yEqlK6a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790791390; c=relaxed/simple;
-	bh=s5McnjQZvk/hYC3PO6FKH5rbyWd/9QQUfZQXYanC8nQ=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HBB899uz5ixTE26V+FyVemO4FeY0dLguTWsHHRcyLbFy6guA7n+C/P3FHkQGDLIbKzlc14OBBywC8QY2FeHI9mt2T0otz+3PaOipuM9hPvqeFYBaIHkDMQOS/5iHuBjr48neH3ccpT57CXXjiGlHugPPG2mgzFCZ3sXsuKh7rGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPUbmu78; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1790793646; c=relaxed/simple;
+	bh=202FVV+piLQL8Lfvo6RQiPVsawg+Eqdmpw4OruI+5cw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hucNDUtpIWvfzJ+KHbApUVXWfcX/hl9rUFbGfQsQJdamPQybY9x1Ab3ZXcZP1bUh5vJwdGEmFYCBANur9aEHUeH0vYYtRk2zM3/9Qjx3AOiKBQpBlK0RWNlpMK5glKbzDBJvTGg5JqNMeyF4i76BKkqt/oJIMLiYsRNkLKewCZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P11kEO14; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPUbmu78"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P11kEO14"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790791388; x=1822327388;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=s5McnjQZvk/hYC3PO6FKH5rbyWd/9QQUfZQXYanC8nQ=;
-  b=cPUbmu78T1ecZ4RDr6L3NpKf59+RyXkQHbdqDlF0nJ0aamwlDRHGyF61
-   5PxTM4kz25UZ72suTm7wl1sTatPEfYci2kwoslPyiIKmhKHERx3zI1EoF
-   3bsCBzW0Ofwx3pl4zbCqRIbc5vavMYY2aaK4CR6Dq67Jcvxi3ptsW9802
-   TIa63F+yTybY6gaH8ly5uXucDPFaH3g2gk/lVqh73czBDvnQKrLrRSnvq
-   qQZrQSUFVehARLTdXSM3X29n5x41mMjqK377yk16ciL5ahGsjGZZoIryP
-   mqM27cHtqXDl5q2XoZVrnyOov4B4Xz0+nVKLI1Cj4PKBXNaiHaF0eo6cc
+  t=1790793644; x=1822329644;
+  h=date:from:to:cc:subject:message-id;
+  bh=202FVV+piLQL8Lfvo6RQiPVsawg+Eqdmpw4OruI+5cw=;
+  b=P11kEO14zIHhMveDerCGwmMsYOImBFJo0HdhKgIpPLJ0JP5fGuWNujjv
+   PuORTHRsUj9dxBP4TOJHkLv4v2OBd2Wd37NZwK/LMH+L1AafqPS+CXwf2
+   jyz0lyi19zelfJbKgIu/baMACBy5bKzdh9oCkWQMFLncBzst0WmKzeGg0
+   i2LySEg56oTo3BiwJTVW8N/l2mpvqlSSzQ/AkKxHkwFVLsm7dhOQDyi90
+   o6/ORir2VBgJrPQcJEgBHZabIxwmDT16ZUXoVNzFZL4VZ/mjpfte1ym7F
+   mO5ffPtWZXt17ShVqrZV7qtSehFjHnUfYcQveU8Xgv/Av+zf49aQhHyfA
    w==;
-X-CSE-ConnectionGUID: O6RCPQ6oTaawZboNg36BHA==
-X-CSE-MsgGUID: 6SF9xpCiRkCblcH/m8ARAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="90670151"
+X-CSE-ConnectionGUID: JDemHF57RJuJmonBS6lArw==
+X-CSE-MsgGUID: vJTgdg/sR6yluV5ID5mdeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="90596713"
 X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
-   d="scan'208";a="90670151"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 11:03:04 -0700
-X-CSE-ConnectionGUID: +YmXu2ORSou4oN/J1VwD2A==
-X-CSE-MsgGUID: /An3tz2nT8avmuNczpiM3g==
+   d="scan'208";a="90596713"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 11:40:44 -0700
+X-CSE-ConnectionGUID: TlzzrpCwSie1pIcizcBx6g==
+X-CSE-MsgGUID: 00d3HnClQuaz9IZ0cx7ORw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
-   d="scan'208";a="313694384"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Sep 2026 11:03:03 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="275313646"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Sep 2026 11:40:42 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBydw-00000000QzG-46zU
-	for oe-kbuild-all@lists.linux.dev;
-	Wed, 30 Sep 2026 18:03:00 +0000
-Date: Thu, 1 Oct 2026 02:02:09 +0800
+	id 1xBzEO-000000001xj-13xy;
+	Wed, 30 Sep 2026 18:40:40 +0000
+Date: Wed, 30 Sep 2026 20:40:15 +0200
 From: kernel test robot <lkp@intel.com>
+To: Jiri Pirko <jiri@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: tcp: Add TCP ROCCET congestion control module.
-Message-ID: <202610010120.teosc4lh-lkp@intel.com>
-References: <202610010120.teosc4lh-lkp@intel.com>
+Subject: [jpirko-mlxsw:wip_attestation_pre_rfc_draft1 14/26] Warning:
+ drivers/ctlv/tests/ctlv_test.c:52 struct member 'magic' not described in
+ 'ctlv_test_device'
+Message-ID: <202609302008.s9ZtV9Ui-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202610010120.teosc4lh-lkp@intel.com>
 
-Hi Tim,
+Hi Jiri,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Fuechsel/tcp-Add-TCP-ROCCET-congestion-control-module/20260928-171154
-base:   
-patch link:    https://lore.kernel.org/r/202610010120.teosc4lh-lkp%40intel.com
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20261001/202610010120.teosc4lh-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261001/202610010120.teosc4lh-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw wip_attestation_pre_rfc_draft1
+head:   a18af4e1b514bf11f88ca42d29b7b68f3b375378
+commit: dc08a4758d45d2731b99d4bc6f4749d69a362bde [14/26] ctlv: Add the test family driver
+config: arc-randconfig-r2301-20260930 (https://download.01.org/0day-ci/archive/20260930/202609302008.s9ZtV9Ui-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609302008.s9ZtV9Ui-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610010120.teosc4lh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609302008.s9ZtV9Ui-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   microblaze-linux-ld: net/ipv4/tcp_roccet.o: in function `roccet_control':
->> .tmp_gl_tcp_roccet.o:(.text+0x23dc): undefined reference to `__udivdi3'
+>> Warning: drivers/ctlv/tests/ctlv_test.c:52 struct member 'magic' not described in 'ctlv_test_device'
+>> Warning: drivers/ctlv/tests/ctlv_test.c:52 struct member 'magic' not described in 'ctlv_test_device'
 
 --
 0-DAY CI Kernel Test Service
