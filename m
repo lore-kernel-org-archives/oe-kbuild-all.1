@@ -1,348 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C609370AD9;
-	Wed, 30 Sep 2026 09:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11E53769E4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 09:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790761272; cv=none; b=S9kg6gBRTkAffdmRo1GR5ZBz0xTyChalOiTgkhYunyNDKMYZFmJennBhxlbuI9M1AeSzcl3kziCCc39mIGsVWLhUTe9HHwCNqFSgv7KVyusFMgVOMOAQ99/pFabnVRizjmwxjOZ6mEvERKjGPotNFYe28vzJB0NjiQUFdfKDakk=
+	t=1790761419; cv=none; b=J2fiRLzy/Hqy+At4riuuCLERvI7vkJIiXRWR/h2PKzHEg/jgKO6u2nV3wtPB4KWUc0kR5MI2QovE/9ZXYJfMl6VNGcMFTRrY5Qv0vYVugnBOpsjRqUBTVRJaznvHEZeHG9VatL6RXSDK2oHT6RG+O0BbJBfqNOBUetK+FhwlbTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790761272; c=relaxed/simple;
-	bh=72kYHT6rKlydvDKcn+nzBukjVValtnrNwz1CMrPd2jU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q0cMXWpHVOSXGVykptlf3e+OXHQ1TtXgqK8OsbfJ1LifRop1StC49qPhwuWqtZihcfZPQ2FAumweMW8en6fgIrEQSC66p5yYHnLQIVSWH+Vx3MOwhC4lz7iNTClcmDp4Ytg7mWxWk6hU0KF2u7u5CwH2EbDVPa7es8Fqpl+Qnos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLjUd+cQ; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1790761419; c=relaxed/simple;
+	bh=tg0+jrG2dZ8i5WKQVNuFE04ElQp+55EguWUduCtYADc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=U8lC9EAsDB+uiWg31LTnQUxOdg/eiIgoOaqjuz+7CBYBxlV6Hs7XwhP8QHOg8YDlgli5cMNQSsSlWcPRO9zzGwRNeKNKnGhzjwCRAtFmNfewk+dAR6F8Dr5PYjmtFHG8JHkJoW3tMBQK/+g5YDXZ7aRf4JY7cmT0qytDHFDl27I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vu6aB2iv; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLjUd+cQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vu6aB2iv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790761269; x=1822297269;
-  h=date:from:to:cc:subject:message-id;
-  bh=72kYHT6rKlydvDKcn+nzBukjVValtnrNwz1CMrPd2jU=;
-  b=JLjUd+cQHpBS3bIW43dP5Wym8L4JhHAXxQlJcUq0xCcIXGt7gniNB9nq
-   dLhI8Jxhw0IAn+byM9Dx5+FGUqSX0n9tYYbjBwkSeh+unXk74ZD/XVxcN
-   +oxpNkyGuiXmVBAWOKFBXYZDjsdeSpBzxZB0NGSJ50ryfouxXYjPXM8ov
-   ycyGVCHQ/wWp0ZpgKaq+ptrtgio1gjDuaU3eAECuQnyIH+2r0yfByd0kW
-   cjDwTLMSYAMlhuRUdYmdzvcz/9c3G4B6OEmZezkF77ABypjgu6SxGJ34c
-   vQOoQy2LEC2Pp8/slB6JlAiJrs5pKLSCWqECO1u9tw544qdHPFvuwbyzw
+  t=1790761418; x=1822297418;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tg0+jrG2dZ8i5WKQVNuFE04ElQp+55EguWUduCtYADc=;
+  b=Vu6aB2iv5KRaIyQM0gQIlAYg0RZOBFPN188QfILkeVH4x7DuPaZSF/J1
+   Ya2FiIpFPEkIEWiDc9Xoo9KAXnTgCiLqwJR4/xR1O7tf8cfGalOIWIFfd
+   p9Q00PMrwgs0fSuUl7VFw1DsCN8G800XXDGP7QPAtOeQ1zQfhrB0v6zLo
+   PRzV6PRlUBziT4OFc3E0Cz7+xNU4+WYNdJuG7n4a+qgzKCsbEzXuKPQ9I
+   ztvkEgYdLTIcAR53tZ+t7oFW7g/+PMmFFSp9AqEdDY6wlwU2MkS+SL5td
+   ty3Wy6Vq4jxVFISmOrWUs0DBA7rPguMrIiiFB2BaH07OdA19akZRs9JB8
    A==;
-X-CSE-ConnectionGUID: 4200pD3STp+gkPDZ89Pwdg==
-X-CSE-MsgGUID: hzHtSaM5SVehOnq4aZ07vw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="117024581"
+X-CSE-ConnectionGUID: dtVprr/rTVqI4Adwg69ZeA==
+X-CSE-MsgGUID: gI0MR/QiQmSoS7CTayUSig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="93980818"
 X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="117024581"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:41:09 -0700
-X-CSE-ConnectionGUID: /nrlSQylTFCA1R6NEUYFYA==
-X-CSE-MsgGUID: +W+r6Jn4RO+RrXArOtaJSA==
+   d="scan'208";a="93980818"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:43:37 -0700
+X-CSE-ConnectionGUID: YlULOb9FSFOmIwn1Dc0Aqw==
+X-CSE-MsgGUID: DygcuhkkTVOBL8FLTeqkLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="305153603"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 30 Sep 2026 02:41:06 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="272104166"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Sep 2026 02:43:35 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBqoC-00000000QSO-1GPP;
-	Wed, 30 Sep 2026 09:41:04 +0000
-Date: Wed, 30 Sep 2026 17:40:58 +0800
+	id 1xBqqY-000000001oT-4BGG;
+	Wed, 30 Sep 2026 09:43:30 +0000
+Date: Wed, 30 Sep 2026 11:42:39 +0200
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Subject: [avpatel:riscv_mpxy_imp_v1 2/5]
- arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for
- function 'sbi_mpxy_read_attrs'
-Message-ID: <202609301701.1eIab1jS-lkp@intel.com>
+To: Zhan Xusheng <zhanxusheng1024@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+ "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Subject: [tip:timers/vdso 4/4]
+ arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:288:24: error:
+ call to undeclared function 'BITS_PER_TYPE'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202609301144.zm2ko38t-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/avpatel/linux.git riscv_mpxy_imp_v1
-head:   ca441e957bb4806b528959ae80efb7e7a9f5447a
-commit: 36c74ca9f1dd2278453c544310c73d45beb9c993 [2/5] RISC-V: Move common MPXY helper routines to arch/riscv
-config: riscv-nommu_k210_defconfig (https://download.01.org/0day-ci/archive/20260930/202609301701.1eIab1jS-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609301701.1eIab1jS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+head:   ca46a07c4b68246c4e400ce3649ab7228a878d8f
+commit: ca46a07c4b68246c4e400ce3649ab7228a878d8f [4/4] vdso/gettimeofday: Assert that the clockid fits into the u32 bitmask
+config: sparc64-randconfig-r2304-20260930 (https://download.01.org/0day-ci/archive/20260930/202609301144.zm2ko38t-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609301144.zm2ko38t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609301701.1eIab1jS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609301144.zm2ko38t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/asm-offsets.c:11:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:148:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:13:
-   In file included from arch/riscv/include/asm/kvm_host.h:25:
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12:
->> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
-     765 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^
->> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         | ^
-         | static 
-   7 warnings generated.
---
-   In file included from arch/riscv/kernel/alternative.c:18:
->> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
-     765 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^
->> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         | ^
-         | static 
-   6 warnings generated.
---
-   In file included from arch/riscv/kernel/kernel_mode_vector.c:16:
-   In file included from arch/riscv/include/asm/kvm_vcpu_vector.h:17:
-   In file included from arch/riscv/include/asm/kvm_host.h:25:
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12:
->> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
-     765 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^
->> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         | ^
-         | static 
-   In file included from arch/riscv/kernel/kernel_mode_vector.c:16:
-   In file included from arch/riscv/include/asm/kvm_vcpu_vector.h:17:
-   In file included from arch/riscv/include/asm/kvm_host.h:27:
-   In file included from arch/riscv/include/asm/kvm_vcpu_pmu.h:12:
-   In file included from include/linux/perf/riscv_pmu.h:12:
-   In file included from include/linux/perf_event.h:43:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:148:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   7 warnings generated.
---
-   In file included from arch/riscv/kernel/asm-offsets.c:11:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:148:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   In file included from arch/riscv/kernel/asm-offsets.c:13:
-   In file included from arch/riscv/include/asm/kvm_host.h:25:
-   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12:
->> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         |     ^
-   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-         | ^
-         | static 
->> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
-     765 |                                struct sbi_mpxy_notification_data *notif_data,
-         |                                       ^
->> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         |     ^
-   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     764 | int sbi_mpxy_get_notifications(u32 channel_id,
-         | ^
-         | static 
-   7 warnings generated.
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:28:
-   In file included from include/linux/cgroup_api.h:1:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:148:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   1 warning generated.
+   In file included from arch/sparc/vdso/vclock_gettime.c:22:
+>> arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:288:24: error: call to undeclared function 'BITS_PER_TYPE'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     288 |         BUILD_BUG_ON(clock >= BITS_PER_TYPE(msk));
+         |                               ^
+   1 error generated.
 
 
-vim +/sbi_mpxy_read_attrs +738 arch/riscv/include/asm/sbi.h
+vim +/BITS_PER_TYPE +288 arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c
 
-   737	
- > 738	int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-   739				u32 *attrs_buf)
-   740	{
-   741		return -ENODEV;
-   742	}
-   743	
- > 744	int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
-   745				 u32 *attrs_buf)
-   746	{
-   747		return -ENODEV;
-   748	}
-   749	
- > 750	int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
-   751					    void *tx, unsigned long tx_len,
-   752					    void *rx, unsigned long max_rx_len,
-   753					    unsigned long *rx_len)
-   754	{
-   755		return -ENODEV;
-   756	}
-   757	
- > 758	int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
-   759					       void *tx, unsigned long tx_len)
-   760	{
-   761		return -ENODEV;
-   762	}
-   763	
- > 764	int sbi_mpxy_get_notifications(u32 channel_id,
- > 765				       struct sbi_mpxy_notification_data *notif_data,
-   766				       unsigned long *events_data_len)
-   767	{
-   768		return -ENODEV;
-   769	}
-   770	
+   273	
+   274	static __always_inline bool
+   275	__cvdso_clock_gettime_common(const struct vdso_time_data *vd, clockid_t clock,
+   276				     struct __kernel_timespec *ts)
+   277	{
+   278		const struct vdso_clock *vc = vd->clock_data;
+   279		u32 msk;
+   280	
+   281		if (!vdso_clockid_valid(clock))
+   282			return false;
+   283	
+   284		/*
+   285		 * Convert the clockid to a bitmask and use it to check which
+   286		 * clocks are handled in the VDSO directly.
+   287		 */
+ > 288		BUILD_BUG_ON(clock >= BITS_PER_TYPE(msk));
+   289		msk = 1U << clock;
+   290		if (likely(msk & VDSO_HRES))
+   291			vc = &vc[CS_HRES_COARSE];
+   292		else if (msk & VDSO_COARSE)
+   293			return do_coarse(vd, &vc[CS_HRES_COARSE], clock, ts);
+   294		else if (msk & VDSO_RAW)
+   295			vc = &vc[CS_RAW];
+   296		else if (msk & VDSO_AUX)
+   297			return do_aux(vd, clock, ts);
+   298		else
+   299			return false;
+   300	
+   301		return do_hres(vd, vc, clock, ts);
+   302	}
+   303	
 
 --
 0-DAY CI Kernel Test Service
