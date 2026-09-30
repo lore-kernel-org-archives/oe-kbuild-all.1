@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C624346AA9C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 08:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C609370AD9;
+	Wed, 30 Sep 2026 09:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790757081; cv=none; b=TeG9W7n0zQBwfn58WbSjWNUQnga7sg6mtJh9dAH9c6qpkpzone4jJg/lB9Fp4eSXmiTfnEw74R8toYUhX0Y/GD5ZgK7JnTFDsyeSh+I0iRMpyqksCBef0mwr4l+zU3Rf68qCy8zE4/t3CwDZeX0ZV7wLnZbKvnbemeJqbMytimI=
+	t=1790761272; cv=none; b=S9kg6gBRTkAffdmRo1GR5ZBz0xTyChalOiTgkhYunyNDKMYZFmJennBhxlbuI9M1AeSzcl3kziCCc39mIGsVWLhUTe9HHwCNqFSgv7KVyusFMgVOMOAQ99/pFabnVRizjmwxjOZ6mEvERKjGPotNFYe28vzJB0NjiQUFdfKDakk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790757081; c=relaxed/simple;
-	bh=JW0kvZlwd5qlLyxEhF4znvggNue0DmQhFv7M80zzays=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kCd6ocSPAeHf0ZbFOIsQbNgwP7pGaDc7RC06Nct+rpASGw9OcegpoFc7KnowEPWFSfTex2aN9qp4PoQxmlrpFiBBzLoYFeCTVPJ4jLEriqu9GecBPlIQzourYUhIEg9Sp2p791Jfuom+Pi9eX+moKNWQpU4uMigsu4SUUPGAjHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QeCDV44d; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1790761272; c=relaxed/simple;
+	bh=72kYHT6rKlydvDKcn+nzBukjVValtnrNwz1CMrPd2jU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q0cMXWpHVOSXGVykptlf3e+OXHQ1TtXgqK8OsbfJ1LifRop1StC49qPhwuWqtZihcfZPQ2FAumweMW8en6fgIrEQSC66p5yYHnLQIVSWH+Vx3MOwhC4lz7iNTClcmDp4Ytg7mWxWk6hU0KF2u7u5CwH2EbDVPa7es8Fqpl+Qnos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLjUd+cQ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QeCDV44d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLjUd+cQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790757076; x=1822293076;
+  t=1790761269; x=1822297269;
   h=date:from:to:cc:subject:message-id;
-  bh=JW0kvZlwd5qlLyxEhF4znvggNue0DmQhFv7M80zzays=;
-  b=QeCDV44dT9IJH3kAwKh7982mcTC97iofJ4ZMZrMzaXrmtOqJCSLxhUKJ
-   vnl6c1L8Zv4/9hi5csjRb2PCb686Tu9Ra1u5uWcA/MlrPnzqGk+4R+vg1
-   2THfbe3ZWfmCdTnVb4xFqLUuoY+GvDYbX/edbSCL7cSeBhRqzCW0mV0aB
-   8YUO0BTtM5LeEedaS194hLbZk/bkQ84UXyW9buw2arwn3T0HNPNGVvwJS
-   ywswAYMZaOYb3nD1UzgHgH5fSEslLd5Wn2t9/CWqLMQl7jmQCQdoP2mnP
-   W5GeqBCbeSbATyGX80Z6weVe4wTbJrd/mrqDZx0/yDwowLI9dwKBQuTCa
-   Q==;
-X-CSE-ConnectionGUID: vpVfv/5LRI2nxQWvU2Llxw==
-X-CSE-MsgGUID: ODYqAHP8SMqRe2JrpnPGQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="93976237"
+  bh=72kYHT6rKlydvDKcn+nzBukjVValtnrNwz1CMrPd2jU=;
+  b=JLjUd+cQHpBS3bIW43dP5Wym8L4JhHAXxQlJcUq0xCcIXGt7gniNB9nq
+   dLhI8Jxhw0IAn+byM9Dx5+FGUqSX0n9tYYbjBwkSeh+unXk74ZD/XVxcN
+   +oxpNkyGuiXmVBAWOKFBXYZDjsdeSpBzxZB0NGSJ50ryfouxXYjPXM8ov
+   ycyGVCHQ/wWp0ZpgKaq+ptrtgio1gjDuaU3eAECuQnyIH+2r0yfByd0kW
+   cjDwTLMSYAMlhuRUdYmdzvcz/9c3G4B6OEmZezkF77ABypjgu6SxGJ34c
+   vQOoQy2LEC2Pp8/slB6JlAiJrs5pKLSCWqECO1u9tw544qdHPFvuwbyzw
+   A==;
+X-CSE-ConnectionGUID: 4200pD3STp+gkPDZ89Pwdg==
+X-CSE-MsgGUID: hzHtSaM5SVehOnq4aZ07vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="117024581"
 X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="93976237"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 01:31:12 -0700
-X-CSE-ConnectionGUID: DB4OqQwWSKOFZCQQr7qpNQ==
-X-CSE-MsgGUID: fCpu8cqbTXmoVESDd+ZXVQ==
+   d="scan'208";a="117024581"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 02:41:09 -0700
+X-CSE-ConnectionGUID: /nrlSQylTFCA1R6NEUYFYA==
+X-CSE-MsgGUID: +W+r6Jn4RO+RrXArOtaJSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="301880272"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Sep 2026 01:31:10 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+   d="scan'208";a="305153603"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Sep 2026 02:41:06 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBpiV-000000001nb-3sCd;
-	Wed, 30 Sep 2026 08:31:07 +0000
-Date: Wed, 30 Sep 2026 10:31:04 +0200
+	id 1xBqoC-00000000QSO-1GPP;
+	Wed, 30 Sep 2026 09:41:04 +0000
+Date: Wed, 30 Sep 2026 17:40:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 8900/11456]
- arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: prcmu@80157000
- (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required
- property
-Message-ID: <202609301056.m1VNxu3Z-lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Subject: [avpatel:riscv_mpxy_imp_v1 2/5]
+ arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for
+ function 'sbi_mpxy_read_attrs'
+Message-ID: <202609301701.1eIab1jS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,299 +61,288 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6375e61c01e93e35ee7acd336a689ac1fae4b509
-commit: 43be6abd6775820fdac3729962f7e7b841104fda [8900/11456] mfd: dt-bindings: ab8500: Describe codec graph and microphone wiring
-config: arm-randconfig-2402-20260925 (https://download.01.org/0day-ci/archive/20260930/202609301056.m1VNxu3Z-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609301056.m1VNxu3Z-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_mpxy_imp_v1
+head:   ca441e957bb4806b528959ae80efb7e7a9f5447a
+commit: 36c74ca9f1dd2278453c544310c73d45beb9c993 [2/5] RISC-V: Move common MPXY helper routines to arch/riscv
+config: riscv-nommu_k210_defconfig (https://download.01.org/0day-ci/archive/20260930/202609301701.1eIab1jS-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609301701.1eIab1jS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609301056.m1VNxu3Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609301701.1eIab1jS-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: stuib_cfg1: ste,config: b'\x00\x00\x00B' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: stuib_cfg2: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: default_hrefv60_cfg2: ste,config: b'\x00\x00\x00=' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: default_hrefv60_cfg3: ste,config: b'\x00\x00\x00=' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: ab8500 (stericsson,ab8500): gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: ak8974@f (asahi-kasei,ak8974): 'vdd-supply', 'vddio-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/magnetometer/asahi-kasei,ak8974.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/riscv/kernel/asm-offsets.c:11:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:148:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   In file included from arch/riscv/kernel/asm-offsets.c:13:
+   In file included from arch/riscv/include/asm/kvm_host.h:25:
+   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12:
+>> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
+     765 |                                struct sbi_mpxy_notification_data *notif_data,
+         |                                       ^
+>> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         | ^
+         | static 
+   7 warnings generated.
 --
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: golden_cfg1: ste,config: b'\x00\x00\x00*' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: golden_cfg1: ste,config: b'\x00\x00\x00*' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: golden_cfg2: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: golden_cfg1: ste,config: b'\x00\x00\x00*' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:gpio: 'gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: ab8505 (stericsson,ab8505): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: ab8505 (stericsson,ab8505): gpio: 'gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: proximity@44 (sharp,gp2ap002s00f): sharp,proximity-close-hysteresis: [0, 0, 0, 15] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/iio/light/sharp,gp2ap002.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: proximity@44 (sharp,gp2ap002s00f): sharp,proximity-close-hysteresis: size is 32, expected 8
-   	from schema $id: http://devicetree.org/schemas/iio/light/sharp,gp2ap002.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: proximity@44 (sharp,gp2ap002s00f): sharp,proximity-far-hysteresis: [0, 0, 0, 64] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/iio/light/sharp,gp2ap002.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-golden.dtb: proximity@44 (sharp,gp2ap002s00f): sharp,proximity-far-hysteresis: size is 32, expected 8
+   In file included from arch/riscv/kernel/alternative.c:18:
+>> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
+     765 |                                struct sbi_mpxy_notification_data *notif_data,
+         |                                       ^
+>> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         | ^
+         | static 
+   6 warnings generated.
 --
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: snowball_cfg1: ste,config: b'\x00\x00\x00,' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: snowball_cfg1: ste,config: b'\x00\x00\x00,' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: snowball_cfg1: ste,config: b'\x00\x00\x00,' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: snowball_cfg1: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-snowball.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:gpio: 'adi1', 'dmic', 'extcpena', 'gpio-line-names', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-snowball.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: ab8500 (stericsson,ab8500): gpio: 'adi1', 'dmic', 'extcpena', 'gpio-line-names', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: spi@80002000 (arm,pl022): Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-pl022.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-snowball.dtb: serial@80007000 (arm,pl011): clock-names:0: 'uartclk' was expected
+   In file included from arch/riscv/kernel/kernel_mode_vector.c:16:
+   In file included from arch/riscv/include/asm/kvm_vcpu_vector.h:17:
+   In file included from arch/riscv/include/asm/kvm_host.h:25:
+   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12:
+>> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
+     765 |                                struct sbi_mpxy_notification_data *notif_data,
+         |                                       ^
+>> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         | ^
+         | static 
+   In file included from arch/riscv/kernel/kernel_mode_vector.c:16:
+   In file included from arch/riscv/include/asm/kvm_vcpu_vector.h:17:
+   In file included from arch/riscv/include/asm/kvm_host.h:27:
+   In file included from arch/riscv/include/asm/kvm_vcpu_pmu.h:12:
+   In file included from include/linux/perf/riscv_pmu.h:12:
+   In file included from include/linux/perf_event.h:43:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:148:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   7 warnings generated.
 --
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: codina_cfg1: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: codina_cfg2: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: codina_cfg1: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: default_cfg1: ste,config: b"\x00\x00\x00'" is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: proximity@39 (amstaos,tmd2672): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/light/tsl2772.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: /soc/i2c@80110000/isp@50: failed to match any schema with compatible: ['zinitix,bt404-isp']
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina.dtb: serial@80007000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: codina_cfg2: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: codina_cfg3: ste,config: b'\x00\x00\x000' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: codina_cfg1: ste,config: b'\x00\x00\x001' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: default_cfg1: ste,config: b"\x00\x00\x00'" is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: ab8505 (stericsson,ab8505): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: proximity@39 (amstaos,tmd2672): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/light/tsl2772.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: /soc/i2c@80110000/isp@50: failed to match any schema with compatible: ['zinitix,bt404-isp']
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dtb: serial@80007000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: kyle_cfg1: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: kyle_cfg1: ste,config: b'\x00\x00\x000' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: kyle_cfg1: ste,config: b'\x00\x00\x001' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: kyle_cfg2: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:gpio: 'gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: ab8505 (stericsson,ab8505): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: ab8505 (stericsson,ab8505): gpio: 'gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: proximity@44 (sharp,gp2ap002s00f): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/light/sharp,gp2ap002.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: accel@18 (bosch,bma254): Unevaluated properties are not allowed ('clock-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/iio/accel/bosch,bma255.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: tvk_cfg2: ste,config: b'\x00\x00\x00C' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: tvk_cfg1: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: default_hrefv60_cfg2: ste,config: b'\x00\x00\x00=' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: default_hrefv60_cfg3: ste,config: b'\x00\x00\x00=' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: ab8500 (stericsson,ab8500): gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80004000/tc35893@44: failed to match any schema with compatible: ['toshiba,tc35893']
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_gpio: failed to match any schema with compatible: ['toshiba,tc3589x-gpio']
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_keypad: failed to match any schema with compatible: ['toshiba,tc3589x-keypad']
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-hrefv60plus-tvk.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: janice_cfg2: ste,config: b'\x00\x00\x000' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: janice_cfg1: ste,config: b'\x00\x00\x000' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: janice_cfg2: ste,config: b'\x00\x00\x000' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: janice_cfg3: ste,config: b'\x00\x00\x00*' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: proximity@44 (sharp,gp2ap002a00f): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/light/sharp,gp2ap002.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: serial@80007000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-janice.dtb: /soc/sound: failed to match any schema with compatible: ['stericsson,snd-soc-mop500']
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: stuib_cfg1: ste,config: b'\x00\x00\x006' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: stuib_cfg2: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: stuib_cfg1: ste,config: b'\x00\x00\x005' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: stuib_cfg2: ste,config: b'\x00\x00\x006' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: ab8500 (stericsson,ab8500): gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/i2c@80004000/tps61052@33: failed to match any schema with compatible: ['ti,tps61052']
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/i2c@80004000/tc35892@42: failed to match any schema with compatible: ['toshiba,tc35892']
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/i2c@80004000/tc35892@42/tc3589x_gpio: failed to match any schema with compatible: ['tc3589x-gpio']
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: ak8974@f (asahi-kasei,ak8974): 'vdd-supply', 'vddio-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/magnetometer/asahi-kasei,ak8974.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-stuib.dtb: spi@80002000 (arm,pl022): Unevaluated properties are not allowed ('power-domains' was unexpected)
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: tvk_cfg: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: tvk_cfg1: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: tvk_cfg2: ste,config: b'\x00\x00\x007' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: tvk_cfg1: ste,config: b'\x00\x00\x006' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8500:gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: ab8500 (stericsson,ab8500): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: ab8500 (stericsson,ab8500): gpio: 'adi1', 'dmic', 'extcpena', 'gpio10', 'gpio11', 'gpio12', 'gpio13', 'gpio16', 'gpio2', 'gpio24', 'gpio25', 'gpio26', 'gpio35', 'gpio36', 'gpio37', 'gpio38', 'gpio39', 'gpio4', 'gpio42', 'modsclsda', 'pwm', 'sysclkreq2', 'sysclkreq4', 'usbuicc', 'ycbcr' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/i2c@80004000/tps61052@33: failed to match any schema with compatible: ['ti,tps61052']
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/i2c@80004000/tc35892@42: failed to match any schema with compatible: ['toshiba,tc35892']
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/i2c@80004000/tc35892@42/tc3589x_gpio: failed to match any schema with compatible: ['tc3589x-gpio']
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/i2c@80004000/tc35893@44: failed to match any schema with compatible: ['toshiba,tc35893']
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_gpio: failed to match any schema with compatible: ['toshiba,tc3589x-gpio']
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/i2c@80004000/tc35893@44/tc3589x_keypad: failed to match any schema with compatible: ['toshiba,tc3589x-keypad']
-   arch/arm/boot/dts/st/ste-hrefprev60-tvk.dtb: /soc/i2c@80128000/bh1780@29: failed to match any schema with compatible: ['rohm,bh1780gli']
---
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: skomer_cfg1: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: skomer_cfg1: ste,config: b'\x00\x00\x000' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: skomer_cfg1: ste,config: b'\x00\x00\x001' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: skomer_cfg2: ste,config: b'\x00\x00\x002' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: /soc/usb_per5@a03e0000: failed to match any schema with compatible: ['stericsson,db8500-musb']
->> arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: prcmu@80157000 (stericsson,db8500-prcmu): ab8505:gpio: 'gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,db8500-prcmu.yaml
->> arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: ab8505 (stericsson,ab8505): codec: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: ab8505 (stericsson,ab8505): gpio: 'gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/stericsson,ab8500.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: proximity@44 (sharp,gp2ap002s00f): 'clock-frequency' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/light/sharp,gp2ap002.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: accel@18 (bosch,bma254): Unevaluated properties are not allowed ('clock-frequency' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/iio/accel/bosch,bma255.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: serial@80120000 (arm,pl011): clock-names:0: 'uartclk' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/pl011.yaml
-   arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dtb: serial@80121000 (arm,pl011): clock-names:0: 'uartclk' was expected
+   In file included from arch/riscv/kernel/asm-offsets.c:11:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:148:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   In file included from arch/riscv/kernel/asm-offsets.c:13:
+   In file included from arch/riscv/include/asm/kvm_host.h:25:
+   In file included from arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h:12:
+>> arch/riscv/include/asm/sbi.h:738:5: warning: no previous prototype for function 'sbi_mpxy_read_attrs' [-Wmissing-prototypes]
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:738:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     738 | int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:744:5: warning: no previous prototype for function 'sbi_mpxy_write_attrs' [-Wmissing-prototypes]
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         |     ^
+   arch/riscv/include/asm/sbi.h:744:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     744 | int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:750:5: warning: no previous prototype for function 'sbi_mpxy_send_message_with_resp' [-Wmissing-prototypes]
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     750 | int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:758:5: warning: no previous prototype for function 'sbi_mpxy_send_message_without_resp' [-Wmissing-prototypes]
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:758:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     758 | int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+         | ^
+         | static 
+>> arch/riscv/include/asm/sbi.h:765:18: warning: declaration of 'struct sbi_mpxy_notification_data' will not be visible outside of this function [-Wvisibility]
+     765 |                                struct sbi_mpxy_notification_data *notif_data,
+         |                                       ^
+>> arch/riscv/include/asm/sbi.h:764:5: warning: no previous prototype for function 'sbi_mpxy_get_notifications' [-Wmissing-prototypes]
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         |     ^
+   arch/riscv/include/asm/sbi.h:764:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     764 | int sbi_mpxy_get_notifications(u32 channel_id,
+         | ^
+         | static 
+   7 warnings generated.
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:28:
+   In file included from include/linux/cgroup_api.h:1:
+   In file included from include/linux/cgroup.h:27:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:148:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   1 warning generated.
+
+
+vim +/sbi_mpxy_read_attrs +738 arch/riscv/include/asm/sbi.h
+
+   737	
+ > 738	int sbi_mpxy_read_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+   739				u32 *attrs_buf)
+   740	{
+   741		return -ENODEV;
+   742	}
+   743	
+ > 744	int sbi_mpxy_write_attrs(u32 channel_id, u32 base_attrid, u32 attr_count,
+   745				 u32 *attrs_buf)
+   746	{
+   747		return -ENODEV;
+   748	}
+   749	
+ > 750	int sbi_mpxy_send_message_with_resp(u32 channel_id, u32 msg_id,
+   751					    void *tx, unsigned long tx_len,
+   752					    void *rx, unsigned long max_rx_len,
+   753					    unsigned long *rx_len)
+   754	{
+   755		return -ENODEV;
+   756	}
+   757	
+ > 758	int sbi_mpxy_send_message_without_resp(u32 channel_id, u32 msg_id,
+   759					       void *tx, unsigned long tx_len)
+   760	{
+   761		return -ENODEV;
+   762	}
+   763	
+ > 764	int sbi_mpxy_get_notifications(u32 channel_id,
+ > 765				       struct sbi_mpxy_notification_data *notif_data,
+   766				       unsigned long *events_data_len)
+   767	{
+   768		return -ENODEV;
+   769	}
+   770	
 
 --
 0-DAY CI Kernel Test Service
