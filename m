@@ -1,80 +1,122 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBFC517BA2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 17:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C505187DA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 17:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790788072; cv=none; b=Bv2qRB+7f/zOzET8OHfFHHu87aAfefoniVKz/bOSdwdw4N4pfrKikZE2DVU754V27zrY4JgokLUjM+q7ihuZxAxAZoxYBd+HtoivS+utGgLjneXdPLhgVFwM2UfynjkQWQpdEisJXjWXrQPMwrzZaz71lNIVI17wqDTDqNgTAAI=
+	t=1790788449; cv=none; b=AZFcT4zkMr/6dVNLshxpODhFg5MP60Vw5LugP7QeIftphm9Q39suKxNJtxDgKAYcdoXWfJexfx5IXHdw8qjUt5tOidGiBcPv/aVrbcFxCxtfoLlNKKTElgVsx/cO8v1vOcpJ/JnET2jNonKsk3+mfkeZbidqUkGn7esoSbdtk50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790788072; c=relaxed/simple;
-	bh=Seb7A4BWFXeyZuXmj9R/LO8rCVuD/Rt6ng6P7bIJtGw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=q6iYNVZFwg1oiowJaP9WqJ+h2kQskLsl++/ULTyu9zLrLCheL9h5CJzXaGovox1TE/uWQsR+oJ750IE3InDo4EAijbUbAVPqTHp/EGyNHySvRsnw7uHQgr8THRyvJfjD7aWkLZHVusz/+auU6drXYB6Yw/+6kC8zdc9J63kYKoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=PDWXGZQu; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=nD9ssAqr; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790788449; c=relaxed/simple;
+	bh=wsOuf1FicqFQ+nM3xfDMEFWjAzPOH5ApCAFV6J4gaFg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QHsKcxZ7mZf7iDVUbdM9wJOo8ISiYgIUv53RqsWET4BNDwJszTGCdztnyTq3JZhwsS1kzWT3ZlPCuFIA6jemmJil/3T0FKLWvMtmQC6HCA/8mp/coL4PW4jOtltnn91jSK1OqS+8mcRqQpldhiez+Tcr/sBLPpcPX3xqiCzGuR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjJMX1X0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="PDWXGZQu";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="nD9ssAqr"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790788067; bh=uupRo1CCMSKlZsGVe6XHCGg
-	f/iV56NTda/N4Mp3I42o=; b=PDWXGZQujW6voGgFKXQqIAVE5IQl6F910aP5FcRp/iSpRiyFF9
-	eB3f4gi9RqgiUnoDJkjGMBtflK9nGAukTt3prtajA8gZpomVObhv1JdpSrNQkNWUiLaUWepLp8y
-	Yp1u4CV3xWDaaMwZp02q1NQDtXn5o60lrtdoH3eRLvdeGhiYJ5pFjmS8GZ4PZXsxWJNIWjkgLX6
-	98vUW5NQ3EW6stK4zzvuOctz3ZOQVxVbSlDIcYLD5FEBfPnPcWV4NyZ6MvRo7h+LXaWixOzFop4
-	3M//sGtygp8N9z/NO71L9AQFwQpU1RUa1tNJAtHG94wSUaKYL2iZqACi8V5G2KA1kbA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790788067; bh=uupRo1CCMSKlZsGVe6XHCGg
-	f/iV56NTda/N4Mp3I42o=; b=nD9ssAqrqQhm6Qf1xI2650sBuJxgcOfyYdUeKfxkpZsBUV8ro7
-	4Q1YLRUwXy+nSIHh/I3Eyh2ZQNtwrFX3KSBw==;
-Date: Wed, 30 Sep 2026 18:07:46 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: kernel test robot <lkp@intel.com>
-CC: oe-kbuild-all@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5Bpaulmckrcu=3Adev=2E2026=2E09?=
- =?US-ASCII?Q?=2E18a_24/34=5D_ERROR=3A_modpost=3A?=
- =?US-ASCII?Q?_fs/btrfs/btrfs=2Eko=3A_symbol_?=
- =?US-ASCII?Q?=27cmpxchg=5Femu=5Fu8=27_undefined!?=
-In-Reply-To: <202610010054.roP05vYH-lkp@intel.com>
-References: <202610010054.roP05vYH-lkp@intel.com>
-Message-ID: <D067807D-352D-4B55-AEE6-B1334711EBD4@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjJMX1X0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593D71F00899
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 17:14:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790788448;
+	bh=epz0WRzoi380HJbSVf1f3TBmMXToNAvaTA1C8h0ofzo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=SjJMX1X0AZBMm1nacjZ17iN55D+IrsI7M/eZ4T3/ZmTPd2Zg2nycj82pJ2IuayLjy
+	 kmPs68f5XUyF/rPL1YGL3PAVc5tgUB1YU1fEB387pFW9etW4QkVcTMRHzug4B/lB8A
+	 ZkQFfU7Jem9creV7TLD4AX8AvyWC2W4x+QiPv41VdJPrbrCP2FwS9msq/685FCtutO
+	 a8BG7wGKsC9WhJcWPy5DrKh1J0z6TgJhiKxVUlAlgmArgAWjju5hHMHsMByxHSZEkO
+	 AADZqp/om52BrzFCEG84VdMHpDXSm/Q++CEIqn1f63lJo9DnQ0FHuSYBr07frM3cjg
+	 Y+7uRN/IvwQAA==
+Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2e17363b97so177746366b.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 10:14:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwVjeDCx6EJE3qbs74QWpsyx3vFFfDSJqOZ8lKspCkpa0M/F9jgWSdO3CjEPBPBUQXNir83CHdtvwLyPlB8@lists.linux.dev
+X-Gm-Message-State: AFuF++mmcdmCOGXss6d7b4HmsXLIC5Za9IYgvydMgNVAJjui9KZLMZ+O
+	YZUWWVFw/69pllbGaQaEeFyNzbMnx01Ffqy3ECW1hib9g7vIsNpAhCxg3FIgWi6ghw/84ahAScr
+	36fLNxoha8GzvSElcDeTo68xeTmtjYw==
+X-Received: by 2002:a17:907:72d2:b0:c2a:fd39:f23b with SMTP id
+ a640c23a62f3a-c2e23d6425emr195730766b.24.1790788447035; Wed, 30 Sep 2026
+ 10:14:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <202609301056.m1VNxu3Z-lkp@intel.com> <CAD++jLnqJ62g1=jqGPOJPZNmRukzArgNNMJdh4wsAeRe--U+XQ@mail.gmail.com>
+ <CAL_JsqL16LyQGvMuktobzfhnrKYBQVMztrAgyUr-9KL+uy4X1w@mail.gmail.com> <CAD++jL=7amXYBVVt8qrN5tSJpOR2uMCfaWUb3ZOiWPQkLB2Y+w@mail.gmail.com>
+In-Reply-To: <CAD++jL=7amXYBVVt8qrN5tSJpOR2uMCfaWUb3ZOiWPQkLB2Y+w@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 30 Sep 2026 12:13:53 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJgDFN5=8=H=4KOR9R6GYs4oo9zOG5E+6FEujYprvsWpA@mail.gmail.com>
+X-Gm-Features: AclHuK91LEpuEQAUwK4KU7XvZY8h4Zvy9so4NHTXn9lraLX6u1NsLJQ3MB0DAuE
+Message-ID: <CAL_JsqJgDFN5=8=H=4KOR9R6GYs4oo9zOG5E+6FEujYprvsWpA@mail.gmail.com>
+Subject: Re: [linux-next:master 8900/11456] arch/arm/boot/dts/st/ste-hrefv60plus-stuib.dtb:
+ prcmu@80157000 (stericsson,db8500-prcmu): ab8500:codec: '#sound-dai-cells' is
+ a required property
+To: Linus Walleij <linusw@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Lee Jones <lee@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 30 September 2026 17:48:44 BST, kernel test robot <lkp@intel.com> wrote:
->tree:   https://github.com/paulmckrcu/linux dev.2026.09.18a
->head:   90599c372e13369d11f6c1a01ff0094b16f72cf8
->commit: c98d10b438b5626edb3f4e06f4f62bcb6ed6fe90 [24/34] lib: Add two-byte cmpxchg emulation function
->config: xtensa-randconfig-1001-20260930 (https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/config)
->compiler: xtensa-linux-gcc (GCC) 8.5.0
->reproduce (this is a W=1 build):
->(https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/reproduce)
+On Wed, Sep 30, 2026 at 8:06=E2=80=AFAM Linus Walleij <linusw@kernel.org> w=
+rote:
 >
->If you fix the issue in a separate patch/commit (i.e. not just a new
->version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes:
->https://lore.kernel.org/oe-kbuild-all/202610010054.roP05vYH-lkp@intel.com/
+> On Wed, Sep 30, 2026 at 2:07=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
+> > On Wed, Sep 30, 2026 at 4:48=E2=80=AFAM Linus Walleij <linusw@kernel.or=
+g> wrote:
+> > > On Wed, Sep 30, 2026 at 10:31=E2=80=AFAM kernel test robot <lkp@intel=
+.com> wrote:
+> > >
+> > > > dtcheck warnings: (new ones prefixed by >>)
+> > >
+> > > I'm not happy about how this bot keeps hammering despite I say this w=
+ill be
+> > > merged in an orthogonal tree and just isn't applied to linux.next the=
+re yet.
+> > >
+> > > Should I go and just merge my own pull request into the SoC tree just
+> > > to shut this up...
+> >
+> > We really should stop making schema changes that break existing DTs
+> > unless the change fixes an error. I imagine this one was this way for
+> > *years*, so hardly seems like it falls in that category.
 >
->All errors (new ones prefixed by >>, old ones prefixed by <<):
->
->>> ERROR: modpost: fs/btrfs/btrfs.ko: symbol 'cmpxchg_emu_u8' undefined!
+> It's actually not breaking any existing DTs (i.e. they compile fine), it
+> breaks the validation. But that's bad too.
 
-What?
+Warnings are broken in my book.
+
+> It's adding new properties to existing nodes.
+>
+> This whole mess is caused just by making one new property required:
+
+That's pretty common unfortunately.
+
+The problem is the schema is the ABI contract. If you change it, then
+you change the contract. The OS is free to treat a missing required
+property as an error. So if you add one and then add that to the OS,
+then any existing DT before that change is broken.
 
 >
->--
->0-DAY CI Kernel Test Service
->https://github.com/intel/lkp-tests/wiki
+> @@ -319,6 +346,7 @@ properties:
+>
+>      required:
+>        - compatible
+> +      - '#sound-dai-cells'
+>
+> In hindsight I should have deferred adding this requirement...
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+Or just never made it required. Maybe it's nice to use the warnings
+for what to fix in .dts files, but that's not their purpose. In this
+case in particular, this is old stuff which is not gaining new
+platforms where you want to make sure they are correct.
+
+>
+> If it's very annoying I can send a oneliner making this non-required
+> that we can then later revert.
+
+If the dts change is going in this cycle, just get that done and
+ignore the warning for now. Most folks are good at ignoring them. :(
+
+Rob
