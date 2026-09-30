@@ -1,109 +1,205 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7505351123D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 17:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592AF5208B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 17:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790790872; cv=none; b=oh2sdWvFoz055NK9y5DcxwBB77bha6imr6FT+95GM24XzX+tJpfvaPoK6fw+IKpYbNwKYUqALnV6GBE8Im71BOFflJpVdBSNY6tWnAodah5bibDnrVBvp+FjsPty1tC/wxUO61IWLJ8qszdnDn+DiugbcjF/CvDXsh8bWjHjW08=
+	t=1790790928; cv=none; b=b7QEIcLH2vkysBow1gFcHLqYcZPKkOLC0p1G2DzG5f42z2i5Z6eCgQgwMzAekOJ1XNNVGrdQJeDAiwmPxHADikFKevlEnvPsj2W0LcQblkTiNiUCDYmpvbqEpKmpoomRmoQ65l3mr2tqVdGtrzlQLgDKpaAoDOvSVCRgkBKLBqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790790872; c=relaxed/simple;
-	bh=SG5ColaaFzKE24kl6TM7bwL4Jn/ayKcKSElsRXJrND4=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=VYv5l3FTJhRmD5x+kFEmJzsB+aFzjeaJZJ9A9OdaIFnUR+ExhhLjnDEK2ZNLc+383Lej7l0eUDt2XBi/7GdLozE1pSuYJCZtmUSnVHa/aT9DfjpBEUj1HKRIDOQLtcwuOe81Nba4qGrd5Z9PNtBplIlHmrLphwY9h1UpUgm4RjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=IlyD79+1; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=NB2xVjxe; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790790928; c=relaxed/simple;
+	bh=7GXVV0hq4gyJti1Oa0hD9YA4ubJMZq48TZxakhfv8PU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cgsqVuQMV6/kmeAdhX3FVIk0MsmribfFKwMOhUDm4wcdU9l/id6jV+PjA5B4i0uR54OIWkPLdzyEgrdk2L5cvQJFlACsuzkhzU57ctlG53uGsDtDxL1eGsuoqfShomDP2Iz4oC6sIA/LPWmA9dA96xZ6eGqRjdLTHv9wZyalGpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SP4n51p/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="IlyD79+1";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="NB2xVjxe"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790790843; bh=6Uq4gBwEv8AyH5q3RExvHLk
-	bbZqWVfTGoUvZlRp8y4A=; b=IlyD79+1/TEpg+FlfjtRvGncRXT2B0vDwtuWp2VCFG9EpXTVCr
-	PNLLb7o93lPizUWyJTtmF6eP6ommT3kUOGcF803witQaMlZP98e3peM7Ecm86mnObXyovCOh6Ty
-	ozSjNPCghXBzUXimjQGzmM2J0w+VkxsQp1ZizMoxj0CXOsqtOd3AnMGBPNHfmozUjajCqCY1Ukw
-	hOdXXvQ5R+ZlVveVO/adCrDC1rAMg4GyJHEZCUApcIq8V/OjCoieX2zQrXm1x/wEkZhk6INiBpF
-	quR+sTx1/47AN2UXgwXohuxDWFFnBuHzv62MJpc1L5ccuw6lgJqe6XJVAkC9Bof7+BQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790790843; bh=6Uq4gBwEv8AyH5q3RExvHLk
-	bbZqWVfTGoUvZlRp8y4A=; b=NB2xVjxebYOgEizD6EVw47h506WtA05o7mGgf38Z1rpcwlFDiv
-	Vv3DFunl2kHxE6LG4rlIgmbXpKnm1NDQhlBA==;
-Date: Wed, 30 Sep 2026 18:54:02 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: paulmck@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
-CC: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5Bpaulmckrcu=3Adev=2E2026=2E09?=
- =?US-ASCII?Q?=2E18a_24/34=5D_ERROR=3A_modpost=3A?=
- =?US-ASCII?Q?_fs/btrfs/btrfs=2Eko=3A_symbol_?=
- =?US-ASCII?Q?=27cmpxchg=5Femu=5Fu8=27_undefined!?=
-In-Reply-To: <77b3d63b-4a41-4415-969d-a043ced63304@paulmck-laptop>
-References: <202610010054.roP05vYH-lkp@intel.com> <D067807D-352D-4B55-AEE6-B1334711EBD4@mainlining.org> <ce4ed8b6-cf07-44c4-b4e2-9cdb2b452772@paulmck-laptop> <F871853E-8AB8-4BDC-BAC8-10B56C4AE330@mainlining.org> <77b3d63b-4a41-4415-969d-a043ced63304@paulmck-laptop>
-Message-ID: <50436E31-D2B5-4DF7-B6D0-36E23CCC14C6@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SP4n51p/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D78D1F00898;
+	Wed, 30 Sep 2026 17:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790790926;
+	bh=FAhMdtCDqWz9D3ECT7MNQQ8phMf7Ags713lI/BxPppg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=SP4n51p/tktB96CKVbuvawZb+MnVHpKGpktBwFvD7AT3vRQajdtegEBZKUk62BYeD
+	 eGFwjGT0xu7AFDOoZmeIgJJX2RtsqTHPHV25UOw8tUIDeWzFry+22WfJKarjLv/5VY
+	 Hgu/G80DQs5Oj07ljwtFSLjhg3ApHMjeZJJj6LEfWfkNVmQqcBlItls3+eYYEYR5Mt
+	 ix+ZmxIiSvSQ5dchM7Wok0m1hy6AiZjFVH4I6kE1ycAiWlcCtkCP+ABzigbVIbBTDl
+	 SVcBSnc9oPD87L+2tMhb1KqQsi2zZxhaE+mLHW47JK8vMsPkhJb4swCLGrV3LOLRhW
+	 E+vmD2yg/45iw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 8B637CE097C; Wed, 30 Sep 2026 10:55:25 -0700 (PDT)
+Date: Wed, 30 Sep 2026 10:55:25 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: Bradley Morgan <brads@mainlining.org>,
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-snps-arc@lists.infradead.org
+Subject: Re: [paulmckrcu:cmpxchg2.2026.09.22a 25/28]
+ arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in
+ conditional expression
+Message-ID: <6d38b017-fc53-4377-b196-80cdb613520a@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202609241517.SSV1Goz3-lkp@intel.com>
+ <3cbe5de8-d04b-4afe-b19f-ad755d4ea320@kernel.org>
+ <7CB37192-1AE6-4392-8D7B-89F401214C02@mainlining.org>
+ <d7a78ebb-8b5e-42e9-9560-bd731724c9f8@linux.dev>
+ <5c72050d-95c8-4ba1-ab15-22f774ea9319@paulmck-laptop>
+ <05f1310a-684f-493a-ad4f-4f313f344c81@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <05f1310a-684f-493a-ad4f-4f313f344c81@kernel.org>
 
-On 30 September 2026 18:51:53 BST, "Paul E. McKenney" <paulmck@kernel.org>
-wrote:
->On Wed, Sep 30, 2026 at 06:41:08PM +0100, Bradley Morgan wrote:
->> On 30 September 2026 18:39:55 BST, "Paul E. McKenney"
-><paulmck@kernel.org>
->> wrote:
->> >On Wed, Sep 30, 2026 at 06:07:46PM +0100, Bradley Morgan wrote:
->> >> On 30 September 2026 17:48:44 BST, kernel test robot <lkp@intel.com>
->> >wrote:
->> >> >tree:   https://github.com/paulmckrcu/linux dev.2026.09.18a
->> >> >head:   90599c372e13369d11f6c1a01ff0094b16f72cf8
->> >> >commit: c98d10b438b5626edb3f4e06f4f62bcb6ed6fe90 [24/34] lib: Add
->> >two-byte cmpxchg emulation function
->> >> >config: xtensa-randconfig-1001-20260930
->>
->>(https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/config)
->> >> >compiler: xtensa-linux-gcc (GCC) 8.5.0
->> >> >reproduce (this is a W=1 build):
->> >>
->>
->>>(https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/reproduce)
->> >> >
->> >> >If you fix the issue in a separate patch/commit (i.e. not just a new
->> >> >version of
->> >> >the same patch/commit), kindly add following tags
->> >> >| Reported-by: kernel test robot <lkp@intel.com>
->> >> >| Closes:
->> >>
->>
->>>https://lore.kernel.org/oe-kbuild-all/202610010054.roP05vYH-lkp@intel.com/
->> >> >
->> >> >All errors (new ones prefixed by >>, old ones prefixed by <<):
->> >> >
->> >> >>> ERROR: modpost: fs/btrfs/btrfs.ko: symbol 'cmpxchg_emu_u8'
->> >undefined!
->> >> 
->> >> What?
->> >
->> >My bad, allegedly fixed:
->> >
->> >2395ec347553 ("lib: Add two-byte cmpxchg emulation function")
->> 
->> Have you merged 2395ec347553 ("lib: Add two-byte cmpxchg emulation
->> function") to your tree?
->
->Yes, it is on the current "dev" branch as of yesterday afternoon,
->Pacific Time.
+On Tue, Sep 29, 2026 at 03:10:01PM -0700, Vineet Gupta wrote:
+> 
+> 
+> On 9/29/26 13:47, Paul E. McKenney wrote:
+> > On Thu, Sep 24, 2026 at 02:27:11PM -0700, Vineet Gupta wrote:
+> > > On 9/24/26 13:58, Bradley Morgan wrote:
+> > > > On 24 September 2026 21:52:55 BST, Vineet Gupta <vgupta@kernel.org> wrote:
+> > > > > On 9/24/26 00:51, kernel test robot wrote:
+> > > > > > tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
+> > > > > > head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
+> > > > > > commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC: Emulate
+> > > > > two-byte cmpxchg
+> > > > > > config: arc-allyesconfig
+> > > > > (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/config)
+> > > > > > compiler: arc-linux-gcc (GCC) 16.1.0
+> > > > > > reproduce (this is a W=1 build):
+> > > > > (https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/reproduce)
+> > > > > > If you fix the issue in a separate patch/commit (i.e. not just a new
+> > > > > version of
+> > > > > > the same patch/commit), kindly add following tags
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Closes:
+> > > > > https://lore.kernel.org/oe-kbuild-all/202609241517.SSV1Goz3-lkp@intel.com/
+> > > > > > All errors (new ones prefixed by >>):
+> > > > > > 
+> > > > > >       In file included from arch/arc/include/asm/atomic.h:13,
+> > > > > >                        from include/linux/atomic.h:7,
+> > > > > >                        from include/asm-generic/bitops/lock.h:5,
+> > > > > >                        from arch/arc/include/asm/bitops.h:190,
+> > > > > >                        from include/linux/bitops.h:67,
+> > > > > >                        from include/linux/log2.h:12,
+> > > > > >                        from include/asm-generic/div64.h:55,
+> > > > > >                        from ./arch/arc/include/generated/asm/div64.h:1,
+> > > > > >                        from include/linux/math.h:6,
+> > > > > >                        from include/linux/math64.h:6,
+> > > > > >                        from include/linux/time.h:6,
+> > > > > >                        from include/linux/stat.h:19,
+> > > > > >                        from include/linux/fs_dirent.h:5,
+> > > > > >                        from include/linux/fs/super_types.h:5,
+> > > > > >                        from include/linux/fs/super.h:5,
+> > > > > >                        from include/linux/fs.h:5,
+> > > > > >                        from include/linux/fscrypt.h:16,
+> > > > > >                        from fs/crypto/fscrypt_private.h:15,
+> > > > > >                        from fs/crypto/hooks.c:10:
+> > > > > >       fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
+> > > > > > > > arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch in
+> > > > > conditional expression [-Wincompatible-pointer-types]
+> > > > > >          46 |         unsigned long _new_ = (unsigned long)(0 ? *(_p_) :
+> > > > > (new));              \
+> > > > > 
+> > > > > Issue is in  fs/crypto/hooks.c doing cmpxchg_release(&inode->i_link, NULL,
+> > > > > pstr.name)
+> > > > > where i_link is char * and pstr.name is unsigned char *),
+> > > > > 
+> > > > > The problem is when pointer types are incompatible and that's exactly the
+> > > > > W toggle above.
+> > > > > 
+> > > > > So Bradley's patch needs this fixup
+> > > > > 
+> > > > > diff --git a/arch/arc/include/asm/cmpxchg.h b/arch/arc/include/asm/cmpxchg.h
+> > > > > index 4596edfefa95..9053098bb152 100644
+> > > > > --- a/arch/arc/include/asm/cmpxchg.h
+> > > > > +++ b/arch/arc/include/asm/cmpxchg.h
+> > > > > @@ -42,8 +42,10 @@
+> > > > >    #define arch_cmpxchg_relaxed(ptr, old, new)     \
+> > > > >    ({    \
+> > > > >           __typeof__(ptr) _p_ = (ptr);     \
+> > > > > -       unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));             \
+> > > > > -       unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));             \
+> > > > > +       __typeof__(*(ptr)) _o_ = (old);    \
+> > > > > +       __typeof__(*(ptr)) _n_ = (new);    \
+> > > > > +       unsigned long _old_ = (unsigned long)_o_;            \
+> > > > > +       unsigned long _new_ = (unsigned long)_n_;            \
+> > > > > 
+> > > > > P.S: For arch changes shouldn't the submitter be required to at least test
+> > > > > the building, specially when this involves the macro maze. Its really easy
+> > > > > with crosstool hosting all the cross-compilers [1] - just download and
+> > > > > untar.
+> > > > > 
+> > > > > [1]
+> > > > > https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/16.2.0/
+> > > > Well thanks but I didn't have a proper server till yesterday.
+> > > A relatively decent laptop works for me.
+> > And you will get *way* faster response time than waiting on kernel
+> > test robot.  ;-)
+> > 
+> > > > I'll post all arch patches when Paul tells me how he wants it
+> > > Please do a minimal compile build - it will save you the re-spins.
+> > > 
+> > > > Like if he wants u16 in first then arch changes sent.
+> > First, I queued Vineet's cmpxchg patch from his pull request to Linus.
+> > I have marked it "EXP" so that I don't accidentally ship it off somewhere
+> > myself.
+> > 
+> > Given the surprises from the u8/u16 changes, I suggest the following:
+> > 
+> > 1.	One patch to add cmpxchg_emu_u16(), but without the u8/u16
+> > 	changes.  And without the CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU
+> > 	change.
+> > 
+> > 	At Bradley's option, cmpxchg_emu_u8() could remain as is, with
+> > 	cmpxchg_emu_u16() being born as u16.  The upside is less churn
+> > 	later.	The downside is that more up-front testing is needed,
+> > 	and thus greater interaction with busy architecture maintainers.
+> > 	If it was me, I would start with cmpxchg_emu_u16() being as
+> > 	close to cmpxchg_emu_u8() as possible in order to "get the
+> > 	camel's nose into the tent" as quickly and easily as possible.
+> > 	But this is Bradley's patch series, so his choice.
+> > 
+> > 2.	One patch each to add use of cmpxchg_emu_u16() to each
+> > 	affected architecture.
+> > 
+> > 3.	Given #1, each patch for #2 can go in independently.  The patches
+> > 	for #2 of course need acks from their respective maintainers.
+> > 
+> > 4.	A patch to rename CONFIG_ARCH_NEED_CMPXCHG_1_EMU to
+> > 	CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU.  This will cross lib and
+> > 	architectures, which should be OK because it is just a name
+> > 	change.  We collect acks as before.
+> > 
+> > 5.	Convert cmpxchg_emu_u8() away from uintptr_t, and, if needed,
+> > 	cmpxchg_emu_u16() as well.
+> > 
+> > This could take a merge window or three to get in, but that is not all
+> > that bad for cross-architecture patch serieses such as this one.
+> > 
+> > Bradley, Vineet, thoughts?
+> 
+> Sound like a plan, buy hey its Bradley doing all the work here ;-)
 
-Cheers, anything you want me to do today for it?
+I figured that I should give him the chance, but yes, if he declines I
+will of course do any needed additional work.
 
->
->							Thanx, Paul
->
->> --- Thanks!
->> "I'm not a very positive person" - Linus torvalds
+> I would only add something I mentioned before: download the cross toolchains
+> and do some build testing locally before posting. This is not because arch
+> maintainers are busy or lazy (although they can be both) - that saves
+> potential respins induced by new code or even broken existing code exposed.
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+Agreed!!!
+
+> And on that topic I just found a gcc 16 ICE when building an allyesconfig
+> for ARC. I will only be able to post the gcc fix after LPC, but just FYI in
+> case someone runs into it.
+
+Thanks for the heads up.
+
+							Thanx, Paul
