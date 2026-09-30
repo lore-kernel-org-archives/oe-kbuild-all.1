@@ -1,49 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1CF36E467
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 20:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73E44C0402
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 20:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790798694; cv=none; b=C7ViPjqYvTwHKKEYF96nzf98HpvRnngzizVFBtanYBmSk4BGJJGcGp/iqXQfqUE1nl5w5MMb9OJXVeXDOpKdsCdOvzen2q09XDDr/rwU6xxMne8bw3PsAuawuIBiLoS0dUjJgsHFyhlay9CrW8dP4pLQ9jsGYLIv0psdBeBJfg4=
+	t=1790799218; cv=none; b=mZyqxGOI+IAXkUJa2Gqi0c/y4RTEGA0zIht7Pgp8r1Q02hlkS90DA471NngGTzj9ppErjz7vfnQiZ5xXUdjWBxnPhkJO70PdtPryddYYozJwLy4qKkntcbXkwm6m/wD/8KqslqpcnUEiHQEvx1QuSkyAnYROn0ZtHDpIzrwyU/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790798694; c=relaxed/simple;
-	bh=zMDsOTd7TIIaVxdxffCquEYOeAg2Qeg3CDOX1WkQnHo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lpRoYkiOICFgFshFvx8FfM+cWpHU9gdN+v4q7xoxrFmLuzJoXV3sVMN0GFXDgDFm2t3LRaRPiANZ//WfGWGIH6FZKuDZrB+7J/qOYzDy70p15qncTctAzXafPmpK9UPf+9/WhMpBxwDFanSSz/8umHzZJUMyrc/oo069cG8IMjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QkZzqkgZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790799218; c=relaxed/simple;
+	bh=XA0jO2G98PM3/4hVtC0h3k8PDitWOHq8l2CIUrU9q3I=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hrDYFY5p302kGI9GF/VaC7t0zVcrXh+iJTpxxMaKQKnMzlmwDSolGn7t5KVngRaahAJTGAkz6zueBNAIF7zfwjrI/qvfJEaiJdVaqGNvk14rf9RDk49152qVqp6DnqDjC+0xxkiROXk33NyuzXMF9Ljq5miXd0FvldudRlyJVVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h8zGTFYV; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QkZzqkgZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 293E91F000FF;
-	Wed, 30 Sep 2026 20:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790798693;
-	bh=4pdO+5y4EIZH6nW6kZuvDy6PyzfPpXVeRNjCBihXb5k=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=QkZzqkgZ+xTF+XHUiI9ie4TjLiH3O5wiFjyFyppuAP5NJJd8GqZE0LH+Ywyu5AGe/
-	 GLV835OwnjNBq8sEhiMt9OCpzMDQP86+nHLAxtuRrqP/foBgiWdCP4dimN5LuIOZcX
-	 7ToDyqVYvi4+KFGFWSxTagTDnTTBYrPnBuI8pcu2noyMaXCTnCrHgHuF/DyfwMC08Q
-	 Edd37KS0mjI4id1WOJ3ihrD0ddXLyvaJdj6A0NWdmduNwLhOodgEeAiy1hKskGKGRI
-	 bnTx7uuhn8Ceirx/7Z7VH4AH8rtjF3DgufC1M6QYvLkFrzTywFqWklfbpRKHzillgz
-	 X/naNlslDiOxA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id ADFB7CE097C; Wed, 30 Sep 2026 13:04:52 -0700 (PDT)
-Date: Wed, 30 Sep 2026 13:04:52 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2026.09.18a 24/34] ERROR: modpost:
- fs/btrfs/btrfs.ko: symbol 'cmpxchg_emu_u8' undefined!
-Message-ID: <ada0517c-3917-4ea2-a72b-99a7afc9fcd7@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202610010054.roP05vYH-lkp@intel.com>
- <D067807D-352D-4B55-AEE6-B1334711EBD4@mainlining.org>
- <ce4ed8b6-cf07-44c4-b4e2-9cdb2b452772@paulmck-laptop>
- <F871853E-8AB8-4BDC-BAC8-10B56C4AE330@mainlining.org>
- <77b3d63b-4a41-4415-969d-a043ced63304@paulmck-laptop>
- <50436E31-D2B5-4DF7-B6D0-36E23CCC14C6@mainlining.org>
- <4cecf5e2-3d35-45a9-8632-6d77ffc9b85f@paulmck-laptop>
- <21858FC2-A5C3-4DCD-B8CE-F3F2F41E7215@mainlining.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8zGTFYV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790799216; x=1822335216;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=XA0jO2G98PM3/4hVtC0h3k8PDitWOHq8l2CIUrU9q3I=;
+  b=h8zGTFYVRyDJb2uctz6O1Mh7hwU21u5R1PdXZRaGFS1mMw5s+MEvACdV
+   NAzYwKt/3Bf7PNE9l0ifMi/XfAMdsApUAq8WgjJG8/twSh/uMG1PcpCYL
+   sf/pGEugQZClS7WhKryPTHBCB04uwjAApIZkA6WO4lvaDXdVzCw+jL4QX
+   PHnaipBAWZNdKn2tn1JGf/MVWDKWi3JJLwxpnV/VQA7CVmZjXjqZc8K9c
+   aglmJLudGGaLMk8T8JXVNCJ4z/FYCK59H872WZClzTAwDpC+uYO7+BX06
+   xwZaOAtBo1BDpNvCcQzADJmtT6eK6JlQrPbtDQ7vGN7zXB4BDLdzin1zr
+   w==;
+X-CSE-ConnectionGUID: Iu4MJf51RcywNwTqi1X/9A==
+X-CSE-MsgGUID: ukMcYV35TV6K6/6TLfSXeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="90315368"
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="90315368"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 13:13:36 -0700
+X-CSE-ConnectionGUID: /5LStNG8Rcu3E0lxzyPerA==
+X-CSE-MsgGUID: 1FmqNbLGR7WQG6tiOst4tQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="275328298"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 30 Sep 2026 13:13:35 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xC0gF-000000001z5-3c2s
+	for oe-kbuild-all@lists.linux.dev;
+	Wed, 30 Sep 2026 20:13:31 +0000
+Date: Wed, 30 Sep 2026 22:13:11 +0200
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: kasan: add KUnit tests for __counted_by and __counted_by_ptr
+Message-ID: <202609302227.ZAhd0ZIv-lkp@intel.com>
+References: <202609302227.ZAhd0ZIv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,101 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <21858FC2-A5C3-4DCD-B8CE-F3F2F41E7215@mainlining.org>
+In-Reply-To: <202609302227.ZAhd0ZIv-lkp@intel.com>
 
-On Wed, Sep 30, 2026 at 08:14:38PM +0100, Bradley Morgan wrote:
-> On 30 September 2026 20:11:50 BST, "Paul E. McKenney" <paulmck@kernel.org>
-> wrote:
-> >On Wed, Sep 30, 2026 at 06:54:02PM +0100, Bradley Morgan wrote:
-> >> On 30 September 2026 18:51:53 BST, "Paul E. McKenney"
-> ><paulmck@kernel.org>
-> >> wrote:
-> >> >On Wed, Sep 30, 2026 at 06:41:08PM +0100, Bradley Morgan wrote:
-> >> >> On 30 September 2026 18:39:55 BST, "Paul E. McKenney"
-> >> ><paulmck@kernel.org>
-> >> >> wrote:
-> >> >> >On Wed, Sep 30, 2026 at 06:07:46PM +0100, Bradley Morgan wrote:
-> >> >> >> On 30 September 2026 17:48:44 BST, kernel test robot
-> ><lkp@intel.com>
-> >> >> >wrote:
-> >> >> >> >tree:   https://github.com/paulmckrcu/linux dev.2026.09.18a
-> >> >> >> >head:   90599c372e13369d11f6c1a01ff0094b16f72cf8
-> >> >> >> >commit: c98d10b438b5626edb3f4e06f4f62bcb6ed6fe90 [24/34] lib: Add
-> >> >> >two-byte cmpxchg emulation function
-> >> >> >> >config: xtensa-randconfig-1001-20260930
-> >> >>
-> >>
-> >>>(https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/config)
-> >> >> >> >compiler: xtensa-linux-gcc (GCC) 8.5.0
-> >> >> >> >reproduce (this is a W=1 build):
-> >> >> >>
-> >> >>
-> >>
-> >>>>(https://download.01.org/0day-ci/archive/20261001/202610010054.roP05vYH-lkp@intel.com/reproduce)
-> >> >> >> >
-> >> >> >> >If you fix the issue in a separate patch/commit (i.e. not just a
-> >new
-> >> >> >> >version of
-> >> >> >> >the same patch/commit), kindly add following tags
-> >> >> >> >| Reported-by: kernel test robot <lkp@intel.com>
-> >> >> >> >| Closes:
-> >> >> >>
-> >> >>
-> >>
-> >>>>https://lore.kernel.org/oe-kbuild-all/202610010054.roP05vYH-lkp@intel.com/
-> >> >> >> >
-> >> >> >> >All errors (new ones prefixed by >>, old ones prefixed by <<):
-> >> >> >> >
-> >> >> >> >>> ERROR: modpost: fs/btrfs/btrfs.ko: symbol 'cmpxchg_emu_u8'
-> >> >> >undefined!
-> >> >> >> 
-> >> >> >> What?
-> >> >> >
-> >> >> >My bad, allegedly fixed:
-> >> >> >
-> >> >> >2395ec347553 ("lib: Add two-byte cmpxchg emulation function")
-> >> >> 
-> >> >> Have you merged 2395ec347553 ("lib: Add two-byte cmpxchg emulation
-> >> >> function") to your tree?
-> >> >
-> >> >Yes, it is on the current "dev" branch as of yesterday afternoon,
-> >> >Pacific Time.
-> >> 
-> >> Cheers, anything you want me to do today for it?
-> >
-> >And I just now refreshed it to add fixes for the bugs kernel test
-> >robot found.  Still the "dev" branch.
-> >
-> >846dac459e05 ("lib: Add two-byte cmpxchg emulation function")
-> >de32e93890c5 ("sh: Emulate two-byte cmpxchg")
-> >
-> >Please look at these and call out any needed changes, supplying fixup
-> >patches as needed.  (Or calling out changes to the commit logs.)  One
-> >question that I have is why the "(uintptr_t)" casts in cmpxchg_emu_u16()
-> >instead of casting using "(unsigned long)"?
-> >
-> >Then please send patches for the other architectures.
-> >
-> >Then the ARCH_NEED_CMPXCHG_1_EMU to ARCH_NEED_CMPXCHG_1_2_EMU name
-> >change (for the full set in one patch).  This must wait for all the
-> >per-architecture patches to be accepted.
-> >
-> >Then, if you wish, a patch changing the cmpxchg_emu_u8() function's
-> >"uintptr_t" to "unsigned long".
-> >
-> >Anything that I am missing?
-> 
-> Tags. You are missing all the tags.
-> 
-> David put tags. You were meant to add your tag.
+Hi Bill,
 
-I have a note to add David Laight to the two patches I have queued.
-I have my Signed-off-by on both patches, so that is set.
-
-What else?
+kernel test robot noticed the following build warnings:
 
 
-							Thanx, Paul
 
-> --- Thanks!
-> "I'm not a very positive person" - Linus torvalds
+url:    https://github.com/intel-lab-lkp/linux/commits/Bill-Wendling/kasan-add-KUnit-tests-for-__counted_by-and-__counted_by_ptr/20260928-231737
+base:   
+patch link:    https://lore.kernel.org/r/202609302227.ZAhd0ZIv-lkp%40intel.com
+config: x86_64-randconfig-2300-20260930 (https://download.01.org/0day-ci/archive/20260930/202609302227.ZAhd0ZIv-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609302227.ZAhd0ZIv-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609302227.ZAhd0ZIv-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   mm/kasan/kasan_test_c.c:1598:27: sparse: sparse: Variable length array is used.
+   mm/kasan/kasan_test_c.c:1613:27: sparse: sparse: Variable length array is used.
+   mm/kasan/kasan_test_c.c:2237:9: sparse: sparse: undefined identifier '__builtin_dynamic_object_size'
+   mm/kasan/kasan_test_c.c:2237:9: sparse: sparse: undefined identifier '__builtin_dynamic_object_size'
+>> mm/kasan/kasan_test_c.c:2237:9: sparse: sparse: incompatible types for operation (==):
+   mm/kasan/kasan_test_c.c:2237:9: sparse:    unsigned long const __left
+   mm/kasan/kasan_test_c.c:2237:9: sparse:    bad type const __right
+   mm/kasan/kasan_test_c.c:2284:9: sparse: sparse: undefined identifier '__builtin_dynamic_object_size'
+   mm/kasan/kasan_test_c.c:2284:9: sparse: sparse: undefined identifier '__builtin_dynamic_object_size'
+   mm/kasan/kasan_test_c.c:2284:9: sparse: sparse: incompatible types for operation (==):
+   mm/kasan/kasan_test_c.c:2284:9: sparse:    unsigned long const __left
+   mm/kasan/kasan_test_c.c:2284:9: sparse:    bad type const __right
+
+vim +2237 mm/kasan/kasan_test_c.c
+
+  2226	
+  2227	static void counted_by_flex_oob_access(struct kunit *test)
+  2228	{
+  2229		size_t size = 128;
+  2230		struct counted_by_flex_struct *s;
+  2231	
+  2232		s = alloc_counted_by_flex_struct(test, size);
+  2233	
+  2234		OPTIMIZER_HIDE_VAR(s);
+  2235	
+  2236		/* __builtin_dynamic_object_size() should return the correct length. */
+> 2237		KUNIT_EXPECT_EQ(test, size * sizeof(s->array[0]),
+  2238				__builtin_dynamic_object_size(s->array, 0));
+  2239	
+  2240		/* Out-of-bounds assignment. */
+  2241		KUNIT_EXPECT_KASAN_FAIL(test, s->array[size + 1] = 42);
+  2242	
+  2243		/* Out-of-bounds read. */
+  2244		KUNIT_EXPECT_KASAN_FAIL_READ(test, s->array[0] = s->array[size + 13]);
+  2245	
+  2246		kfree(s);
+  2247	}
+  2248	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
