@@ -1,61 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCEF371D14
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 03:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40F23769E1;
+	Wed, 30 Sep 2026 03:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790738663; cv=none; b=Fyk27NJDNMZCYCU0eFlw849hAuBybsVHKIxc8B/w6LMLIHSHMu9KNeVZeyWT1SzUdua9Ak+Dv9cAMBkgO40OMhoCvh5pvPok6p9rWD+qEWs+C/eWaeeSdal+d3ECYQSv0v6Q2vVsWfNxLF12f2lt+Y9xd1CRhqNM9oKOt8sO+b4=
+	t=1790739180; cv=none; b=Rwy7/XPm8ghV1/yuvST2kO9bbGbhrL6qn394Txi1FfsAvw73RuxDRxtenG0tFsLWzKEuLWpn8bn9kC9TQLm0oDOFG/Tk3EB9FA56jq7GmF8u/TzNXqu7NbXxNf7TtNXNJjusK87rsh0FHXjdx3DQJAuLhSuBee4hr1ysOFQj4bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790738663; c=relaxed/simple;
-	bh=n1DADKhe9xRV3sNCWeM67fzx17yWLTOn9FAz5GnZbEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=JGYK4lChjgvWvxwwIYjFF58PgBbrhsRnScN7eBZmkiUPumPSVBTFvCCM1yPU4O47w/acYeIvCIaD1g7YGVrTPqjjZma8GZA6GqIpbCs0fBskCbGY3JZfsrTRWt6ftWl1/R7DNDvVILuUUO8RNdKcq4YFjqeexZBBkk1UmDL8w30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dKbR2kIw; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790739180; c=relaxed/simple;
+	bh=F7yB+D0IFepWy0sCKHOz+1szfj0w0UzZ+J/K3eaDBhI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xq5IdEMbsNW+9HofyJHlwKfrAj0g2pDadhvQOklGntIAq5iC3T9QUyNnhbXY+Og47+YntahAkToeDWGvSVwVHxpPMrOYPwwYsJFAMBXsoyLLLq0/LSDuyK7X+4Nu/7ZpOEhRPtVkgf3h2bcuUkP2IDz01C0wK7CNJ0POeI2yBO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lwM/jzLY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dKbR2kIw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790738661; x=1822274661;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n1DADKhe9xRV3sNCWeM67fzx17yWLTOn9FAz5GnZbEw=;
-  b=dKbR2kIw1OlZw9VAA8JRMEBwN2PeZo5nj6hehc47jmuAPkvQmpAd8lmt
-   0nnZMFLHBr7xlPuPE072Nh7XuaQWYyb3BUskU99C0UxEkI1HVfnoKV4aZ
-   fpnmUqqKLvYnJDiZxyyrZxuiQtFXSK1RjEGXni9/UIg/ylkED69tfzMDr
-   IAMuTdXNCThzOw0r+Nt06NDJLLQxki82hiR5hEay6eEDodMTcx15N58/0
-   pYlrtQotl2OmGWugP91qAdBLO4QJN/JW1s58H9VB75YCXE3hcUjqOt6ZW
-   2wQE8KRX8zI1VeKi/O1aABDSayb51NEwe1jX6QIaDGUKU8Z4NTOHUL8uY
-   A==;
-X-CSE-ConnectionGUID: XcCbu6U8QYKnJpZwIgGdtA==
-X-CSE-MsgGUID: 1mmrSsj8QQqkhYVwMCd93g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="95280789"
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="95280789"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 20:24:20 -0700
-X-CSE-ConnectionGUID: VnyXi1hdT7OT0v18A97Vqg==
-X-CSE-MsgGUID: kHYUENvuTiKPKYkUD4bebg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="275593739"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 29 Sep 2026 20:24:19 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xBkvW-000000001it-1GQS;
-	Wed, 30 Sep 2026 03:24:14 +0000
-Date: Wed, 30 Sep 2026 05:23:21 +0200
-From: kernel test robot <lkp@intel.com>
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
- "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Subject: [tip:timers/vdso 4/4] include/linux/compiler_types.h:702:38:
- error: call to '__compiletime_assert_5' declared with attribute error:
- BUILD_BUG_ON failed: clock >= BITS_PER_TYPE(msk)
-Message-ID: <202609300510.Ej5t8KO8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lwM/jzLY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FE371F000FF;
+	Wed, 30 Sep 2026 03:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790739176;
+	bh=OAxFcNutWaEJc7UROCwX8/ekY1pHdbFP/wZdGR502Ww=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=lwM/jzLYDhIs8nuczFQIgEfiw7dl7opcRVMTjZ0uHhwWbhtHPkLIEPc2AjoARQKae
+	 WT2m5e16V+U4c75b8362p4UWinVQu9xo+TNrNWO65JlBj2jiik9UIzMESeL484zX4r
+	 1mrUXxEMqZRy75ejvnf5wz7a1h7/5Np9wcTeZnaQcCDfN0xJyJRyZQx9nX98Yp/9/L
+	 ZiDQJnN+nXzMdQOcKAedr6KxroKt2P7se3KSOwkYEF/HNVzpBT4/yTN4DMHizBjkr2
+	 QeRFG848qJMJBoYMidKzokP/JuzwnR+D7X7nXwUVh92hI0Y8W8M0UQ9lU2lY3xT3tD
+	 qYonHw4Wffvdw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id EE702CE3A55; Tue, 29 Sep 2026 20:32:55 -0700 (PDT)
+Date: Tue, 29 Sep 2026 20:32:55 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Bradley Morgan <brads@mainlining.org>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [paulmck-rcu:dev.2026.09.18a 24/34] block.c:undefined reference
+ to `cmpxchg_emu_u8'
+Message-ID: <e030337e-b2ca-4192-a357-1d54189f6ada@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202609301117.nVKrDSkb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,89 +45,42 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609301117.nVKrDSkb-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-head:   ca46a07c4b68246c4e400ce3649ab7228a878d8f
-commit: ca46a07c4b68246c4e400ce3649ab7228a878d8f [4/4] vdso/gettimeofday: Assert that the clockid fits into the u32 bitmask
-config: sparc64-randconfig-2001-20260930 (https://download.01.org/0day-ci/archive/20260930/202609300510.Ej5t8KO8-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609300510.Ej5t8KO8-lkp@intel.com/reproduce)
+On Wed, Sep 30, 2026 at 11:13:04AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2026.09.18a
+> head:   90599c372e13369d11f6c1a01ff0094b16f72cf8
+> commit: c98d10b438b5626edb3f4e06f4f62bcb6ed6fe90 [24/34] lib: Add two-byte cmpxchg emulation function
+> config: xtensa-randconfig-1000-20260929 (https://download.01.org/0day-ci/archive/20260930/202609301117.nVKrDSkb-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609301117.nVKrDSkb-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609301117.nVKrDSkb-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609300510.Ej5t8KO8-lkp@intel.com/
+My bad.  I need to adjust the Kconfig change.
 
-All errors (new ones prefixed by >>):
+							Thanx, Paul
 
-   In file included from <command-line>:
-   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c: In function '__cvdso_clock_gettime_common':
-   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:288:24: error: implicit declaration of function 'BITS_PER_TYPE'; did you mean 'BITS_PER_LONG'? [-Werror=implicit-function-declaration]
-     288 |  BUILD_BUG_ON(clock >= BITS_PER_TYPE(msk));
-         |                        ^~~~~~~~~~~~~
-   include/linux/compiler_types.h:682:9: note: in definition of macro '__compiletime_assert'
-     682 |   if (!(condition))     \
-         |         ^~~~~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:51:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      51 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |  ^~~~~~~~~~~~~~~~
-   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:288:2: note: in expansion of macro 'BUILD_BUG_ON'
-     288 |  BUILD_BUG_ON(clock >= BITS_PER_TYPE(msk));
-         |  ^~~~~~~~~~~~
-   In function '__cvdso_clock_gettime_common',
-       inlined from '__vdso_clock_gettime64' at arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:310:7:
->> include/linux/compiler_types.h:702:38: error: call to '__compiletime_assert_5' declared with attribute error: BUILD_BUG_ON failed: clock >= BITS_PER_TYPE(msk)
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                      ^
-   include/linux/compiler_types.h:683:4: note: in definition of macro '__compiletime_assert'
-     683 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:51:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      51 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |  ^~~~~~~~~~~~~~~~
-   arch/sparc/include/uapi/../../../../lib/vdso/gettimeofday.c:288:2: note: in expansion of macro 'BUILD_BUG_ON'
-     288 |  BUILD_BUG_ON(clock >= BITS_PER_TYPE(msk));
-         |  ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/__compiletime_assert_5 +702 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  691  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  703  
-
-:::::: The code at line 702 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    xtensa-linux-ld: fs/crypto/block.o: in function `fscrypt_limit_io_blocks':
+> >> block.c:(.text+0x300): undefined reference to `cmpxchg_emu_u8'
+>    xtensa-linux-ld: fs/crypto/block.o: in function `fscrypt_zeroout_range_end_io':
+>    block.c:(.text+0x31c): undefined reference to `cmpxchg_emu_u8'
+>    xtensa-linux-ld: fs/btrfs/bio.o: in function `btrfs_bio_alloc':
+> >> bio.c:(.text+0x88c): undefined reference to `cmpxchg_emu_u8'
+>    xtensa-linux-ld: fs/btrfs/bio.o: in function `btrfs_bio_end_io':
+>    bio.c:(.text+0x8e8): undefined reference to `cmpxchg_emu_u8'
+>    `.exit.text' referenced in section `__jump_table' of drivers/staging/vme_user/vme_fake.o: defined in discarded section `.exit.text' of drivers/staging/vme_user/vme_fake.o
+>    `.exit.text' referenced in section `__jump_table' of drivers/staging/vme_user/vme_fake.o: defined in discarded section `.exit.text' of drivers/staging/vme_user/vme_fake.o
+>    xtensa-linux-ld: block/blk-crypto-fallback.o: in function `blk_crypto_fallback_decrypt_endio':
+> >> blk-crypto-fallback.c:(.text+0x10c): undefined reference to `cmpxchg_emu_u8'
+>    xtensa-linux-ld: block/blk-crypto-fallback.o:blk-crypto-fallback.c:(.text+0x18c): more undefined references to `cmpxchg_emu_u8' follow
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
