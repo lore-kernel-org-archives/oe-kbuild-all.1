@@ -1,162 +1,219 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B802CCC5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 06:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694A93EFFC3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 06:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790748736; cv=none; b=kGwG/oJq2R+rg8yRnO6gVdSidRLYBU3PyY6JicvKDBN0phQOeAe2Qj0DIzBMQLj3Z0GaPtDQlTIp9JpBJPPA5gGJ0njPJsm+bf54R5PIN426VfsMDHS+4O595zqsTOardNaYuv41cZfHryh6f5Z07R/hWwnKxOmEIXEDJxNEFKA=
+	t=1790750353; cv=none; b=Sk3sT58ncSgwxMeL0LlMZzjchFAPBTN9fpogw7zMGCPIF0FFmlotKoDRlLgQZWWrT2NhJgXvIvpzHiApx5VlEyJUR/MzumjfU1SZt70EMNPNL47PMTY6h0lKXOtoOm9LgP5OT+kEnxr95FJOHL31ZeBe636KULYAqj7Mbszhj5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790748736; c=relaxed/simple;
-	bh=Dq2EEzdDu1XGSAF5e5hqEv/EOk6k9s2bWSjgr6En2GI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mdK3UTfaEAvLHAA/0f1+e8Y2Ih2wp/fpkYs2qD0JmZKbF5siSxTgF6b7EBpXiuObGDZmqB/y2WQDon28oD9Vz2h6NvsFm6yfHA3Ep4JIC+JBwMjtg78jhwbs5WbTqGXGOymXzWmliR11mdVZ/Z8uE85bI6tHi05DR1Vg5dTMl1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=R9cXyEh7; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1790750353; c=relaxed/simple;
+	bh=c9NFDHimJGSjnneW/NgHgP/wHsJUido8qSWjJDt/U0U=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=tdylYfTvU0J7YsUhVcX1rZFSCP3atdJV1OZVQs8sztx/X/yAh7duv0JFfMgMp2LuiqaJ5jC2lRTA6QZ+xC2yz56/tpzu9Nxjwe8uE8E1qnAuzbDOEjyS9Jsz5e3aFDN3xT1PQEBkIwP8FBWfGEePvQYN5OXox3B4oY7Xnkk+d4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=oKeDHVV4; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=9Oax+Fqp; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="R9cXyEh7"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TNZfip1395249;
-	Wed, 30 Sep 2026 06:12:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=chxxTu
-	smidLQgIYY4qVWkGDsEhN1DpJw7S6Lqcv9UvQ=; b=R9cXyEh7tpJHkNHxLmmnqy
-	KyWBTTyFvTC/aUWxrEOCsu/M6+1pVRH7mB7Uz7crLJ+Y3mQVxzDFoJ/3XPhnPyYR
-	++vxid0BLc4fyfzw5Hye9BS5ZG5+GXna5dOP+gO6pbbl8/S/K2pSSzq0ovLDkTYO
-	2+wjBCVI/NXCO2WbOPN/lws53AcAnttdfxcrOiRGLjjDwc8StnA8st7d2TcYuqy2
-	YQURx0U+bb1fQZlkJVCZoCGH5S1a/0YKng757lidR0pYSfaSp/JuiLHRaehMpDIX
-	3E55baa/YaeyWhEdIgQI/o3VQaObz0NyzWjxjz0lxtoqXMMuF1g7YjmznyDa5WUQ
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx5j5bb5a-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 30 Sep 2026 06:12:13 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68U4e9Ja1290050;
-	Wed, 30 Sep 2026 06:12:12 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h0q4p9530-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Sep 2026 06:12:12 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68U6CAEG30671524
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 30 Sep 2026 06:12:10 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 87DE02004B;
-	Wed, 30 Sep 2026 06:12:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7E86E20040;
-	Wed, 30 Sep 2026 06:12:09 +0000 (GMT)
-Received: from [9.39.21.243] (unknown [9.39.21.243])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 30 Sep 2026 06:12:09 +0000 (GMT)
-Message-ID: <1f4b1731-d1fb-487e-b3b6-d6bfc6609065@linux.ibm.com>
-Date: Wed, 30 Sep 2026 11:42:08 +0530
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="oKeDHVV4";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="9Oax+Fqp"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790750341; bh=txD+nrLZLM5JuzxFq01cEu8
+	1w2S3fPrO+3Qk0Eijl1k=; b=oKeDHVV4jiljltqkNoYKtpSZ8y1JWMpbOtyZP30n9PZIFj9dMu
+	bwczWRo1qy1Y2sDntwLFupwkQkkfngWPGTTz7tWRz7DvoLtqJzh5c2YuWyVn6KuNF6rJDT8p2jS
+	yKtjSTj736j8X+6OPwEZCClrjCZCPDu6lbBk08W6IUifGOhqOMnL4NywbQJfe9O+aQYy8OmZWRb
+	SGABqxv3RXiXoDAp4G+dCdmyfd0YXD9ECzdGTADQbzmAE8QleUQc+vXRZhf3ggnhUflIRJfU0CW
+	0c54TYpYnqVv4UDK1LtPLNNCcWZqE//TzxXE49KowgZYTL0fMBY8HIXO2QIbrhn04bg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790750341; bh=txD+nrLZLM5JuzxFq01cEu8
+	1w2S3fPrO+3Qk0Eijl1k=; b=9Oax+FqprsVZaVZhk+dpx7GM/y8OfEjJOv/qkug4muFo1YNzJB
+	S1HcuDo/R6iORSNGGrY4gV6VVPZEYPXKe0CQ==;
+Date: Wed, 30 Sep 2026 07:39:02 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: Vineet Gupta <vgupta@kernel.org>, paulmck@kernel.org
+CC: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ linux-snps-arc@lists.infradead.org
+Subject: =?US-ASCII?Q?Re=3A_=5Bpaulmckrcu=3Acmpxchg2=2E2026=2E09=2E2?=
+ =?US-ASCII?Q?2a_25/28=5D_arch/arc/include/asm/cmp?=
+ =?US-ASCII?Q?xchg=2Eh=3A46=3A58=3A_error=3A_pointer_type_?=
+ =?US-ASCII?Q?mismatch_in_conditional_expression?=
+In-Reply-To: <05f1310a-684f-493a-ad4f-4f313f344c81@kernel.org>
+References: <202609241517.SSV1Goz3-lkp@intel.com> <3cbe5de8-d04b-4afe-b19f-ad755d4ea320@kernel.org> <7CB37192-1AE6-4392-8D7B-89F401214C02@mainlining.org> <d7a78ebb-8b5e-42e9-9560-bd731724c9f8@linux.dev> <5c72050d-95c8-4ba1-ab15-22f774ea9319@paulmck-laptop> <05f1310a-684f-493a-ad4f-4f313f344c81@kernel.org>
+Message-ID: <F788AD1C-9D20-4D74-8B85-BA7DA4E82132@mainlining.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linuxppc:next-test 3/37] arch/powerpc/kernel/irq.c:116:undefined
- reference to `irq_proc_emit_counts'
-To: Madhavan Srinivasan <maddy@linux.ibm.com>,
-        kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-References: <202609300040.mopAJGuz-lkp@intel.com>
- <ad1591f8-2719-4636-a041-1fb433c1293f@linux.ibm.com>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <ad1591f8-2719-4636-a041-1fb433c1293f@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDAyNCBTYWx0ZWRfXyHcvwu9bedyo
- MBWz8LjR3AaCby+EPMURJocUN6RVbZVckdjwPDi92uB1jOBRpwUdRPTM3CJ1IWs4RBC09O4Knkq
- QSjwyDgCOOL8xhUey3Q4w4++jhLIhCA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDAyNCBTYWx0ZWRfX9IsRvOubgYqR
- C4X4vE0gQG5XISuSR3csWxrwcQKYqv2Ljc9cNVD3mpm87FnCYzuZUbFUEkboPJ3OjN1SIm/ofFp
- 6Mn8oHnZeBZh+3PaylUacmiNLd8aXL0hlOT2H4KKWbnnsBsYvpia8WLQ4wsKZ+Gs+QK2kKKLyRC
- TuLWRxwJpkfyaz3hZYyYAqBH3xzA8/uso4pnYLvYZz7xqSLo1gzLYijlko8c0xgz9YfXhO7ZGiT
- G82ytgISMmHnDxkHVN0TC0bE8wlNIRCbKFc2gXTJKrHq9EgMEbc8jUoPZnLMTjA6D0zFBR/jvsz
- 1t6ieGtwFqMda5V8cEiBW8zRO9uG2YH+AleKbIriF8HDoH/BGAh17Kj3QjxHdYjNkygIbFOSFSy
- MX+mQFeK8Iikpzy1abRi/HzYhfYbWDgwm+31+yraVkSS6Kes0bAwg7RmMDcw5eB32lwCoJYDMt2
- wUkLiC9BIOz2RURnZ0Q==
-X-Proofpoint-GUID: iiP5G32M45C5U7qwBhXiocVZR4--ZvJ4
-X-Authority-Analysis: v=2.4 cv=RKcmjIi+ c=1 sm=1 tr=0 ts=6abca83d cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=NEAV23lmAAAA:8
- a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
- a=Y-1eg03KOPFTfgDPcAYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-ORIG-GUID: iiP5G32M45C5U7qwBhXiocVZR4--ZvJ4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-29_05,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 spamscore=0 bulkscore=0 impostorscore=0
- adultscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609300024
 
+On 29 September 2026 23:10:01 BST, Vineet Gupta <vgupta@kernel.org> wrote:
+>
+>
+>On 9/29/26 13:47, Paul E. McKenney wrote:
+>> On Thu, Sep 24, 2026 at 02:27:11PM -0700, Vineet Gupta wrote:
+>>> On 9/24/26 13:58, Bradley Morgan wrote:
+>>>> On 24 September 2026 21:52:55 BST, Vineet Gupta <vgupta@kernel.org>
+>wrote:
+>>>>> On 9/24/26 00:51, kernel test robot wrote:
+>>>>>> tree:   https://github.com/paulmckrcu/linux cmpxchg2.2026.09.22a
+>>>>>> head:   54c282c15475ebfae4712fe3ab637c9d19c723d6
+>>>>>> commit: b6d4f6af38f85e7948fd64f9bf09cbb858b4dade [25/28] ARC:
+>Emulate
+>>>>> two-byte cmpxchg
+>>>>>> config: arc-allyesconfig
+>>>>>
+>(https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/config)
+>>>>>> compiler: arc-linux-gcc (GCC) 16.1.0
+>>>>>> reproduce (this is a W=1 build):
+>>>>>
+>(https://download.01.org/0day-ci/archive/20260924/202609241517.SSV1Goz3-lkp@intel.com/reproduce)
+>>>>>> If you fix the issue in a separate patch/commit (i.e. not just a new
+>>>>> version of
+>>>>>> the same patch/commit), kindly add following tags
+>>>>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>>>>> | Closes:
+>>>>>
+>https://lore.kernel.org/oe-kbuild-all/202609241517.SSV1Goz3-lkp@intel.com/
+>>>>>> All errors (new ones prefixed by >>):
+>>>>>> 
+>>>>>>       In file included from arch/arc/include/asm/atomic.h:13,
+>>>>>>                        from include/linux/atomic.h:7,
+>>>>>>                        from include/asm-generic/bitops/lock.h:5,
+>>>>>>                        from arch/arc/include/asm/bitops.h:190,
+>>>>>>                        from include/linux/bitops.h:67,
+>>>>>>                        from include/linux/log2.h:12,
+>>>>>>                        from include/asm-generic/div64.h:55,
+>>>>>>                        from
+>./arch/arc/include/generated/asm/div64.h:1,
+>>>>>>                        from include/linux/math.h:6,
+>>>>>>                        from include/linux/math64.h:6,
+>>>>>>                        from include/linux/time.h:6,
+>>>>>>                        from include/linux/stat.h:19,
+>>>>>>                        from include/linux/fs_dirent.h:5,
+>>>>>>                        from include/linux/fs/super_types.h:5,
+>>>>>>                        from include/linux/fs/super.h:5,
+>>>>>>                        from include/linux/fs.h:5,
+>>>>>>                        from include/linux/fscrypt.h:16,
+>>>>>>                        from fs/crypto/fscrypt_private.h:15,
+>>>>>>                        from fs/crypto/hooks.c:10:
+>>>>>>       fs/crypto/hooks.c: In function 'fscrypt_get_symlink':
+>>>>>>>> arch/arc/include/asm/cmpxchg.h:46:58: error: pointer type mismatch
+>in
+>>>>> conditional expression [-Wincompatible-pointer-types]
+>>>>>>          46 |         unsigned long _new_ = (unsigned long)(0 ?
+>*(_p_) :
+>>>>> (new));              \
+>>>>> 
+>>>>> Issue is in  fs/crypto/hooks.c doing cmpxchg_release(&inode->i_link,
+>NULL,
+>>>>> pstr.name)
+>>>>> where i_link is char * and pstr.name is unsigned char *),
+>>>>> 
+>>>>> The problem is when pointer types are incompatible and that's exactly
+>the
+>>>>> W toggle above.
+>>>>> 
+>>>>> So Bradley's patch needs this fixup
+>>>>> 
+>>>>> diff --git a/arch/arc/include/asm/cmpxchg.h
+>b/arch/arc/include/asm/cmpxchg.h
+>>>>> index 4596edfefa95..9053098bb152 100644
+>>>>> --- a/arch/arc/include/asm/cmpxchg.h
+>>>>> +++ b/arch/arc/include/asm/cmpxchg.h
+>>>>> @@ -42,8 +42,10 @@
+>>>>>    #define arch_cmpxchg_relaxed(ptr, old, new)     \
+>>>>>    ({    \
+>>>>>           __typeof__(ptr) _p_ = (ptr);     \
+>>>>> -       unsigned long _old_ = (unsigned long)(0 ? *(_p_) : (old));  
+>          \
+>>>>> -       unsigned long _new_ = (unsigned long)(0 ? *(_p_) : (new));  
+>          \
+>>>>> +       __typeof__(*(ptr)) _o_ = (old);    \
+>>>>> +       __typeof__(*(ptr)) _n_ = (new);    \
+>>>>> +       unsigned long _old_ = (unsigned long)_o_;            \
+>>>>> +       unsigned long _new_ = (unsigned long)_n_;            \
+>>>>> 
+>>>>> P.S: For arch changes shouldn't the submitter be required to at least
+>test
+>>>>> the building, specially when this involves the macro maze. Its really
+>easy
+>>>>> with crosstool hosting all the cross-compilers [1] - just download
+>and
+>>>>> untar.
+>>>>> 
+>>>>> [1]
+>>>>>
+>https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/16.2.0/
+>>>> Well thanks but I didn't have a proper server till yesterday.
+>>> A relatively decent laptop works for me.
+>> And you will get *way* faster response time than waiting on kernel
+>> test robot.  ;-)
+>> 
+>>>> I'll post all arch patches when Paul tells me how he wants it
+>>> Please do a minimal compile build - it will save you the re-spins.
+>>> 
+>>>> Like if he wants u16 in first then arch changes sent.
+>> First, I queued Vineet's cmpxchg patch from his pull request to Linus.
+>> I have marked it "EXP" so that I don't accidentally ship it off
+>somewhere
+>> myself.
+>> 
+>> Given the surprises from the u8/u16 changes, I suggest the following:
+>> 
+>> 1.	One patch to add cmpxchg_emu_u16(), but without the u8/u16
+>> 	changes.  And without the CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU
+>> 	change.
+>> 
+>> 	At Bradley's option, cmpxchg_emu_u8() could remain as is, with
+>> 	cmpxchg_emu_u16() being born as u16.  The upside is less churn
+>> 	later.	The downside is that more up-front testing is needed,
+>> 	and thus greater interaction with busy architecture maintainers.
+>> 	If it was me, I would start with cmpxchg_emu_u16() being as
+>> 	close to cmpxchg_emu_u8() as possible in order to "get the
+>> 	camel's nose into the tent" as quickly and easily as possible.
+>> 	But this is Bradley's patch series, so his choice.
+>> 
+>> 2.	One patch each to add use of cmpxchg_emu_u16() to each
+>> 	affected architecture.
+>> 
+>> 3.	Given #1, each patch for #2 can go in independently.  The patches
+>> 	for #2 of course need acks from their respective maintainers.
+>> 
+>> 4.	A patch to rename CONFIG_ARCH_NEED_CMPXCHG_1_EMU to
+>> 	CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU.  This will cross lib and
+>> 	architectures, which should be OK because it is just a name
+>> 	change.  We collect acks as before.
+>> 
+>> 5.	Convert cmpxchg_emu_u8() away from uintptr_t, and, if needed,
+>> 	cmpxchg_emu_u16() as well.
+>> 
+>> This could take a merge window or three to get in, but that is not all
+>> that bad for cross-architecture patch serieses such as this one.
+>> 
+>> Bradley, Vineet, thoughts?
+>
+>Sound like a plan, buy hey its Bradley doing all the work here ;-)
 
+Hmm, I'd prefer to leave u16 as is, I'll send the rename patch in the
+coming hours/days, I have school 
 
-On 9/30/26 11:32 AM, Madhavan Srinivasan wrote:
-> 
-> On 9/30/26 3:35 AM, kernel test robot wrote:
->> tree:   https://github.com/linuxppc/linux next-test
->> head:   0b8b0c17a8998709ecb2852d56442ea981102941
->> commit: fbb22ceaaf8f9c6786e6ff5da1962fe6ac0fc904 [3/37] powerpc/irq: Make irqstats array based
->> config: powerpc64-randconfig-r2100-20260929 (https://download.01.org/0day-ci/archive/20260930/202609300040.mopAJGuz-lkp@intel.com/config)
->> compiler: powerpc64-linux-gcc (GCC) 15.2.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609300040.mopAJGuz-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202609300040.mopAJGuz-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>     powerpc64-linux-ld: warning: discarding dynamic section .glink
->>     powerpc64-linux-ld: warning: discarding dynamic section .plt
->>     powerpc64-linux-ld: linkage table error against `irq_proc_emit_counts'
->>     powerpc64-linux-ld: stubs don't match calculated size
->>     powerpc64-linux-ld: can not build stubs: bad value
->>     powerpc64-linux-ld: arch/powerpc/kernel/irq.o: in function `arch_show_interrupts':
->>>> arch/powerpc/kernel/irq.c:116:(.text+0x49f8): undefined reference to `irq_proc_emit_counts'
-> CONFIG_PROC_FS is not enabled in the shared config which
-> is why we are seeing this
-> 
-> Maddy
->>
+>I would only add something I mentioned before: download the cross
+>toolchains and do some build testing locally before posting. This is not
+>because arch maintainers are busy or lazy (although they can be both) -
+>that saves potential respins induced by new code or even broken existing
+>code exposed.
+>
+>And on that topic I just found a gcc 16 ICE when building an allyesconfig
+>for ARC. I will only be able to post the gcc fix after LPC, but just FYI
+>in case someone runs into it.
+>
+>Thx,
+>-Vineet
+>
 
-Yes, i have responded already to similar message yesterday :(
-https://lore.kernel.org/all/ae3e35d6-8dfb-43fe-aa69-0a60b51b2f9b@linux.ibm.com/
-
-I will send the patch today.
-
->> vim +116 arch/powerpc/kernel/irq.c
->>
->>     109
->>     110    int arch_show_interrupts(struct seq_file *p, int prec)
->>     111    {
->>     112        const struct irq_stat_info *info = irq_stat_info;
->>     113
->>     114        for (unsigned int i = 0; i < ARRAY_SIZE(irq_stat_info); i++, info++) {
->>     115            seq_printf(p, "%*s:", prec, info->symbol);
->>   > 116            irq_proc_emit_counts(p, &irq_stat.counts[i]);
->>     117            seq_puts(p, info->text);
->>     118        }
->>     119
->>
->> -- 
->> 0-DAY CI Kernel Test Service
->> https://github.com/intel/lkp-tests/wiki
-
+--- Thanks!
+"I'm not a very positive person" - Linus torvalds
