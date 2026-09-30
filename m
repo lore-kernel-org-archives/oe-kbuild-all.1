@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305CB38DC4C;
-	Wed, 30 Sep 2026 04:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B497D19E7F7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 04:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790741616; cv=none; b=HqM5RPs2xMmENuuLCp95MCB2/20TqzedxEEk3gLGhWxIsyBLVrsG6THzCD/LtPlpPeFDoAvLx1PF/HueOigUqm/ICU5nqDcNy5AosWCPoNKYw1rF5Endw18sZCiaya/pF21KsvXTd3X3qrorp0zD4mAgQph8caUlOrUAEiab88I=
+	t=1790742465; cv=none; b=c4SdQT6wVoSwvSwCNeeCkqKLuZhvDAn1w6YvXd0dfZ4prW7C5efoewX4uIS1+g2mYaNoFKtT5Mpe4BPRbsPUH95zyXJXq69kXGNGzrctqSJENX4DTYHFq0A9Gb9zsxLCVXURPJ9/PzpbvrAUm1hTXbew4uf1QaEjbq5qk1MCyIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790741616; c=relaxed/simple;
-	bh=OKGhc222T/6SQoBifAhYIW1HPUk01jmKVzugbVifYy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hogKOsLKTaZSy/8nZ1GcOHLqpbae+/fSLm88bhUYcWq/fbpYn8up3xGvngngcodRLYpTgkEJZLEv3/mujT83Fdpi/2YUIX4LLgtFN99IOem1OWm57mVvF0sXAWZdnVkEOIgown/F4saScgn2eKOWs277nKm+wzep38byjBPS82o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/o2kcFw; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1790742465; c=relaxed/simple;
+	bh=4Mn24gWb5T9iQrofCUmTDtxmkjdbGzrIpTBAfCxXotM=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n4SIIoLC7mDoHdpVFBA/BTDH0qggO0Fcn6eg0VD7j0c8/KB9g+NFxAdQu/sQ3jtbqczcBXhMG3Oy5NJVRd+iV0MVmi2lhlHCBZFSUe+XD0PcH+4hLIcp66a7TooCrgPZbk7qWAKcaQsYalLMio2LrLs3fmBHl88Tel9f1v9X7IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZQn0jiLs; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/o2kcFw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZQn0jiLs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790741615; x=1822277615;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OKGhc222T/6SQoBifAhYIW1HPUk01jmKVzugbVifYy0=;
-  b=l/o2kcFwlGvj2seK2nRSpN5XWumVw2sLM/TMUIrkrOsmdBJ+tsJIy5kf
-   IbJorSGeN5NWJR5oQYySsFosFz1zGUmznhE/x6yxZ8Y9Q3q1FMwz3ITg/
-   o5MutCPucWWp25tckvf7zokVFNUoTcjrkBrsizaujTZn5edGPadZia2Iv
-   Yvi+5EFH94m8lZW/UtlM9ma0aY7d/tAM9ci+sMDkOqQmn4gQygrrb0EFA
-   Fa7O2fOY29xHtzIyV/X6vN+jyms6M0BaL4MAaptyuqMaJk/IQJ+4l+dfQ
-   ILJQJ65HZI6FUM8YZTUY2bdVUXP1K6xu5r9ilesQV8zMjWNZutrT6zQKP
-   Q==;
-X-CSE-ConnectionGUID: vzHVTG9HQjq0IPeXDMwhfA==
-X-CSE-MsgGUID: Ngiuhiw6TnK6ptuGwcZIBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90236447"
+  t=1790742463; x=1822278463;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=4Mn24gWb5T9iQrofCUmTDtxmkjdbGzrIpTBAfCxXotM=;
+  b=ZQn0jiLs5KQzN11T3eCCbdpc+3VILQalYpYgv/n6o0o2LEdQnwy89cp+
+   FWlmJcEJe0XP3L9a9R0S5fQG4kHIxPQgspuz1J0CvEMe1tqBbFnc6+QWi
+   3yxYxD8uYnIle+pQjpc7HLML3Y96syn9aZSwZCLeZpgEi47alyDNG2W8J
+   l8Uhl7TI1pMLNaNVqvY1X8n/Ri3yoovCSqjCdoHpqtDAuOnify9OmeYlT
+   FfloLddDoohv4pKQ0zQk4YXhb8bGxB7zNU87J/F+nkmdF3kZlUDZdkohy
+   An7vyFbZmpA+rYrMfe+HJAFQBMPsH1ov7LuhXuwZOG5A4vpFBrttaaru7
+   w==;
+X-CSE-ConnectionGUID: khXslhYoQl6uagwPwjo5xw==
+X-CSE-MsgGUID: /iIlBfWyQI+xLfkj996ztQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="107857933"
 X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="90236447"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 21:13:34 -0700
-X-CSE-ConnectionGUID: W9xKD2jQQVGLAQRU7snVKg==
-X-CSE-MsgGUID: sr93k6YwSWCMdi4Gy8ydPA==
+   d="scan'208";a="107857933"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 21:27:43 -0700
+X-CSE-ConnectionGUID: rKSXEOLZQyCqy8F4sSTCaA==
+X-CSE-MsgGUID: IDKLXhRKTa261+YwoSIcRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="275124506"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Sep 2026 21:13:32 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+   d="scan'208";a="283664155"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Sep 2026 21:27:41 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBlhB-000000001jr-1LDZ;
-	Wed, 30 Sep 2026 04:13:29 +0000
-Date: Wed, 30 Sep 2026 06:12:28 +0200
+	id 1xBlut-00000000Q7b-0H3a
+	for oe-kbuild-all@lists.linux.dev;
+	Wed, 30 Sep 2026 04:27:39 +0000
+Date: Wed, 30 Sep 2026 12:27:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 8923/12096]
- =?us-ascii?Q?/usr/lib/gcc/i686-linux-gnu/14/../../../../i686-linux-gnu/?=
- =?us-ascii?Q?bin/ld:./arch/um/kernel/vmlinux.lds:167:?= syntax error
-Message-ID: <202609300549.Vy4VMT1M-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: futex: Fix mm reuse handling for FUT_OFF_MMSHARED
+Message-ID: <202609301223.w5jdpXiP-lkp@intel.com>
+References: <202609301223.w5jdpXiP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,25 +61,54 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202609301223.w5jdpXiP-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6474fa070f2b8013b4b87350b775b8c3be6e8aac
-commit: 779c65ede6800595ec620b0b10aae7d5a5469cbd [8923/12096] um: link .lbss/.ldata/.lrodata correctly
-config: um-randconfig-2000-20260930 (https://download.01.org/0day-ci/archive/20260930/202609300549.Vy4VMT1M-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7615da10b75c57286a4032eac8bb43c1b8d2ba46)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609300549.Vy4VMT1M-lkp@intel.com/reproduce)
+Hi Jann,
+
+kernel test robot noticed the following build errors:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/futex-Fix-mm-reuse-handling-for-FUT_OFF_MMSHARED/20260929-183132
+base:   
+patch link:    https://lore.kernel.org/r/202609301223.w5jdpXiP-lkp%40intel.com
+config: csky-randconfig-1001-20260930 (https://download.01.org/0day-ci/archive/20260930/202609301223.w5jdpXiP-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609301223.w5jdpXiP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609300549.Vy4VMT1M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609301223.w5jdpXiP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/lib/gcc/i686-linux-gnu/14/../../../../i686-linux-gnu/bin/ld:./arch/um/kernel/vmlinux.lds:167: ignoring invalid character `*' in script
->> /usr/lib/gcc/i686-linux-gnu/14/../../../../i686-linux-gnu/bin/ld:./arch/um/kernel/vmlinux.lds:167: syntax error
-   clang: error: linker command failed with exit code 1 (use -v to see invocation)
+   csky-linux-ld: kernel/fork.o: in function `mm_init.isra.0':
+>> fork.c:(.text+0x188c): undefined reference to `futex_mm_init'
+>> csky-linux-ld: fork.c:(.text+0x196c): undefined reference to `futex_mm_init'
+   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
+   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
+   `.exit.text' referenced in section `__jump_table' of fs/ceph/super.o: defined in discarded section `.exit.text' of fs/ceph/super.o
+   `.exit.text' referenced in section `__jump_table' of fs/ceph/super.o: defined in discarded section `.exit.text' of fs/ceph/super.o
+   `.exit.text' referenced in section `__jump_table' of drivers/usb/gadget/legacy/inode.o: defined in discarded section `.exit.text' of drivers/usb/gadget/legacy/inode.o
+   `.exit.text' referenced in section `__jump_table' of drivers/usb/gadget/legacy/inode.o: defined in discarded section `.exit.text' of drivers/usb/gadget/legacy/inode.o
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   drivers/comedi/drivers/tests/ni_routes_test.o: in function `test_ni_check_trigger_arg':
+   ni_routes_test.c:(.text+0x24c2): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x24c8): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   drivers/comedi/drivers/tests/ni_routes_test.o: in function `test_ni_get_reg_value':
+   ni_routes_test.c:(.text+0x250c): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x2534): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x2552): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x2560): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x2582): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x259e): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x25c0): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x25dc): relocation truncated to fit: R_CKCORE_PCREL_IMM16BY4 against `__jump_table'
+   ni_routes_test.c:(.text+0x25fe): additional relocation overflows omitted from the output
+   csky-linux-ld: final link failed
 
 --
 0-DAY CI Kernel Test Service
