@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1C7364934
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 02:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FE936B91A;
+	Wed, 30 Sep 2026 03:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790734937; cv=none; b=r4wX8vCMSiljtmxTIntlAHFmHcCP97aBOCW7ZS0ncGHqkd04+PEVB7OhyxjPxpU3FwYm5cVv4Q4rpJWyslgw775qa+hV4bt2Yos1w41iu1UZTsTyNcI9gTZ/6WdTia191thcd4nkwdZYgcxht90C79BKObj0WEpdKX2qO3wKLCo=
+	t=1790737996; cv=none; b=KVCEyl06uiqqG19vDs5sk2eL1QpJV4Cgtc8DKZ4ocp2dgC1kwWDyX9AGawd/EwPxHtFUy62M+QGBUeRhQoaV18JGhdDABZozYy/IDIn2V3l2eT+VkNjeLwOBd4QFpmPAhNe/RBN1ZH3cZNSPr4z7xSkdZmFaFb2Lm+s1hU6mxbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790734937; c=relaxed/simple;
-	bh=/e4zWCBb4GcOCU4Q1TvOx7fu0pF7FiGiutW1NfB2doI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GL5mKwIWxKSfpHYxh9dKUEApKf5XS0e3mzSWsXGDRS6olTjV+8sl33nFfEhRQHLOd97WokN6nJTe1LIIuAPhMHEHOlaX2CE0memIrhOmc7OxDOIemXUsn0uxOpFYFeBqD0r8HmKuIcFHgaTkqnhKQFrnBCiPLzPc4j8y6k0mct4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUm0UI9c; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1790737996; c=relaxed/simple;
+	bh=Y8sMSiM0CwHjELQY+48fl+cPz4X1ku8Gic5rLpc8v8k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CcM3wvYRr8EqHb1Gx1GO8pqkIa7dj4BitDk+VyN+qlF/C9tC6l3EnZ63d/4LtajywUKS4wC+0upFtrYGaLEyKjrzR7T/7/ePIGciH4JE4jQyQFRa9JHeidD171rgsrZMQ7xfHbrd4iSSYWC0M16XH0XC9Wz3gl/xXgTkFscU8Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cJwjybPe; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUm0UI9c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cJwjybPe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790734935; x=1822270935;
+  t=1790737995; x=1822273995;
   h=date:from:to:cc:subject:message-id;
-  bh=/e4zWCBb4GcOCU4Q1TvOx7fu0pF7FiGiutW1NfB2doI=;
-  b=AUm0UI9ckOMXkLet9rS7TUFxqrLJWx2ivPdBtbEI9Oi24+uQB6th/1Hz
-   tWGZNHSooUXKXZ4gjqEiLWQam3RK8Fl84D26Bg9buXEtsETp6GicYu9GU
-   XdZ87Yll9eRFMvfoZtvXpFX8TQ7XK4iCVtg/Q5tVLNsLp+j+0YnqIQcAF
-   UodvFLRtR9W+amS7w0IG9gTEXXHjwJksLPrKDYvz3P2bcPBifJJDyWz3g
-   LsBuMDjFik/Sh6lvzmHulhQTD2YRXsuDLToAEQ8EyvJzJfzr/2/3E0AFK
-   Q5qKre6h3Sg3oVQJM/nMo9n04v2s5JnM+ZaUfRDQ183+SIs+KjqbNMN4C
-   w==;
-X-CSE-ConnectionGUID: bXr5PtdFTraOHIGioJ013g==
-X-CSE-MsgGUID: X8Zujx0WRuyOUdRNhkKp8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="91563913"
+  bh=Y8sMSiM0CwHjELQY+48fl+cPz4X1ku8Gic5rLpc8v8k=;
+  b=cJwjybPedQmHaRdsSohGlG1avqESrcSuxFPwfQFqA4i/3yYdv8cH7Qnx
+   DG6imZplr1SmBpyOTG2L+tAQoKHGwXTzlJ1ON/1rnExLqH61Mq4MNtgnS
+   iYmofLHbuNLulNFDQLRqSjK8sUCUhKrH4p0GUgHsUMOqcOKRcVe3VLn0i
+   I7/8h7xZ6nPHyUWpBeslGHplPqnUAYgzDl++alH/MC3kFjPE7B/cIeihw
+   OsYR3JKeYMCtK6WJCDtcpjHhaDZYMX1NvBrIRI0DHLz7cY8q2I5gHrZvE
+   0Ud3TSk8CYIvgj6VixCy61xENrzzILfqQXkJAeomeJ2BXIxjSbEFkIhtQ
+   A==;
+X-CSE-ConnectionGUID: eGeTO+4eT/OQn5j2Zs5/Ag==
+X-CSE-MsgGUID: IeoeddcmTIGJ47dQGn0MbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90329125"
 X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="91563913"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 19:22:15 -0700
-X-CSE-ConnectionGUID: /mz3LaQKQRi0PZ+DHkDC8Q==
-X-CSE-MsgGUID: lTjfDnrcQbafFrcHZmsiTg==
+   d="scan'208";a="90329125"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 20:13:15 -0700
+X-CSE-ConnectionGUID: TqOBY+PHTLGK1XIeg29r9g==
+X-CSE-MsgGUID: pJ4FUA8yTriJ/Qz0jhfnrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="279350270"
+   d="scan'208";a="301809559"
 Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 29 Sep 2026 19:22:13 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Sep 2026 20:13:13 -0700
 Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xBjxS-000000001ff-3VvI;
-	Wed, 30 Sep 2026 02:22:10 +0000
-Date: Wed, 30 Sep 2026 04:21:31 +0200
+	id 1xBkko-000000001ia-43st;
+	Wed, 30 Sep 2026 03:13:10 +0000
+Date: Wed, 30 Sep 2026 05:12:25 +0200
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Subject: [avpatel:riscv_mpxy_imp_v1 2/5]
- include/asm-generic/memory_model.h:56:21: error: implicit declaration of
- function 'memdesc_section'
-Message-ID: <202609300412.K0Nx5T4e-lkp@intel.com>
+To: "Abd-Alrhman Masalkhi" <abd.masalkhi@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ 0day robot <lkp@intel.com>
+Subject: drivers/md/md-ctl.c:47:26: error: call to undeclared library
+ function 'isdigit' with type 'int (int)'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202609300507.5HFYs9aS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,62 +61,57 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_mpxy_imp_v1
-head:   ca441e957bb4806b528959ae80efb7e7a9f5447a
-commit: 36c74ca9f1dd2278453c544310c73d45beb9c993 [2/5] RISC-V: Move common MPXY helper routines to arch/riscv
-config: riscv-randconfig-2000-20260930 (https://download.01.org/0day-ci/archive/20260930/202609300412.K0Nx5T4e-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609300412.K0Nx5T4e-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Abd-Alrhman-Masalkhi/md-make-mddev-lookup-and-ioctl-helpers-non-static/20260928-201223
+head:   6b0c58a68cb9e72a888a76dac60d49a88d347118
+commit: 6b0c58a68cb9e72a888a76dac60d49a88d347118 md: add a control device for array management
+date:   31 hours ago
+config: s390-randconfig-2000-20260930 (https://download.01.org/0day-ci/archive/20260930/202609300507.5HFYs9aS-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7615da10b75c57286a4032eac8bb43c1b8d2ba46)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260930/202609300507.5HFYs9aS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609300412.K0Nx5T4e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609300507.5HFYs9aS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/riscv/kernel/sbi_mpxy.c:16:
-   arch/riscv/kernel/sbi_mpxy.c: In function 'mpxy_setup_shmem':
->> include/asm-generic/memory_model.h:56:21: error: implicit declaration of function 'memdesc_section' [-Wimplicit-function-declaration]
-      56 |         int __sec = memdesc_section(&__pg->flags);              \
-         |                     ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/sbi.h:573:29: note: in definition of macro 'sbi_ecall'
-     573 |                 __sbi_ecall(a0, a1, a2, a3, a4, a5, f, e)
-         |                             ^~
-   include/asm-generic/memory_model.h:85:33: note: in expansion of macro 'PFN_PHYS'
-      85 | #define page_to_phys(page)      PFN_PHYS(page_to_pfn(page))
-         |                                 ^~~~~~~~
-   include/asm-generic/memory_model.h:73:21: note: in expansion of macro '__page_to_pfn'
-      73 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:85:42: note: in expansion of macro 'page_to_pfn'
-      85 | #define page_to_phys(page)      PFN_PHYS(page_to_pfn(page))
-         |                                          ^~~~~~~~~~~
-   arch/riscv/kernel/sbi_mpxy.c:292:26: note: in expansion of macro 'page_to_phys'
-     292 |                          page_to_phys(shmem_page), 0, 0, 0, 0, 0);
-         |                          ^~~~~~~~~~~~
+>> drivers/md/md-ctl.c:47:26: error: call to undeclared library function 'isdigit' with type 'int (int)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      47 |         if (name[2] != '_' && (!isdigit(name[2]) ||
+         |                                 ^
+   drivers/md/md-ctl.c:47:26: note: include the header <ctype.h> or explicitly provide a declaration for 'isdigit'
+   1 error generated.
 
 
-vim +/memdesc_section +56 include/asm-generic/memory_model.h
+vim +47 drivers/md/md-ctl.c
 
-8f6aac419bd590 Christoph Lameter 2007-10-16  48  
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  49  #elif defined(CONFIG_SPARSEMEM)
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  50  /*
-1a49123b343461 Zhang Yanfei      2013-10-03  51   * Note: section's mem_map is encoded to reflect its start_pfn.
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  52   * section[i].section_mem_map == mem_map's address - start_pfn;
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  53   */
-67de648211fa04 Andy Whitcroft    2006-06-23  54  #define __page_to_pfn(pg)					\
-aa462abe8aaf21 Ian Campbell      2011-08-17  55  ({	const struct page *__pg = (pg);				\
-67a06fdfbf6f59 Hui Zhu           2026-06-30 @56  	int __sec = memdesc_section(&__pg->flags);		\
-f05b6284ee5d3b Randy Dunlap      2007-02-10  57  	(unsigned long)(__pg - __section_mem_map_addr(__nr_to_section(__sec)));	\
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  58  })
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  59  
-
-:::::: The code at line 56 was first introduced by commit
-:::::: 67a06fdfbf6f590d3e47b0592559e8fdc2a6998a mm: fix ASSERT_EXCLUSIVE_BITS by passing memdesc_flags_t by pointer
-
-:::::: TO: Hui Zhu <zhuhui@kylinos.cn>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    38	
+    39	static struct mddev *get_mddev_name(const char *name)
+    40	{
+    41		unsigned long minor;
+    42		struct mddev *mddev, *ret = NULL;
+    43	
+    44		if (strncmp(name, "md", 2))
+    45			return ERR_PTR(-EINVAL);
+    46	
+  > 47		if (name[2] != '_' && (!isdigit(name[2]) ||
+    48				       kstrtoul(&name[2], 10, &minor) ||
+    49				       minor > MINORMASK))
+    50			return ERR_PTR(-EINVAL);
+    51	
+    52		spin_lock(&all_mddevs_lock);
+    53		list_for_each_entry(mddev, &all_mddevs, all_mddevs) {
+    54			if (mddev->gendisk &&
+    55			    strcmp(mddev->gendisk->disk_name, name) == 0) {
+    56				ret = mddev_get(mddev);
+    57				break;
+    58			}
+    59		}
+    60		spin_unlock(&all_mddevs_lock);
+    61	
+    62		return ret ? ret : ERR_PTR(-ENODEV);
+    63	}
+    64	
 
 --
 0-DAY CI Kernel Test Service
