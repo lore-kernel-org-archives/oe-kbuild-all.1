@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8E039061C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 18:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBB93B9931
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 18:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790877747; cv=none; b=nvXEbgkTNnsu/IB/xNzm3bVih95NBQGNw6w2Tyu7/4HY+7r14hpgVNfZVVgDFHpBRYNVcs1BFigFHDzAANMXHlKJVZeeU8EkA8lWqUVnk/q+aAI4ZSboKaYG18bzNHg4vn5bV+tCiYvZLKaHM9apgOPTF5wuMTMVxJVe1DQuYhk=
+	t=1790879134; cv=none; b=W4gWQftc19zAJ+eDFkmCfAym1/9r4FutsG8164VcMaQW3Zrf7zxl1AGbkbt2e/M/1aRJy2bj1OZSV/n+zfiiOyPJZ1WtKA+xfy/E3XIf0ov0/Ivp4I81cZ5/o6xm1zZk2XMfw0Ywa9Rfit01l8VX4pNoIAkOSuNnEv6i0lRc7bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790877747; c=relaxed/simple;
-	bh=2PAOzND5QRX8jB/dy9XVVUwe9E76np9GGsUQj1BvjDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NK0dYRkra+KVzzRRfxCDql5aQ5521k0aGgcmPDamJgZ52xZpaSY4IAd7MQwSIU5mFIvRGLlzkZxqND+OlAfNz60vT7RXIr7V7MgX2Nx67oBH47FsSrWgil+ErWdCyMy84UOoAUd4XMxMRyYsf9O0DuPndiq0X1VN4DA5VTuTCKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQfoEQQB; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1790879134; c=relaxed/simple;
+	bh=/Ti5mqYUj8qcUUke8PztnPs+Iu9IKPs7lPlRWUFsRTU=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a4fGOuP8mnt5V6Edn8/JHQUwenRJt8ODQsRM/cSLpA6QeDIyehSo1Mea4YkchmGUljksfDYzLp7CFn7lDb7EozYLqkDGzKzxv4qCvL3H1EACBvErqz7sAaykB/f/z7QZm+pc9EsaE4DtU6yhmqQuMVXlCIAcBLwQ7QnerLoPKZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bHtv8cny; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQfoEQQB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bHtv8cny"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790877743; x=1822413743;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2PAOzND5QRX8jB/dy9XVVUwe9E76np9GGsUQj1BvjDo=;
-  b=IQfoEQQByDGDEQD15OvROmsvBYE2zN+Xo+4FSugYMVthGqmeZf4mxyaZ
-   ql92EpT4JHD3MwZcIA71rOsabcRbhYzxiJ+5I3hnNSDeRjffPl8uHuiHc
-   gsoilrY0dtp3WqMJLnHGxlBb0wwbDFNxGuKcKYTlgDcFX+5DHulN+tZDA
-   ewMsJP/eo56Fz6S2hBOdVB7ALZg/9Uw0pUXVsoCqTax5lopyBP+lLk++k
-   xdbuto4Wq6wuuUA0dv0DKVglGf02r/zBaWjyE0JA9bWlG7MB02BRhUW5o
-   QRN7kJOWVK9atZdMaKthBew5Eh5/BvU6CiOiJn4UQzZ+L4S2TJFbl6hb7
-   w==;
-X-CSE-ConnectionGUID: b6UDqrN+TEK51hhGLtsGRw==
-X-CSE-MsgGUID: NN8N3QbaQruj7CoTOGPD4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90597786"
+  t=1790879132; x=1822415132;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=/Ti5mqYUj8qcUUke8PztnPs+Iu9IKPs7lPlRWUFsRTU=;
+  b=bHtv8cnyv9WvoIdkfFx1ljKORm7WmCTm/O60RPSB7e/8jxEAVhM5Ytk8
+   Tu0bWg3Towgc/80aiMKRfokAOYklT+X3DEQhZUnOcWXc75nEB0jLHgSXR
+   qjxuKSswPeZaEfiwxMx77C0rNwXcGGQnv8u/eVknu2hPdjabAfaBi0039
+   w1tt2N3Ov3EZ2E4lzbtgsMN4MulQDfEdP/nB39K/7sK8sDz1+u14PUSPZ
+   32YS+tEtFaBxDF3HEuVCVqJRQZorkhtLLNoz0NNaFHTREgGiDmCjSpA/w
+   tabAJdgz218REvueZs6MkDH8o4BrIox6JBDBW9LvdOu4WJ7AGfaQtEb4p
+   A==;
+X-CSE-ConnectionGUID: eKKMKFyASQ6QBs8DU1WVLg==
+X-CSE-MsgGUID: YiFTd2KsSQSJsfspw1OePA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94134513"
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="90597786"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 11:02:18 -0700
-X-CSE-ConnectionGUID: Qrh/ocx2S5unBTxc8PDjfg==
-X-CSE-MsgGUID: 4AT0QDQlTy+z5nliqXu33w==
+   d="scan'208";a="94134513"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 11:25:30 -0700
+X-CSE-ConnectionGUID: vhIT2gBASnuv2qQxoajsbA==
+X-CSE-MsgGUID: F99fNInGQE6Qn1IHR3ve+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="135440"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 01 Oct 2026 11:02:16 -0700
-Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
+   d="scan'208";a="274693309"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 01 Oct 2026 11:25:29 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCL6j-000000000AR-357q;
-	Thu, 01 Oct 2026 18:02:13 +0000
-Date: Thu, 01 Oct 2026 20:02:13 +0200
+	id 1xCLTD-00000000SDP-1LGT
+	for oe-kbuild-all@lists.linux.dev;
+	Thu, 01 Oct 2026 18:25:27 +0000
+Date: Fri, 2 Oct 2026 02:24:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: /bin/bash: line 1: 1074947 Killed                  clang
- -Wp,-MMD,drivers/net/ethernet/intel/ice/.ice_common.o.d -nostdinc
- -Iarch/um/include -I./arch/um/include/generated -Iinclude -I./include
- -Iarch/um/include/uapi -I./arch/um/include/generated/uapi -Iin...
-Message-ID: <202610011945.L7nGf9kD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: usb: gadget: f_uac1: fix ac_header_desc in descriptor lists
+Message-ID: <202610020257.roSohAyM-lkp@intel.com>
+References: <202610020257.roSohAyM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,199 +61,76 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <202610020257.roSohAyM-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   551c722f40809618230001baccf219193e22fc5a
-commit: dc4305be467a6f84f66005cfc58557d56b5ab107 ice: use <linux/packing.h>=
- for Tx and Rx queue context data
-date:   1 year, 10 months ago
-config: um-randconfig-r2201-20260927 (https://download.01.org/0day-ci/archi=
-ve/20261001/202610011945.L7nGf9kD-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 761=
-5da10b75c57286a4032eac8bb43c1b8d2ba46)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261001/202610011945.L7nGf9kD-lkp@intel.com/reproduce)
+Hi Paritosh,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/paritoshpotukuchi-gmail-com/usb-gadget-f_uac1-fix-ac_header_desc-in-descriptor-lists/20261001-075808
+base:   
+patch link:    https://lore.kernel.org/r/202610020257.roSohAyM-lkp%40intel.com
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261002/202610020257.roSohAyM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020257.roSohAyM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: dc4305be467a ("ice: use <linux/packing.h> for Tx and Rx queue cont=
-ext data")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610011945.L7nGf9kD-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610020257.roSohAyM-lkp@intel.com/
 
-Note: functions only called from assembly code should be annotated with the=
- asmlinkage attribute
 All errors (new ones prefixed by >>):
 
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     549 |         val =3D __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     567 |         val =3D __le16_to_cpu((__le16 __force)__raw_readw(PCI_IO=
-BASE + addr));
-         |                                                         ~~~~~~~~=
-~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from =
-macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/intel/ice/ice_common.c:4:
-   In file included from drivers/net/ethernet/intel/ice/ice_common.h:9:
-   In file included from drivers/net/ethernet/intel/ice/ice.h:12:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         val =3D __le32_to_cpu((__le32 __force)__raw_readl(PCI_IO=
-BASE + addr));
-         |                                                         ~~~~~~~~=
-~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from =
-macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/intel/ice/ice_common.c:4:
-   In file included from drivers/net/ethernet/intel/ice/ice_common.h:9:
-   In file included from drivers/net/ethernet/intel/ice/ice.h:12:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE=
- + addr);
-         |                                                       ~~~~~~~~~~=
- ^
-   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE=
- + addr);
-         |                                                       ~~~~~~~~~~=
- ^
-   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic =
-on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/net/ethernet/intel/ice/ice_common.c:4:
-   In file included from drivers/net/ethernet/intel/ice/ice_common.h:9:
-   In file included from drivers/net/ethernet/intel/ice/ice.h:47:
-   include/net/ip.h:481:14: warning: default initialization of an object of=
- type 'typeof (rt->dst.expires)' (aka 'const unsigned long') leaves the obj=
-ect uninitialized [-Wdefault-const-init-var-unsafe]
-     481 |                 if (mtu && time_before(jiffies, rt->dst.expires))
-         |                            ^
-   include/linux/jiffies.h:138:26: note: expanded from macro 'time_before'
-     138 | #define time_before(a,b)        time_after(b,a)
-         |                                 ^
-   include/linux/jiffies.h:128:3: note: expanded from macro 'time_after'
-     128 |         (typecheck(unsigned long, a) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   In file included from drivers/net/ethernet/intel/ice/ice_common.c:4:
-   In file included from drivers/net/ethernet/intel/ice/ice_common.h:9:
-   In file included from drivers/net/ethernet/intel/ice/ice.h:55:
-   In file included from include/net/vxlan.h:11:
-   In file included from include/net/nexthop.h:17:
-   include/net/ip6_fib.h:271:10: warning: default initialization of an obje=
-ct of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the o=
-bject uninitialized [-Wdefault-const-init-var-unsafe]
-     271 |                 return time_after(jiffies, f6i->expires);
-         |                        ^
-   include/linux/jiffies.h:129:3: note: expanded from macro 'time_after'
-     129 |          typecheck(unsigned long, b) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
->> /bin/bash: line 1: 1074947 Killed                  clang -Wp,-MMD,driver=
-s/net/ethernet/intel/ice/.ice_common.o.d -nostdinc -Iarch/um/include -I./ar=
-ch/um/include/generated -Iinclude -I./include -Iarch/um/include/uapi -I./ar=
-ch/um/include/generated/uapi -Iinclude/uapi -I./include/generated/uapi -inc=
-lude include/linux/compiler-version.h -include include/linux/kconfig.h -inc=
-lude include/linux/compiler_types.h -D__KERNEL__ --target=3Dx86_64-linux-gn=
-u -fintegrated-as -Werror=3Dunknown-warning-option -Werror=3Dignored-optimi=
-zation-argument -Werror=3Doption-ignored -Werror=3Dunused-command-line-argu=
-ment -m64 -Iarch/x86/um -Iarch/x86/include -Iarch/x86/include/uapi -I./arch=
-/x86/include/generated -I./arch/x86/include/generated/uapi -fmacro-prefix-m=
-ap=3D=3D -Wundef -DKBUILD_EXTRA_WARN1 -std=3Dgnu11 -fshort-wchar -funsigned=
--char -fno-common -fno-PIE -fno-strict-aliasing -mcmodel=3Dlarge -mno-sse -=
-mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fno-builtin -m64 -fprofile-instr-gen=
-erate -fcoverage-mapping -D__arch_um__ -Iarch/um/include/shared -Iarch/x86/=
-um/shared -Iarch/um/include/shared/skas -Dvmap=3Dkernel_vmap -Dlongjmp=3Dke=
-rnel_longjmp -Dsetjmp=3Dkernel_setjmp -Din6addr_loopback=3Dkernel_in6addr_l=
-oopback -Din6addr_any=3Dkernel_in6addr_any -Dstrrchr=3Dkernel_strrchr -D__c=
-lose_range=3Dkernel__close_range -D_LARGEFILE64_SOURCE -Derrno=3Dkernel_err=
-no -Dsigprocmask=3Dkernel_sigprocmask -Dmktime=3Dkernel_mktime -fno-delete-=
-null-pointer-checks -Os -fno-stack-protector -fomit-frame-pointer -ftrivial=
--auto-var-init=3Dzero -fno-stack-clash-protection -fstrict-flex-arrays=3D3 =
--fno-strict-overflow -fno-stack-check -Wall -Wundef -Werror=3Dimplicit-func=
-tion-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werror=3Dstr=
-ict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-=
-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wno-g=
-nu -Wvla -Wno-pointer-sign -Wcast-function-type -Wimplicit-fallthrough -Wer=
-ror=3Ddate-time -Werror=3Dincompatible-pointer-types -Wenum-conversion -Wex=
-tra -Wunused -Wmissing-format-attribute -Wmissing-include-dirs -Wunused-con=
-st-variable -Wno-missing-field-initializers -Wno-type-limits -Wno-shift-neg=
-ative-value -Wno-sign-compare -Wno-unused-parameter -gsplit-dwarf -g -gdwar=
-f-4 -fno-var-tracking -gz=3Dzlib -DRANDSTRUCT -frandomize-layout-seed-file=
-=3D./scripts/basic/randstruct.seed -fno-crash-diagnostics -Wno-error=3Dretu=
-rn-type -Wreturn-type -funsigned-char -Wundef -falign-functions=3D64 -Idriv=
-ers/net/ethernet/intel/ice -Idrivers/net/ethernet/intel/ice -Idrivers/net/e=
-thernet/intel/ice -DKBUILD_MODFILE=3D'"drivers/net/ethernet/intel/ice/ice"'=
- -DKBUILD_BASENAME=3D'"ice_common"' -DKBUILD_MODNAME=3D'"ice"' -D__KBUILD_M=
-ODNAME=3Dkmod_ice -c -o drivers/net/ethernet/intel/ice/ice_common.o drivers=
-/net/ethernet/intel/ice/ice_common.c
+>> drivers/usb/gadget/function/f_uac1.c:263:9: error: initializer element is not constant
+     263 |         (struct usb_descriptor_header *)ac_header_desc,
+         |         ^
+   drivers/usb/gadget/function/f_uac1.c:263:9: note: (near initialization for 'f_audio_desc[1]')
+   drivers/usb/gadget/function/f_uac1.c:335:9: error: initializer element is not constant
+     335 |         (struct usb_descriptor_header *)ac_header_desc,
+         |         ^
+   drivers/usb/gadget/function/f_uac1.c:335:9: note: (near initialization for 'f_audio_ss_desc[1]')
+
+
+vim +263 drivers/usb/gadget/function/f_uac1.c
+
+   260	
+   261	static struct usb_descriptor_header *f_audio_desc[] = {
+   262		(struct usb_descriptor_header *)&ac_interface_desc,
+ > 263		(struct usb_descriptor_header *)ac_header_desc,
+   264	
+   265		(struct usb_descriptor_header *)&usb_out_it_desc,
+   266		(struct usb_descriptor_header *)&io_out_ot_desc,
+   267		(struct usb_descriptor_header *)&out_feature_unit_desc,
+   268	
+   269		(struct usb_descriptor_header *)&io_in_it_desc,
+   270		(struct usb_descriptor_header *)&usb_in_ot_desc,
+   271		(struct usb_descriptor_header *)&in_feature_unit_desc,
+   272	
+   273		(struct usb_descriptor_header *)&ac_int_ep_desc,
+   274	
+   275		(struct usb_descriptor_header *)&as_out_interface_alt_0_desc,
+   276		(struct usb_descriptor_header *)&as_out_interface_alt_1_desc,
+   277		(struct usb_descriptor_header *)&as_out_header_desc,
+   278	
+   279		(struct usb_descriptor_header *)&as_out_type_i_desc,
+   280	
+   281		(struct usb_descriptor_header *)&as_out_ep_desc,
+   282		(struct usb_descriptor_header *)&as_iso_out_desc,
+   283	
+   284		(struct usb_descriptor_header *)&as_in_interface_alt_0_desc,
+   285		(struct usb_descriptor_header *)&as_in_interface_alt_1_desc,
+   286		(struct usb_descriptor_header *)&as_in_header_desc,
+   287	
+   288		(struct usb_descriptor_header *)&as_in_type_i_desc,
+   289	
+   290		(struct usb_descriptor_header *)&as_in_ep_desc,
+   291		(struct usb_descriptor_header *)&as_iso_in_desc,
+   292		NULL,
+   293	};
+   294	
 
 --
 0-DAY CI Kernel Test Service
