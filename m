@@ -1,139 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E704A9D66
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 23:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BA53093A6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 01:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790811670; cv=none; b=rYMTq0jn7T0Gi3aRs0aSI76qr7GVFtaNGI3jQuTDsNBFZ/JT0plwm7wXncGgbAhhkvBSl4RDJV76eA5VNLPIFc+K1YzmJn0eH/S4YT235OsstDFAZ39MKgFqQ5gkRcYmP9dVji43t3j/cWDp3MPlIJjRoZ2H/BQlu7VSMk238/0=
+	t=1790818294; cv=none; b=iDlz/foY9+8bKHhgk1ObBe/SA3F/RBLL+v17YO9q3sINrxXc7/s5TB36hZDsYEXqhXdyiSrExP4m1+CBdRhz6h4G4xuGmdn0TSxoonuerSK/0O79U4t9ZwFKy8Z26nUBQIeXg0RunWpT8G9M3p1U3jyfApmYR7UWxdflNTL+sz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790811670; c=relaxed/simple;
-	bh=3k0Zf9I7WIpUcUmHGwFy14VrJWteGborjJKrNtbtpw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=LqiMwCe9zNis7Z24p+7F6t6RySWpfEuTc6YbzW4JZtPddci+73cOeHCvlzdcxaKt6fYjoi5d/yRIA/DFw5LcidCK12O2YgrBcZcygpPKzOQVg7TC/RkEwyRKZWu9nHsJrIw6gPpu9o/uPlWhdYhU7Xli+34YD5wQ0lk0KtYMEbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iS6zYUhW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790818294; c=relaxed/simple;
+	bh=2XiydE1hS4nSPewT54+aL0AQW6tDF7XkL1seasLzlNM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aRfY5wbRaBGc+qidZ3RMeXHq2dysvbMdo8lQcCeajEeHF6l9GI0t7F7ZuxGO0zJbqhGYq0ilVjY/Sx90q3SaXPQwgEk62IwKlZCwb1IejkQAf2Mx9omHZV1AMteXO2xX4qCVdDUnFiD5M54JhS12T7WJZRO+RVagSk7WR3eUBj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gaj86p5n; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iS6zYUhW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790811667;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dxD3qjh8bcMrF3krjbsimwiCkX7NTaM6faCoDJ4Dbvw=;
-	b=iS6zYUhWZJUVJfYCKePS2+durSXgphyESG0lMRClo1Tez2b/ywZhd3bFEGqOxx2HJECGLY
-	tS3fB+obhhu/5UaoayuhOZQFgZD1gh73OvQua9OZeHxXf1IIUHqG9E/Vy9/3ROt8l21c9j
-	h8EKyYqnoEwLp/TP+AB+AEtZF/lHbFU=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-JYw2fCZTPSeCMBHGggbLjA-1; Wed, 30 Sep 2026 19:41:06 -0400
-X-MC-Unique: JYw2fCZTPSeCMBHGggbLjA-1
-X-Mimecast-MFC-AGG-ID: JYw2fCZTPSeCMBHGggbLjA_1790811665
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5337f26ee19so22099041cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Sep 2026 16:41:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790811665; x=1791416465;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dxD3qjh8bcMrF3krjbsimwiCkX7NTaM6faCoDJ4Dbvw=;
-        b=Xlzo9jU52UYIiriqzueUKXPxfksU1M+bhu2H4tKkvyJKIhsMBsW4qmbWUlmmWaOsTA
-         QGw1KUYcvb3D2LhRE+Pbnbae8nsnJfCvtrZKWISSxxMtpHg8FI8v0hDvYVXb4EdHjTru
-         IMxHhBLf9zDFwtIj005fq0lIoSvMf3MXUsCJZm5UqK4jWZV0HOAc8ZLmJC+5TLS/kc3N
-         jPm2fSgxdkeROxeya0S28f25hAnUG2robUXGSvbaDnfcGGE6ogT+ZJZQcl3VFbRVxskI
-         shq6CoiDMTO46pw33ATxgmEjZJ9rEfdcNLvl+5+YWFwOQx0f7eqLdtxqrNdsggl8Xrkb
-         q4Sg==
-X-Gm-Message-State: AFuF++nzAr1+z63LxxYoy66MxeJQBnQH6EN+gNIUN9NWH0z+5E3udXyp
-	VDmnbAveb2KzpRFSjs/DO/MS0lXlbyuJF9CAcNpRX5uSuxoXqS6a4OveUejqYJoMy0iPKaSXRg3
-	GhQ9LNbm7WH4odMMjQGKzuq+z3qSrwGY5QXBzkN1IcNN5wtrslNFUi2kISmpxpXwzUt4=
-X-Gm-Gg: AYBFou3rz0mmbAvHvnbTFnjAXHAHAtwygNLOeFlufl0dfF9CTkOXPK4eHhP6ET57Z9Y
-	itnxs+QMgf8Vkx3PDXeeujdQKWxNHKu+ph2OuL4OYXxTZ//dXTXdylaPzI7AesR2DCMOv8rQzWv
-	Cem+WZ5P/DclaGdeDJBrfo3XjsoX7Dm5176z/zJgDQ6QZsOluRV9dMyoWRQ8Jwnt0cOKMg6m24w
-	o0Aly944eTwSvS6zOyY300LZyXsEM03sxDY0rfxXTOLoErP8SebR67F7wqsd9sVY+K6edAszVdt
-	a1LiuQ3DfarwpBcT4H5/CvTfQLCERUXLXI+VHLw+A5WP6pfdt4NI+2J2njgevbscyQxu5Gzbzs2
-	ojPT4LsmI4z4Ix1wL2HDWGRsc2wTY0aD/4uQ=
-X-Received: by 2002:a05:622a:5810:b0:530:f7aa:d424 with SMTP id d75a77b69052e-5337427d2afmr62138231cf.20.1790811665547;
-        Wed, 30 Sep 2026 16:41:05 -0700 (PDT)
-X-Received: by 2002:a05:622a:5810:b0:530:f7aa:d424 with SMTP id d75a77b69052e-5337427d2afmr62137831cf.20.1790811665081;
-        Wed, 30 Sep 2026 16:41:05 -0700 (PDT)
-Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5338610ea32sm5532801cf.9.2026.09.30.16.41.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 16:41:04 -0700 (PDT)
-Date: Wed, 30 Sep 2026 19:41:03 -0400
-From: Brian Masney <bmasney@redhat.com>
-To: kernel test robot <lkp@intel.com>, Rosen Penev <rosenp@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>
-Subject: Re: [linux-next:master 11187/12559] include/linux/stddef.h:8:14:
- error: called object is not a function or function pointer
-Message-ID: <ar2eD2s6pDLd73DR@redhat.com>
-References: <202610010151.2W0MrmxE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gaj86p5n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790818290; x=1822354290;
+  h=date:from:to:cc:subject:message-id;
+  bh=2XiydE1hS4nSPewT54+aL0AQW6tDF7XkL1seasLzlNM=;
+  b=Gaj86p5nTibg8KsBfr39LROCpHcqnr4qEYExQIvInbVgc5pqBBZkYCj9
+   3H5DCk0S7tQjTCDmnHIKAOS5e5jZkdoikrrCO67RXVfnyJGtF3/t5DHkY
+   jKVkSpKhRZ5PwXRgD5TFtpoLNyXPqkawS2eLVH86oS44sCy33zebz/XCF
+   M4NLEm1EEFE5ekKVbH/RWPg6KcazX+QCQ2jrSlivjqeQ2IKcno0szWCwU
+   Spsi3dvx0wlMMKVjvFy2z9ylxjlJXBpd+rkLEpKbV0RqkWbWt9otqt3rf
+   Bii3EAI+X/Lt/t0kzJgdPnvQb0al2cVVfYqYXdEx1AUyRGAyDs+KG50nV
+   Q==;
+X-CSE-ConnectionGUID: VjvJRMGgTEOrDtekyaztOA==
+X-CSE-MsgGUID: Gwq/9YMCSXeeM/INFsewQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="107949710"
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="107949710"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 18:31:28 -0700
+X-CSE-ConnectionGUID: +ZTjbVpsRCi1gbQbowfZdA==
+X-CSE-MsgGUID: vOeAK7rMQUKbzvpZiI8aBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="275393801"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 30 Sep 2026 18:31:26 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xC5ds-000000002Ah-2shv;
+	Thu, 01 Oct 2026 01:31:24 +0000
+Date: Thu, 01 Oct 2026 03:31:21 +0200
+From: kernel test robot <lkp@intel.com>
+To: Matthew Stewart <matthew.stewart2@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Ray Wu <ray.wu@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42b/dcn42b_clk_mgr.c:444
+ dcn42b_clk_mgr_construct() warn: inconsistent indenting
+Message-ID: <202610010325.LdJTKRbZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <202610010151.2W0MrmxE-lkp@intel.com>
-User-Agent: Mutt/2.4.2 (2026-08-30)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: dscHVMd7zyy0C-cYvmh2uJ3sGcTZM-IXtGWzyvUlqSU_1790811665
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Hi Rosen,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   551c722f40809618230001baccf219193e22fc5a
+commit: 0a5e0416e191571de9362b769feb31b3e87a705e drm/amd/display: Add DCN42B code to DC
+date:   4 months ago
+config: i386-randconfig-r2201-20260923 (https://download.01.org/0day-ci/archive/20261001/202610010325.LdJTKRbZ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
-On Thu, Oct 01, 2026 at 01:18:36AM +0200, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   6c2cb8b8b843d216ab549b678a0d8831c43153e0
-> commit: d0b72c88671b3c46342bbebc9b90280890436c98 [11187/12559] clk: mmp: allow COMPILE_TEST builds
-> config: m68k-randconfig-r2308-20260930 (https://download.01.org/0day-ci/archive/20261001/202610010151.2W0MrmxE-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 8.5.0
-> sparse: v0.6.5-rc1
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261001/202610010151.2W0MrmxE-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610010151.2W0MrmxE-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/uapi/linux/posix_types.h:5,
->                     from include/uapi/linux/types.h:14,
->                     from include/linux/types.h:5,
->                     from include/linux/of.h:14,
->                     from include/linux/clk-provider.h:10,
->                     from drivers/clk/mmp/clk-audio.c:8:
->    drivers/clk/mmp/clk-audio.c: In function 'mmp2_audio_clk_suspend':
-> >> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
->     #define NULL ((void *)0)
->                  ^
->    include/linux/pm_clock.h:77:24: note: in expansion of macro 'NULL'
->     #define pm_clk_suspend NULL
->                            ^~~~
->    drivers/clk/mmp/clk-audio.c:405:2: note: in expansion of macro 'pm_clk_suspend'
->      pm_clk_suspend(dev);
->      ^~~~~~~~~~~~~~
->    drivers/clk/mmp/clk-audio.c: In function 'mmp2_audio_clk_resume':
-> >> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
->     #define NULL ((void *)0)
->                  ^
->    include/linux/pm_clock.h:78:23: note: in expansion of macro 'NULL'
->     #define pm_clk_resume NULL
->                           ^~~~
->    drivers/clk/mmp/clk-audio.c:414:2: note: in expansion of macro 'pm_clk_resume'
->      pm_clk_resume(dev);
->      ^~~~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: 0a5e0416e191 ("drm/amd/display: Add DCN42B code to DC")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610010325.LdJTKRbZ-lkp@intel.com/
 
-This isn't directly a bug with your patch, however it is newly
-introduced now that the driver can be compiled with COMPILE_TEST. Would
-you have time to fix this up as well?
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42b/dcn42b_clk_mgr.c:444 dcn42b_clk_mgr_construct() warn: inconsistent indenting
 
-Brian
+vim +444 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42b/dcn42b_clk_mgr.c
 
+a3d3758b2ee159 Matthew Stewart 2026-05-17  414  
+a3d3758b2ee159 Matthew Stewart 2026-05-17  415  void dcn42b_clk_mgr_construct(
+a3d3758b2ee159 Matthew Stewart 2026-05-17  416  		struct dc_context *ctx,
+a3d3758b2ee159 Matthew Stewart 2026-05-17  417  		struct clk_mgr_dcn42 *clk_mgr,
+a3d3758b2ee159 Matthew Stewart 2026-05-17  418  		struct pp_smu_funcs *pp_smu,
+a3d3758b2ee159 Matthew Stewart 2026-05-17  419  		struct dccg *dccg)
+a3d3758b2ee159 Matthew Stewart 2026-05-17  420  {
+a3d3758b2ee159 Matthew Stewart 2026-05-17  421  	clk_mgr->base.base.ctx = ctx;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  422  	clk_mgr->base.base.funcs = &dcn42b_funcs;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  423  	clk_mgr->base.regs = &clk_mgr_regs_dcn42b;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  424  	clk_mgr->base.clk_mgr_shift = &clk_mgr_shift_dcn42b;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  425  	clk_mgr->base.clk_mgr_mask = &clk_mgr_mask_dcn42b;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  426  
+a3d3758b2ee159 Matthew Stewart 2026-05-17  427  	clk_mgr->base.pp_smu = pp_smu;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  428  
+a3d3758b2ee159 Matthew Stewart 2026-05-17  429  	clk_mgr->base.dccg = dccg;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  430  	clk_mgr->base.dfs_bypass_disp_clk = 0;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  431  
+a3d3758b2ee159 Matthew Stewart 2026-05-17  432  	clk_mgr->base.dprefclk_ss_percentage = 0;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  433  	clk_mgr->base.dprefclk_ss_divider = 1000;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  434  	clk_mgr->base.ss_on_dprefclk = false;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  435  	clk_mgr->base.dfs_ref_freq_khz = 48000; /*sync with pmfw*/
+a3d3758b2ee159 Matthew Stewart 2026-05-17  436  	clk_mgr->base.base.clks.ref_dtbclk_khz = 0;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  437  
+a3d3758b2ee159 Matthew Stewart 2026-05-17  438  	/* Changed from DCN3.2_clock_frequency doc to match
+a3d3758b2ee159 Matthew Stewart 2026-05-17  439  	 * dcn32_dump_clk_registers from 4 * dentist_vco_freq_khz /
+a3d3758b2ee159 Matthew Stewart 2026-05-17  440  	 * dprefclk DID divider
+a3d3758b2ee159 Matthew Stewart 2026-05-17  441  	 */
+a3d3758b2ee159 Matthew Stewart 2026-05-17  442  	clk_mgr->base.base.dprefclk_khz = 600000;
+a3d3758b2ee159 Matthew Stewart 2026-05-17  443  
+a3d3758b2ee159 Matthew Stewart 2026-05-17 @444  		clk_mgr->base.smu_present = false;
+
+:::::: The code at line 444 was first introduced by commit
+:::::: a3d3758b2ee159a0985bc2f973a892200c2ab62b drm/amd/display: Add DCN42B DC resource files
+
+:::::: TO: Matthew Stewart <matthew.stewart2@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
