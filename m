@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C26252D2C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 15:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A757416856
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 16:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790867778; cv=none; b=rqn+RcaVHWGHkw/w7HxFw2QS8GbOIqtrKN1KM8hWl0aUju2OVfMajNZBniK8wIaPCD14siX3oxNAYV9J8/Ul3rBShnQuwbMCYg2++RsAY4igfE/pfRMZfPAVwpcitbWa7Ek0ZDDoCKSBmOvDaXfSO30MMIrqohmHoxWZt78+MZI=
+	t=1790871456; cv=none; b=EIPEzYt2swhixku2TTR3xWe1+E+P89m0MahE2pNWo+KIbO6wKOA2np0lnOGNAbZ3biK2UOTdIdpddMEnvGa6YvIPrJzBij7BxBvpG75GvxFLunP2X5e2zMv6LTeq7fMKUR+LEPV2iisu4Vwb0RHZUqtV4mWhoPsE94CZGq6T9mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790867778; c=relaxed/simple;
-	bh=MeXjBLbBVTGhFIqetcUFLb3uSFJPU6ikWRvYWOhZ2Nw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RE7JAuS6PFu3C8jmrVmFE9PMAS18uLCdrEny6nH1DmGqxXmPvEN2GZmo8TRFDgA+5+D1y3zGzrpdGi03mHDUXs9UaXwJrU4LzgAdISq7f7ELiz54qc1WjuMgy3HDzIyK2j3VxOOXr7+Au6Zyg26OsPvy9/tKW2dKcr35bRh0BZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g4JylrNz; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1790871456; c=relaxed/simple;
+	bh=IQKqZ79K+z4xeaaGU1tG+7p7QhDfnDWKmXdmaP7NLso=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oF1jhW4fV7sbcrFR2uFIq2BOq1KE3l/7nW6Ww186dA1Uht89QuadxVNPR45OZQ7p9DxBK3tFeHP/oddPTZ4hIhutExQsiwQca4/u2t1nPNIk8TIQgOZnRCRSaaIbqago3dQBDRy3Q2WHaDF1Vm3fnas0bnh2thAXGqjNtG0Dje0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DXJlPA9T; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4JylrNz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DXJlPA9T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790867777; x=1822403777;
+  t=1790871453; x=1822407453;
   h=date:from:to:cc:subject:message-id;
-  bh=MeXjBLbBVTGhFIqetcUFLb3uSFJPU6ikWRvYWOhZ2Nw=;
-  b=g4JylrNzmSLOv93KySZqlJsH6k6ZawanDqetjLHa9P2c5+rt6TA1DZcw
-   ay1X1Tl3obJjMobPX76unN2HIOCQTsOcw4KkHwry67D8AOiXqkBUUqxG5
-   nTtG7ZSYIDeJRM5TUBpXDSxBcK/p/HZ44EfLJ5+5MJ7Ah+T9H/HdHhd+s
-   SxuVz1+x+gCJy0S1DzPN+lEQAvzcnUEJgIhygaLu4WFcQ2FYqO9bpykNE
-   iBMu4QRNau5+etPzzfK2qhYOkhSQ68inw2tdHmmgSnCtmomUPoAGf9MbR
-   bAl45rzn4G44O7Tu7rF7G0hl8yR5pBpBsavqPqyDJAEygVggDK+U8283k
-   g==;
-X-CSE-ConnectionGUID: eNK8uWkRSWmibmTmtOrNFQ==
-X-CSE-MsgGUID: PBEMguurRoWiVNS9lRotSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94341355"
+  bh=IQKqZ79K+z4xeaaGU1tG+7p7QhDfnDWKmXdmaP7NLso=;
+  b=DXJlPA9TsNjvzSLodjVWbOv4x2Y+FUUPoYJg4/VQ/Gpf/mIgoE+VL0o5
+   iTWPVuDjnmPrXP/2zYO0WaV5FFfJmgFegDV8L4e/QIzjTWwb+3GalVa1R
+   d7lDTfrmMomQeJjL/LMH37ueh83pNJOUL0Vu9+bv8zLH7Hyt4zqWJwaPN
+   uVssr+wHKR8CJlMGz55di4uGsZBU/fHEMIiPVG3cE6MJM+UkY9CVt7QCa
+   wu8xtJ4UwJ/+G6gsOTicFYDWMqHDyflf609forTu5DU8nmLVHLGLnJL+m
+   8FMIo41GsEz+VQJFLlZRa8yRR1STX1x7+Xyw7hqqTbjhtzHHSFhPFARlD
+   Q==;
+X-CSE-ConnectionGUID: 06LEdp8CSpO4U6dTQQ1P0g==
+X-CSE-MsgGUID: h1QPIyl6RbCHeq6weoS7aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94118996"
 X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="94341355"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 08:16:16 -0700
-X-CSE-ConnectionGUID: 18W00y6bRuyQjmIaZDpv5Q==
-X-CSE-MsgGUID: FUmvh4u3SlmTvrijgo+rbw==
+   d="scan'208";a="94118996"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 09:17:31 -0700
+X-CSE-ConnectionGUID: mLK7hQKBSQ2wdVcJVVahNQ==
+X-CSE-MsgGUID: EDbxQaK/QjqmUzNMWJrKOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="303953355"
+   d="scan'208";a="279802091"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Oct 2026 08:16:14 -0700
+  by orviesa005.jf.intel.com with ESMTP; 01 Oct 2026 09:17:31 -0700
 Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCIW4-0000000007v-1S2N;
-	Thu, 01 Oct 2026 15:16:12 +0000
-Date: Thu, 01 Oct 2026 17:15:53 +0200
+	id 1xCJTM-0000000008n-1V6j;
+	Thu, 01 Oct 2026 16:17:28 +0000
+Date: Thu, 01 Oct 2026 18:17:04 +0200
 From: kernel test robot <lkp@intel.com>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/gpib/cb7210/cb7210.c:120:32: sparse: sparse: cast to
- restricted __le16
-Message-ID: <202610011729.ZtctXAPk-lkp@intel.com>
+To: Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: include/net/route.h:176:63: warning: omitting the parameter
+ name in a function definition is a C23 extension
+Message-ID: <202610011840.yArMhOm4-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,148 +59,46 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Dave,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   551c722f40809618230001baccf219193e22fc5a
-commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
-date:   10 months ago
-config: m68k-randconfig-r2304-20261001 (https://download.01.org/0day-ci/archive/20261001/202610011729.ZtctXAPk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/intel-lab-lkp/linux/commits/Fernando-Fernandez-Mancera/ipv4-introduce-CONFIG_IPV4-to-decouple-the-IPv4-stack/20260928-212957
+head:   9699ec4e92ef081fbb0e1a4247538ba53e5b17bf
+commit: 809c9f483b87854f5b7ede3ce9ac6e372855169c net: core: add IPv4 fallback stubs and guards for CONFIG_IPV4=n
+date:   3 days ago
+config: hexagon-randconfig-r2304-20261001 (https://download.01.org/0day-ci/archive/20261001/202610011840.yArMhOm4-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7e4505dd447d115d85fdea45cd71030ac1d86ee)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261001/202610011729.ZtctXAPk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261001/202610011840.yArMhOm4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e6ab504633e4 ("staging: gpib: Destage gpib")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610011729.ZtctXAPk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610011840.yArMhOm4-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpib/cb7210/cb7210.c:120:32: sparse: sparse: cast to restricted __le16
->> drivers/gpib/cb7210/cb7210.c:120:32: sparse: sparse: cast to restricted __le16
->> drivers/gpib/cb7210/cb7210.c:120:32: sparse: sparse: cast to restricted __le16
->> drivers/gpib/cb7210/cb7210.c:120:32: sparse: sparse: cast to restricted __le16
-   drivers/gpib/cb7210/cb7210.c:148:24: sparse: sparse: cast to restricted __le16
-   drivers/gpib/cb7210/cb7210.c:148:24: sparse: sparse: cast to restricted __le16
-   drivers/gpib/cb7210/cb7210.c:148:24: sparse: sparse: cast to restricted __le16
-   drivers/gpib/cb7210/cb7210.c:148:24: sparse: sparse: cast to restricted __le16
-   drivers/gpib/cb7210/cb7210.c: note: in included file (through arch/m68k/include/asm/io.h, include/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
-   arch/m68k/include/asm/io_mm.h:164:21: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +120 drivers/gpib/cb7210/cb7210.c
+   In file included from net/core/filter.c:35:
+   In file included from include/net/ip.h:30:
+>> include/net/route.h:176:63: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     176 | static inline struct rtable *ip_route_output_flow(struct net *, struct flowi4 *flp,
+         |                                                               ^
+   1 warning generated.
 
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   78  
-e8d9c91abf5ad9 drivers/staging/gpib/cb7210/cb7210.c Michael Rubin 2025-04-09   79  static int fifo_read(struct gpib_board *board, struct cb7210_priv *cb_priv, u8 *buffer,
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   80  		     size_t length, int *end, size_t *bytes_read)
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   81  {
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   82  	ssize_t retval = 0;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   83  	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   84  	int hs_status;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   85  	u16 word;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   86  	unsigned long flags;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   87  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   88  	*bytes_read = 0;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   89  	if (cb_priv->fifo_iobase == 0)	{
-82e3508046f9bc drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2025-02-20   90  		dev_err(board->gpib_dev, "fifo iobase is zero!\n");
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   91  		return -EIO;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   92  	}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   93  	*end = 0;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   94  	if (length <= cb7210_fifo_size)	{
-82e3508046f9bc drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2025-02-20   95  		dev_err(board->gpib_dev, " bug! fifo read length < fifo size\n");
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   96  		return -EINVAL;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   97  	}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   98  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18   99  	input_fifo_enable(board, 1);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  100  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  101  	while (*bytes_read + cb7210_fifo_size < length)	{
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  102  		nec7210_set_reg_bits(nec_priv, IMR2, HR_DMAI, HR_DMAI);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  103  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  104  		if (wait_event_interruptible(board->wait,
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  105  					     (cb_priv->in_fifo_half_full &&
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  106  					      have_fifo_word(cb_priv)) ||
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  107  					     test_bit(RECEIVED_END_BN, &nec_priv->state) ||
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  108  					     test_bit(DEV_CLEAR_BN, &nec_priv->state) ||
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  109  					     test_bit(TIMO_NUM, &board->status))) {
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  110  			retval = -ERESTARTSYS;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  111  			nec7210_set_reg_bits(nec_priv, IMR2, HR_DMAI, 0);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  112  			break;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  113  		}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  114  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  115  		spin_lock_irqsave(&board->spinlock, flags);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  116  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  117  		nec7210_set_reg_bits(nec_priv, IMR2, HR_DMAI, 0);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  118  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  119  		while (have_fifo_word(cb_priv))	{
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18 @120  			word = inw(cb_priv->fifo_iobase + DIR);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  121  			buffer[(*bytes_read)++] = word & 0xff;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  122  			buffer[(*bytes_read)++] = (word >> 8) & 0xff;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  123  		}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  124  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  125  		cb_priv->in_fifo_half_full = 0;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  126  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  127  		hs_status = cb7210_read_byte(cb_priv, HS_STATUS);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  128  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  129  		spin_unlock_irqrestore(&board->spinlock, flags);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  130  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  131  		if (test_and_clear_bit(RECEIVED_END_BN, &nec_priv->state)) {
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  132  			*end = 1;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  133  			break;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  134  		}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  135  		if (hs_status & HS_FIFO_FULL)
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  136  			break;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  137  		if (test_bit(TIMO_NUM, &board->status))	{
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  138  			retval = -ETIMEDOUT;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  139  			break;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  140  		}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  141  		if (test_bit(DEV_CLEAR_BN, &nec_priv->state)) {
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  142  			retval = -EINTR;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  143  			break;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  144  		}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  145  	}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  146  	hs_status = cb7210_read_byte(cb_priv, HS_STATUS);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  147  	if (hs_status & HS_RX_LSB_NOT_EMPTY) {
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  148  		word = inw(cb_priv->fifo_iobase + DIR);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  149  		buffer[(*bytes_read)++] = word & 0xff;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  150  	}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  151  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  152  	input_fifo_enable(board, 0);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  153  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  154  	if (wait_event_interruptible(board->wait,
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  155  				     test_bit(READ_READY_BN, &nec_priv->state) ||
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  156  				     test_bit(RECEIVED_END_BN, &nec_priv->state) ||
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  157  				     test_bit(DEV_CLEAR_BN, &nec_priv->state) ||
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  158  				     test_bit(TIMO_NUM, &board->status))) {
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  159  		retval = -ERESTARTSYS;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  160  	}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  161  	if (test_bit(TIMO_NUM, &board->status))
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  162  		retval = -ETIMEDOUT;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  163  	if (test_bit(DEV_CLEAR_BN, &nec_priv->state))
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  164  		retval = -EINTR;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  165  	if (test_bit(READ_READY_BN, &nec_priv->state)) {
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  166  		nec7210_set_handshake_mode(board, nec_priv, HR_HLDA);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  167  		buffer[(*bytes_read)++] = nec7210_read_data_in(board, nec_priv, end);
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  168  	}
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  169  
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  170  	return retval;
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  171  }
-e9dc69956d4d9b drivers/staging/gpib/cb7210/cb7210.c Dave Penkler  2024-09-18  172  
 
-:::::: The code at line 120 was first introduced by commit
-:::::: e9dc69956d4d9bf4a81d35995ce9229ff5e4cad5 staging: gpib: Add Computer Boards GPIB driver
+vim +176 include/net/route.h
 
-:::::: TO: Dave Penkler <dpenkler@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   171	
+   172	#if IS_ENABLED(CONFIG_IPV4)
+   173	struct rtable *ip_route_output_flow(struct net *, struct flowi4 *flp,
+   174					    const struct sock *sk);
+   175	#else
+ > 176	static inline struct rtable *ip_route_output_flow(struct net *, struct flowi4 *flp,
+   177							  const struct sock *sk)
+   178	{
+   179		return ERR_PTR(-EAFNOSUPPORT);
+   180	}
+   181	#endif
+   182	struct dst_entry *ipv4_blackhole_route(struct net *net,
+   183					       struct dst_entry *dst_orig);
+   184	
 
 --
 0-DAY CI Kernel Test Service
