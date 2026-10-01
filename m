@@ -1,102 +1,150 @@
-Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCB3023504B;
-	Thu,  1 Oct 2026 08:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD50337D11A
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 09:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790845147; cv=none; b=sN6e/MBu8xp5EUsY62SaVz6NTpDVzTqt4iYlpmk7iXPnOOyW2/i4ZruQtcoqzvVGAtwWUsbHBtJO8wWPQ7+oiyeBxfEQouWiJDZuwKBlR/fkj+bR4Zxzhyt106yGe1R5WKzmezZqURcw80lC53SqOBQ7ZkYAHnxQBjeMFMQac58=
+	t=1790848390; cv=none; b=SQu8h3oWV49g0XgqJhzHB6S9cfx777sQpr3ryKcyS8RRPQ5DvgmJiI3PZwBdFRmhjA+8kR9gsgLbHyJrXVPVcybFmZu58CbuZROXEpZSVQx0by2jnyNNiiEo883GI5tsOKiyD39qPk0so1vclGfFasOZG4FS37Rbs7j2714DQ5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790845147; c=relaxed/simple;
-	bh=USU15RAmkIfypqza9ahT9tglspbbxsALKGaI/8Ch51E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bR0YhIFc8KHET+e5v02eSwWlnV9pPwcWWrz3snXqjEMULXLFrtC1JH+CIXe5WJaSfXH9nue/2oozC/9oAksnwoP42TXATBIlmbUwiv1bmRg7GiPtmz62G1vOUtvBqvIeno8gn5Zpv/MISd6j1f4EUKxfjCrpz1y0jdwoXxpzDYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks; spf=none smtp.mailfrom=deq.rocks; dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b=WS3SxfXM; arc=none smtp.client-ip=91.216.248.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	s=arc-20240116; t=1790848390; c=relaxed/simple;
+	bh=/LoW1NgVySefYl4hrQNWCGJHz1PND33jQ46j9eT1UEU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gBbdhvJbAEHpw/FVj+eoQvXVASt1gxyczbqjMGMPDoo6jwPJenM1QkmFoyURl/7prlaU1JFhOzgo2KkXc84xb43cIBTTfb7Upcwfkwf92t7/U0BW3TfZ1fbBkq3ebmyL6nRtRYKFWwIAzupZ4qNV58yI2EkvAu576vV3HytAjCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccueC4Hs; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b="WS3SxfXM"
-From: Andre Eikmeyer <dev@deq.rocks>
-X-Lima-ML-UUID: 394562be-8666-4d0b-9712-3cb345edd73b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1790844791;
-	bh=USU15RAmkIfypqza9ahT9tglspbbxsALKGaI/8Ch51E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WS3SxfXMmIfSaoz+QnojdeplGZBGq9KBowKNA/6QB+tLyMmwkne2uZIgUUQdBZa2f
-	 Qm/CbqOn+HPF9iT/A72izu7jZH2/v0M5OZ4eAl+N+lZtJajrgdZHVuoyHK4AkmWgiU
-	 T0bsAE9Jxp+EXJ+hZroQGA9MaVXQil92/2NYHhoyNUyd+JPUUKv9uuRLvUHTA9Fay4
-	 8u2A6OWX0PuhJKTm92U6Ml9mL46p2uL2iJxKUn/8CowP7WL+r2FSltLjFVxkg+WkcT
-	 rjKOQthAQ7aBN7cCFy32mVVNTsgoih47wKCoLd8FWPzzVZNmn5b9AnhkEq5WYuJ077
-	 6yBvahid6/nLw==
-To: Arend van Spriel <arend.vanspriel@broadcom.com>,
-	Jakub Kicinski <kuba@kernel.org>
-Cc: Aditya Garg <gargaditya08@live.com>,
-	kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v2] wifi: brcmfmac: handle missing D3 ACK on BCM4377 T2 Macs
-Date: Thu,  1 Oct 2026 10:53:08 +0200
-Message-ID: <20261001085308.1688049-1-dev@deq.rocks>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260918213014.1890677-1-dev@deq.rocks>
-References: <20260918213014.1890677-1-dev@deq.rocks>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccueC4Hs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790848388; x=1822384388;
+  h=date:from:to:cc:subject:message-id;
+  bh=/LoW1NgVySefYl4hrQNWCGJHz1PND33jQ46j9eT1UEU=;
+  b=ccueC4Hsg4zcrPTkdFG1MENPXO8TfCMpelOqCUQ9d+0lOFgH8zLXUjL/
+   P2Av5ilGmHBI+OD8JQbeJbfqJBbE9EOUmhgc4lw9w6xlaVL5C5RRiWcxq
+   VlBtvpbY89wt6D+MaBwlaFQqexuszcDrqvvDr0p14RaG55qoiXEGkOlMt
+   zsnsiKj83LJzgscOdt4SE66uMHGHXElwU5a6v79q8mPHG40k6MFhJECXJ
+   w0BH+AJ/8twisKOdz1mKQYav8RWLmf/dV/1g2/E5NrC4wMQ7FctYf6Jxb
+   t/+d6auPupATFsFLBL62CJCEFBGvmSP3hybWneZRDNTUA4KxDadYYXmSV
+   g==;
+X-CSE-ConnectionGUID: HfceK+wtQU29g2QH7bp+OQ==
+X-CSE-MsgGUID: 8fPFgtIvRa6xm6dHHHeiqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="90459275"
+X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
+   d="scan'208";a="90459275"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 02:53:07 -0700
+X-CSE-ConnectionGUID: J9UGfUxJSBqtBMO24fOX+A==
+X-CSE-MsgGUID: jJYVCciHRe2CKAPtTlPiUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
+   d="scan'208";a="273756887"
+Received: from igk-lkp-server01.igk.intel.com (HELO ae472ef62802) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 01 Oct 2026 02:53:05 -0700
+Received: from kbuild by ae472ef62802 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xCDTL-0000000005j-1QPz;
+	Thu, 01 Oct 2026 09:53:03 +0000
+Date: Thu, 01 Oct 2026 11:52:58 +0200
+From: kernel test robot <lkp@intel.com>
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [drm-msm:msm-next 4/25]
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c:2424:28: sparse: sparse: symbol
+ 'a840_limits_tbl' was not declared. Should it be static?
+Message-ID: <202610011141.2iXEaQS2-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-BCM4377 on the affected T2 Macs does not acknowledge HOST_D3_INFORM.
-The current PCIe suspend callback treats this as fatal and aborts system
-suspend.
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next
+head:   8eeca96ad1385e97c3ba4657e6f0b47773ec22da
+commit: 08d5049d9e844f114c53bba6a091ef957f4e9be2 [4/25] drm/msm/a6xx: Enable CLX feature on A840
+config: arm-randconfig-r2305-20261001 (https://download.01.org/0day-ci/archive/20261001/202610011141.2iXEaQS2-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261001/202610011141.2iXEaQS2-lkp@intel.com/reproduce)
 
-When this happens on BCM4377, mask the mailbox interrupt, preserve the
-bus-down state, and let generic PCI/ACPI suspend proceed. On resume the
-existing recovery path tears down and probes the device again instead of
-relying on a D0 mailbox transaction.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610011141.2iXEaQS2-lkp@intel.com/
 
-Tested-on: MacBookAir9,1, MacBookPro15,4, MacBookPro16,3
-Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
----
-Changes in v2:
-- Drop the redundant DMI allowlist; BCM4377 is Apple-exclusive and only
-  appears in the three affected MacBook models.
-- Keep the device check inside CONFIG_PM, fixing the CONFIG_PM=n unused
-  function warning reported by the kernel test robot.
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/msm/adreno/a6xx_catalog.c:1134:1: sparse: sparse: symbol 'a6xx_gpulist' was not declared. Should it be static?
+   drivers/gpu/drm/msm/adreno/a6xx_catalog.c:1694:1: sparse: sparse: symbol 'a7xx_gpulist' was not declared. Should it be static?
+>> drivers/gpu/drm/msm/adreno/a6xx_catalog.c:2424:28: sparse: sparse: symbol 'a840_limits_tbl' was not declared. Should it be static?
+   drivers/gpu/drm/msm/adreno/a6xx_catalog.c:2616:1: sparse: sparse: symbol 'a8xx_gpulist' was not declared. Should it be static?
 
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+vim +/a840_limits_tbl +2424 drivers/gpu/drm/msm/adreno/a6xx_catalog.c
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index 55f4d7b97..e2e050395 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -2652,11 +2652,18 @@ static int brcmf_pcie_pm_enter_D3(struct device *dev)
- 	wait_event_timeout(devinfo->mbdata_resp_wait, devinfo->mbdata_completed,
- 			   BRCMF_PCIE_MBDATA_TIMEOUT);
- 	if (!devinfo->mbdata_completed) {
-+		if (devinfo->pdev->device == BRCM_PCIE_4377_DEVICE_ID) {
-+			dev_info(dev, "D3 ACK missing; masking PCIe mailbox interrupt\n");
-+			brcmf_pcie_intr_disable(devinfo);
-+			goto done;
-+		}
-+
- 		brcmf_err(bus, "Timeout on response for entering D3 substate\n");
- 		brcmf_bus_change_state(bus, BRCMF_BUS_UP);
- 		return -EIO;
- 	}
- 
-+done:
- 	devinfo->state = BRCMFMAC_PCIE_STATE_DOWN;
- 
- 	return 0;
+  2423	
+> 2424	struct a6xx_hfi_limits_tbl a840_limits_tbl[] = {
+  2425		{
+  2426			.feature_id = GMU_MIT_IFF,
+  2427			.domain = GMU_GX_DOMAIN,
+  2428			.feature_rev = 0,
+  2429			.cfg = {
+  2430				.enable = 1,
+  2431				.msg_path = 0,
+  2432				.lkg_en = 0,
+  2433				.mode = 0,
+  2434				.sid = 12,
+  2435				.mit_time = 5,
+  2436				.curr_limit = 6000,
+  2437			},
+  2438		},
+  2439		{
+  2440			.feature_id = GMU_MIT_IFF,
+  2441			.domain = GMU_MX_DOMAIN,
+  2442			.feature_rev = 0,
+  2443			.cfg = {
+  2444				.enable = 1,
+  2445				.msg_path = 0,
+  2446				.lkg_en = 0,
+  2447				.mode = 0,
+  2448				.sid = 9,
+  2449				.mit_time = 2000,
+  2450				.curr_limit = 6000,
+  2451			},
+  2452		},
+  2453		{
+  2454			.feature_id = GMU_MIT_PCLX,
+  2455			.domain = GMU_GX_DOMAIN,
+  2456			.feature_rev = 0,
+  2457			.cfg = {
+  2458				.enable = 1,
+  2459				.msg_path = 0,
+  2460				.lkg_en = 0,
+  2461				.mode = 0,
+  2462				.sid = 7,
+  2463				.mit_time = 3,
+  2464				.curr_limit = 30000,
+  2465			},
+  2466		},
+  2467		{
+  2468			.feature_id = GMU_MIT_PCLX,
+  2469			.domain = GMU_MX_DOMAIN,
+  2470			.feature_rev = 0,
+  2471			.cfg = {
+  2472				.enable = 0,
+  2473				.msg_path = 0,
+  2474				.lkg_en = 0,
+  2475				.mode = 0,
+  2476				.sid = 7,
+  2477				.mit_time = 3,
+  2478				.curr_limit = 6000,
+  2479			},
+  2480		},
+  2481	};
+  2482	DECLARE_ADRENO_LIMITS_TABLE(a840_limits);
+  2483	
 
-base-commit: 1631d79ae57dce2c5f88ad278307028638a8b4d9
--- 
-2.55.0
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
