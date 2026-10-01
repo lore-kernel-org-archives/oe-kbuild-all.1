@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC784779BC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 22:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED5434C10F2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Oct 2026 22:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790893649; cv=none; b=l4SAvQPEd7hHRuQGWurjPJit3Eh38mR3Q79aqDkwpZB/5yL44guEVTWMLfK2W0vbDME2/lwq/hAJ2y24Q2o88ObzG154Zk450WerYhGBtR38MB+D2dFqvoDK15+C3tVc5A1EPpgCJP5NzoZNYVjGFJ78nLhXqJZwLj3G3u9ho6U=
+	t=1790894319; cv=none; b=lQvseqQQKruDhWo7Wz61IwJXFpVS2BWdFKK20cvIAthUdAGFqzQs9tYIj2FvBSE7h6Gs6aeIspegV73aGN19NE1RXLs90xvm5vB0JdeR4kMhtUI1h10QJmuw7PoVJEZqN2EtsIMWOTkBEfcL83UXaPxrddmUqFg15TAOzk7wxkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790893649; c=relaxed/simple;
-	bh=HiQYt36D1dLYoVNqj65CQoGaRLO5K7je95Y0m7BTIhY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WlSnXVZE4EnoFZIel8ALEnp8Eovja43S0741B5CiSGTu0K7IUm/Es7GcHwxOwycqN8nS5gdC/L7W7/ymdPTCw4LddCT8YLdzcIzK1p2/JMEGp+8YeYbPMToVzFJ/q6K9fmkT/ubSFcKf+4ZpI6ThLpBWcmaeDyZDyEIGh05dsjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgxdU5DG; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1790894319; c=relaxed/simple;
+	bh=Dd8FQ1aw7ndEBDWj5azyG6og7N2ZHB45dRkPQSti2+w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sEEsU3o3z/Cq2+AamYJsDbbBYPehYec3zCm2fJZ61yYehiPVJM37Bh/8XtTawaXqubhkkgOFrwfqqjlW1hVWmyaK+Ak6HLXn2izgNSfl1q8AsDlaFBwVTK12ZSnMKjeWrYDmJcq19YG3EiF9mXh0IGQ9sGI9he6EHxGDEHOfstI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1zlvTSW; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgxdU5DG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1zlvTSW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790893647; x=1822429647;
+  t=1790894318; x=1822430318;
   h=date:from:to:cc:subject:message-id;
-  bh=HiQYt36D1dLYoVNqj65CQoGaRLO5K7je95Y0m7BTIhY=;
-  b=KgxdU5DGJYHb6/j84213mpgyTKKtzEx14Pf7wXC/LaoBnWpbxJNct3W3
-   8tcnmWZ3yg8hMrp910KxLt8b9pvzmQ9rxpju7sYbTrdFehVoo4jKVr5HH
-   RVL/6It0Il+6s9MGtkG/lgq6hebm+VX/ZvMILfpDveL/jHg0ZMlUVhJrH
-   gKBAJbXjR2nzLJrXXcrWGVeDGkU6QkOgUFXr+vw+MVCiFCUxzLNMqNrUQ
-   Hn5ZN/9YffCoa8Y4gn0xc05HgQ940Enfkhm7u8IvOi373TF+BV3wIgHXk
-   BLL0ICcdeQnRz5rilSLtlIYRl1T/8UXCoPyqP46Xg0COLL9Hx3/4zNrYu
-   Q==;
-X-CSE-ConnectionGUID: Uca0iuEkSe6ZypnDDPolYw==
-X-CSE-MsgGUID: hgyZI9DyTRqH9Jjc3EHoDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="91528396"
+  bh=Dd8FQ1aw7ndEBDWj5azyG6og7N2ZHB45dRkPQSti2+w=;
+  b=Q1zlvTSWacA67Agdb3dS+Mn9T/VZ3gXMCCweI9FQVWCqrAsTQQPG/xg6
+   nndKlT8jBw3eZm777DRiW0lE19l6QWzctGQfvDtJfFKBUXsT/0jN7bYI9
+   eeYC6Zojb9lN2X2wTTGqnsUw/YIsAhiMTCoN/Be9qOSGRZL2vEacmLl2R
+   tfS7bQ7sQfacWJdIr2eXHePlli+Cr/d6ykdPXY87CRDIGKi/9OtzdJjoQ
+   ZQINFcLZfcgXwIZ3AnEaWQQVcwJQSZUTEaq7DsNwQm6aL0h3K/uEX97ks
+   qgzt/H4+NEckDEJ7dg7y2wc4VJZNWo58zTLZaXTspjnt8kSTDOCwp2/yt
+   A==;
+X-CSE-ConnectionGUID: j5hh1uTHQnmvid1VMH3fug==
+X-CSE-MsgGUID: PjCZZXbQTdejB2BXuisyjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90568341"
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="91528396"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 15:27:27 -0700
-X-CSE-ConnectionGUID: F9p/Q3HRRKyIO4kQMfuURw==
-X-CSE-MsgGUID: KXQ4dRAuSFCaNApOhQaa7g==
+   d="scan'208";a="90568341"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 15:38:38 -0700
+X-CSE-ConnectionGUID: owtcQcEuSUC7h3Z1OWqhxg==
+X-CSE-MsgGUID: fGO1YGUwRhW+FwrULku/OQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="132383"
+   d="scan'208";a="314085160"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 01 Oct 2026 15:27:25 -0700
+  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2026 15:38:36 -0700
 Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCPFL-000000000Fb-0RN5;
-	Thu, 01 Oct 2026 22:27:23 +0000
-Date: Fri, 02 Oct 2026 00:27:19 +0200
+	id 1xCPQ9-000000000GB-2PHb;
+	Thu, 01 Oct 2026 22:38:33 +0000
+Date: Fri, 02 Oct 2026 00:37:49 +0200
 From: kernel test robot <lkp@intel.com>
-To: Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_trace_acpi_support_v1 76/87] kismet: WARNING:
- unmet direct dependencies detected for PERF_EVENTS when selected by GTRACE
-Message-ID: <202610020024.NHlZqWxh-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-next-5 22/29]
+ fs/netfs/write_issue.c:437:23: warning: assignment to 'struct netfs_writeback
+ *' from 'int' makes pointer from integer without a cast
+Message-ID: <202610020034.qgi4niau-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,23 +60,288 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
-head:   dc5b9586f90cc15314085bdaa74661fc00d1688f
-commit: 17ed86e21fb97985103da6dd9f879843e828b643 [76/87] gtrace: Add perf driver for tracing using perf tool
-config: sparc-kismet-CONFIG_PERF_EVENTS-CONFIG_GTRACE-0-0 (https://download.01.org/0day-ci/archive/20261002/202610020024.NHlZqWxh-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20261002/202610020024.NHlZqWxh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next-5
+head:   8e1336a514c9296d8cb62fa11d6fa8b6f6117c9f
+commit: f7fd91dc74af6deec31273b2157ba5d0334c031d [22/29] netfs: Build a list of regions undergoing writeback
+config: csky-randconfig-r2302-20261001 (https://download.01.org/0day-ci/archive/20261002/202610020034.qgi4niau-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020034.qgi4niau-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610020024.NHlZqWxh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610020034.qgi4niau-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PERF_EVENTS when selected by GTRACE
-   WARNING: unmet direct dependencies detected for PERF_EVENTS
-     Depends on [n]: HAVE_PERF_EVENTS [=n]
-     Selected by [y]:
-     - GTRACE [=y] && OF [=y]
+All warnings (new ones prefixed by >>):
+
+   fs/netfs/write_issue.c: In function 'netfs_write_folio':
+   fs/netfs/write_issue.c:437:25: error: implicit declaration of function 'mempool_alloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
+     437 |                 wback = mempool_alloc(&netfs_writeback_pool, wreq->gfp);
+         |                         ^~~~~~~~~~~~~
+         |                         mm_alloc
+>> fs/netfs/write_issue.c:437:23: warning: assignment to 'struct netfs_writeback *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     437 |                 wback = mempool_alloc(&netfs_writeback_pool, wreq->gfp);
+         |                       ^
+   cc1: some warnings being treated as errors
+
+
+vim +437 fs/netfs/write_issue.c
+
+   324	
+   325	/*
+   326	 * Write some of a pending folio data back to the server.
+   327	 */
+   328	static int netfs_write_folio(struct netfs_io_request *wreq,
+   329				     struct writeback_control *wbc,
+   330				     struct folio *folio)
+   331	{
+   332		struct netfs_io_stream *upload = &wreq->io_streams[0];
+   333		struct netfs_io_stream *cache  = &wreq->io_streams[1];
+   334		struct netfs_io_stream *stream;
+   335		struct netfs_writeback *wback;
+   336		struct netfs_group *fgroup; /* TODO: Use this with ceph */
+   337		struct netfs_folio *finfo;
+   338		struct bvecq *queue = wreq->load_cursor.bvecq;
+   339		unsigned int slot;
+   340		size_t fsize = folio_size(folio), flen = fsize, foff = 0;
+   341		uoff_t fpos = folio_pos(folio), i_size;
+   342		bool to_eof = false, streamw = false;
+   343		bool debug = false;
+   344	
+   345		_enter("");
+   346	
+   347		if (!wreq->spare) {
+   348			wreq->spare = bvecq_alloc_one(BVECQ_POOL_SLOTS, wreq->gfp, true);
+   349			if (!wreq->spare)
+   350				return -ENOMEM;
+   351		}
+   352	
+   353		/* netfs_perform_write() may shift i_size around the folio or from out
+   354		 * of the folio to beyond it, but cannot move i_size into or through
+   355		 * the folio since we have it locked.
+   356		 *
+   357		 * Truncate could in theory move i_size into or before the folio, but
+   358		 * it should take steps to prevent writeback from happening
+   359		 * concurrently and should wait for any in-progress writebacks before
+   360		 * proceeding.
+   361		 */
+   362		i_size = i_size_read(wreq->inode);
+   363	
+   364		if (fpos >= i_size) {
+   365			/* mmap beyond eof. */
+   366			_debug("beyond eof");
+   367			folio_start_writeback(folio);
+   368			folio_unlock(folio);
+   369			wreq->nr_group_rel += netfs_folio_written_back(folio);
+   370			netfs_put_group_many(wreq->group, wreq->nr_group_rel);
+   371			wreq->nr_group_rel = 0;
+   372			return 0;
+   373		}
+   374	
+   375		if (fpos + fsize > wreq->i_size)
+   376			wreq->i_size = i_size;
+   377	
+   378		fgroup = netfs_folio_group(folio);
+   379		finfo = netfs_folio_info(folio);
+   380		if (finfo) {
+   381			foff = finfo->dirty_offset;
+   382			flen = foff + finfo->dirty_len;
+   383			streamw = true;
+   384		}
+   385	
+   386		if (flen > i_size - fpos) {
+   387			flen = i_size - fpos;
+   388			if (!streamw)
+   389				folio_zero_segment(folio, flen, fsize);
+   390			to_eof = true;
+   391		} else if (flen == i_size - fpos) {
+   392			to_eof = true;
+   393		}
+   394		flen -= foff;
+   395	
+   396		_debug("folio %zx %zx %zx", foff, flen, fsize);
+   397	
+   398		/* Deal with discontinuities in the stream of dirty pages.  These can
+   399		 * arise from a number of sources:
+   400		 *
+   401		 * (1) Intervening non-dirty pages from random-access writes, multiple
+   402		 *     flushers writing back different parts simultaneously and manual
+   403		 *     syncing.
+   404		 *
+   405		 * (2) Partially-written pages from write-streaming.
+   406		 *
+   407		 * (3) Pages that belong to a different write-back group (eg.  Ceph
+   408		 *     snapshots).
+   409		 *
+   410		 * (4) Actually-clean pages that were marked for write to the cache
+   411		 *     when they were read.  Note that these appear as a special
+   412		 *     write-back group.
+   413		 */
+   414		if (fgroup == NETFS_FOLIO_COPY_TO_CACHE) {
+   415			netfs_issue_write(wreq, upload);
+   416		} else if (fgroup != wreq->group) {
+   417			/* We can't write this page to the server yet. */
+   418			kdebug("wrong group");
+   419			folio_redirty_for_writepage(wbc, folio);
+   420			folio_unlock(folio);
+   421			netfs_issue_write(wreq, upload);
+   422			netfs_issue_write(wreq, cache);
+   423			return 0;
+   424		}
+   425	
+   426		if (foff > 0)
+   427			netfs_issue_write(wreq, upload);
+   428		if (streamw)
+   429			netfs_issue_write(wreq, cache);
+   430	
+   431		folio_start_writeback(folio);
+   432		folio_unlock(folio);
+   433	
+   434		/* Keep track of what we will need to unlock. */
+   435		wback = wreq->writebacks_tail;
+   436		if (!wback || fpos != wback->start + wback->len || wback->len > LONG_MAX) {
+ > 437			wback = mempool_alloc(&netfs_writeback_pool, wreq->gfp);
+   438			wback->next = NULL;
+   439			wback->start = fpos;
+   440			wback->len = fsize;
+   441	
+   442			if (wreq->writebacks)
+   443				/* Order write of next after last write of len in old tail. */
+   444				smp_store_release(&wreq->writebacks_tail->next, wback);
+   445			else
+   446				wreq->writebacks = wback;
+   447			wreq->writebacks_tail = wback;
+   448		} else {
+   449			/* Order update of len after setting pointer. */
+   450			smp_store_release(&wback->len, wback->len + fsize);
+   451		}
+   452	 
+   453		if (fgroup == NETFS_FOLIO_COPY_TO_CACHE) {
+   454			if (!cache->avail) {
+   455				trace_netfs_folio(folio, netfs_folio_trace_cancel_copy);
+   456				netfs_issue_write(wreq, upload);
+   457				netfs_folio_written_back(folio);
+   458				return 0;
+   459			}
+   460			trace_netfs_folio(folio, netfs_folio_trace_store_copy);
+   461		} else if (!upload->avail && !cache->avail) {
+   462			trace_netfs_folio(folio, netfs_folio_trace_cancel_store);
+   463			netfs_folio_written_back(folio);
+   464			return 0;
+   465		} else if (!upload->construct) {
+   466			trace_netfs_folio(folio, netfs_folio_trace_store);
+   467		} else {
+   468			trace_netfs_folio(folio, netfs_folio_trace_store_plus);
+   469		}
+   470	
+   471		/* Institute a new bvec queue segment if the current one is full or if
+   472		 * we encounter a discontiguity.  The discontiguity break is important
+   473		 * when it comes to bulk unlocking folios by file range.
+   474		 */
+   475		if (bvecq_is_full(queue) ||
+   476		    (fpos != wreq->last_end && wreq->last_end > 0)) {
+   477			bvecq_buffer_append(&wreq->load_cursor, wreq->spare);
+   478			wreq->spare = NULL;
+   479	
+   480			queue = wreq->load_cursor.bvecq;
+   481			bvecq_pos_move(&wreq->dispatch_cursor, queue);
+   482			wreq->dispatch_cursor.slot = 0;
+   483		}
+   484	
+   485		/* Attach the folio to the rolling buffer. */
+   486		slot = queue->nr_slots;
+   487		bvec_set_folio(&queue->bv[slot], folio, fsize, 0);
+   488		trace_netfs_bv_slot(queue, slot);
+   489		slot++;
+   490		bvecq_filled_to(queue, slot);
+   491		wreq->load_cursor.slot = slot;
+   492		wreq->load_cursor.offset = 0;
+   493		wreq->last_end = fpos + fsize;
+   494	
+   495		/* Move the submission point forward to allow for write-streaming data
+   496		 * not starting at the front of the page.  We don't do write-streaming
+   497		 * with the cache as the cache requires DIO alignment.
+   498		 *
+   499		 * Also skip uploading for data that's been read and just needs copying
+   500		 * to the cache.
+   501		 */
+   502		bvecq_pos_nudge(&wreq->dispatch_cursor);
+   503	
+   504		for (int s = 0; s < NR_IO_STREAMS; s++) {
+   505			size_t soff = foff, slen = flen, alignment = 1;
+   506	
+   507			stream = &wreq->io_streams[s];
+   508			if (stream->source == NETFS_WRITE_TO_CACHE)
+   509				alignment = wreq->cache_resources.dio_size;
+   510			stream = &wreq->io_streams[s];
+   511			stream->submit_off = round_down(soff, alignment);
+   512			slen += foff - stream->submit_off;
+   513			stream->submit_len = round_up(slen, alignment);
+   514	
+   515			if (!stream->avail ||
+   516			    (stream->source == NETFS_WRITE_TO_CACHE && streamw) ||
+   517			    (stream->source == NETFS_UPLOAD_TO_SERVER &&
+   518			     fgroup == NETFS_FOLIO_COPY_TO_CACHE)) {
+   519				stream->submit_off = UINT_MAX;
+   520				stream->submit_len = 0;
+   521			}
+   522		}
+   523	
+   524		/* Attach the folio to one or more subrequests.  For a big folio, we
+   525		 * could end up with thousands of subrequests if the wsize is small -
+   526		 * but we might need to wait during the creation of subrequests for
+   527		 * network resources (eg. SMB credits).
+   528		 */
+   529		for (;;) {
+   530			ssize_t part;
+   531			size_t lowest_off = ULONG_MAX;
+   532			int choose_s = -1;
+   533	
+   534			/* Always add to the lowest-submitted stream first. */
+   535			for (int s = 0; s < NR_IO_STREAMS; s++) {
+   536				stream = &wreq->io_streams[s];
+   537				if (stream->submit_len > 0 &&
+   538				    stream->submit_off < lowest_off) {
+   539					lowest_off = stream->submit_off;
+   540					choose_s = s;
+   541				}
+   542			}
+   543	
+   544			if (choose_s < 0)
+   545				break;
+   546			stream = &wreq->io_streams[choose_s];
+   547	
+   548			/* Advance the cursor. */
+   549			wreq->dispatch_cursor.offset = stream->submit_off;
+   550	
+   551			atomic64_set(&wreq->issued_to, fpos + stream->submit_off);
+   552			part = netfs_advance_write(wreq, stream, fpos + stream->submit_off,
+   553						   stream->submit_len, to_eof);
+   554			stream->submit_off += part;
+   555			if (part > stream->submit_len)
+   556				stream->submit_len = 0;
+   557			else
+   558				stream->submit_len -= part;
+   559			if (part > 0)
+   560				debug = true;
+   561		}
+   562	
+   563		bvecq_pos_step(&wreq->dispatch_cursor);
+   564		/* Order loading the queue before updating the issue_to point */
+   565		atomic64_set_release(&wreq->issued_to, fpos + fsize);
+   566	
+   567		if (!debug)
+   568			kdebug("R=%x: No submit", wreq->debug_id);
+   569	
+   570		if (foff + flen < fsize)
+   571			for (int s = 0; s < NR_IO_STREAMS; s++)
+   572				netfs_issue_write(wreq, &wreq->io_streams[s]);
+   573	
+   574		_leave(" = 0");
+   575		return 0;
+   576	}
+   577	
 
 --
 0-DAY CI Kernel Test Service
