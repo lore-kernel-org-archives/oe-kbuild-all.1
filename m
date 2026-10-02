@@ -1,211 +1,134 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD6447D948;
-	Fri,  2 Oct 2026 10:11:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB7747F2C2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 10:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790935869; cv=none; b=TxPJF506j+yFczEWvRMrBHcwRBtLtgCgo4G8ADi7DRsFZN0tUCTEf1FBGPHgtxUzoRoeG0h2zVUvrd/26c6PFUWcGt23JGwNAiqEFonxxXUljrogh0p+qYcQKU3nmDFvylrMbIRtEYDqj8EhrhkMY1YvtImspBxbmX8OJCPEBFw=
+	t=1790935978; cv=none; b=psqzLD2TXOnO9JzmnZkjXsHaGhdTrq+oPo/g5VFgAfeomaQogOWhDQTPfplj99VE32qsx3ntLcu4VwYSiEo0+6UGonHkpIbzKbEGclPCXNpV8PvqmUlvICZKjuQYYLHiOk1Ot2sXLVQ3IeOO2Yyub9Kk6AuvAIb+LzelEBfyZ4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790935869; c=relaxed/simple;
-	bh=hJkeqIHSJ1u99vcU8TlhGfjVmL3pyVE322pZB+Z7peI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jqzNwwvQSYisIeFb35cR5+c3DEOmq2jJyfg0IhVXtty89k9hgpnC+AclH3fBExWh190hxc5QOR5mhlEzCqU/m5cjiunYa10ZnfqA/1QIwdq91qRgAu5aRlyRRh6CVI0AdlM8NyWoNVM/t12R6hIuGdaOyCtVYJegZR5VPSFvqik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CYist2f7; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1790935978; c=relaxed/simple;
+	bh=l8J94yKtN0hal2lIolQFMyIxvhVf5/BkTq8I8UFu+2c=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YRmjit8SCcB+VC0QOzEAmvzImYfPv0EdBz4BAO4uxMDFUHxccD8kiq2aTKdmU8bkvL+u3ud+Es4nt9KcuJDHv1UvNClQmr/4Saak7uYSy2tg/meXsYBaOb5eYQpm2lCkP7to2KuCMK8eDgqwi1LvTfdHuasGZ97EKJKMpbY6rko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4+17jut; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYist2f7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4+17jut"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790935862; x=1822471862;
-  h=date:from:to:cc:subject:message-id;
-  bh=hJkeqIHSJ1u99vcU8TlhGfjVmL3pyVE322pZB+Z7peI=;
-  b=CYist2f7gkqR54HlCuMr5xFlCQmoPVTXmgY71CKCSvKqbI6WNKz+fSwd
-   Tv7SYN6a8NGABSsoT4vX9sztpsJJDdV+akMamAbHH5i6woSeMZxEsAHeq
-   B5SlplaYg/0GATzRqlm2DUbH/t5MJHzUzpRfFF3Cp2+gBJocJkCn484vb
-   /4SBlosf/15XeLZ9RB/2X58aEn9BODIaF/mSgjAv44eUdFuLzXiOy8nM8
-   OZil8gzkttmsbyPkcpz4EySVvpA5eg9kXs2m4GarRSA2ObxX2Nsp5yHLy
-   ySOiMu+a/g+zzOqM6ZUn0SD4z2yXf++gbcSAnaMh0k0xkeCbrXcSgsALc
-   Q==;
-X-CSE-ConnectionGUID: B3XujIbUQFmlPOxGnr27+A==
-X-CSE-MsgGUID: nRw7bEe+RbiRf7RQN4u0YQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="102375637"
+  t=1790935976; x=1822471976;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=l8J94yKtN0hal2lIolQFMyIxvhVf5/BkTq8I8UFu+2c=;
+  b=U4+17jutQ2PIDUsO/WqIumfQpNgIKXB+pO20vyPGpb6c+r+A8LpoUhML
+   /DUHBepemUO9+YJLkX6uINltrsGll6Bfj8+go+HqQFG/7U2EKCgg9UjzZ
+   cxrXWUiCElwsEqKlB+JnkF3l8r0MCP2chCoKnHI58Uj9PpurVelMduJ/J
+   t0LErLXOqdysMbVomJVfXTc0b4OOysld/5dsElVlNmR20zyQca6i5ACQ1
+   KEt0tt+DZ6Cg3y+PrD31m8wlyyVSRIoAHwQ15C8/S1/okKUGUxCx7Ev6h
+   o8i+9P01b12c3R0anFJOznz7gMW5c2nTEZ6xx2mJPB2lb4/1qn/WY1Ei9
+   g==;
+X-CSE-ConnectionGUID: iDUMzTjzSei/6B4wLo3C5A==
+X-CSE-MsgGUID: 9D/+GvCqT4SQWyxDq26eFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="102375735"
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="102375637"
+   d="scan'208";a="102375735"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 03:10:57 -0700
-X-CSE-ConnectionGUID: 0rZFlKWsTteWPDzzqVIVIw==
-X-CSE-MsgGUID: jEmaHWqLSimb235zdZmUAQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 03:12:55 -0700
+X-CSE-ConnectionGUID: UiRKVHRoTSCOI8NbxFCJaA==
+X-CSE-MsgGUID: 9IzIPFWoR4OSTjt7a61H0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="275770703"
+   d="scan'208";a="275771043"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2026 03:10:56 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2026 03:12:55 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCaE8-00000000SvI-3R0y;
-	Fri, 02 Oct 2026 10:10:52 +0000
-Date: Fri, 02 Oct 2026 18:10:27 +0800
+	id 1xCaG4-00000000SvM-3ibf
+	for oe-kbuild-all@lists.linux.dev;
+	Fri, 02 Oct 2026 10:12:52 +0000
+Date: Fri, 2 Oct 2026 18:11:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_trace_support_v6 76/79]
- include/linux/perf_event.h:1580:2: error: no member named 'ip' in 'struct
- pt_regs'
-Message-ID: <202610021816.Itetzwq0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: staging: greybus: audio: Fix no terminating newline in sysfs emit
+Message-ID: <202610021803.2F2RQ73w-lkp@intel.com>
+References: <202610021803.2F2RQ73w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610021803.2F2RQ73w-lkp@intel.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
-head:   699de4c95a417e4c81644a91131ceb23bf0519a6
-commit: 17ed86e21fb97985103da6dd9f879843e828b643 [76/79] gtrace: Add perf driver for tracing using perf tool
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20261002/202610021816.Itetzwq0-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610021816.Itetzwq0-lkp@intel.com/reproduce)
+Hi Raiden,
+
+kernel test robot noticed the following build warnings:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raiden-Horner/staging-greybus-audio-Fix-no-terminating-newline-in-sysfs-emit/20261001-111458
+base:   
+patch link:    https://lore.kernel.org/r/202610021803.2F2RQ73w-lkp%40intel.com
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261002/202610021803.2F2RQ73w-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610021803.2F2RQ73w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610021816.Itetzwq0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610021803.2F2RQ73w-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:28:
-   In file included from include/linux/cgroup_api.h:1:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:25:
->> arch/x86/include/asm/perf_event.h:710:47: warning: declaration of 'struct perf_event' will not be visible outside of this function [-Wvisibility]
-     710 | static inline int forward_event_to_ibs(struct perf_event *event) { return -ENOENT; }
-         |                                               ^
-   arch/x86/include/asm/perf_event.h:770:40: warning: declaration of 'struct perf_event' will not be visible outside of this function [-Wvisibility]
-     770 | extern int x86_perf_rdpmc_index(struct perf_event *event);
-         |                                        ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
->> include/linux/perf_event.h:1580:2: error: no member named 'ip' in 'struct pt_regs'
-    1580 |         perf_arch_fetch_caller_regs(regs, CALLER_ADDR0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/perf_event.h:747:10: note: expanded from macro 'perf_arch_fetch_caller_regs'
-     747 |         (regs)->ip = (__ip);                                    \
-         |         ~~~~~~  ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
->> include/linux/perf_event.h:1580:2: error: no member named 'sp' in 'struct pt_regs'
-    1580 |         perf_arch_fetch_caller_regs(regs, CALLER_ADDR0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/perf_event.h:748:10: note: expanded from macro 'perf_arch_fetch_caller_regs'
-     748 |         (regs)->sp = (unsigned long)__builtin_frame_address(0); \
-         |         ~~~~~~  ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
->> include/linux/perf_event.h:1580:2: error: no member named 'cs' in 'struct pt_regs'
-    1580 |         perf_arch_fetch_caller_regs(regs, CALLER_ADDR0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/perf_event.h:749:10: note: expanded from macro 'perf_arch_fetch_caller_regs'
-     749 |         (regs)->cs = __KERNEL_CS;                               \
-         |         ~~~~~~  ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
->> include/linux/perf_event.h:1580:2: error: use of undeclared identifier '__KERNEL_CS'
-   arch/x86/include/asm/perf_event.h:749:15: note: expanded from macro 'perf_arch_fetch_caller_regs'
-     749 |         (regs)->cs = __KERNEL_CS;                               \
-         |                      ^
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:64:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:95:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
->> include/linux/perf_event.h:1580:2: error: no member named 'flags' in 'struct pt_regs'
-    1580 |         perf_arch_fetch_caller_regs(regs, CALLER_ADDR0);
-         |         ^                           ~~~~
-   arch/x86/include/asm/perf_event.h:750:8: note: expanded from macro 'perf_arch_fetch_caller_regs'
-     750 |         regs->flags = 0;                                        \
-         |         ~~~~  ^
-   3 warnings and 5 errors generated.
-   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1425: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PERF_EVENTS
-   Depends on [n]: HAVE_PERF_EVENTS [=n]
-   Selected by [m]:
-   - GTRACE [=m] && OF [=y]
+   drivers/staging/greybus/audio_manager_module.c: In function 'send_add_uevent':
+>> drivers/staging/greybus/audio_manager_module.c:180:53: warning: passing argument 3 of 'kobject_uevent_env' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     180 |         kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
+         |                                                     ^~~~
+   In file included from drivers/staging/greybus/audio_manager.h:11,
+                    from drivers/staging/greybus/audio_manager_module.c:10:
+   include/linux/kobject.h:283:31: note: expected 'char **' but argument is of type 'char * const*'
+     283 |                         char *envp[]);
+         |                         ~~~~~~^~~~~~
 
 
-vim +1580 include/linux/perf_event.h
+vim +180 drivers/staging/greybus/audio_manager_module.c
 
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1563  
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1564  /*
-d15d356887e770 Kairui Song         2019-04-23  1565   * When generating a perf sample in-line, instead of from an interrupt /
-d15d356887e770 Kairui Song         2019-04-23  1566   * exception, we lack a pt_regs. This is typically used from software events
-d15d356887e770 Kairui Song         2019-04-23  1567   * like: SW_CONTEXT_SWITCHES, SW_MIGRATIONS and the tie-in with tracepoints.
-d15d356887e770 Kairui Song         2019-04-23  1568   *
-d15d356887e770 Kairui Song         2019-04-23  1569   * We typically don't need a full set, but (for x86) do require:
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1570   * - ip for PERF_SAMPLE_IP
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1571   * - cs for user_mode() tests
-d15d356887e770 Kairui Song         2019-04-23  1572   * - sp for PERF_SAMPLE_CALLCHAIN
-d15d356887e770 Kairui Song         2019-04-23  1573   * - eflags for MISC bits and CALLCHAIN (see: perf_hw_regs())
-d15d356887e770 Kairui Song         2019-04-23  1574   *
-d15d356887e770 Kairui Song         2019-04-23  1575   * NOTE: assumes @regs is otherwise already 0 filled; this is important for
-d15d356887e770 Kairui Song         2019-04-23  1576   * things like PERF_SAMPLE_REGS_INTR.
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1577   */
-b0f82b81fe6bbc Frederic Weisbecker 2010-05-20  1578  static inline void perf_fetch_caller_regs(struct pt_regs *regs)
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1579  {
-b0f82b81fe6bbc Frederic Weisbecker 2010-05-20 @1580  	perf_arch_fetch_caller_regs(regs, CALLER_ADDR0);
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1581  }
-5331d7b84613b8 Frederic Weisbecker 2010-03-04  1582  
-
-:::::: The code at line 1580 was first introduced by commit
-:::::: b0f82b81fe6bbcf78d478071f33e44554726bc81 perf: Drop the skip argument from perf_arch_fetch_regs_caller
-
-:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
-:::::: CC: Frederic Weisbecker <fweisbec@gmail.com>
+8db00736d365b7 Svetlin Ankov    2016-01-13  151  
+8db00736d365b7 Svetlin Ankov    2016-01-13  152  static void send_add_uevent(struct gb_audio_manager_module *module)
+8db00736d365b7 Svetlin Ankov    2016-01-13  153  {
+8db00736d365b7 Svetlin Ankov    2016-01-13  154  	char name_string[128];
+8db00736d365b7 Svetlin Ankov    2016-01-13  155  	char vid_string[64];
+8db00736d365b7 Svetlin Ankov    2016-01-13  156  	char pid_string[64];
+d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  157  	char intf_id_string[64];
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  158  	char ip_devices_string[64];
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  159  	char op_devices_string[64];
+8db00736d365b7 Svetlin Ankov    2016-01-13  160  
+757f49b7d08da4 Raiden Horner    2026-10-01  161  	char * const envp[] = {
+8db00736d365b7 Svetlin Ankov    2016-01-13  162  		name_string,
+8db00736d365b7 Svetlin Ankov    2016-01-13  163  		vid_string,
+8db00736d365b7 Svetlin Ankov    2016-01-13  164  		pid_string,
+d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  165  		intf_id_string,
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  166  		ip_devices_string,
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  167  		op_devices_string,
+8db00736d365b7 Svetlin Ankov    2016-01-13  168  		NULL
+8db00736d365b7 Svetlin Ankov    2016-01-13  169  	};
+8db00736d365b7 Svetlin Ankov    2016-01-13  170  
+8db00736d365b7 Svetlin Ankov    2016-01-13  171  	snprintf(name_string, 128, "NAME=%s", module->desc.name);
+8db00736d365b7 Svetlin Ankov    2016-01-13  172  	snprintf(vid_string, 64, "VID=%d", module->desc.vid);
+8db00736d365b7 Svetlin Ankov    2016-01-13  173  	snprintf(pid_string, 64, "PID=%d", module->desc.pid);
+d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  174  	snprintf(intf_id_string, 64, "INTF_ID=%d", module->desc.intf_id);
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  175  	snprintf(ip_devices_string, 64, "I/P DEVICES=0x%X",
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  176  		 module->desc.ip_devices);
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  177  	snprintf(op_devices_string, 64, "O/P DEVICES=0x%X",
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  178  		 module->desc.op_devices);
+8db00736d365b7 Svetlin Ankov    2016-01-13  179  
+8db00736d365b7 Svetlin Ankov    2016-01-13 @180  	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
+8db00736d365b7 Svetlin Ankov    2016-01-13  181  }
+8db00736d365b7 Svetlin Ankov    2016-01-13  182  
 
 --
 0-DAY CI Kernel Test Service
