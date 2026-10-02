@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C082F2914
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 02:29:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA79133262B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 02:30:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790908200; cv=none; b=DB7SwxZYO9HLBwbBMpINPrt0NHgLNVV5C+MTlIiv/PkW4HbWQTxCgkfSB0Wshrmz2/nBFzJ9dpdtI1iqJgp+puOyMh7/XgkLAWLMFkQQbgAFLo2YJXLQOuf8/PCUQCK/dC76qtvokJOE+h4Oyv8Mf4e3BbU8kyxGiLSADSN3Z4U=
+	t=1790908203; cv=none; b=HstvoEEjl09pL5J4LZMUeyjbPZuzAFW7WcclzH9YraLLuMw87UcZ9jQDQwfVodDGh3ycMKxF+UFPEZnrY0nBS3pWDAoo0Z1WWMTEjHC2IDY9snSh3IY16pt11vzw7q4ghPAFI2nouMQTdEwYTunw4nlaZIpjkNmBtkKNn1ay5Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790908200; c=relaxed/simple;
-	bh=seSjJNkuLwGzyZnBI86+pcXBTE75uR8NOttQEWm110A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hyV5bu3HxV62dWpU+oXIpGmm5+2gcInBLewz3V/rLAFo8PWRN9hiwHA6haA4T78FAyo9XhA6AViXN4bhmIFseL41A68bZsPJmr6pn+gqRmtVp+J/HvWfof/YUijPbUJOaSFrdDS/cnjA0jYaxBbkAgYDesec+Py7UF+BuNHMapc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O5uXX3uD; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1790908203; c=relaxed/simple;
+	bh=oRTzBsn03kzmurFOApr4DJ1h9d6gbpcRXpnWJOA9IWM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dn2qwQpqM3cnNp0OcWIiRMIwUzyyik9gFCP4QsH/7wJIkVKUL1Xx8lMMWGNdffd0dWpwHovdd0DfBxEU0ERr61DgxS7vYDqmVgWeuUhKZjJkLjO/V4r8FtaiHv68YHi6hbZqLgLa8QpDIjoIpgG6S+9treRCNqx8a2ky9VSgvXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c07Cx6vf; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O5uXX3uD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c07Cx6vf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790908199; x=1822444199;
+  t=1790908201; x=1822444201;
   h=date:from:to:cc:subject:message-id;
-  bh=seSjJNkuLwGzyZnBI86+pcXBTE75uR8NOttQEWm110A=;
-  b=O5uXX3uDI068taJ8kh1DMKzXbXj2ryiC34S7qm/LCqcQqL1+sOcU0evC
-   g3r+6X4Flq38URRQcTZiiNpNHIgd+GBuiyprUgdkza0X/iLPSHcMSm48p
-   Y2jAmW5nVh614Qec3qjXlAuhYicWzCY+v9EADteHKByLXcHYlFrF6+CY8
-   0K83L5SMiep1os0cJx7Ni48mxj2uQcTqHtnmyF3+pbGUFEhY3cjcJSTiH
-   BZ6LjlSlIB+EyA1mnUlM+xtfpySzaBDAdsmJb1gKL2eCtOk8GMP62WM11
-   G/DHWIaWl6dJ39yYSeYz0WOphrFMcHda03mHn/DVnrfQDd/bbvQDj4S2P
+  bh=oRTzBsn03kzmurFOApr4DJ1h9d6gbpcRXpnWJOA9IWM=;
+  b=c07Cx6vfl4gn0Vxxe8ANR2+z7YQkOY0Q1NxUv8BsEStXNFciJavVuy/K
+   6eolgCCbZE3z2VT9+8e60xy62jjVCPluXYV8GbIy6+pZjdWBye/muntY8
+   0nPRTO7BiRyA+fTZtbBIgTZirBp+rgGdJyYyuFNShmTxr0s7OAd+qaOkS
+   3+di71Xz/1HyDtdhT5OgktjXnHTzsZ2U+sPQDc/noyJXXnsFnVAa6+BiO
+   T+IFYLDZRxuIQS8xvKnOfEpxM4azOtu6NILXP5ViiUJXapEDxhjRVZ93q
+   dFYhfyuE0YP+JJ+rPeBFnsTL8Dj00Wpw9Hfwnc9Xx6/FSEwDbQmuEqQVh
    w==;
-X-CSE-ConnectionGUID: HheQFw3NTGaF3E5/xWVjMg==
-X-CSE-MsgGUID: GPMF4HSBRuatFIS992Q1TQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90890796"
+X-CSE-ConnectionGUID: D/mxpgkwRA68GRfO2ffXNQ==
+X-CSE-MsgGUID: pYGgwbWOT4qfOWNRozJ13Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90890798"
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="90890796"
+   d="scan'208";a="90890798"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 19:29:58 -0700
-X-CSE-ConnectionGUID: 8O0ejXNCQiiIrl0cSbuqcQ==
-X-CSE-MsgGUID: Tot0WgcXTxO4dnXvh9IZig==
+X-CSE-ConnectionGUID: WgZgub2NS/GHUp0flMDi5g==
+X-CSE-MsgGUID: KBSl4Ax+Sme4zBGI6vOtvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="304104457"
+   d="scan'208";a="304104459"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
   by fmviesa001.fm.intel.com with ESMTP; 01 Oct 2026 19:29:55 -0700
 Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCT21-000000000MD-2u9B;
+	id 1xCT21-000000000MB-2jFH;
 	Fri, 02 Oct 2026 02:29:53 +0000
-Date: Fri, 02 Oct 2026 04:29:35 +0200
+Date: Fri, 02 Oct 2026 04:29:37 +0200
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 12898/13246]
- drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:99:22: error:
- 'pinctrl_generic_get_group_count' undeclared here (not in a function); did
- you mean 'pinctrl_generic_to_map'?
-Message-ID: <202610020415.JhlnaDVS-lkp@intel.com>
+To: Sunil V L <sunilvl@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_acpi_support_v1 85/87]
+ drivers/hwtracing/gtrace/gtrace-fwnode.c:17:5: warning: no previous prototype
+ for 'gtrace_of_parse_outconns'
+Message-ID: <202610020411.xNkUOJej-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,171 +60,133 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9f24d789f03b22941b905ded43cb5ff8eea9ce62
-commit: 7fced31d9754f81fc9e79a8f1ef10e6766816480 [12898/13246] Merge branch 'devel' into for-next
-config: m68k-randconfig-r2100-20261002 (https://download.01.org/0day-ci/archive/20261002/202610020415.JhlnaDVS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020415.JhlnaDVS-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
+head:   dc5b9586f90cc15314085bdaa74661fc00d1688f
+commit: 5c381ad05935a6c1e0108a97d1197952ca46201e [85/87] hwtracing: rvtrace: Move to fwnode_* APIs
+config: i386-randconfig-2200-20261002 (https://download.01.org/0day-ci/archive/20261002/202610020411.xNkUOJej-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020411.xNkUOJej-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610020415.JhlnaDVS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610020411.xNkUOJej-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:99:22: error: 'pinctrl_generic_get_group_count' undeclared here (not in a function); did you mean 'pinctrl_generic_to_map'?
-     .get_groups_count = pinctrl_generic_get_group_count,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                         pinctrl_generic_to_map
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:100:22: error: 'pinctrl_generic_get_group_name' undeclared here (not in a function); did you mean 'pinctrl_generic_to_map'?
-     .get_group_name   = pinctrl_generic_get_group_name,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                         pinctrl_generic_to_map
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:101:22: error: 'pinctrl_generic_get_group_pins' undeclared here (not in a function); did you mean 'pinctrl_get_group_pins'?
-     .get_group_pins   = pinctrl_generic_get_group_pins,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                         pinctrl_get_group_pins
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c: In function 'jhb100_set_mux':
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:149:10: error: implicit declaration of function 'pinctrl_generic_get_group'; did you mean 'pinctrl_generic_to_map'? [-Werror=implicit-function-declaration]
-     group = pinctrl_generic_get_group(pctldev, gsel);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~
-             pinctrl_generic_to_map
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:149:8: warning: assignment to 'const struct group_desc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     group = pinctrl_generic_get_group(pctldev, gsel);
-           ^
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:153:19: error: dereferencing pointer to incomplete type 'const struct group_desc'
-     functions = group->data;
-                      ^~
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c: At top level:
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:304:25: error: 'pinmux_generic_get_function_count' undeclared here (not in a function); did you mean 'pinmux_generic_free_functions'?
-     .get_functions_count = pinmux_generic_get_function_count,
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            pinmux_generic_free_functions
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:305:23: error: 'pinmux_generic_get_function_name' undeclared here (not in a function); did you mean 'pinmux_generic_free_functions'?
-     .get_function_name = pinmux_generic_get_function_name,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                          pinmux_generic_free_functions
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:306:25: error: 'pinmux_generic_get_function_groups' undeclared here (not in a function); did you mean 'pinmux_generic_free_functions'?
-     .get_function_groups = pinmux_generic_get_function_groups,
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            pinmux_generic_free_functions
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c: In function 'jhb100_pinconf_group_get':
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:880:8: warning: assignment to 'const struct group_desc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     group = pinctrl_generic_get_group(pctldev, gsel);
-           ^
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:884:42: error: dereferencing pointer to incomplete type 'const struct group_desc'
-     return jhb100_pinconf_get(pctldev, group->grp.pins[0], config);
-                                             ^~
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c: In function 'jhb100_pinconf_group_set':
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:896:8: warning: assignment to 'const struct group_desc *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     group = pinctrl_generic_get_group(pctldev, gsel);
-           ^
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:900:23: error: dereferencing pointer to incomplete type 'const struct group_desc'
-     for (i = 0; i < group->grp.npins; i++) {
-                          ^~
-   drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c: In function 'jhb100_pinconf_group_get':
->> drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c:885:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PINCTRL_STARFIVE_JHB100
-   Depends on [n]: PINCTRL [=y] && OF [=n]
-   Selected by [y]:
-   - PINCTRL_STARFIVE_JHB100_PER1 [=y] && PINCTRL [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
-   - PINCTRL_STARFIVE_JHB100_PER2POK [=y] && PINCTRL [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
-   - PINCTRL_STARFIVE_JHB100_SYS0 [=y] && PINCTRL [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
-   Selected by [m]:
-   - PINCTRL_STARFIVE_JHB100_PER0 [=m] && PINCTRL [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
-   - PINCTRL_STARFIVE_JHB100_PER2 [=m] && PINCTRL [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
-   - PINCTRL_STARFIVE_JHB100_PER3 [=m] && PINCTRL [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
-   - PINCTRL_STARFIVE_JHB100_SYS2 [=m] && PINCTRL [=y] && (ARCH_STARFIVE || COMPILE_TEST [=y])
+>> drivers/hwtracing/gtrace/gtrace-fwnode.c:17:5: warning: no previous prototype for 'gtrace_of_parse_outconns' [-Wmissing-prototypes]
+      17 | int gtrace_of_parse_outconns(struct gtrace_platform_data *pdata)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwtracing/gtrace/gtrace-fwnode.c:105:5: warning: no previous prototype for 'rvtrace_parse_inconns' [-Wmissing-prototypes]
+     105 | int rvtrace_parse_inconns(struct gtrace_platform_data *pdata)
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +99 drivers/pinctrl/starfive/pinctrl-starfive-jhb100.c
+vim +/gtrace_of_parse_outconns +17 drivers/hwtracing/gtrace/gtrace-fwnode.c
 
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10   97  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10   98  static const struct pinctrl_ops jhb100_pinctrl_ops = {
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  @99  	.get_groups_count = pinctrl_generic_get_group_count,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10 @100  	.get_group_name	  = pinctrl_generic_get_group_name,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10 @101  	.get_group_pins   = pinctrl_generic_get_group_pins,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  102  	.dt_node_to_map	  = pinctrl_generic_pins_function_dt_node_to_map,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  103  	.dt_free_map	  = pinctrl_utils_free_map,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  104  };
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  105  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  106  static void jhb100_set_function(struct jhb100_pinctrl *sfp,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  107  				unsigned int pin, u8 func)
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  108  {
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  109  	const struct starfive_pinctrl_regs *pinctrl_regs = sfp->info->regs;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  110  	unsigned int pins_per_reg, offset, shift;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  111  	void __iomem *func_sel_reg;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  112  	u32 func_sel_mask;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  113  	u32 func_sel_val;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  114  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  115  	if (!pinctrl_regs->func_sel.reg || !pinctrl_regs->func_sel.width_per_pin)
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  116  		return;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  117  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  118  	pins_per_reg = 32 / pinctrl_regs->func_sel.width_per_pin;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  119  	offset = 4 * (pin / pins_per_reg);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  120  	shift = pinctrl_regs->func_sel.width_per_pin * (pin % pins_per_reg);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  121  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  122  	func_sel_reg = sfp->base + pinctrl_regs->func_sel.reg + offset;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  123  	func_sel_mask = GENMASK(pinctrl_regs->func_sel.width_per_pin - 1, 0) << shift;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  124  	func_sel_val = func << shift;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  125  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  126  	guard(raw_spinlock_irqsave)(&sfp->lock);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  127  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  128  	func_sel_val |= readl_relaxed(func_sel_reg) & ~func_sel_mask;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  129  	writel_relaxed(func_sel_val, func_sel_reg);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  130  }
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  131  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  132  static int jhb100_set_one_pin_mux(struct jhb100_pinctrl *sfp,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  133  				  unsigned int pin,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  134  				  u8 func)
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  135  {
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  136  	jhb100_set_function(sfp, pin, func);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  137  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  138  	return 0;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  139  }
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  140  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  141  static int jhb100_set_mux(struct pinctrl_dev *pctldev,
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  142  			  unsigned int fsel, unsigned int gsel)
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  143  {
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  144  	struct jhb100_pinctrl *sfp = pinctrl_dev_get_drvdata(pctldev);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  145  	const struct group_desc *group;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  146  	unsigned int i;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  147  	const char **functions;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  148  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10 @149  	group = pinctrl_generic_get_group(pctldev, gsel);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  150  	if (!group)
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  151  		return -EINVAL;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  152  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10 @153  	functions = group->data;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  154  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  155  	for (i = 0; i < group->grp.npins; i++) {
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  156  		int function;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  157  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  158  		function = jhb100_map_get_func_val(sfp, functions[i], group->grp.pins[i]);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  159  		if (function < 0) {
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  160  			dev_err(pctldev->dev, "invalid function %s\n", functions[i]);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  161  			return function;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  162  		}
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  163  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  164  		jhb100_set_one_pin_mux(sfp, group->grp.pins[i], function);
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  165  	}
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  166  
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  167  	return 0;
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  168  }
-9c4d0c8fc4c10e Changhuang Liang 2026-09-10  169  
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   10  
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   11  /*
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   12   * Parse the "out-ports" graph of the component node and fill pdata->outconns.
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   13   * Return: 0 on success or when there are no output ports
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   14   *         -EPROBE_DEFER if a destination is not registered yet
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   15   *         negative error code otherwise.
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   16   */
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  @17  int gtrace_of_parse_outconns(struct gtrace_platform_data *pdata)
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   18  {
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   19  	struct fwnode_handle *parent, *ep_node, *rep_node, *rdev_node;
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   20  	struct fwnode_endpoint ep = { 0 };
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   21  	struct fwnode_endpoint rep = { 0 };
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   22  	struct gtrace_connection *conn;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   23  	int ret = 0, i = 0;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   24  
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   25  	parent = fwnode_get_named_child_node(dev_fwnode(pdata->dev), "out-ports");
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   26  	if (!parent)
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   27  		return 0;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   28  
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   29  	pdata->nr_outconns = fwnode_graph_get_endpoint_count(parent, 0);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   30  	pdata->outconns = devm_kcalloc(pdata->dev, pdata->nr_outconns,
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   31  				       sizeof(*pdata->outconns), GFP_KERNEL);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   32  	if (!pdata->outconns) {
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   33  		ret = -ENOMEM;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   34  		goto done;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   35  	}
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   36  
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   37  	fwnode_graph_for_each_endpoint(parent, ep_node) {
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   38  		conn = devm_kzalloc(pdata->dev, sizeof(*conn), GFP_KERNEL);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   39  		if (!conn) {
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   40  			fwnode_handle_put(ep_node);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   41  			ret = -ENOMEM;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   42  			break;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   43  		}
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   44  
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   45  		ret = fwnode_graph_parse_endpoint(ep_node, &ep);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   46  		if (ret) {
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   47  			fwnode_handle_put(ep_node);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   48  			break;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   49  		}
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   50  
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   51  		rep_node = fwnode_graph_get_remote_endpoint(ep_node);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   52  		if (!rep_node) {
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   53  			ret = -ENODEV;
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   54  			fwnode_handle_put(ep_node);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   55  			break;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   56  		}
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   57  		rdev_node = fwnode_graph_get_port_parent(rep_node);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   58  
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   59  		ret = fwnode_graph_parse_endpoint(rep_node, &rep);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   60  		if (ret) {
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   61  			fwnode_handle_put(ep_node);
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   62  			fwnode_handle_put(rep_node);
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   63  			fwnode_handle_put(rdev_node);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   64  			break;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   65  		}
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   66  
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   67  		conn->src_port = ep.port;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   68  		conn->src_fwnode = dev_fwnode(pdata->dev);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   69  		/* The 'src_comp' is set by gtrace_register_component() */
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   70  		conn->src_comp = NULL;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   71  		conn->dest_port = rep.port;
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   72  		conn->dest_fwnode = rdev_node;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   73  		fwnode_handle_get(conn->dest_fwnode);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   74  		conn->dest_comp = gtrace_find_by_fwnode(conn->dest_fwnode);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   75  		if (!conn->dest_comp) {
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   76  			ret = -EPROBE_DEFER;
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   77  			fwnode_handle_put(ep_node);
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   78  			fwnode_handle_put(rep_node);
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   79  			fwnode_handle_put(rdev_node);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   80  			break;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   81  		}
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   82  
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   83  		pdata->outconns[i] = conn;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   84  		i++;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   85  	}
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   86  
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   87  done:
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   88  	if (ret) {
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   89  		for (i = 0; i < pdata->nr_outconns && pdata->outconns; i++) {
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   90  			conn = pdata->outconns[i];
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   91  			if (conn && conn->dest_fwnode)
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   92  				fwnode_handle_put(conn->dest_fwnode);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   93  		}
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   94  	}
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   95  	fwnode_handle_put(parent);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   96  	return ret;
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   97  }
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   98  EXPORT_SYMBOL_GPL(gtrace_parse_outconns);
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   99  
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  100  /*
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01  101   * Parse the "out-ports" graph of the component node and allocate pdata->inconns.
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  102   *
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  103   * Return: 0 on success or when there are no input ports, -ENOMEM otherwise.
+2533ea70f41f2e1 drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  104   */
+5c381ad05935a6c drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01 @105  int rvtrace_parse_inconns(struct gtrace_platform_data *pdata)
 
-:::::: The code at line 99 was first introduced by commit
-:::::: 9c4d0c8fc4c10eaecc651ecd3d2aa706f06a6637 pinctrl: starfive: Add StarFive JHB100 sys0 controller driver
+:::::: The code at line 17 was first introduced by commit
+:::::: 2533ea70f41f2e1b6534c0bdfc90e83dad7bbf39 gtrace: Add RISC-V platform driver for the gtrace framework
 
-:::::: TO: Changhuang Liang <changhuang.liang@starfivetech.com>
-:::::: CC: Linus Walleij <linusw@kernel.org>
+:::::: TO: Anup Patel <anup.patel@oss.qualcomm.com>
+:::::: CC: Anup Patel <anup@brainfault.org>
 
 --
 0-DAY CI Kernel Test Service
