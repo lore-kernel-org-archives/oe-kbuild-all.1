@@ -1,139 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7D82DB794;
-	Fri,  2 Oct 2026 17:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923104BEE3A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 18:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790960906; cv=none; b=J+Cbmw+jbjInCTtgg6HkEb51DYzat/i9A7PFGwWkARcb20KAuWSHB0tyuZb4kBjSNQe+53Jx9AfZQRPjCKdEm+XIAZjtBBGxG+UbJvRDOGlGgiMItyby0888OA58NmOmm6I8PtUSwaPELiVBeHV+cMusHEhWBVIrB64yWZLD6zA=
+	t=1790964937; cv=none; b=T+oHeW0y6cc09FheqZ+JylEDcq65R0TQx1HCpu2U0vnCNfy9hdlpa7sZeMp/2I9NOEnCtHJltV2WQ3DNWL5wMvLhDa2Ukkrsmb27Hro0htACc65DMMw/b7nDnSp+ArIlZI7mSTmIqpORWNCfuu3kYpPY+NPIt/KLS6uGHJEGGnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790960906; c=relaxed/simple;
-	bh=uK+S9GR56VZVhB3ydIynhat7yKHKCnbHDRJZu3kJH3w=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h+sFgEopo4B8ZDpwZ1SaAaXwDYWZ6ydXB1E038VKqwbM1nF7UxsFwjHJYHzJRiFGv9RYNrpT7RJ1I0zcLHNHGPjcHxKqh44ZxXaMDEixTimzaPEklUDPeXz982QtnrPhvW8jSzvZgG/UUvKxA7GBht34v6Y4JBSVsz3SgiMLmJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqXbnB+Y; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1790964937; c=relaxed/simple;
+	bh=F0gGbR5q+8ZNBhlfJSYCuzbZi8ZLWTCZx4EKW1WC/hc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T1eC4aE7mPQ+2SUOTW9p0WC+TQ/cZoV2qjyrIF9I7V65TLapHOJkzx9pnyTZ5ATUlmDzPNVLm2FA46hMyIyA5x2Eh8427nzPkVtKZaX3S+m1Bj/02HIrng/Ob5a4hJpQEEekPdTfHL/LMcXdc5UueEH90bC1oCJQIkywU7x6G4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBfcbRJk; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqXbnB+Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBfcbRJk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790960904; x=1822496904;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=uK+S9GR56VZVhB3ydIynhat7yKHKCnbHDRJZu3kJH3w=;
-  b=fqXbnB+YJc4RTcCBnDwtGYSzbSvfQmKHs9LdEQfAyl98beGci3hgYayh
-   2Ymhp8dZKUOIUp1C/pCQCN2OYfXnPcoVUY9C2mOt+iysn8GJbmJvhghgk
-   r43rMtNRbvxzJuWOb7f/MpdkwSGbY5mTSE2Spr7w8FHEx1qx6qf15zAir
-   gsriJY3bODQurMsMPCkj/FgHJkry9dJfIFcWZYLjeEhK/o/Uzs9271RUH
-   cba5tMQZiu5UOV7MP5uBnGqT6OlIqGHZYUQmflX/szPotFH7bcYTvPQbW
-   if/KnhTIuhwEX5ATclQCZRXJwu7BcI8fXxaYnGutthQwThhdSE+ui10pr
-   w==;
-X-CSE-ConnectionGUID: 0e+e9uH/R8qDrZNl7OyiFw==
-X-CSE-MsgGUID: UBmIwGU5RWWhIpKUSjDzQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="101893303"
+  t=1790964935; x=1822500935;
+  h=date:from:to:cc:subject:message-id;
+  bh=F0gGbR5q+8ZNBhlfJSYCuzbZi8ZLWTCZx4EKW1WC/hc=;
+  b=DBfcbRJkY0aUz0aP7Ivbtj8v43FsC+U8pSKM0DL1Vh5vwniS9xWbvKkc
+   Y7TAXRHvpo4Paj/CQkYX0MWgk7tzhbVtbPSw21Z7iSbSn/IN92iIDY535
+   xhEP1g29XvV6ThJWO5EBqW2FhcrpQUGHT767FmAsDZPko0IJCZ02jJP63
+   f7MREHQnIoVaU01EpbxJj5M7Wi8tqGCIWUCDUAN9xdxXVy6cZQWwLreS2
+   hIGkncDQpd+FTbjpW7ubAP32bRcDwkkR5V0NkvOU3hc4HjaWVkyI+HGVj
+   MfvlNvJSKviT5zLxQXlXbbMr7cH/lfct+ChpMi6nvm595LewTV3NmCotC
+   A==;
+X-CSE-ConnectionGUID: g6XBnL2BTZmjYHJpVIpZSA==
+X-CSE-MsgGUID: yOIADjidTFO0ZdkhICMP1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="91599818"
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="101893303"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 10:08:22 -0700
-X-CSE-ConnectionGUID: lyWMn0O/QAihQ/2VV+xAUQ==
-X-CSE-MsgGUID: KVcssg65QweA7cLHmItqPg==
+   d="scan'208";a="91599818"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 11:15:35 -0700
+X-CSE-ConnectionGUID: q+Z50eV1TLuMVu36jwtG0g==
+X-CSE-MsgGUID: IxEcKs1TShGSmRNkonPsGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="275838642"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2026 10:08:21 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="314297726"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 02 Oct 2026 11:15:27 -0700
+Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCgk6-00000000TI1-2Vgy;
-	Fri, 02 Oct 2026 17:08:18 +0000
-Date: Sat, 3 Oct 2026 01:07:59 +0800
+	id 1xChn2-000000000i7-3hbW;
+	Fri, 02 Oct 2026 18:15:24 +0000
+Date: Fri, 02 Oct 2026 20:14:52 +0200
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: net/sched: cap the accounted backlog before it can wrap
-Message-ID: <202610030129.hEQ6QJF9-lkp@intel.com>
-References: <202610030129.hEQ6QJF9-lkp@intel.com>
+To: Roman Li <Roman.Li@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c:1114
+ dcn42_clk_mgr_construct() warn: inconsistent indenting
+Message-ID: <202610022042.MekHL73j-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202610030129.hEQ6QJF9-lkp@intel.com>
 
-Hi Jamal,
-
-kernel test robot noticed the following build warnings:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/net-sched-cap-the-accounted-backlog-before-it-can-wrap/20261002-034431
-base:   
-patch link:    https://lore.kernel.org/r/202610030129.hEQ6QJF9-lkp%40intel.com
-config: hexagon-randconfig-1001-20261002 (https://download.01.org/0day-ci/archive/20261003/202610030129.hEQ6QJF9-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261003/202610030129.hEQ6QJF9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
+commit: 6b2dd7d37badd8bf076875397f9f39b494258ca7 drm/amd/display: Enable dcn42 DC
+date:   7 months ago
+config: i386-randconfig-r2201-20260923 (https://download.01.org/0day-ci/archive/20261002/202610022042.MekHL73j-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6b2dd7d37bad ("drm/amd/display: Enable dcn42 DC")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610030129.hEQ6QJF9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610022042.MekHL73j-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c:1114 dcn42_clk_mgr_construct() warn: inconsistent indenting
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:1060 dcn42_optimize_bandwidth() warn: inconsistent indenting
 
->> net/sched/sch_cake.c:1742:66: warning: '/*' within block comment [-Wcomment]
-    1742 |  * consumed by a terminal TC action (reason in *qerr); else *flow/*host
-         |                                                                  ^
-   1 warning generated.
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:279 dcn42_init_hw() error: we previously assumed 'dc->res_pool->funcs->update_bw_bounding_box' could be null (see line 274)
+drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn42/dcn42_hwseq.c:560 dcn42_program_rmcm_luts() warn: inconsistent indenting
 
+vim +1114 drivers/gpu/drm/amd/amdgpu/../display/dc/clk_mgr/dcn42/dcn42_clk_mgr.c
 
-vim +1742 net/sched/sch_cake.c
+bd096a56da7cad1 Roman Li 2026-02-02  1077  
+bd096a56da7cad1 Roman Li 2026-02-02  1078  void dcn42_clk_mgr_construct(
+bd096a56da7cad1 Roman Li 2026-02-02  1079  		struct dc_context *ctx,
+bd096a56da7cad1 Roman Li 2026-02-02  1080  		struct clk_mgr_dcn42 *clk_mgr,
+bd096a56da7cad1 Roman Li 2026-02-02  1081  		struct pp_smu_funcs *pp_smu,
+bd096a56da7cad1 Roman Li 2026-02-02  1082  		struct dccg *dccg)
+bd096a56da7cad1 Roman Li 2026-02-02  1083  {
+bd096a56da7cad1 Roman Li 2026-02-02  1084  	clk_mgr->base.base.ctx = ctx;
+bd096a56da7cad1 Roman Li 2026-02-02  1085  	clk_mgr->base.base.funcs = &dcn42_funcs;
+bd096a56da7cad1 Roman Li 2026-02-02  1086  	clk_mgr->base.regs = &clk_mgr_regs_dcn42;
+bd096a56da7cad1 Roman Li 2026-02-02  1087  	clk_mgr->base.clk_mgr_shift = &clk_mgr_shift_dcn42;
+bd096a56da7cad1 Roman Li 2026-02-02  1088  	clk_mgr->base.clk_mgr_mask = &clk_mgr_mask_dcn42;
+bd096a56da7cad1 Roman Li 2026-02-02  1089  
+bd096a56da7cad1 Roman Li 2026-02-02  1090  	clk_mgr->base.pp_smu = pp_smu;
+bd096a56da7cad1 Roman Li 2026-02-02  1091  
+bd096a56da7cad1 Roman Li 2026-02-02  1092  	clk_mgr->base.dccg = dccg;
+bd096a56da7cad1 Roman Li 2026-02-02  1093  	clk_mgr->base.dfs_bypass_disp_clk = 0;
+bd096a56da7cad1 Roman Li 2026-02-02  1094  
+bd096a56da7cad1 Roman Li 2026-02-02  1095  	clk_mgr->base.dprefclk_ss_percentage = 0;
+bd096a56da7cad1 Roman Li 2026-02-02  1096  	clk_mgr->base.dprefclk_ss_divider = 1000;
+bd096a56da7cad1 Roman Li 2026-02-02  1097  	clk_mgr->base.ss_on_dprefclk = false;
+bd096a56da7cad1 Roman Li 2026-02-02  1098  	clk_mgr->base.dfs_ref_freq_khz = 48000; /*sync with pmfw*/
+bd096a56da7cad1 Roman Li 2026-02-02  1099  
+bd096a56da7cad1 Roman Li 2026-02-02  1100  	clk_mgr->smu_wm_set.wm_set = (struct dcn42_watermarks *)dm_helpers_allocate_gpu_mem(
+bd096a56da7cad1 Roman Li 2026-02-02  1101  				clk_mgr->base.base.ctx,
+bd096a56da7cad1 Roman Li 2026-02-02  1102  				DC_MEM_ALLOC_TYPE_GART,
+bd096a56da7cad1 Roman Li 2026-02-02  1103  				sizeof(struct dcn42_watermarks),
+bd096a56da7cad1 Roman Li 2026-02-02  1104  				&clk_mgr->smu_wm_set.mc_address.quad_part);
+bd096a56da7cad1 Roman Li 2026-02-02  1105  
+bd096a56da7cad1 Roman Li 2026-02-02  1106  	ASSERT(clk_mgr->smu_wm_set.wm_set);
+bd096a56da7cad1 Roman Li 2026-02-02  1107  
+bd096a56da7cad1 Roman Li 2026-02-02  1108  	/* Changed from DCN3.2_clock_frequency doc to match
+bd096a56da7cad1 Roman Li 2026-02-02  1109  	 * dcn32_dump_clk_registers from 4 * dentist_vco_freq_khz /
+bd096a56da7cad1 Roman Li 2026-02-02  1110  	 * dprefclk DID divider
+bd096a56da7cad1 Roman Li 2026-02-02  1111  	 */
+bd096a56da7cad1 Roman Li 2026-02-02  1112  	clk_mgr->base.base.dprefclk_khz = 600000;
+bd096a56da7cad1 Roman Li 2026-02-02  1113  
+bd096a56da7cad1 Roman Li 2026-02-02 @1114  		clk_mgr->base.smu_present = false;
+bd096a56da7cad1 Roman Li 2026-02-02  1115  
+bd096a56da7cad1 Roman Li 2026-02-02  1116  		if (ctx->dc_bios->integrated_info) {
+bd096a56da7cad1 Roman Li 2026-02-02  1117  			clk_mgr->base.base.dentist_vco_freq_khz = ctx->dc_bios->integrated_info->dentist_vco_freq;
+bd096a56da7cad1 Roman Li 2026-02-02  1118  
+bd096a56da7cad1 Roman Li 2026-02-02  1119  			if (ctx->dc_bios->integrated_info->memory_type == LpDdr5MemType)
+bd096a56da7cad1 Roman Li 2026-02-02  1120  				dcn42_bw_params.wm_table = lpddr5_wm_table;
+bd096a56da7cad1 Roman Li 2026-02-02  1121  			else
+bd096a56da7cad1 Roman Li 2026-02-02  1122  				dcn42_bw_params.wm_table = ddr5_wm_table;
+bd096a56da7cad1 Roman Li 2026-02-02  1123  			dcn42_bw_params.vram_type = ctx->dc_bios->integrated_info->memory_type;
+bd096a56da7cad1 Roman Li 2026-02-02  1124  			dcn42_bw_params.dram_channel_width_bytes = ctx->dc_bios->integrated_info->memory_type == 0x22 ? 8 : 4;
+bd096a56da7cad1 Roman Li 2026-02-02  1125  			dcn42_bw_params.num_channels = ctx->dc_bios->integrated_info->ma_channel_number ? ctx->dc_bios->integrated_info->ma_channel_number : 4;
+bd096a56da7cad1 Roman Li 2026-02-02  1126  		}
+bd096a56da7cad1 Roman Li 2026-02-02  1127  		/* in case we don't get a value from the BIOS, use default */
+bd096a56da7cad1 Roman Li 2026-02-02  1128  		if (clk_mgr->base.base.dentist_vco_freq_khz == 0)
+bd096a56da7cad1 Roman Li 2026-02-02  1129  			clk_mgr->base.base.dentist_vco_freq_khz = 3000000; /* 3000MHz */
+bd096a56da7cad1 Roman Li 2026-02-02  1130  
+bd096a56da7cad1 Roman Li 2026-02-02  1131  		/* Saved clocks configured at boot for debug purposes */
+bd096a56da7cad1 Roman Li 2026-02-02  1132  		dcn42_dump_clk_registers(&clk_mgr->base.base.boot_snapshot, clk_mgr);
+bd096a56da7cad1 Roman Li 2026-02-02  1133  
+bd096a56da7cad1 Roman Li 2026-02-02  1134  	if (clk_mgr->base.smu_present)
+bd096a56da7cad1 Roman Li 2026-02-02  1135  		clk_mgr->base.base.dprefclk_khz = dcn42_smu_get_dprefclk(&clk_mgr->base);
+bd096a56da7cad1 Roman Li 2026-02-02  1136  	clk_mgr->base.base.clks.ref_dtbclk_khz = 600000;
+bd096a56da7cad1 Roman Li 2026-02-02  1137  	dce_clock_read_ss_info(&clk_mgr->base);
+bd096a56da7cad1 Roman Li 2026-02-02  1138  	/*when clk src is from FCH, it could have ss, same clock src as DPREF clk*/
+bd096a56da7cad1 Roman Li 2026-02-02  1139  
+bd096a56da7cad1 Roman Li 2026-02-02  1140  	dcn42_read_ss_info_from_lut(&clk_mgr->base);
+bd096a56da7cad1 Roman Li 2026-02-02  1141  
+bd096a56da7cad1 Roman Li 2026-02-02  1142  	clk_mgr->base.base.bw_params = &dcn42_bw_params;
+bd096a56da7cad1 Roman Li 2026-02-02  1143  }
+bd096a56da7cad1 Roman Li 2026-02-02  1144  
 
-  1740	
-  1741	/* Run the optional external classifier. Returns true when the packet was
-> 1742	 * consumed by a terminal TC action (reason in *qerr); else *flow/*host
-  1743	 * hold the filter's overrides (0 if none).
-  1744	 */
-  1745	static bool cake_tcf_classify(struct Qdisc *sch, struct sk_buff *skb,
-  1746				      u16 *flow, u16 *host, int *qerr)
-  1747	{
-  1748		struct cake_sched_data *q = qdisc_priv(sch);
-  1749		struct tcf_proto *filter;
-  1750		struct tcf_result res;
-  1751		int result;
-  1752	
-  1753		*flow = 0;
-  1754		*host = 0;
-  1755	
-  1756		filter = rcu_dereference_bh(q->filter_list);
-  1757		if (!filter)
-  1758			return false;
-  1759	
-  1760		*qerr = NET_XMIT_SUCCESS | __NET_XMIT_BYPASS;
-  1761		result = tcf_classify_qdisc(skb, filter, &res, false);
-  1762	
-  1763		if (result >= 0) {
-  1764	#ifdef CONFIG_NET_CLS_ACT
-  1765			switch (result) {
-  1766			case TC_ACT_STOLEN:
-  1767			case TC_ACT_QUEUED:
-  1768			case TC_ACT_TRAP:
-  1769				*qerr = NET_XMIT_SUCCESS | __NET_XMIT_STOLEN;
-  1770				fallthrough;
-  1771			case TC_ACT_SHOT:
-  1772				return true;
-  1773			}
-  1774	#endif
-  1775			if (TC_H_MIN(res.classid) <= CAKE_QUEUES)
-  1776				*flow = TC_H_MIN(res.classid);
-  1777			if (TC_H_MAJ(res.classid) <= (CAKE_QUEUES << 16))
-  1778				*host = TC_H_MAJ(res.classid) >> 16;
-  1779		}
-  1780		return false;
-  1781	}
-  1782	
+:::::: The code at line 1114 was first introduced by commit
+:::::: bd096a56da7cad1c93c0138a64478b43f5a94736 drm/amd/display: Add dcn42 DC resources
+
+:::::: TO: Roman Li <Roman.Li@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 --
 0-DAY CI Kernel Test Service
