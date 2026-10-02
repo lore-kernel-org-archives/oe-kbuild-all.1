@@ -1,97 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D5F314D1F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 00:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B46C27FD4F;
+	Fri,  2 Oct 2026 01:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790901931; cv=none; b=Ad3/Ajw5Txtve+bqh71+ap3nTWb6oHrjfh8kSOD4FfwoeJozTe2VSc+AA+x3NiGUcKO6CkVVF+bYtkqDMVHKTdu8iDgMm64dNAEdCBAff4Ku+rUEu0Wsx2Gd6oyUF6TJS6aYGUEvcI5NwH+X8oMw+DwYoHiL2uUVSZjNyPEw1yg=
+	t=1790903233; cv=none; b=g4+JP9ThDI7OnoaJimMmx4FPEhh2+wEu/cM6yTv9J7sVrhOiGrIpiC37NulkNvwMXomv4lQFPZkZIQswvVxfmewFVZgwMT04edBOZyr+75qdLq6MCzBiY/WRVyQ1yGYXWoEqaU1ykUBvE4d6riBhhKx80RoADGFPd5bIkG6zJUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790901931; c=relaxed/simple;
-	bh=mQObMuicUlhYWw1feU+uqvqfzBoDNgKF31vS02SLfzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mn7uV8aKvjg4CJWSfIUPZjt8TjWz/11rvYwDi1KUqRHJzJYzg2oXbIVzrGqR2ya06lB4LaSwPkKtX73D1sni/VqTePleOmbJ3i8Tvm6k9cXDsh8DxI8PnFvOY3YM1tmr9v1sgZQ80kgA9HTxJgAeokYicF8LqZHrGFak7jta8s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGriXBJx; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790903233; c=relaxed/simple;
+	bh=vJWsqglVWkLpXsLvVNa+Jjyf5X3QYKC24TSuQZyV0ZQ=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=fMtXOxgamBJqbJr1BmHjF3knsd6H4txUKeKjCTBbWQX7sRAMHtiO3D1uYeKbgBK6dZBBBGVFuPwSwvLldd1A3+kyJd1AsrgbbfdSksNAwYWkJTImgPUzFdlL/W9acghczuVNSLhSgj4MifEHnYyr0Wnu+Hp70UL7EI8PL0/zkiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TlGtHfJT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGriXBJx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790901929; x=1822437929;
-  h=date:from:to:cc:subject:message-id;
-  bh=mQObMuicUlhYWw1feU+uqvqfzBoDNgKF31vS02SLfzQ=;
-  b=dGriXBJx8GlmG+XiUKNvrBFX/mZDHf+YjJfiLsfqNkTKcjOnkNn1FGpW
-   bi3G0oa47ui2wS++cGhKknnW4b7YfoqLTzDVs/j91oOAfkKf2DtnPb9/o
-   WycE9Ipcbs+v3/58qh3R2gJzVhUG50uSardCoWBAcBW+TKbIeHFatfD42
-   fJpCmBlz5SzCSzhjRYp+N2Ra0DVcklrb3SxGWDgMw40OCOn94fPXO2UBv
-   q8f5dgq2yyjhG8voTeLSGfU4dz1YJkW+CZKVnmzFtIJ42NAFHXHv+9rQm
-   K4C2zb4G3Ac4iZ7azDEqE81zG3sUZBx8fRIhxhYK1ISTYdx1VRlp7yP3H
-   w==;
-X-CSE-ConnectionGUID: Afej+8BbRY+sNtahRjJAXg==
-X-CSE-MsgGUID: XY3J8ON8TS6vAcsWUyn2nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90575308"
-X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="90575308"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 17:45:28 -0700
-X-CSE-ConnectionGUID: prgQog1yTsCF2zYZU+CTjw==
-X-CSE-MsgGUID: Bm9KO+kQR7OKoMQOOuANcA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="314110916"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2026 17:45:27 -0700
-Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xCROu-000000000JD-2MQD;
-	Fri, 02 Oct 2026 00:45:24 +0000
-Date: Fri, 02 Oct 2026 02:45:13 +0200
-From: kernel test robot <lkp@intel.com>
-To: Enze Li <lienze@kylinos.cn>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: error[E0425]: cannot find function `damon_set_target_pid` in
- crate `bindings`
-Message-ID: <202610020212.9vL18fPN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TlGtHfJT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8964D1F000FF;
+	Fri,  2 Oct 2026 01:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1790903231;
+	bh=2AK8IZM9OOCadsoGaRMWdYbctWhkNoTiiNTA/D93z4g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=TlGtHfJT7BTCwfl7UgRhCotCOBkzppHZETcMeSBZuLUFP3y9S/xHMT/eRWGVg7sDW
+	 CfTJl8T5zrYYYjNZPYEzeEmhwh3AfuyDJDlG8dB6E7O2gWWX8EI6+9w4MXPMUxnhq9
+	 55baiGIVQw0377SKq2g/4cdZ1UQoeo0EtjpbtnUw=
+Date: Thu, 1 Oct 2026 18:07:11 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: kernel test robot <lkp@intel.com>, Josh Law <objecting@objecting.org>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Linux Memory
+ Management List <linux-mm@kvack.org>, linux-mips@vger.kernel.org, Bradley
+ Morgan <brads@mainlining.org>
+Subject: Re: arch/mips/boot/compressed/decompress.c:undefined reference to
+ `__ashldi3'
+Message-Id: <20261001180711.b206ee7ab13a1cadafdba4e7@linux-foundation.org>
+In-Reply-To: <ar4050mdKL_W8yI9@pedro-suse.tail5790ac.ts.net>
+References: <202609301826.MFaFMsmd-lkp@intel.com>
+	<20260930120159.7e4f29a82d461bd8b040454e@linux-foundation.org>
+	<ar4050mdKL_W8yI9@pedro-suse.tail5790ac.ts.net>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Enze-Li/rust-add-bindings-for-linux-damon-h/20260927-152809
-head:   b54b30247a4ba73c11361c6587ddc5d7c846aee6
-commit: d565ea288f88d540e84887dd348c601db90f7b04 rust: damon: add basic DAMON abstractions
-date:   5 days ago
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261002/202610020212.9vL18fPN-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020212.9vL18fPN-lkp@intel.com/reproduce)
+On Thu, 1 Oct 2026 11:30:09 +0100 Pedro Falcato <pfalcato@suse.de> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610020212.9vL18fPN-lkp@intel.com/
+> > -	bits |= (bd->inbufBits >> bd->inbufBitCount)&((1 << bits_wanted)-1);
+> > +	bits |= (bd->inbufBits >> bd->inbufBitCount) & ((1ULL << bits_wanted) - 1);
+> >  
+> >  	return bits;
+> >  }
+> > 
+> > 32-bit MIPS should be able to do this?
+> 
+> FWIW the patch seems entirely bogus. I don't think you can have inbufBitCount >=
+> 32. If you could, then the patch would still not fix anything, because
+> bd->inbufBits is an (32-bit) unsigned int.
+> 
+> As per MIPS itself, MIPS does not link ashldi3.o into the decompressor for BZ2.
+> It only does so for XZ and ZSTD.
+> 
+> Changing arch/mips/boot/compressed/Makefile would work, but since the change is
+> entirely wrong I would suggest perhaps reverting?
 
-All errors (new ones prefixed by >>):
-
->> error[E0425]: cannot find function `damon_set_target_pid` in crate `bindings`
-   --> rust/kernel/damon.rs:56:38
-   |
-   56 |         let ret = unsafe { bindings::damon_set_target_pid(self.target.as_ptr(), pid) };
-   |                                      ^^^^^^^^^^^^^^^^^^^^
-   |
-   ::: rust/bindings/bindings_generated.rs:140204:5
-   |
-   140204 |     pub fn damon_new_target() -> *mut damon_target;
-   |     ----------------------------------------------- similarly named function `damon_new_target` defined here
-   |
-   help: a function with a similar name exists
-   |
-   56 -         let ret = unsafe { bindings::damon_set_target_pid(self.target.as_ptr(), pid) };
-   56 +         let ret = unsafe { bindings::damon_new_target(self.target.as_ptr(), pid) };
-   |
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sure, thanks.  Do you have time to send a formal patch?
