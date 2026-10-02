@@ -1,139 +1,144 @@
-Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0461C84CB
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 01:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6378922423A;
+	Fri,  2 Oct 2026 01:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790903801; cv=none; b=IGQO86NHijHRpIoYAxhuBhsBUdvZD3hhSO3XxSZopygHi7fv9ZTBT+XXJ16AS3/bsie0PFtgoIx/n+Q5kbtZw3Y2NS9ciNpJilCycOoNjhpGYNjsRCOR7PbtCKKZZKn10qtqcdPBFHNMewnPdcoYL5KiVkRNqfMmFRNaRZSSYHs=
+	t=1790903861; cv=none; b=AUqmp58XqAy2iD8BMoDD7SltHzsxR0/u/14JhDUYh3iOYwk3TKwvpEVusnKQb2f1t6y6/5vmvMCZe48amUrCpl6TG2KAlNArjaDMv/u4nhKx8ChUBpKAc8HA9PaqEJI7YYEwxDJDTYTex/27EN3ViZ/BA5kMjXvT7k2Bq0DB5OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790903801; c=relaxed/simple;
-	bh=ONG5ucHjwGcTjBX34KUf1R/rKl9edxNOqAKTVP1cD5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NsTtJmyyzgaXZeA5P9bQNKuLSEYEIAnAtNncphTk3e7u1ja287jnHQYDPoMlLDfp57xwufJY1KpDnPbkBIU/5DzpdZPA2zVhKmSUkxJOLmEZKG66cKqndNeukaaRbe6g2s1zaOc/Nfrz8xqeyBhIGkLZWLf+9ITq+kX5p8mfUf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b=FbUqAwTB; arc=none smtp.client-ip=74.125.230.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+	s=arc-20240116; t=1790903861; c=relaxed/simple;
+	bh=BS1daTxn6+PAcB7PTtnj902/C5rBv4bqsOknvINcfuY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WoWF6+xc7hnAQb6hmvwzCNCdClXzzWwQzbSTlxTGbbEwAgD1jubu+UwetXm3Ys9vpmoBlMWnRl3rWICoHuT1Ctwkzoiwx+QfSdzMZcZj9SXC2wu0txKpPNubG2EvQYdWEmCgM1wrWTOadtlfPJ2xyx1Vc9hWNuuytH2SiZ/FVhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQbBXPBq; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20251104.gappssmtp.com header.i=@riscstar-com.20251104.gappssmtp.com header.b="FbUqAwTB"
-Received: by mail-qk2-f41.google.com with SMTP id d75a77b69052e-534af4d1a37so1036171cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 01 Oct 2026 18:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20251104.gappssmtp.com; s=20251104; t=1790903795; x=1791508595; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vUnSyj9W4huZSmDL5Gt6gIxnj/N9hfQq+JHqOgTA9WY=;
-        b=FbUqAwTBFMec8izNr8kQK5bLVkb+Wl1QjSKWRg6+GoKQYTH9ddY9lK7hF1NFA/aqu0
-         yM7M7v8tsOM1nEPmm7cqFXXiNwwLbg73UGTCtb8uPBP31v5jka7U9VOUuvxTifM26xih
-         9cN+xdy/fTCol4LRDF44gx1PPC77W5kAocr5QhhjUfPWjfTLhLudVrnGmAo9LtrWcDvw
-         pfaCLtA6TLaa8id2WviqR1ML6tfCFvA7FQ/HFrmaw6fYvwTHZM0gdPikMJIMvEFXZPvo
-         ziuXgJ/M4pHYXDN9XMGTdaN3DpLLyBEluJCTmOQu+j7F/eD32ZonP1Re0LtXRvoB0J/t
-         oINA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790903795; x=1791508595;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vUnSyj9W4huZSmDL5Gt6gIxnj/N9hfQq+JHqOgTA9WY=;
-        b=CQjJeLsQZcw0vO0TCChyd6kdoABwd7/iyUZy3unClAOvaLnk/NT+TVtRhZTB7e+/lu
-         tlPvDGgjZQPEF0KGuDd//rhe8wTeT9UFOSDOj5kYp1L5qUH+AMDGlgO+KP8G3ONRDkAA
-         NjkwROGEbExap/oOC8qjnIUbb1aIbonLs0E4lTZbvW2Y4fXUCFkhpi+aazLIAL730o8x
-         PhArkWARXmdT6XzyXqZyDwcYlLQ3qJafya0EdOpFqkP1RAQOWEd0lvVTD3Yrfck9eKRP
-         WUugZOZ+8Cw74U68Qb5wCXgUeYzzNbNC+tqqt3sBIVMfeyEOD/+BEsfQNk8xThQeBqsC
-         DEgg==
-X-Forwarded-Encrypted: i=1; AKwUvByLsWv/gEE2ie1GElug6w/yq2NE4NmP+sGKWWcjeHRVpjAkUEbhlHbIQWppnSrdcQDKPZiMxve5OERLhPu3@lists.linux.dev
-X-Gm-Message-State: AFuF++nvpWZjxvwKA88Ldot0NNeikR85UfpT9Sqqeg2A2WZvBAKsdUSW
-	Ph9Qx2t4lEiYsHxNJmcrqk0ie92GZex27PUA/2+AQFITs+ote0BFqY3+qaMXEDKPsas=
-X-Gm-Gg: AYBFou1wpF0sAeYQFZ+47wrydQvMc+ZdnX2p2T7dfUCMN+l9avqYHngGdXYNP1Hrrt8
-	aQTEl7m6czCacejnU7EajQYf2ooZBtCNw5NH8wwrcTocoFEkCPVS72rHFrVWagLIu601xU5i9ii
-	Pqk+F/MrAQ20LkEIeuhci8ox1HivQWSZoVokLFlOHm9h28Ihs0HgWtemc9wdSAmg6CkCIJtvrh1
-	BeyJQj06ebkWIPTwxWLqOWHh6aB4TrA5iajbf3Qx9swmgkcxZUJSRp6AjjqVy73p97L9470jHB+
-	diSjCYN0Nw9t9wGvSQXdlicxz6KLNtPIaitYx/f4XBaddEPNJrn1QWJ24IuKZzrI7tKVcRvXv4e
-	q5lTtBmrN7dzStVVPS0zPb9FYI103xerDcOz5jyMoZ1Z52x1ThQTQtf4gCbtsH76MDP7S/HpFKb
-	aqFM1TbpvTGM++5MucSNupI/N5L+RbBvSNc1SzJRIXueW64k5/sa6OnS2Y2CoWJ4HxXL7eQ68=
-X-Received: by 2002:a05:622a:1e10:b0:533:2feb:9fde with SMTP id d75a77b69052e-533cd884e80mr18159031cf.38.1790903794627;
-        Thu, 01 Oct 2026 18:16:34 -0700 (PDT)
-Received: from [172.22.22.28] ([73.62.185.64])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53398aa0baesm12734691cf.13.2026.10.01.18.16.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Oct 2026 18:16:34 -0700 (PDT)
-Message-ID: <360cd521-5abc-49df-986e-cfe9be73a37c@riscstar.com>
-Date: Thu, 1 Oct 2026 20:16:33 -0500
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQbBXPBq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790903859; x=1822439859;
+  h=date:from:to:cc:subject:message-id;
+  bh=BS1daTxn6+PAcB7PTtnj902/C5rBv4bqsOknvINcfuY=;
+  b=jQbBXPBqjuxQ3xQriCOPd5HX8uvrUKJiMG3hOnOOfERP6orAOL+qF4uS
+   qRS4f+RiqkobvygDRGK8vQSf/wXc3VwXMA+VwwiLnS3++ymvK4FyiqLAw
+   8ZNt+4HyiL5zzUJb9FzE2b/i+VLj3hWGugspNr34b7O2L9VeFyWHlfxrn
+   OUfna/VknSnzpw+mkH/XoFc4U+CJ/of3OiPHhu3r136ahcl3Ft66XF65v
+   TB0DUdrl2SWN4sJ4VV7wrgjN98rHg9Bj4aKqV69qU4s02AJcXW2higpcF
+   Jx9cJ8Ux9BlqhfAm5BEDGzqkLU/suo/BDVdZgrc8n81N/ELeS0+0mRQCF
+   g==;
+X-CSE-ConnectionGUID: /gfI2gbwTROCaO2fkeTTRg==
+X-CSE-MsgGUID: h0e5kP47R1i0ApP4xQNHzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="109159150"
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="109159150"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 18:17:39 -0700
+X-CSE-ConnectionGUID: o9FCq1W9ThmDZukul1eNFg==
+X-CSE-MsgGUID: o81bikCYRxW2G+QMljYgGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="275262445"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 01 Oct 2026 18:17:37 -0700
+Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xCRu2-000000000Jv-2Iwh;
+	Fri, 02 Oct 2026 01:17:34 +0000
+Date: Fri, 02 Oct 2026 03:17:17 +0200
+From: kernel test robot <lkp@intel.com>
+To: Andrew Jones <andrew.jones@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_acpi_support_v1 17/87]
+ drivers/iommu/riscv/iommu.c:1286:15: error: call to undeclared function
+ 'virt_to_pfn'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202610020353.oHLYlNLw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [char-misc:char-misc-testing 19/37] kismet: WARNING: unmet direct
- dependencies detected for PCI_DYNAMIC_OF_NODES when selected by TC9564_PCI
-To: kernel test robot <lkp@intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Thompson <daniel@riscstar.com>
-References: <202610020124.ieOiopjQ-lkp@intel.com>
-Content-Language: en-US
-From: Alex Elder <elder@riscstar.com>
-In-Reply-To: <202610020124.ieOiopjQ-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 10/1/26 6:52 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
-> head:   04434a1d0f311d76b1f15fa987918b471a0b8c6a
-> commit: 1304b0c47ef81cbd21e51ea0645a98104393ba49 [19/37] misc: tc9564: introduce base PCI driver
-> config: m68k-kismet-CONFIG_PCI_DYNAMIC_OF_NODES-CONFIG_TC9564_PCI-0-0 (https://download.01.org/0day-ci/archive/20261002/202610020124.ieOiopjQ-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20261002/202610020124.ieOiopjQ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610020124.ieOiopjQ-lkp@intel.com/
-> 
-> kismet warnings: (new ones prefixed by >>)
->>> kismet: WARNING: unmet direct dependencies detected for PCI_DYNAMIC_OF_NODES when selected by TC9564_PCI
->     WARNING: unmet direct dependencies detected for PCI_DYNAMIC_OF_NODES
->       Depends on [n]: PCI [=y] && OF_IRQ [=n]
->       Selected by [y]:
->       - TC9564_PCI [=y] && OF [=y] && PCI [=y]
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
+head:   dc5b9586f90cc15314085bdaa74661fc00d1688f
+commit: bfe2d47be5bc1b02f6c04d095fb71116d417241c [17/87] iommu/riscv: Add IRQ domain for interrupt remapping
+config: um-randconfig-2001-20261002 (https://download.01.org/0day-ci/archive/20261002/202610020353.oHLYlNLw-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7e4505dd447d115d85fdea45cd71030ac1d86ee)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020353.oHLYlNLw-lkp@intel.com/reproduce)
 
-I'm about to send a patch that fixes this.  Greg, if you'd prefer
-I re-spin the series (or something else), please let me know.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610020353.oHLYlNLw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/iommu/riscv/iommu.c:18:
+   In file included from include/linux/crash_dump.h:5:
+   In file included from include/linux/kexec.h:20:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/iommu/riscv/iommu.c:1286:15: error: call to undeclared function 'virt_to_pfn'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1286 |                 dc.msiptp = virt_to_pfn(domain->msi_root) |
+         |                             ^
+   drivers/iommu/riscv/iommu.c:1286:15: note: did you mean 'virt_to_pte'?
+   arch/um/include/asm/pgtable.h:284:15: note: 'virt_to_pte' declared here
+     284 | extern pte_t *virt_to_pte(struct mm_struct *mm, unsigned long addr);
+         |               ^
+   1 warning and 1 error generated.
 
 
-I did originally have "depends on OF_IRQ" under TC9564_PCI.
+vim +/virt_to_pfn +1286 drivers/iommu/riscv/iommu.c
 
-However I hit this:
+  1260	
+  1261	static int riscv_iommu_attach_paging_domain(struct iommu_domain *iommu_domain,
+  1262						    struct device *dev,
+  1263						    struct iommu_domain *old)
+  1264	{
+  1265		struct riscv_iommu_domain *domain = iommu_domain_to_riscv(iommu_domain);
+  1266		struct riscv_iommu_device *iommu = dev_to_iommu(dev);
+  1267		struct riscv_iommu_info *info = dev_iommu_priv_get(dev);
+  1268		struct pt_iommu_riscv_64_hw_info pt_info;
+  1269		struct riscv_iommu_dc dc = {0};
+  1270		int ret;
+  1271	
+  1272		pt_iommu_riscv_64_hw_info(&domain->riscvpt, &pt_info);
+  1273	
+  1274		if (!riscv_iommu_pt_supported(iommu, pt_info.fsc_iosatp_mode))
+  1275			return -ENODEV;
+  1276	
+  1277		ret = riscv_iommu_ir_attach_paging_domain(domain, dev);
+  1278		if (ret)
+  1279			return ret;
+  1280	
+  1281		dc.fsc = FIELD_PREP(RISCV_IOMMU_PC_FSC_MODE, pt_info.fsc_iosatp_mode) |
+  1282			 FIELD_PREP(RISCV_IOMMU_PC_FSC_PPN, pt_info.ppn);
+  1283		dc.ta = FIELD_PREP(RISCV_IOMMU_PC_TA_PSCID, domain->pscid) | RISCV_IOMMU_PC_TA_V;
+  1284	
+  1285		if (domain->msi_root) {
+> 1286			dc.msiptp = virt_to_pfn(domain->msi_root) |
+  1287				    FIELD_PREP(RISCV_IOMMU_DC_MSIPTP_MODE,
+  1288					       RISCV_IOMMU_DC_MSIPTP_MODE_FLAT);
+  1289			dc.msi_addr_mask = domain->msi_addr_mask;
+  1290			dc.msi_addr_pattern = domain->msi_addr_pattern;
+  1291		}
+  1292	
+  1293		if (riscv_iommu_bond_link(domain, dev))
+  1294			return -ENOMEM;
+  1295	
+  1296		riscv_iommu_iodir_update(iommu, dev, &dc);
+  1297		riscv_iommu_bond_unlink(info->domain, dev);
+  1298		info->domain = domain;
+  1299	
+  1300		return 0;
+  1301	}
+  1302	
 
-error: recursive dependency detected!
-         symbol GENERIC_MSI_IRQ is selected by IRQ_MSI_LIB
-         symbol IRQ_MSI_LIB is selected by PCI_XGENE_MSI
-         symbol PCI_XGENE_MSI depends on PCI_XGENE
-         symbol PCI_XGENE depends on PCI_QUIRKS
-         symbol PCI_QUIRKS is selected by TC9564_PCI
-         symbol TC9564_PCI depends on OF_IRQ
-         symbol OF_IRQ depends on IRQ_DOMAIN
-         symbol IRQ_DOMAIN is selected by IRQ_DOMAIN_HIERARCHY
-         symbol IRQ_DOMAIN_HIERARCHY is selected by GENERIC_MSI_IRQ
-
-So I removed that dependency and the problem went away.  I'm
-sorry I neglected to spend more time troubleshooting that.
-
-So far I have found two options to avoid the recursive dependency:
-- Use "select OF_IRQ" rather than "depends on OF_IRQ"
-- Use "depends on OF_IRQ" but then use "depends on PCI_QUIRKS"
-   rather than "select PCI_QUIRKS"
-
-I like the second one better.
-
-					-Alex
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
