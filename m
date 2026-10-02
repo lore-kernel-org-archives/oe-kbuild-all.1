@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7423D137750
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 00:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC7C25B092
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 00:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790900719; cv=none; b=G7stAx3YnXwn6mH83neWuKl3NOLZiN4XhLAC+XpcZzCbh2+1smiv/RloSGNvvnbg4JxSowTTbRZJ4DGakbN+kSY1Ru0jspHyGykePKZNXYXg+iktp6fgKQU5Um6LcNVV0z4AaQB7khYKBcdDO9EelyKXdDHDnH6gp3Wi6qR4aYc=
+	t=1790901534; cv=none; b=nlnHn8CKUuZx06MEKDKCbdkGfanwxVKZaI9DKrwUbkv2ZdlweUQ+kik5j9l6z2a+Gy90JL9Q9/9DjUhSwuPVpfnJplUkNJhMBpTG+vg0xZSfyy6KvcHcpXoPAaGB5GP6xWGI1pF3tPDivtD4wIB7oMYzjmL7BZbexJaHf92tXMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790900719; c=relaxed/simple;
-	bh=RsC8MoNtG/GxTxhfLapQxzKaNuK/jgkZuulUgcTsS4E=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M32sRoUSJHLXMSAFGZjJdCcFR2L9ef+g4a1O4X1Ml+hQyIMJyl7C6u7M15DIc5Z1ZtY/Rg3Van1Ea7O4IiH0GeslnTKNz6o1fGtYtp0EARtn6j+O1fDphtL2tLB6xBSWLMISLrQZj98T4oibQne8mbEqtxrNSuBKagadW1hq7dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDcup38Q; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1790901534; c=relaxed/simple;
+	bh=IEFozqENVRBuDDcPnpELNpB+lftz7xxNYsuQpQwXYOU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S7ypzQbRKHVhy8fcIYqc0kB1PV0e4vTfRb+7kGdPvlWuqvWa8IMMKpMSv/2Lfalh/ZRZIdKNx4JXeXKKLvr39zA1KcShYmRx554elTxVvq1R2IuSETNQ0OjdsHrdxeKGBKWp2aWn56708HIQDQfjn4IAVCaZsD/3lnF76UnXkWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PV4xGYxs; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDcup38Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PV4xGYxs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790900717; x=1822436717;
+  t=1790901532; x=1822437532;
   h=date:from:to:cc:subject:message-id;
-  bh=RsC8MoNtG/GxTxhfLapQxzKaNuK/jgkZuulUgcTsS4E=;
-  b=kDcup38Q6fT1BcJ3PUjlLdON7ADs6jQo9/sATTMUysVSRrQPPd9JUTWm
-   WnWAs8x/4xofVQVai9WHLLBm8RmMiFbhnUp+DYhKzh7SOctivh4Tvpz6Z
-   VLNlt152rFZLeZ4HnJ6jhk1+crF0OLOOSqCwpgXnLREWom8k3/jtq6hTr
-   QPaea5lVuAAhALP7fN2949t9hpYYbOu5miRttQQKS3YrKbuWg/GferSWC
-   i3D87Oah/eQF5Sh0Gsr5LSfjiOeqSlwlENnjifHAGWHwIHCP8eYaenJ0M
-   BZWVayvviwWzvEErySfsrD17IBalt8rTVORQ13vDVcs9cQPKoUW7F3Pbp
-   Q==;
-X-CSE-ConnectionGUID: Ge+2SdVTTd6PncaJ9nM+Tg==
-X-CSE-MsgGUID: CVZ53K9URce47DhaRwE8dg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90532234"
+  bh=IEFozqENVRBuDDcPnpELNpB+lftz7xxNYsuQpQwXYOU=;
+  b=PV4xGYxsT78y9sO5ItMWNzSIdFLrXf/qR9vHVHu993udeqLZRdkmZg7p
+   r2TpFuu5zcYY6ahAZwcj8m2IJG1JqNzCOp5Bz8N/1EoaN/FJ8MJeVmtBw
+   SHl9fAYOXqDjWemIpxu2gSoQW8cqua9EqxMDYW8RMU70AstOWwXxwLw/6
+   Wy8EMEvn6Y8kFA+s0CTlpER7gCEPUn00/BUt6PCFxJHYo+cZqYfCDY4o5
+   f+32nNl/ixUa1VOgIwimZZYAIEa+XBp/QBGrOoDXQurKcWfdmUm1sv0V/
+   d8VOl+QBuYPJp+zZcqLjAFn2V1QfPtGkmA0958HAd4GO8tK1ShB02wmJs
+   w==;
+X-CSE-ConnectionGUID: bIUbGMjbSo2WXZ+PUtVfcg==
+X-CSE-MsgGUID: XOAmkx9ySj2jmK0i/695Og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="113456991"
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="90532234"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 17:25:06 -0700
-X-CSE-ConnectionGUID: BAJIddFnT1mIoTlrzVXJ/w==
-X-CSE-MsgGUID: 1N4ZU2kIT4W/4bW1tMLxTQ==
+   d="scan'208";a="113456991"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 17:38:52 -0700
+X-CSE-ConnectionGUID: KDr7qxXESdS/xWiXmVYX7w==
+X-CSE-MsgGUID: S73MdFbkTM6J3b/3oJyMRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="302379944"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Oct 2026 17:25:03 -0700
-Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
+   d="scan'208";a="279889388"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 01 Oct 2026 17:38:50 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCR59-000000000J1-1Xle;
-	Fri, 02 Oct 2026 00:24:59 +0000
-Date: Fri, 02 Oct 2026 02:24:32 +0200
+	id 1xCRIW-00000000SY0-10fW;
+	Fri, 02 Oct 2026 00:38:48 +0000
+Date: Fri, 02 Oct 2026 08:38:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:fermata 48/49] mm/bpf_memcontrol.c:175:27:
- sparse: sparse: symbol 'bpf_global_zone_page_state' was not declared. Should
- it be static?
-Message-ID: <202610020219.GhjzXoqR-lkp@intel.com>
+Subject: [dhowells-fs:netfs-next-5 22/29]
+ fs/netfs/write_issue.c:437:25: error: implicit declaration of function
+ 'mempool_alloc'; did you mean 'mm_alloc'?
+Message-ID: <202610020808.zkGjqA2Z-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,85 +60,286 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/kkdwivedi/linux fermata
-head:   babde5051be3840becf5a78de91a0b68a99f0e49
-commit: 65eb663270adcb1d5ae032653a112ca96b2bac72 [48/49] mm/bpf: Add kfuncs for the free page count and memory.high
-config: csky-randconfig-r2300-20261001 (https://download.01.org/0day-ci/archive/20261002/202610020219.GhjzXoqR-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020219.GhjzXoqR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next-5
+head:   5c15345b43019adfd7a82be7f4f190a37dd19310
+commit: f7fd91dc74af6deec31273b2157ba5d0334c031d [22/29] netfs: Build a list of regions undergoing writeback
+config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20261002/202610020808.zkGjqA2Z-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020808.zkGjqA2Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610020219.GhjzXoqR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610020808.zkGjqA2Z-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/bpf_memcontrol.c:25:31: sparse: sparse: symbol 'bpf_get_root_mem_cgroup' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:46:31: sparse: sparse: symbol 'bpf_get_mem_cgroup' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:80:18: sparse: sparse: symbol 'bpf_put_mem_cgroup' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:94:27: sparse: sparse: symbol 'bpf_mem_cgroup_vm_events' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:115:27: sparse: sparse: symbol 'bpf_mem_cgroup_usage' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:127:27: sparse: sparse: symbol 'bpf_mem_cgroup_memory_events' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:145:27: sparse: sparse: symbol 'bpf_mem_cgroup_page_state' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:159:18: sparse: sparse: symbol 'bpf_mem_cgroup_flush_stats' was not declared. Should it be static?
->> mm/bpf_memcontrol.c:175:27: sparse: sparse: symbol 'bpf_global_zone_page_state' was not declared. Should it be static?
->> mm/bpf_memcontrol.c:201:17: sparse: sparse: symbol 'bpf_mem_cgroup_set_high' was not declared. Should it be static?
-   mm/bpf_memcontrol.c:234:18: sparse: sparse: symbol 'bpf_proactive_reclaim' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/bpf_global_zone_page_state +175 mm/bpf_memcontrol.c
+   fs/netfs/write_issue.c: In function 'netfs_write_folio':
+>> fs/netfs/write_issue.c:437:25: error: implicit declaration of function 'mempool_alloc'; did you mean 'mm_alloc'? [-Wimplicit-function-declaration]
+     437 |                 wback = mempool_alloc(&netfs_writeback_pool, wreq->gfp);
+         |                         ^~~~~~~~~~~~~
+         |                         mm_alloc
+   fs/netfs/write_issue.c:437:23: error: assignment to 'struct netfs_writeback *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     437 |                 wback = mempool_alloc(&netfs_writeback_pool, wreq->gfp);
+         |                       ^
 
-   163	
-   164	/**
-   165	 * bpf_global_zone_page_state - Read a system-wide zone page state counter
-   166	 * @item: the counter, for example NR_FREE_PAGES
-   167	 *
-   168	 * Reads the sum of a zone counter over all zones, as /proc/vmstat reports
-   169	 * it. A reclaim policy that keeps a buffer of free memory needs the free
-   170	 * page count, which lives in vm_zone_stat, a plain global variable that the
-   171	 * kernel BTF does not carry.
-   172	 *
-   173	 * Return: the counter value in bytes, or -1 if @item is out of range.
-   174	 */
- > 175	__bpf_kfunc unsigned long bpf_global_zone_page_state(enum zone_stat_item item)
-   176	{
-   177		if (unlikely((unsigned int)item >= NR_VM_ZONE_STAT_ITEMS))
-   178			return (unsigned long)-1;
-   179	
-   180		return global_zone_page_state(item) * PAGE_SIZE;
-   181	}
-   182	
-   183	/**
-   184	 * bpf_mem_cgroup_set_high - Set a memory cgroup's memory.high limit
-   185	 * @memcg: the memory cgroup
-   186	 * @high: the new limit in bytes; a value beyond the counter's range removes
-   187	 *        the limit, as writing "max" to memory.high does
-   188	 *
-   189	 * Sets the limit as a write to memory.high with O_NONBLOCK would: the
-   190	 * counter changes at once and no reclaim happens here. Tasks that charge
-   191	 * the cgroup above the limit reclaim on their way back to user space and
-   192	 * are delayed in proportion to the overage, outside any lock. A proactive
-   193	 * reclaim policy can use this as its backstop when its own reclaim cannot
-   194	 * keep up with a cgroup's allocation rate.
-   195	 *
-   196	 * Only available to BPF_PROG_TYPE_SYSCALL, like bpf_proactive_reclaim().
-   197	 *
-   198	 * Return: 0 on success, or -EINVAL for the root memory cgroup, which has no
-   199	 * memory.high.
-   200	 */
- > 201	__bpf_kfunc int bpf_mem_cgroup_set_high(struct mem_cgroup *memcg, unsigned long high)
-   202	{
-   203		unsigned long nr_pages = high / PAGE_SIZE;
-   204	
-   205		if (mem_cgroup_is_root(memcg))
-   206			return -EINVAL;
-   207		if (nr_pages > PAGE_COUNTER_MAX)
-   208			nr_pages = PAGE_COUNTER_MAX;
-   209	
-   210		page_counter_set_high(&memcg->memory, nr_pages);
-   211		return 0;
-   212	}
-   213	
+
+vim +437 fs/netfs/write_issue.c
+
+   324	
+   325	/*
+   326	 * Write some of a pending folio data back to the server.
+   327	 */
+   328	static int netfs_write_folio(struct netfs_io_request *wreq,
+   329				     struct writeback_control *wbc,
+   330				     struct folio *folio)
+   331	{
+   332		struct netfs_io_stream *upload = &wreq->io_streams[0];
+   333		struct netfs_io_stream *cache  = &wreq->io_streams[1];
+   334		struct netfs_io_stream *stream;
+   335		struct netfs_writeback *wback;
+   336		struct netfs_group *fgroup; /* TODO: Use this with ceph */
+   337		struct netfs_folio *finfo;
+   338		struct bvecq *queue = wreq->load_cursor.bvecq;
+   339		unsigned int slot;
+   340		size_t fsize = folio_size(folio), flen = fsize, foff = 0;
+   341		uoff_t fpos = folio_pos(folio), i_size;
+   342		bool to_eof = false, streamw = false;
+   343		bool debug = false;
+   344	
+   345		_enter("");
+   346	
+   347		if (!wreq->spare) {
+   348			wreq->spare = bvecq_alloc_one(BVECQ_POOL_SLOTS, wreq->gfp, true);
+   349			if (!wreq->spare)
+   350				return -ENOMEM;
+   351		}
+   352	
+   353		/* netfs_perform_write() may shift i_size around the folio or from out
+   354		 * of the folio to beyond it, but cannot move i_size into or through
+   355		 * the folio since we have it locked.
+   356		 *
+   357		 * Truncate could in theory move i_size into or before the folio, but
+   358		 * it should take steps to prevent writeback from happening
+   359		 * concurrently and should wait for any in-progress writebacks before
+   360		 * proceeding.
+   361		 */
+   362		i_size = i_size_read(wreq->inode);
+   363	
+   364		if (fpos >= i_size) {
+   365			/* mmap beyond eof. */
+   366			_debug("beyond eof");
+   367			folio_start_writeback(folio);
+   368			folio_unlock(folio);
+   369			wreq->nr_group_rel += netfs_folio_written_back(folio);
+   370			netfs_put_group_many(wreq->group, wreq->nr_group_rel);
+   371			wreq->nr_group_rel = 0;
+   372			return 0;
+   373		}
+   374	
+   375		if (fpos + fsize > wreq->i_size)
+   376			wreq->i_size = i_size;
+   377	
+   378		fgroup = netfs_folio_group(folio);
+   379		finfo = netfs_folio_info(folio);
+   380		if (finfo) {
+   381			foff = finfo->dirty_offset;
+   382			flen = foff + finfo->dirty_len;
+   383			streamw = true;
+   384		}
+   385	
+   386		if (flen > i_size - fpos) {
+   387			flen = i_size - fpos;
+   388			if (!streamw)
+   389				folio_zero_segment(folio, flen, fsize);
+   390			to_eof = true;
+   391		} else if (flen == i_size - fpos) {
+   392			to_eof = true;
+   393		}
+   394		flen -= foff;
+   395	
+   396		_debug("folio %zx %zx %zx", foff, flen, fsize);
+   397	
+   398		/* Deal with discontinuities in the stream of dirty pages.  These can
+   399		 * arise from a number of sources:
+   400		 *
+   401		 * (1) Intervening non-dirty pages from random-access writes, multiple
+   402		 *     flushers writing back different parts simultaneously and manual
+   403		 *     syncing.
+   404		 *
+   405		 * (2) Partially-written pages from write-streaming.
+   406		 *
+   407		 * (3) Pages that belong to a different write-back group (eg.  Ceph
+   408		 *     snapshots).
+   409		 *
+   410		 * (4) Actually-clean pages that were marked for write to the cache
+   411		 *     when they were read.  Note that these appear as a special
+   412		 *     write-back group.
+   413		 */
+   414		if (fgroup == NETFS_FOLIO_COPY_TO_CACHE) {
+   415			netfs_issue_write(wreq, upload);
+   416		} else if (fgroup != wreq->group) {
+   417			/* We can't write this page to the server yet. */
+   418			kdebug("wrong group");
+   419			folio_redirty_for_writepage(wbc, folio);
+   420			folio_unlock(folio);
+   421			netfs_issue_write(wreq, upload);
+   422			netfs_issue_write(wreq, cache);
+   423			return 0;
+   424		}
+   425	
+   426		if (foff > 0)
+   427			netfs_issue_write(wreq, upload);
+   428		if (streamw)
+   429			netfs_issue_write(wreq, cache);
+   430	
+   431		folio_start_writeback(folio);
+   432		folio_unlock(folio);
+   433	
+   434		/* Keep track of what we will need to unlock. */
+   435		wback = wreq->writebacks_tail;
+   436		if (!wback || fpos != wback->start + wback->len || wback->len > LONG_MAX) {
+ > 437			wback = mempool_alloc(&netfs_writeback_pool, wreq->gfp);
+   438			wback->next = NULL;
+   439			wback->start = fpos;
+   440			wback->len = fsize;
+   441	
+   442			if (wreq->writebacks)
+   443				/* Order write of next after last write of len in old tail. */
+   444				smp_store_release(&wreq->writebacks_tail->next, wback);
+   445			else
+   446				wreq->writebacks = wback;
+   447			wreq->writebacks_tail = wback;
+   448		} else {
+   449			/* Order update of len after setting pointer. */
+   450			smp_store_release(&wback->len, wback->len + fsize);
+   451		}
+   452	 
+   453		if (fgroup == NETFS_FOLIO_COPY_TO_CACHE) {
+   454			if (!cache->avail) {
+   455				trace_netfs_folio(folio, netfs_folio_trace_cancel_copy);
+   456				netfs_issue_write(wreq, upload);
+   457				netfs_folio_written_back(folio);
+   458				return 0;
+   459			}
+   460			trace_netfs_folio(folio, netfs_folio_trace_store_copy);
+   461		} else if (!upload->avail && !cache->avail) {
+   462			trace_netfs_folio(folio, netfs_folio_trace_cancel_store);
+   463			netfs_folio_written_back(folio);
+   464			return 0;
+   465		} else if (!upload->construct) {
+   466			trace_netfs_folio(folio, netfs_folio_trace_store);
+   467		} else {
+   468			trace_netfs_folio(folio, netfs_folio_trace_store_plus);
+   469		}
+   470	
+   471		/* Institute a new bvec queue segment if the current one is full or if
+   472		 * we encounter a discontiguity.  The discontiguity break is important
+   473		 * when it comes to bulk unlocking folios by file range.
+   474		 */
+   475		if (bvecq_is_full(queue) ||
+   476		    (fpos != wreq->last_end && wreq->last_end > 0)) {
+   477			bvecq_buffer_append(&wreq->load_cursor, wreq->spare);
+   478			wreq->spare = NULL;
+   479	
+   480			queue = wreq->load_cursor.bvecq;
+   481			bvecq_pos_move(&wreq->dispatch_cursor, queue);
+   482			wreq->dispatch_cursor.slot = 0;
+   483		}
+   484	
+   485		/* Attach the folio to the rolling buffer. */
+   486		slot = queue->nr_slots;
+   487		bvec_set_folio(&queue->bv[slot], folio, fsize, 0);
+   488		trace_netfs_bv_slot(queue, slot);
+   489		slot++;
+   490		bvecq_filled_to(queue, slot);
+   491		wreq->load_cursor.slot = slot;
+   492		wreq->load_cursor.offset = 0;
+   493		wreq->last_end = fpos + fsize;
+   494	
+   495		/* Move the submission point forward to allow for write-streaming data
+   496		 * not starting at the front of the page.  We don't do write-streaming
+   497		 * with the cache as the cache requires DIO alignment.
+   498		 *
+   499		 * Also skip uploading for data that's been read and just needs copying
+   500		 * to the cache.
+   501		 */
+   502		bvecq_pos_nudge(&wreq->dispatch_cursor);
+   503	
+   504		for (int s = 0; s < NR_IO_STREAMS; s++) {
+   505			size_t soff = foff, slen = flen, alignment = 1;
+   506	
+   507			stream = &wreq->io_streams[s];
+   508			if (stream->source == NETFS_WRITE_TO_CACHE)
+   509				alignment = wreq->cache_resources.dio_size;
+   510			stream = &wreq->io_streams[s];
+   511			stream->submit_off = round_down(soff, alignment);
+   512			slen += foff - stream->submit_off;
+   513			stream->submit_len = round_up(slen, alignment);
+   514	
+   515			if (!stream->avail ||
+   516			    (stream->source == NETFS_WRITE_TO_CACHE && streamw) ||
+   517			    (stream->source == NETFS_UPLOAD_TO_SERVER &&
+   518			     fgroup == NETFS_FOLIO_COPY_TO_CACHE)) {
+   519				stream->submit_off = UINT_MAX;
+   520				stream->submit_len = 0;
+   521			}
+   522		}
+   523	
+   524		/* Attach the folio to one or more subrequests.  For a big folio, we
+   525		 * could end up with thousands of subrequests if the wsize is small -
+   526		 * but we might need to wait during the creation of subrequests for
+   527		 * network resources (eg. SMB credits).
+   528		 */
+   529		for (;;) {
+   530			ssize_t part;
+   531			size_t lowest_off = ULONG_MAX;
+   532			int choose_s = -1;
+   533	
+   534			/* Always add to the lowest-submitted stream first. */
+   535			for (int s = 0; s < NR_IO_STREAMS; s++) {
+   536				stream = &wreq->io_streams[s];
+   537				if (stream->submit_len > 0 &&
+   538				    stream->submit_off < lowest_off) {
+   539					lowest_off = stream->submit_off;
+   540					choose_s = s;
+   541				}
+   542			}
+   543	
+   544			if (choose_s < 0)
+   545				break;
+   546			stream = &wreq->io_streams[choose_s];
+   547	
+   548			/* Advance the cursor. */
+   549			wreq->dispatch_cursor.offset = stream->submit_off;
+   550	
+   551			atomic64_set(&wreq->issued_to, fpos + stream->submit_off);
+   552			part = netfs_advance_write(wreq, stream, fpos + stream->submit_off,
+   553						   stream->submit_len, to_eof);
+   554			stream->submit_off += part;
+   555			if (part > stream->submit_len)
+   556				stream->submit_len = 0;
+   557			else
+   558				stream->submit_len -= part;
+   559			if (part > 0)
+   560				debug = true;
+   561		}
+   562	
+   563		bvecq_pos_step(&wreq->dispatch_cursor);
+   564		/* Order loading the queue before updating the issue_to point */
+   565		atomic64_set_release(&wreq->issued_to, fpos + fsize);
+   566	
+   567		if (!debug)
+   568			kdebug("R=%x: No submit", wreq->debug_id);
+   569	
+   570		if (foff + flen < fsize)
+   571			for (int s = 0; s < NR_IO_STREAMS; s++)
+   572				netfs_issue_write(wreq, &wreq->io_streams[s]);
+   573	
+   574		_leave(" = 0");
+   575		return 0;
+   576	}
+   577	
 
 --
 0-DAY CI Kernel Test Service
