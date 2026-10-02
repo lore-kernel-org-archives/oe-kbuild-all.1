@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC609209F43
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 04:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6A12E7372;
+	Fri,  2 Oct 2026 04:17:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790914673; cv=none; b=AVlXvX0nAe+zAIq3FSf/KSiS0zhUgVsduwgPRt/7fjCkitrpQaoThRmkfXrH+yrtxnQZ8U1j4/lDKRpSdeFjp7bG38MiVJRTITWeaK/rJSDrkvRDToTS5qaIOI4qfhbL1bxigUKWR3yUwkDmfT3y7zeL7XR8PMPbjBjvaa4JdK0=
+	t=1790914675; cv=none; b=tX53c+kVOiwLwbJL2fMtrmGmSCcHpKI5kHOiqe0yPBKygfdr5llgJJsdc8igoYDi5O6j96ESgz55tSF5sipy2D8eiufC+894UPVjMHgIjo8VUK6BL0MPVT7MXwc6fQRlPt87/VHnz+K8cU7Q4PHy3DTQJPIdjMtDEPD5pGcQMK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790914673; c=relaxed/simple;
-	bh=vnFYv77cWNSDsh1K4Wz99VuCNhaaJH7hoMtGwdvgCrI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=o63pM3Hv6PtZhSRH9cNiegYS2aeFylw0v+c7aH3jVIn1XHDMhU5g/QpcPjPiDNeNBVZlg9HgvgQIHENWSP2jXQ5nVzsg8/9y9NnSC51w/EzytBN134U1KxVjdD+wZYQ56CJmWxwlZ6p9SQ2rsUtDoOG5btC2llXptxjwwTnZHNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqasS4H3; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1790914675; c=relaxed/simple;
+	bh=c/lAI9wlRcUeB0dGTkZrXB811Mc44bCRa3YpHtZnnVA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=U/IQpnk97m7WVRJKQY08Z8pg3rpHOMg6XUKVLxJAL1jocyWRIDEPCoZTOpkvP0Pq+2HU2grzDGfGZPvjU71zaD2vOi9uoHfcqoFHxWT00SKG29Rm7L33I/nkMAgsy9kUBpnylGLpvHPhADxOjR+PEJ0ZDlteMSjYLUsV78Mnfz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrkRq3XK; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqasS4H3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrkRq3XK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790914671; x=1822450671;
+  t=1790914673; x=1822450673;
   h=date:from:to:cc:subject:message-id;
-  bh=vnFYv77cWNSDsh1K4Wz99VuCNhaaJH7hoMtGwdvgCrI=;
-  b=fqasS4H3QSmWa9/sxlgjC5U2eKNjuCn68lc7lNImLnrkMXITP2+dTYFL
-   k9ANSMZwtJBbEeTEvQJLwQtJaIiS8xmsynzuOEtDs4igrxzouUJvuceWH
-   j7tikW5GCx57lE2yxRf9hwkkvg/k5xqIYJABfMqORqz5xOVPJXyC1YqJT
-   VwG+7N6AyQ2wbNgqN3/AuAyNGuVcH/dia4HCakBOmLpRnMJ/bsYYXLPaL
-   t/dJrkOo80KDKMWhhYxPhN9JNyjzX2dXlu8KlDoot1Sp/7o3AlZa5zrz7
-   yb3vlnktiPxWh1HXAJoxus81qMAUW/WXrPWOjStSr07Wswc7mFsgCqWqX
-   Q==;
-X-CSE-ConnectionGUID: PVQV+j0JT7yPgn/5vpQJVg==
-X-CSE-MsgGUID: vVTvqyleQtCD9X127wWE9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94167810"
+  bh=c/lAI9wlRcUeB0dGTkZrXB811Mc44bCRa3YpHtZnnVA=;
+  b=VrkRq3XKKYFddESUDvK3v3VYRD/DzU4EK3wKmtvM8s9WKmr+hSUKGbB1
+   We1cSxv6FRNbn59d31TAARAgj3EmnktPxq+NYaX0LczQ2ejHqVp6+mCT2
+   0KBlMrvZxQSODFCCif0vT98X4BR3lD6nu/30lfX1wTEieeVhLxkc2LbHr
+   To0r1rp+D2s54VdTwgAsaTEquAf3H1GnrCwkMgxv1Huoho+dsx5JbHTRt
+   qjwecfHYU6DQPrJPxlCgG7dUcmtQjbDS9mkRWEt7neT8tr3D7e1G8reF0
+   JZ5zzVUjgr2Htr/cun1oTUHUHZ+kUMvOSJoN14WH5J/6pEeYycsfT2Hw9
+   w==;
+X-CSE-ConnectionGUID: 3h+LNoVdRA+1Lzy0BXaGUg==
+X-CSE-MsgGUID: Bc9y6tafSm6hXLDnXLHljg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94167811"
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="94167810"
+   d="scan'208";a="94167811"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 21:17:50 -0700
-X-CSE-ConnectionGUID: /rY4bhQkRKGillMHFjehgA==
-X-CSE-MsgGUID: yaeNzHo3R720azXD1Z43pg==
+X-CSE-ConnectionGUID: T3OH3OgCRUGdnghnNvll2w==
+X-CSE-MsgGUID: UrAFK42HSVqwRr3ZYQ5/Qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="279462403"
+   d="scan'208";a="279462405"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
   by orviesa004.jf.intel.com with ESMTP; 01 Oct 2026 21:17:49 -0700
 Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCUiQ-000000000P7-2Ptm;
+	id 1xCUiQ-000000000P5-2Bjx;
 	Fri, 02 Oct 2026 04:17:46 +0000
-Date: Fri, 02 Oct 2026 06:17:17 +0200
+Date: Fri, 02 Oct 2026 06:17:19 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>
-Subject: [linux-next:master 11523/13246]
- arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: stmpe811@44 (st,stmpe811):
- 'irq-gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202610020609.Ja1CECqV-lkp@intel.com>
+To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_acpi_support_v1 60/87]
+ arch/riscv/kernel/process.c:207:2: error: call to undeclared function
+ 'flush_ptrace_hw_breakpoint'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202610020620.pgRcphRg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,28 +62,55 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9f24d789f03b22941b905ded43cb5ff8eea9ce62
-commit: f05cb3d259d3fb9f811cb9b14591ab08e9e7a182 [11523/13246] ARM: dts: imx: remove undocument properties of st,stmpe*
-config: arm-randconfig-2403-20260930 (https://download.01.org/0day-ci/archive/20261002/202610020609.Ja1CECqV-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020609.Ja1CECqV-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
+head:   dc5b9586f90cc15314085bdaa74661fc00d1688f
+commit: 2aa069bfc965618a567482f16f10c8098c358d01 [60/87] riscv: ptrace support for hardware break/watchpoints
+config: riscv-randconfig-2001-20261002 (https://download.01.org/0day-ci/archive/20261002/202610020620.pgRcphRg-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020620.pgRcphRg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610020609.Ja1CECqV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610020620.pgRcphRg-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dts:230.7-249.4: Warning (avoid_unnecessary_addr_size): /soc/bus@2100000/ethernet@2188000/mdio: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:936.28-944.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: ethernet@2188000 (fsl,imx6q-fec): mdio: Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,fec.yaml
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: ethernet-phy (ethernet-phy-ieee802.3-c22): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
->> arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: stmpe811@44 (st,stmpe811): 'irq-gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml
+All errors (new ones prefixed by >>):
+
+>> arch/riscv/kernel/process.c:207:2: error: call to undeclared function 'flush_ptrace_hw_breakpoint'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     207 |         flush_ptrace_hw_breakpoint(current);
+         |         ^
+   1 error generated.
+
+
+vim +/flush_ptrace_hw_breakpoint +207 arch/riscv/kernel/process.c
+
+   183	
+   184	void flush_thread(void)
+   185	{
+   186	#ifdef CONFIG_FPU
+   187		/*
+   188		 * Reset FPU state and context
+   189		 *	frm: round to nearest, ties to even (IEEE default)
+   190		 *	fflags: accrued exceptions cleared
+   191		 */
+   192		fstate_off(current, task_pt_regs(current));
+   193		memset(&current->thread.fstate, 0, sizeof(current->thread.fstate));
+   194	#endif
+   195	#ifdef CONFIG_RISCV_ISA_V
+   196		/* Reset vector state */
+   197		riscv_v_vstate_ctrl_init(current);
+   198		riscv_v_vstate_off(task_pt_regs(current));
+   199		kfree(current->thread.vstate.datap);
+   200		memset(&current->thread.vstate, 0, sizeof(struct __riscv_v_ext_state));
+   201		clear_tsk_thread_flag(current, TIF_RISCV_V_DEFER_RESTORE);
+   202	#endif
+   203	#ifdef CONFIG_RISCV_ISA_SUPM
+   204		if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM))
+   205			envcfg_update_bits(current, ENVCFG_PMM, ENVCFG_PMM_PMLEN_0);
+   206	#endif
+ > 207		flush_ptrace_hw_breakpoint(current);
+   208	}
+   209	
 
 --
 0-DAY CI Kernel Test Service
