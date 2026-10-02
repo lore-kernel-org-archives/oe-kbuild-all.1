@@ -1,132 +1,216 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6290B470EB1;
-	Fri,  2 Oct 2026 13:41:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FA84A9D5D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 13:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790948473; cv=none; b=niw7WXYtmfj5LaKN3XDnbwxtxh3GsQC/ROrAiJzN3sCTaP7zLWhFOUJaCq1tyHwoRJfoLZYAewvIzqmxGlou83P5DJm1EzQwZnVU0sqkDvpGL6y68KUF410C2k3l8XqBv4LL7G+6k1bRaj22tjap+xexRcmEfTM/B7l8J+/dm18=
+	t=1790948476; cv=none; b=CZ9w+XxeW3n5AAbXhAo9CHjFKiJ7r7SwHavHnHdloQtPPtSbhxBkaUdtTo8yMcYAXiz+cYzorhNQRlf7PH5I11Ly7257tulvedZ66GItPFRYbKyq88XphFN5/rxuNVGSZRcXbL5QhjNBzHhccv+o3H0pmTJcAuYQHQvX/R+rODE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790948473; c=relaxed/simple;
-	bh=/xDkvlh5pUUk66Tu4SclvOxqA0SlPbhGAdFW0Qiiv9w=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qzly1Ui/G6A6x+Rw3ILDMIk20jMoBPG7LKKGkDoaZ0OUkJ+0s2H0brSXAmIo5UtwVkKywYWbp5j+iimMbVGg1YndxOhkmsLVB0zYpJBDqk8WuLFqnwEL5iaJLEIjJEkdUksqfDOLB9LYR+XO59tGgMMG8J/4rHVo4m2NhvWknIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=chhPuW+i; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1790948476; c=relaxed/simple;
+	bh=YGyeXgOvl9ir0N6O9nJi6v5upqcm7YTPQ32VFCr2hvM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qDQpwZEg8WjYwLe6ll/AhX2oop7shWezLDXkjZEAKqc7D+r38nhUQ+wWix5p6VdBsWvxatojN97leGNwkI13yDpZ4nAA3BqCQ7JnBYZzaRDgPM10+nbVp56WswfiGYKLQb5sOkRTYd6tdGUrMm5d5hzWB4WSf//VfZnohI/SMDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i741UrIQ; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="chhPuW+i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i741UrIQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790948470; x=1822484470;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=/xDkvlh5pUUk66Tu4SclvOxqA0SlPbhGAdFW0Qiiv9w=;
-  b=chhPuW+iN5gKqtpkxCfG5PDcHS+npTqtQBknKIkNLVyFrB+Ua2NX4q+F
-   xg8H+Okn6QrTO/23FNKWbnF8msC9r6/cBPoW9kv9W/8ynmHsTutOFD/Od
-   C4vF9OkYM66wsdB4J9APNXeeB4uIugJeLOp1lbr3fjaU572ZYCe3BzSAo
-   0iH6QRM3sSSmodizuhqE62YxUYLBfxcdxhns8jtzpkdrIBo2BBp3pJ9Iu
-   FzMYrcvlPqk8BIABOBdYX+DK/9gB7V+E0q21ymj8a5mNUk/FnbrUuNmzD
-   VltU/XDDbJAwbohpxlAWIGiMyOXk9Xor6+Me2cUSXlL+ifBhuJgRkk2s1
-   Q==;
-X-CSE-ConnectionGUID: RldwDYuTQlK3/lvu6/YYGA==
-X-CSE-MsgGUID: otqujt4UQkOQ2nPiMuJExw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="102235827"
+  t=1790948474; x=1822484474;
+  h=date:from:to:cc:subject:message-id;
+  bh=YGyeXgOvl9ir0N6O9nJi6v5upqcm7YTPQ32VFCr2hvM=;
+  b=i741UrIQ4Ho62yW11Vx2rdL4WCD/iabWq/oIueYGKdDqntZegYREXXIU
+   aTsIvpBpDzCF3LpqEa0kAkB0YSUhTC+DQpz4JncTNzuEenpushuJMOtex
+   Pbbn0UQyW7U9rdBObXuXOxBC+RaPL/oHNcDkTyTIL53NE4NH7g7gee4cN
+   scT6sxxjXP8BatlKvoksVZCvEzjAfL0tUhYWIjFvFIwZABXW43QXVfimD
+   ZQlLl0LNrAwIa1TBGqnwxaozNCVJJKbeG7kcWgndznGjw5klojLpHMiLM
+   t5EHQSK1wrPNIrjB3AiutTObyZpNFxnOCVCwtQoDpQOvkKBjoYPfZ1bkC
+   A==;
+X-CSE-ConnectionGUID: HZ7piQYaS/GEg/h2YX0vvA==
+X-CSE-MsgGUID: U0SvbahaSAiIE0h/W85NvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="102235828"
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="102235827"
+   d="scan'208";a="102235828"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 06:41:09 -0700
-X-CSE-ConnectionGUID: dHoA7//bSxKUJ14v1yFTZg==
-X-CSE-MsgGUID: MwAFSdB+SqOAZ6+UTyuCMw==
+X-CSE-ConnectionGUID: CIMYaN/ESfeIC32vYmbecQ==
+X-CSE-MsgGUID: 2/5qHzyTSWa6KJNC31ifLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="274341163"
+   d="scan'208";a="274341166"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 02 Oct 2026 06:41:08 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCdVZ-00000000T5p-3qCf;
+	id 1xCdVZ-00000000T5r-47E8;
 	Fri, 02 Oct 2026 13:41:05 +0000
-Date: Fri, 2 Oct 2026 21:40:13 +0800
+Date: Fri, 02 Oct 2026 21:40:12 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: staging: greybus: audio: Fix no terminating newline in sysfs emit
-Message-ID: <202610022114.wXqBfrwZ-lkp@intel.com>
-References: <202610022114.wXqBfrwZ-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2026-09 1/1]
+ include/linux/slab.h:903:2: warning: cast to pointer from integer of
+ different size
+Message-ID: <202610022139.YlosHCVT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202610022114.wXqBfrwZ-lkp@intel.com>
 
-Hi Raiden,
-
-kernel test robot noticed the following build errors:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raiden-Horner/staging-greybus-audio-Fix-no-terminating-newline-in-sysfs-emit/20261001-111458
-base:   
-patch link:    https://lore.kernel.org/r/202610022114.wXqBfrwZ-lkp%40intel.com
-config: x86_64-randconfig-1006-20261002 (https://download.01.org/0day-ci/archive/20261002/202610022114.wXqBfrwZ-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610022114.wXqBfrwZ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-09
+head:   db9bd6c18b8007e430fb3e44723a93859aebee68
+commit: 89ffa47ebb4b594af723bd02370a212dbac525bf [1/1] UPSTREAM: fscrypt: Replace mk_users keyring with simple list
+config: arm64-randconfig-1002-20261002 (https://download.01.org/0day-ci/archive/20261002/202610022139.YlosHCVT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610022139.YlosHCVT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610022114.wXqBfrwZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610022139.YlosHCVT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/staging/greybus/audio_manager_module.c:180:46: error: passing 'char *const[7]' to parameter of type 'char **' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     180 |         kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
-         |                                                     ^~~~
-   include/linux/kobject.h:283:10: note: passing argument to parameter 'envp' here
-     283 |                         char *envp[]);
-         |                               ^
-   1 error generated.
+   fs/crypto/keyring.c: In function 'add_master_key_user':
+   include/linux/gfp.h:17:52: error: implicit declaration of function '__VA_OPT__'; did you mean '__CHAR_BIT__'? [-Werror=implicit-function-declaration]
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                                                       ^
+   include/linux/alloc_tag.h:227:9: note: in definition of macro 'alloc_hooks_tag'
+     typeof(_do_alloc) _res;      \
+            ^~~~~~~~~
+   include/linux/slab.h:1119:25: note: in expansion of macro 'alloc_hooks'
+    #define kzalloc(...)    alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+                            ^~~~~~~~~~~
+   include/linux/slab.h:903:10: note: in expansion of macro 'kzalloc'
+     (TYPE *)KMALLOC(__obj_size, GFP);    \
+             ^~~~~~~
+   include/linux/slab.h:967:2: note: in expansion of macro '__alloc_objs'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+     ^~~~~~~~~~~~
+   include/linux/gfp.h:17:26: note: in expansion of macro '__default_gfp'
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                             ^~~~~~~~~~~~~
+   include/linux/slab.h:967:24: note: in expansion of macro 'default_gfp'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+                           ^~~~~~~~~~~
+   fs/crypto/keyring.c:359:12: note: in expansion of macro 'kzalloc_obj'
+     mk_user = kzalloc_obj(*mk_user);
+               ^~~~~~~~~~~
+   include/linux/gfp.h:17:63: error: expected expression before ',' token
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                                                                  ^
+   include/linux/alloc_tag.h:227:9: note: in definition of macro 'alloc_hooks_tag'
+     typeof(_do_alloc) _res;      \
+            ^~~~~~~~~
+   include/linux/slab.h:1119:25: note: in expansion of macro 'alloc_hooks'
+    #define kzalloc(...)    alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+                            ^~~~~~~~~~~
+   include/linux/slab.h:903:10: note: in expansion of macro 'kzalloc'
+     (TYPE *)KMALLOC(__obj_size, GFP);    \
+             ^~~~~~~
+   include/linux/slab.h:967:2: note: in expansion of macro '__alloc_objs'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+     ^~~~~~~~~~~~
+   include/linux/gfp.h:17:26: note: in expansion of macro '__default_gfp'
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                             ^~~~~~~~~~~~~
+   include/linux/slab.h:967:24: note: in expansion of macro 'default_gfp'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+                           ^~~~~~~~~~~
+   fs/crypto/keyring.c:359:12: note: in expansion of macro 'kzalloc_obj'
+     mk_user = kzalloc_obj(*mk_user);
+               ^~~~~~~~~~~
+   include/linux/gfp.h:17:63: error: expected expression before ',' token
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                                                                  ^
+   include/linux/alloc_tag.h:231:10: note: in definition of macro 'alloc_hooks_tag'
+      _res = _do_alloc;     \
+             ^~~~~~~~~
+   include/linux/slab.h:1119:25: note: in expansion of macro 'alloc_hooks'
+    #define kzalloc(...)    alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+                            ^~~~~~~~~~~
+   include/linux/slab.h:903:10: note: in expansion of macro 'kzalloc'
+     (TYPE *)KMALLOC(__obj_size, GFP);    \
+             ^~~~~~~
+   include/linux/slab.h:967:2: note: in expansion of macro '__alloc_objs'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+     ^~~~~~~~~~~~
+   include/linux/gfp.h:17:26: note: in expansion of macro '__default_gfp'
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                             ^~~~~~~~~~~~~
+   include/linux/slab.h:967:24: note: in expansion of macro 'default_gfp'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+                           ^~~~~~~~~~~
+   fs/crypto/keyring.c:359:12: note: in expansion of macro 'kzalloc_obj'
+     mk_user = kzalloc_obj(*mk_user);
+               ^~~~~~~~~~~
+   include/linux/gfp.h:17:63: error: expected expression before ',' token
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                                                                  ^
+   include/linux/alloc_tag.h:234:10: note: in definition of macro 'alloc_hooks_tag'
+      _res = _do_alloc;     \
+             ^~~~~~~~~
+   include/linux/slab.h:1119:25: note: in expansion of macro 'alloc_hooks'
+    #define kzalloc(...)    alloc_hooks(kzalloc_noprof(__VA_ARGS__))
+                            ^~~~~~~~~~~
+   include/linux/slab.h:903:10: note: in expansion of macro 'kzalloc'
+     (TYPE *)KMALLOC(__obj_size, GFP);    \
+             ^~~~~~~
+   include/linux/slab.h:967:2: note: in expansion of macro '__alloc_objs'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+     ^~~~~~~~~~~~
+   include/linux/gfp.h:17:26: note: in expansion of macro '__default_gfp'
+    #define default_gfp(...) __default_gfp(__VA_ARGS__ __VA_OPT__(,) GFP_KERNEL)
+                             ^~~~~~~~~~~~~
+   include/linux/slab.h:967:24: note: in expansion of macro 'default_gfp'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+                           ^~~~~~~~~~~
+   fs/crypto/keyring.c:359:12: note: in expansion of macro 'kzalloc_obj'
+     mk_user = kzalloc_obj(*mk_user);
+               ^~~~~~~~~~~
+   In file included from include/linux/crypto.h:17:0,
+                    from include/crypto/skcipher.h:13,
+                    from fs/crypto/keyring.c:22:
+>> include/linux/slab.h:903:2: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     (TYPE *)KMALLOC(__obj_size, GFP);    \
+     ^
+   include/linux/slab.h:967:2: note: in expansion of macro '__alloc_objs'
+     __alloc_objs(kzalloc, default_gfp(__VA_ARGS__), typeof(P), 1)
+     ^~~~~~~~~~~~
+   fs/crypto/keyring.c:359:12: note: in expansion of macro 'kzalloc_obj'
+     mk_user = kzalloc_obj(*mk_user);
+               ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +180 drivers/staging/greybus/audio_manager_module.c
+vim +903 include/linux/slab.h
 
-8db00736d365b7 Svetlin Ankov    2016-01-13  151  
-8db00736d365b7 Svetlin Ankov    2016-01-13  152  static void send_add_uevent(struct gb_audio_manager_module *module)
-8db00736d365b7 Svetlin Ankov    2016-01-13  153  {
-8db00736d365b7 Svetlin Ankov    2016-01-13  154  	char name_string[128];
-8db00736d365b7 Svetlin Ankov    2016-01-13  155  	char vid_string[64];
-8db00736d365b7 Svetlin Ankov    2016-01-13  156  	char pid_string[64];
-d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  157  	char intf_id_string[64];
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  158  	char ip_devices_string[64];
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  159  	char op_devices_string[64];
-8db00736d365b7 Svetlin Ankov    2016-01-13  160  
-757f49b7d08da4 Raiden Horner    2026-10-01  161  	char * const envp[] = {
-8db00736d365b7 Svetlin Ankov    2016-01-13  162  		name_string,
-8db00736d365b7 Svetlin Ankov    2016-01-13  163  		vid_string,
-8db00736d365b7 Svetlin Ankov    2016-01-13  164  		pid_string,
-d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  165  		intf_id_string,
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  166  		ip_devices_string,
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  167  		op_devices_string,
-8db00736d365b7 Svetlin Ankov    2016-01-13  168  		NULL
-8db00736d365b7 Svetlin Ankov    2016-01-13  169  	};
-8db00736d365b7 Svetlin Ankov    2016-01-13  170  
-8db00736d365b7 Svetlin Ankov    2016-01-13  171  	snprintf(name_string, 128, "NAME=%s", module->desc.name);
-8db00736d365b7 Svetlin Ankov    2016-01-13  172  	snprintf(vid_string, 64, "VID=%d", module->desc.vid);
-8db00736d365b7 Svetlin Ankov    2016-01-13  173  	snprintf(pid_string, 64, "PID=%d", module->desc.pid);
-d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  174  	snprintf(intf_id_string, 64, "INTF_ID=%d", module->desc.intf_id);
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  175  	snprintf(ip_devices_string, 64, "I/P DEVICES=0x%X",
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  176  		 module->desc.ip_devices);
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  177  	snprintf(op_devices_string, 64, "O/P DEVICES=0x%X",
-a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  178  		 module->desc.op_devices);
-8db00736d365b7 Svetlin Ankov    2016-01-13  179  
-8db00736d365b7 Svetlin Ankov    2016-01-13 @180  	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
-8db00736d365b7 Svetlin Ankov    2016-01-13  181  }
-8db00736d365b7 Svetlin Ankov    2016-01-13  182  
+ce6a50263d4dde Christoph Lameter 2013-01-10  889  
+ac46cdb098c8c6 Kees Cook         2026-07-16  890  /**
+ac46cdb098c8c6 Kees Cook         2026-07-16  891   * __alloc_objs - Allocate objects of a given type using
+ac46cdb098c8c6 Kees Cook         2026-07-16  892   * @KMALLOC: which size-based kmalloc wrapper to allocate with.
+ac46cdb098c8c6 Kees Cook         2026-07-16  893   * @GFP: GFP flags for the allocation.
+ac46cdb098c8c6 Kees Cook         2026-07-16  894   * @TYPE: type to allocate space for.
+ac46cdb098c8c6 Kees Cook         2026-07-16  895   * @COUNT: how many @TYPE objects to allocate.
+ac46cdb098c8c6 Kees Cook         2026-07-16  896   *
+ac46cdb098c8c6 Kees Cook         2026-07-16  897   * Returns: Newly allocated pointer to (first) @TYPE of @COUNT-many
+ac46cdb098c8c6 Kees Cook         2026-07-16  898   * allocated @TYPE objects, or NULL on failure.
+ac46cdb098c8c6 Kees Cook         2026-07-16  899   */
+ac46cdb098c8c6 Kees Cook         2026-07-16  900  #define __alloc_objs(KMALLOC, GFP, TYPE, COUNT)				\
+ac46cdb098c8c6 Kees Cook         2026-07-16  901  ({									\
+ac46cdb098c8c6 Kees Cook         2026-07-16  902  	const size_t __obj_size = size_mul(sizeof(TYPE), COUNT);	\
+ac46cdb098c8c6 Kees Cook         2026-07-16 @903  	(TYPE *)KMALLOC(__obj_size, GFP);				\
+ac46cdb098c8c6 Kees Cook         2026-07-16  904  })
+ac46cdb098c8c6 Kees Cook         2026-07-16  905  
+
+:::::: The code at line 903 was first introduced by commit
+:::::: ac46cdb098c8c6a0a81e9f9d5714a30c811993a1 UPSTREAM: slab: Introduce kmalloc_obj() and family
+
+:::::: TO: Kees Cook <kees@kernel.org>
+:::::: CC: Carlos Llamas <cmllamas@google.com>
 
 --
 0-DAY CI Kernel Test Service
