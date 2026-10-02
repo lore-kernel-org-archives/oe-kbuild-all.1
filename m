@@ -1,181 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B321834D4F9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 05:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3632E3A5456
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 05:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790917819; cv=none; b=e/qfd501HjolKFiBw2Cy/ybPdoJeFw77ZfkO5XWlRxywlxjEUzy7Br4qmmnwmmMZD1QxxZyRfbg8iHFDrOgQJLcsqEAYbD9gypHF3bEz3tofm4wpPZJ42Q02glU2FNBlYPA+TbYRGWQRSu8UlRNU2U2+eVZH3ECEpm4k+QUA6GE=
+	t=1790919420; cv=none; b=sJCa2Q0KrbGalGZd5A9mnwxiQEo9b35qRseN8lZdgVIunDlehyGZnNRyYzKzWcAg2DhMsH6VAVP9Jq86IPppXAftjteVLV/VJxbkqN3TgsC4oVeM/NgneGXmMErzO76dLPqePAiRZtpTfK9w/0aJKhODkm2Kl+VBqG2IyGOBHDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790917819; c=relaxed/simple;
-	bh=gBUrbxfCkS2/Y5GoOH6hIJLqou9C29PgqmWSWhOtEto=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r4ZwP+gOaFc6C0SezNPV/piPXfmknEo4QVwZPPly5J6KY3e4kICRTe4zf/vW9teDUMwtML4RFN6CWZK78NZJCVLUxQBLDPJPKUiJWRoFstLp8/dxjsoVxb6wt22CcOefrWXNVglYyjEpzIQBix4aZq2y24CcZDz5r9nYPWA2+8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YeryzKNh; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790919420; c=relaxed/simple;
+	bh=FFS426rM6iDViDm4tEF1/CLNsK8sgyoqOl/lycTuKKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KqZKEREgxbWpPvTblTRYx+sGavG5+ImeXXVwXu2pYKTntElVDifHu3Tu8JKGiCQ4fWkULT5dh1KJMD5GxNLNqeD3QvVaGiLXlxzbOo1QD5hc5IIrD/J8C+75kgfsQxScmqbnelUkPCqqZkQeS9JKkm07xBGYvsBhZ8RAQ8q+2xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Yt/QrV9T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YeryzKNh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790917818; x=1822453818;
-  h=date:from:to:cc:subject:message-id;
-  bh=gBUrbxfCkS2/Y5GoOH6hIJLqou9C29PgqmWSWhOtEto=;
-  b=YeryzKNhZr8jJ8IzSfUCYB5k9LJqruONwmJasLbiHgAm+vYyDr0HulB8
-   dmjohFI19zXC74fD5PnF2fWDYhdzc5OBSNynyKSDdhXWQJnpcVLRSS1Qu
-   g5Tga0cHDkY8dHRzKgAqYiM7VD+gQ0cNj/Qsozc6xsJ6XAMjHG7lnncNJ
-   uGcoGrmLwvkF6Dsj4hy1IY43x6bs8Sal9t8FLcnXPEWGTCvksmpq3cLK8
-   w+EGZoRiz3fyyB9zMh19AEffzOA+WmKoVrkXgu5VpztNyj2YtQpznvOfY
-   AkmQ0dMUjiE/7VWFds44eGJxY9PFAZ+oZkEjjCmtgaUS48PG2MtCL4DHn
-   Q==;
-X-CSE-ConnectionGUID: UbczN4SoRgGjMDhrVuXixg==
-X-CSE-MsgGUID: syNapJthR7OhuUQdwnMCLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="102208122"
-X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="scan'208";a="102208122"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 22:10:17 -0700
-X-CSE-ConnectionGUID: k1j9Y4AMTLuaWuyhRRtI6w==
-X-CSE-MsgGUID: eFcx6OAyRduCPtQ9phqKHQ==
-X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 01 Oct 2026 22:10:15 -0700
-Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xCVXB-000000000Pv-1TDZ;
-	Fri, 02 Oct 2026 05:10:13 +0000
-Date: Fri, 02 Oct 2026 07:09:40 +0200
-From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:fermata 28/49] kernel/bpf/waitq.c:399:17: error:
- implicit declaration of function 'cgroup_put'; did you mean 'cgroup_init'?
-Message-ID: <202610020711.pgNOf135-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Yt/QrV9T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCD01F000FF;
+	Fri,  2 Oct 2026 05:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790919417;
+	bh=kbNvNlpHgf4vVaqbUI6QYRQ7b9FNb271W7g4dYHRRFg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Yt/QrV9TMCiBxFOjRXNsOPwVbDokPeVaJH1U0bNm/HtgrLooegdyODbcd0nFAfrOy
+	 LYZVs9Cce8kpi42instybzDtKLmi9baruIQHFVLjNqTQIwUn6D8d/z2HDFuD+gZG+S
+	 33uD2TAE7iK1du9QHnHodEhjlQi6PARNglCX/sHA=
+Date: Fri, 2 Oct 2026 07:36:50 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alex Elder <elder@riscstar.com>
+Cc: kernel test robot <lkp@intel.com>, Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Daniel Thompson <daniel@riscstar.com>
+Subject: Re: [char-misc:char-misc-testing 19/37] kismet: WARNING: unmet
+ direct dependencies detected for PCI_DYNAMIC_OF_NODES when selected by
+ TC9564_PCI
+Message-ID: <2026100222-open-roulette-a782@gregkh>
+References: <202610020124.ieOiopjQ-lkp@intel.com>
+ <360cd521-5abc-49df-986e-cfe9be73a37c@riscstar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <360cd521-5abc-49df-986e-cfe9be73a37c@riscstar.com>
 
-tree:   https://github.com/kkdwivedi/linux fermata
-head:   babde5051be3840becf5a78de91a0b68a99f0e49
-commit: d04d9b8149bf42d0f94328586f8e0ee93ed43738 [28/49] bpf: Support cgroup placement for BPF kthreads
-config: csky-randconfig-r2107-20261001 (https://download.01.org/0day-ci/archive/20261002/202610020711.pgNOf135-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020711.pgNOf135-lkp@intel.com/reproduce)
+On Thu, Oct 01, 2026 at 08:16:33PM -0500, Alex Elder wrote:
+> On 10/1/26 6:52 PM, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-misc-testing
+> > head:   04434a1d0f311d76b1f15fa987918b471a0b8c6a
+> > commit: 1304b0c47ef81cbd21e51ea0645a98104393ba49 [19/37] misc: tc9564: introduce base PCI driver
+> > config: m68k-kismet-CONFIG_PCI_DYNAMIC_OF_NODES-CONFIG_TC9564_PCI-0-0 (https://download.01.org/0day-ci/archive/20261002/202610020124.ieOiopjQ-lkp@intel.com/config)
+> > reproduce: (https://download.01.org/0day-ci/archive/20261002/202610020124.ieOiopjQ-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202610020124.ieOiopjQ-lkp@intel.com/
+> > 
+> > kismet warnings: (new ones prefixed by >>)
+> > > > kismet: WARNING: unmet direct dependencies detected for PCI_DYNAMIC_OF_NODES when selected by TC9564_PCI
+> >     WARNING: unmet direct dependencies detected for PCI_DYNAMIC_OF_NODES
+> >       Depends on [n]: PCI [=y] && OF_IRQ [=n]
+> >       Selected by [y]:
+> >       - TC9564_PCI [=y] && OF [=y] && PCI [=y]
+> > 
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> 
+> I'm about to send a patch that fixes this.  Greg, if you'd prefer
+> I re-spin the series (or something else), please let me know.
+> 
+> 
+> I did originally have "depends on OF_IRQ" under TC9564_PCI.
+> 
+> However I hit this:
+> 
+> error: recursive dependency detected!
+>         symbol GENERIC_MSI_IRQ is selected by IRQ_MSI_LIB
+>         symbol IRQ_MSI_LIB is selected by PCI_XGENE_MSI
+>         symbol PCI_XGENE_MSI depends on PCI_XGENE
+>         symbol PCI_XGENE depends on PCI_QUIRKS
+>         symbol PCI_QUIRKS is selected by TC9564_PCI
+>         symbol TC9564_PCI depends on OF_IRQ
+>         symbol OF_IRQ depends on IRQ_DOMAIN
+>         symbol IRQ_DOMAIN is selected by IRQ_DOMAIN_HIERARCHY
+>         symbol IRQ_DOMAIN_HIERARCHY is selected by GENERIC_MSI_IRQ
+> 
+> So I removed that dependency and the problem went away.  I'm
+> sorry I neglected to spend more time troubleshooting that.
+> 
+> So far I have found two options to avoid the recursive dependency:
+> - Use "select OF_IRQ" rather than "depends on OF_IRQ"
+> - Use "depends on OF_IRQ" but then use "depends on PCI_QUIRKS"
+>   rather than "select PCI_QUIRKS"
+> 
+> I like the second one better.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610020711.pgNOf135-lkp@intel.com/
+Second one seems better to me too.  ANd a fixup patch is fine.
 
-All errors (new ones prefixed by >>):
+thanks
 
-   kernel/bpf/waitq.c: In function 'bpf_kthread_create':
->> kernel/bpf/waitq.c:399:17: error: implicit declaration of function 'cgroup_put'; did you mean 'cgroup_init'? [-Wimplicit-function-declaration]
-     399 |                 cgroup_put(cgrp);
-         |                 ^~~~~~~~~~
-         |                 cgroup_init
-
-
-vim +399 kernel/bpf/waitq.c
-
-   311	
-   312	__bpf_kfunc int bpf_kthread_create(struct bpf_kthread *kthread, void *p__const_map,
-   313					   u64 cgroup_id,
-   314					   int (callback_fn)(void *map, int *key, void *value),
-   315					   struct bpf_prog_aux *aux)
-   316	{
-   317		struct bpf_kthread_opaque *opaque = (struct bpf_kthread_opaque *)kthread;
-   318		struct bpf_map *map = p__const_map;
-   319		struct bpf_kthread_kern *new_kthread;
-   320		struct bpf_prog *prog;
-   321		struct task_struct *task;
-   322		struct cgroup *cgrp = NULL;
-   323		int err;
-   324	
-   325		BUILD_BUG_ON(sizeof(struct bpf_kthread_opaque) > sizeof(struct bpf_kthread));
-   326		BUILD_BUG_ON(__alignof__(struct bpf_kthread_opaque) != __alignof__(struct bpf_kthread));
-   327	
-   328		if (READ_ONCE(opaque->kthread))
-   329			return -EBUSY;
-   330	
-   331		prog = bpf_prog_inc_not_zero(aux->prog);
-   332		if (IS_ERR(prog))
-   333			return PTR_ERR(prog);
-   334	
-   335		new_kthread = bpf_map_kzalloc(map, sizeof(*new_kthread), GFP_KERNEL | __GFP_NOWARN);
-   336		if (!new_kthread) {
-   337			bpf_prog_put(prog);
-   338			return -ENOMEM;
-   339		}
-   340	
-   341		new_kthread->map = map;
-   342		new_kthread->prog = prog;
-   343		new_kthread->callback_fn = callback_fn;
-   344		new_kthread->value = (void *)opaque - map->record->kthread_off;
-   345		init_completion(&new_kthread->initialized);
-   346		spin_lock_init(&new_kthread->lock);
-   347		INIT_WORK(&new_kthread->stop_work, bpf_kthread_stop_work);
-   348	
-   349		if (cgroup_id) {
-   350	#ifdef CONFIG_CGROUPS
-   351			cgrp = cgroup_get_from_id(cgroup_id);
-   352			if (IS_ERR(cgrp)) {
-   353				err = PTR_ERR(cgrp);
-   354				goto free_kthread;
-   355			}
-   356			new_kthread->cgrp = cgrp;
-   357	#else
-   358			err = -EOPNOTSUPP;
-   359			goto free_kthread;
-   360	#endif
-   361		}
-   362	
-   363		task = kthread_create(bpf_kthread_run, new_kthread, "bpf_kthread/%u", map->id);
-   364		if (IS_ERR(task)) {
-   365			err = PTR_ERR(task);
-   366			goto put_cgroup;
-   367		}
-   368		get_task_struct(task);
-   369		new_kthread->task = task;
-   370		if (cgrp) {
-   371			wake_up_process(task);
-   372			wait_for_completion(&new_kthread->initialized);
-   373			err = cgroup_kthread_attach(cgrp, task);
-   374			if (err)
-   375				goto stop_task;
-   376		}
-   377	
-   378		if (cmpxchg(&opaque->kthread, NULL, new_kthread)) {
-   379			err = -EBUSY;
-   380			goto stop_task;
-   381		}
-   382	
-   383		/*
-   384		 * Order publication against the final map user-reference release. Either
-   385		 * release observes the kthread or this side observes a zero user count.
-   386		 */
-   387		smp_mb();
-   388		if (!atomic64_read(&map->usercnt)) {
-   389			bpf_kthread_cancel_and_free(opaque);
-   390			return -EPERM;
-   391		}
-   392	
-   393		return 0;
-   394	
-   395	stop_task:
-   396		kthread_stop_put(task);
-   397	put_cgroup:
-   398		if (cgrp)
- > 399			cgroup_put(cgrp);
-   400	free_kthread:
-   401		bpf_prog_put(prog);
-   402		kfree(new_kthread);
-   403		return err;
-   404	}
-   405	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
