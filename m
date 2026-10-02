@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D57F3233E8
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 02:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CDF339381
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Oct 2026 02:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790908865; cv=none; b=WRmH5QSZ1B75btBfyKulroJCsb3VTDyxGsJqighx3y39koaN788I4TmPlxNpUQ6SYCFEtjejOOgAQXzvy/ESR30hPyB69Nqcq7zMrG8+a+yciW7KJUVqYmApBv3rEK8sCQHjC3SACM18X2u795zxm/AuNRuLLP694NrHlRy+sWw=
+	t=1790909524; cv=none; b=k8bXvfX743jaPTbqIZqRolXyFcVTm6BIgdKBOev/By83ASh+s/yYQqYPj5wRBMFBJZiSqZMf25+oqcFKzQ3BdHYK+LQcqzPk+AavVq0tDwn+UpKqn2swcQKPBV4gUmPxhvq6+LKa8aaRKyYzN4ocpYy3WaqYDlvP+9bvNjK+u4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790908865; c=relaxed/simple;
-	bh=R4KhWaoHhDdrdP+XRkRN7y1ZHzoxF6A3bfFbSjVYKrY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ub6ZX3MvprGwCOs05cb3nbCT9GoskXTKa7iGIwEEv5jxycbQBJCxXLCoA6WyOCWTN+A8BaCYZZ3ZiQ/vaOJyXJuEBFtmfJbtHV49szu210gsItc+1/TkaVJjn03Ew6yRy//ptF+4Ur0+tryIGYqj2L7yGE4uH6wx1EqrGHEJyV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSoX6tT7; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1790909524; c=relaxed/simple;
+	bh=Uv6ykZunoSHmJXuoH1V1xUyGnwK03DzG8SyzNKSYxJY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=f4QhSaSo7ubkI4FxLoi7OQPz6dO6k1GnSQ9qUahmjEjVgwXe3uSQfPRi1U5n+APdYNRtDmMAn6WkBmVGs4pIC6jbbKejOm/Wvqco/WMXVTZIMFGc7aoeEiARsTHqMRZTxs6BoxTtjgnMyA8iGQC0igVt8vMlHS8BQ266zaWbmQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPnxgl6l; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fSoX6tT7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPnxgl6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790908863; x=1822444863;
+  t=1790909522; x=1822445522;
   h=date:from:to:cc:subject:message-id;
-  bh=R4KhWaoHhDdrdP+XRkRN7y1ZHzoxF6A3bfFbSjVYKrY=;
-  b=fSoX6tT7CCDFeY9mGkcFd9joXYCyF5Awu9ociJxq9QBnrBITo8lVIfcj
-   3beI5My3/iBs03ISLhKkKsTLzlbYSr1PqtW+aHdwnRrKfYmosIZGv9k0i
-   WZtGg2HWBbipCGC6mbhHvdOEwUA3GChMSMRjSAAvumeMb+X6VwMu/qAAR
-   cayC6WTXHVPe446TzpIBX60qlasOAEL/9+R/CRokJFD/EfltLimdqsEra
-   Ce6c2bI7pU3WtP9cg0HenhVS4r7qKkUtP6CgEARucjIq65BE5fzbHXzmz
-   k2F2+gLBlm8RJbImxdM5PxkQunAHFNUTHiirwX2Q5dfoI9o9ZzoOa9C6C
-   Q==;
-X-CSE-ConnectionGUID: mJM4NULaSnqNoymq+BVY8Q==
-X-CSE-MsgGUID: GmZcxyOwSD+CTKZjWnuYHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90735671"
+  bh=Uv6ykZunoSHmJXuoH1V1xUyGnwK03DzG8SyzNKSYxJY=;
+  b=nPnxgl6l/VLQh9Yh+reCL+Bh0s/7bEvIYXY9sPqZ6hr9wRstCez1gpZm
+   qG5jUjoep1S/xKp7B6zV9+Q6AxJsZR0HEO1HVPudqWg0G8Zg/mBPyP1Qu
+   bFQifnIYhTYZ/foIhSxBWnx65UDjsn9Z1riB0TmllhhEkprNFlR53NTga
+   tuiYRYXoUPRSZXVgUgclMIl2epZu4P0t/3SAV7sMCA5EvLawrS7DEn4oO
+   En6C8S7M1onlnUoBCf1MngpDWFjWQsRu46PVx8C8FGYen0toKoa4H2bnb
+   eka8vnAwWIDDjUBuHoGj+ffUxdSpb81CdePm/nOzslGW4PDK9hf5hpuOF
+   A==;
+X-CSE-ConnectionGUID: UXfKXF48TvyzcoUlFyqoww==
+X-CSE-MsgGUID: TqKWXyw+SmuDkzNFP37XGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94560659"
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="90735671"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 19:41:01 -0700
-X-CSE-ConnectionGUID: 06wMUE+IRCC7VpLx36GcWA==
-X-CSE-MsgGUID: XadnvRF3TvaPovsCvgUdvQ==
+   d="scan'208";a="94560659"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 19:52:01 -0700
+X-CSE-ConnectionGUID: KLfYHO8WTcq1YW80RcRZGQ==
+X-CSE-MsgGUID: iWBPLLZgQ5qm6UqF/mtnEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="272562328"
+   d="scan'208";a="275685823"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Oct 2026 19:41:00 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 01 Oct 2026 19:52:00 -0700
 Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCTCj-000000000MP-1ZnN;
-	Fri, 02 Oct 2026 02:40:57 +0000
-Date: Fri, 02 Oct 2026 04:40:27 +0200
+	id 1xCTNN-000000000Md-3DXN;
+	Fri, 02 Oct 2026 02:51:57 +0000
+Date: Fri, 02 Oct 2026 04:51:09 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_trace_acpi_support_v1 85/87]
- drivers/hwtracing/gtrace/gtrace-fwnode.c:17:5: sparse: sparse: symbol
- 'gtrace_of_parse_outconns' was not declared. Should it be static?
-Message-ID: <202610020448.R6dvSGqd-lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
+Subject: [avpatel:riscv_trace_acpi_support_v1 69/87]
+ drivers/hwtracing/gtrace/gtrace-core.c:590:22: warning: assignment to 'struct
+ gtrace_path_node *' from 'int' makes pointer from integer without a cast
+Message-ID: <202610020416.pXNT8d6X-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,125 +63,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
 head:   dc5b9586f90cc15314085bdaa74661fc00d1688f
-commit: 5c381ad05935a6c1e0108a97d1197952ca46201e [85/87] hwtracing: rvtrace: Move to fwnode_* APIs
-config: i386-randconfig-r2309-20261002 (https://download.01.org/0day-ci/archive/20261002/202610020448.R6dvSGqd-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020448.R6dvSGqd-lkp@intel.com/reproduce)
+commit: e66280cd072805f1d20509bf41ea75382a4c1fc6 [69/87] gtrace: Add functions to create/destroy a trace component path
+config: xtensa-randconfig-2001-20261002 (https://download.01.org/0day-ci/archive/20261002/202610020416.pXNT8d6X-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261002/202610020416.pXNT8d6X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610020448.R6dvSGqd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610020416.pXNT8d6X-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwtracing/gtrace/gtrace-fwnode.c:17:5: sparse: sparse: symbol 'gtrace_of_parse_outconns' was not declared. Should it be static?
->> drivers/hwtracing/gtrace/gtrace-fwnode.c:105:5: sparse: sparse: symbol 'rvtrace_parse_inconns' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/gtrace_of_parse_outconns +17 drivers/hwtracing/gtrace/gtrace-fwnode.c
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
+   drivers/hwtracing/gtrace/gtrace-core.c:372:9: error: implicit declaration of function 'kfree' [-Werror=implicit-function-declaration]
+     372 |         kfree(cpriv);
+         |         ^~~~~
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
+   drivers/hwtracing/gtrace/gtrace-core.c:416:17: error: implicit declaration of function 'kzalloc' [-Werror=implicit-function-declaration]
+     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+         |                 ^~~~~~~
+   drivers/hwtracing/gtrace/gtrace-core.c:416:15: warning: assignment to 'struct gtrace_comp_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+         |               ^
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'build_path_walk_fn':
+   drivers/hwtracing/gtrace/gtrace-core.c:590:24: error: implicit declaration of function 'kzalloc_obj' [-Werror=implicit-function-declaration]
+     590 |                 node = kzalloc_obj(*node);
+         |                        ^~~~~~~~~~~
+>> drivers/hwtracing/gtrace/gtrace-core.c:590:22: warning: assignment to 'struct gtrace_path_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     590 |                 node = kzalloc_obj(*node);
+         |                      ^
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_create_path':
+>> drivers/hwtracing/gtrace/gtrace-core.c:627:14: warning: assignment to 'struct gtrace_path *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     627 |         path = kzalloc(sizeof(*path), GFP_KERNEL);
+         |              ^
+   cc1: some warnings being treated as errors
 
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   10  
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   11  /*
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   12   * Parse the "out-ports" graph of the component node and fill pdata->outconns.
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   13   * Return: 0 on success or when there are no output ports
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   14   *         -EPROBE_DEFER if a destination is not registered yet
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   15   *         negative error code otherwise.
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   16   */
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  @17  int gtrace_of_parse_outconns(struct gtrace_platform_data *pdata)
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   18  {
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   19  	struct fwnode_handle *parent, *ep_node, *rep_node, *rdev_node;
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   20  	struct fwnode_endpoint ep = { 0 };
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   21  	struct fwnode_endpoint rep = { 0 };
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   22  	struct gtrace_connection *conn;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   23  	int ret = 0, i = 0;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   24  
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   25  	parent = fwnode_get_named_child_node(dev_fwnode(pdata->dev), "out-ports");
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   26  	if (!parent)
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   27  		return 0;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   28  
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   29  	pdata->nr_outconns = fwnode_graph_get_endpoint_count(parent, 0);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   30  	pdata->outconns = devm_kcalloc(pdata->dev, pdata->nr_outconns,
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   31  				       sizeof(*pdata->outconns), GFP_KERNEL);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   32  	if (!pdata->outconns) {
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   33  		ret = -ENOMEM;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   34  		goto done;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   35  	}
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   36  
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   37  	fwnode_graph_for_each_endpoint(parent, ep_node) {
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   38  		conn = devm_kzalloc(pdata->dev, sizeof(*conn), GFP_KERNEL);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   39  		if (!conn) {
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   40  			fwnode_handle_put(ep_node);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   41  			ret = -ENOMEM;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   42  			break;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   43  		}
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   44  
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   45  		ret = fwnode_graph_parse_endpoint(ep_node, &ep);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   46  		if (ret) {
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   47  			fwnode_handle_put(ep_node);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   48  			break;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   49  		}
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   50  
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   51  		rep_node = fwnode_graph_get_remote_endpoint(ep_node);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   52  		if (!rep_node) {
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   53  			ret = -ENODEV;
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   54  			fwnode_handle_put(ep_node);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   55  			break;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   56  		}
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   57  		rdev_node = fwnode_graph_get_port_parent(rep_node);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   58  
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   59  		ret = fwnode_graph_parse_endpoint(rep_node, &rep);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   60  		if (ret) {
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   61  			fwnode_handle_put(ep_node);
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   62  			fwnode_handle_put(rep_node);
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   63  			fwnode_handle_put(rdev_node);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   64  			break;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   65  		}
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   66  
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   67  		conn->src_port = ep.port;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   68  		conn->src_fwnode = dev_fwnode(pdata->dev);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   69  		/* The 'src_comp' is set by gtrace_register_component() */
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   70  		conn->src_comp = NULL;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   71  		conn->dest_port = rep.port;
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   72  		conn->dest_fwnode = rdev_node;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   73  		fwnode_handle_get(conn->dest_fwnode);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   74  		conn->dest_comp = gtrace_find_by_fwnode(conn->dest_fwnode);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   75  		if (!conn->dest_comp) {
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   76  			ret = -EPROBE_DEFER;
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   77  			fwnode_handle_put(ep_node);
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   78  			fwnode_handle_put(rep_node);
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   79  			fwnode_handle_put(rdev_node);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   80  			break;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   81  		}
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   82  
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   83  		pdata->outconns[i] = conn;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   84  		i++;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   85  	}
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   86  
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   87  done:
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   88  	if (ret) {
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   89  		for (i = 0; i < pdata->nr_outconns && pdata->outconns; i++) {
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   90  			conn = pdata->outconns[i];
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   91  			if (conn && conn->dest_fwnode)
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   92  				fwnode_handle_put(conn->dest_fwnode);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   93  		}
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   94  	}
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   95  	fwnode_handle_put(parent);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   96  	return ret;
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   97  }
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01   98  EXPORT_SYMBOL_GPL(gtrace_parse_outconns);
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01   99  
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  100  /*
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01  101   * Parse the "out-ports" graph of the component node and allocate pdata->inconns.
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  102   *
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  103   * Return: 0 on success or when there are no input ports, -ENOMEM otherwise.
-2533ea70f41f2e drivers/hwtracing/gtrace/gtrace-of.c     Anup Patel 2026-10-01  104   */
-5c381ad05935a6 drivers/hwtracing/gtrace/gtrace-fwnode.c Sunil V L  2026-10-01 @105  int rvtrace_parse_inconns(struct gtrace_platform_data *pdata)
 
-:::::: The code at line 17 was first introduced by commit
-:::::: 2533ea70f41f2e1b6534c0bdfc90e83dad7bbf39 gtrace: Add RISC-V platform driver for the gtrace framework
+vim +590 drivers/hwtracing/gtrace/gtrace-core.c
 
-:::::: TO: Anup Patel <anup.patel@oss.qualcomm.com>
-:::::: CC: Anup Patel <anup@brainfault.org>
+   576	
+   577	static int build_path_walk_fn(struct gtrace_component *comp, bool *stop,
+   578				      struct gtrace_connection *stop_conn,
+   579				      void *priv)
+   580	{
+   581		struct build_path_walk_priv *ppriv = priv;
+   582		struct gtrace_path *path = ppriv->path;
+   583		struct gtrace_path_node *node;
+   584	
+   585		if ((!ppriv->sink && gtrace_is_sink(comp->pdata)) ||
+   586		    (ppriv->sink && ppriv->sink == comp))
+   587			*stop = true;
+   588	
+   589		if (*stop) {
+ > 590			node = kzalloc_obj(*node);
+   591			if (!node)
+   592				return -ENOMEM;
+   593			INIT_LIST_HEAD(&node->head);
+   594			gtrace_get_component(comp);
+   595			node->comp = comp;
+   596			node->conn = stop_conn;
+   597			list_add(&node->head, &path->comp_list);
+   598		}
+   599	
+   600		return 0;
+   601	}
+   602	
+   603	static void gtrace_release_path_nodes(struct gtrace_path *path)
+   604	{
+   605		struct gtrace_path_node *node, *node1;
+   606	
+   607		list_for_each_entry_safe(node, node1, &path->comp_list, head) {
+   608			list_del(&node->head);
+   609			gtrace_put_component(node->comp);
+   610			kfree(node);
+   611		}
+   612	}
+   613	
+   614	struct gtrace_path *gtrace_create_path(struct gtrace_component *source,
+   615					       struct gtrace_component *sink,
+   616					       enum gtrace_component_mode mode)
+   617	{
+   618		struct build_path_walk_priv priv;
+   619		struct gtrace_path *path;
+   620		int ret = 0;
+   621	
+   622		if (!source || mode >= GTRACE_COMPONENT_MODE_MAX) {
+   623			ret = -EINVAL;
+   624			goto err_out;
+   625		}
+   626	
+ > 627		path = kzalloc(sizeof(*path), GFP_KERNEL);
+   628		if (!path) {
+   629			ret = -ENOMEM;
+   630			goto err_out;
+   631		}
+   632		INIT_LIST_HEAD(&path->comp_list);
+   633		path->mode = mode;
+   634		path->trace_id = GTRACE_INVALID_TRACE_ID;
+   635	
+   636		priv.path = path;
+   637		priv.sink = sink;
+   638		ret = gtrace_walk_output_components(source, &priv, build_path_walk_fn);
+   639		if (ret < 0)
+   640			goto err_release_path_nodes;
+   641	
+   642		/* Before proceeding, check that a valid path was built. */
+   643		if (list_empty(&path->comp_list)) {
+   644			ret = -ENODEV;
+   645			goto err_release_path_nodes;
+   646		}
+   647	
+   648		if (!gtrace_path_ready(path)) {
+   649			ret = -EOPNOTSUPP;
+   650			goto err_release_path_nodes;
+   651		}
+   652	
+   653		ret = gtrace_assign_trace_id(path);
+   654		if (ret < 0)
+   655			goto err_release_path_nodes;
+   656	
+   657		return path;
+   658	
+   659	err_release_path_nodes:
+   660		gtrace_release_path_nodes(path);
+   661		kfree(path);
+   662	err_out:
+   663		return ERR_PTR(ret);
+   664	}
+   665	EXPORT_SYMBOL_GPL(gtrace_create_path);
+   666	
 
 --
 0-DAY CI Kernel Test Service
