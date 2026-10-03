@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC2337E2E6;
-	Sat,  3 Oct 2026 07:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075DF365A19
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Oct 2026 10:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791013919; cv=none; b=AtfBTdE7iWG3ntBNH+KkpABcCNFC8dhTv2JMFEYmZindxiubDdTTvUuoPCuiyEWD9tIHFT8vaPen8vQJnKM8tWGls18DzZTtjZr4lxK7GR9TBU2oJAHFGMuJtGNoxArnzpVK4NEdZn2VYqVpIRzk/Rn+im9WO5uoZRekKBPAgX8=
+	t=1791023706; cv=none; b=lv6V0TgDrQj1VDxeUwA1ngtmV1jFyd3YJJnFQ7K0Date+NbVRIvPL/YlQ+uMpWVYSvRF+NRhJTuIWQ2mJS+zLFhhUlvhlw1chKEzoSqI4RH7l2gyjT3JbVRDhz+DnX/VwsQN55kG9RM9gsEeABgOPOU+P4EuHvkHhR6UYYFycLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791013919; c=relaxed/simple;
-	bh=UOoeCiPnhu3pRDP1rjcyanJT3DLHqPLfbHISk4Wmpl8=;
+	s=arc-20240116; t=1791023706; c=relaxed/simple;
+	bh=OpkDrMObLdbxLU7FhcRiB5VaRnDcKfPE8rL+mt+UZQY=;
 	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MFXmW46Ns+khUDhIIPRNkMmPJj/iB5EyMkGjH+XhoqbNPFV9mxQmJNh+qjhtkhL3uHY4ecO2RiyGD2HwcbIp2sN+FQ5d7QIzlA+VdZ6qKZXoFvYbw5zyGzCtfo7JEvCt0xXlVPBJHmFNF1j6nIYYHlRMKC+UAgKQoHqoqICTzYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrVZ4vX9; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=GUUP4Xkf95ZWOGbnUmWzeeklxP7xhWBaaHnXlPnnKkYcAflOP5zTegwh1y36/YfSQ4A4Aky8CXYIJ0TLfolhA6/vA+5iWyBqNWnmr2sCOHpQ3n1xCk+N82D1iRS/SoDZyi3ruVc1f8Dn86aqVxJpd2KPw2lvVzU/wZ1HPkb4zW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dDd/URx6; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrVZ4vX9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dDd/URx6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791013918; x=1822549918;
+  t=1791023704; x=1822559704;
   h=date:from:cc:subject:message-id:references:mime-version:
    in-reply-to;
-  bh=UOoeCiPnhu3pRDP1rjcyanJT3DLHqPLfbHISk4Wmpl8=;
-  b=SrVZ4vX9+Kfrco9bNjA0e5aI2SfbaBRPjydUbsqWcRMg/I+H9v9rhxy1
-   vawGiFJfbO3j5hqjn+LwctQGAv+SBZ9mdkIQtsixM7FvrQBcY8jr4l0q3
-   tF+Ul+DgHIxkPwpeWr9QEBRzyTJYK5dG0PXzPr/woh/76q6sStUV8pkku
-   ZDFvgecXyT9yErj275v2BKEW8r8/3Dt/jdyfgyeI0XWQx1HQ03yXJBnv0
-   iQU1UkE/nmPr+1Nd4JHCDtxiNNDK1v6BlfEsY9s7UpB2nw9JRA7WMwUTR
-   Fy/OKU3ZeNa4vZrxZbSqYyn5dbOyoZ8T9GgkKJtbTlimF9m+QFjzWqsqr
-   A==;
-X-CSE-ConnectionGUID: PavscfAWQLiAp1E1mHVDqQ==
-X-CSE-MsgGUID: eUnJp7PLQDGNL+iEPEMI6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="95583344"
+  bh=OpkDrMObLdbxLU7FhcRiB5VaRnDcKfPE8rL+mt+UZQY=;
+  b=dDd/URx6D+3DJeH/kUK/VFaSwPGnMtP7eaA+FCyL9QrrNh6hNNWbc3ll
+   XBxz8QOedgimVKgg4/TDlhOdBul0+hvSDvpYFhTz2ZfN/UHrYCDX/2PUn
+   yrprNPlVCSCCjBW+I9PXur9fIi6y48Q189zuv/qC6dlsGBdFAINmMFFAX
+   B/jbGh3teti238mC9uMHurMKVdqpgcuFjF4BByn6Wmpz/hlmvL3lUrrN/
+   HeDY2NKgmK+eKHYqYyhj3lMJ4zCW1f52SLI2K/YteqoeoW7aiG7yHllgs
+   q6ilVQI6vOwLZYu0l8ae7Fr0UbCJ6EPt2cuvtk7cbVtexhJsZRouVTiO0
+   w==;
+X-CSE-ConnectionGUID: pVgEWQO+TT2xfHcoD0uv9w==
+X-CSE-MsgGUID: sBBAMQVfQJ64wkLZwaqj0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11923"; a="113552236"
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="95583344"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 00:51:57 -0700
-X-CSE-ConnectionGUID: xS0ZKmROQAWzD+0rb1MtiQ==
-X-CSE-MsgGUID: sicuxPdSRx2BGiOwQvH7cg==
+   d="scan'208";a="113552236"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 03:35:03 -0700
+X-CSE-ConnectionGUID: Gu3cn0XYQY2/KMjjidtb4Q==
+X-CSE-MsgGUID: xz0Eh9SSStGgIJXCGP062g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="284478562"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Oct 2026 00:51:56 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 03 Oct 2026 03:35:02 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xCuXB-00000000ToD-3OYF;
-	Sat, 03 Oct 2026 07:51:53 +0000
-Date: Sat, 3 Oct 2026 15:51:01 +0800
+	id 1xCx52-00000000Tu7-0Z0Y
+	for oe-kbuild-all@lists.linux.dev;
+	Sat, 03 Oct 2026 10:35:00 +0000
+Date: Sat, 3 Oct 2026 18:34:59 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: powerpc64: move preempt count to paca
-Message-ID: <202610031540.BVG5ql3j-lkp@intel.com>
-References: <202610031540.BVG5ql3j-lkp@intel.com>
+Message-ID: <202610031850.vR0XyAC2-lkp@intel.com>
+References: <202610031850.vR0XyAC2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202610031540.BVG5ql3j-lkp@intel.com>
+In-Reply-To: <202610031850.vR0XyAC2-lkp@intel.com>
 
 Hi Shrikanth,
 
@@ -71,33 +70,24 @@ kernel test robot noticed the following build warnings:
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Shrikanth-Hegde/powerpc64-move-preempt-count-to-paca/20261002-221617
 base:   
-patch link:    https://lore.kernel.org/r/202610031540.BVG5ql3j-lkp%40intel.com
-config: powerpc64-randconfig-1000-20261003 (https://download.01.org/0day-ci/archive/20261003/202610031540.BVG5ql3j-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261003/202610031540.BVG5ql3j-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/202610031850.vR0XyAC2-lkp%40intel.com
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261003/202610031850.vR0XyAC2-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261003/202610031850.vR0XyAC2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610031540.BVG5ql3j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610031850.vR0XyAC2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sched/core.c:7502:22: warning: no previous prototype for function 'dynamic_preempt_schedule' [-Wmissing-prototypes]
+>> kernel/sched/core.c:7502:22: warning: no previous prototype for 'dynamic_preempt_schedule' [-Wmissing-prototypes]
     7502 | void __sched notrace dynamic_preempt_schedule(void)
-         |                      ^
-   kernel/sched/core.c:7502:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7502 | void __sched notrace dynamic_preempt_schedule(void)
-         | ^
-         | static 
->> kernel/sched/core.c:7575:22: warning: no previous prototype for function 'dynamic_preempt_schedule_notrace' [-Wmissing-prototypes]
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/core.c:7575:22: warning: no previous prototype for 'dynamic_preempt_schedule_notrace' [-Wmissing-prototypes]
     7575 | void __sched notrace dynamic_preempt_schedule_notrace(void)
-         |                      ^
-   kernel/sched/core.c:7575:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7575 | void __sched notrace dynamic_preempt_schedule_notrace(void)
-         | ^
-         | static 
-   2 warnings generated.
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/dynamic_preempt_schedule +7502 kernel/sched/core.c
