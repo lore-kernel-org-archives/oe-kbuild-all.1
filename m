@@ -1,145 +1,179 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4706737B3E4;
-	Sat,  3 Oct 2026 20:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC54D3A4521
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Oct 2026 21:08:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791061048; cv=none; b=tgeC9VbppLr974A8azpnROa7zcZnebqq2XCdB3xipOEVaaG5KvviR8PSsm7/OVWiMaxSmkldyn9FivSC0BpHH2wLqqGqjOmaQ0Py8XMk9nw2QK8kZmNvd6eP4O6DmDHweW2crTjuO2HnKo1lUZ/wUx29NUYa0KUDg9PXZ7l60x0=
+	t=1791061707; cv=none; b=k8h+rlrw4Ou8LnKkMYyzEipBA9PmZ0GixqsSz7QG5aBuKp+w3EqOvJ7NI15iTsltyfX3ffJkrSJ1pkU+07KmRcfsrCsMmfDzFvL5bjHUqvKPjNMN36EpkZah6t3h6GScUHnomSq0nzi4stQFNBqjyZZ4KNIuUTWGkQEJ7y7uMsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791061048; c=relaxed/simple;
-	bh=3m9MiP/b2jbt1U2mfq23UmMzfiU4DMzdvsuJBtx/wX4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=U6x5WXd1JsZqSl6ew3IVbkVY3gn8OpMwrC76d/2cSGFSqCLUpQEeIXFdO3CIy8e/bcbk64IQlSk7Bk8/SWRHaD1I6nQLF/GkpbYgkbIM6ALyggE1su/m3H6ftUM+8MuznBkRojdZ1whU7X6Q5fw8TvckZFYv+QHgGSrwnBOMB3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EmduBj3P; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1791061707; c=relaxed/simple;
+	bh=LxDVLQXCn/aGa+BVtglR6FWiVnr/V8uVjmYHMpRSCro=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eu2D6Fw3ROexFgvreBW8H2Vd9ehB5bOhsdwIIgmOageMZy12uDYp7X/5WZiW5vPHDSCFzJ7JgM5tZM+x7Ui4fJRuNydbvLeAZrWyIP70XhA6mPOqECwReL4qX1ew3ADsxTh2fEioj4GNLoGJrTQXsdHIxOEEXhWeyErF98rRxD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLFaNp8N; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EmduBj3P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLFaNp8N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791061046; x=1822597046;
-  h=date:from:to:cc:subject:message-id;
-  bh=3m9MiP/b2jbt1U2mfq23UmMzfiU4DMzdvsuJBtx/wX4=;
-  b=EmduBj3PmOSJYBac84Z6HGYsOSirQpTFxXNEQ022gOt0jg2c91abNQZU
-   CGmsGVmugkd1NEufY7BFxNrIe1kTrLtDnYdjJ73I2P57CeTx+qbOIdp0L
-   zvoLO31Ry0UghNy95CF5R/Yjg+D8Q16iwrL2SG0ze8y6U+jGpDhypdqWW
-   DQDta01852HHmbc32ESnQmZ3CWLtxZG7QgWsyeXyxUGz9Wv8lJC172JC8
-   Y67HgB6OxmY01kSVSjdwp5cUf4CC42r8T+Miq/elUrt5GsmIVwjsepKFo
-   OdNJ7no568+EqjJbtSEm7j/bYq1A7P353BqTQ1eftjbKueeULEKx8uaqB
+  t=1791061706; x=1822597706;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=LxDVLQXCn/aGa+BVtglR6FWiVnr/V8uVjmYHMpRSCro=;
+  b=dLFaNp8Nu+F1zGGldwdFTBzoEUsp9g98hOea7LNbgZyBmkZv/jcoq14g
+   0Kt+WHcpfW4Xj8XCHnrxv428fIlb6sxjBJim1yrZS3azeBksivXniZ0Uo
+   lbjYFBvebuYjY64oPRvZFNMUDwQoJqf/XUwHGRBUPXsdCJZQezkc27oLx
+   50x/rEBNiTMdIN/f7bY7hTPd8MAUoF4Qr3XfNo+TBC1zGOjVtqh4mZ88E
+   ZlI/A/jAHAjallRz2PDOz7pLchaWR6ZFmig+yOtOkHhink5AVM/VZHrZy
+   sYkY50dHkT26Vusp8jIgbZwmrrdumhqLfqOSpcCTvy0PoeA9txN8tWtrh
    g==;
-X-CSE-ConnectionGUID: Hfus1BEDStGlUUfd06NHUQ==
-X-CSE-MsgGUID: xChvW1QTQSK0y4jnOVBl6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="79346360"
+X-CSE-ConnectionGUID: ElAwAgJ0Qc6WL7Vc8ulRBw==
+X-CSE-MsgGUID: FPWIH5JOQLyuVwvM0ZBkdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="79346741"
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="79346360"
+   d="scan'208";a="79346741"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 13:57:25 -0700
-X-CSE-ConnectionGUID: W6FalPdCQ2yCddvu0Fn+Ow==
-X-CSE-MsgGUID: oFhMlE2/T2SABnL+eX0Q9Q==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 14:08:25 -0700
+X-CSE-ConnectionGUID: c2plxEXET1eeIqhLBIiz5g==
+X-CSE-MsgGUID: xM5G7F3RTaq976Z0wZXWXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="284566897"
+   d="scan'208";a="284567863"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Oct 2026 13:57:24 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 03 Oct 2026 14:08:24 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xD6nJ-00000000UCp-1k2j;
-	Sat, 03 Oct 2026 20:57:21 +0000
-Date: Sun, 04 Oct 2026 04:57:08 +0800
+	id 1xD6xy-00000000UDL-0Fon
+	for oe-kbuild-all@lists.linux.dev;
+	Sat, 03 Oct 2026 21:08:22 +0000
+Date: Sun, 4 Oct 2026 05:07:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin KaFai Lau <martin.lau@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Alexei Starovoitov <ast@kernel.org>, Amery Hung <ameryhung@gmail.com>
-Subject: [linux-next:master 6668/14185]
- arch/s390/include/asm/jump_label.h:43:11: error: invalid operand for inline
- asm constraint 'i'
-Message-ID: <202610040408.xH9o1XiH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: wifi: mt76: mt7996: add thermal zone device registration
+Message-ID: <202610040543.prBb5HzA-lkp@intel.com>
+References: <202610040543.prBb5HzA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610040543.prBb5HzA-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f0406245cb9855e6318335a8a223551354291a46
-commit: 369d9dcd8fb855f103a83454f0e1cd1cbc9118be [6668/14185] bpf: Add infrastructure to support attaching struct_ops to cgroups
-config: s390-randconfig-1001-20261003 (https://download.01.org/0day-ci/archive/20261004/202610040408.xH9o1XiH-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610040408.xH9o1XiH-lkp@intel.com/reproduce)
+Hi Ryan,
+
+kernel test robot noticed the following build errors:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Leung-via-B4-Relay/wifi-mt76-mt7996-add-thermal-zone-device-registration/20261003-041935
+base:   
+patch link:    https://lore.kernel.org/r/202610040543.prBb5HzA-lkp%40intel.com
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20261004/202610040543.prBb5HzA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610040543.prBb5HzA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610040408.xH9o1XiH-lkp@intel.com/
-
-Note: the linux-next/master HEAD f0406245cb9855e6318335a8a223551354291a46 builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610040543.prBb5HzA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/bpf/cgroup.c:8:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:67:
-   In file included from arch/s390/include/asm/bitops.h:75:
-   In file included from include/asm-generic/bitops/atomic.h:5:
-   In file included from include/linux/atomic.h:7:
-   In file included from arch/s390/include/asm/atomic.h:16:
-   In file included from arch/s390/include/asm/cmpxchg.h:11:
-   In file included from include/linux/mmdebug.h:5:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/s390/include/asm/bug.h:139:
-   In file included from include/asm-generic/bug.h:31:
-   In file included from include/linux/printk.h:620:
-   In file included from include/linux/dynamic_debug.h:6:
-   In file included from include/linux/jump_label.h:106:
->> arch/s390/include/asm/jump_label.h:43:11: error: invalid operand for inline asm constraint 'i'
-      43 |         asm goto(ARCH_STATIC_BRANCH_ASM("%0+%1", "%l[label]")
-         |                  ^
-   arch/s390/include/asm/jump_label.h:34:2: note: expanded from macro 'ARCH_STATIC_BRANCH_ASM'
-      34 |         "0:     brcl 0," label "\n"             \
-         |         ^
-   1 error generated.
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c: In function 'mt7996_unregister_thermal':
+>> drivers/net/wireless/mediatek/mt76/mt7996/init.c:262:17: error: implicit declaration of function 'thermal_of_zone_unregister'; did you mean 'devm_thermal_of_zone_unregister'? [-Wimplicit-function-declaration]
+     262 |                 thermal_of_zone_unregister(phy->tzone);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 devm_thermal_of_zone_unregister
+   drivers/net/wireless/mediatek/mt76/mt7996/init.c: In function 'mt7996_thermal_init':
+>> drivers/net/wireless/mediatek/mt76/mt7996/init.c:303:22: error: implicit declaration of function 'thermal_of_zone_register'; did you mean 'devm_thermal_of_zone_register'? [-Wimplicit-function-declaration]
+     303 |         phy->tzone = thermal_of_zone_register(phy->dev->mt76.dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                      devm_thermal_of_zone_register
+>> drivers/net/wireless/mediatek/mt76/mt7996/init.c:303:20: error: assignment to 'struct thermal_zone_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     303 |         phy->tzone = thermal_of_zone_register(phy->dev->mt76.dev,
+         |                    ^
 
 
-vim +/i +43 arch/s390/include/asm/jump_label.h
+vim +262 drivers/net/wireless/mediatek/mt76/mt7996/init.c
 
-146448524bddbf Ilya Leoshkevich 2019-02-06  21  
-6900bec59d0f54 Jan Polensky     2026-06-01  22  #define ARCH_JUMP_TABLE_ENTRY(key, label, local_label)	\
-6900bec59d0f54 Jan Polensky     2026-06-01  23  	".pushsection __jump_table,\"aw\"\n"		\
-6900bec59d0f54 Jan Polensky     2026-06-01  24  	".balign	8\n"				\
-6900bec59d0f54 Jan Polensky     2026-06-01  25  	".long	" local_label "-.," label "-.\n"	\
-6900bec59d0f54 Jan Polensky     2026-06-01  26  	".quad	" key "-.\n"				\
-6900bec59d0f54 Jan Polensky     2026-06-01  27  	".popsection\n"
-6900bec59d0f54 Jan Polensky     2026-06-01  28  
-d5caa4dbf9bd2a Heiko Carstens   2015-01-29  29  /*
-0c3b61e00a0d08 Ard Biesheuvel   2022-06-15  30   * We use a brcl 0,<offset> instruction for jump labels so it
-d5caa4dbf9bd2a Heiko Carstens   2015-01-29  31   * can be easily distinguished from a hotpatch generated instruction.
-d5caa4dbf9bd2a Heiko Carstens   2015-01-29  32   */
-6900bec59d0f54 Jan Polensky     2026-06-01  33  #define ARCH_STATIC_BRANCH_ASM(key, label)	\
-6900bec59d0f54 Jan Polensky     2026-06-01  34  	"0:	brcl 0," label "\n"		\
-6900bec59d0f54 Jan Polensky     2026-06-01  35  	ARCH_JUMP_TABLE_ENTRY(key, label, "0b")
-6900bec59d0f54 Jan Polensky     2026-06-01  36  
-6900bec59d0f54 Jan Polensky     2026-06-01  37  #define ARCH_STATIC_BRANCH_JUMP_ASM(key, label)	\
-6900bec59d0f54 Jan Polensky     2026-06-01  38  	"0:	brcl 15," label "\n"		\
-6900bec59d0f54 Jan Polensky     2026-06-01  39  	ARCH_JUMP_TABLE_ENTRY(key, label, "0b")
-6900bec59d0f54 Jan Polensky     2026-06-01  40  
-7f032febb665f6 Heiko Carstens   2019-10-04  41  static __always_inline bool arch_static_branch(struct static_key *key, bool branch)
-5373db886b791b Jan Glauber      2011-03-16  42  {
-6900bec59d0f54 Jan Polensky     2026-06-01 @43  	asm goto(ARCH_STATIC_BRANCH_ASM("%0+%1", "%l[label]")
-146448524bddbf Ilya Leoshkevich 2019-02-06  44  		: : JUMP_LABEL_STATIC_KEY_CONSTRAINT (key), "i" (branch) : : label);
-11276d5306b8e5 Peter Zijlstra   2015-07-24  45  	return false;
-11276d5306b8e5 Peter Zijlstra   2015-07-24  46  label:
-11276d5306b8e5 Peter Zijlstra   2015-07-24  47  	return true;
-11276d5306b8e5 Peter Zijlstra   2015-07-24  48  }
-11276d5306b8e5 Peter Zijlstra   2015-07-24  49  
-
-:::::: The code at line 43 was first introduced by commit
-:::::: 6900bec59d0f54dbb94d0799d204bcd44fbdb623 s390/jump_label: Implement ARCH_STATIC_BRANCH_JUMP_ASM and ARCH_STATIC_BRANCH_ASM macros
-
-:::::: TO: Jan Polensky <japo@linux.ibm.com>
-:::::: CC: Alexander Gordeev <agordeev@linux.ibm.com>
+   255	
+   256	static void mt7996_unregister_thermal(struct mt7996_phy *phy)
+   257	{
+   258		struct wiphy *wiphy = phy->mt76->hw->wiphy;
+   259		char name[sizeof("cooling_deviceXXX")];
+   260	
+   261		if (phy->tzone) {
+ > 262			thermal_of_zone_unregister(phy->tzone);
+   263			phy->tzone = NULL;
+   264		}
+   265	
+   266		if (!phy->cdev)
+   267			return;
+   268	
+   269		snprintf(name, sizeof(name), "cooling_device%d", phy->mt76->band_idx);
+   270		sysfs_remove_link(&wiphy->dev.kobj, name);
+   271		thermal_cooling_device_unregister(phy->cdev);
+   272		phy->cdev = NULL;
+   273	}
+   274	
+   275	static int mt7996_thermal_init(struct mt7996_phy *phy)
+   276	{
+   277		struct wiphy *wiphy = phy->mt76->hw->wiphy;
+   278		char cname[sizeof("cooling_deviceXXX")];
+   279		struct thermal_cooling_device *cdev;
+   280		struct device *hwmon;
+   281		const char *name;
+   282	
+   283		name = devm_kasprintf(&wiphy->dev, GFP_KERNEL, "mt7996_%s.%d",
+   284				      wiphy_name(wiphy), phy->mt76->band_idx);
+   285		if (!name)
+   286			return -ENOMEM;
+   287	
+   288		snprintf(cname, sizeof(cname), "cooling_device%d", phy->mt76->band_idx);
+   289	
+   290		cdev = thermal_cooling_device_register(name, phy, &mt7996_thermal_ops);
+   291		if (!IS_ERR(cdev)) {
+   292			if (sysfs_create_link(&wiphy->dev.kobj, &cdev->device.kobj,
+   293					      cname) < 0)
+   294				thermal_cooling_device_unregister(cdev);
+   295			else
+   296				phy->cdev = cdev;
+   297		}
+   298	
+   299		/* initialize critical/maximum high temperature */
+   300		phy->throttle_temp[MT7996_CRIT_TEMP_IDX] = MT7996_CRIT_TEMP;
+   301		phy->throttle_temp[MT7996_MAX_TEMP_IDX] = MT7996_MAX_TEMP;
+   302	
+ > 303		phy->tzone = thermal_of_zone_register(phy->dev->mt76.dev,
+   304						      phy->mt76->band_idx, phy,
+   305						      &mt7996_tz_ops);
+   306		if (IS_ERR(phy->tzone)) {
+   307			if (PTR_ERR(phy->tzone) != -ENODEV)
+   308				dev_warn(phy->dev->mt76.dev,
+   309					 "failed to register thermal zone %d: %ld\n",
+   310					 phy->mt76->band_idx, PTR_ERR(phy->tzone));
+   311			phy->tzone = NULL;
+   312		}
+   313	
+   314		if (!IS_REACHABLE(CONFIG_HWMON))
+   315			return 0;
+   316	
+   317		hwmon = devm_hwmon_device_register_with_groups(&wiphy->dev, name, phy,
+   318							       mt7996_hwmon_groups);
+   319	
+   320		if (IS_ERR(hwmon)) {
+   321			mt7996_unregister_thermal(phy);
+   322			return PTR_ERR(hwmon);
+   323		}
+   324	
+   325		return 0;
+   326	}
+   327	
 
 --
 0-DAY CI Kernel Test Service
