@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07DA3C198A;
-	Sun,  4 Oct 2026 15:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844D437C0EC
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Oct 2026 16:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791129207; cv=none; b=dW0v8Xq4xrmI5gsCeUeIdZO7OHE8Gvl1sRfISnbgOEqYNz/Wo8TG/epWJWcLy1OxVHV2YC547C6W92QzoVKEJxEyLeGynF00Alu3t1w7vxA5KuUz0KwHTTEhst05tnaxmNTfe0PCJgcGMYovaOQESzS3m9ghbvedvAvUNOLt/oU=
+	t=1791130069; cv=none; b=iq/4DmjU+iwBeKwbtX3rLsnWRs7UlC18/lh4N2aRaN7mYgSIpRHeKXpHIQynQ7TZWAJb6zoyftLJuvR3fPDfn/BvSutVgjxfaoc0GGi32s8BFXhPE9QOxZkzbbu/dgD8s0MEr1dV5T8AAyQziQjcohKVqNTXo2q/VSK9POgjVGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791129207; c=relaxed/simple;
-	bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M+1aYO1uRXjH1M80oMKuK3OSDGEAMwFLZQf/nb2XpGM7cvM3Cwc49zbIKK5zfM7rfP939mmLzu4+JNTjFM5Fn5w0cbybhBC9KbX4sLyKDbEiF38Ki9oyms7iJ2R3uENB2KGGU7pewpJcScRkIJE2AG7sGB8BzQt/f/uBZwnE+Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/rhd/M+; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1791130069; c=relaxed/simple;
+	bh=o+XeEr5uktmC3GPLiKarpr5ZGah2N8uJSJ/Yph9cRug=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ieqb29cGQEeriZL4u1CnnM8RQkfifazF94ZQSLJdfkrm2+OLD2tzBbhbyx+fKwYSRxlOGW5AEAb5R51YZaNVlQYJWpPc4OQYYosdcZEIsI9zzi0e8ZgpzTws2vEgq+LACpTCnwWD5AfxD8ysDXyOZC0Bl2BItmUBzCcJ6RE6WbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYZ1nG3l; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/rhd/M+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYZ1nG3l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791129205; x=1822665205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
-  b=a/rhd/M+HNhyj7UGj4+jyBY4CpPsxLeTN/XKLSYpdSLMpdr4d5kugj1l
-   fAf1zNW7MuI6RXVHwyAgcg0b/f94pzOw/SJkytwwlHiPFJZGw9HeA2QS7
-   bPS1jf14N+9K3nyDWUiai0W53NeiWNJ1VegNe0CBBtFa2MZhTV2onlM9X
-   88MA1CdmjbOX2D9VSEW9/RG4PoVCtP81+ypn3CV8yCfuG7akvcA9QSqKv
-   4maMcLKifI1kDfWEorJxl7JzA3N4hPTQACblGq9rofCKi7nOGTzW/zAne
-   F1hhrg3vXH9iXspA3JydVGtZ0OHTa0A0YMgtw6WH2LpPozWq2LixruGPK
+  t=1791130068; x=1822666068;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=o+XeEr5uktmC3GPLiKarpr5ZGah2N8uJSJ/Yph9cRug=;
+  b=ZYZ1nG3luSTyJU9iAWC2xWs7bM2oaefkEsBk9xbdMl2tVZxzsUqFIhKN
+   Zs37Jik/g3Gj3xE/4HkIPj+xb+weVNyC/ruqZDLkK+oOlIKUrxGKF9zU8
+   xr3NFWAkizl7jQJ/auNU6UTAgf01mvRfWe4xGQyMKLUFdbxkmOw7E5ZPw
+   7aMKHWmeDRt0f9y6+OQCL88oWKoJZxtwTUF5sBUryHIUWJkODBMnpRpmZ
+   iV2DQC0ES8EmsIE8ltYjBeKP80Gk17mn2b0IkK2edpHFZgZP5mQGeLf/O
+   y8iT6HfkdmrBSvBnw045RM8GyTySUphpu9kIzBYs4KTUBxXjRCCsDsH8C
    Q==;
-X-CSE-ConnectionGUID: ya/AVUrMTfOt+j54CmKA1A==
-X-CSE-MsgGUID: N/ChAPzFQma8yLLwtI2NDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="95627950"
+X-CSE-ConnectionGUID: /Sa+4F4sSOWkzuZ7SwvRTA==
+X-CSE-MsgGUID: N/Wz0H+MSkydQmfgXYeKnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="90585394"
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="95627950"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 08:53:23 -0700
-X-CSE-ConnectionGUID: oEBoJPlCQ2G9hBPfsJYkmw==
-X-CSE-MsgGUID: tlqqacLyQbeHvEGJeU3+Tw==
+   d="scan'208";a="90585394"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 09:07:47 -0700
+X-CSE-ConnectionGUID: A1Hs7sXZSNmK+xI+PKr/AA==
+X-CSE-MsgGUID: 7pJo4txhR3GD4+taQji3tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="314637099"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2026 08:53:19 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+   d="scan'208";a="274739115"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 04 Oct 2026 09:07:47 -0700
+Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDOWa-00000000UqT-0uUY;
-	Sun, 04 Oct 2026 15:53:16 +0000
-Date: Sun, 4 Oct 2026 23:52:18 +0800
+	id 1xDOka-000000000LP-1lE6
+	for oe-kbuild-all@lists.linux.dev;
+	Sun, 04 Oct 2026 16:07:44 +0000
+Date: Sun, 4 Oct 2026 18:07:43 +0200
 From: kernel test robot <lkp@intel.com>
-To: Birger Koblitz <mail@birger-koblitz.de>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, Eric Dumazet <edumazet@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, Jianhui Xu <neuromoments@gmail.com>,
-	Birger Koblitz <mail@birger-koblitz.de>
-Subject: Re: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
-Message-ID: <202610042301.MlmvbRpS-lkp@intel.com>
-References: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: coresight: etm4x: Report whether the PMU counts external output 1
+Message-ID: <202610041830.sVT0ZNBU-lkp@intel.com>
+References: <202610041830.sVT0ZNBU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,69 +62,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
+In-Reply-To: <202610041830.sVT0ZNBU-lkp@intel.com>
 
-Hi Birger,
+Hi Amir,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 071876fd50482a68603a9460d80dd6dd58827ee1]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Birger-Koblitz/phylink-Add-phylink_mac_interrupt/20261004-073905
-base:   071876fd50482a68603a9460d80dd6dd58827ee1
-patch link:    https://lore.kernel.org/r/20261004-ax88179a-v16-13-2a9ae4e68f7b%40birger-koblitz.de
-patch subject: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D, AX88179A and AX88279
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/reproduce)
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amir-Ayupov/coresight-Add-pmu_pulse-extout_pulse/20260930-233744
+base:   
+patch link:    https://lore.kernel.org/r/202610041830.sVT0ZNBU-lkp%40intel.com
+config: arm64-randconfig-r2100-20261004 (https://download.01.org/0day-ci/archive/20261004/202610041830.sVT0ZNBU-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610041830.sVT0ZNBU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610042301.MlmvbRpS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610041830.sVT0ZNBU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from drivers/net/phy/ax88796b.c:6:
-   drivers/net/phy/ax88796b.c: In function 'asix_ax88772D_get_features':
->> drivers/net/phy/ax88796b.c:217:42: warning: unused variable 'mask' [-Wunused-variable]
-     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-         |                                          ^~~~
-   include/linux/types.h:10:23: note: in definition of macro 'DECLARE_BITMAP'
-      10 |         unsigned long name[BITS_TO_LONGS(bits)]
-         |                       ^~~~
-   drivers/net/phy/ax88796b.c:217:9: note: in expansion of macro '__ETHTOOL_DECLARE_LINK_MODE_MASK'
-     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwtracing/coresight/coresight-etm4x-core.c:1406:12: error: use of undeclared identifier 'ARMV8_PMUV3_EXT_COMMON_EVENT_BASE'
+    1406 |                                        ARMV8_PMUV3_EXT_COMMON_EVENT_BASE)))
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/mask +217 drivers/net/phy/ax88796b.c
+vim +/ARMV8_PMUV3_EXT_COMMON_EVENT_BASE +1406 drivers/hwtracing/coresight/coresight-etm4x-core.c
 
-   213	
-   214	static int asix_ax88772D_get_features(struct phy_device *phydev)
-   215	{
-   216		int ret;
- > 217		__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-   218	
-   219		/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
-   220		phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
-   221	
-   222		ret = genphy_read_abilities(phydev);
-   223		if (ret < 0)
-   224			return ret;
-   225	
-   226		/* AX88772D does not support reported 1000baseT mode */
-   227		linkmode_clear_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, phydev->supported);
-   228	
-   229		return 0;
-   230	}
-   231	
+  1385	
+  1386	/*
+  1387	 * Check whether a PMU event can count external output 1 of this trace unit,
+  1388	 * and whether the trace unit has event 1 to drive it, since event 0 is the
+  1389	 * trace unit trigger. The PMU only reports whether an event is implemented,
+  1390	 * not that the trace unit drives it, so also require a CPU whose manual
+  1391	 * documents the connection.
+  1392	 *
+  1393	 * Must run on the CPU that owns the trace unit.
+  1394	 */
+  1395	static bool etm4_pmu_has_extout1(struct etmv4_drvdata *drvdata)
+  1396	{
+  1397		int pmuver = read_pmuver();
+  1398	
+  1399		if (!is_midr_in_range_list(etm4_pmu_extout1_cpus))
+  1400			return false;
+  1401	
+  1402		/* PMCEID0_EL0[63:32] describe events 0x4000-0x401f from PMUv3p1 */
+  1403		if (!pmuv3_implemented(pmuver) || pmuver < ID_AA64DFR0_EL1_PMUVer_V3P1)
+  1404			return false;
+  1405		if (!(read_pmceid0() & BIT_ULL(32 + ARMV8_PMUV3_PERFCTR_TRCEXTOUT1 -
+> 1406					       ARMV8_PMUV3_EXT_COMMON_EVENT_BASE)))
+  1407			return false;
+  1408	
+  1409		/* nr_event is TRCIDR0.NUMEVENT, the number of events minus one */
+  1410		return drvdata->nr_event >= 1;
+  1411	}
+  1412	
 
 --
 0-DAY CI Kernel Test Service
