@@ -1,130 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C51468C33;
-	Sun,  4 Oct 2026 14:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07DA3C198A;
+	Sun,  4 Oct 2026 15:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791125846; cv=none; b=M0Z4f906YcPLnp1C3kKhL5qlv5Xy4qGJEJ4d2tAtPyfwL6aAWhwn6T93LTQtffr8MEZOY+A5pooJ40PZKLu3wr6e0EkE0S4lOXByj02gBrSjGjBqEAeSwlh+9PISnQKmTT4bxYFJZLqy7mvrmQDwGrmTD/54f5DRb9sDHGpX/E4=
+	t=1791129207; cv=none; b=dW0v8Xq4xrmI5gsCeUeIdZO7OHE8Gvl1sRfISnbgOEqYNz/Wo8TG/epWJWcLy1OxVHV2YC547C6W92QzoVKEJxEyLeGynF00Alu3t1w7vxA5KuUz0KwHTTEhst05tnaxmNTfe0PCJgcGMYovaOQESzS3m9ghbvedvAvUNOLt/oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791125846; c=relaxed/simple;
-	bh=jKRDeQWHATNQKguOq+DACJaAb5fWymP47mTILZgh/pw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XJjrC0gcfULCNGdskjCcK9w91y2YlCvv0MMyoXYklGmYay0wk649R2FICbPtE6ETWtqoB7iCt3oIlmt90IJKudPGDkNvXSB71g/iEz/ZGJ8qUqYpBx1yEL55GhYtUsUyqI6gAfFfLzNzKKFMx/SPQO4TRBYq51sMV7v4d6Fab9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfW+upAc; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1791129207; c=relaxed/simple;
+	bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M+1aYO1uRXjH1M80oMKuK3OSDGEAMwFLZQf/nb2XpGM7cvM3Cwc49zbIKK5zfM7rfP939mmLzu4+JNTjFM5Fn5w0cbybhBC9KbX4sLyKDbEiF38Ki9oyms7iJ2R3uENB2KGGU7pewpJcScRkIJE2AG7sGB8BzQt/f/uBZwnE+Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/rhd/M+; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfW+upAc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/rhd/M+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791125842; x=1822661842;
-  h=date:from:to:cc:subject:message-id;
-  bh=jKRDeQWHATNQKguOq+DACJaAb5fWymP47mTILZgh/pw=;
-  b=cfW+upAcXHqbFQ+F1gGuO3j2tXvLajngenslrTaO/9p1//V+vVMcUB39
-   4+/PlD8hhNbWpUjh7x/rXRu3NTR1GoKdW4BCZ/Zp8Ok+sNzj9DYACH1FM
-   kfMuy6OGwkhJfd5Q00iR4QiEqE4HTCw5wYgaiopXWu+29RYFGTPPUgNpN
-   PfpPjnkayxQe0hyWR68uj+INRr7VeeP7QfQa969/K0IFkas73CwXKXZAi
-   JtEVPGp/hd0NpPERI12DUZfAhLt23c1qDaim/AxwBSbjo02TBi182bI+D
-   GGEiSNbLyOdxjeW3Dlkge1rjdQqCKdcQcBw/iEeutrK6yEPMOx83GvgSa
+  t=1791129205; x=1822665205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
+  b=a/rhd/M+HNhyj7UGj4+jyBY4CpPsxLeTN/XKLSYpdSLMpdr4d5kugj1l
+   fAf1zNW7MuI6RXVHwyAgcg0b/f94pzOw/SJkytwwlHiPFJZGw9HeA2QS7
+   bPS1jf14N+9K3nyDWUiai0W53NeiWNJ1VegNe0CBBtFa2MZhTV2onlM9X
+   88MA1CdmjbOX2D9VSEW9/RG4PoVCtP81+ypn3CV8yCfuG7akvcA9QSqKv
+   4maMcLKifI1kDfWEorJxl7JzA3N4hPTQACblGq9rofCKi7nOGTzW/zAne
+   F1hhrg3vXH9iXspA3JydVGtZ0OHTa0A0YMgtw6WH2LpPozWq2LixruGPK
    Q==;
-X-CSE-ConnectionGUID: 73hwZmJkSfStnaorP9rhQg==
-X-CSE-MsgGUID: 6ugIptUwT+WHg4zeYUuEpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="94524591"
+X-CSE-ConnectionGUID: ya/AVUrMTfOt+j54CmKA1A==
+X-CSE-MsgGUID: N/ChAPzFQma8yLLwtI2NDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="95627950"
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="94524591"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 07:57:18 -0700
-X-CSE-ConnectionGUID: ww61SwTSSHGfFlJVdNpdkw==
-X-CSE-MsgGUID: AYkCI+9SRoCWIdNc5Jnbqw==
+   d="scan'208";a="95627950"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 08:53:23 -0700
+X-CSE-ConnectionGUID: oEBoJPlCQ2G9hBPfsJYkmw==
+X-CSE-MsgGUID: tlqqacLyQbeHvEGJeU3+Tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="284698988"
+   d="scan'208";a="314637099"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Oct 2026 07:57:16 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2026 08:53:19 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDNeL-00000000Uoj-3IxK;
-	Sun, 04 Oct 2026 14:57:13 +0000
-Date: Sun, 04 Oct 2026 22:56:54 +0800
+	id 1xDOWa-00000000UqT-0uUY;
+	Sun, 04 Oct 2026 15:53:16 +0000
+Date: Sun, 4 Oct 2026 23:52:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-pci@vger.kernel.org
-Subject: [pci:next 20/29]
- drivers/pci/controller/dwc/pcie-rcar-gen4.c:307:30: error: use of undeclared
- identifier 'PCIE_PORT_LANE_SKEW'
-Message-ID: <202610042255.a8dle5HM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Birger Koblitz <mail@birger-koblitz.de>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Eric Dumazet <edumazet@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev, Jianhui Xu <neuromoments@gmail.com>,
+	Birger Koblitz <mail@birger-koblitz.de>
+Subject: Re: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D,
+ AX88179A and AX88279
+Message-ID: <202610042301.MlmvbRpS-lkp@intel.com>
+References: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-head:   372b7a0d9c7c0cb724b259db9d39c785ad9dec74
-commit: 9bab7146bd9ef2700f42d705d8e01d7d95362d0f [20/29] Merge branch 'pci/controller/dwc-rcar-gen4'
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261004/202610042255.a8dle5HM-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610042255.a8dle5HM-lkp@intel.com/reproduce)
+Hi Birger,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 071876fd50482a68603a9460d80dd6dd58827ee1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Birger-Koblitz/phylink-Add-phylink_mac_interrupt/20261004-073905
+base:   071876fd50482a68603a9460d80dd6dd58827ee1
+patch link:    https://lore.kernel.org/r/20261004-ax88179a-v16-13-2a9ae4e68f7b%40birger-koblitz.de
+patch subject: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D, AX88179A and AX88279
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610042255.a8dle5HM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610042301.MlmvbRpS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-rcar-gen4.c:307:30: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
-     307 |         val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
-         |                                     ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-rcar-gen4.c:311:25: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
-     311 |         dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
-         |                                ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-rcar-gen4.c:338:30: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
-     338 |         val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
-         |                                     ^~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-rcar-gen4.c:342:25: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
-     342 |         dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
-         |                                ^~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+   In file included from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:369,
+                    from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from drivers/net/phy/ax88796b.c:6:
+   drivers/net/phy/ax88796b.c: In function 'asix_ax88772D_get_features':
+>> drivers/net/phy/ax88796b.c:217:42: warning: unused variable 'mask' [-Wunused-variable]
+     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
+         |                                          ^~~~
+   include/linux/types.h:10:23: note: in definition of macro 'DECLARE_BITMAP'
+      10 |         unsigned long name[BITS_TO_LONGS(bits)]
+         |                       ^~~~
+   drivers/net/phy/ax88796b.c:217:9: note: in expansion of macro '__ETHTOOL_DECLARE_LINK_MODE_MASK'
+     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/PCIE_PORT_LANE_SKEW +307 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+vim +/mask +217 drivers/net/phy/ax88796b.c
 
-0d0c551011df45 Yoshihiro Shimoda 2023-10-18  294  
-eeeb72fab4a569 Marek Vasut       2026-09-21  295  static int rcar_gen4_v4h_v4m_pcie_init(struct rcar_gen4_pcie *rcar)
-eeeb72fab4a569 Marek Vasut       2026-09-21  296  {
-eeeb72fab4a569 Marek Vasut       2026-09-21  297  	struct dw_pcie *dw = &rcar->dw;
-eeeb72fab4a569 Marek Vasut       2026-09-21  298  	u32 val;
-eeeb72fab4a569 Marek Vasut       2026-09-21  299  	int ret;
-eeeb72fab4a569 Marek Vasut       2026-09-21  300  
-eeeb72fab4a569 Marek Vasut       2026-09-21  301  	/* R-Car Gen4 common initialization. */
-eeeb72fab4a569 Marek Vasut       2026-09-21  302  	ret = rcar_gen4_pcie_common_init(rcar);
-eeeb72fab4a569 Marek Vasut       2026-09-21  303  	if (ret)
-eeeb72fab4a569 Marek Vasut       2026-09-21  304  		return ret;
-eeeb72fab4a569 Marek Vasut       2026-09-21  305  
-eeeb72fab4a569 Marek Vasut       2026-09-21  306  	/* R-Car V4H and V4M specific additional initialization. */
-eeeb72fab4a569 Marek Vasut       2026-09-21 @307  	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
-eeeb72fab4a569 Marek Vasut       2026-09-21  308  	val &= ~PORT_LANE_SKEW_INSERT_MASK;
-eeeb72fab4a569 Marek Vasut       2026-09-21  309  	if (dw->num_lanes < 4)
-eeeb72fab4a569 Marek Vasut       2026-09-21  310  		val |= BIT(6);
-eeeb72fab4a569 Marek Vasut       2026-09-21  311  	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
-eeeb72fab4a569 Marek Vasut       2026-09-21  312  
-eeeb72fab4a569 Marek Vasut       2026-09-21  313  	val = readl(rcar->base + PCIEPWRMNGCTRL);
-eeeb72fab4a569 Marek Vasut       2026-09-21  314  	val |= APP_CLK_REQ_N | APP_CLK_PM_EN;
-eeeb72fab4a569 Marek Vasut       2026-09-21  315  	writel(val, rcar->base + PCIEPWRMNGCTRL);
-eeeb72fab4a569 Marek Vasut       2026-09-21  316  
-eeeb72fab4a569 Marek Vasut       2026-09-21  317  	return 0;
-eeeb72fab4a569 Marek Vasut       2026-09-21  318  }
-eeeb72fab4a569 Marek Vasut       2026-09-21  319  
-
-:::::: The code at line 307 was first introduced by commit
-:::::: eeeb72fab4a569c1cc547c9bf220c808dd37f83d PCI: rcar-gen4: Rework .additional_common_init() into .init()
-
-:::::: TO: Marek Vasut <marek.vasut+renesas@mailbox.org>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+   213	
+   214	static int asix_ax88772D_get_features(struct phy_device *phydev)
+   215	{
+   216		int ret;
+ > 217		__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
+   218	
+   219		/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
+   220		phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
+   221	
+   222		ret = genphy_read_abilities(phydev);
+   223		if (ret < 0)
+   224			return ret;
+   225	
+   226		/* AX88772D does not support reported 1000baseT mode */
+   227		linkmode_clear_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, phydev->supported);
+   228	
+   229		return 0;
+   230	}
+   231	
 
 --
 0-DAY CI Kernel Test Service
