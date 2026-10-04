@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0592D2848A7
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Oct 2026 14:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C51468C33;
+	Sun,  4 Oct 2026 14:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791123408; cv=none; b=iZrQgNcD0tT5HB+K4jfeJx55GLcDF6+nyqPd44N+4pPL8ORwXpVahl6rUS+qQjtZDephzhGRhFM+0l7skusEu1DL8dzO8/Xsnywg0x9GGsOO+DEUDB73eF1bmRAxOqpdbW51rpVzHPaWZ0zFs5a1S0DVG6IYVtv+QHXcOZj1UTI=
+	t=1791125846; cv=none; b=M0Z4f906YcPLnp1C3kKhL5qlv5Xy4qGJEJ4d2tAtPyfwL6aAWhwn6T93LTQtffr8MEZOY+A5pooJ40PZKLu3wr6e0EkE0S4lOXByj02gBrSjGjBqEAeSwlh+9PISnQKmTT4bxYFJZLqy7mvrmQDwGrmTD/54f5DRb9sDHGpX/E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791123408; c=relaxed/simple;
-	bh=UTXI19jnhDDhKnIcHdoEqjKYFqL/6q0sD1Ss4hDX+AI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=p/w+3uiKLG/C5LhxeJIdlgbSA7v+cZFX4ODBhnAVuEANb6wGn81feRllYfI7Pk16MjaC/zE2ySI0HTkKbQQvWsL+z+Q9JYUP5rDYrky5pn3wQWaITGPr5TDrfCM8kkUlaO7tsBj0IA6Uq5lrR+HA5iGRYB14L+g7q13EpqPJWAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DCPjPCo8; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1791125846; c=relaxed/simple;
+	bh=jKRDeQWHATNQKguOq+DACJaAb5fWymP47mTILZgh/pw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XJjrC0gcfULCNGdskjCcK9w91y2YlCvv0MMyoXYklGmYay0wk649R2FICbPtE6ETWtqoB7iCt3oIlmt90IJKudPGDkNvXSB71g/iEz/ZGJ8qUqYpBx1yEL55GhYtUsUyqI6gAfFfLzNzKKFMx/SPQO4TRBYq51sMV7v4d6Fab9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfW+upAc; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DCPjPCo8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfW+upAc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791123406; x=1822659406;
+  t=1791125842; x=1822661842;
   h=date:from:to:cc:subject:message-id;
-  bh=UTXI19jnhDDhKnIcHdoEqjKYFqL/6q0sD1Ss4hDX+AI=;
-  b=DCPjPCo8RROBw0lvRq9B9SQzmtU4meW+HLXVHwMCyIv1M5xX5KMzpcS3
-   vwphB0SwZo3aNbgbrS1eUNYtSIz3O8bNLwPtsf3k5NIjohR+mhrChFjtg
-   H480l10hoGvdEoI4xSWyQGeRrQGDm21cMPBPgIO9aHOWM7tTia2A6Equ0
-   e/cI+BNSmgS4nGKa9/FM68fBBi6XTdY2NYtFY9VmR7n6vDtwUWC2lKOYV
-   p0viYmzMsrsK9myZOe7ny7pZMRLD+aYP4vLTUzuAstsolpKGXQFNlQCYv
-   hasubS0b/g9e/taZ89MZb9L+NP9312eqVH4AjVXvEsr64w/j14BGradKr
-   A==;
-X-CSE-ConnectionGUID: 7PlYY0wKTF66uIzYmiWukQ==
-X-CSE-MsgGUID: l4SX/9hkTBuoXF6wJPgWDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="94298940"
+  bh=jKRDeQWHATNQKguOq+DACJaAb5fWymP47mTILZgh/pw=;
+  b=cfW+upAcXHqbFQ+F1gGuO3j2tXvLajngenslrTaO/9p1//V+vVMcUB39
+   4+/PlD8hhNbWpUjh7x/rXRu3NTR1GoKdW4BCZ/Zp8Ok+sNzj9DYACH1FM
+   kfMuy6OGwkhJfd5Q00iR4QiEqE4HTCw5wYgaiopXWu+29RYFGTPPUgNpN
+   PfpPjnkayxQe0hyWR68uj+INRr7VeeP7QfQa969/K0IFkas73CwXKXZAi
+   JtEVPGp/hd0NpPERI12DUZfAhLt23c1qDaim/AxwBSbjo02TBi182bI+D
+   GGEiSNbLyOdxjeW3Dlkge1rjdQqCKdcQcBw/iEeutrK6yEPMOx83GvgSa
+   Q==;
+X-CSE-ConnectionGUID: 73hwZmJkSfStnaorP9rhQg==
+X-CSE-MsgGUID: 6ugIptUwT+WHg4zeYUuEpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="94524591"
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="94298940"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 07:16:45 -0700
-X-CSE-ConnectionGUID: /98GtgIlRky6dU23z1ImaQ==
-X-CSE-MsgGUID: tc1m9FddQxmXwwyesYDNNw==
+   d="scan'208";a="94524591"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 07:57:18 -0700
+X-CSE-ConnectionGUID: ww61SwTSSHGfFlJVdNpdkw==
+X-CSE-MsgGUID: AYkCI+9SRoCWIdNc5Jnbqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="280362622"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 04 Oct 2026 07:16:45 -0700
-Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
+   d="scan'208";a="284698988"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 04 Oct 2026 07:57:16 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDN17-000000000Jf-3biE;
-	Sun, 04 Oct 2026 14:16:41 +0000
-Date: Sun, 04 Oct 2026 16:16:18 +0200
+	id 1xDNeL-00000000Uoj-3IxK;
+	Sun, 04 Oct 2026 14:57:13 +0000
+Date: Sun, 04 Oct 2026 22:56:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cris:scmi_telemetry_ng_V13 7/25]
- drivers/firmware/arm_scmi/telemetry.c:1568:48: sparse: sparse: non
- size-preserving pointer to integer cast
-Message-ID: <202610041617.oqdi6UhM-lkp@intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-pci@vger.kernel.org
+Subject: [pci:next 20/29]
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c:307:30: error: use of undeclared
+ identifier 'PCIE_PORT_LANE_SKEW'
+Message-ID: <202610042255.a8dle5HM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,48 +61,70 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_ng_V13
-head:   ba9a465eed933939521f23908a646f15758f5d09
-commit: d0aad02d334b9db4c51ec4c0682a4326de35205e [7/25] firmware: arm_scmi: Add support to parse SHMTIs areas
-config: arm-randconfig-r2306-20261004 (https://download.01.org/0day-ci/archive/20261004/202610041617.oqdi6UhM-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610041617.oqdi6UhM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+head:   372b7a0d9c7c0cb724b259db9d39c785ad9dec74
+commit: 9bab7146bd9ef2700f42d705d8e01d7d95362d0f [20/29] Merge branch 'pci/controller/dwc-rcar-gen4'
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261004/202610042255.a8dle5HM-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610042255.a8dle5HM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610041617.oqdi6UhM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610042255.a8dle5HM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm_scmi/telemetry.c:1568:48: sparse: sparse: non size-preserving pointer to integer cast
-   drivers/firmware/arm_scmi/telemetry.c:1680:48: sparse: sparse: non size-preserving pointer to integer cast
+All errors (new ones prefixed by >>):
 
-vim +1568 drivers/firmware/arm_scmi/telemetry.c
+>> drivers/pci/controller/dwc/pcie-rcar-gen4.c:307:30: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
+     307 |         val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
+         |                                     ^~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-rcar-gen4.c:311:25: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
+     311 |         dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
+         |                                ^~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-rcar-gen4.c:338:30: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
+     338 |         val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
+         |                                     ^~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-rcar-gen4.c:342:25: error: use of undeclared identifier 'PCIE_PORT_LANE_SKEW'
+     342 |         dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
+         |                                ^~~~~~~~~~~~~~~~~~~
+   4 errors generated.
 
-  1550	
-  1551	static struct telemetry_block_ts *
-  1552	scmi_telemetry_blkts_create(struct telemetry_info *ti,
-  1553				    struct payload __iomem *payld)
-  1554	{
-  1555		struct telemetry_block_ts *bts;
-  1556		int ret;
-  1557	
-  1558		bts = kzalloc_obj(*bts);
-  1559		if (!bts)
-  1560			return NULL;
-  1561	
-  1562		ret = scmi_telemetry_line_init(ti, &bts->line, payld, TDCF_BLK_TS_LINE);
-  1563		if (ret) {
-  1564			kfree(bts);
-  1565			return NULL;
-  1566		}
-  1567	
-> 1568		trace_scmi_tlm_collect(0, (__force u64)payld, 0, "SHMTI_NEW_BLKTS");
-  1569	
-  1570		return bts;
-  1571	}
-  1572	
+
+vim +/PCIE_PORT_LANE_SKEW +307 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+
+0d0c551011df45 Yoshihiro Shimoda 2023-10-18  294  
+eeeb72fab4a569 Marek Vasut       2026-09-21  295  static int rcar_gen4_v4h_v4m_pcie_init(struct rcar_gen4_pcie *rcar)
+eeeb72fab4a569 Marek Vasut       2026-09-21  296  {
+eeeb72fab4a569 Marek Vasut       2026-09-21  297  	struct dw_pcie *dw = &rcar->dw;
+eeeb72fab4a569 Marek Vasut       2026-09-21  298  	u32 val;
+eeeb72fab4a569 Marek Vasut       2026-09-21  299  	int ret;
+eeeb72fab4a569 Marek Vasut       2026-09-21  300  
+eeeb72fab4a569 Marek Vasut       2026-09-21  301  	/* R-Car Gen4 common initialization. */
+eeeb72fab4a569 Marek Vasut       2026-09-21  302  	ret = rcar_gen4_pcie_common_init(rcar);
+eeeb72fab4a569 Marek Vasut       2026-09-21  303  	if (ret)
+eeeb72fab4a569 Marek Vasut       2026-09-21  304  		return ret;
+eeeb72fab4a569 Marek Vasut       2026-09-21  305  
+eeeb72fab4a569 Marek Vasut       2026-09-21  306  	/* R-Car V4H and V4M specific additional initialization. */
+eeeb72fab4a569 Marek Vasut       2026-09-21 @307  	val = dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
+eeeb72fab4a569 Marek Vasut       2026-09-21  308  	val &= ~PORT_LANE_SKEW_INSERT_MASK;
+eeeb72fab4a569 Marek Vasut       2026-09-21  309  	if (dw->num_lanes < 4)
+eeeb72fab4a569 Marek Vasut       2026-09-21  310  		val |= BIT(6);
+eeeb72fab4a569 Marek Vasut       2026-09-21  311  	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
+eeeb72fab4a569 Marek Vasut       2026-09-21  312  
+eeeb72fab4a569 Marek Vasut       2026-09-21  313  	val = readl(rcar->base + PCIEPWRMNGCTRL);
+eeeb72fab4a569 Marek Vasut       2026-09-21  314  	val |= APP_CLK_REQ_N | APP_CLK_PM_EN;
+eeeb72fab4a569 Marek Vasut       2026-09-21  315  	writel(val, rcar->base + PCIEPWRMNGCTRL);
+eeeb72fab4a569 Marek Vasut       2026-09-21  316  
+eeeb72fab4a569 Marek Vasut       2026-09-21  317  	return 0;
+eeeb72fab4a569 Marek Vasut       2026-09-21  318  }
+eeeb72fab4a569 Marek Vasut       2026-09-21  319  
+
+:::::: The code at line 307 was first introduced by commit
+:::::: eeeb72fab4a569c1cc547c9bf220c808dd37f83d PCI: rcar-gen4: Rework .additional_common_init() into .init()
+
+:::::: TO: Marek Vasut <marek.vasut+renesas@mailbox.org>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 --
 0-DAY CI Kernel Test Service
