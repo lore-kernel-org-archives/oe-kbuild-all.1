@@ -1,125 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844D437C0EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Oct 2026 16:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A20396B76
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Oct 2026 17:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791130069; cv=none; b=iq/4DmjU+iwBeKwbtX3rLsnWRs7UlC18/lh4N2aRaN7mYgSIpRHeKXpHIQynQ7TZWAJb6zoyftLJuvR3fPDfn/BvSutVgjxfaoc0GGi32s8BFXhPE9QOxZkzbbu/dgD8s0MEr1dV5T8AAyQziQjcohKVqNTXo2q/VSK9POgjVGM=
+	t=1791135591; cv=none; b=dFadDrIdiMn8eQGAXQbko38Vq5fzOQtGGtDZ9iYKfFwbJNAbgooagiw476BxSbIBasM5VFHiqbCiiEI+rKfoPfgCFM+j81TJt0oZBCRrFek45+meErwpfMx+hXukli7zerDoLxkNVnnRllm9SNtxJX6RP2Luz0XnYgjLzMbe/hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791130069; c=relaxed/simple;
-	bh=o+XeEr5uktmC3GPLiKarpr5ZGah2N8uJSJ/Yph9cRug=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ieqb29cGQEeriZL4u1CnnM8RQkfifazF94ZQSLJdfkrm2+OLD2tzBbhbyx+fKwYSRxlOGW5AEAb5R51YZaNVlQYJWpPc4OQYYosdcZEIsI9zzi0e8ZgpzTws2vEgq+LACpTCnwWD5AfxD8ysDXyOZC0Bl2BItmUBzCcJ6RE6WbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYZ1nG3l; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1791135591; c=relaxed/simple;
+	bh=atL3uKk4zSd2yetZ810dMbql2gCB9eUJolQNUz2rULw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pA99ETfwIHlg/b7ctw98l13Mmn+fL5E2HEQWxrc5qcqYq1T6nfyyS1aAVAA7sa5r35WdaiCKfE/8dViHbqsMaDCKBuUwZsdky9Es6JxzraYcujf5Ck/wqowSUNPcWzr/jtuv76S7iOVMqiuCys2pEgU4z+Rhpb49FyERn4FCSmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJHdgUXP; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYZ1nG3l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJHdgUXP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791130068; x=1822666068;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=o+XeEr5uktmC3GPLiKarpr5ZGah2N8uJSJ/Yph9cRug=;
-  b=ZYZ1nG3luSTyJU9iAWC2xWs7bM2oaefkEsBk9xbdMl2tVZxzsUqFIhKN
-   Zs37Jik/g3Gj3xE/4HkIPj+xb+weVNyC/ruqZDLkK+oOlIKUrxGKF9zU8
-   xr3NFWAkizl7jQJ/auNU6UTAgf01mvRfWe4xGQyMKLUFdbxkmOw7E5ZPw
-   7aMKHWmeDRt0f9y6+OQCL88oWKoJZxtwTUF5sBUryHIUWJkODBMnpRpmZ
-   iV2DQC0ES8EmsIE8ltYjBeKP80Gk17mn2b0IkK2edpHFZgZP5mQGeLf/O
-   y8iT6HfkdmrBSvBnw045RM8GyTySUphpu9kIzBYs4KTUBxXjRCCsDsH8C
-   Q==;
-X-CSE-ConnectionGUID: /Sa+4F4sSOWkzuZ7SwvRTA==
-X-CSE-MsgGUID: N/Wz0H+MSkydQmfgXYeKnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="90585394"
+  t=1791135590; x=1822671590;
+  h=date:from:to:cc:subject:message-id;
+  bh=atL3uKk4zSd2yetZ810dMbql2gCB9eUJolQNUz2rULw=;
+  b=jJHdgUXP8Rz71C7TzwJEVuGBYlb57XnOmrPaUyA0m7c5EhY7LPz5iR/P
+   JiNeo0fnYss7RDwXmgkBnuOyVOhuRXMJWPplnBtHXKQryZF7Xp1aXOVRw
+   tfaiwCCF5C0uRzv9RNhJlGLBqg3oXg/PWuck5eKLiQVgqAg9cWUC3YvQh
+   17xBFnn2wbHMjos/9o5XSHpoEuQe4g7yyenEOyHCqQIhrZKLMA7NOwB7f
+   fBXL56ofw8JRjjXpyjYb6xgGlgSTj7FcIWaKRh4/54jNimqoLRFTyLt+c
+   mC91pVnTHUdm/iOOQF0efA/Ubbcx1sbeE1UIgdqLjLPzPfBh+o+x2va6i
+   w==;
+X-CSE-ConnectionGUID: Qp7JSuC7QNCLTlarXAWxKA==
+X-CSE-MsgGUID: YKa2jvLSQtGMuun3UIvYBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="94305073"
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="90585394"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 09:07:47 -0700
-X-CSE-ConnectionGUID: A1Hs7sXZSNmK+xI+PKr/AA==
-X-CSE-MsgGUID: 7pJo4txhR3GD4+taQji3tg==
+   d="scan'208";a="94305073"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 10:39:50 -0700
+X-CSE-ConnectionGUID: ThLeNb4MTIaQwRut9AB96Q==
+X-CSE-MsgGUID: qpecmF2YQDmTZMamDELgMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="274739115"
+   d="scan'208";a="314650520"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 04 Oct 2026 09:07:47 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2026 10:39:48 -0700
 Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDOka-000000000LP-1lE6
-	for oe-kbuild-all@lists.linux.dev;
-	Sun, 04 Oct 2026 16:07:44 +0000
-Date: Sun, 4 Oct 2026 18:07:43 +0200
+	id 1xDQBe-000000000Mx-11on;
+	Sun, 04 Oct 2026 17:39:46 +0000
+Date: Sun, 04 Oct 2026 19:38:57 +0200
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: coresight: etm4x: Report whether the PMU counts external output 1
-Message-ID: <202610041830.sVT0ZNBU-lkp@intel.com>
-References: <202610041830.sVT0ZNBU-lkp@intel.com>
+To: Jann Horn <jannh@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:locking/urgent 1/1] undefined reference to
+ `futex_mm_init'
+Message-ID: <202610041918.F9QU0bxy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202610041830.sVT0ZNBU-lkp@intel.com>
 
-Hi Amir,
-
-kernel test robot noticed the following build errors:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amir-Ayupov/coresight-Add-pmu_pulse-extout_pulse/20260930-233744
-base:   
-patch link:    https://lore.kernel.org/r/202610041830.sVT0ZNBU-lkp%40intel.com
-config: arm64-randconfig-r2100-20261004 (https://download.01.org/0day-ci/archive/20261004/202610041830.sVT0ZNBU-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610041830.sVT0ZNBU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/urgent
+head:   fcbe4307bda074abc8132bfe746eeb0e502d74ab
+commit: fcbe4307bda074abc8132bfe746eeb0e502d74ab [1/1] futex: Fix mm reuse handling for FUT_OFF_MMSHARED
+config: alpha-randconfig-r2101-20261001 (https://download.01.org/0day-ci/archive/20261004/202610041918.F9QU0bxy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610041918.F9QU0bxy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610041830.sVT0ZNBU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610041918.F9QU0bxy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:1406:12: error: use of undeclared identifier 'ARMV8_PMUV3_EXT_COMMON_EVENT_BASE'
-    1406 |                                        ARMV8_PMUV3_EXT_COMMON_EVENT_BASE)))
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +/ARMV8_PMUV3_EXT_COMMON_EVENT_BASE +1406 drivers/hwtracing/coresight/coresight-etm4x-core.c
-
-  1385	
-  1386	/*
-  1387	 * Check whether a PMU event can count external output 1 of this trace unit,
-  1388	 * and whether the trace unit has event 1 to drive it, since event 0 is the
-  1389	 * trace unit trigger. The PMU only reports whether an event is implemented,
-  1390	 * not that the trace unit drives it, so also require a CPU whose manual
-  1391	 * documents the connection.
-  1392	 *
-  1393	 * Must run on the CPU that owns the trace unit.
-  1394	 */
-  1395	static bool etm4_pmu_has_extout1(struct etmv4_drvdata *drvdata)
-  1396	{
-  1397		int pmuver = read_pmuver();
-  1398	
-  1399		if (!is_midr_in_range_list(etm4_pmu_extout1_cpus))
-  1400			return false;
-  1401	
-  1402		/* PMCEID0_EL0[63:32] describe events 0x4000-0x401f from PMUv3p1 */
-  1403		if (!pmuv3_implemented(pmuver) || pmuver < ID_AA64DFR0_EL1_PMUVer_V3P1)
-  1404			return false;
-  1405		if (!(read_pmceid0() & BIT_ULL(32 + ARMV8_PMUV3_PERFCTR_TRCEXTOUT1 -
-> 1406					       ARMV8_PMUV3_EXT_COMMON_EVENT_BASE)))
-  1407			return false;
-  1408	
-  1409		/* nr_event is TRCIDR0.NUMEVENT, the number of events minus one */
-  1410		return drvdata->nr_event >= 1;
-  1411	}
-  1412	
+   alpha-linux-ld: kernel/fork.o: in function `mm_init':
+>> (.text+0x1b24): undefined reference to `futex_mm_init'
+>> alpha-linux-ld: (.text+0x1b34): undefined reference to `futex_mm_init'
 
 --
 0-DAY CI Kernel Test Service
