@@ -1,87 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1370A3B42FE
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Oct 2026 03:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAB0243956;
+	Sun,  4 Oct 2026 04:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791085415; cv=none; b=rbu2l1EmAtsLKuf5qKK/s/PADRkJ9BCNEm88ZxzuNBegH1s8n52w41wIQNVxuKHHWUipROY2ea04rI5K9WGKoIaR3bnMw1tarHtHgPArD4SdTmygZuWZMvY0no26GBOJmdj+Pwk29GE/CokBYEcvRvF1NhAFk7t2iVHkYeWc3DY=
+	t=1791086869; cv=none; b=RvvVki8sZ7eKMAMafFgkRH50B6cNXAFuB/wfY4k0MJvm95CBHTmYlao/J/sVFGlYcagbzGh+xawO8ANzDB7v9emefKTsTDB5Rn/zMv88WxsN8Wfy2xNcuiIOlOHQqHfuxhgX4+5SSY2sPDb7dNZnlsqP5O+ia7g9nxu6NuJety0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791085415; c=relaxed/simple;
-	bh=Eh4Ncy+Ja0ldUxZvEJvuLFcxsNKF/lnuyCO3DztNCc8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O/OI/aDwPoj645KW9ZB+TmFYOePbwifPoQ+TmDlArH34zgT5DUYMl5MPfgxTNtNcjzT3Rb2nkW8SRt9AW3/5t93kyUBKVpzMa4cs5yGQl8rPRYyfMB/jTfRbjjM+UdAEcGYXcsvOmg5KZb97vNqXyprnNDWW8LBnqA32PQKKKQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7sfJ4mU; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1791086869; c=relaxed/simple;
+	bh=8HQJr2QEyQMraJ3mh4bm0Lknr2yqYpaSMrC22G/ty8c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AmbIwfeorEXxJ1xnUZ5i1oqUM9549s1TcC93MN5AOvkG9IZWRDJcTlRC9roJXk6mn42CW0lWWDXvEvn6JPy/DzMU98a3TrnKDGQRZs1k+xgcSeJHsLEh/XgOvDoWEI+cj4fBb9w0vkqxvbCpdMGb4Zs6pVIo2SzKmfQMOKu8KdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UC5Midex; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7sfJ4mU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UC5Midex"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791085414; x=1822621414;
-  h=date:from:to:cc:subject:message-id;
-  bh=Eh4Ncy+Ja0ldUxZvEJvuLFcxsNKF/lnuyCO3DztNCc8=;
-  b=Z7sfJ4mUX4SHqV3YTgj0k8Mfwp48vP4eJ92IJlvhgjTqYl68/ow/+yC2
-   W1mAhaE01iU9jVa0K9ezJ438ot/ek2jB52evjH9OYzro6PWiJIHyR1zJE
-   z3QAiuJZbqF6cFo0ZwA/yixPSIoTJM3Rv+BgNF8zKFRfme6Ce7Pz7qECb
-   bJqIc8pcQ8WwsRNTaFKbACVhSNgzyS/ajiuhFradN4Cr9EvuF0JO4r9a6
-   7oLMnQXjZdxqUZk1OPL+tJiQjwdH1Mi3OYgp0JhCkCnDWq4R9MnqC9uVb
-   bO7tnH5RTIcMmAuba0sV86fFoiW3Q4KqOl4Drvk+MvTouh4HU/+2F9WxS
-   Q==;
-X-CSE-ConnectionGUID: So9Ya+97Sw+9qY5477jxgA==
-X-CSE-MsgGUID: XZB7Thm/QOGsTZn1vPsQfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="90651804"
+  t=1791086867; x=1822622867;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8HQJr2QEyQMraJ3mh4bm0Lknr2yqYpaSMrC22G/ty8c=;
+  b=UC5Midex6RvEnzoC2cKTbMgB0Gaq+yrQvFOepBHar9bYuPkTfy4Kv1Cf
+   GiuJuMHEeGMSwQuHd6yIGwus9m28D5ivUQy1FGsItvi5ZSthmxvjf1NwE
+   m1JSD1bCaCtiVj27EwyjN43aQbT5AVJrw22H8V78GpZfQrp7v6E0pGsHh
+   ZKJ0SpQ+zUi8u4WuSzLe1sWWXrj5+VK0ZMYKcBdhIro7RG7vWDnY7BC8x
+   nin32W6/SL1oynDkXCIQdpDpM9eaDgSQGoqhXEVjrycLGJI0Nu9pXiW7o
+   yRAQZhnll25skSYDi/VineiCi+OHPkuNfNE++8LSYEOlbhhsasspGTGuS
+   w==;
+X-CSE-ConnectionGUID: 0PSFdKTaTCGuznjxY8Rw+g==
+X-CSE-MsgGUID: PKpNR1ehRYGecYvJDfQFGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="90693282"
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="90651804"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 20:43:33 -0700
-X-CSE-ConnectionGUID: rdkZNMd7TQqx1uYJHfWphQ==
-X-CSE-MsgGUID: nceycFY0T0qm20Pk46Lctw==
+   d="scan'208";a="90693282"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 21:07:46 -0700
+X-CSE-ConnectionGUID: 4BprZQPXTqWofE4Ny9djLA==
+X-CSE-MsgGUID: Qnr9kLuLRqS2fsz76kXY+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="280283492"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 03 Oct 2026 20:43:32 -0700
-Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
+   d="scan'208";a="570113"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 03 Oct 2026 21:07:45 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDD8L-000000000Bf-30pJ;
-	Sun, 04 Oct 2026 03:43:29 +0000
-Date: Sun, 04 Oct 2026 05:43:14 +0200
+	id 1xDDVn-00000000URb-0co0;
+	Sun, 04 Oct 2026 04:07:43 +0000
+Date: Sun, 04 Oct 2026 12:06:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1] Warning:
- drivers/char/tpm/tpm_crb.c:193 function parameter 'loc' not described in
- '__crb_go_idle'
-Message-ID: <202610040528.EvVAWPKj-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/rust-kunit-assertion 15/15] error:
+ literal out of range for `i32`
+Message-ID: <202610041200.BnpXhO0V-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-Hi Stuart,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   89b3cc162c81c59edf4a48f784725849effed283
-commit: dbfdaeb381a49a7bc753d18e2876bc56a15e01cc [1/1] tpm_crb: Add idle support for the Arm FF-A start method
-config: x86_64-randconfig-2200-20261004 (https://download.01.org/0day-ci/archive/20261004/202610040528.EvVAWPKj-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610040528.EvVAWPKj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/rust-kunit-assertion
+head:   694018da3a2ec9356bb827e371b124feaad71569
+commit: 694018da3a2ec9356bb827e371b124feaad71569 [15/15] kunit: msg
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20261004/202610041200.BnpXhO0V-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610041200.BnpXhO0V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: dbfdaeb381a4 ("tpm_crb: Add idle support for the Arm FF-A start method")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610040528.EvVAWPKj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610041200.BnpXhO0V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/char/tpm/tpm_crb.c:193 function parameter 'loc' not described in '__crb_go_idle'
->> Warning: drivers/char/tpm/tpm_crb.c:246 function parameter 'loc' not described in '__crb_cmd_ready'
+>> error: literal out of range for `i32`
+   --> rust/kernel/drm/gem/shmem.rs:686:39
+   |
+   686 |         assert_eq!(vmap.read32(0x20), 0xFEDCBA98);
+   |                                       ^^^^^^^^^^
+   |
+   = note: the literal `0xFEDCBA98` (decimal `4275878552`) does not fit into the type `i32` and will become `-19088744i32`
+   = help: consider using the type `u32` instead
+   = note: `#[deny(overflowing_literals)]` on by default
+   help: to use as a negative number (decimal `-19088744`), consider using the type `u32` for the literal and cast it to `i32`
+   |
+   686 |         assert_eq!(vmap.read32(0x20), 0xFEDCBA98u32 as i32);
+   |                                                 ++++++++++
 
 --
 0-DAY CI Kernel Test Service
