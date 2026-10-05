@@ -1,146 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E582F39C7;
-	Mon,  5 Oct 2026 04:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED07B30E0EE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 04:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791173943; cv=none; b=fEVVFemNr8h0XA+tDiWQlyXwNhMsk3BPbk6ioos4bOrEXwMpbMrI0MqzQdrE8JH39NW0vrYis1hvqFMURXQ973n2xleb/oPJME1lJ6bNC1mfJdb9P/fdsv8H4dwuvgY9ibF68PR4Y+15SheuIAqcuExqhgHsWuezrvuE9YigiwE=
+	t=1791175202; cv=none; b=UofbG2XU4+7WUBBx+VMNBxmT59Ua/+N4g4w0UxWLUMegoVCa1SgAdCFNWFPp38iaAWjyI3FcMAkkK0wlIZ0hmh/ASY4qlx6VbqlC7hF73RIZT5Wo921JHpmTXFSajDdh62pqoMLmg1YiBX2aGV1BPoecGa+r6V1x2kQ0SKopCiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791173943; c=relaxed/simple;
-	bh=7lDBluEQR4X2g1geuIZMoMOgJ0rUI2zR2nUyugoyHN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=br3mCRYS9nlMSd8isEqI23sLYqlB3nY/n660X8gcdJ3Jc5pEo6163gUlxTvWroQJury6QM0LLzyxlE8iaLq/0HIQdCQDy2DeLRmQIVyw/drJuugKsdwlnSEtUeNH+ak/SQ1Qo/NzyhuC5HITvFudd8hhxH65PXNSnNginE+Yb7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQ1n78c8; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1791175202; c=relaxed/simple;
+	bh=ngDbJByXJ2FXDiq6tGdMmiveXshmpHKKHPkMZr8eYtA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Lx/ssBXFrvZzqFVkk8Ah/f+e2C94WrGn27Kcft0gUxJtcGG1ZD+TB6kbCWHSNUKaTTl+LGpYRYr+T/vN2yP5fNsQ4nEZNB4HnpiCE1xqJHKqYWLnHug5rhDuALlS2H9pmCA8EgL5abE0AnNwVCPjEfGUYUPOOctKDO42aK0/UuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WszI79XU; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQ1n78c8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WszI79XU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791173941; x=1822709941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7lDBluEQR4X2g1geuIZMoMOgJ0rUI2zR2nUyugoyHN0=;
-  b=OQ1n78c8ySuPdYbNyqX15gNjLiuJBItDrHU9SwvRztwflASq8vorFw5X
-   uTHtAZfPVy5Kolita7Sp8zloIO1ibXuTO9HwkKPIo7fRgaMuWDjKPxgVg
-   DZhMhlYU6Q1Zu+p3oNETlVTCY5QJFf3lt7l3ZFlfzBEwCrTzJ3A9nKwxq
-   iWYvzk5/sccw3NRBsNjSjDmB/U8qoY7dYLwuJukiDNZ0mwHgqzMd9B+LD
-   7HiSoFyk+f2cSR5KYw4oO98saA1d0dy62Hem56CPXQQnNb8JoPJJbEfEY
-   oIvUA/TkEVy2ltyy3p6LDNuJx2Y3k2OUrtkNTUPSXK5dKJFZEu+d5lRBg
-   w==;
-X-CSE-ConnectionGUID: 9W1lFEp+TemEN38gfWFsoQ==
-X-CSE-MsgGUID: Jr+2ppxgQ0+nLT2vxcmVMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="91943810"
+  t=1791175200; x=1822711200;
+  h=date:from:to:cc:subject:message-id;
+  bh=ngDbJByXJ2FXDiq6tGdMmiveXshmpHKKHPkMZr8eYtA=;
+  b=WszI79XUC9OK1r19542pcP0OddH7bkqFuOf2FhEPQqE0G/FJJjQ0z3Rh
+   JRWERWZwSWho0tKnpZZUMmrMy0Z4TOiaq8X7g7/i0DaPspr48NtCr+ham
+   Tg42mnvscxG3ZZF8mNNpBm7kKYimFq3qX2617+QgwdUDFywHEDqp+Uxyc
+   K7pSneRHiUP6PR7EavYSbn3pJvXCaQjksyD4bsSTmSYQsFogO7Oy5rtdE
+   SPk27Za/VWlt/lU0RiLTQflyO6BurzGtfPPKVKtC2BTOamuBFGEg4Row+
+   r7/x7JC8ZwGQwhfoYmo5CFDPT1WPFJ+cJltRu4DSMDYXFUGrVmzSbP7QF
+   g==;
+X-CSE-ConnectionGUID: jZrKBDTHS+WxF1JteVJn+g==
+X-CSE-MsgGUID: xV4cHstmRPO2lC+YYzxNcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="90871089"
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="91943810"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 21:18:59 -0700
-X-CSE-ConnectionGUID: kmWAmnpeRLSwkXfPzVbrpA==
-X-CSE-MsgGUID: OjYZV8VITb6nddj6FPF7ew==
+   d="scan'208";a="90871089"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 21:39:59 -0700
+X-CSE-ConnectionGUID: Ozu4xD7fRpSbHfZoemeDvQ==
+X-CSE-MsgGUID: SxUkms31QRaFUXKOyhKahA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="284797723"
+   d="scan'208";a="274514989"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Oct 2026 21:18:57 -0700
+  by orviesa006.jf.intel.com with ESMTP; 04 Oct 2026 21:39:58 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDaAB-00000000VKj-14Qh;
-	Mon, 05 Oct 2026 04:18:55 +0000
-Date: Mon, 5 Oct 2026 12:18:28 +0800
+	id 1xDaUW-00000000VLh-0KvL;
+	Mon, 05 Oct 2026 04:39:56 +0000
+Date: Mon, 05 Oct 2026 12:39:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>,
-	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes.berg@intel.com>
-Subject: Re: [PATCH wireless-next 03/18] wifi: nl80211: avoid rtnl for
- commands that don't want it
-Message-ID: <202610051243.rHmDLV0g-lkp@intel.com>
-References: <20261004210122.3b67fb1a6a69.I9c4f85fb60160f377a24c1b8e5173966744e5f09@changeid>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-p3s 10/10]
+ include/linux/p3s/mm.h:114:43: error: use of undeclared identifier 'PMD_SIZE'
+Message-ID: <202610051258.HxrOq0VH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261004210122.3b67fb1a6a69.I9c4f85fb60160f377a24c1b8e5173966744e5f09@changeid>
 
-Hi Johannes,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-cfg80211-track-netdev-running-state-under-wiphy-mutex/20261004-210115
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20261004210122.3b67fb1a6a69.I9c4f85fb60160f377a24c1b8e5173966744e5f09%40changeid
-patch subject: [PATCH wireless-next 03/18] wifi: nl80211: avoid rtnl for commands that don't want it
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261005/202610051243.rHmDLV0g-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-p3s
+head:   691ade648ef6da4e746c0857a492d9b9cc1a5780
+commit: 04fec2a54c421adc87f0b57f4d1ade2397f8f4ec [10/10] ANDROID: P3S: mm: Add per-MM page shift field and query APIs
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261005/202610051258.HxrOq0VH-lkp@intel.com/config)
 compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051243.rHmDLV0g-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051258.HxrOq0VH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610051243.rHmDLV0g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610051258.HxrOq0VH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/wireless/nl80211.c:244:7: warning: variable 'wdev' is uninitialized when used here [-Wuninitialized]
-     244 |             (wdev->netdev && !net_eq(dev_net(wdev->netdev), netns))) {
-         |              ^~~~
-   net/wireless/nl80211.c:238:27: note: initialize the variable 'wdev' to silence this warning
-     238 |         struct wireless_dev *wdev;
-         |                                  ^
-         |                                   = NULL
-   1 warning generated.
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:7:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:1872:
+   In file included from include/linux/p3s.h:6:
+>> include/linux/p3s/mm.h:114:43: error: use of undeclared identifier 'PMD_SIZE'
+     114 |         return mm_is_p3s_4k(mm) ? PMD_SIZE_4KB : PMD_SIZE;
+         |                                                  ^~~~~~~~
+>> include/linux/p3s/mm.h:119:45: error: use of undeclared identifier 'PGDIR_SIZE'
+     119 |         return mm_is_p3s_4k(mm) ? PGDIR_SIZE_4KB : PGDIR_SIZE;
+         |                                                    ^~~~~~~~~~
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:24: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm/kernel/asm-offsets.c:14:
+   In file included from include/linux/mm.h:38:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:139:8: note: expanded from macro '_SIG_SET_BINOP'
+     139 |                 b3 = b->sig[3]; b2 = b->sig[2];                         \
+         |                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
 
 
-vim +/wdev +244 net/wireless/nl80211.c
+vim +/PMD_SIZE +114 include/linux/p3s/mm.h
 
-   227	
-   228	/*
-   229	 * Lock the given wiphy, put the device and double-check it's
-   230	 * still valid to use.
-   231	 *
-   232	 * Returns with wiphy mutex held unless there was an error.
-   233	 */
-   234	static struct wireless_dev *
-   235	nl80211_lock_and_recheck(struct cfg80211_registered_device *rdev,
-   236				 struct net *netns, u32 wdev_id)
-   237	{
-   238		struct wireless_dev *wdev;
-   239	
-   240		wiphy_lock(&rdev->wiphy);
-   241	
-   242		if (!rdev->wiphy.registered ||
-   243		    !net_eq(wiphy_net(&rdev->wiphy), netns) ||
- > 244		    (wdev->netdev && !net_eq(dev_net(wdev->netdev), netns))) {
-   245			wiphy_unlock(&rdev->wiphy);
-   246			put_device(&rdev->wiphy.dev);
-   247			return ERR_PTR(-ENODEV);
-   248		}
-   249	
-   250		/*
-   251		 * unregistration blocks on wiphy mutex,
-   252		 * so we don't need this now
-   253		 */
-   254		put_device(&rdev->wiphy.dev);
-   255	
-   256		if (!wdev_id)
-   257			return NULL;
-   258	
-   259		list_for_each_entry(wdev, &rdev->wiphy.wdev_list, list) {
-   260			if (wdev->identifier == wdev_id)
-   261				return wdev;
-   262		}
-   263		wiphy_unlock(&rdev->wiphy);
-   264	
-   265		return ERR_PTR(-ENODEV);
-   266	}
-   267	
+   111	
+   112	static inline unsigned long mm_pmd_size(const struct mm_struct *mm)
+   113	{
+ > 114		return mm_is_p3s_4k(mm) ? PMD_SIZE_4KB : PMD_SIZE;
+   115	}
+   116	
+   117	static inline unsigned long mm_pgdir_size(const struct mm_struct *mm)
+   118	{
+ > 119		return mm_is_p3s_4k(mm) ? PGDIR_SIZE_4KB : PGDIR_SIZE;
+   120	}
+   121	
 
 --
 0-DAY CI Kernel Test Service
