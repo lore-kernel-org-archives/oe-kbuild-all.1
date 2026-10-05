@@ -1,110 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C6542E42C;
-	Mon,  5 Oct 2026 09:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1C945D931
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 09:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791191422; cv=none; b=R5xzC5JPumI80POCKen0TkgeC5hJW7qdNXnPX5tLjDevvi8srzZ9dm7HRgwm9uCZr0tA95gh3ndtxM8Noaq8BnDPY6pVthhIsn/lctQm85ZspvIAyhDcC/teHxDg9/CKVkaqfg0xVd8RLWVS8szxjSRt5oBg4ulBXpSk0YA5tdU=
+	t=1791193471; cv=none; b=KZp3nb5pxQnsIx16PPbD4s5AvVVXV7FC4/YLbZIr/9P+IIQbWN5kFR+9f9UDWiRd3pjvmebAiDAB2em0hdM2ybR1smNAFYT9PEZlN5/GVPlbGva/I/dWTrjO0sRw0Y3Z3ZfJx0aGCK9r/48RdBFLfdoqsdUhiB/pk10lRPvMq+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791191422; c=relaxed/simple;
-	bh=283P06yt7bgvdEkCMw/3/0Fugjal+5cZX4SRBJ2HvWY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=YnR3w6uhj6qG5NZeRS7WRnD6OqOC1/uI0PDN+BjTLjkyFLwxK9J6eW3w42k95JHx3YyVve6NZ7Rnne9LlBhIiohoYnOCBKB+Vs6Mf66BrUwPPND/VNYaDcxQ7zeorhrU0xd7WFwqQYAUJpgoDda1/UxH1w2IU5eb0I/nTHhpuyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gXiECcZN; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1791193471; c=relaxed/simple;
+	bh=K/p5cKo+q00s0bQBcxKp/KESk5w3eFsXQwqTQ99lxmA=;
+	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T6VT/TXTmnvQ9kC04WBR5qIIGrl3N0pokUlfDj5pDNEiIqXwtrtDqRXgCMpDoqmDQ+j/sQXnYcrPRH3biKyELpNOriAwWXo93rjSr9luuO8OhYWxLeLFShWsd1CK+BoEET6QsPX8H0deYmH7cbqMibe2NtluvWQhSc5HgSMCAXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oic+/MX6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gXiECcZN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oic+/MX6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791191420; x=1822727420;
-  h=date:from:to:cc:subject:message-id;
-  bh=283P06yt7bgvdEkCMw/3/0Fugjal+5cZX4SRBJ2HvWY=;
-  b=gXiECcZNsU4489objbV1SjQhZZEBoRwTkszczvKchsNBMm4OuZNGUsrt
-   wvZeeND19KRtipQNSa8dePrrp1H0YWM6Kp6+XA1IIJV37vOcIYkzDwQdl
-   HLeb8bKaIP/u7sPg9xatdG+DH/id7FEtw165mkHdjW1amQ3cQQffyMGlu
-   uujxw+9eo3HPJacuM+DMpDnPp2X99V0brLYewSv0Cy9ioEfOzNo37XnLe
-   x3L9RlKRoT55w6nBn0IaahHth4DwJp/FOT1rWC5qQ3MQAM4As78puc2RJ
-   2oSNt5oHH/7F7Qx6Rl4zzAmfccJW+QZ6t3QqSuo5xnKD4fS7CPNy2yTgH
-   A==;
-X-CSE-ConnectionGUID: vuoMlkQ7RK64KZgBE3MnXw==
-X-CSE-MsgGUID: OvNQeoX4QHiqW5bV1rhoxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="4355"
+  t=1791193465; x=1822729465;
+  h=date:from:cc:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=K/p5cKo+q00s0bQBcxKp/KESk5w3eFsXQwqTQ99lxmA=;
+  b=Oic+/MX6UO9rs7JRrm1O1uhVxgvMZFWN4Xgf1x/2B0PybMzs+D5vXoq5
+   3G6fD82trDztq995SB6ohaj514g/mgVVJSKUyRnA8u+Nh9NEGC8QeNkq7
+   /6yFNQiyU9OblpbGv2riJymVLHgjNvnU0fTL+IxbWoPm3Z/i19HYwYnWa
+   uwm+xcJ3K1icvWpaJuwLGWUOfFagfbn7TxYIoqVKJxVN9BqhsnOc8zdcy
+   83VsH842THPaJ/wKmEuAKqSGasGOCQa+e4PUxaTkqp8RLrXRwDOH4S5lt
+   5w7mECKYOcZn1dOP/RR9zEqm/mhEp7rMtx/DRnrrp7y8I/CDQkIOyE7zJ
+   w==;
+X-CSE-ConnectionGUID: FSiORwU2QUuKmILPGKgKng==
+X-CSE-MsgGUID: niE/m8VXTMqZGz/IBrMHWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="91884089"
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="4355"
+   d="scan'208";a="91884089"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 02:10:20 -0700
-X-CSE-ConnectionGUID: iLMMVLlWQ5Cs9d1BFZLs7A==
-X-CSE-MsgGUID: Y4BBI0bqSdSUmpItMRY9gQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 02:44:16 -0700
+X-CSE-ConnectionGUID: ZnxRK6tDRGC+wttKXms9Hg==
+X-CSE-MsgGUID: sxPdiyv7Ql22/0bUdPOQuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="304717073"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Oct 2026 02:10:18 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="304726213"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 05 Oct 2026 02:44:16 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDei7-0000000007D-3Jrd;
-	Mon, 05 Oct 2026 09:10:15 +0000
-Date: Mon, 05 Oct 2026 17:09:46 +0800
+	id 1xDfEz-0000000004p-2sOf
+	for oe-kbuild-all@lists.linux.dev;
+	Mon, 05 Oct 2026 09:44:13 +0000
+Date: Mon, 5 Oct 2026 11:43:52 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:hardpps-filter-p3-wip 7/8] kernel/time/ntp.c:175:2:
- error: call to undeclared function 'pps_fit_reset'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202610051707.7zfdNyut-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: ACPI: Add stub for acpi_has_method() for !CONFIG_ACPI
+Message-ID: <202610051145.MTPINzw1-lkp@intel.com>
+References: <202610051145.MTPINzw1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610051145.MTPINzw1-lkp@intel.com>
 
-tree:   git://git.infradead.org/users/dwmw2/linux hardpps-filter-p3-wip
-head:   24b5bb6499c7dcc715bf50f768bc24b50f9cc631
-commit: f04f156f18471fef43c99e5ef017165b43f34e7a [7/8] ntp: Estimate PPS frequency by least-squares fit over the interval
-config: x86_64-buildonly-randconfig-1004-20261005 (https://download.01.org/0day-ci/archive/20261005/202610051707.7zfdNyut-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051707.7zfdNyut-lkp@intel.com/reproduce)
+Hi Bowen,
+
+kernel test robot noticed the following build warnings:
+
+
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bowen-Yu/ACPI-Add-stub-for-acpi_has_method-for-CONFIG_ACPI/20260929-201347
+base:   
+patch link:    https://lore.kernel.org/r/202610051145.MTPINzw1-lkp%40intel.com
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20261005/202610051145.MTPINzw1-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051145.MTPINzw1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610051707.7zfdNyut-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610051145.MTPINzw1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/time/ntp.c:175:2: error: call to undeclared function 'pps_fit_reset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     175 |         pps_fit_reset(ntpdata);
-         |         ^
->> kernel/time/ntp.c:1244:13: error: conflicting types for 'pps_fit_reset'
-    1244 | static void pps_fit_reset(struct ntp_data *ntpdata)
-         |             ^
-   kernel/time/ntp.c:175:2: note: previous implicit declaration is here
-     175 |         pps_fit_reset(ntpdata);
-         |         ^
-   2 errors generated.
+   In file included from sound/hda/controllers/intel.c:38:
+   include/linux/acpi.h:1033:20: error: redefinition of 'acpi_has_method'
+    1033 | static inline bool acpi_has_method(acpi_handle handle, char *name)
+         |                    ^~~~~~~~~~~~~~~
+   In file included from include/linux/acpi.h:28:
+   include/acpi/acpi_bus.h:957:20: note: previous definition of 'acpi_has_method' with type 'bool(void *, char *)' {aka '_Bool(void *, char *)'}
+     957 | static inline bool acpi_has_method(acpi_handle handle, char *name)
+         |                    ^~~~~~~~~~~~~~~
+   In file included from include/asm-generic/div64.h:27,
+                    from ./arch/parisc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/delay.h:12,
+                    from sound/hda/controllers/intel.c:23:
+   include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
+     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                  ^
+   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:544:20: note: in expansion of macro 'ARRAY_SIZE'
+     544 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:528:9: note: in expansion of macro 'module_param_array_named'
+     528 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/hda/controllers/intel.c:127:1: note: in expansion of macro 'module_param_array'
+     127 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/hda/controllers/intel.c:106:12: warning: 'index' defined but not used [-Wunused-variable]
+     106 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
 
 
-vim +/pps_fit_reset +175 kernel/time/ntp.c
+vim +/index +106 sound/hda/controllers/intel.c
 
-   162	
-   163	/**
-   164	 * pps_clear - Clears the PPS state variables
-   165	 * @ntpdata:	Pointer to ntp data
-   166	 */
-   167	static inline void pps_clear(struct ntp_data *ntpdata)
-   168	{
-   169		pps_reset_freq_interval(ntpdata);
-   170		ntpdata->pps_tf[0] = 0;
-   171		ntpdata->pps_tf[1] = 0;
-   172		ntpdata->pps_tf[2] = 0;
-   173		ntpdata->pps_fbase.tv_sec = ntpdata->pps_fbase.tv_nsec = 0;
-   174		ntpdata->pps_rawring_n = 0;
- > 175		pps_fit_reset(ntpdata);
-   176		ntpdata->pps_freq = 0;
-   177	}
-   178	
+^1da177e4c3f415 sound/pci/hda/hda_intel.c Linus Torvalds    2005-04-16  105  
+5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07 @106  static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07  107  static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;
+a67ff6a54095e27 sound/pci/hda/hda_intel.c Rusty Russell     2011-12-15  108  static bool enable[SNDRV_CARDS] = SNDRV_DEFAULT_ENABLE_PNP;
+5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07  109  static char *model[SNDRV_CARDS];
+1dac6695c683c66 sound/pci/hda/hda_intel.c Takashi Iwai      2012-09-13  110  static int position_fix[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
+5c0d7bc103dd1ae sound/pci/hda/hda_intel.c Takashi Iwai      2008-06-10  111  static int bdl_pos_adj[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
+5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07  112  static int probe_mask[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
+d4d9cd0338892e7 sound/pci/hda/hda_intel.c Takashi Iwai      2008-12-19  113  static int probe_only[SNDRV_CARDS];
+26a6cb6cca225f6 sound/pci/hda/hda_intel.c David Henningsson 2012-10-09  114  static int jackpoll_ms[SNDRV_CARDS];
+41438f1314b0f6f sound/pci/hda/hda_intel.c Takashi Iwai      2017-01-12  115  static int single_cmd = -1;
+71623855e20c3fe sound/pci/hda/hda_intel.c Takashi Iwai      2009-09-28  116  static int enable_msi = -1;
+4ea6fbc8eb23c3a sound/pci/hda/hda_intel.c Takashi Iwai      2009-06-17  117  #ifdef CONFIG_SND_HDA_PATCH_LOADER
+4ea6fbc8eb23c3a sound/pci/hda/hda_intel.c Takashi Iwai      2009-06-17  118  static char *patch[SNDRV_CARDS];
+4ea6fbc8eb23c3a sound/pci/hda/hda_intel.c Takashi Iwai      2009-06-17  119  #endif
+2dca0bba70ce3c2 sound/pci/hda/hda_intel.c Jaroslav Kysela   2009-11-13  120  #ifdef CONFIG_SND_HDA_INPUT_BEEP
+0920c9b4c4d8960 sound/pci/hda/hda_intel.c Takashi Iwai      2012-07-03  121  static bool beep_mode[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] =
+2dca0bba70ce3c2 sound/pci/hda/hda_intel.c Jaroslav Kysela   2009-11-13  122  					CONFIG_SND_HDA_INPUT_BEEP_MODE};
+2dca0bba70ce3c2 sound/pci/hda/hda_intel.c Jaroslav Kysela   2009-11-13  123  #endif
+7fba6aea4472f01 sound/pci/hda/hda_intel.c Takashi Iwai      2020-01-09  124  static bool dmic_detect = 1;
+d045bceff5a904b sound/pci/hda/hda_intel.c Jaroslav Kysela   2023-02-02  125  static bool ctl_dev_id = IS_ENABLED(CONFIG_SND_HDA_CTL_DEV_ID) ? 1 : 0;
+^1da177e4c3f415 sound/pci/hda/hda_intel.c Linus Torvalds    2005-04-16  126  
 
 --
 0-DAY CI Kernel Test Service
