@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2B034D926
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 21:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A64371041
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 22:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791237047; cv=none; b=BbReRBoEGAF6U3mPSgl8M5AXx4ggcdS1/sBHpWqa8AXInlvZBEvmoGNY+RdPYw26Sc7ayn7JaHMjwPuyRAHyf7bUN0ptPWr+/Loz8Claqg4PPmeJuBuXX02FXEiI5Ho1wJetJKtqtAp5MnnCqPodeO0a2seAzVPJBD6C0hBz9DI=
+	t=1791237707; cv=none; b=q8+eho+GVekrgX3xgK4IpjJilUgEw4igpsgCOfnWy5qOFn61h2rlKC0MgR9c+abemZKdemRrN4F0m5fRSoy0Y5E3YHujLtNi0tlq60zeQ9zGVjWvlFL1GJNNLCmKqRKWuNXXjkrHJmWUzifnBzL8bvb4qo2rF/wUqM04A6Jr5aM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791237047; c=relaxed/simple;
-	bh=2EC6+pPeii0740l7asrIh0KISEqQ/2JgqwT+mdztxjI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=apHoNZU0GAe/uDz67P/6GcAV4/Vmyh7l/W4L6vM+DCPIxqUUONGmOQje5f7aMg/PnUzxsAs3LA47N5a3+KJ1vyMTgaf8kW5fRdhsocv+JrDrBsK3ujIZ1uHmihYqkfWIMezm+Nm/x5UqkFa2azAQiJkD1401E6RDGbPOMfVe5Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhbkP7Iy; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1791237707; c=relaxed/simple;
+	bh=6snscvBkrlOsUMUZwXcdK4tfLe6169IMhjCw+m7Egog=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iwYDv3xnGtTVY2qGPOjZI96Ya4wOsw+vF4E1ljE4H7H3wz8tI2VYimSJx8HRPvjsRBefouhbUt/jnE9Ga0lpOrGrYhefj4VK0wcSqh8gqkQHhi7AkcrhJ6a3+2YgmaRLLTxpPut0ZBzpyO4rZ0fzHYDC6BUUsUjWdrZEi12In9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acpS5M2Z; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhbkP7Iy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acpS5M2Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791237045; x=1822773045;
+  t=1791237706; x=1822773706;
   h=date:from:to:cc:subject:message-id;
-  bh=2EC6+pPeii0740l7asrIh0KISEqQ/2JgqwT+mdztxjI=;
-  b=LhbkP7IyhXU9JFvFRp6kBgvph79uwlxFON8RdCbqLS9RAXkOURNIlREY
-   WxnY4rk+msEsU3WVSXruPTOhYUX5uGfGapai5ge+G07NVfiYm7DRladsO
-   4XjJ1wcQrRuh5RlUcVpftlRvqG+rNj3O2Or9+IekxicI8VoH+KqBqKb91
-   9FgVNpIJ0QwRTdCVkw7J7dZnXf2r4SRAVTgSt1SZ9iPUNtzYSLzGaxuS6
-   4aBi+n41N0SnxWU52L1VatV+r6IPDJctQtIcqNOAwG4D+WxO7JW/4eblf
-   ZUwdShwcXTIsqeXs5EFBlGldFvVMrQZQmU5YKdBTTuuku/3rbIXOB9OTr
-   Q==;
-X-CSE-ConnectionGUID: pMCDVQxkR1y8hTRO65yVAQ==
-X-CSE-MsgGUID: Km6tJgGSS4CR+ESuS91/Tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="113704391"
+  bh=6snscvBkrlOsUMUZwXcdK4tfLe6169IMhjCw+m7Egog=;
+  b=acpS5M2Z/TQ+qVOArU7XQE39ZVN7TJeDe474ZTv9XXYSmz2UxzqP4EUJ
+   tO+1obUwfNUsIjkYrk7WUpShvohIuv4g9wSO1IEuijxuRcyGSr3syxSXE
+   KswTKN/9CvHNN6IIAYchfKOlgq54cOwXka10tAy1ZbJyHUiUy0booxw3D
+   kx70JexG/U0Nw2jOT+eDy9EsEXzIibR02OBsfr2OGW58elfzeQV/Pka9z
+   SB1shKVkZSibkyXhp3WezwliKKoOPZysDgPkPGX3S6l6vF5OaHzI58E4r
+   LZLvGpxHzToxq26Va8eJhXqO/I4SYo8fJq5nouZ7Mu6WoT8/iLQCkRv/0
+   A==;
+X-CSE-ConnectionGUID: K2VDa7PJQxmvG3GP/VLlug==
+X-CSE-MsgGUID: YcPePK4MSZC6ApPzLW44GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="108298061"
 X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="113704391"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 14:50:45 -0700
-X-CSE-ConnectionGUID: uRsXqrtoSQq8+aS1xiwZ9A==
-X-CSE-MsgGUID: yll0GDgPRB6iWd5/GUVhVg==
+   d="scan'208";a="108298061"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 15:01:45 -0700
+X-CSE-ConnectionGUID: 4Zpf9KOVRqe1Uu6SirA+HA==
+X-CSE-MsgGUID: micZM2xrSomgt5kZmhS7Yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="306436744"
+   d="scan'208";a="277065577"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 05 Oct 2026 14:50:43 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Oct 2026 15:01:44 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDqa1-000000000KR-1Csq;
-	Mon, 05 Oct 2026 21:50:41 +0000
-Date: Mon, 05 Oct 2026 23:50:13 +0200
+	id 1xDqkf-000000000Kp-3TS4;
+	Mon, 05 Oct 2026 22:01:41 +0000
+Date: Tue, 06 Oct 2026 00:00:44 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linusw@kernel.org>
-Subject: [linux-next:master 10820/14242]
- arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: stmpe811@44 (st,stmpe811):
- 'irq-gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202610052316.dkfB7EcZ-lkp@intel.com>
+To: Benjamin Coddington <bcodding@hammerspace.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chuck Lever <cel@kernel.org>
+Subject: [cel:nfsd-testing 295/295] fs/lockd/svcsubs.c:428:5-24:
+ WARNING: atomic_dec_and_test variation before object free at line 429.
+Message-ID: <202610052357.ZfzEOheQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,28 +59,48 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bf1ee2bd5c2da8992f33c8950ef194aaff74ed6c
-commit: f05cb3d259d3fb9f811cb9b14591ab08e9e7a182 [10820/14242] ARM: dts: imx: remove undocument properties of st,stmpe*
-config: arm-randconfig-2403-20260930 (https://download.01.org/0day-ci/archive/20261005/202610052316.dkfB7EcZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610052316.dkfB7EcZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
+head:   56589cdb58819ce54decedbbfddf231d94b5ce41
+commit: 56589cdb58819ce54decedbbfddf231d94b5ce41 [295/295] lockd: make the nlm_file reference count atomic
+config: x86_64-randconfig-2101-20261005 (https://download.01.org/0day-ci/archive/20261005/202610052357.ZfzEOheQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610052316.dkfB7EcZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610052357.ZfzEOheQ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dts:230.7-249.4: Warning (avoid_unnecessary_addr_size): /soc/bus@2100000/ethernet@2188000/mdio: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:936.28-944.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: ethernet@2188000 (fsl,imx6q-fec): mdio: Unevaluated properties are not allowed ('ethernet-phy' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,fec.yaml
-   arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: ethernet-phy (ethernet-phy-ieee802.3-c22): 'reg' is a required property
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
->> arch/arm/boot/dts/nxp/imx/imx6q-novena.dtb: stmpe811@44 (st,stmpe811): 'irq-gpio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/st,stmpe.yaml
+cocci warnings: (new ones prefixed by >>)
+>> fs/lockd/svcsubs.c:428:5-24: WARNING: atomic_dec_and_test variation before object free at line 429.
+
+vim +428 fs/lockd/svcsubs.c
+
+   408	
+   409	/*
+   410	 * Release file. If there are no more remote locks on this file,
+   411	 * close it and free the handle.
+   412	 *
+   413	 * Note that we can't do proper reference counting without major
+   414	 * contortions because the code in fs/locks.c creates, deletes and
+   415	 * splits locks without notification. Our only way is to walk the
+   416	 * entire lock list each time we remove a lock.
+   417	 */
+   418	void
+   419	nlm_release_file(struct nlm_file *file)
+   420	{
+   421		dprintk("lockd: nlm_release_file(%p, ct = %d)\n",
+   422					file, atomic_read(&file->f_count));
+   423	
+   424		/* Lock file table */
+   425		mutex_lock(&nlm_file_mutex);
+   426	
+   427		/* If there are no more locks etc, delete the file */
+ > 428		if (atomic_dec_and_test(&file->f_count) && !nlm_file_inuse(file))
+ > 429			nlm_delete_file(file);
+   430	
+   431		mutex_unlock(&nlm_file_mutex);
+   432	}
+   433	
 
 --
 0-DAY CI Kernel Test Service
