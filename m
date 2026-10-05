@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3974B352C2C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 06:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD008372686
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 07:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791182167; cv=none; b=I4N2im6seHsglralHD+5zX2Jvu6cpmXMCzItpoRxrnQgsn3o+2fL5JPJIyUo4o3FSgbNH5K8OY3+AXrwVOYBSDAj6Lu/d0wA/GPlExMBeYH9MmQ1dG1InRMksyLGt6AvWflObUE0+fwx8CYupyFgl1SsGFDjQbWqmNAkOtKvo/4=
+	t=1791186009; cv=none; b=Jbyl6uExIXAZ2ncIRbzdOcHg/oApW9M4XnmwEjPGTHboeCjzl0oZrvFReodfGYAbTdSp5WfdZ1kJOiVkxwBxWACCVNUsxCWPcG2QWq3sKICrOy2Jzxxor9D4LbdmM1Xt738h7gMuCLBuakrn/I0CdDZCqNzsI7c1vCvtra4DVpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791182167; c=relaxed/simple;
-	bh=I2rYjJCJUGDrCJEVD+Xjp9aaowIt3/UesWq8dzb2iWs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=B1LRPbrFKejKEvJOJ9VLGVUkaQpC31cKqt7VgHEwpO7zCwWzt6kttq8z66cnKQRQEM6fN/FNjM0aATQr00OaACh94fkaJH1SPsY7HG9kpYHwBIwvO/a7lISEqJqSNBIJ15Vr48q5rTFTdshyaP5qQgHDaqENPjOc5vKrfdo5zRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVQo0URC; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1791186009; c=relaxed/simple;
+	bh=91UXnkJYJFUycutttlBBKnoreMfnH2eUXXB8BAMHWys=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=NVOswHGD/J1+fcoHDQDPpgz5Oe2yykNTld0wRi5RJNRzDvvFQwnMOl0+6Y0XqOxbHKVDV2tt0gp6WihLyWarwAX4nHTfB+p+xr2EDbgxJnVmvdjdYoYTOM6oISgae7suekvGHyUfh/5ICaVVCMTjvLsqgJbzkN4fJaVJZ423DhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NIOkYkfg; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVQo0URC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NIOkYkfg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791182165; x=1822718165;
+  t=1791186008; x=1822722008;
   h=date:from:to:cc:subject:message-id;
-  bh=I2rYjJCJUGDrCJEVD+Xjp9aaowIt3/UesWq8dzb2iWs=;
-  b=EVQo0URCu21BX295p6lnwh6Gk/QPA1nJiIeKVt+vtWdle2pp0GId7gef
-   QXICMPoH5UFjdcECBwDsEKRpPrC5R/VS0nJXTA6qAVjw182JKFCdYjhO+
-   wh1D9qLYQekh81ybGLLK0qhTXZFs1XrNyKdKVZXsJ2LELA37pR5KnRZAA
-   puQr3lJvRpyw9I6Uw32j+O+36521PNp0vZA5BO2tiJldKRNtRX8h1+pb8
-   ssg7oaZeuIKpwTeASgD5w83YF34C5h3bYWMwLe0RuEsUJCmlkTx7sWW0L
-   57JOMQrFHvyCo9gwsq/6+J0Yz99O2fihdydsFyNhrHWY97qWpxs4cFhgr
-   Q==;
-X-CSE-ConnectionGUID: AAOXVuu9QCmpnN9lCokZnA==
-X-CSE-MsgGUID: IZFYqVcrTj6AbSrU72Hzdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="109334016"
+  bh=91UXnkJYJFUycutttlBBKnoreMfnH2eUXXB8BAMHWys=;
+  b=NIOkYkfg+IsA8DfgivSeJQKSMwPjolYnOcglGpdQTy9KYveC70gULV+7
+   R/KKFdjsmdhHnPgJdFNjNiA3FfEVayjrsodJ/m3CdOAiSsA7Qy1WCt3yH
+   rcF1avu7YKmbM8gTazicNSJ69cCDWwQZBr7oeoKhzitngVC8+yrqJolCY
+   3kcPO0Ug9BHh9ziWHasiZFI1If0KTgyot1304NlGDspX3X42HVyjl++x7
+   lD0+bphYxTGKSw21MCZbR4Wqm5B1CSKdeodR+UGr5krfLsweTsVN4vfT0
+   AKU4i1XPiRpcOaol8IfR///FZ/6ycgVtP9M3EPQj47tDHvZE2+41S1UvQ
+   g==;
+X-CSE-ConnectionGUID: TgHxMjUVQWGFde842GYAEQ==
+X-CSE-MsgGUID: 5O167vClSrand6dfzVkCvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="90981251"
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="109334016"
+   d="scan'208";a="90981251"
 Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 23:36:05 -0700
-X-CSE-ConnectionGUID: RgaXGsRVT32NQyUDibK0bw==
-X-CSE-MsgGUID: tzAHAc84SiqIxfeLnFxSCQ==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 00:40:07 -0700
+X-CSE-ConnectionGUID: X+8CUd6xSbu+RZgSHxAFYQ==
+X-CSE-MsgGUID: EX3g+eQCRTCkj2zOkYRAkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="778624"
+   d="scan'208";a="794482"
 Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 04 Oct 2026 23:36:04 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 05 Oct 2026 00:40:06 -0700
 Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDcIr-00000000VPx-0PNK;
-	Mon, 05 Oct 2026 06:36:01 +0000
-Date: Mon, 05 Oct 2026 14:35:42 +0800
+	id 1xDdIp-00000000VSr-3Ua7;
+	Mon, 05 Oct 2026 07:40:03 +0000
+Date: Mon, 05 Oct 2026 15:39:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Woodhouse <dwmw@amazon.co.uk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:hardpps-filter-p3-wip 7/8] kernel/time/ntp.c:175:9:
- error: implicit declaration of function 'pps_fit_reset'
-Message-ID: <202610051451.E6GGdAVP-lkp@intel.com>
+Subject: [dwmw2:hardpps-filter-p3-wip 7/8] kernel/time/ntp.c:1244:13:
+ warning: conflicting types for 'pps_fit_reset'
+Message-ID: <202610051540.gXL9SRxF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,50 +62,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   git://git.infradead.org/users/dwmw2/linux hardpps-filter-p3-wip
 head:   24b5bb6499c7dcc715bf50f768bc24b50f9cc631
 commit: f04f156f18471fef43c99e5ef017165b43f34e7a [7/8] ntp: Estimate PPS frequency by least-squares fit over the interval
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20261005/202610051451.E6GGdAVP-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051451.E6GGdAVP-lkp@intel.com/reproduce)
+config: xtensa-randconfig-1001-20261005 (https://download.01.org/0day-ci/archive/20261005/202610051540.gXL9SRxF-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051540.gXL9SRxF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610051451.E6GGdAVP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610051540.gXL9SRxF-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    kernel/time/ntp.c: In function 'pps_clear':
->> kernel/time/ntp.c:175:9: error: implicit declaration of function 'pps_fit_reset' [-Wimplicit-function-declaration]
-     175 |         pps_fit_reset(ntpdata);
-         |         ^~~~~~~~~~~~~
+   kernel/time/ntp.c:175:2: error: implicit declaration of function 'pps_fit_reset'; did you mean 'sas_ss_reset'? [-Werror=implicit-function-declaration]
+     pps_fit_reset(ntpdata);
+     ^~~~~~~~~~~~~
+     sas_ss_reset
    kernel/time/ntp.c: At top level:
->> kernel/time/ntp.c:1244:13: warning: conflicting types for 'pps_fit_reset'; have 'void(struct ntp_data *)'
-    1244 | static void pps_fit_reset(struct ntp_data *ntpdata)
-         |             ^~~~~~~~~~~~~
->> kernel/time/ntp.c:1244:13: error: static declaration of 'pps_fit_reset' follows non-static declaration
-   kernel/time/ntp.c:175:9: note: previous implicit declaration of 'pps_fit_reset' with type 'void(struct ntp_data *)'
-     175 |         pps_fit_reset(ntpdata);
-         |         ^~~~~~~~~~~~~
+>> kernel/time/ntp.c:1244:13: warning: conflicting types for 'pps_fit_reset'
+    static void pps_fit_reset(struct ntp_data *ntpdata)
+                ^~~~~~~~~~~~~
+   kernel/time/ntp.c:1244:13: error: static declaration of 'pps_fit_reset' follows non-static declaration
+   kernel/time/ntp.c:175:2: note: previous implicit declaration of 'pps_fit_reset' was here
+     pps_fit_reset(ntpdata);
+     ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/pps_fit_reset +175 kernel/time/ntp.c
+vim +/pps_fit_reset +1244 kernel/time/ntp.c
 
-   162	
-   163	/**
-   164	 * pps_clear - Clears the PPS state variables
-   165	 * @ntpdata:	Pointer to ntp data
-   166	 */
-   167	static inline void pps_clear(struct ntp_data *ntpdata)
-   168	{
-   169		pps_reset_freq_interval(ntpdata);
-   170		ntpdata->pps_tf[0] = 0;
-   171		ntpdata->pps_tf[1] = 0;
-   172		ntpdata->pps_tf[2] = 0;
-   173		ntpdata->pps_fbase.tv_sec = ntpdata->pps_fbase.tv_nsec = 0;
-   174		ntpdata->pps_rawring_n = 0;
- > 175		pps_fit_reset(ntpdata);
-   176		ntpdata->pps_freq = 0;
-   177	}
-   178	
+  1243	
+> 1244	static void pps_fit_reset(struct ntp_data *ntpdata)
+  1245	{
+  1246		ntpdata->pps_fit_n = 0;
+  1247		ntpdata->pps_fit_sx = ntpdata->pps_fit_sy = 0;
+  1248		ntpdata->pps_fit_sxy = ntpdata->pps_fit_sxx = 0;
+  1249	}
+  1250	
 
 --
 0-DAY CI Kernel Test Service
