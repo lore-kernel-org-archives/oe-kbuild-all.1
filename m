@@ -1,103 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF9048425A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 14:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68F44AA56A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 14:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791210576; cv=none; b=lOg30QheTy+hzDA8GAut9MVysb6tKbCfru7bDn+K9am/cd2Gq78O7KtKuuzfVGgFvcsjXrbjCzQyebtlU812Z5ulPTAEORyMRS9W3G++IxmKpAws8CTEtqIdMXBtpWHaaUfIw3D1/fCIeFVcqciur0PmJsQmJ29BnT1eRGPPZ9I=
+	t=1791210596; cv=none; b=ohGpBx+tYpJazg+YSDUUS20r2z35KDYJyM1gNHmnapEz/09CsMyGF6yduzUd1hv4qoY/mKmIv+3VUYSTrrWxOZSm2551HL+zqGYp8+QcvhpwWZMqpdzF6t//Jl1zTQ2Wh/qk1wNDyTxmIABuXr0TNZBoRJQi5xMKApBT5DruV8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791210576; c=relaxed/simple;
-	bh=zlrC4IADZ8wLW05ktMEXKIoqdufPr3kK2/rN4jFtQoc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=duap6zIkvp1wtUZ13eNWvYaVCl0OM6fRzLBs7YHiIu7NNgjUYKxkoQWgNHY1YHI3bFFgyk52hxXJ5wonBIoCVLizADVHCN67vwAWMWbg9gEX2DsXHSw3X2AxISrHwd5sJ43BfclAzt7mgkZVDkZkG785zctg93t/jDpyp2wwY8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2wDTDC7; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1791210596; c=relaxed/simple;
+	bh=xvUYXIVNIwDLbL5PVID1qi99hvRGc404R+w4JyrWeX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RS13OSccJ4b2fB1saBZ9+AYmLjsdiD06Az1zGdt1qPE4fVxEXwbFcrJ4Cy0ChC6rQiW4DstPICAh7pzXUZSuGAGRa2YqOvc+ZafJn+rvYwgAUUU69BCWCMcKN3iVSm6ug1gkKiRYTtU9Kcj5wL4HPyvlWid+Bv4KZCWMdfTqUC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CY9TTXOs; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2wDTDC7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CY9TTXOs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791210573; x=1822746573;
-  h=date:from:to:cc:subject:message-id;
-  bh=zlrC4IADZ8wLW05ktMEXKIoqdufPr3kK2/rN4jFtQoc=;
-  b=B2wDTDC7nhf83srZ2QZCh0MSo6iLbNMXRmPhCnqkg82FcZp2tW84tmM4
-   qyLQrQ+C+HR25heH94nCKxAJniENNtTfCFI+bNwC0hXHTZ1pOuzcNmjon
-   wKAbc3xbCENF7o3tHRNnF+aBy8M7kt3iSYzRl268xsZz6t7mpnggXlbdF
-   hWRpoBXBqhmfdjVGad0kD1QV3qyGZ7CQUYoo+Jh2MDO/eCPs3QeOwufXq
-   g8E96KsxFXyAvpdWxdFPTj/FYyevFG0szXnFPW6R6YFg8qGmZo4J6lsqU
-   PCa6l3h+OEQA0sg2fSCGKYCY8fcat1o9UHYVZaBt80yDnWXbZjywsfICr
-   Q==;
-X-CSE-ConnectionGUID: PuWCpxOCQAaUFsOBXPJBeA==
-X-CSE-MsgGUID: R1VlouLPRo2lwgzMmzG5dg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="90833259"
+  t=1791210587; x=1822746587;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xvUYXIVNIwDLbL5PVID1qi99hvRGc404R+w4JyrWeX8=;
+  b=CY9TTXOsnL/W1ouSXq7i0OCCUDUPECOsC+sQMeZHD0dsFU7MR2GDJTEB
+   3A7PX1NuCAtYrW8IATszNS+vLzyDcrkKE5OtAC6dRiD6k1qWnjcun8cSy
+   IXcddqUE5ZNO4cKFxlJbaJrb5kpVju8eWtTHLoGLDS/WF3g4vuhGVsNbV
+   7mK5qLfw196qU4sbRoTyhkq0MbPbU2dygNmU70USuS13OQka1WJ0iyptL
+   Jmhgc1IvNzcxFE4BC6uhytqZx2LDNPURUV2b/AVPHv71QwIVJ8bp5hYto
+   UdBUNUBsJw0YhYXDAPJ9EJRFDb0+4+xpZwE++sB66/N9mJJT03qbT2mUC
+   A==;
+X-CSE-ConnectionGUID: cBdExb+iQkahrCcSd43+HA==
+X-CSE-MsgGUID: nw1G0ViORR29TSQgOWCFYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="113661778"
 X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="90833259"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 07:29:28 -0700
-X-CSE-ConnectionGUID: gy3grtbpQ4GFii17BWyI/Q==
-X-CSE-MsgGUID: f2HdC57ATZ6awAs0Etdq/Q==
+   d="scan'208";a="113661778"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 07:29:43 -0700
+X-CSE-ConnectionGUID: WhFoEnCwR12fS6SQUfOERw==
+X-CSE-MsgGUID: wx3FxX3YSD2nT+TN36WhNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="38276"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 05 Oct 2026 07:29:26 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="276958614"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 05 Oct 2026 07:29:38 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDjgx-0000000009X-4BBd;
-	Mon, 05 Oct 2026 14:29:23 +0000
-Date: Mon, 05 Oct 2026 16:29:21 +0200
+	id 1xDjh9-000000000QR-2riz;
+	Mon, 05 Oct 2026 14:29:35 +0000
+Date: Mon, 5 Oct 2026 22:29:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1]
- drivers/block/loop.c:1989:6: warning: no previous prototype for function
- 'loop_process_cmd_list'
-Message-ID: <202610051656.M0ijtmCw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 4/7] drm/tegra: Add support for 8-bit CPU interface
+Message-ID: <202610052204.NAPy4kxK-lkp@intel.com>
+References: <20261004163114.181800-5-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261004163114.181800-5-clamor95@gmail.com>
 
-Hi jiayingrui,
+Hi Svyatoslav,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   54d115d7e4356554c262ffafc23a12d51c0187c3
-commit: aa8a9034d8a0e18d37fff6c6053f470be77637ae [0/1] ANDROID: loop: export loop_process_cmd_list
-config: x86_64-randconfig-2100-20261005 (https://download.01.org/0day-ci/archive/20261005/202610051656.M0ijtmCw-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051656.M0ijtmCw-lkp@intel.com/reproduce)
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next linus/master v7.3-rc6 next-20261002]
+[cannot apply to tegra/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/drm-tegra-dc-Expand-available-registers-layouts/20261004-193108
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20261004163114.181800-5-clamor95%40gmail.com
+patch subject: [PATCH v2 4/7] drm/tegra: Add support for 8-bit CPU interface
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261005/202610052204.NAPy4kxK-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610052204.NAPy4kxK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610051656.M0ijtmCw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610052204.NAPy4kxK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/block/loop.c:1989:6: warning: no previous prototype for function 'loop_process_cmd_list' [-Wmissing-prototypes]
-    1989 | void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-         |      ^
-   drivers/block/loop.c:1989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1989 | void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/loop_process_cmd_list +1989 drivers/block/loop.c
-
-  1988	
-> 1989	void loop_process_cmd_list(struct list_head *cmd_list, struct gendisk *disk)
-  1990	{
-  1991		struct loop_device *lo = disk->private_data;
-  1992		loop_process_work(NULL, cmd_list, lo);
-  1993	}
-  1994	EXPORT_SYMBOL_GPL(loop_process_cmd_list);
-  1995	
+   nios2-linux-ld: drivers/gpu/drm/tegra/dbi.o: in function `tegra_dbi_driver_init':
+>> dbi.c:(.init.text+0x0): multiple definition of `init_module'; drivers/gpu/drm/tegra/drm.o:drm.c:(.init.text+0x0): first defined here
+   nios2-linux-ld: drivers/gpu/drm/tegra/dbi.o: in function `tegra_dbi_driver_exit':
+>> dbi.c:(.exit.text+0x0): multiple definition of `cleanup_module'; drivers/gpu/drm/tegra/drm.o:drm.c:(.exit.text+0x0): first defined here
 
 --
 0-DAY CI Kernel Test Service
