@@ -1,157 +1,369 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011014.outbound.protection.outlook.com [52.101.125.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A35345518A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 10:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791195664; cv=fail; b=uU5TJSA+7/XDwGOVRjuoEMxwjbHpoZ5eDvvdTpLvajBfyYctyNg5i5jLdh4DQsADq6jm4W/IhvGgOlGVSzxzS+221k8TSj1lP1wcqnvJkWRYK/KSWaipwZBIUy+bwekk3JYYeH3cy5qOtdf9Qysq1wDG6sjpnvBbtm+5EwqqDic=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791195664; c=relaxed/simple;
-	bh=5+YZ7KPV7y//MGFh62pzuczay2IbNaPWlAcUWgzPrnY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=N0GM2AIYOif8IuhNPueGHTxUnnqjC5Ps5MpngOTVzG/jpmF8674i3jIu1/rgyvfnVzoTSyPcqYXmVihg0yfROovs3VePqbwfEhf18AOOrWxbZwOkVrcan1n4UWzoZFPX+wu4J4DQZ1pXSHKXj2CHhqbndWS08FqEGmSfdgQ7w3g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=B0lxxHZg; arc=fail smtp.client-ip=52.101.125.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2152F3D9029
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 10:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791196521; cv=none; b=Mv6mgDYpTGOIHDUaejtA8rao5C0mGw9R+uD4MB4LHNvFnYEbihvrOpbPnlCEBiWC3n4Rea4Yv0KyOxLI7yHqo9BFLRL/H+Fva1/z2EpeLs3KCAJhbV6fYIAvhFWFFn2XSbq/3vme8V4XyRrKjjjPIjRcYyDWUQ5UNm0NXvNq/2s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791196521; c=relaxed/simple;
+	bh=ah6JDsgaX2W388erYMdp0wX+hxqDaXslZp8xbkBC1iw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=QPuAgNe4d5n9Ax6+P2J1CineSjVbsxy392ZxA9OS+RoMmgisuxUwiwjUKwaMJRTCIHF+rEtqXNeFmwJVxs+GZBB1AzhG6ZKrcBoF6aifzoQeP+TpiDpv086OHF0fRL3r5kjpwtYsyVrNQnC+Uyvh2zF09yj286xaCYdt+laoyjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePl8oeMh; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="B0lxxHZg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OQlFV2WFRSl+AtCQVnwWwWTYKfD3Ra9VVXb/NmVm5sdWCk1Rvs+7d4PdKzUDEOR8JKLPd6507Sf1hCG6nsswd56aM1mJUDWZr1GBDBAC0xtBsrcDOPIhzUyH7iLdp4+dLCUTgHzb8iU9sjuymC6NMdMJj2l0ejiygh+8bfjTXU3KlFz8Jc+dlTZxuuJaxTByA+J8u1NVY/GfTdlNlauOuwJ1/VZHm7tI6j6cWP1KVirF7jWfMbg7i0MG3hroLjt9U8+UarnVSox+vXVZgQUvKiSRv0YvKqJ4m69dQAV8quyqJiPP3jxgx4AgPfr62XjeF7GzRXGXEYDKZM4W1D8SZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=570+fFPmlVpvDwXvMdeP0VkvM+9ZpKLzswlp2RzGYTM=;
- b=oZjDysATwVsvtBGCL/Mdz6T3ofsDzB1o114m+RlCb9DhIVtO2fY6Hp1qDo3rtJpSlZm0SVleYs0VULA1fZHmTl6CAqmdRMr4/3oa9GBZxO08Z5qw+uZa54gPK5jC/hI/HdA28GWvD4GKbzYUeAawYd8i1G9Iu3tDD+M3uZQFuK+MJSxt9VTC9S8DBG7VLDP+sYJlmfxiFGqpCxPG4cwM+fxM/fw5piQ2RLTV/NT5E2DyE+0BpqAOnjBVCi5zM++WaTZhznIlqoY6BEwKkwwqThOFCE/3y5mU66vbvcTtqWv4/ZU2tPKCJppMG0mHwK0Rt4ZjTEX4bl2Sqix42bSGFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=570+fFPmlVpvDwXvMdeP0VkvM+9ZpKLzswlp2RzGYTM=;
- b=B0lxxHZgcd69EE6mz1m7sq/oa1t/0xqAQWIXuMeH4e/8mC9xO3HGkwQ/2ofnpvD+HA5zkrct2TbX5NiN5gxajQUXZPjrtHQ3YMqL4M3Ov9H4ayCLRSKcWEksQJ1qSbpkNTlgDfGOrfDfFOx7tanPylYPSHwy6I9gFjqKG/ilfPo=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS9PR01MB14079.jpnprd01.prod.outlook.com (2603:1096:604:365::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 10:20:56 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%6]) with mapi id 15.21.0451.026; Mon, 5 Oct 2026
- 10:20:55 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: kernel test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Philipp
- Zabel <p.zabel@pengutronix.de>, "open list:PIN CONTROLLER - RENESAS"
-	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Mark Brown <broonie@kernel.org>
-Subject: RE: reset-rzg2l-usbphy-ctrl.c:undefined reference to `pwrseq_enable'
-Thread-Topic: reset-rzg2l-usbphy-ctrl.c:undefined reference to `pwrseq_enable'
-Thread-Index: AQHdVG/tLl7s2RO/T0GROpI2z0UrnLbuvI9Q
-Date: Mon, 5 Oct 2026 10:20:55 +0000
-Message-ID:
- <TY3PR01MB11346125B244C4B1DC27BFA8F86962@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <202610050445.WP4OvIgZ-lkp@intel.com>
-In-Reply-To: <202610050445.WP4OvIgZ-lkp@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS9PR01MB14079:EE_
-x-ms-office365-filtering-correlation-id: 61135267-4012-4f84-7e52-08df22ca5795
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|22082099003|18002099003|38070700021|11063799006|10067099003|56012099006;
-x-microsoft-antispam-message-info:
- vrB0dtJPzl++epPVyE7OGz985LHO3/mf+9r72DM5Xaf94Hko7smIiMWSyNOkMR1SxJ1JL/i9ekrId4DZGUKxgUouI7zrcLu7yKjMaAYQQCGdYJG9dd4S5TY0GsYCtKy+cuR2gzwh8jio5HC6WM4UdJCHGEMjV37ZD/EiNXzKN/JinoImaH5aVLI80w9kOoaycDw64tZI2BtCr/nW2IPAuf9KaPOWpNj/gUZHHS0BsubONDdMXRkoaghzFaz1gPbvdgz8J4CsiHxMz3L5KmG6FGhUieOK3QRoDWNCgVYgcbnZwJFCRp6/4JpwueccjGX9bJC5MDauZ9aK13clz+Lut0pYwX3IG3zDuVhdUgcaCdV+rnhd+CJZeXtzntoOUNBpEl20UkbSqIwimNlityDgGT+iVOxRwofIE8TD8Dl6QYJ+uX7SPvySQSeLj62ci9PbFqjTpSfIeT7vY13Q8ZuI3z8EndiKN/IDA5B5OQMFGt4DoJlLPznSVa0OZixLMiYN8mas9nnkNptXwbIadlp75v3wni6q8N0cZuefN26EOiVmavZr29gsS4oAZykSii08dZwgx1RuXJIwsgPEb5cHhOGQfQK/MRwetnQCQ6SOrTyyw4MmQcDOwaTj+nbGTNOOtrxp29WrRP6f5PMNlk41Q8r6Ijs+Z2tZeGVTGPN+uPCdZemKUWu/Lck9z2AujXH79OZAn4kDVDA0254YvxshoSuFcykLteJFnBGsBU6gmWc=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(22082099003)(18002099003)(38070700021)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?HbCTwJCNKF3Ozbf5PfzDxGBqT2DEy/x0irZZ8vfu1IOvzoA5R26zGbIn2Toe?=
- =?us-ascii?Q?wNS2SFDYVkCRozTL+hozgzvcE4+pXug14FVwKbTlWP0qsPJs4Ot2nNV+ESZu?=
- =?us-ascii?Q?veezQRZ2GodMGGCZhdxK0pOb6YYZAZHdIf4Vkwq3fQ26+upy0yIMh0O7c9RS?=
- =?us-ascii?Q?35ea/xX2mgbtK7iFgycUymE6L1cCVN0DK+ruyukDgrE5WpDkCrOJYKZ+sn09?=
- =?us-ascii?Q?aaqGIMUzMUXBCFqKS1iQ6pxizKcgAcSSo6mtijricTlcwfa5xkWK8+MdsVIP?=
- =?us-ascii?Q?vuBNg4PVJ2VQWc0xRTN2Q6MOLwAF1teupl+np0vVhgz0ee9BIQ7lAQ6zupLt?=
- =?us-ascii?Q?YiOD7+QFMvFup90YOH5HABByptufZTuyDmZ82vh6QM2R9fslzGgYg3rx1b92?=
- =?us-ascii?Q?/i5TjuiWA5sc6En+lKXuXilhwWGy1GRi7CTDLcAd0DKYR5VVqLv9CyrgFVnk?=
- =?us-ascii?Q?wPX0OoONj+b/JgcfVDYvCQ2q//5g0Oqoaztn5sRdEYhYnYXRefVO+aCdJViM?=
- =?us-ascii?Q?CKCpvszk3e31iWGMTPHkkuDOGLzL9sNV41t8o1B3LM8F6ZH9qYu2PeQzeWzq?=
- =?us-ascii?Q?U+xhjrk3DDlnEzm1F0b8UGANdZa5b2r28AEsZcKIfR6BJa7u6wQQX2Bq6dzg?=
- =?us-ascii?Q?LYNj7ShlCJtCTotHqT3enUjhWc8OotsVsShHjHNH/JacxPULnzi/o132vdVG?=
- =?us-ascii?Q?UnFHsYazzlMW/+ITZf1MxxPnCa0sZsSvMYiG2Ktu/O0nrM2+fbbvgZNVdCNK?=
- =?us-ascii?Q?C/P20HFiTdRRs3f+FAMzf1tDMx+xsKmXIiFiqcP+ZHk74jFdymEo0rzv0xEZ?=
- =?us-ascii?Q?g5ALowlB8i2aItCjkdYwLMfZyHYHd34wu7qO6EN4vOICEyBXDK1Gr7jmo57O?=
- =?us-ascii?Q?ozXql1VJtkukxA2ET/duRJEOCV9pWWJSv4xU3eTFd1jg2DN4aw7yi+ALXZRz?=
- =?us-ascii?Q?WSoqgEKPXp4psdad4526bI6Kc/rQtXgNttxOt7idvn06QJlb1GMODsQw7Im4?=
- =?us-ascii?Q?IV5o0UIt3kj0EJ4Z+l4BekWO8BI2BZZEgh64Z+IjSYiJhCt7Cr/J5AJ36nBF?=
- =?us-ascii?Q?MuBADlGsPtHnhSDut2QRMG6T5kJv2vfrnNy6J/jA01nyuH0gTuhT20L4gzxk?=
- =?us-ascii?Q?WzcyrHr87NYu+/z2sIpVbIBdT8KUqvjD7mMIwV3sKRyAqglBQ6ZTLFquD4BH?=
- =?us-ascii?Q?e6Jik2oHBp98+DnAYhbFlOaYx+b8TAanEd63JRBpY5A5tzR1GIy+2FVHmXNt?=
- =?us-ascii?Q?OAWjfmZ9PmPPVHjdqWQyFeRXtAj6Zj1EqIE11HcA2XFNGPS2Kc1HFj4lXlwb?=
- =?us-ascii?Q?Wml78ibpoYfrmWcLkkLS40AGrHvQqXmzKpNq60qX0/XXFUz5du1GC68E40zn?=
- =?us-ascii?Q?jrjZExyxxjARRDGfYK4whWUjG/uRbWFQnEnLAj6WjyAxRs8nRfIhk2VAmll8?=
- =?us-ascii?Q?7eOVKaWMbnSrmfU7/GJEjzI2MNQhV5lFUFZJgPtq0IJePlW6LmtFzPVqP5ez?=
- =?us-ascii?Q?9Lm4KuDZbvSTfXTNhp5fljGgIYkef4pnN+PtwJmdeUl0BpJ8bIplrg9UMspY?=
- =?us-ascii?Q?UOVeu+v2UhJgMVtNo4bIROEzaa5ARQZ4zEBKwNYllBLonuRX7iEyfEEjYQYQ?=
- =?us-ascii?Q?7Kr5H7gGTKQuKxUpZSmVfmYqDx2W/15MmldhoQC6dWJxaSs+mJZaPAt8mi9e?=
- =?us-ascii?Q?+9ej0mFoeTB7fNeSXrOOflPHnS3iB4VuiYGKq5REa9G3NohoB+xWdZhHI5Lg?=
- =?us-ascii?Q?YqRyayDkiQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePl8oeMh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791196519; x=1822732519;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ah6JDsgaX2W388erYMdp0wX+hxqDaXslZp8xbkBC1iw=;
+  b=ePl8oeMh+qwFhBfTCn3fCCFL0p4wqDAOwGcQw1rUIbWjNQzCrP32ZAxL
+   j6zInoQcvraMY0rS0ZI12/FYurHz13zQCgtWVijHUfUwBGq4gVptq9H59
+   HUqnfMX0W2sygdb0vbSAYahJJhxMjk2afkxiNty3hbPsTbz0EvjkbPmWJ
+   DOx+HwFey2A/YdoTphFntx7MqEaqnB6MbC7EdJEZB95eeX+AkQ+YON0rz
+   HVkM11QyXS5o/AULUC018Vfz/o1ttzJyjDS5heWsluPZEPkO8Hsej1PCV
+   94jzoWRe/DXx2M1/PqqGsqwX/oGzdOlBaJUokibo7pa/y+hUbDtW98DsB
+   g==;
+X-CSE-ConnectionGUID: sY4EACQwSR291jEZGrhbRw==
+X-CSE-MsgGUID: AKKE/ucPTUmFEOYa2Pmblw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="91969883"
+X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
+   d="scan'208";a="91969883"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 03:35:19 -0700
+X-CSE-ConnectionGUID: /fNOJxxPTDi7sE9f1yzJMQ==
+X-CSE-MsgGUID: Aos/UhGGRLmkTFg61b/Nxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
+   d="scan'208";a="314799005"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 05 Oct 2026 03:35:16 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xDg2M-0000000005L-1o3m;
+	Mon, 05 Oct 2026 10:35:14 +0000
+Date: Mon, 05 Oct 2026 12:34:43 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Uwe =?utf-8?Q?Kleine-K=C3=B6nig"?= <u.kleine-koenig@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Helge Deller <deller@gmx.de>
+Subject: drivers/video/fbdev/au1100fb.c:492:33: sparse: sparse:
+ incorrect type in assignment (different address spaces)
+Message-ID: <202610051231.2dETaRVc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61135267-4012-4f84-7e52-08df22ca5795
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2026 10:20:55.7590
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m2AEKMi+5teKGiScKQosS17ecGuxUIEowN0nXgWAyx0DjViG8/8DCrU5dB7cEVEk7u/GanO9AcOtylrSoedKhemBo4hqTchzbfd1WlTLnwc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB14079
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi All,
+Hi Uwe,
 
-> -----Original Message-----
-> From: kernel test robot <lkp@intel.com>
-> Sent: 05 October 2026 03:19
-> To: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: oe-kbuild-all@lists.linux.dev; 0day robot <lkp@intel.com>
-> Subject: reset-rzg2l-usbphy-ctrl.c:undefined reference to `pwrseq_enable'
+First bad commit (maybe !=3D root cause):
 
-I can reproduce this issue on loongarch build and the issue is fixed
-by below changes
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
+commit: 6f366e86481a7503a821de82930df517dddd4047 fbdev: au1100fb: Make driv=
+er compilable on non-mips platforms
+date:   8 months ago
+config: mips-randconfig-r2308-20261005 (https://download.01.org/0day-ci/arc=
+hive/20261005/202610051231.2dETaRVc-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261005/202610051231.2dETaRVc-lkp@intel.com/reproduce)
 
-biju@biju:~/share/linux-work/linux$ git diff
-diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-index eda9c698a95f..d1067f2188e9 100644
---- a/drivers/reset/Kconfig
-+++ b/drivers/reset/Kconfig
-@@ -269,7 +269,7 @@ config RESET_RASPBERRYPI
-=20
- config RESET_RZG2L_USBPHY_CTRL
-        tristate "Renesas RZ/G2L USBPHY control driver"
--       depends on ARCH_RZG2L || COMPILE_TEST
-+       depends on ARCH_RZG2L || (COMPILE_TEST && POWER_SEQUENCING)
-        select MFD_SYSCON
-        help
-          Support for USBPHY Control found on RZ/G2L family. It mainly
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Fixes: 6f366e86481a ("fbdev: au1100fb: Make driver compilable on non-mips=
+ platforms")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610051231.2dETaRVc-lkp@i=
+ntel.com/
 
-Cheers,
-Biju
+sparse warnings: (new ones prefixed by >>)
+>> drivers/video/fbdev/au1100fb.c:492:33: sparse: sparse: incorrect type in=
+ assignment (different address spaces) @@     expected char [noderef] __iom=
+em *screen_base @@     got unsigned char *fb_mem @@
+   drivers/video/fbdev/au1100fb.c:492:33: sparse:     expected char [nodere=
+f] __iomem *screen_base
+   drivers/video/fbdev/au1100fb.c:492:33: sparse:     got unsigned char *fb=
+_mem
 
-=20
+vim +492 drivers/video/fbdev/au1100fb.c
 
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  404 =20
+48c68c4f1b5424 drivers/video/au1100fb.c       Greg Kroah-Hartman 2012-12-21=
+  405  static int au1100fb_drv_probe(struct platform_device *dev)
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  406  {
+46953e6aab262d drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28=
+  407  	struct au1100fb_device *fbdev;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  408  	struct resource *regs_res;
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  409  	struct clk *c;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  410 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  411  	/* Allocate new device private */
+db66f0252e2f17 drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28=
+  412  	fbdev =3D devm_kzalloc(&dev->dev, sizeof(*fbdev), GFP_KERNEL);
+29914badc59b23 drivers/video/fbdev/au1100fb.c Markus Elfring     2018-03-28=
+  413  	if (!fbdev)
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  414  		return -ENOMEM;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  415 =20
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30=
+  416  	if (au1100fb_setup(fbdev))
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30=
+  417  		goto failed;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  418 =20
+7a192ec334cab9 drivers/video/au1100fb.c       Ming Lei           2009-02-06=
+  419  	platform_set_drvdata(dev, (void *)fbdev);
+67f30ad19c4b32 drivers/video/fbdev/au1100fb.c Christoph Hellwig  2019-04-28=
+  420  	fbdev->dev =3D &dev->dev;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  421 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  422  	/* Allocate region for our registers and map them */
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30=
+  423  	regs_res =3D platform_get_resource(dev, IORESOURCE_MEM, 0);
+d121c3f3cedb84 drivers/video/au1100fb.c       Manuel Lauss       2011-09-30=
+  424  	if (!regs_res) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  425  		print_err("fail to retrieve registers resource");
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  426  		return -EFAULT;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  427  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  428 =20
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  429  	fbdev->info.fix =3D (struct fb_fix_screeninfo) {
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  430  		.mmio_start =3D regs_res->start,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  431  		.mmio_len =3D resource_size(regs_res),
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  432  		.id =3D "AU1100 FB",
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  433  		.xpanstep =3D 1,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  434  		.ypanstep =3D 1,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  435  		.type =3D FB_TYPE_PACKED_PIXELS,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  436  		.accel =3D FB_ACCEL_NONE,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  437  	};
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  438 =20
+93019734555f8d drivers/video/au1100fb.c       Manuel Lauss       2012-03-24=
+  439  	if (!devm_request_mem_region(&dev->dev,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  440  				     fbdev->info.fix.mmio_start,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  441  				     fbdev->info.fix.mmio_len,
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  442  				     DRIVER_NAME)) {
+c05b7f3d12b945 drivers/video/au1100fb.c       Rodolfo Giometti   2006-05-30=
+  443  		print_err("fail to lock memory region at 0x%08lx",
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  444  			  fbdev->info.fix.mmio_start);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  445  		return -EBUSY;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  446  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  447 =20
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  448  	fbdev->regs =3D (struct au1100fb_regs*)KSEG1ADDR(fbdev->info.f=
+ix.mmio_start);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  449 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  450  	print_dbg("Register memory map at %p", fbdev->regs);
+13c89a37c6f6f3 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  451  	print_dbg("phys=3D0x%08x, size=3D%zu", fbdev->regs_phys, fbdev=
+->regs_len);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  452 =20
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  453  	c =3D clk_get(NULL, "lcd_intclk");
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  454  	if (!IS_ERR(c)) {
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  455  		fbdev->lcdclk =3D c;
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  456  		clk_set_rate(c, 48000000);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  457  		clk_prepare_enable(c);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  458  	}
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  459 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  460  	/* Allocate the framebuffer to the maximum screen size * nbr of vid=
+eo buffers */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  461  	fbdev->fb_len =3D fbdev->panel->xres * fbdev->panel->yres *
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  462  		  	(fbdev->panel->bpp >> 3) * AU1100FB_NBR_VIDEO_BUFFERS;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  463 =20
+93019734555f8d drivers/video/au1100fb.c       Manuel Lauss       2012-03-24=
+  464  	fbdev->fb_mem =3D dmam_alloc_coherent(&dev->dev,
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21=
+  465  					    PAGE_ALIGN(fbdev->fb_len),
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  466  					    &fbdev->fb_phys, GFP_KERNEL);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  467  	if (!fbdev->fb_mem) {
+13c89a37c6f6f3 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  468  		print_err("fail to allocate framebuffer (size: %zuK))",
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  469  			  fbdev->fb_len / 1024);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  470  		return -ENOMEM;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  471  	}
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  472 =20
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  473  	fbdev->info.fix.smem_start =3D fbdev->fb_phys;
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  474  	fbdev->info.fix.smem_len =3D fbdev->fb_len;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  475 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  476  	print_dbg("Framebuffer memory map at %p", fbdev->fb_mem);
+13c89a37c6f6f3 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  477  	print_dbg("phys=3D0x%pad, size=3D%zuK", &fbdev->fb_phys, fbdev=
+->fb_len / 1024);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  478 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  479  	/* load the panel info into the var struct */
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  480  	fbdev->info.var =3D (struct fb_var_screeninfo) {
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  481  		.activate =3D FB_ACTIVATE_NOW,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  482  		.height =3D -1,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  483  		.width =3D -1,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  484  		.vmode =3D FB_VMODE_NONINTERLACED,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  485  		.bits_per_pixel =3D fbdev->panel->bpp,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  486  		.xres =3D fbdev->panel->xres,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  487  		.xres_virtual =3D fbdev->panel->xres,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  488  		.yres =3D fbdev->panel->yres,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  489  		.yres_virtual =3D fbdev->panel->yres,
+7939cecdc6fa39 drivers/video/fbdev/au1100fb.c Uwe Kleine-K=C3=B6nig   2026-=
+02-16  490  	};
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  491 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+ @492  	fbdev->info.screen_base =3D fbdev->fb_mem;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  493  	fbdev->info.fbops =3D &au1100fb_ops;
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  494 =20
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21=
+  495  	fbdev->info.pseudo_palette =3D
+a86854d0c599b3 drivers/video/fbdev/au1100fb.c Kees Cook          2018-06-12=
+  496  		devm_kcalloc(&dev->dev, 16, sizeof(u32), GFP_KERNEL);
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21=
+  497  	if (!fbdev->info.pseudo_palette)
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  498  		return -ENOMEM;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  499 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  500  	if (fb_alloc_cmap(&fbdev->info.cmap, AU1100_LCD_NBR_PALETTE_ENTRIES=
+, 0) < 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  501  		print_err("Fail to allocate colormap (%d entries)",
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  502  			   AU1100_LCD_NBR_PALETTE_ENTRIES);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  503  		return -EFAULT;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  504  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  505 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  506  	/* Set h/w registers */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  507  	au1100fb_setmode(fbdev);
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  508 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  509  	/* Register new framebuffer */
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  510  	if (register_framebuffer(&fbdev->info) < 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  511  		print_err("cannot register new framebuffer");
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  512  		goto failed;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  513  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  514 =20
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  515  	return 0;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  516 =20
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  517  failed:
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  518  	if (fbdev->lcdclk) {
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  519  		clk_disable_unprepare(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  520  		clk_put(fbdev->lcdclk);
+6b1889c14b4606 drivers/video/fbdev/au1100fb.c Manuel Lauss       2014-07-23=
+  521  	}
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  522  	if (fbdev->info.cmap.len !=3D 0) {
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  523  		fb_dealloc_cmap(&fbdev->info.cmap);
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  524  	}
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  525 =20
+1c16697bf9d5b2 drivers/video/au1100fb.c       Julia Lawall       2012-01-21=
+  526  	return -ENODEV;
+3b495f2bb749b8 drivers/video/au1100fb.c       Pete Popov         2005-04-04=
+  527  }
+^1da177e4c3f41 drivers/video/au1100fb.c       Linus Torvalds     2005-04-16=
+  528 =20
+
+:::::: The code at line 492 was first introduced by commit
+:::::: 3b495f2bb749b828499135743b9ddec46e34fda8 Au1100 FB driver uplift for=
+ 2.6.
+
+:::::: TO: Pete Popov <ppopov@embeddedalley.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
