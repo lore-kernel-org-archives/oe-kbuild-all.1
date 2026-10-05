@@ -1,126 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8702F6577
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 20:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291D532ED3A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 20:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791230922; cv=none; b=lPT0vcKBlemybW+F7gbcrXbygmj6tTbFCs8FpUloEEe9k99P9uybRqtJ2m/3dGnGgP1zAZJ6OLro+Eyl8hfYftJeItpAo3JWugaMhW8zZgxeVbgrfUDfQDwnGVLuadVkQQtXcWzIHxG7Rlp8ragojb5JRb7SeXjQ5+WKvx/+gKY=
+	t=1791233357; cv=none; b=TpNzWxZqq16UsSfkaKLwusJ1+vNHLoyQzdmcUi93v9pKpBcfQZ+k0OKG4RqkWdb2BHu1hVU+TiYA10nPTYGTyCwIJ+LItWzmrrfrk4FeWCXqHgjWEPqxA/oDnLoNx1qGQOWAOV9RH+lEi1tvydqiwXNAn50YcFdacFaEDGgrpNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791230922; c=relaxed/simple;
-	bh=mSQ10vsvnLZfqIJ999gZd8a6PhWkvBoXGU8LVbrJsN8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QW3aazView3+4NbVorbQkkvI3MH/LJ1e4/q1q9pD8xiz3tm3DUWIxjBBaRtVZIpyPlKshJYDLhkYmMfzW9VA4tuit1BlnbbAhuv2iU0coeo7PdCXAIroAd9tCN/meMVAAoUgGFtt5WF3OYs/AzqDZEf1V0f/uC/jQwQF8/XIW4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XWSSOgRN; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1791233357; c=relaxed/simple;
+	bh=b5eO6cu/x2LURXsfvcknrPjDXFK/Ia5yCd9i79Wafws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksZEtRiw0BPa8DUkYJki3prrR7ECrA9sX7ejl7M2p19WNtRbiVtAqsol5SRwPLtttqNNPEqqWXpw0VQd1PTTYF9slG05k1vF/A9/K9+XrA/8Rsx04YNFTnixOw3CXepPt4fViWLjUkUDNw1ehFASH8KS99K9FDeOs0hK+6i4Kf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZ9d8orD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XWSSOgRN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZ9d8orD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791230919; x=1822766919;
-  h=date:from:to:cc:subject:message-id;
-  bh=mSQ10vsvnLZfqIJ999gZd8a6PhWkvBoXGU8LVbrJsN8=;
-  b=XWSSOgRNcg5p/7SP2fFaduzfuqxfFawymwOQjy31UqZGdvA4/yD/GIiU
-   rX4rEIZgrGkbfJdAs+9qlfLWQkdz8fH0BFRYz5L+zU6raplGjOr3UDATy
-   82sdVv2/d6reMMXctLXNB+wbwiGaiMeNHiD57WogkFoDaqCHFJdbKNKHq
-   VUaedGmfVfrCn1N14V33i4WddG59QvkODoPM2Shc62SCnxdkbJiPxZ24K
-   muQ/edxHgoKDuMGTpnjDA7wFW2ta5SNQNbdGas+fC6tNrZFfnbqvpGvPe
-   EEROazVPSqnK2whPEN1248NGXGAzMPg/jlBXVgOn1oPVGgMN+NqDoQHpf
-   w==;
-X-CSE-ConnectionGUID: p/EN2/JjSUmxJ0jF3Y9HaA==
-X-CSE-MsgGUID: qNP81q+nSBGhyJlvhZDwIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="103283440"
+  t=1791233354; x=1822769354;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b5eO6cu/x2LURXsfvcknrPjDXFK/Ia5yCd9i79Wafws=;
+  b=TZ9d8orD1lfmLxUkabt//8sE1lYoY9A6ZSz8GNTVwP92P4XfeNl49hTl
+   ttVedSTbIHF0Wjs4t1P/tqUm+W8MjeRJ1Drv4Z4LjWHXGL/+obn7u8pur
+   Fg3yS/JfmcbqrhqZ8vYiY8zKL4WEyOwQ4753566jY/IxMhzpAs85o6vLt
+   TpL/ycy+s+jcTQK0MAMtzNCjjfBEOJKg13SerRphACvex+nwvocfAvVHp
+   ppHRA+RAkDc9LJ9OJpOw2VqoXabefKCXMfu3Lg4RPPPKBRdN21CGoqoCV
+   bqT0Uo9avXGF7ZuxZWBNzjMOe/ZJup4tTOHRSs0qnCdmwsalXtMH8BXkQ
+   g==;
+X-CSE-ConnectionGUID: rcg9i7kVRpunOjbMcxaAsA==
+X-CSE-MsgGUID: htcC9ZquSmSUtzQwjuXrxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="92025881"
 X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="103283440"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 13:08:39 -0700
-X-CSE-ConnectionGUID: CBR6e1ZWR6CFbRUdi5pe7g==
-X-CSE-MsgGUID: pR0XvjxsSv2HB06s1IuVzw==
+   d="scan'208";a="92025881"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 13:49:13 -0700
+X-CSE-ConnectionGUID: ePiNLwHJTSeZCJ/q+1n7UA==
+X-CSE-MsgGUID: JbVKTsJhSvOTL8cjoVt8Hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="284806550"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Oct 2026 13:08:37 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="274712953"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Oct 2026 13:49:12 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDozD-000000000I3-2S3m;
-	Mon, 05 Oct 2026 20:08:35 +0000
-Date: Mon, 05 Oct 2026 22:07:47 +0200
+	id 1xDpcT-000000000pg-0eow;
+	Mon, 05 Oct 2026 20:49:09 +0000
+Date: Tue, 6 Oct 2026 04:48:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
-Subject: drivers/reset/reset-rzg2l-usbphy-ctrl.c:199:undefined
- reference to `devm_pwrseq_get'
-Message-ID: <202610052142.gXOJlGh3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	linux-scsi@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 7/7] scsi: sd_zbc: define storage element management
+ operations
+Message-ID: <202610060413.UQ1Jyndv-lkp@intel.com>
+References: <20261005094632.580753-8-dlemoal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261005094632.580753-8-dlemoal@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Biju/regulator-renesas-usb-vbus-regulator-Rename-platform-device-to-rzg2l-vbus-regulator/20261002-121656
-head:   e6018e531312c0a59bb0b6540141285405702707
-commit: 71dd4a1d8943b8c05cc88a34b162a2eacd3aba46 reset: rzg2l-usbphy-ctrl: Add RZ/G3L support
-date:   3 days ago
-config: xtensa-randconfig-r2103-20261005 (https://download.01.org/0day-ci/archive/20261005/202610052142.gXOJlGh3-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610052142.gXOJlGh3-lkp@intel.com/reproduce)
+Hi Damien,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe/for-next]
+[also build test ERROR on next-20261005]
+[cannot apply to mkp-scsi/for-next jejb-scsi/for-next linus/master v7.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/block-fail-reads-to-offline-zones-early/20261005-184626
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20261005094632.580753-8-dlemoal%40kernel.org
+patch subject: [PATCH 7/7] scsi: sd_zbc: define storage element management operations
+config: sparc-defconfig (https://download.01.org/0day-ci/archive/20261006/202610060413.UQ1Jyndv-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610060413.UQ1Jyndv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610052142.gXOJlGh3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610060413.UQ1Jyndv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: defined in discarded section `.exit.text' of fs/fuse/inode.o
-   xtensa-linux-ld: drivers/reset/reset-rzg2l-usbphy-ctrl.o: in function `rzg2l_usbphy_ctrl_pwrrdy_syscon_init':
->> drivers/reset/reset-rzg2l-usbphy-ctrl.c:199:(.text+0x440): undefined reference to `devm_pwrseq_get'
->> xtensa-linux-ld: drivers/reset/reset-rzg2l-usbphy-ctrl.c:199:(.text+0x444): undefined reference to `pwrseq_enable'
-   xtensa-linux-ld: drivers/reset/reset-rzg2l-usbphy-ctrl.o: in function `rzg2l_usbphy_ctrl_probe':
-   drivers/reset/reset-rzg2l-usbphy-ctrl.c:248:(.text+0x53b): undefined reference to `devm_pwrseq_get'
-   xtensa-linux-ld: drivers/reset/reset-rzg2l-usbphy-ctrl.o: in function `devm_reset_control_get_exclusive':
->> include/linux/reset.h:620:(.text+0x56b): undefined reference to `pwrseq_enable'
+>> drivers/scsi/sd.c:3940:35: error: lvalue required as unary '&' operand
+    3940 |         .se_ops                 = &sd_zbc_se_ops,
+         |                                   ^
 
 
-vim +199 drivers/reset/reset-rzg2l-usbphy-ctrl.c
+vim +3940 drivers/scsi/sd.c
 
-78f2d64e484753b Claudiu Beznea 2025-10-23  167  
-71dd4a1d8943b8c Biju Das       2026-10-02  168  static int rzg2l_usbphy_ctrl_pwrrdy_syscon_init(struct device *dev,
-c5b7cd9adefc5c0 Claudiu Beznea 2026-01-09  169  						struct rzg2l_usbphy_ctrl_priv *priv)
-78f2d64e484753b Claudiu Beznea 2025-10-23  170  {
-78f2d64e484753b Claudiu Beznea 2025-10-23  171  	struct reg_field field;
-78f2d64e484753b Claudiu Beznea 2025-10-23  172  	struct regmap *regmap;
-78f2d64e484753b Claudiu Beznea 2025-10-23  173  	u32 args[2];
-2289ccd753deeb2 Claudiu Beznea 2026-01-09  174  	int ret;
-78f2d64e484753b Claudiu Beznea 2025-10-23  175  
-78f2d64e484753b Claudiu Beznea 2025-10-23  176  	regmap = syscon_regmap_lookup_by_phandle_args(dev->of_node,
-78f2d64e484753b Claudiu Beznea 2025-10-23  177  						      "renesas,sysc-pwrrdy",
-78f2d64e484753b Claudiu Beznea 2025-10-23  178  						      ARRAY_SIZE(args), args);
-78f2d64e484753b Claudiu Beznea 2025-10-23  179  	if (IS_ERR(regmap))
-78f2d64e484753b Claudiu Beznea 2025-10-23  180  		return PTR_ERR(regmap);
-78f2d64e484753b Claudiu Beznea 2025-10-23  181  
-78f2d64e484753b Claudiu Beznea 2025-10-23  182  	/* Don't allow more than one bit in mask. */
-78f2d64e484753b Claudiu Beznea 2025-10-23  183  	if (hweight32(args[1]) != 1)
-78f2d64e484753b Claudiu Beznea 2025-10-23  184  		return -EINVAL;
-78f2d64e484753b Claudiu Beznea 2025-10-23  185  
-78f2d64e484753b Claudiu Beznea 2025-10-23  186  	field.reg = args[0];
-78f2d64e484753b Claudiu Beznea 2025-10-23  187  	field.lsb = __ffs(args[1]);
-78f2d64e484753b Claudiu Beznea 2025-10-23  188  	field.msb = __fls(args[1]);
-78f2d64e484753b Claudiu Beznea 2025-10-23  189  
-c5b7cd9adefc5c0 Claudiu Beznea 2026-01-09  190  	priv->pwrrdy = devm_regmap_field_alloc(dev, regmap, field);
-c5b7cd9adefc5c0 Claudiu Beznea 2026-01-09  191  	if (IS_ERR(priv->pwrrdy))
-c5b7cd9adefc5c0 Claudiu Beznea 2026-01-09  192  		return PTR_ERR(priv->pwrrdy);
-78f2d64e484753b Claudiu Beznea 2025-10-23  193  
-2289ccd753deeb2 Claudiu Beznea 2026-01-09  194  	ret = rzg2l_usbphy_ctrl_set_pwrrdy(priv->pwrrdy, true);
-2289ccd753deeb2 Claudiu Beznea 2026-01-09  195  	if (ret)
-2289ccd753deeb2 Claudiu Beznea 2026-01-09  196  		return ret;
-78f2d64e484753b Claudiu Beznea 2025-10-23  197  
-c5b7cd9adefc5c0 Claudiu Beznea 2026-01-09  198  	return devm_add_action_or_reset(dev, rzg2l_usbphy_ctrl_pwrrdy_off, priv->pwrrdy);
-78f2d64e484753b Claudiu Beznea 2025-10-23 @199  }
-78f2d64e484753b Claudiu Beznea 2025-10-23  200  
+  3926	
+  3927	static const struct block_device_operations sd_fops = {
+  3928		.owner			= THIS_MODULE,
+  3929		.open			= sd_open,
+  3930		.release		= sd_release,
+  3931		.ioctl			= sd_ioctl,
+  3932		.getgeo			= sd_getgeo,
+  3933		.compat_ioctl		= blkdev_compat_ptr_ioctl,
+  3934		.check_events		= sd_check_events,
+  3935		.unlock_native_capacity	= sd_unlock_native_capacity,
+  3936		.report_zones		= sd_zbc_report_zones,
+  3937		.get_unique_id		= sd_get_unique_id,
+  3938		.free_disk		= scsi_disk_free_disk,
+  3939		.pr_ops			= &sd_pr_ops,
+> 3940		.se_ops			= &sd_zbc_se_ops,
+  3941	};
+  3942	
 
 --
 0-DAY CI Kernel Test Service
