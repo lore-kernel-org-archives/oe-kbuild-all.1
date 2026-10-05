@@ -1,149 +1,116 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1C945D931
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 09:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01FD449992
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Oct 2026 09:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791193471; cv=none; b=KZp3nb5pxQnsIx16PPbD4s5AvVVXV7FC4/YLbZIr/9P+IIQbWN5kFR+9f9UDWiRd3pjvmebAiDAB2em0hdM2ybR1smNAFYT9PEZlN5/GVPlbGva/I/dWTrjO0sRw0Y3Z3ZfJx0aGCK9r/48RdBFLfdoqsdUhiB/pk10lRPvMq+I=
+	t=1791193477; cv=none; b=K43CnEkHj95jJaqhtbIdPUhkxyM7q9vOol6nG7vSvvLu8oH6sFAdG9vS7KcTGD+QP55jHhR51lqeQn1gZUBmozNqlacHDbRl6AhD+ZerhUN1MnpCbb+JIIqX1IizexkjGrkoU0rIxg7lqsDLnBAuyxP6H3SJp7k0mt1zYhnQr1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791193471; c=relaxed/simple;
-	bh=K/p5cKo+q00s0bQBcxKp/KESk5w3eFsXQwqTQ99lxmA=;
-	h=Date:From:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6VT/TXTmnvQ9kC04WBR5qIIGrl3N0pokUlfDj5pDNEiIqXwtrtDqRXgCMpDoqmDQ+j/sQXnYcrPRH3biKyELpNOriAwWXo93rjSr9luuO8OhYWxLeLFShWsd1CK+BoEET6QsPX8H0deYmH7cbqMibe2NtluvWQhSc5HgSMCAXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oic+/MX6; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1791193477; c=relaxed/simple;
+	bh=1U+akNFD1NSdekzYSGX1fQq0iw1c7ozCsSrNwbpQRGw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MLa3CyLxMTMlQLEplBYJ9TWjQApSeQXpUkbjXvwjcfQy4NljmX6Iysph62LzOPi2PUykcX/Als8FL0eGzynriYmKErPMdmaeRYtS6OD78uWlrThkhouftBW/mytDXGKCQhzNPLm8Xh0kHrYnUESp0HEOEfgDe4+1puok3j3HJFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqwRIn3g; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oic+/MX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqwRIn3g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791193465; x=1822729465;
-  h=date:from:cc:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=K/p5cKo+q00s0bQBcxKp/KESk5w3eFsXQwqTQ99lxmA=;
-  b=Oic+/MX6UO9rs7JRrm1O1uhVxgvMZFWN4Xgf1x/2B0PybMzs+D5vXoq5
-   3G6fD82trDztq995SB6ohaj514g/mgVVJSKUyRnA8u+Nh9NEGC8QeNkq7
-   /6yFNQiyU9OblpbGv2riJymVLHgjNvnU0fTL+IxbWoPm3Z/i19HYwYnWa
-   uwm+xcJ3K1icvWpaJuwLGWUOfFagfbn7TxYIoqVKJxVN9BqhsnOc8zdcy
-   83VsH842THPaJ/wKmEuAKqSGasGOCQa+e4PUxaTkqp8RLrXRwDOH4S5lt
-   5w7mECKYOcZn1dOP/RR9zEqm/mhEp7rMtx/DRnrrp7y8I/CDQkIOyE7zJ
-   w==;
-X-CSE-ConnectionGUID: FSiORwU2QUuKmILPGKgKng==
-X-CSE-MsgGUID: niE/m8VXTMqZGz/IBrMHWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="91884089"
+  t=1791193473; x=1822729473;
+  h=date:from:to:cc:subject:message-id;
+  bh=1U+akNFD1NSdekzYSGX1fQq0iw1c7ozCsSrNwbpQRGw=;
+  b=WqwRIn3gSWq37Y0JQfZ5hsZQHkj63vTkeGpabsp4ewujNgIv8QYSyDil
+   dCrBvVpIfwHMtHqT9whUZqcSCj4H+B72+F3mXa/335Sktotd6lVSiu9EB
+   DpWLzjlfExxJaAL2KnuUDTs8Lh7gMA1obrWXKvuoByfgDQ5NcynCjXDk2
+   USHrBSgIZldE5CaW6pgmipbBIfu1KJMjn3dw54r1HRsPlchM8nlvDeUT6
+   rauVZdk0uF1in4ZRpBrqN5ckDnFmC9mUQAtCdxA3oc28/m2VsAVDi578t
+   5WO4alFUmEr7ZSoKNrrjXkJov7KPdeJ4/vaq79bs0P3z0Ojjk7VFmaW0C
+   g==;
+X-CSE-ConnectionGUID: 8ZRf68vWSWaniYNRKuaKlQ==
+X-CSE-MsgGUID: RfcGu5CeTZOr6rWOFOq1DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="91884093"
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="91884089"
+   d="scan'208";a="91884093"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 02:44:16 -0700
-X-CSE-ConnectionGUID: ZnxRK6tDRGC+wttKXms9Hg==
-X-CSE-MsgGUID: sxPdiyv7Ql22/0bUdPOQuw==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 02:44:17 -0700
+X-CSE-ConnectionGUID: 7twUcTn+R3m+yF8YPigM8Q==
+X-CSE-MsgGUID: 35UnMZgLRpuMb+fuP/tUxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="304726213"
+   d="scan'208";a="304726224"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
   by fmviesa001.fm.intel.com with ESMTP; 05 Oct 2026 02:44:16 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDfEz-0000000004p-2sOf
-	for oe-kbuild-all@lists.linux.dev;
+	id 1xDfEz-0000000004r-38BL;
 	Mon, 05 Oct 2026 09:44:13 +0000
-Date: Mon, 5 Oct 2026 11:43:52 +0200
+Date: Mon, 05 Oct 2026 11:43:51 +0200
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: ACPI: Add stub for acpi_has_method() for !CONFIG_ACPI
-Message-ID: <202610051145.MTPINzw1-lkp@intel.com>
-References: <202610051145.MTPINzw1-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Joerg Roedel <joerg.roedel@amd.com>, Kevin Tian <kevin.tian@intel.com>,
+ Vasant Hegde <vasant.hegde@amd.com>
+Subject: include/linux/bitops.h:273:19: sparse: sparse: cast
+ truncates bits from constant value (ffffffffff000 becomes fffff000)
+Message-ID: <202610051147.aRijPI8c-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202610051145.MTPINzw1-lkp@intel.com>
 
-Hi Bowen,
-
-kernel test robot noticed the following build warnings:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bowen-Yu/ACPI-Add-stub-for-acpi_has_method-for-CONFIG_ACPI/20260929-201347
-base:   
-patch link:    https://lore.kernel.org/r/202610051145.MTPINzw1-lkp%40intel.com
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20261005/202610051145.MTPINzw1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051145.MTPINzw1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
+commit: aef5de756ea871ab44e3a1a87be6c944e6587c51 iommupt: Add the x86 64 bit page table format
+date:   11 months ago
+config: i386-randconfig-2300-20261005 (https://download.01.org/0day-ci/archive/20261005/202610051147.aRijPI8c-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610051147.aRijPI8c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: aef5de756ea8 ("iommupt: Add the x86 64 bit page table format")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610051145.MTPINzw1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610051147.aRijPI8c-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/iommu/generic_pt/fmt/iommu_x86_64.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
 
-   In file included from sound/hda/controllers/intel.c:38:
-   include/linux/acpi.h:1033:20: error: redefinition of 'acpi_has_method'
-    1033 | static inline bool acpi_has_method(acpi_handle handle, char *name)
-         |                    ^~~~~~~~~~~~~~~
-   In file included from include/linux/acpi.h:28:
-   include/acpi/acpi_bus.h:957:20: note: previous definition of 'acpi_has_method' with type 'bool(void *, char *)' {aka '_Bool(void *, char *)'}
-     957 | static inline bool acpi_has_method(acpi_handle handle, char *name)
-         |                    ^~~~~~~~~~~~~~~
-   In file included from include/asm-generic/div64.h:27,
-                    from ./arch/parisc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/delay.h:12,
-                    from sound/hda/controllers/intel.c:23:
-   include/linux/compiler.h:200:82: error: expression in static assertion is not an integer
-     200 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                                  ^
-   include/linux/compiler.h:205:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     205 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:544:20: note: in expansion of macro 'ARRAY_SIZE'
-     544 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:528:9: note: in expansion of macro 'module_param_array_named'
-     528 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/hda/controllers/intel.c:127:1: note: in expansion of macro 'module_param_array'
-     127 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
->> sound/hda/controllers/intel.c:106:12: warning: 'index' defined but not used [-Wunused-variable]
-     106 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
+vim +273 include/linux/bitops.h
 
+c320592f3f2a1e6 Wolfram Sang       2025-01-07  261  
+952043ac12a117d Steven Whitehouse  2009-04-23  262  /**
+952043ac12a117d Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
+952043ac12a117d Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
+952043ac12a117d Steven Whitehouse  2009-04-23  265   *
+4945cca232ce8bc Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
+952043ac12a117d Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
+952043ac12a117d Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
+952043ac12a117d Steven Whitehouse  2009-04-23  269   */
+6606c8c7e818865 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
+952043ac12a117d Steven Whitehouse  2009-04-23  271  {
+952043ac12a117d Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
+952043ac12a117d Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
+952043ac12a117d Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
+952043ac12a117d Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
+952043ac12a117d Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
+952043ac12a117d Steven Whitehouse  2009-04-23  277  #endif
+952043ac12a117d Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
+952043ac12a117d Steven Whitehouse  2009-04-23  279  }
+952043ac12a117d Steven Whitehouse  2009-04-23  280  
 
-vim +/index +106 sound/hda/controllers/intel.c
+:::::: The code at line 273 was first introduced by commit
+:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
 
-^1da177e4c3f415 sound/pci/hda/hda_intel.c Linus Torvalds    2005-04-16  105  
-5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07 @106  static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07  107  static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;
-a67ff6a54095e27 sound/pci/hda/hda_intel.c Rusty Russell     2011-12-15  108  static bool enable[SNDRV_CARDS] = SNDRV_DEFAULT_ENABLE_PNP;
-5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07  109  static char *model[SNDRV_CARDS];
-1dac6695c683c66 sound/pci/hda/hda_intel.c Takashi Iwai      2012-09-13  110  static int position_fix[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
-5c0d7bc103dd1ae sound/pci/hda/hda_intel.c Takashi Iwai      2008-06-10  111  static int bdl_pos_adj[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
-5aba4f8ec72b2b8 sound/pci/hda/hda_intel.c Takashi Iwai      2008-01-07  112  static int probe_mask[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] = -1};
-d4d9cd0338892e7 sound/pci/hda/hda_intel.c Takashi Iwai      2008-12-19  113  static int probe_only[SNDRV_CARDS];
-26a6cb6cca225f6 sound/pci/hda/hda_intel.c David Henningsson 2012-10-09  114  static int jackpoll_ms[SNDRV_CARDS];
-41438f1314b0f6f sound/pci/hda/hda_intel.c Takashi Iwai      2017-01-12  115  static int single_cmd = -1;
-71623855e20c3fe sound/pci/hda/hda_intel.c Takashi Iwai      2009-09-28  116  static int enable_msi = -1;
-4ea6fbc8eb23c3a sound/pci/hda/hda_intel.c Takashi Iwai      2009-06-17  117  #ifdef CONFIG_SND_HDA_PATCH_LOADER
-4ea6fbc8eb23c3a sound/pci/hda/hda_intel.c Takashi Iwai      2009-06-17  118  static char *patch[SNDRV_CARDS];
-4ea6fbc8eb23c3a sound/pci/hda/hda_intel.c Takashi Iwai      2009-06-17  119  #endif
-2dca0bba70ce3c2 sound/pci/hda/hda_intel.c Jaroslav Kysela   2009-11-13  120  #ifdef CONFIG_SND_HDA_INPUT_BEEP
-0920c9b4c4d8960 sound/pci/hda/hda_intel.c Takashi Iwai      2012-07-03  121  static bool beep_mode[SNDRV_CARDS] = {[0 ... (SNDRV_CARDS-1)] =
-2dca0bba70ce3c2 sound/pci/hda/hda_intel.c Jaroslav Kysela   2009-11-13  122  					CONFIG_SND_HDA_INPUT_BEEP_MODE};
-2dca0bba70ce3c2 sound/pci/hda/hda_intel.c Jaroslav Kysela   2009-11-13  123  #endif
-7fba6aea4472f01 sound/pci/hda/hda_intel.c Takashi Iwai      2020-01-09  124  static bool dmic_detect = 1;
-d045bceff5a904b sound/pci/hda/hda_intel.c Jaroslav Kysela   2023-02-02  125  static bool ctl_dev_id = IS_ENABLED(CONFIG_SND_HDA_CTL_DEV_ID) ? 1 : 0;
-^1da177e4c3f415 sound/pci/hda/hda_intel.c Linus Torvalds    2005-04-16  126  
+:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
