@@ -1,127 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D8F1714AA;
-	Tue,  6 Oct 2026 01:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A08236453
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 02:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791249815; cv=none; b=NenBYIErq/6IzJT6kzrW1sOwt+4O1jKQWwFFsM3gi4q/sUpU9g0X5lvQdaGcWsJhCz3175rJ8s4hm7OOTCUw9PqeKOTLKrsN+Ukm4vi/xcyqD+yDQ7C0kXk+EVzdUr2o+ijIpntPgrpL3JfMcJzFWVTZhUChkpJnlWXCW9cqTs0=
+	t=1791253718; cv=none; b=iP+3rbEabKLChanMbm5+HP6KeNfGlo/GVnNDfYoevx1f+5qkYkSj47iqhU3whMLFBrJN2wisQ3IqFggQ350vYUOPaY6odBxsyUtGeT7AAf1y0a2HCd5ygkq8/V4ZJ+VJqNFiRyGF5WIUgR6sF9rE6PaSwldvJT2GTYVWb3bEBaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791249815; c=relaxed/simple;
-	bh=gI+Qz8BqllFQYalqSQuLR+JS1V8KAI1uI3OitRUlta8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Yhk2WzSkoGG8V8+qP/eOJlGdUa8z8ZKcE9Stci0cW7Ui/C8HTmqpJOYJCJ9X76mJc7jkAZvz/NZ12GCYtvxePLJU45DQu7Kid58KMVA1kd5O9TSwSZW/ILZPRmNihA5tZqFYXYoUtUNuARJK/O8jgLmdAizkjYhvPynMYZPgUJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PuFy8fUA; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1791253718; c=relaxed/simple;
+	bh=U+taHVkvcFiGZht8/KeGpMDIXy8+GujWyVT2DZiz5gQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ShCds9RQR+uMvwmfopzvP4I8ToLZYfSLlUffr7Sp/Mn1fSMMU8Ey896z9cLrXC35RhW7XeIF+v00sixdE+WO4NRs+68f0+F6HIfY39yvszeP8BRkLZuaNZJ6T5tsIwx+shz88hA3Czn+LqxnDOSQKtFDjxJzA8wxhS56rVcH1oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuof16x7; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PuFy8fUA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuof16x7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791249813; x=1822785813;
-  h=date:from:to:cc:subject:message-id;
-  bh=gI+Qz8BqllFQYalqSQuLR+JS1V8KAI1uI3OitRUlta8=;
-  b=PuFy8fUAG6UozTdNGHUUsN7nRI+q4ty3F4sVaXPPW7p0+eG8VcNqa32E
-   M8vBalYPjZvJL7EauB6JsycurXi3mCLBI0LQO3kKb6RXexWyKoU62nitu
-   U8ct3+y+aTgkEp/ttNl5a5uEcN6gLJap2PqO0q3aq8+8+3nentppmoV41
-   u/qUrDJhVEfuLOAVveTl6Aa498IALfThEZBTkUcESUzhCJmIxydoi544l
-   i5IZbzFk/XL+ekl/FnqoWg7WitRQ1H7Vh7zsH8whldnxOKQvJsaHE3gDK
-   eIUOMeH1ZbrDr6Mbb/KR3PhyWzb/EG1Y9wCtgKaLUlHGcAm4fkal7TlXV
-   A==;
-X-CSE-ConnectionGUID: Dg2cx6mDRpa7nosYVWVBoA==
-X-CSE-MsgGUID: DgNF7vruSyypETJKv3RfHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="102508955"
+  t=1791253716; x=1822789716;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U+taHVkvcFiGZht8/KeGpMDIXy8+GujWyVT2DZiz5gQ=;
+  b=kuof16x79RObuFNKT5zZ7tY/HI3Wu4yo5hMwwWIUj+Wdg8nRNnlxUeUj
+   JjPhKK35nPAB0PZuyEA44hDwULbxIG0FDv51M68kt8p2ISIr187JT7ZsN
+   /xNVc1IghDEfWu+b3tDbSL8e3FDjv5PmAN9CnlDW5z8Wo7N3F0Tqtb9cm
+   6v8Ood8O9la06VJfHEJFb9XS5xpATZZFAhW/gcucfrjeKrhizlGI3xaOe
+   SV9SUCi3xftFEkTwJM2M5Y7jYrMfcuBaPttqpX+hSjieRfe3kx808Uojk
+   MSGv/OZ7mRxqUPHGUyVizz7MSxzdp8uM+4UKjQL2pwas66y3VrKfo06kM
+   g==;
+X-CSE-ConnectionGUID: qEfaK7cWS7Gf/axIQtTfRA==
+X-CSE-MsgGUID: Ksdj40fpSeiA+Lc0jCFk+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="90996482"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="102508955"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 18:23:32 -0700
-X-CSE-ConnectionGUID: VieI5PfXTg6+fusmiqb2xg==
-X-CSE-MsgGUID: fHCtuRYSSrGWqshfeivMXA==
+   d="scan'208";a="90996482"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 19:28:36 -0700
+X-CSE-ConnectionGUID: HDeY+mL8SHenPdktxh0rlA==
+X-CSE-MsgGUID: EKTTUCtzTZmbsO2M/v4hSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="276514327"
+   d="scan'208";a="280726152"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 Oct 2026 18:23:31 -0700
+  by orviesa005.jf.intel.com with ESMTP; 05 Oct 2026 19:28:34 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDttw-0000000012a-3I3r;
-	Tue, 06 Oct 2026 01:23:28 +0000
-Date: Tue, 06 Oct 2026 09:22:49 +0800
+	id 1xDuut-0000000014O-29D3;
+	Tue, 06 Oct 2026 02:28:31 +0000
+Date: Tue, 06 Oct 2026 10:28:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-09-30-3 322/322]
- sound/soc/mediatek/mt8192/mt8192-dai-adda.c:462:29: error: call to undeclared
- function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202610060918.8PUwFcDg-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-p3s 10/10]
+ =?us-ascii?Q?drivers/accel/habanalabs/goya/../common/../include/hw=5Fip?=
+ =?us-ascii?Q?/mmu/mmu=5Fgeneral.h:17:9:?= warning: 'PAGE_SIZE_4KB' macro
+ redefined
+Message-ID: <202610061021.0BNey2iw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-09-30-3
-head:   8ef89ccab720b2e433fdb62596f1c54d5e4ed184
-commit: 5f85279ecbf1dd06cb7458eb4e9da621e969302f [322/322] ASoC: soc-component: remove snd_soc_component_{set/get}_drvdata()
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261006/202610060918.8PUwFcDg-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 80cd965b6323b208519f8ab1d5ee86e4ea9862f4)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610060918.8PUwFcDg-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-p3s
+head:   691ade648ef6da4e746c0857a492d9b9cc1a5780
+commit: 04fec2a54c421adc87f0b57f4d1ade2397f8f4ec [10/10] ANDROID: P3S: mm: Add per-MM page shift field and query APIs
+config: x86_64-randconfig-1007-20261005 (https://download.01.org/0day-ci/archive/20261006/202610061021.0BNey2iw-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061021.0BNey2iw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610060918.8PUwFcDg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610061021.0BNey2iw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/soc/mediatek/mt8192/mt8192-dai-adda.c:462:29: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     462 |         struct mtk_base_afe *afe = snd_soc_component_get_drvdata(cmpnt);
-         |                                    ^
->> sound/soc/mediatek/mt8192/mt8192-dai-adda.c:462:23: error: incompatible integer to pointer conversion initializing 'struct mtk_base_afe *' with an expression of type 'int' [-Wint-conversion]
-     462 |         struct mtk_base_afe *afe = snd_soc_component_get_drvdata(cmpnt);
-         |                              ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+   In file included from drivers/accel/habanalabs/goya/goya_security.c:8:
+   In file included from drivers/accel/habanalabs/goya/goyaP.h:13:
+   In file included from drivers/accel/habanalabs/goya/../common/habanalabs.h:13:
+>> drivers/accel/habanalabs/goya/../common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
+      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
+         |         ^
+   include/linux/p3s/const.h:13:9: note: previous definition is here
+      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
+         |         ^
+   1 warning generated.
+--
+   In file included from drivers/accel/habanalabs/common/decoder.c:8:
+   In file included from drivers/accel/habanalabs/common/habanalabs.h:13:
+>> drivers/accel/habanalabs/common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
+      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
+         |         ^
+   include/linux/p3s/const.h:13:9: note: previous definition is here
+      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
+         |         ^
+   1 warning generated.
+--
+   In file included from drivers/accel/habanalabs/common/mmu/mmu_v2.c:8:
+   In file included from drivers/accel/habanalabs/common/mmu/../habanalabs.h:13:
+>> drivers/accel/habanalabs/common/mmu/../../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
+      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
+         |         ^
+   include/linux/p3s/const.h:13:9: note: previous definition is here
+      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
+         |         ^
+   1 warning generated.
+--
+   In file included from drivers/accel/habanalabs/gaudi/gaudi_security.c:8:
+   In file included from drivers/accel/habanalabs/gaudi/gaudiP.h:12:
+   In file included from drivers/accel/habanalabs/gaudi/../common/habanalabs.h:13:
+>> drivers/accel/habanalabs/gaudi/../common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
+      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
+         |         ^
+   include/linux/p3s/const.h:13:9: note: previous definition is here
+      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
+         |         ^
+   1 warning generated.
+--
+   In file included from drivers/accel/habanalabs/gaudi2/gaudi2.c:8:
+   In file included from drivers/accel/habanalabs/gaudi2/gaudi2P.h:12:
+   In file included from drivers/accel/habanalabs/gaudi2/../common/habanalabs.h:13:
+>> drivers/accel/habanalabs/gaudi2/../common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
+      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
+         |         ^
+   include/linux/p3s/const.h:13:9: note: previous definition is here
+      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
+         |         ^
+   1 warning generated.
+--
+   In file included from drivers/accel/habanalabs/common/pci/pci.c:8:
+   In file included from drivers/accel/habanalabs/common/pci/../habanalabs.h:13:
+>> drivers/accel/habanalabs/common/pci/../../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
+      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
+         |         ^
+   include/linux/p3s/const.h:13:9: note: previous definition is here
+      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
+         |         ^
+   1 warning generated.
 
 
-vim +/snd_soc_component_get_drvdata +462 sound/soc/mediatek/mt8192/mt8192-dai-adda.c
+vim +/PAGE_SIZE_4KB +17 drivers/accel/habanalabs/goya/../common/../include/hw_ip/mmu/mmu_general.h
 
-607ac48595640d Jiaxin Yu    2020-11-03  456  
-607ac48595640d Jiaxin Yu    2020-11-03  457  static int mtk_adda_dl_event(struct snd_soc_dapm_widget *w,
-607ac48595640d Jiaxin Yu    2020-11-03  458  			     struct snd_kcontrol *kcontrol,
-607ac48595640d Jiaxin Yu    2020-11-03  459  			     int event)
-607ac48595640d Jiaxin Yu    2020-11-03  460  {
-607ac48595640d Jiaxin Yu    2020-11-03  461  	struct snd_soc_component *cmpnt = snd_soc_dapm_to_component(w->dapm);
-607ac48595640d Jiaxin Yu    2020-11-03 @462  	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(cmpnt);
-eed9414a1b075e bui duc phuc 2026-09-18  463  	int ret;
-607ac48595640d Jiaxin Yu    2020-11-03  464  
-607ac48595640d Jiaxin Yu    2020-11-03  465  	switch (event) {
-607ac48595640d Jiaxin Yu    2020-11-03  466  	case SND_SOC_DAPM_PRE_PMU:
-eed9414a1b075e bui duc phuc 2026-09-18  467  		ret = mt8192_afe_gpio_request(afe->dev, true, MT8192_DAI_ADDA, 0);
-eed9414a1b075e bui duc phuc 2026-09-18  468  		if (ret)
-eed9414a1b075e bui duc phuc 2026-09-18  469  			return ret;
-607ac48595640d Jiaxin Yu    2020-11-03  470  		break;
-607ac48595640d Jiaxin Yu    2020-11-03  471  	case SND_SOC_DAPM_POST_PMD:
-607ac48595640d Jiaxin Yu    2020-11-03  472  		/* should delayed 1/fs(smallest is 8k) = 125us before afe off */
-607ac48595640d Jiaxin Yu    2020-11-03  473  		usleep_range(125, 135);
-eed9414a1b075e bui duc phuc 2026-09-18  474  		ret = mt8192_afe_gpio_request(afe->dev, false, MT8192_DAI_ADDA, 0);
-eed9414a1b075e bui duc phuc 2026-09-18  475  		if (ret)
-eed9414a1b075e bui duc phuc 2026-09-18  476  			return ret;
-607ac48595640d Jiaxin Yu    2020-11-03  477  		break;
-607ac48595640d Jiaxin Yu    2020-11-03  478  	default:
-607ac48595640d Jiaxin Yu    2020-11-03  479  		break;
-607ac48595640d Jiaxin Yu    2020-11-03  480  	}
-607ac48595640d Jiaxin Yu    2020-11-03  481  
-607ac48595640d Jiaxin Yu    2020-11-03  482  	return 0;
-607ac48595640d Jiaxin Yu    2020-11-03  483  }
-607ac48595640d Jiaxin Yu    2020-11-03  484  
+0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  10  
+0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  11  #define PAGE_SHIFT_4KB			12
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  12  #define PAGE_SHIFT_64KB			16
+0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  13  #define PAGE_SHIFT_2MB			21
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  14  #define PAGE_SHIFT_16MB			24
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  15  #define PAGE_SHIFT_64MB			26
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  16  #define PAGE_SHIFT_1GB			30
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24 @17  #define PAGE_SIZE_4KB			_BITUL(PAGE_SHIFT_4KB)
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  18  #define PAGE_SIZE_64KB			_BITUL(PAGE_SHIFT_64KB)
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  19  #define PAGE_SIZE_2MB			_BITUL(PAGE_SHIFT_2MB)
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  20  #define PAGE_SIZE_16MB			_BITUL(PAGE_SHIFT_16MB)
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  21  #define PAGE_SIZE_64MB			_BITUL(PAGE_SHIFT_64MB)
+01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  22  #define PAGE_SIZE_1GB			_BITUL(PAGE_SHIFT_1GB)
+0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  23  
 
-:::::: The code at line 462 was first introduced by commit
-:::::: 607ac48595640d549a769f0dde0732e69c3a6c03 ASoC: mediatek: mt8192: support adda in platform driver
+:::::: The code at line 17 was first introduced by commit
+:::::: 01d9ccf8657b54960862fb9db4bab5f73c766b47 habanalabs/gaudi2: add asic registers header files
 
-:::::: TO: Jiaxin Yu <jiaxin.yu@mediatek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Oded Gabbay <ogabbay@kernel.org>
+:::::: CC: Oded Gabbay <ogabbay@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
