@@ -1,105 +1,135 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645EF3DB997
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 20:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7004C3EF0AA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 20:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791317043; cv=none; b=WOHPl/x+nqfTBp4d96e5g/zMdeiCE1Z4qbKKn0YdwXu6IDvQWVSbxkQWfDgnmv7bYNkbYZYls2Qn5YtcrMEh1z16tAwEVtHEV/8ERfbrgHnnWeb6WfdsqRs7X/pf/0XQoxFdTDRt5pi9f9EQKGFsKUfhjI1w5wnreLk468EJsdc=
+	t=1791318519; cv=none; b=e8hPAqu3XoL7ZOulv8R+RrUuR+ysaiXUpclcsh0MPYczGH0NEYqM8erAX9IDbM1pAa4bJQoPV5qU/mAOgwNIVuHQHFVZmebrnUluL1DUSAjQ/rA2H56KiINa7DFrT+hVXFQRwzR9xeme5G7GUjaQNTPTOBmkb/NPAe0DZzZOOTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791317043; c=relaxed/simple;
-	bh=mEGUjvSd3y7PzVKWsH/lR9Qsb2sS9l8k4Cjt2Yk1KV8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mtgKZqSEUJ/uOkJ9qPI6In6U1s1FsRXox2Fr300qp1M7mI8i1KXHKPzJhcT8fXVK4WP3Q5CWwJWf1VtYD2/zCLKalROLC5MOk5JpPUY7F5KCK++NAl/sBvLRsv+H1+NjELwghSCXhi2M2djv++K2gbZ3NuloQmIKh7mmHCPBKWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com; spf=pass smtp.mailfrom=hammerspace.com; dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=GAqlpRCY; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
+	s=arc-20240116; t=1791318519; c=relaxed/simple;
+	bh=Owc9ato8jhHFXR2hzLJQt+0HJNlUyXqHqZ/gKtbwbWM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p4H7et0sByKFBJ4kNuQTOpwL2E9XFq66ysIleAf/z99Eg0hFml6iIOTFNCBKbMvgEWXieeFfxG7gLl4mfgxMLPOyPD/emvASZyeY7hM+RjPD4aybucoPGdY2++167Hw5a3GiBrwKEuFmlXxHGCUenyW/ZSPGbGKfh1fBCsjTtdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aQIsXGH0; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="GAqlpRCY"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6dfd530a2d5so479794eaf.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 06 Oct 2026 13:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1791317041; x=1791921841; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SNf/NiXnRrpD8d1Lrh5nWLifrt7ZWNX+GkRf3VdseIM=;
-        b=GAqlpRCYeMfWS6jB6RQ8kKT3vKBNiY8TWN3aK58FwdD7/CXftT67HSqVYtiEtIDdOk
-         oz36ty1Xa2MiZsZzbw+jGrEi/KZ4Vdqv7GC5GPFkBMGk/MFO9Pv8p/eKhWD5PY5PgETr
-         Wo36MXNGwvrdWG5K+OPJD75jpBmsGTH71Ubbi2oyRh/X6JtpOWQGKUx8FYzx+UbgUw8w
-         uhZGqL5AN3eSYSpOIcWdL0HC3E4Ga+2NnHIvBpXwsAi22DCbAfMXmsl2o4c4/SaQGXAL
-         BzPi8w16KHY9y+x0tjlwWXYf4KjRyeSneT1uKvODUF3dVfLV8306YLWrX8OJ4QEYaS4F
-         ItWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791317041; x=1791921841;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SNf/NiXnRrpD8d1Lrh5nWLifrt7ZWNX+GkRf3VdseIM=;
-        b=BdXDzBbIXdeFUVbw26UCmsl2zFvGqzlbY3msYzLFjDQnjZ4jgS3IVNvnwHO40dO6vR
-         cfNbPPvxeHJBdZd65yezoxbYUPuKjIhDTCeBFE/V8stpe7ecmaDIj6pRYDkj7JMnVFVF
-         vJP225aX6cC2bows+qu6x/NeVoPRbK89AXUE4EV3DN8Xkv9BzYWDugDyLeUY+uiDAp7I
-         Fuklof870kDN/t77n2QIjLtgEKkQcm1S2u6FgBvKwBUkp21ImbSUEsEBpsJtbvF0CJB/
-         hJ8zoZMOSV3ihz2+R2rFj6ThiomTVH3wi+OWaIIoJsm5GR5RgwP+5vwLYzoSR0dCRtmm
-         /1mg==
-X-Forwarded-Encrypted: i=1; AKwUvBwJO+jhFItQ+0NWrmN/DREFpaGmHqGjgx7OxWBAiLuy/03k9fltyIQjxbiwRPSpkNh86Ft/ibIht9wSl45l@lists.linux.dev
-X-Gm-Message-State: AFuF++ns6qDb012ELxYmrdRFOlI3EL1xQ6UrOqz7MX0YwpVYdxBPuNud
-	xz9++KD+qsJ+WtvRH2y42KCcUYWdw1qRdo0xOHbkQZSFSbKxRSxNJcvrNuB+Pl1hV0ha0YZ6G4x
-	3/hk/
-X-Gm-Gg: AYBFou2y8A2TKiQTFrBMLYl8Q5gUMGTOdzw03mtNTnBfNR344C8gjYPi7731tQv1qmh
-	UhMU6sN3hTwZzY8D7iYxj781dnSxaPQvSUJ2FJOIWw8+YQ1oBBp72qY5JpwTlDEHsVGiOsrH73z
-	ZQi05K/4sWS8RSV2yM7VYP0NJpB4KI8O/FZnIAfyxiK4PLliaUEvnuiOmmYvKC7bl64+cXguzdL
-	3GHH+piz0ovDovUmQBaxlPbbWYh5zVwqNMEWIbI9g71nFvRHOJN+SPGtEWd11OvPfgXCHyanO7l
-	5cHqd0Y1u9Ot7Ii8RREzrFRQW4ceFUmj2EIpjZtl3cnmJNlEa0e4ogoKGXFR4ow7PW7B8qqJg/t
-	CNECeb3uGk/R5r3wqQZVRKaldD/fty4ZfCBoBh9lTSkaTip4jTNN3d7s76I15IXV6CQ1RuarMhJ
-	41UshqKwyaqRKCrrlG3ux70uTnQHo1GmaqcPA1admcdOemeXxG9M3wvdVkyaQ+sDIu9MAdBwPjg
-	IjPHWcKjftkIa35Rg==
-X-Received: by 2002:a05:6820:4b0d:b0:6d9:2dd9:1673 with SMTP id 006d021491bc7-6e7a8370050mr246507eaf.37.1791317040937;
-        Tue, 06 Oct 2026 13:04:00 -0700 (PDT)
-Received: from [192.168.254.51] ([66.97.168.37])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-82adc3f12f0sm466427a34.13.2026.10.06.13.03.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 13:04:00 -0700 (PDT)
-From: Benjamin Coddington <ben.coddington@hammerspace.com>
-X-Google-Original-From: Benjamin Coddington <bcodding@hammerspace.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Benjamin Coddington <ben.coddington@hammerspace.com>,
- oe-kbuild-all@lists.linux.dev,
- Anna Schumaker <anna.schumaker@hammerspace.com>
-Subject: Re: [linux-next:master 7165/14724]
- fs/nfs/flexfilelayout/flexfilelayoutdev.c:361:15: sparse: sparse: cast
- removes address space '__rcu' of expression
-Date: Tue, 06 Oct 2026 16:03:58 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <E197ECE3-2AD6-4AE0-9D6C-8A28B84144B1@hammerspace.com>
-In-Reply-To: <202610061959.iAgcNy7q-lkp@intel.com>
-References: <202610061959.iAgcNy7q-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aQIsXGH0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791318516; x=1822854516;
+  h=date:from:to:cc:subject:message-id;
+  bh=Owc9ato8jhHFXR2hzLJQt+0HJNlUyXqHqZ/gKtbwbWM=;
+  b=aQIsXGH00bY6KfTUTCW7QH2ZJTQhbzLNY7MWGMtrWbnRIjUihjRgcup/
+   HVlMcqutGu1yJdjAbYlVlaTLD0yBfbxdLBgdnKSSSzsUbLe4qM6lDC+Qf
+   Zc0AM4/uDCv527rUMStScPcVu4lmCIge1eULhJgSLeFTUDT6R1fnEwFZk
+   b0fPZHlwfkJrB6fo/GRxICxGoOxmkP4NUVBlZ+tZ6lnLNKIP5DqihJvWd
+   keJ6nF10rbr9tAck/pAOr31K4nhu42i2egZU1IwMKixPCyW0yXRLed6OD
+   3lL4R2Lag6Q2p1EsBKWDZT9Wb7Zj9ARsVYwTm9UeHQfYopNTGmc47YL2E
+   Q==;
+X-CSE-ConnectionGUID: 2ylC3TqNRKCoZbAchNgTPQ==
+X-CSE-MsgGUID: +5VlyEfRTdWQyHHUVhezQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="103392051"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="103392051"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 13:28:35 -0700
+X-CSE-ConnectionGUID: iHClwycKQWmGiq8LAPmzgQ==
+X-CSE-MsgGUID: wTqCTzXyS72y6QwU2CoekA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="280485452"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 06 Oct 2026 13:28:34 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xEBm3-000000001lt-2gFe;
+	Tue, 06 Oct 2026 20:28:31 +0000
+Date: Tue, 06 Oct 2026 22:28:08 +0200
+From: kernel test robot <lkp@intel.com>
+To: Andy Chiu <tchiu@tenstorrent.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Walmsley <pjw@kernel.org>
+Subject: [pjw-riscv:temp-testing 22/24]
+ arch/riscv/kernel/signal.c:129:2: error: call to undeclared function
+ '__riscv_v_vstate_clean'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202610062227.m0ayunUx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
-On 6 Oct 2026, at 13:35, kernel test robot wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pjw/riscv.git temp-testing
+head:   1a5c75ee3d09a160e58bb01950cbd4a8cf66a409
+commit: 0d4b43a7734d86799835f9ed1f0e21645be043c3 [22/24] riscv: vector: adjust ptrace and signal behavior for INITIAL state
+config: riscv-randconfig-r2303-20261006 (https://download.01.org/0day-ci/archive/20261006/202610062227.m0ayunUx-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610062227.m0ayunUx-lkp@intel.com/reproduce)
 
->>> fs/nfs/flexfilelayout/flexfilelayoutdev.c:361:15: sparse: sparse: cas=
-t removes address space '__rcu' of expression
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610062227.m0ayunUx-lkp@intel.com/
 
->> 361		old =3D unrcu_pointer(cmpxchg(&mirror->dss[dss_id].mirror_ds,
->    362					    NULL, RCU_INITIALIZER(mirror_ds)));
+All errors (new ones prefixed by >>):
 
-This comes from riscv's _arch_cmpxchg(): sparse checks the 1- and 2-byte
-__arch_cmpxchg_masked() branches, which cast __old/__new to ulong without=
+>> arch/riscv/kernel/signal.c:129:2: error: call to undeclared function '__riscv_v_vstate_clean'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     129 |         __riscv_v_vstate_clean(regs);
+         |         ^
+   arch/riscv/kernel/signal.c:129:2: note: did you mean 'riscv_v_vstate_query'?
+   arch/riscv/include/asm/vector.h:428:20: note: 'riscv_v_vstate_query' declared here
+     428 | static inline bool riscv_v_vstate_query(struct pt_regs *regs) { return false; }
+         |                    ^
+   1 error generated.
 
-__force.  Those branches are dead for a pointer-sized field.  The same
-unrcu_pointer(cmpxchg(..., RCU_INITIALIZER(...))) form in
-fs/nfsd/localio.c and drivers/dma-buf/dma-fence-chain.c should warn the
-same way on riscv.
 
-I don't plan to change the flexfiles code for this.
+vim +/__riscv_v_vstate_clean +129 arch/riscv/kernel/signal.c
 
-Ben
+   107	
+   108	/*
+   109	 * Restore Vector extension context from the user's signal frame. This function
+   110	 * assumes a valid extension header. So magic and size checking must be done by
+   111	 * the caller.
+   112	 */
+   113	static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
+   114	{
+   115		long err;
+   116		struct __sc_riscv_v_state __user *state = sc_vec;
+   117		void __user *datap;
+   118	
+   119		/*
+   120		 * Mark the vstate as clean prior performing the actual copy,
+   121		 * to avoid getting the vstate incorrectly clobbered by the
+   122		 * discarded vector state.
+   123		 *
+   124		 * This also allows user to modify vregs through the signal
+   125		 * interface at a syscall stop. e.g. to support user space
+   126		 * context switching.
+   127		 */
+   128		riscv_v_vstate_set_restore(current, regs);
+ > 129		__riscv_v_vstate_clean(regs);
+   130	
+   131		/* Copy everything of __sc_riscv_v_state except datap. */
+   132		err = __copy_from_user(&current->thread.vstate, &state->v_state,
+   133				       offsetof(struct __riscv_v_ext_state, datap));
+   134		if (unlikely(err))
+   135			return err;
+   136	
+   137		/* Copy the pointer datap itself. */
+   138		err = __get_user(datap, &state->v_state.datap);
+   139		if (unlikely(err))
+   140			return err;
+   141		/*
+   142		 * Copy the whole vector content from user space datap. Use
+   143		 * copy_from_user to prevent information leak.
+   144		 */
+   145		return copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
+   146	}
+   147	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
