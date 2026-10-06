@@ -1,160 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1ECB231829
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 09:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369A832A3C9
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 09:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791279353; cv=none; b=Ovcnm+6qS3inxJvqk+vhSz1fqx2iS7FwCqXM2syLb/wKDPqTKqGav+xgus52l9rclAdy7eJxaeN4pnJHWwOvg0OwOQLKlJCMO6DtIlvvzDTB5efOaLTar2ZSJGL/59LsbOH17ROO2U8+VmH5xBvN3m3ENWhwCnK3kuBWsFtOvGg=
+	t=1791280518; cv=none; b=nTCaxORxm1Ww/igaX58VMMWtQJJOH8NyxQhLk+4TTgjOY5YtoathzaUJf3IcwfCmjC6PKNH4W8B/XJCDtSsBdOAnTpBm5hC3lDILiYsWYpQB8qzcdv2r0176ryx33Beg+lZY7hUWEK13mC6nzrThR+bF8YgKw9pTKLAl88fHrzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791279353; c=relaxed/simple;
-	bh=TObM65NBjBYwCaft6O0/QOlU54JyJSGJETTZRgol+kQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hQbt6WIHu0cLS3tjoJKDYaoN/GO0p1nExKs0Yg/AJsA342ohVCtAPTQCRL3db6rUnJptRsu7gYHNcBxJLY/9gBT/Kt50WLtpYPhXEi53WWgTMB4qKGNIZ8NY7WTyxQuvk+wW5bEL/VrXN5ty+YIFkSFU051uRNwWUImGxllO8rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjwWXXyD; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1791280518; c=relaxed/simple;
+	bh=PprG1zoTavpw3blbpMrw2Qfk/deLSjiCWxGPFyBWXnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QOGhVOXXtMZKThiueiP67bFGXkazVZJyZiUB5ovubLo/MS7rMtZkeOWVl+jYbMvY+H6EhiOrOAvgfff6XdQa588VwX7CWJjrlyd8byxx7EHtUCU//yK6/V18tgTl+M22LSDYYYYy5Avi7FB+nzrBIN+jAu5VcnMvXWcg7v5Pu5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vm4m60nR; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjwWXXyD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vm4m60nR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791279351; x=1822815351;
-  h=date:from:to:cc:subject:message-id;
-  bh=TObM65NBjBYwCaft6O0/QOlU54JyJSGJETTZRgol+kQ=;
-  b=hjwWXXyD+C9wEd2aL5yZaaOJNuqMltMSi0pz5NW+yH17q3AXDcGe8Xoa
-   1lSHGXr+tgenkYwxNobqXfPvjvdTC+UqiluniDScN1vwNX7NfgL12ssCC
-   1Ql0+toZBkj/S57GH7ht5Wj59HNrSs+f9RyqXYuslyKaqP5AByRdGwyPV
-   KFGCUaHlYUfQntTelJjo06V6cdka4QxBNtMpy6X2XJ4651UtVvEmRyh7L
-   GDWAdmb657xMrFOO4aIDy+XNtQPGNNPYIxatguLDff3yBC2FSpUmjc8ck
-   WF+1QFYaxzY8QrwWRkNdpSmNbh1sehP6QohW1obrZ+kSQdorKZdLFbK9q
-   g==;
-X-CSE-ConnectionGUID: ffAg/NkHRMaU6E3gA7Ewfw==
-X-CSE-MsgGUID: IVN08/fVTZKpZ9RsShvTxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="95780494"
+  t=1791280517; x=1822816517;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PprG1zoTavpw3blbpMrw2Qfk/deLSjiCWxGPFyBWXnA=;
+  b=Vm4m60nRU1hndNQ6PgkArjwlgXxENN0vYV5Fve5Hq7kWP5zxKtM+GXvx
+   ru5GRBokloxT6CgWt9TLGKwXqCC1BHvPWH4es0PvprB8D84wQS1RVzVkc
+   h3aZ7Te4GWWotJX3jjiuJ6uVqYQ+ei8eohpJ+A3SWXN7TyAOWkLRQEs/q
+   BlHrkmoN5kaK8Tb0R5fJQzbYfJhRl3n2uPJNdIiVms5PovsCX8b6w5xYy
+   yPoUbt+UPNm6tr/pW0KqOLj/UEVt9X3Z6UB43YoBFk9IuA3JO5TZu8wY2
+   xPpzXuTsbTWyVD1FllJAMzahfpc2ufU4sg/OH4soEv33rsQH2JgMVGali
+   w==;
+X-CSE-ConnectionGUID: dusiCu3aTHqOr6FDA5Sj+A==
+X-CSE-MsgGUID: A+c3BFNuSg6zGm03bCRchg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="112884"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="95780494"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 02:35:50 -0700
-X-CSE-ConnectionGUID: sxA7jR1hSQaID3qpen9CJQ==
-X-CSE-MsgGUID: 4KYqBwuLRLijd/MLFVBGIg==
+   d="scan'208";a="112884"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 02:55:17 -0700
+X-CSE-ConnectionGUID: 3CvIPXL/Tc2i1GM26q+rSA==
+X-CSE-MsgGUID: NdjTDoNtQXq0SfBbj3gt+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="280828417"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 06 Oct 2026 02:35:48 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="285008670"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Oct 2026 02:55:13 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xE1aM-0000000013H-2zRu;
-	Tue, 06 Oct 2026 09:35:46 +0000
-Date: Tue, 06 Oct 2026 11:34:50 +0200
+	id 1xE1t7-000000001Qi-36dv;
+	Tue, 06 Oct 2026 09:55:09 +0000
+Date: Tue, 6 Oct 2026 17:54:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <md.alam@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>
-Subject: drivers/spi/spi-qpic-snand.c:1502:6-18: opportunity for
- str_enabled_disabled(quad_enabled)
-Message-ID: <202610061128.0Hjx7Feh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Bradley Morgan <brads@mainlining.org>, akpm@linux-foundation.org,
+	vgupta@kernel.org, guoren@kernel.org, chris@zankel.net,
+	jcmvbkbc@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, arnd@arndb.de, paulmck@kernel.org,
+	david.laight.linux@gmail.com, glaubitz@physik.fu-berlin.de,
+	ysato@users.sourceforge.jp, dalias@libc.org,
+	linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-kernel@vger.kernel.org, brads@mainlining.org
+Subject: Re: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
+Message-ID: <202610061704.rvbolgPy-lkp@intel.com>
+References: <20261005120700.383058-4-brads@mainlining.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261005120700.383058-4-brads@mainlining.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2c3418fffa9d037b2038a6db48be63f9e2291806
-commit: cdb1dbba490205c32f1e72aaaad26715c8f98f80 spi: spi-qpic-snand: add quad mode support
-date:   8 weeks ago
-config: sparc64-randconfig-r2106-20261005 (https://download.01.org/0day-ci/archive/20261006/202610061128.0Hjx7Feh-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 195c81658995a4b7531c30a12c5aef6cf2bbd671)
+Hi Bradley,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on vgupta-arc/for-curr jcmvbkbc-xtensa/xtensa-for-next linus/master v7.3-rc6 next-20261005]
+[cannot apply to vgupta-arc/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bradley-Morgan/ARC-Emulate-two-byte-cmpxchg/20261005-120658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20261005120700.383058-4-brads%40mainlining.org
+patch subject: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20261006/202610061704.rvbolgPy-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061704.rvbolgPy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: cdb1dbba4902 ("spi: spi-qpic-snand: add quad mode support")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610061128.0Hjx7Feh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610061704.rvbolgPy-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/spi/spi-qpic-snand.c:1502:6-18: opportunity for str_enabled_disabled(quad_enabled)
+All errors (new ones prefixed by >>):
 
-vim +1502 drivers/spi/spi-qpic-snand.c
+   In file included from arch/xtensa/include/asm/atomic.h:19,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/xtensa/include/asm/bitops.h:192,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:14:
+   arch/xtensa/include/asm/cmpxchg.h: In function '__cmpxchg':
+>> arch/xtensa/include/asm/cmpxchg.h:79:25: error: implicit declaration of function 'cmpxchg_emu_u16'; did you mean 'cmpxchg_emu_u8'? [-Wimplicit-function-declaration]
+      79 |         case 2:  return cmpxchg_emu_u16(ptr, old, new);
+         |                         ^~~~~~~~~~~~~~~
+         |                         cmpxchg_emu_u8
+   make[3]: *** [scripts/Makefile.build:185: kernel/bounds.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1405: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-  1433	
-  1434	static int qcom_spi_io_op(struct qcom_nand_controller *snandc, const struct spi_mem_op *op)
-  1435	{
-  1436		int ret, val, opcode;
-  1437		bool copy = false, copy_ftr = false;
-  1438	
-  1439		ret = qcom_spi_send_cmdaddr(snandc, op);
-  1440		if (ret)
-  1441			return ret;
-  1442	
-  1443		snandc->buf_count = 0;
-  1444		snandc->buf_start = 0;
-  1445		qcom_clear_read_regs(snandc);
-  1446		qcom_clear_bam_transaction(snandc);
-  1447		opcode = op->cmd.opcode;
-  1448	
-  1449		switch (opcode) {
-  1450		case SPINAND_READID:
-  1451			snandc->buf_count = 4;
-  1452			qcom_read_reg_dma(snandc, NAND_READ_ID, 1, NAND_BAM_NEXT_SGL);
-  1453			copy = true;
-  1454			break;
-  1455		case SPINAND_GET_FEATURE:
-  1456			snandc->buf_count = 4;
-  1457			qcom_read_reg_dma(snandc, NAND_FLASH_FEATURES, 1, NAND_BAM_NEXT_SGL);
-  1458			copy_ftr = true;
-  1459			break;
-  1460		case SPINAND_SET_FEATURE:
-  1461			/* fully handled by qcom_spi_send_cmdaddr() */
-  1462			return 0;
-  1463		case SPINAND_PROGRAM_EXECUTE:
-  1464		case SPINAND_WRITE_EN:
-  1465		case SPINAND_RESET:
-  1466		case SPINAND_ERASE:
-  1467		case SPINAND_READ:
-  1468			return 0;
-  1469		default:
-  1470			return -EOPNOTSUPP;
-  1471		}
-  1472	
-  1473		ret = qcom_submit_descs(snandc);
-  1474		if (ret) {
-  1475			dev_err(snandc->dev, "failure in submitting descriptor for:%d\n", opcode);
-  1476			return ret;
-  1477		}
-  1478	
-  1479		if (copy) {
-  1480			qcom_nandc_dev_to_mem(snandc, true);
-  1481			memcpy(op->data.buf.in, snandc->reg_read_buf, snandc->buf_count);
-  1482		}
-  1483	
-  1484		if (copy_ftr) {
-  1485			qcom_nandc_dev_to_mem(snandc, true);
-  1486			val = le32_to_cpu(*(__le32 *)snandc->reg_read_buf);
-  1487			val >>= 8;
-  1488			memcpy(op->data.buf.in, &val, snandc->buf_count);
-  1489	
-  1490			/*
-  1491			 * Track QUAD mode state from configuration register.
-  1492			 * When core layer reads register 0xB0 (CFG), check if
-  1493			 * QUAD enable bit (bit 0) is set and update our state
-  1494			 * accordingly for future READ/WRITE operations.
-  1495			 */
-  1496			if (op->addr.val == SPINAND_FEATURE_ADDR) {
-  1497				bool quad_enabled = !!((u8)val & BIT(0));
-  1498	
-  1499				if (snandc->qspi->quad_mode != quad_enabled) {
-  1500					snandc->qspi->quad_mode = quad_enabled;
-  1501					dev_info(snandc->dev, "SPI NAND QUAD mode: %s\n",
-> 1502						 quad_enabled ? "enabled" : "disabled");
-  1503				}
-  1504			}
-  1505		}
-  1506	
-  1507		return 0;
-  1508	}
-  1509	
+
+vim +79 arch/xtensa/include/asm/cmpxchg.h
+
+    73	
+    74	static __inline__ unsigned long
+    75	__cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
+    76	{
+    77		switch (size) {
+    78		case 1:  return cmpxchg_emu_u8(ptr, old, new);
+  > 79		case 2:  return cmpxchg_emu_u16(ptr, old, new);
+    80		case 4:  return __cmpxchg_u32(ptr, old, new);
+    81		default: __cmpxchg_called_with_bad_pointer();
+    82			 return old;
+    83		}
+    84	}
+    85	
 
 --
 0-DAY CI Kernel Test Service
