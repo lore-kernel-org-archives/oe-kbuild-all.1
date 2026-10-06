@@ -1,168 +1,255 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33EC49E14B;
-	Tue,  6 Oct 2026 16:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA24349C4DE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 16:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791303042; cv=none; b=oFfPrX7q8KZ2G6jQbGFfhOX7KA3q9j/1IySwCsLkHJ+lxZ2AcOES9s55+EkE4TjzbpTAxmhzyN6XKQjrSdCifryAhlFPVPa+qOBHMB3oooGFh/Fmv7glastQTSzEQyvXbUkkCHOPG0dc2RPzh8AgiOga7KAixK7dEwP4wZMnOG8=
+	t=1791303196; cv=none; b=JXp2f7F9WUBFOtE7x3w/y6Ml+tRhcLRTA9LJf0kO4HAXZBn/976CG6Qfxb2XftQoP38TZynLLxcrW2UZ/z9Ap25bXQf1TVlDCEgHN/GXPevSbrfWZYZJYb7cCg5cWm5ghjFLnf5GiLpRtdm+4Yikzzrfsl87D+59sF2j3sMyQPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791303042; c=relaxed/simple;
-	bh=rFfIvmCe1uMzcdh7HiJnyXC2h8CwibsjHm3hTC3KYO8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZzRVQWgZrZEgDzUUkT0nyD6mDiAfeWqM1WiRQZ880muC3t1tRMpJyVeSKV96cOABzf8AKKZB/cW6JL0QsYlrrZiBqsfXnHh4kAINxQR/79uppR1y5WEE0QpEPxuQioVqe4l4H5mAlmn8gJQhIp1sMgHpiwJsU3P6TX6QyKm4NZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L8mkYQm8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791303196; c=relaxed/simple;
+	bh=jx6nLeQVSmPOPzJY1Yy2Eu9eaUPIEu2vKLVp+Aq7yHE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PwBijr+fjhf0h/g3nxClXgSJWbAhnKYhajjSJeFOmKun7xU6tCSyNK8bN6TaOZXuseEYLCzDvnWdUFTbuDUnY23u20tCfla2CgInV8ciD8QEjVGH50wtYhS4HmtmP8V38JEEJCI3ts4dPxl+8wwwXL9gegpMhvDbTp4+0/5HM9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4s9lqzM; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8mkYQm8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A1351F0089B;
-	Tue,  6 Oct 2026 16:10:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791303040;
-	bh=jBSzgIQiDKIdVOouse9O8m70fhpFq8FSj2RNSA5L8gs=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=L8mkYQm8HadJV+3ESPCmb38t2MS7PpXmG+eqKLh0tBoKyKdGrSKaks+z2LlaL0ySf
-	 JeV6+mgYbYs6DBVjLKqm7YsJpXdasafgurVt4Pqj8c2AqHWwL9/yI60Lljo/+Y34Fe
-	 1/lcnIUOSxTpUCcHmDeXkdIscPi/fKzMX46n7UjSrwEdUMnFl4Iv7eIhrUB/fNIcwI
-	 T/u629DnJw9/gsXD8xcRx+FeBv2KiD/+KC6OdMcJTg5l0M+YCkiiXvSLmWD4jeRHil
-	 BqniKelmHekkQLbOJO+Iwu4eSQMwmiIuzkfErh6TkEw0LFvW89LnhUoQbiD6ovswcD
-	 CNFqgVkH7wfiw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 1CB85CE3A08; Tue,  6 Oct 2026 09:10:40 -0700 (PDT)
-Date: Tue, 6 Oct 2026 09:10:40 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
-	vgupta@kernel.org, guoren@kernel.org, chris@zankel.net,
-	jcmvbkbc@gmail.com, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	david.laight.linux@gmail.com, glaubitz@physik.fu-berlin.de,
-	ysato@users.sourceforge.jp, dalias@libc.org,
-	linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
-Message-ID: <fde35b55-8916-47fe-a505-ef6db296e4bb@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20261005120700.383058-4-brads@mainlining.org>
- <202610061704.rvbolgPy-lkp@intel.com>
- <82aad69a-603c-41cd-876d-09772a1a7e6a@paulmck-laptop>
- <543B9D97-52F8-4D12-8118-9698F6908668@mainlining.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4s9lqzM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791303193; x=1822839193;
+  h=date:from:to:cc:subject:message-id;
+  bh=jx6nLeQVSmPOPzJY1Yy2Eu9eaUPIEu2vKLVp+Aq7yHE=;
+  b=O4s9lqzM8HLkgZY7QLqgkNx11xskj7apm2ZyAnpoiMXDeeVKAMS+FX1f
+   obHRdDKRBFr3x1EHZNro5JbO56Ux48Gh6MezECJSXW2TfY6S0u+2437a1
+   4qKso0C9H2q33gXIbafkyjn+9y8qbpv9JmSgNHrh7wINOyqSwV9G1B5HA
+   ZlSuU2D162UGRgJJVS289mCrWqfBc7WCR/UWAVNpFXDi7ROwFJCda1mD/
+   gocYN3joRYhUqURHbSAbtYEG14SoJ4tk+ZhT0VD4eAG/crkFrgKZUlIOP
+   gMNDl0wWQTz1BYr2EwDKr1iHi7XFtgcMm092GBWd95kJEZ+LhKWIiy1nS
+   A==;
+X-CSE-ConnectionGUID: 43Ii+8S7Q86SBJKsy/GWfg==
+X-CSE-MsgGUID: QGibXh+TT8OdnSGH8hIKcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="39542"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="39542"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 09:13:13 -0700
+X-CSE-ConnectionGUID: WioHkA82QqWjb1FDb2YRhg==
+X-CSE-MsgGUID: 4uhTXp3gSkGPyqzZBxyAOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="303466731"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 06 Oct 2026 09:13:11 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xE7mv-000000001U7-1sGD;
+	Tue, 06 Oct 2026 16:13:09 +0000
+Date: Tue, 06 Oct 2026 18:12:43 +0200
+From: kernel test robot <lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/uio/uio_fsl_elbc_gpcm.c:323:19: sparse: sparse:
+ unsigned value that used to be signed checked against zero?
+Message-ID: <202610061847.h2hn65y5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <543B9D97-52F8-4D12-8118-9698F6908668@mainlining.org>
 
-On Tue, Oct 06, 2026 at 04:46:22PM +0100, Bradley Morgan wrote:
-> On 6 October 2026 16:44:13 BST, "Paul E. McKenney" <paulmck@kernel.org>
-> wrote:
-> >On Tue, Oct 06, 2026 at 05:54:53PM +0800, kernel test robot wrote:
-> >> Hi Bradley,
-> >> 
-> >> kernel test robot noticed the following build errors:
-> >> 
-> >> [auto build test ERROR on akpm-mm/mm-everything]
-> >> [also build test ERROR on vgupta-arc/for-curr
-> >jcmvbkbc-xtensa/xtensa-for-next linus/master v7.3-rc6 next-20261005]
-> >> [cannot apply to vgupta-arc/for-next]
-> >> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> >> And when submitting patch, we suggest to use '--base' as documented in
-> >> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >> 
-> >> url:   
-> >https://github.com/intel-lab-lkp/linux/commits/Bradley-Morgan/ARC-Emulate-two-byte-cmpxchg/20261005-120658
-> >> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-> >mm-everything
-> >> patch link:   
-> >https://lore.kernel.org/r/20261005120700.383058-4-brads%40mainlining.org
-> >> patch subject: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
-> >> config: xtensa-allyesconfig
-> >(https://download.01.org/0day-ci/archive/20261006/202610061704.rvbolgPy-lkp@intel.com/config)
-> >> compiler: xtensa-linux-gcc (GCC) 16.1.0
-> >> reproduce (this is a W=1 build):
-> >(https://download.01.org/0day-ci/archive/20261006/202610061704.rvbolgPy-lkp@intel.com/reproduce)
-> >> 
-> >> If you fix the issue in a separate patch/commit (i.e. not just a new
-> >version of
-> >> the same patch/commit), kindly add following tags
-> >> | Reported-by: kernel test robot <lkp@intel.com>
-> >> | Closes:
-> >https://lore.kernel.org/oe-kbuild-all/202610061704.rvbolgPy-lkp@intel.com/
-> >> 
-> >> All errors (new ones prefixed by >>):
-> >
-> >These patches need to be applied on top of my -rcu tree's "dev" branch,
-> >which supplies cmpxchg_emu_u16().
-> >
-> >Nevertheless, thank you for your testing efforts!
-> 
-> Do you reckon they are fine to you? The patches?
-> 
-> Arch maintainers may be busy unfortunately :(, I've done testing on all
-> the arches, 
+Hi Rosen,
 
-I have queued the one that is already acked by the SH maintainer, so we
-get at least something into the upcoming merge window.  I plan to try your
-patches out later today, Pacific Time, and queue them if they are ready.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-If the architecture maintainers ack them in time, I send a pull request
-for them in the upcoming merge window.  If some of the do not yet have
-acks, I keep those unacked ones for the next merge window.  If they
-are still being ignored at that point, I send the pull request anyway.
-Maybe Linus takes it, maybe not.  If not, I figure things out from that
-point.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   69f80fef3153299d9c72c53d1d71eef6354b6926
+commit: c8295feb756f5e3ccf02c14a90a2ee0aed95e409 uio: fsl_elbc_gpcm: use platform helpers for resource and IRQ
+date:   10 weeks ago
+config: powerpc64-randconfig-r2304-20261006 (https://download.01.org/0day-ci/archive/20261006/202610061847.h2hn65y5-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061847.h2hn65y5-lkp@intel.com/reproduce)
 
-Hey, it is a lot faster than some other communities that I am involved
-with, where the timeframes are years and even decades rather than
-mere weeks and months.  ;-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Fixes: c8295feb756f ("uio: fsl_elbc_gpcm: use platform helpers for resource and IRQ")
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610061847.h2hn65y5-lkp@intel.com/
 
-							Thanx, Paul
+sparse warnings: (new ones prefixed by >>)
+   drivers/uio/uio_fsl_elbc_gpcm.c:85:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsl_lbc_bank *bank @@     got struct fsl_lbc_bank [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:85:53: sparse:     expected struct fsl_lbc_bank *bank
+   drivers/uio/uio_fsl_elbc_gpcm.c:85:53: sparse:     got struct fsl_lbc_bank [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:89:43: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:89:43: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:89:43: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:93:43: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:93:43: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:93:43: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:104:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct fsl_lbc_bank *bank @@     got struct fsl_lbc_bank [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:104:53: sparse:     expected struct fsl_lbc_bank *bank
+   drivers/uio/uio_fsl_elbc_gpcm.c:104:53: sparse:     got struct fsl_lbc_bank [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:116:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:116:31: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:116:31: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:117:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:117:31: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:117:31: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:131:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:131:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:131:27: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:139:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:139:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:139:27: sparse:     got restricted __be32 *
+   drivers/uio/uio_fsl_elbc_gpcm.c:345:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:345:46: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:345:46: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:346:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:346:46: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:346:46: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:375:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:375:34: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:375:34: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/uio/uio_fsl_elbc_gpcm.c:376:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/uio/uio_fsl_elbc_gpcm.c:376:34: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/uio/uio_fsl_elbc_gpcm.c:376:34: sparse:     got restricted __be32 [noderef] __iomem *
+>> drivers/uio/uio_fsl_elbc_gpcm.c:323:19: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/uio/uio_fsl_elbc_gpcm.c:322:31: sparse: signed value source
 
-> >>    In file included from arch/xtensa/include/asm/atomic.h:19,
-> >>                     from include/linux/atomic.h:7,
-> >>                     from include/asm-generic/bitops/atomic.h:5,
-> >>                     from arch/xtensa/include/asm/bitops.h:192,
-> >>                     from include/linux/bitops.h:67,
-> >>                     from include/linux/log2.h:12,
-> >>                     from kernel/bounds.c:14:
-> >>    arch/xtensa/include/asm/cmpxchg.h: In function '__cmpxchg':
-> >> >> arch/xtensa/include/asm/cmpxchg.h:79:25: error: implicit declaration
-> >of function 'cmpxchg_emu_u16'; did you mean 'cmpxchg_emu_u8'?
-> >[-Wimplicit-function-declaration]
-> >>       79 |         case 2:  return cmpxchg_emu_u16(ptr, old, new);
-> >>          |                         ^~~~~~~~~~~~~~~
-> >>          |                         cmpxchg_emu_u8
-> >>    make[3]: *** [scripts/Makefile.build:185: kernel/bounds.s] Error 1
-> >>    make[3]: Target 'prepare' not remade because of errors.
-> >>    make[2]: *** [Makefile:1405: prepare0] Error 2
-> >>    make[2]: Target 'prepare' not remade because of errors.
-> >>    make[1]: *** [Makefile:248: __sub-make] Error 2
-> >>    make[1]: Target 'prepare' not remade because of errors.
-> >>    make: *** [Makefile:248: __sub-make] Error 2
-> >>    make: Target 'prepare' not remade because of errors.
-> >> 
-> >> 
-> >> vim +79 arch/xtensa/include/asm/cmpxchg.h
-> >> 
-> >>     73	
-> >>     74	static __inline__ unsigned long
-> >>     75	__cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
-> >>     76	{
-> >>     77		switch (size) {
-> >>     78		case 1:  return cmpxchg_emu_u8(ptr, old, new);
-> >>   > 79		case 2:  return cmpxchg_emu_u16(ptr, old, new);
-> >>     80		case 4:  return __cmpxchg_u32(ptr, old, new);
-> >>     81		default: __cmpxchg_called_with_bad_pointer();
-> >>     82			 return old;
-> >>     83		}
-> >>     84	}
-> >>     85	
-> >> 
-> >> --
-> >> 0-DAY CI Kernel Test Service
-> >> https://github.com/intel/lkp-tests/wiki
-> 
-> --- Thanks!
-> "I'm not a very positive person" - Linus torvalds
+vim +323 drivers/uio/uio_fsl_elbc_gpcm.c
+
+   297	
+   298	static int uio_fsl_elbc_gpcm_probe(struct platform_device *pdev)
+   299	{
+   300		struct device_node *node = pdev->dev.of_node;
+   301		struct fsl_elbc_gpcm *priv;
+   302		struct uio_info *info;
+   303		char *uio_name = NULL;
+   304		struct resource *res;
+   305		void __iomem *base;
+   306		unsigned int irq;
+   307		u32 reg_br_cur;
+   308		u32 reg_or_cur;
+   309		u32 reg_br_new;
+   310		u32 reg_or_new;
+   311		int ret;
+   312	
+   313		if (!fsl_lbc_ctrl_dev || !fsl_lbc_ctrl_dev->regs)
+   314			return -ENODEV;
+   315	
+   316		/* map the memory resource */
+   317		base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+   318		if (IS_ERR(base))
+   319			return PTR_ERR(base);
+   320	
+   321		/* get optional irq value */
+   322		irq = platform_get_irq(pdev, 0);
+ > 323		if (irq < 0)
+   324			return irq;
+   325	
+   326		/* allocate private data */
+   327		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+   328		if (!priv)
+   329			return -ENOMEM;
+   330		priv->dev = &pdev->dev;
+   331		priv->lbc = fsl_lbc_ctrl_dev->regs;
+   332	
+   333		/* get device tree data */
+   334		ret = get_of_data(priv, node, res, &reg_br_new, &reg_or_new,
+   335				  &uio_name);
+   336		if (ret)
+   337			return ret;
+   338	
+   339		/* allocate UIO structure */
+   340		info = devm_kzalloc(&pdev->dev, sizeof(*info), GFP_KERNEL);
+   341		if (!info)
+   342			return -ENOMEM;
+   343	
+   344		/* get current BR/OR values */
+   345		reg_br_cur = in_be32(&priv->lbc->bank[priv->bank].br);
+   346		reg_or_cur = in_be32(&priv->lbc->bank[priv->bank].or);
+   347	
+   348		/* if bank already configured, make sure it matches */
+   349		if ((reg_br_cur & BR_V)) {
+   350			if ((reg_br_cur & BR_MSEL) != BR_MS_GPCM ||
+   351			    (reg_br_cur & reg_or_cur & BR_BA)
+   352			     != fsl_lbc_addr(res->start)) {
+   353				dev_err(priv->dev,
+   354					"bank in use by another peripheral\n");
+   355				return -ENODEV;
+   356			}
+   357	
+   358			/* warn if behavior settings changing */
+   359			if ((reg_br_cur & ~(BR_BA | BR_V)) !=
+   360			    (reg_br_new & ~(BR_BA | BR_V))) {
+   361				dev_warn(priv->dev,
+   362					 "modifying BR settings: 0x%08x -> 0x%08x",
+   363					 reg_br_cur, reg_br_new);
+   364			}
+   365			if ((reg_or_cur & ~OR_GPCM_AM) != (reg_or_new & ~OR_GPCM_AM)) {
+   366				dev_warn(priv->dev,
+   367					 "modifying OR settings: 0x%08x -> 0x%08x",
+   368					 reg_or_cur, reg_or_new);
+   369			}
+   370		}
+   371	
+   372		/* configure the bank (force base address and GPCM) */
+   373		reg_br_new &= ~(BR_BA | BR_MSEL);
+   374		reg_br_new |= fsl_lbc_addr(res->start) | BR_MS_GPCM | BR_V;
+   375		out_be32(&priv->lbc->bank[priv->bank].or, reg_or_new);
+   376		out_be32(&priv->lbc->bank[priv->bank].br, reg_br_new);
+   377	
+   378		/* set all UIO data */
+   379		info->mem[0].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%pOFn", node);
+   380		if (!info->mem[0].name)
+   381			return -ENODEV;
+   382	
+   383		info->mem[0].internal_addr = base;
+   384		info->mem[0].addr = res->start;
+   385		info->mem[0].size = resource_size(res);
+   386		info->mem[0].memtype = UIO_MEM_PHYS;
+   387		info->priv = priv;
+   388		info->name = uio_name;
+   389		info->version = "0.0.1";
+   390		if (irq) {
+   391			if (priv->irq_handler) {
+   392				info->irq = irq;
+   393				info->irq_flags = IRQF_SHARED;
+   394				info->handler = priv->irq_handler;
+   395			} else {
+   396				irq = 0;
+   397				dev_warn(priv->dev, "ignoring irq, no handler\n");
+   398			}
+   399		}
+   400	
+   401		if (priv->init)
+   402			priv->init(info);
+   403	
+   404		/* register UIO device */
+   405		if (uio_register_device(priv->dev, info) != 0) {
+   406			dev_err(priv->dev, "UIO registration failed\n");
+   407			ret = -ENODEV;
+   408			goto out_err2;
+   409		}
+   410	
+   411		/* store private data */
+   412		platform_set_drvdata(pdev, info);
+   413	
+   414		dev_info(priv->dev,
+   415			 "eLBC/GPCM device (%s) at 0x%llx, bank %d, irq=%d\n",
+   416			 priv->name, (unsigned long long)res->start, priv->bank,
+   417			 irq ? : -1);
+   418	
+   419		return 0;
+   420	out_err2:
+   421		if (priv->shutdown)
+   422			priv->shutdown(info, true);
+   423		return ret;
+   424	}
+   425	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
