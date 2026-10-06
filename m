@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1FF21CC71
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 00:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D8F1714AA;
+	Tue,  6 Oct 2026 01:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791248050; cv=none; b=T702KrzWDa/hflN/lK28KQ/7xTc9xpeoCjqpfx4LY1yjwFRKcHtAsYUaAA21AbhvSCERRBBOKtLwZ5BP0BQo8deD4Fj6Q55JEvXYhhtG8nFsuLsOnjQ3a1kXKG0qPtgxcW4TPW+KkpSoBdMDV4xvsD+rI+LQMCtJOh7mg24/uP0=
+	t=1791249815; cv=none; b=NenBYIErq/6IzJT6kzrW1sOwt+4O1jKQWwFFsM3gi4q/sUpU9g0X5lvQdaGcWsJhCz3175rJ8s4hm7OOTCUw9PqeKOTLKrsN+Ukm4vi/xcyqD+yDQ7C0kXk+EVzdUr2o+ijIpntPgrpL3JfMcJzFWVTZhUChkpJnlWXCW9cqTs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791248050; c=relaxed/simple;
-	bh=OkPYIdR7ZWhqvIARjTKtwHM0ZuvUppWP7FzO7R3Y3FY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=B9PJQuqyq5bSFbmsLFy2PhpIFxXpAZvR5cgBFTLXUiZmpqs61pcT5bkP8uYX3QkzlvtR80LyLihSyX27zUVEqfgfAls9i4DbJ4zi+up4LCdciq0/mpeOhCL6PUbRHWP5/IxLlNuhxkw6PPpRdEoFjEVOsA+V8uZYRSxAcHYP2/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dxT36Gnc; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1791249815; c=relaxed/simple;
+	bh=gI+Qz8BqllFQYalqSQuLR+JS1V8KAI1uI3OitRUlta8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yhk2WzSkoGG8V8+qP/eOJlGdUa8z8ZKcE9Stci0cW7Ui/C8HTmqpJOYJCJ9X76mJc7jkAZvz/NZ12GCYtvxePLJU45DQu7Kid58KMVA1kd5O9TSwSZW/ILZPRmNihA5tZqFYXYoUtUNuARJK/O8jgLmdAizkjYhvPynMYZPgUJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PuFy8fUA; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dxT36Gnc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PuFy8fUA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791248048; x=1822784048;
+  t=1791249813; x=1822785813;
   h=date:from:to:cc:subject:message-id;
-  bh=OkPYIdR7ZWhqvIARjTKtwHM0ZuvUppWP7FzO7R3Y3FY=;
-  b=dxT36GncDdx7aG5qeeiA+AhtH37KkukkLPg+4KhVCbGWKuzwS0/LyUBi
-   k7EQbRAcw/fwIIuX2xbmda+Y1yPsv0r7gi/0EBcdO9rtYn2agHyrOPkfr
-   s4W/SFi/mreDJHDGIr0Q8J5JkpXdEdvZ+SlcZQV0I+2rUfKT1rtz/uT3z
-   TYfmWtV+8mxn6s/Dyx1qeyBNg1Mpgli/xEXThyFudufDkgQHcSkrEuDpQ
-   IQFQFcDd1ptI5YDP9E4wHCMBoMsw9KBe2wU+HS3BXJnd8Mtcn/FIahv4e
-   baXNR9CfYz8fEBhgVE8i8m8ZNMzg3DF8FJINpDHodAdVLTrcrg9vWhj8o
+  bh=gI+Qz8BqllFQYalqSQuLR+JS1V8KAI1uI3OitRUlta8=;
+  b=PuFy8fUAG6UozTdNGHUUsN7nRI+q4ty3F4sVaXPPW7p0+eG8VcNqa32E
+   M8vBalYPjZvJL7EauB6JsycurXi3mCLBI0LQO3kKb6RXexWyKoU62nitu
+   U8ct3+y+aTgkEp/ttNl5a5uEcN6gLJap2PqO0q3aq8+8+3nentppmoV41
+   u/qUrDJhVEfuLOAVveTl6Aa498IALfThEZBTkUcESUzhCJmIxydoi544l
+   i5IZbzFk/XL+ekl/FnqoWg7WitRQ1H7Vh7zsH8whldnxOKQvJsaHE3gDK
+   eIUOMeH1ZbrDr6Mbb/KR3PhyWzb/EG1Y9wCtgKaLUlHGcAm4fkal7TlXV
    A==;
-X-CSE-ConnectionGUID: yEZ0+7F/QQyqrEKtue68Rw==
-X-CSE-MsgGUID: G9neRjAzSQacH6dPT4ge0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="79062"
+X-CSE-ConnectionGUID: Dg2cx6mDRpa7nosYVWVBoA==
+X-CSE-MsgGUID: DgNF7vruSyypETJKv3RfHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="102508955"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="79062"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 17:54:08 -0700
-X-CSE-ConnectionGUID: B5iZqU7pSTanI7FmhAR4zg==
-X-CSE-MsgGUID: qdZke1ZPTYm+Vp/bJVerHA==
+   d="scan'208";a="102508955"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 18:23:32 -0700
+X-CSE-ConnectionGUID: VieI5PfXTg6+fusmiqb2xg==
+X-CSE-MsgGUID: fHCtuRYSSrGWqshfeivMXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="280252387"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 05 Oct 2026 17:54:07 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="276514327"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 05 Oct 2026 18:23:31 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDtRU-000000000Vn-1oRw;
-	Tue, 06 Oct 2026 00:54:04 +0000
-Date: Tue, 06 Oct 2026 02:53:32 +0200
+	id 1xDttw-0000000012a-3I3r;
+	Tue, 06 Oct 2026 01:23:28 +0000
+Date: Tue, 06 Oct 2026 09:22:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xianwei Zhao <xianwei.zhao@amlogic.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
- Frank Li <Frank.Li@nxp.com>
-Subject: [vkoul-dmaengine:next 90/130]
- drivers/dma/amlogic-dma.c:324:22: sparse: sparse: invalid assignment: |=
-Message-ID: <202610060235.PuCxWQdk-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-09-30-3 322/322]
+ sound/soc/mediatek/mt8192/mt8192-dai-adda.c:462:29: error: call to undeclared
+ function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202610060918.8PUwFcDg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,95 +61,67 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-head:   0ac4a90c4805b41013044fdefff051ae59a54302
-commit: b84b5197e344e2d378a9edf5d782b6fbddff8d06 [90/130] dmaengine: amlogic: Add general DMA driver for A9
-config: arc-randconfig-r2307-20261006 (https://download.01.org/0day-ci/archive/20261006/202610060235.PuCxWQdk-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610060235.PuCxWQdk-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-09-30-3
+head:   8ef89ccab720b2e433fdb62596f1c54d5e4ed184
+commit: 5f85279ecbf1dd06cb7458eb4e9da621e969302f [322/322] ASoC: soc-component: remove snd_soc_component_{set/get}_drvdata()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261006/202610060918.8PUwFcDg-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 80cd965b6323b208519f8ab1d5ee86e4ea9862f4)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610060918.8PUwFcDg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610060235.PuCxWQdk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610060918.8PUwFcDg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma/amlogic-dma.c:324:22: sparse: sparse: invalid assignment: |=
-   drivers/dma/amlogic-dma.c:324:22: sparse:    left side has type restricted __le32
-   drivers/dma/amlogic-dma.c:324:22: sparse:    right side has type unsigned long
+All errors (new ones prefixed by >>):
 
-vim +324 drivers/dma/amlogic-dma.c
+>> sound/soc/mediatek/mt8192/mt8192-dai-adda.c:462:29: error: call to undeclared function 'snd_soc_component_get_drvdata'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     462 |         struct mtk_base_afe *afe = snd_soc_component_get_drvdata(cmpnt);
+         |                                    ^
+>> sound/soc/mediatek/mt8192/mt8192-dai-adda.c:462:23: error: incompatible integer to pointer conversion initializing 'struct mtk_base_afe *' with an expression of type 'int' [-Wint-conversion]
+     462 |         struct mtk_base_afe *afe = snd_soc_component_get_drvdata(cmpnt);
+         |                              ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
-   260	
-   261	static struct dma_async_tx_descriptor *aml_dma_prep_slave_sg
-   262			(struct dma_chan *chan, struct scatterlist *sgl,
-   263			unsigned int sg_len, enum dma_transfer_direction direction,
-   264			unsigned long flags, void *context)
-   265	{
-   266		struct aml_dma_chan *aml_chan = to_aml_dma_chan(chan);
-   267		struct aml_dma_dev *aml_dma = aml_chan->aml_dma;
-   268		struct aml_dma_desc *aml_desc = NULL;
-   269		struct aml_dma_sg_link *sg_link = NULL;
-   270		struct scatterlist *sg = NULL;
-   271		u64 paddr;
-   272		u32 link_count, avail;
-   273		u32 i;
-   274	
-   275		if (aml_chan->direction != direction) {
-   276			dev_err(aml_dma->dma_device.dev, "direction not support\n");
-   277			return NULL;
-   278		}
-   279	
-   280		link_count = sg_nents_for_dma(sgl, sg_len, SG_MAX_LEN);
-   281		if (link_count == 0)
-   282			return NULL;
-   283	
-   284		aml_desc = kzalloc_obj(*aml_desc, GFP_NOWAIT);
-   285		if (!aml_desc)
-   286			return NULL;
-   287	
-   288		INIT_WORK(&aml_desc->free_work, aml_dma_free_desc_work);
-   289		aml_desc->sg_link_size = link_count * sizeof(*sg_link);
-   290		aml_desc->sg_link = dma_alloc_coherent(aml_dma->dma_device.dev, aml_desc->sg_link_size,
-   291						       &aml_desc->sg_link_phys, GFP_NOWAIT);
-   292		if (!aml_desc->sg_link) {
-   293			kfree(aml_desc);
-   294			return NULL;
-   295		}
-   296		aml_desc->dma_device = &aml_dma->dma_device;
-   297	
-   298		sg_link = aml_desc->sg_link;
-   299		for_each_sg(sgl, sg, sg_len, i) {
-   300			avail = sg_dma_len(sg);
-   301			if (avail == 0)
-   302				continue;
-   303			paddr = sg->dma_address;
-   304			while (avail > SG_MAX_LEN) {
-   305				/* set dma address and len to sglink*/
-   306				sg_link->addr_low = cpu_to_le32(lower_32_bits(paddr));
-   307				sg_link->addr_high = cpu_to_le32(upper_32_bits(paddr));
-   308				sg_link->ctl = cpu_to_le32(FIELD_PREP(LINK_LEN, SG_MAX_LEN));
-   309				paddr = paddr + SG_MAX_LEN;
-   310				avail = avail - SG_MAX_LEN;
-   311				sg_link++;
-   312			}
-   313			/* set dma address and len to sglink*/
-   314			sg_link->addr_low = cpu_to_le32(lower_32_bits(paddr));
-   315			sg_link->addr_high = cpu_to_le32(upper_32_bits(paddr));
-   316			sg_link->ctl = cpu_to_le32(FIELD_PREP(LINK_LEN, avail));
-   317	
-   318			aml_desc->data_len += sg_dma_len(sg);
-   319			sg_link++;
-   320		}
-   321	
-   322		/* the last sg set eoc flag */
-   323		sg_link--;
- > 324		sg_link->ctl |= LINK_EOC;
-   325	
-   326		return vchan_tx_prep(&aml_chan->vchan, &aml_desc->vd, flags);
-   327	}
-   328	
+
+vim +/snd_soc_component_get_drvdata +462 sound/soc/mediatek/mt8192/mt8192-dai-adda.c
+
+607ac48595640d Jiaxin Yu    2020-11-03  456  
+607ac48595640d Jiaxin Yu    2020-11-03  457  static int mtk_adda_dl_event(struct snd_soc_dapm_widget *w,
+607ac48595640d Jiaxin Yu    2020-11-03  458  			     struct snd_kcontrol *kcontrol,
+607ac48595640d Jiaxin Yu    2020-11-03  459  			     int event)
+607ac48595640d Jiaxin Yu    2020-11-03  460  {
+607ac48595640d Jiaxin Yu    2020-11-03  461  	struct snd_soc_component *cmpnt = snd_soc_dapm_to_component(w->dapm);
+607ac48595640d Jiaxin Yu    2020-11-03 @462  	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(cmpnt);
+eed9414a1b075e bui duc phuc 2026-09-18  463  	int ret;
+607ac48595640d Jiaxin Yu    2020-11-03  464  
+607ac48595640d Jiaxin Yu    2020-11-03  465  	switch (event) {
+607ac48595640d Jiaxin Yu    2020-11-03  466  	case SND_SOC_DAPM_PRE_PMU:
+eed9414a1b075e bui duc phuc 2026-09-18  467  		ret = mt8192_afe_gpio_request(afe->dev, true, MT8192_DAI_ADDA, 0);
+eed9414a1b075e bui duc phuc 2026-09-18  468  		if (ret)
+eed9414a1b075e bui duc phuc 2026-09-18  469  			return ret;
+607ac48595640d Jiaxin Yu    2020-11-03  470  		break;
+607ac48595640d Jiaxin Yu    2020-11-03  471  	case SND_SOC_DAPM_POST_PMD:
+607ac48595640d Jiaxin Yu    2020-11-03  472  		/* should delayed 1/fs(smallest is 8k) = 125us before afe off */
+607ac48595640d Jiaxin Yu    2020-11-03  473  		usleep_range(125, 135);
+eed9414a1b075e bui duc phuc 2026-09-18  474  		ret = mt8192_afe_gpio_request(afe->dev, false, MT8192_DAI_ADDA, 0);
+eed9414a1b075e bui duc phuc 2026-09-18  475  		if (ret)
+eed9414a1b075e bui duc phuc 2026-09-18  476  			return ret;
+607ac48595640d Jiaxin Yu    2020-11-03  477  		break;
+607ac48595640d Jiaxin Yu    2020-11-03  478  	default:
+607ac48595640d Jiaxin Yu    2020-11-03  479  		break;
+607ac48595640d Jiaxin Yu    2020-11-03  480  	}
+607ac48595640d Jiaxin Yu    2020-11-03  481  
+607ac48595640d Jiaxin Yu    2020-11-03  482  	return 0;
+607ac48595640d Jiaxin Yu    2020-11-03  483  }
+607ac48595640d Jiaxin Yu    2020-11-03  484  
+
+:::::: The code at line 462 was first introduced by commit
+:::::: 607ac48595640d549a769f0dde0732e69c3a6c03 ASoC: mediatek: mt8192: support adda in platform driver
+
+:::::: TO: Jiaxin Yu <jiaxin.yu@mediatek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
