@@ -1,84 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546DC31328E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 03:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97DD23F40D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 03:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791256299; cv=none; b=hU+m5l2yecNUhlc2bxig2VtyOjIP+8GEcVw6V5HmkX20E0x4otN6UpK74kaKt5NztO/gk4bhjYGATnrOlupaiUW3Ej3e6FgIUdDIsw3pCeMeoqPTdYRTgWiS97OLuPzYY7+h9Znh5xox8Z2unlz6QO42IecVn7ws51PvgKuyDYc=
+	t=1791256300; cv=none; b=InHcHxzTHqD93XPXTcXpwjl4I3RBFKDmn6V+ZQenj6jeRIuvsRo7tsJyoBfd8epG+a1x97cHzZBphQ7LiFodbrq2/ux1rbRvy8KFcWSEtWLp0G0ni7c6jRkemr9rpWBYFsUrPsyAoOUZKC6WH6m4YP3MXy/HviJrF6RYWTXreDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791256299; c=relaxed/simple;
-	bh=T9+SNvnRwxuR5SSRPHDMt8UVB7775rXdW0btxiYlXlk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lqUegaOqBH1xuh2FOhIcxHaulDzNWeN2ztFa1P2XHKFzkcyg8ki0qxVbhekfNPY2sIThPMd1jVEI/c4VC8T2Xy/8VGixKwXa4ouShgV4MthXSobMFZzjfZUw2vNUIJe5MuQGOXaXVreIhgN/x3lR8VQmDYp1Ek/1M5XFqHrLjtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eStM+Z3Z; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1791256300; c=relaxed/simple;
+	bh=LZsUupJMUfWATvLnwGtWVoUs/NZjFGFZViYkn3Z08YU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CO4fkUQNa0t9ZRXi7pa94b6ChB24R5gWNxxrbHOvhyCa4reztgbM2f8roTshs2zMnvQCChNlt+x8a8p7FYGm+Nb37JHvkRVy9LMQjpoIjNi/wrKyFNbZTMP0kFON3XEQsq6li9gPaktXQ9gOKd0xQCbbdBfurn8HpnmyJL1XqgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C36Dxm0k; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eStM+Z3Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C36Dxm0k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791256298; x=1822792298;
-  h=date:from:to:cc:subject:message-id;
-  bh=T9+SNvnRwxuR5SSRPHDMt8UVB7775rXdW0btxiYlXlk=;
-  b=eStM+Z3ZLzy4OMDHjPyv+3CRCD+jgd07vVryjeJN6JG8820H3BDNdD3I
-   f2UBURL4pvc8mgjeeJ7nYwa/X3ffwiUQl+OfMrrCvz+s06N1n7bD4OtCf
-   aAl7XRwJjcI6LiUztAuqQddqqV/RqUsq8xZ6O437IobeJiXNRA7bLNsvj
-   LuRLL/5iyXQXeizBCYBR29+pfYcnA7pSo3q4epLyi+eMSH1CQLGvakEza
-   f/XitgaaQYCBcutiY+xHZZvpPfs0OnBenwjnUFoJDgWWWQtiqPhf9xF0U
-   tl0bpvWTws5l6mNXF2BWNHa3NuepbbKSP36/okWfxougGQ+FHFR7lVaiw
-   g==;
-X-CSE-ConnectionGUID: 7G2b/WDGQVa0Xt1dSKpbgw==
-X-CSE-MsgGUID: JoemFoaCSrqN+A7sCFj8/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="102100088"
+  t=1791256299; x=1822792299;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LZsUupJMUfWATvLnwGtWVoUs/NZjFGFZViYkn3Z08YU=;
+  b=C36Dxm0k2l01AAM7GYgPxZewLDXyh0FROrjPOKHeW8f5Fx6P+3iJ63Fv
+   tP2ZLGec2051f6HSFjKmeg+JuPL4/jZgrEcyVwTbsxLRUN78A6IsEEKaH
+   t2ZxON3/f/wFXcMRSF3g9Tkk1ztNdzKu5QrP7Ibl7zDNPy1EXPBttM9pO
+   1AUhBehME3XxS2so6OXrLLQAtds+lPUQ6fnGIuilYQ3dEzizMvAHYRNGl
+   78gpoxWAhZ5iX4xWczxU/YTOgukNPKwrR5XgXw1RlHShTeiFPTikG+aFv
+   G5CVl7WjrwG+0nKU1xLCcsDe/ivsK8sw/U81k7QpciwL5zr8+ENk+Za/t
+   Q==;
+X-CSE-ConnectionGUID: WrjYp+U5Q2qJ+47eVXh7Kg==
+X-CSE-MsgGUID: Jk7+wXKASumj9xXZs4dYYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="79496969"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="102100088"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 20:11:37 -0700
-X-CSE-ConnectionGUID: C3kU/LTHTsu0e2HPVrWonQ==
-X-CSE-MsgGUID: L6zwDBSsSvGg+o+bpnePjQ==
+   d="scan'208";a="79496969"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 20:11:38 -0700
+X-CSE-ConnectionGUID: 6D0m6cTLSq6JZKj4am9poA==
+X-CSE-MsgGUID: FHQRB34UTPuqXcszu+9AqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="276545224"
+   d="scan'208";a="315026619"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 Oct 2026 20:11:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 05 Oct 2026 20:11:37 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDvaX-0000000016c-3MT8;
+	id 1xDvaX-0000000016a-3Htv;
 	Tue, 06 Oct 2026 03:11:33 +0000
-Date: Tue, 06 Oct 2026 11:11:27 +0800
+Date: Tue, 6 Oct 2026 11:11:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:7.2/prjc 648/781] Warning: kernel/sched/alt_core.c:102
- cannot understand function prototype: 'int sched_yield_type __read_mostly =
- 1;'
-Message-ID: <202610061129.ALWSZ3nJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Habil Eren =?iso-8859-1?Q?T=FCrker?= <habilerenturker@hotmail.com>,
+	"tglx@kernel.org" <tglx@kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, "hpa@zytor.com" <hpa@zytor.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Habil Eren =?iso-8859-1?Q?T=FCrker?= <habilerenturker@hotmail.com>
+Subject: Re: [PATCH v2 2/2] x86/apic: Replace deprecated simple_strtol() with
+ sscanf() in x86_fwspec_is_hpet()
+Message-ID: <202610061159.7E9WkD7I-lkp@intel.com>
+References: <20261005163213.6515-3-habilerenturker@hotmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261005163213.6515-3-habilerenturker@hotmail.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 7.2/prjc
-head:   2bfd868afb6d8c6d606a189951e4680cd4ca98e2
-commit: ca8e0fde64fcfaf8691f1aa16d875770a5896ca5 [648/781] sched/alt: [Sync] dcb7416212e6 block: invalidate cached plug timestamp after task switch
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261006/202610061129.ALWSZ3nJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061129.ALWSZ3nJ-lkp@intel.com/reproduce)
+Hi Habil,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on linus/master v7.3-rc6 next-20261005]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Habil-Eren-T-rker/x86-apic-Replace-deprecated-simple_strtol-with-sscanf-for-robust-parsing/20261005-163219
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20261005163213.6515-3-habilerenturker%40hotmail.com
+patch subject: [PATCH v2 2/2] x86/apic: Replace deprecated simple_strtol() with sscanf() in x86_fwspec_is_hpet()
+config: x86_64-buildonly-randconfig-1004-20261006 (https://download.01.org/0day-ci/archive/20261006/202610061159.7E9WkD7I-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061159.7E9WkD7I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610061129.ALWSZ3nJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610061159.7E9WkD7I-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: kernel/sched/alt_core.c:102 cannot understand function prototype: 'int sched_yield_type __read_mostly = 1;'
->> Warning: kernel/sched/alt_core.c:3534 function parameter 'prev' not described in 'prepare_task_switch'
-   Warning: kernel/sched/alt_core.c:3566 Excess function parameter 'rq' description in 'finish_task_switch'
->> Warning: kernel/sched/alt_core.c:3534 function parameter 'prev' not described in 'prepare_task_switch'
-   Warning: kernel/sched/alt_core.c:3566 Excess function parameter 'rq' description in 'finish_task_switch'
+   arch/x86/kernel/apic/vector.c: In function 'x86_fwspec_is_hpet':
+>> arch/x86/kernel/apic/vector.c:700:17: warning: comparison between pointer and integer
+     700 |             val == fwspec->param)
+         |                 ^~
+
+
+vim +700 arch/x86/kernel/apic/vector.c
+
+   685	
+   686	int x86_fwspec_is_hpet(struct irq_fwspec *fwspec)
+   687	{
+   688		const char *fwname;
+   689		unsigned int val;
+   690	
+   691		if (fwspec->param_count != 1)
+   692			return 0;
+   693	
+   694		if (!is_fwnode_irqchip(fwspec->fwnode))
+   695			return 0;
+   696	
+   697		fwname = fwnode_get_name(fwspec->fwnode);
+   698	
+   699		if (fwname && sscanf(fwname, "HPET-MSI-%u", &val) == 1 &&
+ > 700		    val == fwspec->param)
+   701			return 1;
+   702	
+   703		return 0;
+   704	}
+   705	
 
 --
 0-DAY CI Kernel Test Service
