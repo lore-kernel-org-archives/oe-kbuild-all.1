@@ -1,200 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEBAC3C1092
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 10:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD303DBD51
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 10:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791281153; cv=none; b=AUwcwBOVVwp6rS70qArn2y+zVhqyixeifY0S1i7Q2tVegOwJdjaamTXeJl7Pw/g2Fh2BMiBHckbRF/SRdMBIsyv/rLzzZwgTM8oC98v/w16MQTA4ri9wMSixnrhhfKDwAo8GmVL1zrGZ7Iwbr2a+z5BvsB/kcUbAv1JvsBZlFa0=
+	t=1791281239; cv=none; b=PbahBda4I1HeUPvE1WVfDUWshB4kCW4BK1e3ndxb4dvshlR+2tHvnmcFaTXWE5YCJw0k7FEza5hF9Ka2sYIf41aQrH5/soLcqSVoZpN4OuPo3Z6bqZFnWf7HVVM6v6nyOBkRedF09KTDfTxPsVDLipZCvNa8FITet+8ob57KG1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791281153; c=relaxed/simple;
-	bh=ecjg4/EYhtpAnxKrfgO80t64gYRO8mMsWIu/fyWK7So=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J9EoNUozZIo3b2b5XNm9eCmSAX2q8Sg7N+/O8GaCM0G4ybHquZJJ0px8MKKJA/e7oyc8p2mMqxe0mdFow4bWC5rAYPtbBDy74ulW+Wn/nlYN04VZim+4l9l0tObf15FFPvLoSYCdSiX+nuNQwQFQKsiYcIiiUdTzabisBF0DVvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2AemefO; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1791281239; c=relaxed/simple;
+	bh=TwRXhDLZy6XjMEtOb/FNN16Yz+EofUgK9C2C9zzYOeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=l0mnsA0ogJLGRIlEiR/lrZrMSOCkmzitdUfCCo5MXAERwxta7/GvcWiXRaMDR5l6YGvbbs1FZJ/qWF9/iWVp9ut86VUBkXlzVOkxbXtSOeIpx6WHiuufrj/rS0+pY1ZkBTUVj/maNBnxKZ1fIPOaYX0YAyqugqa8XDKU9Bypxig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTE1supy; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2AemefO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTE1supy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791281152; x=1822817152;
-  h=date:from:to:cc:subject:message-id;
-  bh=ecjg4/EYhtpAnxKrfgO80t64gYRO8mMsWIu/fyWK7So=;
-  b=M2AemefOTKaiAa4zgqYKq+R8wSN5Ne7hRf4oUIGYhs/kLnByKXyPvv6A
-   V8Ub6xdQ3KKlM/Mk1AYHvwM4/zLN8Pc6LoyEdY4hO5XYc/S3LMBVQp+hd
-   VpNLqgJbPFW9fyt0qMi5pEmQxIU2DCef6jfCEzewi4GTAE1YRNiywyyTg
-   mk7KOU6PE721C5X5/K5H+qNkbWB4/UfC/CYyR7dhW5d1uyFx40dx+57Gn
-   LUiRrt0GriYxKWuboyx9ympUiKQlhiU67eT5wh9d+CvKNuVPG4fiKoIeg
-   I3bv1PgXKXpoS4iGa6M0RJnpTjGFNVwFP0RIEXwJ4JvaSnu9gnwRATAK4
+  t=1791281237; x=1822817237;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TwRXhDLZy6XjMEtOb/FNN16Yz+EofUgK9C2C9zzYOeA=;
+  b=UTE1supyVzYJJF5JLbO9sQ9Qvc/LGAcOykLVnN3xBb+YN/JxnJxv2wQk
+   xDYETE9ucFw7rYhjGaSNAQkO2lui3eeT07oqss/IHl2teI+j5oYiRl5n6
+   yiUwjJ1NvC6ahBbPh04O6FzKNMtNSUdCn9Or2JrMHRD5Ig0UxcNgpmKD3
+   FkCly+VeuArBENNUiOo70Vj9ik0PhMfmR4HXR05x0uI5sbLpqqZP9g0FH
+   a8Hl9MF//MD2xZOaiWvT0D6sEg7qi2CeyAOlCHNd1rUu9XBIyXAD09hkf
+   IIw7Qm1GOcApbAnCO6nccxQT12SZaj6r1+KjpT25NSID06RFD0A0U9PBq
    Q==;
-X-CSE-ConnectionGUID: HCtcQNxlQcSAWfRDUfDuSA==
-X-CSE-MsgGUID: 5+5u+XQ8Q8+iGv5vroqbfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="20474"
+X-CSE-ConnectionGUID: 8dCYX63jTT2GtuK5o2kRQA==
+X-CSE-MsgGUID: Zq09aTceRl22Z3ck0YdJFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="17084"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="20474"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 03:05:52 -0700
-X-CSE-ConnectionGUID: lDeu/zG6SCalP2vAxhFiCA==
-X-CSE-MsgGUID: UMZ7qmWpRyWmpRsHiQWXug==
+   d="scan'208";a="17084"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 03:07:16 -0700
+X-CSE-ConnectionGUID: y0CfsQfGRrSHjHT+T3VcPw==
+X-CSE-MsgGUID: jFee5Jz/QyeKci8YJvz6Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="275768652"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Oct 2026 03:05:50 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="306591755"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 06 Oct 2026 03:07:14 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xE23Q-0000000015D-1fWu;
-	Tue, 06 Oct 2026 10:05:48 +0000
-Date: Tue, 06 Oct 2026 12:05:33 +0200
+	id 1xE24l-000000001Rw-2yyL;
+	Tue, 06 Oct 2026 10:07:11 +0000
+Date: Tue, 06 Oct 2026 18:06:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:xdp-tcp-round4-backup 20/42]
- net/ipv4/tcp_xdp.c:207:11: error: incompatible integer to pointer conversion
- assigning to 'sk_buff_data_t' (aka 'unsigned char *') from '__size_t' (aka
- 'unsigned int')
-Message-ID: <202610061205.4m1dnkvU-lkp@intel.com>
+Subject: [android-common:mirror-chromeos-5.10-arcvm 4/4]
+ drivers/media/virtio/virtio_video_device.c:801:37: warning: variable
+ 'out_prev_min_buffs' set but not used
+Message-ID: <202610061728.2b00bq7i-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/kkdwivedi/linux xdp-tcp-round4-backup
-head:   63925314fb03ace1f3949a09d298cfdc0188bc8a
-commit: 9d4e1ff1e73f3bafe3089f67321c182f10247469 [20/42] tcp: Add XDP fast-path kfuncs for established connections
-config: mips-randconfig-r2303-20261006 (https://download.01.org/0day-ci/archive/20261006/202610061205.4m1dnkvU-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project dbeca9a3a3ba0b46471efb339b0ea8f2194f6f68)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061205.4m1dnkvU-lkp@intel.com/reproduce)
+Hi Bart=C5=82omiej,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10=
+-arcvm
+head:   6f82755ed602e815541b2c6617a3f30f53500cdc
+commit: df1b8f1ab2fe61012ccc336a3d7371ac274bb570 [4/4] CHROMIUM: drivers: m=
+edia: virtio: send EVENT_CTRL when CID_MIN_BUFFERS_FOR_* changes
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261006/=
+202610061728.2b00bq7i-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.1.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261006/202610061728.2b00bq7i-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610061205.4m1dnkvU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610061728.2b00bq7i-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/ipv4/tcp_xdp.c:207:11: error: incompatible integer to pointer conversion assigning to 'sk_buff_data_t' (aka 'unsigned char *') from '__size_t' (aka 'unsigned int') [-Wint-conversion]
-     207 |         skb->end = offsetof(typeof(fake), shinfo) - offsetof(typeof(fake), hdr);
-         |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/ipv4/tcp_xdp.c:208:12: error: incompatible integer to pointer conversion assigning to 'sk_buff_data_t' (aka 'unsigned char *') from 'u32' (aka 'unsigned int') [-Wint-conversion]
-     208 |         skb->tail = hlen;
-         |                   ^ ~~~~
-   2 errors generated.
+   drivers/media/virtio/virtio_video_device.c: In function 'virtio_video_up=
+date_params':
+>> drivers/media/virtio/virtio_video_device.c:801:37: warning: variable 'ou=
+t_prev_min_buffs' set but not used [-Wunused-but-set-variable=3D]
+     801 |         int ret, in_prev_min_buffs, out_prev_min_buffs;
+         |                                     ^~~~~~~~~~~~~~~~~~
 
 
-vim +207 net/ipv4/tcp_xdp.c
+vim +/out_prev_min_buffs +801 drivers/media/virtio/virtio_video_device.c
 
-   163	
-   164	/**
-   165	 * bpf_xdp_tcp_consume - apply an in-order data segment to its connection
-   166	 * @sk: the socket from bpf_xdp_tcp_lookup()
-   167	 * @ctx: the frame
-   168	 * @info: as filled by bpf_xdp_tcp_lookup()
-   169	 *
-   170	 * Under the socket lock, takes the segment as tcp_rcv_established()'s fast
-   171	 * path would, with the payload counted as received and read rather than
-   172	 * queued for the application. The program must then drop the frame and is
-   173	 * responsible for answering it. Returns 0, or -EAGAIN when the socket is
-   174	 * owned by its user or the segment no longer fits the fast path: the frame
-   175	 * then belongs to the stack (XDP_PASS). The response must fit the socket's
-   176	 * send buffer: -ENOBUFS says it would not.
-   177	 */
-   178	__bpf_kfunc int bpf_xdp_tcp_consume(struct sock *sk, struct xdp_md *ctx,
-   179					    struct bpf_xdp_tcp_info *info)
-   180	{
-   181		struct xdp_buff *xdp = (struct xdp_buff *)ctx;
-   182		struct {
-   183			struct sk_buff skb;
-   184			u8 hdr[64] __aligned(8);
-   185			struct skb_shared_info shinfo;
-   186		} fake;
-   187		struct sk_buff *skb = &fake.skb;
-   188		struct tcp_sock *tp = tcp_sk(sk);
-   189		struct xdp_tcp_hdrs h;
-   190		const struct tcphdr *th;
-   191		u32 hlen, seq, end_seq;
-   192		bool ts_progress = false;
-   193		int err = -EAGAIN;
-   194		s32 delta = 0;
-   195	
-   196		if (!xdp_tcp_parse(xdp, &h))
-   197			return -EINVAL;
-   198		th = h.th;
-   199		hlen = th->doff * 4;
-   200		seq = ntohl(th->seq);
-   201		end_seq = seq + h.payload_len;
-   202	
-   203		memset(&fake, 0, sizeof(fake));
-   204		memcpy(fake.hdr, th, hlen);
-   205		skb->head = fake.hdr;
-   206		skb->data = fake.hdr + hlen;
- > 207		skb->end = offsetof(typeof(fake), shinfo) - offsetof(typeof(fake), hdr);
- > 208		skb->tail = hlen;
-   209		skb->len = h.payload_len;
-   210		skb->truesize = SKB_TRUESIZE(h.payload_len + hlen);
-   211		skb_reset_transport_header(skb);
-   212		skb->transport_header = 0;
-   213		skb->protocol = htons(ETH_P_IP);
-   214		TCP_SKB_CB(skb)->seq = seq;
-   215		TCP_SKB_CB(skb)->end_seq = end_seq;
-   216		TCP_SKB_CB(skb)->ack_seq = ntohl(th->ack_seq);
-   217		TCP_SKB_CB(skb)->tcp_flags = tcp_flags_ntohs(th);
-   218		TCP_SKB_CB(skb)->ip_dsfield = ipv4_get_dsfield(h.iph);
-   219		TCP_SKB_CB(skb)->sacked = 0;
-   220	
-   221		bh_lock_sock_nested(sk);
-   222		if (sock_owned_by_user(sk) || sk->sk_state != TCP_ESTABLISHED)
-   223			goto out;
-   224		tcp_mstamp_refresh_inline(tp);
-   225		tp->rx_opt.saw_tstamp = 0;
-   226		tp->rx_opt.accecn = 0;
-   227		if (!xdp_tcp_fast_ok(tp, th, h.payload_len))
-   228			goto out;
-   229		if (tp->tcp_header_len == sizeof(struct tcphdr) + TCPOLEN_TSTAMP_ALIGNED) {
-   230			if (!tcp_parse_aligned_timestamp(tp, th))
-   231				goto out;
-   232			delta = tp->rx_opt.rcv_tsval - tp->rx_opt.ts_recent;
-   233			if (delta < 0)
-   234				goto out;
-   235		}
-   236		/* The answer has to fit, since the segment cannot be handed back later. */
-   237		if (!sk_stream_memory_free(sk)) {
-   238			err = -ENOBUFS;
-   239			goto out;
-   240		}
-   241	
-   242		if (tp->tcp_header_len == sizeof(struct tcphdr) + TCPOLEN_TSTAMP_ALIGNED &&
-   243		    tp->rcv_nxt == tp->rcv_wup)
-   244			ts_progress = tcp_xdp_replace_ts_recent(tp, delta);
-   245		tcp_rcv_rtt_measure_ts(sk, skb);
-   246		NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPHPHITS);
-   247		tcp_ecn_received_counters(sk, skb, h.payload_len);
-   248	
-   249		/* Received and read by the program, so nothing is queued. */
-   250		tcp_rcv_nxt_update(tp, end_seq);
-   251		WRITE_ONCE(tp->copied_seq, end_seq);
-   252		tcp_event_data_recv(sk, skb);
-   253	
-   254		if (TCP_SKB_CB(skb)->ack_seq != tp->snd_una ||
-   255		    (tcp_flag_word(th) & XDP_TCP_HP_BITS) != tp->pred_flags) {
-   256			/* The slow-path flag makes tcp_ack() take a window change. */
-   257			tcp_xdp_ack(sk, skb, ts_progress);
-   258			if (!inet_csk_ack_scheduled(sk))
-   259				goto done;
-   260		} else {
-   261			tcp_update_wl(tp, seq);
-   262		}
-   263		__tcp_ack_snd_check(sk, 0);
-   264	done:
-   265		err = 0;
-   266	out:
-   267		bh_unlock_sock(sk);
-   268		return err;
-   269	}
-   270	
+   794=09
+   795	int virtio_video_update_params(struct virtio_video *vv,
+   796				       struct virtio_video_stream *stream,
+   797				       struct video_format_info *in_info,
+   798				       struct video_format_info *out_info)
+   799	{
+   800		struct virtio_video_device *vvd =3D to_virtio_vd(stream->video_dev);
+ > 801		int ret, in_prev_min_buffs, out_prev_min_buffs;
+   802		bool is_encoder;
+   803=09
+   804		in_prev_min_buffs =3D stream->in_info.min_buffers;
+   805		out_prev_min_buffs =3D stream->out_info.min_buffers;
+   806=09
+   807		if (in_info) {
+   808			ret =3D virtio_video_cmd_set_params(vv, stream, in_info,
+   809							  VIRTIO_VIDEO_QUEUE_TYPE_INPUT);
+   810			if (ret)
+   811				return ret;
+   812		}
+   813		if (out_info) {
+   814			ret =3D virtio_video_cmd_set_params(vv, stream, out_info,
+   815							  VIRTIO_VIDEO_QUEUE_TYPE_OUTPUT);
+   816			if (ret)
+   817				return ret;
+   818		}
+   819=09
+   820		ret =3D virtio_video_cmd_get_params(vv, stream,
+   821						  VIRTIO_VIDEO_QUEUE_TYPE_INPUT);
+   822		if (ret)
+   823			return ret;
+   824		ret =3D virtio_video_cmd_get_params(vv, stream,
+   825						  VIRTIO_VIDEO_QUEUE_TYPE_OUTPUT);
+   826		if (ret)
+   827			return ret;
+   828=09
+   829		is_encoder =3D vvd->type =3D=3D VIRTIO_VIDEO_DEVICE_ENCODER;
+   830		if (is_encoder && in_prev_min_buffs !=3D stream->in_info.min_buffer=
+s)
+   831			virtio_video_queue_ctrl_event(stream,
+   832						      V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
+   833						      stream->in_info.min_buffers,
+   834						      V4L2_EVENT_CTRL_CH_VALUE);
+   835		if (!is_encoder && in_prev_min_buffs !=3D stream->out_info.min_buff=
+ers)
+   836			virtio_video_queue_ctrl_event(stream,
+   837						      V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
+   838						      stream->out_info.min_buffers,
+   839						      V4L2_EVENT_CTRL_CH_VALUE);
+   840=09
+   841		return 0;
+   842	}
+   843=09
 
 --
 0-DAY CI Kernel Test Service
