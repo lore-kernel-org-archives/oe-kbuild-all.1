@@ -1,103 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2880376BF1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 18:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645EF3DB997
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 20:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791313050; cv=none; b=RIQfTT2CZKsA6WNAa8y4/zdEKIYY4mpvVBO0OFey0QEgOdilQkDqmK2qB7VjnupDGfLEFB18DWyh130xqI5Tasz5bGpsEiNvkPRIccs3aeGSRg4snpiyJFsE/Z+0qYIa674xE1dgHBlms7M5TdUOIEQvHE3CpO9rqMzK4Qc7/4I=
+	t=1791317043; cv=none; b=WOHPl/x+nqfTBp4d96e5g/zMdeiCE1Z4qbKKn0YdwXu6IDvQWVSbxkQWfDgnmv7bYNkbYZYls2Qn5YtcrMEh1z16tAwEVtHEV/8ERfbrgHnnWeb6WfdsqRs7X/pf/0XQoxFdTDRt5pi9f9EQKGFsKUfhjI1w5wnreLk468EJsdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791313050; c=relaxed/simple;
-	bh=NdVVl9VXCLzX3yOqpOXrEwf6/U+FgO7LrGwpZbmOK4g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ly4+VyNAjg9m/Hz3wEyQB9w0VU2UzA/LZ3ex0ibWdrFYC6NwYNU4hirSBu4RtQVQA32gRi5GRgbfLhN5zM9d4Ytxou8mQ7w9zhO+uiyQ8tE3X/OubVlf/p4HF/w6OWsarApC+L8BmyU9DKb8mTHsdkCoNqkWvq/D69mSLa1Sek0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIcaTCmY; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791317043; c=relaxed/simple;
+	bh=mEGUjvSd3y7PzVKWsH/lR9Qsb2sS9l8k4Cjt2Yk1KV8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mtgKZqSEUJ/uOkJ9qPI6In6U1s1FsRXox2Fr300qp1M7mI8i1KXHKPzJhcT8fXVK4WP3Q5CWwJWf1VtYD2/zCLKalROLC5MOk5JpPUY7F5KCK++NAl/sBvLRsv+H1+NjELwghSCXhi2M2djv++K2gbZ3NuloQmIKh7mmHCPBKWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com; spf=pass smtp.mailfrom=hammerspace.com; dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=GAqlpRCY; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIcaTCmY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791313049; x=1822849049;
-  h=date:from:to:cc:subject:message-id;
-  bh=NdVVl9VXCLzX3yOqpOXrEwf6/U+FgO7LrGwpZbmOK4g=;
-  b=YIcaTCmY87ce+JHJVkCwAXt2i+n4ttKFagNLQyeglgN9Hbs1+Xg+LdR2
-   KHW0Dh7jGsr6jSit7mGHwnymPMS/dTXtLVjwPOX5GZNY9+O9x7mW4eQx0
-   MtEzLz2KE7fX4H1uaUzFTHpmNuX5Iks+XN70Y5f6/cYki3Mdlt9yyGe/Q
-   +ur6x37jhR6xWFcPo3PcEhb6pXVQUw5TczDB01HPz42TC+hTgek//EI1n
-   pvRyHiT2g+UNIkWEArNcN9Hal3lojegpJHU/eOBTApbsVcLyeHTKz6ZsT
-   wMjrSarMaRkJx6Fcyh2kh1jlkWXuiwD+V43bBAQlTOrXnQaK+Hl/pjwkj
-   g==;
-X-CSE-ConnectionGUID: z2N9m3VVQyGoEgVKnX+CDw==
-X-CSE-MsgGUID: +K4HsYF+RkCsXk/KuqqXbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="71140"
-X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="71140"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 11:57:28 -0700
-X-CSE-ConnectionGUID: 6V6rCkzDR/SA29Sbfqd29Q==
-X-CSE-MsgGUID: EtkjYevJQ62/nDabFsvrsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="273587124"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Oct 2026 11:57:27 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xEALs-000000001f9-3dLS;
-	Tue, 06 Oct 2026 18:57:24 +0000
-Date: Tue, 06 Oct 2026 20:56:42 +0200
-From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-github:work.mount.gp_on_demand.proposal 22/29]
- fs/nullfs.c:57:24: error: implicit declaration of function 'iov_iter_count'
-Message-ID: <202610062038.FvRofPIG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="GAqlpRCY"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6dfd530a2d5so479794eaf.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 06 Oct 2026 13:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hammerspace.com; s=google; t=1791317041; x=1791921841; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SNf/NiXnRrpD8d1Lrh5nWLifrt7ZWNX+GkRf3VdseIM=;
+        b=GAqlpRCYeMfWS6jB6RQ8kKT3vKBNiY8TWN3aK58FwdD7/CXftT67HSqVYtiEtIDdOk
+         oz36ty1Xa2MiZsZzbw+jGrEi/KZ4Vdqv7GC5GPFkBMGk/MFO9Pv8p/eKhWD5PY5PgETr
+         Wo36MXNGwvrdWG5K+OPJD75jpBmsGTH71Ubbi2oyRh/X6JtpOWQGKUx8FYzx+UbgUw8w
+         uhZGqL5AN3eSYSpOIcWdL0HC3E4Ga+2NnHIvBpXwsAi22DCbAfMXmsl2o4c4/SaQGXAL
+         BzPi8w16KHY9y+x0tjlwWXYf4KjRyeSneT1uKvODUF3dVfLV8306YLWrX8OJ4QEYaS4F
+         ItWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791317041; x=1791921841;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SNf/NiXnRrpD8d1Lrh5nWLifrt7ZWNX+GkRf3VdseIM=;
+        b=BdXDzBbIXdeFUVbw26UCmsl2zFvGqzlbY3msYzLFjDQnjZ4jgS3IVNvnwHO40dO6vR
+         cfNbPPvxeHJBdZd65yezoxbYUPuKjIhDTCeBFE/V8stpe7ecmaDIj6pRYDkj7JMnVFVF
+         vJP225aX6cC2bows+qu6x/NeVoPRbK89AXUE4EV3DN8Xkv9BzYWDugDyLeUY+uiDAp7I
+         Fuklof870kDN/t77n2QIjLtgEKkQcm1S2u6FgBvKwBUkp21ImbSUEsEBpsJtbvF0CJB/
+         hJ8zoZMOSV3ihz2+R2rFj6ThiomTVH3wi+OWaIIoJsm5GR5RgwP+5vwLYzoSR0dCRtmm
+         /1mg==
+X-Forwarded-Encrypted: i=1; AKwUvBwJO+jhFItQ+0NWrmN/DREFpaGmHqGjgx7OxWBAiLuy/03k9fltyIQjxbiwRPSpkNh86Ft/ibIht9wSl45l@lists.linux.dev
+X-Gm-Message-State: AFuF++ns6qDb012ELxYmrdRFOlI3EL1xQ6UrOqz7MX0YwpVYdxBPuNud
+	xz9++KD+qsJ+WtvRH2y42KCcUYWdw1qRdo0xOHbkQZSFSbKxRSxNJcvrNuB+Pl1hV0ha0YZ6G4x
+	3/hk/
+X-Gm-Gg: AYBFou2y8A2TKiQTFrBMLYl8Q5gUMGTOdzw03mtNTnBfNR344C8gjYPi7731tQv1qmh
+	UhMU6sN3hTwZzY8D7iYxj781dnSxaPQvSUJ2FJOIWw8+YQ1oBBp72qY5JpwTlDEHsVGiOsrH73z
+	ZQi05K/4sWS8RSV2yM7VYP0NJpB4KI8O/FZnIAfyxiK4PLliaUEvnuiOmmYvKC7bl64+cXguzdL
+	3GHH+piz0ovDovUmQBaxlPbbWYh5zVwqNMEWIbI9g71nFvRHOJN+SPGtEWd11OvPfgXCHyanO7l
+	5cHqd0Y1u9Ot7Ii8RREzrFRQW4ceFUmj2EIpjZtl3cnmJNlEa0e4ogoKGXFR4ow7PW7B8qqJg/t
+	CNECeb3uGk/R5r3wqQZVRKaldD/fty4ZfCBoBh9lTSkaTip4jTNN3d7s76I15IXV6CQ1RuarMhJ
+	41UshqKwyaqRKCrrlG3ux70uTnQHo1GmaqcPA1admcdOemeXxG9M3wvdVkyaQ+sDIu9MAdBwPjg
+	IjPHWcKjftkIa35Rg==
+X-Received: by 2002:a05:6820:4b0d:b0:6d9:2dd9:1673 with SMTP id 006d021491bc7-6e7a8370050mr246507eaf.37.1791317040937;
+        Tue, 06 Oct 2026 13:04:00 -0700 (PDT)
+Received: from [192.168.254.51] ([66.97.168.37])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-82adc3f12f0sm466427a34.13.2026.10.06.13.03.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 13:04:00 -0700 (PDT)
+From: Benjamin Coddington <ben.coddington@hammerspace.com>
+X-Google-Original-From: Benjamin Coddington <bcodding@hammerspace.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Benjamin Coddington <ben.coddington@hammerspace.com>,
+ oe-kbuild-all@lists.linux.dev,
+ Anna Schumaker <anna.schumaker@hammerspace.com>
+Subject: Re: [linux-next:master 7165/14724]
+ fs/nfs/flexfilelayout/flexfilelayoutdev.c:361:15: sparse: sparse: cast
+ removes address space '__rcu' of expression
+Date: Tue, 06 Oct 2026 16:03:58 -0400
+X-Mailer: MailMate (2.0r6272)
+Message-ID: <E197ECE3-2AD6-4AE0-9D6C-8A28B84144B1@hammerspace.com>
+In-Reply-To: <202610061959.iAgcNy7q-lkp@intel.com>
+References: <202610061959.iAgcNy7q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/brauner/linux.git work.mount.gp_on_demand.proposal
-head:   e59665003f3099d261a6dea7420c5b2a7d0ce4c1
-commit: 1a5353e584154c66d8d8c520f0ae4cea9fd18195 [22/29] fixup! nullfs: add an empty immutable regular file
-config: i386-randconfig-2200-20261006 (https://download.01.org/0day-ci/archive/20261006/202610062038.FvRofPIG-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610062038.FvRofPIG-lkp@intel.com/reproduce)
+On 6 Oct 2026, at 13:35, kernel test robot wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610062038.FvRofPIG-lkp@intel.com/
+>>> fs/nfs/flexfilelayout/flexfilelayoutdev.c:361:15: sparse: sparse: cas=
+t removes address space '__rcu' of expression
 
-All errors (new ones prefixed by >>):
+>> 361		old =3D unrcu_pointer(cmpxchg(&mirror->dss[dss_id].mirror_ds,
+>    362					    NULL, RCU_INITIALIZER(mirror_ds)));
 
-   fs/nullfs.c: In function 'nullfs_file_write_iter':
->> fs/nullfs.c:57:24: error: implicit declaration of function 'iov_iter_count' [-Werror=implicit-function-declaration]
-      57 |         size_t count = iov_iter_count(from);
-         |                        ^~~~~~~~~~~~~~
->> fs/nullfs.c:59:9: error: implicit declaration of function 'iov_iter_advance'; did you mean 'bvec_iter_advance'? [-Werror=implicit-function-declaration]
-      59 |         iov_iter_advance(from, count);
-         |         ^~~~~~~~~~~~~~~~
-         |         bvec_iter_advance
-   cc1: some warnings being treated as errors
+This comes from riscv's _arch_cmpxchg(): sparse checks the 1- and 2-byte
+__arch_cmpxchg_masked() branches, which cast __old/__new to ulong without=
 
+__force.  Those branches are dead for a pointer-sized field.  The same
+unrcu_pointer(cmpxchg(..., RCU_INITIALIZER(...))) form in
+fs/nfsd/localio.c and drivers/dma-buf/dma-fence-chain.c should warn the
+same way on riscv.
 
-vim +/iov_iter_count +57 fs/nullfs.c
+I don't plan to change the flexfiles code for this.
 
-    54	
-    55	static ssize_t nullfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
-    56	{
-  > 57		size_t count = iov_iter_count(from);
-    58	
-  > 59		iov_iter_advance(from, count);
-    60		return count;
-    61	}
-    62	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ben
