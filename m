@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7DC3EC808
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 17:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2880376BF1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 18:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791309381; cv=none; b=vEDyFzYTd3vAsLd+0ud9+Vy7QZ99g9NYbKyq+MBUGd1Vg80tOibuwU2GKhIHvr8HRFMJFBeOsFM4hcLFCcuDivM2WTuse24eAjJ/TPfYJemYV2FME1wcAS2qpB7U36TSV0oQ0a754atKzNkSddE2a8lsnUVS5mDOAi/J1hxPmq4=
+	t=1791313050; cv=none; b=RIQfTT2CZKsA6WNAa8y4/zdEKIYY4mpvVBO0OFey0QEgOdilQkDqmK2qB7VjnupDGfLEFB18DWyh130xqI5Tasz5bGpsEiNvkPRIccs3aeGSRg4snpiyJFsE/Z+0qYIa674xE1dgHBlms7M5TdUOIEQvHE3CpO9rqMzK4Qc7/4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791309381; c=relaxed/simple;
-	bh=llVmwYCThXahMFx26Opanh1BZuCYg3gzsCzBC00ZxGw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ufig/035KSGOgpOHudAb9VNMvAW9mnXgv9hCmMBq7jiizc/dlrQEUfuDA2FMsYphR59FinBXu08djjeU3f+WTEjFTAg4qyGbSwAxIeKmuz+uxLRxRJQTwLe9brK3bWDb6LYkYI4h5nDeVYTc0BQBQyZBF0gU+sAv2tuNhYinnck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cIdx0N8v; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1791313050; c=relaxed/simple;
+	bh=NdVVl9VXCLzX3yOqpOXrEwf6/U+FgO7LrGwpZbmOK4g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ly4+VyNAjg9m/Hz3wEyQB9w0VU2UzA/LZ3ex0ibWdrFYC6NwYNU4hirSBu4RtQVQA32gRi5GRgbfLhN5zM9d4Ytxou8mQ7w9zhO+uiyQ8tE3X/OubVlf/p4HF/w6OWsarApC+L8BmyU9DKb8mTHsdkCoNqkWvq/D69mSLa1Sek0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIcaTCmY; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cIdx0N8v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIcaTCmY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791309379; x=1822845379;
+  t=1791313049; x=1822849049;
   h=date:from:to:cc:subject:message-id;
-  bh=llVmwYCThXahMFx26Opanh1BZuCYg3gzsCzBC00ZxGw=;
-  b=cIdx0N8vtwWUnSfrLDX1jSQlCEHHCKbYwJGg9f25ntQUNaPHahesdzW5
-   VshIpI1iekJUq4JacHxYZ6a+yurNU1AUg29hBXNjaE7CFn6uXgCyJ8tKx
-   SoAqO39FYnYa0ZRSryMl+OC+8aRzj0MUonYWbqXDaESnSYqSqxZFwdfdk
-   ikYJ6AGoCeyho3T9Bfe9ilpIkT8FjDtKCc7Mdv+fzw8yI29YJuio51gt5
-   yPhX0WDmJKMq70QOMsdgJURzRkDer8A7tLwMwIwJ/RgjVifP9e3JCOXov
-   BzAAxLf0U1sGYm6y5rSOuCgiYHrI+SKfklytEBAEZHl5zJHHF8JJjxqub
-   w==;
-X-CSE-ConnectionGUID: cT8VZOOdTvmaLgAQVKMuWw==
-X-CSE-MsgGUID: FFEca1ZjS/GhiXKOdPORvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="48613"
+  bh=NdVVl9VXCLzX3yOqpOXrEwf6/U+FgO7LrGwpZbmOK4g=;
+  b=YIcaTCmY87ce+JHJVkCwAXt2i+n4ttKFagNLQyeglgN9Hbs1+Xg+LdR2
+   KHW0Dh7jGsr6jSit7mGHwnymPMS/dTXtLVjwPOX5GZNY9+O9x7mW4eQx0
+   MtEzLz2KE7fX4H1uaUzFTHpmNuX5Iks+XN70Y5f6/cYki3Mdlt9yyGe/Q
+   +ur6x37jhR6xWFcPo3PcEhb6pXVQUw5TczDB01HPz42TC+hTgek//EI1n
+   pvRyHiT2g+UNIkWEArNcN9Hal3lojegpJHU/eOBTApbsVcLyeHTKz6ZsT
+   wMjrSarMaRkJx6Fcyh2kh1jlkWXuiwD+V43bBAQlTOrXnQaK+Hl/pjwkj
+   g==;
+X-CSE-ConnectionGUID: z2N9m3VVQyGoEgVKnX+CDw==
+X-CSE-MsgGUID: +K4HsYF+RkCsXk/KuqqXbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="71140"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="48613"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 10:56:18 -0700
-X-CSE-ConnectionGUID: lfjynqdaQH+PT4fiPxkdpw==
-X-CSE-MsgGUID: m9+7QKZ2RNKFFtcUvsNYkQ==
+   d="scan'208";a="71140"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 11:57:28 -0700
+X-CSE-ConnectionGUID: 6V6rCkzDR/SA29Sbfqd29Q==
+X-CSE-MsgGUID: EtkjYevJQ62/nDabFsvrsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="1238758"
+   d="scan'208";a="273587124"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 06 Oct 2026 10:56:17 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 06 Oct 2026 11:57:27 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xE9Og-000000001aj-2zR9;
-	Tue, 06 Oct 2026 17:56:14 +0000
-Date: Tue, 06 Oct 2026 19:55:49 +0200
+	id 1xEALs-000000001f9-3dLS;
+	Tue, 06 Oct 2026 18:57:24 +0000
+Date: Tue, 06 Oct 2026 20:56:42 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Hao-Yu Yang" <naup96721@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Peter Zijlstra <peterz@infradead.org>,
- Eric Dumazet <edumazet@google.com>
-Subject: mm/mempolicy.c:488:6-25: WARNING: atomic_dec_and_test
- variation before object free at line 496.
-Message-ID: <202610061946.Bx22ZFrw-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.mount.gp_on_demand.proposal 22/29]
+ fs/nullfs.c:57:24: error: implicit declaration of function 'iov_iter_count'
+Message-ID: <202610062038.FvRofPIG-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,46 +60,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   69f80fef3153299d9c72c53d1d71eef6354b6926
-commit: 190a8c48ff623c3d67cb295b4536a660db2012aa futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()
-date:   6 months ago
-config: x86_64-randconfig-2100-20261006 (https://download.01.org/0day-ci/archive/20261006/202610061946.Bx22ZFrw-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://github.com/brauner/linux.git work.mount.gp_on_demand.proposal
+head:   e59665003f3099d261a6dea7420c5b2a7d0ce4c1
+commit: 1a5353e584154c66d8d8c520f0ae4cea9fd18195 [22/29] fixup! nullfs: add an empty immutable regular file
+config: i386-randconfig-2200-20261006 (https://download.01.org/0day-ci/archive/20261006/202610062038.FvRofPIG-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610062038.FvRofPIG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 190a8c48ff62 ("futex: Fix UaF between futex_key_to_node_opt() and vma_replace_policy()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610061946.Bx22ZFrw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610062038.FvRofPIG-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/mempolicy.c:488:6-25: WARNING: atomic_dec_and_test variation before object free at line 496.
+All errors (new ones prefixed by >>):
 
-vim +488 mm/mempolicy.c
+   fs/nullfs.c: In function 'nullfs_file_write_iter':
+>> fs/nullfs.c:57:24: error: implicit declaration of function 'iov_iter_count' [-Werror=implicit-function-declaration]
+      57 |         size_t count = iov_iter_count(from);
+         |                        ^~~~~~~~~~~~~~
+>> fs/nullfs.c:59:9: error: implicit declaration of function 'iov_iter_advance'; did you mean 'bvec_iter_advance'? [-Werror=implicit-function-declaration]
+      59 |         iov_iter_advance(from, count);
+         |         ^~~~~~~~~~~~~~~~
+         |         bvec_iter_advance
+   cc1: some warnings being treated as errors
 
-^1da177e4c3f415 Linus Torvalds   2005-04-16  484  
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  485  /* Slow path of a mpol destructor. */
-c36f6e6dff4d32e Hugh Dickins     2023-10-03  486  void __mpol_put(struct mempolicy *pol)
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  487  {
-c36f6e6dff4d32e Hugh Dickins     2023-10-03 @488  	if (!atomic_dec_and_test(&pol->refcnt))
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  489  		return;
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  490  	/*
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  491  	 * Required to allow mmap_lock_speculative*() access, see for example
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  492  	 * futex_key_to_node_opt(). All accesses are serialized by mmap_lock,
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  493  	 * however the speculative lock section unbound by the normal lock
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  494  	 * boundaries, requiring RCU freeing.
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13  495  	 */
-190a8c48ff623c3 Hao-Yu Yang      2026-03-13 @496  	kfree_rcu(pol, rcu);
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  497  }
-f634f10809ec3d5 Shivank Garg     2025-08-27  498  EXPORT_SYMBOL_FOR_MODULES(__mpol_put, "kvm");
-52cd3b074050dd6 Lee Schermerhorn 2008-04-28  499  
 
-:::::: The code at line 488 was first introduced by commit
-:::::: c36f6e6dff4d32ec8b6da8f553933727a57a7a4a mempolicy trivia: slightly more consistent naming
+vim +/iov_iter_count +57 fs/nullfs.c
 
-:::::: TO: Hugh Dickins <hughd@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    54	
+    55	static ssize_t nullfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+    56	{
+  > 57		size_t count = iov_iter_count(from);
+    58	
+  > 59		iov_iter_advance(from, count);
+    60		return count;
+    61	}
+    62	
 
 --
 0-DAY CI Kernel Test Service
