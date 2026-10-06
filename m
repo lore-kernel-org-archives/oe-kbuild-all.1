@@ -1,168 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A08236453
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 02:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C7A2AD3C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Oct 2026 02:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791253718; cv=none; b=iP+3rbEabKLChanMbm5+HP6KeNfGlo/GVnNDfYoevx1f+5qkYkSj47iqhU3whMLFBrJN2wisQ3IqFggQ350vYUOPaY6odBxsyUtGeT7AAf1y0a2HCd5ygkq8/V4ZJ+VJqNFiRyGF5WIUgR6sF9rE6PaSwldvJT2GTYVWb3bEBaQ=
+	t=1791254437; cv=none; b=lpnkNhaUx1JI6spdUpv+MTUawUihwu45TNrTbWc8MEDDkj/L33l/LN22CIAP1jzrAk35ynDODVdQwVOUn8SOaeByFVlw0aPRpIVODfklxDkJiAzDvWEHVSbp5Mj33CaMGumKK6WoF+Uw6yurMiLb+m7InFSitWhXJehY8DIx1RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791253718; c=relaxed/simple;
-	bh=U+taHVkvcFiGZht8/KeGpMDIXy8+GujWyVT2DZiz5gQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ShCds9RQR+uMvwmfopzvP4I8ToLZYfSLlUffr7Sp/Mn1fSMMU8Ey896z9cLrXC35RhW7XeIF+v00sixdE+WO4NRs+68f0+F6HIfY39yvszeP8BRkLZuaNZJ6T5tsIwx+shz88hA3Czn+LqxnDOSQKtFDjxJzA8wxhS56rVcH1oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kuof16x7; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1791254437; c=relaxed/simple;
+	bh=15R0MoxjwTZvYQUrCXrBeZ1QqDRqwCjB5W8CtW+4xxI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UnrfS4fs35LfwgqFI3WiibZ01M+AY610bgghMS1M3kGcoMPPTseYCPoFmYtirIkIG4p7eUS+0un7g5jzhuR6qQVLpGLxRglrLGGUchpqMgPbUW9BbTjhsYeCznw2+TlkR2wP6NnrI2tF8ZcslhO7rKDtMp+JR64eviqsEZlidfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hff5CUtf; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kuof16x7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hff5CUtf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791253716; x=1822789716;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U+taHVkvcFiGZht8/KeGpMDIXy8+GujWyVT2DZiz5gQ=;
-  b=kuof16x79RObuFNKT5zZ7tY/HI3Wu4yo5hMwwWIUj+Wdg8nRNnlxUeUj
-   JjPhKK35nPAB0PZuyEA44hDwULbxIG0FDv51M68kt8p2ISIr187JT7ZsN
-   /xNVc1IghDEfWu+b3tDbSL8e3FDjv5PmAN9CnlDW5z8Wo7N3F0Tqtb9cm
-   6v8Ood8O9la06VJfHEJFb9XS5xpATZZFAhW/gcucfrjeKrhizlGI3xaOe
-   SV9SUCi3xftFEkTwJM2M5Y7jYrMfcuBaPttqpX+hSjieRfe3kx808Uojk
-   MSGv/OZ7mRxqUPHGUyVizz7MSxzdp8uM+4UKjQL2pwas66y3VrKfo06kM
-   g==;
-X-CSE-ConnectionGUID: qEfaK7cWS7Gf/axIQtTfRA==
-X-CSE-MsgGUID: Ksdj40fpSeiA+Lc0jCFk+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="90996482"
+  t=1791254436; x=1822790436;
+  h=date:from:to:cc:subject:message-id;
+  bh=15R0MoxjwTZvYQUrCXrBeZ1QqDRqwCjB5W8CtW+4xxI=;
+  b=hff5CUtf5UdNgsvME2B81s2x47Utt5XFo5kBbqugzmfioja5pzbK0giT
+   VB/U9JnnkE0utp8JVhy+XlDk4MUZXfqgcqkRTdijlbvKCOzgk40uSbGq4
+   WoZcqj5L4jH/l9aIP9f6fV3xfWCCdF55VUlhmc8CAmiMFDEcMAdO9NWCe
+   VyIUTsD0vk2aUv27oK89iivXLqdlVJUyguheI/1n1PZB2sIcXdBUciHIZ
+   ka4cMinUYueWrQetFg10H+c4YShMuctOHOvhGkEBkHdO6tsQbkrX85QtZ
+   aU00hk9GXqEFEFpY6egvvbxKVJi/G2JqS3n3DseS6AA5aJFpX7E0gZ03j
+   A==;
+X-CSE-ConnectionGUID: m6l/ORSSSaOWclFMA4Vg8Q==
+X-CSE-MsgGUID: latwHOAZSj+yE5Y0DrvAPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="108310578"
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="90996482"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 19:28:36 -0700
-X-CSE-ConnectionGUID: HDeY+mL8SHenPdktxh0rlA==
-X-CSE-MsgGUID: EKTTUCtzTZmbsO2M/v4hSg==
+   d="scan'208";a="108310578"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 19:40:36 -0700
+X-CSE-ConnectionGUID: lqLQaxlzR1yVGx03naBMnA==
+X-CSE-MsgGUID: 6Buk5HqgTgO8jyhUqmCugw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="280726152"
+   d="scan'208";a="274790024"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Oct 2026 19:28:34 -0700
+  by orviesa006.jf.intel.com with ESMTP; 05 Oct 2026 19:40:34 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xDuut-0000000014O-29D3;
-	Tue, 06 Oct 2026 02:28:31 +0000
-Date: Tue, 06 Oct 2026 10:28:20 +0800
+	id 1xDv6W-0000000014m-14as;
+	Tue, 06 Oct 2026 02:40:32 +0000
+Date: Tue, 06 Oct 2026 10:39:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-p3s 10/10]
- =?us-ascii?Q?drivers/accel/habanalabs/goya/../common/../include/hw=5Fip?=
- =?us-ascii?Q?/mmu/mmu=5Fgeneral.h:17:9:?= warning: 'PAGE_SIZE_4KB' macro
- redefined
-Message-ID: <202610061021.0BNey2iw-lkp@intel.com>
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:devel 26/26]
+ drivers/media/i2c/imx576.c:738:20: error: initialization of 'int (*)(struct
+ v4l2_subdev *, const struct v4l2_subdev_client_info *, struct
+ v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer
+ type 'int (*)(struct v4l2_subdev *, stru...
+Message-ID: <202610061019.8ldzc0xf-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-p3s
-head:   691ade648ef6da4e746c0857a492d9b9cc1a5780
-commit: 04fec2a54c421adc87f0b57f4d1ade2397f8f4ec [10/10] ANDROID: P3S: mm: Add per-MM page shift field and query APIs
-config: x86_64-randconfig-1007-20261005 (https://download.01.org/0day-ci/archive/20261006/202610061021.0BNey2iw-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061021.0BNey2iw-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git devel
+head:   d5ffd31776528da0ec4bc883afd056513773566b
+commit: d5ffd31776528da0ec4bc883afd056513773566b [26/26] media: i2c: add imx576 image sensor driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261006/202610061019.8ldzc0xf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261006/202610061019.8ldzc0xf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610061021.0BNey2iw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610061019.8ldzc0xf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/accel/habanalabs/goya/goya_security.c:8:
-   In file included from drivers/accel/habanalabs/goya/goyaP.h:13:
-   In file included from drivers/accel/habanalabs/goya/../common/habanalabs.h:13:
->> drivers/accel/habanalabs/goya/../common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
-      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
-         |         ^
-   include/linux/p3s/const.h:13:9: note: previous definition is here
-      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
-         |         ^
-   1 warning generated.
---
-   In file included from drivers/accel/habanalabs/common/decoder.c:8:
-   In file included from drivers/accel/habanalabs/common/habanalabs.h:13:
->> drivers/accel/habanalabs/common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
-      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
-         |         ^
-   include/linux/p3s/const.h:13:9: note: previous definition is here
-      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
-         |         ^
-   1 warning generated.
---
-   In file included from drivers/accel/habanalabs/common/mmu/mmu_v2.c:8:
-   In file included from drivers/accel/habanalabs/common/mmu/../habanalabs.h:13:
->> drivers/accel/habanalabs/common/mmu/../../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
-      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
-         |         ^
-   include/linux/p3s/const.h:13:9: note: previous definition is here
-      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
-         |         ^
-   1 warning generated.
---
-   In file included from drivers/accel/habanalabs/gaudi/gaudi_security.c:8:
-   In file included from drivers/accel/habanalabs/gaudi/gaudiP.h:12:
-   In file included from drivers/accel/habanalabs/gaudi/../common/habanalabs.h:13:
->> drivers/accel/habanalabs/gaudi/../common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
-      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
-         |         ^
-   include/linux/p3s/const.h:13:9: note: previous definition is here
-      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
-         |         ^
-   1 warning generated.
---
-   In file included from drivers/accel/habanalabs/gaudi2/gaudi2.c:8:
-   In file included from drivers/accel/habanalabs/gaudi2/gaudi2P.h:12:
-   In file included from drivers/accel/habanalabs/gaudi2/../common/habanalabs.h:13:
->> drivers/accel/habanalabs/gaudi2/../common/../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
-      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
-         |         ^
-   include/linux/p3s/const.h:13:9: note: previous definition is here
-      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
-         |         ^
-   1 warning generated.
---
-   In file included from drivers/accel/habanalabs/common/pci/pci.c:8:
-   In file included from drivers/accel/habanalabs/common/pci/../habanalabs.h:13:
->> drivers/accel/habanalabs/common/pci/../../include/hw_ip/mmu/mmu_general.h:17:9: warning: 'PAGE_SIZE_4KB' macro redefined [-Wmacro-redefined]
-      17 | #define PAGE_SIZE_4KB                   _BITUL(PAGE_SHIFT_4KB)
-         |         ^
-   include/linux/p3s/const.h:13:9: note: previous definition is here
-      13 | #define PAGE_SIZE_4KB            (_AC(1, UL) << PAGE_SHIFT_4KB)
-         |         ^
-   1 warning generated.
+>> drivers/media/i2c/imx576.c:738:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
+     738 |         .set_fmt = imx576_set_pad_format,
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/imx576.c:738:20: note: (near initialization for 'imx576_pad_ops.set_fmt')
+   drivers/media/i2c/imx576.c:416:12: note: 'imx576_set_pad_format' declared here
+     416 | static int imx576_set_pad_format(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/i2c/imx576.c:739:26: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' [-Wincompatible-pointer-types]
+     739 |         .get_selection = imx576_get_selection,
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/imx576.c:739:26: note: (near initialization for 'imx576_pad_ops.get_selection')
+   drivers/media/i2c/imx576.c:453:12: note: 'imx576_get_selection' declared here
+     453 | static int imx576_get_selection(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/PAGE_SIZE_4KB +17 drivers/accel/habanalabs/goya/../common/../include/hw_ip/mmu/mmu_general.h
+vim +738 drivers/media/i2c/imx576.c
 
-0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  10  
-0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  11  #define PAGE_SHIFT_4KB			12
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  12  #define PAGE_SHIFT_64KB			16
-0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  13  #define PAGE_SHIFT_2MB			21
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  14  #define PAGE_SHIFT_16MB			24
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  15  #define PAGE_SHIFT_64MB			26
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  16  #define PAGE_SHIFT_1GB			30
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24 @17  #define PAGE_SIZE_4KB			_BITUL(PAGE_SHIFT_4KB)
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  18  #define PAGE_SIZE_64KB			_BITUL(PAGE_SHIFT_64KB)
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  19  #define PAGE_SIZE_2MB			_BITUL(PAGE_SHIFT_2MB)
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  20  #define PAGE_SIZE_16MB			_BITUL(PAGE_SHIFT_16MB)
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  21  #define PAGE_SIZE_64MB			_BITUL(PAGE_SHIFT_64MB)
-01d9ccf8657b549 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Oded Gabbay     2022-06-24  22  #define PAGE_SIZE_1GB			_BITUL(PAGE_SHIFT_1GB)
-0feaf86d4e69507 drivers/misc/habanalabs/include/hw_ip/mmu/mmu_general.h Omer Shpigelman 2019-02-16  23  
-
-:::::: The code at line 17 was first introduced by commit
-:::::: 01d9ccf8657b54960862fb9db4bab5f73c766b47 habanalabs/gaudi2: add asic registers header files
-
-:::::: TO: Oded Gabbay <ogabbay@kernel.org>
-:::::: CC: Oded Gabbay <ogabbay@kernel.org>
+   733	
+   734	static const struct v4l2_subdev_pad_ops imx576_pad_ops = {
+   735		.enum_mbus_code = imx576_enum_mbus_code,
+   736		.enum_frame_size = imx576_enum_frame_size,
+   737		.get_fmt = v4l2_subdev_get_fmt,
+ > 738		.set_fmt = imx576_set_pad_format,
+ > 739		.get_selection = imx576_get_selection,
+   740		.enable_streams = imx576_enable_streams,
+   741		.disable_streams = imx576_disable_streams,
+   742	};
+   743	
 
 --
 0-DAY CI Kernel Test Service
