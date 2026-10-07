@@ -1,108 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135403546F9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 06:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1870739182E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 08:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791356342; cv=none; b=sG4x2Dj2DbqaLLmJ3f39CElbb2Unx7yntZD95V9+Kp7rVC47kFpFYSbm4lYsysmYuUGP6zgIkK1eb6g8D/Va9Zy9xXND37hMYKYYzcfFPQs6laP/w64vctQA8BHbShwazPmCb/UOilDrCUNIGtSfl51P1ttHJ6z5YDDYa+kjxew=
+	t=1791361305; cv=none; b=j4TFS7Njd5xSNRP0w4Z44qEtSE2rMkJlpirbMOP/FMRciaBVsLXzQ1DZeylamWHZpPM48e2BBOtHr0Nq13n+FVE8aEaZoAHxqxQUUD5/PLBz8DJZGotg7XhrM5acuai0+o4XFGNDLnLEPlQiVti/x0Vs4hnPsHfB1/kC6TrwErs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791356342; c=relaxed/simple;
-	bh=2Lds7/Ob1aThi8yOExNVwzE/NalfXr4GJo8n0o9uP4o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MvQoWHLFiBvLOY6oGTKONnxVwZo+u+G72uyPq+E8pO9YZs02dFsAAmwffXVVLcYnlkkLd4JRyZZFW3KvHO66cHahbiR6S4pNzoxR3zKTMMQt7gwtgdQOOlA7UhYq4kK+j5thLPRcKUq+Yna36/FeGMqQInpFPGzqBGuelIyYzhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oo6biCPZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791361305; c=relaxed/simple;
+	bh=PEoe+3fGPCHJosCA2T2WYIDsTIVJOA5Y+hjOzE7m4q4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LsUDUZUlZaYwW89pzzmRxC0LXZY3sTZZ4yiBXznqg+EExKC9TG8Eis/evBVXAISjU5Ho906tv8vNb3E+gsGO3CYFNxuInu592Doyp+Sng1f46iqZ3FgsTscr98nEzlKu/WJu+noTQizt7ejnaVGkNcYRmZcTiMPThvZIB5Q9/jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lw6YjRzR; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oo6biCPZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8011F0089B;
-	Wed,  7 Oct 2026 06:58:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791356340;
-	bh=Srp0V26oO6Yz6Z35THqqv3ibjlC1+VmBTfDNQHvGEAk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=oo6biCPZFQCamWroflRaAgj7sPWmihwlqJGea7Az/UZ7jQnbRbop19DpXRueIeIgB
-	 tF8hKhXkV5X8FKAV6ZZ7LTONArPlQjloyhoLptm9vaiMHleT7V/fm4yqdSwlOueCNu
-	 RVCWHsM6xMBZh3OHKyJnLVU6J6cONfXy2HMqpE8qkibO2sNJlmW8Z0csBA/l5SKFq6
-	 BoJNRcd/uAw74B81LyqqJ7sBsuRqXAgIsTsEzwJcd00hrypvslo4ETzH6XR6sLRB6X
-	 GyxoDhwTvTXCuUO1QHcSpv+miDcWwaK/W5w+3jIa7OGycivq3TFq1tfUqblTSqU+ot
-	 nHTRgXzFok2qg==
-X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>
-Subject: Re: [linux-next:master 8264/14724]
- drivers/firmware/smccc/smccc.c:141:1: error: r7 cannot be used in asm here
-In-Reply-To: <202610070641.B8hxBJcf-lkp@intel.com>
-References: <202610070641.B8hxBJcf-lkp@intel.com>
-Date: Wed, 07 Oct 2026 12:28:54 +0530
-Message-ID: <yq5abj963sk1.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lw6YjRzR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791361304; x=1822897304;
+  h=date:from:to:cc:subject:message-id;
+  bh=PEoe+3fGPCHJosCA2T2WYIDsTIVJOA5Y+hjOzE7m4q4=;
+  b=Lw6YjRzRacudk/q3QCrVchQESeNuWpMrlI3gI8I/0tAODg+qOARQDvD8
+   WjJGY3kR35p/FUqE/wB5ttrcdZoIXVl5rjVhfcLhOl0nULSy5/RbiKZIf
+   V9jWtuQFqkbgRHFgtuSLuPiL8pMO7IxcSTQse8hdaIYB5KlT0Smc5UBOf
+   uaimq3/pqsW0AeEKiSje/hBnu6FnvL8Ohe34h61YjWAWsrjehmaaCx2Qv
+   YEA0YqXQ/9IT2dhjw5ak5jlzBEi7Ai4b0tzHQ43ug+wTVN2j03aAnLz57
+   Og8XfqYV5/boSehncUrVEOx9P46qPEiY/B8aLunFHgSHtS8vUjMd1sery
+   w==;
+X-CSE-ConnectionGUID: IPlR42KQRn+fiV5hMsnw4w==
+X-CSE-MsgGUID: KZ915iDUQLeOTaA/Xlsavw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="123312"
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="123312"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:21:43 -0700
+X-CSE-ConnectionGUID: NYoRdiVzRs+mIsDeAle4UQ==
+X-CSE-MsgGUID: epd+8TIwQV6lnGy18Eiyag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="305365988"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 07 Oct 2026 01:21:42 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xEMuC-000000002l5-2C91;
+	Wed, 07 Oct 2026 08:21:40 +0000
+Date: Wed, 07 Oct 2026 10:21:01 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: ERROR: modpost: drivers/media/i2c/mira016.ko: symbol
+ '__aeabi_uldivmod' undefined!
+Message-ID: <202610071033.6KLbvGsl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-kernel test robot <lkp@intel.com> writes:
+tree:   https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/dt-bindings-media-i2c-Add-Mira016-image-sensor/20260930-125119
+head:   e8dec93c8edef3169a4bfd129a021b31dbf5d018
+commit: e8dec93c8edef3169a4bfd129a021b31dbf5d018 media: i2c: mira016: Add driver for Mira016
+date:   7 days ago
+config: arm-randconfig-r2104-20261007 (https://download.01.org/0day-ci/archive/20261007/202610071033.6KLbvGsl-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project dbeca9a3a3ba0b46471efb339b0ea8f2194f6f68)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610071033.6KLbvGsl-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   eea3fef32a9cf36abcb5975a5a594e4135a6b026
-> commit: d8263a131bb05398faa72ac32be54a03e48fa197 [8264/14724] firmware: hwrng: arm_smccc_trng: Register as an SMCCC device
-> config: arm-randconfig-1001-20261007 (https://download.01.org/0day-ci/archive/20261007/202610070641.B8hxBJcf-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610070641.B8hxBJcf-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610070641.B8hxBJcf-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/firmware/smccc/smccc.c: In function 'smccc_devices_init':
->>> drivers/firmware/smccc/smccc.c:141:1: error: r7 cannot be used in asm here
->     }
->     ^
->>> drivers/firmware/smccc/smccc.c:141:1: error: r7 cannot be used in asm here
->
->
-> vim +141 drivers/firmware/smccc/smccc.c
->
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  122) 
-> b83c2d92be719bf Andre Przywara         2021-07-31  123  static int __init smccc_devices_init(void)
-> b83c2d92be719bf Andre Przywara         2021-07-31  124  {
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  125) 	struct arm_smccc_device *sdev;
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  126) 	const struct smccc_device_info *smccc_dev;
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  127) 
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  128) 	for (int i = 0; i < ARRAY_SIZE(smccc_devices); i++) {
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  129) 		smccc_dev = &smccc_devices[i];
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  130) 
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  131) 		if (!smccc_probe_smccc_device(smccc_dev))
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  132) 			continue;
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  133) 
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  134) 		sdev = arm_smccc_device_register(smccc_dev->device_name, smccc_dev->func_id);
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  135) 		if (IS_ERR(sdev))
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  136) 			pr_err("%s: could not register device: %pe\n",
-> d8263a131bb0539 Aneesh Kumar K.V (Arm  2026-09-23  137) 			       smccc_dev->device_name, sdev);
-> b83c2d92be719bf Andre Przywara         2021-07-31  138  	}
-> b83c2d92be719bf Andre Przywara         2021-07-31  139  
-> b83c2d92be719bf Andre Przywara         2021-07-31  140  	return 0;
-> b83c2d92be719bf Andre Przywara         2021-07-31 @141  }
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610071033.6KLbvGsl-lkp@intel.com/
 
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-This is with:
+>> ERROR: modpost: drivers/media/i2c/mira016.ko: symbol '__aeabi_uldivmod' undefined!
 
-CONFIG_ARM_THUMB=y
-CONFIG_ARM_THUMBEE=y
-
-where there are restrictions on the use of r7. IMHO, this needs to be
-addressed in the implementation of arm_smccc_1_1_invoke(), rather than
-worked around in this patch?
-
--aneesh
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
