@@ -1,61 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B704B515E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 13:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D28039DBCF;
+	Wed,  7 Oct 2026 15:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791379755; cv=none; b=QVb5Q7BJETe3FkHyqwBDT/ihy0xyHFC8ovg7RyO8mfH5pb+SnuRniH+O70DU25fWBskHg/1dOuum1qvkeHbQK1k41m/w7RQ9DqQ9PIF19OX2T8yCF3wupyItiikOaWiYnw1yzv/6N3pA3vZM6DNPeApIHt2sNycrEZPx40/1u74=
+	t=1791388608; cv=none; b=t1UDgtKW4iJyOCQmxkxam9/JnkGZLIR4YclNfZYAF6LhvvxUZOAWLcCxV/OxM8VPcu80BLDdaVhzRnnCxL4ynCi9PFPXaaBIuP/Zfm2lanx3YpiBDM5Om8J1r/Xgwk5Gwi6N3OMGkBsMpRKm+bWFJdPBsyZikV3H1lLno5gc++o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791379755; c=relaxed/simple;
-	bh=HmrYqLlz/iFOT1qIwq+oFd7wxoG3X9eBwkkqkSQqhgo=;
+	s=arc-20240116; t=1791388608; c=relaxed/simple;
+	bh=uyFcj9ADReEAVtSUyJRkd5dhtq4VdKpC1KFH2ysUxJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/dqqG4VHANbR6UkaoT0SHAvSGwc+fn9ECyGoDceEAA7zLFHaCItfZNuBTf7yjnPH/RtV98BlC5ENspAk0/R1kdTYleTftxq3Bi7yVq0hLPhXq5mhZDtmYANbpkR23g7D3HIXa6eS20foZMwzru0/Wy4K6xChJYeUQrsUd4VUg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qv6unbJu; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=r86AgOJGIph4op10SDNOgOYh1xpoReHhWhzxLlp6Svo0m/Jy/b0gbUrYmS/VVBwjNfcva6Vkrc+gDn0Q1o0hauPBH6ZeKPurH3c2+Sw2zhQHaNhrCoJ6L+7K5/PProQhUM25pjNGbWevimS3yrgcMVdLJUHpN3X0aX5U8mdaASU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MVVGJXCQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qv6unbJu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791379737; x=1822915737;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HmrYqLlz/iFOT1qIwq+oFd7wxoG3X9eBwkkqkSQqhgo=;
-  b=Qv6unbJuDlMYyKdqpLvidPAWtyxgBDiJAIZ+EMz4FaYxFN8l0JZFYK9n
-   RUBcTyUzz12UMiRjqDRuIY9Imxws37MF/6Spnzv92cmCLB/iwiuLRjYWV
-   meVF437tRMigh8NC7vfQvuzMMgw9yLTTkwsabZbVGEXMOd52EaJ2ZVryZ
-   ZaL0hQlvVhPQ+U5G7cSR0mYjCmmBXnBCnj+idJ9BcLZwxE9h9w1SUhA5Q
-   WqrFl0xcqEAIbxS2WHkD3+ibwRH1n4PLq46cXc8rdMJyLi/JDNcSi+1F0
-   NjGN0x/XOTR8CpejBZCuvdyX78MGOc6GM6YtpsANhV15tBHH5v+IubqOY
-   A==;
-X-CSE-ConnectionGUID: 7TgetX6qTqShW17vslQ5pA==
-X-CSE-MsgGUID: T/rTKszMSN69RJXD8PAeHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="22919"
-X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="22919"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 06:28:34 -0700
-X-CSE-ConnectionGUID: PvxnDQ/bQe+MNMIKDrBmYg==
-X-CSE-MsgGUID: s5qIULmlTNGOtPi87J9xkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="281200455"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Oct 2026 06:28:33 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xERh8-0000000031o-0Abr;
-	Wed, 07 Oct 2026 13:28:30 +0000
-Date: Wed, 7 Oct 2026 21:28:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nikolai Semendiaev <agent00791@gmail.com>, ath12k@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	jjohnson@kernel.org, wabsie@gmail.com
-Subject: Re: [PATCH 2/2] wifi: ath12k: use private page-frag caches for RXDMA
- rings
-Message-ID: <202610072103.1v2wWX3z-lkp@intel.com>
-References: <7bb1b30324eea87b53a8c585566842a1a0ec7d06.1791279304.git.agent00791@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVVGJXCQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16CE91F000FF;
+	Wed,  7 Oct 2026 15:56:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791388607;
+	bh=yMhRXbcaDeB4n2+mH5Jk5sbZU+IqnTVA1slEIulptiU=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=MVVGJXCQWWbY9TfcSpCe7rr88tctc9aZgvrOvRTdvunYHodclahwQdfCooID67JEs
+	 gHnlYWr4Kyzg8SMgTn8+DSyIcCibBPS0MGjG5sttwOCg038edkQh1ouIvfgrj73P3F
+	 /mI96/EDR+Tu+ZbwYBlNH8MXltrAaHPPp9PEBv23odVUzHxC71IQ+9Pjnl1zwVz2hi
+	 liHGcNdZ5GGQ3zVav9ABzBmf84qaGQDzAlCT2vzoN8kWnyuR0O3TAv8sRhRSfzUylW
+	 rbylcb7H8kQWvEco+ck2W/N2zYDGvuhtvHIsX1hAQOLos01O3EVgNFO/VoU5sH+UCF
+	 SEspg0zFpN+2w==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id D045ACE0D79; Wed,  7 Oct 2026 08:56:46 -0700 (PDT)
+Date: Wed, 7 Oct 2026 08:56:46 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Bradley Morgan <brads@mainlining.org>, akpm@linux-foundation.org,
+	guoren@kernel.org, chris@zankel.net, jcmvbkbc@gmail.com,
+	oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
+	david.laight.linux@gmail.com, glaubitz@physik.fu-berlin.de,
+	ysato@users.sourceforge.jp, dalias@libc.org,
+	linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
+Message-ID: <5937c722-ccc7-4f03-b4a6-bf357f2f3757@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20261005120700.383058-4-brads@mainlining.org>
+ <202610061704.rvbolgPy-lkp@intel.com>
+ <82aad69a-603c-41cd-876d-09772a1a7e6a@paulmck-laptop>
+ <a8bc1396-fa38-4648-89c4-ac528fc1888b@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,53 +54,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7bb1b30324eea87b53a8c585566842a1a0ec7d06.1791279304.git.agent00791@gmail.com>
+In-Reply-To: <a8bc1396-fa38-4648-89c4-ac528fc1888b@kernel.org>
 
-Hi Nikolai,
+On Wed, Oct 07, 2026 at 10:24:28AM +0200, Vineet Gupta wrote:
+> On 10/6/26 17:44, Paul E. McKenney wrote:
+> > These patches need to be applied on top of my -rcu tree's "dev" branch,
+> > which supplies cmpxchg_emu_u16().
+> > 
+> > Nevertheless, thank you for your testing efforts!
+> 
+> Sorry I don't have your tree is my git remotes. can u point me to the msg id
+> of the series which was applied so i can fetch it and apply.
+> At this point I can't ACK/Nack the patch since w/o the pre-req it just fails
+> to build locally exactly as the kernel robot found.
 
-kernel test robot noticed the following build errors:
+I will resend the full series later today, Pacific Time.  In the meantime,
+these commits in my -rcu tree [1] on the "dev" branch in "git log" order:
 
-[auto build test ERROR on 388d3c42e8aba1cfc3c6d2c52877a46d8cf740db]
+a29bf4d6dc4f3 xtensa: Emulate two-byte cmpxchg
+10d67fa61f9f4 csky: Emulate two-byte cmpxchg
+1decb1d05ef2e ARC: Emulate two-byte cmpxchg
+887685c52e44c sh: Emulate two-byte cmpxchg
+109f733202e32 lib: Add two-byte cmpxchg emulation function
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikolai-Semendiaev/wifi-ath12k-make-external-IRQ-control-idempotent/20261006-154146
-base:   388d3c42e8aba1cfc3c6d2c52877a46d8cf740db
-patch link:    https://lore.kernel.org/r/7bb1b30324eea87b53a8c585566842a1a0ec7d06.1791279304.git.agent00791%40gmail.com
-patch subject: [PATCH 2/2] wifi: ath12k: use private page-frag caches for RXDMA rings
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20261007/202610072103.1v2wWX3z-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610072103.1v2wWX3z-lkp@intel.com/reproduce)
+							Thanx, Paul
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610072103.1v2wWX3z-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/wireless/ath/ath12k/dp.c:7:
-   include/linux/page_frag_cache.h: In function 'page_frag_alloc_align':
->> include/linux/page_frag_cache.h:49:9: error: implicit declaration of function 'WARN_ON_ONCE' [-Wimplicit-function-declaration]
-      49 |         WARN_ON_ONCE(!is_power_of_2(align));
-         |         ^~~~~~~~~~~~
-
-
-vim +/WARN_ON_ONCE +49 include/linux/page_frag_cache.h
-
-3d18dfe69ce46f Yunsheng Lin 2024-10-28  39  
-65941f10caf2c0 Yunsheng Lin 2024-10-28  40  void page_frag_cache_drain(struct page_frag_cache *nc);
-65941f10caf2c0 Yunsheng Lin 2024-10-28  41  void __page_frag_cache_drain(struct page *page, unsigned int count);
-65941f10caf2c0 Yunsheng Lin 2024-10-28  42  void *__page_frag_alloc_align(struct page_frag_cache *nc, unsigned int fragsz,
-65941f10caf2c0 Yunsheng Lin 2024-10-28  43  			      gfp_t gfp_mask, unsigned int align_mask);
-65941f10caf2c0 Yunsheng Lin 2024-10-28  44  
-65941f10caf2c0 Yunsheng Lin 2024-10-28  45  static inline void *page_frag_alloc_align(struct page_frag_cache *nc,
-65941f10caf2c0 Yunsheng Lin 2024-10-28  46  					  unsigned int fragsz, gfp_t gfp_mask,
-65941f10caf2c0 Yunsheng Lin 2024-10-28  47  					  unsigned int align)
-65941f10caf2c0 Yunsheng Lin 2024-10-28  48  {
-65941f10caf2c0 Yunsheng Lin 2024-10-28 @49  	WARN_ON_ONCE(!is_power_of_2(align));
-65941f10caf2c0 Yunsheng Lin 2024-10-28  50  	return __page_frag_alloc_align(nc, fragsz, gfp_mask, -align);
-65941f10caf2c0 Yunsheng Lin 2024-10-28  51  }
-65941f10caf2c0 Yunsheng Lin 2024-10-28  52  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1]  git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
