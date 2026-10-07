@@ -1,57 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672294192F9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 22:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7ED3B6C16
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 22:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791413384; cv=none; b=i/V8fehZpkEcCgEr4fXdisQwOoAYRiMoD39NBKsqsRaAOmj6A4H1vIy6LzxlVBEJ4+czmsYHbbBXcbXjpg3o7/kSqQY5IAmz6JG57TcQ6EeK4NtQ3i3QH9rPisn8XPZZpQ/BHNXDyiF0sUdcOahxmeithxFjBUxV6Ewmz9Wfpl0=
+	t=1791413985; cv=none; b=hhjtNDvJQ4cVCDgQDJgJtxjTe2cjJTX+gc26NREI0p5zGVU3KcAe1FOlp18X9GKE/8evUPtQvYYHLkssIl8bx1up3zZTESb+Ciy4iuXU//p7Ihw8RNSP2m9O/lcLvMJ5CccWNreo7iG5Wid+pI68FU5ej/Ql2RK8hi74pVRH+8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791413384; c=relaxed/simple;
-	bh=Fss9O1iJo2k1dvwy+K86Xw2YSuYvdQZFrYfKz+dLTVU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=txOtiZAdGK+4rOpcnAvFBWTIParLT3ms7z89v5ELPsiGs5UiI+6W5OMTIgC3GkQ80yzzzACvkCpFpK6tUSHAS5DSdf0CQ0bqTOvVsjRUap49od4L7YN2/srpbT4wraJa+3r3qe2QBYWVg+yn+ne+C6eweyoSp/i2CjA/6Sxadj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lX5nMMb/; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1791413985; c=relaxed/simple;
+	bh=KcgdW8Ymou+cnYDJZ8kTaOBfDPR7jywHPu5lecoNAiI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=B/4F3xnMpbHVLwh884V8UicYelbwm9Dy3oqnZBAxlsJQqbBR57OxKCvRm4+mogS2NRnNRhCIXpvHjjBZWziE0zcqtdioMftqCdwE4PvX4JEo9UarYsClJyJxSSQwnoIxhU0fRLZ1YX0zmNidh7F3jv9rpJzf+aYK++r7/Amijkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9+CjQhg; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lX5nMMb/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9+CjQhg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791413382; x=1822949382;
+  t=1791413984; x=1822949984;
   h=date:from:to:cc:subject:message-id;
-  bh=Fss9O1iJo2k1dvwy+K86Xw2YSuYvdQZFrYfKz+dLTVU=;
-  b=lX5nMMb/nYEMPnQcSfcluLo/iR25GA1HFywbcYiOv4KuGtPQLqC/qGMS
-   JpX0psHpbnSza9Yf2cw0ihK3H+4FaRsUTOV/zHigh2L5E9zgz+HXqm5di
-   6Lyz1ShIs2jrEjG4BzLCuwqbgp9gpeM43nn1TQ/zVNx2Bmvs0pGrTg41R
-   VL/FxLm0yc+kGEsE1kvmU/trCYQKtsrLLjWlGcnWh6CIZuayaXbYA0IsL
-   TKuId01RRyH4rp8AH2akh8BVYngwb3Yhm5TNy8i3mFGUANWVMSzmolA9f
-   dhrNrPg36NBLL0f9Y+0mt8vuR2OL1v5qVAfPm+bdNn6U483ZlCLXORLJK
-   A==;
-X-CSE-ConnectionGUID: mq58M6+OSCO+62Sf13WCgA==
-X-CSE-MsgGUID: 6CxX+N6JQlGG21F8kiVMIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="296968"
+  bh=KcgdW8Ymou+cnYDJZ8kTaOBfDPR7jywHPu5lecoNAiI=;
+  b=P9+CjQhg43UOl3d3OP7ar0tmhHyyUgYy74AscYZ5HJZN5Ky5SFFzwPk7
+   3XrUG5ri4bbRCsJjKY+HqNI3X+as7HM1ajEsJCPMJvAoaDu462uoqL6IW
+   LYJkD/CA/2JkjrBClh1ooEx8kPArxqBcq/jA3ck72nCfVmcp+6T9W9Lrc
+   Vq0ympfw1yHGDP0rWfM09vPfprQJ00guqFZc6LbFIS0T1wo8g4IF6OkOi
+   +sqSUOhZ4P1EWk8m0WB3F6yoEnPM/O3G/z4vklbeLs9zd88+ejgN8vMye
+   hNg64R7IWm5qgoqlHyjEscMTRPU0l0WXUMdLc3jtVu57VJ1n8kdevKnDu
+   Q==;
+X-CSE-ConnectionGUID: kKSrNaeLT5m4RvHl36ULlg==
+X-CSE-MsgGUID: xE2wUaGASRW7VNd8sa9+jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="297500"
 X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
-   d="scan'208";a="296968"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 15:49:42 -0700
-X-CSE-ConnectionGUID: L9+aKnaVRpygoRgwHCN0mQ==
-X-CSE-MsgGUID: EChRErJETs+p90TBrYaC1A==
+   d="scan'208";a="297500"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 15:59:43 -0700
+X-CSE-ConnectionGUID: i7TyAtWVTS6k8jdjKm/p4Q==
+X-CSE-MsgGUID: M13/o/euQh+TK6/UrC6d0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
-   d="scan'208";a="285511510"
+   d="scan'208";a="1667944"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Oct 2026 15:49:40 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 07 Oct 2026 15:59:41 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEaSA-000000004DJ-2ryT;
-	Wed, 07 Oct 2026 22:49:38 +0000
-Date: Thu, 08 Oct 2026 00:48:53 +0200
+	id 1xEabr-000000004Eb-2U7o;
+	Wed, 07 Oct 2026 22:59:39 +0000
+Date: Thu, 08 Oct 2026 00:59:25 +0200
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:mlp 58/59] fs/eventpoll.c:2166:undefined
- reference to `sock_from_file'
-Message-ID: <202610080055.22iqebug-lkp@intel.com>
+To: Miaohe Lin <linmiaohe@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: include/linux/compiler_types.h:572:45: error: call to
+ '__compiletime_assert_431' declared with attribute error: BUILD_BUG_ON
+ failed: IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT)
+Message-ID: <202610080034.W7eXW61r-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,66 +62,73 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/kkdwivedi/linux mlp
-head:   cb749145988a07c430f0cc8004d3d40b4227fe1f
-commit: 54493c2a59093e36a0f02fec2073203cd83bfb10 [58/59] epoll: Prefetch the ready items' files, sockets and socks ahead of delivery
-config: powerpc-randconfig-r2104-20261007 (https://download.01.org/0day-ci/archive/20261008/202610080055.22iqebug-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610080055.22iqebug-lkp@intel.com/reproduce)
+Hi Miaohe,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7b63ef2d55f24519e7e9e5f4d15dbea03f126e40
+commit: c090868f59ce888db838cf543d18f731d13ed498 Revert "hugetlb: make hugetlb depends on SYSFS or SYSCTL"
+date:   1 year, 1 month ago
+config: mips-randconfig-r2301-20261007 (https://download.01.org/0day-ci/archive/20261008/202610080034.W7eXW61r-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.4.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610080034.W7eXW61r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: c090868f59ce ("Revert "hugetlb: make hugetlb depends on SYSFS or SYSCTL"")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610080055.22iqebug-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610080034.W7eXW61r-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: fs/eventpoll.o: in function `ep_send_lookahead_step':
->> fs/eventpoll.c:2166:(.text+0xebc): undefined reference to `sock_from_file'
+   In file included from <command-line>:
+   arch/mips/mm/init.c: In function 'arch_mm_preinit':
+>> include/linux/compiler_types.h:572:45: error: call to '__compiletime_assert_431' declared with attribute error: BUILD_BUG_ON failed: IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT)
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:553:25: note: in definition of macro '__compiletime_assert'
+     553 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:572:9: note: in expansion of macro '_compiletime_assert'
+     572 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/mips/mm/init.c:434:9: note: in expansion of macro 'BUILD_BUG_ON'
+     434 |         BUILD_BUG_ON(IS_ENABLED(CONFIG_32BIT) && (PFN_PTE_SHIFT > PAGE_SHIFT));
+         |         ^~~~~~~~~~~~
 
 
-vim +2166 fs/eventpoll.c
+vim +/__compiletime_assert_431 +572 include/linux/compiler_types.h
 
-  2141	
-  2142	static void ep_send_lookahead_step(struct ep_send_lookahead *la,
-  2143					   const struct list_head *head)
-  2144	{
-  2145		struct epitem *next;
-  2146		struct sock *sk;
-  2147	
-  2148		if (la->sock) {
-  2149			sk = READ_ONCE(la->sock->sk);
-  2150			if (sk) {
-  2151				/* what sock_poll and tcp_poll read: the state and
-  2152				 * error, the receive queue and sequence numbers, the
-  2153				 * wait queue, the send space
-  2154				 */
-  2155				prefetch(sk);
-  2156				prefetch(&sk->__cacheline_group_begin__sock_write_rx);
-  2157				prefetch(&sk->__cacheline_group_begin__sock_read_rx);
-  2158				prefetch(&sk->__cacheline_group_begin__sock_write_rxtx);
-  2159				prefetch(&sk->__cacheline_group_begin__sock_write_tx);
-  2160				prefetch(&sk->__cacheline_group_begin__sock_read_tx);
-  2161				prefetch(&tcp_sk(sk)->rcv_nxt);
-  2162			}
-  2163			la->sock = NULL;
-  2164		}
-  2165		if (la->file) {
-> 2166			la->sock = sock_from_file(la->file);
-  2167			if (la->sock)
-  2168				prefetch(la->sock);
-  2169			la->file = NULL;
-  2170		}
-  2171		if (la->item) {
-  2172			la->file = la->item->ffd.file;
-  2173			prefetch(la->file);
-  2174			next = list_next_entry(la->item, rdllink);
-  2175			la->item = &next->rdllink != head ? next : NULL;
-  2176			if (la->item)
-  2177				prefetch(la->item);
-  2178		}
-  2179	}
-  2180	
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  558  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  559  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  560  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  561  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  562  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  563   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  564   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  565   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  566   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  567   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  568   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  569   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  570   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  571  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @572  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  573  
+
+:::::: The code at line 572 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
