@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A23623394D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 01:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8F072602
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 01:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791336306; cv=none; b=foo6UKrK6Wi1RdoQjbQe8F3EmiXP+NmgEY3HUBBh4u1wc4M4KrgNNu9x5UOhUiuCi6gtZtqQsEeWWV5u1NQ69NqhIHQ14BBHHOIRaQgCu1YA1OP1U8q6+5KkuX/mv2BW8qGUxJVfwzaoVLMN1lYyCYrTFMNU4uo8IPtSpsYO05c=
+	t=1791338182; cv=none; b=GbXcj5VelsyecXycglZ0BBSA66gMuECfh1Hwm3id4VUoPjMbW87ZZWm9KNZ5EBzOxSEh/2NgwZLuoh1iPQz444ggKchXbxc5CnTcbLnPaO/PdEboMsMECEd/4ix4RD6J1nuxPVfklZBiKgZJ1+84aTnr/i/wCl+UUTgSP3kyf7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791336306; c=relaxed/simple;
-	bh=1A2Etz7BPut/LXEdZangJN8k5m1Zz5tSMUYAENsq9/c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EDov8JstoJwjvN8/SE107pCeoFcySTH3eTv+n8zOqOJVyrmT6cRZSrrREMNfjtR/0+x9k+ZyVdDwHwKImSj/Isua6dgAceTNBYwmWYCdz4A7XbBTtmJcSmddtVbonVhGxdcBfIB6jebT/TmD/5JnssFKAbsoguOytEooPskfQ4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NXohL/Pb; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1791338182; c=relaxed/simple;
+	bh=1vEjXeQHX5MRCYVwccV9XlLHh52/YriK1f4K9Fl6ADw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ci4U3M6igzFtpCFjWICFJTrW83sW4WcteGbjURCy2H/dEJd8MMOWJydzj6eSDP9fPFT2RKj0GlpPIWJ3Sl4IfSJ7Ch1gjQZIUkYfiEGnUVXu35jaOoG9sESf9CGiGGEYlciQNC0Ge+n+JVzaz7E5rDTrb9ZBJ3s7/yISf0I21A8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbipaJ/M; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NXohL/Pb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dbipaJ/M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791336305; x=1822872305;
+  t=1791338180; x=1822874180;
   h=date:from:to:cc:subject:message-id;
-  bh=1A2Etz7BPut/LXEdZangJN8k5m1Zz5tSMUYAENsq9/c=;
-  b=NXohL/Pb2uW+zqZd5CVC9DPS19vmuh54+RjNTnLzXYezFLYDZJVqnQEq
-   iT3agOaHQMR+Gbjrba8kIBcAEqQrdKDo74U9zRWA4Zp9PGLmg/FM5LYE+
-   VUZh6O6FmFDG3LLSLygS44iudwI2OMrEN0CD68xtHtW/AcZo2ezwiWR/6
-   juhpNkYkT31Roe4Qs2xBkWDtC87LvjsFZlTNjkFjvuyjG6IiYsc75fQwM
-   +2DMSZG8tn6Zuj0bLiZgF1ddZ1E8eQjJjY0uzF4rIvgDvTEIR64ZeZQww
-   WdZax5Z+2dA3W7OjPuvZsuNp4Bc0lX7dVG3kEcPY00OVMZ8icfX0m5In/
-   A==;
-X-CSE-ConnectionGUID: pYhnYOCbQDy2L0m/FuhgXA==
-X-CSE-MsgGUID: 043V78umQtSGtWLh+jggZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="81649"
+  bh=1vEjXeQHX5MRCYVwccV9XlLHh52/YriK1f4K9Fl6ADw=;
+  b=dbipaJ/MidtnqXkCWeBD0bJNP5ofgjHhu/9jYNHJS+ER80r7rKlgp7K9
+   swtyiZVSH5EavoS0B8uAGPiOhOJ3+pttBkwLFqDF0d2oVM3aSsyV/HZJG
+   JHRRxWuJLR/Y6giRPWb2HFVWgHLB80FQ4oiWy87m9PRGXtRtAxzwFLnoc
+   7+th7O07Gmj2XW+E3WppwKDWTMkp8KJC0S24H5c7XOOZ7ANb1tbjMiCGV
+   uhP1BxKXdT1fArDlQGH8zeDy/86W0z0un8icQb3SiyUGHy02qUY9LkUR+
+   3vFnQMbTmTqx+L6MTqHSjrm9hHreYJMZwFwUqnSPKceJrUSD191BH9GB5
+   Q==;
+X-CSE-ConnectionGUID: 3FVHq5RETAOsQyG7JSbPHg==
+X-CSE-MsgGUID: GEchZytfTyaekr7l0s9tvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="102620129"
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="81649"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 18:25:05 -0700
-X-CSE-ConnectionGUID: K18V2Hd5TyqbIugfb0H3Ww==
-X-CSE-MsgGUID: LKBMjLuCRQeUNAFAZruVgg==
+   d="scan'208";a="102620129"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 18:56:14 -0700
+X-CSE-ConnectionGUID: rSpuvyWqQhudtdqjYavS/w==
+X-CSE-MsgGUID: N5k+a49eTkC0WlvgHdMgDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="275954779"
+   d="scan'208";a="315336232"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Oct 2026 18:25:02 -0700
+  by orviesa001.jf.intel.com with ESMTP; 06 Oct 2026 18:56:12 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEGOy-000000002Df-0P5s;
-	Wed, 07 Oct 2026 01:25:00 +0000
-Date: Wed, 07 Oct 2026 03:24:30 +0200
+	id 1xEGt7-000000002HH-3BsE;
+	Wed, 07 Oct 2026 01:56:09 +0000
+Date: Wed, 07 Oct 2026 03:55:12 +0200
 From: kernel test robot <lkp@intel.com>
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+To: Christian Brauner <brauner@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: [linux-next:master 9354/14724]
- include/linux/compiler_types.h:702:38: error: call to
- '__compiletime_assert_545' declared with attribute error: FIELD_MODIFY: value
- too large for the field
-Message-ID: <202610070334.bYvBJSpj-lkp@intel.com>
+ Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.mount.gp_on_demand.proposal 22/29]
+ fs/nullfs.c:57:17: error: call to undeclared function 'iov_iter_count'; ISO
+ C99 and later do not support implicit function declarations
+Message-ID: <202610070352.WxyULQzi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,106 +61,61 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   eea3fef32a9cf36abcb5975a5a594e4135a6b026
-commit: 86f80884fb7f4601a49444a3c36df894b218336e [9354/14724] drm/msm/a6xx: Clamp MX dependency vote
-config: sparc-randconfig-r2303-20261006 (https://download.01.org/0day-ci/archive/20261007/202610070334.bYvBJSpj-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
+tree:   https://github.com/brauner/linux.git work.mount.gp_on_demand.proposal
+head:   e59665003f3099d261a6dea7420c5b2a7d0ce4c1
+commit: 1a5353e584154c66d8d8c520f0ae4cea9fd18195 [22/29] fixup! nullfs: add an empty immutable regular file
+config: um-randconfig-r2309-20261006 (https://download.01.org/0day-ci/archive/20261007/202610070352.WxyULQzi-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
 sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610070334.bYvBJSpj-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610070352.WxyULQzi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610070334.bYvBJSpj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610070352.WxyULQzi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function 'a6xx_gmu_rpmh_dep_votes_init',
-       inlined from 'a6xx_gmu_rpmh_votes_init' at drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1892:9,
-       inlined from 'a6xx_gmu_pwrlevels_probe' at drivers/gpu/drm/msm/adreno/a6xx_gmu.c:2010:9,
-       inlined from 'a6xx_gmu_init' at drivers/gpu/drm/msm/adreno/a6xx_gmu.c:2488:2:
->> include/linux/compiler_types.h:702:38: error: call to '__compiletime_assert_545' declared with attribute error: FIELD_MODIFY: value too large for the field
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:683:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:70:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?  \
-      ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:85:3: note: in expansion of macro '__BF_FIELD_CHECK_MASK'
-      __BF_FIELD_CHECK_MASK(mask, val, pfx);   \
-      ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:209:3: note: in expansion of macro '__BF_FIELD_CHECK'
-      __BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");  \
-      ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1857:3: note: in expansion of macro 'FIELD_MODIFY'
-      FIELD_MODIFY(GMU_BX_MASK, &votes[i], bx);
-      ^~~~~~~~~~~~
---
-   In file included from <command-line>:
-   In function 'a6xx_gmu_rpmh_dep_votes_init',
-       inlined from 'a6xx_gmu_rpmh_votes_init' at adreno/a6xx_gmu.c:1892:9,
-       inlined from 'a6xx_gmu_pwrlevels_probe' at adreno/a6xx_gmu.c:2010:9,
-       inlined from 'a6xx_gmu_init' at adreno/a6xx_gmu.c:2488:2:
->> include/linux/compiler_types.h:702:38: error: call to '__compiletime_assert_545' declared with attribute error: FIELD_MODIFY: value too large for the field
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-                                         ^
-   include/linux/compiler_types.h:683:4: note: in definition of macro '__compiletime_assert'
-       prefix ## suffix();    \
-       ^~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                        ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:70:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?  \
-      ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:85:3: note: in expansion of macro '__BF_FIELD_CHECK_MASK'
-      __BF_FIELD_CHECK_MASK(mask, val, pfx);   \
-      ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:209:3: note: in expansion of macro '__BF_FIELD_CHECK'
-      __BF_FIELD_CHECK(_mask, *(_reg_p), _val, "FIELD_MODIFY: ");  \
-      ^~~~~~~~~~~~~~~~
-   adreno/a6xx_gmu.c:1857:3: note: in expansion of macro 'FIELD_MODIFY'
-      FIELD_MODIFY(GMU_BX_MASK, &votes[i], bx);
-      ^~~~~~~~~~~~
+   In file included from fs/nullfs.c:4:
+   In file included from include/linux/fs_context.h:14:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:33:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:27:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> fs/nullfs.c:57:17: error: call to undeclared function 'iov_iter_count'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      57 |         size_t count = iov_iter_count(from);
+         |                        ^
+>> fs/nullfs.c:59:2: error: call to undeclared function 'iov_iter_advance'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      59 |         iov_iter_advance(from, count);
+         |         ^
+   fs/nullfs.c:59:2: note: did you mean 'bvec_iter_advance'?
+   include/linux/bvec.h:195:20: note: 'bvec_iter_advance' declared here
+     195 | static inline bool bvec_iter_advance(const struct bio_vec *bv,
+         |                    ^
+   1 warning and 2 errors generated.
 
 
-vim +/__compiletime_assert_545 +702 include/linux/compiler_types.h
+vim +/iov_iter_count +57 fs/nullfs.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  691  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  703  
-
-:::::: The code at line 702 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+    54	
+    55	static ssize_t nullfs_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+    56	{
+  > 57		size_t count = iov_iter_count(from);
+    58	
+  > 59		iov_iter_advance(from, count);
+    60		return count;
+    61	}
+    62	
 
 --
 0-DAY CI Kernel Test Service
