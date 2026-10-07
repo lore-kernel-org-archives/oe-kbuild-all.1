@@ -1,246 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738B32D9797
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 16:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87FE48F82C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 16:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791390524; cv=none; b=JUZLPqC0eDCuWo/+DmGqoZL5VH3w/0eeJd3xF/uS/s8rU/ZDp1ekryuxJ5LjoRhHN4lH4A+MDWnFTYLpyC/r5sutH3YAuUTAme3x2NvLB/fZ19g7rDVsycnc9hv/zNva6XVHNCMMOM8jeRv97/RH31U+irc6xzy5g8cjZHJdRhU=
+	t=1791391103; cv=none; b=ZVczPKHW5bsnlK+dbkjxlfTbddkijAtRrWOvqag5uu1qLPaNuGExY1vrva7QrNf+6CULEOpWPXjAXQ4IrNeiW+DqLJ5HFU0zPGUDz+LKvbEXBSTVC0qnd745//u4E7BxGEH3yqJvGg+d1AlQ7kgzNXIcuu2yI9EqaoIcQgcwVKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791390524; c=relaxed/simple;
-	bh=l8kuny9omrWI9xxP8jnsne7GjH238Dm4A9+wVXcmnhM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HKn2kqPPa2Z/f27e0+foC28MtZCxOvcJYybSf6AdxQRj8YlGpayfvb+HtpGvHRQWNzxC7oQrXS+xOvbYA5e/yh9uP4tP18w27c5l7KG1ExH7yduBPTyZUkFuq5NVDpxdsJnKLWutxtLZemfzAeNRnDTj8AieDJVCG1023FmthaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMOy83Xw; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791391103; c=relaxed/simple;
+	bh=rt+DI0Zaj7t1gLzFkXpDITiac40k4MGIO8meOBYmFCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FkP7yUos9Fhl6rmiMQMHaAu9wUfnZqHJuKYFkZUbOE2liiYghr9Wki0SIwx0jqQCJFUMwdjivS8uOzCMQGm7q4ct/XmJKkZftYRB4hkqPNMY3Kn4rMmsJu2PEEz0LjY1iqBBgUfDrEiLkCTT2xUNL1U5GUcLUyvm/e0ji6o3DGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UkFfAXte; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMOy83Xw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791390524; x=1822926524;
-  h=date:from:to:cc:subject:message-id;
-  bh=l8kuny9omrWI9xxP8jnsne7GjH238Dm4A9+wVXcmnhM=;
-  b=NMOy83XwavW+ODbB6rMs4jasSvy1PJn1EZdVB7qQ1J4fGkaHdrVg+kHc
-   aQUn/SQSj0OoqF7xygxvYaNlh+m1d/6Kk1mlthVixUu1JIcMDL7HwdPjm
-   iLcSq15qRim0Fh/9fCoCa9DU5CO+EkP6S6pxnG/U7UzPEyEDycBUj4J/u
-   1wfud2b/k2fMgY9jw45QCcD3M2+4vTY2VmLi/Z5RL7V2kils5sERh4Xgx
-   m6fIHMKMZ0/DNP1zHCrWle+fm2TAPbH/MbqzWV4/REWd76XmDG8vlmjWf
-   3Ye0EPeqQcRg58eg3zsv2LlBcWpDs2jPFr1qRA6RPeCZhMI9XZk64seoU
-   Q==;
-X-CSE-ConnectionGUID: h8VgkxZgT0+WuDZ8nymgmg==
-X-CSE-MsgGUID: ghLKpwHyRKGpo+J+FT5iaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="45572"
-X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="45572"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 09:28:36 -0700
-X-CSE-ConnectionGUID: i8OyYD8SQ8qYz/kTsbq1Gg==
-X-CSE-MsgGUID: T1WSeR9yShu/U0yMSkz/Dw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="306954121"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 07 Oct 2026 09:28:35 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xEUVM-000000003cZ-0WP8;
-	Wed, 07 Oct 2026 16:28:32 +0000
-Date: Wed, 07 Oct 2026 18:28:28 +0200
-From: kernel test robot <lkp@intel.com>
-To: Boqun Feng <boqun@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [boqun:rcu-box 3/3] Diff in
- rust/kernel/alloc/allocator.rs:131:
-Message-ID: <202610071800.kpHKZ3sT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UkFfAXte"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j0Jhn135gzKnYC;
+	Wed, 07 Oct 2026 18:38:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1791391097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2Ezflyex2QCq4IDhV46iLXvD5SXyLtu7Un9mXAhjKQE=;
+	b=UkFfAXtexXMe4siEWkyoHJ7MLt9nnrmneb00G00NlXzSKyG2mdf+UNnktckKGk2nPnUkki
+	ueDkpfo5Yq1KIJJq7XvES43wbpRTJOFu57yqBFD4LUn3Uofvxo/kEj3P07j9/axs+NKdwv
+	CxUfTARcVHCHVOMSj7gnaFOEWz+UOxUlgM0ZTBjbV59KzB1vG1UVFJkvjVf8FIte5lgjYd
+	jRVVoTd2irs6lA9k09ObJEmN8vp9J5joXIGZmHwK8MG3tuzF2dzXF0tnpXF37HRDV2SWZ2
+	KqH91ITWRUWJvrK0lSp9YBxYVeHbhsx5vUzZzElveAvuHNYEMjjg/0dVg7AsDQ==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kbuild@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	linux-debuggers@vger.kernel.org,
+	tools@linux.kernel.org,
+	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Nicolas Schier <n.schier@fritz.com>
+Subject: [PATCH RFC] changes.rst: introduce 'Required for'-column
+Date: Wed,  7 Oct 2026 18:37:37 +0200
+Message-ID: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: dddea4e6f5fbbada107
+X-MBO-RS-META: rx4z7z4tgdgubcmsyy11wmkig53ae4fe
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rcu-box
-head:   f1c075753df152d44131ae64530e23ec3193aa60
-commit: f1c075753df152d44131ae64530e23ec3193aa60 [3/3] WIP
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261007/202610071800.kpHKZ3sT-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610071800.kpHKZ3sT-lkp@intel.com/reproduce)
+The optional tag isn't obvious nor defined. Therefore remove the tag and
+add column 'Required for' to make it easier to define the need for the tools.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610071800.kpHKZ3sT-lkp@intel.com/
+CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Nicolas Schier <n.schier@fritz.com>
+---
+If anybody has info to add to or refine the new column I would appreciate it a lot.
+Please forward this to list or people which can contribute to this patch.
 
-All errors (new ones prefixed by >>):
+There's also the option to remove the 'Command to check the version'-column
+and refer to scripts/ver_linux - and with this also removing the duplicated
+information-issue.
 
-   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/alloc/allocator.rs:131:
-                NonNull::new(raw_ptr).ok_or(AllocError)?
-            };
-    
-   -        debug_assert!(raw_ptr.is_null() || (raw_ptr.addr() & 3 == 0), "{:x}", raw_ptr.addr() );
-   +        debug_assert!(
-   +            raw_ptr.is_null() || (raw_ptr.addr() & 3 == 0),
-   +            "{:x}",
-   +            raw_ptr.addr()
-   +        );
-    
-            Ok(NonNull::slice_from_raw_parts(ptr, size))
-        }
->> Diff in rust/kernel/alloc/allocator.rs:131:
-                NonNull::new(raw_ptr).ok_or(AllocError)?
-            };
-    
-   -        debug_assert!(raw_ptr.is_null() || (raw_ptr.addr() & 3 == 0), "{:x}", raw_ptr.addr() );
-   +        debug_assert!(
-   +            raw_ptr.is_null() || (raw_ptr.addr() & 3 == 0),
-   +            "{:x}",
-   +            raw_ptr.addr()
-   +        );
-    
-            Ok(NonNull::slice_from_raw_parts(ptr, size))
-        }
->> Diff in rust/kernel/rxarray.rs:103:
-        fmt,
-        num::Bounded,
-        prelude::*,
-   -    sync::atomic::{Relaxed, Release, Atomic},
-   +    sync::atomic::{Atomic, Relaxed, Release},
-        types::ForeignOwnable, //
-    };
-    use core::{
-   Diff in rust/kernel/rxarray.rs:388:
-    // This implementation only creates node pointers via `mk_node()`. The other sub-types are reserved
-    // for future RCU and multi-index support. See include/linux/xarray.h.
-    #[repr(transparent)]
-   -struct Slot<T: ForeignOwnable, const SHIFT: usize, const SIZE: usize>(Atomic<usize>, PhantomData<T>);
-   +struct Slot<T: ForeignOwnable, const SHIFT: usize, const SIZE: usize>(
-   +    Atomic<usize>,
-   +    PhantomData<T>,
-   +);
-    
-    impl<T: ForeignOwnable, const SHIFT: usize, const SIZE: usize> Default for Slot<T, SHIFT, SIZE> {
-        fn default() -> Self {
-   Diff in rust/kernel/rxarray.rs:585:
-                return None;
-            }
-            let ptr = self.0.load(Relaxed) & !3;
-   -        pr_info!("as_node_mut() {:x}\n",  ptr);
-   +        pr_info!("as_node_mut() {:x}\n", ptr);
-            let ptr = core::ptr::with_exposed_provenance_mut(ptr);
-    
-            // SAFETY:
-   Diff in rust/kernel/rxarray.rs:737:
-            };
-    
-            let ptr = KBox::into_raw(node);
-   -        debug_assert!(core::mem::align_of::<Self>() & 3 == 0, "Self aligned should be >=4");
-   -        debug_assert!(ptr.addr() & 3 == 0, "subtree is not aligned {:x}", ptr.addr());
-   +        debug_assert!(
-   +            core::mem::align_of::<Self>() & 3 == 0,
-   +            "Self aligned should be >=4"
-   +        );
-   +        debug_assert!(
-   +            ptr.addr() & 3 == 0,
-   +            "subtree is not aligned {:x}",
-   +            ptr.addr()
-   +        );
-            // SAFETY: TODO
-            let mut node = unsafe { KBox::from_raw(ptr) };
-    
-   Diff in rust/kernel/rxarray.rs:768:
-        ) -> Result<Option<Entry<T>>, StoreError<T>> {
-            let slot_index = Self::slot_index(index, level);
-            let slot = &mut self.slots[slot_index];
-   -        pr_info!("{:x}\n",  slot as *mut _ as usize);
-   +        pr_info!("{:x}\n", slot as *mut _ as usize);
-            if level == 0 {
-                debug_assert!(!slot.is_node(), "Found node pointer at leaf level");
-                // INVARIANT: `Slot::encode` returns an `Int` or `Pointer` slot, both of which are
->> Diff in rust/kernel/rxarray.rs:103:
-        fmt,
-        num::Bounded,
-        prelude::*,
-   -    sync::atomic::{Relaxed, Release, Atomic},
-   +    sync::atomic::{Atomic, Relaxed, Release},
-        types::ForeignOwnable, //
-    };
-    use core::{
-   Diff in rust/kernel/rxarray.rs:388:
-    // This implementation only creates node pointers via `mk_node()`. The other sub-types are reserved
-    // for future RCU and multi-index support. See include/linux/xarray.h.
-    #[repr(transparent)]
-   -struct Slot<T: ForeignOwnable, const SHIFT: usize, const SIZE: usize>(Atomic<usize>, PhantomData<T>);
-   +struct Slot<T: ForeignOwnable, const SHIFT: usize, const SIZE: usize>(
-   +    Atomic<usize>,
-   +    PhantomData<T>,
-   +);
-    
-    impl<T: ForeignOwnable, const SHIFT: usize, const SIZE: usize> Default for Slot<T, SHIFT, SIZE> {
-        fn default() -> Self {
-   Diff in rust/kernel/rxarray.rs:585:
-                return None;
-            }
-            let ptr = self.0.load(Relaxed) & !3;
-   -        pr_info!("as_node_mut() {:x}\n",  ptr);
-   +        pr_info!("as_node_mut() {:x}\n", ptr);
-            let ptr = core::ptr::with_exposed_provenance_mut(ptr);
-    
-            // SAFETY:
-   Diff in rust/kernel/rxarray.rs:737:
-            };
-    
-            let ptr = KBox::into_raw(node);
-   -        debug_assert!(core::mem::align_of::<Self>() & 3 == 0, "Self aligned should be >=4");
-   -        debug_assert!(ptr.addr() & 3 == 0, "subtree is not aligned {:x}", ptr.addr());
-   +        debug_assert!(
-   +            core::mem::align_of::<Self>() & 3 == 0,
-   +            "Self aligned should be >=4"
-   +        );
-   +        debug_assert!(
-   +            ptr.addr() & 3 == 0,
-   +            "subtree is not aligned {:x}",
-   +            ptr.addr()
-   +        );
-            // SAFETY: TODO
-            let mut node = unsafe { KBox::from_raw(ptr) };
-    
-   Diff in rust/kernel/rxarray.rs:768:
-        ) -> Result<Option<Entry<T>>, StoreError<T>> {
-            let slot_index = Self::slot_index(index, level);
-            let slot = &mut self.slots[slot_index];
-   -        pr_info!("{:x}\n",  slot as *mut _ as usize);
-   +        pr_info!("{:x}\n", slot as *mut _ as usize);
-            if level == 0 {
-                debug_assert!(!slot.is_node(), "Found node pointer at leaf level");
-                // INVARIANT: `Slot::encode` returns an `Int` or `Pointer` slot, both of which are
->> Diff in rust/kernel/alloc/allocator.rs:131:
-                NonNull::new(raw_ptr).ok_or(AllocError)?
-            };
-    
-   -        debug_assert!(raw_ptr.is_null() || (raw_ptr.addr() & 3 == 0), "{:x}", raw_ptr.addr() );
-   +        debug_assert!(
-   +            raw_ptr.is_null() || (raw_ptr.addr() & 3 == 0),
-   +            "{:x}",
-   +            raw_ptr.addr()
-   +        );
-    
-            Ok(NonNull::slice_from_raw_parts(ptr, size))
-        }
-   make[2]: *** [Makefile:2038: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src'
+[v3]
+ Rearange column space of the table in order to add column instead of replacing column
+ add some requirements to the table
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[v2]
+ Ditch footnotes in favor of a column
+ Replace 'Check Version Command'-column with optional-column
+ https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
+
+[v1]
+ https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
+---
+ Documentation/process/changes.rst | 97 ++++++++++++++++---------------
+ 1 file changed, 51 insertions(+), 46 deletions(-)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 28f2ca633..dafe0530f 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -1,13 +1,14 @@
+ .. _changes:
+ 
+-Minimal requirements to compile the Kernel
+-++++++++++++++++++++++++++++++++++++++++++
++Minimal requirements to interact with the Kernel
++++++++++++++++++++++++++++++++++++++++++++++++++
+ 
+ Intro
+ =====
+ 
+-This document is designed to provide a list of the minimum levels of
+-software necessary to run the current kernel version.
++This document is designed to provide a list of the minimum versions of
++software necessary to change code, compile, install and boot the current
++kernel version.
+ 
+ This document is originally based on my "Changes" file for 2.0.x kernels
+ and therefore owes credit to the same people as that file (Jared Mauch,
+@@ -27,48 +28,52 @@ running a Linux kernel.  Also, not all tools are necessary on all
+ systems; obviously, if you don't have any PC Card hardware, for example,
+ you probably do not need to concern yourself with pcmciautils.
+ 
+-====================== ===============  ========================================
+-        Program        Minimal version       Command to check the version
+-====================== ===============  ========================================
+-bash                   4.2              bash --version
+-bc                     1.06.95          bc --version
+-bindgen (optional)     0.71.1           bindgen --version
+-binutils               2.30             ld -v
+-bison                  2.0              bison --version
+-btrfs-progs            0.18             btrfs --version
+-Clang/LLVM (optional)  17.0.1           clang --version
+-e2fsprogs              1.41.4           e2fsck -V
+-flex                   2.5.35           flex --version
+-gdb                    7.2              gdb --version
+-GNU awk (optional)     5.1.0            gawk --version
+-GNU C                  8.1              gcc --version
+-GNU make               4.0              make --version
+-GNU tar                1.28             tar --version
+-GRUB                   0.93             grub --version || grub-install --version
+-gtags (optional)       6.6.5            gtags --version
+-iptables               1.4.2            iptables -V
+-jfsutils               1.1.3            fsck.jfs -V
+-kmod                   13               kmod -V
+-mcelog                 0.6              mcelog --version
+-mkimage (optional)     2017.01          mkimage --version
+-nfs-utils              1.0.5            showmount --version
+-openssl & libcrypto    1.0.0            openssl version
+-pahole                 1.26             pahole --version
+-pcmciautils            004              pccardctl -V
+-pigz (optional)        2.4              pigz --version
+-PPP                    2.4.0            pppd --version
+-procps                 3.2.0            ps --version
+-Python                 3.9.x            python3 --version
+-quota-tools            3.09             quota -V
+-Rust (optional)        1.85.0           rustc --version
+-Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+-squashfs-tools         4.0              mksquashfs -version
+-udev                   081              udevadm --version
+-util-linux             2.10o            mount --version
+-xfsprogs               2.6.0            xfs_db -V
+-====================== ===============  ========================================
+-
+-.. [#f1] Sphinx is needed only to build the Kernel documentation
++==============  ========  =======================  ========================================
++    Program     Minimal      Command to check                  Required for
++                version         the version
++==============  ========  =======================  ========================================
++bash            4.2       bash --version           general requirement
++bc              1.06.95   bc --version             Kbuild (
++bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
++binutils        2.30      ld -v
++bison           2.0       bison --version          Kbuild (.config)
++btrfs-progs     0.18      btrfs --version
++Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
++e2fsprogs       1.41.4    e2fsck -V                ext4
++flex            2.5.35    flex --version           Kbuild (.config)
++gdb             7.2       gdb --version            Debugging
++GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
++GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
++GNU make        4.0       make --version
++GNU tar         1.28      tar --version
++GRUB            0.93      grub --version ||
++                          grub-install --version
++gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
++iptables        1.4.2     iptables -V
++jfsutils        1.1.3     fsck.jfs -V
++kmod            13        kmod -V
++mcelog          0.6       mcelog --version
++mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
++nfs-utils       1.0.5     showmount --version
++openssl         1.0.0     openssl version
++pahole          1.26      pahole --version
++pcmciautils     004       pccardctl -V
++pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
++PPP             2.4.0     pppd --version
++procps          3.2.0     ps --version
++Python          3.9.x     python3 --version
++quota-tools     3.09      quota -V
++Rust            1.85.0    rustc --version          CONFIG_RUST=y
++Sphinx          3.4.3     sphinx-build --version   build kernel documentation
++squashfs-tools  4.0       mksquashfs -version
++udev            081       udevadm --version
++util-linux      2.10o     mount --version
++xfsprogs        2.6.0     xfs_db -V
++==============  ========  =======================  ========================================
++    Program     Minimal      Command to check                  Required for
++                version      check the version
++==============  ========  =======================  ========================================
++
+ 
+ Kernel compilation
+ ******************
+-- 
+2.55.0
+
