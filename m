@@ -1,107 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD7E47276E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 10:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712E73DA7C2
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 10:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791368744; cv=none; b=mgRO5SKhewARkSN/Pv6gcOV98GPtu3/j15ybJgXhK1LmujZL28QWoFFOZbw7kGzG3FN8kGoO18/1lLoQrAl+aJyvJAqc1kNcIik4sNB5qsGD2QzqSab8dy57nmmsFRasQLnZfeOywwVafOg6Xq3FcSsHaW+vMy3LRVt9fojMysY=
+	t=1791370207; cv=none; b=GGbLPc2AHviGdeGEtp/3PikFP/L+YWKyuDF3YufmrG0s2TkDIhMzsWk4JAccOP5UOWj3Ir3ysT9FfDFY+KJnD3p/GlaRLdlgeUi0kHYhxqCBifrNAWHw5OECnSXP67C8ZrQwc67rUdXevp5d8y0DCQCiUOWBbPVsjhQPkCsD+JI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791368744; c=relaxed/simple;
-	bh=JiVuJSR/cZwAKkfK30n4gpcU4ZK1vmbudrXMMkw5dTw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lFNvU+OSryXVHpYVC47aYlysXBI0z5Gj6RwODMzIOzYySn3v48mhkTahCCPUqtL9L7HLkb51SnMEJJuevRX/56gIsHgzEZy3g2eqatcjVCued64RcXSF2r6zqipNTBC47Q48CLH8A6zsKcZGmmwmhAwlg9vuwgFPI2B+KyNn+fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnTe93Ro; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791370207; c=relaxed/simple;
+	bh=sM3crCqlJFNGQ93Z8qonYEbcMfnVoXrKJel8hiPuzVM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=r951NpfYLDaY4H/06Hhf08BfTi/pvutHSgSDKk4SVnUvAVolBHr32L1IPPrZ/Xo2qAoVqwjw1jbJGYAJMsMJMS9rIIsBoK6tdudzIjCEjCar3fc8vXVH4uz8En5YUxamjPXkUKqGKM7OvvSwqA1R0QCNJq/1DXJ9JPsBGGGcjOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZI0LP5uD; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnTe93Ro"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01B281F0089B;
-	Wed,  7 Oct 2026 10:25:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791368735;
-	bh=mKHud5iipmQD5HCF8K2fphoEinYzPs4lQcVulsh2bqs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BnTe93Ro7+KMf7+6DCq3jostavjALmpF5MR7waaCqZPcpEnPHxCZKIO4eWm93VToo
-	 UaBbm7INvsTLTiWFDhQmNGVvHDifer2IvVEsuwUVVhIA/hUCfbooQEpz+0WoojB6Md
-	 OIADwkk07STFdu3CrY8J7QaQVBgTH3JvaiBnnwlTmr2uBz8hX5Tj11LT6eXIMXyHIH
-	 17cfXZ0hUghnymMGBfaX+ObRgDV6C8sec+pZnTWXbSjSrnKQ46L8RwezrSiFpTa4/9
-	 FFS+8TsyCIfku4XatZIAHKMDrc7giiB3VAlAiMFZPODXWDoUO8M99QZ0cSrPBdo3sQ
-	 OwP2DLVes9+7Q==
-Date: Wed, 7 Oct 2026 11:25:32 +0100
-From: Sudeep Holla <sudeep.holla@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [linux-next:master 8264/14724]
- drivers/firmware/smccc/smccc.c:141:1: error: r7 cannot be used in asm here
-Message-ID: <20261007-quick-hungry-meerkat-ddca36@sudeepholla>
-References: <202610070641.B8hxBJcf-lkp@intel.com>
- <yq5abj963sk1.fsf@kernel.org>
- <20261007-predictable-interesting-mole-e02db7@sudeepholla>
- <asYMkrV8lu-LtUUR@arm.com>
- <20261007-stalwart-umber-perch-1cf23a@sudeepholla>
- <asYcrh_nBx-3Veqk@arm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZI0LP5uD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791370158; x=1822906158;
+  h=date:from:to:cc:subject:message-id;
+  bh=sM3crCqlJFNGQ93Z8qonYEbcMfnVoXrKJel8hiPuzVM=;
+  b=ZI0LP5uDA6+zmD/PWG1/UGXCLh9oyVRlXTOWrZtUKzh6uBJSAfpGg88S
+   GE/DjsAcILupJ0OatQQfijJ3+WUu4XxBkApWgFiP6BkNaSjYpqVWkc83L
+   Xjy9023Mav67ocqstee/r3q7osJPPwbhpQ+LWJcxqQ1y/3uGwjMun2cm3
+   7GslSvddGaMDGgkpfkZ2PlbWaAmFeqMEwvmsvNkrnlXb6E2B6yBqBGEjZ
+   AKkidmNvKK5XrWLlBZXuJ6aWxLD2poJbFGZZiFduyqIRjI8uccsAxO62n
+   4TiS3lDcu1AuoNK2/KSOwnxdGOuTibX5G3/V+j5i09Qu3MDxkIO7b8zmJ
+   Q==;
+X-CSE-ConnectionGUID: OtEaVf0cS9+kVoxBv7GdiQ==
+X-CSE-MsgGUID: ru3rG0DYQ8CMBO9FaLV+3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="11027"
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="11027"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 03:49:17 -0700
+X-CSE-ConnectionGUID: zdWJbxbXTqiJ5Wmp+TMIJA==
+X-CSE-MsgGUID: c+efztkNT7iBr5g+/rtPCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="280691436"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 07 Oct 2026 03:49:17 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xEPD0-000000002s8-102z;
+	Wed, 07 Oct 2026 10:49:14 +0000
+Date: Wed, 07 Oct 2026 18:48:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 4/4]
+ arch/arm64/gunyah/timer.c:25: error: Cannot parse struct or union!
+Message-ID: <202610072015.0ayU25U3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <asYcrh_nBx-3Veqk@arm.com>
 
-On Wed, Oct 07, 2026 at 11:19:26AM +0100, Catalin Marinas wrote:
-> On Wed, Oct 07, 2026 at 10:18:16AM +0100, Sudeep Holla wrote:
-> > On Wed, Oct 07, 2026 at 10:10:42AM +0100, Catalin Marinas wrote:
-> > > On Wed, Oct 07, 2026 at 09:44:29AM +0100, Sudeep Holla wrote:
-> > > > diff --git i/drivers/firmware/smccc/smccc.c w/drivers/firmware/smccc/smccc.c
-> > > > index afc2e4d602ba..dfbd04c8eeac 100644
-> > > > --- i/drivers/firmware/smccc/smccc.c
-> > > > +++ w/drivers/firmware/smccc/smccc.c
-> > > > @@ -116,8 +116,7 @@ static bool __init smccc_probe_smccc_device(const struct smccc_device_info *smcc
-> > > >         if (IS_ENABLED(CONFIG_ARM) && ARM_SMCCC_IS_64(smccc_dev->func_id))
-> > > >                 return false;
-> > > > 
-> > > > -       arm_smccc_1_1_invoke(smccc_dev->func_id,
-> > > > -                            0, 0, 0, 0, 0, 0, 0, &res);
-> > > > +       arm_smccc_1_1_invoke(smccc_dev->func_id, &res);
-> > > 
-> > > I think that's going in the right direction and works for TRNG. However,
-> > > the RSI_ABI_VERSION func_id requires another argument (I think requested
-> > > interface revision). We could pass (func_id, 0, &res) but I wonder
-> > > whether this probe function is generic enough to always assume all
-> > > arguments are 0.
-> > 
-> > Agreed, one other thought I had initially was to see if we can simply use
-> > SMCCC_ARCH_FEATURES(FID) but the spec states
-> > "Function ID of an Arm Architecture Service Function"
-> > which could soon become restrictive but IIUC it is not as per the uses
-> > today in this driver. We could move to that as it is purely SMCCC spec
-> > and doesn't rely on other SMCCC based specs.
-> 
-> The spec I have around (DEN0028 1.6 G) limits arch_func_id to:
-> 
-> - Arm Architecture Service range:
->   0x80000000-0x8000FFFF and 0xC0000000-0xC000FFFF
-> 
-> - Standard Hypervisor Service range:
->   0x85000000-0x8500FFFF and 0xC5000000-0xC500FFFF
-> 
-> Any arch_func_id values outside of these ranges are invalid. Both
-> TRNG_VERSION (0x84000050) and RSI_ABI_VERSION (0xC4000190) are Standard
-> Secure Service calls, so outside those ranges. So, if I got this
-> correctly, it wouldn't work in this case (or I need a newer spec).
-> 
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   02e193b62eb32656db70ee318262c2e6a6b88147
+commit: 1e4ff6e90e08e672cc57f4864cb107024f19d0ab [4/4] ANDROID: gunyah: vcpu: handle EXPECTS_WAKEUP_OR_TIMEOUT vcpu_run state
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261007/202610072015.0ayU25U3-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 80cd965b6323b208519f8ab1d5ee86e4ea9862f4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610072015.0ayU25U3-lkp@intel.com/reproduce)
 
-No, you are right. My bad, I assumed "Standard Secure Service" is part
-of "Arm Architecture Service". I should have looked at the table. So yes,
-that can't be used. That could be the reason I didn't make that suggestion
-and completely forgot about the ranges. Sorry for the noise.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610072015.0ayU25U3-lkp@intel.com/
 
--- 
-Regards,
-Sudeep
+All errors (new ones prefixed by >>):
+
+>> arch/arm64/gunyah/timer.c:25: error: Cannot parse struct or union!
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+
+
+vim +25 arch/arm64/gunyah/timer.c
+
+    12	
+    13	/**
+    14	 * struct gunyah_timer_scale - Scaling factors for timer conversion
+    15	 * @mult: Multiplier for converting cycles to nanoseconds
+    16	 * @shift: Shift value for the multiplier
+    17	 *
+    18	 * These values are pre-calculated during initialization to efficiently
+    19	 * convert hypervisor tick deadlines to kernel time without performing
+    20	 * expensive division operations on the hot path.
+    21	 */
+    22	static struct {
+    23		u32 mult;
+    24		u32 shift;
+  > 25	} gunyah_timer_scale;
+    26	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
