@@ -1,82 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D28039DBCF;
-	Wed,  7 Oct 2026 15:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AE23A6B8D;
+	Wed,  7 Oct 2026 16:12:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791388608; cv=none; b=t1UDgtKW4iJyOCQmxkxam9/JnkGZLIR4YclNfZYAF6LhvvxUZOAWLcCxV/OxM8VPcu80BLDdaVhzRnnCxL4ynCi9PFPXaaBIuP/Zfm2lanx3YpiBDM5Om8J1r/Xgwk5Gwi6N3OMGkBsMpRKm+bWFJdPBsyZikV3H1lLno5gc++o=
+	t=1791389575; cv=none; b=KgF1yI3Z3Y5/rJkcCi882LwrwrtxfEqU/znHmUXgUmHvBTyKrm6wd3uIhgjCXet4gUFh3QHZCe6uQVN0jhDnGv3xX+C6pxaCZFpcryCSXIAwYZKzEOakpcMKL71RK81ty9KLs2QP3Hqrarc9mymZRMk8SfCjGhtdBGe/c2ALDS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791388608; c=relaxed/simple;
-	bh=uyFcj9ADReEAVtSUyJRkd5dhtq4VdKpC1KFH2ysUxJ0=;
+	s=arc-20240116; t=1791389575; c=relaxed/simple;
+	bh=+rPRKC9umesGDdCt2yETq7Z4hnDy6Z3LHceoUeY/+TI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r86AgOJGIph4op10SDNOgOYh1xpoReHhWhzxLlp6Svo0m/Jy/b0gbUrYmS/VVBwjNfcva6Vkrc+gDn0Q1o0hauPBH6ZeKPurH3c2+Sw2zhQHaNhrCoJ6L+7K5/PProQhUM25pjNGbWevimS3yrgcMVdLJUHpN3X0aX5U8mdaASU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MVVGJXCQ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=OIwd27l130LTsr2fiNkbXz+6QLzJ2ABw9mvzqLxLKRzusTZfVOrpgK2FlQJCOXoU91smRHX+aWCjf3Zp889JDJ6UEnTwo6IrCd/lE2bO/IXI+9Wo1ydSlHnpE9aB8oPySrS1jMWIoqDecdoiIQGz4BS6PQheX7c97LMDDpKpTsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIw2pCnf; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVVGJXCQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16CE91F000FF;
-	Wed,  7 Oct 2026 15:56:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791388607;
-	bh=yMhRXbcaDeB4n2+mH5Jk5sbZU+IqnTVA1slEIulptiU=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=MVVGJXCQWWbY9TfcSpCe7rr88tctc9aZgvrOvRTdvunYHodclahwQdfCooID67JEs
-	 gHnlYWr4Kyzg8SMgTn8+DSyIcCibBPS0MGjG5sttwOCg038edkQh1ouIvfgrj73P3F
-	 /mI96/EDR+Tu+ZbwYBlNH8MXltrAaHPPp9PEBv23odVUzHxC71IQ+9Pjnl1zwVz2hi
-	 liHGcNdZ5GGQ3zVav9ABzBmf84qaGQDzAlCT2vzoN8kWnyuR0O3TAv8sRhRSfzUylW
-	 rbylcb7H8kQWvEco+ck2W/N2zYDGvuhtvHIsX1hAQOLos01O3EVgNFO/VoU5sH+UCF
-	 SEspg0zFpN+2w==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D045ACE0D79; Wed,  7 Oct 2026 08:56:46 -0700 (PDT)
-Date: Wed, 7 Oct 2026 08:56:46 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Vineet Gupta <vgupta@kernel.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Bradley Morgan <brads@mainlining.org>, akpm@linux-foundation.org,
-	guoren@kernel.org, chris@zankel.net, jcmvbkbc@gmail.com,
-	oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	david.laight.linux@gmail.com, glaubitz@physik.fu-berlin.de,
-	ysato@users.sourceforge.jp, dalias@libc.org,
-	linux-snps-arc@lists.infradead.org, linux-csky@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] xtensa: Emulate two-byte cmpxchg
-Message-ID: <5937c722-ccc7-4f03-b4a6-bf357f2f3757@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20261005120700.383058-4-brads@mainlining.org>
- <202610061704.rvbolgPy-lkp@intel.com>
- <82aad69a-603c-41cd-876d-09772a1a7e6a@paulmck-laptop>
- <a8bc1396-fa38-4648-89c4-ac528fc1888b@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIw2pCnf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791389575; x=1822925575;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=+rPRKC9umesGDdCt2yETq7Z4hnDy6Z3LHceoUeY/+TI=;
+  b=UIw2pCnfXv9GTPm/FMjk3dcIi/VGranamldvMiVzFsWbc8Vfz4Xqh/KL
+   HqSpggNAgfh7NQhWQ1PP0Cgzb1r9WbTmQEus3g5IAlOMH0mbZtkfPrUn6
+   9fPsgvJLabXEF4/H7fq4a4uVnJSG2rUDzaT3mgRNXXbKx1AxE1RtFqBc+
+   k+YoudBe1H+E3IZ0pGCHcDkQ+TRkI0oD4S9urhHGOhjCfFrm0v6SG3MBy
+   Rp85FRbUnODLOIS9ZW+3wjbfqg8VRKGAbmmDcKMdvEjtOIZGl5q8zIGUC
+   Eaa2roszola/7JBE443JfFxdfzOtQ+upyfpsecFfyTTd43UrUqWMm9oq9
+   g==;
+X-CSE-ConnectionGUID: Sed4DPvcTMS9OHxPdnEGIw==
+X-CSE-MsgGUID: Wp73K950QrqWSDIlHXLTbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="161556"
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="161556"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 09:12:54 -0700
+X-CSE-ConnectionGUID: AQIp6U06QQmC36F2L9srOw==
+X-CSE-MsgGUID: jpN8VxnlTGWo+FfH4ja4Qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="285575091"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 07 Oct 2026 09:12:52 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xEUG9-000000003FA-45Yc;
+	Wed, 07 Oct 2026 16:12:49 +0000
+Date: Thu, 8 Oct 2026 00:12:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Isma=EFl?= Bahloul <i.bahloul01@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v6 7/8] ALSA: usb: babyfacepro: add the hardware DSP
+ EQ
+Message-ID: <202610080058.z8dKl0F8-lkp@intel.com>
+References: <20261003194137.86176-8-i.bahloul01@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <a8bc1396-fa38-4648-89c4-ac528fc1888b@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261003194137.86176-8-i.bahloul01@gmail.com>
 
-On Wed, Oct 07, 2026 at 10:24:28AM +0200, Vineet Gupta wrote:
-> On 10/6/26 17:44, Paul E. McKenney wrote:
-> > These patches need to be applied on top of my -rcu tree's "dev" branch,
-> > which supplies cmpxchg_emu_u16().
-> > 
-> > Nevertheless, thank you for your testing efforts!
-> 
-> Sorry I don't have your tree is my git remotes. can u point me to the msg id
-> of the series which was applied so i can fetch it and apply.
-> At this point I can't ACK/Nack the patch since w/o the pre-req it just fails
-> to build locally exactly as the kernel robot found.
+Hi Ismaïl,
 
-I will resend the full series later today, Pacific Time.  In the meantime,
-these commits in my -rcu tree [1] on the "dev" branch in "git log" order:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-a29bf4d6dc4f3 xtensa: Emulate two-byte cmpxchg
-10d67fa61f9f4 csky: Emulate two-byte cmpxchg
-1decb1d05ef2e ARC: Emulate two-byte cmpxchg
-887685c52e44c sh: Emulate two-byte cmpxchg
-109f733202e32 lib: Add two-byte cmpxchg emulation function
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v7.3-rc6 next-20261006]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-							Thanx, Paul
+url:    https://github.com/intel-lab-lkp/linux/commits/Isma-l-Bahloul/ALSA-usb-add-RME-Babyface-Pro-driver-core-probe-PCM-stream/20261003-214130
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261003194137.86176-8-i.bahloul01%40gmail.com
+patch subject: [RFC PATCH v6 7/8] ALSA: usb: babyfacepro: add the hardware DSP EQ
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261008/202610080058.z8dKl0F8-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 80cd965b6323b208519f8ab1d5ee86e4ea9862f4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610080058.z8dKl0F8-lkp@intel.com/reproduce)
 
-[1]  git://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610080058.z8dKl0F8-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: sound/usb/babyfacepro/snd-usb-babyface-pro.ko: symbol '__hexagon_udivdi3' undefined!
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
