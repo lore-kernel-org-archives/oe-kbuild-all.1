@@ -1,210 +1,163 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87FE48F82C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 16:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0951E430CCA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Oct 2026 17:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791391103; cv=none; b=ZVczPKHW5bsnlK+dbkjxlfTbddkijAtRrWOvqag5uu1qLPaNuGExY1vrva7QrNf+6CULEOpWPXjAXQ4IrNeiW+DqLJ5HFU0zPGUDz+LKvbEXBSTVC0qnd745//u4E7BxGEH3yqJvGg+d1AlQ7kgzNXIcuu2yI9EqaoIcQgcwVKw=
+	t=1791392766; cv=none; b=S8P3j89kWFcrKQpNQm910z61zeWulPlBqqGHL3lAOQh9lm7xFNBXrXj/0AvK+sEEdrvGd7aogk5E6YvSIgiZRiYLm/c/qgEi/my5EY7h4WR+MEpgdQvBoEbJ/4zra+IPuOzYI6LG/w/imJxCQSZW1ub2jEJY+hiMtvfTfONoZTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791391103; c=relaxed/simple;
-	bh=rt+DI0Zaj7t1gLzFkXpDITiac40k4MGIO8meOBYmFCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FkP7yUos9Fhl6rmiMQMHaAu9wUfnZqHJuKYFkZUbOE2liiYghr9Wki0SIwx0jqQCJFUMwdjivS8uOzCMQGm7q4ct/XmJKkZftYRB4hkqPNMY3Kn4rMmsJu2PEEz0LjY1iqBBgUfDrEiLkCTT2xUNL1U5GUcLUyvm/e0ji6o3DGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UkFfAXte; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1791392766; c=relaxed/simple;
+	bh=4Di9jjkPZRbMXw5Y+FPdrZy1q8BfQ5HHO2Ka6Cnkppc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gpc0ObVkcx+nBfYBgQH3LgA74yWfnZDllv/1eXzKgTTkHQizfxlmKiDCJHO34mlkLPfImXC3BI+Hy7VOoUUMItZmxdnhKSdbuPmnqOnUM92t2ohgnN6ObUqNF6BxHdcBsCPk3cqRmCZxpmrdhlhPMKLffnKjnVYGlg2WPRiru3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MKJHJ7lP; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UkFfAXte"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j0Jhn135gzKnYC;
-	Wed, 07 Oct 2026 18:38:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1791391097;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2Ezflyex2QCq4IDhV46iLXvD5SXyLtu7Un9mXAhjKQE=;
-	b=UkFfAXtexXMe4siEWkyoHJ7MLt9nnrmneb00G00NlXzSKyG2mdf+UNnktckKGk2nPnUkki
-	ueDkpfo5Yq1KIJJq7XvES43wbpRTJOFu57yqBFD4LUn3Uofvxo/kEj3P07j9/axs+NKdwv
-	CxUfTARcVHCHVOMSj7gnaFOEWz+UOxUlgM0ZTBjbV59KzB1vG1UVFJkvjVf8FIte5lgjYd
-	jRVVoTd2irs6lA9k09ObJEmN8vp9J5joXIGZmHwK8MG3tuzF2dzXF0tnpXF37HRDV2SWZ2
-	KqH91ITWRUWJvrK0lSp9YBxYVeHbhsx5vUzZzElveAvuHNYEMjjg/0dVg7AsDQ==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kbuild@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	linux-debuggers@vger.kernel.org,
-	tools@linux.kernel.org,
-	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Nicolas Schier <n.schier@fritz.com>
-Subject: [PATCH RFC] changes.rst: introduce 'Required for'-column
-Date: Wed,  7 Oct 2026 18:37:37 +0200
-Message-ID: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MKJHJ7lP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791392763; x=1822928763;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4Di9jjkPZRbMXw5Y+FPdrZy1q8BfQ5HHO2Ka6Cnkppc=;
+  b=MKJHJ7lPrZxmxyEIi2X8m8/PHZozYJyD07+WaImHwiFQ5uKxkLDhAnmt
+   t1jwMATQ0a1bkvPoyDemC366MAhnBUOe1fA4FjFoeZ/DQlHw5HhkSn9Dv
+   MDiwr+z+rjFEfyn3ucYDRBQ5G1nngsobs11t7j22Xf0LHh/r1VTgg/GWB
+   evJWuQK6wWRFx/tTpGvywKsCgnXJURzVAB6U9RRmYaKuHoCDE46pF0JVH
+   vW2Z7Bjv8ETP+yJ+acUL9N7h+F3nQxCIHBWDRcRwBUOg4KtqQpE4JJ1/A
+   C9w1/ZEckGediF38gj1c4RK2hMhsEnGgnqvkde4/03OrKpj4zBKoHWOmv
+   A==;
+X-CSE-ConnectionGUID: 5HqFCBe9SxWH76XVeN7oFw==
+X-CSE-MsgGUID: DfGzCur9Qh6L0DUgwQd+ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="56745"
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="56745"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 10:06:02 -0700
+X-CSE-ConnectionGUID: 5jV75Z5vRG2tKVZEXSO0pw==
+X-CSE-MsgGUID: JgUFJd3SRo21SJwbUmfugQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="96303"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 07 Oct 2026 10:06:00 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xEV5a-000000003Js-0TZ1;
+	Wed, 07 Oct 2026 17:05:58 +0000
+Date: Thu, 8 Oct 2026 01:05:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Louvel <paul.louvel@bootlin.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-watchdog@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Paul Louvel <paul.louvel@bootlin.com>
+Subject: Re: [PATCH v3 2/6] watchdog: w83627hf_wdt: Convert to platform
+ driver model
+Message-ID: <202610080027.3OsJDwfo-lkp@intel.com>
+References: <20261004-w83627hf_wdt-improvements-v3-2-8e27b518595e@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: dddea4e6f5fbbada107
-X-MBO-RS-META: rx4z7z4tgdgubcmsyy11wmkig53ae4fe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261004-w83627hf_wdt-improvements-v3-2-8e27b518595e@bootlin.com>
 
-The optional tag isn't obvious nor defined. Therefore remove the tag and
-add column 'Required for' to make it easier to define the need for the tools.
+Hi Paul,
 
-CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC: Nicolas Schier <n.schier@fritz.com>
----
-If anybody has info to add to or refine the new column I would appreciate it a lot.
-Please forward this to list or people which can contribute to this patch.
+kernel test robot noticed the following build warnings:
 
-There's also the option to remove the 'Command to check the version'-column
-and refer to scripts/ver_linux - and with this also removing the duplicated
-information-issue.
+[auto build test WARNING on 028ef9c96e96197026887c0f092424679298aae8]
 
-[v3]
- Rearange column space of the table in order to add column instead of replacing column
- add some requirements to the table
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Louvel/watchdog-w83627hf_wdt-Replace-magic-numbers-with-descriptive-macros/20261004-141249
+base:   028ef9c96e96197026887c0f092424679298aae8
+patch link:    https://lore.kernel.org/r/20261004-w83627hf_wdt-improvements-v3-2-8e27b518595e%40bootlin.com
+patch subject: [PATCH v3 2/6] watchdog: w83627hf_wdt: Convert to platform driver model
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20261008/202610080027.3OsJDwfo-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610080027.3OsJDwfo-lkp@intel.com/reproduce)
 
-[v2]
- Ditch footnotes in favor of a column
- Replace 'Check Version Command'-column with optional-column
- https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610080027.3OsJDwfo-lkp@intel.com/
 
-[v1]
- https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
----
- Documentation/process/changes.rst | 97 ++++++++++++++++---------------
- 1 file changed, 51 insertions(+), 46 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 28f2ca633..dafe0530f 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -1,13 +1,14 @@
- .. _changes:
- 
--Minimal requirements to compile the Kernel
--++++++++++++++++++++++++++++++++++++++++++
-+Minimal requirements to interact with the Kernel
-+++++++++++++++++++++++++++++++++++++++++++++++++
- 
- Intro
- =====
- 
--This document is designed to provide a list of the minimum levels of
--software necessary to run the current kernel version.
-+This document is designed to provide a list of the minimum versions of
-+software necessary to change code, compile, install and boot the current
-+kernel version.
- 
- This document is originally based on my "Changes" file for 2.0.x kernels
- and therefore owes credit to the same people as that file (Jared Mauch,
-@@ -27,48 +28,52 @@ running a Linux kernel.  Also, not all tools are necessary on all
- systems; obviously, if you don't have any PC Card hardware, for example,
- you probably do not need to concern yourself with pcmciautils.
- 
--====================== ===============  ========================================
--        Program        Minimal version       Command to check the version
--====================== ===============  ========================================
--bash                   4.2              bash --version
--bc                     1.06.95          bc --version
--bindgen (optional)     0.71.1           bindgen --version
--binutils               2.30             ld -v
--bison                  2.0              bison --version
--btrfs-progs            0.18             btrfs --version
--Clang/LLVM (optional)  17.0.1           clang --version
--e2fsprogs              1.41.4           e2fsck -V
--flex                   2.5.35           flex --version
--gdb                    7.2              gdb --version
--GNU awk (optional)     5.1.0            gawk --version
--GNU C                  8.1              gcc --version
--GNU make               4.0              make --version
--GNU tar                1.28             tar --version
--GRUB                   0.93             grub --version || grub-install --version
--gtags (optional)       6.6.5            gtags --version
--iptables               1.4.2            iptables -V
--jfsutils               1.1.3            fsck.jfs -V
--kmod                   13               kmod -V
--mcelog                 0.6              mcelog --version
--mkimage (optional)     2017.01          mkimage --version
--nfs-utils              1.0.5            showmount --version
--openssl & libcrypto    1.0.0            openssl version
--pahole                 1.26             pahole --version
--pcmciautils            004              pccardctl -V
--pigz (optional)        2.4              pigz --version
--PPP                    2.4.0            pppd --version
--procps                 3.2.0            ps --version
--Python                 3.9.x            python3 --version
--quota-tools            3.09             quota -V
--Rust (optional)        1.85.0           rustc --version
--Sphinx\ [#f1]_         3.4.3            sphinx-build --version
--squashfs-tools         4.0              mksquashfs -version
--udev                   081              udevadm --version
--util-linux             2.10o            mount --version
--xfsprogs               2.6.0            xfs_db -V
--====================== ===============  ========================================
--
--.. [#f1] Sphinx is needed only to build the Kernel documentation
-+==============  ========  =======================  ========================================
-+    Program     Minimal      Command to check                  Required for
-+                version         the version
-+==============  ========  =======================  ========================================
-+bash            4.2       bash --version           general requirement
-+bc              1.06.95   bc --version             Kbuild (
-+bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
-+binutils        2.30      ld -v
-+bison           2.0       bison --version          Kbuild (.config)
-+btrfs-progs     0.18      btrfs --version
-+Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
-+e2fsprogs       1.41.4    e2fsck -V                ext4
-+flex            2.5.35    flex --version           Kbuild (.config)
-+gdb             7.2       gdb --version            Debugging
-+GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
-+GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
-+GNU make        4.0       make --version
-+GNU tar         1.28      tar --version
-+GRUB            0.93      grub --version ||
-+                          grub-install --version
-+gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
-+iptables        1.4.2     iptables -V
-+jfsutils        1.1.3     fsck.jfs -V
-+kmod            13        kmod -V
-+mcelog          0.6       mcelog --version
-+mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
-+nfs-utils       1.0.5     showmount --version
-+openssl         1.0.0     openssl version
-+pahole          1.26      pahole --version
-+pcmciautils     004       pccardctl -V
-+pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
-+PPP             2.4.0     pppd --version
-+procps          3.2.0     ps --version
-+Python          3.9.x     python3 --version
-+quota-tools     3.09      quota -V
-+Rust            1.85.0    rustc --version          CONFIG_RUST=y
-+Sphinx          3.4.3     sphinx-build --version   build kernel documentation
-+squashfs-tools  4.0       mksquashfs -version
-+udev            081       udevadm --version
-+util-linux      2.10o     mount --version
-+xfsprogs        2.6.0     xfs_db -V
-+==============  ========  =======================  ========================================
-+    Program     Minimal      Command to check                  Required for
-+                version      check the version
-+==============  ========  =======================  ========================================
-+
- 
- Kernel compilation
- ******************
--- 
-2.55.0
+   drivers/watchdog/w83627hf_wdt.c: In function 'wdt_probe':
+>> drivers/watchdog/w83627hf_wdt.c:483:30: warning: 'snprintf' output may be truncated before the last format character [-Wformat-truncation=]
+     483 |                  "%s Watchdog", id->name);
+         |                              ^
+   drivers/watchdog/w83627hf_wdt.c:482:9: note: 'snprintf' output between 10 and 33 bytes into a destination of size 32
+     482 |         snprintf(data->info.identity, sizeof(data->info.identity),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     483 |                  "%s Watchdog", id->name);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+vim +/snprintf +483 drivers/watchdog/w83627hf_wdt.c
+
+   460	
+   461	static int wdt_probe(struct platform_device *pdev)
+   462	{
+   463		const struct platform_device_id *id = platform_get_device_id(pdev);
+   464		struct device *dev = &pdev->dev;
+   465		struct watchdog_device *wdd;
+   466		struct w83627hf_data *data;
+   467		enum chips chip;
+   468		int ret;
+   469	
+   470		dev_info(dev, "WDT driver initialising\n");
+   471	
+   472		if (!id)
+   473			return dev_err_probe(dev, -EINVAL, "failed to get chip id\n");
+   474	
+   475		chip = id->driver_data;
+   476	
+   477		data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+   478		if (!data)
+   479			return -ENOMEM;
+   480	
+   481		data->info.options = WDIOF_SETTIMEOUT | WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE;
+   482		snprintf(data->info.identity, sizeof(data->info.identity),
+ > 483			 "%s Watchdog", id->name);
+   484	
+   485		wdd = &data->wdd;
+   486	
+   487		wdd->parent = dev;
+   488		wdd->info = &data->info;
+   489		wdd->ops = &wdt_ops;
+   490		wdd->timeout = WATCHDOG_TIMEOUT;
+   491		wdd->min_timeout = 1;
+   492		wdd->max_timeout = 255;
+   493	
+   494		watchdog_set_drvdata(wdd, data);
+   495		watchdog_init_timeout(wdd, timeout, NULL);
+   496		watchdog_set_nowayout(wdd, nowayout);
+   497		watchdog_stop_on_reboot(wdd);
+   498	
+   499		ret = w83627hf_init(wdd, chip);
+   500		if (ret)
+   501			return dev_err_probe(dev, ret, "failed to initialize watchdog\n");
+   502	
+   503		ret = devm_watchdog_register_device(dev, wdd);
+   504		if (ret)
+   505			return ret;
+   506	
+   507		dev_info(dev, "initialized. timeout=%d sec (nowayout=%d)\n",
+   508			 wdd->timeout, nowayout);
+   509	
+   510		return ret;
+   511	}
+   512	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
