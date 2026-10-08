@@ -1,144 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFEE3AAF5E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 17:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0249E3B3C06
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 17:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791478986; cv=none; b=SYx47fgyVIGsJIpR5MqdZxEpob/aiD3wOvCVvcEJDwbXz4tHaBcPCVwYUmp7rLfYJy4q6tsOwNfo9l5xjsvmnCYKM/HxoyM5Z1xymeHvh5gXIvBV0w3F7yxkzlz8Y3Mu0XtHiGe8FNll9E6RRJwBCDrPcrZ1ZDDj902wZpg+qdM=
+	t=1791480237; cv=none; b=q7eHnwnKkDeJDDLxmejvjWOTitRdN+kgFOfGjl6Vxz3X3TkbekBxPGuIjCFbC4fojzltmAtXaXmmO3hn/9pLNKYsA+6cVJkD1/3Vk+F6cK1NQ5WYy7sz6Xf9q4MFYtst+vRo1JiMidKcQ0MWQcQcsYpVPmCwlZzZU0sBOf6XeVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791478986; c=relaxed/simple;
-	bh=J9cx9pMDMvILCUgaH6jkkc0B9b6i+Cq9CtRvXhNbwTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZGRcJ0Dcpj7IRhd/s3XC62Mrsj3Q6u3GZfzOvlCdvI64Ok9eyR0Z8vT4mL3basLpQGfPEEqW0KnkFPCUiY3NkgcrX74+bKAZUZh/L6vPoMX4ccRKWfxqv92D6rEEpG7wJPUaLSJhOjGX7V46wfuSj4S+PF2Sou86Cz6psCnAOt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKYgBGYE; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1791480237; c=relaxed/simple;
+	bh=q9mXtZ0rKen0UA32Q+eYADsb87+XgV6XYr3JUGm2SdA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z7hJZZLWbVxKH91N59AOHlx7q4cORYC665c8r+eaFIgrQppZAlO42Z9dlyahgun++kKPLAWlZyRhWQo2dgnBLi7pft44/X7Hf3nZGHpVhDZTbtqEJqFZBbTvv1n1EA7UMRVYIMttw+vlDT6GAMumv4GPBzIHZcV+MVLp9za+mIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bPbFiHO4; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKYgBGYE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPbFiHO4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791478985; x=1823014985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J9cx9pMDMvILCUgaH6jkkc0B9b6i+Cq9CtRvXhNbwTE=;
-  b=jKYgBGYEX5W0krxYn1PpYG9DgAZ7uvzYma4eHs8KdY+L6D+4qr6+JGD2
-   xrk/tdz7muBRG1224qt1chBTAmt6BO4gkVGQBhsQ9vXZaaBm2IucK2zKh
-   IifsMDxbFIT9u0i3g4Hxz/nFJ/rfx417qE81VkbnjkDG5pgq9paDNcmyc
-   drx8vAOPO5ArQlETvkWdLIM9O+ItHPmKgSlQ09tjwsMRshvsuvoQoL1qf
-   3kwQllZgKdCurTJ/9fWpzW2aeJ8PZ8Pt/eP1v6nIh7xoIchOHqsfuobrm
-   ezDyW+Vw98bM2hj4ci6FKbFMpB1BMUbrbqvNUICmMRJRkIqSfSdnSFIDt
-   A==;
-X-CSE-ConnectionGUID: vzgpTzMHSUqhvgUZDr0xfA==
-X-CSE-MsgGUID: z6NseQ3nQrKbqCbGgv48tQ==
+  t=1791480236; x=1823016236;
+  h=date:from:to:cc:subject:message-id;
+  bh=q9mXtZ0rKen0UA32Q+eYADsb87+XgV6XYr3JUGm2SdA=;
+  b=bPbFiHO4BiZdETaMMzLLiXLIDnaiD4UH165uAFCZBjuPK5X9jsThEAwF
+   09qPN8X63ZPwPxEmVpJJWcnJe5S/9MykymuaNPBmqhYi/Bh8pDL2HBMhg
+   ytEFGy4z/7WCHbajNIpCD6tspgUEBKMrcwf3g4Q4mtm1kLRq0tCIgWyIU
+   4hxcruj8IiPIsuSx1OY5S0lsCMv5JRES7C2Sz3zYCjdOAu0ie3DG66+DD
+   uTSpi5yD8peCCyucQYBWC4YQi9qVEXcC1teJ0DtNr7PlMzBdFDobxJdTI
+   EtLZ3q/ziH6R6x6qj396fyeffVHJm7yMRkj4L/a30nCQq2tBhShCi7UBm
+   w==;
+X-CSE-ConnectionGUID: xeJddGG9Q3qHB/hljwoZqA==
+X-CSE-MsgGUID: lkuNdoduQyiPgWZbLi8E9w==
 X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="268905"
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
    d="scan'208";a="268905"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 10:03:04 -0700
-X-CSE-ConnectionGUID: jTsoPRl6S6+tTa4GE81akw==
-X-CSE-MsgGUID: Dc6OB/68R4e8kzQ2gWr6cA==
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 10:23:52 -0700
+X-CSE-ConnectionGUID: FiLghYH9RfaTQwpub/N6nA==
+X-CSE-MsgGUID: +bK3zE31SEmsvyoFQ8Wyrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="428776"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Oct 2026 10:03:00 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="211894"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Oct 2026 10:23:51 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xErWC-000000004hw-3Viu;
-	Thu, 08 Oct 2026 17:02:56 +0000
-Date: Fri, 9 Oct 2026 01:02:31 +0800
+	id 1xErqO-000000005nN-2BmR;
+	Thu, 08 Oct 2026 17:23:48 +0000
+Date: Thu, 08 Oct 2026 19:23:39 +0200
 From: kernel test robot <lkp@intel.com>
-To: Emerson Busson <emersonbusson@gmail.com>, mhklinux@outlook.com
-Cc: oe-kbuild-all@lists.linux.dev, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 10/14] hv: vmbus: pin buffer pages across UIO mmap to
- close the reclaim race
-Message-ID: <202610090020.wViiihcQ-lkp@intel.com>
-References: <20261007190752.336426-11-emersonbusson@gmail.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, fuse-devel@lists.sourceforge.net
+Subject: [mszeredi-fuse:extent-map-v4 24/29] dev.c:undefined
+ reference to `fuse_backing_open'
+Message-ID: <202610081951.Ien80kqY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007190752.336426-11-emersonbusson@gmail.com>
 
-Hi Emerson,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v7.3-rc6 next-20261008]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Emerson-Busson/hv-vmbus-convert-ring-backing-through-the-chunk-allocator/20261007-160739
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20261007190752.336426-11-emersonbusson%40gmail.com
-patch subject: [PATCH v2 10/14] hv: vmbus: pin buffer pages across UIO mmap to close the reclaim race
-config: i386-randconfig-1013-20261008 (https://download.01.org/0day-ci/archive/20261009/202610090020.wViiihcQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610090020.wViiihcQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git extent-map-v4
+head:   4b2887a36cd547c2e59952e0a202094c82d9c6a9
+commit: 922208fbfd2948a12a6348cc34709e6d54e4fcef [24/29] fuse: support 64 bit, server allocated backing ID
+config: s390-randconfig-2000-20261008 (https://download.01.org/0day-ci/archive/20261008/202610081951.Ien80kqY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610081951.Ien80kqY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610090020.wViiihcQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610081951.Ien80kqY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/dev_printk.h:14,
-                    from include/linux/device.h:15,
-                    from drivers/uio/uio_hv_generic.c:22:
-   drivers/uio/uio_hv_generic_mmap_test.c: In function 'hv_uio_ring_mmap_range_test':
->> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-      25 | #define U64_MAX         ((u64)~0ULL)
-         |                         ^~~~~~~~~~~~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   include/kunit/test.h:810:9: note: in expansion of macro 'KUNIT_UNARY_ASSERTION'
-     810 |         KUNIT_UNARY_ASSERTION(test,                                            \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1017:9: note: in expansion of macro 'KUNIT_FALSE_MSG_ASSERTION'
-    1017 |         KUNIT_FALSE_MSG_ASSERTION(test,                                        \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1014:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE_MSG'
-    1014 |         KUNIT_EXPECT_FALSE_MSG(test, condition, NULL)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/uio/uio_hv_generic_mmap_test.c:35:9: note: in expansion of macro 'KUNIT_EXPECT_FALSE'
-      35 |         KUNIT_EXPECT_FALSE(test,
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/uio/uio_hv_generic_mmap_test.c:36:55: note: in expansion of macro 'U64_MAX'
-      36 |                            hv_uio_mmap_range_valid(8, U64_MAX, 1));
-         |                                                       ^~~~~~~
-
-
-vim +25 include/linux/limits.h
-
-3c9d017cc283df Andy Shevchenko 2023-08-04  14  
-54d50897d544c8 Masahiro Yamada 2019-03-07  15  #define U8_MAX		((u8)~0U)
-54d50897d544c8 Masahiro Yamada 2019-03-07  16  #define S8_MAX		((s8)(U8_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  17  #define S8_MIN		((s8)(-S8_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  18  #define U16_MAX		((u16)~0U)
-54d50897d544c8 Masahiro Yamada 2019-03-07  19  #define S16_MAX		((s16)(U16_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  20  #define S16_MIN		((s16)(-S16_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  21  #define U32_MAX		((u32)~0U)
-3f50f132d8400e John Fastabend  2020-03-30  22  #define U32_MIN		((u32)0)
-54d50897d544c8 Masahiro Yamada 2019-03-07  23  #define S32_MAX		((s32)(U32_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  24  #define S32_MIN		((s32)(-S32_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07 @25  #define U64_MAX		((u64)~0ULL)
-54d50897d544c8 Masahiro Yamada 2019-03-07  26  #define S64_MAX		((s64)(U64_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  27  #define S64_MIN		((s64)(-S64_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  28  
+   s390-linux-ld: arch/s390/kernel/syscall.o: in function `__do_syscall':
+   syscall.c:(.noinstr.text+0x164): undefined reference to `syscall_enter_audit'
+   s390-linux-ld: fs/fuse/dev.o: in function `fuse_dev_ioctl':
+>> dev.c:(.text+0x913c): undefined reference to `fuse_backing_open'
+>> s390-linux-ld: dev.c:(.text+0x9182): undefined reference to `fuse_backing_open_64'
+>> s390-linux-ld: dev.c:(.text+0x91be): undefined reference to `fuse_backing_close'
 
 --
 0-DAY CI Kernel Test Service
