@@ -1,168 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB63349B5C6
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 12:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791462972; cv=fail; b=DFBDf3SU9PukPcbHheHs1bOD32lA1qqjmEq/JHE2aC4ZoXiTjqrRmTxQqVGrf24vjmjaEOlrJ1zbFTeF024UNBWfWenWcW3/kU1X4M2A3IZUjPYHPw1/Td/w6Yvmii+o45694Rw7lKvO1Y/SAbZ13ogu3a7BvLGCRuI3Chkl10k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791462972; c=relaxed/simple;
-	bh=Jp7tXQQ/oamqMtsGS2CtU18fVwcGaTbw58GeW+0BTtI=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=PPlwywQow3+uOIfqLzn4/Zsg21fRQELuuXxgctF150zvtHMoUW2Sgi4FNbmGdK4Zk7GRarXDLPSFqsIp5dCAm/92VjLxAs5Y6jYqubHZgBAbGpsxiP4HvI3GPkXhsbKjsVJIgLmPyYzkbVl/jmoFhaIi4OqgTHg/pMRAEhNXPaU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1+f+S9L; arc=fail smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9099B38DC62
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 12:49:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791463748; cv=none; b=tanhTQ8GG04wS0G2hilYLT+Fcp8EhEzMIx2EBufr3DNuL1xYDn9uZUMG4410aUz824yfh6wANjmfzLUsQiHs8M5KH2hZvqBwG1HWeMSj2+5XLTdknbXr5uJmLdXkHMhesdEyXxoKkLhndi3lRX1e+nsm6PF6fEel+t3erqFuPsU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791463748; c=relaxed/simple;
+	bh=4WV4FbJTeKuPrZemPaQvtu/WzKxYDMo8YF7q9WMZU4U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tyHBrOAB4uMw6u6waOks+jRzlz2GXjQsaFS0X45PEcHFGUdPmSsXkHF7J3hWicx0xRQLWNkZ/szsJDn1HJquu5eFeW81f01g8Kwq4UgjNDJQ/Ser/s8y/caaMOLe36wnRbz+IyMV47a2LJ3N9oAnDiIA4MUWs3xxVCqRWGZtx6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I7ksabuV; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1+f+S9L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I7ksabuV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791462970; x=1822998970;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Jp7tXQQ/oamqMtsGS2CtU18fVwcGaTbw58GeW+0BTtI=;
-  b=b1+f+S9LWibipS5Adt6irlYeFTZO9p45Hg5dPPuV63EG7JaJMdAfzonc
-   jijj0+FZqAaby4dQDnLvDQPm3ybg4+6lubqSNTkR4PKGfFpvKJKjkL0cQ
-   OqSCNKZtzK0M8bu/ba8FLls1j9JYyc0eJdjx/LjBl326VAhRwUW7WWQh0
-   Aln+KkP+3p2l18lymcSzrNmScA5T1Yo1jkohEMNfzfaytlYt/QYb4e9n8
-   DsMc6jMmnukQuYJQf6WfT9stQ5qKgI53S4Tobad2EOMxAyPWK/+DMBsh+
-   Q4v38U9LSKTQNe+8FKj+Y+O1I8rvX7GdFF2kKKBwNxjul8hbvr4tS18VC
-   g==;
-X-CSE-ConnectionGUID: lWpRLoZsRNqWB++vjg3VAA==
-X-CSE-MsgGUID: f2Y98cMURk+E9yBt7CakTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="238846"
+  t=1791463746; x=1822999746;
+  h=date:from:to:cc:subject:message-id;
+  bh=4WV4FbJTeKuPrZemPaQvtu/WzKxYDMo8YF7q9WMZU4U=;
+  b=I7ksabuVjIFUar2BJoOgZFi7aGwltD5jUbY7Rj+stapPTTmAe9ckdp2r
+   o7crQgyELuQyxxFvKEKWuxvzwjWJtCYegbd45caB7YiB1XW1zglvhtqdE
+   k7TgaaAgeKCuSkEf1R7abkEBQQFD5ixyZyrNsdDiUTwJnAu16LCspnypN
+   yldGfS35YZJdvn0pwWS/UnAG6+hUpoln3LWdL+p+HSFCPlg0RddQP8ApT
+   jv3HWUhAgZlTRdm1vlNnkZo0mn67KQjf1oysw3KOJ/4uY04+CGQJpb6Kd
+   LPs6KjLEbRTMKwSWdcIidGSAOJu2vs8cb/ofObj2t8odwAOCL5K7Lxe8+
+   w==;
+X-CSE-ConnectionGUID: 2deXlN2kQeKAtE0Kzt4EUQ==
+X-CSE-MsgGUID: vQMeUKBRQwak328CS3vI8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="270908"
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="238846"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 05:36:10 -0700
-X-CSE-ConnectionGUID: 2al+G6SKTNOJgMernAoRWg==
-X-CSE-MsgGUID: 0izEa5dfSMaQhR+ToE3qgQ==
+   d="scan'208";a="270908"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 05:49:06 -0700
+X-CSE-ConnectionGUID: H30yoWwcTHSzeHZd3rOXrA==
+X-CSE-MsgGUID: jwTp3o9rQxSEsdMN5JrgLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="137777"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 05:36:09 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 8 Oct 2026 05:36:09 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Thu, 8 Oct 2026 05:36:09 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.10) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 8 Oct 2026 05:36:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CZbSGXAqtY3i8Nqs/+Aww6vEvmZN9JTUxfOb9bWgtkclXdWNvl3FR+6v83cOtHXoswf7PU2bgITNS/1tiqGfrFqWi9/FYYsX06KqDEM8dPIGwvjGxdGM0cuGnxiL90GZEhv/Rtvwe4ZajQgRvarMqqvk386aURWXx5M7TeQNYr5vQzfFT7nvOB4/099qvaP8MNGPpPnBxWrSz1VPZyATINQa/h8el39+t7j8/ePKVaBvPHF7VK+H9QI50yuC7N44kF4cEaoiEfOdhSVn6UuG+wjK9Xw1tpEhVPStE6RoDis5demasQF+/KPnWLpwcQcq1+Vu4mtZoloBEFpGjiqStQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n66IPc2+s8T5UCb5C0dxpx5lPJ0nv6OiULXBmo0yDrU=;
- b=oPfdd+rQNoboxtA2qu26dMn0+CwsKKfuhKx4TWUepUjzsOnLpKdtfl1CSeaaSr0AGuOkTbUW0jR2fQtukrBMZiJrH2j62tqrQ1nHjAeGqhiFcBIDrkRYEmbNj4HSz0AiJ5BSwNYSzTw86s8f4W7kVfCX02SFRE+O9vtLbTHLFRE0LqORnCa4HI4AyKySGknKA7KwfAiUM5zqUzl0ExhBhvV6gYE3LMSRORVit6ewVWOPVfthu+bIDnMRkvMhJ//pgcbOVGk/Qfbrvpvz/cGXkXCVwYYF49fx0jFV81dvCWL3daj3XgaQ6igDcJMdiFTaGTt5tPwyUqEq3AfhmfyP2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS6PR11MB362586.namprd11.prod.outlook.com (2603:10b6:8:4c4::14)
- by MW4PR11MB7102.namprd11.prod.outlook.com (2603:10b6:303:22b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.16; Thu, 8 Oct
- 2026 12:36:06 +0000
-Received: from DS6PR11MB362586.namprd11.prod.outlook.com
- ([fe80::71a6:38f9:43ed:8f8a]) by DS6PR11MB362586.namprd11.prod.outlook.com
- ([fe80::71a6:38f9:43ed:8f8a%6]) with mapi id 15.21.0496.015; Thu, 8 Oct 2026
- 12:36:06 +0000
-Date: Thu, 8 Oct 2026 20:35:58 +0800
+   d="scan'208";a="56065"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 08 Oct 2026 05:49:04 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xEnYU-000000005Sg-3KGP;
+	Thu, 08 Oct 2026 12:49:02 +0000
+Date: Thu, 08 Oct 2026 14:48:41 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jay Wang <wanjay@amazon.com>
-CC: <oe-kbuild-all@lists.linux.dev>, 0day robot <lkp@intel.com>
-Subject: Error: failed to load BTF from vmlinux.unstripped: No data available
-Message-ID: <aseOLpw1sbbJbS2c@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: TPYP295CA0040.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:7d0:7::12) To DS6PR11MB362586.namprd11.prod.outlook.com
- (2603:10b6:8:4c4::14)
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 24/45] drivers/tty/tty_jobctrl.c:81:9:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202610081449.FyXbwlC5-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS6PR11MB362586:EE_|MW4PR11MB7102:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7ffee8e-ef62-49fa-47e3-08df2538b901
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|10067099003|56012099006|6133799003|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info: TzgSETlegfphOMA18fKxvphjW7j6y8WrCijwyqCS0Sn5DtsoB2cLrcabhluvZFOS0JlSWX/+Wtue6Wl49WumtC5uKxeHiLg8AJ3evkoq2DGNS8247y6O7DVaXlCXh96a5KBZ8+0PVmd0LWcFeOlARNB5r0AVK1vOqHNALyCQ/gGtPd+hxQFTS1ZXargtCHWASGIQnl9o6jpS/zUAlvtSoQcTGNhFTkBqkPMdNKfhTiIDhLyIL6nWtLuhoBYDhyNZRqBHhyGvYLJc7urV6+P5bz4MwzTHQTwmr0UM/liJQR/s1OQeza/DfDzqMH5NW7F0CcVkVczG+Q/x9iQt46iW29C9gYaUao8z85BuLsTns63Boiu6/jiuvFVQRwc27HsazZl291CVGWBdQXt19hiBL8C0FKZyzJ/gsnw5kfTmHycEWy/81R1TpL0MKqfMSk5x9uBMSOjQnBL3ZvyaA3A3V6dBdALh4NvESHUCi6nhJraw4UdTesQKlMJG6jh+f7tBJeyY7cjUbNPS4CoYfQxOLRmGP0fDi2wi4yhmfYATU59b+xrxsY4lAvBdLkAkoQI9kcVbZBSZE6O2nnQOlbROP/dob0Y3+9AJf1g5Gwfw/l3uyf75Hg5NdoREmFE0flKZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS6PR11MB362586.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(10067099003)(56012099006)(6133799003)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?w45FZtBXOLSmSsEubX5NyWdk9KFqqFUnI4S9XVr7INvQMYf6yJwMMZ8ZVbC6?=
- =?us-ascii?Q?43niUAcLtOKMd7T3O2BdQfLukW6aTjTstVCkScQuAEyQ98SM/gFw5oojT0QI?=
- =?us-ascii?Q?6fa5UOfErHt3NgGsFLj48EiTToqJJiXzjqqJP10Lb9gr98g29x1W1TOt9CAb?=
- =?us-ascii?Q?q+S5RZUPcqQc0IGIwbfIC+QgdkBWEdBVlgrj9akhVcE7vMTdeL1SE19Zh90n?=
- =?us-ascii?Q?+XfQ4vQlwXMXtDx4YjjNGt/A36TY3OHszY+Lj1k4rzhP68ok2hhwB6uU3Cwr?=
- =?us-ascii?Q?551HIq2EayqEJht0TxuHNKkyc7yNKnAQeUGCkdfOGsuifInClJdxUi1ILmS2?=
- =?us-ascii?Q?nxby3xH+lu86S1qlj3EP3dq5hpApkboi5+XvZ3G/k2YrPW9SixhMrdHG8J4y?=
- =?us-ascii?Q?Hz65KgPzpc0EDSTUe3fRTdOTZX2Tnk3NbQFhmtRg5b6cOyqPOxdy+So4F+9N?=
- =?us-ascii?Q?02Vv2ehVL69ZO2iEekksjD/qEqLOgcgKOWbeWg/ZY4eOMSQnDSKaZRRG9b48?=
- =?us-ascii?Q?JFta1Z4eKRttGHTv3YoBN81XdA3j/lO8U9wGOA9n6eC/7W6kqsboKnPJcUy0?=
- =?us-ascii?Q?nKjaNzYJk5H/7QE2rgi/71egfnU9cEgFSZsDZu5WWsqWwJ98uGPlkCqNmzjy?=
- =?us-ascii?Q?wPPi2pHVDB1NPrTMgknwmv0lD07t4he/wXQMFXS1s0VC4fKsUWdz3jFxcta0?=
- =?us-ascii?Q?seAkbv+15iKM213crc5Hph0XI1vG7m9t0Xik1R5xvbsSmWjC9+g3KRBUXUKj?=
- =?us-ascii?Q?hXHgPyEEyNhoZYEpTfu5WfwiUf6sk4GwQsfoI6KJWuQPMpGrw9UhkX8wZcQL?=
- =?us-ascii?Q?/cL4MTd00hsqDaWkB4oQWIVA74DCO9syChlSG2OSyQCzNTq7f71VKcbD2mcd?=
- =?us-ascii?Q?eGLt9Aq1bdkDx9X/f3C0lvJBIo3R3Uq0T4Pe8Jebmrlz1pnTnWaDIHgF3pxh?=
- =?us-ascii?Q?ah9g+gOgxpUvzcFtmC2ocZ9sDlqRu7SKk7shXWvSZkVUfr7nxExJo8UkEM1H?=
- =?us-ascii?Q?s9SPw9zMK3YlbuwlyAEXN9MsjRbghqyjjoYbPcR/oDqKyrt72f2YuapHJnCf?=
- =?us-ascii?Q?UTj/UQi1UnW9XTolWDWeyLxS+LppRVHcKPXn5vuIs23pxSrXVzSHQrqtR30C?=
- =?us-ascii?Q?Y0pOIDz/VTYOk6D99Fr+UBg5BQTnsBU1ZcSST2+78/zvLtdCViQNVTT0z6XU?=
- =?us-ascii?Q?xSfOs15CffleV6OuoFJIV/T39T87IR7QsrtelUdRTSIcV5YHZVTNhAi3UFfz?=
- =?us-ascii?Q?CwyiST8DRVf6fiVEvqABws8nb8JNTHLOoaZNvL3uaMB3C4iSYkS7aBH4OV7j?=
- =?us-ascii?Q?XTdCKJfhKjjwLf6kdyTGEd23AJwe7cVGcSefYnjWp+UDeS/953GLenBySa5m?=
- =?us-ascii?Q?PpBT0TrcIU59F5ka5ChwRE6mjYUj8u+gLqEwPWjh+DY6dlhdDSDIvq7LCKUh?=
- =?us-ascii?Q?+aHsLm9L1ojs8lRUlv2ygmxgnj9E+qFNbFGH722W00j119wb5pI/fcasguP6?=
- =?us-ascii?Q?8NPX5y0cmxiESKafAug4rO9+LAwI0kX0zpoHbN/KNQyWxEleU/3iQodHZ+dr?=
- =?us-ascii?Q?yY8KLBfQPb0JHVL1Qt2jM/zYD30NXR2BljHZ6lGJNFUFuMEi3dpubmqgXX7R?=
- =?us-ascii?Q?1czQy6j3aJ4JiMVQF853GOFgVs8XorF94TPfKfjLQ3xfjxgXsZ0JFRbb77Nh?=
- =?us-ascii?Q?lLezAeEOn+47NmSDDm5nlcekrvwU+gKUhXcwMwslxXhHmkoyJB8/XDiTCNqD?=
- =?us-ascii?Q?dpXATrnaXw=3D=3D?=
-X-Exchange-RoutingPolicyChecked: uVZ7J3aS1Owi4gh1dtWT1Ji1CtCpSQ3ACQML3AGyE6UoOm9DpSnr7byDNc9CHsgukTEaT5ALSVaTvRm4vSlMIpF8+VkZW3iycb7YtUdX3upwkHM0mQyScfcNnxiwXrsp6PexEXFEnrjBOoGf6ARfXhXxUXBn+EqcRHXPTaPtkpLp7QCaeeiLA7LrgEHzT3UhG4ej2H2nF+THXfc/a5N42r118fEpGMSH3x0imUINrPeWORq3inNDg0ehlpeCu0Z7rTP76CgEZ/WHldFaJR2eniPcp08f4us3/X6/vDAbbnxNbECX738wzyXLhynpay7Sl2YlIaW3qOQNSA9Dv+hwag==
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7ffee8e-ef62-49fa-47e3-08df2538b901
-X-MS-Exchange-CrossTenant-AuthSource: DS6PR11MB362586.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 12:36:06.5458
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iMENWTAbjZNgAwvyRtcWq57gkmbNtEFlhjKgsQ/iFeBfrk855gGnLAw3Q92u1oh5gw2YQVV29LyfN/uPgWQj1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7102
-X-OriginatorOrg: intel.com
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Jay-Wang/bpf-pass-the-vmlinux-BTF-to-btf_parse_module-and-let-it-adopt-the-data/20261001-225203
-head:   cd8e398af7bb2a5c3d30c3409db280b73d23047d
-commit: 974f6536dd081d120bd276dcd1ff24e304cc9d32 tools, samples: take the vmlinux BTF from vmlinux.unstripped first
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261007/202610071800.1GjXnbR9-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261007/202610071800.1GjXnbR9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   28cbfabc2a887eee4c21c54cc78e2d41ef4c5c34
+commit: ba25057f2aac2cfc74cf3f6ab1202afa43146dce [24/45] tty_jobctrl: use guard
+config: arm-randconfig-r2307-20261008 (https://download.01.org/0day-ci/archive/20261008/202610081449.FyXbwlC5-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610081449.FyXbwlC5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202610071800.1GjXnbR9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610081449.FyXbwlC5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tty/tty_jobctrl.c:81:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:81:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:81:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:124:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:124:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:124:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:134:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:134:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:134:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:160:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:160:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:160:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:198:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:198:25: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:198:25: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:209:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:209:51: sparse:     expected struct spinlock [usertype] *lock
+   drivers/tty/tty_jobctrl.c:209:51: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:285:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:285:17: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:285:17: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:314:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *_T @@     got struct spinlock [noderef] __rcu * @@
+   drivers/tty/tty_jobctrl.c:314:9: sparse:     expected struct spinlock [usertype] *_T
+   drivers/tty/tty_jobctrl.c:314:9: sparse:     got struct spinlock [noderef] __rcu *
+   drivers/tty/tty_jobctrl.c:20:41: sparse: sparse: dereference of noderef expression
 
-   libbpf: failed to find '.BTF' ELF section in vmlinux.unstripped
->> Error: failed to load BTF from vmlinux.unstripped: No data available
+vim +81 drivers/tty/tty_jobctrl.c
+
+    76	
+    77	void proc_clear_tty(struct task_struct *p)
+    78	{
+    79		struct tty_struct *tty;
+    80	
+  > 81		scoped_guard(spinlock_irqsave, &p->sighand->siglock) {
+    82			tty = p->signal->tty;
+    83			p->signal->tty = NULL;
+    84		}
+    85		tty_kref_put(tty);
+    86	}
+    87	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
