@@ -1,226 +1,89 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4E6547075
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 09:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C21441619
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 09:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791452816; cv=none; b=jAK47e6zHt5x6pUHslSQcDM95/dIXRPe0Ji6gTJn08jUDPNBnqbTXDpr88skSmmrDFGcNyysddxrb71TbOWtiMNQXcLHRMDZedy5lQNJdXs0pc72ryx7U6YhDL8twzZrxt+zwft0RrWmXx8wzzPtrNhe3KLPlVrsGFIJioFBa4U=
+	t=1791452817; cv=none; b=BS9agdKl7z7fBVGWYdIcClFCFahFV2xTHHl2A2p3aAUCUqzj41vOzSr3CBGVxT0vCye/lQtooOplnTeeQydb845j1ukHHAtlr50YxaTSyNca0Y8du7C8hpgaEwYx9yk66hb8BuEkOcuZs+v5UCbHZEtFMFAD/72ZHiDZbpJXHKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791452816; c=relaxed/simple;
-	bh=X33O9maeQCsCXYaIiVKGDwXxjSvXnjSLx2O7U6342Vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XxtxJP1oXBZEeQn4w8j0LVJ8fD2pIRgSFmn3JVqAEhWvzvuOlbirHJTV8NCwbyTmL9VA94HLqQgsgrz6fQ01PZfxEWeVnveFIM6q7GOIj1zLVbPlxxAcjA54evkEi/r0smSi/OrHBAzyfYMijKBqmm05HA8VymPWfBS2F/rDytE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N50Mk+7P; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1791452817; c=relaxed/simple;
+	bh=MuajMaDzYr7DBXnccGrGw+m5zveXmQpKjZgcN/nVmJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lFHXIgQyh/Mm24GqzfRvm0gZeI9l/nA2c4c4kkYxsOz9JOU9ej7VImMjYbiqF5YjlC+gfEgV00hq0n7Qal02Y70AyuLYKP+bhLuBEyPsrwVKJMH+R2nEF8QYpLla200FbMgZiRFRt1+f4jtxgDuV3EFRmcnHtV+lfKjQKuoofNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Du4tyorx; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N50Mk+7P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Du4tyorx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791452815; x=1822988815;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X33O9maeQCsCXYaIiVKGDwXxjSvXnjSLx2O7U6342Vs=;
-  b=N50Mk+7PkFHgiEQ1Mr+bi09cXzpDKEkPXxRtE3snLJSbHmJe6xOOvkhh
-   jF+l7A8Wda3xkFax4EWk54xDKpTi1zsSHUMadZkwF6U3+ycY/fHukNgOA
-   gaY6SN7/N+prSs6OVNJemIkh8rMzwOMOMXfzbhR+MIOZzH+YKBq6zfOmv
-   pJhUll7BEBzcVf2c8MSEvR57cG5wsSKYPEUltFDnNTRfitnxF2QjrfVC1
-   kOf7OosH+a9G5gBZ9J/9vKpxSZczdGEPYUcTUzySNaR3FbJQ6jRjJx4FW
-   Dueu7d8QEm9+lSjeGAyeIvuBJFK/4LG9FOtOsZknFSA19YV+2v3YPcBBJ
-   w==;
-X-CSE-ConnectionGUID: HdQlIAEOTv6l/8ecUtgy9A==
-X-CSE-MsgGUID: 8wlgWE37TSK4MrYRtNUaqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="120563"
+  t=1791452816; x=1822988816;
+  h=date:from:to:cc:subject:message-id;
+  bh=MuajMaDzYr7DBXnccGrGw+m5zveXmQpKjZgcN/nVmJ4=;
+  b=Du4tyorxzM8KVFG7Xx2pWl8TBuEAVp5EZGpBXRUoEfWj7XNxY1heE8Sj
+   eRFTFxq3mt5FguXro5q2g5/dGPb5ErQxjf9l6vXTE38SqRpE7AsAYILBJ
+   Gpp+9UFUhlFieuVKT/aVybLnFMc72mjaX3FNDilzg7SJ4JBMX/P/sDaKF
+   z7svLDUmkiQF/SBL9SGhYrFS+pdfd58VeIl4hzFxCyHTwFsPjrlrkRKxR
+   6D6WuDodYOP9Q0yJBrdpL4BoEDXQQuka7sz7qpCDTMNG+GpUNOBQkJszp
+   H7pEtxkimVCnaztuRkbfTcX9iY9UiobtKC/hf2wNE5p4bIooBXk1ZxG/q
+   Q==;
+X-CSE-ConnectionGUID: KpCa4K4aSYupbybpn9DkLw==
+X-CSE-MsgGUID: a0irkLmLSPibFpaDOXMbEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="120565"
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="120563"
+   d="scan'208";a="120565"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:46:54 -0700
-X-CSE-ConnectionGUID: yflCDbmGT2qBPZhJLYHi0Q==
-X-CSE-MsgGUID: F2fYfCWqTy6FzVWV+gohDQ==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:46:55 -0700
+X-CSE-ConnectionGUID: BvwyrsWqRguDHK86JOoe1g==
+X-CSE-MsgGUID: VZBVhREFSk6BGGLK0rN78Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="4059"
+   d="scan'208";a="4064"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Oct 2026 02:46:53 -0700
+  by orviesa002.jf.intel.com with ESMTP; 08 Oct 2026 02:46:54 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEkiB-000000004F6-0ryV;
+	id 1xEkiB-000000004FF-1We7;
 	Thu, 08 Oct 2026 09:46:51 +0000
-Date: Thu, 8 Oct 2026 17:46:15 +0800
+Date: Thu, 08 Oct 2026 17:46:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>,
-	netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH nf-next,v5] netfilter: flowtable: initial bridge support
-Message-ID: <202610081758.VzMeMAKv-lkp@intel.com>
-References: <20261007222057.1141093-1-pablo@netfilter.org>
+To: Vivek Aknurwar <vivek.aknurwar@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Alexey Klimov <alexey.klimov@linaro.org>
+Subject: {standard input}:2398: Error: Insn jl has an instruction
+ mpyuw with limm in its delay slot.
+Message-ID: <202610081711.NhfWonIr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007222057.1141093-1-pablo@netfilter.org>
 
-Hi Pablo,
+Hi Vivek,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on netfilter-nf/main]
-[also build test ERROR on nf-next/main linus/master v7.3-rc6 next-20261006]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-flowtable-initial-bridge-support/20261008-002056
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20261007222057.1141093-1-pablo%40netfilter.org
-patch subject: [PATCH nf-next,v5] netfilter: flowtable: initial bridge support
-config: parisc-randconfig-1001-20261008 (https://download.01.org/0day-ci/archive/20261008/202610081758.VzMeMAKv-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610081758.VzMeMAKv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   69f80fef3153299d9c72c53d1d71eef6354b6926
+commit: 6c2fd7a71e7ab490a0a9d591486d923712012f59 firmware: arm_scmi: Increase performance MAX_OPPS limit to 64
+date:   10 months ago
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20261008/202610081711.NhfWonIr-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610081711.NhfWonIr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6c2fd7a71e7a ("firmware: arm_scmi: Increase performance MAX_OPPS limit to 64")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610081758.VzMeMAKv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610081711.NhfWonIr-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/netfilter/nft_flow_offload.c: In function 'nft_flow_offload_bridge_eval':
->> net/netfilter/nft_flow_offload.c:153:35: error: 'skb' undeclared (first use in this function)
-     153 |  if (!pkt->flags || skb_ext_exist(skb, SKB_EXT_BRIDGE_NF))
-         |                                   ^~~
-   net/netfilter/nft_flow_offload.c:153:35: note: each undeclared identifier is reported only once for each function it appears in
->> net/netfilter/nft_flow_offload.c:153:40: error: 'SKB_EXT_BRIDGE_NF' undeclared (first use in this function)
-     153 |  if (!pkt->flags || skb_ext_exist(skb, SKB_EXT_BRIDGE_NF))
-         |                                        ^~~~~~~~~~~~~~~~~
---
-   net/netfilter/nf_flow_table_path.c: In function 'nft_dev_fill_bridge_path':
->> net/netfilter/nf_flow_table_path.c:342:28: error: passing argument 1 of 'dev_fill_forward_path' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     342 |  if (dev_fill_forward_path(dev, dst_ha, &stack) < 0 ||
-         |                            ^~~
-         |                            |
-         |                            const struct net_device *
-   In file included from include/linux/etherdevice.h:21,
-                    from net/netfilter/nf_flow_table_path.c:5:
-   include/linux/netdevice.h:3440:55: note: expected 'struct net_device_path_ctx *' but argument is of type 'const struct net_device *'
-    3440 | int dev_fill_forward_path(struct net_device_path_ctx *ctx,
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   net/netfilter/nf_flow_table_path.c:342:33: error: passing argument 2 of 'dev_fill_forward_path' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     342 |  if (dev_fill_forward_path(dev, dst_ha, &stack) < 0 ||
-         |                                 ^~~~~~
-         |                                 |
-         |                                 unsigned char *
-   In file included from include/linux/etherdevice.h:21,
-                    from net/netfilter/nf_flow_table_path.c:5:
-   include/linux/netdevice.h:3441:36: note: expected 'struct net_device_path_stack *' but argument is of type 'unsigned char *'
-    3441 |      struct net_device_path_stack *stack);
-         |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
->> net/netfilter/nf_flow_table_path.c:342:6: error: too many arguments to function 'dev_fill_forward_path'
-     342 |  if (dev_fill_forward_path(dev, dst_ha, &stack) < 0 ||
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/etherdevice.h:21,
-                    from net/netfilter/nf_flow_table_path.c:5:
-   include/linux/netdevice.h:3440:5: note: declared here
-    3440 | int dev_fill_forward_path(struct net_device_path_ctx *ctx,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> net/netfilter/nf_flow_table_path.c:343:47: error: passing argument 4 of 'nft_dev_path_info' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     343 |      nft_dev_path_info(&stack, &info, dst_ha, &ft->data) < 0)
-         |                                               ^~~~~~~~~
-         |                                               |
-         |                                               struct nf_flowtable *
-   net/netfilter/nf_flow_table_path.c:108:50: note: expected 'struct nft_flowtable *' but argument is of type 'struct nf_flowtable *'
-     108 |         unsigned char *ha, struct nft_flowtable *ft)
-         |                            ~~~~~~~~~~~~~~~~~~~~~~^~
->> net/netfilter/nf_flow_table_path.c:346:35: error: 'struct nft_forward_info' has no member named 'indev'; did you mean 'dev'?
-     346 |  if (!nft_flowtable_find_dev(info.indev, ft))
-         |                                   ^~~~~
-         |                                   dev
-   net/netfilter/nf_flow_table_path.c:349:28: error: 'struct nft_forward_info' has no member named 'indev'; did you mean 'dev'?
-     349 |  this_tuple->iifidx = info.indev->ifindex;
-         |                            ^~~~~
-         |                            dev
-   cc1: some warnings being treated as errors
-
-
-vim +/skb +153 net/netfilter/nft_flow_offload.c
-
-   138	
-   139	static void nft_flow_offload_bridge_eval(const struct nft_expr *expr,
-   140						 struct nft_regs *regs,
-   141						 const struct nft_pktinfo *pkt)
-   142	{
-   143		struct nft_flow_offload *priv = nft_expr_priv(expr);
-   144		struct nf_flowtable *flowtable = &priv->flowtable->data;
-   145		struct tcphdr _tcph, *tcph = NULL;
-   146		enum ip_conntrack_info ctinfo;
-   147		struct flow_offload *flow;
-   148		enum ip_conntrack_dir dir;
-   149		struct nf_conn *ct;
-   150		int ret;
-   151	
-   152		/* Is this a non-IP packet or br_netfilter? If so, skip. */
- > 153		if (!pkt->flags || skb_ext_exist(skb, SKB_EXT_BRIDGE_NF))
-   154			goto out;
-   155	
-   156		ct = nf_ct_get(pkt->skb, &ctinfo);
-   157		if (!ct || !nf_ct_is_confirmed(ct))
-   158			goto out;
-   159	
-   160		/* Unlikely, conntrack bridge should not see neither helpers nor NAT in
-   161		 * the bridge forward path.
-   162		 */
-   163		if (nf_ct_ext_exist(ct, NF_CT_EXT_HELPER) ||
-   164		    ct->status & (IPS_SEQ_ADJUST | IPS_NAT_CLASH))
-   165			goto out;
-   166	
-   167		switch (ct->tuplehash[IP_CT_DIR_ORIGINAL].tuple.dst.protonum) {
-   168		case IPPROTO_TCP:
-   169			tcph = skb_header_pointer(pkt->skb, nft_thoff(pkt),
-   170						  sizeof(_tcph), &_tcph);
-   171			if (unlikely(!tcph || tcph->fin || tcph->rst ||
-   172				     !nf_conntrack_tcp_established(ct)))
-   173				goto out;
-   174			break;
-   175		case IPPROTO_UDP:
-   176			break;
-   177		default:
-   178			goto out;
-   179		}
-   180	
-   181		if (test_and_set_bit(IPS_OFFLOAD_BIT, &ct->status))
-   182			goto out;
-   183	
-   184		flow = flow_offload_alloc(ct);
-   185		if (!flow)
-   186			goto err_flow_forward;
-   187	
-   188		dir = CTINFO2DIR(ctinfo);
-   189		if (nft_flow_bridge(flow, pkt, dir, priv->flowtable) < 0)
-   190			goto err_flow_add;
-   191	
-   192		if (tcph)
-   193			flow_offload_ct_tcp(ct);
-   194	
-   195		__set_bit(NF_FLOW_HW_BIDIRECTIONAL, &flow->flags);
-   196		ret = flow_offload_add(flowtable, flow);
-   197		if (ret < 0)
-   198			goto err_flow_add;
-   199	
-   200		return;
-   201	
-   202	err_flow_add:
-   203		flow_offload_free(flow);
-   204	err_flow_forward:
-   205		clear_bit(IPS_OFFLOAD_BIT, &ct->status);
-   206	out:
-   207		regs->verdict.code = NFT_BREAK;
-   208	}
-   209	
+   Assembler messages:
+>> {standard input}:2398: Error: Insn jl has an instruction mpyuw with limm in its delay slot.
 
 --
 0-DAY CI Kernel Test Service
