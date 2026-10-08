@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C21441619
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 09:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C394746D6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Oct 2026 09:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791452817; cv=none; b=BS9agdKl7z7fBVGWYdIcClFCFahFV2xTHHl2A2p3aAUCUqzj41vOzSr3CBGVxT0vCye/lQtooOplnTeeQydb845j1ukHHAtlr50YxaTSyNca0Y8du7C8hpgaEwYx9yk66hb8BuEkOcuZs+v5UCbHZEtFMFAD/72ZHiDZbpJXHKc=
+	t=1791453404; cv=none; b=ipvQeOoEcJdGK+sHBpdlBRDyrqdUafWjoT/OAkCSMKVHSA/azU1HaCxpQMK+A/x3F5AwCmn4HvlFqIgBy+Y3yPAC0ya40jHGjHnVvQ9m7tZhOLNqF0zZ1LPROh3Jjtm2AhFAsjZALZY6H49dfu8TJlfeA4kiXKuudpLgIWgL8fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791452817; c=relaxed/simple;
-	bh=MuajMaDzYr7DBXnccGrGw+m5zveXmQpKjZgcN/nVmJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lFHXIgQyh/Mm24GqzfRvm0gZeI9l/nA2c4c4kkYxsOz9JOU9ej7VImMjYbiqF5YjlC+gfEgV00hq0n7Qal02Y70AyuLYKP+bhLuBEyPsrwVKJMH+R2nEF8QYpLla200FbMgZiRFRt1+f4jtxgDuV3EFRmcnHtV+lfKjQKuoofNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Du4tyorx; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1791453404; c=relaxed/simple;
+	bh=wdFW4tBNJxWS6oCnydxuazTDwHOO4KBHrjc85AuJyec=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J3qV+eXsfagPecIuf/b6W5SYJw5nyil3JnDCcKd0C/nI6e/fX4UyQW0QIfZDbzn6jqPtum5/7rWBE8fs3j07GEMf8+reFu9XEoPyeTM7BWFDTd0WejyyT9RxsKwnasQl4CA8GnnmXpmiZAVqfgkCSls1O/qGhwr4UqkczLCAkEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2XmObJi; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Du4tyorx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2XmObJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791452816; x=1822988816;
+  t=1791453402; x=1822989402;
   h=date:from:to:cc:subject:message-id;
-  bh=MuajMaDzYr7DBXnccGrGw+m5zveXmQpKjZgcN/nVmJ4=;
-  b=Du4tyorxzM8KVFG7Xx2pWl8TBuEAVp5EZGpBXRUoEfWj7XNxY1heE8Sj
-   eRFTFxq3mt5FguXro5q2g5/dGPb5ErQxjf9l6vXTE38SqRpE7AsAYILBJ
-   Gpp+9UFUhlFieuVKT/aVybLnFMc72mjaX3FNDilzg7SJ4JBMX/P/sDaKF
-   z7svLDUmkiQF/SBL9SGhYrFS+pdfd58VeIl4hzFxCyHTwFsPjrlrkRKxR
-   6D6WuDodYOP9Q0yJBrdpL4BoEDXQQuka7sz7qpCDTMNG+GpUNOBQkJszp
-   H7pEtxkimVCnaztuRkbfTcX9iY9UiobtKC/hf2wNE5p4bIooBXk1ZxG/q
-   Q==;
-X-CSE-ConnectionGUID: KpCa4K4aSYupbybpn9DkLw==
-X-CSE-MsgGUID: a0irkLmLSPibFpaDOXMbEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="120565"
+  bh=wdFW4tBNJxWS6oCnydxuazTDwHOO4KBHrjc85AuJyec=;
+  b=U2XmObJiS6IM8A2ZdPF9h8REjBf5KvLO8cT4W1RAI2MbD7ei5NdCa6Cr
+   WTlOupytRfcplQzr5Ek2/P48zddDbmRTtOZLQp4rot2EZZFZ/arRUg7Z3
+   Hhpvx+AHt1LkZKLz+4hZUsHdbOZuWmVYw4fmOxcW+TaJ13byURZ3YXQXl
+   fOBuu/3AenUQK6d7XjCkzQK2lwfX6482GDFiwU8VTlzOi7yEjAVBq0ZtI
+   n1ePPdDeCE0PaQZ1OyJbDYU87qidcxyc1YqqxmeCIcCoeWdzenQzZ8ave
+   ylDQcjIwQZTF74fO8qiNkJnkgR70rw7oi0fvx612RP7m1EnkBbxEx8egl
+   g==;
+X-CSE-ConnectionGUID: oQmoHneHSOeinkLiVksfCw==
+X-CSE-MsgGUID: 05flCgaUTNSUGWsGB4MXfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="240784"
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="120565"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:46:55 -0700
-X-CSE-ConnectionGUID: BvwyrsWqRguDHK86JOoe1g==
-X-CSE-MsgGUID: VZBVhREFSk6BGGLK0rN78Q==
+   d="scan'208";a="240784"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:56:42 -0700
+X-CSE-ConnectionGUID: hHB924knS4iu2C17WC/wOA==
+X-CSE-MsgGUID: Leq3y1YYQEGka9mHTPkStw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="4064"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 08 Oct 2026 02:46:54 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="358756"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Oct 2026 02:56:40 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEkiB-000000004FF-1We7;
-	Thu, 08 Oct 2026 09:46:51 +0000
-Date: Thu, 08 Oct 2026 17:46:16 +0800
+	id 1xEkre-000000005F1-1C0Z;
+	Thu, 08 Oct 2026 09:56:38 +0000
+Date: Thu, 08 Oct 2026 11:56:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: Vivek Aknurwar <vivek.aknurwar@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Sudeep Holla <sudeep.holla@arm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Alexey Klimov <alexey.klimov@linaro.org>
-Subject: {standard input}:2398: Error: Insn jl has an instruction
- mpyuw with limm in its delay slot.
-Message-ID: <202610081711.NhfWonIr-lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
+Subject: [linux-next:master 13458/15025]
+ arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-0
+ (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-0' does not match
+ '^ethernet(@.*)?$'
+Message-ID: <202610081109.y7A2b830-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,28 +61,55 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Vivek,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   69f80fef3153299d9c72c53d1d71eef6354b6926
-commit: 6c2fd7a71e7ab490a0a9d591486d923712012f59 firmware: arm_scmi: Increase performance MAX_OPPS limit to 64
-date:   10 months ago
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20261008/202610081711.NhfWonIr-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610081711.NhfWonIr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b018686719706a781c45a874ed51374a2dc4b767
+commit: 05e40209cf75cd516b17b6f8e137f3f4ba2d176d [13458/15025] dt-bindings: net: Convert hisilicon,hns-nic to DT schema
+config: arm64-randconfig-2402-20261006 (https://download.01.org/0day-ci/archive/20261008/202610081109.y7A2b830-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+dtschema: 2026.10.dev4+g568711590
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261008/202610081109.y7A2b830-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 6c2fd7a71e7a ("firmware: arm_scmi: Increase performance MAX_OPPS limit to 64")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610081711.NhfWonIr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610081109.y7A2b830-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   Assembler messages:
->> {standard input}:2398: Error: Insn jl has an instruction mpyuw with limm in its delay slot.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/hisilicon/hip06.dtsi:751.4-754.37: Warning (interrupt_map): /soc/pcie@b0000000:interrupt-map: Missing property '#address-cells' in node /mbigen_pcie@a0080000/intc_pcie0, using 0 as fallback
+   arch/arm64/boot/dts/hisilicon/hip06.dtsi:751.4-754.37: Warning (interrupt_map): /soc/pcie@b0000000:interrupt-map: Missing property '#address-cells' in node /mbigen_pcie@a0080000/intc_pcie0, using 0 as fallback
+   arch/arm64/boot/dts/hisilicon/hip06.dtsi:751.4-754.37: Warning (interrupt_map): /soc/pcie@b0000000:interrupt-map: Missing property '#address-cells' in node /mbigen_pcie@a0080000/intc_pcie0, using 0 as fallback
+   arch/arm64/boot/dts/hisilicon/hip06.dtsi:751.4-754.37: Warning (interrupt_map): /soc/pcie@b0000000:interrupt-map: Missing property '#address-cells' in node /mbigen_pcie@a0080000/intc_pcie0, using 0 as fallback
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-0 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-0' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+>> arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-0 (hisilicon,hns-nic-v2): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-1 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-1' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-1 (hisilicon,hns-nic-v2): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-4 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-4' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-4 (hisilicon,hns-nic-v2): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip06-d03.dtb: ethernet-5 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-5' does not match '^ethernet(@.*)?$'
+--
+   arch/arm64/boot/dts/hisilicon/hip07.dtsi:1742.4-1745.40: Warning (interrupt_map): /soc/pcie@af800000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@a0080000/intc_pcie2_a, using 0 as fallback
+   arch/arm64/boot/dts/hisilicon/hip07.dtsi:1742.4-1745.40: Warning (interrupt_map): /soc/pcie@af800000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@a0080000/intc_pcie2_a, using 0 as fallback
+   arch/arm64/boot/dts/hisilicon/hip07.dtsi:1742.4-1745.40: Warning (interrupt_map): /soc/pcie@af800000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@a0080000/intc_pcie2_a, using 0 as fallback
+   arch/arm64/boot/dts/hisilicon/hip07.dtsi:1742.4-1745.40: Warning (interrupt_map): /soc/pcie@af800000:interrupt-map: Missing property '#address-cells' in node /interrupt-controller@a0080000/intc_pcie2_a, using 0 as fallback
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: ethernet-0 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-0' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+>> arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: ethernet-0 (hisilicon,hns-nic-v2): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: ethernet-1 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-1' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: ethernet-1 (hisilicon,hns-nic-v2): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: ethernet-2 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-2' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: ethernet-2 (hisilicon,hns-nic-v2): Unevaluated properties are not allowed ('local-mac-address' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/hisilicon,hns-nic.yaml
+   arch/arm64/boot/dts/hisilicon/hip07-d05.dtb: ethernet-3 (hisilicon,hns-nic-v2): $nodename:0: 'ethernet-3' does not match '^ethernet(@.*)?$'
 
 --
 0-DAY CI Kernel Test Service
