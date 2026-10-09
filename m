@@ -1,123 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35D044F54F
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 13:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E034E0209
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 13:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791552218; cv=none; b=TrToTAjgIyq07T9mNB22NkVYZsI0xVkxbysq3695ryON91yc5G/Y1JQ5Q0o1gmoAOP0h+A8baKXcu8s8j6WOdieighYHOE2QsgB4sfg9pAbwgzJepPWumiOZgCce1VD5G1OeyMxCAgKxteSNw7uIMz/eOf9Y+yK3xJeArDLA6bE=
+	t=1791552554; cv=none; b=evbmVbfU2Y7AB7JrxImExB8rr3dRkwrQg2Jt8ZZ9DP7pTsUpTWJYqGms/QyR7ydzGWSaOitaXp3IVzvkHLRBMlMfx93JPA9IWBtQdKe4abjbyH2jIEtHXgy5bkkmxW5UY+KOHsSH0N4jMT9GaECo2rUS2W3f2T62uJ0TBN5QSfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791552218; c=relaxed/simple;
-	bh=4H+cfQ6gedWLiGYFeWv9qkDPH02uU6E0Vl/1XEXCSTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TRtydNdwGDSD4K/OXYYMelCbgkHU+cOD58pm4FhwHGg7D2uKSDtHscUTE8xBpQwOB/lI5Yfo9/kUrWRg7FhBW/41O1wtPNCmb3J9JreWYSt8og3caGAiDzn0bXK5HNHY57JKCmGI2E68QO8JvyfUoWkjGga13FFs/F1STtxPchY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYheJiFO; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1791552554; c=relaxed/simple;
+	bh=wcKvnbLEjalGDR8vRcoPhp5QGrg7hZGrKtIVXmAweic=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=C5FSrUvH7K5kvKCI0XpES3qNCyY1Rluw4u424dcNxndfTmZ3bXJYFaZuu6lo54p9cvPDYVGPULGSmjyfxmKwBF0MpeO7A9KK39XMFLBGGj/8gmp/QtDaluRZBdey+fHPlpj16tcVc12C/eUo7JohjTSXWD1JQCTac3bk8S2hUeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFFSKiMn; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYheJiFO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFFSKiMn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791552216; x=1823088216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4H+cfQ6gedWLiGYFeWv9qkDPH02uU6E0Vl/1XEXCSTU=;
-  b=ZYheJiFOSUi/wHBCMj8p9BkATO8008knz5uOPjMq1fjK4e4lOL06KGWe
-   mL9eF8iQ/dhvuIJUc/Cyub1rItoehqfRyLtveulHVJL14mxotIFfMd6LE
-   XU0QbI8NSmwo/9g1ge6xBZ9fqur6Pd5ixwFiIn7k5TzI0FIYfRgTJW+Q9
-   KiKGJwb0WayuH2vPYhJNVMG+RKMVZlR4VPv4aKqgWZO2F37aVcTFQOu1o
-   kAJGEOIF5v3jvlmxUEU6kFLSJXVzsSj6Kl3E/K+2negWVgvBDxq8cdDcO
-   T5irmgrs0wHefjzghoQ4HKB3i83qT2nzFHSoYkUtzeHPBx2iSpmII6nqT
-   Q==;
-X-CSE-ConnectionGUID: SlNg53BiQ4yEmcRU9yO1Ag==
-X-CSE-MsgGUID: mWJM4WsCQR+wukri6FpHZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="351441"
+  t=1791552553; x=1823088553;
+  h=date:from:to:cc:subject:message-id;
+  bh=wcKvnbLEjalGDR8vRcoPhp5QGrg7hZGrKtIVXmAweic=;
+  b=dFFSKiMnXMuuAA6TRVvLj3jwqTEYXrjcaODYvxre7Ce0FGHZm0czqlx9
+   yxT9uUZDfWoGukyB02tEzWJ3khh9wggg2GM5ByttINxn9BLHZzIOjVGRk
+   TzcPBISa1dQPLtsImRlPvWvEmgFXSFaiRC3vAIIgFuKkREh4IufwwebVk
+   RvV1Tvjc5kKvfOVjCzMo7VJX5mlAnLquAbCX6iUNdQAKnOFT3gXhwcIIV
+   xBiVDB4q6rQvKqHAQETxyXNUzzey62PFRThb7rwKuuXBWTVXMPOiiEA9j
+   g952E0Lm24O15hx6eubygx3WvOSrvhezQig1V2DfYl2T0lD7Xvoi3eryS
+   g==;
+X-CSE-ConnectionGUID: BaKjC7zFQZuQAEMrUejsGw==
+X-CSE-MsgGUID: 2BtuRJkWQ6Gq6Fop3aVb3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="256885"
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="351441"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 06:23:35 -0700
-X-CSE-ConnectionGUID: fM27SqKuQ1a9/cYZZhFHCQ==
-X-CSE-MsgGUID: aqHt4obJTHKybI4bEsAbVg==
+   d="scan'208";a="256885"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 06:29:12 -0700
+X-CSE-ConnectionGUID: x9ylyGnJSsqFDsNHbz8p+A==
+X-CSE-MsgGUID: me7kLQl2R7KrFDxs9fquEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="437266"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2026 06:23:33 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="269632"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 09 Oct 2026 06:29:11 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xFAZN-000000005q0-2wVU;
-	Fri, 09 Oct 2026 13:23:29 +0000
-Date: Fri, 9 Oct 2026 21:22:57 +0800
+	id 1xFAeq-0000000075L-0BDE;
+	Fri, 09 Oct 2026 13:29:08 +0000
+Date: Fri, 09 Oct 2026 15:28:31 +0200
 From: kernel test robot <lkp@intel.com>
-To: Dave Marquardt via B4 Relay <devnull+davemarq.linux.ibm.com@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Tyrel Datwyler <tyreld@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Dave Marquardt <davemarq@linux.ibm.com>
-Subject: Re: [PATCH v13 07/11] scsi: ibmvfc: extend async event handlers for
- async sub-CRQ events
-Message-ID: <202610092107.e7gHIyl7-lkp@intel.com>
-References: <20261007-ibmvfc-fpin-support-v13-7-b816abfa4fcc@linux.ibm.com>
+To: David Yang <mmyangfl@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, Ido Schimmel <idosch@nvidia.com>
+Subject: include/linux/compiler_types.h:631:38: error: call to
+ '__compiletime_assert_344' declared with attribute error: BUILD_BUG_ON
+ failed: len % sizeof(u64_stats_t)
+Message-ID: <202610091513.YHtzM9fw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007-ibmvfc-fpin-support-v13-7-b816abfa4fcc@linux.ibm.com>
 
-Hi Dave,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on c3cff7fac01638ab58e85fe7df41a04fa25c5bae]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marquardt-via-B4-Relay/scsi-ibmvfc-fix-IRQ-leak-and-guard-deregister-on-channel-reg-failure/20261007-142545
-base:   c3cff7fac01638ab58e85fe7df41a04fa25c5bae
-patch link:    https://lore.kernel.org/r/20261007-ibmvfc-fpin-support-v13-7-b816abfa4fcc%40linux.ibm.com
-patch subject: [PATCH v13 07/11] scsi: ibmvfc: extend async event handlers for async sub-CRQ events
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261009/202610092107.e7gHIyl7-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610092107.e7gHIyl7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   af32da41b0327b9c6a37856ba82b6760d6c8d10e
+commit: 35710f0db8011e7ebbfb5b929a0575c3a09b761d macsec: fix memcpy with u64_stats
+date:   9 months ago
+config: parisc-randconfig-r2309-20261009 (https://download.01.org/0day-ci/archive/20261009/202610091513.YHtzM9fw-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610091513.YHtzM9fw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 35710f0db801 ("macsec: fix memcpy with u64_stats")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610092107.e7gHIyl7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610091513.YHtzM9fw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:1907 expecting prototype for ibmvfc_relogin(). Prototype was for ibmvfc_scsi_relogin() instead
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
->> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3442 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5367 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
->> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3442 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
-   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5367 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
+   In file included from <command-line>:
+   include/linux/u64_stats_sync.h: In function 'u64_stats_copy.part.0':
+>> include/linux/compiler_types.h:631:38: error: call to '__compiletime_assert_344' declared with attribute error: BUILD_BUG_ON failed: len % sizeof(u64_stats_t)
+     631 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:612:4: note: in definition of macro '__compiletime_assert'
+     612 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:631:2: note: in expansion of macro '_compiletime_assert'
+     631 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |  ^~~~~~~~~~~~~~~~
+   include/linux/u64_stats_sync.h:134:2: note: in expansion of macro 'BUILD_BUG_ON'
+     134 |  BUILD_BUG_ON(len % sizeof(u64_stats_t));
+         |  ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_344 +631 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  621  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  629   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  630  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @631  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  632  
+
+:::::: The code at line 631 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
