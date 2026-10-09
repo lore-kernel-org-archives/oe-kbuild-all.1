@@ -1,91 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260D03E7647
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 19:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF1950128F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 20:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791575197; cv=none; b=HpWoncoJrHgBmdSdKt7vSzs6LePtgChMTIidX3+0eYf5nw9jQCEq6i3Hfl+M5jwIHPx4FXZEat2VsmdfqagCL0CIHb1wwkEkUj5iOCtPblPLdoHYQVaRoR5D7vQAKcO2SsbuR7hOMqJyBtoV/giA8+DdfadGxjpeIpDS8HsjUbs=
+	t=1791577766; cv=none; b=ivBa5lhjA7uxURQG/JyCAGbO7TKDbLgSXV0z6eOJfsQUqi943LfAAiiw4C7GXi1DWKx4VxTid3VdJZ41pl34JBZD0wgCmNsT58mNHW9izMGEUNC9qEK7+X0P+CAKhJUwcSrI6TuZksxoIH0ggeBRekq3ffcrjLN8t0ZH9AH/5lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791575197; c=relaxed/simple;
-	bh=m0cIFxvNl/PdQ9cN0knwYL2Mufx3XvaHJw3v9jIR+7A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e5wfxQ7/83ej1Fcw6zNwmoE9bJIEYut83DAGNfFZuu2pXcPr1QKKd7lpP08cq5acw4rHlaZKAydSF4LaeVe9X3FN/EGlTlT1uUCSyu/se1wPBbtHqwoWeQ6VAE8NJXv5vyHpskEqHUdc1DwkWWKH1f6V8Tn9UuS2qsK53Qf0XgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVEzzsSr; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1791577766; c=relaxed/simple;
+	bh=N6GWgE6fmvtl3ic4OGMSelBMSe140c+Yw//7o6UYAaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fS7o3UliPiKnUl90Yw265KhVekTrPS3FePh9ZUUHahOS13e2TtPEA/6NlN1lRzLE9ZRnVQ1Q0ZLAmEQ1pDXpOyaOdLy4GtZeQmrhDIL+hU3R7TaGfBeVd0S3FzdfgcLa3PxQc6e/Lkrtik6SaNq//alYZGUDyfYLGYU3mCAX1+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+y+lKml; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVEzzsSr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+y+lKml"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791575189; x=1823111189;
-  h=date:from:to:cc:subject:message-id;
-  bh=m0cIFxvNl/PdQ9cN0knwYL2Mufx3XvaHJw3v9jIR+7A=;
-  b=AVEzzsSrwOO2cX0QTE6ohAq+uFXsEi03KuSn/rjZ2lL7lb15X4L+ZBef
-   sjKCVcbh35WEewv35+fua5lrH4+TRi0x8Qg19MdQQrztLtP/h+Qs9qjAr
-   yvj8JgZ8z7pvXZ8FESyrybaKKDrkDdMUVIcPOW8nKoKv5W2QSvi+qP7au
-   x15itiXPsefg7NbY0U/catZZ0o+zacrzgnB891aeQT8rO21MPSOO6EN6K
-   vuQuQuA0IqL0ytkdQ+Slphu7o23QyRAbYH3gmvj2pVSsBrX5blzpZPE0T
-   Dj/iNYBkX9iMPn7TAbphTx8bnBTwfTfBCLxHgdCxk15UbliOQiH255+4i
-   Q==;
-X-CSE-ConnectionGUID: dXLE4Ml8Rj6y4cteyFw3qg==
-X-CSE-MsgGUID: TCtqs6meQiWCYkzG3shg6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="374191"
+  t=1791577765; x=1823113765;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N6GWgE6fmvtl3ic4OGMSelBMSe140c+Yw//7o6UYAaE=;
+  b=d+y+lKmla3tqVFo09AkeEMPXo+cJa074guva35ssP+fOCkQLWTBIZXte
+   kE5XQ6uoURJDENqJAoglUZBjkfJjj7BdypqtXSaVV4pBP9Llp3wz4WqNa
+   6BY+LDGIWi3esjkr/mXl9F+zm3yGjltQenLAifMdPC8qloaXR6xJPDoTx
+   ripfXL1I4Ki69JM1Dn1p7G1fRPSipOX0mSGnimhqt7LQObeNixyP8eBGs
+   klZzpTw2XdGBWfNwbxa4Q6fWaB41ZLRaE+zNW+B6N/2EsDT6UJLBUNva1
+   VuoW/Cy486woRMnRI3IHZErJtpLEXTHEKQMsJA2B8TcWh/Lr/FIVlBPNq
+   g==;
+X-CSE-ConnectionGUID: 0qCLx62wRQGnZvzd+KQ+4A==
+X-CSE-MsgGUID: xuUfSacCT3O3t2lL0ApI1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="377342"
 X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="374191"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 12:46:17 -0700
-X-CSE-ConnectionGUID: S5Vzr+WYSB2mgiWiAJapTg==
-X-CSE-MsgGUID: iWDpQ4tmS2GmVpxB+jzTvQ==
+   d="scan'208";a="377342"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 13:29:24 -0700
+X-CSE-ConnectionGUID: dcbKz97PR2KL6gNmUxWfzw==
+X-CSE-MsgGUID: 1lMqbYAlQqKHnURBp6y0/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="382150"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 09 Oct 2026 12:46:15 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="846926"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 09 Oct 2026 13:29:20 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xFGXl-000000007GB-0OUQ;
-	Fri, 09 Oct 2026 19:46:13 +0000
-Date: Fri, 09 Oct 2026 21:46:09 +0200
+	id 1xFHDS-000000006Ae-098j;
+	Fri, 09 Oct 2026 20:29:18 +0000
+Date: Sat, 10 Oct 2026 04:29:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Zhang <zhangyu1@linux.microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev, Joerg Roedel <joerg.roedel@amd.com>,
- Wei Liu <wei.liu@kernel.org>,
- Easwar Hariharan <easwar.hariharan@linux.microsoft.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [iommu:hyper-v 4/5]
- drivers/iommu/hyperv/hv-iommu-guest.c:25:21: sparse: sparse: symbol
- 'hv_iommu_device' was not declared. Should it be static?
-Message-ID: <202610092126.TuSXnTYR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Dave Marquardt via B4 Relay <devnull+davemarq.linux.ibm.com@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	Dave Marquardt <davemarq@linux.ibm.com>
+Subject: Re: [PATCH v13 11/11] scsi: ibmvfc: handle extended FPIN events
+Message-ID: <202610100443.UCrGdTXp-lkp@intel.com>
+References: <20261007-ibmvfc-fpin-support-v13-11-b816abfa4fcc@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261007-ibmvfc-fpin-support-v13-11-b816abfa4fcc@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git hyper-v
-head:   87c5e5ae83492d951877eb5711dc03f2314d2695
-commit: 2690d4156b51f7e9fe874dd480fc928594615552 [4/5] iommu/hyperv: Add para-virtualized IOMMU support for Hyper-V guest
-config: x86_64-randconfig-r2301-20261009 (https://download.01.org/0day-ci/archive/20261009/202610092126.TuSXnTYR-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610092126.TuSXnTYR-lkp@intel.com/reproduce)
+Hi Dave,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c3cff7fac01638ab58e85fe7df41a04fa25c5bae]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marquardt-via-B4-Relay/scsi-ibmvfc-fix-IRQ-leak-and-guard-deregister-on-channel-reg-failure/20261007-142545
+base:   c3cff7fac01638ab58e85fe7df41a04fa25c5bae
+patch link:    https://lore.kernel.org/r/20261007-ibmvfc-fpin-support-v13-11-b816abfa4fcc%40linux.ibm.com
+patch subject: [PATCH v13 11/11] scsi: ibmvfc: handle extended FPIN events
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261010/202610100443.UCrGdTXp-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610100443.UCrGdTXp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610092126.TuSXnTYR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610100443.UCrGdTXp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/hyperv/hv-iommu-guest.c:25:21: sparse: sparse: symbol 'hv_iommu_device' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/hv_iommu_device +25 drivers/iommu/hyperv/hv-iommu-guest.c
-
-    24	
-  > 25	struct hv_iommu_dev *hv_iommu_device;
-    26	
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:1914 expecting prototype for ibmvfc_relogin(). Prototype was for ibmvfc_scsi_relogin() instead
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
+>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'severity' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3449 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
+>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3488 function parameter 'wwpn' not described in 'ibmvfc_ext_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5505 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
+>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'severity' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3449 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
+>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3488 function parameter 'wwpn' not described in 'ibmvfc_ext_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5505 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
 
 --
 0-DAY CI Kernel Test Service
