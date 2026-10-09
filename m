@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654EB4EDCAC;
-	Fri,  9 Oct 2026 16:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8574EE864;
+	Fri,  9 Oct 2026 16:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791562866; cv=none; b=MYjtSpESX49NLURMwFh3F9N7vwTc2jXjj8DDYdzAyrk0lg8UbzvWtx9CWZ7pGGCq9jJ/ss/r0HOc8qznb1WZWPvZRnqrUxP1DSAJKmaLELLVILArZgcj8GmtDU0/Fru/Mjb8sI3qKArozLQYClfr4ZSuy66MNBO8x8P0s5KNnhQ=
+	t=1791564185; cv=none; b=AUl8R06kkgAKaqyI+Hk6QPgEWwhHccZFJdCnjmbi5jrtRW0BthBuKV2CWjT2OPfhGsOTWo0gKcZuyeFn0RBaA7HQx3CHFltiBMUyfJcUOdghSO24CXJ8po+9w2Hi805A+yy0+7vFnTnfRDi5U5lRa50qhQ5nY3VOsK0g7PeNYw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791562866; c=relaxed/simple;
-	bh=gsJ/8HUiw+/ntCHZuU0jjeW3L80Z+FUKEdpD7y86gqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tkaM7Gi55QiSKTuUYu8rMBPn4O4anywTHcPkUsXI1JHe5TEn9NRlH5yaJckVa/SMufXncoPczCGehYYKHonsvDj7TS0QQD2BnQRRJPSuDtooeTYh2faGcp3IQWcNIG3o+s+NzpTz75SBNTUCdXxg6VWT3x67Axx3RuA65OIvEVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dW8tbKG2; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1791564185; c=relaxed/simple;
+	bh=K/cajdbtsIt9U5lXvxI7xYePbmdBQQVQc1yd4hMG8kY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=grM2J0bZNRUVXWQpjmcTxWWx4Dm8wPJQlR4YOOHLMMKtY1aEtP94Rn8fEZh9W2P/fy+5FISCKOXJ0W761p+bo1bZToSvaKLIcKXhSp1YbN/GXr8cosb+jK7PQis1p8bbZ4gbBVjmQwgvqADv6u9Hqh3NbJwnx7DdxzDuheq0yBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P6Sr/5uW; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dW8tbKG2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P6Sr/5uW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791562862; x=1823098862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gsJ/8HUiw+/ntCHZuU0jjeW3L80Z+FUKEdpD7y86gqw=;
-  b=dW8tbKG2r5UNRZGQPiPeQIhl0Lh24ELQGTjrgex5dhGAmyqVG64uMBWn
-   1SwOIHUHcqBa3cLVX5uZonG5058eh2pKmKdPwfcTzBRhgOt4/qFytjYrY
-   9SOwgwh+LhSCi/4ewHaKea/snjuEXSk4fDIOdFA1IOSlcL1aI19CMl96w
-   gsjbl7K7emMGi7PvMY4NHAtxqZAkAHR2m4dnL+sJe4x6HOi4uEvWvZwS1
-   K9hJCunCJLV39LDsYyD/INMrpVFncpgbjiugtDktqY8eXogs3gVyC1HN3
-   dfoZ7ML9NGM87GktLMlLHje5blj3AOnT6Dqtu1kuX7Ek8g072XpH55aTv
-   Q==;
-X-CSE-ConnectionGUID: VCmIeYQFTdyKv/5KwKoZRg==
-X-CSE-MsgGUID: YBOwesg2QXGTsr4uCrEvWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="369149"
+  t=1791564184; x=1823100184;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K/cajdbtsIt9U5lXvxI7xYePbmdBQQVQc1yd4hMG8kY=;
+  b=P6Sr/5uWTGiRu4KMGje6sGQjGSHggQcLKcAC+YZUaL1H0iYaOzE7emR6
+   1tOzKAgAj74WlxSNCLuRvltEIcmKxcC0wK6hY8P9rFny7zhL0ysZPB+Du
+   rLingLc30N5uVddnTps+/4FJn1qk4lDd+gBEi3Uz6tTGHexE/aRF7VTAp
+   DrEO5/gNMVzXrBQh3dCgHx5eSBFZMJwriKnvsjL2CMUQiG/tElQsWQfsE
+   Nj8PIJSnxOzen/xqjFFKPZnksNqKQQ0t0PMT6HFWjstr2002870PeCIQO
+   +bOLbDbo+9RO3ATepEDrGWE5k73u2autuCRUwAzKCLtUPrtZ5wUQZRgEY
+   g==;
+X-CSE-ConnectionGUID: yaZwc7/lRxq8x04IJZskog==
+X-CSE-MsgGUID: u08l+LKoROqbJR6ra1xddA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="381231"
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="369149"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 09:21:01 -0700
-X-CSE-ConnectionGUID: dn6Xe7yeQyqvBT75D8pYAA==
-X-CSE-MsgGUID: Jt+nk3KNRQK7ishZzw2+7A==
+   d="scan'208";a="381231"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 09:43:03 -0700
+X-CSE-ConnectionGUID: xugH/SOWTLmRLqCns8NYGw==
+X-CSE-MsgGUID: qz2JKaP0Ss6tHysRo5SVHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="290053"
+   d="scan'208";a="668523"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Oct 2026 09:20:58 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2026 09:43:02 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xFDL5-000000005zY-0JHI;
-	Fri, 09 Oct 2026 16:20:55 +0000
-Date: Sat, 10 Oct 2026 00:20:39 +0800
+	id 1xFDgR-0000000061h-1nKZ;
+	Fri, 09 Oct 2026 16:42:59 +0000
+Date: Sat, 10 Oct 2026 00:42:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: FUJITA Tomonori <tomo@flapping.org>, ojeda@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	a.hindborg@kernel.org, acourbot@nvidia.com, aliceryhl@google.com,
-	bjorn3_gh@protonmail.com, boqun@kernel.org, dakr@kernel.org,
-	daniel.almeida@collabora.com, gary@garyguo.net, lossin@kernel.org,
-	tamird@kernel.org, tmgross@umich.edu, work@onurozkan.dev,
-	rust-for-linux@vger.kernel.org,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>
-Subject: Re: [PATCH v3] rust: compiler_builtins: Fix silent trap in
- prohibited intrinsics
-Message-ID: <202610100054.UyoZyPQ5-lkp@intel.com>
-References: <20261008114717.992497-1-tomo@flapping.org>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/rust-kunit-assertion 15/16] ld.lld:
+ error: undefined symbol: kunit_string_stream_add
+Message-ID: <202610100031.yvgHqzdD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,32 +60,31 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261008114717.992497-1-tomo@flapping.org>
 
-Hi FUJITA,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2dee3d3adcadcc57d62ba6608cd02f50b0c10264]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/FUJITA-Tomonori/rust-compiler_builtins-Fix-silent-trap-in-prohibited-intrinsics/20261008-204717
-base:   2dee3d3adcadcc57d62ba6608cd02f50b0c10264
-patch link:    https://lore.kernel.org/r/20261008114717.992497-1-tomo%40flapping.org
-patch subject: [PATCH v3] rust: compiler_builtins: Fix silent trap in prohibited intrinsics
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261010/202610100054.UyoZyPQ5-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/rust-kunit-assertion
+head:   e8ef2ab596ea6cb29ff501ab4abf4757bf950871
+commit: b1f6b44f2151569e88b5bb5e652e31aebffa0d19 [15/16] kunit: msg
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261010/202610100031.yvgHqzdD-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 80cd965b6323b208519f8ab1d5ee86e4ea9862f4)
 rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610100054.UyoZyPQ5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610100031.yvgHqzdD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610100054.UyoZyPQ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610100031.yvgHqzdD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: _RNvNtNtCsjYlAz7NZ3Sw_4core3fmt3num8exp_u128+0x7d: __rust__udivti3() missing __noreturn in .c/.h or NORETURN() in noreturns.h
+>> ld.lld: error: undefined symbol: kunit_string_stream_add
+   >>> referenced by kunit.rs:57 (rust/kernel/kunit.rs:57)
+   >>>               rust/kernel.o:(kernel::kunit::kunit_rust_assert_format) in archive vmlinux.a
+   >>> referenced by kunit.rs:57 (rust/kernel/kunit.rs:57)
+   >>>               rust/kernel.o:(kernel::kunit::kunit_rust_assert_format) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: kunit_assert_print_msg
+   >>> referenced by kunit.rs:64 (rust/kernel/kunit.rs:64)
+   >>>               rust/kernel.o:(kernel::kunit::kunit_rust_assert_format) in archive vmlinux.a
 
 --
 0-DAY CI Kernel Test Service
