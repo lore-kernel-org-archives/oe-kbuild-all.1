@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E034E0209
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 13:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861FA45FFC8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 13:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791552554; cv=none; b=evbmVbfU2Y7AB7JrxImExB8rr3dRkwrQg2Jt8ZZ9DP7pTsUpTWJYqGms/QyR7ydzGWSaOitaXp3IVzvkHLRBMlMfx93JPA9IWBtQdKe4abjbyH2jIEtHXgy5bkkmxW5UY+KOHsSH0N4jMT9GaECo2rUS2W3f2T62uJ0TBN5QSfM=
+	t=1791553154; cv=none; b=CvwX250XC3LfS6uZmyt1646p/r0/ih5QMPdYWUqGdOpyreHiKIHGnUod/0RmgHgl3GlZJkfCiC3OB+MAOxaiR03Pxk5yPt7j9rr4yt7un5awALvkLrN0XatYmF2LDyvdZwTONCS7GX3SZpx/vWTGbM1aogxoBLGXvDML2EdFCpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791552554; c=relaxed/simple;
-	bh=wcKvnbLEjalGDR8vRcoPhp5QGrg7hZGrKtIVXmAweic=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C5FSrUvH7K5kvKCI0XpES3qNCyY1Rluw4u424dcNxndfTmZ3bXJYFaZuu6lo54p9cvPDYVGPULGSmjyfxmKwBF0MpeO7A9KK39XMFLBGGj/8gmp/QtDaluRZBdey+fHPlpj16tcVc12C/eUo7JohjTSXWD1JQCTac3bk8S2hUeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFFSKiMn; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1791553154; c=relaxed/simple;
+	bh=mVZc4z7/+lIq677psUNXI8493UPGgXsXeZPNnjGdTts=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BBDBPr3C4lFztH0RWJTogjcenrYDyKfA1hh6WAKVup47CC1XrEJdeNYHKf7UPStDzccVT5SeJbJS2vmeTPh3Fst8TBvJmtJDvJZ/p4Cf435JvOdpgI/hSDmRDDA/FQluoT1MlO+nSQgwV7JtKI1bhfoJmwOirbVPROEsU7Dsq2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIBqhqTd; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFFSKiMn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIBqhqTd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791552553; x=1823088553;
+  t=1791553153; x=1823089153;
   h=date:from:to:cc:subject:message-id;
-  bh=wcKvnbLEjalGDR8vRcoPhp5QGrg7hZGrKtIVXmAweic=;
-  b=dFFSKiMnXMuuAA6TRVvLj3jwqTEYXrjcaODYvxre7Ce0FGHZm0czqlx9
-   yxT9uUZDfWoGukyB02tEzWJ3khh9wggg2GM5ByttINxn9BLHZzIOjVGRk
-   TzcPBISa1dQPLtsImRlPvWvEmgFXSFaiRC3vAIIgFuKkREh4IufwwebVk
-   RvV1Tvjc5kKvfOVjCzMo7VJX5mlAnLquAbCX6iUNdQAKnOFT3gXhwcIIV
-   xBiVDB4q6rQvKqHAQETxyXNUzzey62PFRThb7rwKuuXBWTVXMPOiiEA9j
-   g952E0Lm24O15hx6eubygx3WvOSrvhezQig1V2DfYl2T0lD7Xvoi3eryS
-   g==;
-X-CSE-ConnectionGUID: BaKjC7zFQZuQAEMrUejsGw==
-X-CSE-MsgGUID: 2BtuRJkWQ6Gq6Fop3aVb3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="256885"
+  bh=mVZc4z7/+lIq677psUNXI8493UPGgXsXeZPNnjGdTts=;
+  b=mIBqhqTd7sR6qxn7ljlszw67tnnrv0q1Kfd99RKvZuneX504kAoi1tUz
+   aIIXzdiMynOYa7NRxb4czZVv2bhm5++37WnfycBoqUrLJZ6pdxKQEqea2
+   EoEiR3fzVVuLBxHJKx3VbMlrIXPmYlf8kmJyY3nfIUQWCtY13N4gclIOT
+   vFRFwsvY8qnd6XEoRlVpcdPrtdVpGvaEa1KXItx27knycJWDhHbNmW/ts
+   8nMNa49VJWenuLKBx35X6qE6xEdwrWJtthgiZhm5QpBKcmsSi3tEVX+BL
+   Sq5OA/67GGwxp1U7902sSliOICZLJeJYNWX9uSNPyZEx5teRknscO/Y0u
+   w==;
+X-CSE-ConnectionGUID: g8WAP7GRTd6TQwSEaQnQ7w==
+X-CSE-MsgGUID: qaJ3tnSoS3+gy1oJYobDxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="448271"
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="256885"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 06:29:12 -0700
-X-CSE-ConnectionGUID: x9ylyGnJSsqFDsNHbz8p+A==
-X-CSE-MsgGUID: me7kLQl2R7KrFDxs9fquEA==
+   d="scan'208";a="448271"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 06:39:12 -0700
+X-CSE-ConnectionGUID: hEdQcsnbRdGGZ0LsR15haA==
+X-CSE-MsgGUID: pFgAupYrQEiN5C537SoUnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="269632"
+   d="scan'208";a="634483"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 09 Oct 2026 06:29:11 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2026 06:39:11 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xFAeq-0000000075L-0BDE;
-	Fri, 09 Oct 2026 13:29:08 +0000
-Date: Fri, 09 Oct 2026 15:28:31 +0200
+	id 1xFAoW-0000000075l-1Y45;
+	Fri, 09 Oct 2026 13:39:08 +0000
+Date: Fri, 09 Oct 2026 15:39:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Yang <mmyangfl@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Ido Schimmel <idosch@nvidia.com>
-Subject: include/linux/compiler_types.h:631:38: error: call to
- '__compiletime_assert_344' declared with attribute error: BUILD_BUG_ON
- failed: len % sizeof(u64_stats_t)
-Message-ID: <202610091513.YHtzM9fw-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 13/13] kismet: WARNING: unmet
+ direct dependencies detected for IMS_MSI_ARRAY when selected by
+ VFIO_MDEV_IDXD
+Message-ID: <202610091511.VB17GnNC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,73 +60,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi David,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   af32da41b0327b9c6a37856ba82b6760d6c8d10e
-commit: 35710f0db8011e7ebbfb5b929a0575c3a09b761d macsec: fix memcpy with u64_stats
-date:   9 months ago
-config: parisc-randconfig-r2309-20261009 (https://download.01.org/0day-ci/archive/20261009/202610091513.YHtzM9fw-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610091513.YHtzM9fw-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   6b7e53dfabebf2217f7ba34cf4bc9869454c8371
+commit: ed1b6dfe39ba3a1a37a242d0ef4dfb7b5ec06987 [13/13] vfio/mdev: idxd: add virtual device emulation support
+config: x86_64-kismet-CONFIG_IMS_MSI_ARRAY-CONFIG_VFIO_MDEV_IDXD-0-0 (https://download.01.org/0day-ci/archive/20261009/202610091511.VB17GnNC-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20261009/202610091511.VB17GnNC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 35710f0db801 ("macsec: fix memcpy with u64_stats")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610091513.YHtzM9fw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610091511.VB17GnNC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   include/linux/u64_stats_sync.h: In function 'u64_stats_copy.part.0':
->> include/linux/compiler_types.h:631:38: error: call to '__compiletime_assert_344' declared with attribute error: BUILD_BUG_ON failed: len % sizeof(u64_stats_t)
-     631 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                      ^
-   include/linux/compiler_types.h:612:4: note: in definition of macro '__compiletime_assert'
-     612 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler_types.h:631:2: note: in expansion of macro '_compiletime_assert'
-     631 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |  ^~~~~~~~~~~~~~~~
-   include/linux/u64_stats_sync.h:134:2: note: in expansion of macro 'BUILD_BUG_ON'
-     134 |  BUILD_BUG_ON(len % sizeof(u64_stats_t));
-         |  ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_344 +631 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  621  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  629   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  630  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @631  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  632  
-
-:::::: The code at line 631 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for IMS_MSI_ARRAY when selected by VFIO_MDEV_IDXD
+   WARNING: unmet direct dependencies detected for IMS_MSI_ARRAY
+     Depends on [n]: PCI [=n]
+     Selected by [y]:
+     - VFIO_MDEV_IDXD [=y] && VFIO [=y] && VFIO_MDEV [=y] && X86_64 [=y]
 
 --
 0-DAY CI Kernel Test Service
