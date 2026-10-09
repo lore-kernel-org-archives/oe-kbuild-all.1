@@ -1,174 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED9A3CB2FD;
-	Thu,  8 Oct 2026 23:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBAE18C332
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 00:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791503999; cv=none; b=mWxUf6IHknxfFd2UUN9jHlyga/TgOuiLApKgQQuQltia91T0aNySYFIVJh9i3WU+NN4G4HJgwpTOLwLKmhmpVnC/AmdyjcaIeXUCif5YG8/2ML/Zx83ywORPgbHhs/8CdvY89r6QcvGU+8jeC0ACx66BToW0957kfkLs62DqqzI=
+	t=1791505989; cv=none; b=PVKrLP+scrWx8CUe45PvtlK6kPofE7liumXJWbZxZCYYLjBhjQhzmv0r1Gz3eDEV0FUeBRv90tKwKMyDDk29CGbei1UIv6r/NkPre+3FxogzNVceo/TQjK9CXHNG6/FxidIj/Qf9/8ZvVEgtjs7L5uwRg4WQit2qVK+j+hglnLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791503999; c=relaxed/simple;
-	bh=8O7QGNoYuQknRz+b/JCuamzNlQi9OXLlLH8Pn9qIFCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YP422ir0SKMsCPiB1IQEBD99mZA2aNSZCEN8b/PDmVvUA8Vmg4kv/H5EuJOKC9lTPHYzyaTIfP1wxrUa19eFnh3hxyPlFF5Bs0IjmKtwz62wYAc3i7hyx7jusDlZ1FG/Fvl6jnY++uCQVmklbQpEsfxvpN8aeDcXHv4G+bFMAmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OBHc1Hin; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1791505989; c=relaxed/simple;
+	bh=7hpFUKr7EVvglbkHCc1lMsjsDOx3o620ZX4oGXumnRg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CanQH5tIZvw3u96q+K2Qkpk5wCjOzkz3t8vvogMLOHkGoUdEy4cmxciK7kooZnQzwVQvznmF/vh8ddhwxME1Bx/QDoy6oNLNKKvCo7OyAI9y6NaCesd4pp3qTVWZC5x7HiP4M/HDiSl90YmE9MHqLj1j5m7p1A67DY0sdu3W/Vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsej1z7h; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBHc1Hin"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsej1z7h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791503998; x=1823039998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8O7QGNoYuQknRz+b/JCuamzNlQi9OXLlLH8Pn9qIFCI=;
-  b=OBHc1HingMF3S8xnBR6A2xihagE2CIdWqUmPDqiT0ZtQfyKPpSFl3jev
-   0JpTaELHbVb7wK043cYPda4DnwTMRnm0N1mS4wiUcIgMFHRXeI8YNS5Nb
-   wKMIrHgdspUc5H5bfkEO5c3KWtnc6zrYjtvy99it333QhUsavg4D0fO75
-   HaxY1IsSjEiksX2uC+RMGXtfMsfsfyj8md2MCKlK8Ii6ppIrIgTXfsYfS
-   l8lg6Z3sHmIyRNlTTvz2NVcNqZD9ImldOlvg7n2A7kYqVMRbnrnphY9Pp
-   utVkjPIpNClwuHkuXxMf6o8cCXjzTYE1p0e4zCZf/QDHIVoDRJtZ506cl
-   g==;
-X-CSE-ConnectionGUID: PbNqHnQ+QtmM0v79uaMWgA==
-X-CSE-MsgGUID: VWg689N4Q5i5tEy/VUMdTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="199525"
+  t=1791505988; x=1823041988;
+  h=date:from:to:cc:subject:message-id;
+  bh=7hpFUKr7EVvglbkHCc1lMsjsDOx3o620ZX4oGXumnRg=;
+  b=gsej1z7hDIh4XhTgPNmy0WyUxFYTozMOzKu1/F91d+EjyWk7ve9QPMYc
+   r2t/iOW/ls4OIFgpMN2VDipZEbBQHftX1XYFEA8KoZhKWa14J8bkx26LZ
+   1Zp0dkUOXfBUSTkKp0oZcylSdnzhsSiv+413KLo00R/sRt7IbXAikFCYa
+   zyN+0z0zlxGL1ksTW01sGI+byICI9M2e4zMhbcjuHhRRQ1iYTtlm5nlBG
+   a1B4Bhzj7f7EV/okCj7oFlvaqsZ9MEu22tiABchhIM6RectWVIyWBXUdo
+   OiuZrR0WGt0F8SlAfIqLxM2ZdlP+muaxw54x6YiOVyyHkLloUoeEhGXFk
+   Q==;
+X-CSE-ConnectionGUID: 81I+HQx8R8WyPeDL9eWl3g==
+X-CSE-MsgGUID: HNF0jTDJS2ypSXS2S62jZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="175829"
 X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
-   d="scan'208";a="199525"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 16:59:57 -0700
-X-CSE-ConnectionGUID: 1AKn2IkRTtqk7ZR9LfAblA==
-X-CSE-MsgGUID: AE+TyOCrSLe0te4G7jjtyA==
+   d="scan'208";a="175829"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 17:33:07 -0700
+X-CSE-ConnectionGUID: Z2KNoxt4QgOdpzUWf3d+Yg==
+X-CSE-MsgGUID: QTPddXa+Rsiverk891Cw2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
-   d="scan'208";a="277701"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Oct 2026 16:59:53 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="172615"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 08 Oct 2026 17:33:05 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEy1e-0000000054C-0Eo3;
-	Thu, 08 Oct 2026 23:59:50 +0000
-Date: Fri, 9 Oct 2026 07:59:34 +0800
+	id 1xEyXn-000000006Op-2qSW;
+	Fri, 09 Oct 2026 00:33:03 +0000
+Date: Fri, 09 Oct 2026 02:32:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, andrew+netdev@lunn.ch, corbet@lwn.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, horms@kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
-	Sean Tranchetti <sean.tranchetti@oss.qualcomm.com>
-Subject: Re: [PATCH net-next v2 7/8] net: qualcomm: rmnet: Add DL coalescing
- statistics
-Message-ID: <202610090707.TY5x2Oyd-lkp@intel.com>
-References: <20261008005543.2630828-8-subash.a.kasiviswanathan@oss.qualcomm.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+ Frank Li <Frank.Li@nxp.com>
+Subject: [vkoul-dmaengine:next 109/138]
+ drivers/dma/ste_dma40.c:1444:25: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202610090216.pjMRxhRL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261008005543.2630828-8-subash.a.kasiviswanathan@oss.qualcomm.com>
 
-Hi Subash,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-[also build test WARNING on next-20261008]
-[cannot apply to linux-review/Subash-Abhinov-Kasiviswanathan/uapi-if_link-Add-RMNET_FLAGS_INGRESS_COALESCE/20260929-221339 net/main lwn/docs-next linus/master v7.3-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Subash-Abhinov-Kasiviswanathan/net-qualcomm-rmnet-Update-MTU-handling-during-format-changes/20261007-175538
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20261008005543.2630828-8-subash.a.kasiviswanathan%40oss.qualcomm.com
-patch subject: [PATCH net-next v2 7/8] net: qualcomm: rmnet: Add DL coalescing statistics
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261009/202610090707.TY5x2Oyd-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 242243a5814307de825db3428662d67b064e2cbc)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610090707.TY5x2Oyd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+head:   1d8ae2003de08f61095e4e928b1b8cce6c23cabd
+commit: c80edceff29ee212987c2d2c851b2cb2eb4b477a [109/138] dmaengine: ste_dma40: Fix cyclic transfer residue
+config: arm-randconfig-r2301-20261008 (https://download.01.org/0day-ci/archive/20261009/202610090216.pjMRxhRL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610090216.pjMRxhRL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610090707.TY5x2Oyd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610090216.pjMRxhRL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma/ste_dma40.c:1416:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/dma/ste_dma40.c:1416:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/dma/ste_dma40.c:1416:28: sparse:     got unsigned int *
+>> drivers/dma/ste_dma40.c:1444:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *low_reg @@     got unsigned int * @@
+   drivers/dma/ste_dma40.c:1444:25: sparse:     expected void [noderef] __iomem *low_reg
+   drivers/dma/ste_dma40.c:1444:25: sparse:     got unsigned int *
+>> drivers/dma/ste_dma40.c:1445:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *high_reg @@     got unsigned int * @@
+   drivers/dma/ste_dma40.c:1445:26: sparse:     expected void [noderef] __iomem *high_reg
+   drivers/dma/ste_dma40.c:1445:26: sparse:     got unsigned int *
+   drivers/dma/ste_dma40.c:1447:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *low_reg @@     got unsigned int * @@
+   drivers/dma/ste_dma40.c:1447:25: sparse:     expected void [noderef] __iomem *low_reg
+   drivers/dma/ste_dma40.c:1447:25: sparse:     got unsigned int *
+   drivers/dma/ste_dma40.c:1448:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *high_reg @@     got unsigned int * @@
+   drivers/dma/ste_dma40.c:1448:26: sparse:     expected void [noderef] __iomem *high_reg
+   drivers/dma/ste_dma40.c:1448:26: sparse:     got unsigned int *
+   drivers/dma/ste_dma40.c:1490:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/dma/ste_dma40.c:1490:27: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/dma/ste_dma40.c:1490:27: sparse:     got unsigned int *
+   drivers/dma/ste_dma40.c:3638:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *lcpa_base @@     got void [noderef] __iomem * @@
+   drivers/dma/ste_dma40.c:3638:25: sparse:     expected void *lcpa_base
+   drivers/dma/ste_dma40.c:3638:25: sparse:     got void [noderef] __iomem *
+   drivers/dma/ste_dma40.c:3654:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
+   drivers/dma/ste_dma40.c:3654:38: sparse:     expected void *base
+   drivers/dma/ste_dma40.c:3654:38: sparse:     got void [noderef] __iomem *
 
->> drivers/net/ethernet/qualcomm/rmnet/rmnet_vnd.c:286:13: warning: stack frame size (1392) exceeds limit (1280) in 'rmnet_get_ethtool_stats' [-Wframe-larger-than]
-     286 | static void rmnet_get_ethtool_stats(struct net_device *dev,
-         |             ^
-   1 warning generated.
+vim +1444 drivers/dma/ste_dma40.c
 
-
-vim +/rmnet_get_ethtool_stats +286 drivers/net/ethernet/qualcomm/rmnet/rmnet_vnd.c
-
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  285  
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15 @286  static void rmnet_get_ethtool_stats(struct net_device *dev,
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  287  				    struct ethtool_stats *stats, u64 *data)
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  288  {
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  289  	struct rmnet_priv *priv = netdev_priv(dev);
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  290  	struct rmnet_priv_stats total_stats = { };
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  291  	struct rmnet_pcpu_stats *pcpu_ptr;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  292  	struct rmnet_priv_stats snapshot;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  293  	unsigned int cpu, start;
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  294  
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  295  	if (!data)
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  296  		return;
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  297  
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  298  	for_each_possible_cpu(cpu) {
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  299  		pcpu_ptr = per_cpu_ptr(priv->pcpu_stats, cpu);
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  300  
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  301  		do {
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  302  			start = u64_stats_fetch_begin(&pcpu_ptr->syncp);
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  303  			u64_stats_copy(&snapshot, &pcpu_ptr->priv_stats,
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  304  				       sizeof(snapshot));
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  305  		} while (u64_stats_fetch_retry(&pcpu_ptr->syncp, start));
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  306  
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  307  		total_stats.csum_ok += snapshot.csum_ok;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  308  		total_stats.csum_ip4_header_bad += snapshot.csum_ip4_header_bad;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  309  		total_stats.csum_valid_unset += snapshot.csum_valid_unset;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  310  		total_stats.csum_validation_failed += snapshot.csum_validation_failed;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  311  		total_stats.csum_err_bad_buffer += snapshot.csum_err_bad_buffer;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  312  		total_stats.csum_err_invalid_ip_version +=
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  313  			snapshot.csum_err_invalid_ip_version;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  314  		total_stats.csum_err_invalid_transport +=
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  315  			snapshot.csum_err_invalid_transport;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  316  		total_stats.csum_fragmented_pkt += snapshot.csum_fragmented_pkt;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  317  		total_stats.csum_skipped += snapshot.csum_skipped;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  318  		total_stats.csum_sw += snapshot.csum_sw;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  319  		total_stats.csum_hw += snapshot.csum_hw;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  320  		/* Custom rmnet coalescing diagnostics follow. */
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  321  		total_stats.coal_alloc_fail += snapshot.coal_alloc_fail;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  322  		total_stats.coal_rx += snapshot.coal_rx;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  323  		total_stats.coal_pkts += snapshot.coal_pkts;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  324  		total_stats.coal_hdr_err += snapshot.coal_hdr_err;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  325  		total_stats.coal_hdr_pkt_err += snapshot.coal_hdr_pkt_err;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  326  		total_stats.coal_bounds_err += snapshot.coal_bounds_err;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  327  		total_stats.coal_csum_err += snapshot.coal_csum_err;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  328  		total_stats.coal_csum_drop += snapshot.coal_csum_drop;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  329  		total_stats.coal_reconstruct += snapshot.coal_reconstruct;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  330  		total_stats.coal_ip_invalid += snapshot.coal_ip_invalid;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  331  		total_stats.coal_trans_invalid += snapshot.coal_trans_invalid;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  332  		total_stats.coal_close_non_coal += snapshot.coal_close_non_coal;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  333  		total_stats.coal_close_ip_miss += snapshot.coal_close_ip_miss;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  334  		total_stats.coal_close_trans_miss += snapshot.coal_close_trans_miss;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  335  		total_stats.coal_close_hw_nl += snapshot.coal_close_hw_nl;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  336  		total_stats.coal_close_hw_pkt += snapshot.coal_close_hw_pkt;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  337  		total_stats.coal_close_hw_byte += snapshot.coal_close_hw_byte;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  338  		total_stats.coal_close_hw_time += snapshot.coal_close_hw_time;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  339  		total_stats.coal_close_hw_evict += snapshot.coal_close_hw_evict;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  340  		total_stats.coal_close_coal += snapshot.coal_close_coal;
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  341  	}
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  342  
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  343  	/* The first four fields are reported through netdev queue statistics. */
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  344  	memcpy(data, &total_stats.csum_ok,
-2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  345  	       sizeof(total_stats) - offsetof(struct rmnet_priv_stats, csum_ok));
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  346  }
-bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  347  
+  1410	
+  1411	static u32 d40_residue(struct d40_chan *d40c)
+  1412	{
+  1413		u32 num_elt;
+  1414	
+  1415		if (chan_is_logical(d40c))
+> 1416			num_elt = (readl(&d40c->lcpa->lcsp2) & D40_MEM_LCSP2_ECNT_MASK)
+  1417				>> D40_MEM_LCSP2_ECNT_POS;
+  1418		else {
+  1419			u32 val = readl(chan_base(d40c) + D40_CHAN_REG_SDELT);
+  1420			num_elt = (val & D40_SREG_ELEM_PHY_ECNT_MASK)
+  1421				  >> D40_SREG_ELEM_PHY_ECNT_POS;
+  1422		}
+  1423	
+  1424		return num_elt * d40c->dma_cfg.dst_info.data_width;
+  1425	}
+  1426	
+  1427	static bool d40_current_addr(struct d40_chan *d40c, dma_addr_t *addr)
+  1428	{
+  1429		bool dst = d40c->dma_cfg.dir == DMA_DEV_TO_MEM;
+  1430		void __iomem *high_reg;
+  1431		void __iomem *low_reg;
+  1432		u32 low;
+  1433		u32 high;
+  1434		u32 check;
+  1435		int i;
+  1436	
+  1437		if (chan_is_physical(d40c)) {
+  1438			*addr = readl(chan_base(d40c) +
+  1439				      (dst ? D40_CHAN_REG_SDPTR : D40_CHAN_REG_SSPTR));
+  1440			return true;
+  1441		}
+  1442	
+  1443		if (dst) {
+> 1444			low_reg = &d40c->lcpa->lcsp2;
+> 1445			high_reg = &d40c->lcpa->lcsp3;
+  1446		} else {
+  1447			low_reg = &d40c->lcpa->lcsp0;
+  1448			high_reg = &d40c->lcpa->lcsp1;
+  1449		}
+  1450	
+  1451		for (i = 0; i < D40_RESIDUE_MAX_ATTEMPTS; i++) {
+  1452			high = readl(high_reg) & D40_MEM_LCSP1_SPTR_MASK;
+  1453			low = readl(low_reg) & D40_MEM_LCSP0_SPTR_MASK;
+  1454			check = readl(high_reg) & D40_MEM_LCSP1_SPTR_MASK;
+  1455			if (high == check) {
+  1456				*addr = low | high;
+  1457				return true;
+  1458			}
+  1459		}
+  1460	
+  1461		return false;
+  1462	}
+  1463	
 
 --
 0-DAY CI Kernel Test Service
