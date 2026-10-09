@@ -1,94 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAB83BFADE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 23:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875A635B14E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 23:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791587429; cv=none; b=WfellFrD3npFaia7bdamElh1yT9TCIFdymUG4LWSWAewivkvhAuSSpfb4Cr8eDaSKSSMZkLBKmk3SfIR+8CXzc+a555hNM3OvCcGNilblJNhpJU3l9nJHlCOrAAV31W1xdPoL8KZlTFuywzvJcSCM8xglA8SEiQYgy6DQd4kU5o=
+	t=1791589660; cv=none; b=Pmszc/UdT0rgM0TYF5R9KYLvIFX0jLKaZ9GFtAdesndkPIbuMGhlzyYGsBYKnJNTZjUBqeVMKhMQ73CGtzqiRFBlCpsuDmN3SgR6aqlyqcP+RQj+Emr/xAnz9G7UjgxUvgEmIeYPveoIImXuUf2WPIEIjC08OGvHcnAUd09PiSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791587429; c=relaxed/simple;
-	bh=RCyTDOyBE7v77RBlt3+V5XW087r34HortVVWRin37eI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ruCzn6t926kNkBlWZ+dLfhd5LkrI2yxIasESmkuG6UxIwhaHS0hZNqAPjS9W6XYr3j7nGxlW6qzVvsiM5irDgbv4CYvTcy6AcHuY+dqQpU28ufns+yZ8esUoxtBuuPNrrswInH4YmXVZWAswEuL+rwq6mbQw5prMe/Xw+9Lu/RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rcjtj3WB; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1791589660; c=relaxed/simple;
+	bh=UfidYsMrS2AZJjq01I4nSaYvHJ0OqaRHS+Q1SPK+kjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qFfhtn2WmjFpQwxSr/CeNXCcbqJi8jOJbWN10Qb/Vh8w/FD7WM+oeV88ihinikvBH1QjUFDDfXwhzYiBGJ6pRarJyiezZVgaYCmNi7Nxci+3zFbMpIOEfargcyLMHc6QZ7rqr8le0dPAKGco/627R5C5iZ7ke39K2Pz7iFeK4ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MsFVVCGC; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rcjtj3WB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MsFVVCGC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791587428; x=1823123428;
-  h=date:from:to:cc:subject:message-id;
-  bh=RCyTDOyBE7v77RBlt3+V5XW087r34HortVVWRin37eI=;
-  b=Rcjtj3WB/13bmHyhZ7kEDCeK9zQOlebQHavSsY2T7AGk5UujspaBeVxn
-   a8yxOKqTmpf+8C1hAX9QX56QbRAOF7YFBvPz/8hyd3VKKMdWUt8CSI7m1
-   8of51TamhO4tjZAcule417Lc4ri5RubcRrxTirIUX8hYr05njAoCl12Xa
-   CDIpi6c7G00P+0O+MHqbVqOok7osd/aVshtkGmc2g3MsPy4rMhGo5DDbH
-   CiM+oY081f1XUqlT0htL3CEs3lTo49bz72+LSRguTEbPzyX/BpHK3nry6
-   rq519abgxQlr3QBiZ2FsIyhcktZbAod2EEJkzDSo2jOurePNffeJ4WkiC
+  t=1791589656; x=1823125656;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UfidYsMrS2AZJjq01I4nSaYvHJ0OqaRHS+Q1SPK+kjY=;
+  b=MsFVVCGCbUVToEXsESNQvmnaJt1CLPkywKDSfjSVo0Bh/LpZaBE6POSd
+   P4BxTgj8zZ7fCm9sD+90FOvqlXwMupLwYIIs+aVLzjKnuJt94lamAlp4K
+   A37nHse31YgFrDQJyWKm44XX0UdY7tUputhvKdGp8dxGlRH7mRy2o5exi
+   oNETIY92PWWp1ft/xkYjYFYfyQzGNCYm2wewDXt/xUQ47Yn78p4HyFxqr
+   nPeRDw+f+jD2qmdRG1ECItvsUvk8RiKXnNAUG/noAZKr5kKKvyjsGR4LY
+   Xv5i+lWWNiZ8eKmnIg1kTBQpvQKyXpObhRmWECC5CtAMvHlbJf4pViloF
    Q==;
-X-CSE-ConnectionGUID: 7QakflCySleZb4dcjIyRFQ==
-X-CSE-MsgGUID: 1oeUZGWeTYyPfvEFZGz7MQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="394658"
+X-CSE-ConnectionGUID: LrK1L++4QnGy3VDZuHfqFA==
+X-CSE-MsgGUID: Ti9BM43yRM6Ot1jf3BdR7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="402816"
 X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="394658"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 16:10:28 -0700
-X-CSE-ConnectionGUID: X9LKO0AQT3Oo0SYqCUqKHA==
-X-CSE-MsgGUID: e0B1J3IOTaqZ7hB1HaxGwg==
+   d="scan'208";a="402816"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 16:47:35 -0700
+X-CSE-ConnectionGUID: 4oKK7o9vQCmQyw/EmZKt+g==
+X-CSE-MsgGUID: WMvNVGbtSEmAstaxG/2NGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="736897"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2026 16:10:25 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="2176640"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 09 Oct 2026 16:47:33 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xFJjL-000000007NH-2cRd;
-	Fri, 09 Oct 2026 23:10:23 +0000
-Date: Sat, 10 Oct 2026 01:09:29 +0200
+	id 1xFKJG-000000006IO-1qmn;
+	Fri, 09 Oct 2026 23:47:30 +0000
+Date: Sat, 10 Oct 2026 07:46:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Honglei Huang <honghuan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Matthew Brost <matthew.brost@intel.com>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 3138/15343] htmldocs:
- Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:70: WARNING:
- Lexing literal_block 'struct driver_range {\n        struct drm_gpusvm_range
- base;\n        unsigned int num_pages; // 1: inline_pages, >1: pages[]\n
-        union {\n  ...
-Message-ID: <202610100125.d4Kk60aL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: chitranshmandhaniya@gmail.com, hansg@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Chitransh_Mandhaniya@dell.com
+Subject: Re: [PATCH v2] platform/x86: dell-uart-backlight: fall back to PCH
+ PWM on UART timeout
+Message-ID: <202610100706.x2lcbo7S-lkp@intel.com>
+References: <20261009072401.52509-1-chitranshmandhaniya@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261009072401.52509-1-chitranshmandhaniya@gmail.com>
 
-Hi Honglei,
+Hi,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   aac26bee2287c88af5be5a5ff96d783b19a28790
-commit: cc2a6cbd6823678fe70ba76f88623827a6e06a87 [3138/15343] drm/gpusvm: let drm_gpusvm_get_pages() map an array of pages
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20261010/202610100125.d4Kk60aL-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.3-rc6 next-20261008]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/chitranshmandhaniya-gmail-com/platform-x86-dell-uart-backlight-fall-back-to-PCH-PWM-on-UART-timeout/20261009-125401
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20261009072401.52509-1-chitranshmandhaniya%40gmail.com
+patch subject: [PATCH v2] platform/x86: dell-uart-backlight: fall back to PCH PWM on UART timeout
+config: i386-buildonly-randconfig-1000-20261010 (https://download.01.org/0day-ci/archive/20261010/202610100706.x2lcbo7S-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610100706.x2lcbo7S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610100125.d4Kk60aL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610100706.x2lcbo7S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:630: ./include/uapi/linux/landlock.h:241: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:630: ./include/uapi/linux/landlock.h:264: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:70: WARNING: Lexing literal_block 'struct driver_range {\n        struct drm_gpusvm_range base;\n        unsigned int num_pages; // 1: inline_pages, >1: pages[]\n        union {\n                struct drm_gpusvm_pages inline_pages;\n                struct drm_gpusvm_pages *pages;\n        };\n};\n\nstatic struct drm_gpusvm_pages *\ndriver_pages(struct driver_range *drange)\n{\n        return drange->num_pages == 1 ? :c:type:`drange->inline_pages <drange>` :\n                                        drange->pages;\n}' as "c" resulted in an error at token: '`'. Retrying in relaxed mode. [misc.highlighting_failure]
->> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:102: WARNING: Lexing literal_block '// GPU fault handler: one fault, one DMA mapping per device\nerr = drm_gpusvm_get_pages(gpusvm, driver_pages(drange),\n                           drange->num_pages, gpusvm->mm,\n                           :c:type:`range->notifier <range>`->notifier,\n                           drm_gpusvm_range_start(range),\n                           drm_gpusvm_range_end(range), :c:type:`ctx`);\n\n// Notifier callback: mark every instance unmapped in one call\ndrm_gpusvm_range_set_unmapped(range, driver_pages(drange),\n                              drange->num_pages, mmu_range);' as "c" resulted in an error at token: '`'. Retrying in relaxed mode. [misc.highlighting_failure]
-   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+   drivers/platform/x86/dell/dell-uart-backlight.c: In function 'dell_pwm_fallback_register':
+>> drivers/platform/x86/dell/dell-uart-backlight.c:318:16: error: cleanup argument not a function
+     318 |         struct pci_dev *gpu __free(pci_dev_put) = NULL;
+         |                ^~~~~~~
+
+
+vim +318 drivers/platform/x86/dell/dell-uart-backlight.c
+
+   315	
+   316	static int dell_pwm_fallback_register(struct device *dev)
+   317	{
+ > 318		struct pci_dev *gpu __free(pci_dev_put) = NULL;
+   319		struct backlight_properties props = {};
+   320		struct dell_pwm_backlight *pwm;
+   321		struct backlight_device *bl;
+   322		resource_size_t bar0;
+   323		u32 freq, duty, ctl;
+   324	
+   325		gpu = pci_get_class(PCI_CLASS_DISPLAY_VGA << 8, NULL);
+   326		if (!gpu || gpu->vendor != PCI_VENDOR_ID_INTEL) {
+   327			dev_warn(dev, "No Intel GPU found, cannot fall back to PCH PWM\n");
+   328			return -ENODEV;
+   329		}
+   330	
+   331		bar0 = pci_resource_start(gpu, 0);
+   332		if (!bar0) {
+   333			dev_warn(dev, "Intel GPU BAR0 not assigned\n");
+   334			return -ENODEV;
+   335		}
+   336	
+   337		pwm = devm_kzalloc(dev, sizeof(*pwm), GFP_KERNEL);
+   338		if (!pwm)
+   339			return -ENOMEM;
+   340	
+   341		pwm->mmio = devm_ioremap(dev, bar0 + PCH_BLC_PWM_CTL, SZ_16);
+   342		if (!pwm->mmio) {
+   343			dev_warn(dev, "Failed to ioremap PCH PWM registers\n");
+   344			return -ENOMEM;
+   345		}
+   346	
+   347		ctl  = readl(pwm->mmio);
+   348		freq = readl(pwm->mmio + (PCH_BLC_PWM_FREQ - PCH_BLC_PWM_CTL));
+   349		duty = readl(pwm->mmio + (PCH_BLC_PWM_DUTY - PCH_BLC_PWM_CTL));
+   350	
+   351		if (!(ctl & PCH_BLC_PWM_ENABLE) || freq == 0) {
+   352			dev_warn(dev, "PCH PWM not enabled by BIOS (ctl=0x%08x freq=%u)\n", ctl, freq);
+   353			return -ENODEV;
+   354		}
+   355	
+   356		pwm->max_brightness = freq;
+   357	
+   358		dev_info(dev, "Falling back to PCH PWM backlight (max=%u current=%u)\n", freq, duty);
+   359	
+   360		props.type = BACKLIGHT_PLATFORM;
+   361		props.brightness = duty;
+   362		props.max_brightness = freq;
+   363	
+   364		bl = devm_backlight_device_register(dev, "dell_uart_backlight", dev, pwm,
+   365						    &dell_pwm_backlight_ops, &props);
+   366		return PTR_ERR_OR_ZERO(bl);
+   367	}
+   368	
 
 --
 0-DAY CI Kernel Test Service
