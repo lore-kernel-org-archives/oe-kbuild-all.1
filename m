@@ -1,190 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B52C4C9E0A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 12:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35D044F54F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 13:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791548886; cv=none; b=XSY5N8hMnraZgmTiemif8lMdXIssBqb6wnsrbnZezW3OB42s2xVF2hW9hRmJ5UMO1a6mx7hp31jvMu0CbyOmRn1hFGBQe0+X3epMqneCUYfSrvbXFKQZAIQSFxB2Tk+PNDkmVLmM0h4JwWNHE3tHPEYJSvnhnnK5gfh4mNjRQB4=
+	t=1791552218; cv=none; b=TrToTAjgIyq07T9mNB22NkVYZsI0xVkxbysq3695ryON91yc5G/Y1JQ5Q0o1gmoAOP0h+A8baKXcu8s8j6WOdieighYHOE2QsgB4sfg9pAbwgzJepPWumiOZgCce1VD5G1OeyMxCAgKxteSNw7uIMz/eOf9Y+yK3xJeArDLA6bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791548886; c=relaxed/simple;
-	bh=6zXT/mNtIqTiOKRUcmo9bYKRehgXBjTqywsbso1n6eo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gOq/rQkFDqr1eMk8vUKce0d1QTsYRwQD8lkWzlBchV3FfovHWEb2Fj+zprrMLqhunKRArThdr3Akyp3FhsQ6tmTSBic/DlTWi3Rn86ARyW95CuHuaB8LvK8C5OWzvp27R2oA6apDaH0UB1vjEVlQeC6UFvogffzy/IMsbSZeNNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URjhoLnA; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1791552218; c=relaxed/simple;
+	bh=4H+cfQ6gedWLiGYFeWv9qkDPH02uU6E0Vl/1XEXCSTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TRtydNdwGDSD4K/OXYYMelCbgkHU+cOD58pm4FhwHGg7D2uKSDtHscUTE8xBpQwOB/lI5Yfo9/kUrWRg7FhBW/41O1wtPNCmb3J9JreWYSt8og3caGAiDzn0bXK5HNHY57JKCmGI2E68QO8JvyfUoWkjGga13FFs/F1STtxPchY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYheJiFO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URjhoLnA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYheJiFO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791548878; x=1823084878;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6zXT/mNtIqTiOKRUcmo9bYKRehgXBjTqywsbso1n6eo=;
-  b=URjhoLnAnpbtRshcBN1WSxTiGUJu8cyW6whcAY1zujM5JmEhRq5VfGGm
-   Q4jRIN/ZUPftRAFR8O0kVj8oloekCV3jL09W1f2h0kL0TFzbi0hJNsh7e
-   gDwxneg5pXGslhIuzz7ojjELvg/YuAh6Jg5NWfTUO3qolRxbts3JQMi3v
-   AodsJOlC4X4XsP9YNbrSFE4fbSQ9oRIscZZTYeoZT06O8ak72pY93TgDt
-   +i9zc0zwWl7uePvyNWH13oaKziit0XUIOohRlQtVzzN1ieXO/bMxdxFFL
-   R9XTexID6aQBZY5T+Ahq2g2HN8nV44ExUrgiTUgyo+VwxdvYBTOw+tq7n
+  t=1791552216; x=1823088216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4H+cfQ6gedWLiGYFeWv9qkDPH02uU6E0Vl/1XEXCSTU=;
+  b=ZYheJiFOSUi/wHBCMj8p9BkATO8008knz5uOPjMq1fjK4e4lOL06KGWe
+   mL9eF8iQ/dhvuIJUc/Cyub1rItoehqfRyLtveulHVJL14mxotIFfMd6LE
+   XU0QbI8NSmwo/9g1ge6xBZ9fqur6Pd5ixwFiIn7k5TzI0FIYfRgTJW+Q9
+   KiKGJwb0WayuH2vPYhJNVMG+RKMVZlR4VPv4aKqgWZO2F37aVcTFQOu1o
+   kAJGEOIF5v3jvlmxUEU6kFLSJXVzsSj6Kl3E/K+2negWVgvBDxq8cdDcO
+   T5irmgrs0wHefjzghoQ4HKB3i83qT2nzFHSoYkUtzeHPBx2iSpmII6nqT
    Q==;
-X-CSE-ConnectionGUID: YAOTwbnRT2WKgB+uEkNS2g==
-X-CSE-MsgGUID: KPbycQqgQ9eU1F5RqAoC5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="346020"
+X-CSE-ConnectionGUID: SlNg53BiQ4yEmcRU9yO1Ag==
+X-CSE-MsgGUID: mWJM4WsCQR+wukri6FpHZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="351441"
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="346020"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 05:27:57 -0700
-X-CSE-ConnectionGUID: fmdXjdxbSk6hyyovJrKmyg==
-X-CSE-MsgGUID: x8ZSZOTvSlmvSx/YMCgq6w==
+   d="scan'208";a="351441"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 06:23:35 -0700
+X-CSE-ConnectionGUID: fM27SqKuQ1a9/cYZZhFHCQ==
+X-CSE-MsgGUID: aqHt4obJTHKybI4bEsAbVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="290637"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 09 Oct 2026 05:27:54 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="437266"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Oct 2026 06:23:33 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xF9hY-0000000071r-30q6;
-	Fri, 09 Oct 2026 12:27:52 +0000
-Date: Fri, 09 Oct 2026 14:27:32 +0200
+	id 1xFAZN-000000005q0-2wVU;
+	Fri, 09 Oct 2026 13:23:29 +0000
+Date: Fri, 9 Oct 2026 21:22:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Chiu <andybnac@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Paul Walmsley <pjw@kernel.org>
-Subject: arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202610091444.LHHlny4D-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Dave Marquardt via B4 Relay <devnull+davemarq.linux.ibm.com@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	Dave Marquardt <davemarq@linux.ibm.com>
+Subject: Re: [PATCH v13 07/11] scsi: ibmvfc: extend async event handlers for
+ async sub-CRQ events
+Message-ID: <202610092107.e7gHIyl7-lkp@intel.com>
+References: <20261007-ibmvfc-fpin-support-v13-7-b816abfa4fcc@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261007-ibmvfc-fpin-support-v13-7-b816abfa4fcc@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   af32da41b0327b9c6a37856ba82b6760d6c8d10e
-commit: 818d78ba1b3f88d2bfee249f25020211488a26c3 riscv: signal: abstract he=
-ader saving for setup_sigcontext
-date:   10 months ago
-config: riscv-randconfig-r2306-20261009 (https://download.01.org/0day-ci/ar=
-chive/20261009/202610091444.LHHlny4D-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 9.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261009/202610091444.LHHlny4D-lkp@intel.com/reproduce)
+Hi Dave,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c3cff7fac01638ab58e85fe7df41a04fa25c5bae]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marquardt-via-B4-Relay/scsi-ibmvfc-fix-IRQ-leak-and-guard-deregister-on-channel-reg-failure/20261007-142545
+base:   c3cff7fac01638ab58e85fe7df41a04fa25c5bae
+patch link:    https://lore.kernel.org/r/20261007-ibmvfc-fpin-support-v13-7-b816abfa4fcc%40linux.ibm.com
+patch subject: [PATCH v13 07/11] scsi: ibmvfc: extend async event handlers for async sub-CRQ events
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261009/202610092107.e7gHIyl7-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610092107.e7gHIyl7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 818d78ba1b3f ("riscv: signal: abstract header saving for setup_sig=
-context")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610091444.LHHlny4D-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610092107.e7gHIyl7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
->> arch/riscv/kernel/signal.c:133:15: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *d=
-atap @@     got void * @@
-   arch/riscv/kernel/signal.c:133:15: sparse:     expected void [noderef] _=
-_user *datap
-   arch/riscv/kernel/signal.c:133:15: sparse:     got void *
-   arch/riscv/kernel/signal.c:148:22: sparse: sparse: symbol 'arch_ext_list=
-' was not declared. Should it be static?
-   arch/riscv/kernel/signal.c:155:14: sparse: sparse: symbol 'nr_arch_exts'=
- was not declared. Should it be static?
-   arch/riscv/kernel/signal.c:300:39: sparse: sparse: cast removes address =
-space '__user' of expression
-   arch/riscv/kernel/signal.c:300:36: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected struct __riscv_ctx_hdr [=
-noderef] __user *sc_ext_ptr @@     got void * @@
-   arch/riscv/kernel/signal.c:300:36: sparse:     expected struct __riscv_c=
-tx_hdr [noderef] __user *sc_ext_ptr
-   arch/riscv/kernel/signal.c:300:36: sparse:     got void *
+All warnings (new ones prefixed by >>):
 
-vim +133 arch/riscv/kernel/signal.c
-
-8ee0b41898fa26f Greentime Hu 2023-06-05  107 =20
-8ee0b41898fa26f Greentime Hu 2023-06-05  108  /*
-8ee0b41898fa26f Greentime Hu 2023-06-05  109   * Restore Vector extension c=
-ontext from the user's signal frame. This function
-8ee0b41898fa26f Greentime Hu 2023-06-05  110   * assumes a valid extension =
-header. So magic and size checking must be done by
-8ee0b41898fa26f Greentime Hu 2023-06-05  111   * the caller.
-8ee0b41898fa26f Greentime Hu 2023-06-05  112   */
-8ee0b41898fa26f Greentime Hu 2023-06-05  113  static long __restore_v_state=
-(struct pt_regs *regs, void __user *sc_vec)
-8ee0b41898fa26f Greentime Hu 2023-06-05  114  {
-8ee0b41898fa26f Greentime Hu 2023-06-05  115  	long err;
-8ee0b41898fa26f Greentime Hu 2023-06-05  116  	struct __sc_riscv_v_state __=
-user *state =3D sc_vec;
-8ee0b41898fa26f Greentime Hu 2023-06-05  117  	void __user *datap;
-8ee0b41898fa26f Greentime Hu 2023-06-05  118 =20
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  119  	/*
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  120  	 * Mark the vstate=
- as clean prior performing the actual copy,
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  121  	 * to avoid gettin=
-g the vstate incorrectly clobbered by the
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  122  	 *  discarded vect=
-or state.
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  123  	 */
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  124  	riscv_v_vstate_set=
-_restore(current, regs);
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  125 =20
-8ee0b41898fa26f Greentime Hu 2023-06-05  126  	/* Copy everything of __sc_r=
-iscv_v_state except datap. */
-8ee0b41898fa26f Greentime Hu 2023-06-05  127  	err =3D __copy_from_user(&cu=
-rrent->thread.vstate, &state->v_state,
-8ee0b41898fa26f Greentime Hu 2023-06-05  128  			       offsetof(struct __r=
-iscv_v_ext_state, datap));
-8ee0b41898fa26f Greentime Hu 2023-06-05  129  	if (unlikely(err))
-8ee0b41898fa26f Greentime Hu 2023-06-05  130  		return err;
-8ee0b41898fa26f Greentime Hu 2023-06-05  131 =20
-8ee0b41898fa26f Greentime Hu 2023-06-05  132  	/* Copy the pointer datap it=
-self. */
-8ee0b41898fa26f Greentime Hu 2023-06-05 @133  	err =3D __get_user(datap, &s=
-tate->v_state.datap);
-8ee0b41898fa26f Greentime Hu 2023-06-05  134  	if (unlikely(err))
-8ee0b41898fa26f Greentime Hu 2023-06-05  135  		return err;
-8ee0b41898fa26f Greentime Hu 2023-06-05  136  	/*
-8ee0b41898fa26f Greentime Hu 2023-06-05  137  	 * Copy the whole vector con=
-tent from user space datap. Use
-8ee0b41898fa26f Greentime Hu 2023-06-05  138  	 * copy_from_user to prevent=
- information leak.
-8ee0b41898fa26f Greentime Hu 2023-06-05  139  	 */
-c27fa53b858b4ee Bj=C3=B6rn T=C3=B6pel  2024-04-03  140  	return copy_from_u=
-ser(current->thread.vstate.datap, datap, riscv_v_vsize);
-8ee0b41898fa26f Greentime Hu 2023-06-05  141  }
-818d78ba1b3f88d Andy Chiu    2025-11-12  142 =20
-
-:::::: The code at line 133 was first introduced by commit
-:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigconte=
-xt save/restore for vector
-
-:::::: TO: Greentime Hu <greentime.hu@sifive.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:1907 expecting prototype for ibmvfc_relogin(). Prototype was for ibmvfc_scsi_relogin() instead
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
+>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3442 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5367 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3321 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3403 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
+>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3442 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
+   Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5367 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
 
 --
 0-DAY CI Kernel Test Service
