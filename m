@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC88322E3F0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 02:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C271238150;
+	Fri,  9 Oct 2026 02:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791511582; cv=none; b=rznQ7kSCwf8GsqseGhm0H1PdiJD8qLLDG43Vy8JnvUoI58Z6NoY/h3LOV0SAnpAloHjcVRCmzYG+8BR955PljluCpXKPWYAysAuwpR8FIe1EN3SrYoDBrK6DHiJjNRQS+CdBuuSR4Ivo9vBog7URLBDZbYteCIXey1+T8Hdc6TA=
+	t=1791513618; cv=none; b=cTUraWGDskV8mupRiarGapQKRw3ZcwjPSsIzxYrraKc+7AaUG2msLeV4hxwWVlflzFMfKbSICKRLb3+TpN2dkKVMLmEdAiVPGPuRrOtQKTJ/WNCtOkKtsiJAcNEvdQKP49whWES8yTY1pSxh3m/7J590hPxzeZE+YB7ABW/AUuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791511582; c=relaxed/simple;
-	bh=5+eooJjKUpe+24+JQuC2kUCIoZAtSu+cyUZWE/s8y80=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ld72JXTBWojWczqVJFyeTNYgsXRTg8H6f/7v7sJ4IbQuvYy6HzKJnt5tCGCiuzHkF4xff8IoiGE63JSIc950e/mTWMmgI330ZqrvEFbn+N4dFcqMbwQTynEAsBCxWa4YyyqqXPZnQcqOvNVExE34ibyoxcwUvTOnvm8cCh5H1+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zphg3meC; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1791513618; c=relaxed/simple;
+	bh=U1npSJzejD5mBi1v3j4ledYzhzb7UttD01lckDzSJgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FS4RDim8zkr7ONYE1C73bXZzk0buKQmXoeT/IWN4AP9/rSniBPKJXIiOm9oQzj/6w2nFB1vsxYyC2fo39BgGL6wzrMj/TpghGVggG1rtbGxlu09NyhYB4qb8VF/rHI+VzYfPGMZrR8J31NMujwnM5leKFzBVvtMd9ykYWZlXjbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GhTIjZaf; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zphg3meC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GhTIjZaf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791511581; x=1823047581;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5+eooJjKUpe+24+JQuC2kUCIoZAtSu+cyUZWE/s8y80=;
-  b=Zphg3meC+h/PrGf6Y/78TdDbBXx+/q2hf6MVS03YHtPhFNdCJ4pPlvGD
-   8QwAd8/aS2PEzS0xl82rOSRwE+qJc/zwLDiZfWk5eOgT/p6zYPQ6acPkL
-   RbE/3e04pI+e1rRv2r232ju9uhqbyB1gquFGHqEsEG6Oxsq6b3vtWtPhx
-   3tdybh1dQMrcZQ7vXLxJAaQGjQestLt33prWgL6nNEzpsLzt4KJXmVRJr
-   Aanyp8f8y78AGZnFoDua4ikLZslqi6NgbX51WFBlWbY73CEcWOwxH9NMf
-   W2Cg4YX7WrCK5F+wMtu85nWmvBF0VdKryuG6Ljn3VO4wyYXTaFnOkVtlJ
-   A==;
-X-CSE-ConnectionGUID: y9X19KzkT2u3dN3oOc0zxA==
-X-CSE-MsgGUID: CUqQqhcoS7O3NH1hYPMiLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="402322"
+  t=1791513616; x=1823049616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U1npSJzejD5mBi1v3j4ledYzhzb7UttD01lckDzSJgM=;
+  b=GhTIjZafquIS0jrH0Sm+qRtjzk0lweRckopbiEbI46USacPCuRVOV90R
+   q1xJqgOehyEi3cBUD83DYyY7WXZwT1y1A0pJZGf4D9T0zJhvJxd8A+hCl
+   mxyC+b5ilT6aGMJZj4ZlW+Z/seDC49doIr29rr+XdLlmRsnBlRBJ5bfC5
+   ePCtzECyxA9Hy2pDZ2/ip1B3S0P8/2YVkUUu37CPze9OYxWXHsazawCyB
+   EeAZjxYyGCy4NatnxkhPfAHaspJmqmG6z4oDJGcRP0dQ6l+lPM4znJrA1
+   /zjbdI0lJz+ZLiVrvP9rAlVOMSK8DhUbu9ybwlwz9RPv3pLhpLmHZL/01
+   w==;
+X-CSE-ConnectionGUID: 3owiiQwwQ4+CemOTG/uutw==
+X-CSE-MsgGUID: /fnyUAPeSWaf33JnlZv+Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="312480"
 X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
-   d="scan'208";a="402322"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 19:06:17 -0700
-X-CSE-ConnectionGUID: zYQG7rsbQXG4ajzBd2LAjA==
-X-CSE-MsgGUID: 7+czI0gVQpG7q6md45ylZQ==
+   d="scan'208";a="312480"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 19:40:16 -0700
+X-CSE-ConnectionGUID: NKB6IehzQ2+GXVXta22VSw==
+X-CSE-MsgGUID: gByQKVSEQGSzQsBZiCzfjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
-   d="scan'208";a="138364"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 08 Oct 2026 19:06:15 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="280369"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 08 Oct 2026 19:40:13 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xEzzx-000000006Wf-0zPE;
-	Fri, 09 Oct 2026 02:06:13 +0000
-Date: Fri, 09 Oct 2026 04:05:46 +0200
+	id 1xF0Wn-000000005Ce-2mWk;
+	Fri, 09 Oct 2026 02:40:09 +0000
+Date: Fri, 9 Oct 2026 10:40:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/rust-clockid 4/4] warning: unused
- variable: `id`
-Message-ID: <202610090320.ClvknFi3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Suhaas Joshi <suhaas@s-joshi.in>, sj@kernel.org,
+	akpm@linux-foundation.org, aethernet65535@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, damon@lists.linux.dev,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mm/damon/core: Copy only installed probe in
+ damon_split_region_at()
+Message-ID: <202610091039.fhMXCn7d-lkp@intel.com>
+References: <20261008151944.113714-3-suhaas@s-joshi.in>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,47 +64,121 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261008151944.113714-3-suhaas@s-joshi.in>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/rust-clockid
-head:   8aaeb43a5dab7c2344e34233fdf81d453ff9137a
-commit: 8aaeb43a5dab7c2344e34233fdf81d453ff9137a [4/4] aux0
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261009/202610090320.ClvknFi3-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610090320.ClvknFi3-lkp@intel.com/reproduce)
+Hi Suhaas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suhaas-Joshi/mm-damon-core-Copy-only-installed-probe-in-damon_split_region_at/20261008-204926
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20261008151944.113714-3-suhaas%40s-joshi.in
+patch subject: [PATCH v2 2/2] mm/damon/core: Copy only installed probe in damon_split_region_at()
+config: csky-randconfig-1001-20261009 (https://download.01.org/0day-ci/archive/20261009/202610091039.fhMXCn7d-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610091039.fhMXCn7d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610090320.ClvknFi3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610091039.fhMXCn7d-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> warning: unused variable: `id`
-   --> rust/kernel/time.rs:205:25
-   |
-   205 | unsafe fn ktime_get_aux(id: bindings::clockid_t) -> Option<bindings::ktime_t> {
-   |                         ^^ help: if this is intentional, prefix it with an underscore: `_id`
-   |
-   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
---
->> warning: unsafe impl missing a safety comment
-   --> rust/kernel/time.rs:229:1
-   |
-   229 | unsafe impl<const N: bindings::clockid_t> FallibleClock for Aux<N> {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: consider adding a safety comment on the preceding line
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#undocumented_unsafe_blocks
-   = note: requested on the command line with `-W clippy::undocumented-unsafe-blocks`
---
->> warning: missing documentation for a struct
-   --> rust/kernel/time.rs:223:1
-   |
-   223 | pub struct Aux<const N: bindings::clockid_t>;
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: requested on the command line with `-W missing-docs`
+   In file included from mm/damon/core.c:4295:
+   mm/damon/tests/core-kunit.h: In function 'damon_test_last_region_quota_reset':
+>> mm/damon/tests/core-kunit.h:2519:38: error: passing argument 1 of 'damos_skip_charged_region' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2519 |  skipped = damos_skip_charged_region(t, r2, &s, min_region_sz);
+         |                                      ^
+         |                                      |
+         |                                      struct damon_target *
+   mm/damon/core.c:2500:57: note: expected 'struct damon_ctx *' but argument is of type 'struct damon_target *'
+    2500 | static bool damos_skip_charged_region(struct damon_ctx *ctx,
+         |                                       ~~~~~~~~~~~~~~~~~~^~~
+   In file included from mm/damon/core.c:4295:
+   mm/damon/tests/core-kunit.h:2519:41: error: passing argument 2 of 'damos_skip_charged_region' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2519 |  skipped = damos_skip_charged_region(t, r2, &s, min_region_sz);
+         |                                         ^~
+         |                                         |
+         |                                         struct damon_region *
+   mm/damon/core.c:2501:32: note: expected 'struct damon_target *' but argument is of type 'struct damon_region *'
+    2501 |           struct damon_target *t,
+         |           ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from mm/damon/core.c:4295:
+   mm/damon/tests/core-kunit.h:2519:45: error: passing argument 3 of 'damos_skip_charged_region' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2519 |  skipped = damos_skip_charged_region(t, r2, &s, min_region_sz);
+         |                                             ^~
+         |                                             |
+         |                                             struct damos *
+   mm/damon/core.c:2502:32: note: expected 'struct damon_region *' but argument is of type 'struct damos *'
+    2502 |           struct damon_region *r, struct damos *s,
+         |           ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from mm/damon/core.c:4295:
+>> mm/damon/tests/core-kunit.h:2519:49: warning: passing argument 4 of 'damos_skip_charged_region' makes pointer from integer without a cast [-Wint-conversion]
+    2519 |  skipped = damos_skip_charged_region(t, r2, &s, min_region_sz);
+         |                                                 ^~~~~~~~~~~~~
+         |                                                 |
+         |                                                 long unsigned int
+   mm/damon/core.c:2502:49: note: expected 'struct damos *' but argument is of type 'long unsigned int'
+    2502 |           struct damon_region *r, struct damos *s,
+         |                                   ~~~~~~~~~~~~~~^
+   In file included from mm/damon/core.c:4295:
+>> mm/damon/tests/core-kunit.h:2519:12: error: too few arguments to function 'damos_skip_charged_region'
+    2519 |  skipped = damos_skip_charged_region(t, r2, &s, min_region_sz);
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/core.c:2500:13: note: declared here
+    2500 | static bool damos_skip_charged_region(struct damon_ctx *ctx,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/damos_skip_charged_region +2519 mm/damon/tests/core-kunit.h
+
+79500f5843f453 Donggeun Yoo 2026-09-28  2489  
+18793c04abe665 Liew Rui Yan 2026-10-05  2490  static void damon_test_last_region_quota_reset(struct kunit *test)
+18793c04abe665 Liew Rui Yan 2026-10-05  2491  {
+18793c04abe665 Liew Rui Yan 2026-10-05  2492  	struct damos s = {0};
+18793c04abe665 Liew Rui Yan 2026-10-05  2493  	struct damon_target *t;
+18793c04abe665 Liew Rui Yan 2026-10-05  2494  	struct damon_region *r1, *r2;
+18793c04abe665 Liew Rui Yan 2026-10-05  2495  	unsigned long min_region_sz = 1;
+18793c04abe665 Liew Rui Yan 2026-10-05  2496  	bool skipped;
+18793c04abe665 Liew Rui Yan 2026-10-05  2497  
+18793c04abe665 Liew Rui Yan 2026-10-05  2498  	t = damon_new_target();
+18793c04abe665 Liew Rui Yan 2026-10-05  2499  	if (!t)
+18793c04abe665 Liew Rui Yan 2026-10-05  2500  		kunit_skip(test, "target alloc fail");
+18793c04abe665 Liew Rui Yan 2026-10-05  2501  
+18793c04abe665 Liew Rui Yan 2026-10-05  2502  	r1 = damon_new_region(0, 100);
+18793c04abe665 Liew Rui Yan 2026-10-05  2503  	if (!r1) {
+18793c04abe665 Liew Rui Yan 2026-10-05  2504  		damon_free_target(t);
+18793c04abe665 Liew Rui Yan 2026-10-05  2505  		kunit_skip(test, "region 1 alloc fail");
+18793c04abe665 Liew Rui Yan 2026-10-05  2506  	}
+18793c04abe665 Liew Rui Yan 2026-10-05  2507  	damon_add_region(r1, t);
+18793c04abe665 Liew Rui Yan 2026-10-05  2508  
+18793c04abe665 Liew Rui Yan 2026-10-05  2509  	r2 = damon_new_region(100, 200);
+18793c04abe665 Liew Rui Yan 2026-10-05  2510  	if (!r2) {
+18793c04abe665 Liew Rui Yan 2026-10-05  2511  		damon_free_target(t);
+18793c04abe665 Liew Rui Yan 2026-10-05  2512  		kunit_skip(test, "region 2 alloc fail");
+18793c04abe665 Liew Rui Yan 2026-10-05  2513  	}
+18793c04abe665 Liew Rui Yan 2026-10-05  2514  	damon_add_region(r2, t);
+18793c04abe665 Liew Rui Yan 2026-10-05  2515  
+18793c04abe665 Liew Rui Yan 2026-10-05  2516  	s.quota.charge_target_from = t;
+18793c04abe665 Liew Rui Yan 2026-10-05  2517  	s.quota.charge_addr_from = r1->ar.end;
+18793c04abe665 Liew Rui Yan 2026-10-05  2518  
+18793c04abe665 Liew Rui Yan 2026-10-05 @2519  	skipped = damos_skip_charged_region(t, r2, &s, min_region_sz);
+18793c04abe665 Liew Rui Yan 2026-10-05  2520  
+18793c04abe665 Liew Rui Yan 2026-10-05  2521  	/* 'r2' is not processed, it should not skip */
+18793c04abe665 Liew Rui Yan 2026-10-05  2522  	KUNIT_EXPECT_EQ(test, skipped, false);
+18793c04abe665 Liew Rui Yan 2026-10-05  2523  
+18793c04abe665 Liew Rui Yan 2026-10-05  2524  	/* 'r2' is last region, it should reset charge_{target,addr}_from */
+18793c04abe665 Liew Rui Yan 2026-10-05  2525  	KUNIT_EXPECT_PTR_EQ(test, s.quota.charge_target_from, NULL);
+18793c04abe665 Liew Rui Yan 2026-10-05  2526  	KUNIT_EXPECT_EQ(test, s.quota.charge_addr_from, 0);
+18793c04abe665 Liew Rui Yan 2026-10-05  2527  
+18793c04abe665 Liew Rui Yan 2026-10-05  2528  	damon_free_target(t);
+18793c04abe665 Liew Rui Yan 2026-10-05  2529  }
+18793c04abe665 Liew Rui Yan 2026-10-05  2530  
 
 --
 0-DAY CI Kernel Test Service
