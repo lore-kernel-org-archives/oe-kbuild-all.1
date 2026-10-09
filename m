@@ -1,83 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from flow-a1-smtp.messagingengine.com (flow-a1-smtp.messagingengine.com [103.168.172.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3614DEC15
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 15:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460834DBD62
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 15:43:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791560487; cv=none; b=A4+RCaVhRxXitzOnnqZ0sqy7qyp++u+1ntaN5e7Dzc00wZbLtxctHG1yDeOB2W52J51J/5ZFWyxVVGhYx5y0tNnRyhM1ZD9DsjyksO/iqS84QrgMeyEjKFLxRmgf8F27U9tpWlphhh+dLm/pHTtBs0yT4hsPiEgt4NpueyUPiKo=
+	t=1791560603; cv=none; b=drsb+xSTgRAgFASKWTHnCUSQUEOvL6dt+Vba/eXTZNIxnyOg3lYkDCmJUoZL/ddkFsEmYXFQJ1TutGStmRElYOj5aTdmgThciKlBrskWntu2e9L/wyrckZu544P5nys10WbIHuGhjk/MAmXhqw66fV43ejGxstSwqIHHuoIMxHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791560487; c=relaxed/simple;
-	bh=LRFdrfO3H+84EqxWI43BMoesGjOdpn7EWKlOfn+yxNY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rHTPESmkATATfFxuyQaL0rsjlg+dnWiS9BzW3Z4pf6irzkH6ryxucW9wx4r/9c6q1oHn+vmg8Zus5FYneqgRhavWBvYEvUQQ70KIlJEQHz/feo0UO5+DHtKcxxmzuam6bC1GZFou+mDtNVNAlwmlZRK706yRQNf7pwaIcGqDHuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B98qnxCb; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791560603; c=relaxed/simple;
+	bh=DDehand84XTzijPnsTs+htwcV1Cmbb757Dl1EsmDkMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bmsUIliTxlinIjGzzxx3r7XRhXgZkwV93NFCAjmL4CYOVFEtcmBXh5LregpIAz1/pxQv0+5fh9Uv98fA1qJW0mVihPWQmLNFaA2PnQAe5nypFYFcqTRMdsbjBDvF3CL3B3guLKlWGk2g3wv1TCS0YycCyiOsdMUjl2FbKLFMOms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=s-joshi.in; spf=pass smtp.mailfrom=s-joshi.in; dkim=pass (2048-bit key) header.d=s-joshi.in header.i=@s-joshi.in header.b=XEpP0FrT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ikIvuA3m; arc=none smtp.client-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=s-joshi.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=s-joshi.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B98qnxCb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791560485; x=1823096485;
-  h=date:from:to:cc:subject:message-id;
-  bh=LRFdrfO3H+84EqxWI43BMoesGjOdpn7EWKlOfn+yxNY=;
-  b=B98qnxCboKN2f2MaWbpyvuzls4NqeSuZ21zMjA9bN/Vp3ZFR66+Vrhey
-   3ByGAP7j8tC4FBzzGqGdaOcG4iyyjrYN2RCBA+wAAJMAOJtyiB+QTyyrN
-   52gEU5QS7DzisqVM5561KFJ5WR+cKBCTjH1KJqD0VN6zI+kgHHmRHn9fM
-   FywsPIg/0RuqKZD3mDK4LMfhCa0rljl93vgj67lsv4u4fWOhHoX36Lrb1
-   eORsTq75ZMoD6QSeLD7vsNOZ/8CdliPiz0mii5/r78HeImZs73/Y7TTIS
-   VPM7ONufOSRhrFbCc8ijkgpGD0qDfBOXHTPREsq9ZG8xbCNgz/+S+ZKft
-   A==;
-X-CSE-ConnectionGUID: SA0StyTERzSinrM5PNTuaQ==
-X-CSE-MsgGUID: chrfuYuSTsioi2/tGlq70w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="258815"
-X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="258815"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 08:41:25 -0700
-X-CSE-ConnectionGUID: czGwlkGRTvOtbhgZ5nKuBg==
-X-CSE-MsgGUID: etTsLVxYQsyYvN577bLQfA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="341932"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 09 Oct 2026 08:41:23 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xFCin-00000000783-002y;
-	Fri, 09 Oct 2026 15:41:21 +0000
-Date: Fri, 09 Oct 2026 17:40:52 +0200
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 13/13] kismet: WARNING: unmet
- direct dependencies detected for PHY_DW_DPHY when selected by
- VERISILICON_DW_MIPI_DSI
-Message-ID: <202610091725.WK6FIAgP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=s-joshi.in header.i=@s-joshi.in header.b="XEpP0FrT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ikIvuA3m"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailflow.phl.internal (Postfix) with ESMTP id 750C6138023E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Oct 2026 11:43:21 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Fri, 09 Oct 2026 11:43:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=s-joshi.in; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1791560601; x=1791564201; bh=Aj9UrRCfC4
+	ORX2AFQFmPC/gxe5C/DS1Ye4qCAs4zrbs=; b=XEpP0FrTvsyVazMOrGNZCze8Lr
+	D8L0HSl58HpSMe/0h18dGudr9nURdzkjdh2fXW+aWpVxPygxndaj5kai/BIYIjUO
+	HIsxLwJmqJm4B9fiBWhCgvIXA959KVm4Oik8X2iVvWMgj/22Ik4Dcsz1MVnHVaaJ
+	iTeMsbAevoKlKnUQAeTDexN0aXGz42yHjo4ZmCb7SM6FJAgxsYLHZVA4ul3J/0jf
+	SS2iLlNon+ldOW+2qrqUW2weg6/SeC8675Iiu/uJMmbRerh1oI89m8eDR4kn1+vu
+	5OabcQDd2IEucDoP3JjWyKLHxCs8bLgwD5WVg/teBvAqbvbJqG5q3HU8Vu1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1791560601; x=1791564201; bh=Aj9UrRCfC4ORX2AFQFmPC/gxe5C/DS1Ye4q
+	CAs4zrbs=; b=ikIvuA3mQ4svYeCPUw1+tNupADyvkcshehblvPl2qv74+zv0Eyl
+	lpTOqb9tPTmDdFi7dt+ACjKpHnkvnKkpJjTg5mbrVqYZVOx95Na/JeanGDaMR/VW
+	AAQ5STnKIVtQiR+FxXEv2edmqDcSr/mvzi7gU6VVd3B78l5iJAJ4Q4+Gg0Oy9VzY
+	e7XUmrZVpEZbolRvWVd59YPCQgZoNkpe5+E5rqDwxxhgOu8PwL8iKGEzBD2u0ziC
+	AbATnJxmzrAYLMCoicYVKXGq0fHNeVxdNeUNH6hMGygGGkU2d4vxETDqUbj2OE5N
+	9p6m8s9yFm/X3lgh2J/+LPnZSQSRbNWHzjA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
+	action=sign d=s-joshi.in a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1791560601; d=s-joshi.in;
+	mf=PHN1aGFhc0BzLWpvc2hpLmluPg==;
+	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm1:rsa-sha256:AkUV/uJBv9tYFSv2pEdmk5JEm9CXhiaaECIQI2Xe6VhsCw8
+	8vRu9SKYKl1hif5BHjuBd305ZtE82O5b8JShNv2l7N9K9uMPTOS12Q4PO3nqm5Kq
+	LLhNwvyiqIovbmwJCu40B+HwXoT1Y7BkylIPA1KSANGS4L7bqSYsnL+abiR0Y37e
+	vxDH/1HPoH8TF3/mxCZ64IDou50EVjSx9pXQFO/CsmGnMCG8/vkDCAKLzX3EAuIl
+	ae7HcTyOpRO/6Ma578616wHk28RkUiGOQapZmqjy5Bh/VS9CE8NvgbNEwj8SMEYN
+	u+VRrff9GB8LvuoZsdTlokRSGx+eg0JXQdZCYuQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:WJq6pW7ABN48eZYcW6c9nITdcUioh3s5dQ3/0wXPO+s=:DDehand84XTzijPnsTs+htwcV1Cmbb757Dl1EsmDkMQ=;
+X-ME-Sender: <xms:mQvJar3akoFrwUKVFGaWiXDlCosFL1Kv4FW7DXYTAnznSyL27Lek4Q>
+    <xme:mQvJakJQlvrmp4bD00JhVOrXdhrdVCLZ78SKbkZb4pqUbZUv42r0gYhYlAtzzzBzd
+    Q7xxHsmSuR871teV0YKWi_ubjlRwFWJxnaHcJwcwhc0BAfMeN3bL74>
+X-ME-Received: <xmr:mQvJarzTzWoqsMs3JIg5kPLSAhwUhObEPYZkuWTXdiFxPQDP_Zw5PEhogg>
+X-ME-Proxy-Cause: dmFkZTFP7n4MPUnav3RdIK8H+A+dtxAAXt54vCBIuraeho5WQfeHByTBT4IoaCUtoZhKA9
+    xRkgW2ggkExRiY6WPzL2eFX0GkcilCgd2QDboVrZyWPyd5MJncixOoXLA1lp6y+HBajQdU
+    zhaYlpnPaQo1g5zFuxvR0o+RMlkOdfpWW9wEG4jqDPRYMbBNYwH5EfY4f1Nz3ehijk10UO
+    MHIWoFTu64o2yWqgiHhwJUXO4h8feE//Z3IR6OfFq9QKNxKi1T1hobVl09aJaYDM8DIDY5
+    kJI53e2lzHheXiW26gCW5ak2cBIT75HD8GGUWJGHfr6mQFymG43KpLZHWyKHIRaQTFG1nl
+    ebrATdBiF8dGTwXUTEpJL+zTIZ8XRyk2fDc+I+CXsKtDplEvlL36LgyKU31RTVw2zSjGQ0
+    kB66tXK1EMVeN9fiFVOoC9fk5/+iapTOtMN1/gradK6kQP2/Pdsu4BUI0C54CcOu78LQ0K
+    YpoYKeRGYCLFxSFh0ztbPvErhiBrsoITf6QrqdTOArtsqs1YD94UcUPd0lx4PAIqxvJ3X1
+    hZL0RpazTnYySYOnijA3YvnJ+4GY/MSNkn3rHUFY1vudZhtMG0aqSPPSX5IaEYP2PUcwCY
+    nf9QS6bIvxZMSEc23UKO4VG6Sa+/MY6tRqOPcsWPUU5anbo6LYwXfuEQ3F5A
+X-ME-Proxy: <xmx:mQvJaiUKly3qoJANb6WNl-0R9g7vpE7NA-CG4HgpQkrbYvXHLne4pw>
+    <xmx:mQvJarhNFSDFgUJIHr651imzPsCgMYB_W3X5J03TxJA8qVqO_yol2g>
+    <xmx:mQvJaiCFbndnjjqzg6qKS0LfXRhZzbadkSgXixOkMRX-VR-Q4vefZw>
+    <xmx:mQvJahv9Z8en6FZGqn1AKDS9DK2MdE2tQjrLqUhHN4lksl16LwZLkA>
+    <xmx:mQvJarQLDfnQvrga8cNkxX3qbq3dp5BWGtJkd5hsNVmfXSgAbCh0DFjQ>
+Feedback-ID: ia9504abf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Oct 2026 11:43:19 -0400 (EDT)
+Date: Fri, 9 Oct 2026 21:13:17 +0530
+From: Suhaas Joshi <suhaas@s-joshi.in>
+To: SJ Park <sj@kernel.org>
+Cc: akpm@linux-foundation.org, aethernet65535@gmail.com, 
+	oe-kbuild-all@lists.linux.dev, damon@lists.linux.dev, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mm/damon/core: Copy only installed probe in
+ damon_split_region_at()
+Message-ID: <askIjMr06hNDZpMo@fedora>
+References: <202610091039.fhMXCn7d-lkp@intel.com>
+ <20261009082154.42336-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261009082154.42336-1-sj@kernel.org>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   6b7e53dfabebf2217f7ba34cf4bc9869454c8371
-commit: 500e70f6113ba8e3d77cbe6c36fb5a5d546e0557 [13/13] anolis: riscv: gpu/drm: add T-HEAD Light support
-config: x86_64-kismet-CONFIG_PHY_DW_DPHY-CONFIG_VERISILICON_DW_MIPI_DSI-0-0 (https://download.01.org/0day-ci/archive/20261009/202610091725.WK6FIAgP-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20261009/202610091725.WK6FIAgP-lkp@intel.com/reproduce)
+On Fri, Oct 09, 2026 at 01:21:54AM -0700, SJ Park wrote:
+> Hi Suhaas,
+> 
+> On Fri, 9 Oct 2026 10:40:07 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > Hi Suhaas,
+> > 
+> > kernel test robot noticed the following build errors:
+> 
+> Could you please check if this is a real problem of your patch?
+> 
+Hi SJ,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610091725.WK6FIAgP-lkp@intel.com/
+Yes, this seems to be a problem. Liew's patch [0] was merged recently,
+after I started developing off mm-new. So I didn't catch this in my testing.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PHY_DW_DPHY when selected by VERISILICON_DW_MIPI_DSI
-   WARNING: unmet direct dependencies detected for PHY_DW_DPHY
-     Depends on [n]: HAS_IOMEM [=y] && OF [=n]
-     Selected by [y]:
-     - VERISILICON_DW_MIPI_DSI [=y] && HAS_IOMEM [=y] && DRM_VERISILICON [=y]
+I will rebase, fix this up along with your other comments, and send out a v3
+by tomorrow.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[0] https://lore.kernel.org/damon/20261006065209.41507-4-sj@kernel.org/
+
+Thanks
+Suhaas Joshi
+
+> 
+> Thanks,
+> SJ
+> 
+> [...]
