@@ -1,87 +1,163 @@
-Received: from sonic316-20.consmr.mail.ne1.yahoo.com (sonic316-20.consmr.mail.ne1.yahoo.com [66.163.187.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5113E3D3D07
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Oct 2026 19:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.187.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9D93043CF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Oct 2026 19:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791661072; cv=none; b=OIduwYe6BeWdUc7P+zHK06Y32gVZ7bAXYSJGMioNRuhnFlIsqphGR2wv3Js1zo8joTU/BlmyKaBG2xAFGZsAqHk7JenZaMmBwqjD1UMMCPPXsp7BLKaXcyHNDCW/GFYCmWC8+CCcIWm/e3c8YvN5pbtHYV/1ezMgHC1J1CxS7Zc=
+	t=1791662091; cv=none; b=jbel9nWo908W12XSIwyGpBohBPPh691oUzYBuEED6FlPIHxju9ZisXlvApyDLyaWwhjFHJmQckye4b3dmvuiStVDL0fnHFvGez3FiOwuFF8ogQ6X2IYKdU91oUyEjxiTBoJPbwFZWInS6AbZttlLIauvCOJP8RIlv3MCIj0SXaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791661072; c=relaxed/simple;
-	bh=xwjbSYgn6KXQ9wka03ZWzOM3dY+f7vtWb04ux/4AmUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KEtcNA1MzTmhYpiUR/aVUnOSIR7Tubf5gfNrVfjXChr9UGEWyFL5f+1De9QRvsyC2CYpTWZ4vuqE4Z0T8kn5WnZBX70M3+MHnqFN9C86mDfHS3xJvzCRCoK+5s7y8AyhivgA/sxfxHFNzxNKMUqlhru09xnLhvTFNMltHvrujTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=tQRh5XPo; arc=none smtp.client-ip=66.163.187.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1791662091; c=relaxed/simple;
+	bh=DDY7sdWnzvOGrSQ0kyUd1gG8poOTIx0sHxhxEOXz1g0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEshc1XqjKmBuEtudbZiZRJsrV9flT/KwADMZ9wZ/q/5PZRLSAXhTPuXgOSSVZab05aHyAA0sqPGdINc31uylnneTc2gdaasKH3LJZArb6E/qktUw/TQ1OBjddNZ5X644BNKEHfwZ3QfBFuegQue5xBBR6vWh+255p1oTIGBfzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngj5JSbq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="tQRh5XPo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791661069; bh=xwjbSYgn6KXQ9wka03ZWzOM3dY+f7vtWb04ux/4AmUg=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=tQRh5XPo7RyVOzZ0LdGFgDVt2LHOuELd+1uyUgOtIIGmbcJaAw0GDx3+8C0ylPhWSl7X/ZDovnB3ldEiU5NkUkUzz6hecbVMXoaDgQFtVVV4TK1oXX6z3LzR5Acir2iCKq1CG4dBj8t0hqkWSk87nAB2EXY38R7GfiOSf6uqwsSQ+1fGittRoptsX9POTAirYv2cKe7cSIWzhLLRaGrifK+RtzFnEldA7Z6lqGHJI3Ev1nMw1M5SsTxvli/d+vqsPFtG/4g8TDgXs8pl/rxw27sds1T3tNmZEEwwDVEFmMH6Yu0MqIse50g0o1beS4G7d7E0q8uhgvKRe0Nefse2Aw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791661069; bh=w1cYfH8qrHjAQjs9a0AdNxu65FfpaEVPD7Y9pDH3FwF=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Uityqgv/hZ+GUsDL7PygZCODarU5cg7e6ghOqgcL6wWxbDZphQ3jFBplE3/42YlUesPvW+Z6MDwc3PsZUDJJ8TdFYb8tbODXH57xCaN5KPl+OT1n3B9uuSv0USBBdvsSLsnxVKkd3RfQXfjOWkquuMlu9LlQ7UTreVTZb5BiAnwjezKXJOS+5o5p8U5ESAV4p35u/xFmwXTl2GjjmPHaYa4r0T5qYiUfTPsGvZMNWHWPymrj4+G38zuKAtis5lM2nTjkYyjL8p89b6k2FmHSZN6mecCvDa53MY9ZICuvLC+fyT7jGRXhYmepm8JJy6oCc265qNSb0cIB3xHFw/9YCQ==
-X-YMail-OSG: 6rQKzBEVM1nWxOL3GIDBNLJqYkiNN.Q.52v.rnfxY5oVukunkkhyp5xOoRoIO6Y
- hg1tIUQ8M2VzswZeXWC3QpSvuAnkzCe6Z5Al4z2bk466jIHWmMLXwcsYmsDOEX2qQVeQqUTysmVc
- rGUB9pU0YkHBr.WaIfCTfXvSmyULVf.EZk0_NBWjbhb1GmVhohBDZAUCXrBTTMYbuXBj6Pcup9dA
- pwgkzZb9HrYl_fvgBjNCIwy0slp3miP8Oolx70P_7FCY1XsSS3XggmOv.I_WKWKI4LyLNXHjF1ti
- RrKXFu1nkQBuu3KO_ndltGOQrRdj2WTVvDeCEroVEfvF9rwnLm7Rci8DgHV38c_4tgaidUYCNdoy
- .IXeCgPPy7zENWuoeoUoKNeV_TWBD9qQgPdKQ5L.bORRiiakOBkEhd.VvF0.lB7HmvcXmrY1Ze_Y
- CL0YpiScehDa1Ww7IGWhlmrPr4tqbmyb_Am0qJbbCaL0qDyjJwR_Ps4rrrquAGY1L6Ha09lviOSz
- h4wy9fc6XaRNKnCdjCK26GiZaQ1NU.EfGRaMKNZTSB0MRgxHbH3UrMXVq7EhufSnM_Sgztcmae60
- PRqbypnD_oE.1tuSqx2xdpebOFbcUt_cr2Ngu0t9l8FYF55VFwvgt5AupcEoO1KFdojcNPCrHOr5
- F_1H0c.DfErKa06pLDYpkgofBf5STSWe7HZmSuQi9yuSO68Cifh7EAl.V4W28ga8l1bJAVczeHw6
- MrMEqYP5ySOPbI5PbPAZAJFwPNZ1OPOQZ2sPXc0X7FyWG85KzQWWx1L42HKyqnGSdfKD1Cp4Gklv
- s.yjyIFWh2b4TbpxtU3d3zpT8GHlJsUKEe_JAsvtoQ2JfQ2hSWZAwUO7kZkw3wZd65lTrj4CHSs7
- lFAOazCwoNl5BPyjQT5arUxpI7cFmLg8SD1Ki4BFGimxD2VdOplmG7AYfCn6ZIIwnNh9Y.WCC2YD
- 4WHLmarLpHKhy_3j3OYEWg4fMJpOLH6c.fNT2r5y1s2oNfWAHPBA9BuTgqXE4W.v3agB2vRSvCyK
- HdZY_dMYUfLw.fz7yPc3qAH7ih_l5wOcBVIiF2sOLgc7WFCDcU4j_aG3otUjCQd2XQYWfM8oJDU2
- 2k__lCD7y3R57FazAtodBlKG9v.Qp1GEHeX27JCCgyanHa.xQtlOk5vc_nv6lhPwwSA2K9GmCbhG
- SO9kXqS7CKH0KejL1gKzdIR28xB_y1QDCxgG.R9kWV1Wc.5NnGUUmu1gOVz3bfH_XnGe95DZkCu.
- CHDLFU8Gm8bSoUeX9K7HPfLPD7YaqlOPGU5mawJ8Qs3TpijlXNDI1mDMaXwBH_gGJzAJJW4CpsDh
- VaoPiI6hmns8SNP48u9B0IPIOJbOzGvVi3V1bWz.hQuDtsIn0jy6OABCl7t5ShvPzcKsUi19mjuW
- GisI1myvV5iwVAio_W3v6N91CZWXI7jp3T0oBmvDw9L.DRfKnxK7S_wZhuNqzvgJaTjfOE8k39kE
- gU.hV518xLKdBECCwCOV.ZLJQlvV9M7dufaigCBvTHzdEpl8JDqi79DRb95fxjsELVSmZX3fyT0O
- HQ6xFqzykyx0ne_5IaR0XlTVsJ8392LXP5llW4w.gTj0fFiLqwUx6uQS4iUS6HaCo7m.3dt1dU48
- 3zdu43.3yYOptPhBnR5Pyiidgz79bvhJh79MB.lDqQuTzBC_uaMW78jLiuoQ_aT4kIh4pwI0slOO
- czpyosTFFDjj48d4H5K4KO4D39C7iMttTUBHfXSB1WYxcH83Q9A5x2MDiAvwGHXuYgbA2pwQxX7N
- y9xnYPnX6Cltz7Ws9bZbIBM9nlTdxYv8.jXgsVvZJi6ep_nJhLMte1z3FkO3yysYpXmH.nGNOLQZ
- XFnKLYguTo54NKRG.bQ1XKhJPZVUqggR.2VM8W9CuoyTx2b8BLKpaqy4Bzy4IiSQnNiUrP4g5HZT
- pNFNKEkgvNyVgckZbtzjzwwLhUHPC3q6H0Xh4PUx7AjmePNCxgPqeZQS_Xv.PVjHuNTW4hX.S2yf
- azHhy1WHlZHZAZx69T5iyCy0hLr1JS9h_ODXqRMcjucV6LzMgVhBAhzfwl14uEvCgWO1nScsAMWY
- seahDmaOQ.zIolt7vWJ92fq03zA7uKgtihlL8CvPCnv_1l20qXEA3S6zBsFeBe7dLXiB4i86cg1i
- dFHhB1OmXcXx1g.ntAGpxT0qFtHNBwOnkN4TgfHabokOEDx8uMt6OBFaeA3dR77TdfFyQU12OI8P
- gVHK.nrBk91kcU99_zbwH3lS6drTGl0Gz57ysTybFlKMRqnBv.a9x0vVdz4rXU79dXiVLxdie04A
- pcMMp.tKe1aUEdYlyQlqYiEzJhkytmNlH4HkKMNQVUcQlpfZj1HE-
-X-Sonic-MF: <namiltd@yahoo.com>
-X-Sonic-ID: dfd437aa-a2be-430d-af91-2298abfa9816
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.ne1.yahoo.com with HTTP; Sat, 10 Oct 2026 19:37:49 +0000
-Received: by hermes--production-ir2-5dd9bf4598-nf4w7 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 07f6395ff3499c6cf6e6a1a81cc87afc;
-          Sat, 10 Oct 2026 19:27:29 +0000 (UTC)
-Message-ID: <3dc433ad-f0c4-4679-ad8a-b4676cd7255c@yahoo.com>
-Date: Sat, 10 Oct 2026 21:27:26 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngj5JSbq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8F21F000FF;
+	Sat, 10 Oct 2026 19:54:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791662088;
+	bh=HKx3+Vj6vFvVOanCFMTEeGgQXB7iKxmPT/ej6nCQCLg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=ngj5JSbqnJrp4ZkB4GPICPFATeD8zZ5PF/3IkXv141guvf7clCSmK4jTJHzU2ElYY
+	 ntQXsneu11qFpzlsKs2U8gY29O8e3r1jSxE7XZyzR6Vnk0nikH9xV1pHrYcF+QfMAz
+	 Ts6QRsxP7qlQfbbNuj++zBhRFhiALMTZqnijNhwppleHOyoGAgpo1xN8Rj3CSeGYNw
+	 rkWuticmvIjnBf+3V3YQJk4OWy53DVh1EIV3SWBxCD0qbEwvetTQaa2jMb4sEdOkjs
+	 gcIKPE7wX7P8FUZyNEVDk04WmEU+Ooua1fV7Kg2Do5K/Vv2bm28DTxl2f2Yh0CyNzf
+	 OGd0+n7zQQRxw==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id E651DCE397D; Sat, 10 Oct 2026 12:54:47 -0700 (PDT)
+Date: Sat, 10 Oct 2026 12:54:47 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [paulmckrcu:dev 20/22] kernel/rcu/tree.c:2772:59: error: 'struct
+ task_struct' has no member named 'rcu_node_entry'
+Message-ID: <7e1f958e-2184-46b7-815e-c3a6b371d75d@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <202610101152.pcWaETEm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 8/8] net: dsa: realtek: rtl8365mb: re-latch the
- family D SerDes
-To: kernel test robot <lkp@intel.com>, linusw@kernel.org,
- alsi@bang-olufsen.dk, andrew@lunn.ch, olteanv@gmail.com, kuba@kernel.org,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- linux@armlinux.org.uk, luizluca@gmail.com, maxime.chevallier@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev-bot+sashiko@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-References: <7e3518aa-4f99-4aae-bd9b-3984bdc4b548@yahoo.com>
- <202610081722.Zoeli0ix-lkp@intel.com>
-Content-Language: pl
-From: Mieczyslaw Nalewaj <namiltd@yahoo.com>
-In-Reply-To: <202610081722.Zoeli0ix-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26668 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610101152.pcWaETEm-lkp@intel.com>
 
-Thanks for the review. The issues are valid; I will respin as v3.
+On Sat, Oct 10, 2026 at 11:43:26AM +0200, kernel test robot wrote:
+> tree:   https://github.com/paulmckrcu/linux dev
+> head:   96aaeadd587ee111e53032f63b93e54a8b476483
+> commit: 2c4925768252397b03d47704f70891ce2b47e774 [20/22] EXP rcu: Send resched_cpu() to idle CPUs having preempted RCU readers
+> config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261010/202610101152.pcWaETEm-lkp@intel.com/config)
+> compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610101152.pcWaETEm-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202610101152.pcWaETEm-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    kernel/rcu/tree.c: In function 'fqs_slow_task':
+> >> kernel/rcu/tree.c:2772:59: error: 'struct task_struct' has no member named 'rcu_node_entry'
 
-pw-bot: cr
+Good catch, this experimental patch should handle non-preemptible RCU
+despite that not being part of the experiment.  Will fix, thank you!
+
+							Thanx, Paul
+
+>     2772 |         if (task_curr(t) || READ_ONCE(rnp->gp_tasks) != &t->rcu_node_entry)
+>          |                                                           ^~
+>    In file included from ./include/linux/container_of.h:5,
+>                     from ./include/linux/kernel.h:22,
+>                     from kernel/rcu/tree.c:21:
+>    kernel/rcu/tree.c: In function 'force_qs_rnp':
+> >> ./include/linux/container_of.h:8:47: error: 'struct task_struct' has no member named 'rcu_node_entry'
+>        8 | #define typeof_member(T, m)     typeof(((T*)0)->m)
+>          |                                               ^~
+>    ./include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
+>       80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>          |                                                        ^~~~
+>    ./include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+>       20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+>          |         ^~~~~~~~~~~~~
+>    ./include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+>       20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+>          |                       ^~~~~~~~~~~
+>    ./include/linux/container_of.h:20:43: note: in expansion of macro 'typeof_member'
+>       20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+>          |                                           ^~~~~~~~~~~~~
+>    kernel/rcu/tree.c:2823:37: note: in expansion of macro 'container_of'
+>     2823 |                                 t = container_of(rnp->gp_tasks, struct task_struct, rcu_node_entry);
+>          |                                     ^~~~~~~~~~~~
+>    ././include/linux/compiler_types.h:610:27: error: expression in static assertion is not an integer
+>      610 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+>          |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    ./include/linux/build_bug.h:80:56: note: in definition of macro '__static_assert'
+>       80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+>          |                                                        ^~~~
+>    ./include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+>       20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+>          |         ^~~~~~~~~~~~~
+>    ./include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+>       20 |         static_assert(__same_type(*(ptr), typeof_member(type, member)) || \
+>          |                       ^~~~~~~~~~~
+>    kernel/rcu/tree.c:2823:37: note: in expansion of macro 'container_of'
+>     2823 |                                 t = container_of(rnp->gp_tasks, struct task_struct, rcu_node_entry);
+>          |                                     ^~~~~~~~~~~~
+>    In file included from ./include/uapi/linux/posix_types.h:5,
+>                     from ./include/uapi/linux/types.h:14,
+>                     from ./include/linux/types.h:5,
+>                     from kernel/rcu/tree.c:20:
+> >> ./include/linux/stddef.h:16:33: error: 'struct task_struct' has no member named 'rcu_node_entry'
+>       16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
+>          |                                 ^~~~~~~~~~~~~~~~~~
+>    ./include/linux/container_of.h:23:34: note: in expansion of macro 'offsetof'
+>       23 |         (type *)((void *)(ptr) - offsetof(type, member)); })
+>          |                                  ^~~~~~~~
+>    kernel/rcu/tree.c:2823:37: note: in expansion of macro 'container_of'
+>     2823 |                                 t = container_of(rnp->gp_tasks, struct task_struct, rcu_node_entry);
+>          |                                     ^~~~~~~~~~~~
+> 
+> 
+> vim +2772 kernel/rcu/tree.c
+> 
+>   2757	
+>   2758	// Check to see if a task holding up the current grace period is
+>   2759	// preempted but runnable on an idle CPU.  This involves an
+>   2760	// rcu_node structure, a pointer to which is passed to fqs_slow_task()
+>   2761	// as a callback from task_call_func().  The fqs_slow_task()
+>   2762	// function returns the CPU to pass to resched_cpu() or -1 if
+>   2763	// there is no need for an additional call to resched_cpu().
+>   2764	static int fqs_slow_task(struct task_struct *t, void *arg)
+>   2765	{
+>   2766		int cpu;
+>   2767		struct rcu_node *rnp = arg;
+>   2768		struct task_struct *tc;
+>   2769	
+>   2770		// If the task is running or is no longer blocking the current
+>   2771		// grace period, there should be no call to resched_cpu().
+> > 2772		if (task_curr(t) || READ_ONCE(rnp->gp_tasks) != &t->rcu_node_entry)
+>   2773			return -1;
+>   2774	
+>   2775		// If the target CPU is not idle, there should be no call to
+>   2776		// resched_cpu().
+>   2777		WARN_ON_ONCE(1); // @@@
+>   2778		cpu = task_cpu(t);
+>   2779		tc = rcu_cpu_curr(cpu);
+>   2780		if (!is_idle_task(tc))
+>   2781			return -1;
+>   2782	
+>   2783		// But the target CPU is idle, so resched_cpu() it is!
+>   2784		WARN_ON_ONCE(1); // @@@
+>   2785		return cpu;
+>   2786	}
+>   2787	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
