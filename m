@@ -1,296 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9148713A258;
-	Sat, 10 Oct 2026 17:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2E9366057;
+	Sat, 10 Oct 2026 17:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791652494; cv=none; b=S+IumixpbHIuUtDZCPc4jQCfMMVEiaH1IXezIi1ogWbjTTZTnPsUUkoOydbbjYk38k8/fK5meDTRtlbYfafTjjplTZqcVB/khNTlvNYPScgva6ZOWs3wXggrJH7KskaRThn7vtQjqunmjzSsDpUT0FL84P9K4OeIFTjMhAb5mvM=
+	t=1791655072; cv=none; b=F0Cf79Kz7VP2vpBXe1QysZ+iSXsyzO2/iwd4P+JxFAgwEaqQBqtsaIuKg3DSe/gdHaEFhK/5RcfhXVWuldLuXTLRvyxFUFlwy/qKZu7IrlVte44EsIv+pDXl20GH3/nPbIgNUiNoARMCpywLMUYsSU/txFirO+ZX0goUsxNs6m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791652494; c=relaxed/simple;
-	bh=Xju8/M6E2whzp9BF6dkJEwRtyRY4J70IeGaP64oTfx8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISvrK6OG1aoaxHSGTSpl0+2Ue1Ycs/NgNzxMcBIk393ieLnmS+KikyS9J/5iVpGxRMjz5GEPxCQXZwcbfAew8dHFuxQLqYHvQ/BJK6vP+SwVdZNuBlONObfBxmScaOMyvK44U6wbV6qkcs3AxYY1v9NYSD0mvvB0qKQEIwWi4BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXWSmZGN; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791655072; c=relaxed/simple;
+	bh=X3xpVe605EVrK4lzrq61AKRbB8xfwGDJGB/Im9KGh8Y=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZownkPxBQXxIakIV/XmFgJy7SyIPNl4ZLGj1vUghD+P9fGf8Ro0xeY6WUgsQwps9oVeVFjC62Y8v9p09SKxYR3wKgh8YlwhnAWD0mvrVZuMOStK5xjmbLe9NTz4Vric0JZkIoq1yB8JcdtS2L9CTb8n8CI2vOVHWgt5XgQAEvR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UckC80IW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXWSmZGN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791652492; x=1823188492;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xju8/M6E2whzp9BF6dkJEwRtyRY4J70IeGaP64oTfx8=;
-  b=RXWSmZGNrYGs1JK4Ig58Yiaflj+43can+bi8VFa3jHB/4U0TUgqodJ/V
-   fT9U8TamM5ML3PmtqqfJisxa9Chu10oFUzVrvgXQdebI8PFAuKqcRxrPd
-   QlPuo7tY7j+bYWvlUl5CXypIICRhkXDX5u4J0uWSsfN21ls1WPUGBb4bc
-   afZHuLzvv2RsK2pUuz+HrbmWYX9DXPO3UygzPB6w1oGFnexk+pSgMjuwv
-   fIPG3YJhWiLs3eBm65wlQSg6g0vMIcb6vvpugLaVWtX2lUMk1E+0CJ1Em
-   tQtSGl4uAPPgqXy6Yv61GivuZnd8L6fFj1w0r/m87btUBO4sKAh7BDF2R
-   Q==;
-X-CSE-ConnectionGUID: DT/TB5bfQ+6m4WUsGf+gvQ==
-X-CSE-MsgGUID: CxOUCB0TQ7K+Hjve5EmKzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11931"; a="323097"
-X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
-   d="scan'208";a="323097"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2026 10:14:51 -0700
-X-CSE-ConnectionGUID: JhwBzl5sRoSQGsmKQEW8JQ==
-X-CSE-MsgGUID: Lkd9rOJQQHa8Ec6MP39bbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
-   d="scan'208";a="485437"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Oct 2026 10:14:50 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xFaem-000000009xE-1KRs;
-	Sat, 10 Oct 2026 17:14:48 +0000
-Date: Sun, 11 Oct 2026 01:14:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rik van Riel <riel@surriel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 3/5] mm/page_alloc: convert any movable pageblock on
- a non-movable allocation
-Message-ID: <202610110115.cCikSIza-lkp@intel.com>
-References: <20261007021250.1665929-4-riel@surriel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UckC80IW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D04061F00898;
+	Sat, 10 Oct 2026 17:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791655070;
+	bh=HszBDE6jNNiclHOKtkCyXEmnlnOaT4IqaBk9y96J430=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=UckC80IWgtnGDov3aFPXZktL4PzoxMV+FtuUs5L01ggiRu7zcDTXkcZki4o8zGCC1
+	 YvlwSmr9YZcne1cT08gu56Rc/NrQqDk0Qcdj6G0iE1tZ9JFqWyNrdVCc1s+IH0perz
+	 AT7TRrKNNQnMjHYQR2puStlE3nwFr1cqsXNwm9s7phd7ZWe8nNCmXgfWaIT9Qlm8l7
+	 JD3qDBydSiPfuuZOYcKxWpMpJHdgSSZyvMr6viAmMxlONrs6ICygnLQi76XsyfRnl8
+	 3Pi5yLcAXBgfMSLeV99YqFWvxtoEdA4PfLNtjMKQOpzM0vnpTBBq0nh4KLI4x+GBup
+	 ZvZ1LBixILVdw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id DD0A4F40066;
+	Sat, 10 Oct 2026 13:57:48 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Sat, 10 Oct 2026 13:57:48 -0400
+X-ME-Sender: <xms:nHzKaodSLQmCIQcflvLGNM5UgAproI7aiCJt2KQa5TX5RnYkXG9waQ>
+    <xme:nHzKalBBdKLiURZQJ07mVfhAicLMseaXAsJTXmKgGfybJfci77tmnGNbMPFGqvyYu
+    tHA8RJf9LfRLt8X_a_oqSRvDm8LNII0LbySlUy5U2-Blap2x5tdqxXE>
+X-ME-Proxy-Cause: dmFkZTFs2ifywcvsZLDDpBQyzfQtpn30urVxOOG15C8ksLsvIDAH8kXOXowOMv4dBRT6ZD
+    q+/Z7CFze/tr5igvrbnpYsqeGIKmql0h+cmYw9iuR3HnT1nkl67DMadtYaBLxJP3o53zWA
+    UNX1lydvnBewfNoTOWF5p+gircqIrAPumH9SGRLdctnO5O45bgBDg+Yn9INeKGtMGDolWT
+    HiNY0wIicmwT35Ol5C85OXqrCDHuL7/lO0qyG7Wb0uYAKaw5VU6rObHYo/lKjf2IULs2hI
+    10URRC3KkLqWMz+rU9vsVF3Ad/Vh/BdW5gdBKCDgOzK9kFvcrHbW64FMrcDbI7xN4TXBSv
+    Hlsz7mnn98v6JFbIEWTP2LJmjfjiY+mbFNl7oUmzKxkwu8OVaHC7pDwCBtQLY0FW/VN845
+    ORK9o1WU0ezBl7oNyRSDT8hOBx4FNJ8CHipkmnWbQn9YAVW7uRRMyD+WCTXet5mq1hcxq3
+    rHl8b3zvDDCTuwzoMiNddAMOONgq7OjOlOZlUGwREnOfNnlq/C9w088qSwo6Y9jmlKXjyf
+    026ELOoXkXyY7oBdaPaJ0HZFNRBsfUbCELpWO6pjPskQtbO/EPBQ2gkYLMoVadxdZDKXn+
+    PeP+J6BqeJw9cgOWM0MJid+nIWKvYgEpOehVXVyRlcy277PeSHFLtUy8kRmpE/nwN4wiqY
+    MrGaFdQuayr72/lvUznXIDIZZSAYrwAq3upnb99txMYg1NUG8HjwXn2/9AL4vxfYMDXMjX
+    4WAvLJ7UuF/hUJwqSMMc3MAOm5DyZFfkY+eWTv7B7lWVV6ftzfjv0y/M2uavyiQq/jDhgR
+    TpPn5NISYNKYRFyc2ABO1v5OrHqW//A0Y/Rinli22+HkWgqebZg9aZl1t8+HtK/h8rnw82
+    2wh032m9TItoeu9ShtgYFoXUYrJqT6cLOLdMnotBAYFu2jnV/bmWwv9Vz+joMwVsHyhCIG
+    o65w6/SPICq0p//y2NrDOPnBWvHMRb14XybaazuBsZzxoRDqqXw
+X-ME-Proxy: <xmx:nHzKaufVjNBRk8rVf_LcShyI49hH5MvV0_jJ9RIxhGbOm79OZ7AJfg>
+    <xmx:nHzKakyE5E6tyNbis66v5ZGPAcXW6A9CdbGAge9CKJeKJq9jvVOnmA>
+    <xmx:nHzKaj_V3jfA6JQRcXI7StSs8pMXHKYs1I_MWzPmjB1takRwlz85oA>
+    <xmx:nHzKaixnAGbDS6S3j3nE-26w1rxsZ-9NPHX1qAIN0WP1rtfta9f1Rw>
+    <xmx:nHzKarpNi2utm9Nw5vdGkdPn2ti5zLPw5kYMtUEHc8jCT8vYL_2ppdv1>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B3864780FAB; Sat, 10 Oct 2026 13:57:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007021250.1665929-4-riel@surriel.com>
-
-Hi Rik,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 67f0943b394d920b6c142aad8c6af94340342ae7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rik-van-Riel/mm-page_alloc-count-guard-pages-as-free-again-when-their-buddy-merges/20261006-221246
-base:   67f0943b394d920b6c142aad8c6af94340342ae7
-patch link:    https://lore.kernel.org/r/20261007021250.1665929-4-riel%40surriel.com
-patch subject: [RFC PATCH 3/5] mm/page_alloc: convert any movable pageblock on a non-movable allocation
-config: x86_64-randconfig-1006-20261010 (https://download.01.org/0day-ci/archive/20261011/202610110115.cCikSIza-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261011/202610110115.cCikSIza-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610110115.cCikSIza-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
->> include/linux/mmzone.h:1237:24: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1237 |         unsigned long start = pageblock_start_pfn(pfn);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:78:52: note: expanded from macro 'pageblock_start_pfn'
-      78 | #define pageblock_start_pfn(pfn)        ALIGN_DOWN((pfn), pageblock_nr_pages)
-         |                                                           ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
->> include/linux/mmzone.h:1237:24: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1237 |         unsigned long start = pageblock_start_pfn(pfn);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:78:52: note: expanded from macro 'pageblock_start_pfn'
-      78 | #define pageblock_start_pfn(pfn)        ALIGN_DOWN((pfn), pageblock_nr_pages)
-         |                                                           ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
->> include/linux/mmzone.h:1237:24: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1237 |         unsigned long start = pageblock_start_pfn(pfn);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:78:52: note: expanded from macro 'pageblock_start_pfn'
-      78 | #define pageblock_start_pfn(pfn)        ALIGN_DOWN((pfn), pageblock_nr_pages)
-         |                                                           ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
->> include/linux/mmzone.h:1237:24: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1237 |         unsigned long start = pageblock_start_pfn(pfn);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:78:52: note: expanded from macro 'pageblock_start_pfn'
-      78 | #define pageblock_start_pfn(pfn)        ALIGN_DOWN((pfn), pageblock_nr_pages)
-         |                                                           ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
->> include/linux/mmzone.h:1237:24: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1237 |         unsigned long start = pageblock_start_pfn(pfn);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:78:52: note: expanded from macro 'pageblock_start_pfn'
-      78 | #define pageblock_start_pfn(pfn)        ALIGN_DOWN((pfn), pageblock_nr_pages)
-         |                                                           ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
->> include/linux/mmzone.h:1237:24: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1237 |         unsigned long start = pageblock_start_pfn(pfn);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:78:52: note: expanded from macro 'pageblock_start_pfn'
-      78 | #define pageblock_start_pfn(pfn)        ALIGN_DOWN((pfn), pageblock_nr_pages)
-         |                                                           ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
-   include/linux/mmzone.h:1240:17: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1240 |                start + pageblock_nr_pages <= zone_end_pfn(zone);
-         |                        ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
-   include/linux/mmzone.h:1240:17: error: use of undeclared identifier 'HPAGE_PMD_ORDER'
-    1240 |                start + pageblock_nr_pages <= zone_end_pfn(zone);
-         |                        ^~~~~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:75:36: note: expanded from macro 'pageblock_nr_pages'
-      75 | #define pageblock_nr_pages      (1UL << pageblock_order)
-         |                                         ^~~~~~~~~~~~~~~
-   include/linux/pageblock-flags.h:66:46: note: expanded from macro 'pageblock_order'
-      66 | #define pageblock_order         MIN_T(unsigned int, HPAGE_PMD_ORDER, PAGE_BLOCK_MAX_ORDER)
-         |                                                     ^~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:20:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:20:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:20:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
-   In file included from include/linux/compat.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:20:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:10:
-   In file included from arch/x86/include/asm/ia32.h:7:
+X-ThreadId: AS-WToHieBv3
+Date: Sat, 10 Oct 2026 13:57:27 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "kernel test robot" <lkp@intel.com>, NeilBrown <neilb@ownmail.net>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Olga Kornievskaia" <okorniev@redhat.com>, "Dai Ngo" <dai.ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+ syzbot+9c7b9c5f6dd1d470b605@syzkaller.appspotmail.com
+Message-Id: <ba4c784e-6efb-4158-8be6-3ebd781497aa@app.fastmail.com>
+In-Reply-To: <202610101235.HaenlCPb-lkp@intel.com>
+References: <20261009144017.1284586-1-cel@kernel.org>
+ <202610101235.HaenlCPb-lkp@intel.com>
+Subject: Re: [PATCH v1] NFSD: Don't start nfsd threads from a pool_threads write
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
-vim +/HPAGE_PMD_ORDER +1237 include/linux/mmzone.h
 
-  1229	
-  1230	/*
-  1231	 * Whether the pageblock holding @pfn lies wholly inside @zone. Zone
-  1232	 * spans are not pageblock-aligned, so the edge pageblocks of a zone
-  1233	 * can straddle into the next zone; those never change type.
-  1234	 */
-  1235	static inline bool zone_spans_pageblock(const struct zone *zone, unsigned long pfn)
-  1236	{
-> 1237		unsigned long start = pageblock_start_pfn(pfn);
-  1238	
-  1239		return zone->zone_start_pfn <= start &&
-  1240		       start + pageblock_nr_pages <= zone_end_pfn(zone);
-  1241	}
-  1242	
+On Sat, Oct 10, 2026, at 12:33 AM, kernel test robot wrote:
+> Hi Chuck,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on brauner-vfs/vfs.all]
+> [also build test ERROR on linus/master v7.3-rc6 next-20261008]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Don-t-start-nfsd-threads-from-a-pool_threads-write/20261009-104017
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git 
+> vfs.all
+> patch link:    
+> https://lore.kernel.org/r/20261009144017.1284586-1-cel%40kernel.org
+> patch subject: [PATCH v1] NFSD: Don't start nfsd threads from a 
+> pool_threads write
+> config: parisc64-defconfig 
+> (https://download.01.org/0day-ci/archive/20261010/202610101235.HaenlCPb-lkp@intel.com/config)
+> compiler: hppa64-linux-gcc (GCC) 16.1.0
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20261010/202610101235.HaenlCPb-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202610101235.HaenlCPb-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    In file included from include/linux/log2.h:12,
+>                     from include/asm-generic/div64.h:55,
+>                     from ./arch/parisc/include/generated/asm/div64.h:1,
+>                     from include/linux/math.h:6,
+>                     from include/linux/math64.h:6,
+>                     from include/linux/time64.h:5,
+>                     from include/linux/restart_block.h:9,
+>                     from include/linux/thread_info.h:14,
+>                     from include/asm-generic/preempt.h:5,
+>                     from ./arch/parisc/include/generated/asm/preempt.h:1,
+>                     from include/linux/preempt.h:107,
+>                     from include/linux/spinlock.h:56,
+>                     from include/linux/mmzone.h:8,
+>                     from include/linux/gfp.h:7,
+>                     from include/linux/slab.h:17,
+>                     from fs/nfsd/nfsctl.c:8:
+>    fs/nfsd/nfsctl.c: In function 'write_pool_threads':
+>>> fs/nfsd/nfsctl.c:504:48: error: 'nn' undeclared (first use in this function)
+>      504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+>          |                                                ^~
+>    include/linux/bitops.h:44:44: note: in definition of macro 'bitop'
+>       44 |           __builtin_constant_p((uintptr_t)(addr) != 
+> (uintptr_t)NULL) && \
+>          |                                            ^~~~
+>    fs/nfsd/nfsctl.c:504:25: note: in expansion of macro 'test_bit'
+>      504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+>          |                         ^~~~~~~~
+>    fs/nfsd/nfsctl.c:504:48: note: each undeclared identifier is 
+> reported only once for each function it appears in
+>    include/linux/bitops.h:44:44: note: in definition of macro 'bitop'
+>       44 |           __builtin_constant_p((uintptr_t)(addr) != 
+> (uintptr_t)NULL) && \
+>          |                                            ^~~~
+>    fs/nfsd/nfsctl.c:504:25: note: in expansion of macro 'test_bit'
+>      504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+>          |                         ^~~~~~~~
+>
+>
+> vim +/nn +504 fs/nfsd/nfsctl.c
+>
+>    449	
+>    450	/*
+>    451	 * write_pool_threads - Set or report the configured number of 
+> threads per pool
+>    452	 *
+>    453	 * Input:
+>    454	 *			buf:		ignored
+>    455	 *			size:		zero
+>    456	 *
+>    457	 * OR
+>    458	 *
+>    459	 * Input:
+>    460	 *			buf:		C string containing whitespace-
+>    461	 *					separated unsigned integer values
+>    462	 *					representing the number of NFSD
+>    463	 *					threads to start in each pool
+>    464	 *			size:		non-zero length of C string in @buf
+>    465	 * Output:
+>    466	 *	On success:	passed-in buffer filled with '\n'-terminated C
+>    467	 *			string containing integer values representing the
+>    468	 *			configured number of NFSD threads in each pool;
+>    469	 *			return code is the size in bytes of the string
+>    470	 *	On error:	return code is zero or a negative errno value
+>    471	 */
+>    472	static ssize_t write_pool_threads(struct file *file, char *buf, 
+> size_t size)
+>    473	{
+>    474		/* if size > 0, look for an array of number of threads per node
+>    475		 * and apply them  then write out number of threads per node as 
+> reply
+>    476		 */
+>    477		char *mesg = buf;
+>    478		int i;
+>    479		int rv;
+>    480		int len;
+>    481		int npools;
+>    482		int *nthreads;
+>    483		struct net *net = netns(file);
+>    484	
+>    485		mutex_lock(&nfsd_mutex);
+>    486		npools = nfsd_nrpools(net);
+>    487		if (npools == 0) {
+>    488			/*
+>    489			 * NFS is shut down.  The admin can start it by
+>    490			 * writing to the threads file but NOT the pool_threads
+>    491			 * file, sorry.  Report zero threads.
+>    492			 */
+>    493			mutex_unlock(&nfsd_mutex);
+>    494			strcpy(buf, "0\n");
+>    495			return strlen(buf);
+>    496		}
+>    497	
+>    498		nthreads = kzalloc_objs(int, npools);
+>    499		rv = -ENOMEM;
+>    500		if (nthreads == NULL)
+>    501			goto out_free;
+>    502	
+>    503		/* Threads started now would run without NFSv4 state. */
+>  > 504		if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+>    505			for (i = 0; i < npools; i++) {
+>    506				rv = get_int(&mesg, &nthreads[i]);
+>    507				if (rv == -ENOENT)
+>    508					break;		/* fewer numbers than pools */
+>    509				if (rv)
+>    510					goto out_free;	/* syntax error */
+>    511				rv = -EINVAL;
+>    512				if (nthreads[i] < 0)
+>    513					goto out_free;
+>    514				trace_nfsd_ctl_pool_threads(net, i, nthreads[i]);
+>    515			}
+>    516	
+>    517			/*
+>    518			 * There must always be a thread in pool 0; the admin
+>    519			 * can't shut down NFS completely using pool_threads.
+>    520			 */
+>    521			if (nthreads[0] == 0)
+>    522				nthreads[0] = 1;
+>    523	
+>    524			rv = nfsd_set_nrthreads(i, nthreads, net);
+>    525			if (rv)
+>    526				goto out_free;
+>    527		}
+>    528	
+>    529		rv = nfsd_get_nrthreads(npools, nthreads, net);
+>    530		if (rv)
+>    531			goto out_free;
+>    532	
+>    533		mesg = buf;
+>    534		size = SIMPLE_TRANSACTION_LIMIT;
+>    535		for (i = 0; i < npools && size > 0; i++) {
+>    536			snprintf(mesg, size, "%d%c", nthreads[i], (i == npools-1 ? 
+> '\n' : ' '));
+>    537			len = strlen(mesg);
+>    538			size -= len;
+>    539			mesg += len;
+>    540		}
+>    541		rv = mesg - buf;
+>    542	out_free:
+>    543		kfree(nthreads);
+>    544		mutex_unlock(&nfsd_mutex);
+>    545		return rv;
+>    546	}
+>    547	
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The build bot applied this patch to trees that do not include the
+work that's pending in the cel/nfsd-testing branch. It applied
+cleanly, but those trees are missing the pre-requisite
+nfsd-per-net-mutex series from Jeff Layton.
+
+Interestingly, sashiko reported the same failure yesterday, but I
+was not able to reproduce it because I didn't realize where it was
+trying to apply the patch.
+
+Since this patch is marked Cc: stable, I'll make it easy to backport
+by sinking it on my nfsd-testing branch below the pre-requisites and
+then adjusting those patches.
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
