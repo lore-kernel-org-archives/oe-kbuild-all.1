@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2F423BD06
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Oct 2026 05:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE6F374A0B;
+	Sat, 10 Oct 2026 06:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791610505; cv=none; b=fGdpFD+sya0UXea1KTB6EeslMWUL+3QXDYEYOzSFbAtieILFfuY1DxOwEKyGo584eZTxf0f/poxaUmYgNAUCM3Ml5g61nv2t42yDfT/2kW8MhVdeDxoa8kOOlHiwdrHBM6mW5+IcNkTrPMt3jZ+Z5zdkTwFnZ4v/PT3FjzlyJL4=
+	t=1791612667; cv=none; b=sH8KA6cOnMFsEt6tk+5zRk2N9ebhAr1VCukfWsHiTqq00r9n40JFHw51ma1dEr+wj408AocvhIdktOd/WqY5h4uo8wopXNGf/ElaYD63VQZLinelF3CtSFrSaaaD4lSD1u+lzQhYf+LVHcsRYcM0BRRXh5qvPOC7kF3uN5HQ4oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791610505; c=relaxed/simple;
-	bh=ZQDwxtggjEdB4DnE5Fo8yTwuShoD9K6UqEbpF93ZvGA=;
+	s=arc-20240116; t=1791612667; c=relaxed/simple;
+	bh=wpblAJc6Odww8wRDHBiwoFtswZS0nDjQzcO+QlkNqKI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGX4GB5xPodQpSWHp7OsTWbHze6ft445yBqME2DvHV86niEzMzzTfEBpJelKTm8ulFYRYY1d02dWZwH40JEFkFx8DHnIrlcZ+sEm0DEUGU4t7N1mc3cChfwde4ZO25+xmhENDcfKv05T0prhXgsbeS0keD6noSKMB7cTiV4Vl7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLFi7gv+; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHy478PKzFqFeUm5d4sTCcfcB74Dud3hOPG8zv/Jk6n4fy4BHAQiPPu7MpSjqpRVgSBSegL5yoNT5tXNiAaVCa2ZxEgv/bFAwTadYoJiHpDBQk7g8yX5Snl+UznGhMs/Y6tGfBj5qVrVxaLBLT066rHAedHZkoMkCkyzXA3Jrmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VDIwbMOz; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLFi7gv+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VDIwbMOz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791610503; x=1823146503;
+  t=1791612666; x=1823148666;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZQDwxtggjEdB4DnE5Fo8yTwuShoD9K6UqEbpF93ZvGA=;
-  b=jLFi7gv+MpfnwQWXNixeEaZAHuDBKnR0QUhFPTUucFb2gAjMg6mvT7Fm
-   qBLBv37H3cwcjeqDRb7hK3G4YfKaNYJMRF7KV4FOfI3egypTemscD+BHA
-   /zOw5aCCBHpn6fSsmloVrbTKvYBV/seeRdlitE/zOtHIKcj8C5hQEqfRQ
-   4G5HibL2RXBtsr6y/LHcnCYgtANGp0axrNMjM0uI8T/glqV4fbPr60sCS
-   VdE/5DNYdwTjAl+EE3jJL7WLQnJJM2HX2outUBHVcB+gzi+i2oDov0IEv
-   JIt1kqA0XsBEiMerssn2vM5nsUcEWrnYXM4HLEnnRhxAyTqfAXkGtCVlU
-   w==;
-X-CSE-ConnectionGUID: CXlni/ESTHuED6r+m9LQLw==
-X-CSE-MsgGUID: 6DHkIoV8RoSq5RkuakZMXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="399622"
+  bh=wpblAJc6Odww8wRDHBiwoFtswZS0nDjQzcO+QlkNqKI=;
+  b=VDIwbMOzFsrCTwbpiPJGV1HAWjgnUR39qvLaVo4AZJUR3fwY7sbay1/t
+   x88z+OW9sbnzoELPka7GW5+HThVEClC5XRvzTblcBkSBctZgphMeQUklG
+   ETjSk8dTe6z162B3KQEAkjSXjBCchrEU8Xi0EFwV+TqTYHo/UFHHbLS8H
+   RM1++bxnjjvTcH86IyGhH0PG+r3/+Y2Lh2m5ZVBhbdSGS22f6UARJrhH6
+   oCZKCAnDi9RzR5BFf7O0kAHWIWq28p0sEYmie3EyftNFvwBsnzoePrd31
+   mi6o7HnFAMd6FguXApcGPT/tMSJ5IihpPbWBqvM8MJWBIcs6vH2iwfuG+
+   g==;
+X-CSE-ConnectionGUID: +CP/IvQYTWWeR8DrZpfPqg==
+X-CSE-MsgGUID: ME+cfiv8SMCdRjuz5uBmiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="285483"
 X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="399622"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 22:35:02 -0700
-X-CSE-ConnectionGUID: FFuVsC+YT+ayZAsUpNlXUQ==
-X-CSE-MsgGUID: oqITX/OdQpOR5wgdC8WQgQ==
+   d="scan'208";a="285483"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 23:11:05 -0700
+X-CSE-ConnectionGUID: X++7SABlT7a8Xa0owoSNaQ==
+X-CSE-MsgGUID: VbcRJbsOQ/Sj9WhAAZxrjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="459731"
+   d="scan'208";a="408167"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Oct 2026 22:35:02 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 Oct 2026 23:11:03 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xFPjW-000000006Xj-2vwY;
-	Sat, 10 Oct 2026 05:34:58 +0000
-Date: Sat, 10 Oct 2026 13:34:52 +0800
+	id 1xFQIN-000000006Yl-44fb;
+	Sat, 10 Oct 2026 06:10:59 +0000
+Date: Sat, 10 Oct 2026 14:10:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, SimonP <simonp.git@mailbox.org>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] KVM: x86/mmu: Cope with the SS bit being set in #NPF
- exit codes
-Message-ID: <202610101512.fYgKYoD8-lkp@intel.com>
-References: <20261009130450.361690-1-pbonzini@redhat.com>
+To: Chuck Lever <cel@kernel.org>, NeilBrown <neilb@ownmail.net>,
+	Jeff Layton <jlayton@kernel.org>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <dai.ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org,
+	syzbot+9c7b9c5f6dd1d470b605@syzkaller.appspotmail.com
+Subject: Re: [PATCH v1] NFSD: Don't start nfsd threads from a pool_threads
+ write
+Message-ID: <202610101401.uliqHtVY-lkp@intel.com>
+References: <20261009144017.1284586-1-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,120 +68,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261009130450.361690-1-pbonzini@redhat.com>
+In-Reply-To: <20261009144017.1284586-1-cel@kernel.org>
 
-Hi Paolo,
+Hi Chuck,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvm/next mst-vhost/linux-next linus/master v7.3-rc6 next-20261008]
-[cannot apply to kvm/linux-next]
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v7.3-rc6 next-20261008]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-x86-mmu-Cope-with-the-SS-bit-being-set-in-NPF-exit-codes/20261009-150450
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20261009130450.361690-1-pbonzini%40redhat.com
-patch subject: [PATCH] KVM: x86/mmu: Cope with the SS bit being set in #NPF exit codes
-config: x86_64-randconfig-1016-20261010 (https://download.01.org/0day-ci/archive/20261010/202610101512.fYgKYoD8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610101512.fYgKYoD8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Don-t-start-nfsd-threads-from-a-pool_threads-write/20261009-104017
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20261009144017.1284586-1-cel%40kernel.org
+patch subject: [PATCH v1] NFSD: Don't start nfsd threads from a pool_threads write
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261010/202610101401.uliqHtVY-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 242243a5814307de825db3428662d67b064e2cbc)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610101401.uliqHtVY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610101512.fYgKYoD8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610101401.uliqHtVY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/mmu/mmu.c:5413:
-   arch/x86/kvm/mmu/paging_tmpl.h: In function 'ept_walk_addr_generic':
->> arch/x86/kvm/mmu/paging_tmpl.h:331:19: warning: unused variable 'user_fault' [-Wunused-variable]
-     331 |         const int user_fault  = access & PFERR_USER_MASK;
-         |                   ^~~~~~~~~~
-   In file included from arch/x86/kvm/mmu/mmu.c:5417:
-   arch/x86/kvm/mmu/paging_tmpl.h: In function 'paging64_walk_addr_generic':
->> arch/x86/kvm/mmu/paging_tmpl.h:331:19: warning: unused variable 'user_fault' [-Wunused-variable]
-     331 |         const int user_fault  = access & PFERR_USER_MASK;
-         |                   ^~~~~~~~~~
-   In file included from arch/x86/kvm/mmu/mmu.c:5421:
-   arch/x86/kvm/mmu/paging_tmpl.h: In function 'paging32_walk_addr_generic':
->> arch/x86/kvm/mmu/paging_tmpl.h:331:19: warning: unused variable 'user_fault' [-Wunused-variable]
-     331 |         const int user_fault  = access & PFERR_USER_MASK;
-         |                   ^~~~~~~~~~
+>> fs/nfsd/nfsctl.c:504:41: error: use of undeclared identifier 'nn'
+     504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+         |                                                ^~
+>> fs/nfsd/nfsctl.c:504:41: error: use of undeclared identifier 'nn'
+     504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+         |                                                ^~
+>> fs/nfsd/nfsctl.c:504:41: error: use of undeclared identifier 'nn'
+     504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+         |                                                ^~
+>> fs/nfsd/nfsctl.c:504:41: error: use of undeclared identifier 'nn'
+     504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+         |                                                ^~
+>> fs/nfsd/nfsctl.c:504:41: error: use of undeclared identifier 'nn'
+     504 |         if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+         |                                                ^~
+   5 errors generated.
 
 
-vim +/user_fault +331 arch/x86/kvm/mmu/paging_tmpl.h
+vim +/nn +504 fs/nfsd/nfsctl.c
 
-be94f6b71067df4 arch/x86/kvm/paging_tmpl.h     Huaitong Han        2016-03-22  282  
-ac889bdd23df1ee arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2026-05-10  283  static inline bool FNAME(is_last_gpte)(struct kvm_pagewalk *w,
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  284  				       unsigned int level, unsigned int gpte)
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  285  {
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  286  	/*
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  287  	 * For EPT and PAE paging (both variants), bit 7 is either reserved at
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  288  	 * all level or indicates a huge page (ignoring CR3/EPTP).  In either
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  289  	 * case, bit 7 being set terminates the walk.
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  290  	 */
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  291  #if PTTYPE == 32
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  292  	/*
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  293  	 * 32-bit paging requires special handling because bit 7 is ignored if
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  294  	 * CR4.PSE=0, not reserved.  Clear bit 7 in the gpte if the level is
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  295  	 * greater than the last level for which bit 7 is the PAGE_SIZE bit.
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  296  	 *
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  297  	 * The RHS has bit 7 set iff level < (2 + PSE).  If it is clear, bit 7
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  298  	 * is not reserved and does not indicate a large page at this level,
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  299  	 * so clear PT_PAGE_SIZE_MASK in gpte if that is the case.
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  300  	 */
-d869ff104efb1f2 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2026-05-11  301  	gpte &= level - (PT32_ROOT_LEVEL + w->cpu_role.ext.cr4_pse);
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  302  #endif
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  303  	/*
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  304  	 * PG_LEVEL_4K always terminates.  The RHS has bit 7 set
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  305  	 * iff level <= PG_LEVEL_4K, which for our purpose means
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  306  	 * level == PG_LEVEL_4K; set PT_PAGE_SIZE_MASK in gpte then.
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  307  	 */
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  308  	gpte |= level - PG_LEVEL_4K - 1;
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  309  
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  310  	return gpte & PT_PAGE_SIZE_MASK;
-7cd138db5cae0da arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2021-06-22  311  }
-ac79c978f173586 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-05  312  /*
-736c291c9f36b07 arch/x86/kvm/mmu/paging_tmpl.h Sean Christopherson 2019-12-06  313   * Fetch a guest pte for a guest virtual address, or for an L2's GPA.
-ac79c978f173586 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-05  314   */
-1e301feb079e8ee arch/x86/kvm/paging_tmpl.h     Joerg Roedel        2010-09-10  315  static int FNAME(walk_addr_generic)(struct guest_walker *walker,
-ac889bdd23df1ee arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2026-05-10  316  				    struct kvm_vcpu *vcpu, struct kvm_pagewalk *w,
-5b22bbe717d9b96 arch/x86/kvm/mmu/paging_tmpl.h Lai Jiangshan       2022-03-11  317  				    gpa_t addr, u64 access)
-6aa8b732ca01c3d drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  318  {
-8cbc70696f149e4 arch/x86/kvm/paging_tmpl.h     Avi Kivity          2012-09-16  319  	int ret;
-42bf3f0a1f5a25b drivers/kvm/paging_tmpl.h      Avi Kivity          2007-10-17  320  	pt_element_t pte;
-3f649ab728cda80 arch/x86/kvm/mmu/paging_tmpl.h Kees Cook           2020-06-03  321  	pt_element_t __user *ptep_user;
-cea0f0e7ea54753 drivers/kvm/paging_tmpl.h      Avi Kivity          2007-01-05  322  	gfn_t table_gfn;
-0780516a18f87e8 arch/x86/kvm/paging_tmpl.h     Paolo Bonzini       2017-05-11  323  	u64 pt_access, pte_access;
-0780516a18f87e8 arch/x86/kvm/paging_tmpl.h     Paolo Bonzini       2017-05-11  324  	unsigned index, accessed_dirty, pte_pkey;
-5b22bbe717d9b96 arch/x86/kvm/mmu/paging_tmpl.h Lai Jiangshan       2022-03-11  325  	u64 nested_access;
-42bf3f0a1f5a25b drivers/kvm/paging_tmpl.h      Avi Kivity          2007-10-17  326  	gpa_t pte_gpa;
-86407bcb5c8320a arch/x86/kvm/paging_tmpl.h     Paolo Bonzini       2017-03-30  327  	bool have_ad;
-134291bf3cb434a arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2011-07-01  328  	int offset;
-0780516a18f87e8 arch/x86/kvm/paging_tmpl.h     Paolo Bonzini       2017-05-11  329  	u64 walk_nx_mask = 0;
-134291bf3cb434a arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2011-07-01  330  	const int write_fault = access & PFERR_WRITE_MASK;
-134291bf3cb434a arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2011-07-01 @331  	const int user_fault  = access & PFERR_USER_MASK;
-134291bf3cb434a arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2011-07-01  332  	const int fetch_fault = access & PFERR_FETCH_MASK;
-bb24edbb673f6f3 arch/x86/kvm/mmu/paging_tmpl.h Kevin Cheng         2026-05-22  333  	/*
-bb24edbb673f6f3 arch/x86/kvm/mmu/paging_tmpl.h Kevin Cheng         2026-05-22  334  	 * Note! Track the error_code that's common to legacy shadow paging
-bb24edbb673f6f3 arch/x86/kvm/mmu/paging_tmpl.h Kevin Cheng         2026-05-22  335  	 * and NPT shadow paging as a u16 to guard against unintentionally
-bb24edbb673f6f3 arch/x86/kvm/mmu/paging_tmpl.h Kevin Cheng         2026-05-22  336  	 * setting any of bits 63:16.  Architecturally, the #PF error code is
-bb24edbb673f6f3 arch/x86/kvm/mmu/paging_tmpl.h Kevin Cheng         2026-05-22  337  	 * 32 bits, and Intel CPUs don't support settings bits 31:16.
-bb24edbb673f6f3 arch/x86/kvm/mmu/paging_tmpl.h Kevin Cheng         2026-05-22  338  	 */
-134291bf3cb434a arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2011-07-01  339  	u16 errcode = 0;
-13d22b6aebb000a arch/x86/kvm/paging_tmpl.h     Avi Kivity          2012-09-12  340  	gpa_t real_gpa;
-13d22b6aebb000a arch/x86/kvm/paging_tmpl.h     Avi Kivity          2012-09-12  341  	gfn_t gfn;
-6aa8b732ca01c3d drivers/kvm/paging_tmpl.h      Avi Kivity          2006-12-10  342  
-6fbc277053836a4 arch/x86/kvm/paging_tmpl.h     Xiao Guangrong      2012-06-20  343  	trace_kvm_mmu_pagetable_walk(addr, access);
-92c1c1e85bdd72b arch/x86/kvm/paging_tmpl.h     Takuya Yoshikawa    2011-07-01  344  retry_walk:
-d869ff104efb1f2 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2026-05-11  345  	walker->level = w->cpu_role.base.level;
-d9af9341707f67c arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2026-04-05  346  	pte           = kvm_mmu_get_guest_pgd(vcpu, w);
-d869ff104efb1f2 arch/x86/kvm/mmu/paging_tmpl.h Paolo Bonzini       2026-05-11  347  	have_ad       = PT_HAVE_ACCESSED_DIRTY(w);
-1e301feb079e8ee arch/x86/kvm/paging_tmpl.h     Joerg Roedel        2010-09-10  348  
+   449	
+   450	/*
+   451	 * write_pool_threads - Set or report the configured number of threads per pool
+   452	 *
+   453	 * Input:
+   454	 *			buf:		ignored
+   455	 *			size:		zero
+   456	 *
+   457	 * OR
+   458	 *
+   459	 * Input:
+   460	 *			buf:		C string containing whitespace-
+   461	 *					separated unsigned integer values
+   462	 *					representing the number of NFSD
+   463	 *					threads to start in each pool
+   464	 *			size:		non-zero length of C string in @buf
+   465	 * Output:
+   466	 *	On success:	passed-in buffer filled with '\n'-terminated C
+   467	 *			string containing integer values representing the
+   468	 *			configured number of NFSD threads in each pool;
+   469	 *			return code is the size in bytes of the string
+   470	 *	On error:	return code is zero or a negative errno value
+   471	 */
+   472	static ssize_t write_pool_threads(struct file *file, char *buf, size_t size)
+   473	{
+   474		/* if size > 0, look for an array of number of threads per node
+   475		 * and apply them  then write out number of threads per node as reply
+   476		 */
+   477		char *mesg = buf;
+   478		int i;
+   479		int rv;
+   480		int len;
+   481		int npools;
+   482		int *nthreads;
+   483		struct net *net = netns(file);
+   484	
+   485		mutex_lock(&nfsd_mutex);
+   486		npools = nfsd_nrpools(net);
+   487		if (npools == 0) {
+   488			/*
+   489			 * NFS is shut down.  The admin can start it by
+   490			 * writing to the threads file but NOT the pool_threads
+   491			 * file, sorry.  Report zero threads.
+   492			 */
+   493			mutex_unlock(&nfsd_mutex);
+   494			strcpy(buf, "0\n");
+   495			return strlen(buf);
+   496		}
+   497	
+   498		nthreads = kzalloc_objs(int, npools);
+   499		rv = -ENOMEM;
+   500		if (nthreads == NULL)
+   501			goto out_free;
+   502	
+   503		/* Threads started now would run without NFSv4 state. */
+ > 504		if (size > 0 && test_bit(NFSD_NET_UP, &nn->flags)) {
+   505			for (i = 0; i < npools; i++) {
+   506				rv = get_int(&mesg, &nthreads[i]);
+   507				if (rv == -ENOENT)
+   508					break;		/* fewer numbers than pools */
+   509				if (rv)
+   510					goto out_free;	/* syntax error */
+   511				rv = -EINVAL;
+   512				if (nthreads[i] < 0)
+   513					goto out_free;
+   514				trace_nfsd_ctl_pool_threads(net, i, nthreads[i]);
+   515			}
+   516	
+   517			/*
+   518			 * There must always be a thread in pool 0; the admin
+   519			 * can't shut down NFS completely using pool_threads.
+   520			 */
+   521			if (nthreads[0] == 0)
+   522				nthreads[0] = 1;
+   523	
+   524			rv = nfsd_set_nrthreads(i, nthreads, net);
+   525			if (rv)
+   526				goto out_free;
+   527		}
+   528	
+   529		rv = nfsd_get_nrthreads(npools, nthreads, net);
+   530		if (rv)
+   531			goto out_free;
+   532	
+   533		mesg = buf;
+   534		size = SIMPLE_TRANSACTION_LIMIT;
+   535		for (i = 0; i < npools && size > 0; i++) {
+   536			snprintf(mesg, size, "%d%c", nthreads[i], (i == npools-1 ? '\n' : ' '));
+   537			len = strlen(mesg);
+   538			size -= len;
+   539			mesg += len;
+   540		}
+   541		rv = mesg - buf;
+   542	out_free:
+   543		kfree(nthreads);
+   544		mutex_unlock(&nfsd_mutex);
+   545		return rv;
+   546	}
+   547	
 
 --
 0-DAY CI Kernel Test Service
