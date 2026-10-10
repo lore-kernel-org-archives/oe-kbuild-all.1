@@ -1,100 +1,107 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0186D3164C5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Oct 2026 20:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA42820A5C4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Oct 2026 20:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791662548; cv=none; b=jqDmOUi6btQXgIJbwZxFyqehzYLDupyYmk2SBb7OyxgRR/cqTYYEh5z4n0k1b1aJ3ojWy4LQABd4mStJY91J79XzSpACUHqwqn9veaCtEBzrfW56OdMt5J/5HSX27iK2oStD44MSY1/ULrj7MRwzq6gTWT85JgRaLXPCL4zRcZs=
+	t=1791663906; cv=none; b=dVVECNnab6TWUuKYQ3a2WUbRSurldKBONacom0v0gYaESRwrY4zopR1H62EyO3aGE5hVn8cuz0jKpI/EPdLak16WqKtIHT2mkbi/AX9jqulgNWgCgUhyAboTH8gcTt6FKcTD0PPF3c//imTJ6hMvekgs8i7A8zovYWSJGQ9vU+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791662548; c=relaxed/simple;
-	bh=gGCB0WPEet3hBv75jONs1IerdY9HGHiLxa1+0OFMkZY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=C9mYQpOiXcMPtxYTeGmRaF7mu+TqiRSZcVFfb8wsBN+9jzTC9W/9LUGbO0U7XovcG0JGKKyA5B/GQ32tOsz0U901SYWyiPtscpBXjtbB4gyJlZA7U2GEx+DY9Yi7DSHUJRmPOz5G60LqAqCyvEnRTQaMmZ8RdKncVHmyzn8q9RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aD+v2X/m; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791663906; c=relaxed/simple;
+	bh=Lemh8KWdOK8GJ/CeRJHJM18Oxh+yvA0o3l+b+VsjVJY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JzjPt4YKcaPeX1ZO9C8fq75b3Q8Icg/6AfsjMIqPBqIL6mBXoi/Pqyd+HZDQtPYmrmv7xgRY3jL5AjdK3bgqQkupmYcF/gU044gpxYY6Pa/Ut6IDtDvOsj2AUV3u2UlIQ5F1hqE4AY+TKNZq077dv+2hOeFT3f0EJYcutZxNQRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTokDmhg; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aD+v2X/m"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3a4c47bb6e3so319807a91.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Oct 2026 13:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791662545; x=1792267345; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=gGCB0WPEet3hBv75jONs1IerdY9HGHiLxa1+0OFMkZY=;
-        b=aD+v2X/mDan7aehoIDpaNHAyFRkwySGEBdSAIMF2ZCqrajN5U3zP+ELIaI0Q+3Byad
-         Me3Ln2NHuyU9mUBQBjVqEETERY1N1X2c7kUmPPLjsvfCs/4nGE+fyb6+bdDDGwgTEyvk
-         Tl7D8dAVYl12SJKalkhBkZn6ZoFbhZoBjgW6Noy7f5WZg0elgbISVfSxw5Y6cAryoKOP
-         ze7XHtjZkKd95BjGyCwzFs0LpBf2Gt1lFP8huisHBWSU4fKphAy27RhpwbyBJX46Bkky
-         eFYTsOAlsgRtcKR5LPS+TCVLgbBWZcJ+c7TYybDHFHANxcDtJ6U6TzmASUpnfSJ51Axy
-         fInA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791662545; x=1792267345;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gGCB0WPEet3hBv75jONs1IerdY9HGHiLxa1+0OFMkZY=;
-        b=ifAC9tNRiil+gbc+XhJ8E6cTAGhP3BAzM40vTQe1m/uuTN6DKA6SoaEhZz/ottXP9V
-         pGOBu7gP+zA+HwJr+UTaDbGPM+Uh0+ZACMN1aso+Jpw9tmMO6gGtxF5K/wxumumvaAfm
-         s9nvm1qpmiyFiGrHW8r3VZq5wkA3Ve3K/jHDsnTxmcZcp/RoPmm9imWgMTjXWXJwa2Rs
-         5RPl4ZMnqCL3YJnfjYE/DCfX9mzTCY7I1+7uDykpSO5g9/gfns2TWRCLJ+Z8raDeLgQf
-         yR6YXi3hrQcqp8ni0jEXZHJRQagbOtVxiQcuM3UYOBpJL6ljrpTNXqwln17Qp+Pi5oGx
-         zBuA==
-X-Gm-Message-State: AFq9FYINvuaYklV4DU9QRKdyrvLcqd+x0sy6hTaBu55WYqZU0oi5Vjxh
-	ZTzTs7nyRLpXg8LZKUY5+sgg9KjeaALEpjO272nZnxnSJG81kzcxxfFp
-X-Gm-Gg: AYBFou26vzq3MGjPWkQp7F7cAOOhl5DYxvFn1/ySr6vpXA7reaVM85JkCjbvtFuf+H8
-	GM0Ujvh5xKQXALM6LPskSQcyhf9fDlrd72Vgqdb3qq6ua3Jh0A3GYR6ANqWY5QPtnJeAYK8OuHj
-	wsffMljJxCay3WMmrpqQJuqMflt4cW3+TPS1odSpP4+4drLNxALTb4IN5OYMc2x9dIhzOn94Qfk
-	8HXgEk4Z7R+n3K+LMmYG0zerdEUq8pX60leMYqbZuemkEA9xyvF8zrgOM5e8t/UH0+3ztv8bfZh
-	fm4oHqhuqKUjEXYBomael9R4a1I4U6AQvN1IBCZOxS0KC+cQM15NdzEb2i2yB+r9BoD+3lXwabe
-	CrBBcfwU4b1TyYGNSHdgcu1bekWZpV0jlRpWMDUV1dFSzL1q8nLMjE66A/aZZ6BME3fbzIEtp1w
-	33KKGxORcZ3EV4TPif+eMpD/u/83bk0KZNwiDzsDs7LVTomYmE2zFOpJdbk43OLVpnM9JR9/KWE
-	vJrYwSv6CbiytXXt3rPOh1g4w==
-X-Received: by 2002:a17:90b:2d0b:b0:3ab:36c4:b4ff with SMTP id 98e67ed59e1d1-3ab3a747069mr4941491a91.24.1791662545218;
-        Sat, 10 Oct 2026 13:02:25 -0700 (PDT)
-Received: from [192.168.0.13] ([38.34.87.7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab39238608sm9716284a91.17.2026.10.10.13.02.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2026 13:02:24 -0700 (PDT)
-Message-ID: <4b4912cf5f30a3c6866a09511c9b5d3a427cb471.camel@gmail.com>
-Subject: Re: [PATCH bpf-next v3 34/51] bpf: use SCEV to widen bounded loops
-From: Eduard Zingerman <eddyz87@gmail.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, kernel test robot
-	 <lkp@intel.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrii@kernel.org, daniel@iogearbox.net, 
-	kernel-team@fb.com, yonghong.song@linux.dev
-Date: Sat, 10 Oct 2026 13:02:23 -0700
-In-Reply-To: <DM18UAZECYI9.1RYCRB2FYDW8S@gmail.com>
-References: <20261009-scev-minimal-rebase-v3-34-bcba9bc53ac9@gmail.com>
-	 <202610100928.qjEH6jQv-lkp@intel.com>
-	 <DM18UAZECYI9.1RYCRB2FYDW8S@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-10+b1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTokDmhg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791663905; x=1823199905;
+  h=date:from:to:cc:subject:message-id;
+  bh=Lemh8KWdOK8GJ/CeRJHJM18Oxh+yvA0o3l+b+VsjVJY=;
+  b=YTokDmhg/QRHe+0YEdC+vszy2u3VPMz7G/wTrMzInJAkz3uuu8xGpq2u
+   jfiGipM9Gctu9H0ZKwNp8Bj2xW2ys+PdXGoLVeMxJk6VKIfn6A9FPHQ4o
+   86LvYMe973qxqegH6/PZamcrrr3g2dahEfqOmxh0AVjlQzjO25f12DxwA
+   DZPbyJlVD4vy977C06DXRTnd/tTiSPA0k185D/XyZSY5L1m2eemeaDG15
+   O8ZWWTlJvKThfGU0wFmGmM8JlE2aovPwaKtZXn6plEDdDHyO6hRMaQ/MD
+   aFeYzR1VDjmWsGbDlRxtgp/349JxA6vqEjogrbhibgl1FdnQvqwK7pmNG
+   w==;
+X-CSE-ConnectionGUID: 5o1s32TxQQGC4SvXGAxYdQ==
+X-CSE-MsgGUID: H0tLGWpCTLa114Rxnw9jLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11931"; a="524139"
+X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
+   d="scan'208";a="524139"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2026 13:25:05 -0700
+X-CSE-ConnectionGUID: 4z1XsgNBT4acThn22tbUkw==
+X-CSE-MsgGUID: 9FfCpw57RkKz+gYCv/IEnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,150,1787036400"; 
+   d="scan'208";a="551244"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 10 Oct 2026 13:25:03 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xFdcq-000000009D9-1aqm;
+	Sat, 10 Oct 2026 20:25:00 +0000
+Date: Sat, 10 Oct 2026 22:24:46 +0200
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/14] htmldocs: Warning:
+ arch/x86/Kconfig references a file that doesn't exist:
+ file:Documentation/arch/x86/buslock.rst
+Message-ID: <202610102242.SPb7lQVT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
 
-On Sat, 2026-10-10 at 14:55 +0000, Alexei Starovoitov wrote:
-> On Sat, Oct 10, 2026 at 09:25 AM kernel test robot <lkp@intel.com> wrote:
-> > =C2=A0=C2=A0 ld: kernel/bpf/scev.o: in function `compute_max_iters':
-> > > > kernel/bpf/scev.c:2062:(.text+0x1193): undefined reference to `__ud=
-ivdi3'
-> > > > ld: kernel/bpf/scev.c:2067:(.text+0x11b7): undefined reference to `=
-__udivdi3'
->=20
-> Eduard,
->=20
-> the series is in bpf-next, so all 32-bit builds with BPF_SYSCALL=3Dy
-> are broken there now. Pls send a follow up asap.
-> Every u64 '/' and the '%' in compute_max_iters() need div64_u64()
-> and div64_u64_rem().
-> The rest looks fine. base/step are u16 and imod() uses div_s64_rem().
+Hi leoliu-oc,
 
-Working on a followup, will send it today.
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   4cc4dc28488d3d8e3b3cea5f637c38c42ea1a826
+commit: a5b6787ab3e6b6798c078c619aa1958ffd718f93 [0/14] x86/split_lock: Move Split and Bus lock code to a dedicated file
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20261010/202610102242.SPb7lQVT-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610102242.SPb7lQVT-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: anolis/changelog/000-changelog.base references a file that doesn't exist: Documentation/filesystem/dax
+   Warning: anolis/changelog/005-changelog.5.10.134-17 references a file that doesn't exist: Documentation/dax
+   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
+   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+>> Warning: arch/x86/Kconfig references a file that doesn't exist: file:Documentation/arch/x86/buslock.rst
+   Warning: drivers/irqchip/Kconfig references a file that doesn't exist: Documentation/loongarch/irq-chip-model.rst
+   Warning: drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
+   Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:394  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:395  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1
+--
+   Warning: anolis/changelog/000-changelog.base references a file that doesn't exist: Documentation/filesystem/dax
+   Warning: anolis/changelog/005-changelog.5.10.134-17 references a file that doesn't exist: Documentation/dax
+   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
+   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
+   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+>> Warning: arch/x86/Kconfig references a file that doesn't exist: file:Documentation/arch/x86/buslock.rst
+   Warning: drivers/irqchip/Kconfig references a file that doesn't exist: Documentation/loongarch/irq-chip-model.rst
+   Warning: drivers/net/ethernet/nebula-matrix/Kconfig references a file that doesn't exist: file:Documentation/networking/device_drivers/ethernet/nebula-matrix/m18110.rst
+   Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:394  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:395  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
