@@ -1,59 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01242641C6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Oct 2026 00:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308A32D7386
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Oct 2026 02:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791766072; cv=none; b=lyXPrWCqyf3dMu7Sl1CHqWj52KjIMtCdC7HflcYqmTnd7RpgtchzPAUEZNsGTm4drHu3ElwgPeRpqAVfJxQHOcIBvis10LTHFpCE9knv4tiaRihxCFm2f46fqaoUQVgz+OvkRZeSKZuIIvz7LeFW9QbSJDFR8V8ntncUwgNzA60=
+	t=1791771357; cv=none; b=cW7Bjbc2rEv+8e+68XeGXVP0tEj7qniiEggdZWUi7ScWIfFLZZAfXIUjoP+PO639KLMCP8bxxzV8Sor1ui53fBcaRDwMjh7DUD+chsNQLSDQtdK2yDg8kfqBGfsakGQGFtz4Kj0fhn8hUvRW/VBgi2fahTWuBvbkH/bLWK1lmks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791766072; c=relaxed/simple;
-	bh=fCcjVe1Qj2T8fTsW4i6uJSvy6dXn/7Etr5UGN/kRPlA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=L9a0XGgFOxqfr5X+m/ZCZDC77HPFtIsmc572zz7lcuFaezP4UyxQU71X52WDCBv7hiFzeWUvnsljegxlzdpf+FoZSlc/20Rfqpdx+XSTKgn2eV+kLxsjIOQ0epGkYZ35J52A7ASU1XkKo6bluryX14b94+gCCoyXcfbl4vfN7w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/v9jbIm; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791771357; c=relaxed/simple;
+	bh=AE+aMCHrU8wXIxqWxG4RdnzBvcU9Fi45thM6BAjxx4k=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Sw1ddZ+H2mxMaoltSkg74sZAf9zHDh4wnGI2fKG8KcJ8rHR6XJZXMrlXN8pywpquCUX+v+3vaqKgQp10bXZ+X1XnoPngxkMsEzTPWBOlJC0wm/x8WyH1ksTmyarJF0QfCg/nE9z7Ro26MaKjHDFCGihxOLq8G/8C/1kspyO3MA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GVpO1Z3Z; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/v9jbIm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GVpO1Z3Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791766070; x=1823302070;
+  t=1791771357; x=1823307357;
   h=date:from:to:cc:subject:message-id;
-  bh=fCcjVe1Qj2T8fTsW4i6uJSvy6dXn/7Etr5UGN/kRPlA=;
-  b=A/v9jbImF+e/0vA/nDY5HgKLNshfq4oFjzN8U5HSD9wr+WPsZc2NFQhT
-   msbZxEBAtZ87BkMAdX4je3UGxIzCw/sc0+59NlNu6iQ0FEBRyqx25MJJr
-   QIuUnLCxjeD/GqaNZm++tpJOyFZRYFL2ZVTaHroX15dIrxog1UxaOfgtO
-   AsxmQMeW8b19x219Bg3blsq/IX+bXc7jqg8A5sxF39MyD8abzTtv4SCFQ
-   uViBkbDntPCJVhs11h6tBwLJ//q6fLQYAX/TQUiKt41z/hxW0zyvlVNd0
-   +R6A3kJCBBBo8U3Heykaph6czXIUQnNhHqwl8HsZw/jiaoucEzkPa8NAE
+  bh=AE+aMCHrU8wXIxqWxG4RdnzBvcU9Fi45thM6BAjxx4k=;
+  b=GVpO1Z3Z7Q8f70kfOW5mEHsdcNKRJ+3TQbjpjOflDsDKeEMe0OIdoMNC
+   WD8BEDH/PEdW/85prFW1/+MO8tWOUUWMON0yXKQnd2aUaFvtjPe/hc7H9
+   //PUV/l57gJ75bNr3WUEgNpZC1SUsCsa5WKoUO/b0fApTBGKnfUNDEkNB
+   5NU0gv/o2HCjO1VWpvo06luCX7on6ORzY1uy1nPDszwvZTfJPbFWyBB8j
+   0kod/60AqvKeORmVaDrRUljRvVELkuazBmQi9saqNDS8W64iPB5kLcbJ0
+   6JPkY2piiwsgfqDZwgjeWfDNKh0dtep6Y5t9OPoyfIPu5v6hn+EkEaV6V
    w==;
-X-CSE-ConnectionGUID: //shb3qOR1i8PcPdj+fqpA==
-X-CSE-MsgGUID: 1eG9rO/aR5uc8j6S0G0a/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11932"; a="580377"
+X-CSE-ConnectionGUID: fmMXe+PjSEK62xgZL+A75g==
+X-CSE-MsgGUID: dCuimcZKThWeHy1IOna8QQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11932"; a="361430"
 X-IronPort-AV: E=Sophos;i="6.27,152,1787036400"; 
-   d="scan'208";a="580377"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2026 17:47:49 -0700
-X-CSE-ConnectionGUID: 3tELTA37T1+J5tJY3Odrjw==
-X-CSE-MsgGUID: aegh6zXYRu+F8XD9C5MV4Q==
+   d="scan'208";a="361430"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2026 19:15:55 -0700
+X-CSE-ConnectionGUID: LvlwwF3gQRegq9p+cbh+fw==
+X-CSE-MsgGUID: 8TOwGLRNQQG1tQEr+MDBTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,152,1787036400"; 
-   d="scan'208";a="739486"
+   d="scan'208";a="707876"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 11 Oct 2026 17:47:48 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Oct 2026 19:15:53 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xG4Cf-000000009kF-0wDd;
-	Mon, 12 Oct 2026 00:47:45 +0000
-Date: Mon, 12 Oct 2026 02:47:35 +0200
+	id 1xG5Zu-000000009oZ-3NW3;
+	Mon, 12 Oct 2026 02:15:50 +0000
+Date: Mon, 12 Oct 2026 04:15:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: Scott Weaver <scweaver@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Justin M. Forbes" <jforbes@fedoraproject.org>
-Subject: 
- [snitzer:kernel-7.3/nfs-testing-canary-reduce-ff-layout-contention 3415/7381]
- versioncheck: ./kernel/rh_messages.h: 21 linux/version.h not needed.
-Message-ID: <202610120213.WroFRVzI-lkp@intel.com>
+To: Jonathan Flynn <jonathan.flynn@hammerspace.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>
+Subject: [snitzer:kernel-7.3/main 131/167] Warning:
+ net/sunrpc/xprtrdma/verbs.c:908 function parameter 'gfp' not described in
+ 'rpcrdma_req_create'
+Message-ID: <202610120415.fCgM0jYv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,32 +58,22 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/nfs-testing-canary-reduce-ff-layout-contention
-head:   d889639e439fd6441ed5737e9091862837e322f9
-commit: 3c9c2eee0cc5572d6b703acb371fd0450564f0de [3415/7381] [redhat] kernel/rh_messages.c: move hardware tables to rh_messages.h
-reproduce: (https://download.01.org/0day-ci/archive/20261012/202610120213.WroFRVzI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/main
+head:   790d686a2be11b8bd1a028272f63bd49da1f7666
+commit: de2e6b7a514cd0c25402adcdbb16eaa1c992c98b [131/167] xprtrdma: Allow reclaim when allocating a transport's initial requests
+config: sparc64-randconfig-2000-20261012 (https://download.01.org/0day-ci/archive/20261012/202610120415.fCgM0jYv-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261012/202610120415.fCgM0jYv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610120213.WroFRVzI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610120415.fCgM0jYv-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck 
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./kernel/rh_messages.h: 21 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 446: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> Warning: net/sunrpc/xprtrdma/verbs.c:908 function parameter 'gfp' not described in 'rpcrdma_req_create'
+>> Warning: net/sunrpc/xprtrdma/verbs.c:908 function parameter 'gfp' not described in 'rpcrdma_req_create'
 
 --
 0-DAY CI Kernel Test Service
