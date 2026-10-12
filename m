@@ -1,155 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FD12F0C7E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Oct 2026 06:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334E5329E6C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Oct 2026 06:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791785812; cv=none; b=WpnnR1dL3jb58+tnKtBhTg5CHulHqUqe4gueNku99kGnDH7D+zY1zEruzlTO21VPQWRz5HKFXkwD8BLuWAUqavDePFFObNiAVHjahY2aKA//i3nsiBJ1W6DcXml/edQ89CEf8GDk12Qp5LKBih7lJ7fUdIUhlNg9h6zOKkfAuLY=
+	t=1791785875; cv=none; b=nBEfVPwMpblSU/WMPdHW1UX3mlAeKa9Si9uenzZqQVkGKIq7duPz0aPPL8UOY8hoUjNt59uEvQovHHTP+2FrXlByCgamdDYo29b+o+0GEBt+j5W2m0mfqKMV91okoVeEMoCsu0vxffCH1MLUvP5igGlTtH4RHEuMyopRSQIUTiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791785812; c=relaxed/simple;
-	bh=00TriKPwSHBSWSTRsTSlXWLhmVErLGMuHEag0kYhfXY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=d00VaOGjmDSDy39QOxlU2unQBZhUW7XaZWOD8AEZr04HcEHIyShDN4MEr337KQonm4KgKf5JwBsZEHe6+2Xlwu1AJNuF1g0bZVw8B5TB84KdEj2BB+v5IMn9DGYoBTVgXj/1BTLEd8kzQV6vTshieVB8G2PpIokQAhmnaXQi9Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l1bVgPlT; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1791785875; c=relaxed/simple;
+	bh=oZ3QOPsy+VxetgWZo1EG+wRxp3I5AHDMksJYvUQGj3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D97cu8qpzwRy7qu/v5GUv+iWOQQHrKIXepUyh844lccCP3MvWjHL6ZJzSiCW/BauQ1E5uGeQ6baiG24KNxjLCsdTyKZI5Ep4LSVlMXPuuw8W7UfrKP9/nIUSE1LJL4TUGXFdyfybeMTePyp+E/iCzT7MR3TpDM1FFZIETA2kQR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMqOPxLa; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l1bVgPlT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMqOPxLa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791785811; x=1823321811;
-  h=date:from:to:cc:subject:message-id;
-  bh=00TriKPwSHBSWSTRsTSlXWLhmVErLGMuHEag0kYhfXY=;
-  b=l1bVgPlTiamVsVvpw3BQhY5Ry9o6+CYjTolpKS3BAg16MA18VtI53wfP
-   gVregDwQBOQIv3feBKb1w8LC8JQkJY0jXCLX+VMpYKFWbbCrt9356TS7d
-   S1OxpihrKYou4AXgege08w2nrVdpsI38dlbx797NHpVBXEJnOXxY8RKO+
-   jYFzrT+5tIw7UTX1qAl3q/qMUwkOAzE5ybtYk9aeK3EXSmWH2LuPg2TI/
-   6KvhYfujSn3iVCPwJLV9PehyMqcfcM0aXp14B/HOnUOLhgyhFRqNTNwPc
-   a8gT+4LezI+0oTkCcSsYcccbXjdc5YzMRUn74Z1tE4Em3k6LLeGXnUT9B
-   A==;
-X-CSE-ConnectionGUID: +w+TeXFhRSeBRho0dH+Y1Q==
-X-CSE-MsgGUID: 3SeAiXSCQ/yYdcsGu8kaHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11932"; a="596209"
+  t=1791785875; x=1823321875;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oZ3QOPsy+VxetgWZo1EG+wRxp3I5AHDMksJYvUQGj3I=;
+  b=EMqOPxLajyJSC6e7A3GUlru5WgUmH2T0YZ9VGJkg5zSxAv0QVNd6EUSK
+   eDD6pxS/8LFwapG+gbLsREQuFgHh2Ds1O/l7aAn0KhowityByMcUTNoeF
+   GaLbRvJP0ILSzzFpPqNESxUttnzXEAhu73aG6Twv+o21YjdWLWwf9maCE
+   NbLaJKpUxexFbFSn0grkIFVvSo96f6y29geP+lKemfXypYcjLYsav5I2h
+   6ee8ATQm1iL4EtGZ2mn40Tmu/KnMBdf3N7+iNGUo9MZ8Ij2dYP9xMQ2Mi
+   jOBqhY/dCqMU4y0+cqOp+xi7bdoVkvR4Dvjskk0kfLrq9xPwStu+osEse
+   Q==;
+X-CSE-ConnectionGUID: ZuAi5KoqQzORajJnpwNkrw==
+X-CSE-MsgGUID: ycjgWF1VTWGF1frEcIRDdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11932"; a="372060"
 X-IronPort-AV: E=Sophos;i="6.27,153,1787036400"; 
-   d="scan'208";a="596209"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2026 23:16:50 -0700
-X-CSE-ConnectionGUID: e5r62aa7T2O5Cfpn6r8uuQ==
-X-CSE-MsgGUID: QRXxJ0AKTUaCe9U8f6zJnA==
+   d="scan'208";a="372060"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2026 23:17:54 -0700
+X-CSE-ConnectionGUID: 7vFgkGqGTYquOR2yNhJYLg==
+X-CSE-MsgGUID: spKNAYhPTCuAT4cnrPMzcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,153,1787036400"; 
-   d="scan'208";a="898002"
+   d="scan'208";a="2643050"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Oct 2026 23:16:48 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 11 Oct 2026 23:17:49 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xG9L4-00000000B5t-1G1d;
-	Mon, 12 Oct 2026 06:16:46 +0000
-Date: Mon, 12 Oct 2026 14:16:34 +0800
+	id 1xG9M2-00000000B65-1eKe;
+	Mon, 12 Oct 2026 06:17:46 +0000
+Date: Mon, 12 Oct 2026 14:17:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- arch/arm64/kvm/pkvm.c:687:13: warning: variable 'pages' set but not used
-Message-ID: <202610121406.FRqNff0k-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Mingyou Chen <qby140326@gmail.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilya Gladyshev <ilya.gladyshev@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, KentoNion <kento@kekto.ru>,
+	platform-driver-x86@vger.kernel.org,
+	ted eric <ericted8810@gmail.com>, Armin Wolf <W_Armin@gmx.de>,
+	linux-kernel@vger.kernel.org, Chris Taraszka <chris@miget.com>,
+	Matias Civadda <matias.civadda2342001@gmail.com>,
+	=?utf-8?B?6auYIOS/iuaWhw==?= <btx342@gmail.com>,
+	powerfullz <wleizc7319@gmail.com>,
+	=?utf-8?B?5a2ZIOiqiemTrQ==?= <wolf109909@outlook.com>,
+	=?utf-8?B?TWlsb8Wh?= Vlku <vlku.milos.fun@gmail.com>,
+	Rsplwe <i@rsplwe.com>, Bozhen Peng <bozhenpeng93@gmail.com>,
+	Anton Karasev <uselessfire@gmail.com>,
+	Jame Jao <jaojame6@gmail.com>, Mingyou Chen <qby140326@gmail.com>
+Subject: Re: [PATCH v10 5/5] platform/x86: bitland-mifs-wmi: Add quirks table
+Message-ID: <202610121439.FWm3hssT-lkp@intel.com>
+References: <20261011135748.11792-6-qby140326@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261011135748.11792-6-qby140326@gmail.com>
 
-Hi Sebastian,
+Hi Mingyou,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   1fb290be45b214bf247b349562892f8278d7445c
-commit: 312ab0333e80d95c4c1f17fa07ceb344cec5313d [1/1] ANDROID: KVM: On guest exit ask Trustzone to relinquish the borrowed pages
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20261012/202610121406.FRqNff0k-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261012/202610121406.FRqNff0k-lkp@intel.com/reproduce)
+[auto build test WARNING on 98f039265e580291d5e76a11b2072541fbb1c393]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mingyou-Chen/MAINTAINERS-Add-maintainer-entry-of-bitland-mifs-wmi-driver/20261011-215744
+base:   98f039265e580291d5e76a11b2072541fbb1c393
+patch link:    https://lore.kernel.org/r/20261011135748.11792-6-qby140326%40gmail.com
+patch subject: [PATCH v10 5/5] platform/x86: bitland-mifs-wmi: Add quirks table
+config: i386-randconfig-1006-20261012 (https://download.01.org/0day-ci/archive/20261012/202610121439.FWm3hssT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261012/202610121439.FWm3hssT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610121406.FRqNff0k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610121439.FWm3hssT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/pkvm.c: In function '__pkvm_pgtable_stage2_unmap':
->> arch/arm64/kvm/pkvm.c:687:13: warning: variable 'pages' set but not used [-Wunused-but-set-variable=]
-     687 |         u64 pages, nr_busy;
-         |             ^~~~~
+   drivers/platform/x86/bitland-mifs-wmi.c:136:1: error: expected identifier or '(' before '}' token
+     136 | };
+         | ^
+>> drivers/platform/x86/bitland-mifs-wmi.c:100:46: warning: 'bitland_mode_map' defined but not used [-Wunused-const-variable=]
+     100 | static const struct bitland_profile_mode_map bitland_mode_map = {
+         |                                              ^~~~~~~~~~~~~~~~
 
 
-vim +/pages +687 arch/arm64/kvm/pkvm.c
+vim +/bitland_mode_map +100 drivers/platform/x86/bitland-mifs-wmi.c
 
-   679	
-   680	static int __pkvm_pgtable_stage2_unmap(struct kvm_pgtable *pgt, u64 start, u64 end)
-   681	{
-   682		struct kvm *kvm = kvm_s2_mmu_to_kvm(pgt->mmu);
-   683		pkvm_handle_t handle = kvm->arch.pkvm.handle;
-   684		struct mm_struct *mm = current->mm;
-   685		struct kvm_pinned_page *ppage;
-   686		struct pkvm_mapping *mapping;
- > 687		u64 pages, nr_busy;
-   688		int ret;
-   689	
-   690		if (!handle)
-   691			return 0;
-   692	
-   693		for_each_mapping_in_range_safe(pgt, start, end, mapping) {
-   694			int ret;
-   695	
-   696			WARN_ON(kvm_vm_is_protected(kvm));
-   697	
-   698			ret = kvm_call_hyp_nvhe(__pkvm_host_unshare_guest, handle,
-   699							mapping->gfn, mapping->nr_pages);
-   700	
-   701			if (WARN_ON(ret))
-   702				return ret;
-   703	
-   704			pkvm_mapping_remove(mapping, &pgt->pkvm_mappings);
-   705			kfree(mapping);
-   706		}
-   707	
-   708	retry:
-   709		pages = 0;
-   710		nr_busy = 0;
-   711		ppage = kvm_pinned_pages_iter_first(&kvm->arch.pkvm.pinned_pages, start, end);
-   712		while (ppage) {
-   713			struct kvm_pinned_page *next = kvm_pinned_pages_iter_next(ppage, start, end);
-   714	
-   715			WARN_ON(!kvm_vm_is_protected(kvm));
-   716			ret = __reclaim_dying_page(ppage, handle);
-   717			cond_resched();
-   718			if (ret == -EBUSY) {
-   719				nr_busy++;
-   720				ppage = next;
-   721				continue;
-   722			}
-   723			WARN_ON(ret);
-   724			unpin_user_pages_dirty_lock(&ppage->page, 1, true);
-   725			account_locked_vm(mm, 1 << ppage->order, false);
-   726			kvm_pinned_pages_remove(ppage, &kvm->arch.pkvm.pinned_pages);
-   727			kfree(ppage);
-   728			ppage = next;
-   729		}
-   730	
-   731		if (nr_busy) {
-   732			do {
-   733				ret = kvm_call_hyp_nvhe(__pkvm_reclaim_dying_guest_ffa_resources,
-   734							kvm->arch.pkvm.handle);
-   735				WARN_ON(ret && ret != -EAGAIN);
-   736				cond_resched();
-   737			} while (ret == -EAGAIN);
-   738			goto retry;
-   739		}
-   740	
-   741		return 0;
-   742	}
-   743	
+    99	
+ > 100	static const struct bitland_profile_mode_map bitland_mode_map = {
+   101		.balanced	= WMI_PP_BALANCED,
+   102		.performance	= WMI_PP_PERFORMANCE,
+   103		.quiet		= WMI_PP_QUIET,
+   104		.full_speed	= WMI_PP_FULL_SPEED,
+   105	};
+   106	
 
 --
 0-DAY CI Kernel Test Service
