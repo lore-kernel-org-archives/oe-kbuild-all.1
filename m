@@ -1,166 +1,181 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28133783B4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Oct 2026 19:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495594C650F;
+	Mon, 12 Oct 2026 19:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791834655; cv=none; b=fGif/VL1d7Kp3x9obo7wz78MAOyk6gu+CgYG2pIhvNs00QyDlPHQMQ1XXEU9LInHvnOQnyQ1vrLzfsuNOm008wi/RDzNpuK0IBOD7u3UCIRVrSIm/TRM6O/KwdMNRXHaBKChSt0WigwmMD69epy+Oxdu8W4wxr2mkMC/ptukRAE=
+	t=1791834969; cv=none; b=UprhDq9o3TqCYLLAI+JZR+ZTHp+cPa7ek6sbf8PZ4afYL8E5Us3Ht7+JY/MS8JJIH80OZtKtkGy+9l4eItICelOZXmeK7JWvelGiqi0TpS8PieH/0zAqriJeq8Gm+aNWVKonYVhUS46PL8iUggaPgzWWFz5EYRtGOl3MB4vJ5/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791834655; c=relaxed/simple;
-	bh=euZArWPCxXX0NM64FAHlBzPtv86UhVFRwSCEZUr3cn0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dyJoZIOV+qWjzFmqaFJ2YQDwv7VV7nHYiEshK2zlySlSM2QP7QLK0hAzNxIViBd3aMBC3LYBAlEZCCzOz+gSa2VlU8MTKuDhKRGpcODYREB1n2ATHWlEVVrQ2JXN6bYrrCF3M4KR2O8nNxdWMDvSo3Az/4B0JY/SEIWhCEeKyCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=YzBR/JXx; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1791834969; c=relaxed/simple;
+	bh=MNdlXHD/O4KIK8M11oB/su2SKfCvrs8KvIq6vtZonrM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EYlMil3OgglYpndZ9YS2AH8voqJeO0O6w4bH60F5bGPNUXcrN4SAAF57kWCwBcZODWFoQvFuRWiDUxud6cC9QXzzR+bscB4QxBmNdLHpQesgEa0HYlzez9vn+xgXPWZ0V+afdF/hO1qvl8nciSNqdSFl3CIlmdH1uDcUP9G6uNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDKgfuFx; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="YzBR/JXx"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69CJiHps992347;
-	Mon, 12 Oct 2026 19:50:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=J+O3fVyOO2ZbFKIlKlHMfnu+b7bqqO
-	98EcUBEWl2d28=; b=YzBR/JXxLZrlOQ3JW26c7OuLMB/TLb9OHSvVpV1F9bCpck
-	A0Rje676Zm7NzN8utwneLBdhlKuZ+wEVHmo7Te22JsTN5C/eojXdUd1OjZ6XBI5Q
-	ICUjNeXLkLBVtBj5lYpOy2RwKGdb12H1aT882pH+4WUw1OJISCZB/RvHZeOeilZy
-	Az9PcLCIk6z9MwMVU36Gy6oubsk9kJMQMyCwqIuev3lrmzSH2zu7Xn/El6Y2O4to
-	LSWBN+/Nz9ICYrC4fJUU1vlS1IhKvIKk0CKdpCwyAyuS2hnEsMf6Q4dF1OaKj3le
-	mVOx1OuetJ+77774hvCkXA3kXbTHchSuanJtPiPw==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4h7dwhtanx-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 12 Oct 2026 19:50:42 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69CJdLMm1828949;
-	Mon, 12 Oct 2026 19:50:41 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4h802vpt72-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 12 Oct 2026 19:50:41 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69CJoeSb2359936
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 12 Oct 2026 19:50:40 GMT
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2873158060;
-	Mon, 12 Oct 2026 19:50:40 +0000 (GMT)
-Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D216A5805E;
-	Mon, 12 Oct 2026 19:50:39 +0000 (GMT)
-Received: from d (unknown [9.61.18.84])
-	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 12 Oct 2026 19:50:39 +0000 (GMT)
-From: Dave Marquardt <davemarq@linux.ibm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Dave Marquardt via B4 Relay <devnull+davemarq.linux.ibm.com@kernel.org>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman
- <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Christophe
- Leroy (CS GROUP)" <chleroy@kernel.org>,
-        "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>,
-        "Martin K. Petersen"
- <mkp@kernel.org>,
-        Tyrel Datwyler <tyreld@linux.ibm.com>, oe-kbuild-all@lists.linux.dev,
-        linux-scsi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v13 11/11] scsi: ibmvfc: handle extended FPIN events
-In-Reply-To: <202610100443.UCrGdTXp-lkp@intel.com> (kernel test robot's
-	message of "Sat, 10 Oct 2026 04:29:11 +0800")
-References: <20261007-ibmvfc-fpin-support-v13-11-b816abfa4fcc@linux.ibm.com>
-	<202610100443.UCrGdTXp-lkp@intel.com>
-Date: Mon, 12 Oct 2026 14:50:39 -0500
-Message-ID: <87ik36vgts.fsf@linux.ibm.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDKgfuFx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791834967; x=1823370967;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MNdlXHD/O4KIK8M11oB/su2SKfCvrs8KvIq6vtZonrM=;
+  b=aDKgfuFxJXsStUkOdL2Bj1YNjIqRV+Z4Nd/84HydCu1e9zJpq3Z8ERzT
+   Txabp92+kOWg3xCkptK1NdytXMckkisMGsNWsVzR6OrnZSOSlTkg/C9r8
+   wx+kXO4UMRKokj+TKse6H5bWrigcWATH0kD33/E1UjxyL5Eexz4s7qK7W
+   VEzmnxoMx2HKNRJe/Upv7wN838PWFq5vt44l1AJ6gg9iCz9QZDNzAlhvL
+   FRcRyDz+1rN6GbNUcDEpDL3u9sDATFj/oUKrLZMvvmlj4ZMe8aAL/BtZQ
+   VuBoRTzpoP4E8pHJK2luUYHwrybpg7YUVt/Tyd5U7GmTVuKa5TeKm7vPV
+   w==;
+X-CSE-ConnectionGUID: X61T6i6rRs+554tv4anaww==
+X-CSE-MsgGUID: yHMhhK0FRsyJvEKZxb3aLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="649957"
+X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
+   d="scan'208";a="649957"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 12:56:07 -0700
+X-CSE-ConnectionGUID: 9ZHbw5lBQ5mcYZ7BSjPejw==
+X-CSE-MsgGUID: 5fnDqjvXQ2e0elEVPeQuUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
+   d="scan'208";a="969192"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 12 Oct 2026 12:56:02 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xGM7r-00000000C3M-1buN;
+	Mon, 12 Oct 2026 19:55:59 +0000
+Date: Tue, 13 Oct 2026 03:55:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, avaneesh.dwivedi@oss.qualcomm.com,
+	Umang Chheda <umang.chheda@oss.qualcomm.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Faruque Ansari <faruque.ansari@oss.qualcomm.com>,
+	Bradley Morgan <brads@mainlining.org>
+Subject: Re: [PATCH v16 2/6] reboot: hw_protection_trigger: use standardized
+ numeric shutdown/reboot reasons instead of strings
+Message-ID: <202610130313.ziYum5Kq-lkp@intel.com>
+References: <20261007-pscrr-framework-v16-2-3642c277bebb@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA3OCBTYWx0ZWRfX1808nKSq3ova
- cGnqJkKDalWn3VLqoK8CfbVvwXLYKrKogkmmck9azYq+Nf+HuqG6q4AOcX/lj1lUQsifZiuMYKt
- Kk7J4Au/rbTeHEJalU8plNadoSpZZ+8Yq5oR/4JwiHagDp9eretaoy6zWZhUXt6+7LSkQsEsGaw
- R6xIFdTGXeQg+XJ/FA0zdeh1+8/SDZag6YsD92uOv3SS6wE2CqZDR2soIyKEYOvsXDFMKtB131W
- /N2wbjIbv7REuJeTNEVTuSdT8bdLdlJsEoJ9lS79XeKcJGnm1lyhOOmHp+AysENz/3txnx28VXC
- 72+XnX3XkiVTJR6oxD+LhHSTa7/niyhWR/S3WPyks8W6avpXA87ZKQhipr4LqfmN6C14869Jvtc
- rw5cNHyK9sGm9pOARaVRMT7OKS2Cie9QV+fKwUQvwV4lHb/C3ybySMG/Foot/KanARql10Urrxd
- f0hLP39yw+2fNcQwK2Q==
-X-Proofpoint-GUID: prRqJ9MVp5KbEE0uwBEzkzMsS4JRZ-B6
-X-Proofpoint-ORIG-GUID: 0tsrNUyzzcmw0gUPB74Vd-PPPZZ881fP
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA3OCBTYWx0ZWRfXzgEnpH3Nk94X
- 5aI4p+wwnDzV1t2Yh/VWp6oSZIpE9z9NHbbKitTRkEFruwhOPJgvBwx/xOrYC5jHuMzX3kVmEZA
- uR1ukJw9q89Jb2KPZA4IkGroPAFW698=
-X-Authority-Analysis: v=2.4 cv=btHZl0ai c=1 sm=1 tr=0 ts=6acd3a12 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=Y2IxJ9c9Rs8Kov3niI8_:22 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
- a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=rGKbgntH6m_7XyyKOiwA:9
- a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-12_06,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 phishscore=0 impostorscore=0 adultscore=0
- lowpriorityscore=0 priorityscore=1501 clxscore=1015 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610120078
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261007-pscrr-framework-v16-2-3642c277bebb@oss.qualcomm.com>
 
-kernel test robot <lkp@intel.com> writes:
+Hi Faruque,
 
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on c3cff7fac01638ab58e85fe7df41a04fa25c5bae]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Marquardt-via-B4-Relay/scsi-ibmvfc-fix-IRQ-leak-and-guard-deregister-on-channel-reg-failure/20261007-142545
-> base:   c3cff7fac01638ab58e85fe7df41a04fa25c5bae
-> patch link:    https://lore.kernel.org/r/20261007-ibmvfc-fpin-support-v13-11-b816abfa4fcc%40linux.ibm.com
-> patch subject: [PATCH v13 11/11] scsi: ibmvfc: handle extended FPIN events
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261010/202610100443.UCrGdTXp-lkp@intel.com/config)
-> compiler: powerpc64-linux-gcc (GCC) 16.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610100443.UCrGdTXp-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610100443.UCrGdTXp-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:1914 expecting prototype for ibmvfc_relogin(). Prototype was for ibmvfc_scsi_relogin() instead
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
->>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'severity' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3449 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
->>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3488 function parameter 'wwpn' not described in 'ibmvfc_ext_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5505 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'fpin_status' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'wwpn' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'type' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'modifier' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'threshold' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'event_count' not described in 'ibmvfc_common_fpin_to_desc'
->>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3328 function parameter 'severity' not described in 'ibmvfc_common_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'crq' not described in 'ibmvfc_basic_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 function parameter 'wwpn' not described in 'ibmvfc_basic_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3410 Excess function parameter 'ibmvfc_fpin' description in 'ibmvfc_basic_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3449 function parameter 'wwpn' not described in 'ibmvfc_full_fpin_to_desc'
->>> Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:3488 function parameter 'wwpn' not described in 'ibmvfc_ext_fpin_to_desc'
->    Warning: drivers/scsi/ibmvscsi/ibmvfc-core.c:5505 function parameter 'protocol' not described in 'ibmvfc_alloc_target'
+kernel test robot noticed the following build errors:
 
-These will be fixed in v14 of the series.
+[auto build test ERROR on 5c4d4169604b335c38bbc79bc1fc03042981fc6f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Faruque-Ansari/power-Extend-power_on_reason-h-for-upcoming-PSCRR-framework/20261007-123636
+base:   5c4d4169604b335c38bbc79bc1fc03042981fc6f
+patch link:    https://lore.kernel.org/r/20261007-pscrr-framework-v16-2-3642c277bebb%40oss.qualcomm.com
+patch subject: [PATCH v16 2/6] reboot: hw_protection_trigger: use standardized numeric shutdown/reboot reasons instead of strings
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261013/202610130313.ziYum5Kq-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610130313.ziYum5Kq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610130313.ziYum5Kq-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/power/supply/macsmc-power.c: In function 'macsmc_power_critical_work':
+>> drivers/power/supply/macsmc-power.c:587:39: error: incompatible type for argument 1 of 'hw_protection_trigger'
+     587 |                 hw_protection_trigger("Battery voltage below design minimum", 1500);
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                       |
+         |                                       char *
+   In file included from drivers/power/supply/macsmc-power.c:22:
+   include/linux/reboot.h:276:58: note: expected 'enum psc_reason' but argument is of type 'char *'
+     276 | static inline void hw_protection_trigger(enum psc_reason reason,
+         |                                          ~~~~~~~~~~~~~~~~^~~~~~
+
+
+vim +/hw_protection_trigger +587 drivers/power/supply/macsmc-power.c
+
+0ebf821cf6c75d Hector Martin     2026-02-17  554  
+0ebf821cf6c75d Hector Martin     2026-02-17  555  static void macsmc_power_critical_work(struct work_struct *wrk)
+0ebf821cf6c75d Hector Martin     2026-02-17  556  {
+0ebf821cf6c75d Hector Martin     2026-02-17  557  	struct macsmc_power *power = container_of(wrk, struct macsmc_power, critical_work);
+0ebf821cf6c75d Hector Martin     2026-02-17  558  	u16 bitv, b0av;
+0ebf821cf6c75d Hector Martin     2026-02-17  559  	u32 bcf0;
+0ebf821cf6c75d Hector Martin     2026-02-17  560  
+0ebf821cf6c75d Hector Martin     2026-02-17  561  	if (!power->batt)
+0ebf821cf6c75d Hector Martin     2026-02-17  562  		return;
+0ebf821cf6c75d Hector Martin     2026-02-17  563  
+0ebf821cf6c75d Hector Martin     2026-02-17  564  	/*
+0ebf821cf6c75d Hector Martin     2026-02-17  565  	 * Avoid duplicate atempts at emergency shutdown
+0ebf821cf6c75d Hector Martin     2026-02-17  566  	 */
+0ebf821cf6c75d Hector Martin     2026-02-17  567  	if (power->emergency_shutdown_triggered || system_state > SYSTEM_RUNNING)
+0ebf821cf6c75d Hector Martin     2026-02-17  568  		return;
+0ebf821cf6c75d Hector Martin     2026-02-17  569  
+0ebf821cf6c75d Hector Martin     2026-02-17  570  	/*
+0ebf821cf6c75d Hector Martin     2026-02-17  571  	 * EMERGENCY: Check voltage vs design minimum.
+0ebf821cf6c75d Hector Martin     2026-02-17  572  	 * If we are below BITV, the battery is physically exhausted.
+0ebf821cf6c75d Hector Martin     2026-02-17  573  	 * We must shut down NOW to protect the filesystem.
+0ebf821cf6c75d Hector Martin     2026-02-17  574  	 */
+0ebf821cf6c75d Hector Martin     2026-02-17  575  	if (apple_smc_read_u16(power->smc, SMC_KEY(BITV), &bitv) >= 0 &&
+0ebf821cf6c75d Hector Martin     2026-02-17  576  	    apple_smc_read_u16(power->smc, SMC_KEY(B0AV), &b0av) >= 0 &&
+0ebf821cf6c75d Hector Martin     2026-02-17  577  	    b0av < bitv) {
+0ebf821cf6c75d Hector Martin     2026-02-17  578  		power->emergency_shutdown_triggered = true;
+0ebf821cf6c75d Hector Martin     2026-02-17  579  		dev_emerg(power->dev,
+0ebf821cf6c75d Hector Martin     2026-02-17  580  			  "Battery voltage (%d mV) below design minimum (%d mV)! Emergency shutdown.\n",
+0ebf821cf6c75d Hector Martin     2026-02-17  581  			  b0av, bitv);
+0ebf821cf6c75d Hector Martin     2026-02-17  582  
+0ebf821cf6c75d Hector Martin     2026-02-17  583  		/*
+0ebf821cf6c75d Hector Martin     2026-02-17  584  		 * Shutdown is now imminent. Kick userspace again and give it some
+0ebf821cf6c75d Hector Martin     2026-02-17  585  		 * brief time to (hopefully) flush what's needed, before forcing.
+0ebf821cf6c75d Hector Martin     2026-02-17  586  		 */
+0ebf821cf6c75d Hector Martin     2026-02-17 @587  		hw_protection_trigger("Battery voltage below design minimum", 1500);
+0ebf821cf6c75d Hector Martin     2026-02-17  588  	}
+0ebf821cf6c75d Hector Martin     2026-02-17  589  
+0ebf821cf6c75d Hector Martin     2026-02-17  590  	/*
+0ebf821cf6c75d Hector Martin     2026-02-17  591  	 * Avoid duplicate attempts at orderly shutdown.
+0ebf821cf6c75d Hector Martin     2026-02-17  592  	 * Voltage check is above this as we may want to
+0ebf821cf6c75d Hector Martin     2026-02-17  593  	 * "upgrade" an orderly shutdown to a critical power
+0ebf821cf6c75d Hector Martin     2026-02-17  594  	 * off if voltage drops.
+0ebf821cf6c75d Hector Martin     2026-02-17  595  	 */
+0ebf821cf6c75d Hector Martin     2026-02-17  596  	if (power->orderly_shutdown_triggered || system_state > SYSTEM_RUNNING)
+0ebf821cf6c75d Hector Martin     2026-02-17  597  		return;
+0ebf821cf6c75d Hector Martin     2026-02-17  598  
+0ebf821cf6c75d Hector Martin     2026-02-17  599  	/*
+0ebf821cf6c75d Hector Martin     2026-02-17  600  	 * Check if SMC flagged the battery as empty.
+0ebf821cf6c75d Hector Martin     2026-02-17  601  	 * We trigger a graceful shutdown to let the OS save data.
+0ebf821cf6c75d Hector Martin     2026-02-17  602  	 */
+f7b253a6e217f7 Sasha Finkelstein 2026-07-12  603  	if (macsmc_battery_read_bcf0(power, &bcf0) == 0 && bcf0 != 0) {
+0ebf821cf6c75d Hector Martin     2026-02-17  604  		power->orderly_shutdown_triggered = true;
+0ebf821cf6c75d Hector Martin     2026-02-17  605  		dev_crit(power->dev, "Battery critical (empty flag set). Triggering orderly shutdown.\n");
+0ebf821cf6c75d Hector Martin     2026-02-17  606  		orderly_poweroff(true);
+0ebf821cf6c75d Hector Martin     2026-02-17  607  	}
+0ebf821cf6c75d Hector Martin     2026-02-17  608  }
+0ebf821cf6c75d Hector Martin     2026-02-17  609  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
