@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973A33C07A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 04:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD5E33DEC8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 06:11:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791867176; cv=none; b=Sv1Z0qpdn5fpcn4FfnHqkkOfYQ2rH36RW6yblykEGsj8CyYZDD4xLrZ8z13BccvkgXoChatXY/qG+t+bNDWHFWDhEF9Zkk9VuHUXJExd+c58H2LI0JxkWDpQ0qa6kcolgGB6/uBIi/O9FfYTdWv4COcAttp+oSXnL4MUCZh7BcM=
+	t=1791871919; cv=none; b=mhcVNBfE0u/iOj59UxWuyJHUeWadtjLWho2JfrDLx2/JBtjntBhkA4nPvFxdK6knWFjys1+QfSpy0WXf1mLcyzUpVj5rI0O2kzvYYb/bV/PliFGJ4bWqGZOVpY4f8F7heYmyA7gSn6OsQA6j9X7aemOJfhViniUYlHWZDE489Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791867176; c=relaxed/simple;
-	bh=7nJXonqH+rTItmlVnwPmw97jci53LyFWF9nUOD8veiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mPGoZLZdjhoMCWEBgY3ZBRBQEWx3Tv/5kjFBPCvN4sgYYGWrUcFJv4oumYNHpTmgoDJosmQTPGG2VgdG6/QZfpL0YlBfJF6DzVBMfg4Dx2FfmBOKdWe5squK+Fb+5zzA32Br9VFQdG9R4gpGd4Iijg3uCPs/DT8s1hF4Q7BghjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7z003vv; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1791871919; c=relaxed/simple;
+	bh=caDWAt8VmpZoZR0FNeUlO9g8x8i6EQz/qNrHqYkMoA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jW2fFNs+MGWCD1GPZUSgcaalCMWNssil+rr/r1ocVT8ilS/Dp9dx9c8hGBUMQJ+38YOyQezscIoRli5RkW7sEMxYhdBFD8KFQig0waR6jvxaMcaNRd5ZRk8AFZEPg63k8IAXRa68iOWnhCUHsrRkrPfP7/4FPakfDmImee5Pg/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXvV4KON; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7z003vv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXvV4KON"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791867175; x=1823403175;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7nJXonqH+rTItmlVnwPmw97jci53LyFWF9nUOD8veiU=;
-  b=N7z003vvlL1eTibe/Q+GnPScWPB/kWXmaocGF7vmfMLpsV0tTFPYNLGo
-   HOD4XrrOEbhCjfbdCsxcuNy+SLd9TYyhhcDMhjiBj3wmN2kXccP7cfvTw
-   RdYqQkhNDtNywGr9Ns/Vm8SOa2ZWoSE00HuU8q6H7aUQPrZ+sIwNmU7Zy
-   kDPEbrAYTAcpyF/Pxs9+oioQLn1+BF9/H8puZ+u/6poQTLBmpDOoEl8Gj
-   HW7CkIyTFvCbBnTtpgPtwR0SwGXybcZyeZ7SS6V9bceHxbebpqcMqXCy6
-   ZoTOnotiY88rnqaP548Ob0cFiTaH4BcOcnnuXKB7+46G4Bm+dPe2tY4LZ
-   w==;
-X-CSE-ConnectionGUID: E+ww/UocRLGmUc/q9MYeCQ==
-X-CSE-MsgGUID: rUucUbdoQeqlFmzBKgHfqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="587912"
+  t=1791871916; x=1823407916;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=caDWAt8VmpZoZR0FNeUlO9g8x8i6EQz/qNrHqYkMoA4=;
+  b=SXvV4KONCa3ybWJt7QVsAmhkgyPGXrIJfcO0qhFzAiGTy01urc+ZwHUn
+   RfmjMtbMYMpwQcDE4sPIxmzMJe/EtdF9/vWg03ggS9qKMBBsLy3aKmKGI
+   y7LcxUOUH6wJoWuw+ShXy1QNtO/gB6GNhlfg3uFQNECNiv6riEg+6JLou
+   5AI2qFjIyfSivimtkg48JVDlACXmDZegWeAL6KAg2SsOXjAtb0E1TodWb
+   GqqK+0XvH/Tp8cLzkWUmxN6SzNVmVpTnNLzHAliZs1UIc9VrSxDxAZEsI
+   m0Y2APy6320uKE8QUTnLErbXmOTa1imyG3cMLabHgAcKPnJ3iqMQ5oy+F
+   g==;
+X-CSE-ConnectionGUID: uwbzvf23QeaUjIcEi+efaw==
+X-CSE-MsgGUID: fGF6goqFTFyCvr88lg57vQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="487789"
 X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
-   d="scan'208";a="587912"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 21:52:54 -0700
-X-CSE-ConnectionGUID: xR7btsJ1QyWEWFokvgGAPg==
-X-CSE-MsgGUID: cyp7orBbSmuCSvNAWurFcA==
+   d="scan'208";a="487789"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 23:11:55 -0700
+X-CSE-ConnectionGUID: pnjMV5ARTM2I/+qjSjSSUQ==
+X-CSE-MsgGUID: nNiSgCoNQTyOED40llIkYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
-   d="scan'208";a="966189"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Oct 2026 21:52:50 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="1397973"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 12 Oct 2026 23:11:53 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGUVL-00000000CXQ-2yVE;
-	Tue, 13 Oct 2026 04:52:47 +0000
-Date: Tue, 13 Oct 2026 12:52:40 +0800
+	id 1xGVjr-00000000APL-26a9;
+	Tue, 13 Oct 2026 06:11:51 +0000
+Date: Tue, 13 Oct 2026 08:11:39 +0200
 From: kernel test robot <lkp@intel.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, nd@arm.com,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
-	Lukas Zapolskas <lukas.zapolskas@arm.com>
-Subject: Re: [PATCH v7 6/8] drm/panthor: Implement sample handling
-Message-ID: <202610131207.5wGThJW9-lkp@intel.com>
-References: <20261011-panthor-performance-counters-v7-6-12c32495062f@arm.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/kbuild-vmlinux-h 3/6]
+ /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this
+ target
+Message-ID: <202610130814.nGh85q5e-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,93 +61,186 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261011-panthor-performance-counters-v7-6-12c32495062f@arm.com>
 
-Hi Lukas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4b7a49d66c8398a7984dff4ac54d1acc6b3a58df]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Add-performance-counter-uAPI/20261011-183648
-base:   4b7a49d66c8398a7984dff4ac54d1acc6b3a58df
-patch link:    https://lore.kernel.org/r/20261011-panthor-performance-counters-v7-6-12c32495062f%40arm.com
-patch subject: [PATCH v7 6/8] drm/panthor: Implement sample handling
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20261013/202610131207.5wGThJW9-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131207.5wGThJW9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kbuild-vmlinux-h
+head:   6d13a8ed32e98298dc6df34e02935bca4e3422bb
+commit: 08c5d549fb5c02a74a4893bfa9af23d29df857a2 [3/6] vmlinux.h
+config: powerpc-randconfig-r2100-20261013 (https://download.01.org/0day-ci/archive/20261013/202610130814.nGh85q5e-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ce2a4984a3f43327a2b7c40baa74907bc10eb899)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610130814.nGh85q5e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610131207.5wGThJW9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610130814.nGh85q5e-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_perf.c: In function 'session_accumulate_sample':
->> drivers/gpu/drm/panthor/panthor_perf.c:902:57: error: passing argument 2 of 'bitmap_from_arr64' from incompatible pointer type [-Wincompatible-pointer-types]
-     902 |                 bitmap_from_arr64(enabled_ctrs, em->mask[dst_blk->header.block_type],
-         |                                                 ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                         |
-         |                                                         long unsigned int *
-   In file included from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/interrupt_rc.h:17,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/drm/drm_file.h:34,
-                    from drivers/gpu/drm/panthor/panthor_perf.c:5:
-   include/linux/bitmap.h:322:58: note: expected 'const u64 *' {aka 'const long long unsigned int *'} but argument is of type 'long unsigned int *'
-     322 | void bitmap_from_arr64(unsigned long *bitmap, const u64 *buf, unsigned int nbits);
-         |                                               ~~~~~~~~~~~^~~
-
-
-vim +/bitmap_from_arr64 +902 drivers/gpu/drm/panthor/panthor_perf.c
-
-   875	
-   876	/**
-   877	 * session_accumulate_sample - Accumulate requested counters into an existing sample.
-   878	 * @ptdev: Panthor device.
-   879	 * @session: Perf session.
-   880	 * @session_sample: Start of the destination sample, including its header.
-   881	 * @perf_sample: Start of the intermediate sample, including its header.
-   882	 *
-   883	 * Firmware enable masks select groups of counters. Copy timestamps and accumulate
-   884	 * only the counters requested by this session.
-   885	 */
-   886	static void session_accumulate_sample(struct panthor_device *ptdev,
-   887					      struct panthor_perf_session *session,
-   888					      u8 *session_sample, u8 *perf_sample)
-   889	{
-   890		const struct drm_panthor_perf_info *const perf_info = &ptdev->perf_info;
-   891		struct panthor_perf_enable_masks *em = session->enabled_counters;
-   892		struct panthor_perf_sample_block_iter iter;
-   893		const u32 counters = perf_info->counters_per_block;
-   894	
-   895		sample_block_iter_init(perf_info, perf_sample, session_sample, &iter);
-   896	
-   897		while (sample_block_iter_next(&iter)) {
-   898			DECLARE_BITMAP(enabled_ctrs, PANTHOR_PERF_EM_BITS);
-   899			const struct panthor_perf_counter_block *src_blk = iter.src_blk;
-   900			struct panthor_perf_counter_block *dst_blk = iter.dst_blk;
-   901	
- > 902			bitmap_from_arr64(enabled_ctrs, em->mask[dst_blk->header.block_type],
-   903					  PANTHOR_PERF_EM_BITS);
-   904			bitmap_clear(enabled_ctrs, 0, PANTHOR_HEADER_COUNTERS);
-   905	
-   906			dst_blk->counters[PANTHOR_CTR_TIMESTAMP_HI] =
-   907				src_blk->counters[PANTHOR_CTR_TIMESTAMP_HI];
-   908			dst_blk->counters[PANTHOR_CTR_TIMESTAMP_LO] =
-   909				src_blk->counters[PANTHOR_CTR_TIMESTAMP_LO];
-   910	
-   911			for (size_t ctr_idx = PANTHOR_HEADER_COUNTERS; ctr_idx < counters; ctr_idx++)
-   912				if (test_bit(ctr_idx, enabled_ctrs))
-   913					dst_blk->counters[ctr_idx] += src_blk->counters[ctr_idx];
-   914		}
-   915	}
-   916	
+   In file included from hashmap.c:9:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from netlink.c:4:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from libbpf.c:16:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from zip.c:11:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from btf.c:6:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from usdt.c:4:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from linker.c:13:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from nlattr.c:11:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from elf.c:9:
+   In file included from tools/include/linux/kernel.h:11:
+   In file included from tools/include/linux/panic.h:6:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from bpf.c:24:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from gen_loader.c:3:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from ringbuf.c:10:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from btf_dump.c:11:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from bpf_prog_linfo.c:5:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from libbpf_probes.c:7:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from libbpf_utils.c:11:
+   In file included from /usr/include/stdio.h:437:
+   /usr/include/bits/floatn.h:97:9: In file included from error: relo_core.c__float128 is not supported on this target:
+   58:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef _   _97f | ltoyapte12d8e f_ F__lfolaota1t2182;
+   8       | _        ^F
+   loat128;
+         |         ^
+   In file included from strset.c:4:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from btf_iter.c:13:
+   In file included from ./libbpf_internal.h:12:
+   In file included from /usr/include/stdlib.h:56:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from features.c:3:
+   In file included from tools/include/linux/kernel.h:11:
+   In file included from tools/include/linux/panic.h:6:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   In file included from btf_relocate.c:31:
+   In file included from ./libbpf.h:14:
+   In file included from /usr/include/stdio.h:437:
+>> /usr/include/bits/floatn.h:97:9: error: __float128 is not supported on this target
+      97 | typedef __float128 _Float128;
+         |         ^
+   1 error generated.
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/hashmap.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/zip.o] Error 1 shuffle=1409175667
+   1 error generated.
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/usdt.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/elf.o] Error 1 shuffle=1409175667
+   1 error generated.
+   1 error generated.
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/nlattr.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/netlink.o] Error 1 shuffle=1409175667
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/btf.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/linker.o] Error 1 shuffle=1409175667
+   1 error generated.
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/btf_relocate.o] Error 1 shuffle=1409175667
+   1 error1 error generated.
+    generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/btf_iter.o] Error 1 shuffle=1409175667
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/libbpf_utils.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/strset.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/libbpf_probes.o] Error 1 shuffle=1409175667
+   1 error generated.
+   1 error generated.
+   1 error generated.
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/bpf_prog_linfo.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/features.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/relo_core.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/bpf.o] Error 1 shuffle=1409175667
+   11 error generated.
+    error generated.
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/libbpf.o] Error 1 shuffle=1409175667
+   1 error generated.
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/btf_dump.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/ringbuf.o] Error 1 shuffle=1409175667
+   make[6]: *** [tools/build/Makefile.build:96: tools/bpf/bpftool/libbpf/staticobjs/gen_loader.o] Error 1 shuffle=1409175667
+   make[6]: Target '__build' not remade because of errors.
+   make[5]: *** [Makefile:153: tools/bpf/bpftool/libbpf/staticobjs/libbpf-in.o] Error 2 shuffle=1409175667
+   make[5]: Target 'tools/bpf/bpftool/libbpf/libbpf.a' not remade because of errors.
+   make[4]: *** [Makefile:40: tools/bpf/bpftool/libbpf/libbpf.a] Error 2 shuffle=1409175667
+   make[4]: Target 'all' not remade because of errors.
+   make[3]: *** [Makefile:77: bpf/bpftool] Error 2 shuffle=1409175667
+   make[2]: *** [Makefile:1648: tools/bpf/bpftool] Error 2 shuffle=1409175667
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1409175667
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1409175667
+   make: Target 'prepare' not remade because of errors.
 
 --
 0-DAY CI Kernel Test Service
