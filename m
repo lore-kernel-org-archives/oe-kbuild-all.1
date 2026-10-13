@@ -1,175 +1,246 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C2D3DAAAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 01:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F733A1690;
+	Tue, 13 Oct 2026 01:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791854736; cv=none; b=Fb/djOvQCDG1Q3rRpGVrw/mqQ5gLiGDUSCkvsOeWHhaVhPDjRc1jD2tbYnGH8AdzJEnH8GitpsNYoNxkgPBiYelL7JEPlnVmX0YtOKG8pG6F9SLcyR+DF0N8jAZd/92Grb373XtBB/s2R/OmM2L72EskQS7pVK+Zv6/Rf5Rcm3I=
+	t=1791855260; cv=none; b=TQtA5betR+kc3zlQGdxKgiqDu3GrTvTE5U6/LBdHXhSfppsF0H4AUylRQP13cpUoCtGZG0spOhQ2ta6MroGhsu511brruN/6XoECAw66LnNspxKq0lxviAwpOWtx2HxHKBhtVOYUUuU8ZpfCUR1/t3IRtA2oBR2ca82cfhjeO7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791854736; c=relaxed/simple;
-	bh=ut3wIHXT85/zGjEz0te09l4xkcMlBrOIMTlKjRQAPGI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BBrZM1VuAx1wPbR/KvRI0TKeLqLZzsm/A1/vwakelrgk5URmZwaNv7YqSJrtveHzdL8JmjdgLmye3GA8q+/Eqd63SFD0rVTmiJ7cKyuRqjRpLL9cdD4SUst7W70UzYpncSYRI0rHe7M1FshVplrhz1ADjBAhfIeJpsPfnsUYDvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjfmRD0H; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1791855260; c=relaxed/simple;
+	bh=9Sn4J2Qi5biZEbub9Fr0LR+1NfCb8ePeAvdfpspcvZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hGmYdAT/vJp6+jjNWUcjdr9jtM44hAvnsFzvvWIbLhwdcH1jTBDV/5SpOmHMjpQcanXRFuRLd6DbdeepYfVD3ysAGh9qMpbMozd0oRQ9gkdJZjiy2dhRbnxTCnJ8tfR8uDocS3Idw4JWx87uij+Y6wMo8ydeQN5wV1aNMram6QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQSg7NXC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjfmRD0H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQSg7NXC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791854729; x=1823390729;
-  h=date:from:to:cc:subject:message-id;
-  bh=ut3wIHXT85/zGjEz0te09l4xkcMlBrOIMTlKjRQAPGI=;
-  b=PjfmRD0Hxxr+R4ZuiweE2sHE8TTJafhHz67nmmnWd4tupGi25258X5UF
-   PQ8shXtdK1zCzaFMKyiw8YZ8MLc+1SwGCI++X+6/AxenzCHQ2t21HPP3B
-   Jb9Kiwv75aThCOXyTOjWEo2PdjKVYUAQH4F54rbbDmA2rWKBc+0o+DHV9
-   v5TysCJ5RxRUXP1LbZdzedboM0vTrfIuv13EAczPc58cMJj1gHW9aUqlx
-   IpoNzrYU5xdrGovGZnPHB33oWbALjoXC/JeajORzQ3/ns38j7LbOI2YTx
-   f9NB9ietD1Rq97IK36AgaEHUEg1eySDeF0nT16pEBonelc+lNPtHJDw4p
-   Q==;
-X-CSE-ConnectionGUID: CTJaRdQQQS+/u/A3YvxBbw==
-X-CSE-MsgGUID: HysM7pNtQsWepxR/72jelg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="470474"
+  t=1791855258; x=1823391258;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9Sn4J2Qi5biZEbub9Fr0LR+1NfCb8ePeAvdfpspcvZU=;
+  b=BQSg7NXC3fks41J4Te50CVuhYhX+8nmAcgthiNU331q5Eydtr939EGh0
+   u6MvyLo/swUBw57DKRuWJHjo1tIH2IHy9BVOq0y5TLk5QO0OxuFJk9itA
+   7UXCKyTMmElcXP2gLL9+bs1pk5FtI9eNs+5Ed/zSTWSVWqIld4oKTLyPu
+   Lltpq93+shiALRc0gATQaYZ7lxPfD9QoyJmfW3rozCJJh3adW33oUPY3c
+   r1J5vsm8RLQjDU6WBa9fndnxjwEZhsZz8WCqXJA0aOJwQzC2+5TGKP3Er
+   kWo5YNpRn+m2/BzF6bASr/CrYSe+iltrDfSJ1YMx3qhFk33W4pCa+BZCB
+   A==;
+X-CSE-ConnectionGUID: 5hv+vxMTQXisp+UYDN3aQQ==
+X-CSE-MsgGUID: 1sk626/jRm6dAZtsztzCVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="456834"
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="470474"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 18:25:28 -0700
-X-CSE-ConnectionGUID: S36eDHgyRqaruZ5TzdcrLw==
-X-CSE-MsgGUID: OBQTMHsFQuqsBrx1YkYneQ==
+   d="scan'208";a="456834"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 18:34:17 -0700
+X-CSE-ConnectionGUID: MAU8hMn+SBSWdnXSXHprDw==
+X-CSE-MsgGUID: 82aQGqlzRZK7cgkETbLpow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1000220"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 12 Oct 2026 18:25:27 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="2875601"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa011.fm.intel.com with ESMTP; 12 Oct 2026 18:34:16 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGRGe-00000000AKh-2ulL;
-	Tue, 13 Oct 2026 01:25:24 +0000
-Date: Tue, 13 Oct 2026 03:25:20 +0200
+	id 1xGRPB-00000000CMA-24a5;
+	Tue, 13 Oct 2026 01:34:13 +0000
+Date: Tue, 13 Oct 2026 09:34:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 1/1]
- block/blk-mq-sched.h:47:12: error: dereferencing pointer to incomplete type
- 'struct elevator_queue'
-Message-ID: <202610130316.ILN1UxG3-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/rust-dyndbg 14/16] error[E0425]:
+ cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+Message-ID: <202610130904.gpqVPnQD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-Hi Todd,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   f2fb9e95a9ba544d173eeef98c5afc5a1a78812a
-commit: 3dc6e416a159a0bf3336e4c3469531fbbd128146 [1/1] ANDROID: force struct blk_mq_alloc_data to be defined in KMI
-config: arm64-randconfig-2000-20261013 (https://download.01.org/0day-ci/archive/20261013/202610130316.ILN1UxG3-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610130316.ILN1UxG3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/rust-dyndbg
+head:   20c3aae54d617189168dfe8539a9086baeab6d39
+commit: ba27e0dd2dfd3ac15e54eb9d375fc34d5de33004 [14/16] x
+config: arm64-randconfig-1003-20261013 (https://download.01.org/0day-ci/archive/20261013/202610130904.gpqVPnQD-lkp@intel.com/config)
+compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610130904.gpqVPnQD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610130316.ILN1UxG3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610130904.gpqVPnQD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from block/blk-mq.h:6,
-                    from block/blk.h:11,
-                    from block/vendor_hooks.c:6:
-   block/blk-mq-tag.h:42:43: warning: 'struct blk_mq_alloc_data' declared inside parameter list will not be visible outside of this definition or declaration
-    extern unsigned int blk_mq_get_tag(struct blk_mq_alloc_data *data);
-                                              ^~~~~~~~~~~~~~~~~
-   In file included from block/blk.h:11,
-                    from block/vendor_hooks.c:6:
-   block/blk-mq.h: In function 'blk_mq_plug':
-   block/blk-mq.h:281:17: error: 'struct task_struct' has no member named 'plug'
-      return current->plug;
-                    ^~
-   In file included from block/blk.h:12,
-                    from block/vendor_hooks.c:6:
-   block/blk-mq-sched.h: At top level:
-   block/blk-mq-sched.h:27:55: warning: 'struct elevator_type' declared inside parameter list will not be visible outside of this definition or declaration
-    int blk_mq_init_sched(struct request_queue *q, struct elevator_type *e);
-                                                          ^~~~~~~~~~~~~
-   block/blk-mq-sched.h: In function 'blk_mq_sched_allow_merge':
->> block/blk-mq-sched.h:47:12: error: dereferencing pointer to incomplete type 'struct elevator_queue'
-     if (e && e->type->ops.allow_merge)
-               ^~
-   In file included from block/vendor_hooks.c:6:
-   block/blk.h: At top level:
-   block/blk.h:206:17: warning: 'struct elevator_type' declared inside parameter list will not be visible outside of this definition or declaration
-             struct elevator_type *new_e);
-                    ^~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/block.h:29,
-                    from block/vendor_hooks.c:14:
-   include/trace/trace_events.h:27:23: warning: 'str__block__trace_system_name' defined but not used [-Wunused-const-variable=]
-    #define __app__(x, y) str__##x##y
-                          ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-    #define __app(x, y) __app__(x, y)
-                        ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-    #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-                                ^~~~~
-   include/trace/trace_events.h:33:20: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-     static const char TRACE_SYSTEM_STRING[] = \
-                       ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-    TRACE_MAKE_SYSTEM_STR();
-    ^~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-
-
-vim +47 block/blk-mq-sched.h
-
-bd166ef183c263 Jens Axboe        2017-01-17  26  
-6917ff0b5bd413 Omar Sandoval     2017-04-05 @27  int blk_mq_init_sched(struct request_queue *q, struct elevator_type *e);
-54d5329d425650 Omar Sandoval     2017-04-07  28  void blk_mq_exit_sched(struct request_queue *q, struct elevator_queue *e);
-c3e2219216c929 Ming Lei          2019-06-04  29  void blk_mq_sched_free_requests(struct request_queue *q);
-bd166ef183c263 Jens Axboe        2017-01-17  30  
-bd166ef183c263 Jens Axboe        2017-01-17  31  static inline bool
-14ccb66b3f585b Christoph Hellwig 2019-06-06  32  blk_mq_sched_bio_merge(struct request_queue *q, struct bio *bio,
-14ccb66b3f585b Christoph Hellwig 2019-06-06  33  		unsigned int nr_segs)
-bd166ef183c263 Jens Axboe        2017-01-17  34  {
-9bddeb2a5b9815 Ming Lei          2017-05-26  35  	if (blk_queue_nomerges(q) || !bio_mergeable(bio))
-bd166ef183c263 Jens Axboe        2017-01-17  36  		return false;
-bd166ef183c263 Jens Axboe        2017-01-17  37  
-14ccb66b3f585b Christoph Hellwig 2019-06-06  38  	return __blk_mq_sched_bio_merge(q, bio, nr_segs);
-bd166ef183c263 Jens Axboe        2017-01-17  39  }
-bd166ef183c263 Jens Axboe        2017-01-17  40  
-bd166ef183c263 Jens Axboe        2017-01-17  41  static inline bool
-bd166ef183c263 Jens Axboe        2017-01-17  42  blk_mq_sched_allow_merge(struct request_queue *q, struct request *rq,
-bd166ef183c263 Jens Axboe        2017-01-17  43  			 struct bio *bio)
-bd166ef183c263 Jens Axboe        2017-01-17  44  {
-bd166ef183c263 Jens Axboe        2017-01-17  45  	struct elevator_queue *e = q->elevator;
-bd166ef183c263 Jens Axboe        2017-01-17  46  
-f9cd4bfe96955e Jens Axboe        2018-11-01 @47  	if (e && e->type->ops.allow_merge)
-f9cd4bfe96955e Jens Axboe        2018-11-01  48  		return e->type->ops.allow_merge(q, rq, bio);
-bd166ef183c263 Jens Axboe        2017-01-17  49  
-bd166ef183c263 Jens Axboe        2017-01-17  50  	return true;
-bd166ef183c263 Jens Axboe        2017-01-17  51  }
-bd166ef183c263 Jens Axboe        2017-01-17  52  
-
-:::::: The code at line 47 was first introduced by commit
-:::::: f9cd4bfe96955e7a1d3ec54b393dee87b815ba3b block: get rid of MQ scheduler ops union
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/driver.rs:75:13
+   |
+   75 |             dev_dbg!(pdev, "Probe Nova Core GPU driver.\n");
+   |             ----------------------------------------------- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 |   macro_rules! dev_dbg {
+   |   -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                           $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                             ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/firmware/booter.rs:96:9
+   |
+   96 | /         dev_dbg!(
+   97 | |             dev,
+   98 | |             "loaded {} firmware v{}\n",
+   99 | |             fw_name,
+   100 | |             tlv.get_string(b"VERS")?
+   101 | |         );
+   | |_________- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/fsp.rs:541:9
+   |
+   541 |         dev_dbg!(dev, "Starting FSP boot sequence for {}\n", args.chipset);
+   |         ------------------------------------------------------------------ in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/fsp.rs:547:9
+   |
+   547 |         dev_dbg!(dev, "FSP Chain of Trust completed successfully\n");
+   |         ------------------------------------------------------------ in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/gpu.rs:398:21
+   |
+   398 |                     dev_dbg!(dev, "Usable FB regions:\n");
+   |                     ------------------------------------- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/gpu.rs:400:25
+   |
+   400 |                         dev_dbg!(dev, "  - {:#x?}\n", region);
+   |                         ------------------------------------- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 |   macro_rules! dev_dbg {
+   |   -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                           $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                             ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/gpu.rs:403:21
+   |
+   403 | /                     dev_dbg!(
+   404 | |                         dev,
+   405 | |                         "Total usable VRAM: {} MiB\n",
+   406 | |                         info.usable_fb_regions.iter().fold(0u64, |res, region| res
+   407 | |                             .saturating_add(region.end - region.start))
+   408 | |                             / u64::SZ_1M
+   409 | |                     );
+   | |_____________________- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/gsp/boot.rs:74:9
+   |
+   74 |         dev_dbg!(pdev, "RISC-V active? {}\n", gsp_falcon.is_riscv_active(),);
+   |         -------------------------------------------------------------------- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/gsp/hal/gh100.rs:80:5
+   |
+   80 |     dev_dbg!(dev, "Waiting for GSP lockdown release\n");
+   |     --------------------------------------------------- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/gsp/hal/gh100.rs:110:5
+   |
+   110 |     dev_dbg!(dev, "GSP lockdown released\n");
+   |     ---------------------------------------- in this macro invocation
+--
+>> error[E0425]: cannot find function `__dynamic_dev_dbg` in crate `$crate::bindings`
+   --> rust/kernel/device.rs:926:43
+   |
+   917 | macro_rules! dev_dbg {
+   | -------------------- in this expansion of `dev_dbg!`
+   ...
+   926 |                         $crate::bindings::__dynamic_dev_dbg(desc, dev.as_ref().as_raw(), c"%pA".as_char_ptr(), &raw const args)
+   |                                           ^^^^^^^^^^^^^^^^^ not found in `$crate::bindings`
+   |
+   ::: drivers/gpu/nova-core/gsp/hal/gh100.rs:155:9
+   |
+   155 |         dev_dbg!(dev, "{:#x?}\n", fb_sizes);
+   |         ----------------------------------- in this macro invocation
+..
 
 --
 0-DAY CI Kernel Test Service
