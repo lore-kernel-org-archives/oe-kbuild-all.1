@@ -1,278 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7732A36B937;
-	Tue, 13 Oct 2026 04:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7708E306D2A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 04:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791865015; cv=none; b=WHYsUwJUrjH/mtUal2iiQv5FAVmTemwxl3Sq81oEcRLLR8hJe0dduWXtWwCp8GXUhkEcbLRP/DiQrOBOYBlyq2SEDe61SrRjb7Mjan5s0D5RE1aQQ7yVHg88kehZ7udm3YrZYKtuVIew727lK1/3cajwgVzDy8i6dqSD4xlAh4s=
+	t=1791865792; cv=none; b=P1n6NPORHGx5tPVBcG70M9SSZmF5zHZPhHVnPI12aL1e6tqbSNlwqX9MUGMSISA0CmsA/yfOXmh15K7VAl+K0AlzIPy4pOWSyUKyarvtfAP4jO5UWS+yLKrsdIAt3DLJUJqdu+JoHBZngzqFLPehfxc27icyc5E077M4NrCDG0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791865015; c=relaxed/simple;
-	bh=UNuQ1wXXaCTD5Rsn3HvAQr3+kIfCr35r/HmqEF0zOfc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ljdjTxAkljDCCWmEdAqkAcztu9PuTWiYpZnRIkt+Vrxk6uuxumunTmG6ygEqddlitmKLNwYT06pfFGRzg3Cb1qPdqggE+U67zmlZGmz17nG0uPw9dCjikwHQKKypGFISGbPQ1BpS9KneK+oUMCF7bf9vzGQzPId9HDqJw2hhHxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GcSDIKUI; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1791865792; c=relaxed/simple;
+	bh=r2VvdiVqdKv9nmvYDujhlbTFxC3GBuTulrLElcsVUw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MMdkLMvZDYdqmsEmUj2QnRD6LbqxSkyj+TIDuG1HmCHd+cdVjEO/xq4O3kA7/hQWm1aXLPhk8KJSVKqBfnHVY8ewU2Lq0RvT/C4b79lJbo4hQATh7no6KT0LdU3gUmuivT8cEm/OgP/gVrkTqW/GPDYknq2pdSXYF36twkftNlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGo5hnhF; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GcSDIKUI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGo5hnhF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791865012; x=1823401012;
-  h=date:from:to:cc:subject:message-id;
-  bh=UNuQ1wXXaCTD5Rsn3HvAQr3+kIfCr35r/HmqEF0zOfc=;
-  b=GcSDIKUInFjegRJJbY4Tocj9FbtdylZ4v0ODZLP4F0Js5627Opp/14gb
-   5gZ1w9LTiiMe6OuB4i3ygT5tpR9qIIxQhujk+0Y00vjrKCAOWbfJPhMrl
-   dvsPCuNGQ1FMjHSbwLtvIH3qKReqctpFplHVHgW5w1j4sXDgYn5Uo4nBA
-   NhMzU7EcZqmZe6il3tIi2brETMSP896bySYdkrATnnw69vogsY87tdML1
-   e4m84yB04TqIoM9yRf/Q7OoLpYe7lh2u6X3+GsKzAkZ8Eu/S+7fMPC30a
-   OQ3nPoH6AJf20gOXCirDZwZbc+aaJFWZ4K/L3AIU4WeJEmXFVgunk3kiP
-   Q==;
-X-CSE-ConnectionGUID: epmgLjTlRpyHTGkDK+IPJQ==
-X-CSE-MsgGUID: l2YBvQKFQyu2V4YEZCHkXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="481248"
+  t=1791865791; x=1823401791;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r2VvdiVqdKv9nmvYDujhlbTFxC3GBuTulrLElcsVUw0=;
+  b=ZGo5hnhFKheWYqJurBxN8um/7Sy9nIt0qIU6ZN8/aP5y32zSwCL9iqXA
+   PT5T5lzLNGu6q/wOBHTXU8e1MDefWvsw5uucvBbVbUelyZPW0nchr6wzf
+   HDSr5Bd/iwR4WIh+p/pJlm54sRg7RT/ZthfjoGXFFofYXVhDb1/RM+h9g
+   Rxjfp+4UzvYx+Icwmwtkv2FhWCf3rdrvqEMtzfH2/uuRlHBQnmSTbiQYe
+   TXlknJV7H9Ytdjr5QJW9503I/rb+4n6fLp7SGoP5pNp6fUpmCjUbIAKi4
+   RS3v0rF8llXswisK0ji/15YI4PJv687zbxGVTAiurDqxi+lNux/dRRqc3
+   A==;
+X-CSE-ConnectionGUID: 1wx8v+0KTMCKlSfoMntr5g==
+X-CSE-MsgGUID: alRJvjqBQmO5N+OgBvw8MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="469153"
 X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
-   d="scan'208";a="481248"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 21:16:50 -0700
-X-CSE-ConnectionGUID: jmfBzqeVShe/HfUlbUqYNw==
-X-CSE-MsgGUID: XO3n+n7HQJaLj3mVmEh2jg==
+   d="scan'208";a="469153"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 21:29:51 -0700
+X-CSE-ConnectionGUID: LLFFodjhR6KSB9AuZxdNDA==
+X-CSE-MsgGUID: 20C8C+a5QLCruzaLX9AhEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
-   d="scan'208";a="989711"
+   d="scan'208";a="1391334"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 12 Oct 2026 21:16:48 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 Oct 2026 21:29:50 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGTwU-00000000CWG-2FGP;
-	Tue, 13 Oct 2026 04:16:46 +0000
-Date: Tue, 13 Oct 2026 12:16:25 +0800
+	id 1xGU94-00000000CWe-44YB;
+	Tue, 13 Oct 2026 04:29:46 +0000
+Date: Tue, 13 Oct 2026 12:28:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 33/68] fs/ceph/inode.c:2493:6:
- warning: variable 'header' is used uninitialized whenever 'if' condition is
- true
-Message-ID: <202610131232.qyd8a6E3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Rosen Penev <rosenp@gmail.com>, linux-mips@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MIPS: lib: prefetch ahead in csum_partial()
+Message-ID: <202610131201.wWk11MLy-lkp@intel.com>
+References: <20261010065442.23780-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261010065442.23780-1-rosenp@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   c67464ec28da31de31fe4358eb13c2771a280cb7
-commit: b30563b69a83b543a31e61c7c1624c9b4f69f088 [33/68] ceph: Convert ceph_mds_request::r_pagelist to a databuf
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261013/202610131232.qyd8a6E3-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131232.qyd8a6E3-lkp@intel.com/reproduce)
+Hi Rosen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.3-rc6 next-20261009]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/MIPS-lib-prefetch-ahead-in-csum_partial/20261009-235442
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20261010065442.23780-1-rosenp%40gmail.com
+patch subject: [PATCH] MIPS: lib: prefetch ahead in csum_partial()
+config: mips-rbtx49xx_defconfig (https://download.01.org/0day-ci/archive/20261013/202610131201.wWk11MLy-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131201.wWk11MLy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610131232.qyd8a6E3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610131201.wWk11MLy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/ceph/inode.c:2493:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2493 |         if (ret < 0)
-         |             ^~~~~~~
-   fs/ceph/inode.c:2553:15: note: uninitialized use occurs here
-    2553 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2493:2: note: remove the 'if' if its condition is always false
-    2493 |         if (ret < 0)
-         |         ^~~~~~~~~~~~
-    2494 |                 goto out;
-         |                 ~~~~~~~~
-   fs/ceph/inode.c:2485:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2485 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2486 |             ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2553:15: note: uninitialized use occurs here
-    2553 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2485:2: note: remove the 'if' if its condition is always false
-    2485 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2486 |             ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2487 |                 goto out;
-         |                 ~~~~~~~~
->> fs/ceph/inode.c:2485:6: warning: variable 'header' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-    2485 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2553:15: note: uninitialized use occurs here
-    2553 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2485:6: note: remove the '||' if its condition is always false
-    2485 |         if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/inode.c:2482:6: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2482 |         if (!dbuf)
-         |             ^~~~~
-   fs/ceph/inode.c:2553:15: note: uninitialized use occurs here
-    2553 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2482:2: note: remove the 'if' if its condition is always false
-    2482 |         if (!dbuf)
-         |         ^~~~~~~~~~
-    2483 |                 goto out;
-         |                 ~~~~~~~~
-   fs/ceph/inode.c:2476:7: warning: variable 'header' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2476 |                 if (ret < 0)
-         |                     ^~~~~~~
-   fs/ceph/inode.c:2553:15: note: uninitialized use occurs here
-    2553 |         kunmap_local(header);
-         |                      ^~~~~~
-   fs/ceph/inode.c:2476:3: note: remove the 'if' if its condition is always false
-    2476 |                 if (ret < 0)
-         |                 ^~~~~~~~~~~~
-    2477 |                         goto out;
-         |                         ~~~~~~~~
-   fs/ceph/inode.c:2452:50: note: initialize the variable 'header' to silence this warning
-    2452 |         struct ceph_fscrypt_truncate_size_header *header;
-         |                                                         ^
-         |                                                          = NULL
-   5 warnings generated.
+   Assembler messages:
+>> arch/mips/lib/csum_partial.S:202: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x100($4)'
+   arch/mips/lib/csum_partial.S:203: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x120($4)'
+   arch/mips/lib/csum_partial.S:204: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x140($4)'
+   arch/mips/lib/csum_partial.S:205: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x160($4)'
 
 
-vim +2493 fs/ceph/inode.c
+vim +202 arch/mips/lib/csum_partial.S
 
-79f2f6ad878c1f2 Jeff Layton   2020-09-03  2432  
-5c64737d253683b Xiubo Li      2022-08-25  2433  /*
-5c64737d253683b Xiubo Li      2022-08-25  2434   * Transfer the encrypted last block to the MDS and the MDS
-5c64737d253683b Xiubo Li      2022-08-25  2435   * will help update it when truncating a smaller size.
-5c64737d253683b Xiubo Li      2022-08-25  2436   *
-5c64737d253683b Xiubo Li      2022-08-25  2437   * We don't support a PAGE_SIZE that is smaller than the
-5c64737d253683b Xiubo Li      2022-08-25  2438   * CEPH_FSCRYPT_BLOCK_SIZE.
-5c64737d253683b Xiubo Li      2022-08-25  2439   */
-5c64737d253683b Xiubo Li      2022-08-25  2440  static int fill_fscrypt_truncate(struct inode *inode,
-5c64737d253683b Xiubo Li      2022-08-25  2441  				 struct ceph_mds_request *req,
-5c64737d253683b Xiubo Li      2022-08-25  2442  				 struct iattr *attr)
-5c64737d253683b Xiubo Li      2022-08-25  2443  {
-38d46409c4639a1 Xiubo Li      2023-06-12  2444  	struct ceph_client *cl = ceph_inode_to_client(inode);
-5c64737d253683b Xiubo Li      2022-08-25  2445  	struct ceph_inode_info *ci = ceph_inode(inode);
-5c64737d253683b Xiubo Li      2022-08-25  2446  	int boff = attr->ia_size % CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683b Xiubo Li      2022-08-25  2447  	loff_t pos, orig_pos = round_down(attr->ia_size,
-5c64737d253683b Xiubo Li      2022-08-25  2448  					  CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683b Xiubo Li      2022-08-25  2449  	u64 block = orig_pos >> CEPH_FSCRYPT_BLOCK_SHIFT;
-b30563b69a83b54 David Howells 2023-08-03  2450  	struct bvecq *dbuf = NULL;
-5c64737d253683b Xiubo Li      2022-08-25  2451  	struct iov_iter iter;
-b30563b69a83b54 David Howells 2023-08-03  2452  	struct ceph_fscrypt_truncate_size_header *header;
-b30563b69a83b54 David Howells 2023-08-03  2453  	void *p;
-5c64737d253683b Xiubo Li      2022-08-25  2454  	int retry_op = 0;
-5c64737d253683b Xiubo Li      2022-08-25  2455  	int len = CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683b Xiubo Li      2022-08-25  2456  	loff_t i_size = i_size_read(inode);
-5c64737d253683b Xiubo Li      2022-08-25  2457  	int got, ret, issued;
-5c64737d253683b Xiubo Li      2022-08-25  2458  	u64 objver;
-5c64737d253683b Xiubo Li      2022-08-25  2459  
-5c64737d253683b Xiubo Li      2022-08-25  2460  	ret = __ceph_get_caps(inode, NULL, CEPH_CAP_FILE_RD, 0, -1, &got);
-5c64737d253683b Xiubo Li      2022-08-25  2461  	if (ret < 0)
-5c64737d253683b Xiubo Li      2022-08-25  2462  		return ret;
-5c64737d253683b Xiubo Li      2022-08-25  2463  
-5c64737d253683b Xiubo Li      2022-08-25  2464  	issued = __ceph_caps_issued(ci, NULL);
-5c64737d253683b Xiubo Li      2022-08-25  2465  
-38d46409c4639a1 Xiubo Li      2023-06-12  2466  	doutc(cl, "size %lld -> %lld got cap refs on %s, issued %s\n",
-5c64737d253683b Xiubo Li      2022-08-25  2467  	      i_size, attr->ia_size, ceph_cap_string(got),
-5c64737d253683b Xiubo Li      2022-08-25  2468  	      ceph_cap_string(issued));
-5c64737d253683b Xiubo Li      2022-08-25  2469  
-5c64737d253683b Xiubo Li      2022-08-25  2470  	/* Try to writeback the dirty pagecaches */
-5c64737d253683b Xiubo Li      2022-08-25  2471  	if (issued & (CEPH_CAP_FILE_BUFFER)) {
-f452a2204614fc1 David Howells 2025-03-12  2472  		loff_t lend = orig_pos + CEPH_FSCRYPT_BLOCK_SIZE - 1;
-5c64737d253683b Xiubo Li      2022-08-25  2473  
-5c64737d253683b Xiubo Li      2022-08-25  2474  		ret = filemap_write_and_wait_range(inode->i_mapping,
-5c64737d253683b Xiubo Li      2022-08-25  2475  						   orig_pos, lend);
-5c64737d253683b Xiubo Li      2022-08-25  2476  		if (ret < 0)
-5c64737d253683b Xiubo Li      2022-08-25  2477  			goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2478  	}
-5c64737d253683b Xiubo Li      2022-08-25  2479  
-5c64737d253683b Xiubo Li      2022-08-25  2480  	ret = -ENOMEM;
-b30563b69a83b54 David Howells 2023-08-03  2481  	dbuf = bvecq_alloc_chain(2, GFP_KERNEL, false);
-b30563b69a83b54 David Howells 2023-08-03  2482  	if (!dbuf)
-5c64737d253683b Xiubo Li      2022-08-25  2483  		goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2484  
-b30563b69a83b54 David Howells 2023-08-03 @2485  	if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-b30563b69a83b54 David Howells 2023-08-03  2486  	    ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-5c64737d253683b Xiubo Li      2022-08-25  2487  		goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2488  
-b30563b69a83b54 David Howells 2023-08-03  2489  	iov_iter_bvec_queue(&iter, ITER_DEST, dbuf, 1, 0, len);
-5c64737d253683b Xiubo Li      2022-08-25  2490  
-5c64737d253683b Xiubo Li      2022-08-25  2491  	pos = orig_pos;
-5c64737d253683b Xiubo Li      2022-08-25  2492  	ret = __ceph_sync_read(inode, &pos, &iter, &retry_op, &objver);
-5c64737d253683b Xiubo Li      2022-08-25 @2493  	if (ret < 0)
-5c64737d253683b Xiubo Li      2022-08-25  2494  		goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2495  
-b30563b69a83b54 David Howells 2023-08-03  2496  	header = kmap_local_bvecq(dbuf, 0);
-b30563b69a83b54 David Howells 2023-08-03  2497  
-5c64737d253683b Xiubo Li      2022-08-25  2498  	/* Insert the header first */
-b30563b69a83b54 David Howells 2023-08-03  2499  	header->ver = 1;
-b30563b69a83b54 David Howells 2023-08-03  2500  	header->compat = 1;
-b30563b69a83b54 David Howells 2023-08-03  2501  	header->change_attr = cpu_to_le64(inode_peek_iversion_raw(inode));
-5c64737d253683b Xiubo Li      2022-08-25  2502  
-5c64737d253683b Xiubo Li      2022-08-25  2503  	/*
-5c64737d253683b Xiubo Li      2022-08-25  2504  	 * Always set the block_size to CEPH_FSCRYPT_BLOCK_SIZE,
-5c64737d253683b Xiubo Li      2022-08-25  2505  	 * because in MDS it may need this to do the truncate.
-5c64737d253683b Xiubo Li      2022-08-25  2506  	 */
-b30563b69a83b54 David Howells 2023-08-03  2507  	header->block_size = cpu_to_le32(CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683b Xiubo Li      2022-08-25  2508  
-5c64737d253683b Xiubo Li      2022-08-25  2509  	/*
-5c64737d253683b Xiubo Li      2022-08-25  2510  	 * If we hit a hole here, we should just skip filling
-5c64737d253683b Xiubo Li      2022-08-25  2511  	 * the fscrypt for the request, because once the fscrypt
-5c64737d253683b Xiubo Li      2022-08-25  2512  	 * is enabled, the file will be split into many blocks
-5c64737d253683b Xiubo Li      2022-08-25  2513  	 * with the size of CEPH_FSCRYPT_BLOCK_SIZE, if there
-5c64737d253683b Xiubo Li      2022-08-25  2514  	 * has a hole, the hole size should be multiple of block
-5c64737d253683b Xiubo Li      2022-08-25  2515  	 * size.
-5c64737d253683b Xiubo Li      2022-08-25  2516  	 *
-5c64737d253683b Xiubo Li      2022-08-25  2517  	 * If the Rados object doesn't exist, it will be set to 0.
-5c64737d253683b Xiubo Li      2022-08-25  2518  	 */
-5c64737d253683b Xiubo Li      2022-08-25  2519  	if (!objver) {
-38d46409c4639a1 Xiubo Li      2023-06-12  2520  		doutc(cl, "hit hole, ppos %lld < size %lld\n", pos, i_size);
-5c64737d253683b Xiubo Li      2022-08-25  2521  
-b30563b69a83b54 David Howells 2023-08-03  2522  		header->data_len = cpu_to_le32(8 + 8 + 4);
-b30563b69a83b54 David Howells 2023-08-03  2523  		header->file_offset = 0;
-5c64737d253683b Xiubo Li      2022-08-25  2524  		ret = 0;
-5c64737d253683b Xiubo Li      2022-08-25  2525  	} else {
-b30563b69a83b54 David Howells 2023-08-03  2526  		header->data_len = cpu_to_le32(8 + 8 + 4 + CEPH_FSCRYPT_BLOCK_SIZE);
-b30563b69a83b54 David Howells 2023-08-03  2527  		header->file_offset = cpu_to_le64(orig_pos);
-5c64737d253683b Xiubo Li      2022-08-25  2528  
-38d46409c4639a1 Xiubo Li      2023-06-12  2529  		doutc(cl, "encrypt block boff/bsize %d/%lu\n", boff,
-38d46409c4639a1 Xiubo Li      2023-06-12  2530  		      CEPH_FSCRYPT_BLOCK_SIZE);
-295fc4aa7de4b72 Xiubo Li      2023-03-06  2531  
-5c64737d253683b Xiubo Li      2022-08-25  2532  		/* truncate and zero out the extra contents for the last block */
-b30563b69a83b54 David Howells 2023-08-03  2533  		p = kmap_local_bvecq(dbuf, 1);
-b30563b69a83b54 David Howells 2023-08-03  2534  		memset(p + boff, 0, PAGE_SIZE - boff);
-b30563b69a83b54 David Howells 2023-08-03  2535  		kunmap_local(p);
-5c64737d253683b Xiubo Li      2022-08-25  2536  
-5c64737d253683b Xiubo Li      2022-08-25  2537  		/* encrypt the last block */
-b30563b69a83b54 David Howells 2023-08-03  2538  		ret = ceph_fscrypt_encrypt_block_inplace(inode, dbuf->bv[0].bv_page,
-5c64737d253683b Xiubo Li      2022-08-25  2539  							 CEPH_FSCRYPT_BLOCK_SIZE,
-fa65058063cbaba Eric Biggers  2025-07-09  2540  							 0, block);
-5c64737d253683b Xiubo Li      2022-08-25  2541  		if (ret)
-5c64737d253683b Xiubo Li      2022-08-25  2542  			goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2543  	}
-5c64737d253683b Xiubo Li      2022-08-25  2544  
-b30563b69a83b54 David Howells 2023-08-03  2545  	req->r_dbuf = dbuf;
-b30563b69a83b54 David Howells 2023-08-03  2546  	req->r_dbuf_len = sizeof(*header);
-b30563b69a83b54 David Howells 2023-08-03  2547  	if (header->block_size)
-b30563b69a83b54 David Howells 2023-08-03  2548  		req->r_dbuf_len += CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683b Xiubo Li      2022-08-25  2549  out:
-38d46409c4639a1 Xiubo Li      2023-06-12  2550  	doutc(cl, "%p %llx.%llx size dropping cap refs on %s\n", inode,
-38d46409c4639a1 Xiubo Li      2023-06-12  2551  	      ceph_vinop(inode), ceph_cap_string(got));
-5c64737d253683b Xiubo Li      2022-08-25  2552  	ceph_put_cap_refs(ci, got);
-b30563b69a83b54 David Howells 2023-08-03  2553  	kunmap_local(header);
-b30563b69a83b54 David Howells 2023-08-03  2554  	if (ret)
-b30563b69a83b54 David Howells 2023-08-03  2555  		bvecq_put(dbuf);
-5c64737d253683b Xiubo Li      2022-08-25  2556  	return ret;
-5c64737d253683b Xiubo Li      2022-08-25  2557  }
-5c64737d253683b Xiubo Li      2022-08-25  2558  
-
-:::::: The code at line 2493 was first introduced by commit
-:::::: 5c64737d253683b7d138dde0da513a9ade16a170 ceph: add truncate size handling support for fscrypt
-
-:::::: TO: Xiubo Li <xiubli@redhat.com>
-:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+   102	
+   103		.text
+   104		.set	noreorder
+   105		.align	5
+   106	LEAF(csum_partial)
+   107	EXPORT_SYMBOL(csum_partial)
+   108		move	sum, zero
+   109		move	t7, zero
+   110	
+   111		sltiu	t8, a1, 0x8
+   112		bnez	t8, .Lsmall_csumcpy		/* < 8 bytes to copy */
+   113		 move	t2, a1
+   114	
+   115		andi	t7, src, 0x1			/* odd buffer? */
+   116	
+   117	.Lhword_align:
+   118		beqz	t7, .Lword_align
+   119		 andi	t8, src, 0x2
+   120	
+   121		lbu	t0, (src)
+   122		LONG_SUBU	a1, a1, 0x1
+   123	#ifdef __MIPSEL__
+   124		sll	t0, t0, 8
+   125	#endif
+   126		ADDC(sum, t0)
+   127		PTR_ADDU	src, src, 0x1
+   128		andi	t8, src, 0x2
+   129	
+   130	.Lword_align:
+   131		beqz	t8, .Ldword_align
+   132		 sltiu	t8, a1, 56
+   133	
+   134		lhu	t0, (src)
+   135		LONG_SUBU	a1, a1, 0x2
+   136		ADDC(sum, t0)
+   137		sltiu	t8, a1, 56
+   138		PTR_ADDU	src, src, 0x2
+   139	
+   140	.Ldword_align:
+   141		bnez	t8, .Ldo_end_words
+   142		 move	t8, a1
+   143	
+   144		andi	t8, src, 0x4
+   145		beqz	t8, .Lqword_align
+   146		 andi	t8, src, 0x8
+   147	
+   148		LOAD32	t0, 0x00(src)
+   149		LONG_SUBU	a1, a1, 0x4
+   150		ADDC(sum, t0)
+   151		PTR_ADDU	src, src, 0x4
+   152		andi	t8, src, 0x8
+   153	
+   154	.Lqword_align:
+   155		beqz	t8, .Loword_align
+   156		 andi	t8, src, 0x10
+   157	
+   158	#ifdef USE_DOUBLE
+   159		ld	t0, 0x00(src)
+   160		LONG_SUBU	a1, a1, 0x8
+   161		ADDC(sum, t0)
+   162	#else
+   163		lw	t0, 0x00(src)
+   164		lw	t1, 0x04(src)
+   165		LONG_SUBU	a1, a1, 0x8
+   166		ADDC(sum, t0)
+   167		ADDC(sum, t1)
+   168	#endif
+   169		PTR_ADDU	src, src, 0x8
+   170		andi	t8, src, 0x10
+   171	
+   172	.Loword_align:
+   173		beqz	t8, .Lbegin_movement
+   174		 LONG_SRL	t8, a1, 0x7
+   175	
+   176	#ifdef USE_DOUBLE
+   177		ld	t0, 0x00(src)
+   178		ld	t1, 0x08(src)
+   179		ADDC(sum, t0)
+   180		ADDC(sum, t1)
+   181	#else
+   182		CSUM_BIGCHUNK1(src, 0x00, sum, t0, t1, t3, t4)
+   183	#endif
+   184		LONG_SUBU	a1, a1, 0x10
+   185		PTR_ADDU	src, src, 0x10
+   186		LONG_SRL	t8, a1, 0x7
+   187	
+   188	.Lbegin_movement:
+   189		beqz	t8, 1f
+   190		 andi	t2, a1, 0x40
+   191	
+   192	.Lmove_128bytes:
+   193	#ifdef CONFIG_CPU_HAS_PREFETCH
+   194		/*
+   195		 * Fetch the block two iterations ahead, but only while it lies
+   196		 * inside the buffer: on non-coherent systems a line prefetched
+   197		 * past the end could belong to a buffer the device still owns.
+   198		 */
+   199		sltiu	t5, t8, 3
+   200		bnez	t5, 2f
+   201		 nop
+ > 202		pref	0, 0x100(src)
+   203		pref	0, 0x120(src)
+   204		pref	0, 0x140(src)
+   205		pref	0, 0x160(src)
+   206	2:
+   207	#endif
+   208		CSUM_BIGCHUNK(src, 0x00, sum, t0, t1, t3, t4)
+   209		CSUM_BIGCHUNK(src, 0x20, sum, t0, t1, t3, t4)
+   210		CSUM_BIGCHUNK(src, 0x40, sum, t0, t1, t3, t4)
+   211		CSUM_BIGCHUNK(src, 0x60, sum, t0, t1, t3, t4)
+   212		LONG_SUBU	t8, t8, 0x01
+   213		.set	reorder				/* DADDI_WAR */
+   214		PTR_ADDU	src, src, 0x80
+   215		bnez	t8, .Lmove_128bytes
+   216		.set	noreorder
+   217	
+   218	1:
+   219		beqz	t2, 1f
+   220		 andi	t2, a1, 0x20
+   221	
 
 --
 0-DAY CI Kernel Test Service
