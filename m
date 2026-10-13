@@ -1,92 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DAE272816
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 03:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791860915; cv=none; b=lf3cCyzKVj8vB/3dBD+cKSRrDGkOSu2skv+J8/H6U0HK0BsdGaUHlpdVwG7bLJE754bCD+w+pMpAnM1QwKd/a4nf4AbaheuNo0T0L7K/hdXBucG6edUGwx/IKWoN4Usb9JbNufdtYkmBvLqa6epez/xxaDO6OUl1SuR9mHSVzV4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791860915; c=relaxed/simple;
-	bh=0JlWwOe7ZdAcjuTwG0BpQj6ociyoLJdojM9wIKv2wuM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rJS6/mKuXrV7HKYGk0hKaORrXRMBxnM+c/hdTTkpbjdSh5PxVRG/f7JXyI2kSTZ+8bjEkgZi+sK0oIheGeWeY+nV9eKYiKwwg49rJd4y8wqaxoSeNrkK4OIhsrzuFKdYpqlsarEHetlFp6QcRqgLEoVU5VVpWQ9jUIlT0leeR1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PLEU6siD; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E7B38DC7F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 03:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791861909; cv=pass; b=f9WevCvd0MJb/tjL5tkfFnzwTzFbI99JEE0R/0NtxL38+Q5+bFGMeQBnhXwfC4HHI8cZ/+7ZHsUBSAr85M7QdUMzSTn12eXyp1EZ4t/Djb4nGAZdyksJ8jcYsNqA+QqBggtOnWkorXJKxT/iecKRnX9T30b3ujn9UtYTLXVyA7w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791861909; c=relaxed/simple;
+	bh=Qlj6+PdrddA+XIaFJDL/MjE18zhPUetQeHCIDXrZrJk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DJdrNyd8mk4T0YTKBhNEFQ003h43KVzYASS9T/HfPXNtCcjL5y9ORMubWZU9epx1MCYZr5zJds+d16dNJuDpvRQYRXSz4ZDVV7+zvURzJstoHabhGe649XWQfz3vWCIgomfroIG6rNV1k/bEnJSr+2FTZh+iNJrrsp7fHV/45n0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FyYKxv22; arc=pass smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PLEU6siD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791860913; x=1823396913;
-  h=date:from:to:cc:subject:message-id;
-  bh=0JlWwOe7ZdAcjuTwG0BpQj6ociyoLJdojM9wIKv2wuM=;
-  b=PLEU6siDJuRgXLnkB9KgxQckV4njMEGLuTSN58B4ZE9vB2Udp4+eys1k
-   nobefwlAhD/U+207iBLyNDFlgeVZ7BVKMK/lguNR89herYfjyuuuhFBLx
-   zQQ5ATcqywkjkakhQAzyPtz2/xpnyuiCL2FsXlCfTUFE6Ce30tSXEgBYO
-   0qM0p8nEYtJJk8xWi7I7a666NOk4tRaqNcf4oomV7lJgQNL6kgWaJoejE
-   R1sRhlskrNE6ck+9DoofFrHJUZm6HI4rrHWeFMVqaGXHnkLioVms7lX1Y
-   g4vvUJaO0JeM9rfGvZFlXaLqr6/lPypBDCUB8u9zKf4a9giBugIZlj6Q6
-   Q==;
-X-CSE-ConnectionGUID: 0qykOq/RTaG404ptlhSLkg==
-X-CSE-MsgGUID: ZeGNTIeSSlS0NLX4Qgo2Wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="473952"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="473952"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 20:08:32 -0700
-X-CSE-ConnectionGUID: YutuxUlLTciTkwz6D+zvjg==
-X-CSE-MsgGUID: YwapI7yYSCOHCnz7Ntk2lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1015829"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 12 Oct 2026 20:08:31 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xGSsO-00000000AMN-2ppa;
-	Tue, 13 Oct 2026 03:08:28 +0000
-Date: Tue, 13 Oct 2026 05:07:50 +0200
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 0/4]
- include/trace/hooks/logbuf.h:15:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202610130554.CkAyFjjz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FyYKxv22"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3a9787a14ecso17794861fa.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Oct 2026 20:25:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791861906; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fZIdo5dT1Rh0k0p9zPQcxtJYqyybSQda0UsRto8tmchwf1UEMnu5Gt3urzZxYvZriV
+         uIP73r4oY/K0xBmWZlTe7rTgVmPjucBPIURZQZ4AW2PADkpavdC3ID43JE1eBxo3YqFD
+         Uf61H/HQ/BMCrU9QCE+L7TzXcs1UMuIbkMceabUaS13AbcIftsOrDIxRX/9M4ilW39ke
+         IX4xaK6ri15BvrZjr+XGORyPyPvms7/8q+uQ6w4FWmWIsphChGyqcIaAyS0RUBqzQXlC
+         FLGdq/LysZ/H+wQ2ESxErcjJOC6y11Hjify1EkBCC5rcFtFSLNP7o/fH/77nKj2qmMi3
+         xUaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uTqggzvRy7T1WnAA8c/5d02IgpIAPQR2aC2FYAifG4U=;
+        fh=HGVyyehmg35FJwLo975Wpn9JcaUCKU0Wcp3m2hZnLPQ=;
+        b=kweBJu/FMSKctgYnb5qvJFsfsoDjoUFJXOPqc3XEO/T2lBgYmNoHYFKWPJUNAI4u2D
+         n3wg6ePl2kQNq9YrTo/JA3J7xKlAauEusc0PPU9ihzr/OlvLHJyEemPxACe3Z8xh+/qW
+         QXzht7LrD5SvHQ/JYPdP2h/xHq/it1Q94qfE/WroQhx62XmhjvBcZybqD9MZvh9Ni4Hd
+         90amjh+rFJltZiogSs/tMapVxyB+No6tSY4y5oAHSmEaYB3IONyiQgpfkIuRGCQiHi0A
+         6dJVlr/O8H6C9sLNYfq8mAAGhgUfOkZmf7wONxs9ZdRjWgDSFCdpAIqiZjxefBvKEb4V
+         FW3w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791861906; x=1792466706; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uTqggzvRy7T1WnAA8c/5d02IgpIAPQR2aC2FYAifG4U=;
+        b=FyYKxv22asPY8jbWPA1n0pVmWIniTFUy2DQgMIbUQ+YTGWCTgQmUAT2pEs+peNg/5f
+         7NWvPkzXQKNSxu0CV3s3AIHQukOKEppEMXoy0EJ3kfczrXe5Tz4DWm0iyYG1QktgGAhd
+         U4uvetaZeYxtIEdXunQ0VTp+q6DX2/5eh+06wK3wHq34q+50bPqMdjrPhMz0go++CWuk
+         kUvly7ZEEYAZDNw7frQl4R6jB65OxtJYEzXlkjVeUqdacfSpHWyz8kJ2HppV1UZypO4q
+         Nj4VvO94lzCmnPDrLycEIinaVVaVMmX07BxG67bNcECPYDE5/4b3TZoI8JmjbzFD95bc
+         l1JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791861906; x=1792466706;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uTqggzvRy7T1WnAA8c/5d02IgpIAPQR2aC2FYAifG4U=;
+        b=HTC/MbCxXLrLfnvDrA+7hzIehSfqZN9BrxZcBaBts64XkaH5rlqav7G4v1XX2C05jp
+         UC3s8xyqFau0jG9hg53m2RfZj9jvE0OqhJGbjH8C1d1AgLtAGoqHym8fVYzzfjcanGdN
+         s/+jX8LuJWK7U68Ifl4xmiF0FyiqIcCa3J10UCUmAktUlbzrrpuxEaoLDZ+osy0tvC+7
+         dTOGpmQeXX48NXChBt4KFBV/69l29jolvIWOH4ZfWKE8dh01qcak0vXxzKbZzr4F5BZl
+         RTYsan6HEJDjm3tEEvmmNTC8JveCiS6TS7kw8UyhDW63sQiU0ECXk4oJ0uZDfxmqTlwg
+         6/Mg==
+X-Forwarded-Encrypted: i=1; AKwUvByldCZKfqz+eItqNq7AlllmklpEXbiabczEu70uI3NYTOI/yodE20gOr7aINL+z0FOVryE0zyAEaggngo4L@lists.linux.dev
+X-Gm-Message-State: AFq9FYK239Zdq3drgZiSeJJiRT6J/hr5DKJniqyS7ZN1PAbPfWoXV/5l
+	z3bxehvr4asXPjQbSVzVJywjEWoPBds2CYiAXjoHpncaZNTfDpk0XB5DHKn0WPZ1MhGNjgxG6zW
+	geT+feqYfhXyYcEgtnRtMYEM1eSJ86xs=
+X-Gm-Gg: AYBFou2AItKp/7bFzTC+K/Mv2taoZs7He5PRXG7nvaP7IavWiaGpPAqCWWhVMtc0kzG
+	imEWMeaW/w0vft+lvCOF/8Q+3zNxhhqEXkrIk2ng6p85Bk86ANktnJF1/u/lkAEDhKcbLiPXq1t
+	nlv0Gf6+nWGfK2koUi8GmbGTDeC6R7BMRlxC6gxxZq8xC/Z6UBM1678taeDZhXMuEB+rspz4aIZ
+	JI7XPn3qwa7ZV7GcztjtlCsEaPV2p8dZD3B/GtB6J8HooGe/W2iXtTKkHrvFMTH3F4m2LCrgPlA
+	ZNg2oM3TV/ZMxtQTje0ExC8nSztNXB46kEMNRZM99/pNrClyEQc5Iy6pANViMGsj4FiZeXYZBdA
+	IWqA/mPCVDaPgABJ6qEtMQ7DTSQRudSubskMh424=
+X-Received: by 2002:a2e:a991:0:b0:3a9:76b7:c515 with SMTP id
+ 38308e7fff4ca-3a9c5253a1bmr24195321fa.8.1791861906046; Mon, 12 Oct 2026
+ 20:25:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <CA+=Fv5RJpeusA2W4rRHOJMPRn8iF=OngRy05X22Myurs0wA-sQ@mail.gmail.com>
+ <20261010022039.1610210-1-mattst88@gmail.com> <20261012133753.3a5868e9@pumpkin>
+In-Reply-To: <20261012133753.3a5868e9@pumpkin>
+From: Matt Turner <mattst88@gmail.com>
+Date: Mon, 12 Oct 2026 23:24:52 -0400
+X-Gm-Features: AclHuK_03Oc5vixjhdWzw-DLdJM5sKo0togD5oZVsH_2hFCEPrVq0SbRDKzpVzA
+Message-ID: <CAEdQ38E=_qKf+Ljy0qyBATVnjQYihGOkffgYaJuQLSmxim6Btg@mail.gmail.com>
+Subject: Re: [PATCH] alpha: add 128-bit shift helpers
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Magnus Lindholm <linmag7@gmail.com>, Richard Henderson <richard.henderson@linaro.org>, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   dcf0464117570a57171bce407b999285e386a098
-commit: 6edee2163e4ce0ec712dc3a3abb6ac3ccb118707 [0/4] ANDROID: vendor_hooks:add restricted hook for logbuf
-config: x86_64-randconfig-2302-20261013 (https://download.01.org/0day-ci/archive/20261013/202610130554.CkAyFjjz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610130554.CkAyFjjz-lkp@intel.com/reproduce)
+On Mon, Oct 12, 2026 at 8:37=E2=80=AFAM David Laight
+<david.laight.linux@gmail.com> wrote:
+>
+> On Fri,  9 Oct 2026 22:20:39 -0400
+> Matt Turner <mattst88@gmail.com> wrote:
+>
+> > Selecting ARCH_SUPPORTS_INT128 lets generic code shift __int128 values =
+by
+> > a variable count. gcc open-codes such a shift when optimizing for speed=
+,
+> > but with CONFIG_CC_OPTIMIZE_FOR_SIZE=3Dy it calls the libgcc routines
+> > __ashlti3, __ashrti3 and __lshrti3 instead. The kernel does not link
+> > against libgcc and Alpha does not provide them, so the link fails:
+> >
+> >   alpha-linux-ld: lib/ubsan.o: in function `get_signed_val':
+> >   (.text+0x1c0): undefined reference to `__ashlti3'
+> >   (.text+0x1f8): undefined reference to `__ashrti3'
+> >   alpha-linux-ld: kernel/time/timekeeping.o: in function `delta_to_ns_s=
+afe':
+> >   (.text+0x2ac): undefined reference to `__lshrti3'
+> >
+> > Provide the three helpers in C, as s390 does, and export them for
+> > modules. They are built into the kernel proper rather than lib.a so the
+> > exports are present even when nothing built in references them.
+>
+> Do they need an explicit (shift &=3D 63)?
+> I've seen gcc/clang remove an explicit '&=3D 63' because they know the
+> hardware instruction ignores the high bits.
+> But I'm not sure what happens here.
+> Adding it won't make much difference - unless it matters.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610130554.CkAyFjjz-lkp@intel.com/
+No, I don't think so, the 64-bit shift counts are already 0..63 for
+any count in 0..127. The !shift check is what keeps 64 - shift from
+reaching 64.
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/printk/printk.c: note: in included file:
->> include/trace/hooks/logbuf.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/logbuf.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/logbuf.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-
-vim +15 include/trace/hooks/logbuf.h
-
-    14	
-  > 15	DECLARE_RESTRICTED_HOOK(android_rvh_logbuf,
-    16		TP_PROTO(struct printk_ringbuffer *rb, struct printk_record *r),
-    17		TP_ARGS(rb, r), true)
-    18	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+gcc doesn't remove an explicit mask here, by the way. It costs an
+extra and per function on Alpha. Out-of-range counts give the same
+results as libgcc's versions, which is all the callers could expect.
