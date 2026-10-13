@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B353EBF1A;
-	Tue, 13 Oct 2026 02:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DAE272816
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 03:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791858037; cv=none; b=rTPVA2Hpc6Hp+E2/yWDOD994j51vGITY8BMzMd7tFH5NsE1qef1pK8h/TnTdaUrrwUGyYusKWo/hZwzVeI3x9xVCLzbGlmJ5J0gzGvYf/Aqiu5D7/f7G4GUG5yVydfRd24zCI/hcVwDEanJXanhKP5HR3vkYMgMRBlJ5m/gTXa8=
+	t=1791860915; cv=none; b=lf3cCyzKVj8vB/3dBD+cKSRrDGkOSu2skv+J8/H6U0HK0BsdGaUHlpdVwG7bLJE754bCD+w+pMpAnM1QwKd/a4nf4AbaheuNo0T0L7K/hdXBucG6edUGwx/IKWoN4Usb9JbNufdtYkmBvLqa6epez/xxaDO6OUl1SuR9mHSVzV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791858037; c=relaxed/simple;
-	bh=kBPNfyQcChunT1JOmgMyn3mDkWcbfxmQmpiBTDujKn4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cuFqEpKz4SHeZE5fewOJjQXGBCSmuVLu9ONFWubZgsGjZNEIF8Y8/8oLWepdBN05Mi361W6vedXDMx4gwZGY0DvecXS7kmNweKxiS/W+ZmfQs69igOjSWwlyusDS7+AMSpaqnsd7/FB9S0wkrDh+vAUJl+5Dt3QXtEsdof8viEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgEb+3dh; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1791860915; c=relaxed/simple;
+	bh=0JlWwOe7ZdAcjuTwG0BpQj6ociyoLJdojM9wIKv2wuM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rJS6/mKuXrV7HKYGk0hKaORrXRMBxnM+c/hdTTkpbjdSh5PxVRG/f7JXyI2kSTZ+8bjEkgZi+sK0oIheGeWeY+nV9eKYiKwwg49rJd4y8wqaxoSeNrkK4OIhsrzuFKdYpqlsarEHetlFp6QcRqgLEoVU5VVpWQ9jUIlT0leeR1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PLEU6siD; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgEb+3dh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PLEU6siD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791858036; x=1823394036;
+  t=1791860913; x=1823396913;
   h=date:from:to:cc:subject:message-id;
-  bh=kBPNfyQcChunT1JOmgMyn3mDkWcbfxmQmpiBTDujKn4=;
-  b=YgEb+3dhxEAi37ebxx0l0wUhnrt38LU/31OF9/Hw6oJfqFAav8T7v4H4
-   64MoU98judEvklGCrua1bzUvHh8d3ApmOBrEVs9RJyvT7EULP/Ly72Dlv
-   ZDQCm/ZORYnntacGe6ACCoMggg+MaMQCltOtNnmNS0mR5IPBytX0suEig
-   nIiV5EuABmfdKcfWfOxjST7uoLfayA9zurAqL36zl+fsgQl7lyJlaAPJN
-   78QdtqDfr7V95aRT0EER5g1V0QHql/ORyfujC23qF/9U7jgvgzFPp4eGD
-   zxnbXLGR6oeK/7pl5n0SV38buH81pfhFMQew4Xur6+4wNlo52KCYS+bNk
-   g==;
-X-CSE-ConnectionGUID: s6HkmAP7SmmNBCtJB8Fnrw==
-X-CSE-MsgGUID: GwfeeHbERYy4zLGPTQWAqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="453444"
+  bh=0JlWwOe7ZdAcjuTwG0BpQj6ociyoLJdojM9wIKv2wuM=;
+  b=PLEU6siDJuRgXLnkB9KgxQckV4njMEGLuTSN58B4ZE9vB2Udp4+eys1k
+   nobefwlAhD/U+207iBLyNDFlgeVZ7BVKMK/lguNR89herYfjyuuuhFBLx
+   zQQ5ATcqywkjkakhQAzyPtz2/xpnyuiCL2FsXlCfTUFE6Ce30tSXEgBYO
+   0qM0p8nEYtJJk8xWi7I7a666NOk4tRaqNcf4oomV7lJgQNL6kgWaJoejE
+   R1sRhlskrNE6ck+9DoofFrHJUZm6HI4rrHWeFMVqaGXHnkLioVms7lX1Y
+   g4vvUJaO0JeM9rfGvZFlXaLqr6/lPypBDCUB8u9zKf4a9giBugIZlj6Q6
+   Q==;
+X-CSE-ConnectionGUID: 0qykOq/RTaG404ptlhSLkg==
+X-CSE-MsgGUID: ZeGNTIeSSlS0NLX4Qgo2Wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="473952"
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="453444"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 19:20:36 -0700
-X-CSE-ConnectionGUID: US9zDQ+DRyaCGjx7wdLJrg==
-X-CSE-MsgGUID: 2LJPiDn3Q0CY5AbJWU4mgQ==
+   d="scan'208";a="473952"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 20:08:32 -0700
+X-CSE-ConnectionGUID: YutuxUlLTciTkwz6D+zvjg==
+X-CSE-MsgGUID: YwapI7yYSCOHCnz7Ntk2lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1157664"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Oct 2026 19:20:34 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="1015829"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 12 Oct 2026 20:08:31 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGS7z-00000000CPY-1QBp;
-	Tue, 13 Oct 2026 02:20:31 +0000
-Date: Tue, 13 Oct 2026 10:20:09 +0800
+	id 1xGSsO-00000000AMN-2ppa;
+	Tue, 13 Oct 2026 03:08:28 +0000
+Date: Tue, 13 Oct 2026 05:07:50 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 32/68] net/ceph/databuf.c:63:23:
- warning: variable 'part' is uninitialized when used within its own
- initialization
-Message-ID: <202610131048.aC2zOPgx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 0/4]
+ include/trace/hooks/logbuf.h:15:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202610130554.CkAyFjjz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,93 +60,32 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   c67464ec28da31de31fe4358eb13c2771a280cb7
-commit: 8a641e79bed7f15b432c0cdeebe6399dc1846aa4 [32/68] libceph: Add a new data container type, ceph_databuf
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261013/202610131048.aC2zOPgx-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131048.aC2zOPgx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   dcf0464117570a57171bce407b999285e386a098
+commit: 6edee2163e4ce0ec712dc3a3abb6ac3ccb118707 [0/4] ANDROID: vendor_hooks:add restricted hook for logbuf
+config: x86_64-randconfig-2302-20261013 (https://download.01.org/0day-ci/archive/20261013/202610130554.CkAyFjjz-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610130554.CkAyFjjz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610131048.aC2zOPgx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610130554.CkAyFjjz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/printk/printk.c: note: in included file:
+>> include/trace/hooks/logbuf.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/logbuf.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/logbuf.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
->> net/ceph/databuf.c:63:23: warning: variable 'part' is uninitialized when used within its own initialization [-Wuninitialized]
-      63 |                         size_t part = umin(part, enc->space);
-         |                                ~~~~        ^~~~
-   include/linux/minmax.h:121:22: note: expanded from macro 'umin'
-     121 |         __careful_cmp(min, (x) + 0u + 0ul + 0ull, (y) + 0u + 0ul + 0ull)
-         |                             ^
-   include/linux/minmax.h:98:25: note: expanded from macro '__careful_cmp'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                ^
-   include/linux/minmax.h:92:13: note: expanded from macro '__careful_cmp_once'
-      92 |         auto ux = (x); auto uy = (y);                   \
-         |                    ^
-   1 warning generated.
+vim +15 include/trace/hooks/logbuf.h
 
-
-vim +/part +63 net/ceph/databuf.c
-
-    44	
-    45	/**
-    46	 * ceph_bvecq_append - Append some data onto a buffer
-    47	 * @enc: The encoding context
-    48	 * @data: The data to append
-    49	 * @len: The length of the data
-    50	 *
-    51	 * Add some data onto the end of the encoding buffer's occupied region.  This
-    52	 * will expand the maximum size of the buffer if necessary.
-    53	 *
-    54	 * If ENOMEM is encountered, enc->nomem is set to true and all future appends
-    55	 * will do nothing.
-    56	 */
-    57	void ceph_bvecq_append(struct ceph_encode *enc, const void *data, size_t len)
-    58	{
-    59		for (;;) {
-    60			struct bvecq *bq;
-    61	
-    62			if (likely(len <= enc->space)) {
-  > 63				size_t part = umin(part, enc->space);
-    64	
-    65				memcpy(enc->p, data, len);
-    66				enc->p += len;
-    67				enc->space -= len;
-    68				enc->len += len;
-    69	
-    70				if (part >= len)
-    71					return;
-    72				data += part;
-    73				len -= part;
-    74			}
-    75	
-    76			if (enc->p)
-    77				kunmap_local(enc->p);
-    78	
-    79			if (unlikely(enc->nomem))
-    80				return;
-    81			if (ceph_bvecq_reserve(enc, len) < 0) {
-    82				enc->p = NULL;
-    83				enc->nomem = true;
-    84				return;
-    85			}
-    86	
-    87			enc->slot++;
-    88			bq = enc->bq;
-    89			if (enc->slot >= bq->nr_slots) {
-    90				bq = bq->next;
-    91				enc->bq = bq;
-    92				enc->slot = 0;
-    93			}
-    94			enc->space = bq->bv[enc->slot].bv_len;
-    95			enc->p = kmap_local_bvecq(enc->bq, 0);
-    96		}
-    97	}
-    98	EXPORT_SYMBOL(ceph_bvecq_append);
-    99	
+    14	
+  > 15	DECLARE_RESTRICTED_HOOK(android_rvh_logbuf,
+    16		TP_PROTO(struct printk_ringbuffer *rb, struct printk_record *r),
+    17		TP_ARGS(rb, r), true)
+    18	
 
 --
 0-DAY CI Kernel Test Service
