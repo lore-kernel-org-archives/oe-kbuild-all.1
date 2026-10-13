@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAB8542EE4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 19:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EE55616A7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 22:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791920957; cv=none; b=udlf/y2F8yMwPUW6Y0HsoAPaQRW4gAtfLx+6kk67i81pl48Bxx3BTeCIR8uucE8Qst8vf60uPg2f/K64vAq3MyzdDwLLI2/Fx3KEyDoUoFN1NRZdxxHEcxVgNGtUBsHDgcr1r09IyOLbnRhFbebnUQslGaNotOhudGQ0bJGqlYE=
+	t=1791928857; cv=none; b=UPq4sBpvIKMvQQIeGza8uYUQAvIhXK/Srn38bGzN2LRWrcm4e27kU1eR8ZWS1DnKMzEIMw9fthM1JTag4OuRTB/4yic00Z5vQ1nZiXUjqiHu/QcdlYQjv1T/d3M+V2JBin8xmwKV6vAOJ+5VwEC6gnEwyCM7VfaVuTrw1ZD2hJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791920957; c=relaxed/simple;
-	bh=OYdbEexPKQP558RqTakI7yACMXW1nvshSk1ec/NyyB0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t1FALNjmczhKSGqc9m7ORmhETIW38k4wPW4SBjfKxucNs4fYE3IL7Robusg7PELIOZFTp5Y5ZTRPb/Sg7MMxnhduc7r2ZFjoHvvVCUmrJAtkAh75PrKpDvUsSf9ZiXAvUB2jckYDJW/YwQcqIF+SWDTjb03X2aQllh0XXL6AjiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DO1Ms9Yr; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1791928857; c=relaxed/simple;
+	bh=aFVl47WyyGUDitXiDlf5PZpEnW/kMup32CqumXUMu6M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bkOyIW9+q9H5c9Y9kupN6xpWS53DIC4egWCEzzEB+xZPguYFLgHRQl9arhSvMwEHhxvIZlynfl5/jqahW9YXYM+wz5M8W0TBjgPkMMHr9/BfzCUPK4SUzMyl6dxUdxSYojyWy+Xep3zQPgre6Y6zeEUoGGgsMoT/pOfRARx0U3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CsRryvxJ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DO1Ms9Yr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CsRryvxJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791920953; x=1823456953;
+  t=1791928848; x=1823464848;
   h=date:from:to:cc:subject:message-id;
-  bh=OYdbEexPKQP558RqTakI7yACMXW1nvshSk1ec/NyyB0=;
-  b=DO1Ms9YretUoigWTD4TWfYW5aQpysWm9H1Hn2Ex7PZRK5OxwfWbtrsrE
-   PdwuiGJoZXbMJJdAVT1aEjQ/UIt4HAzuDZ+4YD7OfXQZFo3uUsF+a9kJp
-   S4YNanP2H1c7922D1XE9PzKD6NE/c/ruh1RQnh532cryuq11ZccVlqUH8
-   /bomo91tG9uz0hzpW1DNpKoV7+FE0FesTs0yTp64lkcBMoMJIZUe3mULE
-   mT0T63euGYCk4i6HbMJ4+UGGtiQdB0ZqOATQbwsG5iRDyyky+i6diyPDJ
-   3DxH5kWukv2nvQsoZ9lF5KPEtivDR4I5QRuHlJxsKIkAWQs1Lod7msrxl
-   w==;
-X-CSE-ConnectionGUID: Y7Sx9gWaTNCLPUb1e9XnHw==
-X-CSE-MsgGUID: glKnfLg+TIukzGj8R3gFZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="754368"
+  bh=aFVl47WyyGUDitXiDlf5PZpEnW/kMup32CqumXUMu6M=;
+  b=CsRryvxJKIt71OYUydDHDjmPw8Ua9oRBJg0SvLUKyjkwiDCPgdb4Ab5Z
+   0jgBzRV4ViGLhKtC5GgDfWgF5zWfPDYBNbhM2cQXiAWtkzFj4Lr1DQkE4
+   1TKyQw9Cw1mD52kHRBNGW8Oa1Oqk1mrTXJTdXNI2qyVUMxLqG69FvuXhu
+   50KlRA+Gd2bmYrAMyhic3IJ5LPHbdcxpr35is7hTgpewKYcXI5R2suFah
+   ykX2te1cEuOPBkOptbh5pZb4uu0Jor8wN121Ohq5uPCo5yFaymVpv3bno
+   o4zDOYtYOZoT3BN7cWWHGELIQ8D0WAjBet6Qewav4Gdy6UfTsx+i78yCK
+   g==;
+X-CSE-ConnectionGUID: jgGM5WmDQXa6lSSktJTsog==
+X-CSE-MsgGUID: MIFTKEYtSRmUVvvQLM6+bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="686674"
 X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
-   d="scan'208";a="754368"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 12:49:13 -0700
-X-CSE-ConnectionGUID: nr67X3QJTGiZEsJ8rOBUMQ==
-X-CSE-MsgGUID: QHXr6O4PSv20n1YHNoQnZQ==
+   d="scan'208";a="686674"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 15:00:47 -0700
+X-CSE-ConnectionGUID: X+FxsfuOTcKJdDnpwpGqVw==
+X-CSE-MsgGUID: AWUEXuknR9qpXyLpEUv5hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,156,1787036400"; 
-   d="scan'208";a="1338325"
+   d="scan'208";a="1614812"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Oct 2026 12:49:12 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 Oct 2026 15:00:45 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGiUn-00000000AdH-09JK;
-	Tue, 13 Oct 2026 19:49:09 +0000
-Date: Tue, 13 Oct 2026 21:48:59 +0200
+	id 1xGkY7-00000000AgR-2tXB;
+	Tue, 13 Oct 2026 22:00:43 +0000
+Date: Wed, 14 Oct 2026 00:00:40 +0200
 From: kernel test robot <lkp@intel.com>
-To: Maulik Shah <maulik.shah@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@kernel.org>,
- Sneh Mankad <sneh.mankad@oss.qualcomm.com>
-Subject: drivers/irqchip/qcom-pdc.c:719: undefined reference to
- `qcom_scm_is_available'
-Message-ID: <202610132148.dsoLTiBa-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-sp 3/3]
+ fs/ntfs3/fslog.c:520:27: sparse: sparse: restricted __le32 degrades to
+ integer
+Message-ID: <202610140004.iYk0oDgd-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,138 +60,92 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
-commit: ad01c2b2f29163ca0bbe1fd4f9343fbc5119c239 irqchip/qcom-pdc: Configure PDC to pass through mode
-date:   3 months ago
-config: arm64-randconfig-r2200-20261013 (https://download.01.org/0day-ci/archive/20261013/202610132148.dsoLTiBa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610132148.dsoLTiBa-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-sp
+head:   7275f8d02a81f6b1706a1b0470601f019f86a746
+commit: 32a3974b26dfbb059d15ab8d5683d8b9de647468 [3/3] fs/ntfs3: Correct function is_rst_area_valid
+config: x86_64-randconfig-2302-20261013 (https://download.01.org/0day-ci/archive/20261014/202610140004.iYk0oDgd-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261014/202610140004.iYk0oDgd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: ad01c2b2f291 ("irqchip/qcom-pdc: Configure PDC to pass through mode")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610132148.dsoLTiBa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610140004.iYk0oDgd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ntfs3/fslog.c:520:27: sparse: sparse: restricted __le32 degrades to integer
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: drivers/irqchip/qcom-pdc.o: in function `qcom_pdc_probe':
->> drivers/irqchip/qcom-pdc.c:719: undefined reference to `qcom_scm_is_available'
->> aarch64-linux-ld: drivers/irqchip/qcom-pdc.c:722: undefined reference to `qcom_scm_io_writel'
+vim +520 fs/ntfs3/fslog.c
 
-
-vim +719 drivers/irqchip/qcom-pdc.c
-
-   654	
-   655	static int qcom_pdc_probe(struct platform_device *pdev, struct device_node *parent)
-   656	{
-   657		struct irq_domain *parent_domain, *pdc_domain;
-   658		struct device_node *node = pdev->dev.of_node;
-   659		struct device *dev = &pdev->dev;
-   660		resource_size_t res_size;
-   661		struct resource res;
-   662		u32 irq_param;
-   663		int ret;
-   664	
-   665		/* compat with old sm8150 DT which had very small region for PDC */
-   666		if (of_address_to_resource(node, 0, &res))
-   667			return -EINVAL;
-   668	
-   669		res_size = max_t(resource_size_t, resource_size(&res), PDC_DRV_SIZE);
-   670		if (res_size > resource_size(&res))
-   671			pr_warn("%pOF: invalid reg size, please fix DT\n", node);
-   672	
-   673		pdc = devm_kzalloc(dev, sizeof(*pdc), GFP_KERNEL);
-   674		if (!pdc)
-   675			return -ENOMEM;
-   676	
-   677		pdc->base = devm_ioremap(dev, res.start, res_size);
-   678		if (!pdc->base) {
-   679			pr_err("%pOF: unable to map PDC registers\n", node);
-   680			return -ENXIO;
-   681		}
-   682	
-   683		pdc->version = pdc_reg_read(PDC_VERSION_REG, 0);
-   684	
-   685		if (pdc->version >= PDC_VERSION_3_2) {
-   686			pdc->cfg_fields = &pdc_cfg_v3_2;
-   687			pdc->regs = &pdc_v3_2;
-   688			pdc->enable_intr = pdc_enable_intr_cfg;
-   689		} else if (pdc->version >= PDC_VERSION_3_0) {
-   690			pdc->cfg_fields = &pdc_cfg_v3_0;
-   691			pdc->regs = &pdc_v3_0;
-   692			pdc->enable_intr = pdc_enable_intr_bank;
-   693		} else {
-   694			pdc->cfg_fields = &pdc_cfg_v2_7;
-   695			pdc->regs = &pdc_v2_7;
-   696			pdc->enable_intr = pdc_enable_intr_bank;
-   697		}
-   698	
-   699		pdc->mode = PDC_PASS_THROUGH_MODE;
-   700	
-   701		/*
-   702		 * PDC has multiple DRV regions, each one provides the same set of
-   703		 * registers for a particular client in the system. Due to a hardware
-   704		 * bug on X1E, some writes to the IRQ_ENABLE_BANK register must be
-   705		 * issued inside the previous region. This region belongs to
-   706		 * a different client and is not described in the device tree. Map the
-   707		 * region with the expected offset to preserve support for old DTs.
-   708		 */
-   709		if (of_device_is_compatible(node, "qcom,x1e80100-pdc")) {
-   710			pdc->prev_base = devm_ioremap(dev, res.start - PDC_DRV_SIZE,
-   711						      pdc->regs->irq_en_reg + IRQ_ENABLE_BANK_MAX);
-   712			if (!pdc->prev_base) {
-   713				pr_err("%pOF: unable to map previous PDC DRV region\n", node);
-   714				return -ENXIO;
-   715			}
-   716	
-   717			pdc->x1e_quirk = true;
-   718	
- > 719			if (!qcom_scm_is_available())
-   720				return -EPROBE_DEFER;
-   721	
- > 722			ret = qcom_scm_io_writel(PDC_GPIO_INT_CTL_ENABLE, PDC_PASS_THROUGH_MODE);
-   723			if (ret) {
-   724				pdc->mode = PDC_SECONDARY_MODE;
-   725				pdc->unmask_gpio = pdc_unmask_gpio_cfg;
-   726				pdc->clear_gpio = pdc_clear_gpio_cfg;
-   727			}
-   728		}
-   729	
-   730		irq_param = pdc_reg_read(pdc->regs->irq_param_reg, 0);
-   731		pdc->num_spis = FIELD_GET(GENMASK(7, 0), irq_param);
-   732	
-   733		parent_domain = irq_find_host(parent);
-   734		if (!parent_domain) {
-   735			pr_err("%pOF: unable to find PDC's parent domain\n", node);
-   736			return -ENXIO;
-   737		}
-   738	
-   739		raw_spin_lock_init(&pdc->lock);
-   740	
-   741		ret = pdc_setup_pin_mapping(dev);
-   742		if (ret) {
-   743			pr_err("%pOF: failed to init PDC pin-hwirq mapping\n", node);
-   744			return ret;
-   745		}
-   746	
-   747		pdc_domain = irq_domain_create_hierarchy(parent_domain, IRQ_DOMAIN_FLAG_QCOM_PDC_WAKEUP,
-   748							 PDC_MAX_IRQS, of_fwnode_handle(node),
-   749							 &qcom_pdc_ops, NULL);
-   750		if (!pdc_domain) {
-   751			pr_err("%pOF: PDC domain add failed\n", node);
-   752			return -ENOMEM;
-   753		}
-   754	
-   755		irq_domain_update_bus_token(pdc_domain, DOMAIN_BUS_WAKEUP);
-   756	
-   757		return 0;
-   758	}
-   759	
+   463	
+   464	static inline bool is_rst_area_valid(const struct RESTART_HDR *rhdr)
+   465	{
+   466		const struct RESTART_AREA *ra;
+   467		u16 cl, fl, ul;
+   468		u32 off, l_size, seq_bits;
+   469		u16 ro = le16_to_cpu(rhdr->ra_off);
+   470		u32 sys_page = le32_to_cpu(rhdr->sys_page_size);
+   471	
+   472		if (ro + offsetof(struct RESTART_AREA, l_size) >
+   473		    SECTOR_SIZE - sizeof(short))
+   474			return false;
+   475	
+   476		ra = Add2Ptr(rhdr, ro);
+   477		cl = le16_to_cpu(ra->log_clients);
+   478	
+   479		if (cl > 1)
+   480			return false;
+   481	
+   482		off = le16_to_cpu(ra->client_off);
+   483	
+   484		if (!IS_ALIGNED(off, 8) || ro + off > SECTOR_SIZE - sizeof(short))
+   485			return false;
+   486	
+   487		off += cl * sizeof(struct CLIENT_REC);
+   488	
+   489		if (off > sys_page)
+   490			return false;
+   491	
+   492		/*
+   493		 * Check the restart length field and whether the entire
+   494		 * restart area is contained that length.
+   495		 */
+   496		if (le16_to_cpu(rhdr->ra_off) + le16_to_cpu(ra->ra_len) > sys_page ||
+   497		    off > le16_to_cpu(ra->ra_len)) {
+   498			return false;
+   499		}
+   500	
+   501		/*
+   502		 * As a final check make sure that the use list and the free list
+   503		 * are either empty or point to a valid client.
+   504		 */
+   505		fl = le16_to_cpu(ra->client_idx[0]);
+   506		ul = le16_to_cpu(ra->client_idx[1]);
+   507		if ((fl != LFS_NO_CLIENT && fl >= cl) ||
+   508		    (ul != LFS_NO_CLIENT && ul >= cl))
+   509			return false;
+   510	
+   511		/* Make sure the sequence number bits match the log file size. */
+   512		l_size = le64_to_cpu(ra->l_size);
+   513	
+   514		seq_bits = sizeof(u64) * 8 + 3;
+   515		while (l_size) {
+   516			l_size >>= 1;
+   517			seq_bits -= 1;
+   518		}
+   519	
+ > 520		if (seq_bits != ra->seq_num_bits)
+   521			return false;
+   522	
+   523		/* The log page data offset and record header length must be quad-aligned. */
+   524		if (!IS_ALIGNED(le16_to_cpu(ra->data_off), 8) ||
+   525		    !IS_ALIGNED(le16_to_cpu(ra->rec_hdr_len), 8))
+   526			return false;
+   527	
+   528		return true;
+   529	}
+   530	
 
 --
 0-DAY CI Kernel Test Service
