@@ -1,225 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB994718D3;
-	Tue, 13 Oct 2026 04:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973A33C07A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Oct 2026 04:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791866453; cv=none; b=ix9l1KJGpoNhJ8fwGF+LtqRJUHJqMAaYUE2+4KO2v7Nqq0sYVq7erHFQAdWbD36bAKam3LJeNRrej8M5OJXPwRMG1EyKaOx4tN983VmusCwyIcnIwea07ME8+nKikwPU4gplQ9mm2y+E+64a7gGGnR9D3CR6+RC6mxRixJ2A28A=
+	t=1791867176; cv=none; b=Sv1Z0qpdn5fpcn4FfnHqkkOfYQ2rH36RW6yblykEGsj8CyYZDD4xLrZ8z13BccvkgXoChatXY/qG+t+bNDWHFWDhEF9Zkk9VuHUXJExd+c58H2LI0JxkWDpQ0qa6kcolgGB6/uBIi/O9FfYTdWv4COcAttp+oSXnL4MUCZh7BcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791866453; c=relaxed/simple;
-	bh=yjQWymrqkMyoMb6InyL7dEFMkmfoCmnRxzxmPR7TjzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C3A2wjc15+qdELqT5SfYGYu16nnXHs9TxzYd/HIaEG2MvCYjLkbjeyrXh0aGS6XZ+bZV32F56OXPL+7GZWHeL5Sy8DyCYb/OJcjHh/CG4GcqRQVGW9xBEq8ALRIRkusETJ8J37vA72xfhjhP6e5OQZSUOSrxGe98YoM7viOXWZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hn8yTW55; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1791867176; c=relaxed/simple;
+	bh=7nJXonqH+rTItmlVnwPmw97jci53LyFWF9nUOD8veiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mPGoZLZdjhoMCWEBgY3ZBRBQEWx3Tv/5kjFBPCvN4sgYYGWrUcFJv4oumYNHpTmgoDJosmQTPGG2VgdG6/QZfpL0YlBfJF6DzVBMfg4Dx2FfmBOKdWe5squK+Fb+5zzA32Br9VFQdG9R4gpGd4Iijg3uCPs/DT8s1hF4Q7BghjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7z003vv; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hn8yTW55"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7z003vv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791866452; x=1823402452;
-  h=date:from:to:cc:subject:message-id;
-  bh=yjQWymrqkMyoMb6InyL7dEFMkmfoCmnRxzxmPR7TjzQ=;
-  b=hn8yTW555RCfh9e0GXahVpiKaiKl4+pSbTR7aOH4mRr3GBCJ/lQbj/il
-   uU4STfVdtyQBVk6JVbH02jPrEL7oWkQAQMAnmSc88P9JjFy9Sr3B6Y+rA
-   sQqGLTGGDSAZX722Jmx70ifjlL/+80+6E61Phk7WKfik2oDkIfskuhbQi
-   UmfqAuFuKj3qpVejfPs12SvPdm8UiARStKE/uhOaxfzYnd3tuQG5Wf+BE
-   t0Ury/mqQ343P2Fz0iAhtX1FHdSMvLdF7E5aesFBjT9G+d/2DKCFkLyfP
-   QmqY5HQjFWNijZ8ju63XmLiR5/KLl3YVc62VIpl22Qyd/8JR0k/9qjYBn
-   Q==;
-X-CSE-ConnectionGUID: GsPaalaMQRqZAq0SfOTIbA==
-X-CSE-MsgGUID: QoAiXZ0wTEew6rSFfmrK2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="468775"
+  t=1791867175; x=1823403175;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7nJXonqH+rTItmlVnwPmw97jci53LyFWF9nUOD8veiU=;
+  b=N7z003vvlL1eTibe/Q+GnPScWPB/kWXmaocGF7vmfMLpsV0tTFPYNLGo
+   HOD4XrrOEbhCjfbdCsxcuNy+SLd9TYyhhcDMhjiBj3wmN2kXccP7cfvTw
+   RdYqQkhNDtNywGr9Ns/Vm8SOa2ZWoSE00HuU8q6H7aUQPrZ+sIwNmU7Zy
+   kDPEbrAYTAcpyF/Pxs9+oioQLn1+BF9/H8puZ+u/6poQTLBmpDOoEl8Gj
+   HW7CkIyTFvCbBnTtpgPtwR0SwGXybcZyeZ7SS6V9bceHxbebpqcMqXCy6
+   ZoTOnotiY88rnqaP548Ob0cFiTaH4BcOcnnuXKB7+46G4Bm+dPe2tY4LZ
+   w==;
+X-CSE-ConnectionGUID: E+ww/UocRLGmUc/q9MYeCQ==
+X-CSE-MsgGUID: rUucUbdoQeqlFmzBKgHfqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="587912"
 X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
-   d="scan'208";a="468775"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 21:40:52 -0700
-X-CSE-ConnectionGUID: f3dua1QkSoWG2grjG63CsA==
-X-CSE-MsgGUID: zobN2xqOS3Wd9GohfD2g/Q==
+   d="scan'208";a="587912"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 21:52:54 -0700
+X-CSE-ConnectionGUID: xR7btsJ1QyWEWFokvgGAPg==
+X-CSE-MsgGUID: cyp7orBbSmuCSvNAWurFcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,155,1787036400"; 
-   d="scan'208";a="1117356"
+   d="scan'208";a="966189"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Oct 2026 21:40:50 -0700
+  by orviesa007.jf.intel.com with ESMTP; 12 Oct 2026 21:52:50 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGUJj-00000000CWm-0hIv;
-	Tue, 13 Oct 2026 04:40:47 +0000
-Date: Tue, 13 Oct 2026 12:40:40 +0800
+	id 1xGUVL-00000000CXQ-2yVE;
+	Tue, 13 Oct 2026 04:52:47 +0000
+Date: Tue, 13 Oct 2026 12:52:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 62/68] fs/ceph/inode.c:2504:50:
- warning: variable 'pos' is uninitialized when used here
-Message-ID: <202610131231.YeMkksn0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, nd@arm.com,
+	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>,
+	Lukas Zapolskas <lukas.zapolskas@arm.com>
+Subject: Re: [PATCH v7 6/8] drm/panthor: Implement sample handling
+Message-ID: <202610131207.5wGThJW9-lkp@intel.com>
+References: <20261011-panthor-performance-counters-v7-6-12c32495062f@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261011-panthor-performance-counters-v7-6-12c32495062f@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   c67464ec28da31de31fe4358eb13c2771a280cb7
-commit: ed86caec995f4071e6a31678ec9a78ab0947c856 [62/68] ceph: Use netfslib [INCOMPLETE]
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261013/202610131231.YeMkksn0-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131231.YeMkksn0-lkp@intel.com/reproduce)
+Hi Lukas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4b7a49d66c8398a7984dff4ac54d1acc6b3a58df]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Add-performance-counter-uAPI/20261011-183648
+base:   4b7a49d66c8398a7984dff4ac54d1acc6b3a58df
+patch link:    https://lore.kernel.org/r/20261011-panthor-performance-counters-v7-6-12c32495062f%40arm.com
+patch subject: [PATCH v7 6/8] drm/panthor: Implement sample handling
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20261013/202610131207.5wGThJW9-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131207.5wGThJW9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610131231.YeMkksn0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610131207.5wGThJW9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/ceph/inode.c:2504:50: warning: variable 'pos' is uninitialized when used here [-Wuninitialized]
-    2504 |                 doutc(cl, "hit hole, ppos %lld < size %lld\n", pos, i_size);
-         |                                                                ^~~
-   include/linux/ceph/ceph_debug.h:27:6: note: expanded from macro 'doutc'
-      27 |                  ##__VA_ARGS__)
-         |                    ^~~~~~~~~~~
-   include/linux/printk.h:635:26: note: expanded from macro 'pr_debug'
-     635 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:281:22: note: expanded from macro 'dynamic_pr_debug'
-     281 |                            pr_fmt(fmt), ##__VA_ARGS__)
-         |                                           ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   fs/ceph/inode.c:2447:12: note: initialize the variable 'pos' to silence this warning
-    2447 |         loff_t pos, orig_pos = round_down(attr->ia_size,
-         |                   ^
-         |                    = 0
-   1 warning generated.
+   drivers/gpu/drm/panthor/panthor_perf.c: In function 'session_accumulate_sample':
+>> drivers/gpu/drm/panthor/panthor_perf.c:902:57: error: passing argument 2 of 'bitmap_from_arr64' from incompatible pointer type [-Wincompatible-pointer-types]
+     902 |                 bitmap_from_arr64(enabled_ctrs, em->mask[dst_blk->header.block_type],
+         |                                                 ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                         |
+         |                                                         long unsigned int *
+   In file included from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/interrupt_rc.h:17,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/drm/drm_file.h:34,
+                    from drivers/gpu/drm/panthor/panthor_perf.c:5:
+   include/linux/bitmap.h:322:58: note: expected 'const u64 *' {aka 'const long long unsigned int *'} but argument is of type 'long unsigned int *'
+     322 | void bitmap_from_arr64(unsigned long *bitmap, const u64 *buf, unsigned int nbits);
+         |                                               ~~~~~~~~~~~^~~
 
 
-vim +/pos +2504 fs/ceph/inode.c
+vim +/bitmap_from_arr64 +902 drivers/gpu/drm/panthor/panthor_perf.c
 
-79f2f6ad878c1f2 Jeff Layton   2020-09-03  2432  
-5c64737d253683b Xiubo Li      2022-08-25  2433  /*
-5c64737d253683b Xiubo Li      2022-08-25  2434   * Transfer the encrypted last block to the MDS and the MDS
-5c64737d253683b Xiubo Li      2022-08-25  2435   * will help update it when truncating a smaller size.
-5c64737d253683b Xiubo Li      2022-08-25  2436   *
-5c64737d253683b Xiubo Li      2022-08-25  2437   * We don't support a PAGE_SIZE that is smaller than the
-5c64737d253683b Xiubo Li      2022-08-25  2438   * CEPH_FSCRYPT_BLOCK_SIZE.
-5c64737d253683b Xiubo Li      2022-08-25  2439   */
-5c64737d253683b Xiubo Li      2022-08-25  2440  static int fill_fscrypt_truncate(struct inode *inode,
-5c64737d253683b Xiubo Li      2022-08-25  2441  				 struct ceph_mds_request *req,
-5c64737d253683b Xiubo Li      2022-08-25  2442  				 struct iattr *attr)
-5c64737d253683b Xiubo Li      2022-08-25  2443  {
-38d46409c4639a1 Xiubo Li      2023-06-12  2444  	struct ceph_client *cl = ceph_inode_to_client(inode);
-5c64737d253683b Xiubo Li      2022-08-25  2445  	struct ceph_inode_info *ci = ceph_inode(inode);
-5c64737d253683b Xiubo Li      2022-08-25  2446  	int boff = attr->ia_size % CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683b Xiubo Li      2022-08-25  2447  	loff_t pos, orig_pos = round_down(attr->ia_size,
-5c64737d253683b Xiubo Li      2022-08-25  2448  					  CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683b Xiubo Li      2022-08-25  2449  	u64 block = orig_pos >> CEPH_FSCRYPT_BLOCK_SHIFT;
-b30563b69a83b54 David Howells 2023-08-03  2450  	struct bvecq *dbuf = NULL;
-5c64737d253683b Xiubo Li      2022-08-25  2451  	struct iov_iter iter;
-b30563b69a83b54 David Howells 2023-08-03  2452  	struct ceph_fscrypt_truncate_size_header *header;
-b30563b69a83b54 David Howells 2023-08-03  2453  	void *p;
-5c64737d253683b Xiubo Li      2022-08-25  2454  	int len = CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683b Xiubo Li      2022-08-25  2455  	loff_t i_size = i_size_read(inode);
-5c64737d253683b Xiubo Li      2022-08-25  2456  	int got, ret, issued;
-5c64737d253683b Xiubo Li      2022-08-25  2457  
-5c64737d253683b Xiubo Li      2022-08-25  2458  	ret = __ceph_get_caps(inode, NULL, CEPH_CAP_FILE_RD, 0, -1, &got);
-5c64737d253683b Xiubo Li      2022-08-25  2459  	if (ret < 0)
-5c64737d253683b Xiubo Li      2022-08-25  2460  		return ret;
-5c64737d253683b Xiubo Li      2022-08-25  2461  
-5c64737d253683b Xiubo Li      2022-08-25  2462  	issued = __ceph_caps_issued(ci, NULL);
-5c64737d253683b Xiubo Li      2022-08-25  2463  
-38d46409c4639a1 Xiubo Li      2023-06-12  2464  	doutc(cl, "size %lld -> %lld got cap refs on %s, issued %s\n",
-5c64737d253683b Xiubo Li      2022-08-25  2465  	      i_size, attr->ia_size, ceph_cap_string(got),
-5c64737d253683b Xiubo Li      2022-08-25  2466  	      ceph_cap_string(issued));
-5c64737d253683b Xiubo Li      2022-08-25  2467  
-5c64737d253683b Xiubo Li      2022-08-25  2468  	ret = -ENOMEM;
-b30563b69a83b54 David Howells 2023-08-03  2469  	dbuf = bvecq_alloc_chain(2, GFP_KERNEL, false);
-b30563b69a83b54 David Howells 2023-08-03  2470  	if (!dbuf)
-5c64737d253683b Xiubo Li      2022-08-25  2471  		goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2472  
-b30563b69a83b54 David Howells 2023-08-03  2473  	if (ceph_bvecq_insert_frag(dbuf, 0, sizeof(*header), GFP_KERNEL) < 0 ||
-b30563b69a83b54 David Howells 2023-08-03  2474  	    ceph_bvecq_insert_frag(dbuf, 1, PAGE_SIZE, GFP_KERNEL) < 0)
-5c64737d253683b Xiubo Li      2022-08-25  2475  		goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2476  
-b30563b69a83b54 David Howells 2023-08-03  2477  	iov_iter_bvec_queue(&iter, ITER_DEST, dbuf, 1, 0, len);
-ed86caec995f407 David Howells 2024-12-05  2478  	ret = netfs_unbuffered_read_from_inode(inode, orig_pos, dbuf, len, true);
-ed86caec995f407 David Howells 2024-12-05  2479  	if (ret < 0 && ret != -ENODATA)
-5c64737d253683b Xiubo Li      2022-08-25  2480  		goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2481  
-b30563b69a83b54 David Howells 2023-08-03  2482  	header = kmap_local_bvecq(dbuf, 0);
-b30563b69a83b54 David Howells 2023-08-03  2483  
-5c64737d253683b Xiubo Li      2022-08-25  2484  	/* Insert the header first */
-b30563b69a83b54 David Howells 2023-08-03  2485  	header->ver = 1;
-b30563b69a83b54 David Howells 2023-08-03  2486  	header->compat = 1;
-b30563b69a83b54 David Howells 2023-08-03  2487  	header->change_attr = cpu_to_le64(inode_peek_iversion_raw(inode));
-5c64737d253683b Xiubo Li      2022-08-25  2488  
-5c64737d253683b Xiubo Li      2022-08-25  2489  	/*
-5c64737d253683b Xiubo Li      2022-08-25  2490  	 * Always set the block_size to CEPH_FSCRYPT_BLOCK_SIZE,
-5c64737d253683b Xiubo Li      2022-08-25  2491  	 * because in MDS it may need this to do the truncate.
-5c64737d253683b Xiubo Li      2022-08-25  2492  	 */
-b30563b69a83b54 David Howells 2023-08-03  2493  	header->block_size = cpu_to_le32(CEPH_FSCRYPT_BLOCK_SIZE);
-5c64737d253683b Xiubo Li      2022-08-25  2494  
-5c64737d253683b Xiubo Li      2022-08-25  2495  	/*
-ed86caec995f407 David Howells 2024-12-05  2496  	 * If we hit a hole here, we should just skip filling the fscrypt for
-ed86caec995f407 David Howells 2024-12-05  2497  	 * the request, because once the fscrypt is enabled, the file will be
-ed86caec995f407 David Howells 2024-12-05  2498  	 * split into many blocks with the size of CEPH_FSCRYPT_BLOCK_SIZE.  If
-ed86caec995f407 David Howells 2024-12-05  2499  	 * there was a hole, the hole size should be multiple of block size.
-5c64737d253683b Xiubo Li      2022-08-25  2500  	 *
-5c64737d253683b Xiubo Li      2022-08-25  2501  	 * If the Rados object doesn't exist, it will be set to 0.
-5c64737d253683b Xiubo Li      2022-08-25  2502  	 */
-ed86caec995f407 David Howells 2024-12-05  2503  	if (ret != -ENODATA) {
-38d46409c4639a1 Xiubo Li      2023-06-12 @2504  		doutc(cl, "hit hole, ppos %lld < size %lld\n", pos, i_size);
-5c64737d253683b Xiubo Li      2022-08-25  2505  
-b30563b69a83b54 David Howells 2023-08-03  2506  		header->data_len = cpu_to_le32(8 + 8 + 4);
-b30563b69a83b54 David Howells 2023-08-03  2507  		header->file_offset = 0;
-5c64737d253683b Xiubo Li      2022-08-25  2508  		ret = 0;
-5c64737d253683b Xiubo Li      2022-08-25  2509  	} else {
-b30563b69a83b54 David Howells 2023-08-03  2510  		header->data_len = cpu_to_le32(8 + 8 + 4 + CEPH_FSCRYPT_BLOCK_SIZE);
-b30563b69a83b54 David Howells 2023-08-03  2511  		header->file_offset = cpu_to_le64(orig_pos);
-5c64737d253683b Xiubo Li      2022-08-25  2512  
-38d46409c4639a1 Xiubo Li      2023-06-12  2513  		doutc(cl, "encrypt block boff/bsize %d/%lu\n", boff,
-38d46409c4639a1 Xiubo Li      2023-06-12  2514  		      CEPH_FSCRYPT_BLOCK_SIZE);
-295fc4aa7de4b72 Xiubo Li      2023-03-06  2515  
-5c64737d253683b Xiubo Li      2022-08-25  2516  		/* truncate and zero out the extra contents for the last block */
-b30563b69a83b54 David Howells 2023-08-03  2517  		p = kmap_local_bvecq(dbuf, 1);
-b30563b69a83b54 David Howells 2023-08-03  2518  		memset(p + boff, 0, PAGE_SIZE - boff);
-b30563b69a83b54 David Howells 2023-08-03  2519  		kunmap_local(p);
-5c64737d253683b Xiubo Li      2022-08-25  2520  
-5c64737d253683b Xiubo Li      2022-08-25  2521  		/* encrypt the last block */
-b30563b69a83b54 David Howells 2023-08-03  2522  		ret = ceph_fscrypt_encrypt_block_inplace(inode, dbuf->bv[0].bv_page,
-5c64737d253683b Xiubo Li      2022-08-25  2523  							 CEPH_FSCRYPT_BLOCK_SIZE,
-fa65058063cbaba Eric Biggers  2025-07-09  2524  							 0, block);
-5c64737d253683b Xiubo Li      2022-08-25  2525  		if (ret)
-5c64737d253683b Xiubo Li      2022-08-25  2526  			goto out;
-5c64737d253683b Xiubo Li      2022-08-25  2527  	}
-5c64737d253683b Xiubo Li      2022-08-25  2528  
-b30563b69a83b54 David Howells 2023-08-03  2529  	req->r_dbuf = dbuf;
-b30563b69a83b54 David Howells 2023-08-03  2530  	req->r_dbuf_len = sizeof(*header);
-b30563b69a83b54 David Howells 2023-08-03  2531  	if (header->block_size)
-b30563b69a83b54 David Howells 2023-08-03  2532  		req->r_dbuf_len += CEPH_FSCRYPT_BLOCK_SIZE;
-5c64737d253683b Xiubo Li      2022-08-25  2533  out:
-38d46409c4639a1 Xiubo Li      2023-06-12  2534  	doutc(cl, "%p %llx.%llx size dropping cap refs on %s\n", inode,
-38d46409c4639a1 Xiubo Li      2023-06-12  2535  	      ceph_vinop(inode), ceph_cap_string(got));
-5c64737d253683b Xiubo Li      2022-08-25  2536  	ceph_put_cap_refs(ci, got);
-b30563b69a83b54 David Howells 2023-08-03  2537  	kunmap_local(header);
-b30563b69a83b54 David Howells 2023-08-03  2538  	if (ret)
-b30563b69a83b54 David Howells 2023-08-03  2539  		bvecq_put(dbuf);
-5c64737d253683b Xiubo Li      2022-08-25  2540  	return ret;
-5c64737d253683b Xiubo Li      2022-08-25  2541  }
-5c64737d253683b Xiubo Li      2022-08-25  2542  
-
-:::::: The code at line 2504 was first introduced by commit
-:::::: 38d46409c4639a1d659ebfa70e27a8bed6b8ee1d ceph: print cluster fsid and client global_id in all debug logs
-
-:::::: TO: Xiubo Li <xiubli@redhat.com>
-:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+   875	
+   876	/**
+   877	 * session_accumulate_sample - Accumulate requested counters into an existing sample.
+   878	 * @ptdev: Panthor device.
+   879	 * @session: Perf session.
+   880	 * @session_sample: Start of the destination sample, including its header.
+   881	 * @perf_sample: Start of the intermediate sample, including its header.
+   882	 *
+   883	 * Firmware enable masks select groups of counters. Copy timestamps and accumulate
+   884	 * only the counters requested by this session.
+   885	 */
+   886	static void session_accumulate_sample(struct panthor_device *ptdev,
+   887					      struct panthor_perf_session *session,
+   888					      u8 *session_sample, u8 *perf_sample)
+   889	{
+   890		const struct drm_panthor_perf_info *const perf_info = &ptdev->perf_info;
+   891		struct panthor_perf_enable_masks *em = session->enabled_counters;
+   892		struct panthor_perf_sample_block_iter iter;
+   893		const u32 counters = perf_info->counters_per_block;
+   894	
+   895		sample_block_iter_init(perf_info, perf_sample, session_sample, &iter);
+   896	
+   897		while (sample_block_iter_next(&iter)) {
+   898			DECLARE_BITMAP(enabled_ctrs, PANTHOR_PERF_EM_BITS);
+   899			const struct panthor_perf_counter_block *src_blk = iter.src_blk;
+   900			struct panthor_perf_counter_block *dst_blk = iter.dst_blk;
+   901	
+ > 902			bitmap_from_arr64(enabled_ctrs, em->mask[dst_blk->header.block_type],
+   903					  PANTHOR_PERF_EM_BITS);
+   904			bitmap_clear(enabled_ctrs, 0, PANTHOR_HEADER_COUNTERS);
+   905	
+   906			dst_blk->counters[PANTHOR_CTR_TIMESTAMP_HI] =
+   907				src_blk->counters[PANTHOR_CTR_TIMESTAMP_HI];
+   908			dst_blk->counters[PANTHOR_CTR_TIMESTAMP_LO] =
+   909				src_blk->counters[PANTHOR_CTR_TIMESTAMP_LO];
+   910	
+   911			for (size_t ctr_idx = PANTHOR_HEADER_COUNTERS; ctr_idx < counters; ctr_idx++)
+   912				if (test_bit(ctr_idx, enabled_ctrs))
+   913					dst_blk->counters[ctr_idx] += src_blk->counters[ctr_idx];
+   914		}
+   915	}
+   916	
 
 --
 0-DAY CI Kernel Test Service
