@@ -1,156 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48513FA5E4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 22:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80F831D72E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 23:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792018212; cv=none; b=RzD2VlPbNJvFh9cM2Gd5EDhVMCT+uMsCkjCRkf3VvdbmRj4UhIXY6eh3kCVFsbSAmIqAOTMEM9vV3RZk1jl0USGIblUWNO+cNfAaO+gfuj/1mfp0Ch5nkV9opdt7F0Yk15Yhb51tVU82SDmETgI7jUCZ2n48Ksr1gczDn9AlqIk=
+	t=1792019358; cv=none; b=dcfJLM92eloo3a7gpHRdAfBYos+qmI0mPAIWNkxvRT9jFXBdUicPPZT//nXJPJhfvVgr1vKNdIeZIFPHjkZ7cnWbeGuTILiWD/6c72Zha0DYsUqGBa5Y4wVtYyo9lrfZCP8uZswlIPOcX2wqHuBFmt85AddXGAP67eo0IgBiR9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792018212; c=relaxed/simple;
-	bh=n+pWVEaEz1G9hLasrMChZGdCwbGdJlHaGRy8PhjyNtE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CuEQgShJocdtYnoPkzl0M9Ep/8HJu7LzWG8lHlxbWvdMt3y5rAJy6wrpfXpX9t6JMkHM+4AbQ0aNqGwSDHI+3nnsdJO8H6tx7E/KYmIyQUimgtI87O1qxL9d9LTRkNmsgJ8I65Jgn9XgBSDcPR/9Zad6qo4XDgd2V/dUGR3DxTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JyDhJYHK; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1792019358; c=relaxed/simple;
+	bh=OrtcZbcrtNsgq9mKxP4mO0S3UWMUQ5hc58zOZIiX8tA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hd6tYEWl3kgM5G5sfR+bDM71icv9JpRciVQIMkQnrevx4p/4g5+fCp9sclmZEuMczg3+0A40VbURNXfIFdfyN1OBm0ram1EzCGJnR8dMXzgGDlPh5pwVWNjtY0cgAM+Iulz6K85S8FXs+OaHLSJV1ksRFFyL3QtWHWrEoI1OWqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFBy28C5; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JyDhJYHK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFBy28C5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792018211; x=1823554211;
-  h=date:from:to:cc:subject:message-id;
-  bh=n+pWVEaEz1G9hLasrMChZGdCwbGdJlHaGRy8PhjyNtE=;
-  b=JyDhJYHKTWQFCNsOLJyJC7BIgDbpBQOoEEmMWYameY2xUxhhpb3daGuL
-   M3BfXEny1oQbA4VrqDnVY4V6Ou+Q3I2EbP+y0PbXuOFtA6SSYkXaRQlQn
-   QpQqud23oX8Kwyt0FB9/ROHBtaowZFV0IeHqX/N1c/LmLTZtZxy0S/VMB
-   Wfj7o5K8w0Vl8RXlF4kFjEEI+xUeFe5lxsQOI8Jd19z5oONT1CD8hybHP
-   zyrbuqlHygb7IXnSl5VtEU9PmFWPz5BpWnUxTl+qkvNUHCVFOLeKh4YSj
-   T8rNRG9Bq9jdPLHBWI8GBwvEYJygTeBbs/Tua/PmH59cHi8SfWntxzvNj
-   Q==;
-X-CSE-ConnectionGUID: tWAm0U9hRQq33keOuzPemw==
-X-CSE-MsgGUID: COeo/OF1TWWc5VnXUdnvQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="655748"
+  t=1792019357; x=1823555357;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OrtcZbcrtNsgq9mKxP4mO0S3UWMUQ5hc58zOZIiX8tA=;
+  b=fFBy28C5A1GzDiO3pGYemjJ84bKgaLco0qvp8GiLz+Qou0mn556EExY6
+   YEXch0+Z+flobFM/Um85WXzpdSFeRMUxZKxbnL2r2/zeqQPmuuWPFhdij
+   Vow0ZnqyJwQEmFa8EkBmm5cmK1BVt17awRp70n4a9zEvmkD5ribTp44H4
+   ZSERf6H+Gns9DNg3wjVu/4jYVsnnEUq3YVGT027f4cPgsoB0OZIq8RfxB
+   Ta73/VGQ9BGg+JlcQMd+E6gudqVXnbaUk6IrcPWPJPCImwABkWDMP2mcm
+   f+6ye/AlMlmuw0/VqJhHTA/tdY+zhTWh1zDCqHRqiM28E1y3lGJwofCyV
+   A==;
+X-CSE-ConnectionGUID: X0SAhH8MTcKO2HocAQKsUQ==
+X-CSE-MsgGUID: n3jkT5DmQ+SaYHzguBS0JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="784613"
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="655748"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 15:50:10 -0700
-X-CSE-ConnectionGUID: K8L7SaRDQrWfg0Iii7Dv9A==
-X-CSE-MsgGUID: nSqefY6wRyW38gGVhw3cLA==
+   d="scan'208";a="784613"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 16:09:17 -0700
+X-CSE-ConnectionGUID: qiNwdMLoTt2luNl9iD7Y1Q==
+X-CSE-MsgGUID: +dlLLQivTciQsB00vZkkFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1611178"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 14 Oct 2026 15:50:08 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="1650449"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2026 16:09:15 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xH7nS-00000000BLT-0XNY;
-	Wed, 14 Oct 2026 22:50:06 +0000
-Date: Thu, 15 Oct 2026 00:49:15 +0200
+	id 1xH85w-00000000FKd-0Q4c;
+	Wed, 14 Oct 2026 23:09:12 +0000
+Date: Thu, 15 Oct 2026 07:08:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/trace/trace_snapshot.c:51:3: error: call to
- undeclared function 'trace_array_puts'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202610150045.WoETcMQu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sanjay Yadav <sanjay.kumar.yadav@intel.com>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	Matthew Auld <matthew.auld@intel.com>,
+	Arun Pravin <arunpravin.paneerselvam@amd.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>
+Subject: Re: [PATCH 2/2] gpu/tests/buddy: Add range-bias pruning and
+ free-order tracking tests
+Message-ID: <202610150607.yXtmKb5N-lkp@intel.com>
+References: <20298d0d2eb7f62ed5f75c460710c4e13fc94aee.1791802549.git.sanjay.kumar.yadav@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20298d0d2eb7f62ed5f75c460710c4e13fc94aee.1791802549.git.sanjay.kumar.yadav@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0fcb05b72344f40806cbe810de8872f1698bf053
-commit: bade44fe546212e142befb69ba22f34944030a99 tracing: Move snapshot code out of trace.c and into trace_snapshot.c
-date:   7 months ago
-config: hexagon-randconfig-r2110-20261014 (https://download.01.org/0day-ci/archive/20261015/202610150045.WoETcMQu-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e1354f31346666c78d758cee13692ea3b1fe3ec2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150045.WoETcMQu-lkp@intel.com/reproduce)
+Hi Sanjay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip next-20261012]
+[cannot apply to linus/master v7.3-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sanjay-Yadav/gpu-buddy-Prune-exhausted-subtrees-in-range-biased-allocation/20261012-164046
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20298d0d2eb7f62ed5f75c460710c4e13fc94aee.1791802549.git.sanjay.kumar.yadav%40intel.com
+patch subject: [PATCH 2/2] gpu/tests/buddy: Add range-bias pruning and free-order tracking tests
+config: arm-randconfig-1003-20261013 (https://download.01.org/0day-ci/archive/20261015/202610150607.yXtmKb5N-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150607.yXtmKb5N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: bade44fe5462 ("tracing: Move snapshot code out of trace.c and into trace_snapshot.c")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150045.WoETcMQu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150607.yXtmKb5N-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> kernel/trace/trace_snapshot.c:51:3: error: call to undeclared function 'trace_array_puts'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      51 |                 trace_array_puts(tr, "*** SNAPSHOT CALLED FROM NMI CONTEXT ***\n");
-         |                 ^
-   kernel/trace/trace_snapshot.c:51:3: note: did you mean 'trace_array_put'?
-   include/linux/trace.h:84:20: note: 'trace_array_put' declared here
-      84 | static inline void trace_array_put(struct trace_array *tr)
-         |                    ^
-   kernel/trace/trace_snapshot.c:57:3: error: call to undeclared function 'trace_array_puts'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      57 |                 trace_array_puts(tr, "*** SNAPSHOT NOT ALLOCATED ***\n");
-         |                 ^
-   kernel/trace/trace_snapshot.c:64:3: error: call to undeclared function 'trace_array_puts'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      64 |                 trace_array_puts(tr, "*** BUFFER MEMORY MAPPED ***\n");
-         |                 ^
-   kernel/trace/trace_snapshot.c:71:3: error: call to undeclared function 'trace_array_puts'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      71 |                 trace_array_puts(tr, "*** LATENCY TRACER ACTIVE ***\n");
-         |                 ^
->> kernel/trace/trace_snapshot.c:251:6: error: redefinition of 'tracing_snapshot_alloc'
-     251 | void tracing_snapshot_alloc(void)
-         |      ^
-   include/linux/trace_printk.h:188:20: note: previous definition is here
-     188 | static inline void tracing_snapshot_alloc(void) { }
-         |                    ^
-   kernel/trace/trace_snapshot.c:1065:3: error: call to undeclared function 'trace_array_puts'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1065 |                 trace_array_puts(tr, "** Boot snapshot taken **\n");
-         |                 ^
-   6 errors generated.
-
-
-vim +/trace_array_puts +51 kernel/trace/trace_snapshot.c
-
-    36	
-    37	
-    38	static int __init boot_snapshot(char *str)
-    39	{
-    40		snapshot_at_boot = true;
-    41		boot_alloc_snapshot(str);
-    42		return 1;
-    43	}
-    44	__setup("ftrace_boot_snapshot", boot_snapshot);
-    45	static void tracing_snapshot_instance_cond(struct trace_array *tr,
-    46						   void *cond_data)
-    47	{
-    48		unsigned long flags;
-    49	
-    50		if (in_nmi()) {
-  > 51			trace_array_puts(tr, "*** SNAPSHOT CALLED FROM NMI CONTEXT ***\n");
-    52			trace_array_puts(tr, "*** snapshot is being ignored        ***\n");
-    53			return;
-    54		}
-    55	
-    56		if (!tr->allocated_snapshot) {
-    57			trace_array_puts(tr, "*** SNAPSHOT NOT ALLOCATED ***\n");
-    58			trace_array_puts(tr, "*** stopping trace here!   ***\n");
-    59			tracer_tracing_off(tr);
-    60			return;
-    61		}
-    62	
-    63		if (tr->mapped) {
-    64			trace_array_puts(tr, "*** BUFFER MEMORY MAPPED ***\n");
-    65			trace_array_puts(tr, "*** Can not use snapshot (sorry) ***\n");
-    66			return;
-    67		}
-    68	
-    69		/* Note, snapshot can not be used when the tracer uses it */
-    70		if (tracer_uses_snapshot(tr->current_trace)) {
-    71			trace_array_puts(tr, "*** LATENCY TRACER ACTIVE ***\n");
-    72			trace_array_puts(tr, "*** Can not use snapshot (sorry) ***\n");
-    73			return;
-    74		}
-    75	
-    76		local_irq_save(flags);
-    77		update_max_tr(tr, current, smp_processor_id(), cond_data);
-    78		local_irq_restore(flags);
-    79	}
-    80	
+>> ERROR: modpost: drivers/gpu/tests/gpu_buddy_tests.ko: symbol '__aeabi_uldivmod' undefined!
 
 --
 0-DAY CI Kernel Test Service
