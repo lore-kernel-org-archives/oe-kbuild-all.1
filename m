@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772DA56510A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 18:51:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5870B56E045
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 18:51:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792003900; cv=none; b=ICO+CyC+fHHD/VaAvpepKkqGI+q9EIxNV67F8SDLOzdesyiebUZV7sd1buPv3EPfNWUUhxdSd8+a+yOFWNIDgQI9SSrUYtrdvEelep+NskmgFCf0xoeOUDuF9ncg7MablhxcaSNd39JVHFL46IBqKBlPDtkb7BzlvnqfUFjCw1U=
+	t=1792003902; cv=none; b=lumgcByDaGysEMXE1P1bix1zZ0gju2PeQjp4/GTvDaEfwi2C+RxJuualRl2MkTXfkH2U6awMu4MYvFfPFwr4vsdnxaKsdaLMPP/TDWKYB4YGXObsLBzEiAtPDCWfDCppQm/1ETvLgInnV5nlJZbLMF9DkldM8rNQS5OnED9KxJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792003900; c=relaxed/simple;
-	bh=MgxLrvR7ESdX58tniyoFJbhfW6BtWZlCLNjQisZfUGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=t+AdfKGL4evDBd+6oHavSLcI589PNb0fL/8XRBQYCXMyZvdyqGgyCkQpp3fi9aB2senTwibmboEHGs/fncDZXElH0+oovY2jqIGy6TAaV3y5tXlaA0bXU43QvAe1l9TPwIeabUNK6fyY9RRyZoLVBSaAjnF8eVC/YfcHcyBBA+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GmkWg9lo; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1792003902; c=relaxed/simple;
+	bh=kxE6YIpWJYSPkdTmxW6LL3Rlg5ObiE0M+WeLdwf1Rj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=JUjUWFs+Nc8Tp0Oeoz7MVkZrsYXnbMGG2nPaBWk5CBq7J+VO3cG9ik6B8jMY6L6FX99hWi/lFmUEZ+vsqEj2Wm/Zz9u3T2Qm5biZi7vGTUVBdFC8UuTuFbQ4jXIDteixPmrcSle//xymaWAUebzobvMCCMmXUzkBfFirMZF4Byg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMqEAr8m; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GmkWg9lo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMqEAr8m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792003896; x=1823539896;
+  t=1792003901; x=1823539901;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=MgxLrvR7ESdX58tniyoFJbhfW6BtWZlCLNjQisZfUGk=;
-  b=GmkWg9lo5haAv/cwf6XgvaIAFh9z/LEBzVXH4cnE9AtTj24ojTh2QZ50
-   FhF9F4ZU0hndpFr+6HBYzW5ivKgobjuLseLmiB4bn+C67zx+B0C40RT1Z
-   ww1GFS3SMO88htmgNF2FKKflGV1ITpBowmagEzmKRd5HFm7fuiXIt9V+7
-   dFRlOwiwGYskRLamyhIX+E1FaJJh3o5TaE8uHzkLBNUOLB0igxdvD1oFQ
-   sC1M1BnDnCSyKKkK7yufOP9kGwIRAZgdcrt09MbVxK7Ft5BZ3zIkYHUY6
-   aiQ/U66Ugr2Mp9SCFHk5VsUffRv/xCNWwsQ7oClgBo8AaKb9HiiPgyPcl
-   A==;
-X-CSE-ConnectionGUID: HeJBxd8nQaSNcofDkxJllA==
-X-CSE-MsgGUID: nvQf84cTRu6WOcgFGpootQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="667115"
+  bh=kxE6YIpWJYSPkdTmxW6LL3Rlg5ObiE0M+WeLdwf1Rj4=;
+  b=nMqEAr8mLhYWC5ncia4mjMRBovZxt5AwuOLaLS4aKrBKKqXLQZcbYhgE
+   PKXRdRL6EtcrjXc5abTjH9L39vgQIs+c9pdRZdFr3XIML60MFNUWy+cYG
+   /lDI6kEF9+DibdF15FUmXf/uvJIWpesFu3iBKFpreyvUxxfbtLXGATZXd
+   Nsangeci6nTewVMdqf1D9OotUXkNyLRwYl9eV8yzRArLjLKW4oR4mMZSa
+   V0SZZWdYIJA45BAvnfWZaR1o4HRmPE2VgqQUIG+18qG+0t7cGIxFoe22U
+   vBGQpXQXrMKDQNnww1myLpBb/Ws10Ocbku+LZ0F13lUEGs2+l14kmhBvu
+   w==;
+X-CSE-ConnectionGUID: bxfK4geIQ9mnIh45EQj0Gg==
+X-CSE-MsgGUID: EooGWFTkSXKm4cymIe2dUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="667117"
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="667115"
+   d="scan'208";a="667117"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 11:51:35 -0700
-X-CSE-ConnectionGUID: HF5zanRLT3y1r+J2HtT7gw==
-X-CSE-MsgGUID: UZd5At1YS+mLEMauROYyoA==
+X-CSE-ConnectionGUID: MDAr3TjBQ6OkLrGRGxFPng==
+X-CSE-MsgGUID: VSTaVJACRR2LkUP5DxsKMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1470401"
+   d="scan'208";a="1470403"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 14 Oct 2026 11:51:33 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xH44Z-00000000F4j-16c6;
+	id 1xH44Z-00000000F4l-1GJ0;
 	Wed, 14 Oct 2026 18:51:31 +0000
-Date: Thu, 15 Oct 2026 02:50:42 +0800
+Date: Thu, 15 Oct 2026 02:50:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [frank-w-bpi-r2-4.14:7.3-rsslro2 15/15]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:5368:1: warning: label
- 'err_unreg_netdev' defined but not used
-Message-ID: <202610150202.7njR5UN0-lkp@intel.com>
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c:5368:1: warning: unused label
+ 'err_unreg_netdev'
+Message-ID: <202610150247.Uo9xRX54-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -68,26 +68,27 @@ tree:   https://github.com/frank-w/BPI-R2-4.14 7.3-rsslro2
 head:   0327d4826547afd9459f4696200a87542fa2fc41
 commit: c11d093201f64bf1ea6af214a362f7d828b6bf2b [15/15] net: ethernet: mtk=
 _eth_soc: fix panic issue with napi_enable in mtk_open
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20261015/=
-202610150202.7njR5UN0-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/202=
+61015/202610150247.Uo9xRX54-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd7080=
+29e0b2869e80abe31ddb175f7c35361f90)
 reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261015/202610150202.7njR5UN0-lkp@intel.com/reproduce)
+/20261015/202610150247.Uo9xRX54-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150202.7njR5UN0-lkp@i=
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150247.Uo9xRX54-lkp@i=
 ntel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_probe':
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5368:1: warning: label 'err_=
-unreg_netdev' defined but not used [-Wunused-label]
+>> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5368:1: warning: unused labe=
+l 'err_unreg_netdev' [-Wunused-label]
     5368 | err_unreg_netdev:
-         | ^~~~~~~~~~~~~~~~
+         | ^~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
 vim +/err_unreg_netdev +5368 drivers/net/ethernet/mediatek/mtk_eth_soc.c
