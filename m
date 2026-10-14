@@ -1,136 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C6D37F301;
-	Wed, 14 Oct 2026 05:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB113B7747
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 06:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791956279; cv=none; b=uF4cjY/ukUpCS3xZbYBK4riRWImkPXjSW1Mh4gKknMieUS0j6OPAtIRAQUCtq/Ry0uW0uepOLPzX7n+B+PF9UKjKMuzE5O+TyH680nZ8uiLb7MK1wNq7sPPxTplOQ78WeMYxDCw3ghCoUaDzfkmc8NRH6YQKy2WmBgfWrCEmPEc=
+	t=1791960156; cv=none; b=YcTBB1N2WFXFjmW+h3tIscpDTIXtbkWN/9xBLS63asLsOWIlyFSLQl/pRZs+HL9UbGzbb0Iy5A0cBUQS16TmrqtpkomNqCmIJPZd1Cg0vy4Dt6vfe0Sh38tnUb9sB0UXDRsvnz70gzx40vA0ozXfVT7LESyUu6smfeg0QNlja2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791956279; c=relaxed/simple;
-	bh=KLQLSwtwMfdActLLHb1t3B9g7TGrfNXupKshdeRihfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGNLhwsRhp81Cw9UEhZWWjCQexFwikDEiJktGUYiqNlSDvhZXM+DWtsPckzja4UTgNrtWJOWLTDbJ2vMCqq7t9b9HDti/uTq96x/IuOyk+NOMFtQ4SV6FHSBzgtETRO63bWkp1lCES5XY3MFZyrPBUCdA79MtC67QWdynwG4jBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mbpWt4yq; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1791960156; c=relaxed/simple;
+	bh=ZRZd86mHacRp20fFhPVwjb/0qtXpGh+rKVDO89RpS78=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WtvZCb8VLisORzTnEfX5ohVW/2l/EwQ1r0nZiMEETnTprNidwGOSJgGFfzd9ukQY58dFrHvGKRLC/CmDjhuJfleos/yAFYB0u6kLV7hizPW+kumckbtOPUh5i+6iHcuo45T/8B4O6aArY3dO/Mop8WOG5BfJVK4gPY2fVIfwqx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kTGA2by1; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbpWt4yq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kTGA2by1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791956278; x=1823492278;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KLQLSwtwMfdActLLHb1t3B9g7TGrfNXupKshdeRihfw=;
-  b=mbpWt4yqbMAbsBa1nF7PjLOu54516I4f5Wz8unpt+S3WvJj+6lGxmK8A
-   zayP+nFBMIfjqozBe2S7rpzuBxc0hwLvNifMZw4oNwxFksLoKNWG5A9L8
-   Coopx7PqyzPo8QBrgqZ51UucmVvV6TKN8cLWo6bPFiVdGlJoJTuSOiNgi
-   BGdReRtXWTdsXv7nmuLB99wNaAuVwrLZYuCicxF9R5I7bFBElrclXL5sF
-   BUL+WA5WvEKy9y68LZ9zT3MAa7G13OHM7d7z3LM1qr6uo0SuUHXFKgXwC
-   it+KFqXdCOo96QZ2EtfLywyGPspErs0ogYWfXhcigFCtS7iDmS5CzqSUW
-   A==;
-X-CSE-ConnectionGUID: zMLenybYS5irVIuPbcw1BQ==
-X-CSE-MsgGUID: me4MbLJsQMyjXyXPsc8dbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="594165"
+  t=1791960153; x=1823496153;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZRZd86mHacRp20fFhPVwjb/0qtXpGh+rKVDO89RpS78=;
+  b=kTGA2by1LwQKvlVrOqFbb5hwwEb6yvGDzaLt9AHg4MU8lNCXk8Dyn1Ea
+   ldgkPyx7kqUqKXsHOZwguav4myHZ8Wy5FtK4tF2WPUwwVRfJ/ICn2g9cw
+   a3fam6YaLtkC4QJ8UgDPYYQM8jEcvUDRTyY0+vFsWxjeegULdDn3qSwE1
+   jeGb7U+vwOQEUqjSg+pGt+2S70TSwmchrsBKRzPr/vjQddRg65ZGcsx+G
+   7JsIeRVTt2zvxzfAw0Dnf12Os0GnnKGUIseRiY+kzFp/SxB4u7dGzTJFK
+   aTGlRj/hGxE7kEnr3biUJ/cX2XTjEaWOvXFqz/b2o9v65CctW6Dnt7caS
+   w==;
+X-CSE-ConnectionGUID: CDsAGz6wRU+llWC97GfLdQ==
+X-CSE-MsgGUID: FByiCr5jQN+Hf10mKNQXng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="794274"
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="594165"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 22:37:57 -0700
-X-CSE-ConnectionGUID: hEgQPaK2R9aPLUUnvB+9hQ==
-X-CSE-MsgGUID: YQNxwNdZRRSK8mdela4Ucw==
+   d="scan'208";a="794274"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 23:42:33 -0700
+X-CSE-ConnectionGUID: BDcNKyVoR9yUfdACxEfAkw==
+X-CSE-MsgGUID: TrFrtYm+T7OOK14m0fzi4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="1302075"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Oct 2026 22:37:53 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="1290938"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 13 Oct 2026 23:42:31 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGrgT-00000000EB8-1TAl;
-	Wed, 14 Oct 2026 05:37:49 +0000
-Date: Wed, 14 Oct 2026 13:37:30 +0800
+	id 1xGsh3-00000000Asx-28DO;
+	Wed, 14 Oct 2026 06:42:29 +0000
+Date: Wed, 14 Oct 2026 08:41:46 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ho Jie Feng <hjf3108@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, cyrozap@gmail.com,
-	Ho Jie Feng <hjf3108@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] drm/trigger5: Add MCT Trigger 5 USB display driver
-Message-ID: <202610141333.eWqPGRTA-lkp@intel.com>
-References: <20261012131539.67790-1-hjf3108@gmail.com>
+To: "S. Biplab Raut" <Biplab.Raut@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 16148/16498] ld: warning: orphan section
+ `.altinstructions' from `arch/x86/boot/compressed/misc.o' being placed in
+ section `.altinstructions'
+Message-ID: <202610140857.6jRIqXf1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012131539.67790-1-hjf3108@gmail.com>
 
-Hi Ho,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 73df79cceb8c01f311055a61794e229dc81546cb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ho-Jie-Feng/drm-trigger5-Add-MCT-Trigger-5-USB-display-driver/20261012-211537
-base:   73df79cceb8c01f311055a61794e229dc81546cb
-patch link:    https://lore.kernel.org/r/20261012131539.67790-1-hjf3108%40gmail.com
-patch subject: [PATCH v4] drm/trigger5: Add MCT Trigger 5 USB display driver
-config: powerpc-randconfig-1000-20261014 (https://download.01.org/0day-ci/archive/20261014/202610141333.eWqPGRTA-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261014/202610141333.eWqPGRTA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1fffefb00cc0b0da1f2ae24e3d33364530ea6515
+commit: b575885f96602d24a127dd325dda1739ef6edd46 [16148/16498] lib/lz4: add software-pipelined prefetch to decode fast loop
+config: i386-randconfig-2001-20261014 (https://download.01.org/0day-ci/archive/20261014/202610140857.6jRIqXf1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261014/202610140857.6jRIqXf1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610141333.eWqPGRTA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610140857.6jRIqXf1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/tiny/trigger5.c:550:19: warning: result of comparison of constant 65536 with expression of type 'const u16' (aka 'const unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-     550 |             mode->htotal > U16_MAX + 1)
-         |             ~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   drivers/gpu/drm/tiny/trigger5.c:555:19: warning: result of comparison of constant 65536 with expression of type 'const u16' (aka 'const unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-     555 |             mode->vtotal > U16_MAX + 1)
-         |             ~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +550 drivers/gpu/drm/tiny/trigger5.c
-
-   540	
-   541	static enum drm_mode_status
-   542	trigger5_crtc_mode_valid(struct drm_crtc *crtc,
-   543				 const struct drm_display_mode *mode)
-   544	{
-   545		struct trigger5_pll pll;
-   546		u64 err, ppm;
-   547	
-   548		if (mode->hsync_end <= mode->hsync_start ||
-   549		    mode->htotal <= mode->hsync_end ||
- > 550		    mode->htotal > U16_MAX + 1)
-   551			return MODE_H_ILLEGAL;
-   552	
-   553		if (mode->vsync_end <= mode->vsync_start ||
-   554		    mode->vtotal <= mode->vsync_end ||
-   555		    mode->vtotal > U16_MAX + 1)
-   556			return MODE_V_ILLEGAL;
-   557	
-   558		if (trigger5_mode_buf_len(mode) > TRIGGER5_TRANSFER_BUF_SIZE)
-   559			return MODE_MEM;
-   560	
-   561		err = trigger5_calculate_pll(&pll, mode->clock);
-   562		ppm = div64_u64(err * 1000, mode->clock);
-   563		if (ppm > 10000)
-   564			return MODE_CLOCK_RANGE;
-   565	
-   566		return MODE_OK;
-   567	}
-   568	
+>> ld: warning: orphan section `.altinstructions' from `arch/x86/boot/compressed/misc.o' being placed in section `.altinstructions'
+>> ld: warning: orphan section `.altinstr_replacement' from `arch/x86/boot/compressed/misc.o' being placed in section `.altinstr_replacement'
 
 --
 0-DAY CI Kernel Test Service
