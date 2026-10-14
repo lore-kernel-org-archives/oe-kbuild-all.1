@@ -1,199 +1,180 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3865A3EB81E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 19:01:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534AD334692
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 19:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792004499; cv=none; b=VZRTtlKXoHal48fS84LvhecaU4Z5ilgPTN77NyFPNz4+6R+x9Hnp68qqdIJMTvALe4oQddMOufUGxLF87T2tURPOtGy6eF6RjksBt87fH0ht3PGkvvLS0a1XOSAOHk9CTA6gvncUdjfg+DvXZY1FxbZ+cY8EWLPvzeX72TL9+rA=
+	t=1792004501; cv=none; b=fJxWFRiVH4q4hRbMIsftRVIHmNK5VVSjOT4hrjNdyre2mWD8FdUxMNYp0psendHPwgYmQcFxgYZ2QNTyVCwqK7+USBV9KDbN5lVWG3TnQZuaaNleMpwqei1pV0RZrDcIzwgbwZUlSgmXliyOJVRygQT5a0Zo8Oa1CA0//hGaHE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792004499; c=relaxed/simple;
-	bh=IDM9SdjLAdA2qXaA0UvI1EUFZ5XijLARydmvsldYkm0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iHKDiqMpkpk6KmoN71tLTfhLz8FjpSawRCfTkgN08pSSltCEpdD3k+/Q44fjIt5T5IUroe8pOmJpRZRVTjv6o7S6HD4TN0kGGWGViSmGn9eY0LTACRhmy0i6n1jN2aW36YoyERxcQIlgjvLozFM6PgyacIL5vHHpAiAxtFJIqsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTCcsFOw; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1792004501; c=relaxed/simple;
+	bh=eH2Judo0oDaJoMduW8BZVfPz3bobRSuAdFGcSBEw4KI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t5+oW0AL91+giwXyt00Gw4UKSSYR+0avGW1aEGsyCNpFnoNfBeVbuMJUEjEhtEDk3uFvmNoIngF7zFCeVI448LIfl4kwR/5+RzKjLFRRQrj9mPFRm0LigUTsuznoEQKysrtG/OHEmeJHi3yLfvQM6UCdlwMe2uVapN0Zy6os4U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PI6DewW1; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTCcsFOw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PI6DewW1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792004497; x=1823540497;
-  h=date:from:to:cc:subject:message-id;
-  bh=IDM9SdjLAdA2qXaA0UvI1EUFZ5XijLARydmvsldYkm0=;
-  b=XTCcsFOwrj0Iltx5/AK1HxKqGE2GmFCWe0XWPX6lFedZVukLIrjINyxN
-   IgA0Uq2/DNkJPuwxx0O+jxWpIkIldWW3vp1fwZey1TKUkze9Vi7a97qKL
-   NQi63BxrUbFD5+oa5BERvEexPtTh2cKp5EtwgnhhAexy+dkujBxw7vkFn
-   1H9EWMHpESTso4r4qar/hEugX5lQS4uoF4o/0u+7chWinc54ahLQYheho
-   QWPBdZn7HUCAN+rNJvDjkTMhxWgbdFE5dr8iaF3hvIUEvtJjohoIYW3hJ
-   O4Chd3Vl0B0m2lElzi5FSwGwgAQHAB+63wMe1OEwDd6AvhwaMPVPvHtpO
-   A==;
-X-CSE-ConnectionGUID: Fgkz7m58RYiC2a/CkyIMMA==
-X-CSE-MsgGUID: SzL/bnjRTpqUUdBaDkXMFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="770525"
+  t=1792004499; x=1823540499;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eH2Judo0oDaJoMduW8BZVfPz3bobRSuAdFGcSBEw4KI=;
+  b=PI6DewW1tL7nQ+HlcT/+v617RtIGznTS5u1WZMGkqK8v/5c35n8HSOkX
+   1qgp5uuUJSlh2gW6UzPdLieKMPaxtPlYumZZ3TCjfLWwOltPgh8gP6NSR
+   ptkA2dRNIsWdh9tM41+lKti70HdlzuU5+inIEAgpl6tM+mm8Fc7giL5mu
+   DvWc5YJM3oAVXaUjXNaa/8AJH+kBN0SfvNZ/1+zZf7GZk6/RApaNUDECW
+   WC84dZTRwZlEICr6lKTX1i77VD39WBUCqjaDaD6HhZVmObna+DNGMP3r2
+   ufCPrCBkShMkhgHURT+gZrKL5Pilu1BwhaA4VaVZxFox6wM76OClnCNxj
+   Q==;
+X-CSE-ConnectionGUID: q4qL8ZM6R8qfuTVdb53rPQ==
+X-CSE-MsgGUID: MCGw4SytTIW1bNsP7kxJUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="770529"
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="770525"
+   d="scan'208";a="770529"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 12:01:37 -0700
-X-CSE-ConnectionGUID: 0crmKs5RSXW81kCb5mYvuw==
-X-CSE-MsgGUID: KuDwtfsyQzG6PXVVGAA26Q==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 12:01:39 -0700
+X-CSE-ConnectionGUID: 7ZOYIYY/T3atE/S9XHVClQ==
+X-CSE-MsgGUID: w0sTSkONTIeOsmKMycL5Wg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1469621"
+   d="scan'208";a="1469613"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 14 Oct 2026 12:01:36 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xH4EH-00000000F5R-0SBs;
+	id 1xH4EH-00000000F5P-0Lnl;
 	Wed, 14 Oct 2026 19:01:33 +0000
-Date: Thu, 15 Oct 2026 03:01:26 +0800
+Date: Thu, 15 Oct 2026 03:01:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_776' undeclared; did
- you mean '__UNIQUE_ID_x_775'?
-Message-ID: <202610150253.IQzSe05S-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sarath Ganapathiraju via B4 Relay <devnull+sarath.ganapathiraju.oss.qualcomm.com@kernel.org>,
+	andersson@kernel.org, abelvesa@kernel.org, sboyd@kernel.org,
+	bmasney+clk@redhat.com, jbrunet+clk@baylibre.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	srinivas.kandagatla@oss.qualcomm.com,
+	sarath.ganapathiraju@oss.qualcomm.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, prasad.kumpatla@oss.qualcomm.com
+Subject: Re: [PATCH v11 2/2] clk: qcom: Add LPASS VA CSR heartbeat pulse clock
+Message-ID: <202610150234.1B8DywxX-lkp@intel.com>
+References: <20261012-master-v11-2-15009e3ecac3@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261012-master-v11-2-15009e3ecac3@oss.qualcomm.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   c82b35cb007f01c9aef84e93febc8961486d59ec
-commit: 1d9d3192c3a2b90a68a3ebe4a9b5b0fa27af0b9e [1/1] BACKPORT: locking/local_lock, mm: replace localtry_ helpers with local_trylock_t type
-config: arm64-randconfig-1002-20261014 (https://download.01.org/0day-ci/archive/20261015/202610150253.IQzSe05S-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150253.IQzSe05S-lkp@intel.com/reproduce)
+Hi Sarath,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on becb95e45ef0dda9ffb35156d909d3da7a2789c3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sarath-Ganapathiraju-via-B4-Relay/dt-bindings-clock-qcom-Add-LPASS-VA-CSR-HeartBeat-pulse-clock/20261012-172258
+base:   becb95e45ef0dda9ffb35156d909d3da7a2789c3
+patch link:    https://lore.kernel.org/r/20261012-master-v11-2-15009e3ecac3%40oss.qualcomm.com
+patch subject: [PATCH v11 2/2] clk: qcom: Add LPASS VA CSR heartbeat pulse clock
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261015/202610150234.1B8DywxX-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150234.1B8DywxX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150253.IQzSe05S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150234.1B8DywxX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/blk-crypto.h:127,
-                    from include/linux/blk-crypto-profile.h:10,
-                    from include/linux/mmc/host.h:19,
-                    from drivers/mmc/host/mmci.c:23:
-   include/linux/blkdev.h:1830:24: error: field 'req_list' has incomplete type
-    1830 |         struct rq_list req_list;
-         |                        ^~~~~~~~
-   In file included from <command-line>:
-   drivers/mmc/host/mmci.c: In function 'mmci_probe':
->> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_776' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_775'?
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                             ^~~~~~~~~~~~
-   include/linux/compiler_types.h:528:23: note: in definition of macro '__compiletime_assert'
-     528 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:548:9: note: in expansion of macro '_compiletime_assert'
-     548 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
-      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
-         |                         ^~~~~~~~~~~~~~
-   include/linux/minmax.h:75:27: note: in expansion of macro '__sign_use'
-      75 |         (__sign_use(ux) & __sign_use(uy))
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
-      97 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
-      97 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:98:55: note: in expansion of macro '__UNIQUE_ID'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/compiler_types.h:528:23: note: in definition of macro '__compiletime_assert'
-     528 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:548:9: note: in expansion of macro '_compiletime_assert'
-     548 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
-      49 | #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
-         |                         ^~~~~~~~~~~~~~
-   include/linux/minmax.h:75:27: note: in expansion of macro '__sign_use'
-      75 |         (__sign_use(ux) & __sign_use(uy))
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:93:27: note: in expansion of macro '__types_ok'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |                           ^~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
-      97 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^~~~~~~
-   include/linux/compiler_types.h:97:22: note: in expansion of macro '___PASTE'
-      97 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~
-   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                                     ^~~~~~~
-   include/linux/minmax.h:98:55: note: in expansion of macro '__UNIQUE_ID'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |                                                       ^~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
-    2333 |                                 fmax : min(host->mclk, fmax);
-         |                                        ^~~
-   drivers/mmc/host/mmci.c: At top level:
-   drivers/mmc/host/mmci.c:53:21: warning: 'fmax' defined but not used [-Wunused-variable]
-      53 | static unsigned int fmax = 515633;
-         |                     ^~~~
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:5,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:391,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/bits.h:30,
+                    from include/linux/clk-provider.h:10,
+                    from drivers/clk/qcom/lpass-va-csr.c:6:
+   drivers/clk/qcom/lpass-va-csr.c: In function 'lpass_va_csr_runtime_resume':
+   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
+       8 | #define NULL ((void *)0)
+         |              ^
+   include/linux/pm_clock.h:78:25: note: in expansion of macro 'NULL'
+      78 | #define pm_clk_resume   NULL
+         |                         ^~~~
+   drivers/clk/qcom/lpass-va-csr.c:61:15: note: in expansion of macro 'pm_clk_resume'
+      61 |         ret = pm_clk_resume(dev);
+         |               ^~~~~~~~~~~~~
+   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
+       8 | #define NULL ((void *)0)
+         |              ^
+   include/linux/pm_clock.h:77:25: note: in expansion of macro 'NULL'
+      77 | #define pm_clk_suspend  NULL
+         |                         ^~~~
+   drivers/clk/qcom/lpass-va-csr.c:77:9: note: in expansion of macro 'pm_clk_suspend'
+      77 |         pm_clk_suspend(dev);
+         |         ^~~~~~~~~~~~~~
+   drivers/clk/qcom/lpass-va-csr.c: In function 'lpass_va_csr_runtime_suspend':
+   include/linux/stddef.h:8:14: error: called object is not a function or function pointer
+       8 | #define NULL ((void *)0)
+         |              ^
+   include/linux/pm_clock.h:77:25: note: in expansion of macro 'NULL'
+      77 | #define pm_clk_suspend  NULL
+         |                         ^~~~
+   drivers/clk/qcom/lpass-va-csr.c:83:16: note: in expansion of macro 'pm_clk_suspend'
+      83 |         return pm_clk_suspend(dev);
+         |                ^~~~~~~~~~~~~~
+   drivers/clk/qcom/lpass-va-csr.c: At top level:
+>> drivers/clk/qcom/lpass-va-csr.c:81:12: warning: 'lpass_va_csr_runtime_suspend' defined but not used [-Wunused-function]
+      81 | static int lpass_va_csr_runtime_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/clk/qcom/lpass-va-csr.c:55:12: warning: 'lpass_va_csr_runtime_resume' defined but not used [-Wunused-function]
+      55 | static int lpass_va_csr_runtime_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +166 include/linux/compiler.h
+vim +/lpass_va_csr_runtime_suspend +81 drivers/clk/qcom/lpass-va-csr.c
 
-fe8c8a126806fea Cesar Eduardo Barros 2013-11-25  165  
-a8306f2d4dcea03 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-6f33d58794ef4ce Rusty Russell        2012-11-22  167  
-
-:::::: The code at line 166 was first introduced by commit
-:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
-
-:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    54	
+  > 55	static int lpass_va_csr_runtime_resume(struct device *dev)
+    56	{
+    57		struct lpass_va_csr *csr = dev_get_drvdata(dev);
+    58		const struct lpass_va_csr_data *data = csr->data;
+    59		int ret;
+    60	
+    61		ret = pm_clk_resume(dev);
+    62		if (ret)
+    63			return ret;
+    64	
+    65		ret = regmap_write(csr->hb.regmap, LPASS_RATE_GEN_COUNTER_0,
+    66				   data->counter_0);
+    67		if (ret)
+    68			goto err_pm_clk_suspend;
+    69	
+    70		ret = regmap_write(csr->hb.regmap, LPASS_RATE_GEN_DELAY, data->delay);
+    71		if (ret)
+    72			goto err_pm_clk_suspend;
+    73	
+    74		return 0;
+    75	
+    76	err_pm_clk_suspend:
+    77		pm_clk_suspend(dev);
+    78		return ret;
+    79	}
+    80	
+  > 81	static int lpass_va_csr_runtime_suspend(struct device *dev)
+    82	{
+  > 83		return pm_clk_suspend(dev);
+    84	}
+    85	
 
 --
 0-DAY CI Kernel Test Service
