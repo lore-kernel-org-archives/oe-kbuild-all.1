@@ -1,111 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BED14772BF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 22:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CEB4A8A32
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 22:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792015922; cv=none; b=c2Woi16X2UVTnQ2Wiv5wyuJmcFdWKo8N3YbwZ4zLpdk7vrJ2AY9KRuBYl4YIPZhxho7GE4UlXtU60wcnfGIDSVBY+RyI8a6nQMZyyuFOJADj1Imi3tygKflukkz/TqXXYJT6/9DfYhpbsLoLd2lT337rAf5p0uNSc7Ka02sWjmg=
+	t=1792015970; cv=none; b=mHaCbYtNRR+vPSukR8zUJjsxIFvZ7nb7pclkBGloviAdJk4GIJJyITuB8eFwzi6XNey5ywVM0RxK6vZw9dwjPc9rfeuW0qctlV1XbnmIziXZVW750bZONUA5X9WV9DM08UkMij/SY5nTGweNpRTZ9qCtxmm0p0uf0swR0gk9Zv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792015922; c=relaxed/simple;
-	bh=QSez6l4Hc5lZW3KD5GZheae2W1OulgT+bcwy+bsGo1o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RXVldFVZ1XC0HEAwCcnjdS7cY5ZOHtkaWjDcrSvlQG8NOhayMvVC/Vk3K4Mbhnbv6KEGV9EUPWjbNZy8Ej+Mr0u8yFy+T26mDfGCrDIYw23JH3QMDUermcOt6ND4jT+yv2g9DS8JQ5HETWdrKWMgTWPF7iE6LmFLqBcLI6NxZsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9kFlxDK; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792015970; c=relaxed/simple;
+	bh=qbViJfHZ0Gnuj25aWdfTUAKCypiv0H4/4PcSPO0BBVI=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=b5uQiK8fENX4xTpUYe7nmuiq5kH/bGHSwvqRzqehQ5TEKGtXq6QTEuN5x/0JiusZN4smAbu+aEiaLmjFiVl4owRRbnVHTqnAjYeET+BgszgC7vIBQyMkd86+5zKaeC5VmtTPLD8o7aOt0g2Ylo2irhiMzZMS99e5PoFpCBxueAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=HWoSilJ3; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9kFlxDK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792015917; x=1823551917;
-  h=date:from:to:cc:subject:message-id;
-  bh=QSez6l4Hc5lZW3KD5GZheae2W1OulgT+bcwy+bsGo1o=;
-  b=B9kFlxDKoBA1s+cPUoJmnnjpstuNbf4p7dn2Fv05a0N+W8S7PVqm5hIY
-   0Zyvc4jTlrFn3e+4HCiXC95AD2PaIkiMlpPe4M9r5sOr/ZTSRM4FZPb4Y
-   z9/ncawjDOwXJkXDvwOzHBdJSb43Yx1wN8w6HauCvrCBJsXmrhDkj9xaa
-   dmM9K2aqF+U4bnNnNv/AZj/0VWD4a1dFOSqkM3lu7Z1NYEa4r7x8g31+X
-   XY3AomvnuXY0A3ov7CWHsafVms+Zzz7UY4AewCBOOnfMmSyjnk7KLEsuR
-   1Ge8G8YzmjLqXu7SV66OHrt/3Tj98XYGplVx/Dzpp+4HJzywY8fPoHUUD
-   A==;
-X-CSE-ConnectionGUID: urvQk9P/Rx+NZYTq70KrSA==
-X-CSE-MsgGUID: /44A4KTsQvOVBqQqDjHwhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="780214"
-X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="780214"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 15:11:57 -0700
-X-CSE-ConnectionGUID: 7oiH7aJxRlmtLc/lV+tzTQ==
-X-CSE-MsgGUID: vtq5lRs5QVW344wXuxviTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1445474"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Oct 2026 15:11:56 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xH7CT-00000000FFL-0oYP;
-	Wed, 14 Oct 2026 22:11:53 +0000
-Date: Thu, 15 Oct 2026 06:11:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/1] fs/fs-writeback.c:138:6:
- warning: no previous prototype for function 'wb_wakeup'
-Message-ID: <202610150620.rWPaTERy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="HWoSilJ3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=DMcTV9SALiZU/zVxDRePML2IkZUMGxuLDeSesvdDSgI=;
+  b=HWoSilJ3Kw8hgUKI5VRw8T0SH8FpbQU/1Ruam9G5EQYQQCKLUEXvW5VI
+   Bp3b0hWUdLLAMIweMkIuYvscPZhFHg+BNfbMfdz3Mryg515VEzL+CRwZE
+   b3orSPnTpT1dLWY74N5yCxt7AWytsKJ9SLpBoOrzWyKuVWjQc0CV93iFN
+   U=;
+X-CSE-ConnectionGUID: rgKiyQzMQGaTba1EnzPq0A==
+X-CSE-MsgGUID: YaRDS/nmTA6urJbOV0wmaA==
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.27,158,1787004000"; 
+   d="scan'208";a="159849540"
+Received: from static.host-68-71-1-178.nrbn.ca (HELO hadrien) ([68.71.18.178])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 00:12:42 +0200
+Date: Wed, 14 Oct 2026 18:12:40 -0400 (EDT)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: oe-kbuild-all@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Subject: [android-common:android14-5.15-2025-07 2/2]
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2044:2-8: preceding lock
+ on line 1983 (fwd)
+Message-ID: <81d84fa4-8171-2c1-a06a-c6c1ea7bb84@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Bo,
+Please check whether an unlock is needed on line 2044.
 
-FYI, the error/warning still remains.
+julia
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   c82b35cb007f01c9aef84e93febc8961486d59ec
-commit: 55cf94258af72fd493779ab2b7a4278d5c8d1d21 [0/1] ANDROID: writeback: export symbols to do a hierarchical writeback control
-config: i386-randconfig-1001-20261014 (https://download.01.org/0day-ci/archive/20261015/202610150620.rWPaTERy-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150620.rWPaTERy-lkp@intel.com/reproduce)
+---------- Forwarded message ----------
+Date: Wed, 14 Oct 2026 23:47:49 +0200
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [android-common:android14-5.15-2025-07 2/2]
+    drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2044:2-8: preceding lock
+     on line 1983
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15-2025-07
+head:   46c96f2b3074c362a75032e50d95ec77b346008b
+commit: 89788cd9824c28ffcdea40232c458233353d1896 [2/2] drm: bridge: cdns-mhdp8546: Fix possible null pointer dereference
+:::::: branch date: 25 hours ago
+:::::: commit date: 2 years, 4 months ago
+config: x86_64-randconfig-2104-20261014 (https://download.01.org/0day-ci/archive/20261014/202610142346.N4lhdzz4-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 13bbb29ea2c939629201dc70ce350cf27ad3e8d4)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150620.rWPaTERy-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202610142346.N4lhdzz4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2044:2-8: preceding lock on line 1983
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c:2044:2-8: preceding lock on line 2019
 
->> fs/fs-writeback.c:138:6: warning: no previous prototype for function 'wb_wakeup' [-Wmissing-prototypes]
-     138 | void wb_wakeup(struct bdi_writeback *wb)
-         |      ^
-   fs/fs-writeback.c:138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     138 | void wb_wakeup(struct bdi_writeback *wb)
-         | ^
-         | static 
->> fs/fs-writeback.c:1349:6: warning: no previous prototype for function 'redirty_tail_locked' [-Wmissing-prototypes]
-    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-         |      ^
-   fs/fs-writeback.c:1349:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-         | ^
-         | static 
-   2 warnings generated.
+vim +2044 drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 
-
-vim +/wb_wakeup +138 fs/fs-writeback.c
-
-   137	
- > 138	void wb_wakeup(struct bdi_writeback *wb)
-   139	{
-   140		spin_lock_irq(&wb->work_lock);
-   141		if (test_bit(WB_registered, &wb->state))
-   142			mod_delayed_work(bdi_wq, &wb->dwork, 0);
-   143		spin_unlock_irq(&wb->work_lock);
-   144	}
-   145	EXPORT_SYMBOL_GPL(wb_wakeup);
-   146	
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1966
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1967  static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1968  				    struct drm_bridge_state *bridge_state)
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1969  {
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1970  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1971  	struct drm_atomic_state *state = bridge_state->base.state;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1972  	struct cdns_mhdp_bridge_state *mhdp_state;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1973  	struct drm_crtc_state *crtc_state;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1974  	struct drm_connector *connector;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1975  	struct drm_connector_state *conn_state;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1976  	struct drm_bridge_state *new_state;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1977  	const struct drm_display_mode *mode;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1978  	u32 resp;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1979  	int ret;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1980
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1981  	dev_dbg(mhdp->dev, "bridge enable\n");
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1982
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18 @1983  	mutex_lock(&mhdp->link_mutex);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1984
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1985  	if (mhdp->plugged && !mhdp->link_up) {
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1986  		ret = cdns_mhdp_link_up(mhdp);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1987  		if (ret < 0)
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1988  			goto out;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1989  	}
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1990
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1991  	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->enable)
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1992  		mhdp->info->ops->enable(mhdp);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1993
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1994  	/* Enable VIF clock for stream 0 */
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1995  	ret = cdns_mhdp_reg_read(mhdp, CDNS_DPTX_CAR, &resp);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1996  	if (ret < 0) {
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1997  		dev_err(mhdp->dev, "Failed to read CDNS_DPTX_CAR %d\n", ret);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1998  		goto out;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  1999  	}
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2000
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2001  	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2002  			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2003
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2004  	connector = drm_atomic_get_new_connector_for_encoder(state,
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2005  							     bridge->encoder);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2006  	if (WARN_ON(!connector))
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2007  		goto out;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2008
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2009  	conn_state = drm_atomic_get_new_connector_state(state, connector);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2010  	if (WARN_ON(!conn_state))
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2011  		goto out;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2012
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2013  	if (mhdp->hdcp_supported &&
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2014  	    mhdp->hw_state == MHDP_HW_READY &&
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2015  	    conn_state->content_protection ==
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2016  	    DRM_MODE_CONTENT_PROTECTION_DESIRED) {
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2017  		mutex_unlock(&mhdp->link_mutex);
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2018  		cdns_mhdp_hdcp_enable(mhdp, conn_state->hdcp_content_type);
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2019  		mutex_lock(&mhdp->link_mutex);
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2020  	}
+6a3608eae6d33a4 Parshuram Thombare 2021-04-10  2021
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2022  	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2023  	if (WARN_ON(!crtc_state))
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2024  		goto out;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2025
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2026  	mode = &crtc_state->adjusted_mode;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2027
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2028  	new_state = drm_atomic_get_new_bridge_state(state, bridge);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2029  	if (WARN_ON(!new_state))
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2030  		goto out;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2031
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2032  	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2033  				    mhdp->link.rate)) {
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2034  		ret = -EINVAL;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2035  		goto out;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2036  	}
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2037
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2038  	cdns_mhdp_sst_enable(mhdp, mode);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2039
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2040  	mhdp_state = to_cdns_mhdp_bridge_state(new_state);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2041
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2042  	mhdp_state->current_mode = drm_mode_duplicate(bridge->dev, mode);
+89788cd9824c28f Aleksandr Mishin   2024-04-08  2043  	if (!mhdp_state->current_mode)
+89788cd9824c28f Aleksandr Mishin   2024-04-08 @2044  		return;
+89788cd9824c28f Aleksandr Mishin   2024-04-08  2045
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2046  	drm_mode_set_name(mhdp_state->current_mode);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2047
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2048  	dev_dbg(mhdp->dev, "%s: Enabling mode %s\n", __func__, mode->name);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2049
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2050  	mhdp->bridge_enabled = true;
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2051
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2052  out:
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2053  	mutex_unlock(&mhdp->link_mutex);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2054  	if (ret < 0)
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2055  		schedule_work(&mhdp->modeset_retry_work);
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2056  }
+fb43aa0acdfd600 Swapnil Jakhade    2020-09-18  2057
 
 --
 0-DAY CI Kernel Test Service
