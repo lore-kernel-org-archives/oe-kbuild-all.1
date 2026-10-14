@@ -1,200 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814B939CCE0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 08:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AA14EBAC8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 10:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791967029; cv=none; b=HhVOa8qWosObpbxxGmrE9OklPbM/OYCkb1j0SuOBalMpdzWEs1b+l3FVmg67VNMaMQgLyyftE+mqxEScRmBsWoemrsdvlGqfGJnS43OxgFLlAVTAFmaHkj5nNVg+PPRWhlrztG0fLcQvfASKwoSVbGaaFcgoJV5ysAsYBomoFUM=
+	t=1791974283; cv=none; b=kklm71XI+xVSAmdfNv9kJ5Bhel5+JZtKu9oDfM2r+RhExQzKNTtjolxSESlhWUsupHWY5pwaPxqJuGUWe16Kjz0egQi3gaOoc7wcx3lTtVQauLiSrOgl50cT+gm256u2GNYEAf0LobCwBVVmYFtLPxoinsSfcmIzKYBatayR0Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791967029; c=relaxed/simple;
-	bh=KkZwlhXb7ppouEWVWD59Fver9AGZ9taM6rrP0X+t6q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ufwG8GtYbwYSle0DaYYyXMMQ1Osqce9UQ471ioUIiufI7zDGLdtMhPxxad+V1R7DsPlukG5Krx4nrjt5pzgwQ35wsHfUFlip++NWLDgWcYkP37He5Z2yZMl4DXVxlzGzDys5uwriEZGbK2p4DlULilECiMQOL4ya0vDAKm8Itqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cnf6f0/l; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1791974283; c=relaxed/simple;
+	bh=6WmU9vf81984V8Zf/DOrObgCZ9muS4RzqB7sViNexMo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XbzXWNinjsqwqQgvkrwq8WEBUC/CG5axfFBHT+aCqh0n/7fU8hGe+78YXWkCQ3VOhu6rqFBN9YExTP6XXR0zxiJX+lvqi63BrmMH2BgBbacNsRbwkj4AR+jTVv4xQz7JR8qbuj6hXYpcx0ZoA/1bPQipqDGQuLdgE8Y7xDNDTMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIL4ybvD; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cnf6f0/l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIL4ybvD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791967028; x=1823503028;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KkZwlhXb7ppouEWVWD59Fver9AGZ9taM6rrP0X+t6q4=;
-  b=cnf6f0/lGKnQUF9tEzOr1Rg6Zp61ZSS+opJpvl3vgxmPbqt6G0Ti0bAZ
-   6RxpZMDYex578bffBX3XznuUPPTVoLvCQLIO3UIO6mpP9qSThijzhzRnd
-   aec25PEFu8qEyYfVn0NLv46wJICSup34WWQXwe50OHw8rv8q9PsNlQWqt
-   ED0BnOXGwauVNRtE+Xt+MYMOSowILUq9TXzpLDdxsT/Iv+xaw/8kohHRJ
-   EwZfVV+hUjDWPoJwrxS4uMGKOIz2mMjEX1T9JHh/i2dxnw1h1nCl1FHUL
-   VY1HQ46uta0QhCea9xxxhZmXkPNiFms/vVLN36PQpJnpGJb4DQkYyn+IQ
-   g==;
-X-CSE-ConnectionGUID: Obrgtr4OTFKK5KHzgzjpXA==
-X-CSE-MsgGUID: XcEwLvH4S1CMc5x8gJdijw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="737488"
+  t=1791974281; x=1823510281;
+  h=date:from:to:cc:subject:message-id;
+  bh=6WmU9vf81984V8Zf/DOrObgCZ9muS4RzqB7sViNexMo=;
+  b=BIL4ybvDtzjDquoGY6tVbTyY+j/vPPvbLeCn+gUv6qhC32k5X9EVrNOH
+   nCOlCSNdJcfpA+Wwfq5MVHgtMRJO6Pm9Lv4hyZWqfZpQF4nxh3diHwqE/
+   Y5tHIF3fSW/dBWC+YcajxHEkqYRm3GPmBWrxnV+Z7hnddteisZrkUndGY
+   nSTfZEbxBLxCwlK+R5ughe0T+HyUiY03QJoQmfdfjwYvryVO0c44gRqqT
+   0ibtIrfj2Q/RROsdXVSuBPNOgy7NR7/RRboTpMCHRIKQNoVX+B2yIcLm/
+   8YGdr3ykRr41/t0Ztu/oHlfyKrpfK9UYhsYZZRgXDQgd3Qaodqv0pvPBc
+   Q==;
+X-CSE-ConnectionGUID: ChYZUAQ7Sce3K5r5XvbMvg==
+X-CSE-MsgGUID: a3INZd+BR1Oh9U05dvqLnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="618640"
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="737488"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 01:37:08 -0700
-X-CSE-ConnectionGUID: GDhnAS2fTa2fxnusGSge9Q==
-X-CSE-MsgGUID: gGbEeHzqS0W1AP4lc+mGVg==
+   d="scan'208";a="618640"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 03:38:01 -0700
+X-CSE-ConnectionGUID: QhOU0lOfT2+R+Dh1LTq8eA==
+X-CSE-MsgGUID: jg0zpqZsTP+jQyE9a03RZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="1473407"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2026 01:37:02 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="3161167"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 14 Oct 2026 03:38:00 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xGuTs-00000000EOd-1RUK;
-	Wed, 14 Oct 2026 08:37:00 +0000
-Date: Wed, 14 Oct 2026 16:36:45 +0800
+	id 1xGwMv-00000000B23-2Sxy;
+	Wed, 14 Oct 2026 10:37:57 +0000
+Date: Wed, 14 Oct 2026 12:37:13 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sarath Ganapathiraju via B4 Relay <devnull+sarath.ganapathiraju.oss.qualcomm.com@kernel.org>,
-	andersson@kernel.org, abelvesa@kernel.org, sboyd@kernel.org,
-	bmasney+clk@redhat.com, jbrunet+clk@baylibre.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	srinivas.kandagatla@oss.qualcomm.com,
-	sarath.ganapathiraju@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, prasad.kumpatla@oss.qualcomm.com
-Subject: Re: [PATCH v11 2/2] clk: qcom: Add LPASS VA CSR heartbeat pulse clock
-Message-ID: <202610141629.Jo17UNWq-lkp@intel.com>
-References: <20261012-master-v11-2-15009e3ecac3@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15-2025-07 2/2]
+ drivers/ufs/host/tc-dwc-g210-pltfrm.c:36:34: warning:
+ 'tc_dwc_g210_pltfm_match' defined but not used
+Message-ID: <202610141248.3gzv0GVy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012-master-v11-2-15009e3ecac3@oss.qualcomm.com>
 
-Hi Sarath,
+Hi Bart,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on becb95e45ef0dda9ffb35156d909d3da7a2789c3]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sarath-Ganapathiraju-via-B4-Relay/dt-bindings-clock-qcom-Add-LPASS-VA-CSR-HeartBeat-pulse-clock/20261012-172258
-base:   becb95e45ef0dda9ffb35156d909d3da7a2789c3
-patch link:    https://lore.kernel.org/r/20261012-master-v11-2-15009e3ecac3%40oss.qualcomm.com
-patch subject: [PATCH v11 2/2] clk: qcom: Add LPASS VA CSR heartbeat pulse clock
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20261014/202610141629.Jo17UNWq-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261014/202610141629.Jo17UNWq-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15-2025-07
+head:   46c96f2b3074c362a75032e50d95ec77b346008b
+commit: 2d74ff4319d1c8a4254635d7a611562571a8e39f [2/2] UPSTREAM: scsi: ufs: Split the drivers/scsi/ufs directory
+config: i386-randconfig-r2103-20261014 (https://download.01.org/0day-ci/archive/20261014/202610141248.3gzv0GVy-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261014/202610141248.3gzv0GVy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610141629.Jo17UNWq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610141248.3gzv0GVy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/parisc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:391,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:30,
-                    from include/linux/clk-provider.h:10,
-                    from drivers/clk/qcom/lpass-va-csr.c:6:
-   drivers/clk/qcom/lpass-va-csr.c: In function 'lpass_va_csr_runtime_resume':
->> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm_clock.h:78:25: note: in expansion of macro 'NULL'
-      78 | #define pm_clk_resume   NULL
-         |                         ^~~~
-   drivers/clk/qcom/lpass-va-csr.c:61:15: note: in expansion of macro 'pm_clk_resume'
-      61 |         ret = pm_clk_resume(dev);
-         |               ^~~~~~~~~~~~~
->> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm_clock.h:77:25: note: in expansion of macro 'NULL'
-      77 | #define pm_clk_suspend  NULL
-         |                         ^~~~
-   drivers/clk/qcom/lpass-va-csr.c:77:9: note: in expansion of macro 'pm_clk_suspend'
-      77 |         pm_clk_suspend(dev);
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/qcom/lpass-va-csr.c: In function 'lpass_va_csr_runtime_suspend':
->> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm_clock.h:77:25: note: in expansion of macro 'NULL'
-      77 | #define pm_clk_suspend  NULL
-         |                         ^~~~
-   drivers/clk/qcom/lpass-va-csr.c:83:16: note: in expansion of macro 'pm_clk_suspend'
-      83 |         return pm_clk_suspend(dev);
-         |                ^~~~~~~~~~~~~~
-   drivers/clk/qcom/lpass-va-csr.c: At top level:
-   drivers/clk/qcom/lpass-va-csr.c:81:12: warning: 'lpass_va_csr_runtime_suspend' defined but not used [-Wunused-function]
-      81 | static int lpass_va_csr_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/qcom/lpass-va-csr.c:55:12: warning: 'lpass_va_csr_runtime_resume' defined but not used [-Wunused-function]
-      55 | static int lpass_va_csr_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:5,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from arch/parisc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:391,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:30,
-                    from include/linux/clk-provider.h:10,
-                    from lpass-va-csr.c:6:
-   lpass-va-csr.c: In function 'lpass_va_csr_runtime_resume':
->> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm_clock.h:78:25: note: in expansion of macro 'NULL'
-      78 | #define pm_clk_resume   NULL
-         |                         ^~~~
-   lpass-va-csr.c:61:15: note: in expansion of macro 'pm_clk_resume'
-      61 |         ret = pm_clk_resume(dev);
-         |               ^~~~~~~~~~~~~
->> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm_clock.h:77:25: note: in expansion of macro 'NULL'
-      77 | #define pm_clk_suspend  NULL
-         |                         ^~~~
-   lpass-va-csr.c:77:9: note: in expansion of macro 'pm_clk_suspend'
-      77 |         pm_clk_suspend(dev);
-         |         ^~~~~~~~~~~~~~
-   lpass-va-csr.c: In function 'lpass_va_csr_runtime_suspend':
->> include/linux/stddef.h:8:14: error: called object is not a function or function pointer
-       8 | #define NULL ((void *)0)
-         |              ^
-   include/linux/pm_clock.h:77:25: note: in expansion of macro 'NULL'
-      77 | #define pm_clk_suspend  NULL
-         |                         ^~~~
-   lpass-va-csr.c:83:16: note: in expansion of macro 'pm_clk_suspend'
-      83 |         return pm_clk_suspend(dev);
-         |                ^~~~~~~~~~~~~~
-   lpass-va-csr.c: At top level:
-   lpass-va-csr.c:81:12: warning: 'lpass_va_csr_runtime_suspend' defined but not used [-Wunused-function]
-      81 | static int lpass_va_csr_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lpass-va-csr.c:55:12: warning: 'lpass_va_csr_runtime_resume' defined but not used [-Wunused-function]
-      55 | static int lpass_va_csr_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ufs/host/tc-dwc-g210-pltfrm.c:36:34: warning: 'tc_dwc_g210_pltfm_match' defined but not used [-Wunused-const-variable=]
+      36 | static const struct of_device_id tc_dwc_g210_pltfm_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARCH_HAS_NONLEAF_PMD_YOUNG
+   Depends on [n]: PGTABLE_LEVELS [=2]>2
+   Selected by [y]:
+   - X86 [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
 
 
-vim +8 include/linux/stddef.h
+vim +/tc_dwc_g210_pltfm_match +36 drivers/ufs/host/tc-dwc-g210-pltfrm.c
 
-^1da177e4c3f415 Linus Torvalds   2005-04-16  6  
-^1da177e4c3f415 Linus Torvalds   2005-04-16  7  #undef NULL
-^1da177e4c3f415 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
-6e2182874324727 Richard Knutsson 2006-09-30  9  
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  35  
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11 @36  static const struct of_device_id tc_dwc_g210_pltfm_match[] = {
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  37  	{
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  38  		.compatible = "snps,g210-tc-6.00-20bit",
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  39  		.data = &tc_dwc_g210_20bit_pltfm_hba_vops,
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  40  	},
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  41  	{
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  42  		.compatible = "snps,g210-tc-6.00-40bit",
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  43  		.data = &tc_dwc_g210_40bit_pltfm_hba_vops,
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  44  	},
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  45  	{ },
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  46  };
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  47  MODULE_DEVICE_TABLE(of, tc_dwc_g210_pltfm_match);
+fc040a3fc47cad0 drivers/scsi/ufs/tc-dwc-g210-pltfrm.c Joao Pinto 2016-05-11  48  
+
+:::::: The code at line 36 was first introduced by commit
+:::::: fc040a3fc47cad038f774275ea61fe6d5b57d7cc ufs: add TC G210 platform driver
+
+:::::: TO: Joao Pinto <Joao.Pinto@synopsys.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 --
 0-DAY CI Kernel Test Service
