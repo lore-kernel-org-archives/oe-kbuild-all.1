@@ -1,109 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DD041DDF2;
-	Wed, 14 Oct 2026 22:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BED14772BF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 22:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792015321; cv=none; b=DzjjeJlO7Imt20JR2hxd1tskGuTwVoysMokvTWJty6LmJ3Zj29crx0oqsqHTfdoKhVju6x+qOFTRMliP4VVwto83aIt6Ggt30/XfrFTvLyQDMOpWPq7sucTQmGd4HDV+iY5ctHY/9n+gsXaerFmHfDOcwncpOEIWtvX2NZLUEV4=
+	t=1792015922; cv=none; b=c2Woi16X2UVTnQ2Wiv5wyuJmcFdWKo8N3YbwZ4zLpdk7vrJ2AY9KRuBYl4YIPZhxho7GE4UlXtU60wcnfGIDSVBY+RyI8a6nQMZyyuFOJADj1Imi3tygKflukkz/TqXXYJT6/9DfYhpbsLoLd2lT337rAf5p0uNSc7Ka02sWjmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792015321; c=relaxed/simple;
-	bh=Vlxco360C0BJmJ7JYlB1Wtrwq/21kxAL2JsKc/iYk8Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gPXRpDb8aBxq1BPJnLa9dFc+xi13qY1CfYsto29ptSv7d/ouPSz4kirhZT7gbrxhhzort4S+8L0JQr3v+3LdBw1wDPyfQmMQTQTNfF2Dew+93AoXrWvHoNEyXU+iLcBnGh9x57at3QQhwd62U1VpqswJJWHZ6dmqiQPzkBY/LY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZ3KFolb; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1792015922; c=relaxed/simple;
+	bh=QSez6l4Hc5lZW3KD5GZheae2W1OulgT+bcwy+bsGo1o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RXVldFVZ1XC0HEAwCcnjdS7cY5ZOHtkaWjDcrSvlQG8NOhayMvVC/Vk3K4Mbhnbv6KEGV9EUPWjbNZy8Ej+Mr0u8yFy+T26mDfGCrDIYw23JH3QMDUermcOt6ND4jT+yv2g9DS8JQ5HETWdrKWMgTWPF7iE6LmFLqBcLI6NxZsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9kFlxDK; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZ3KFolb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9kFlxDK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792015320; x=1823551320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Vlxco360C0BJmJ7JYlB1Wtrwq/21kxAL2JsKc/iYk8Y=;
-  b=iZ3KFolblwEu6arr2s44RpG7FwpQQE6QkA2losYzhmO2yqDBg3edgI6i
-   TqpmkdBlfGEvqU9Dhbv6ejR2d8sTnb6kFQIRYzJLUoHm8uRvex5xt7oGC
-   nQI0dZkRdbNQW5Pgdsfc75dn87UpdMapMnWI3yB1nZoh8es5CtWkGX6ZA
-   sqryyffRHpEqEu509i7LMB0VnD6+NAvfX6VYpBNf5LEtyhWtMGnLQl6kJ
-   IpJbFYqhs6Z6yWw8H5cqkISDm1F/wT3mooUbk1v2sQb+dq30eUpZfW7OE
-   nZmqjEBU/8umWW6+ziIh6oYWRRObbBeL7tlPeMP27Ft3jReD1C3eORkba
+  t=1792015917; x=1823551917;
+  h=date:from:to:cc:subject:message-id;
+  bh=QSez6l4Hc5lZW3KD5GZheae2W1OulgT+bcwy+bsGo1o=;
+  b=B9kFlxDKoBA1s+cPUoJmnnjpstuNbf4p7dn2Fv05a0N+W8S7PVqm5hIY
+   0Zyvc4jTlrFn3e+4HCiXC95AD2PaIkiMlpPe4M9r5sOr/ZTSRM4FZPb4Y
+   z9/ncawjDOwXJkXDvwOzHBdJSb43Yx1wN8w6HauCvrCBJsXmrhDkj9xaa
+   dmM9K2aqF+U4bnNnNv/AZj/0VWD4a1dFOSqkM3lu7Z1NYEa4r7x8g31+X
+   XY3AomvnuXY0A3ov7CWHsafVms+Zzz7UY4AewCBOOnfMmSyjnk7KLEsuR
+   1Ge8G8YzmjLqXu7SV66OHrt/3Tj98XYGplVx/Dzpp+4HJzywY8fPoHUUD
    A==;
-X-CSE-ConnectionGUID: RG+0ARCDQx2CMTgQk7vnLA==
-X-CSE-MsgGUID: 0CT96YkwQqaBM4akvdd84Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="672861"
+X-CSE-ConnectionGUID: urvQk9P/Rx+NZYTq70KrSA==
+X-CSE-MsgGUID: /44A4KTsQvOVBqQqDjHwhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="780214"
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="672861"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 15:01:59 -0700
-X-CSE-ConnectionGUID: eGfGD1xSTSCLBJHa6GYw7A==
-X-CSE-MsgGUID: r4k/XD24SrmpqgAucRRn3w==
+   d="scan'208";a="780214"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 15:11:57 -0700
+X-CSE-ConnectionGUID: 7oiH7aJxRlmtLc/lV+tzTQ==
+X-CSE-MsgGUID: vtq5lRs5QVW344wXuxviTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1612018"
+   d="scan'208";a="1445474"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Oct 2026 15:01:55 -0700
+  by orviesa005.jf.intel.com with ESMTP; 14 Oct 2026 15:11:56 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xH72m-00000000FF9-3cyv;
-	Wed, 14 Oct 2026 22:01:52 +0000
-Date: Thu, 15 Oct 2026 06:01:28 +0800
+	id 1xH7CT-00000000FFL-0oYP;
+	Wed, 14 Oct 2026 22:11:53 +0000
+Date: Thu, 15 Oct 2026 06:11:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 01/13] media: imx678: Rework into generic Starvis 2
- sensor driver.
-Message-ID: <202610150522.QgryNORG-lkp@intel.com>
-References: <20261013-media-starvis2-v2-1-3670722d250a@raspberrypi.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/1] fs/fs-writeback.c:138:6:
+ warning: no previous prototype for function 'wb_wakeup'
+Message-ID: <202610150620.rWPaTERy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013-media-starvis2-v2-1-3670722d250a@raspberrypi.com>
 
-Hi Dave,
+Hi Bo,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on sailus-media-tree/master]
-[also build test ERROR on linuxtv-media-pending/master media-tree/master next-20261012]
-[cannot apply to robh/for-next linus/master sailus-media-tree/streams v7.3-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Stevenson/media-sony-starvis2-Reorder-link-frequencies-to-remove-lookup/20261013-161701
-base:   git://linuxtv.org/sailus/media_tree.git master
-patch link:    https://lore.kernel.org/r/20261013-media-starvis2-v2-1-3670722d250a%40raspberrypi.com
-patch subject: [PATCH v2 01/13] media: imx678: Rework into generic Starvis 2 sensor driver.
-config: hexagon-randconfig-1000-20261014 (https://download.01.org/0day-ci/archive/20261015/202610150522.QgryNORG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150522.QgryNORG-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   c82b35cb007f01c9aef84e93febc8961486d59ec
+commit: 55cf94258af72fd493779ab2b7a4278d5c8d1d21 [0/1] ANDROID: writeback: export symbols to do a hierarchical writeback control
+config: i386-randconfig-1001-20261014 (https://download.01.org/0day-ci/archive/20261015/202610150620.rWPaTERy-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150620.rWPaTERy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150522.QgryNORG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150620.rWPaTERy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> make[6]: *** No rule to make target 'drivers/media/i2c/imx678.o', needed by 'drivers/media/i2c/built-in.a'.
-   make[6]: Target 'drivers/media/i2c/' not remade because of errors.
+>> fs/fs-writeback.c:138:6: warning: no previous prototype for function 'wb_wakeup' [-Wmissing-prototypes]
+     138 | void wb_wakeup(struct bdi_writeback *wb)
+         |      ^
+   fs/fs-writeback.c:138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     138 | void wb_wakeup(struct bdi_writeback *wb)
+         | ^
+         | static 
+>> fs/fs-writeback.c:1349:6: warning: no previous prototype for function 'redirty_tail_locked' [-Wmissing-prototypes]
+    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
+         |      ^
+   fs/fs-writeback.c:1349:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
+         | ^
+         | static 
+   2 warnings generated.
+
+
+vim +/wb_wakeup +138 fs/fs-writeback.c
+
+   137	
+ > 138	void wb_wakeup(struct bdi_writeback *wb)
+   139	{
+   140		spin_lock_irq(&wb->work_lock);
+   141		if (test_bit(WB_registered, &wb->state))
+   142			mod_delayed_work(bdi_wq, &wb->dwork, 0);
+   143		spin_unlock_irq(&wb->work_lock);
+   144	}
+   145	EXPORT_SYMBOL_GPL(wb_wakeup);
+   146	
 
 --
 0-DAY CI Kernel Test Service
