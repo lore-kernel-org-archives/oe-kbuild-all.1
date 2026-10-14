@@ -1,202 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307071E47CC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 20:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC7B3E3C73
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Oct 2026 21:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792010629; cv=none; b=aFAefLwc5MlhK0zwUklkjojjS1Uk0NLTRpB+z7NI47BmW0lLGARLVB0p+Tkm/qjgPBE7+OcIxGX8cPZ3rtFqHhdRN57lTLMLu6BVusJdoy646KqNc1+GOdhroWRsRv3CwJiCss6rWiKQNZccBag+ylOx7kplxn3Pkv2xAQLPGfo=
+	t=1792012688; cv=none; b=kvXibNj0Vh6J2aTgmYR4bLW9QRQoxU9RtXw94BtytYpcsgU6Z2CRot4gGim0yZAHwyRaps7/wvqLlzJ3JSXg/9XLu0bFrUpvzYf2YsA8OJI6bLFpwM4hQiFpg4w55ya7evzQ1FW34rRKmkLgscINTtFfr6Ee+5eiogwA6Z5LnQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792010629; c=relaxed/simple;
-	bh=/AGrnqchaBLnfgUY3kwLkWOGyg7hVo0Ysv3/bLvd+3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Caaplc9L/AoxyjpLRy92yBge9eM7FZ+SkOL7PxTMLKDcLGN6SequdT1mD5BcG8O9FAa+rlN2csQKP0RPpRgMzVfuyeL6ejc73ulBNU4OyFrE8wedd3Fn5bWybvuFNe5ZJN/g5uHGW97TwlG6TF9nPqPV21eD7WrBRdG3hZHPZe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBlWvtYs; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1792012688; c=relaxed/simple;
+	bh=AhLB3fBKlBPnJ1gV5WEgLBxFhHHECIL+vP7ybq8rbLw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kYObyU/yFeL2smI+bwxH5PMIOJ2dnF8q61vJJ6aXT3C8pujr2LSfr33Kz4IJEFyBTC8qxwoBLRrLWDYoBPGmzE2/pXglZMVymx1259VcDkQD7QP+rJ2qgZcSDMx8JZJOMC/VjlUwKBSx5rkv/RYtVkU96i8Ygybc7KIEouTtcx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OXS086KC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBlWvtYs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OXS086KC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792010628; x=1823546628;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/AGrnqchaBLnfgUY3kwLkWOGyg7hVo0Ysv3/bLvd+3M=;
-  b=dBlWvtYsRGKaqjeVEEjxPQC8TtPWkl20E/CbGiE9CkLbFOCEJmduD3UI
-   Tnf3fZjaEPCR/GR/dmp4r8aSI5SML2TU+brDWTDOqp2wUcd7C494vFsVT
-   lj/cbGPfDKiogDR57Fl8Gq5qNvDw3rm/WCl5l3Z5xJel23TMbu+nb+oCa
-   8dk9r8xbNtdGd2BOn7Ai3kKNlkPuUgGqxxb/CSPU6MH8T/AWbk6LntbH/
-   HWZnYIFyLaOtAKrNzDrFjnBdWgutXLHLmM4mBvKrIsQ1DhglEdt3fuAPQ
-   uYnJjAaY+ACFbYFkVRI9Or2uFVmawjnekgLdzIHwo9p7dBlIP+fpxW7ar
-   g==;
-X-CSE-ConnectionGUID: J9g4KtzbRMaWGYv3p8zQhw==
-X-CSE-MsgGUID: USlhrxZ+RMGlD7xOYz3i5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="761268"
+  t=1792012687; x=1823548687;
+  h=date:from:to:cc:subject:message-id;
+  bh=AhLB3fBKlBPnJ1gV5WEgLBxFhHHECIL+vP7ybq8rbLw=;
+  b=OXS086KCw7iNtw0knEC7Y0vYSSn1crYbujEy/NvbqdoVjJW8InE8JQdY
+   wiMxi3dQ09ScMG3QTmtwRvDkav+Kk5ENsRQUR/nPjxBT7t/7HB5eUyaht
+   nxgv4muQeQ6iRhgCAqw/TjpUTTIaNiDnSoFM7/rJatWGexkGJBoiKd7AO
+   xMP2xe2i4BI3uHAE7IwIH+Nh9W9bG01pZRCh9KKhODk62F//5Y69gYHHt
+   Je7/tXRDnJxvNRjL2gAzvy06SlUPLiv/nAsnBJmpwydeu1Y0Eex41LOdf
+   P9cOJBAL+4wPP5Yj826A88M/iABaG3wqCIAi1xQ8Eo4DO+YXNyKJKkj6/
+   A==;
+X-CSE-ConnectionGUID: +XcGv1BfSLuaBRyF9OGC6w==
+X-CSE-MsgGUID: aoYGo5a4TBKz8Q0jr2YUTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="673037"
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="761268"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 13:43:48 -0700
-X-CSE-ConnectionGUID: pZX7+QStSs6Ls+Z5BpAPqg==
-X-CSE-MsgGUID: oyY3MfrtQP2CLmCMSVqW0w==
+   d="scan'208";a="673037"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 14:17:59 -0700
+X-CSE-ConnectionGUID: UxkysvY9SsCurQYtih+epg==
+X-CSE-MsgGUID: 8J7Vnh1ZTnCRV75vyDB70Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1955047"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Oct 2026 13:43:46 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="1635590"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2026 14:17:58 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xH5p9-00000000FBf-3cvq;
-	Wed, 14 Oct 2026 20:43:43 +0000
-Date: Thu, 15 Oct 2026 04:43:08 +0800
+	id 1xH6MG-00000000BIl-0NHW;
+	Wed, 14 Oct 2026 21:17:56 +0000
+Date: Wed, 14 Oct 2026 23:17:01 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/kill_should_kick_with_force 6/7]
- arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3872:79: error: 'wait'
- undeclared; did you mean 'wfit'?
-Message-ID: <202610150447.eKBjX4vx-lkp@intel.com>
+To: Vincent Donnefort <vdonnefort@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: kernel/trace/remote_test.c:237:9: error: call to undeclared
+ function 'tracefs_create_file'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202610142301.GBepPVmS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/sean-jc/linux x86/kill_should_kick_with_force
-head:   01d71338eb030f22b384bb16b117a6429b0ed13a
-commit: b5478e7ec85c764e4e846b20f8aafc5b0af2502f [6/7] KVM: Plumb the full =
-request into __kvm_vcpu_kick()
-config: arm64-randconfig-1002-20261014 (https://download.01.org/0day-ci/arc=
-hive/20261015/202610150447.eKBjX4vx-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261015/202610150447.eKBjX4vx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0fcb05b72344f40806cbe810de8872f1698bf053
+commit: ea908a2b79c84279f06d6c4fa19bf45f113a34d0 tracing: Add a trace remote module for testing
+date:   7 months ago
+config: hexagon-randconfig-r2110-20261014 (https://download.01.org/0day-ci/archive/20261014/202610142301.GBepPVmS-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e1354f31346666c78d758cee13692ea3b1fe3ec2)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261014/202610142301.GBepPVmS-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: ea908a2b79c8 ("tracing: Add a trace remote module for testing")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150447.eKBjX4vx-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610142301.GBepPVmS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: In function '__kvm_vcpu_kic=
-k':
->> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3872:79: error: 'wait' undec=
-lared (first use in this function); did you mean 'wfit'?
-    3872 |                                 smp_call_function_single(cpu, ac=
-k_kick, NULL, wait);
-         |                                                                 =
-              ^~~~
-         |                                                                 =
-              wfit
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:3872:79: note: each undeclar=
-ed identifier is reported only once for each function it appears in
+>> kernel/trace/remote_test.c:237:9: error: call to undeclared function 'tracefs_create_file'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     237 |         return tracefs_create_file("write_event", 0200, d, NULL, &write_event_fops) ?
+         |                ^
+   1 error generated.
+--
+>> kernel/trace/trace_remote.c:793:10: error: call to undeclared function 'tracefs_create_dir'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     793 |                 root = tracefs_create_dir(TRACEFS_DIR, NULL);
+         |                        ^
+>> kernel/trace/trace_remote.c:793:8: error: incompatible integer to pointer conversion assigning to 'struct dentry *' from 'int' [-Wint-conversion]
+     793 |                 root = tracefs_create_dir(TRACEFS_DIR, NULL);
+         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_remote.c:801:13: error: call to undeclared function 'tracefs_create_dir'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     801 |         remote_d = tracefs_create_dir(name, root);
+         |                    ^
+   kernel/trace/trace_remote.c:801:11: error: incompatible integer to pointer conversion assigning to 'struct dentry *' from 'int' [-Wint-conversion]
+     801 |         remote_d = tracefs_create_dir(name, root);
+         |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_remote.c:824:11: error: incompatible integer to pointer conversion assigning to 'struct dentry *' from 'int' [-Wint-conversion]
+     824 |         percpu_d = tracefs_create_dir("per_cpu", remote_d);
+         |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_remote.c:835:9: error: incompatible integer to pointer conversion assigning to 'struct dentry *' from 'int' [-Wint-conversion]
+     835 |                 cpu_d = tracefs_create_dir(cpu_name, percpu_d);
+         |                       ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/trace_remote.c:859:3: error: call to undeclared function 'tracefs_remove'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     859 |                 tracefs_remove(root);
+         |                 ^
+   kernel/trace/trace_remote.c:862:3: error: call to undeclared function 'tracefs_remove'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     862 |                 tracefs_remove(remote_d);
+         |                 ^
+>> kernel/trace/trace_remote.c:1255:41: error: array has incomplete element type 'struct eventfs_entry'
+    1255 |         static struct eventfs_entry dir_entries[] = {
+         |                                                ^
+   kernel/trace/trace_remote.c:1255:16: note: forward declaration of 'struct eventfs_entry'
+    1255 |         static struct eventfs_entry dir_entries[] = {
+         |                       ^
+   kernel/trace/trace_remote.c:1267:37: error: array has incomplete element type 'struct eventfs_entry'
+    1267 |         static struct eventfs_entry entries[] = {
+         |                                            ^
+   kernel/trace/trace_remote.c:1255:16: note: forward declaration of 'struct eventfs_entry'
+    1255 |         static struct eventfs_entry dir_entries[] = {
+         |                       ^
+>> kernel/trace/trace_remote.c:1282:13: error: call to undeclared function 'eventfs_create_events_dir'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1282 |                 eventfs = eventfs_create_events_dir("events", remote->dentry, dir_entries,
+         |                           ^
+   kernel/trace/trace_remote.c:1282:13: note: did you mean 'kernfs_create_empty_dir'?
+   include/linux/kernfs.h:430:21: note: 'kernfs_create_empty_dir' declared here
+     430 | struct kernfs_node *kernfs_create_empty_dir(struct kernfs_node *parent,
+         |                     ^
+>> kernel/trace/trace_remote.c:1291:13: error: call to undeclared function 'eventfs_create_dir'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1291 |                 eventfs = eventfs_create_dir(remote_name, eventfs, NULL, 0, NULL);
+         |                           ^
+   kernel/trace/trace_remote.c:1291:13: note: did you mean 'kernfs_create_dir'?
+   include/linux/kernfs.h:622:1: note: 'kernfs_create_dir' declared here
+     622 | kernfs_create_dir(struct kernfs_node *parent, const char *name, umode_t mode,
+         | ^
+>> kernel/trace/trace_remote.c:1291:11: error: incompatible integer to pointer conversion assigning to 'struct eventfs_inode *' from 'int' [-Wint-conversion]
+    1291 |                 eventfs = eventfs_create_dir(remote_name, eventfs, NULL, 0, NULL);
+         |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_remote.c:1299:12: error: call to undeclared function 'eventfs_create_dir'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1299 |         eventfs = eventfs_create_dir(evt->name, eventfs, entries, ARRAY_SIZE(entries), evt);
+         |                   ^
+>> kernel/trace/trace_remote.c:1302:4: error: call to undeclared function 'eventfs_remove_events_dir'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1302 |                         eventfs_remove_events_dir(remote->eventfs);
+         |                         ^
+   15 errors generated.
 
 
-vim +3872 arch/arm64/kvm/../../../virt/kvm/kvm_main.c
+vim +/tracefs_create_file +237 kernel/trace/remote_test.c
 
-dd1a4cc1fbdf516 Radim Kr=C4=8Dm=C3=A1=C5=99        2016-05-04  3824 =20
-0266c894b51c41d Paolo Bonzini       2017-05-04  3825  #ifndef CONFIG_S390
-dd1a4cc1fbdf516 Radim Kr=C4=8Dm=C3=A1=C5=99        2016-05-04  3826  /*
-dd1a4cc1fbdf516 Radim Kr=C4=8Dm=C3=A1=C5=99        2016-05-04  3827   * Kic=
-k a sleeping VCPU, or a guest VCPU in guest mode, into host kernel mode.
-dd1a4cc1fbdf516 Radim Kr=C4=8Dm=C3=A1=C5=99        2016-05-04  3828   */
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3829  void __kvm_vcpu_kick(=
-struct kvm_vcpu *vcpu, int req, bool force)
-dd1a4cc1fbdf516 Radim Kr=C4=8Dm=C3=A1=C5=99        2016-05-04  3830  {
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3831  	int me, cpu;
-dd1a4cc1fbdf516 Radim Kr=C4=8Dm=C3=A1=C5=99        2016-05-04  3832 =20
-178f02ffafafc59 Radim Kr=C4=8Dm=C3=A1=C5=99        2017-04-26  3833  	if (k=
-vm_vcpu_wake_up(vcpu))
-178f02ffafafc59 Radim Kr=C4=8Dm=C3=A1=C5=99        2017-04-26  3834  		retu=
-rn;
-178f02ffafafc59 Radim Kr=C4=8Dm=C3=A1=C5=99        2017-04-26  3835 =20
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3836  	me =3D get_cpu();
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3837  	/*
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3838  	 * The only state ch=
-ange done outside the vcpu mutex is IN_GUEST_MODE
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3839  	 * to EXITING_GUEST_=
-MODE.  Therefore the moderately expensive "should
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3840  	 * kick" check does =
-not need atomic operations if kvm_vcpu_kick is used
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3841  	 * within the vCPU t=
-hread itself.
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3842  	 */
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3843  	if (vcpu =3D=3D __th=
-is_cpu_read(kvm_running_vcpu)) {
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3844  		if (vcpu->mode =3D=
-=3D IN_GUEST_MODE)
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3845  			WRITE_ONCE(vcpu->m=
-ode, EXITING_GUEST_MODE);
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3846  		goto out;
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3847  	}
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3848 =20
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3849  	/*
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3850  	 * Note, the vCPU co=
-uld get migrated to a different pCPU at any point
-82c1e532e026a23 Sean Christopherson 2026-10-13  3851  	 * after kvm_vcpu_sh=
-ould_kick(), which could result in sending an
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3852  	 * IPI to the previo=
-us pCPU.  But, that's ok because the purpose of the
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3853  	 * IPI is to force t=
-he vCPU to leave IN_GUEST_MODE, and migrating the
-cc49503cc46665c Sean Christopherson 2026-10-13  3854  	 * vCPU also require=
-s it to leave IN_GUEST_MODE
-cc49503cc46665c Sean Christopherson 2026-10-13  3855  	 *
-cc49503cc46665c Sean Christopherson 2026-10-13  3856  	 * Note #2, do NOT c=
-heck if an IPI is needed if @force is true, as the
-cc49503cc46665c Sean Christopherson 2026-10-13  3857  	 * check also modifi=
-es vcpu->mode and KVM PPC needs to avoid that side
-cc49503cc46665c Sean Christopherson 2026-10-13  3858  	 * effect for unknow=
-n historical reasons.
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3859  	 */
-82c1e532e026a23 Sean Christopherson 2026-10-13  3860  	if (force || kvm_vcp=
-u_should_kick(vcpu)) {
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3861  		cpu =3D READ_ONCE(v=
-cpu->cpu);
-309d28576f0a239 Tom Lendacky        2025-03-27  3862  		if (cpu !=3D me && =
-(unsigned int)cpu < nr_cpu_ids && cpu_online(cpu)) {
-309d28576f0a239 Tom Lendacky        2025-03-27  3863  			/*
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3864  			 * Use a reschedul=
-e IPI to kick the vCPU if the request
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3865  			 * doesn't need to=
- wait for a response (or there is no
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3866  			 * request), as KV=
-M allows kicking vCPUs while IRQs are
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3867  			 * disabled, but u=
-sing the SMP function call framework
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3868  			 * with IRQs disab=
-led can deadlock due to taking cross-
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3869  			 * CPU locks.
-309d28576f0a239 Tom Lendacky        2025-03-27  3870  			 */
-b5478e7ec85c764 Sean Christopherson 2026-10-13  3871  			if (req & KVM_REQU=
-EST_WAIT)
-309d28576f0a239 Tom Lendacky        2025-03-27 @3872  				smp_call_function=
-_single(cpu, ack_kick, NULL, wait);
-309d28576f0a239 Tom Lendacky        2025-03-27  3873  			else
-b6d33834bd4e8bd Christoffer Dall    2012-03-08  3874  				smp_send_reschedu=
-le(cpu);
-85b640450ddcfa0 Sean Christopherson 2021-08-27  3875  		}
-309d28576f0a239 Tom Lendacky        2025-03-27  3876  	}
-aefdc2ed445eb47 Paolo Bonzini       2021-10-20  3877  out:
-b6d33834bd4e8bd Christoffer Dall    2012-03-08  3878  	put_cpu();
-b6d33834bd4e8bd Christoffer Dall    2012-03-08  3879  }
-20c48920583675e Sean Christopherson 2025-09-18  3880  EXPORT_SYMBOL_FOR_KVM=
-_INTERNAL(__kvm_vcpu_kick);
-0266c894b51c41d Paolo Bonzini       2017-05-04  3881  #endif /* !CONFIG_S39=
-0 */
-b6d33834bd4e8bd Christoffer Dall    2012-03-08  3882 =20
-
-:::::: The code at line 3872 was first introduced by commit
-:::::: 309d28576f0a23931a36bf67324868448f79a77e KVM: SVM: Fix SNP AP destro=
-y race with VMRUN
-
-:::::: TO: Tom Lendacky <thomas.lendacky@amd.com>
-:::::: CC: Sean Christopherson <seanjc@google.com>
+   234	
+   235	static int remote_test_init_tracefs(struct dentry *d, void *unused)
+   236	{
+ > 237		return tracefs_create_file("write_event", 0200, d, NULL, &write_event_fops) ?
+   238			0 : -ENOMEM;
+   239	}
+   240	
 
 --
 0-DAY CI Kernel Test Service
