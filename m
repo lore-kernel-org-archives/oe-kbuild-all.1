@@ -1,284 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB90C2E1EE0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 04:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E1C2E7366;
+	Thu, 15 Oct 2026 05:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792037890; cv=none; b=lo51XFk3DEr/gB4PRkJuaSsAf4VVz3EkU1akuxClnhIKDcacaXe6nbVRjBrM+RYlk/jhgExvL3XfmPLMk31aK3uSG9t+/RxFICjtSxVi6hJvh+Bko8D/T9FquwM47gqiE2ioQMfSGr27nBWkVzH+OrZR418NDuQzThmPVLhsxhM=
+	t=1792040812; cv=none; b=Oy7B/ekkWOXuSvlpf/E9WkGGNWHlMRuiHVYgBHd97MtgrX/hF/jW3Z6XUtjLeTlMB0yjMzHLd5FHkGnR+KdxIMtjdU+7NycaVfbSjVQuauWMm8j3x9ThmmryikqtTdoCfWn6qUiEgJKvUzCCABA2J+fmBD8Z91eSJzLSlSh3G04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792037890; c=relaxed/simple;
-	bh=mCKkbHdbrrx4r2Q/atWT4SD7U31VSu0xBv+5QsbIyQA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=PDRAy4YPCt1Vfk54/gNKO/NopBGYZHJ2hiuffSUig6cDOCrCIo43QK1D/wgqkVDJClhq/aR3xUXbddlrU7Ly9IB94T0IpdsOw8zBWomVmK3FktfObq4USBaVx+hk2pvzmyGo0FvYTNJSDvtL1xhZfLG8FmMTgGVe+PovUVilhWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/QWr2nM; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1792040812; c=relaxed/simple;
+	bh=rPrN/b17tzrrWFqjgXZe93Dbw+hG8QAaSFVecQYWGdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j/vSk/73t2Jx8XhjGFRF07xfsVuiz6V1n9WRGrtEPfcW/zvpkb+mWi2eLjD2oC8Jr6JvrsuVzJZdgJHMZioUsUsgPVzrLpamRbdXUBNWLIbQRSEn9Qa13ZffNIz+zPgRWTtOQOxQZ2sf1D7bZckeb1Sgih1Pbo0J5VUSkVh2BFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsDnWkNA; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/QWr2nM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsDnWkNA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792037889; x=1823573889;
-  h=date:from:to:cc:subject:message-id;
-  bh=mCKkbHdbrrx4r2Q/atWT4SD7U31VSu0xBv+5QsbIyQA=;
-  b=V/QWr2nMsrN6AFO6gT6lXwr9kWVgmIO/ZaEgG6DyZqJJv+yPWZMnqmfx
-   mp+NwhdTIXcvw8uPwZjmFQA1FKl3dJzvPqNe+92RHSMGdubapLDXj+SF/
-   FklvUupUwMBY8kXmqBE89XhkfLre3KUkPjVn0SnxJQPz0hiD5Wob9PMx6
-   B2Clk0x4ktXZt6UFeeGpv1GFG1lryFhpxzS+B5DEAOv4rylyhzEZHMFQO
-   vzm49OiSCU0TCS1oepdVJxYA6YuNQqTkQxA0us7VQfK13Njm725HqwOU1
-   wFMqgIqcHVrbAT/IQ2A2Lv7Z6Hd26Kmv05Rgl6aSMjs/Zd1YJJlZ6a5cl
-   g==;
-X-CSE-ConnectionGUID: jFsLZKTGQnWyY5C6axiSRg==
-X-CSE-MsgGUID: qlQBVwa1TVWluB5Td4r52Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="680121"
+  t=1792040810; x=1823576810;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rPrN/b17tzrrWFqjgXZe93Dbw+hG8QAaSFVecQYWGdw=;
+  b=HsDnWkNAMZtMn7mvGVsDklVU5V+DieFRq7vPqU68c7URiCXQG+O9tQCI
+   YeRR/E2/WDo3tTIyBi7Q3xgoIzchx/qVQHW+luwQJJz1+EQR4i0Q6qoAZ
+   fRBfvFTa3RA0Ty5UxPuv20jBebvkBgkDmVUKkU8PzuiShTBa5eWIdIVHb
+   e+8f60M+js9bQhrOznO1ZCMXQnn8z5sjK5fEdFKljPYITwNsIlydUe6cZ
+   y5bXuXNUYXwbnLPmxmkwsG8s7Z109LCDnbtZYc7gcKthTnAXVt+ot2Atg
+   bXpo2NojlxYLGCBIQecnM04lpyILJe2oO6+npFelh9HOIRIWPqBBJHQfT
+   w==;
+X-CSE-ConnectionGUID: vJECR6TsQ+iC3rVugQTuIQ==
+X-CSE-MsgGUID: yLvU/BCASiqLJsc7c6XAVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="808552"
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="680121"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 21:18:08 -0700
-X-CSE-ConnectionGUID: d/fFYqYpQLa3OZczjOYnxA==
-X-CSE-MsgGUID: g2It5+X4QzGOzBP42Nb79Q==
+   d="scan'208";a="808552"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 22:06:50 -0700
+X-CSE-ConnectionGUID: 8jAOmFopSaOf2TggeW3cqg==
+X-CSE-MsgGUID: 8tGAU8DZTY63RexvDIrB6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="3351842"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 14 Oct 2026 21:18:07 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="1847050"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 14 Oct 2026 22:06:45 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHCuq-00000000BbP-3e2e;
-	Thu, 15 Oct 2026 04:18:04 +0000
-Date: Thu, 15 Oct 2026 06:17:55 +0200
+	id 1xHDfu-00000000FqJ-0wLc;
+	Thu, 15 Oct 2026 05:06:42 +0000
+Date: Thu, 15 Oct 2026 13:06:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/1]
- arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c:303:12:
- error: call to undeclared function 'eventfd_ctx_fileget'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202610150638.jKucOgAu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Qingfang Deng <dqfext@gmail.com>,
+	SkyLake Huang <SkyLake.Huang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Ahmed Naseef <naseefkm@gmail.com>,
+	Joris Vaisvila <joey@tinyisr.com>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v3 5/6] net: phy: mediatek: add calibration
+ logic for AN7581
+Message-ID: <202610151259.WmaEeHMH-lkp@intel.com>
+References: <20261014071739.216345-6-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261014071739.216345-6-ansuelsmth@gmail.com>
 
-Hi Yi-De,
+Hi Christian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   06aabb3c55412104814644e8d1b37df04940d99a
-commit: e73a5222e63e1984554773dbc08317f822216f52 [1/1] FROMLIST: virt: geniezone: Add irqfd support
-config: arm64-randconfig-r2101-20261015 (https://download.01.org/0day-ci/archive/20261015/202610150638.jKucOgAu-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e1354f31346666c78d758cee13692ea3b1fe3ec2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150638.jKucOgAu-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-mediatek-export-__mtk_tr_write/20261014-091732
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20261014071739.216345-6-ansuelsmth%40gmail.com
+patch subject: [PATCH net-next v3 5/6] net: phy: mediatek: add calibration logic for AN7581
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261015/202610151259.WmaEeHMH-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151259.WmaEeHMH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150638.jKucOgAu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610151259.WmaEeHMH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:94:
-   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      24 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:371:9: note: previous definition is here
-     371 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c:303:12: error: call to undeclared function 'eventfd_ctx_fileget'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     303 |         eventfd = eventfd_ctx_fileget(f.file);
-         |                   ^
-   arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c:303:12: note: did you mean 'eventfd_ctx_fdget'?
-   include/linux/eventfd.h:60:35: note: 'eventfd_ctx_fdget' declared here
-      60 | static inline struct eventfd_ctx *eventfd_ctx_fdget(int fd)
-         |                                   ^
->> arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c:303:10: error: incompatible integer to pointer conversion assigning to 'struct eventfd_ctx *' from 'int' [-Wint-conversion]
-     303 |         eventfd = eventfd_ctx_fileget(f.file);
-         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
+>> drivers/net/phy/mediatek/airoha-ge-soc.c:1522:3: warning: variable 'shared' is uninitialized when used here [-Wuninitialized]
+    1522 |                 shared->phydev_p0 = phydev;
+         |                 ^~~~~~
+   drivers/net/phy/mediatek/airoha-ge-soc.c:1501:37: note: initialize the variable 'shared' to silence this warning
+    1501 |         struct airoha_socphy_shared *shared;
+         |                                            ^
+         |                                             = NULL
+   1 warning generated.
 
 
-vim +/eventfd_ctx_fileget +303 arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_irqfd.c
+vim +/shared +1522 drivers/net/phy/mediatek/airoha-ge-soc.c
 
-   276	
-   277	static int gzvm_irqfd_assign(struct gzvm *gzvm, struct gzvm_irqfd *args)
-   278	{
-   279		struct gzvm_kernel_irqfd *irqfd, *tmp;
-   280		struct fd f;
-   281		struct eventfd_ctx *eventfd = NULL, *resamplefd = NULL;
-   282		int ret;
-   283		__poll_t events;
-   284		int idx;
-   285	
-   286		irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL_ACCOUNT);
-   287		if (!irqfd)
-   288			return -ENOMEM;
-   289	
-   290		irqfd->gzvm = gzvm;
-   291		irqfd->gsi = args->gsi;
-   292		irqfd->resampler = NULL;
-   293	
-   294		INIT_LIST_HEAD(&irqfd->list);
-   295		INIT_WORK(&irqfd->shutdown, irqfd_shutdown);
-   296	
-   297		f = fdget(args->fd);
-   298		if (!f.file) {
-   299			ret = -EBADF;
-   300			goto out;
-   301		}
-   302	
- > 303		eventfd = eventfd_ctx_fileget(f.file);
-   304		if (IS_ERR(eventfd)) {
-   305			ret = PTR_ERR(eventfd);
-   306			goto fail;
-   307		}
-   308	
-   309		irqfd->eventfd = eventfd;
-   310	
-   311		if (args->flags & GZVM_IRQFD_FLAG_RESAMPLE) {
-   312			struct gzvm_kernel_irqfd_resampler *resampler;
-   313	
-   314			resamplefd = eventfd_ctx_fdget(args->resamplefd);
-   315			if (IS_ERR(resamplefd)) {
-   316				ret = PTR_ERR(resamplefd);
-   317				goto fail;
-   318			}
-   319	
-   320			irqfd->resamplefd = resamplefd;
-   321			INIT_LIST_HEAD(&irqfd->resampler_link);
-   322	
-   323			mutex_lock(&gzvm->irqfds.resampler_lock);
-   324	
-   325			list_for_each_entry(resampler,
-   326					    &gzvm->irqfds.resampler_list, link) {
-   327				if (resampler->notifier.gsi == irqfd->gsi) {
-   328					irqfd->resampler = resampler;
-   329					break;
-   330				}
-   331			}
-   332	
-   333			if (!irqfd->resampler) {
-   334				resampler = kzalloc(sizeof(*resampler),
-   335						    GFP_KERNEL_ACCOUNT);
-   336				if (!resampler) {
-   337					ret = -ENOMEM;
-   338					mutex_unlock(&gzvm->irqfds.resampler_lock);
-   339					goto fail;
-   340				}
-   341	
-   342				resampler->gzvm = gzvm;
-   343				INIT_LIST_HEAD(&resampler->list);
-   344				resampler->notifier.gsi = irqfd->gsi;
-   345				resampler->notifier.irq_acked = irqfd_resampler_ack;
-   346				INIT_LIST_HEAD(&resampler->link);
-   347	
-   348				list_add(&resampler->link, &gzvm->irqfds.resampler_list);
-   349				gzvm_register_irq_ack_notifier(gzvm,
-   350							       &resampler->notifier);
-   351				irqfd->resampler = resampler;
-   352			}
-   353	
-   354			list_add_rcu(&irqfd->resampler_link, &irqfd->resampler->list);
-   355			synchronize_srcu(&gzvm->irq_srcu);
-   356	
-   357			mutex_unlock(&gzvm->irqfds.resampler_lock);
-   358		}
-   359	
-   360		/*
-   361		 * Install our own custom wake-up handling so we are notified via
-   362		 * a callback whenever someone signals the underlying eventfd
-   363		 */
-   364		init_waitqueue_func_entry(&irqfd->wait, irqfd_wakeup);
-   365		init_poll_funcptr(&irqfd->pt, irqfd_ptable_queue_proc);
-   366	
-   367		spin_lock_irq(&gzvm->irqfds.lock);
-   368	
-   369		ret = 0;
-   370		list_for_each_entry(tmp, &gzvm->irqfds.items, list) {
-   371			if (irqfd->eventfd != tmp->eventfd)
-   372				continue;
-   373			/* This fd is used for another irq already. */
-   374			pr_err("already used: gsi=%d fd=%d\n", args->gsi, args->fd);
-   375			ret = -EBUSY;
-   376			spin_unlock_irq(&gzvm->irqfds.lock);
-   377			goto fail;
-   378		}
-   379	
-   380		idx = srcu_read_lock(&gzvm->irq_srcu);
-   381	
-   382		list_add_tail(&irqfd->list, &gzvm->irqfds.items);
-   383	
-   384		spin_unlock_irq(&gzvm->irqfds.lock);
-   385	
-   386		/*
-   387		 * Check if there was an event already pending on the eventfd
-   388		 * before we registered, and trigger it as if we didn't miss it.
-   389		 */
-   390		events = vfs_poll(f.file, &irqfd->pt);
-   391	
-   392		/* In case there is already a pending event */
-   393		if (events & EPOLLIN)
-   394			irqfd_set_spi(gzvm, GZVM_IRQFD_RESAMPLE_IRQ_SOURCE_ID,
-   395				      irqfd->gsi, 1, false);
-   396	
-   397		srcu_read_unlock(&gzvm->irq_srcu, idx);
-   398	
-   399		/*
-   400		 * do not drop the file until the irqfd is fully initialized, otherwise
-   401		 * we might race against the EPOLLHUP
-   402		 */
-   403		fdput(f);
-   404		return 0;
-   405	
-   406	fail:
-   407		if (irqfd->resampler)
-   408			irqfd_resampler_shutdown(irqfd);
-   409	
-   410		if (resamplefd && !IS_ERR(resamplefd))
-   411			eventfd_ctx_put(resamplefd);
-   412	
-   413		if (eventfd && !IS_ERR(eventfd))
-   414			eventfd_ctx_put(eventfd);
-   415	
-   416		fdput(f);
-   417	
-   418	out:
-   419		kfree(irqfd);
-   420		return ret;
-   421	}
-   422	
+  1498	
+  1499	static int an7581_phy_probe(struct phy_device *phydev)
+  1500	{
+  1501		struct airoha_socphy_shared *shared;
+  1502		struct mtk_socphy_priv *priv;
+  1503		struct pinctrl *pinctrl;
+  1504		int ret;
+  1505	
+  1506		/* Toggle pinctrl to enable PHY LED */
+  1507		pinctrl = devm_pinctrl_get_select(&phydev->mdio.dev, "gbe-led");
+  1508		if (IS_ERR(pinctrl))
+  1509			dev_err(&phydev->mdio.bus->dev,
+  1510				"Failed to setup PHY LED pinctrl\n");
+  1511	
+  1512		ret = devm_phy_package_join(&phydev->mdio.dev, phydev, 0,
+  1513					    sizeof(struct airoha_socphy_shared));
+  1514		if (ret)
+  1515			return ret;
+  1516	
+  1517		priv = devm_kzalloc(&phydev->mdio.dev, sizeof(*priv), GFP_KERNEL);
+  1518		if (!priv)
+  1519			return -ENOMEM;
+  1520	
+  1521		if (phydev->mdio.addr == AIROHA_DEFAULT_PORT0_ADDR)
+> 1522			shared->phydev_p0 = phydev;
+  1523	
+  1524		phydev->priv = priv;
+  1525	
+  1526		return 0;
+  1527	}
+  1528	
 
 --
 0-DAY CI Kernel Test Service
