@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D33F490C1F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 10:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2817A49EC40
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 10:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792058838; cv=none; b=U0JJx5i2AE/KD1cxftQ9blA2ctySkDzne/slcJuxrc3+kkyulb58fiDBHYWn21KfjrAAuLpoojyS2TNmB+QNOJPDfry4nXY2WYHz/VHWmy9PFpFLTcalRl804Hm6YYvP1I2lyad9tmIHQ5D+JO9GeA7p+QBALTvmJPLE0gcTLU0=
+	t=1792061081; cv=none; b=tCxkbkfN6GuLdJLjrbbv9gKJA2Fx5cpm8PJv6C1igKeSDmZKxSAgRMyQHXQ8rmc94GPjrxoixToniwj/+aMBRBDAvubtO2LmXnukIWUJLuuGcn0NJLbI6CiDysuyJq1d/C6q7NmWQfWqNkr5Mopi4EPhxNr/voN83QWBgN4Gb44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792058838; c=relaxed/simple;
-	bh=secHWk4Bpjq5eSgcsSglufyb+PyR4wepEfMhKlqBTHY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DzUW2CGRaSgRPwA3Yl2XVhirbR8RBOSg24XtYv3CdfoctaG5Ad1LcFSbsBH78vwthZYSjORkMuBq2ykbBzLI+pRSo7MwWdUSrR2lXoHtzRav0cbxbViVr+hZrQdzXkVjLTv0iBo3P9h+PjtIeYO03aukd65UF5EPubFSEZYbq8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TYWNykVI; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1792061081; c=relaxed/simple;
+	bh=QBsuZL62Ar9ySyhu8hpudtkemy8rXjmD8PvqfxR8/aU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=g8GJDCpyPjbShIuHEk8rEvChQhtJRXdYavL90xPJkWBAqIfzBEcEzOVtYRpheUINYhqR06KURaQgAO9pZeHN3IVicoAr3/+945kGfnTT48GJlBav3ohtbKBxbKfy7Cyj8Ruj2P1vF8smvBZKJBGwSn2RWZ7djzUmbBYnNuzaIG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3akC9SF; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYWNykVI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3akC9SF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792058836; x=1823594836;
+  t=1792061079; x=1823597079;
   h=date:from:to:cc:subject:message-id;
-  bh=secHWk4Bpjq5eSgcsSglufyb+PyR4wepEfMhKlqBTHY=;
-  b=TYWNykVIobTVt64aKpBSDg9XfAEhKiE7oi+ehGQPsdoqvg/wK6mpny6c
-   Ymx/PV6L3WplWtwJDCM//W8z6bHeHJHaXkZQtGwiSW9EvAdP+l+dte7Gr
-   BqH72MHtjyawWH5t82RHzfVWn53ET5Gk3Ui15LFe7+u6F81vuKyvHwJkn
-   JIJvacwU+BxzEOKjTPYYAAiU4jRUP0gqI92N6DLT+sTiyWEhntEi+XHR5
-   JQrsDOE14pDHw6bjdco8WbTZ6Pc46mNaEdxufUJgsh0CoGpHoDbLsG/8i
-   TDbXYwYZevpG/SV47sPibP5dfHqeG1xeHR+V7wRr2dwrMmh+6V+63wH0Y
-   w==;
-X-CSE-ConnectionGUID: prP1+jWJR6Kk+UVBjKj8gw==
-X-CSE-MsgGUID: mL4CCI1XRESsj3Zb/rH6bA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="832230"
+  bh=QBsuZL62Ar9ySyhu8hpudtkemy8rXjmD8PvqfxR8/aU=;
+  b=l3akC9SFTRs/9s7BP41OXQIMmGhjH0mAtMBE5+a7xWXJ5uxqja+KSY62
+   4LpX8hHQY+9e1UZ5vdD5TiZWoyOvfImoUAmKgnWRSt6ViKA7CLhTBCh2Y
+   UAiKistuJt8UF0nM2S8t68bYgkvyRiI6trvsDAikiAB86G5piZMQwyugZ
+   gzfsZaaOU049+B7oKIQ/KZMvkzvkJZqXjmDhhhRpm/0wHJ9fWUayttnxb
+   eljOarlEw0g5MY7RG8hcOkuZ+83xqUnuS6IOJkndSPUahQuhKt9ub7D3x
+   V/tXFgDF5+9BkhNZdgpu8yzP9cRa6CequJazMAdff4Jmywmz9C+Ay4+Hk
+   Q==;
+X-CSE-ConnectionGUID: 1kzjGGqASZOoX0hAVEHnjw==
+X-CSE-MsgGUID: 4v/DMKHmTdepL2nIn+jL+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="847622"
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="832230"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 03:07:15 -0700
-X-CSE-ConnectionGUID: VThqUtCQRA6NrdDSbVTy2g==
-X-CSE-MsgGUID: f6sZmOlnSFeWodurC6CkIw==
+   d="scan'208";a="847622"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 03:44:38 -0700
+X-CSE-ConnectionGUID: 7CVJ4CeaSMuXhwZhv72Eeg==
+X-CSE-MsgGUID: 1r6qZH9NQle5buJxXRjllg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="2018487"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Oct 2026 03:07:13 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="1621268"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 15 Oct 2026 03:44:33 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHIMh-00000000GFE-1GSo;
-	Thu, 15 Oct 2026 10:07:11 +0000
-Date: Thu, 15 Oct 2026 18:06:51 +0800
+	id 1xHIwo-00000000Bgh-33Yb;
+	Thu, 15 Oct 2026 10:44:30 +0000
+Date: Thu, 15 Oct 2026 12:44:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.3-rsslro2 15/15]
- drivers/net/ethernet/mediatek/mtk_eth_soc.c:3006:31: error: 'const struct
- <anonymous>' has no member named 'lro_alt_timer'; did you mean 'lro_alt_dbg'?
-Message-ID: <202610151712.S0KxpHHo-lkp@intel.com>
+Subject: [android-common:android15-6.6-2026-04 2/2] WARNING: modpost:
+ drivers/power/reset/at91-reset: section mismatch in reference:
+ at91_reset_driver+0x4 (section: .data) -> at91_reset_remove (section:
+ .exit.text)
+Message-ID: <202610151210.ag8AchBs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,128 +61,170 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.3-rsslro2
-head:   0327d4826547afd9459f4696200a87542fa2fc41
-commit: 15df9bebad7152de5ed4925c2ae7c654f6c80176 [15/15] Fix HW LRO uninit sequence.
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20261015/202610151712.S0KxpHHo-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151712.S0KxpHHo-lkp@intel.com/reproduce)
+Hi Uwe,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-04
+head:   ab4f5f5986fccf6d6096aa883c1187cd1529edf7
+commit: f177cd0c15fcc7bdbb68d8d1a3166dead95314c8 [2/2] modpost: Don't let "driver"s reference .exit.*
+config: arm-randconfig-r2111-20261014 (https://download.01.org/0day-ci/archive/20261015/202610151210.ag8AchBs-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 285b36e5f279398c8a8f6081bee88a5e105ee07f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151210.ag8AchBs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f177cd0c15fc ("modpost: Don't let "driver"s reference .exit.*")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610151712.S0KxpHHo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610151210.ag8AchBs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_hwlro_rx_init':
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:3006:31: error: 'const struct <anonymous>' has no member named 'lro_alt_timer'; did you mean 'lro_alt_dbg'?
-    3006 |                 reg_map->pdma.lro_alt_timer);
-         |                               ^~~~~~~~~~~~~
-         |                               lro_alt_dbg
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_probe':
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:5885:1: warning: label 'err_unreg_netdev' defined but not used [-Wunused-label]
-    5885 | err_unreg_netdev:
-         | ^~~~~~~~~~~~~~~~
-
-
-vim +3006 drivers/net/ethernet/mediatek/mtk_eth_soc.c
-
-  2956	
-  2957	static int mtk_hwlro_rx_init(struct mtk_eth *eth)
-  2958	{
-  2959		u32 ring_ctrl_dw1 = 0, ring_ctrl_dw2 = 0, ring_ctrl_dw3 = 0;
-  2960		const struct mtk_reg_map *reg_map = eth->soc->reg_map;
-  2961		const struct mtk_soc_data *soc = eth->soc;
-  2962		u32 lro_ctrl_dw0 = 0, lro_ctrl_dw3 = 0;
-  2963		int i, val;
-  2964	
-  2965		/* set LRO rings to auto-learn modes */
-  2966		ring_ctrl_dw2 |= MTK_RING_AUTO_LERAN_MODE;
-  2967	
-  2968		/* validate LRO ring */
-  2969		ring_ctrl_dw2 |= MTK_RING_VLD;
-  2970	
-  2971		/* set AGE timer (unit: 20us) */
-  2972		ring_ctrl_dw2 |= MTK_RING_AGE_TIME_H;
-  2973		ring_ctrl_dw1 |= MTK_RING_AGE_TIME_L;
-  2974	
-  2975		/* set max AGG timer (unit: 20us) */
-  2976		ring_ctrl_dw2 |= MTK_RING_MAX_AGG_TIME;
-  2977	
-  2978		/* set max LRO AGG count */
-  2979		ring_ctrl_dw2 |= MTK_RING_MAX_AGG_CNT_L;
-  2980		ring_ctrl_dw3 |= MTK_RING_MAX_AGG_CNT_H;
-  2981	
-  2982		for (i = 1; i <= MTK_HW_LRO_RING_NUM(eth); i++) {
-  2983			mtk_w32(eth, ring_ctrl_dw1, MTK_LRO_CTRL_DW1_CFG(reg_map, i));
-  2984			mtk_w32(eth, ring_ctrl_dw2, MTK_LRO_CTRL_DW2_CFG(reg_map, i));
-  2985			mtk_w32(eth, ring_ctrl_dw3, MTK_LRO_CTRL_DW3_CFG(reg_map, i));
-  2986		}
-  2987	
-  2988		/* IPv4 checksum update enable */
-  2989		lro_ctrl_dw0 |= MTK_L3_CKS_UPD_EN(eth);
-  2990	
-  2991		/* switch priority comparison to packet count mode */
-  2992		lro_ctrl_dw0 |= MTK_LRO_ALT_PKT_CNT_MODE;
-  2993	
-  2994		/* enable L4 PSH flag check */
-  2995		if (mtk_is_netsys_v3_or_greater(eth))
-  2996			lro_ctrl_dw0 |= MTK_LRO_L4_CTRL_PSH_EN;
-  2997	
-  2998		/* bandwidth threshold setting */
-  2999		mtk_w32(eth, MTK_HW_LRO_BW_THRE, MTK_PDMA_LRO_CTRL_DW2(reg_map));
-  3000	
-  3001		/* auto-learn score delta setting */
-  3002		mtk_w32(eth, MTK_HW_LRO_REPLACE_DELTA, MTK_PDMA_LRO_ALT_SCORE_DELTA(reg_map));
-  3003	
-  3004		/* set refresh timer for altering flows to 1 sec. (unit: 20us) */
-  3005		mtk_w32(eth, (MTK_HW_LRO_TIMER_UNIT << 16) | MTK_HW_LRO_REFRESH_TIME,
-> 3006			reg_map->pdma.lro_alt_timer);
-  3007	
-  3008		if (mtk_is_netsys_v3_or_greater(eth)) {
-  3009			val = mtk_r32(eth, reg_map->pdma.rx_cfg);
-  3010			mtk_w32(eth, val | ((MTK_PDMA_LRO_SDL + MTK_MAX_RX_LENGTH) <<
-  3011				MTK_RX_CFG_SDL_OFFSET), reg_map->pdma.rx_cfg);
-  3012	
-  3013			lro_ctrl_dw0 |= MTK_PDMA_LRO_SDL << MTK_CTRL_DW0_SDL_OFFSET;
-  3014	
-  3015			/* enable cpu reason black list */
-  3016			lro_ctrl_dw0 |= MTK_LRO_CRSN_BNW(eth);
-  3017	
-  3018			/* no use PPE cpu reason */
-  3019			mtk_w32(eth, 0xffffffff, MTK_PDMA_LRO_CTRL_DW1(reg_map));
-  3020		} else {
-  3021			/* set HW LRO mode & the max aggregation count for rx packets */
-  3022			lro_ctrl_dw3 |= MTK_ADMA_MODE | (MTK_HW_LRO_MAX_AGG_CNT & 0xff);
-  3023		}
-  3024	
-  3025		/* enable max 4-depth VLAN support including switch special tag */
-  3026		lro_ctrl_dw3 |= MTK_LRO_VLAN_VID_CMP_DEPTH | MTK_LRO_VLAN_EN;
-  3027	
-  3028		/* the minimal remaining room of SDL0 in RXD for lro aggregation */
-  3029		lro_ctrl_dw3 |= MTK_LRO_MIN_RXD_SDL;
-  3030	
-  3031		/* enable HW LRO */
-  3032		lro_ctrl_dw0 |= MTK_LRO_EN;
-  3033	
-  3034		mtk_w32(eth, lro_ctrl_dw3, MTK_PDMA_LRO_CTRL_DW3(reg_map));
-  3035		mtk_w32(eth, lro_ctrl_dw0, MTK_PDMA_LRO_CTRL_DW0(reg_map));
-  3036	
-  3037		if (mtk_is_netsys_v2_or_greater(eth)) {
-  3038			i = (soc->rx.desc_size == sizeof(struct mtk_rx_dma_v2)) ? 1 : 0;
-  3039			mtk_m32(eth, MTK_RX_DONE_INT(eth, MTK_HW_LRO_RING(eth, i)),
-  3040				MTK_RX_DONE_INT(eth, MTK_HW_LRO_RING(eth, i)), reg_map->pdma.int_grp);
-  3041			mtk_m32(eth, MTK_RX_DONE_INT(eth, MTK_HW_LRO_RING(eth, i + 1)),
-  3042				MTK_RX_DONE_INT(eth, MTK_HW_LRO_RING(eth, i + 1)),
-  3043				reg_map->pdma.int_grp + 0x4);
-  3044			mtk_m32(eth, MTK_RX_DONE_INT(eth, MTK_HW_LRO_RING(eth, i + 2)),
-  3045				MTK_RX_DONE_INT(eth, MTK_HW_LRO_RING(eth, i + 2)), reg_map->pdma.int_grp3);
-  3046		}
-  3047	
-  3048		return 0;
-  3049	}
-  3050	
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/crypto/poly1305-arm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp949.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-14.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-inuit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8data.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/unicode/utf8-selftest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/isofs/isofs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hfs/hfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/sysv/sysv.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hpfs/hpfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ufs/ufs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/cast_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-imx27.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/macmodes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/via/viafb.o
+WARNING: modpost: drivers/video/fbdev/atmel_lcdfb: section mismatch in reference: atmel_lcdfb_driver+0x4 (section: .data) -> atmel_lcdfb_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-img.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-ipe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-vdec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-venc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-mfg.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt6779-aud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-cam.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/mediatek/clk-mt8365-mm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-npe.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_dma_buf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/da9121-regulator.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/reset/hisilicon/hi6220_reset.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/owl-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/goldfish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tiny/bochs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/brd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/fastrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/ssbi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/advansys.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/appletalk/ipddp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-qup.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: drivers/power/reset/at91-poweroff: section mismatch in reference: at91_poweroff_driver+0x4 (section: .data) -> at91_poweroff_remove (section: .exit.text)
+>> WARNING: modpost: drivers/power/reset/at91-reset: section mismatch in reference: at91_reset_driver+0x4 (section: .data) -> at91_reset_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: drivers/hwmon/smsc47m1: section mismatch in reference: smsc47m1_driver+0x4 (section: .data) -> smsc47m1_remove (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/omap_wdt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/blink/leds-bcm63138.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/intel/keembay/keembay-ocs-hcu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-dr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ezkey.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-redragon.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-viewsonic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-waltop.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-aspeed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-master-ast-cf.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/fsi/fsi-scom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/amd/snd-acp-config.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-fiq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-dmic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-i2s-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-max98373.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-nau8825.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt274.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt298.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/intel/avs/boards/snd-soc-avs-rt5682.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/snd-soc-qcom-sdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/qcom/qdsp6/snd-q6dsp-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-atom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-acpi-intel-bdw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-intel-hda-common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-skl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-cnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-icl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-tgl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-mtl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/intel/snd-sof-pci-intel-lnl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-acpi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/sof/snd-sof-pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netlink/netlink_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
 
 --
 0-DAY CI Kernel Test Service
