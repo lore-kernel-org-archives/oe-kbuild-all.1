@@ -1,161 +1,139 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011013.outbound.protection.outlook.com [40.107.130.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7559B51DDFE;
-	Thu, 15 Oct 2026 13:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792070769; cv=fail; b=NVJGmu4xuaq4ehqFS1xIMzghFm2CA29ffgWOMTs3JrGCqh3u+e6erX/JsFtxEubeC9bI3KncmeYYr31HvHIbNWQocPCGQDo2d5gQHfqrsAanUYx5rpwInWF8BqJ5+b3Oz4IEo6xSSGbPg2dl0vCLCTIFIovTiEBKZYo61+ZhNJs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792070769; c=relaxed/simple;
-	bh=m4uqxc1yNimz+FLs7Rp8ICmp7lGyg61nMcdUMY4QLXI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=NRdNwOu9fEEZiJavC+sikAMVNUDhIZUX5sufxNss+T9aQIrrYzWOBuObNUVkhc+PV92+Aj/kx/K1M1AQYS3cKcO+5+5OcgC2r9ZjMAsCRE4tv4YnaRYiJ+YJzpqYF/Uh6M9IXceTEoiJ3d/Jjf6OzLb5LQJBayD0e24k5smTR/Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=icx1MzxA; arc=fail smtp.client-ip=40.107.130.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88B952CCE7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 14:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792073381; cv=none; b=gWYCr5xuwW3q4f9BAOp79/04qgkbAqDbsJcbHC5sroeL3Xp9wSN2bHFehv7rqDsJMjXpDKx4sAeiYdYFuvMmaNnHPfitXRGPbp33NGKfF7AmTDITQuLqzqQyb/olG9/SsgGkHXvG71zQAeTrbyoiFWIYqzN/GIHT8GLrCRadytg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792073381; c=relaxed/simple;
+	bh=E4Z2ILIU8tW0DpZFFQ5YOJ8dxkHXQFmBgd1ma+smWpM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uac/coWQMtjuUW8whKDUkAuoutn2oTwCQM0hn1t8ZJDMYZsK5xSn15lelTK6Tbhy5fimHRhZfj0KCU1itp9KNgKdX/sQbWVeCoAJ5Ixt6eFsnaXcji/213gs25zrIT9TE+4fCBt8riEW2w2H59QCNSqClK6oCQZiJQewMdBg4QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vfe1VcxB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="icx1MzxA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wXWmn4IeaUs4rHFJW1Yqpif9rynzkg8nvhyxlGbtwD6kMWrd8RObkAQC+++8m2qZPlPBhc1z44ckzi+KPiQJaosQa8UvaPgGS2EmgzOQXa0Q7wtpStHYaquib5cn7pILIq9/K/IVaaH4g/nBWcbo3+LWnqwDRE0/OBGtKroAiRgGTqK9yyLx7wnPsiqnbqHhb0QSplzKLpZhQKDw2+TnzcQS5OWy5OWstSjIhi7EzXYfuw41hWiNEoDDwWkdfuDDIW0D6QrwUqd/jc6jrqW4wN9C0iOzHj77PM3rWW2Qe/zUoboZVSHAGjnlYo3c/HcvbjZ99E1Q4Bf3KYQBkOYSeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m4uqxc1yNimz+FLs7Rp8ICmp7lGyg61nMcdUMY4QLXI=;
- b=TDEKFbrJAYNu/65hOS5b9w2eZrjUT4/NXyxsjNoesBtQeqD/i8y2oykzfysXePxXXkZ2Z8wgCUirTulDfsa8EhhXTEFqL6l2BRURRQwsdw+QIeHbTryonk9GfDP+puDyyw84VSDtaawZ6JDKrVjhHAfyqoaNywrv1u5BBYPNGaGq7wjUuz4VyFrLXeYsTBc3V3fbXrcNd8XTVdaFOdY3fNoE4op3JlxVHdaT0rLxDuzAp0Z//PhoOQdrtkbtbd2OnlCxkbGxVv4TyOA5vHdduehhZ9r3dkbVRyXwOto+3aMv0IXbDj9RFpLH2lTRsRiIufT4bcK9Z0fy52gSUhIs2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m4uqxc1yNimz+FLs7Rp8ICmp7lGyg61nMcdUMY4QLXI=;
- b=icx1MzxAq5KUpY3nOk6Mlu3dLcC5zAVf6cpfKjNrD2gGWVNT4VVojVsVHu++jglQwQ0K3+qPZaVplXDV4zXHEKsYuf8fC/hZMOgiMx/pMqBhvePwHmu5wZFUoIThtdHBpyv3lHkLuj1N1pGm1+gXvjIgWNUu+hYipMjMTgX6CwbJ2qR9h9691BpcL2iNqPdxC4Xm6uwDQgp5zR+tjoPaUPyRLLdNAkRco7bzigIP3Q3eQ5vx5EvhimEwvyIfnEYL7aAkF8lOP8/+suFmgQUcKDTHd8+Huf5eQH+qd1+lW9Qh0XI6QiubzU06nwROLJLGxfF0027RfINgSjLGP7QOYg==
-Received: from GV2PR04MB11740.eurprd04.prod.outlook.com
- (2603:10a6:150:2cd::13) by MA6PR04MB441830.eurprd04.prod.outlook.com
- (2603:10a6:250:57::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Thu, 15 Oct
- 2026 13:26:04 +0000
-Received: from GV2PR04MB11740.eurprd04.prod.outlook.com
- ([fe80::ca5f:7e1c:a67a:a490]) by GV2PR04MB11740.eurprd04.prod.outlook.com
- ([fe80::ca5f:7e1c:a67a:a490%4]) with mapi id 15.21.0522.012; Thu, 15 Oct 2026
- 13:26:04 +0000
-From: Claudiu Manoil <claudiu.manoil@nxp.com>
-To: kernel test robot <lkp@intel.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, dl-S32
-	<S32@nxp.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Wei Fang <wei.fang@nxp.com>, Clark
- Wang <xiaoning.wang@nxp.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Eric
- Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Saravana Kannan
-	<saravanak@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject: RE: [PATCH net-next v2 1/5] net: enetc: Add pseudo-MAC support for
- ENETCv4 Ports via a fixed-link node
-Thread-Topic: [PATCH net-next v2 1/5] net: enetc: Add pseudo-MAC support for
- ENETCv4 Ports via a fixed-link node
-Thread-Index: AQHdWzYWe74LlF4VAU2QF0Eh2lZjvrb+TCEAgABOQRA=
-Date: Thu, 15 Oct 2026 13:26:04 +0000
-Message-ID:
- <GV2PR04MB11740DF323A5E1DCF2E8D6131969C2@GV2PR04MB11740.eurprd04.prod.outlook.com>
-References:
- <d7b51cb29758538a4c68a700dd8cd41b6e7e08b6.1791908694.git.claudiu.manoil@nxp.com>
- <202610151650.UHqL0Sb7-lkp@intel.com>
-In-Reply-To: <202610151650.UHqL0Sb7-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_0d9c909a-577b-4ba2-96de-69ada94b137a_Enabled=True;MSIP_Label_0d9c909a-577b-4ba2-96de-69ada94b137a_SiteId=686ea1d3-bc2b-4c6f-a92c-d99c5c301635;MSIP_Label_0d9c909a-577b-4ba2-96de-69ada94b137a_SetDate=2026-10-15T13:23:45.0000000Z;MSIP_Label_0d9c909a-577b-4ba2-96de-69ada94b137a_Name=NXP
- Confidential;MSIP_Label_0d9c909a-577b-4ba2-96de-69ada94b137a_ContentBits=3;MSIP_Label_0d9c909a-577b-4ba2-96de-69ada94b137a_Method=Standard
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2PR04MB11740:EE_|MA6PR04MB441830:EE_
-x-ms-office365-filtering-correlation-id: 36e12091-a449-4096-5388-08df2abfdcc7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|19092799006|38070700021|56012099006|4143699003|11063799006|261009223027099003|10067099003|22082099003|18002099003;
-x-microsoft-antispam-message-info:
- Cbh5iOxOQMf2HdBw1KJaEpYW/qlPfdEqLXKMssDsQxsHqyrtmpPCb/igHotbfLaKJOhHjbdkXrOKTqsMKRjXy55mO2Aoul5AtVBDPkRoLmkC3lmjCak5IJnhs47F1rwWwE7kiCd18rh2oy5+EUX88uHJtxiSdf0d3xwbFThCpll8l/BWeb3DIz1JtCOJHPR9b+A4fNn6zvRMdt4u9f8xuJyQZnAUeoCvMSnXteOITqUbZy/fGW7EHYGm8vwNW7D2yvKGM1zPtcwKgOv1qOJ/LqtAZINp91543XfWdWn1ECxKLTgkIdL5+YEr6bkL+8xNu/ubap+JUehnRqsYmh1bnd9XyCHklF8EPr1P7yr9sR5rrytKZxdtBjTnHrFkLVB/odsrOZQRD3jwgHB8uzkswdd+5qA/zBOaKn9dPg2uBnyM1XtsPb3f4ZP+T5T+yn2E9bDAxKGLtKAv5gYx0zflbIzuzFBZqMUdZo0C3IPJvghxYeW/dQSLB11F/odbQIp8APFOcDftj3kbyTCv7AVQ91d+OuwNlU4xWV6wDQiQv9gDc2d1+0Vo8iwWuE8hSzWOnbUl3m2RyCqe8RtwB4U6Qo2C7jv+Ko3NiNEnYvHhguKJSY3NOgj9QKy23gLhcBzLmTWhLTwQrRCbruz8J9jdo6mCPX6Bmf+fQHe5i5ArTSGgmCpiGoGNyCWrWXgLHVB/D6DRtXtSX9vLfE6gH+Q/sFwgjyaIeN2aB6VbsGDr1BU=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11740.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(19092799006)(38070700021)(56012099006)(4143699003)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?SnNBNCs2am85UGNYcUpFOHdLdFZ4aGlnYmFmRC9XVDJjY3k4RmJ2b2dqczZP?=
- =?utf-8?B?RVJ3RHNaRkh5LytGU25rVHRYbVBmcXg1MDgrKzRCMmRvTVlMclY4Nmp0M3E3?=
- =?utf-8?B?MFE4SGI3cnFFaEVjOUtIeHlzcSt6MExnckJHeDZSdzY2Y2tJZWI1RnhtUzNE?=
- =?utf-8?B?WlF1RjhrZ0pXcTkzeC8zZXU0dzB6YlVrWVlWZkVBUzJLKzExY2ZBbUNiUkdT?=
- =?utf-8?B?bkRtOHIxZTlFMW9EejBFVG9qVytBOTk2WHkrWXAxY1oyWlA4dko5NFFZZGZK?=
- =?utf-8?B?b1dTcEFiSHhOMnhPTzROZHlnVHRBUlp1aENuV0hXWHlpZlpkbnNXanJ6RFd4?=
- =?utf-8?B?VW03NVduc3lmeFpuMDJtM0hpb3FiNEs3UHB5U056RkFKYXdZa1hRV3JXMERM?=
- =?utf-8?B?ME1RQzV3UEx0MkJZTU1jeDErVlJUc1F3cWpESlBYb0p3bHgrNnM3V0cxUU4w?=
- =?utf-8?B?UVdNZk0yMHpuemtGRjNpcjErSzZBRFQzR0QrcEh3YnBRSXNIbGdpZ0t5QnJQ?=
- =?utf-8?B?Tnppd3QvUG51OGk3OVdBUnpXY1F0YjE3TFdhdzNFeUphRmdqVEkwUFRlOHZ6?=
- =?utf-8?B?MmlOSEtHMG9scmhKSWlQWUhRcURXdFR1aTcrMGp5UFpYWFpOQitPUTMvd0tJ?=
- =?utf-8?B?d1NpRUhMTmNsQVR2Qk1NVGd3TlZsSHByTjZSYlB5cStPNlc5Qi9PL1ZhdFQ3?=
- =?utf-8?B?Ris2bGxUTUtiSnB5bFZueTJqOTQzZWFqU3BLTjZNY0o4WTR4UzYybEZjcHIv?=
- =?utf-8?B?bk1VZjRCZ1ZFcnZlMUszRUVaajRaZzhSbktpZ2RsN0tzOFJFaFZKQTVNbVN3?=
- =?utf-8?B?eC84L09LTFIwZWlZTUZjbUh0SjZqMlh3R3FEb0wyQ2R2aDFPR2tDWjkxVWpl?=
- =?utf-8?B?ZXVtK0JjZStLa3I4YkUzYXN4VVBBQWV4WHB5b3MzN1ZjeXpxWnhhbTBGdmJV?=
- =?utf-8?B?bUxGMlFuQlJBcHVsbHhpWXZ6czBFMnZjamR2VUYzL0dSZjJ3RE5EOS9FKzBI?=
- =?utf-8?B?bFplQnk5eGdUQ0NHSDh2aG8rcUgzeUUvWUNlblVCT0wwMzRkMzBreDJzQlNB?=
- =?utf-8?B?N1lqS3l5UkhNbmdBcUF6YWhKRElIL0NBOFJQd3FQRHVpY0dUZlJqWkQ4dno5?=
- =?utf-8?B?Q29SWE9GWU1QcjE4YWN2OUZMTzBzUnVvd2p6REJ3cEpYZnl3djdQM1FuMWxW?=
- =?utf-8?B?c2F2Y3lFLzJWZVN6SGJGRFlXL0pta3d5dG5WQmk3d1F2dStXak9HcWs0Z1V0?=
- =?utf-8?B?MFhHWkhhUHNGcS83M0lUZXNOZDFzOUE0N2liSlZ1OWR3MnNOZUNKa2p4NzJN?=
- =?utf-8?B?Ny9Sc3NSVENGUVl3K0hOTEx4QXFCaEYzRnhLdExlUUVlU3FmbFQrM1F3aDZY?=
- =?utf-8?B?US8zd3NRS3VJTzNmNE81cE5YVGg2ZGYrUDR2a0Y3TUlyOEsvQVZ4cU54Ty9U?=
- =?utf-8?B?OHRLQ2ZpSEVBNnI4OVBTZlptVjlxMHk5WXRpK1lwNDh5WGl4UHlZY0M1Mjhr?=
- =?utf-8?B?RFpHdjQ0WEJKWk1HWHFSWmtFK3Fab0hTcURvb0o5MTJWL3p1REhab2d1ajJI?=
- =?utf-8?B?MG9qY1MxN3F6S203ZlJCRzUzUkh3VXU1YUx6RS9uUEVtenpQTFd2RzNJS1ll?=
- =?utf-8?B?clovb2todnFlblRmWjlvQ3FCTmpybm9Mb0Roellvem1vNXdHTFhPVmt0c2Zq?=
- =?utf-8?B?d1BxWFY1dGF2L2F5RXk3dDlnTUFXZ2dkTk95eW5yMHJQdExONFFoU09nMDly?=
- =?utf-8?B?RGZ2R0lFcEZYVXIzdlJhZzFCMTRBY1o0TDZGMnBRK20rczhEYmlJdWlyZmx2?=
- =?utf-8?B?WVE3OHFDbGdCcElwd0g1ZCszb2g3T0tINlV6NnhjUXR0S1hlREhQczRManMy?=
- =?utf-8?B?b1BibjlETnNhWVRZNEFpUFlGMlBFZXVwSy8zc2xOZTZZdWdqWUZjazNuMU10?=
- =?utf-8?B?TnN5ZDNXeVQxVEdQNXBENzFsdEhlbkJJMU9rd1hkU21SVlUzMjdhWGhyQlQ3?=
- =?utf-8?B?aXNPQmR0Ky9zZnpaQ1NKeitNUkd1REE5WlZGeGlDc0UreHFYQTRKWkZxQSt3?=
- =?utf-8?B?djBHWllvWk04WDNnMTUyTUt6aWhGZUxwWTF2ZTF4cGlxMWRsNDg2ODlNWmNR?=
- =?utf-8?B?SitaZlQ2ZENqVWpHUThlM0hiZEd0bVR0VU4vTFd6SVB3ZUJQb011QWdya3Br?=
- =?utf-8?B?bTlrQUhTd3oySzM5dVBNaDhPZGZMZjIvMldrU2pzWEpTOTg4K2RGRndhaERK?=
- =?utf-8?B?eURwZWt1OVNTRGhiTVQ5b0ZIQjQ0SVN4dWgxV1dEY2FsS2d6VXRxamJScFBR?=
- =?utf-8?B?dU5VT1llQktaeTIyTGRpQzdNSCtPYWJWencrWmIzR3dPMEF0WnI5Zz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vfe1VcxB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792073378; x=1823609378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E4Z2ILIU8tW0DpZFFQ5YOJ8dxkHXQFmBgd1ma+smWpM=;
+  b=Vfe1VcxBdzSxlz1IHKxmp1IInfMu7drAlwAvuBNUUCrwgETxwIlg1UIx
+   liyyJmGyrS3wlzx+Ik+2s8ecLaBKti10QkcFiCXGF9p1w0prMWq1CiPTn
+   HtyzvZzMGYY9elirDqvBDcjUwJBgGAXnq40ODpdG7SZ/wDnnOQN7jGQ89
+   iEQKAa6GY6XJzlVAFpVjpwWpVmHk0w/c/3ti/7AaXs95uIyfEDPQEQcxC
+   BN77PRWcBAebaSO684jl3/M+qfuQydMRuO0HlZG8/raTH+KssQj4B1KM/
+   NqxmJhNsNoIf1XhA0YAEX1q/wVJIUKv42kQgw8d+ZfmEW9cIsiLWazYlt
+   Q==;
+X-CSE-ConnectionGUID: EVYEsmKtR4ytHvzVNVIfNA==
+X-CSE-MsgGUID: uCYDxCgORXmS3zhXXnrjmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="746547"
+X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
+   d="scan'208";a="746547"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 07:09:38 -0700
+X-CSE-ConnectionGUID: fpb+epDzRUawD1U3ICt33A==
+X-CSE-MsgGUID: 7r9bj5XwTTidcpKQVjrCLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
+   d="scan'208";a="1722190"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 15 Oct 2026 07:09:36 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xHM9F-00000000Gco-1tKt;
+	Thu, 15 Oct 2026 14:09:33 +0000
+Date: Thu, 15 Oct 2026 22:08:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Potnuri Bharat Teja <bharat@chelsio.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
+	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+	bharat@chelsio.com
+Subject: Re: [PATCH net-next v4 11/12] cxgb4: extend debugfs support for T7
+ adapters
+Message-ID: <202610152202.xxgjlBCN-lkp@intel.com>
+References: <20261014221257.436789-12-bharat@chelsio.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11740.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36e12091-a449-4096-5388-08df2abfdcc7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2026 13:26:04.0222
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NB1fCj0DhGyAtjfdY6mqxcIjEhU4GuNjunn2yRYx5SX2UltwznWlMDcpMgxBoe3PR70+178Ab3u4G+vC9NPx+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA6PR04MB441830
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261014221257.436789-12-bharat@chelsio.com>
 
-DQpOWFAgQ29uZmlkZW50aWFsDQpGcm9tOiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNv
-bT4NClNlbnQ6IFRodXJzZGF5LCBPY3RvYmVyIDE1LCAyMDI2IDExOjQ0IEFNDQpbLi4uXQ0KPiBT
-dWJqZWN0OiBSZTogW1BBVENIIG5ldC1uZXh0IHYyIDEvNV0gbmV0OiBlbmV0YzogQWRkIHBzZXVk
-by1NQUMgc3VwcG9ydCBmb3INCj4gRU5FVEN2NCBQb3J0cyB2aWEgYSBmaXhlZC1saW5rIG5vZGUN
-Cj4NCj4gSGkgQ2xhdWRpdSwNCj4NCj4ga2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9s
-bG93aW5nIGJ1aWxkIGVycm9yczoNCj4NCj4gW2F1dG8gYnVpbGQgdGVzdCBFUlJPUiBvbiBuZXQt
-bmV4dC9tYWluXQ0KPg0KPg0KDQpbLi4uXQ0KDQo+ID4+IGRyaXZlcnMvbmV0L2V0aGVybmV0L2Zy
-ZWVzY2FsZS9lbmV0Yy9lbmV0YzRfcGYuYzo5NjM6MjogZXJyb3I6IGNhbGwNCj4gPj4gdG8gdW5k
-ZWNsYXJlZCBmdW5jdGlvbiAnb2ZfY2hhbmdlc2V0X3JldmVydCc7IElTTyBDOTkgYW5kIGxhdGVy
-IGRvDQo+ID4+IG5vdCBzdXBwb3J0IGltcGxpY2l0IGZ1bmN0aW9uIGRlY2xhcmF0aW9ucw0KPiA+
-PiBbLVdpbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlvbl0NCj4gICAgICA5NjMgfCAgICAgICAg
-IG9mX2NoYW5nZXNldF9yZXZlcnQocHJpdi0+cHBtX29jcyk7DQo+ICAgICAgICAgIHwgICAgICAg
-ICBeDQoNCkknbSBsb29raW5nIGludG8gdGhpcywgcHJvYmFibHkgSSBuZWVkIHRvIGd1YXJkIHRo
-ZSBvZl9jaGFuZ2VzZXRfKiBjYWxscyB3aXRoDQojaWZkZWZzIGluc2lkZSB0aGUgZHJpdmVyLg0K
+Hi Potnuri,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.3-rc7 next-20261012]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Potnuri-Bharat-Teja/cxgb4-add-T7-hardware-definitions-and-firmware-interfaces/20261014-181246
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20261014221257.436789-12-bharat%40chelsio.com
+patch subject: [PATCH net-next v4 11/12] cxgb4: extend debugfs support for T7 adapters
+config: x86_64-randconfig-1000-20261015 (https://download.01.org/0day-ci/archive/20261015/202610152202.xxgjlBCN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610152202.xxgjlBCN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610152202.xxgjlBCN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c: In function 'cxgb4_setup_debugfs':
+>> drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:4365:32: error: 'clip_tbl_fops' undeclared (first use in this function); did you mean 'cctrl_tbl_fops'?
+    4365 |                 { "clip_tbl", &clip_tbl_fops, 0400, 0 },
+         |                                ^~~~~~~~~~~~~
+         |                                cctrl_tbl_fops
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:4365:32: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +4365 drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
+
+  4355	
+  4356	int cxgb4_setup_debugfs(struct adapter *adap)
+  4357	{
+  4358		static struct t4_linux_debugfs_entry cxgb4_debugfs_files[] = {
+  4359			{ "blocked_fl", &blocked_fl_fops, 0600 },
+  4360	#ifdef CONFIG_CHELSIO_T4_DCB
+  4361			{ "dcb_info", &dcb_info_debugfs_fops, 0400, 0 },
+  4362			#endif /* CONFIG_CHELSIO_T4_DCB */
+  4363			{ "resources", &resources_fops, 0400, 0 },
+  4364			{ "sge_qinfo", &sge_qinfo_debugfs_fops, 0400, 0 },
+> 4365			{ "clip_tbl", &clip_tbl_fops, 0400, 0 },
+  4366			{ "tids", &tid_info_fops, 0400, 0 },
+  4367			{ "trace0", &mps_trc_debugfs_fops, 0600, 0 },
+  4368			{ "trace1", &mps_trc_debugfs_fops, 0600, 1 },
+  4369			{ "trace2", &mps_trc_debugfs_fops, 0600, 2 },
+  4370			{ "trace3", &mps_trc_debugfs_fops, 0600, 3 },
+  4371			{ "l2t", &t4_l2t_fops, 0400, 0 },
+  4372			{ "crypto", &chcr_stats_fops, 0400, 0 },
+  4373		};
+  4374	
+  4375		static struct t4_linux_debugfs_entry cxgb4_t7_debugfs_files[] = {
+  4376			{ "trace4", &mps_trc_debugfs_fops, 0600, 4 },
+  4377			{ "trace5", &mps_trc_debugfs_fops, 0600, 5 },
+  4378			{ "trace6", &mps_trc_debugfs_fops, 0600, 6 },
+  4379			{ "trace7", &mps_trc_debugfs_fops, 0600, 7 },
+  4380		};
+  4381	
+  4382		if (IS_ERR_OR_NULL(adap->debugfs_root))
+  4383			return -1;
+  4384	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
