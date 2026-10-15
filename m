@@ -1,146 +1,96 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B044F30D5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 19:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9B4443E3B;
+	Thu, 15 Oct 2026 21:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792093248; cv=none; b=ByVfaiFppbjUt5cP/Rfy79MMZtmThnPcVFp/L/eC0PmHfu/JvVcp2K8fh7p2kfMEpcGT5KVINRNk46v09ZA6JVy7Amc9qNkdTexVa/o1gC5gqwLG1o/UPFLpm329wrsNescqiLeDLu6BH26KPat2DxLzvljlVI4zy7jenU+MQX0=
+	t=1792099531; cv=none; b=DZ2ZAtS12dWyyznnMbR/q3uFiLLkhKnyNLsPVQRhEtdQXYsQcAglsfoFNGhTBLjX4SbPP4RQv7PYzTVj8vk5gzEoaf05MeUFKVTJ57OFifvZJ5EVf6Lm1Eh0UMgmbTvAJS8A6ux4nvDaAhd60QP9pubtLZuwApuZvdP5uZ59MVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792093248; c=relaxed/simple;
-	bh=exYz8HojfNFpfT1r/TAXOuBExCBpvaaa/xfi09cNlzo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C5E+gA1xcbtrBDydLsZslcLo/1XtLWLX8uPvZPT63teg1U0v4pB/9GtXcITg2G5nyzlJzVJpXOCX20YhptR6hmXBQ5CH4MKnrMWl0vieWlL/nCDj9DdDI7Eu7BmRYHyDOio8JJ1JhGPgv6dgxdjuo6R5zjqPn+dc9N1RUuTYOu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b69nWSS1; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792099531; c=relaxed/simple;
+	bh=jgHtsMpPFB4Z9TWMvS6irJPcZDzd0toIbmE5qbqa/Us=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/LZiuq1R0u45ezPnJX8fJN0W0G8cT6zNVQyi4TNVN6YdVtAwxzfBOcAmv/egi6RgVyvdiAMgBxaUJcdE+iUIb4H3CrXTLDUdNuBF/Eu+bFassRqBtKB7Gc/COkFsSGpKrCc1J1QOvUSXLxRDRTuap9qPzIiN+EhosfvR1B5Ggs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UmI3HG99; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b69nWSS1"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48afcd7ba9bso3201133f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 12:40:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792093245; x=1792698045; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=REOYRPOTLjq9QJv9FoE0sRCG3Um2XhJ02u8RHdOrcGU=;
-        b=b69nWSS1Bbw0NOHyBIdnno/I0fmr3sQZxoh0huULLg6VuSAJgHPU08Zl8vDf158ULD
-         D7LF9VN7JH3q28aYgOM3g9oRJsECwKEzY5/d3n1M20IW6bILkrphXbi2NHZJ0aD850kU
-         Bcw4XuZb7thvHd/O821zGMj9zJa+Qv6aSEJLckFRJJryz22emJd1INrzMjiMzQMQNvVy
-         at6W03RxORso6ne+6WjMN44WM2KwLKF1ioxaZNhs4uSa/+bTzLozjYMLBi4P69LWTkQS
-         deOUzDDxYWdWcl3v/B0MmKEFalWdO8IxtiMzz/oUTxAP1x4FIaa9I8hHghoOvoONMJJZ
-         S37w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792093245; x=1792698045;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=REOYRPOTLjq9QJv9FoE0sRCG3Um2XhJ02u8RHdOrcGU=;
-        b=OGQULLtdZa8C0GdPDE5pPeo8E9GQF67f2/H9Xe2vQCTbJqRpDbvHRxqWQHjAg89YVr
-         iGqgGOClHw7XNM4OrmHaopivlGgwjz1YVfKO1ck562N9XjVlio4IKVAAvuCuWhva22cu
-         zNgNOWuQu93uperRPZlPm77xEaarF9TDCBzgfDAKmfhGZtxzm1rFXPtvdGsFdkf0uJSK
-         RR76M2vAW2XE86M7LsRL87FOBTZpCzhCbNQiEZtJGERkII6T8GG6fqvxNOW707vgjquD
-         NfHM/k1q0/z+QVJA2E/X51CAIHBnhv2ArltOx0W7UXbP2MOaX6/HtvTDKuytwkykmBk4
-         6xLg==
-X-Forwarded-Encrypted: i=1; AKwUvBw2V6sUGmkqG6Xj/wT6TZFnoQ/R/yHRDIFbslfIHQMbZ+9mwja5x52ZXQfKi4uREHtCTwgaGRmjy76j0Y5Q@lists.linux.dev
-X-Gm-Message-State: AFq9FYIZBYSJIZbPflQVQw1IN6WgzePro2zhuVX1dwE/ikzhgxUBz3ai
-	hRULzk0Ks8b0SIs57xVcleEH/gcQz4NWO76zyMK1GJeKFAtywF9sDG/p
-X-Gm-Gg: AYBFou3mcgtRRLOtZQ+qbIL2B68c6pqIsC7GqwN0F1IaacWOWXmv3f1T/82+QJctZSn
-	X9blbovdexttNCyHeFs906PYZoyxu7PMtvZP8MOuLxek402IME2dskmxbCAfiIO6X9TSD49db56
-	oft+rQNDhs0jSLmez1DhVI75wyuiuHnqsECsg9DfqR4H9WJlrCweV6i/MljVaH8/1Wn3aVA/r2y
-	CYBP3nh3auriV35wYjE/cUD+GYWDiWq4i2TF9tIiJAhD1Vx0+gZCPdMX1ATRfNvOOW6R/HTI4YI
-	yuIYquUEeiTbZFNmXtliZp3cdJgiBzObxizTN74waYivg3Dqju9CTDVtmpCe2LC+27nTJ4IXoby
-	W2q+8/kTuk47syeufawAi8UbIshXdSV+W7Le9pD7vgXivMxMHGraUSjtc5Di7/QkyzJ/jOPvoJ5
-	kGsD81gGiDh5Slb9qD8YPQZUCq8FzJBeP0IbnEND/pjf45bYWT8HkrBQxWQZgM3sEsDsas+Il/u
-	aKh5uEXANzer8es8gQhktvndXk/OwGJFfHLhjoic2FvfmgwrMpejByZqx4/bpDTnrNj5CGS38I2
-	IRDadEfucgexrw6k
-X-Received: by 2002:a05:6000:4288:b0:488:6ed9:b11d with SMTP id ffacd0b85a97d-48dbacf554cmr39361187f8f.52.1792093245329;
-        Thu, 15 Oct 2026 12:40:45 -0700 (PDT)
-Received: from center.jhjvjihww5qejoy14qwv1cc4td.frax.internal.cloudapp.net ([131.189.143.225])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a72sm195253f8f.4.2026.10.15.12.40.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 12:40:44 -0700 (PDT)
-From: Orgad Shaneh <orgads@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UmI3HG99"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5371F000C4;
+	Thu, 15 Oct 2026 21:25:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792099530;
+	bh=JtlG37bFDT1nJGArYVo1/AEcEyqGhLzCSN7KTgGMzBk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UmI3HG99wlr47IcaLawHsU/ZmxyrsxU2dpyCm3mJe6O4RnExTHiafIYdkOWr61eo8
+	 X9C8oxMZ7ylKM6WOtJXzuRtywcIiPT0WIoZ0/s2WvtK6DkrplnrRvID4RItxnk4HPv
+	 SPvEIIUgsOsD1Jo4HTWcxXVciEh76w77YHnBWqzxMc+jEubgLfzRXh4vtl/b86ubJs
+	 MuuXzJt7zxZq5mz4R8ttG1yopj4DalhTiyV5BsLXGMhZgV1KiaRK5hqxzxizOb2ag0
+	 ioSnjncTvc0d+gLM8hvXoRKZLY4fYxpi+OFm55KLxHqPcLjKFQKu9zP7gGBVelip9f
+	 I6HClOU07AUkw==
+Date: Thu, 15 Oct 2026 14:25:25 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Rong Xu <xur@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH] usb: octeon-hcd: fix the kernel-doc of struct octeon_hcd
-Date: Thu, 15 Oct 2026 19:40:43 +0000
-Message-ID: <20261015194043.1597422-1-orgads@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202610151637.5srThc2q-lkp@intel.com>
-References: <202610151637.5srThc2q-lkp@intel.com>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
+Message-ID: <20261015212525.GA322951@ax162>
+References: <202609040258.xw9R4qaZ-lkp@intel.com>
+ <20261008162013.GA1660409@ax162>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261008162013.GA1660409@ax162>
 
-The struct octeon_hcd comment opens with /** but names its members
-without the @ prefix, so kernel-doc sees none of them and warns about
-every member. aebbc7d63407 added sof_timer without a line at all,
-which the robot reports as a new W=1 warning.
+On Thu, Oct 08, 2026 at 06:20:17PM +0200, Nathan Chancellor wrote:
+> Hi Rong,
+> 
+> This is the build report I mentioned at LPC, please take a look. The
+> original report is available at:
+> 
+>   https://lore.kernel.org/202609040258.xw9R4qaZ-lkp@intel.com/
+> 
+> but I have also included it below.
 
-Prefix the members with @, drop "pipe", which is no longer a member,
-and describe the three that were missing: periodic, nonperiodic and
-sof_timer. scripts/kernel-doc -Wall reports nothing for octeon_hcd
-afterwards.
+This should be fixed by commit 4bcfe2902199 ("iommupt/kunit: Use
+if_changed_rule for the kunit") in Linus's tree (same root cause,
+different error from what I can tell).
 
-Fixes: aebbc7d63407 ("usb: octeon-hcd: sleep on an hrtimer for far-off periodic transfers")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202610151637.5srThc2q-lkp@intel.com/
-Assisted-by: LLM
-Signed-off-by: Orgad Shaneh <orgads@gmail.com>
----
- drivers/usb/host/octeon-hcd.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+  https://git.kernel.org/linus/4bcfe29021993cb167fd9bbdb849f7d7247a166f
 
-diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
-index 4929c6a..d6ba52b 100644
---- a/drivers/usb/host/octeon-hcd.c
-+++ b/drivers/usb/host/octeon-hcd.c
-@@ -348,20 +348,23 @@ struct cvmx_usb_tx_fifo {
- /**
-  * struct octeon_hcd - the state of the USB block
-  *
-- * lock:		   Serialization lock.
-- * init_flags:		   Flags passed to initialize.
-- * index:		   Which USB block this is for.
-- * idle_hardware_channels: Bit set for every idle hardware channel.
-- * usbcx_hprt:		   Stored port status so we don't need to read a CSR to
-- *			   determine splits.
-- * pipe_for_channel:	   Map channels to pipes.
-- * pipe:		   Storage for pipes.
-- * indent:		   Used by debug output to indent functions.
-- * port_status:		   Last port status used for change notification.
-- * idle_pipes:		   List of open pipes that have no transactions.
-- * active_pipes:	   Active pipes indexed by transfer type.
-- * frame_number:	   Increments every SOF interrupt for time keeping.
-- * active_split:	   Points to the current active split, or NULL.
-+ * @lock:		Serialization lock.
-+ * @init_flags:		Flags passed to initialize.
-+ * @index:		Which USB block this is for.
-+ * @idle_hardware_channels: Bit set for every idle hardware channel.
-+ * @usbcx_hprt:		Stored port status so we don't need to read a CSR to
-+ *			determine splits.
-+ * @pipe_for_channel:	Map channels to pipes.
-+ * @indent:		Used by debug output to indent functions.
-+ * @port_status:	Last port status used for change notification.
-+ * @idle_pipes:		List of open pipes that have no transactions.
-+ * @active_pipes:	Active pipes indexed by transfer type.
-+ * @frame_number:	Increments every SOF interrupt for time keeping.
-+ * @active_split:	Points to the current active split, or NULL.
-+ * @periodic:		Pending TX FIFO writes for periodic channels.
-+ * @nonperiodic:	Pending TX FIFO writes for non-periodic channels.
-+ * @sof_timer:		Polls the block when the next periodic transfer is
-+ *			due, so SOF interrupts can stay off until then.
-  */
- struct octeon_hcd {
- 	spinlock_t lock; /* serialization lock */
+> On Fri, Sep 04, 2026 at 02:32:03AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   940de590b839f71d6dc846160534bf202401b8b7
+> > commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 kbuild: distributed build support for Clang ThinLTO
+> > date:   3 months ago
+> > config: arm64-randconfig-003-20260830 (https://download.01.org/0day-ci/archive/20260904/202609040258.xw9R4qaZ-lkp@intel.com/config)
+> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260904/202609040258.xw9R4qaZ-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Fixes: 9f2aee8f7d18 ("kbuild: distributed build support for Clang ThinLTO")
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202609040258.xw9R4qaZ-lkp@intel.com/
+> > 
+> > All error/warnings (new ones prefixed by >>):
+> > 
+> >    warning: overriding the module target triple with x86_64-unknown-linux-gnu [-Woverride-module]
+> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'arch/arm64/mm/init.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
+> >     [-Wlinker-warnings]
+> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/kunit/test.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
+> >     [-Wlinker-warnings]
+> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/kunit/try-catch.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
+> >     [-Wlinker-warnings]
+> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/maple_tree.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
+> >     [-Wlinker-warnings]
+> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'mm/vmstat.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
+
 -- 
-2.53.0
-
+Cheers,
+Nathan
