@@ -1,150 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B796221DAE;
-	Thu, 15 Oct 2026 01:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0633559F8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 02:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792027570; cv=none; b=Tal8nkJyHS25v3KDYiuQ7uWoWUnRK1yapEeBzWQrJIWweorzto923ucT4NYmA8DKLaG/LX80Lt1Gtaraxn4GtGRF32QcxU6dom4Hhx7H76EgESq1zSIL3vnDwGkNje1TtD585x9RQ0ZS7nqvbJAOvo9sO+/UCJz3cH9FPZXF0tc=
+	t=1792029893; cv=none; b=DaRTbT+Npo4ZNoQSL9R7ZBbKHcaQqxQS6Hil9miXf180KZh9Z3CNHQqThdFJ9vJYWAi+VImNTuksvJrWHjxizI/tPps8thIVqbAa1LDOvRbNFtHLutUGg+4d7JJJUlAw3a5HJ5tiGDUmjBgxcaipxh/oemkjRkIooYtdA0zcLaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792027570; c=relaxed/simple;
-	bh=aARRQkKeZqCI8RoUsnyZ/pmuEQMAh/Nvzrz6WlyENj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PtDBZaag8M6aowIuU4mZ+U5GtyX1zdU34cIS3yMXJIuy6EiiJjvtqmMTB3nX5wvnfeUfMGXIUyODHXmzeZDwCSWG3CM8pGD8RufygH4Xcbj95FmZ9Md07l7b9+ojK+896ERLL0mUvv/0Kuvqndv1rqoZx5z1o1CZMM71IqOwDtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hlbsqdDY; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1792029893; c=relaxed/simple;
+	bh=CV1pWinCpyGCpqzhmixbgjj9U10VW2qFNC7Tn9zqChA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EXWiOjziLkY7+mf5bPHIVqBnDjF113dPUU5PA1EKjjrQXRlAHiqsVFFfr7AD4ada+OxJsExJlxFDtUjVYZ1Q2FOZ8Z5VubfjvjdVQnIFk63Aci6asBOYlJJrKYkUKeDd2M/Tn25OwaBZusLqTC+rCZXx142RVtGAXg2puXr9Xfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iH/H4vhA; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hlbsqdDY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iH/H4vhA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792027568; x=1823563568;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aARRQkKeZqCI8RoUsnyZ/pmuEQMAh/Nvzrz6WlyENj0=;
-  b=hlbsqdDYy6x7cZhKfbCt1j3NsuBGMUt1ELOALhVsYfgBT0/K2KamhtRw
-   WfB5DSn6GwwntVixs7FzIF4HnCau9H6yro8G9Cb7C+7xj+oCxkXfE/KjY
-   Dq8X1Jtd9ASXKdpgQ/0xL8j6b48JFG71xH6bGWQyhY4La91h7IYraN7hN
-   PWO2zxCpQok18zjxTHmZMjJ+Y/3tHT+zMvaHiToyLLXwhPANSI3xuBgwY
-   bvLzaBwMS46tyqbBOeE6HD3Jnv/1ATMl6wmf3Uw2ysA4V2le7WRPVWEN9
-   Ut16OO4mAMDsIiKM2gvzq06zli9dcO1e2Nv4HqarAVdv+SIxXDI4JgPXk
-   g==;
-X-CSE-ConnectionGUID: xKM1xjccQD+4hauWRzgvHQ==
-X-CSE-MsgGUID: 6R4nRfXdTjW5ILxlwmtmcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="694768"
+  t=1792029892; x=1823565892;
+  h=date:from:to:cc:subject:message-id;
+  bh=CV1pWinCpyGCpqzhmixbgjj9U10VW2qFNC7Tn9zqChA=;
+  b=iH/H4vhAkAPfrjM76CTRaXNXMc26W/nLvvtgCk5zZIUDMjPgfKxsPyDz
+   V7YAmrYWhq3xTRBjXtR0aTz9C94smXuHfaCazjgJzGY5bCWadTlhRZc5f
+   ycO8frIP0zwVlHEmeOApVoWo6UCX5anJaMtc4QnTqrwhj2lJgNKVZFIEU
+   OwjmPM1sNL/IK++hzYWaKP2jc/kYLQrB16wx0DP5LuxJGiT+GRgRHYnJ5
+   jmjMwvOUnIkoxg91KFh+4CuCnR1orktgmEaxA00EMw53/OM+AjFIH5ABq
+   MoCSSiPfhbfIGkUQSxedQ1Nf0o3K+xmmHq77RrGzaFu+JFnlo5hU9Cb6r
+   A==;
+X-CSE-ConnectionGUID: duHi/Li8R/uwi3XrrtW9aA==
+X-CSE-MsgGUID: hlN59t+WQSW+u1UrQM+iJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="678792"
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="694768"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 18:26:07 -0700
-X-CSE-ConnectionGUID: sBsw+8WWRdeSx+jswklIyw==
-X-CSE-MsgGUID: 4P0rxJFlQ9qBS2jErxIH1g==
+   d="scan'208";a="678792"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 19:04:52 -0700
+X-CSE-ConnectionGUID: cHSlUstTSuKotkWxJi+3RQ==
+X-CSE-MsgGUID: ITR43aVGS/ecJVf0RyzT4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1536954"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Oct 2026 18:26:04 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="2008585"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 14 Oct 2026 19:04:50 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHAEL-00000000FUN-1kv7;
-	Thu, 15 Oct 2026 01:26:01 +0000
-Date: Thu, 15 Oct 2026 09:25:36 +0800
+	id 1xHApr-00000000BY4-0mgL;
+	Thu, 15 Oct 2026 02:04:47 +0000
+Date: Thu, 15 Oct 2026 04:04:06 +0200
 From: kernel test robot <lkp@intel.com>
-To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Donald Shannon <donalds@nvidia.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH 10/11] tty: Add NVIDIA LSTP UART driver
-Message-ID: <202610150927.WhzTb6WS-lkp@intel.com>
-References: <20261012-lstp-usb-adapter-v1-10-aambrozewicz@nvidia.com>
+To: Waqar Hameed <waqar.hameed@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-doc@vger.kernel.org
+Subject: [linux-next:master 3621/16987] htmldocs:
+ Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+Message-ID: <202610150317.bFM5n9PA-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012-lstp-usb-adapter-v1-10-aambrozewicz@nvidia.com>
 
-Hi Adrian,
+Hi Waqar,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on bbf6b99a57b2479bf51c3c8ad0946f4b8c33ed69]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Ambrozewicz/dt-bindings-gpio-Add-NVIDIA-LSTP-GPIO/20261012-203559
-base:   bbf6b99a57b2479bf51c3c8ad0946f4b8c33ed69
-patch link:    https://lore.kernel.org/r/20261012-lstp-usb-adapter-v1-10-aambrozewicz%40nvidia.com
-patch subject: [PATCH 10/11] tty: Add NVIDIA LSTP UART driver
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261015/202610150927.WhzTb6WS-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150927.WhzTb6WS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d419d682257d813f6cb7a28e42b35d0edf4ad038
+commit: cb012fe405f0f487e9480472f3558e678556ed49 [3621/16987] power: supply: rt9471: Use POWER_SUPPLY_PROP_LOAD_SWITCH
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20261015/202610150317.bFM5n9PA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150927.WhzTb6WS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150317.bFM5n9PA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/tty/lstp_tty.c:167:60: error: use of undeclared identifier 'B2500000'
-     167 |                 { 1500000, B1500000 }, { 2000000, B2000000 }, { 2500000, B2500000 },
-         |                                                                          ^
->> drivers/tty/lstp_tty.c:168:14: error: use of undeclared identifier 'B3000000'
-     168 |                 { 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-         |                            ^
->> drivers/tty/lstp_tty.c:168:37: error: use of undeclared identifier 'B3500000'
-     168 |                 { 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-         |                                                   ^
->> drivers/tty/lstp_tty.c:168:60: error: use of undeclared identifier 'B4000000'
-     168 |                 { 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-         |                                                                          ^
->> drivers/tty/lstp_tty.c:171:25: error: invalid application of 'sizeof' to an incomplete type 'const struct (unnamed struct at drivers/tty/lstp_tty.c:155:15)[]'
-     171 |         for (size_t i = 0; i < ARRAY_SIZE(map); i++)
-         |                                ^~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                ^~~~~
-   5 errors generated.
+   Using alabaster theme
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+>> Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+   WARNING: ./block/blk-map.c:366 Excess function parameter 'op' description in 'bio_copy_kern'
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:387: WARNING: Duplicate C declaration, also defined at driver-api/basics:436.
+   Declaration is '.. c:function:: unsigned int jiffies_to_msecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:410: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
 
 
-vim +/B2500000 +167 drivers/tty/lstp_tty.c
+vim +1 Documentation/ABI/testing/sysfs-class-power-rt9471
 
-   151	
-   152	/* clang-format off */
-   153	static speed_t lstp_baud_to_speed(u32 baud)
-   154	{
-   155		static const struct {
-   156			u32     baud;
-   157			speed_t speed;
-   158		} map[] = {
-   159			{      50, B50      }, {      75, B75      }, {     110, B110     },
-   160			{     134, B134     }, {     150, B150     }, {     200, B200     },
-   161			{     300, B300     }, {     600, B600     }, {    1200, B1200    },
-   162			{    1800, B1800    }, {    2400, B2400    }, {    4800, B4800    },
-   163			{    9600, B9600    }, {   19200, B19200   }, {   38400, B38400   },
-   164			{   57600, B57600   }, {  115200, B115200  }, {  230400, B230400  },
-   165			{  460800, B460800  }, {  500000, B500000  }, {  576000, B576000  },
-   166			{  921600, B921600  }, { 1000000, B1000000 }, { 1152000, B1152000 },
- > 167			{ 1500000, B1500000 }, { 2000000, B2000000 }, { 2500000, B2500000 },
- > 168			{ 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-   169		};
-   170	
- > 171		for (size_t i = 0; i < ARRAY_SIZE(map); i++)
-   172			if (map[i].baud == baud)
-   173				return map[i].speed;
-   174	
-   175		return B0;
-   176	}
-   177	
+ab8174bbc396693 ChiYuan Huang 2023-01-13  @1  What:		/sys/class/power_supply/rt9471-*/sysoff_enable
+ab8174bbc396693 ChiYuan Huang 2023-01-13   2  Date:		Feb 2023
+ab8174bbc396693 ChiYuan Huang 2023-01-13   3  KernelVersion:	6.3
+ab8174bbc396693 ChiYuan Huang 2023-01-13   4  Contact:	ChiYuan Huang <cy_huang@richtek.com>
+ab8174bbc396693 ChiYuan Huang 2023-01-13   5  Description:
+ab8174bbc396693 ChiYuan Huang 2023-01-13   6  		This entry allows enabling the sysoff mode of rt9471 charger devices.
+ab8174bbc396693 ChiYuan Huang 2023-01-13   7  		If enabled and the input is removed, the internal battery FET is turned
+ab8174bbc396693 ChiYuan Huang 2023-01-13   8  		off to reduce the leakage from the BAT pin. See device datasheet for details.
+ab8174bbc396693 ChiYuan Huang 2023-01-13   9  		It's commonly used when the product enter shipping stage. After entering
+ab8174bbc396693 ChiYuan Huang 2023-01-13  10  		shipping mode, only 'VBUS' or 'Power key" pressed can make it leave this
+ab8174bbc396693 ChiYuan Huang 2023-01-13  11  		mode. 'Disable' also can help to leave it, but it's more like to abort
+ab8174bbc396693 ChiYuan Huang 2023-01-13  12  		the action before the device really enter shipping mode.
+ab8174bbc396693 ChiYuan Huang 2023-01-13  13  
+cb012fe405f0f48 Waqar Hameed  2026-09-01  14  		Note: use /sys/class/power_supply/rt9471-*/load_switch instead.
+cb012fe405f0f48 Waqar Hameed  2026-09-01  15  
+ab8174bbc396693 ChiYuan Huang 2023-01-13  16  		Access: Read, Write
+ab8174bbc396693 ChiYuan Huang 2023-01-13  17  		Valid values:
+ab8174bbc396693 ChiYuan Huang 2023-01-13  18  		- 1: enabled
+ab8174bbc396693 ChiYuan Huang 2023-01-13  19  		- 0: disabled
+ab8174bbc396693 ChiYuan Huang 2023-01-13  20  
+
+:::::: The code at line 1 was first introduced by commit
+:::::: ab8174bbc39669321b25a0fbeef630fdbe1b8ffe Documentation: power: rt9471: Document exported sysfs entries
+
+:::::: TO: ChiYuan Huang <cy_huang@richtek.com>
+:::::: CC: Sebastian Reichel <sre@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
