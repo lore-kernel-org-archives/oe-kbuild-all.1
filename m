@@ -1,202 +1,148 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013025.outbound.protection.outlook.com [40.93.201.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411B13BCD37
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 12:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792067091; cv=none; b=nw0BO0CKWvuLaieJDMqQHAaZniYg4TekaAlNH932DPug/WDgGGTeSV+GMcFB/JGn1p/hOjbpylVEm76gwYLwA0v0GwCphmq+A+TmEBPST2aMY4QowUa8KxC3S9lTMi8h9D6JHwKktY/SGmYOYYd2ijQ/RxIafyiveV/iswnBhiA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792067091; c=relaxed/simple;
-	bh=z3ypjf9+arMPxJcPS5+1S8YjdtGuJS1GQZhsg8O+eJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s+scpOZKjgkECgwDgFRUHgaiMyRRBwLX3ER27M6Ueb4aiZ1E8qva5jAKa56gqekhwN6l2BrafeIg1238+by/SSabiuA/x90TJ3C7KLpGB3vbzN10bco36pteVVyYew4FtpUWMPzflqDOOUz1/PqwEWWL2Zl76POYPbUj/+B5+98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4pMwFOo; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F2E51D539;
+	Thu, 15 Oct 2026 12:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792067803; cv=fail; b=lcBBDlvB6FDrgEbUfYsxLG1tgaj9jc4GIwfmYSIr3J65b9k8IivAtiF0JCsGc5WTvVwrPpAXe9Y6WRFmZnJvcZ79+hnuh6PFXEYKVewNB4YAKCgl8Co/qpAv+Qi5inh64Ugeq9hiRGsjnwDvRHEd1TWH+iKF3luyLC2CmfbPEBY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792067803; c=relaxed/simple;
+	bh=NZjkpDCpuyx+I+cVtB/I8ZneUy53/3hMQJkqAtanulM=;
+	h=Content-Type:Subject:From:To:Cc:In-Reply-To:References:Date:
+	 Message-Id:MIME-Version; b=FyCEzOd74Z4ZPAPgMsB4k8j0n1btRlQT+CftzNg3lwN+GqCQhzi7eLoVCMzcMv/uDH5wdO6AMr+/On/0oLYWTZ4LoykLy5qOVzVa8LN5Oh7WN8ZSdrugkXAQ6KTiUCXGuHJlFXOT0jXeanOQ5NjDuH9/kypQZ+XEkRc1HC0Epgk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Kdc6obSY; arc=fail smtp.client-ip=40.93.201.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4pMwFOo"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a16c1608faso68077225e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 05:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792067087; x=1792671887; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TxfJL03yCUmbogf01UkuHJxurEyMn6HY9RwQo32N40A=;
-        b=J4pMwFOokJhOcejRFa9IZaY1J48Qr+P4KK1I7SsTIpvcDVhsppRnUxflxkexgQwolQ
-         19uCvSEw8Pe3chER+Sci/sa+khsocN4IKjqhmBAfIDLwff125j4fbftI+Ki6jwiIV0eo
-         xpc28kAAaQrtA2XNoHa/IbGhRiGoKnehX3NhV2w5POvLXiXVnoorkshW2+RfBlsaZQrm
-         cOhts7SoyJjomQXN4Vg3MuWkwtqstdSSTtZ727Xfx1XlThc4ck8AztXNU5NaWZvr3mZg
-         H9z7JtGLm5Ie8Wob3d8hBH5Xr9N93/TAW7AuG9Ei49mWXiJvVhba7zuGZAXuHNG3+TFN
-         JFrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792067087; x=1792671887;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TxfJL03yCUmbogf01UkuHJxurEyMn6HY9RwQo32N40A=;
-        b=tJr2QDCEcXUJfU1+UCUw2iOF49qsJdxhzduK1ykS+6EWwQf92bbKookLHBVLKp5wyk
-         5lJkcZj+w2WXM/ooS5NMvmJ8V6NF4/zcRFND8T3236UCfzfUWvr36wT0J5eNkZfjQaZl
-         nzYW/8yP7u9yqAqeNcHB6pL6Cf6NchGBxlJBWumkP7rPWGFzrcOO4MwfUn1qApCYBONj
-         hSRUyk8biddikwq9QLUmOYfBYeC2fHDAL/pifiFpBEeRuqXhUVqdg6qslmPpa9KEEJEc
-         NLFRXADhf2leNB/HY8MM+nzInKF0V5iOlNDz2fE80C1UgigQgWA6BFouzyXki2z/1jLD
-         Y+Og==
-X-Forwarded-Encrypted: i=1; AKwUvBx/LADZ/CTOAXRDLlU5eXbfcGmtDuAut+JrFEJL5qabwmSueT0pgZKLzCt7+Tq6gCpTv1NCIlIuVqEDIDXm@lists.linux.dev
-X-Gm-Message-State: AFq9FYKnKecoo5Lq1jn44d5zqcuoHcTf7Zkk+78usFsD3mmRw2/67jWK
-	zQUneS/inD0r+XkhxRh/0DMy+QeHtaQhdv3xCzgEvl9+sLZIPFNw5X3m
-X-Gm-Gg: AYBFou1r485gcHx5wju8hv8vRwHLCzTMD87t2X26i9x4noN5X5ZdzmpKGlsH3Wj4zDu
-	8+UylrTYTZQYSKsVLngM/WXn9RzopBcXQLiP7uRsuaM6n5071ikE0nuMuZSTIlF1vk7fXQv5mSj
-	bjv9WoucqMmZIB8c0N/NCR6C3cTLKZ9q+lpJl4GFZDo2ybkyKlzzVasCmpi6EBSg9X4TtZcZ2Cc
-	LpHiwF8LekuRVLfT7wuNBxCDn+PEwQ09tKV8E//tVN1bJv1ZYIBqXwKsaHO1FAdvJ1YSrFlG41V
-	/a8VZjrziusbwhieG4zrzgGnJvUiXoSZ+nmxLT3q6urUlMRCwIROtaUFQDrcaR6vBFR5/YJl6DF
-	bh7EmfJ7O4gCT4JsSSw+8JEWbB0/W89zLXxCAHEoJ6QEditDrzA4Og6h2RSNgrQZpVyoYhVg+t3
-	TjV31HaN4AY4F8ONop12DeLPKZiS6rq6Poz0J95uqLdKRRl4WtNGA9tUMGnRMaeIZH8Xs=
-X-Received: by 2002:a05:600c:4e92:b0:49e:63cc:6324 with SMTP id 5b1f17b1804b1-4a18e4837e7mr374665925e9.6.1792067086190;
-        Thu, 15 Oct 2026 05:24:46 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd66ab3dsm62636355e9.2.2026.10.15.05.24.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 05:24:45 -0700 (PDT)
-Date: Thu, 15 Oct 2026 15:24:41 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Xianwei Zhao <xianwei.zhao@amlogic.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@nxp.com>
-Subject: [linux-next:master 13311/15025] drivers/dma/amlogic-dma.c:636
- aml_dma_probe() warn: passing zero to 'PTR_ERR'
-Message-ID: <atDGCefULqNew80V@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Kdc6obSY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JCm0jnOpth8R0NV15v7hxEuaioB4qAu59rAdQfLbj+ixAiSnOM/Q1FRTStdTlGDuwB9rWM4pVU/pyfaRaHx4kdm0M2sg4nVC4W6JDn3oh98KFaVHmIObaNXRQHdvWx5ITYulTB1AvGLUbhlVyNRFiPLkIZPE9xT2hmD/ua4c7BK4DWj+jDaSAf+sEUMZM+KLmU1FAGKPKpvoDujhagshaTB7FydE+o0ZO+HfggWF/hFZURGQiO/aigfaB28V6likAS5tLMV3OfQL8pOBhAMBjzlloDoe1ogzcONtPoXloO8q4jRjT+lQ1RHihcr96CbtRv1Ga/71MHtE+Watkg7cCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=72cvLsDp8gWqAowHVaHtqvBqdTkfcZV+d2N3pfCjbMU=;
+ b=B0m/pW9kp9YAe0aWIHCg/bEb3uLFs++ucXltU6e33we4THULxrXOINmrkL+PkagzPNyg/DV5bi6YmiVGRyDATzNkKjYtwHlxXGwYLDXLe3gU6ynB1OemTwFRZOr2IU28dOp6vdtYqSKVT+dEfIHUBP9+7eTRtJvORSg2MRN1sZPBVr6DjRz8zRKP5OV2E4Szrd0GTJu0OguTg3+UAFKZZytBmNGHqfe22E53mS5gmvsWlHWdpk0wCKkunjwqGwsYP7LRD1mK48JqmFcvnH7hrCa1W81IMzAMG9N9Va6F/YfqfZMWHvYF+Io4Hq/hOlYO3lYovNkaQi8Wf5qvtnTYiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=72cvLsDp8gWqAowHVaHtqvBqdTkfcZV+d2N3pfCjbMU=;
+ b=Kdc6obSYO/byxH0km1Y8kTDdcLMX9eELGF+TDtwcxqRvwga24QnUjTSumIQk3hggfB+3Bi8/5I//e+QbM9fIM3HjY2td3A4bBsqb9Sc+Zeywr9FBCBvziGmnC0kr7ElSheb3crRwKGaJvuF0duFqAVhxw0u/6+Vd8OtuYHYckVhUrzmSO/iEMatg+rd7Q0iTnCWr4BlFDmQ65NG+XOiLLa2xkX9DmBEQiM3IHfXCV4U6zHbJEXG/1ydrq2m6HdydT7U16U34Cg34lyEyYzwbbM+IO0VoZH0Qu/U9+YAPYNVXuyv1qTfXfswWp/BNuZaSQ7ftHSK2LdYanxHm3lsVZQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12) by PH7PR12MB7137.namprd12.prod.outlook.com
+ (2603:10b6:510:1ed::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Thu, 15 Oct
+ 2026 12:36:33 +0000
+Received: from CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d]) by CHBPR12MB731189.namprd12.prod.outlook.com
+ ([fe80::b0e5:123d:fe06:e10d%6]) with mapi id 15.21.0522.013; Thu, 15 Oct 2026
+ 12:36:32 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 0/2] iommu/hyperv: Fix guest IOMMU build issues
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Yu Zhang <zhangyu1@linux.microsoft.com>
+Cc: joro@8bytes.org, iommu@lists.linux.dev, linux-hyperv@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+ joerg.roedel@amd.com, jgg@nvidia.com, will@kernel.org, robin.murphy@arm.com, 
+ mhklinux@outlook.com, wei.liu@kernel.org, jacob.pan@linux.microsoft.com, 
+ easwar.hariharan@linux.microsoft.com
+In-Reply-To: <20261015082351.184252-1-zhangyu1@linux.microsoft.com>
+References: <20261015082351.184252-1-zhangyu1@linux.microsoft.com>
+Date: Thu, 15 Oct 2026 09:36:29 -0300
+Message-Id: <179206778973.3923416.8800212000787941685.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-ClientProxiedBy: BL1PR13CA0280.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::15) To CHBPR12MB731189.namprd12.prod.outlook.com
+ (2603:10b6:610:33d::12)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CHBPR12MB731189:EE_|PH7PR12MB7137:EE_
+X-MS-Office365-Filtering-Correlation-Id: 03e84ba8-9119-48eb-f7d8-08df2ab8f187
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|10067099003|22082099003|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	au60Ras5QLgOCRWT5HIPHzCHhEKUzEVQbT6ywMYaBgNvFb5O/XCN/nw1Y50l5eY5bGik+bM5WxJWCBirWIFXscmIvhsaHq9OA3YtMtoNzqc46mRC8NJ37lbiUJ85edIPbY1peJdTElo0silHcVINRSOehd3IVAbWvOvtMSbR2+dka/11EKPoTweeyE+y1dy83Rjd5GqOAWVHkGCJD9oyet/SMGWluALuRDkeHThXYxq42m90fa+Ki+7FK4jH4C/Ff6CtXCfVYerOWWz9tk/cHj7QqvD0BkGkXKJ0R7PtjuwIRZ7BmgH+swbxov1fgbvjfHWKkFyEqMbuMWoptEAlNql4rTi2kwCeu1FuwZho4BhbTc9Dff41+47H2th4KvBiOhhr16JbhG1LSbdxDQ68cJ/ZTzpuAC73CsGN+3ke5G3OCg3/pn4K1Zyl/Kv2S8cQVCXkgtgXY/mjMGECUnXInEBTwNIUjebvR/XMKpoM8W8CIVk0zoM0IZW1EdlZu3t59h4pkHJ/pMSf4ddn6bIDtFInLtYjK9wAVexCBm/JxTMLnGgqicrzFZoWiqNfPtc4OUcGFiDxjpFelh/qe1z3thQqntwIWT8EarE6Cl2MTfx2CXoVWFK0YGSUw4vK/rwNwsqC2KyOL8a9VDfHaQMH2RsfQzI740QRmp4XAKp01Kw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHBPR12MB731189.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(10067099003)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VXROd0tBdVNaekVPRklDSU0wYWw2THMzL1NmMmJtd2lOeFp5RkVZOGZ3TWFM?=
+ =?utf-8?B?dGNGbHhOVUVuYjVabkM5ZXhhVFVSbDRPZ3BDcStyZUhRTVlpWll0OEN0bmZ6?=
+ =?utf-8?B?NisrMkxoOUd1QjVITm52clZoN1VaRjhBOTRtVFptUW02bUo2aHhwa2pVcXFU?=
+ =?utf-8?B?Q0xrSHlRY21MN2diU0pybzd3RktMRGRiTWNhQ0EwUVJObVBkK3ZWNFVBdHN5?=
+ =?utf-8?B?WGYrYWhLTnF3UFFqU29QK3pRejBmck5Cc2NDbmQ3bWtmeU82UFhrcTJwR2lv?=
+ =?utf-8?B?RFBSMkdBbUxReDhwOENoOVZ5RGhrb21JTFlCZk1XYVJVVE1zbVlubW90SHJK?=
+ =?utf-8?B?VHVBY1BqYTZabmxzOEFMczV6Ym5JRjhnVXZ5ZGlrWmFrck9scEE2OGRYbWF2?=
+ =?utf-8?B?Ym9aRE5EWDJRUHYvQmRUUVF5Q08vWmhGbm4xRWRWaDNoY0NMSkw1eVZnaVZD?=
+ =?utf-8?B?UnMzZHExb2dWd24vbUdlUkw3VDhGaC9zWUZIOC9yc0pWOEFWYk5rWkNubHZV?=
+ =?utf-8?B?NjNCcEVJYlpCdGZ5VFp2aS9DUjh4L3loZUZwWk1Ma2FyaDhMaFV4ejEwMWp4?=
+ =?utf-8?B?bnhmWFgyZnpOemJaV3NLNG5McTRNeVFoY1RIa09oR1FVTGFiSVFVWTYyRUlO?=
+ =?utf-8?B?SjJpdmM3NmdZK3NJMFhDMlltbDFjRmswNWJqdVhvN291VUpkSTZmOUFaaGFx?=
+ =?utf-8?B?eThUM3V0Nlo2VFl1MVRiT3lVWUh2aGxMWFQvdFlUUmVZTWpUTWIxWEN3cmtC?=
+ =?utf-8?B?NXI0bXFkS3NHQ2tDWlJvZ2VEMlZrS0JINTBlTGpPOFRjVk9LNEZnYk90M3Jz?=
+ =?utf-8?B?eEdKNlBnenJ0b3IyMHpsTUVIbDZWVEErems0WXgzdENPVVlVcFYrL3JxQnJu?=
+ =?utf-8?B?bUVVMEhIelZMbk1PdFYxYjQwKzNFWThmWWJGbTc0cFRWRi9BVWJ4akFSWlhD?=
+ =?utf-8?B?eXB1b3JWSy9iYk5yd0FJSXUrcVlybStTb20wYmo2VjM2UEU0WDFaeUMvVDQ5?=
+ =?utf-8?B?djFsWTgvenBCbHp3Rkk4SS9MUXNTVFVlMGtTR0NsdmVPRnhiY2tPbEVLRU90?=
+ =?utf-8?B?QStIbHlYNnBIb2FpNGZkTlVIcGhyREZjOStadzNERUhja0h6MnpFbXhCMFdX?=
+ =?utf-8?B?Q3Jkci9DRUZnckc3UElPQStOcklGRlkwTHNZSW5ZRUJwd1ZHcXVseDRFUXRO?=
+ =?utf-8?B?WW1QdXFkTDlyYTlKaVlBSU5IeWYrb21IVkNncGdCcStQdUtQYXA5MXAyTG91?=
+ =?utf-8?B?eWZtbGx0YzhpUTkxOFVEQW5Semt0ZUFMSkd6cFN1ZHArMjM1QWdCa2o5TDFt?=
+ =?utf-8?B?SjdaL3NVYmV0REJWb2ZDdkd0N2wzMUVXVGkyWFg2eDR3VTR0NmJIRnBUdEcy?=
+ =?utf-8?B?OEdJTDZqcU9mTkZqb1I5VXBSZ01EMHlsUEUwVm1vUWlRNEhLd1NHM3VvQzMx?=
+ =?utf-8?B?ZUVPQmtCYWx3U1R1aWs0bExmTkhZY2trbVRtWlpCM0Z0bDBzNkJMREMxSDR2?=
+ =?utf-8?B?N21maW9ITFVmVFFEQmFqdURLSmowcDdFSHJUZWNZb2k0aWh6WWhNRFhEQkFI?=
+ =?utf-8?B?Y1lIL1U0MjdvamxqRmdhM1VENWVzbWorUldHUWNrcWtiYzNHcWdXN3BCSWJ5?=
+ =?utf-8?B?c2tBK083R3dsV2hnd3JHc0UyTktNWTZsZ21qVWZEN3N3RWpxOTZ5K1RVTzZz?=
+ =?utf-8?B?dHI3ZW9qOHhKTWhwYWIrTGl0L1l2VlptRE5rbmxIdEdwTHpjR3ZEUnRwRmk4?=
+ =?utf-8?B?bUhqTjdieldyY0pGT0Q2UWpFVTluMEhsN1hlRnBTdUJKQ2ovQ3hiQTlXWnYv?=
+ =?utf-8?B?NVBEZnRSUlJaSmkxNk5hZmQ1WHBBVitOS3E1R1phVExIRU0yZFBCTEQzQUdH?=
+ =?utf-8?B?eGpNTnYxWm9sY2dkVWVPM1RSTFJEcHpKbG1jYkd5RXdRcEtENkhkOWR0M2lr?=
+ =?utf-8?B?RmZLZ0piWXFqU2FSU25tajhuMWp2UXFLUnhVaHkrT2pzRkNvbzliTzJMLy92?=
+ =?utf-8?B?NEQ3V1BSQ25XcmxaZ1dqbDlvcHc2SUJEWUZXMHN2S2tkVEd4TFVGZXJTY290?=
+ =?utf-8?B?OHF0VFNxdzhYWUk0alcvVU1LOVJrNFhEWmlORjlXYnNmeFNxYkxGL3Z0Vmta?=
+ =?utf-8?B?U2txdTlXbnJuT1VwblRwczZUQ1JMRE84NFBBVERWL3R5NnlIV2VoZGxzRXAr?=
+ =?utf-8?B?cUdrTFFBdmtxNExmVE8yTzRCUFhYcDVVZHErY2ZPOWlSZmE2NllYcWNoTzRa?=
+ =?utf-8?B?SWYzVkpYU3ZRY0F0dzJraG9DTDhiREEwNHp5MmYyUkN3eWlZMC80ZnhmMEFj?=
+ =?utf-8?Q?qG/u46AQze4DQS1AjX?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03e84ba8-9119-48eb-f7d8-08df2ab8f187
+X-MS-Exchange-CrossTenant-AuthSource: CHBPR12MB731189.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2026 12:36:32.5540
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UNZSaNJldtseFcP6btPGLrxLc1OI7akgxQwMYuBbhe9/6kjxCOPyOtWOisdZcKzf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7137
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b018686719706a781c45a874ed51374a2dc4b767
-commit: b84b5197e344e2d378a9edf5d782b6fbddff8d06 [13311/15025] dmaengine: amlogic: Add general DMA driver for A9
-config: openrisc-randconfig-r2202-20261008 (https://download.01.org/0day-ci/archive/20261008/202610080953.C5TYlCaA-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.2.0
-smatch: v0.5.0-9187-g5189e3fb
+On Thu, 15 Oct 2026 16:23:49 +0800, Yu Zhang <zhangyu1@linux.microsoft.com> wrote:
+> iommu/hyperv: Fix guest IOMMU build issues
+> 
+> This series address two issues reported by kernel test robot in the
+> recently applied Hyper-V guest IOMMU driver.
+> 
+> The first one adds the missing PCI dependency to prevent a link failure
+> when CONFIG_PCI is disabled. And the second makes hv_iommu_device static
+> to address a sparse warning.
+> 
+> [...]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610080953.C5TYlCaA-lkp@intel.com/
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-smatch warnings:
-drivers/dma/amlogic-dma.c:636 aml_dma_probe() warn: passing zero to 'PTR_ERR'
-
-vim +/PTR_ERR +636 drivers/dma/amlogic-dma.c
-
-b84b5197e344e2 Xianwei Zhao 2026-09-03  597  static int aml_dma_probe(struct platform_device *pdev)
-b84b5197e344e2 Xianwei Zhao 2026-09-03  598  {
-b84b5197e344e2 Xianwei Zhao 2026-09-03  599  	struct device_node *np = pdev->dev.of_node;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  600  	struct dma_device *dma_dev;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  601  	struct aml_dma_dev *aml_dma;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  602  	int ret, i, len;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  603  	u32 chan_nr;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  604  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  605  	const struct regmap_config aml_regmap_config = {
-b84b5197e344e2 Xianwei Zhao 2026-09-03  606  		.reg_bits = 32,
-b84b5197e344e2 Xianwei Zhao 2026-09-03  607  		.val_bits = 32,
-b84b5197e344e2 Xianwei Zhao 2026-09-03  608  		.reg_stride = 4,
-b84b5197e344e2 Xianwei Zhao 2026-09-03  609  		.max_register = 0x3000,
-b84b5197e344e2 Xianwei Zhao 2026-09-03  610  	};
-b84b5197e344e2 Xianwei Zhao 2026-09-03  611  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  612  	ret = of_property_read_u32(np, "dma-channels", &chan_nr);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  613  	if (ret)
-b84b5197e344e2 Xianwei Zhao 2026-09-03  614  		return dev_err_probe(&pdev->dev, ret, "failed to read dma-channels\n");
-b84b5197e344e2 Xianwei Zhao 2026-09-03  615  	if (chan_nr > (MAX_CHAN_ID * 2))
-b84b5197e344e2 Xianwei Zhao 2026-09-03  616  		return dev_err_probe(&pdev->dev, -EINVAL, "dma-channels unusual\n");
-b84b5197e344e2 Xianwei Zhao 2026-09-03  617  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  618  	len = sizeof(struct aml_dma_dev) + sizeof(struct aml_dma_chan) * chan_nr;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  619  	aml_dma = devm_kzalloc(&pdev->dev, len, GFP_KERNEL);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  620  	if (!aml_dma)
-b84b5197e344e2 Xianwei Zhao 2026-09-03  621  		return -ENOMEM;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  622  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  623  	aml_dma->free_wq = alloc_ordered_workqueue("aml_dma_free", 0);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  624  	if (!aml_dma->free_wq)
-b84b5197e344e2 Xianwei Zhao 2026-09-03  625  		return -ENOMEM;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  626  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  627  	aml_dma->chan_nr = chan_nr;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  628  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  629  	aml_dma->base = devm_platform_ioremap_resource(pdev, 0);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  630  	if (IS_ERR(aml_dma->base))
-b84b5197e344e2 Xianwei Zhao 2026-09-03  631  		return PTR_ERR(aml_dma->base);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  632  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  633  	aml_dma->regmap = devm_regmap_init_mmio(&pdev->dev, aml_dma->base,
-b84b5197e344e2 Xianwei Zhao 2026-09-03  634  						&aml_regmap_config);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  635  	if (IS_ERR_OR_NULL(aml_dma->regmap))
-b84b5197e344e2 Xianwei Zhao 2026-09-03 @636  		return PTR_ERR(aml_dma->regmap);
-
-devm_regmap_init_mmio() can't actually return NULL so
-s/IS_ERR_OR_NULL/IS_ERR/.
-
-b84b5197e344e2 Xianwei Zhao 2026-09-03  637  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  638  	aml_dma->clk = devm_clk_get_enabled(&pdev->dev, NULL);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  639  	if (IS_ERR(aml_dma->clk))
-b84b5197e344e2 Xianwei Zhao 2026-09-03  640  		return PTR_ERR(aml_dma->clk);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  641  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  642  	aml_dma->irq = platform_get_irq(pdev, 0);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  643  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  644  	aml_dma->pdev = pdev;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  645  	aml_dma->dma_device.dev = &pdev->dev;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  646  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  647  	dma_dev = &aml_dma->dma_device;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  648  	INIT_LIST_HEAD(&dma_dev->channels);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  649  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  650  	/* Initialize channel parameters */
-b84b5197e344e2 Xianwei Zhao 2026-09-03  651  	for (i = 0; i < chan_nr; i++) {
-b84b5197e344e2 Xianwei Zhao 2026-09-03  652  		struct aml_dma_chan *aml_chan = &aml_dma->aml_chans[i];
-b84b5197e344e2 Xianwei Zhao 2026-09-03  653  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  654  		aml_chan->aml_dma = aml_dma;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  655  		aml_chan->vchan.desc_free = aml_dma_free_desc;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  656  		vchan_init(&aml_chan->vchan, &aml_dma->dma_device);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  657  	}
-b84b5197e344e2 Xianwei Zhao 2026-09-03  658  	aml_dma->chan_used = 0;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  659  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  660  	dma_set_max_seg_size(dma_dev->dev, SG_MAX_LEN);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  661  	dma_cap_set(DMA_SLAVE, dma_dev->cap_mask);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  662  	dma_dev->device_alloc_chan_resources = aml_dma_alloc_chan_resources;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  663  	dma_dev->device_free_chan_resources = aml_dma_free_chan_resources;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  664  	dma_dev->device_tx_status = aml_dma_tx_status;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  665  	dma_dev->device_prep_slave_sg = aml_dma_prep_slave_sg;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  666  	dma_dev->device_pause = aml_dma_chan_pause;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  667  	dma_dev->device_resume = aml_dma_chan_resume;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  668  	dma_dev->device_terminate_all = aml_dma_terminate_all;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  669  	dma_dev->device_issue_pending = aml_dma_issue_pending;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  670  	/* PIO 4 bytes and I2C 1 byte */
-b84b5197e344e2 Xianwei Zhao 2026-09-03  671  	dma_dev->dst_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) | BIT(DMA_SLAVE_BUSWIDTH_1_BYTE);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  672  	dma_dev->directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  673  	dma_dev->residue_granularity = DMA_RESIDUE_GRANULARITY_BURST;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  674  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  675  	regmap_write(aml_dma->regmap, RCH_INT_MASK, INT_MASK);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  676  	regmap_write(aml_dma->regmap, WCH_INT_MASK, INT_MASK);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  677  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  678  	ret = devm_request_irq(&pdev->dev, aml_dma->irq, aml_dma_interrupt_handler,
-b84b5197e344e2 Xianwei Zhao 2026-09-03  679  			       0, dev_name(&pdev->dev), aml_dma);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  680  	if (ret)
-b84b5197e344e2 Xianwei Zhao 2026-09-03  681  		return dev_err_probe(&pdev->dev, ret, "failed to register irq\n");
-b84b5197e344e2 Xianwei Zhao 2026-09-03  682  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  683  	ret = dmaenginem_async_device_register(dma_dev);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  684  	if (ret)
-b84b5197e344e2 Xianwei Zhao 2026-09-03  685  		return dev_err_probe(&pdev->dev, ret, "failed to register dmaenginem\n");
-b84b5197e344e2 Xianwei Zhao 2026-09-03  686  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  687  	ret = of_dma_controller_register(np, aml_of_dma_xlate, aml_dma);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  688  	if (ret)
-b84b5197e344e2 Xianwei Zhao 2026-09-03  689  		return dev_err_probe(&pdev->dev, ret, "failed to register xlate\n");
-b84b5197e344e2 Xianwei Zhao 2026-09-03  690  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  691  	platform_set_drvdata(pdev, aml_dma);
-b84b5197e344e2 Xianwei Zhao 2026-09-03  692  
-b84b5197e344e2 Xianwei Zhao 2026-09-03  693  	return 0;
-b84b5197e344e2 Xianwei Zhao 2026-09-03  694  }
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+-- 
+Jason
