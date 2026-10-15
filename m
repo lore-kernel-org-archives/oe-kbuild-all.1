@@ -1,96 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9B4443E3B;
-	Thu, 15 Oct 2026 21:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8784EC67F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 21:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792099531; cv=none; b=DZ2ZAtS12dWyyznnMbR/q3uFiLLkhKnyNLsPVQRhEtdQXYsQcAglsfoFNGhTBLjX4SbPP4RQv7PYzTVj8vk5gzEoaf05MeUFKVTJ57OFifvZJ5EVf6Lm1Eh0UMgmbTvAJS8A6ux4nvDaAhd60QP9pubtLZuwApuZvdP5uZ59MVg=
+	t=1792100117; cv=none; b=rH6zS7evoNif564qp4UqTGbb0t+os5CE/cZfL32CNC58Zf/lUx1SX2zrj6usY6686Sz3xjjZ/wuufYTEwwO0W2t36H3iHtb2SqRRQS1BqyBKpYHVv1OReYjUuaqZAkdOyMZ8PDfRxNoF+Fu38dxE6evfFswDe/zSffUc4fbZTpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792099531; c=relaxed/simple;
-	bh=jgHtsMpPFB4Z9TWMvS6irJPcZDzd0toIbmE5qbqa/Us=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G/LZiuq1R0u45ezPnJX8fJN0W0G8cT6zNVQyi4TNVN6YdVtAwxzfBOcAmv/egi6RgVyvdiAMgBxaUJcdE+iUIb4H3CrXTLDUdNuBF/Eu+bFassRqBtKB7Gc/COkFsSGpKrCc1J1QOvUSXLxRDRTuap9qPzIiN+EhosfvR1B5Ggs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UmI3HG99; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792100117; c=relaxed/simple;
+	bh=VOxMxCDPWN+fLBBRLpSJMHD9RS9TItpTF8mT+aGjZRs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RmKYZe9QgvyRmuEBFv5htol2DIxGXlUd6/NaQnF46ykYH+N9SgNzVRo9wWnJKzBHlL8s/MyvvKYcABWMWjlQehuaJKJSlOzkBuNzqlIlwPo4gTeF9mXGYAwP7mosoJR1wKE3KbErZVDZXr8v59vMQQbKGiIfqEWGMo4Hd11aHjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c80LvQ5E; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UmI3HG99"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5371F000C4;
-	Thu, 15 Oct 2026 21:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792099530;
-	bh=JtlG37bFDT1nJGArYVo1/AEcEyqGhLzCSN7KTgGMzBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UmI3HG99wlr47IcaLawHsU/ZmxyrsxU2dpyCm3mJe6O4RnExTHiafIYdkOWr61eo8
-	 X9C8oxMZ7ylKM6WOtJXzuRtywcIiPT0WIoZ0/s2WvtK6DkrplnrRvID4RItxnk4HPv
-	 SPvEIIUgsOsD1Jo4HTWcxXVciEh76w77YHnBWqzxMc+jEubgLfzRXh4vtl/b86ubJs
-	 MuuXzJt7zxZq5mz4R8ttG1yopj4DalhTiyV5BsLXGMhZgV1KiaRK5hqxzxizOb2ag0
-	 ioSnjncTvc0d+gLM8hvXoRKZLY4fYxpi+OFm55KLxHqPcLjKFQKu9zP7gGBVelip9f
-	 I6HClOU07AUkw==
-Date: Thu, 15 Oct 2026 14:25:25 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Rong Xu <xur@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: <inline asm>:1:275: error: invalid instruction mnemonic 'brk'
-Message-ID: <20261015212525.GA322951@ax162>
-References: <202609040258.xw9R4qaZ-lkp@intel.com>
- <20261008162013.GA1660409@ax162>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c80LvQ5E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792100105; x=1823636105;
+  h=date:from:to:cc:subject:message-id;
+  bh=VOxMxCDPWN+fLBBRLpSJMHD9RS9TItpTF8mT+aGjZRs=;
+  b=c80LvQ5EWrMM7oRpyT5G2R+8IAazMyKdFJ46V4lcNHalljLAs3GYlqfG
+   woV+XjdXhogVzWPi7bAktj37BqJOzPKpY/kAu9ZmDZ0H4MDGg4vqnxyIv
+   cxuWQkmb5XwbLcQPuMYrcn2S9HgSLqZp5i8V/4uCatr6c6hrG0CuaQKzD
+   sMvBT5J9TZKUZSjEXVB+WCvaRFAQS+iVBdCR8KX34TFMuFndQAGtU3w/Z
+   /CWWZsu1N7raRNsvhf46zUeE4M1BZ6kXyuCGxcfeYNWd47EAjkgUOLTQ6
+   yElDtQdgQCeMpjhGBJjX6K3IKcuktftDTajEEY3Muz+rtq6JZdgyJavpb
+   A==;
+X-CSE-ConnectionGUID: SI6/v0nxTROg53JYLif60Q==
+X-CSE-MsgGUID: dCZn6tdQR+2s+HmWv1ZYBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="780940"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="780940"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 14:35:04 -0700
+X-CSE-ConnectionGUID: mvG7m/LrSmyS0h15KCAu1g==
+X-CSE-MsgGUID: 1anueJecSXGqUZG9ipQh7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="1706475"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2026 14:35:03 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xHT6K-00000000BrD-18XT;
+	Thu, 15 Oct 2026 21:35:00 +0000
+Date: Thu, 15 Oct 2026 23:34:17 +0200
+From: kernel test robot <lkp@intel.com>
+To: Richard Patel <ripatel@wii.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
+Subject: [tip:irq/core 3/7] kernel/irq/manage.c:1208:2: error:
+ implicit declaration of function 'clear_and_wake_up_bit'; did you mean
+ 'clear_pfnblock_bit'?
+Message-ID: <202610152305.qx1OoHrk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261008162013.GA1660409@ax162>
 
-On Thu, Oct 08, 2026 at 06:20:17PM +0200, Nathan Chancellor wrote:
-> Hi Rong,
-> 
-> This is the build report I mentioned at LPC, please take a look. The
-> original report is available at:
-> 
->   https://lore.kernel.org/202609040258.xw9R4qaZ-lkp@intel.com/
-> 
-> but I have also included it below.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
+head:   4351cc74202857f5b85b3573c477c9f798f5cd88
+commit: 313fa9ffa302f81b437e1ebbb1e6abae06be0cad [3/7] genirq: Defer kfree(irqaction) until irq_thread_dtor() finishes
+config: xtensa-randconfig-2001-20261015 (https://download.01.org/0day-ci/archive/20261015/202610152305.qx1OoHrk-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610152305.qx1OoHrk-lkp@intel.com/reproduce)
 
-This should be fixed by commit 4bcfe2902199 ("iommupt/kunit: Use
-if_changed_rule for the kunit") in Linus's tree (same root cause,
-different error from what I can tell).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610152305.qx1OoHrk-lkp@intel.com/
 
-  https://git.kernel.org/linus/4bcfe29021993cb167fd9bbdb849f7d7247a166f
+All errors (new ones prefixed by >>):
 
-> On Fri, Sep 04, 2026 at 02:32:03AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   940de590b839f71d6dc846160534bf202401b8b7
-> > commit: 9f2aee8f7d1842be08da860e45265d30dba0d1f7 kbuild: distributed build support for Clang ThinLTO
-> > date:   3 months ago
-> > config: arm64-randconfig-003-20260830 (https://download.01.org/0day-ci/archive/20260904/202609040258.xw9R4qaZ-lkp@intel.com/config)
-> > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260904/202609040258.xw9R4qaZ-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Fixes: 9f2aee8f7d18 ("kbuild: distributed build support for Clang ThinLTO")
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202609040258.xw9R4qaZ-lkp@intel.com/
-> > 
-> > All error/warnings (new ones prefixed by >>):
-> > 
-> >    warning: overriding the module target triple with x86_64-unknown-linux-gnu [-Woverride-module]
-> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'arch/arm64/mm/init.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-> >     [-Wlinker-warnings]
-> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/kunit/test.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-> >     [-Wlinker-warnings]
-> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/kunit/try-catch.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-> >     [-Wlinker-warnings]
-> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'lib/maple_tree.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
-> >     [-Wlinker-warnings]
-> > >> warning: linking module 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o': Linking two modules of different target triples: 'mm/vmstat.o' is 'aarch64-unknown-linux-gnu' whereas 'drivers/iommu/generic_pt/fmt/kunit_iommu_riscv64.o' is 'x86_64-unknown-linux-gnu'
+   kernel/irq/manage.c: In function 'irq_thread_dtor':
+>> kernel/irq/manage.c:1208:2: error: implicit declaration of function 'clear_and_wake_up_bit'; did you mean 'clear_pfnblock_bit'? [-Werror=implicit-function-declaration]
+     clear_and_wake_up_bit(IRQTF_EXIT_WORK, &action->thread_flags);
+     ^~~~~~~~~~~~~~~~~~~~~
+     clear_pfnblock_bit
+   kernel/irq/manage.c: In function 'irq_stop_thread':
+>> kernel/irq/manage.c:1866:2: error: implicit declaration of function 'wait_on_bit'; did you mean 'llist_on_list'? [-Werror=implicit-function-declaration]
+     wait_on_bit(&action->thread_flags, IRQTF_EXIT_WORK, TASK_UNINTERRUPTIBLE);
+     ^~~~~~~~~~~
+     llist_on_list
+   cc1: some warnings being treated as errors
 
--- 
-Cheers,
-Nathan
+
+vim +1208 kernel/irq/manage.c
+
+  1202	
+  1203	static void irq_thread_dtor(struct callback_head *unused)
+  1204	{
+  1205		struct irqaction *action = kthread_data(current);
+  1206	
+  1207		__irq_thread_dtor(action);
+> 1208		clear_and_wake_up_bit(IRQTF_EXIT_WORK, &action->thread_flags);
+  1209	}
+  1210	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
