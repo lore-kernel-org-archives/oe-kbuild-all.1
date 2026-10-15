@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8FF3E2754
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 03:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EBE2F39B5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 03:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792033559; cv=none; b=CotvXgVn3iCIaFx37h+9bvfduc2Hlrm13PTt61R4/+BTOHJk838luZKOvzk/oc3eK1e+lGjLzBM36xLwQv5unBWDrm/83trbCpqNi7iVph+DJNGCYizlX8lFMXoV83cH6yosdlhND/PTXTIy7x4ZX54MjJdsXTxZX6s6UhLynQo=
+	t=1792034280; cv=none; b=YmVmFbav3yEIZecioLZVt3FUHvCuSyB+uG1Pa3r2d840Woi2jAM4UYGDoz1ogLUhDDmF+TEeyvM8SOIOe4lgbRAti8geIphDk6yqJHZx8wc62E6S4KodfHrIW/XGpupTg+miMciIzAml24IbzLebSoPZFJp/9Gu6tMPS/YCce5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792033559; c=relaxed/simple;
-	bh=KZztWMc9YHGdr0qN1mxy1ZtR8KqmNN83xXCXtbstXks=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WM2wV28l5osu7ODdv8P5Zi6HGbzteW1nIA25hjVn1Q9e9Bsl7Yr5+xMT9Jg8Z3jNMiBcC6Nml8PJ66mrTHTFfBiBNAgz6/7OZG4hHXPldq/EZxcxZ7OVKgYFkBIbpiECHc9UmYF3/JQogffkDLbhzx9dW6SUqy8FhJ5cATojpRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VfAyR+lQ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1792034280; c=relaxed/simple;
+	bh=Pvpu1UnPSkluZ2aXXQDBoG3pthmNAbMwG/ymdMEAbp8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gvr9pYFmleiI2K4a3+jiapjAMzmlQwc23Crui98OkQ+LDFZ2NQTpURdexPy/ENAEwZa6GlPYhUeQZsyeYM4Xt/s8Q7PknwPnjeW4/LGIJkYF0JrXZl/VBx62zqaBG8aDpetlMiJ6fhbX/2Jdxs4C7uhhD6JzvSBVNAFaUV6c5TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwWyJB4N; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfAyR+lQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwWyJB4N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792033554; x=1823569554;
+  t=1792034278; x=1823570278;
   h=date:from:to:cc:subject:message-id;
-  bh=KZztWMc9YHGdr0qN1mxy1ZtR8KqmNN83xXCXtbstXks=;
-  b=VfAyR+lQy3i99umLTnbLVsWkkwDfXDf5chJ6gcmNJljrk4jT7MHI7iDq
-   cHVWX99B/1THxavKm4XyfVbGMG45nSieexioHnimrpKDUaEFVlrof6chP
-   syDlr8H6gp5y1nvg/251TaEcuNeqlVeFOoAHLlCivSnJNUCEfFqMQMDDQ
-   61JQ9d5Hov6FssxnG2U9fOw0kr97PLSzSXU9GC03d6yDG+1k77HsrC46g
-   YQKZG7laqIapRAssGSDFeTrtZF/4EfjEosvCMIASBY5lvJeVUmuqAbXiG
-   EKoqLx+joLEgK6mXOMdP9wc9WpHZdUKQDleDCGBDibpcObfomQFsEwfF/
-   Q==;
-X-CSE-ConnectionGUID: 5uY+WNqSQB2BsEKjZYT4mg==
-X-CSE-MsgGUID: n+Wp5R/mSUiu8Xei0jw4ZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="680149"
+  bh=Pvpu1UnPSkluZ2aXXQDBoG3pthmNAbMwG/ymdMEAbp8=;
+  b=bwWyJB4NGDgYKD0gCeSCa1Z5JdZl7ZcCwEqC9NNMDrGYKKVWaDxwp0ik
+   2+w0LXYZk4bF22MUkQF6hnqg5z+XJGDUCLhSv3EcuUqhot933D1SdbxX2
+   urN8o10FNuj1OO81rGdeESP5qH9Clg2flaK1lEK07XVzQG+7jWZr1lArK
+   A4LINqIXui11EKREwiY0up6Nx7+S0E6KEzL5HepvFrxFH+w872RmB61ks
+   ynQRw3B9GEITscy0AoxlldxoDUGq/RN1sk/bWjKzHPfDsyfyH67d5+if+
+   SAMvbyqGlHguCeo9qWh5cOEciZHxpevWdQ3yZHddmJmNvPXnIxaA/h/i4
+   g==;
+X-CSE-ConnectionGUID: S/BygeC/SNuXjWk8pqMoMw==
+X-CSE-MsgGUID: XhT7rBFuTiGp9cPKPn2otw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="823830"
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="680149"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 20:05:53 -0700
-X-CSE-ConnectionGUID: I6FwLAV5RW6ySrHMKc19Nw==
-X-CSE-MsgGUID: njCMsE4PT7KAhrUIZZHfsA==
+   d="scan'208";a="823830"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 20:17:58 -0700
+X-CSE-ConnectionGUID: wA0wvrxeSh6pqTvkPaTaKA==
+X-CSE-MsgGUID: GLNFAWeFQI2UsseLiMsF3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="1536950"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 14 Oct 2026 20:05:52 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="1666777"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 14 Oct 2026 20:17:56 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHBmv-00000000BZb-2hb8;
-	Thu, 15 Oct 2026 03:05:49 +0000
-Date: Thu, 15 Oct 2026 05:05:45 +0200
+	id 1xHByb-00000000FiF-1mw9;
+	Thu, 15 Oct 2026 03:17:53 +0000
+Date: Thu, 15 Oct 2026 11:17:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/1]
- drivers/usb/cdns3/cdnsp-gadget.c:156:16: sparse: sparse: cast to restricted
- __le32
-Message-ID: <202610150510.juTCnooG-lkp@intel.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Woodhouse <dwmw@amazon.co.uk>
+Subject: [dwmw2:spinpark-arm64 10/20] WARNING: modpost: vmlinux:
+ section mismatch in reference: arch_cpu_preserved_is_active+0x8 (section:
+ .text.cpu_preserved) -> cpu_preserved_get_stack_context (section: .text)
+Message-ID: <202610151002.aEfGXBBO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,48 +60,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   06aabb3c55412104814644e8d1b37df04940d99a
-commit: 0554dade57dd6d657eba7303b63a8ed93498063d [1/1] usb: cdnsp: Fix issue with resuming from L1
-config: i386-randconfig-r2308-20261015 (https://download.01.org/0day-ci/archive/20261015/202610150510.juTCnooG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150510.juTCnooG-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux spinpark-arm64
+head:   c36bf9732ee79ac6311b2168966b2e4cd92688fc
+commit: 4b856ff3c9e3e863a899ac513e41cd560d1a9fe6 [10/20] arm64: liveupdate: Add support for physical CPU preservation
+config: arm64-randconfig-1002-20261014 (https://download.01.org/0day-ci/archive/20261015/202610151002.aEfGXBBO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151002.aEfGXBBO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150510.juTCnooG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610151002.aEfGXBBO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/cdns3/cdnsp-gadget.c:156:16: sparse: sparse: cast to restricted __le32
-   drivers/usb/cdns3/cdnsp-gadget.c:158:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int val @@     got restricted __le32 [usertype] @@
-   drivers/usb/cdns3/cdnsp-gadget.c:158:16: sparse:     expected unsigned int val
-   drivers/usb/cdns3/cdnsp-gadget.c:158:16: sparse:     got restricted __le32 [usertype]
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +156 drivers/usb/cdns3/cdnsp-gadget.c
-
-   140	
-   141	static void cdnsp_set_apb_timeout_value(struct cdnsp_device *pdev)
-   142	{
-   143		struct cdns *cdns = dev_get_drvdata(pdev->dev);
-   144		__le32 __iomem *reg;
-   145		void __iomem *base;
-   146		u32 offset = 0;
-   147		u32 val;
-   148	
-   149		if (!cdns->override_apb_timeout)
-   150			return;
-   151	
-   152		base = &pdev->cap_regs->hc_capbase;
-   153		offset = cdnsp_find_next_ext_cap(base, offset, D_XEC_PRE_REGS_CAP);
-   154		reg = base + offset + REG_CHICKEN_BITS_3_OFFSET;
-   155	
- > 156		val  = le32_to_cpu(readl(reg));
-   157		val = CHICKEN_APB_TIMEOUT_SET(val, cdns->override_apb_timeout);
-   158		writel(cpu_to_le32(val), reg);
-   159	}
-   160	
+>> WARNING: modpost: vmlinux: section mismatch in reference: arch_cpu_preserved_is_active+0x8 (section: .text.cpu_preserved) -> cpu_preserved_get_stack_context (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: arch_cpu_preserved_switch_pgd+0x20 (section: .text.cpu_preserved) -> arm64_flush_host_tlb_local (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: arch_cpu_preserved_park_init+0x14 (section: .text.cpu_preserved) -> cpu_preserved_get_stack_context (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: arch_cpu_preserved_park_init+0x94 (section: .text.cpu_preserved) -> arm64_flush_host_tlb_local (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_is_preserved+0x2c (section: .text.cpu_preserved) -> nr_cpu_ids (section: .data..read_mostly)
+WARNING: modpost: vmlinux: section mismatch in reference: cpu_is_preserved+0x34 (section: .text.cpu_preserved) -> nr_cpu_ids (section: .data..read_mostly)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_is_preserved+0x38 (section: .text.cpu_preserved) -> __tsan_read4 (section: .text)
+WARNING: modpost: vmlinux: section mismatch in reference: cpu_is_preserved+0x3c (section: .text.cpu_preserved) -> nr_cpu_ids (section: .data..read_mostly)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_is_preserved+0x58 (section: .text.cpu_preserved) -> __tsan_volatile_read8 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_get_pcpu+0x38 (section: .text.cpu_preserved) -> __tsan_volatile_read8 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_get_pgd+0x28 (section: .text.cpu_preserved) -> __tsan_volatile_read8 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_get_pcpu_ser+0x34 (section: .text.cpu_preserved) -> __tsan_volatile_read8 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_should_exit+0x24 (section: .text.cpu_preserved) -> __tsan_volatile_read4 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_stack_va+0x24 (section: .text.cpu_preserved) -> __tsan_volatile_read8 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_stack_va+0x30 (section: .text.cpu_preserved) -> phys_to_virt (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_park_loop+0x34 (section: .text.cpu_preserved) -> __tsan_volatile_write4 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_park_loop+0x64 (section: .text.cpu_preserved) -> __tsan_volatile_read4 (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_park_loop+0x98 (section: .text.cpu_preserved) -> __tsan_volatile_read8 (section: .text)
+WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_park_loop+0xa4 (section: .text.cpu_preserved) -> __tsan_volatile_read8 (section: .text)
 
 --
 0-DAY CI Kernel Test Service
