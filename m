@@ -1,130 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF383B9DA1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 14:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCE013BB128;
+	Thu, 15 Oct 2026 15:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792075183; cv=none; b=nZ1g1Vbae1/3L3FY59vlNI0qQRu1HQjPoAZdf5hvah357c9buB6EB13xFC38eAsQ2cTnsWCqmfS6qxK9qZsPWdCMCBJ77UzXZSB339w2kxe2aA5GdQLLPl/20n/3hCnYLHAfJtw+n6mXdHcQ4uBGtav9fV6BT+VWsVssRbTg5qw=
+	t=1792078188; cv=none; b=LpNKoQu+TBc65hgOnnG6/fqsMI4Tmq7YT8anwwg32Qzy8LQb1cb093HK+IjOox2vmTzQXtJ0/iyZwv5xueVR5WzzT6bd7Hzky33jC2fRK7Z3nMydoUTh3mja9mda1sdP2DDaqEX3GIc+dACiKdQh7cxjTvU/bO6ipobz/PET+VI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792075183; c=relaxed/simple;
-	bh=Ge3iHKFTBTNv4x3dCo8GEveEBBhj4Ut1U2+bBMF5ekQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l2q9Pl/7fxPSF10JXFQ2lQ5IZDZ7Mtr/IS4bJeT+dupphfDCMmYhvcguj/FS/V0m3byODbegRi3aUiWIZE+aLurgMPGZRrP/LL+bVE0tA+vJ20Zv8OlnYfL4g2YMzDHmnzET3bAwm75x7q/1YDU0huuJb9GplJAPx18yF22Vcto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hu4HAc17; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792078188; c=relaxed/simple;
+	bh=+GWrO2FeIz6rrTJHswCKO4k2txZFmM6DDFYIGY9noIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IBFwqepsd0t+3lNIlbaI3iC0OWHPCvblLP8DWp5d0N9VgjV5iswjE4/8jUJcNFSCdNg+XcIanediI+UFacffjFCIX3hRR8pFi4ToHjfAseispED9lfPT+10BbM5R1QOBSvnStDSS+bV92T+6Bvd+uXdcK5OXr49XXeV0OelrrMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=lfoiFXm1; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hu4HAc17"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792075183; x=1823611183;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ge3iHKFTBTNv4x3dCo8GEveEBBhj4Ut1U2+bBMF5ekQ=;
-  b=hu4HAc17yxFDG7oWSpkTHN7fSaIVSuKgJI8WOCZU1+n5f5ycw913Uc+d
-   PSIRvVLeyw/VQxTR0FSOHx61Pa73WWIzkEbOP+tQjCsq1Rh4gm/V/HOBQ
-   m+4PDWUN+krrbElgvA74VuAJZfo07enc3XovPwscrOHrPgrmA9Rtf/Udw
-   QmP2fWyBllerdLI+Td3O+/YTdTQjAv3NbDjl5qrFqsv0PMZZM5s/OVT+K
-   16RnxrdWfuKyWE0+pY9JcKi5hpYbNHfLVA1ybbCI3dijRIl/GXUMklN5M
-   1BBpUBhH4hQGQswzXavOqGUk4Poxf4fVY2FSmdDJepPN2SECRfMpxYhj+
-   w==;
-X-CSE-ConnectionGUID: 5OryWOXHRausvDQBdJ4zfg==
-X-CSE-MsgGUID: +HHkO3sRQzuhtKXUGhkYBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="847537"
-X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="847537"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 07:39:42 -0700
-X-CSE-ConnectionGUID: 0dIyhoVbR9u0tJChwouvQQ==
-X-CSE-MsgGUID: Na52f5PCRXKyNFfA+eR3oQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="1664173"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Oct 2026 07:39:40 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xHMcL-00000000Gf8-3ZLr;
-	Thu, 15 Oct 2026 14:39:37 +0000
-Date: Thu, 15 Oct 2026 22:39:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sunyun Yang <syyang@lontium.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
- Mohit Dsor <mohit.dsor@oss.qualcomm.com>
-Subject: [krzk-github:wip/eliza-integration-display-on-early-hwe
- 9/29] drivers/gpu/drm/bridge/lontium-lt9611c.c:1296:12: warning:
- 'lt9611c_bridge_resume' defined but not used
-Message-ID: <202610152248.OJBcyThs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="lfoiFXm1"
+Received: from localhost (unknown [4.194.122.144])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E508320B7166;
+	Thu, 15 Oct 2026 08:29:24 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E508320B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1792078170;
+	bh=WIRiLY78LofOC9PUW1C9DDSopUjC+PLAsMbJh8TcaVA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lfoiFXm1Atn4dzOHOCiRGarRswJRg8aYg22uflSaRYNCm0RCxY2vGIx97/FPsbHd/
+	 hGu+SLJ1v3MYS6zKP8+q1zX6yC24ciXB7AYNLdIp/rvlgAtQ25KJPOil8Arb7E5Dw/
+	 iUdkOjoTdj3PGWmast/vO/MNLd4FaH2/eMom4ZaE=
+Date: Thu, 15 Oct 2026 08:29:24 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Yu Zhang <zhangyu1@linux.microsoft.com>
+Cc: joro@8bytes.org, iommu@lists.linux.dev, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ joerg.roedel@amd.com, jgg@nvidia.com, will@kernel.org,
+ robin.murphy@arm.com, mhklinux@outlook.com, wei.liu@kernel.org,
+ easwar.hariharan@linux.microsoft.com, jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH 0/2] iommu/hyperv: Fix guest IOMMU build issues
+Message-ID: <20261015082924.000009a0@linux.microsoft.com>
+In-Reply-To: <20261015082351.184252-1-zhangyu1@linux.microsoft.com>
+References: <20261015082351.184252-1-zhangyu1@linux.microsoft.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/krzk/linux wip/eliza-integration-display-on-early-hwe
-head:   bc8619ef46818e58ca3d967ab1c52ad66162306a
-commit: 8ba7bfc43e9529afe137a37928f4144a6613ad2a [9/29] drm/bridge: Add Lontium LT9611C(EX/UXD) MIPI DSI to HDMI driver
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261015/202610152248.OJBcyThs-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610152248.OJBcyThs-lkp@intel.com/reproduce)
+Hi Yu,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610152248.OJBcyThs-lkp@intel.com/
+On Thu, 15 Oct 2026 16:23:49 +0800
+Yu Zhang <zhangyu1@linux.microsoft.com> wrote:
 
-All warnings (new ones prefixed by >>):
+> This series address two issues reported by kernel test robot in the
+> recently applied Hyper-V guest IOMMU driver.
+>                                                                                                                                                         
+> The first one adds the missing PCI dependency to prevent a link
+> failure when CONFIG_PCI is disabled. And the second makes
+> hv_iommu_device static to address a sparse warning.
+> 
+> The patches are based on the hyper-v branch of the IOMMU tree.
+> 
+> Yu Zhang (2):
+>   iommu/hyperv: Add missing PCI dependency for the guest IOMMU driver
+>   iommu/hyperv: Make hv_iommu_device static
+> 
+>  drivers/iommu/hyperv/Kconfig          | 2 +-
+>  drivers/iommu/hyperv/hv-iommu-guest.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
 
->> drivers/gpu/drm/bridge/lontium-lt9611c.c:1296:12: warning: 'lt9611c_bridge_resume' defined but not used [-Wunused-function]
-    1296 | static int lt9611c_bridge_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/bridge/lontium-lt9611c.c:1274:12: warning: 'lt9611c_bridge_suspend' defined but not used [-Wunused-function]
-    1274 | static int lt9611c_bridge_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/lt9611c_bridge_resume +1296 drivers/gpu/drm/bridge/lontium-lt9611c.c
-
-  1273	
-> 1274	static int lt9611c_bridge_suspend(struct device *dev)
-  1275	{
-  1276		struct lt9611c *lt9611c = dev_get_drvdata(dev);
-  1277		int ret;
-  1278	
-  1279		disable_irq(lt9611c->client->irq);
-  1280		cancel_work_sync(&lt9611c->work);
-  1281	
-  1282		gpiod_set_value_cansleep(lt9611c->reset_gpio, 1);
-  1283	
-  1284		ret = regulator_bulk_disable(ARRAY_SIZE(lt9611c->supplies), lt9611c->supplies);
-  1285		if (ret) {
-  1286			dev_err(lt9611c->dev, "regulator bulk disable failed.\n");
-  1287			gpiod_set_value_cansleep(lt9611c->reset_gpio, 0);
-  1288			msleep(400);
-  1289			enable_irq(lt9611c->client->irq);
-  1290			return ret;
-  1291		}
-  1292	
-  1293		return 0;
-  1294	}
-  1295	
-> 1296	static int lt9611c_bridge_resume(struct device *dev)
-  1297	{
-  1298		struct lt9611c *lt9611c = dev_get_drvdata(dev);
-  1299		int ret;
-  1300	
-  1301		ret = regulator_bulk_enable(ARRAY_SIZE(lt9611c->supplies), lt9611c->supplies);
-  1302		if (ret) {
-  1303			dev_err(lt9611c->dev, "regulator bulk enable failed.\n");
-  1304			return ret;
-  1305		}
-  1306		lt9611c_reset(lt9611c);
-  1307		enable_irq(lt9611c->client->irq);
-  1308	
-  1309		return ret;
-  1310	}
-  1311	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Jacob Pan <jacob.pan@linux.microsoft.com>
