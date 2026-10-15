@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88B952CCE7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 14:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD9D53C3C9;
+	Thu, 15 Oct 2026 14:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792073381; cv=none; b=gWYCr5xuwW3q4f9BAOp79/04qgkbAqDbsJcbHC5sroeL3Xp9wSN2bHFehv7rqDsJMjXpDKx4sAeiYdYFuvMmaNnHPfitXRGPbp33NGKfF7AmTDITQuLqzqQyb/olG9/SsgGkHXvG71zQAeTrbyoiFWIYqzN/GIHT8GLrCRadytg=
+	t=1792074582; cv=none; b=aLSo+zevjPtSlX3CY3rneD8r+MYvoxx2YdkUE0EO6aoLfqJy0zZGvp4Wqi81GTsa2GoGf55dYIfLOJJvoawMGi087rTf9EbUWPFCwxed2/pmzvjpb1eoaZ+kheQTfxwVnjVzVLHRR//oA/YNMB505deypiUHFcseRrwBFl9eQsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792073381; c=relaxed/simple;
-	bh=E4Z2ILIU8tW0DpZFFQ5YOJ8dxkHXQFmBgd1ma+smWpM=;
+	s=arc-20240116; t=1792074582; c=relaxed/simple;
+	bh=uncBtlF1xpx3h5ek9X8UOtwJsZFpqeJZ3skgqWBmY1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uac/coWQMtjuUW8whKDUkAuoutn2oTwCQM0hn1t8ZJDMYZsK5xSn15lelTK6Tbhy5fimHRhZfj0KCU1itp9KNgKdX/sQbWVeCoAJ5Ixt6eFsnaXcji/213gs25zrIT9TE+4fCBt8riEW2w2H59QCNSqClK6oCQZiJQewMdBg4QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vfe1VcxB; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=sEKNt2zCQSi7O1/9P0SmAlmCWZ4UmTtRSdd6AozzJOpBrBqt451bLGteIJPUNc/k5rIT7PXPXMe1C64/IXiXgqEUQ1QGpsgDwWzNRAjVeYI1LtYhdjv3Mx/8aenGJBr9DcNW+vuFDLR9rawqzCrUhx5OK84Jq418X3ORowkErAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZANMjyoH; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vfe1VcxB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZANMjyoH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792073378; x=1823609378;
+  t=1792074581; x=1823610581;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=E4Z2ILIU8tW0DpZFFQ5YOJ8dxkHXQFmBgd1ma+smWpM=;
-  b=Vfe1VcxBdzSxlz1IHKxmp1IInfMu7drAlwAvuBNUUCrwgETxwIlg1UIx
-   liyyJmGyrS3wlzx+Ik+2s8ecLaBKti10QkcFiCXGF9p1w0prMWq1CiPTn
-   HtyzvZzMGYY9elirDqvBDcjUwJBgGAXnq40ODpdG7SZ/wDnnOQN7jGQ89
-   iEQKAa6GY6XJzlVAFpVjpwWpVmHk0w/c/3ti/7AaXs95uIyfEDPQEQcxC
-   BN77PRWcBAebaSO684jl3/M+qfuQydMRuO0HlZG8/raTH+KssQj4B1KM/
-   NqxmJhNsNoIf1XhA0YAEX1q/wVJIUKv42kQgw8d+ZfmEW9cIsiLWazYlt
-   Q==;
-X-CSE-ConnectionGUID: EVYEsmKtR4ytHvzVNVIfNA==
-X-CSE-MsgGUID: uCYDxCgORXmS3zhXXnrjmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="746547"
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="746547"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 07:09:38 -0700
-X-CSE-ConnectionGUID: fpb+epDzRUawD1U3ICt33A==
-X-CSE-MsgGUID: 7r9bj5XwTTidcpKQVjrCLQ==
+  bh=uncBtlF1xpx3h5ek9X8UOtwJsZFpqeJZ3skgqWBmY1w=;
+  b=ZANMjyoHYUlmgA1wBkNLeVMCkarPUYn6cI7iXAy5fizqqFcyQCF87jD1
+   w5ohGjPH25BBFWXbrc/EAK1+s/cbUYf6ZqiTDcwYvruk7B2ypEP6ug1Kn
+   p0T1MF2GmSkFWG5okl2Oo0YU0USzZ+HCyYdOIoUvgl0TRg5aVZFO1MD9I
+   91GcWEHq+lEh6HO1C0WZQKfByfGIxAeTi3MSj+InnOl/GJFhe2hH/E76C
+   xKyBj82zgdyhrMnL1m45vatWY4fPMaUgyzvBuG5zBSkTyy5oxCvBxFK+y
+   C97N2JUo7cOoqmNy8SX6wj3tMURNzU+t/A0ZRdUOEbbwXu7PoT6E5BNew
+   g==;
+X-CSE-ConnectionGUID: vlNK7n5gQk+naD30f/t+7g==
+X-CSE-MsgGUID: wKiIYtoYS5mrfq2GNRxjeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="877375"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="877375"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 07:29:40 -0700
+X-CSE-ConnectionGUID: 8PmyWNjKR/O4xRfeUXALaw==
+X-CSE-MsgGUID: AlEmYPTcTUqHmbTg0onzOQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="1722190"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="1617077"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Oct 2026 07:09:36 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2026 07:29:37 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHM9F-00000000Gco-1tKt;
-	Thu, 15 Oct 2026 14:09:33 +0000
-Date: Thu, 15 Oct 2026 22:08:33 +0800
+	id 1xHMSc-00000000GeM-2PJ0;
+	Thu, 15 Oct 2026 14:29:34 +0000
+Date: Thu, 15 Oct 2026 22:29:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: Potnuri Bharat Teja <bharat@chelsio.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, kuba@kernel.org,
-	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
-	bharat@chelsio.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, kuba@kernel.org, edumazet@google.com,
+	pabeni@redhat.com, andrew+netdev@lunn.ch, bharat@chelsio.com
 Subject: Re: [PATCH net-next v4 11/12] cxgb4: extend debugfs support for T7
  adapters
-Message-ID: <202610152202.xxgjlBCN-lkp@intel.com>
+Message-ID: <202610152254.VdQcytWi-lkp@intel.com>
 References: <20261014221257.436789-12-bharat@chelsio.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,26 +82,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Potnuri-Bharat-Teja/cxgb4
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20261014221257.436789-12-bharat%40chelsio.com
 patch subject: [PATCH net-next v4 11/12] cxgb4: extend debugfs support for T7 adapters
-config: x86_64-randconfig-1000-20261015 (https://download.01.org/0day-ci/archive/20261015/202610152202.xxgjlBCN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610152202.xxgjlBCN-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20261015/202610152254.VdQcytWi-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610152254.VdQcytWi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610152202.xxgjlBCN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610152254.VdQcytWi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c: In function 'cxgb4_setup_debugfs':
->> drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:4365:32: error: 'clip_tbl_fops' undeclared (first use in this function); did you mean 'cctrl_tbl_fops'?
+>> drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:4365:18: error: use of undeclared identifier 'clip_tbl_fops'
     4365 |                 { "clip_tbl", &clip_tbl_fops, 0400, 0 },
          |                                ^~~~~~~~~~~~~
-         |                                cctrl_tbl_fops
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:4365:32: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:4390:5: error: invalid application of 'sizeof' to an incomplete type 'struct t4_linux_debugfs_entry[]'
+    4390 |                                 ARRAY_SIZE(cxgb4_debugfs_files));
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   2 errors generated.
 
 
-vim +4365 drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
+vim +/clip_tbl_fops +4365 drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
 
   4355	
   4356	int cxgb4_setup_debugfs(struct adapter *adap)
@@ -133,6 +137,12 @@ vim +4365 drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
   4382		if (IS_ERR_OR_NULL(adap->debugfs_root))
   4383			return -1;
   4384	
+  4385	#ifdef CONFIG_DEBUG_FS
+  4386		t4_setup_debugfs(adap);
+  4387	#endif
+  4388	
+  4389		cxgb4_add_debugfs_files(adap, cxgb4_debugfs_files,
+> 4390					ARRAY_SIZE(cxgb4_debugfs_files));
 
 --
 0-DAY CI Kernel Test Service
