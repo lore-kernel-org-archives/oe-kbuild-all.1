@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055F71CAA78
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 00:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DA19475
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 00:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792023702; cv=none; b=g9K5QiOLBKEnz3eEbI1OfFWTTQgITmazyFsq+BnEamAX7N6xaDbzUvxxc7TtDctF717eQVrpD00Yzy3Yd2gG7/XRSVlTirTTS6uzO74Ks6FHYPhOn+j2vjPkkn1wmAYvr0MInmVuAkXWFTI5VPQrxq5iA6xhTyb9xcRsERhu1Yg=
+	t=1792023898; cv=none; b=DfRTw9X97Xg3vwSC/Od7C6RKRkR58isVvigADW09sQ7QD0Ix8Yj2LNdf1nAfImQTkosdC9GoGr32nBlQY8zY2TsarrLmIvNReNv03I0e2ovv+JY45i7XaVKwgX/aW/WUDv33/vOk0KCatC9BICMnr4HHp/qyqx4Pu/Ve3ZGYdjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792023702; c=relaxed/simple;
-	bh=G6/lbJ1HiIjOGBE4m4BVWXI3ofDamwY2Vh8z6AoxKRU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TNkldDXWrABt2//xfsh13PmC9Vkad5ZxSEMU5c6PmYYYNM7qht3LoW/LXxheY24alH4xUwyPAqWX4n8fWN1UsNZS4s1n7sUCxKLCIZOSAzYuVCHYYEl0yB34Sm/+5zqvZN9S/7nj40O4GEKRF/HuU+nNSFJf8bCQAZgQVuSH6tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k4520rjB; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1792023898; c=relaxed/simple;
+	bh=n1HmAV0s/4WoK4lSuW3sVpvXJhXfcjjOE/qxqvbFsmI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Msxzx6Au0NajlTScWGSVRinvP27rEw6kfqaKdhYlOcE8lqyeqQBtqOi27NxurGxe1oo31ncZ0PDFE/FraehiYUYtGV/3xyjF23+4MyXKewEtc5W6LNWmDV0PIcoLilUtqnBBUP0FYlHB6fbR9JugYi7mRcOIdRlaUC1BmGedEas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FQg0ucG9; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k4520rjB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FQg0ucG9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792023700; x=1823559700;
+  t=1792023897; x=1823559897;
   h=date:from:to:cc:subject:message-id;
-  bh=G6/lbJ1HiIjOGBE4m4BVWXI3ofDamwY2Vh8z6AoxKRU=;
-  b=k4520rjBMTB85Ei9JMzUbuOIDJpRdbsJRu1wnG0aCGjzWpPg32SKb7HH
-   MQuilgRyQZ9nkUYF4Hm4NyIaL7yfZGOIzdu8yfF7yg458+UGndMA3wXzW
-   J4GeG3irjZs/qLogh5pKjc320qzsnCRoYKAD/y41r5l0IoitWaRZmLExK
-   HXdWfkcTytxWwnJXfhqa2KPvPpNGJiF2M5+foUcoaNqNuC6J0mF0URQJP
-   Wu/rWw+mSaYgc40Nn2prdUNWnOknbuvdridTHd7QOiGc9XhJIt3Qzh6a8
-   aB2n+RSx1AE789hg6iGSJSv+CNTyaNBg7SppT5XLRsgYQsWhGA+y9zL0E
-   g==;
-X-CSE-ConnectionGUID: BaOhFfk3RDuHGMTL5eYD2g==
-X-CSE-MsgGUID: gFBrZ8m6Q+OFxSKUJzcIJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="889454"
+  bh=n1HmAV0s/4WoK4lSuW3sVpvXJhXfcjjOE/qxqvbFsmI=;
+  b=FQg0ucG9Nv6oCYEdJPDgaBRZFcmAv9JKA23S7byV+UiAcUH70kQAt3V3
+   bvXTGSA5dWMnzsBYINTlL6HQiJJCDjNQDUuGYZFePdpD5jhmPq3iyylOt
+   X38o/iuit7ZeiEzFBJJWXaprTKQaVdHvmVrAJia5JMYlwvebVBAvLakwc
+   vnjblSc6BVgSe10AHg3FrsN+v0TeazYwXfhGAIJ0EekFrTzmdasqJmHX+
+   jso7XX+FOU8Ddl+0BwVEnLcyKWlRNm3QBc977sGE/LTY+yMJ8k4rWjEmA
+   XPfJ5HcSP2iXt6AHF5CCfRTdILhfgnvyBH5JWZfDcl26hmP/jlekrqjpX
+   w==;
+X-CSE-ConnectionGUID: 0SAhVe7QQT6ktJpAZ27Www==
+X-CSE-MsgGUID: nrx5RHAuTGeo2b4Tn5LmKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="791766"
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="889454"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 17:21:40 -0700
-X-CSE-ConnectionGUID: /SeBAKDHSfOdN9kfDcFLaA==
-X-CSE-MsgGUID: iVJHJyteTJCY2keExV6yEw==
+   d="scan'208";a="791766"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 17:24:56 -0700
+X-CSE-ConnectionGUID: RCDyENnkSp+qeUGXVuhTEQ==
+X-CSE-MsgGUID: cq2/eYxaRVyRwCsSDsTMXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1569853"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 14 Oct 2026 17:21:39 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+   d="scan'208";a="3398599"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa011.fm.intel.com with ESMTP; 14 Oct 2026 17:24:55 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xH9E0-00000000BSB-1YV9;
-	Thu, 15 Oct 2026 00:21:36 +0000
-Date: Thu, 15 Oct 2026 02:21:05 +0200
+	id 1xH9H9-00000000FQn-2zEr;
+	Thu, 15 Oct 2026 00:24:51 +0000
+Date: Thu, 15 Oct 2026 08:24:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-06 7/7] warning:
- redundant explicit link target
-Message-ID: <202610150221.Uae1ZMN6-lkp@intel.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Woodhouse <dwmw@amazon.co.uk>
+Subject: [dwmw2:spinpark-will 29/40] WARNING: modpost: vmlinux:
+ section mismatch in reference: arch_cpu_preserved_park_init+0x4c (section:
+ .text.cpu_preserved) -> trace_hardirqs_off (section: .text)
+Message-ID: <202610150817.8VZXcYha-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,37 +60,24 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-06
-head:   d463a34c5b280147355726f1188b49064527fa9c
-commit: acbdc23728b15c406133ca2e2cfe90ba377d61da [7/7] BACKPORT: FROMGIT: rust: sync: add const constructor for raw_spinlock_t
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261015/202610150221.Uae1ZMN6-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150221.Uae1ZMN6-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux spinpark-will
+head:   b105e7721006184fc170416343bb6676af249265
+commit: f815dea5c648409365bb42d1e903fc7c1976a4db [29/40] arm64: liveupdate: Add support for physical CPU preservation
+config: arm64-randconfig-1001-20261013 (https://download.01.org/0day-ci/archive/20261015/202610150817.8VZXcYha-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150817.8VZXcYha-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610150221.Uae1ZMN6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150817.8VZXcYha-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> warning: redundant explicit link target
-   --> rust/kernel/sync/lock/spinlock.rs:29:40
-   |
-   29 | /// instances is with the [`pin_init`](crate::pin_init) and [`new_spinlock`] macros.
-   |                            ----------  ^^^^^^^^^^^^^^^ explicit target is redundant
-   |                            |
-   |                            because label contains path that resolves to same destination
-   |
-   = note: when a link's destination is not specified,
-   the label is used to resolve intra-doc links
-   = note: `#[warn(rustdoc::redundant_explicit_links)]` on by default
-   help: remove explicit link target
-   |
-   29 - /// instances is with the [`pin_init`](crate::pin_init) and [`new_spinlock`] macros.
-   29 + /// instances is with the [`pin_init`] and [`new_spinlock`] macros.
-   |
+>> WARNING: modpost: vmlinux: section mismatch in reference: arch_cpu_preserved_park_init+0x4c (section: .text.cpu_preserved) -> trace_hardirqs_off (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: arch_cpu_preserved_park_finish+0x38 (section: .text.cpu_preserved) -> trace_hardirqs_off (section: .text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_stack_va+0x58 (section: .text.cpu_preserved) -> memstart_addr (section: .data..ro_after_init)
+WARNING: modpost: vmlinux: section mismatch in reference: cpu_preserved_stack_va+0x60 (section: .text.cpu_preserved) -> memstart_addr (section: .data..ro_after_init)
 
 --
 0-DAY CI Kernel Test Service
