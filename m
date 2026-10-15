@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3084E3D34B9;
-	Thu, 15 Oct 2026 05:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B27381B07
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 05:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792040875; cv=none; b=rITEm6HecF7M59FF/1Gwlk6gVtu8Tc7YaxBATEjXOeAbOBpayWP26xhuWVnR3QMbCMw99L9n8oamRc9mAlAl2yu7e97e9R/g+EaaV+mEhX4yg5tSNf0uYfAnEX2xgAeIcIjgEPB+7VdUbZHyhaWnGC3cqWjMZpdvvXKEdeW1yc0=
+	t=1792040936; cv=none; b=UgUr0Il9GODc9PJgtDV4NT7oEWxJRPX+OYRQNu3eT62H0vgUelZFeEI/jHpslmpEutGHwKe5yBtCMT4fGOwu3UJhF0ccFOM52RYmvT7SMWwupizMCkTO44q9P6RkP95kBCs9QEoySNBbFvI9vrBugQTNJ+SMjZteaMOuEqM/uJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792040875; c=relaxed/simple;
-	bh=GDkcSrZZLMPZxLwziNM3jSo8wJh7MM3T+70vE87ZBL4=;
+	s=arc-20240116; t=1792040936; c=relaxed/simple;
+	bh=97Vu4jpYp2aks4nbaPyPADJJAJoPLb1W/mjp/r2Niuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qookt6YkTZO3JvHkl1+HBJcQhcUDpENE3cT2xOisNpX0OGIcdrjjVjZEu9fhS+rjk5VlL/EeZxso2jqqnkExzgtyPgVx0lQ6Rrvf7Dg0isS/y7TP2jeDqcIkqreVPlkIOp+Rv6CD1gEOyFgfbMRVw26EJ5m3yQmvs+3OAVp2hNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=am4aUj5q; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=CfRPV9PabRvC3cFv8//wYIsLEP5P3uT1JT4h8YRo3exXaaDin/g+0ZNjpNoPn5tP7yzmTzkf7tknDGvuHuUG8F/GzkTDjq4oJ/tRtSXQxPLAD9ca+pcw/JG63rXgcalmlXFSF1fActf9H6+IJ120w49SVE5h0OakIwLko0bYs74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDsAs7Zq; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="am4aUj5q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDsAs7Zq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792040874; x=1823576874;
+  t=1792040934; x=1823576934;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GDkcSrZZLMPZxLwziNM3jSo8wJh7MM3T+70vE87ZBL4=;
-  b=am4aUj5qQ/aoNRJuI1WYedujcGgZX3k2Q6QXDHwC7TSvC8sawe5txxeA
-   oRC17zL5ctV3yOb6WGAHHB9/nHEQKJ+xU2guimt7CD+i+nmZvlL2LCamz
-   kDXzDEZ+hpIu0HtCkTa0wWZWgz/4ZheyjNhE71BsoTop2j57yyf01GEpX
-   Y1rCbKX/laEtPTC1bv+t0kpZ60m1cvYNdVybhpICdU/+mmF08wdrT0FA3
-   keo6VIvawDvLn4+lqNh51FiUrOVlcYwIEJE4aXmaph3YvOHDr00zCXKv3
-   sf8NZ0B4hZlBFSIpiKso0iWBIsWCDuTWzaAime0gyH2/C15fD/YbgBs/P
+  bh=97Vu4jpYp2aks4nbaPyPADJJAJoPLb1W/mjp/r2Niuo=;
+  b=gDsAs7Zqm8nJS526bla2ERKp/KUcU4mwWxu5awYHA5pT6WtD8UTA3yjO
+   0B7qAa/CJMUjVIaprCbdmREnE3goG6czJ5FOysOhFK/MukysZbY+2boil
+   UKeeFuWHdx+XgKO5YwH006N/W1H2eXR5dzN6NpQWvza6L6DpuOEXfiLh5
+   P25keYLEcx4vr8DUMuyv/irct9XqlFTWB6JuZUt36kqkgI/6haGdfsVLd
+   a/lWv/HMRkm8R1wjrJgrsNhjY41IvX7/RFJtjwBQ/8MI87Vbd1knPj1nc
+   PrMz4mC4CUgvq+6HoHbmRVmsz/dBh7CF7rKt2S0Cje/y5G7gB3GlVpFNj
    w==;
-X-CSE-ConnectionGUID: zqMRPzbRQVC1dE4WTjkhQw==
-X-CSE-MsgGUID: NbBb8B+LS+OLbF9C1+bK5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="705777"
+X-CSE-ConnectionGUID: QdB3da1sTiSSbfw0ODNaNA==
+X-CSE-MsgGUID: 3EryfblcSH2nAIS9DLD4EQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="705815"
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="705777"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 22:07:53 -0700
-X-CSE-ConnectionGUID: vWmQz1fcQdOEqrNQm9ZkVw==
-X-CSE-MsgGUID: pi78vQZ4TPmTkOcNhE/Opw==
+   d="scan'208";a="705815"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 22:08:52 -0700
+X-CSE-ConnectionGUID: ggnnewxAQhOvKlDMXWFanw==
+X-CSE-MsgGUID: t9OZU+hVS8q9thcdNllcrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="3360663"
+   d="scan'208";a="1518909"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 14 Oct 2026 22:07:47 -0700
+  by orviesa008.jf.intel.com with ESMTP; 14 Oct 2026 22:08:49 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHDgu-00000000FqN-09LI;
-	Thu, 15 Oct 2026 05:07:44 +0000
-Date: Thu, 15 Oct 2026 13:07:35 +0800
+	id 1xHDht-00000000FqR-1LPb;
+	Thu, 15 Oct 2026 05:08:45 +0000
+Date: Thu, 15 Oct 2026 13:07:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Li Zhe <lizhe.67@bytedance.com>, akpm@linux-foundation.org,
 	david@kernel.org, ljs@kernel.org, gourry@gourry.net,
@@ -56,12 +56,12 @@ To: Li Zhe <lizhe.67@bytedance.com>, akpm@linux-foundation.org,
 	juri.lelli@redhat.com, vincent.guittot@linaro.org,
 	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
 	vschneid@redhat.com, kprateek.nayak@amd.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, Li Zhe <lizhe.67@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Li Zhe <lizhe.67@bytedance.com>
 Subject: Re: [PATCH 5/6] sched/numa: do not feed tiering promotions into task
  placement stats
-Message-ID: <202610151319.1QoCU2Pd-lkp@intel.com>
+Message-ID: <202610151319.LxjGvN6y-lkp@intel.com>
 References: <20261014094347.99157-6-lizhe.67@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -87,21 +87,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Li-Zhe/sched-numa-clear-f
 base:   tip/sched/core
 patch link:    https://lore.kernel.org/r/20261014094347.99157-6-lizhe.67%40bytedance.com
 patch subject: [PATCH 5/6] sched/numa: do not feed tiering promotions into task placement stats
-config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20261015/202610151319.1QoCU2Pd-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151319.1QoCU2Pd-lkp@intel.com/reproduce)
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20261015/202610151319.LxjGvN6y-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151319.LxjGvN6y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610151319.1QoCU2Pd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610151319.LxjGvN6y-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/memory.c:6176:18: error: use of undeclared identifier 'LAST_CPUPID_ACCESS_TIME'
+   mm/memory.c: In function 'numa_migrate_check':
+>> mm/memory.c:6176:32: error: 'LAST_CPUPID_ACCESS_TIME' undeclared (first use in this function)
     6176 |                 *last_cpupid = LAST_CPUPID_ACCESS_TIME;
          |                                ^~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   mm/memory.c:6176:32: note: each undeclared identifier is reported only once for each function it appears in
 
 
 vim +/LAST_CPUPID_ACCESS_TIME +6176 mm/memory.c
