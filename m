@@ -1,74 +1,62 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492FC4A9D62
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 11:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C712249E5C9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 11:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792064852; cv=none; b=KSVEzErV2O0ny2vgkPmG8M0XFPfqoElZx6u11/7rVRfNQLE8LYIk9EQhCl2L5/6g8tXTVsn9dfUTlsiy0ujfU2DkE+m6KW4/bpZiB7SauZWxaVxdsK/CW00RgV9P25wTG5nILKGPHGpZkT79c0cYWnAOmhXbnAIytYCMtVRz7Ws=
+	t=1792065460; cv=none; b=rTVEae+R9OC6dtktEwbWoWAjcrAJ4iLHNVx+tHIIqngH+HzdLFP2TCexZk8OcfxGrqzCLM48RnhqL2AONNApN5zRbfoBJ5cblii2WUXuC62JEso1jN8tave8ngtO4iNmZxRvzC4M4trgfhnv/+4jQYcNgywC9SMWz84CKCLnDbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792064852; c=relaxed/simple;
-	bh=hKnILUVodrAmxeVcjruH7x3Ln3FMtujx9/LpiHRyIlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rLZaLkj92uo547hL0wcRHIx0vnYR/hbuTfy33IbgBZKZke53dzqmleu5EpIKjxwdPVgKV4UbuNlFbA9YNvx9mvBxwDFl7WW/9kxpWuaMRAXVxMGW3gsvRg7HTAjlKxmWNrIZ4V8Zj0wqUyoIcUmIp2CeIK1Hr4gzlCo3PUPsLaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMcKMegX; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792065460; c=relaxed/simple;
+	bh=qVoDELV7/wz8BFwL+CpDaC2qjwrEDHz3zBmCDRZt2h8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B7eeXlScYvA9c6n2Dtk8BOIlYZ/B8iCRK4G1z7jU6hZIwx/JOLRQB/aJhZ8FUts6UdPZbEot78BMuE0zhzOmk3g7L4PLElXz9y4WG+B3WW9470lfiu11Uk8t8xy7Lr8wKrTeRKOakAxVnLRo/5qm9CIEf9KUv5s37PVba7aK+7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KjE99vAy; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMcKMegX"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48c02782159so3175736f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 04:47:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792064849; x=1792669649; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=djQhsxU6gxCV+aecCcsn/9pb4e5+9XMSfoHaIYgtuco=;
-        b=aMcKMegX+T4ZABp8Xhx3S8MDvZY1jzrBJR0ocIwLYZ4+FeCAtn90QN6dVui8d8bikr
-         j7mMwndmqgK37faNdboHEaneOarJsqH/j7/aKJZDHgHB9dPbl8NkF2tSN9JPWn7IUBgq
-         9wgg62iVsIu2pX1UPTCX6IV7y6nqyhMtl72suntrB918a/+ig1TvFIhR4Oh3nFiSQAl6
-         YdWaMVtA5mb1hZWmZX4T5t307MZh6hzZE6TKjSsDwXQdfONHsHKRvWAvChCSrd3yU82M
-         71r/0gcWIAZ0Ft7e+5LaUb2oqlI+ldej14dUcJ0khuPlfYXbYsP9EL6mPcoJe2HnpIe9
-         b/ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792064849; x=1792669649;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=djQhsxU6gxCV+aecCcsn/9pb4e5+9XMSfoHaIYgtuco=;
-        b=zAu6vWgofxsQVXQRQSvR1kll0u06KNRQH3NJEx7tIY7wtNBLEY4uox/f4qHsSWwgMf
-         uhUKNy22dmZ8W1mlEqUGv4C6WNtMqowgB3vCWe07bxzYFt3C0npsYF2Vd0P9OPRrmVg1
-         xj8Pir832BBfuAqFJmYmOks0Qs6UV29sjhomwGrBT4bT/JPtyCDc4TDvaQfzCtcwAK/K
-         jqmkFkVS+1JMiWlmcvegxQXgX+CGfx5yCBYMTO0IK9jX+cF2uGFCQZJ35EG5IBRSZWmx
-         RN46T7n9De+8KtWX0fO0xVm6ClmH+Rc+8TVFnULst6SOLm6WDrhk4LTODQmlExFpQofb
-         sHog==
-X-Forwarded-Encrypted: i=1; AKwUvBxUggOx4WqgeDVj0wK5ByCDnaUTpkfnYlNfrylZcr2EJg1lyvZilAl29XIF4A4uZNQxKqH5tZz9RCnvax+y@lists.linux.dev
-X-Gm-Message-State: AFq9FYL0UIUf2+ppemkgqcw0ItKFCz/LUW2WFDz/8DRx6HY6a8VqqqbB
-	qxs71V6YGwheoub2t0aVCwX9JLiMzpnqtLoqjRUpDJvUEFx9XmudBAXF
-X-Gm-Gg: AYBFou3Zr8d+/XZLbZtWWOSBMINWHA1SaXx0nH58Dtv+UZoIys19S9ByrDvvdH3Xbdz
-	Em74gDmgMDzdogDhG9Gx37HC8eczm7H6EAO/NwwrgNvyGcX68L4yf+YguJ0Yj2lym/C8ZFXVNFC
-	GmOPSPRDC5OCqbNvEEKk0K4KV3e49o9XN/C+fGCeSiSiUIEwvhaDVNf/eYKPTud0Y0FWua/Fmvo
-	iYlKdC8A6vY2Q4YdGuMNPub/Be2xkFWPHl7YFjGc0KJCLebrO0Z4N1pXthvPKutvOYkEW3K3uYx
-	EKKFqP94wQShrhzltRLCKW1+krsOOFNyOzPA0kuMLRe6q1WwrkIgw0BelUR7d0Ivcc9Vw7A+MwP
-	jUQTBylaGM8fjmeUfNfjmdUgPA2qPZy33lPkHjymWcfgfwJcsRP6NIJGAFJ3VdAC1eL5hRr0olj
-	e0qhIpT59FzABsIbIYV1WvbYrMsTfvFRAY4fCfycQ9ZhG2LquKn5UwgSSFN6nfUsg/AzUcOsna0
-	j6ySQ==
-X-Received: by 2002:a05:6000:299c:10b0:48a:fb3e:d93c with SMTP id ffacd0b85a97d-48dba784b80mr26875621f8f.5.1792064849096;
-        Thu, 15 Oct 2026 04:47:29 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48df0f8f624sm6951474f8f.5.2026.10.15.04.47.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 04:47:28 -0700 (PDT)
-Date: Thu, 15 Oct 2026 14:47:24 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Subject: [linux-next:master 11195/15025]
- drivers/gpu/drm/msm/dp/dp_display.c:1141 msm_dp_ioremap_optional() error: we
- previously assumed 'len' could be null (see line 1132)
-Message-ID: <202610080603.9zx0Gqal-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KjE99vAy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792065459; x=1823601459;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qVoDELV7/wz8BFwL+CpDaC2qjwrEDHz3zBmCDRZt2h8=;
+  b=KjE99vAyOHi2XY/ss7HacB/LjH+WwRpHIfjN272kTmZFBaJ4JjctZAaD
+   IuZJwqnuE8xaWdY1x0c3adR1iRKF+Xl2+5ustrVjL0reymE/xWVpTJnkw
+   jmCMGSsqBJYzG9zG2qGtVLgn8WXCmX8+hPwE6BhyQOpSW9sdEqzmDhuCG
+   +z7YE30Z7XbQe+jZoMbLGBfgqJB27ulcQMbGxucSq3PJHt/3RygeuEav5
+   85Cmjvzgm4Y1X+dG28uSOHEq5WHQ82+aC9U3cvunVYGcS6WqK2hO4rr9y
+   i4Pscc6xtTvMJzp74kVq/EP7h7BED1dPeoqqUNChGh52N4IljzTieVBu7
+   Q==;
+X-CSE-ConnectionGUID: PP3WEtWWSOWsic3csp/nQA==
+X-CSE-MsgGUID: f2auzRejT0i5NxQTINr6+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="720763"
+X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
+   d="scan'208";a="720763"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 04:57:38 -0700
+X-CSE-ConnectionGUID: ZFS2XrjHSjGGzkGvnuM90w==
+X-CSE-MsgGUID: yJTBZwoWShSGaA4Y95wiNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
+   d="scan'208";a="1757220"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 15 Oct 2026 04:57:36 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xHK5V-00000000GOY-3ngc;
+	Thu, 15 Oct 2026 11:57:33 +0000
+Date: Thu, 15 Oct 2026 19:56:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pablo Neira Ayuso <pablo@netfilter.org>,
+	netfilter-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, julius@bairaktaris.de,
+	ericwouds@gmail.com, razor@blackwall.org
+Subject: Re: [PATCH nf-next] netfilter: flowtable: teardown flow reaching
+ bridge port on fdb updates
+Message-ID: <202610151944.1oSb04pC-lkp@intel.com>
+References: <20261014210256.1573072-1-pablo@netfilter.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,52 +65,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20261014210256.1573072-1-pablo@netfilter.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b018686719706a781c45a874ed51374a2dc4b767
-commit: 90bc95ebb04d58015f07b52f46680ab2ef664ccd [11195/15025] drm/msm/dp: add support for programming p1/p2/p3 register blocks
-config: arm-randconfig-r2200-20261007 (https://download.01.org/0day-ci/archive/20261008/202610080603.9zx0Gqal-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
-smatch: v0.5.0-9187-g5189e3fb
+Hi Pablo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on nf-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-flowtable-teardown-flow-reaching-bridge-port-on-fdb-updates/20261014-230256
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git main
+patch link:    https://lore.kernel.org/r/20261014210256.1573072-1-pablo%40netfilter.org
+patch subject: [PATCH nf-next] netfilter: flowtable: teardown flow reaching bridge port on fdb updates
+config: nios2-randconfig-1000-20261015 (https://download.01.org/0day-ci/archive/20261015/202610151944.1oSb04pC-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151944.1oSb04pC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610080603.9zx0Gqal-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610151944.1oSb04pC-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/msm/dp/dp_display.c:1141 msm_dp_ioremap_optional() error: we previously assumed 'len' could be null (see line 1132)
+All errors (new ones prefixed by >>):
 
-vim +/len +1141 drivers/gpu/drm/msm/dp/dp_display.c
+   In file included from ./arch/nios2/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:369,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from net/bridge/br_nf_utils.c:2:
+   net/bridge/br_nf_utils.c: In function 'nf_br_fdb_valid_dst':
+>> include/asm-generic/rwonce.h:48:1: error: incompatible types when assigning to type 'const struct net_bridge_port *' from type 'struct net_bridge_dst'
+      48 | ({                                                                      \
+         | ^
+   net/bridge/br_nf_utils.c:32:15: note: in expansion of macro 'READ_ONCE'
+      32 |         dst = READ_ONCE(f->dst);
+         |               ^~~~~~~~~
 
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1126  static void __iomem *msm_dp_ioremap_optional(struct platform_device *pdev,
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1127  					     int idx, size_t *len)
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1128  {
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1129  	struct resource *res;
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1130  	void __iomem *base;
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1131  
-90bc95ebb04d58 Abhinav Kumar    2026-09-29 @1132  	if (len)
 
-len checked here
+vim +48 include/asm-generic/rwonce.h
 
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1133  		*len = 0;
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1134  
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1135  	res = platform_get_resource(pdev, IORESOURCE_MEM, idx);
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1136  	if (!res)
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1137  		return NULL;
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1138  
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1139  	base = devm_ioremap_resource(&pdev->dev, res);
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1140  	if (!IS_ERR(base))
-90bc95ebb04d58 Abhinav Kumar    2026-09-29 @1141  		*len = resource_size(res);
-
-but not here.
-
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1142  
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1143  	return base;
-90bc95ebb04d58 Abhinav Kumar    2026-09-29  1144  }
+e506ea451254ab Will Deacon 2019-10-15  46  
+e506ea451254ab Will Deacon 2019-10-15  47  #define READ_ONCE(x)							\
+e506ea451254ab Will Deacon 2019-10-15 @48  ({									\
+e506ea451254ab Will Deacon 2019-10-15  49  	compiletime_assert_rwonce_type(x);				\
+3c9184109e78ea Will Deacon 2019-10-30  50  	__READ_ONCE(x);							\
+e506ea451254ab Will Deacon 2019-10-15  51  })
+e506ea451254ab Will Deacon 2019-10-15  52  
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
