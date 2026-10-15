@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F903BCD37
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 09:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDC750C2B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 09:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792055012; cv=none; b=T+lhusmmqUIryYLGGsxzGS+WbtPYacoDWqQ82P9I+5zrKSN2R0HsRA2kBtQS4UEyWWQ0fn3jEoZJJkPAspSUY5pKs9f7u2BIiqKdykenvJ8cAMRoVGKvUIvuHjiEqKOe4NxqO/z0KcvZc85H2rJYfx1D452HWQB/RTLLNyrbVFE=
+	t=1792057264; cv=none; b=YmLl4aHqo/29dbcq1GB7QLVfWag7pVh1PBn4yyr0tD0ouU2wvNp5A7EJdlvVV7SgL+YLQCkfFZ/2/FkvjwLnCmANkhL82bEuiPGCOoF9BdmhEADyk6GuypZNOlblRKcQXaYduTUlFmWpV2Vcl2c6YIu9GaOIGzeoDORQoKCcbhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792055012; c=relaxed/simple;
-	bh=xYna53P2iCJvDvTGf/+dXdx3CV16aj7+LTwxMeTlGZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gmUavyalnPuixd0JJiLWOEaRUHF9nDOPN+8a5CPg2azBwb/m6hMkyqYo0OMQyXLuS1KVWrVpOM+TJEcXPBUqp7haCv6RcPLef5HwgUJqDSjYijsdD957YIyzHTGEo0SVKH183QqiOBLTOPWNGqAbMjIrv2V9TLHJ1vCzya81h7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MuDs8ppO; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792057264; c=relaxed/simple;
+	bh=qya3pHGw35ik9UP8wd/Leo+I9K3qLx1EmPc93pjqVMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DhM9UXOM+CyVKnODpvUzf6GRlYnut7U2B4k0gB+sJxQa1HQv0A19s/4euDqWwOFYYsl6nEtBLcy08F6UgftgieW7vGdlDMa4S+HKddc25/fcympvH31BZQP/xnMrl8jyG/9loM9e3tn176vStGg8ryFeBYXCwjDdX1Oy12WUUPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PBjVe0tK; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MuDs8ppO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792055009; x=1823591009;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xYna53P2iCJvDvTGf/+dXdx3CV16aj7+LTwxMeTlGZc=;
-  b=MuDs8ppO8mYwoZKcYn+6rhaX9v292/M0eW6G5lrLLSDE18DmleXNuPYV
-   RGdn2v91GkeLgVKsG0gbNiyGc5Bi4LQWCMsNxVjpbuvkVhGiXb/KPVN3Q
-   y/uEBOQJ8d8lQEh+3rcb0JVS6FKGob9hV80108Y9YKWz2bFDv5rzmD0fq
-   PHYNT57O3bIYQdjFuNAMpD5V6UjnwQfDlzNbFiI69rhpDjSVmFeJBb0Sd
-   YKv5y3G2UwvHQUulbSf8+CUywFZfmGvAwLzVRhUrj3KBAAwwo1uir5zh/
-   3xeCaQWv6zqfd8w+xjb5elL1MBvwjOUIsm/Uo24o/Uo8BrDsTNkWJot3g
-   A==;
-X-CSE-ConnectionGUID: AKvLke9FSQyqhBcJre9+hw==
-X-CSE-MsgGUID: 5SnPswCNTBelejUZWr8t+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="704155"
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="704155"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 02:03:29 -0700
-X-CSE-ConnectionGUID: +HFrD/ryQCagEx6lIiv27A==
-X-CSE-MsgGUID: Xuxe9gFPTr210dbQdayDcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,159,1787036400"; 
-   d="scan'208";a="1604366"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 15 Oct 2026 02:03:27 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xHHMy-00000000BfP-2ziT;
-	Thu, 15 Oct 2026 09:03:24 +0000
-Date: Thu, 15 Oct 2026 11:02:44 +0200
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/kbuild-error-propagation 3/3] WARNING:
- modpost: vmlinux: EXPORT symbol 'memremap' version generation failed, symbol
- will not be versioned.
-Message-ID: <202610151001.3yxJcs0c-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PBjVe0tK"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48c5358fc28so158870f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 02:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792057255; x=1792662055; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KNk1SaOvuSYhDSZZfpXurMl+B7lfSorI/vOzw7u0IwY=;
+        b=PBjVe0tKVMTW7DRm0kIO3bBl37STavTSuDQCZfC9o344dhdAxXv4Exyvr44VGgFPd5
+         ySJq4BKPeCEvEoHan0R3x5hQEEjww8DkAuMwOIOjELKoh9Nkx6UoWkz78Zkm3NVeXWb6
+         rFhZuuK29aSpWrH70dsE7GcZsKZY3NHPy/ltweGBtbzV5M0uxovNbttSUQahdpeBWToU
+         6obdnM2XoPHgLmrCQjd+AYvI8nWXXb6qpuMewSWI7X/CWneO4xE8vKFmlyAEIUHhnMXs
+         O5fzcuyKIsZHTEgP0HW8mQtWfwJpboDQKdQE4OWIR1w1/ZN5PX2ogxGLyxrpLYybyl1l
+         0IXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792057255; x=1792662055;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KNk1SaOvuSYhDSZZfpXurMl+B7lfSorI/vOzw7u0IwY=;
+        b=tDAsoEcsfmydLbs7/8a2ee3sSDUaZF8pbbasYtaF02Gfu4ciTCNxSaBtJkd5Yriv+3
+         KTl9K5/Q/KcBkcFBXsMW/ZX7kKEPRP/yl95cVsx0RZNpuAfxfKfRMb99qOdxcnCMokl+
+         vFvBrxrtO0STvTJGKgz9YGDlXy8G3klz6Rj6z51KHWvkTvkqpv58KllpFZdEzScKZW1d
+         TGw8eySi2BABWreN31iWYkURqFFSg+K68K+qLjYaqJCaB4P6IeTzlSCsvW3Y1EgdMyIA
+         DefgvJEcFd7V9iD6R8QFnjrmGMFwQ/b3EqyQ1w17D2tHnF6nx8Eu8LfLcvMUaRC3QKPF
+         AVhg==
+X-Forwarded-Encrypted: i=1; AKwUvBzu8UB5unlseutO8guUuYBTkIM4th9GnEO3YNMnoNthWiuU2X7IuaO/mWoSYwWyXHXeerUMo7MD1vfTA+UJ@lists.linux.dev
+X-Gm-Message-State: AFq9FYLTZj2JW5r3PQKftvUMqVClqV93luJ13nkVTv7t0gkh5BHPGmgk
+	JspvD70PwRISXhwGdmyLJ58jtyiSj2+Erknh7tX4A7ICyqP+M+xet5vb
+X-Gm-Gg: AYBFou22fKUYanMskOvpTk+eO5sinMcgfnTh3NumoH6CVa6W+piMuQ2D18dr/fX7kuj
+	bdqhYCO/hLeurRL9Wl3Z7WLXDMw1nSc1WZ3FHmB6qY7S1R4MtU/pby0glUNHb1zL7WvwGiYf1O7
+	+Ear7zs4llY3WPKZdIJR8otKylX0Ihu4PX7BgosnJyUOTIzyh1zUSIwnwLqqHLqfREflNkym++n
+	3vlrHn7LRmb4/b0Y/VU/Hq0ttVan/wmkFdsmQJzq0u7Tj4/6SJkBj0CituZh06QFlpRBq47KMNX
+	jhziHZN4/t8frgiy+K2Rvdye3N1rh1n2H2r9WvG2YvxkNB/x3JNr94u2ssatB8SmltDiV2mfEPm
+	hN+WQPsSyarPsz7TQUlOZ1lPGd9y78wzcZQCUvobQQEjlxKsuJN+Ph1Tj7sXQeZJ2UPnLv5/tnU
+	ANtg+OMRQbfcguecbaSq7uJxhjzJYw1yrILRIuADxY6MwVFRLPnKfXok+TT2PSKPNvFzY=
+X-Received: by 2002:a5d:6402:0:b0:48c:7f18:c85e with SMTP id ffacd0b85a97d-48dbace9c60mr26369312f8f.45.1792057254369;
+        Thu, 15 Oct 2026 02:40:54 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ac5265sm18513411f8f.41.2026.10.15.02.40.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 02:40:53 -0700 (PDT)
+Date: Thu, 15 Oct 2026 12:40:49 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jeff Johnson <jjohnson@kernel.org>, ath12k@lists.infradead.org
+Subject: [ath:ath-next 6/34] net/wireless/nl80211.c:20114 nl80211_pre_doit()
+ error: 'wdev' dereferencing possible ERR_PTR()
+Message-ID: <202610140243.w1Zrwq4k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,437 +73,198 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kbuild-error-propagation
-head:   4243eb1d190a56f570d636ae78f64714b61d39f4
-commit: 4243eb1d190a56f570d636ae78f64714b61d39f4 [3/3] kbuild: try to enable set -e pipefail for commands
-config: x86_64-randconfig-2200-20261014 (https://download.01.org/0day-ci/archive/20261015/202610151001.3yxJcs0c-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+head:   cd026e68fdbf88b9cc522b76c7a9d92c9a41f709
+commit: 13c20e8be3278e54f4758941998a3ee746644d8d [6/34] wifi: nl80211: prepare for unlocked wdev-only ops
+config: sparc-randconfig-r2200-20261013 (https://download.01.org/0day-ci/archive/20261014/202610140243.w1Zrwq4k-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.3.0
 smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151001.3yxJcs0c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610151001.3yxJcs0c-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610140243.w1Zrwq4k-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+New smatch warnings:
+net/wireless/nl80211.c:20114 nl80211_pre_doit() error: 'wdev' dereferencing possible ERR_PTR()
 
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_alloc_noncontiguous' version generation failed, symbol will not be versioned.
-Is 'dma_alloc_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_free_noncontiguous' version generation failed, symbol will not be versioned.
-Is 'dma_free_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_vmap_noncontiguous' version generation failed, symbol will not be versioned.
-Is 'dma_vmap_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_vunmap_noncontiguous' version generation failed, symbol will not be versioned.
-Is 'dma_vunmap_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_mmap_noncontiguous' version generation failed, symbol will not be versioned.
-Is 'dma_mmap_noncontiguous' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_set_mask' version generation failed, symbol will not be versioned.
-Is 'dma_set_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_set_coherent_mask' version generation failed, symbol will not be versioned.
-Is 'dma_set_coherent_mask' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_max_mapping_size' version generation failed, symbol will not be versioned.
-Is 'dma_max_mapping_size' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dma_opt_mapping_size' version generation failed, symbol will not be versioned.
-Is 'dma_opt_mapping_size' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'sys_tz' version generation failed, symbol will not be versioned.
-Is 'sys_tz' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'ns_to_kernel_old_timeval' version generation failed, symbol will not be versioned.
-Is 'ns_to_kernel_old_timeval' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'set_normalized_timespec64' version generation failed, symbol will not be versioned.
-Is 'set_normalized_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'ns_to_timespec64' version generation failed, symbol will not be versioned.
-Is 'ns_to_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__msecs_to_jiffies' version generation failed, symbol will not be versioned.
-Is '__msecs_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__usecs_to_jiffies' version generation failed, symbol will not be versioned.
-Is '__usecs_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'timespec64_to_jiffies' version generation failed, symbol will not be versioned.
-Is 'timespec64_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'jiffies_to_timespec64' version generation failed, symbol will not be versioned.
-Is 'jiffies_to_timespec64' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'jiffies_to_clock_t' version generation failed, symbol will not be versioned.
-Is 'jiffies_to_clock_t' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'clock_t_to_jiffies' version generation failed, symbol will not be versioned.
-Is 'clock_t_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'nsecs_to_jiffies' version generation failed, symbol will not be versioned.
-Is 'nsecs_to_jiffies' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_print_flags_seq' version generation failed, symbol will not be versioned.
-Is 'trace_print_flags_seq' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_print_symbols_seq' version generation failed, symbol will not be versioned.
-Is 'trace_print_symbols_seq' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_print_hex_seq' version generation failed, symbol will not be versioned.
-Is 'trace_print_hex_seq' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_raw_output_prep' version generation failed, symbol will not be versioned.
-Is 'trace_raw_output_prep' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_event_printf' version generation failed, symbol will not be versioned.
-Is 'trace_event_printf' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_output_call' version generation failed, symbol will not be versioned.
-Is 'trace_output_call' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__trace_bprintk' version generation failed, symbol will not be versioned.
-Is '__trace_bprintk' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__trace_printk' version generation failed, symbol will not be versioned.
-Is '__trace_printk' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__trace_puts' version generation failed, symbol will not be versioned.
-Is '__trace_puts' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__trace_bputs' version generation failed, symbol will not be versioned.
-Is '__trace_bputs' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_array_printk' version generation failed, symbol will not be versioned.
-Is 'trace_array_printk' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_array_init_printk' version generation failed, symbol will not be versioned.
-Is 'trace_array_init_printk' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_event_raw_init' version generation failed, symbol will not be versioned.
-Is 'trace_event_raw_init' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_event_buffer_reserve' version generation failed, symbol will not be versioned.
-Is 'trace_event_buffer_reserve' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_event_reg' version generation failed, symbol will not be versioned.
-Is 'trace_event_reg' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'trace_array_set_clr_event' version generation failed, symbol will not be versioned.
-Is 'trace_array_set_clr_event' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'bpf_stats_enabled_key' version generation failed, symbol will not be versioned.
-Is 'bpf_stats_enabled_key' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__tracepoint_xdp_exception' version generation failed, symbol will not be versioned.
-Is '__tracepoint_xdp_exception' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__SCK__tp_func_xdp_exception' version generation failed, symbol will not be versioned.
-Is '__SCK__tp_func_xdp_exception' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__SCT__tp_func_xdp_exception' version generation failed, symbol will not be versioned.
-Is '__SCT__tp_func_xdp_exception' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'perf_event_update_userpage' version generation failed, symbol will not be versioned.
-Is 'perf_event_update_userpage' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'perf_trace_run_bpf_submit' version generation failed, symbol will not be versioned.
-Is 'perf_trace_run_bpf_submit' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'perf_pmu_register' version generation failed, symbol will not be versioned.
-Is 'perf_pmu_register' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'perf_pmu_unregister' version generation failed, symbol will not be versioned.
-Is 'perf_pmu_unregister' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'perf_pmu_migrate_context' version generation failed, symbol will not be versioned.
-Is 'perf_pmu_migrate_context' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'perf_event_sysfs_show' version generation failed, symbol will not be versioned.
-Is 'perf_event_sysfs_show' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'static_key_count' version generation failed, symbol will not be versioned.
-Is 'static_key_count' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'static_key_slow_inc' version generation failed, symbol will not be versioned.
-Is 'static_key_slow_inc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'static_key_enable' version generation failed, symbol will not be versioned.
-Is 'static_key_enable' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'static_key_slow_dec' version generation failed, symbol will not be versioned.
-Is 'static_key_slow_dec' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'memremap' version generation failed, symbol will not be versioned.
-Is 'memremap' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'memunmap' version generation failed, symbol will not be versioned.
-Is 'memunmap' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'devm_memremap' version generation failed, symbol will not be versioned.
-Is 'devm_memremap' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'devm_memunmap' version generation failed, symbol will not be versioned.
-Is 'devm_memunmap' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_check_errors' version generation failed, symbol will not be versioned.
-Is 'filemap_check_errors' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_fdatawrite_range' version generation failed, symbol will not be versioned.
-Is 'filemap_fdatawrite_range' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_fdatawrite' version generation failed, symbol will not be versioned.
-Is 'filemap_fdatawrite' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_flush' version generation failed, symbol will not be versioned.
-Is 'filemap_flush' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_flush_nr' version generation failed, symbol will not be versioned.
-Is 'filemap_flush_nr' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_range_has_page' version generation failed, symbol will not be versioned.
-Is 'filemap_range_has_page' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_fdatawait_range' version generation failed, symbol will not be versioned.
-Is 'filemap_fdatawait_range' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_fdatawait_keep_errors' version generation failed, symbol will not be versioned.
-Is 'filemap_fdatawait_keep_errors' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_range_has_writeback' version generation failed, symbol will not be versioned.
-Is 'filemap_range_has_writeback' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_write_and_wait_range' version generation failed, symbol will not be versioned.
-Is 'filemap_write_and_wait_range' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__filemap_set_wb_err' version generation failed, symbol will not be versioned.
-Is '__filemap_set_wb_err' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'file_check_and_advance_wb_err' version generation failed, symbol will not be versioned.
-Is 'file_check_and_advance_wb_err' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'file_write_and_wait_range' version generation failed, symbol will not be versioned.
-Is 'file_write_and_wait_range' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_add_folio' version generation failed, symbol will not be versioned.
-Is 'filemap_add_folio' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_invalidate_lock_two' version generation failed, symbol will not be versioned.
-Is 'filemap_invalidate_lock_two' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_invalidate_unlock_two' version generation failed, symbol will not be versioned.
-Is 'filemap_invalidate_unlock_two' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'folio_wait_bit' version generation failed, symbol will not be versioned.
-Is 'folio_wait_bit' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'folio_unlock' version generation failed, symbol will not be versioned.
-Is 'folio_unlock' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'folio_end_read' version generation failed, symbol will not be versioned.
-Is 'folio_end_read' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'folio_end_writeback' version generation failed, symbol will not be versioned.
-Is 'folio_end_writeback' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__folio_lock' version generation failed, symbol will not be versioned.
-Is '__folio_lock' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'page_cache_next_miss' version generation failed, symbol will not be versioned.
-Is 'page_cache_next_miss' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__filemap_get_folio_mpol' version generation failed, symbol will not be versioned.
-Is '__filemap_get_folio_mpol' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_get_folios' version generation failed, symbol will not be versioned.
-Is 'filemap_get_folios' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_get_folios_contig' version generation failed, symbol will not be versioned.
-Is 'filemap_get_folios_contig' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_get_folios_tag' version generation failed, symbol will not be versioned.
-Is 'filemap_get_folios_tag' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_read' version generation failed, symbol will not be versioned.
-Is 'filemap_read' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kiocb_write_and_wait' version generation failed, symbol will not be versioned.
-Is 'kiocb_write_and_wait' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_file_read_iter' version generation failed, symbol will not be versioned.
-Is 'generic_file_read_iter' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_splice_read' version generation failed, symbol will not be versioned.
-Is 'filemap_splice_read' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_fault' version generation failed, symbol will not be versioned.
-Is 'filemap_fault' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_map_pages' version generation failed, symbol will not be versioned.
-Is 'filemap_map_pages' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_page_mkwrite' version generation failed, symbol will not be versioned.
-Is 'filemap_page_mkwrite' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_file_mmap_prepare' version generation failed, symbol will not be versioned.
-Is 'generic_file_mmap_prepare' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'read_cache_folio' version generation failed, symbol will not be versioned.
-Is 'read_cache_folio' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'read_cache_page' version generation failed, symbol will not be versioned.
-Is 'read_cache_page' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'read_cache_page_gfp' version generation failed, symbol will not be versioned.
-Is 'read_cache_page_gfp' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_file_write_iter' version generation failed, symbol will not be versioned.
-Is 'generic_file_write_iter' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_release_folio' version generation failed, symbol will not be versioned.
-Is 'filemap_release_folio' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_invalidate_inode' version generation failed, symbol will not be versioned.
-Is 'filemap_invalidate_inode' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'register_oom_notifier' version generation failed, symbol will not be versioned.
-Is 'register_oom_notifier' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'unregister_oom_notifier' version generation failed, symbol will not be versioned.
-Is 'unregister_oom_notifier' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'balance_dirty_pages_ratelimited_flags' version generation failed, symbol will not be versioned.
-Is 'balance_dirty_pages_ratelimited_flags' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'balance_dirty_pages_ratelimited' version generation failed, symbol will not be versioned.
-Is 'balance_dirty_pages_ratelimited' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'tag_pages_for_writeback' version generation failed, symbol will not be versioned.
-Is 'tag_pages_for_writeback' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'writeback_iter' version generation failed, symbol will not be versioned.
-Is 'writeback_iter' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'noop_dirty_folio' version generation failed, symbol will not be versioned.
-Is 'noop_dirty_folio' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filemap_dirty_folio' version generation failed, symbol will not be versioned.
-Is 'filemap_dirty_folio' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'folio_redirty_for_writepage' version generation failed, symbol will not be versioned.
-Is 'folio_redirty_for_writepage' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'folio_mark_dirty' version generation failed, symbol will not be versioned.
---
-WARNING: modpost: vmlinux: EXPORT symbol 'zs_pool_stats' version generation failed, symbol will not be versioned.
-Is 'zs_pool_stats' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'zs_create_pool' version generation failed, symbol will not be versioned.
-Is 'zs_create_pool' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'zs_destroy_pool' version generation failed, symbol will not be versioned.
-Is 'zs_destroy_pool' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__page_ref_mod' version generation failed, symbol will not be versioned.
-Is '__page_ref_mod' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__tracepoint_page_ref_mod' version generation failed, symbol will not be versioned.
-Is '__tracepoint_page_ref_mod' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__page_ref_mod_and_test' version generation failed, symbol will not be versioned.
-Is '__page_ref_mod_and_test' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__tracepoint_page_ref_mod_and_test' version generation failed, symbol will not be versioned.
-Is '__tracepoint_page_ref_mod_and_test' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'validate_usercopy_range' version generation failed, symbol will not be versioned.
-Is 'validate_usercopy_range' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__check_object_size' version generation failed, symbol will not be versioned.
-Is '__check_object_size' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_truncate' version generation failed, symbol will not be versioned.
-Is 'vfs_truncate' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_fallocate' version generation failed, symbol will not be versioned.
-Is 'vfs_fallocate' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'finish_open' version generation failed, symbol will not be versioned.
-Is 'finish_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'finish_no_open' version generation failed, symbol will not be versioned.
-Is 'finish_no_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'dentry_open' version generation failed, symbol will not be versioned.
-Is 'dentry_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kernel_file_open' version generation failed, symbol will not be versioned.
-Is 'kernel_file_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'filp_open' version generation failed, symbol will not be versioned.
-Is 'filp_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_file_open' version generation failed, symbol will not be versioned.
-Is 'generic_file_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'nonseekable_open' version generation failed, symbol will not be versioned.
-Is 'nonseekable_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'stream_open' version generation failed, symbol will not be versioned.
-Is 'stream_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_setpos' version generation failed, symbol will not be versioned.
-Is 'vfs_setpos' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_file_llseek_size' version generation failed, symbol will not be versioned.
-Is 'generic_file_llseek_size' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_file_llseek' version generation failed, symbol will not be versioned.
-Is 'generic_file_llseek' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fixed_size_llseek' version generation failed, symbol will not be versioned.
-Is 'fixed_size_llseek' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'no_seek_end_llseek' version generation failed, symbol will not be versioned.
-Is 'no_seek_end_llseek' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'noop_llseek' version generation failed, symbol will not be versioned.
-Is 'noop_llseek' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'default_llseek' version generation failed, symbol will not be versioned.
-Is 'default_llseek' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_llseek' version generation failed, symbol will not be versioned.
-Is 'vfs_llseek' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'rw_verify_area' version generation failed, symbol will not be versioned.
-Is 'rw_verify_area' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kernel_write' version generation failed, symbol will not be versioned.
-Is 'kernel_write' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_iocb_iter_read' version generation failed, symbol will not be versioned.
-Is 'vfs_iocb_iter_read' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_iocb_iter_write' version generation failed, symbol will not be versioned.
-Is 'vfs_iocb_iter_write' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_write_check_limits' version generation failed, symbol will not be versioned.
-Is 'generic_write_check_limits' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_write_checks_count' version generation failed, symbol will not be versioned.
-Is 'generic_write_checks_count' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_write_checks' version generation failed, symbol will not be versioned.
-Is 'generic_write_checks' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_atomic_write_valid' version generation failed, symbol will not be versioned.
-Is 'generic_atomic_write_valid' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'register_chrdev_region' version generation failed, symbol will not be versioned.
-Is 'register_chrdev_region' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'unregister_chrdev_region' version generation failed, symbol will not be versioned.
-Is 'unregister_chrdev_region' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'alloc_chrdev_region' version generation failed, symbol will not be versioned.
-Is 'alloc_chrdev_region' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cdev_init' version generation failed, symbol will not be versioned.
-Is 'cdev_init' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cdev_alloc' version generation failed, symbol will not be versioned.
-Is 'cdev_alloc' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cdev_del' version generation failed, symbol will not be versioned.
-Is 'cdev_del' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cdev_add' version generation failed, symbol will not be versioned.
-Is 'cdev_add' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cdev_set_parent' version generation failed, symbol will not be versioned.
-Is 'cdev_set_parent' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cdev_device_add' version generation failed, symbol will not be versioned.
-Is 'cdev_device_add' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'cdev_device_del' version generation failed, symbol will not be versioned.
-Is 'cdev_device_del' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__register_chrdev' version generation failed, symbol will not be versioned.
-Is '__register_chrdev' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol '__unregister_chrdev' version generation failed, symbol will not be versioned.
-Is '__unregister_chrdev' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fiemap_fill_next_extent' version generation failed, symbol will not be versioned.
-Is 'fiemap_fill_next_extent' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fiemap_prep' version generation failed, symbol will not be versioned.
-Is 'fiemap_prep' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'compat_ptr_ioctl' version generation failed, symbol will not be versioned.
-Is 'compat_ptr_ioctl' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'make_bad_inode' version generation failed, symbol will not be versioned.
-Is 'make_bad_inode' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'is_bad_inode' version generation failed, symbol will not be versioned.
-Is 'is_bad_inode' prototyped in <asm/asm-prototypes.h>?
->> WARNING: modpost: vmlinux: EXPORT symbol 'iget_failed' version generation failed, symbol will not be versioned.
-Is 'iget_failed' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'get_unused_fd_flags' version generation failed, symbol will not be versioned.
-Is 'get_unused_fd_flags' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'put_unused_fd' version generation failed, symbol will not be versioned.
-Is 'put_unused_fd' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fd_install' version generation failed, symbol will not be versioned.
-Is 'fd_install' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fget' version generation failed, symbol will not be versioned.
-Is 'fget' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fdget' version generation failed, symbol will not be versioned.
-Is 'fdget' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'register_filesystem' version generation failed, symbol will not be versioned.
-Is 'register_filesystem' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'unregister_filesystem' version generation failed, symbol will not be versioned.
-Is 'unregister_filesystem' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fs_kobj' version generation failed, symbol will not be versioned.
-Is 'fs_kobj' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mnt_want_write' version generation failed, symbol will not be versioned.
-Is 'mnt_want_write' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mnt_want_write_file' version generation failed, symbol will not be versioned.
-Is 'mnt_want_write_file' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mnt_drop_write' version generation failed, symbol will not be versioned.
-Is 'mnt_drop_write' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mnt_drop_write_file' version generation failed, symbol will not be versioned.
-Is 'mnt_drop_write_file' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_create_mount' version generation failed, symbol will not be versioned.
-Is 'vfs_create_mount' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'fc_mount' version generation failed, symbol will not be versioned.
-Is 'fc_mount' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mntput' version generation failed, symbol will not be versioned.
-Is 'mntput' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mntget' version generation failed, symbol will not be versioned.
-Is 'mntget' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mnt_set_expiry' version generation failed, symbol will not be versioned.
-Is 'mnt_set_expiry' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mark_mounts_for_expiry' version generation failed, symbol will not be versioned.
-Is 'mark_mounts_for_expiry' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'mount_subtree' version generation failed, symbol will not be versioned.
-Is 'mount_subtree' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kern_mount' version generation failed, symbol will not be versioned.
-Is 'kern_mount' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kern_unmount' version generation failed, symbol will not be versioned.
-Is 'kern_unmount' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_setxattr' version generation failed, symbol will not be versioned.
-Is 'vfs_setxattr' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_getxattr' version generation failed, symbol will not be versioned.
-Is 'vfs_getxattr' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'vfs_removexattr' version generation failed, symbol will not be versioned.
-Is 'vfs_removexattr' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_listxattr' version generation failed, symbol will not be versioned.
-Is 'generic_listxattr' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'xattr_full_name' version generation failed, symbol will not be versioned.
-Is 'xattr_full_name' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_statfs' version generation failed, symbol will not be versioned.
-Is 'simple_statfs' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_read_dir' version generation failed, symbol will not be versioned.
-Is 'generic_read_dir' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_dir_operations' version generation failed, symbol will not be versioned.
-Is 'simple_dir_operations' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_dir_inode_operations' version generation failed, symbol will not be versioned.
-Is 'simple_dir_inode_operations' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'init_pseudo' version generation failed, symbol will not be versioned.
-Is 'init_pseudo' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_open' version generation failed, symbol will not be versioned.
-Is 'simple_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_rename_timestamp' version generation failed, symbol will not be versioned.
-Is 'simple_rename_timestamp' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_read_from_buffer' version generation failed, symbol will not be versioned.
-Is 'simple_read_from_buffer' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_write_to_buffer' version generation failed, symbol will not be versioned.
-Is 'simple_write_to_buffer' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'memory_read_from_buffer' version generation failed, symbol will not be versioned.
-Is 'memory_read_from_buffer' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_attr_open' version generation failed, symbol will not be versioned.
-Is 'simple_attr_open' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_attr_release' version generation failed, symbol will not be versioned.
-Is 'simple_attr_release' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_attr_read' version generation failed, symbol will not be versioned.
-Is 'simple_attr_read' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_attr_write_signed' version generation failed, symbol will not be versioned.
-Is 'simple_attr_write_signed' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_encode_ino32_fh' version generation failed, symbol will not be versioned.
-Is 'generic_encode_ino32_fh' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_fh_to_dentry' version generation failed, symbol will not be versioned.
-Is 'generic_fh_to_dentry' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'generic_fh_to_parent' version generation failed, symbol will not be versioned.
-Is 'generic_fh_to_parent' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_fsync_noflush' version generation failed, symbol will not be versioned.
-Is 'simple_fsync_noflush' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'noop_direct_IO' version generation failed, symbol will not be versioned.
-Is 'noop_direct_IO' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'kfree_link' version generation failed, symbol will not be versioned.
-Is 'kfree_link' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_get_link' version generation failed, symbol will not be versioned.
-Is 'simple_get_link' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'inode_maybe_inc_iversion' version generation failed, symbol will not be versioned.
-Is 'inode_maybe_inc_iversion' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'inode_query_iversion' version generation failed, symbol will not be versioned.
-Is 'inode_query_iversion' prototyped in <asm/asm-prototypes.h>?
-WARNING: modpost: vmlinux: EXPORT symbol 'simple_inode_init_ts' version generation failed, symbol will not be versioned.
-..
+vim +/wdev +20114 net/wireless/nl80211.c
+
+20b0b53aca436a Jakub Kicinski       2022-11-04  19962  static int nl80211_pre_doit(const struct genl_split_ops *ops,
+20b0b53aca436a Jakub Kicinski       2022-11-04  19963  			    struct sk_buff *skb,
+4c476991062a0a Johannes Berg        2010-10-04  19964  			    struct genl_info *info)
+4c476991062a0a Johannes Berg        2010-10-04  19965  {
+a05829a7222e9d Johannes Berg        2021-01-22  19966  	struct cfg80211_registered_device *rdev = NULL;
+8e3d9039d280c6 Johannes Berg        2026-10-06  19967  	struct net *netns = genl_info_net(info);
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  19968  	struct wireless_dev *wdev = NULL;
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  19969  	struct net_device *dev = NULL;
+13c20e8be3278e Johannes Berg        2026-10-09  19970  	bool need_rtnl, wdev_ref, locked = false;
+8e3d9039d280c6 Johannes Berg        2026-10-06  19971  	u32 internal_flags, wdev_id = 0;
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  19972  	int err;
+2182db91e0016c Johannes Berg        2022-04-14  19973  
+2182db91e0016c Johannes Berg        2022-04-14  19974  	if (WARN_ON(ops->internal_flags >= ARRAY_SIZE(nl80211_internal_flags)))
+2182db91e0016c Johannes Berg        2022-04-14  19975  		return -EINVAL;
+2182db91e0016c Johannes Berg        2022-04-14  19976  
+2182db91e0016c Johannes Berg        2022-04-14  19977  	internal_flags = nl80211_internal_flags[ops->internal_flags];
+8e3d9039d280c6 Johannes Berg        2026-10-06  19978  	need_rtnl = internal_flags & NL80211_FLAG_NEED_RTNL;
+13c20e8be3278e Johannes Berg        2026-10-09  19979  	wdev_ref = nl80211_need_wdev_ref(internal_flags);
+4c476991062a0a Johannes Berg        2010-10-04  19980  
+8e3d9039d280c6 Johannes Berg        2026-10-06  19981  	if (need_rtnl)
+4c476991062a0a Johannes Berg        2010-10-04  19982  		rtnl_lock();
+8e3d9039d280c6 Johannes Berg        2026-10-06  19983  	else
+8e3d9039d280c6 Johannes Berg        2026-10-06  19984  		rcu_read_lock();
+8e3d9039d280c6 Johannes Berg        2026-10-06  19985  
+2182db91e0016c Johannes Berg        2022-04-14  19986  	if (internal_flags & NL80211_FLAG_NEED_WIPHY) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  19987  		rdev = cfg80211_get_dev_from_info(netns, info);
+4c476991062a0a Johannes Berg        2010-10-04  19988  		if (IS_ERR(rdev)) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  19989  			err = PTR_ERR(rdev);
+8e3d9039d280c6 Johannes Berg        2026-10-06  19990  			goto out_lookup;
+4c476991062a0a Johannes Berg        2010-10-04  19991  		}
+2182db91e0016c Johannes Berg        2022-04-14  19992  	} else if (internal_flags & NL80211_FLAG_NEED_NETDEV ||
+2182db91e0016c Johannes Berg        2022-04-14  19993  		   internal_flags & NL80211_FLAG_NEED_WDEV) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  19994  		wdev = __cfg80211_wdev_from_attrs(NULL, netns, info->attrs);
+89a54e48b9cbb4 Johannes Berg        2012-06-15  19995  		if (IS_ERR(wdev)) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  19996  			err = PTR_ERR(wdev);
+8e3d9039d280c6 Johannes Berg        2026-10-06  19997  			goto out_lookup;
+4c476991062a0a Johannes Berg        2010-10-04  19998  		}
+89a54e48b9cbb4 Johannes Berg        2012-06-15  19999  
+1bf614ef794643 Johannes Berg        2012-06-15  20000  		dev = wdev->netdev;
+13c20e8be3278e Johannes Berg        2026-10-09  20001  		/*
+13c20e8be3278e Johannes Berg        2026-10-09  20002  		 * Take the wdev ref only if we need it (wdev_ref is true when
+13c20e8be3278e Johannes Berg        2026-10-09  20003  		 * the op is unlocked), we must not try to acquire this with
+13c20e8be3278e Johannes Berg        2026-10-09  20004  		 * a wdev pointer protected by locking, it'd deadlock against
+13c20e8be3278e Johannes Berg        2026-10-09  20005  		 * unregistration.
+13c20e8be3278e Johannes Berg        2026-10-09  20006  		 */
+13c20e8be3278e Johannes Berg        2026-10-09  20007  		if (wdev_ref)
+13c20e8be3278e Johannes Berg        2026-10-09  20008  			wdev_hold(wdev);
+13c20e8be3278e Johannes Berg        2026-10-09  20009  		else
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20010  			dev_hold(dev);
+f26cbf401be935 Zhao, Gang           2014-04-21  20011  		rdev = wiphy_to_rdev(wdev->wiphy);
+8e3d9039d280c6 Johannes Berg        2026-10-06  20012  	}
+8e3d9039d280c6 Johannes Berg        2026-10-06  20013  
+8e3d9039d280c6 Johannes Berg        2026-10-06  20014  	if (!need_rtnl) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20015  		if (rdev)
+8e3d9039d280c6 Johannes Berg        2026-10-06  20016  			get_device(&rdev->wiphy.dev);
+8e3d9039d280c6 Johannes Berg        2026-10-06  20017  		if (wdev)
+8e3d9039d280c6 Johannes Berg        2026-10-06  20018  			wdev_id = wdev->identifier;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20019  		rcu_read_unlock();
+8e3d9039d280c6 Johannes Berg        2026-10-06  20020  
+8e3d9039d280c6 Johannes Berg        2026-10-06  20021  		/* RTM_NEWLINK is sent before NETDEV_UP, wait for dev_open() */
+8e3d9039d280c6 Johannes Berg        2026-10-06  20022  		if (internal_flags & NL80211_FLAG_CHECK_NETDEV_UP && dev &&
+8e3d9039d280c6 Johannes Berg        2026-10-06  20023  		    !READ_ONCE(wdev->is_running) && netif_running(dev)) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20024  			rtnl_lock();
+8e3d9039d280c6 Johannes Berg        2026-10-06  20025  			rtnl_unlock();
+8e3d9039d280c6 Johannes Berg        2026-10-06  20026  		}
+8e3d9039d280c6 Johannes Berg        2026-10-06  20027  	}
+1bf614ef794643 Johannes Berg        2012-06-15  20028  
+8e3d9039d280c6 Johannes Berg        2026-10-06  20029  	if (rdev && !(internal_flags & NL80211_FLAG_NO_WIPHY_MTX)) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20030  		if (need_rtnl) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20031  			wiphy_lock(&rdev->wiphy);
+8e3d9039d280c6 Johannes Berg        2026-10-06  20032  		} else {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20033  			/* without rtnl, things may have changed since lookup */
+8e3d9039d280c6 Johannes Berg        2026-10-06  20034  			wdev = nl80211_lock_and_recheck(rdev, netns, wdev_id);
+8e3d9039d280c6 Johannes Berg        2026-10-06  20035  			if (IS_ERR(wdev)) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20036  				err = PTR_ERR(wdev);
+8e3d9039d280c6 Johannes Berg        2026-10-06  20037  				goto out;
+
+Smatch is worried about this goto.
+
+8e3d9039d280c6 Johannes Berg        2026-10-06  20038  			}
+8e3d9039d280c6 Johannes Berg        2026-10-06  20039  		}
+8e3d9039d280c6 Johannes Berg        2026-10-06  20040  		locked = true;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20041  	} else if (rdev && !need_rtnl) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20042  		/*
+13c20e8be3278e Johannes Berg        2026-10-09  20043  		 * Without any mutex need a wdev reference to keep it alive,
+13c20e8be3278e Johannes Berg        2026-10-09  20044  		 * see also the note about selectors - the WARN can't happen
+8e3d9039d280c6 Johannes Berg        2026-10-06  20045  		 * without wrong selectors and those don't exist.
+8e3d9039d280c6 Johannes Berg        2026-10-06  20046  		 */
+8e3d9039d280c6 Johannes Berg        2026-10-06  20047  		put_device(&rdev->wiphy.dev);
+13c20e8be3278e Johannes Berg        2026-10-09  20048  		if (WARN_ON(!wdev)) {
+8e3d9039d280c6 Johannes Berg        2026-10-06  20049  			err = -EINVAL;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20050  			goto out;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20051  		}
+8e3d9039d280c6 Johannes Berg        2026-10-06  20052  	}
+8e3d9039d280c6 Johannes Berg        2026-10-06  20053  
+8e3d9039d280c6 Johannes Berg        2026-10-06  20054  	if (wdev) {
+2182db91e0016c Johannes Berg        2022-04-14  20055  		if (internal_flags & NL80211_FLAG_NEED_NETDEV) {
+1bf614ef794643 Johannes Berg        2012-06-15  20056  			if (!dev) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20057  				err = -EINVAL;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20058  				goto out;
+89a54e48b9cbb4 Johannes Berg        2012-06-15  20059  			}
+89a54e48b9cbb4 Johannes Berg        2012-06-15  20060  
+1bf614ef794643 Johannes Berg        2012-06-15  20061  			info->user_ptr[1] = dev;
+1bf614ef794643 Johannes Berg        2012-06-15  20062  		} else {
+1bf614ef794643 Johannes Berg        2012-06-15  20063  			info->user_ptr[1] = wdev;
+4c476991062a0a Johannes Berg        2010-10-04  20064  		}
+89a54e48b9cbb4 Johannes Berg        2012-06-15  20065  
+2182db91e0016c Johannes Berg        2022-04-14  20066  		if (internal_flags & NL80211_FLAG_CHECK_NETDEV_UP &&
+73c7da3dae1e7c Arend Van Spriel     2016-10-20  20067  		    !wdev_running(wdev)) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20068  			err = -ENETDOWN;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20069  			goto out;
+41265714810e20 Johannes Berg        2010-10-04  20070  		}
+4c476991062a0a Johannes Berg        2010-10-04  20071  	}
+4c476991062a0a Johannes Berg        2010-10-04  20072  
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20073  	if (internal_flags & NL80211_FLAG_MLO_VALID_LINK_ID) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20074  		struct nlattr *link_id = info->attrs[NL80211_ATTR_MLO_LINK_ID];
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20075  
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20076  		if (!wdev) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20077  			err = -EINVAL;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20078  			goto out;
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20079  		}
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20080  
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20081  		/* MLO -> require valid link ID */
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20082  		if (wdev->valid_links &&
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20083  		    (!link_id ||
+ff3821bc355275 Veerendranath Jakkam 2022-07-11  20084  		     !(wdev->valid_links & BIT(nla_get_u8(link_id))))) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20085  			err = -EINVAL;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20086  			goto out;
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20087  		}
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20088  
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20089  		/* non-MLO -> no link ID attribute accepted */
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20090  		if (!wdev->valid_links && link_id) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20091  			err = -EINVAL;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20092  			goto out;
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20093  		}
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20094  	}
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20095  
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20096  	if (internal_flags & NL80211_FLAG_MLO_UNSUPPORTED) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20097  		if (info->attrs[NL80211_ATTR_MLO_LINK_ID] ||
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20098  		    (wdev && wdev->valid_links)) {
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20099  			err = -EINVAL;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20100  			goto out;
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20101  		}
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20102  	}
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20103  
+8e3d9039d280c6 Johannes Berg        2026-10-06  20104  	info->user_ptr[0] = rdev;
+a05829a7222e9d Johannes Berg        2021-01-22  20105  	/* we keep the mutex locked until post_doit */
+8e3d9039d280c6 Johannes Berg        2026-10-06  20106  	if (locked)
+a05829a7222e9d Johannes Berg        2021-01-22  20107  		__release(&rdev->wiphy.mtx);
+a05829a7222e9d Johannes Berg        2021-01-22  20108  
+4c476991062a0a Johannes Berg        2010-10-04  20109  	return 0;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20110  out:
+8e3d9039d280c6 Johannes Berg        2026-10-06  20111  	if (locked)
+8e3d9039d280c6 Johannes Berg        2026-10-06  20112  		wiphy_unlock(&rdev->wiphy);
+13c20e8be3278e Johannes Berg        2026-10-09  20113  	if (wdev_ref && wdev)
+13c20e8be3278e Johannes Berg        2026-10-09 @20114  		wdev_put(wdev);
+                                                                         ^^^^
+
+13c20e8be3278e Johannes Berg        2026-10-09  20115  	else
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20116  		dev_put(dev);
+8e3d9039d280c6 Johannes Berg        2026-10-06  20117  	if (need_rtnl)
+8e3d9039d280c6 Johannes Berg        2026-10-06  20118  		rtnl_unlock();
+8e3d9039d280c6 Johannes Berg        2026-10-06  20119  	return err;
+8e3d9039d280c6 Johannes Berg        2026-10-06  20120  out_lookup:
+8e3d9039d280c6 Johannes Berg        2026-10-06  20121  	if (need_rtnl)
+8e3d9039d280c6 Johannes Berg        2026-10-06  20122  		rtnl_unlock();
+8e3d9039d280c6 Johannes Berg        2026-10-06  20123  	else
+8e3d9039d280c6 Johannes Berg        2026-10-06  20124  		rcu_read_unlock();
+7b0a0e3c3a8826 Johannes Berg        2022-04-14  20125  	return err;
+4c476991062a0a Johannes Berg        2010-10-04  20126  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
