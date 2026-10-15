@@ -1,140 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780AA53E310;
-	Thu, 15 Oct 2026 14:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E98F23A564
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 14:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792074584; cv=none; b=SWOPbWOflovb4tfTSHZKKq7YxHkBQt0UqCqrQtt9epaYjMuEnx83okM1nwFnG4UDHcLSDUu+Keax/ZvyEuGNuwPQ0dU0K/amHSWc2uaOmmA3RzedzTj1GrCEgiFNdHj2olxluphFHBNpALa4f+w7EqIwZBG6bRNUZuzfiIPUgss=
+	t=1792075062; cv=none; b=Hq7dTeAGgJmcAtS8Bho7ffGbcV2dsAffj+rOKLTGZqZ0kvplj+VCC8V4BEuVYDO2IYSvOiQr4ktEjrQQgINu5KP9g0qNcE3vQv/xvxMZfbhZZK9VPBCX3fBz6mnq7uA/sxV4P5+NOuJwBjDe7tmwpQ31y/ytDN5LbNGfO6KDs9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792074584; c=relaxed/simple;
-	bh=Ux8bYPBf+tPZGPkVOGqIDc2hrCy5YoJwGkED1by+PtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H6oTtO0YLoSwT+EMWaOEu7PfQCpBrawiQw3neS4DR6TGWfm9ZMnhbCNXVsnjqZvdigIpW94IMg0C3bNkGHabucLTdq+3bcWLxGR2NWAInyLaWVpTIhiMUPj83W6B/T7xA9TSfcEWB0i9wdQuG+VqtDesHutk/MrrqnwRiXdhfs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TQPuBZDW; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1792075062; c=relaxed/simple;
+	bh=LGCKOHPpAZ51siEENAnNufkjdxmacpkF2dJvRyRRcQs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=OfDbLuW+cn3L7PZJkbbagBJPQ9CJ1Cvkbag1+7Nt6A6X1+ZedXWvKSYU9H6KicGx+9kwVMLtJQmIOYzkJahSyxeSU2WBlKiEr67oqHHFDDQu6L7sY5PygbxGcez8w9TVWQKmKqBkOKrOrczcfrqlMn2/mlIoROCFrplnyTmCJD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbEZYQ6Y; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQPuBZDW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbEZYQ6Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792074583; x=1823610583;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ux8bYPBf+tPZGPkVOGqIDc2hrCy5YoJwGkED1by+PtM=;
-  b=TQPuBZDWL8H2aVaMztnh2BbmNs5RRZY2/525KUrhr5VEv7mzRcNAUxlA
-   GPT7aVoXkpLcs4pWb9bTQGEu9Yi17Fbj4aogZgq4KJA6AQGZ1qB0IrUcC
-   xt1TPLEtVNXuUQNiwaPg0RwLrI9JvzU7hGiykXEo+DP/v/NJkDq+NDBiU
-   BR7CaHCvsCW5U8Sgd/HQwbfZgFKpNy8L1uUVbTNQUYT3+YWP4M/8MPczt
-   Z0lDlNYEXGKcyWQXD+LOR9Rsq2SpvmZwj0mp/5/168f9PKPFwldVzFUvj
-   Ar1VSgZJeM4C1QRePI8uOjH1npJqCMgabwUtD/itMr5JcGFjccGJ3hcpS
-   A==;
-X-CSE-ConnectionGUID: WP5RQwEaQveKfiRtq/2LYw==
-X-CSE-MsgGUID: Gq3fqCsbQPaVlHZoIO/w0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="877384"
+  t=1792075060; x=1823611060;
+  h=date:from:to:cc:subject:message-id;
+  bh=LGCKOHPpAZ51siEENAnNufkjdxmacpkF2dJvRyRRcQs=;
+  b=FbEZYQ6YsK/3hLVO3DNvv5GVZjdEIrmoo1a0c4eb52/Ve3DG+CQxe0gJ
+   IRcegPZsak/AJnDzKs5FUXO1+GtNs0MuL8NXWJcO8DoWrEqLwUwxmVFeX
+   90uAf3Mdoc4BGbGnCsHxjrTTUNd+jZfyllKG4uQ8I1a3Eye+PIv6F7umd
+   VqMo3G2t2OyfC1xSfjfBCTzY0rbjyXlRFHxbCtxixQwZG4Zp3h150WQMm
+   6cvIeZI8BkUqSiaRJAMTvLkwXwqHstVSx2UTYoNmNtsykHJF4lBaJGaoh
+   l5W4wHTvjL4P5D+L4c7aLsdSjnka3SF5sQaTasXb3T26C758uPux/RyT+
+   g==;
+X-CSE-ConnectionGUID: NPYn3ow+TyGVZTDwUqRWGQ==
+X-CSE-MsgGUID: YP4A1ZqcTu6ILFmWduVrkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="950916"
 X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="877384"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 07:29:40 -0700
-X-CSE-ConnectionGUID: 57vUb34KTa2iHrVIj9ofiA==
-X-CSE-MsgGUID: oKxPacBOQyOt9AEtHla1/Q==
+   d="scan'208";a="950916"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 07:37:40 -0700
+X-CSE-ConnectionGUID: mvbjDYGLRW+lI46OOyKE2A==
+X-CSE-MsgGUID: mfY/4lrZT1CKFim1mskFlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="1617076"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2026 07:29:37 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="1676050"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 15 Oct 2026 07:37:39 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHMSc-00000000GeO-2Uqv;
-	Thu, 15 Oct 2026 14:29:34 +0000
-Date: Thu, 15 Oct 2026 22:29:09 +0800
+	id 1xHMaN-00000000Bih-49WZ;
+	Thu, 15 Oct 2026 14:37:35 +0000
+Date: Thu, 15 Oct 2026 16:37:27 +0200
 From: kernel test robot <lkp@intel.com>
-To: Navid Ghahremani <ghahramani.navid@gmail.com>,
-	linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	stefandoesinger@gmail.com, krzk@kernel.org,
-	Navid Ghahremani <ghahramani.navid@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH v2 20/24] spi: zx: Add ZTE ZX family SPI flash controller
- driver
-Message-ID: <202610152215.xgWnk9aT-lkp@intel.com>
-References: <20261014072109.1759502-21-ghahramani.navid@gmail.com>
+To: Orgad Shaneh <orgads@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Warning: drivers/usb/host/octeon-hcd.c:381 struct member
+ 'sof_timer' not described in 'octeon_hcd'
+Message-ID: <202610151637.5srThc2q-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261014072109.1759502-21-ghahramani.navid@gmail.com>
 
-Hi Navid,
+Hi Orgad,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on soc/for-next linus/master v7.3-rc7]
-[cannot apply to clk/clk-next next-20261012]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Navid-Ghahremani/dt-bindings-arm-Add-ZTE-ZX279128S-platform-descriptions/20261014-082042
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20261014072109.1759502-21-ghahramani.navid%40gmail.com
-patch subject: [PATCH v2 20/24] spi: zx: Add ZTE ZX family SPI flash controller driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20261015/202610152215.xgWnk9aT-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610152215.xgWnk9aT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0fcb05b72344f40806cbe810de8872f1698bf053
+commit: aebbc7d63407f843a1c74806041792db65d69a51 usb: octeon-hcd: sleep on an hrtimer for far-off periodic transfers
+date:   5 weeks ago
+config: mips-randconfig-r2105-20261015 (https://download.01.org/0day-ci/archive/20261015/202610151637.5srThc2q-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8a679464f19c426ef76aad9f4587b703dd3e584d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610151637.5srThc2q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: aebbc7d63407 ("usb: octeon-hcd: sleep on an hrtimer for far-off periodic transfers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610152215.xgWnk9aT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610151637.5srThc2q-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-zx.c:473:4: warning: cast to smaller integer type 'unsigned int' from 'struct zx_qspi *' [-Wpointer-to-int-cast]
-     473 |                         (unsigned int)qspi);
-         |                         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                              ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:285:19: note: expanded from macro 'dynamic_dev_dbg'
-     285 |                            dev, fmt, ##__VA_ARGS__)
-         |                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
->> drivers/spi/spi-zx.c:706:17: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551614 to 4294967294 [-Wconstant-conversion]
-     706 |         writel_relaxed(~ZX_QSPI_EN, qspi->io_base + ZX_QSPI_EN_REG);
-         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/io.h:88:39: note: expanded from macro 'writel_relaxed'
-      88 | #define writel_relaxed(v, a) __writel(v, a)
-         |                              ~~~~~~~~ ^
-   2 warnings generated.
-
-
-vim +706 drivers/spi/spi-zx.c
-
-   701	
-   702	static void zx_qspi_remove(struct platform_device *pdev)
-   703	{
-   704		struct zx_qspi *qspi = platform_get_drvdata(pdev);
-   705	
- > 706		writel_relaxed(~ZX_QSPI_EN, qspi->io_base + ZX_QSPI_EN_REG);
-   707	}
-   708	
+   Warning: drivers/usb/host/octeon-hcd.c:159 struct member 'reserved' not described in 'cvmx_usb_port_status'
+   Warning: drivers/usb/host/octeon-hcd.c:235 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Logical transactions may take numerous low level
+   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'xfersize' not described in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'pktcnt' not described in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'retries' not described in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:288 Excess struct member 'flags' description in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:335 Excess struct member 'next' description in 'cvmx_usb_pipe' (did you mean one of: 'next_tx_frame')
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'lock' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'init_flags' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'index' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'idle_hardware_channels' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'usbcx_hprt' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'pipe_for_channel' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'indent' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'port_status' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'idle_pipes' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'active_pipes' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'frame_number' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'active_split' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'periodic' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'nonperiodic' not described in 'octeon_hcd'
+>> Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'sof_timer' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:528 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Read a USB 32bit CSR. It performs the necessary address swizzle
+   Warning: drivers/usb/host/octeon-hcd.c:543 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Write a USB 32bit CSR. It performs the necessary address
+   Warning: drivers/usb/host/octeon-hcd.c:559 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Return non zero if this pipe connects to a non HIGH speed
+   Warning: drivers/usb/host/octeon-hcd.c:575 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Trivial utility function to return the correct PID for a pipe
+   Warning: drivers/usb/host/octeon-hcd.c:663 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Shutdown a USB port after a call to cvmx_usb_initialize().
+   Warning: drivers/usb/host/octeon-hcd.c:695 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Initialize a USB port for use. This must be called before any
+   Warning: drivers/usb/host/octeon-hcd.c:974 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Reset a USB port. After this call succeeds, the USB port is
+   Warning: drivers/usb/host/octeon-hcd.c:1007 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Disable a USB port. After this call the USB port will not
+   Warning: drivers/usb/host/octeon-hcd.c:1025 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Get the current state of the USB port. Use this call to
+   Warning: drivers/usb/host/octeon-hcd.c:1055 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Open a virtual pipe between the host and a USB device. A pipe
+   Warning: drivers/usb/host/octeon-hcd.c:1168 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Poll the RX FIFOs and remove data as needed. This function is only used
+   Warning: drivers/usb/host/octeon-hcd.c:1214 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Fill the TX hardware fifo with data out of the software
+   Warning: drivers/usb/host/octeon-hcd.c:1274 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Check the hardware FIFOs and fill them as needed
+   Warning: drivers/usb/host/octeon-hcd.c:1310 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Fill the TX FIFO with an outgoing packet
+   Warning: drivers/usb/host/octeon-hcd.c:1362 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Perform channel specific setup for Control transactions. All
+   Warning: drivers/usb/host/octeon-hcd.c:1511 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Start a channel to perform the pipe's head transaction
+   Warning: drivers/usb/host/octeon-hcd.c:1855 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Find a pipe that is ready to be scheduled to hardware.
+   Warning: drivers/usb/host/octeon-hcd.c:1913 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Called whenever a pipe might need to be scheduled to the
+   Warning: drivers/usb/host/octeon-hcd.c:2086 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Signal the completion of a transaction and free it. The
+   Warning: drivers/usb/host/octeon-hcd.c:2143 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Submit a usb transaction to a pipe. Called for all types
+   Warning: drivers/usb/host/octeon-hcd.c:2217 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Call to submit a USB Bulk transfer to a pipe.
+   Warning: drivers/usb/host/octeon-hcd.c:2241 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Call to submit a USB Interrupt transfer to a pipe.
+   Warning: drivers/usb/host/octeon-hcd.c:2266 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Call to submit a USB Control transfer to a pipe.
+   Warning: drivers/usb/host/octeon-hcd.c:2297 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Call to submit a USB Isochronous transfer to a pipe.
+   Warning: drivers/usb/host/octeon-hcd.c:2324 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Cancel one outstanding request in a pipe. Canceling a request
+   Warning: drivers/usb/host/octeon-hcd.c:2373 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Cancel all outstanding requests in a pipe. Logically all this
+   Warning: drivers/usb/host/octeon-hcd.c:2397 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Close a pipe created with cvmx_usb_open_pipe().
+   Warning: drivers/usb/host/octeon-hcd.c:2419 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Get the current USB protocol level frame number. The frame
+   Warning: drivers/usb/host/octeon-hcd.c:2628 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Poll a channel for status
+   Warning: drivers/usb/host/octeon-hcd.c:2970 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Poll the USB block for status and call all needed callback
+   Warning: drivers/usb/host/octeon-hcd.c:159 struct member 'reserved' not described in 'cvmx_usb_port_status'
+   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'xfersize' not described in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'pktcnt' not described in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:288 struct member 'retries' not described in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:288 Excess struct member 'flags' description in 'cvmx_usb_transaction'
+   Warning: drivers/usb/host/octeon-hcd.c:335 Excess struct member 'next' description in 'cvmx_usb_pipe' (did you mean one of: 'next_tx_frame')
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'lock' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'init_flags' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'index' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'idle_hardware_channels' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'usbcx_hprt' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'pipe_for_channel' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'indent' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'port_status' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'idle_pipes' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'active_pipes' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'frame_number' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'active_split' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'periodic' not described in 'octeon_hcd'
+   Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'nonperiodic' not described in 'octeon_hcd'
+>> Warning: drivers/usb/host/octeon-hcd.c:381 struct member 'sof_timer' not described in 'octeon_hcd'
 
 --
 0-DAY CI Kernel Test Service
