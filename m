@@ -1,142 +1,127 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E963C062D;
-	Fri, 16 Oct 2026 08:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C860434406
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 08:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792140576; cv=none; b=BqWc7MUCVryna3sXKNDqaIuIdq2mwmtEqj2+WUEJInKe/pALtUbEKXWmuolzStjOHyil1Cd4vJRy7llYB7U1rcVePQHeMr9ZGiYzIVgAamd+7zdXM9X99sFFDZ/dq7LAtMI4z3Y46miwrOM/aI/uscty80RiJOVl7tIpcz+qU4Q=
+	t=1792140940; cv=none; b=mMOKSHrSIgwRi82suw07sTmgxHSMKCOpTMSc96qShyYD4ADzKILF1Jw5oW7VFPpoqaqDAzveOTO+huNBd51hx205q/sNed66dmnXq9aThLhZ+hWROS+mf3qWak2n9lUhmdl0727jglyU7dsghearHhZXnfMBWIkNqBmjtoDJIDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792140576; c=relaxed/simple;
-	bh=0LeOmKP6DRFg7cJ2X0Ui2aRBvTg4D9XHVvUx5LZ6tsw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=intdIlxgwRbTfe1OR+Td2g0zg9QY5H+wkTFR9jvjUl5CxKVvWgDBvzEtjOxGK9vsbyHRhFodzvCYjMkVsE9bGRffNGS8b65aNMPW7rHb5FyGbRvzQp4hwpzaX4ask+63erREa3S1IuR+7zamSJOgVDGbPOAwklZOPXXLBrEhlZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j5drW2TJZzYQvDl;
-	Fri, 16 Oct 2026 16:48:27 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 7B5B3405AC;
-	Fri, 16 Oct 2026 16:49:23 +0800 (CST)
-Received: from [10.174.179.19] (unknown [10.174.179.19])
-	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAnZPMH5dFqcuGSAg--.18025S3;
-	Fri, 16 Oct 2026 16:49:21 +0800 (CST)
-Message-ID: <1165ce1d-6485-4b70-9949-47ee071a0a22@huaweicloud.com>
-Date: Fri, 16 Oct 2026 16:49:10 +0800
+	s=arc-20240116; t=1792140940; c=relaxed/simple;
+	bh=Ic15fTy87SB8mOVJQrnIcQrAe2O8Sha4f+9qQ84qJW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=f9+saSll3lkW+JN/mMCFL6e2I2VdGZBZFTc88UEq4S1BOy8yjaURpXrmi22vL1ZohP57j94rZ7MWqd087u2fp7yoQR/b4uopLW1Kcq8cFFRWIgi88FlhCIqebEToumHXABk2LTN2aXl7LEp7zTW5ihbS4z/FMfeFgKioHM7PJEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nO6TA2zy; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nO6TA2zy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792140936; x=1823676936;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ic15fTy87SB8mOVJQrnIcQrAe2O8Sha4f+9qQ84qJW0=;
+  b=nO6TA2zyKtlOp2fHGU7koPBUqmFmtMudJE/JlvXcYvfIo4atBzZRrkse
+   rnQDLyxOU/sCfiDLpDmFpK09BS4njAOa+3QLxSzaM7IcIPBHrKdRcOFdO
+   nToqt1swzAnDIbeXuKSrwp7ubGpd69XTEMmkQ2yxzEpK9DgjtsIPPyqHN
+   WwDrl761yZGQi3VIuIk6i3yhs3bjvY6dvO+p6UeZ3FxE9oGtb1S34wtzC
+   PTaNNy1RlxD+YQNhTVKpkVVi5Kh7DaEfBbYwi+zaJdlNWTcyAW6xjD6IH
+   BMjsG8a7OTdiY/TxwHysU8Fik6gfM+8W6XWr6aSVRY2vSBHUPlaExe8+e
+   Q==;
+X-CSE-ConnectionGUID: n+xD+cBjSi2IhBK7r5lx1Q==
+X-CSE-MsgGUID: XP/MDJWMTe2bx1lwFbE9Wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="803395"
+X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
+   d="scan'208";a="803395"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 01:55:35 -0700
+X-CSE-ConnectionGUID: dxIiWHfbQjSfwNWorqswqg==
+X-CSE-MsgGUID: R+3UBQYgT8qtgzD+MwEQnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
+   d="scan'208";a="1910239"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 16 Oct 2026 01:55:34 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xHdiu-00000000C9H-2GO5;
+	Fri, 16 Oct 2026 08:55:32 +0000
+Date: Fri, 16 Oct 2026 10:55:07 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/vdso-alarm-clocks 3/5]
+ kernel/time/alarmtimer.c:105:undefined reference to
+ `vdso_time_enable_alarmclock'
+Message-ID: <202610161018.bTkFTUke-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [tytso-ext4:dev 40/41] fs/ext4/inode.c:4518
- ext4_iomap_writepages() warn: missing error code? 'ret'
-To: Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
- Theodore Ts'o <tytso@mit.edu>
-References: <atHZN9YIl8T2E0tK@stanley.mountain>
-Content-Language: en-US
-From: Zhang Yi <yi.zhang@huaweicloud.com>
-In-Reply-To: <atHZN9YIl8T2E0tK@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAnZPMH5dFqcuGSAg--.18025S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw1xuw1xAF4fKFWrWFWUtwb_yoWrCF1Dpr
-	yxur1kJF1Iva9xCFyvka4DXa18Ga4kCw4rJrWrCr43ZFyrZrZ7GF1I9FZruF1Yg34DGrW7
-	AF4rKrWkJ34UAr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUymb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
-	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UK2NtUUUUU=
-X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Content-Type: text/plain; charset=us-ascii
 
-On 10/16/2026 3:58 PM, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-> head:   8c4f6e3376348fc3162eed86a05b933921c8f9ed
-> commit: bdcbb0f19e921c7ea3241f55922032dff23d1d26 [40/41] ext4: partially enable iomap for the buffered I/O path of regular files
-> config: x86_64-randconfig-2200-20261016 (https://download.01.org/0day-ci/archive/20261016/202610160314.PLMEXaOJ-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> smatch: v0.5.0-9187-g5189e3fb
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202610160314.PLMEXaOJ-lkp@intel.com/
-> 
-> New smatch warnings:
-> fs/ext4/inode.c:4518 ext4_iomap_writepages() warn: missing error code? 'ret'
-> 
-> vim +/ret +4518 fs/ext4/inode.c
-> 
-> a304299a40d92c Zhang Yi 2026-10-09  4488  static int ext4_iomap_writepages(struct address_space *mapping,
-> a304299a40d92c Zhang Yi 2026-10-09  4489  				 struct writeback_control *wbc)
-> a304299a40d92c Zhang Yi 2026-10-09  4490  {
-> a2e096bf59634f Zhang Yi 2026-10-09  4491  	struct inode *inode = mapping->host;
-> a2e096bf59634f Zhang Yi 2026-10-09  4492  	struct super_block *sb = inode->i_sb;
-> a2e096bf59634f Zhang Yi 2026-10-09  4493  	long nr = wbc->nr_to_write;
-> a2e096bf59634f Zhang Yi 2026-10-09  4494  	int alloc_ctx, ret;
-> a2e096bf59634f Zhang Yi 2026-10-09  4495  	struct iomap_writepage_ctx wpc = {
-> a2e096bf59634f Zhang Yi 2026-10-09  4496  		.inode = inode,
-> a2e096bf59634f Zhang Yi 2026-10-09  4497  		.wbc = wbc,
-> a2e096bf59634f Zhang Yi 2026-10-09  4498  		.ops = &ext4_writeback_ops,
-> a2e096bf59634f Zhang Yi 2026-10-09  4499  	};
-> a2e096bf59634f Zhang Yi 2026-10-09  4500  
-> a2e096bf59634f Zhang Yi 2026-10-09  4501  	ret = ext4_emergency_state(sb);
-> a2e096bf59634f Zhang Yi 2026-10-09  4502  	if (unlikely(ret))
-> a2e096bf59634f Zhang Yi 2026-10-09  4503  		return ret;
-> a2e096bf59634f Zhang Yi 2026-10-09  4504  
-> 53fe71a6bcad0f Zhang Yi 2026-10-09  4505  	/*
-> 53fe71a6bcad0f Zhang Yi 2026-10-09  4506  	 * Submit the pending zeroed EOF block range if the entire
-> 53fe71a6bcad0f Zhang Yi 2026-10-09  4507  	 * writeback range lies beyond it.
-> 53fe71a6bcad0f Zhang Yi 2026-10-09  4508  	 */
-> 53fe71a6bcad0f Zhang Yi 2026-10-09  4509  	ext4_iomap_wb_submit_zeroed_eof(inode, wbc);
-> 53fe71a6bcad0f Zhang Yi 2026-10-09  4510  
-> a2e096bf59634f Zhang Yi 2026-10-09  4511  	alloc_ctx = ext4_writepages_down_read(sb);
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4512  	/*
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4513  	 * Does ext4_change_inode_journal_flag() change the inode's
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4514  	 * buffered I/O path?
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4515  	 */
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4516  	if (!ext4_inode_buffered_iomap(inode)) {
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4517  		ext4_writepages_up_read(sb, alloc_ctx);
-> bdcbb0f19e921c Zhang Yi 2026-10-09 @4518  		return ret;
-> 
-> Either return 0 or an error code here, but not ret.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-alarm-clocks
+head:   c8bb37f3267c7cbf3aed873255994d37a43122c9
+commit: 16c670855b6263e33441b6502dd778778a33ae69 [3/5] vdso: Add alarmclock support infrastructure
+config: csky-randconfig-r2200-20261016 (https://download.01.org/0day-ci/archive/20261016/202610161018.bTkFTUke-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.3.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161018.bTkFTUke-lkp@intel.com/reproduce)
 
-Thanks for pointing that out, but this is a false positive. No error
-code needs to be set here. This path is only taken when the writeback
-races with a concurrent journal flag switch, and since the switch will
-write back all dirty data, there is nothing to be done for the leftover
-writeback here and we can just return directly. So the 'ret' will simply
-be 0 here.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610161018.bTkFTUke-lkp@intel.com/
 
-Thanks,
-Yi.
+All errors (new ones prefixed by >>):
 
-> 
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4519  	}
-> bdcbb0f19e921c Zhang Yi 2026-10-09  4520  
-> a2e096bf59634f Zhang Yi 2026-10-09  4521  	trace_ext4_writepages(inode, wbc);
-> a2e096bf59634f Zhang Yi 2026-10-09  4522  	ret = iomap_writepages(&wpc);
-> a2e096bf59634f Zhang Yi 2026-10-09  4523  	trace_ext4_writepages_result(inode, wbc, ret, nr - wbc->nr_to_write);
-> a2e096bf59634f Zhang Yi 2026-10-09  4524  	ext4_writepages_up_read(sb, alloc_ctx);
-> a2e096bf59634f Zhang Yi 2026-10-09  4525  
-> a2e096bf59634f Zhang Yi 2026-10-09  4526  	return ret;
-> a304299a40d92c Zhang Yi 2026-10-09  4527  }
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+   csky-linux-ld: kernel/time/alarmtimer.o: in function `alarmtimer_rtc_add_device':
+>> kernel/time/alarmtimer.c:105:(.text+0x8f0): undefined reference to `vdso_time_enable_alarmclock'
+   csky-linux-ld: kernel/time/alarmtimer.o: in function `__srcu_read_lock':
+>> include/linux/srcutiny.h:90:(.text+0x9a8): undefined reference to `vdso_time_enable_alarmclock'
 
+
+vim +105 kernel/time/alarmtimer.c
+
+    82	
+    83	static int alarmtimer_rtc_add_device(struct device *dev)
+    84	{
+    85		struct rtc_device *rtc = to_rtc_device(dev);
+    86		struct platform_device *pdev;
+    87		int ret = 0;
+    88	
+    89		if (rtcdev)
+    90			return -EBUSY;
+    91	
+    92		if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
+    93			return -1;
+    94		if (!device_may_wakeup(rtc->dev.parent))
+    95			return -1;
+    96	
+    97		pdev = platform_device_register_data(dev, "alarmtimer",
+    98						     PLATFORM_DEVID_AUTO, NULL, 0);
+    99		if (!IS_ERR(pdev))
+   100			device_init_wakeup(&pdev->dev, true);
+   101	
+   102		scoped_guard(spinlock_irqsave, &rtcdev_lock) {
+   103			if (!IS_ERR(pdev) && !rtcdev && try_module_get(rtc->owner)) {
+   104				rtcdev = rtc;
+ > 105				vdso_time_enable_alarmclock();
+   106				/* hold a reference so it doesn't go away */
+   107				get_device(dev);
+   108				pdev = NULL;
+   109			} else {
+   110				ret = -1;
+   111			}
+   112		}
+   113	
+   114		platform_device_unregister(pdev);
+   115		return ret;
+   116	}
+   117	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
