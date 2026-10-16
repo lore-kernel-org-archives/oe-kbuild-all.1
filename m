@@ -1,112 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE66B24E4C6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 09:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CDE453A29;
+	Fri, 16 Oct 2026 09:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142267; cv=none; b=IbVWnIiQsBGDJT9OqA8boHwjSb91dmk6rdOn5uYYnbFdMvTAGLIlE9A9T4rcivdmfDsQhxIy6UF7cAxIxJV56rwtl4SYf/YGX9tRZFPuGARuJeZRkVUFGWiaCwV4tkkYGUnjPVAxenokpO8heUcyg/LFO7cmwOQ48cPcz56lvyI=
+	t=1792142431; cv=none; b=Tl7SoZ9MwQKauMKlm8f7DSeFK/dxlhS0R9aUUJ2oiRWv2PBuq2kd2v4ne1XUCw25lGqM2pilFwT+RZ++VH/1fh+/cU9kwNMccexxLVBLNxhN1oZkZrYHKqilNFfbw0rNvadzSMPOhQLnwN8hy/13MOKjuRy7P7QBwZkpU5speHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142267; c=relaxed/simple;
-	bh=R5bPLcEOzZ6RXQXzes689qETnzb0cXUtNBV1iLu1kCk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Mr6miDFNcp4ygaBlCbRu1MrqkrfKwxZ1VedRNMB+wwCqtNOwJl0lwKJBhC0B7QDXyZ9A4z2BdA4PGNlc597BRvk1IRcokCvqMiaAFR8fpxk/S44PJLq7alQ6ZYlWskmlHz1Q7eMNrisNvS4+P3+4tlfKUwm4S8hHeIjPV9Bsimc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNBTxMgK; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNBTxMgK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792142266; x=1823678266;
-  h=date:from:to:cc:subject:message-id;
-  bh=R5bPLcEOzZ6RXQXzes689qETnzb0cXUtNBV1iLu1kCk=;
-  b=TNBTxMgKYANE+KNB5m5F4TgQnJ5RBuPcMB1fTOCc7Oq/SIjsiM3hGxk5
-   UPxOSp8xbHBkYmcnzq39z5sVxrnyG8MG9LZnrrFCZKWS+RDXbMe0VuOgx
-   XrFILubZvBE6BBo1nP7zPL8e7YPMVgh+FLvzt/etKK4A4ef0g9mwCl4Us
-   f5/69iXnZ3d4UcNKmMFWe0nn//SqmObPymRvLmgOodAU0b1aw4239vnto
-   qKsvw0evlgJUeWsVQKFHtZ3YnLGkbgtnwB3ChhJUCtrtIXSEAM7MVpNsi
-   fEVvQ7WYMwogRwI7FvgpInnlU97+QafXz+8ALPEdz4DWAc+naDSIvCCQ2
-   Q==;
-X-CSE-ConnectionGUID: ps8Kxn9KRDahaNNQIHtpEw==
-X-CSE-MsgGUID: QTzaAIz8RDuQv7VXpgCC9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="1025468"
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="1025468"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 02:17:46 -0700
-X-CSE-ConnectionGUID: JZfZZKkVRtqy+YDpUcEeLw==
-X-CSE-MsgGUID: TjefQEeyQ92yZShxyCAIrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="1901159"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2026 02:17:44 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xHe4L-00000000C9r-31jN;
-	Fri, 16 Oct 2026 09:17:41 +0000
-Date: Fri, 16 Oct 2026 11:16:44 +0200
-From: kernel test robot <lkp@intel.com>
-To: Eileen Yoon <eyn@gmx.com>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/240-isp 1/92]
- drivers/media/platform/apple/isp/isp-drv.h:253:29: warning: format '%llx'
- expects argument of type 'long long unsigned int', but argument 4 has type
- 'dma_addr_t' {aka 'unsigned int'}
-Message-ID: <202610161156.2DshnNOp-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1792142431; c=relaxed/simple;
+	bh=Hn+HkZil0eVjvq1oQ8H5orTMwbOMJhgXlw2fGbTw7MQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XVccNEAbzWhj7LDGOgSzJNcYTbr4ankjt6+3WJyHjyiqcbnGGlm0pcRni5eVwv2Wm6NZeiZoMG7eOdbMdy4wATgrKUTsPN3Ti0sTkV0COup7y2gErN1v3WdnM4aD+VMTaLaF9V/94vdjZecMlHzrjXskXQvYmuo9z17jb0d9FTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4j5fXH3gwczYQtrT;
+	Fri, 16 Oct 2026 17:19:27 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id B02FE40561;
+	Fri, 16 Oct 2026 17:20:23 +0800 (CST)
+Received: from [10.174.179.19] (unknown [10.174.179.19])
+	by APP4 (Coremail) with UTF8SMTPSA id gCh0CgAXTu1T7NFqy6qVAg--.19047S3;
+	Fri, 16 Oct 2026 17:20:21 +0800 (CST)
+Message-ID: <8bacf39d-5a1d-404d-ad58-0bf76c8ae891@huaweicloud.com>
+Date: Fri, 16 Oct 2026 17:20:19 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tytso-ext4:dev 40/41] fs/ext4/inode.c:4518
+ ext4_iomap_writepages() warn: missing error code? 'ret'
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>
+References: <atHZN9YIl8T2E0tK@stanley.mountain>
+ <1165ce1d-6485-4b70-9949-47ee071a0a22@huaweicloud.com>
+ <atHo7i5Uq9cdeVFt@stanley.mountain>
+Content-Language: en-US
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <atHo7i5Uq9cdeVFt@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgAXTu1T7NFqy6qVAg--.19047S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWw15AF1rGr48Ww4rXr4DCFg_yoWrXw4rpF
+	yxua4kJF4Iqa9IkFyv934DJa18Ka4kCr4rJry8Cr4fZFyrZrZ7Gr129FZ2gF1Ygw1DGrW7
+	AF4YkrZ5J34UAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUylb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
+	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUwxhLUUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
 
-tree:   https://github.com/AsahiLinux/linux bits/240-isp
-head:   c792edd0ffb515a81db3e039bc6e2a611c51d65b
-commit: a4f0cf2bc24733efc65eda7596f80788878666f5 [1/92] media: apple: Add Apple ISP driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20261016/202610161156.2DshnNOp-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161156.2DshnNOp-lkp@intel.com/reproduce)
+On 10/16/2026 5:05 PM, Dan Carpenter wrote:
+> On Fri, Oct 16, 2026 at 04:49:10PM +0800, Zhang Yi wrote:
+>> On 10/16/2026 3:58 PM, Dan Carpenter wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+>>> head:   8c4f6e3376348fc3162eed86a05b933921c8f9ed
+>>> commit: bdcbb0f19e921c7ea3241f55922032dff23d1d26 [40/41] ext4: partially enable iomap for the buffered I/O path of regular files
+>>> config: x86_64-randconfig-2200-20261016 (https://download.01.org/0day-ci/archive/20261016/202610160314.PLMEXaOJ-lkp@intel.com/config)
+>>> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+>>> smatch: v0.5.0-9187-g5189e3fb
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Reported-by: Dan Carpenter <error27@gmail.com>
+>>> | Closes: https://lore.kernel.org/r/202610160314.PLMEXaOJ-lkp@intel.com/
+>>>
+>>> New smatch warnings:
+>>> fs/ext4/inode.c:4518 ext4_iomap_writepages() warn: missing error code? 'ret'
+>>>
+>>> vim +/ret +4518 fs/ext4/inode.c
+>>>
+>>> a304299a40d92c Zhang Yi 2026-10-09  4488  static int ext4_iomap_writepages(struct address_space *mapping,
+>>> a304299a40d92c Zhang Yi 2026-10-09  4489  				 struct writeback_control *wbc)
+>>> a304299a40d92c Zhang Yi 2026-10-09  4490  {
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4491  	struct inode *inode = mapping->host;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4492  	struct super_block *sb = inode->i_sb;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4493  	long nr = wbc->nr_to_write;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4494  	int alloc_ctx, ret;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4495  	struct iomap_writepage_ctx wpc = {
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4496  		.inode = inode,
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4497  		.wbc = wbc,
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4498  		.ops = &ext4_writeback_ops,
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4499  	};
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4500  
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4501  	ret = ext4_emergency_state(sb);
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4502  	if (unlikely(ret))
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4503  		return ret;
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4504  
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4505  	/*
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4506  	 * Submit the pending zeroed EOF block range if the entire
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4507  	 * writeback range lies beyond it.
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4508  	 */
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4509  	ext4_iomap_wb_submit_zeroed_eof(inode, wbc);
+>>> 53fe71a6bcad0f Zhang Yi 2026-10-09  4510  
+>>> a2e096bf59634f Zhang Yi 2026-10-09  4511  	alloc_ctx = ext4_writepages_down_read(sb);
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4512  	/*
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4513  	 * Does ext4_change_inode_journal_flag() change the inode's
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4514  	 * buffered I/O path?
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4515  	 */
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4516  	if (!ext4_inode_buffered_iomap(inode)) {
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09  4517  		ext4_writepages_up_read(sb, alloc_ctx);
+>>> bdcbb0f19e921c Zhang Yi 2026-10-09 @4518  		return ret;
+>>>
+>>> Either return 0 or an error code here, but not ret.
+>>
+>> Thanks for pointing that out, but this is a false positive. No error
+>> code needs to be set here. This path is only taken when the writeback
+>> races with a concurrent journal flag switch, and since the switch will
+>> write back all dirty data, there is nothing to be done for the leftover
+>> writeback here and we can just return directly. So the 'ret' will simply
+>> be 0 here.
+>>
+> 
+> Yes, please change it to "return 0;" so it's more readable.
+> 
+> regards,
+> dan carpenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610161156.2DshnNOp-lkp@intel.com/
+Sure, I'll send a separate patch for this.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:38,
-                    from include/media/media-device.h:17,
-                    from include/media/v4l2-device.h:12,
-                    from drivers/media/platform/apple/isp/isp-drv.h:13,
-                    from drivers/media/platform/apple/isp/isp-iommu.h:7,
-                    from drivers/media/platform/apple/isp/isp-ipc.c:4:
-   drivers/media/platform/apple/isp/isp-ipc.c: In function 'sm_malloc_deferred_worker':
->> drivers/media/platform/apple/isp/isp-drv.h:253:29: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
-     253 |         dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |                             ^~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/media/platform/apple/isp/isp-drv.h:253:9: note: in expansion of macro 'dev_err'
-     253 |         dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-         |         ^~~~~~~
-   drivers/media/platform/apple/isp/isp-ipc.c:227:17: note: in expansion of macro 'isp_err'
-     227 |                 isp_err(isp, "failed to vmap iova=0x%llx size=0x%llx\n",
-         |                 ^~~~~~~
+Thanks,
+Yi.
 
 
-vim +253 drivers/media/platform/apple/isp/isp-drv.h
-
-   251	
-   252	#define isp_err(isp, fmt, ...) \
- > 253		dev_err((isp)->dev, "[%s] " fmt, __func__, ##__VA_ARGS__)
-   254	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
