@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856803822BF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 14:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1CE3932FF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 15:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792161255; cv=none; b=YfCmsvlKcK58uuM6F4yJK8GFI6pCgx3oWj3uJMcd3AvwJ6RPx6PpVLQI0C7yO0nRE27HM3WwdmnEdLArRRn/HzXqR/i+kAECia6ShuC+svCtOzxhNVWibmjaWo2fZ89RGnek0dXzJcX7h9Km+74ibi2vFOXMksYMZkq20eohn6E=
+	t=1792164923; cv=none; b=cNe8hCpf88ULg4t5QUmJzJljdxU56UnBYBff0tmiNb1T+HmLzs3BaAg5Vj6oIOkhILOdQ06cAvhydriByyC1r6b+dJ9VrUeaGH5ec1fvwRK3IdJ00vhoM6oMnYozOTVR3kxaYKue3QsHHEybI00SIp6JHuVH3T0XPNAd1nujNzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792161255; c=relaxed/simple;
-	bh=GTj3SzpKSmbEp0aAixfrqq+eLJil7VvAviRGKXRKBWw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DfnZVxC/p2sOYiVGXjwfox7sYATf0bypkfCq7csXAaa7y4vPleKyiv5KlPg5cFEOFrUVtetJlFpfgSo1/B10OVw+bVLvhpDJe09AevP67edrGalNu8oOjYARkODUKGdTpc03kQBRMrVSWiKYeG8kGo21Rj3ZKw2FDCGMzCpzGG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=juRhvv6H; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1792164923; c=relaxed/simple;
+	bh=+0YOhJeQDPwdRHgA2il6vBLiyWIjIPRgips9Ndd2ICs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PCGcPOmW7YJA8vrU/9GTfhwdMTl2+elEMPztgmgy67O0qPbI6HQbLspKpRpKePVMCcfF/gaDeoWtWDv6FU2gj8gsOM9PASmXPsry/AfVejQXTbsgUeKo9+FnKjulsaD7vdhrBvk6Iex9zpZfRr7D115AiHn+NVp+rDL/Yw/Tjc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ARutQN8X; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="juRhvv6H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ARutQN8X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792161254; x=1823697254;
+  t=1792164922; x=1823700922;
   h=date:from:to:cc:subject:message-id;
-  bh=GTj3SzpKSmbEp0aAixfrqq+eLJil7VvAviRGKXRKBWw=;
-  b=juRhvv6H/EqLJtYDifU0MUFAjXSn500GENf19HxcgBSCt4sofjUKViHa
-   JbX+o+OkOz8M7a9N1BIm4P4toV2g4ONqNwOc45SbI2FA90Z5I9fmrBVBf
-   NviC6J/jSuxs/rT5l1Qojv5C1a7T8GidqCKVedhNuCczUhqjuOY2qFEeX
-   iME62ncLUf0aRYbFu4+nhYAklcCCB6gKC9XlcKY4PrE7FRVvgHZLo/Txj
-   WpZ4cA1WoxLeTh0rqoUxp7iqq6k7FGvAeXlT0Ravb/OO7w13ZwJodo475
-   6jd20CBUlZHrueMCexz1qvv4/qmcvscgmYQ1UHxrVJ6itK+VcgBJDrJZd
-   w==;
-X-CSE-ConnectionGUID: VUZnVIh+RZa0PRnjS9yK9g==
-X-CSE-MsgGUID: WFQPpgM5S26dCYbrBS8u7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="1045299"
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="1045299"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 07:34:14 -0700
-X-CSE-ConnectionGUID: 4RRwtJnVRa6Kqxcv9b69Bw==
-X-CSE-MsgGUID: IlIpylLhQeC8VsHo8ucC0g==
+  bh=+0YOhJeQDPwdRHgA2il6vBLiyWIjIPRgips9Ndd2ICs=;
+  b=ARutQN8Xta/sQ4mFbz5UxYDf/xVAAwbpj2g23fE4H0YL6uI3G7phSNN7
+   1h+vFbVUUPhgkKjHztfe9ecK0YYUOMpe6hMpE70amxN8EuqCB5H/t4BUJ
+   NS/HlatgBe7kymcLqjINTnfdwfWh3GZLoJKSaaJJo9ZKbkXhM6CupqQ0Z
+   2aqy+KF8Oxl01vcfHKnK2llPNZ2+VyEYOXBSLmkM13fcWxPV5SXH1b23U
+   2LfngbnLej66h3ZW5NcD67+4/ihtYFrs4WRjGi/kCp7RCHa5wbyFvQg7c
+   jHnxtqbgCymI/X/vBLVN/GNUcy/23C/NlWrt18PwHBUuh45Gw11IcywhT
+   A==;
+X-CSE-ConnectionGUID: Bi4culZYSqyYiy3yTdluew==
+X-CSE-MsgGUID: Qg2BP9M/TL26sEl1oEkNDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="940575"
+X-IronPort-AV: E=Sophos;i="6.27,162,1787036400"; 
+   d="scan'208";a="940575"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 08:35:21 -0700
+X-CSE-ConnectionGUID: L/bUDYSLRke2hJzyP0AlCw==
+X-CSE-MsgGUID: rc59oiGZSc6dMj8sR7Cpug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="2377575"
+X-IronPort-AV: E=Sophos;i="6.27,162,1787036400"; 
+   d="scan'208";a="2327352"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 16 Oct 2026 07:34:12 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 16 Oct 2026 08:35:20 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHj0b-00000000CGZ-3q8d;
-	Fri, 16 Oct 2026 14:34:09 +0000
-Date: Fri, 16 Oct 2026 16:33:17 +0200
+	id 1xHjxl-00000000CHX-4AVe;
+	Fri, 16 Oct 2026 15:35:18 +0000
+Date: Fri, 16 Oct 2026 17:34:22 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1]
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:1444:26: sparse: sparse: invalid
- assignment: |=
-Message-ID: <202610161631.vB73XkUq-lkp@intel.com>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/030-misc 14/19]
+ drivers/pmdomain/apple/pmp-report.c:110:15: error: implicit declaration of
+ function 'readq'; did you mean 'readl'?
+Message-ID: <202610161712.ezLorEGq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,112 +60,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   b9d5e9a3a59c79fd6ec703c9780ab38ad1c0505d
-commit: a70ea9296419161d25ce586a8e91f0a5f5d48742 [1/1] scsi: hisi_sas: Enable force phy when SATA disk directly connected
-config: arm64-randconfig-r2307-20261016 (https://download.01.org/0day-ci/archive/20261016/202610161631.vB73XkUq-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8a679464f19c426ef76aad9f4587b703dd3e584d)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161631.vB73XkUq-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/030-misc
+head:   d6636aea14e70b5b997df5681ff9d254d9e75209
+commit: 96151d95c16448107904d1e4855e34c206167336 [14/19] pmdomain: apple: Add PMP reporting interface
+config: xtensa-allmodconfig (https://download.01.org/0day-ci/archive/20261016/202610161712.ezLorEGq-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161712.ezLorEGq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610161631.vB73XkUq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610161712.ezLorEGq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:1444:26: sparse: sparse: invalid assignment: |=
-   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:1444:26: sparse:    left side has type restricted __le32
-   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:1444:26: sparse:    right side has type unsigned int
+All errors (new ones prefixed by >>):
 
-vim +1444 drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+   drivers/pmdomain/apple/pmp-report.c: In function 'apple_pmp_report_set_state':
+>> drivers/pmdomain/apple/pmp-report.c:110:15: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
+     110 |         val = readq(rep->base + rep->offsets->tgt_read);
+         |               ^~~~~
+         |               readl
+   drivers/pmdomain/apple/pmp-report.c:114:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Wimplicit-function-declaration]
+     114 |         writeq(val, rep->base + rep->offsets->tgt_write);
+         |         ^~~~~~
+         |         writel
 
-  1421	
-  1422	static void prep_ata_v3_hw(struct hisi_hba *hisi_hba,
-  1423				  struct hisi_sas_slot *slot)
-  1424	{
-  1425		struct sas_task *task = slot->task;
-  1426		struct domain_device *device = task->dev;
-  1427		struct domain_device *parent_dev = device->parent;
-  1428		struct hisi_sas_device *sas_dev = device->lldd_dev;
-  1429		struct hisi_sas_cmd_hdr *hdr = slot->cmd_hdr;
-  1430		struct asd_sas_port *sas_port = device->port;
-  1431		struct hisi_sas_port *port = to_hisi_sas_port(sas_port);
-  1432		int phy_id;
-  1433		u8 *buf_cmd;
-  1434		int has_data = 0, hdr_tag = 0;
-  1435		u32 dw1 = 0, dw2 = 0;
-  1436	
-  1437		hdr->dw0 = cpu_to_le32(port->id << CMD_HDR_PORT_OFF);
-  1438		if (parent_dev && dev_is_expander(parent_dev->dev_type)) {
-  1439			hdr->dw0 |= cpu_to_le32(3 << CMD_HDR_CMD_OFF);
-  1440		} else {
-  1441			phy_id = device->phy->identify.phy_identifier;
-  1442			hdr->dw0 |= cpu_to_le32((1U << phy_id)
-  1443					<< CMD_HDR_PHY_ID_OFF);
-> 1444			hdr->dw0 |= CMD_HDR_FORCE_PHY_MSK;
-  1445			hdr->dw0 |= cpu_to_le32(4U << CMD_HDR_CMD_OFF);
-  1446		}
-  1447	
-  1448		switch (task->data_dir) {
-  1449		case DMA_TO_DEVICE:
-  1450			has_data = 1;
-  1451			dw1 |= DIR_TO_DEVICE << CMD_HDR_DIR_OFF;
-  1452			break;
-  1453		case DMA_FROM_DEVICE:
-  1454			has_data = 1;
-  1455			dw1 |= DIR_TO_INI << CMD_HDR_DIR_OFF;
-  1456			break;
-  1457		default:
-  1458			dw1 &= ~CMD_HDR_DIR_MSK;
-  1459		}
-  1460	
-  1461		if ((task->ata_task.fis.command == ATA_CMD_DEV_RESET) &&
-  1462				(task->ata_task.fis.control & ATA_SRST))
-  1463			dw1 |= 1 << CMD_HDR_RESET_OFF;
-  1464	
-  1465		dw1 |= (hisi_sas_get_ata_protocol(
-  1466			&task->ata_task.fis, task->data_dir))
-  1467			<< CMD_HDR_FRAME_TYPE_OFF;
-  1468		dw1 |= sas_dev->device_id << CMD_HDR_DEV_ID_OFF;
-  1469	
-  1470		if (FIS_CMD_IS_UNCONSTRAINED(task->ata_task.fis))
-  1471			dw1 |= 1 << CMD_HDR_UNCON_CMD_OFF;
-  1472	
-  1473		hdr->dw1 = cpu_to_le32(dw1);
-  1474	
-  1475		/* dw2 */
-  1476		if (task->ata_task.use_ncq) {
-  1477			struct ata_queued_cmd *qc = task->uldd_task;
-  1478	
-  1479			hdr_tag = qc->tag;
-  1480			task->ata_task.fis.sector_count |= (u8) (hdr_tag << 3);
-  1481			dw2 |= hdr_tag << CMD_HDR_NCQ_TAG_OFF;
-  1482		}
-  1483	
-  1484		dw2 |= (HISI_SAS_MAX_STP_RESP_SZ / 4) << CMD_HDR_CFL_OFF |
-  1485				2 << CMD_HDR_SG_MOD_OFF;
-  1486		hdr->dw2 = cpu_to_le32(dw2);
-  1487	
-  1488		/* dw3 */
-  1489		hdr->transfer_tags = cpu_to_le32(slot->idx);
-  1490	
-  1491		if (has_data)
-  1492			prep_prd_sge_v3_hw(hisi_hba, slot, hdr, task->scatter,
-  1493						slot->n_elem);
-  1494	
-  1495		hdr->data_transfer_len = cpu_to_le32(task->total_xfer_len);
-  1496		hdr->cmd_table_addr = cpu_to_le64(hisi_sas_cmd_hdr_addr_dma(slot));
-  1497		hdr->sts_buffer_addr = cpu_to_le64(hisi_sas_status_buf_addr_dma(slot));
-  1498	
-  1499		buf_cmd = hisi_sas_cmd_hdr_addr_mem(slot);
-  1500	
-  1501		if (likely(!task->ata_task.device_control_reg_update))
-  1502			task->ata_task.fis.flags |= 0x80; /* C=1: update ATA cmd reg */
-  1503		/* fill in command FIS */
-  1504		memcpy(buf_cmd, &task->ata_task.fis, sizeof(struct host_to_dev_fis));
-  1505	}
-  1506	
+
+vim +110 drivers/pmdomain/apple/pmp-report.c
+
+    97	
+    98	#define genpd_to_apple_pmp_report_entry(_genpd) \
+    99		container_of(_genpd, struct apple_pmp_report_entry, genpd)
+   100	
+   101	static int apple_pmp_report_set_state(struct generic_pm_domain *genpd, bool enable)
+   102	{
+   103		struct apple_pmp_report_entry *ent = genpd_to_apple_pmp_report_entry(genpd);
+   104		struct apple_pmp_report *rep = dev_get_drvdata(ent->dev->parent);
+   105		u64 bit_val = 1 << ent->id;
+   106		u64 val;
+   107		unsigned long flags;
+   108	
+   109		spin_lock_irqsave(&rep->lock, flags);
+ > 110		val = readq(rep->base + rep->offsets->tgt_read);
+   111		val &= ~bit_val;
+   112		if (enable)
+   113			val |= bit_val;
+   114		writeq(val, rep->base + rep->offsets->tgt_write);
+   115		spin_unlock_irqrestore(&rep->lock, flags);
+   116		val = readq(rep->base + rep->offsets->status);
+   117		if ((val & PMP_REPORT_READY) == 0)
+   118			return 0;
+   119		return readq_poll_timeout_atomic(
+   120			rep->base + rep->offsets->actual,
+   121			val,
+   122			!!(val & bit_val) == !!enable,
+   123			100,
+   124			50000);
+   125	}
+   126	
 
 --
 0-DAY CI Kernel Test Service
