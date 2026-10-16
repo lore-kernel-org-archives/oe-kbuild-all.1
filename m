@@ -1,144 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86E941E6C9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 07:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD4943B3CE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 07:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792134977; cv=none; b=mrdSR8LqRIsEW5w75iDnWbqzXPnSZX3ytl4lbC3Uhmddxzr73y7kDJHPUUji5wagXD+DJi8k1zgYnmT9FphivD28uG5h8B9sBe9s8+QNbGTKb/fVK2ioLe3M/dTTkNO+P7jzfKUa69Ag1cmwtJxrRPbh+LUZlSkhHZ9yPdwMdIY=
+	t=1792136616; cv=none; b=L2QzHE3txOU1EwG2eQgWCAWUQ4SLedtxKMTIHzba4h7XSRDYSa5moPpRaH1ogzmf9RL1WwwHvlACnJxNxP7wxuSV9qh4InhnJgaHqdS+yUzbqR/jePbAHOlA+75aoiXek9iTd534BwVAV7ulem2vkoN69HUJuwwKmuU+JtPmc0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792134977; c=relaxed/simple;
-	bh=bU78VtmXfQh6spthBjgS3Kwk7sGprvT1XD/O+tZe9Pk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y9O8uDkh58CrGTkMWcskzsBxYft/sON/WAfcYOkq/lXrsKiICbdFahxUoRI2eraLLyWpVV6FmQxDI16haHV2Wnlr9zsU3ZX/AnywxktuKKVtSb2W7Ep46K1V6OMPNPe13toK1MYHzJeCOJcPqkCpwIi03jmEkNNy2ffobsCDIAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q1ZGAO7q; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1792136616; c=relaxed/simple;
+	bh=YMVAfeeQhOY2uKe/ClHKZbK8mypQg6WfeJmkmGCHtjU=;
+	h=Date:From:Cc:Subject:Message-ID; b=mF8/XD/LxQlup51MzCJAZgHgyrcyVB2kgUkeaAF/rxURe1m/Z3gcWgHcokOu8R8OeBpi1oBiFu6f9Wv9yB2uO1g4qNfFbCzEvRrkCCLy/v3NtIchXn2Bsmy3UbERMKp2XhuT0vACTdm7KVVhfthVcHz2Rd1jxNayizKNUiLSOF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XuD8ojM4; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q1ZGAO7q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XuD8ojM4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792134973; x=1823670973;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bU78VtmXfQh6spthBjgS3Kwk7sGprvT1XD/O+tZe9Pk=;
-  b=Q1ZGAO7q8VZBI0sZy1zNdHpx9q/X9ytgmRYgEBXAO0pFp1srAXRInSwV
-   icKBP91c5DiqZhsgr+Z///1FT4FiyojM7OTurLzcTwdA0U7FKv8HwoLBY
-   lRwAqpgfMHQbdYH40tHZ/uXvq4mJIa37pPNf3jElTwZowBGlT7IrWyZnu
-   nVGoH6o7+yZtQra/6rA1khvEFyF/eopY0tcoNAhEzzeCqiYI4qYYhaOEs
-   BqwA2rRoPHwlJfF3gvjgvJXy5fQTQvGCrvD/Q4FfFUg+tvp+RTJjg02Zd
-   jjrKKobMV0Z8HMhu34ELFJccYc28X7LTYOPvgKkPNaYTPl7kLfjVVFzwa
-   A==;
-X-CSE-ConnectionGUID: RKBUAQXmTwuSssQ1cjNKgg==
-X-CSE-MsgGUID: ZHK6dY7aROKtZLcnRHezjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="796103"
+  t=1792136613; x=1823672613;
+  h=date:from:cc:subject:message-id;
+  bh=YMVAfeeQhOY2uKe/ClHKZbK8mypQg6WfeJmkmGCHtjU=;
+  b=XuD8ojM4gJdj7+W9a/x2Ym7IXW7Wyq2i3Y6kuWkmu8EqR9a6Qu6xQcFy
+   rhPn/RJmJvKRDWS1W85lXkMf2ln6xyWyGbVvSdNiAx7FFowXKu0G9TfZh
+   u7NYU1K6S1PSQg7Ed0BJ+5OHvkq27XmiWhFkArhAQgP1+QAnP6lmnGx6K
+   pkc4HpUUUAjjJ+2hyZsflPqfjBho9E3FikD1tOIrDUqcBEvOoDNLV055x
+   bonTbeKI0Wp1arWFqWkRApR7eN9m9wF8SZ8G2qnU3Fii6CdkE5kQ23cm1
+   98JZLd1vHrrGCH/e4QygJXQbZyjJBWJxudlSVmXz8IQeQy2z3V3v9eoBO
+   Q==;
+X-CSE-ConnectionGUID: gVLYnH/iQ3irgbOqf5QwNw==
+X-CSE-MsgGUID: bl3jUhG9R0+hWLc1Iw5xjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="795401"
 X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="796103"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 00:16:13 -0700
-X-CSE-ConnectionGUID: DMuzrHjpTxCY23vm6G69+Q==
-X-CSE-MsgGUID: +ENxbeauS2m2WQCA6a/K8w==
+   d="scan'208";a="795401"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 00:43:32 -0700
+X-CSE-ConnectionGUID: xRXnyCemTH+DULf1v6De3A==
+X-CSE-MsgGUID: WG5r7D2HTlOoxdhC7zHV1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="1885575"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 16 Oct 2026 00:16:10 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="1956013"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 16 Oct 2026 00:43:31 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHcAh-00000000Ho6-1MOP;
-	Fri, 16 Oct 2026 07:16:07 +0000
-Date: Fri, 16 Oct 2026 15:15:18 +0800
+	id 1xHcbA-00000000C7p-2Q0R;
+	Fri, 16 Oct 2026 07:43:28 +0000
+Date: Fri, 16 Oct 2026 09:43:03 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Chang S. Bae" <chang.seok.bae@intel.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, tglx@kernel.org,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	peterz@infradead.org, david.kaplan@amd.com,
-	chang.seok.bae@intel.com
-Subject: Re: [PATCH v3 3/9] stop_machine: Introduce
- stop_machine_nmi_cpuslocked()
-Message-ID: <202610161559.cSgd4JA0-lkp@intel.com>
-References: <20261015211426.49114-4-chang.seok.bae@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: drivers/gpu/drm/xe/xe_lrc.c:1110:undefined reference to
+ `xe_configfs_get_ctx_restore_post_bb'
+Message-ID: <202610160935.Qk4ZxBxY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261015211426.49114-4-chang.seok.bae@intel.com>
 
-Hi Chang,
+Hi Lucas,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chang-S-Bae/stop_machine-Refactor-multi-CPU-stop-glue-code/20261015-211418
-base:   24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
-patch link:    https://lore.kernel.org/r/20261015211426.49114-4-chang.seok.bae%40intel.com
-patch subject: [PATCH v3 3/9] stop_machine: Introduce stop_machine_nmi_cpuslocked()
-config: i386-randconfig-1013-20261016 (https://download.01.org/0day-ci/archive/20261016/202610161559.cSgd4JA0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161559.cSgd4JA0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2f2f7eeef8b0a1a9b9ca998231419873ccae8d4e
+commit: 6c6988c5e03df145e6c5cabc50d67b11f5aa2e56 drm/xe/lrc: Allow to add user commands on context switch
+date:   1 year, 1 month ago
+config: xtensa-randconfig-r2305-20261014 (https://download.01.org/0day-ci/archive/20261016/202610160935.Qk4ZxBxY-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610160935.Qk4ZxBxY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 6c6988c5e03d ("drm/xe/lrc: Allow to add user commands on context switch")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610161559.cSgd4JA0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610160935.Qk4ZxBxY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/sched.h:63,
-                    from kernel/sched/rq-offsets.c:5:
->> include/linux/stop_machine.h:226:74: error: unknown type name 'conststruct'; did you mean 'const_true'?
-     226 | stop_machine_nmi_cpulocked(cpu_stop_nmisafe_fn_t nmisafe_fn, void *data, conststruct cpumask *cpus)
-         |                                                                          ^~~~~~~~~~~
-         |                                                                          const_true
-   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1 shuffle=3873254352
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=3873254352
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3873254352
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3873254352
-   make: Target 'prepare' not remade because of errors.
+   xtensa-linux-ld: section .text VMA [00003000,01941e7b] overlaps section .data VMA [00000000,0032a4bf]
+   xtensa-linux-ld: section .init.data VMA [0032a4c0,003337eb] overlaps section .text VMA [00003000,01941e7b]
+   arch/xtensa/kernel/entry.o: in function `fast_syscall_spill_registers':
+   arch/xtensa/kernel/entry.S:1424:(.exception.text+0x1e7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: make_task_dead
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init':
+   drivers/gpu/drm/xe/xe_guc.c:827:(.text+0x1cd4): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
+   drivers/gpu/drm/xe/xe_guc.c:90:(.text+0x1f76): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engine_setup_default_lrc_state':
+   drivers/gpu/drm/xe/xe_hw_engine.c:828:(.text+0x10cc): undefined reference to `xe_configfs_get_engines_allowed'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
+   drivers/gpu/drm/xe/xe_hw_engine.c:812:(.text+0x160a): undefined reference to `xe_configfs_get_engines_allowed'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_invalidate_state_cache_wa':
+>> drivers/gpu/drm/xe/xe_lrc.c:1110:(.text+0x6c4): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_post_ctx_restore_bb':
+   drivers/gpu/drm/xe/xe_lrc.c:1116:(.text+0x704): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0x8): undefined reference to `xe_configfs_init'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.rodata+0xc): undefined reference to `xe_configfs_exit'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_info_init':
+   drivers/gpu/drm/xe/xe_pci.c:822:(.text+0x1284): undefined reference to `xe_configfs_check_device'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_pci_probe':
+   drivers/gpu/drm/xe/xe_pci.c:828:(.text+0x13f6): undefined reference to `xe_configfs_check_device'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `psmi_debugfs_capture_addr_show':
+   drivers/gpu/drm/xe/xe_psmi.c:260:(.text+0x904): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
+   drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x932): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_psmi.c:289:(.text+0x9c4): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
+   drivers/gpu/drm/xe/xe_psmi.c:36:(.text+0x9e8): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_not_sriov_vf':
+   drivers/gpu/drm/xe/xe_rtp.c:370:(.text+0x1404): undefined reference to `xe_configfs_get_psmi_enabled'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_rtp.o:drivers/gpu/drm/xe/xe_rtp.c:371: more undefined references to `xe_configfs_get_psmi_enabled' follow
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_boot_enabled':
+   drivers/gpu/drm/xe/xe_survivability_mode.c:285:(.text+0x55c): undefined reference to `xe_configfs_get_survivability_mode'
+   xtensa-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
+   drivers/gpu/drm/xe/xe_survivability_mode.c:295:(.text+0x5d2): undefined reference to `xe_configfs_get_survivability_mode'
 
 
-vim +226 include/linux/stop_machine.h
+vim +1110 drivers/gpu/drm/xe/xe_lrc.c
 
-   200	
-   201	/**
-   202	 * stop_machine_nmi_cpuslocked() - Freeze CPUs and run a function in NMI context
-   203	 *
-   204	 * @nmisafe_fn:	The function to run
-   205	 * @data:	The data pointer for @nmisafe_fn()
-   206	 * @cpus:	The CPUs to run @nmisafe_fn() on (NULL = one unspecified online CPU)
-   207	 *
-   208	 * Description: This stop_machine() variant runs @nmisafe_fn() from NMI context
-   209	 * to prevent preemption by other NMIs. The callback must be built with noinstr.
-   210	 * Other than that, the semantics match stop_machine_cpuslocked().
-   211	 *
-   212	 * Context: Must be called from within a cpus_read_lock() protected region.
-   213	 * Avoid nested calls to cpus_read_lock().
-   214	 *
-   215	 * Return: 0 if all invocations of @nmisafe_fn return zero, -ENOMEM if cpumask
-   216	 * allocation fails, -EINVAL if not initialized yet or any target CPU failed to
-   217	 * receive NMI. Otherwise, the value returned by an arbitrarily chosen member of
-   218	 * the set of calls to @nmisafe_fn that returned non-zero.
-   219	 */
-   220	int stop_machine_nmi_cpuslocked(cpu_stop_nmisafe_fn_t nmisafe_fn, void *data,
-   221					const struct cpumask *cpus);
-   222	
-   223	#else
-   224	static inline bool stop_machine_nmi_handler(void) { return false; }
-   225	static inline int
- > 226	stop_machine_nmi_cpulocked(cpu_stop_nmisafe_fn_t nmisafe_fn, void *data, conststruct cpumask *cpus)
-   227	{
-   228		return 0;
-   229	}
-   230	#endif /* CONFIG_STOP_MACHINE_NMI */
-   231	
+  1106	
+  1107	static ssize_t setup_configfs_post_ctx_restore_bb(struct xe_lrc *lrc,
+  1108							  struct xe_hw_engine *hwe,
+  1109							  u32 *batch, size_t max_len)
+> 1110	{
+  1111		struct xe_device *xe = gt_to_xe(lrc->gt);
+  1112		const u32 *user_batch;
+  1113		u32 *cmd = batch;
+  1114		u32 count;
+  1115	
+  1116		count = xe_configfs_get_ctx_restore_post_bb(to_pci_dev(xe->drm.dev),
+  1117							    hwe->class, &user_batch);
+  1118		if (!count)
+  1119			return 0;
+  1120	
+  1121		if (count > max_len)
+  1122			return -ENOSPC;
+  1123	
+  1124		/*
+  1125		 * This should be used only for tests and validation. Taint the kernel
+  1126		 * as anything could be submitted directly in context switches
+  1127		 */
+  1128		add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
+  1129	
+  1130		memcpy(cmd, user_batch, count * sizeof(u32));
+  1131		cmd += count;
+  1132	
+  1133		return cmd - batch;
+  1134	}
+  1135	
 
 --
 0-DAY CI Kernel Test Service
