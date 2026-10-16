@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1ED2480DF3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Oct 2026 22:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5AC14A4CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 00:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792104388; cv=none; b=oeO/G0+R2/Cal5HUHtQ9EUctGDOsDv9X7/rF225jLW85ZNGVvnQqmGpjvj3Zj3SGW9YiG+AdzkcWG78w5m50AHXI6Rh+TPfyy5y4iwYEz52ne868WFVK/I0PV8dm/CRNJKyRGUeEQaQ+Jkp9YphrSFzd0hJVk05sAxdD5XZLj2Y=
+	t=1792109849; cv=none; b=UwqTf4gbmOO8K54+cVMXiv+OgYXD66Cqtm84dX7tAgOOTVZQ5HtTKfFvPWe1QCT3X0YnpuGeeRXFT4d9BAymqwxH9kT5GyN7qD7CEqcS26EBsP+Mvbo8oVRCvtc+m90WrcHEUGp2ciUz6cBGFGEKr+DZglY+S4TC2+9z90xOsZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792104388; c=relaxed/simple;
-	bh=9ZWzv+KNnujCBWUA43O4k1in+THeLq2wLqhFJ3C8cD4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RQODYvssjYH54vmf0HMQAnoO6h4A/V+bC7RH5BSO/zQGKhWJ8NFsfJIiB7OuIpanLayGuZlknhXv7nzDwJkglxjb1kEFMyFIpSZ7UZVTqd8Wa4xrlMzHQffd8zZ+y4P/fBjhy3Tf/jwiTLOg26fkK/et8pVlBPyCqcmcyGzyCXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkgoJ8N1; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1792109849; c=relaxed/simple;
+	bh=M+o6FahNxm7mmmNdq/nTmdEnY2jU3jx4I7FGggw/LyY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mfparz188YMFAmFgOBYugBhqtpajrIET3vW7wuy5LEIsLA1WH74+vn9Y7ktJvOfy3eXM/4gZaChcLofu8EWzAkldSPxnCyUoYJmamCZUQZGxbOfdxKgM1179gicZdr6gkV5AuXrxJ3EmIj+0iHXcKUktqOF1ih/rSkbjvjL9ryE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6Kzqb5e; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkgoJ8N1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6Kzqb5e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792104384; x=1823640384;
+  t=1792109849; x=1823645849;
   h=date:from:to:cc:subject:message-id;
-  bh=9ZWzv+KNnujCBWUA43O4k1in+THeLq2wLqhFJ3C8cD4=;
-  b=fkgoJ8N1LgGRzF2o/ffxMVpY0L/u6/mEiAKi/5P3s+QrtXerNzV9dmzb
-   GXfcVuSwQpt4ywjQadH59BHNuUDErncf2S3eyAaE595NYEWqCktAWL8Vr
-   8c9IRwVFt+/IoHQBJWTk+0GZEFAPO6qFiLsz49UjLhYNcJKuznxHKBsE2
-   Znjw2S86lXLmgCXLXj7bKIFFV5I7fvUBG740mRGvY2eL7B1UDlv/gWGLV
-   bQLQdclZX1ccSGXj3IWxTCTXjOkw5CgCCsEymL8t8UaHmevPLVep0ZDyA
-   2UB1Ehe8pcYAi/aOJOqDm6uZ3aILU2XJYRfxqO6LuHH7X8pknuEB6WvCp
-   Q==;
-X-CSE-ConnectionGUID: obUHMJeaRTaWR3iITHqnug==
-X-CSE-MsgGUID: W9l5QnNXQ2mnkphmY62KCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="990708"
+  bh=M+o6FahNxm7mmmNdq/nTmdEnY2jU3jx4I7FGggw/LyY=;
+  b=n6Kzqb5e1zXwd64AZlHPw4VGe8rPvvRUX6hhE/7byZa1c5uitnPVEr39
+   2qaKNT64V7VnQnpd8lIViss1c4t2OR1jBUyJV5wCGHDbVkj7JRjbCEfDU
+   eFWpohTIqUxjq76bnO+xsXxAyFj0GhfCNqOhinGtylL2Fu0dr0JoPrrbw
+   RbxT0XGA0CQqv2KCjNN8d0JlQZu04699iYaVUuApUVJULQiQdUESTHPqc
+   FC3OXjAncJxjaX7L8a4sgx8i1bIP2LKW3iGVYMG7XWlmSY6aSCAqYHz4q
+   o+QPdNfsGCJ28j4qDLgK2fFl9YR7xYMcZagzsg4Nfs8IVq6V5IZdd5+mY
+   w==;
+X-CSE-ConnectionGUID: WKISn9j4R32rLKgJRcDMow==
+X-CSE-MsgGUID: I8SrmAFdRMysJ7UVsUpZJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="912733"
 X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="990708"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 15:46:21 -0700
-X-CSE-ConnectionGUID: g9Rrwn+5TWa6fjkZkSUZxg==
-X-CSE-MsgGUID: kG790rJxQiCq90mgQPNv7Q==
+   d="scan'208";a="912733"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 17:17:29 -0700
+X-CSE-ConnectionGUID: rZ9ppdebQza5M1AUlFXzlA==
+X-CSE-MsgGUID: HjT65KEVSJSohZVdqr0TmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
-   d="scan'208";a="1696268"
+   d="scan'208";a="2178989"
 Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 15 Oct 2026 15:46:19 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 Oct 2026 17:17:27 -0700
 Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHUDJ-00000000Btf-2YBd;
-	Thu, 15 Oct 2026 22:46:17 +0000
-Date: Fri, 16 Oct 2026 00:45:32 +0200
+	id 1xHVdU-00000000BwZ-3Nzj;
+	Fri, 16 Oct 2026 00:17:24 +0000
+Date: Fri, 16 Oct 2026 02:16:47 +0200
 From: kernel test robot <lkp@intel.com>
-To: Steffen Eiden <seiden@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-s390@vger.kernel.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Catalin Marinas <catalin.marinas@arm.com>
-Subject: [kvms390:queue 24/24] arch/s390/kvm/arm64/arm.c:247:15-23:
- Unneeded variable: "features". Return "KVM_S390_ARM64_IMPL_FEATURES" on line
- 249
-Message-ID: <202610160028.dMuOkORC-lkp@intel.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lubaolu-intel-iommu:cca/topics/cca-da-gmem-backend 100/157]
+ ld.lld: error: undefined symbol: rmi_feat_reg
+Message-ID: <202610160235.UnZvjrgz-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,40 +59,23 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Steffen,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git queue
-head:   e93fb70b748982fda5e6d97721df35194cacfc4a
-commit: e93fb70b748982fda5e6d97721df35194cacfc4a [24/24] arm64: Use proper include variant
-config: s390-randconfig-r2105-20261015 (https://download.01.org/0day-ci/archive/20261016/202610160028.dMuOkORC-lkp@intel.com/config)
+tree:   https://github.com/LuBaolu/intel-iommu.git cca/topics/cca-da-gmem-backend
+head:   c390eac65ae31598feebbe91bb9fa76ee4ae8cea
+commit: 16cefcbe8263afd0e52cc449cfdea4f6effbb0c3 [100/157] iommu/arm-smmu-v3: Map the Realm event IRQ
+config: arm64-randconfig-2000-20261015 (https://download.01.org/0day-ci/archive/20261016/202610160235.UnZvjrgz-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610160235.UnZvjrgz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610160028.dMuOkORC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610160235.UnZvjrgz-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/s390/kvm/arm64/arm.c:247:15-23: Unneeded variable: "features". Return "KVM_S390_ARM64_IMPL_FEATURES" on line 249
+All errors (new ones prefixed by >>):
 
-vim +247 arch/s390/kvm/arm64/arm.c
-
-761404d7acfe8c Steffen Eiden 2026-04-02  244  
-761404d7acfe8c Steffen Eiden 2026-04-02  245  static unsigned long system_supported_vcpu_features(struct kvm_vcpu *vcpu)
-761404d7acfe8c Steffen Eiden 2026-04-02  246  {
-761404d7acfe8c Steffen Eiden 2026-04-02 @247  	unsigned long features = KVM_S390_ARM64_IMPL_FEATURES;
-761404d7acfe8c Steffen Eiden 2026-04-02  248  
-761404d7acfe8c Steffen Eiden 2026-04-02 @249  	return features;
-761404d7acfe8c Steffen Eiden 2026-04-02  250  }
-761404d7acfe8c Steffen Eiden 2026-04-02  251  
-
-:::::: The code at line 247 was first introduced by commit
-:::::: 761404d7acfe8c58f9bd938332c6cc9beed6bafd KVM: s390: Add basic arm64 kvm module
-
-:::::: TO: Steffen Eiden <seiden@linux.ibm.com>
-:::::: CC: Christian Borntraeger <borntraeger@linux.ibm.com>
+>> ld.lld: error: undefined symbol: rmi_feat_reg
+   >>> referenced by arm-smmu-v3.c
+   >>>               drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.o:(arm_smmu_rmm_device_probe) in archive vmlinux.a
 
 --
 0-DAY CI Kernel Test Service
