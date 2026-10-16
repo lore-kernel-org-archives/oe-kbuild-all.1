@@ -1,71 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4E6364933
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 04:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A212F6188;
+	Fri, 16 Oct 2026 04:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792126494; cv=none; b=AYfuA6MRz7gaecPmNOabNccovULQug3INqL7xwx24oF+Ldr3cBYZ0Kp96IulDvPaz7mHVFc2R/2nHhXe4qTMlAsfFar55N5euQDI8JUlBKRx/c7T6Ag5CFanxwYHlYjhUOTtAvaynX9hxZFyGuejp2zCLUb01B1Nuxrwh3FA3oA=
+	t=1792126556; cv=none; b=Bz93yNZkasQll/0oAkAMZ9kAk4vaxDzIPKVtpLH+ejGa0rDVTDt9b4UNIZMWbiy+DP0CWA2YPb3Ufg7GgnLFBESbUS/hw10FO4tXe0N2oo4XGKB5BzGKl6EpkYI03Lq9YbxvCRu6qVeF4r2hZ4mL6BUaktSMLsN6yw8RgSzLGWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792126494; c=relaxed/simple;
-	bh=vMokfa1+hvgywCpz3ofj3oYp/nbYqpRWvALkC8ki2hY=;
+	s=arc-20240116; t=1792126556; c=relaxed/simple;
+	bh=MM1H5CppfKe9TFwEMwX1JK9hEtOIhOo/5H8CuYa9jW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6bbgKsKSX6NOXXXzRG42BYKFXnnmBdRn1/4JcAhh2HNiUk2MLeYRqq4rOA5PIxKpEneu7K/370KaqwqzkOPvJ2TJ46S5/V8Yw08hOOGdoi4EPAfaHf5yiJ/sWR7hpEmTsQLJ/EEoOSpnbwfQUnW5F3uKBSP8fVGDFbtcR0fj0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVaaiXQ6; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=YT5SkFbhYJ9m8hA5Rx0uQYPpcprxsXlcmIp1IOYhpxEo5CbOYMy9DvFRXHw+MOAFe3LZ7ha4zlvAK94sMepiJsNi6UWYAp9wRURfHTjALulX413/ksI9WsFJQanpW0QYdKG8qeuxWxFdOjhsvfYhhmmpC50IZwTuA48eLIdoR3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lvu4Vs+Y; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVaaiXQ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lvu4Vs+Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792126491; x=1823662491;
+  t=1792126554; x=1823662554;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vMokfa1+hvgywCpz3ofj3oYp/nbYqpRWvALkC8ki2hY=;
-  b=LVaaiXQ6Ok63teiWoK89dyz6Tl5OPgTmjRHI2+UMqAR48ZeYMfypeoZR
-   A/EBtGNi1cgEwYf/FkN8aGlbl7JJyLO8MVav41RJf0H60TjhbKEdAhHvE
-   URheyWQ6CLGT1LcqxOvExV6Mm+O3uGjM7bw0ipNsdL2AWI3pdfW8MkxRK
-   stId/yioIXnbhv1aHwQyUhzlZ60gth0Z939Y1HdpeZk5I80LOAyidIh7N
-   JKXiXzlSQNGt5QXe3O2D8AsVElmk9gQIQdpTAaeSG6U3lxCbAmZSyFHmF
-   0pQ2uR5sjv0lkhOD0nKQ86dvo6bkAzRrNIP2wskYczSNOVEpvxNKFcNJt
-   w==;
-X-CSE-ConnectionGUID: BPHhicoCT7a69LBVR9ofaw==
-X-CSE-MsgGUID: lWDzlUkzQlq+v8gflUoubw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="918826"
+  bh=MM1H5CppfKe9TFwEMwX1JK9hEtOIhOo/5H8CuYa9jW8=;
+  b=Lvu4Vs+YV1NbPs3dU19GI3fZN/HgCP/Ye7N3cicc5uXdVRP3q7QtUAOC
+   xcVOt0IkE+Cz8DnvJwpgDuJbUezV6KggyhW7hW5s6q5pZI7Ud0yFpNCAw
+   jiUvANj7/JkYfAnmYgTsPeXJmiSNx6bdmDhnUjAjvvjq1Ie1gkbu2+k/n
+   l32lTpIPZrOk2tbUV/dxRr48N5NrzSt+s4Z996erktWBvAtO2K4PWwA3h
+   13rQMKut/wslr4QEbnULh9+GO6JuI5JX1EONkgnG6aVZt243b2jfTuEAj
+   10KRQYCJ7k3hIT73xCoId4CnE+jtxpSWUyH+rnZFw6/sPDpkH4FWKjVlM
+   Q==;
+X-CSE-ConnectionGUID: fIzl9Ct9QkamVjI1pyhZ+A==
+X-CSE-MsgGUID: CMNolirpRJCj5BYMHmm1HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="798382"
 X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="918826"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 21:54:50 -0700
-X-CSE-ConnectionGUID: REJ6z22YRraItSUsrmmjZQ==
-X-CSE-MsgGUID: F81ihg6QT2itneTire3loQ==
+   d="scan'208";a="798382"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 21:55:53 -0700
+X-CSE-ConnectionGUID: YMJcPrrdS6OhA32mx6YObA==
+X-CSE-MsgGUID: xpfQAwhUTNmbU4hYwfo8Nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="1843240"
+   d="scan'208";a="1814166"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Oct 2026 21:54:47 -0700
+  by orviesa009.jf.intel.com with ESMTP; 15 Oct 2026 21:55:48 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHZxs-00000000Hcs-078R;
-	Fri, 16 Oct 2026 04:54:44 +0000
-Date: Fri, 16 Oct 2026 12:54:18 +0800
+	id 1xHZyq-00000000Hcw-0SDE;
+	Fri, 16 Oct 2026 04:55:44 +0000
+Date: Fri, 16 Oct 2026 12:54:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+To: Sairaj Kodilkar <sarunkod@amd.com>, "H. Peter Anvin" <hpa@zytor.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Kees Cook <kees@kernel.org>, Petr Mladek <pmladek@suse.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tycho Andersen <tycho@tycho.pizza>,
-	Namhyung Kim <namhyung@kernel.org>
-Subject: Re: [PATCH v3 2/2] kallsyms: Don't leak pointers for unresolved
- symbols
-Message-ID: <202610161209.43Dqkd4l-lkp@intel.com>
-References: <20261015-vsprintf_kallsym-v3-2-c175c27f38b7@linutronix.de>
+	Borislav Petkov <bp@alien8.de>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>, Marco Elver <elver@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	iommu@lists.linux.dev, kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v5 4/7] iommu/amd: Program guest-mode IRTEs for GAPPI
+ wakeup when IRTE[IsRun] = 0
+Message-ID: <202610161241.OoInPYLr-lkp@intel.com>
+References: <20261015064515.10700-5-sarunkod@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,33 +86,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261015-vsprintf_kallsym-v3-2-c175c27f38b7@linutronix.de>
+In-Reply-To: <20261015064515.10700-5-sarunkod@amd.com>
 
-Hi Sebastian,
+Hi Sairaj,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on ec8bf8280261294a9b9b4520414b42704c7f9f6b]
+[auto build test ERROR on 4056b3c9d3c92ea45955641dbafeb9b960e146ef]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/vsprintf-Don-t-leak-pointers-for-ps-without-KALLSYMS-enabled/20261015-180648
-base:   ec8bf8280261294a9b9b4520414b42704c7f9f6b
-patch link:    https://lore.kernel.org/r/20261015-vsprintf_kallsym-v3-2-c175c27f38b7%40linutronix.de
-patch subject: [PATCH v3 2/2] kallsyms: Don't leak pointers for unresolved symbols
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20261016/202610161209.43Dqkd4l-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161209.43Dqkd4l-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sairaj-Kodilkar/iommu-amd-KVM-SVM-Rename-cpu-to-apicid-in-IOMMU-interface/20261015-121509
+base:   4056b3c9d3c92ea45955641dbafeb9b960e146ef
+patch link:    https://lore.kernel.org/r/20261015064515.10700-5-sarunkod%40amd.com
+patch subject: [PATCH v5 4/7] iommu/amd: Program guest-mode IRTEs for GAPPI wakeup when IRTE[IsRun] = 0
+config: x86_64-randconfig-1017-20261016 (https://download.01.org/0day-ci/archive/20261016/202610161241.OoInPYLr-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161241.OoInPYLr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610161209.43Dqkd4l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610161241.OoInPYLr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: lib/vsprintf.c:863 function parameter 'len' not described in 'snprintf_default_pointer'
->> Warning: lib/vsprintf.c:863 Excess function parameter 'size' description in 'snprintf_default_pointer'
->> Warning: lib/vsprintf.c:863 function parameter 'len' not described in 'snprintf_default_pointer'
->> Warning: lib/vsprintf.c:863 Excess function parameter 'size' description in 'snprintf_default_pointer'
+>> drivers/iommu/amd/init.c:163:6: error: redefinition of 'false' as different kind of symbol
+     163 | bool amd_iommu_gappi;
+         |      ^
+   include/linux/amd-iommu.h:65:25: note: expanded from macro 'amd_iommu_gappi'
+      65 | #define amd_iommu_gappi false
+         |                         ^
+   include/linux/stddef.h:11:2: note: previous definition is here
+      11 |         false   = 0,
+         |         ^
+   drivers/iommu/amd/init.c:164:15: error: redefinition of 'false' as different kind of symbol
+     164 | EXPORT_SYMBOL(amd_iommu_gappi);
+         |               ^
+   include/linux/amd-iommu.h:65:25: note: expanded from macro 'amd_iommu_gappi'
+      65 | #define amd_iommu_gappi false
+         |                         ^
+   include/linux/stddef.h:11:2: note: previous definition is here
+      11 |         false   = 0,
+         |         ^
+>> drivers/iommu/amd/init.c:164:1: error: cannot take the address of an rvalue of type 'int'
+     164 | EXPORT_SYMBOL(amd_iommu_gappi);
+         | ^             ~~~~~~~~~~~~~~~
+   include/linux/export.h:89:29: note: expanded from macro 'EXPORT_SYMBOL'
+      89 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+         |                                         ^              ~~~
+   include/linux/export.h:86:38: note: expanded from macro '_EXPORT_SYMBOL'
+      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                         ^               ~~~
+   include/linux/export.h:77:2: note: expanded from macro '__EXPORT_SYMBOL'
+      77 |         __ADDRESSABLE(sym)                                      \
+         |         ^             ~~~
+   include/linux/compiler.h:276:2: note: expanded from macro '__ADDRESSABLE'
+     276 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
+         |         ^              ~~~
+   include/linux/compiler.h:273:63: note: expanded from macro '___ADDRESSABLE'
+     273 |         __UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
+         |                                                                      ^~~~
+   3 errors generated.
+
+
+vim +/false +163 drivers/iommu/amd/init.c
+
+   162	
+ > 163	bool amd_iommu_gappi;
+ > 164	EXPORT_SYMBOL(amd_iommu_gappi);
+   165	
 
 --
 0-DAY CI Kernel Test Service
