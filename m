@@ -1,200 +1,258 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7D4396B9D;
-	Fri, 16 Oct 2026 08:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3191714AA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 08:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792139147; cv=none; b=qffEZL3swmZYK3hv8FnA8thR3JEYKhdGHfq73JO9FV0yn+xq96jLC+u2yHr3JxF6or2j+O5LCOqAN535BemW2wE2+yNkOonKnugiQjjtdyB+TwehlPMWV+DZQxHcmvVHh5PIIFeeg/WmlMS1Yp1nrmkJP4r+7ioo8/u3Te6baW8=
+	t=1792139678; cv=none; b=N7SE9PwH7DH577CJ9stAG05OajJdnsqLr1gIc/65KcIAO+Ee6bmsPgQMY1FPi1tTEFm/CH8jiN17T0J43uwpal0kmEv63J4WD0kcFRmKB3w1uXVNldfK4r9sLbE0VDy9UeNyDs/OJXsBdCaPa5oW0rtZ/Tlb8/HyiYD1fLa/57k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792139147; c=relaxed/simple;
-	bh=KAfd8tRH2E+vvJpLkFEh63/NAmBOZN4lDvDMX9uzf5s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gi/XvUgdEax3kCdfGILZS4OA+sW3AG0qu5VhsyWkxCt8fnzM8UmnlSC5+696oSQlNnGcs90M0zCBVTcau6fegMZGsZ/1jTk+SdvLN/acJrIfwz5UeswCvr4P+qVfKu9cXkZeJ+RZUcVRtl7+ZZGY5fy4LplvXuu91Pxfv4fUEEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AoR2383t; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1792139678; c=relaxed/simple;
+	bh=jUKCVTQfqGjy0jw6zvhQsR0+wlO/2yrctb7hQfJfBfg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=iWbecMW4PtXZu6kSQ2YxkhrzHrZJ73rKxfem14ohMJj4KR6SiKhXFVDG3MycGk7Dk5mQpHLpXzoICfAxzADDj8FvjoP2D+dUxGrpql5BlAnTNoqBIIVtrIN0z2j/WmeV3ylbajxlAR4hPZVrX7m8O0+elOZowZC7t6t5L18zpEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODDuF+/e; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AoR2383t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODDuF+/e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792139146; x=1823675146;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KAfd8tRH2E+vvJpLkFEh63/NAmBOZN4lDvDMX9uzf5s=;
-  b=AoR2383tIJnDYyU0qzY3sDPTyeKQOpgfCgFPtjKL4/lNhDCP580XnG+U
-   Sohew1udjwNOdLkyE17mvquC0a1wePHYSy67fUowHCWaXylNw9GBgr48O
-   C97ngCow8v7TC1EIp/sj0By3znjYii9RVpkfKiZgIjlDIc5miv6pUT9dh
-   qiKeb4rgbm5xEddgJ5/14SA0BMigBOacifGvWtV+NruHdqfNITXpLj1wX
-   3+UJh3N0shlYeEQiZW8Tw0HCP4oRQBYdAPijJfMBIxemzv30IG8PWJrvp
-   sWXEj9/gNJvtrpRy5ZGDlsCQ6fqCK0+oLZZYsmxVrFTOOHr8YK8Qtp5xa
-   Q==;
-X-CSE-ConnectionGUID: xCkuKGpfR2GMF8K5hslBXw==
-X-CSE-MsgGUID: /FX5izdURLWXpsPi5RZMrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="812315"
+  t=1792139676; x=1823675676;
+  h=date:from:to:cc:subject:message-id;
+  bh=jUKCVTQfqGjy0jw6zvhQsR0+wlO/2yrctb7hQfJfBfg=;
+  b=ODDuF+/eDVkJsYudUvmeexppTeydIPyir71qVQQyl8rCnMQ/YNGwgbtF
+   vvHm/igH+cwTpFyD9HyJK8MpqCsOJqWxPzHoB0ro2lhM2vRShAePhIlZD
+   gpuxJhSgBG5tlMWC0YWh1MWOCLj3MXeuc3c3D2Oh5C6MQgMtt+NeA573l
+   m6OPLE39rYn4yUFUnGZS/JIDO68eOtCA/dCrTddcGlC997aqRKE0GaOrX
+   grYLZdbIJXPQKMA2JbqFfpcUJEXj8SuQh0YlS8XLcjgvvWMbuCedLzHuN
+   AMLwA+TI+/JtouQIZUBcJ5QWUIdpog2DzxDkxTZUICdv6wI9gcb1TeqK8
+   g==;
+X-CSE-ConnectionGUID: BdqYvP+OSbS/B1dbNcVknw==
+X-CSE-MsgGUID: SxB4muQ9TFKRXNoz4xypBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="825677"
 X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="812315"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 01:23:27 -0700
-X-CSE-ConnectionGUID: u5J2rt91RgyRRrpNhQby/w==
-X-CSE-MsgGUID: kNfHIRW4RAm85ARoSZ/D7A==
+   d="scan'208";a="825677"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 01:34:35 -0700
+X-CSE-ConnectionGUID: B20eV+4qTKqhf2wzxDjNOQ==
+X-CSE-MsgGUID: K9UPsYtCRXyCA1UoQ2vGRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="2143052"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Oct 2026 01:23:20 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="2314859"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 16 Oct 2026 01:34:34 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHdDg-00000000HtS-105i;
-	Fri, 16 Oct 2026 08:23:16 +0000
-Date: Fri, 16 Oct 2026 16:23:02 +0800
+	id 1xHdOZ-00000000C8p-3Vhd;
+	Fri, 16 Oct 2026 08:34:31 +0000
+Date: Fri, 16 Oct 2026 10:34:24 +0200
 From: kernel test robot <lkp@intel.com>
-To: Sairaj Kodilkar <sarunkod@amd.com>, "H. Peter Anvin" <hpa@zytor.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>, Marco Elver <elver@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	iommu@lists.linux.dev, kvm@vger.kernel.org,
-	linux-coco@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v5 7/7] iommu/amd: Provide kernel command line option to
- enable GAPPI
-Message-ID: <202610161625.7iSczyVo-lkp@intel.com>
-References: <20261015064515.10700-8-sarunkod@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 1/1]
+ include/trace/hooks/fs.h:144:18: warning: declaration of 'struct
+ linux_binprm' will not be visible outside of this function
+Message-ID: <202610161047.lMsDTSQM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261015064515.10700-8-sarunkod@amd.com>
 
-Hi Sairaj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4056b3c9d3c92ea45955641dbafeb9b960e146ef]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sairaj-Kodilkar/iommu-amd-KVM-SVM-Rename-cpu-to-apicid-in-IOMMU-interface/20261015-121509
-base:   4056b3c9d3c92ea45955641dbafeb9b960e146ef
-patch link:    https://lore.kernel.org/r/20261015064515.10700-8-sarunkod%40amd.com
-patch subject: [PATCH v5 7/7] iommu/amd: Provide kernel command line option to enable GAPPI
-config: x86_64-randconfig-1017-20261016 (https://download.01.org/0day-ci/archive/20261016/202610161625.7iSczyVo-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161625.7iSczyVo-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   70a231d0d37bc782fef784fc8a367822ed2098a1
+commit: fa573af4b2ab4a7c778dfaf0bb0a081ed59327f8 [1/1] ANDROID: vendor_hooks: add hooks for process authenticator security module
+config: arm-randconfig-r2200-20261016 (https://download.01.org/0day-ci/archive/20261016/202610161047.lMsDTSQM-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8a679464f19c426ef76aad9f4587b703dd3e584d)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610161047.lMsDTSQM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610161625.7iSczyVo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610161047.lMsDTSQM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iommu/amd/init.c:163:6: error: redefinition of 'false' as different kind of symbol
-     163 | bool amd_iommu_gappi;
-         |      ^
-   include/linux/amd-iommu.h:65:25: note: expanded from macro 'amd_iommu_gappi'
-      65 | #define amd_iommu_gappi false
+   In file included from fs/erofs/zdata.c:11:
+>> include/trace/hooks/fs.h:144:18: warning: declaration of 'struct linux_binprm' will not be visible outside of this function [-Wvisibility]
+     144 |         TP_PROTO(struct linux_binprm *bprm, int depth),
          |                         ^
-   include/linux/stddef.h:11:2: note: previous definition is here
-      11 |         false   = 0,
-         |         ^
-   drivers/iommu/amd/init.c:164:15: error: redefinition of 'false' as different kind of symbol
-     164 | EXPORT_SYMBOL(amd_iommu_gappi);
-         |               ^
-   include/linux/amd-iommu.h:65:25: note: expanded from macro 'amd_iommu_gappi'
-      65 | #define amd_iommu_gappi false
-         |                         ^
-   include/linux/stddef.h:11:2: note: previous definition is here
-      11 |         false   = 0,
-         |         ^
-   drivers/iommu/amd/init.c:164:1: error: cannot take the address of an rvalue of type 'int'
-     164 | EXPORT_SYMBOL(amd_iommu_gappi);
-         | ^             ~~~~~~~~~~~~~~~
-   include/linux/export.h:89:29: note: expanded from macro 'EXPORT_SYMBOL'
-      89 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^              ~~~
-   include/linux/export.h:86:38: note: expanded from macro '_EXPORT_SYMBOL'
-      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^               ~~~
-   include/linux/export.h:77:2: note: expanded from macro '__EXPORT_SYMBOL'
-      77 |         __ADDRESSABLE(sym)                                      \
-         |         ^             ~~~
-   include/linux/compiler.h:276:2: note: expanded from macro '__ADDRESSABLE'
-     276 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^              ~~~
-   include/linux/compiler.h:273:63: note: expanded from macro '___ADDRESSABLE'
-     273 |         __UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
-         |                                                                      ^~~~
->> drivers/iommu/amd/init.c:3804:20: error: expression is not assignable
-    3804 |                         amd_iommu_gappi = true;
-         |                         ~~~~~~~~~~~~~~~ ^
-   4 errors generated.
+   1 warning generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
 
 
-vim +3804 drivers/iommu/amd/init.c
+vim +144 include/trace/hooks/fs.h
 
-  3775	
-  3776	static int __init parse_amd_iommu_options(char *str)
-  3777	{
-  3778		if (!str)
-  3779			return -EINVAL;
-  3780	
-  3781		while (*str) {
-  3782			if (strncmp(str, "fullflush", 9) == 0) {
-  3783				pr_warn("amd_iommu=fullflush deprecated; use iommu.strict=1 instead\n");
-  3784				iommu_set_dma_strict();
-  3785			} else if (strncmp(str, "force_enable", 12) == 0) {
-  3786				amd_iommu_force_enable = true;
-  3787			} else if (strncmp(str, "off", 3) == 0) {
-  3788				amd_iommu_disabled = true;
-  3789			} else if (strncmp(str, "force_isolation", 15) == 0) {
-  3790				amd_iommu_force_isolation = true;
-  3791			} else if (strncmp(str, "pgtbl_v1", 8) == 0) {
-  3792				amd_iommu_pgtable = PD_MODE_V1;
-  3793			} else if (strncmp(str, "pgtbl_v2", 8) == 0) {
-  3794				amd_iommu_pgtable = PD_MODE_V2;
-  3795			} else if (strncmp(str, "irtcachedis", 11) == 0) {
-  3796				amd_iommu_irtcachedis = true;
-  3797			} else if (strncmp(str, "nohugepages", 11) == 0) {
-  3798				pr_info("Restricting V1 page-sizes to 4KiB");
-  3799				amd_iommu_pgsize_bitmap = AMD_IOMMU_PGSIZES_4K;
-  3800			} else if (strncmp(str, "v2_pgsizes_only", 15) == 0) {
-  3801				pr_info("Restricting V1 page-sizes to 4KiB/2MiB/1GiB");
-  3802				amd_iommu_pgsize_bitmap = AMD_IOMMU_PGSIZES_V2;
-  3803			} else if (strncmp(str, "gappi", 5) == 0) {
-> 3804				amd_iommu_gappi = true;
-  3805			} else {
-  3806				pr_notice("Unknown option - '%s'\n", str);
-  3807			}
-  3808	
-  3809			str += strcspn(str, ",");
-  3810			while (*str == ',')
-  3811				str++;
-  3812		}
-  3813	
-  3814		return 1;
-  3815	}
-  3816	
+    16	
+    17	DECLARE_HOOK(android_vh_ep_create_wakeup_source,
+    18		TP_PROTO(char *name, int len),
+    19		TP_ARGS(name, len));
+    20	
+    21	DECLARE_HOOK(android_vh_timerfd_create,
+    22		TP_PROTO(char *name, int len),
+    23		TP_ARGS(name, len));
+    24	
+    25	DECLARE_HOOK(android_vh_f2fs_printk,
+    26		TP_PROTO(unsigned long s_flag, struct va_format *vaf, int level, bool limit_rate),
+    27		TP_ARGS(s_flag, vaf, level, limit_rate));
+    28	
+    29	DECLARE_HOOK(android_vh_f2fs_create,
+    30		TP_PROTO(struct inode *inode, struct dentry *dentry),
+    31		TP_ARGS(inode, dentry));
+    32	
+    33	DECLARE_HOOK(android_vh_f2fs_set_bio_flag,
+    34		TP_PROTO(struct folio *folio, struct bio *bio),
+    35		TP_ARGS(folio, bio));
+    36	
+    37	DECLARE_HOOK(android_vh_put_super,
+    38		TP_PROTO(struct super_block *sb),
+    39		TP_ARGS(sb));
+    40	
+    41	DECLARE_HOOK(android_vh_wb_dirty_limits,
+    42		TP_PROTO(unsigned long *thresh, struct bdi_writeback *wb),
+    43		TP_ARGS(thresh, wb));
+    44	
+    45	DECLARE_HOOK(android_vh_evict,
+    46		TP_PROTO(struct inode *inode),
+    47		TP_ARGS(inode));
+    48	
+    49	DECLARE_HOOK(android_vh_inode_io_list_del,
+    50		TP_PROTO(struct inode *inode, struct bdi_writeback *wb),
+    51		TP_ARGS(inode, wb));
+    52	
+    53	DECLARE_HOOK(android_vh_redirty_tail_locked,
+    54		TP_PROTO(struct list_head **target_list, struct inode *inode,
+    55			 struct bdi_writeback *wb),
+    56		TP_ARGS(target_list, inode, wb));
+    57	
+    58	DECLARE_HOOK(android_vh_queue_io,
+    59		TP_PROTO(struct bdi_writeback *wb, unsigned int for_kupdate,
+    60			 unsigned long dirtied_before, int *moved),
+    61		TP_ARGS(wb, for_kupdate, dirtied_before, moved));
+    62	
+    63	DECLARE_HOOK(android_vh_mark_inode_dirty,
+    64		TP_PROTO(struct inode *inode, struct bdi_writeback *wb, struct list_head **dirty_list),
+    65		TP_ARGS(inode, wb, dirty_list));
+    66	
+    67	DECLARE_HOOK(android_vh_vfs_fsync_range,
+    68		TP_PROTO(struct inode *inode, unsigned long *cut_off),
+    69		TP_ARGS(inode, cut_off));
+    70	
+    71	DECLARE_RESTRICTED_HOOK(android_rvh_do_fcntl,
+    72		TP_PROTO(struct file *filp, unsigned int cmd, unsigned long arg, long *err),
+    73		TP_ARGS(filp, cmd, arg, err), 1);
+    74	
+    75	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_buffer_write,
+    76		TP_PROTO(struct kiocb *iocb, struct iov_iter *from,
+    77			 ssize_t *ret, bool *write_done),
+    78		TP_ARGS(iocb, from, ret, write_done), 1);
+    79	
+    80	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_move_data_block_bypass,
+    81		TP_PROTO(struct inode *inode, unsigned int bidx, int gc_type,
+    82			 unsigned int segno, int off, int *err, bool *bypass),
+    83		TP_ARGS(inode, bidx, gc_type, segno, off, err, bypass), 1);
+    84	
+    85	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_ra_data_block_bypass,
+    86		TP_PROTO(struct inode *inode, pgoff_t index, int *err, bool *bypass),
+    87		TP_ARGS(inode, index, err, bypass), 1);
+    88	
+    89	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_write_cache_pages,
+    90		TP_PROTO(struct address_space *mapping, struct writeback_control *wbc,
+    91			 int *ret, bool *wb_done),
+    92		TP_ARGS(mapping, wbc, ret, wb_done), 1);
+    93	
+    94	DECLARE_HOOK(android_vh_f2fs_customized_ioctl,
+    95		TP_PROTO(struct file *filp, unsigned int cmd, unsigned long arg,
+    96			 long *ret, bool *ioctl_done),
+    97		TP_ARGS(filp, cmd, arg, ret, ioctl_done));
+    98	
+    99	DECLARE_HOOK(android_vh_f2fs_dnode_set_blkaddr,
+   100		TP_PROTO(struct inode *inode, u32 blkaddr),
+   101		TP_ARGS(inode, blkaddr));
+   102	
+   103	DECLARE_HOOK(android_vh_f2fs_inode_may_compress,
+   104		TP_PROTO(struct inode *inode, int *err),
+   105		TP_ARGS(inode, err));
+   106	
+   107	DECLARE_HOOK(android_vh_f2fs_improve_priority,
+   108		TP_PROTO(struct task_struct *p, int *saved_prio, bool *skip),
+   109		TP_ARGS(p, saved_prio, skip));
+   110	
+   111	DECLARE_HOOK(android_vh_f2fs_restore_priority,
+   112		TP_PROTO(struct task_struct *p, int saved_prio),
+   113		TP_ARGS(p, saved_prio));
+   114	
+   115	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_down_read,
+   116		TP_PROTO(wait_queue_head_t *read_waiters, struct rw_semaphore *rwsem, bool *skip),
+   117		TP_ARGS(read_waiters, rwsem, skip), 1);
+   118	
+   119	DECLARE_HOOK(android_vh_f2fs_file_open,
+   120		TP_PROTO(struct inode *inode, struct file *filp),
+   121		TP_ARGS(inode, filp));
+   122	
+   123	DECLARE_HOOK(android_vh_erofs_iostat_submit,
+   124		TP_PROTO(struct super_block *sb, struct bio *bio),
+   125		TP_ARGS(sb, bio));
+   126	
+   127	DECLARE_HOOK(android_vh_erofs_iostat_update,
+   128		TP_PROTO(struct super_block *sb, struct bio *bio),
+   129		TP_ARGS(sb, bio));
+   130	
+   131	DECLARE_HOOK(android_vh_f2fs_iostat_submit,
+   132		TP_PROTO(struct super_block *sb, int type, struct bio *bio),
+   133		TP_ARGS(sb, type, bio));
+   134	
+   135	DECLARE_HOOK(android_vh_f2fs_iostat_update,
+   136		TP_PROTO(struct super_block *sb, struct bio *bio, bool *skip),
+   137		TP_ARGS(sb, bio, skip));
+   138	
+   139	DECLARE_RESTRICTED_HOOK(android_rvh_post_setattr,
+   140		TP_PROTO(struct dentry *dentry),
+   141		TP_ARGS(dentry), 1);
+   142	
+   143	DECLARE_RESTRICTED_HOOK(android_rvh_exec_binprm_check,
+ > 144		TP_PROTO(struct linux_binprm *bprm, int depth),
+   145		TP_ARGS(bprm, depth), 1);
+   146	
 
 --
 0-DAY CI Kernel Test Service
