@@ -1,69 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEE5438493;
-	Fri, 16 Oct 2026 07:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEA1427A04
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 07:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792136617; cv=none; b=GYsLB5uzdDw8HJBnLScKGCb+hJmmHv1bjCg1fNMovcKoqO0D6UW8aL1giqJmTQukJYXkkN5zUlJ++ccyftHhlSfhzbkGYtcI8clUEqfQtW4nFGdQJrHrZLUgvBqY+DT+noUMLFaqv/rQOb4pxuNuS4yEI+YCff4+watfHWyW+XM=
+	t=1792137378; cv=none; b=TtyZKS1w5tp+isz/jFGJj0IWo9daEH6VbOLtUTlJ3MIYwAmhq+kdt5LaLfph3tQ65r6NDJ2l51f8O166PSrJNfFuxSsYZH/Wo5lmYPqDf4sa0UXypC0H4JpScLqN0dwmep582cVWttAs1zFD4oPSuEQBT8F+V1R66we9eb057XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792136617; c=relaxed/simple;
-	bh=FGGPjqRCeeV74Cjl9VTeHKOGCZ5V86IQl1cesp1fthU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uu+CwsBoUUNM4Z3dMeQIet5dYvjCiQHLs5mC8tX+oDC5bGtoAowhWugBk/rLAw8BN1kFtwEOpoxgcbzf1UCi2mZB0ex7viZn+2/os9q1y6ONQAmecKH+YVtztUCzEtUT/GZ4POC/RRWGsSvFvq9ZqeJ2a4Wr/yTVaWP3Fj0NXzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3DEXYH1; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792137378; c=relaxed/simple;
+	bh=hvwbX552oM2suY7P305d3B5WENa/WpDtdIW/Mzfxb4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Q887VgzqQk02Kox5o49YKwqQe27qGtyqhtF3tvjOwZsGiPYCoZAKPpep++QB3gWNEU5UUkGfUdvferm6YYXQ0GYb9Nces2AVSDBgBxvwpkqBcNagol8WHLpctBtMYCBELDqPBzgSAr5a04Iu1V6190YSKmRYOvpA5Du6MdQwX4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZdSrGvk; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3DEXYH1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792136614; x=1823672614;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FGGPjqRCeeV74Cjl9VTeHKOGCZ5V86IQl1cesp1fthU=;
-  b=l3DEXYH1c+EWVpvP3BwRjtD5+rkzCP0AaOHCjBXBURtuYBRTP9uw09f3
-   d6qU2nnI+6UtBYIxMpa6TWI2OAqgKfwNRdb0E4YwzkzlQjwPyPpYPQSlC
-   FYkrD9gSZLq7yQu8yGfUjM1KTZ4aHL6dblDXXeKvgxJw12+iwzbvcbYhE
-   XkzyHWmAVfBCOkkvT4Oc57u/cs3fceDnwgjZ/gAJAxvIl//un/4n20DJe
-   iELdEhJLud4pjAnZp4tLvO7z0IIiSbTn5QXrHipMvvVpwVc4arjJInzYy
-   eEnTeX0XUohcb6udCuFt5cCLLN1zaro+DW2SL6sXOAjBXNsPNfR1S/cSK
-   w==;
-X-CSE-ConnectionGUID: bRLXC3pORFWlE2o0YYqqbA==
-X-CSE-MsgGUID: 9hCQvTjHTa6PVC5b7WTw/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="1017492"
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="1017492"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 00:43:34 -0700
-X-CSE-ConnectionGUID: D+A0irt3RiKFM0rd4f0kIg==
-X-CSE-MsgGUID: aYmDwfO1QqKmpeIa8ntcJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,161,1787036400"; 
-   d="scan'208";a="2247453"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Oct 2026 00:43:31 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xHcbA-00000000C7n-2LQc;
-	Fri, 16 Oct 2026 07:43:28 +0000
-Date: Fri, 16 Oct 2026 09:43:01 +0200
-From: kernel test robot <lkp@intel.com>
-To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Donald Shannon <donalds@nvidia.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH 10/11] tty: Add NVIDIA LSTP UART driver
-Message-ID: <202610160913.yN6dyp5f-lkp@intel.com>
-References: <20261012-lstp-usb-adapter-v1-10-aambrozewicz@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZdSrGvk"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48dfaa3fa12so435521f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 00:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792137375; x=1792742175; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tCWQ3v49kNCrQr0bcb3Fgd2+tgxAz2mTLi1UP2zL1Xs=;
+        b=AZdSrGvkCvwqrGefnOizEzZc1KWIMUj9FtN77OjR7U1OlDkp4PYMatHlNgq2C076ot
+         RytCjWNUb2TnUPLcufHIGIpF4Z48MlqmvCFA9IeDuYUC8jaLTc3hK9bH+ItI939zgy4e
+         aG0ZhwFUUaQpv8cSyXPYIsh8jeS7PoajKZLzVAVAHNGTOHPQX5lsjRtX3cFQhihrSQCO
+         yiIMXLMZdpIC1+kcEn6sKdXUPtx2n7Z2eJNeTP3Jd0znDY9tonyxtrZ4szfLvJNd97yY
+         gETw4BbX1E6NiTgahCar2MAKIzcMYF/MR/i5FHNDCev5gNMQwuWV2tonwPiK0FJ6uk5v
+         2TNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792137375; x=1792742175;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tCWQ3v49kNCrQr0bcb3Fgd2+tgxAz2mTLi1UP2zL1Xs=;
+        b=ZmD4OyDmzk/LOfTfh9mqNRJym3QDjU6ZIG+zW+e7CdPS2GLr1C9Ysh3gNTMqy424Eg
+         7SA0Flo7zOhTySsdwgvGfWnT4FCv8MzlTiIfLu7gCUHeHQGgfZnBGK0jrPQw2cXNtYzy
+         Ro+RdyAabNmHaLEgqO9CDsGHlYI9lYUMPxZteihZRgHlL7KW88j9OPdD2rSQ3TZncA/T
+         S5ldgz/2tGh7Gi5nQDTlCcBXxHPqGs+0yxHhLoxrHA7p2vkF7LA8doY0KcFQMmc56d41
+         vGXNlQbM+lhCYb5fY3KO+UubuchIuPa5YoHamDZP7l/O5p2XFI7rqi2OSuiHwq9hfg0j
+         69Yw==
+X-Forwarded-Encrypted: i=1; AKwUvBxAwLTEP939200BxQHd3ICyXxSPzuZgUq79HW5OZCmrI1eHWuVVx2o2sOJigLQ5Sf4HdDPoEm0eCL7o4aEL@lists.linux.dev
+X-Gm-Message-State: AFq9FYJ3tR/9USc0rnczCP5AeYJ5nd7zVetok4UHNCyXcfEk/tu4YiRr
+	IJaCu2oaucdwFXbPwWT93cqHyk7i6EEd8RNngfDCABhfOAQ2Mp8pIch/oj79yVKz0J6Qwg==
+X-Gm-Gg: AYBFou0GVOK3gaWI/Yla+62oLdRLVNcIfZ3VXrQCp5pawfK21V74fIa3C659s7COVXv
+	PUty3KmA3TkmbrV0H5NaBD2BRdXlRkTVgvM0HSEwn2JvyfP+YzhXbxzTO0zUnOXmQYCvMg699EV
+	96FiSjU3VlmjOaw0TdoA0oif0jR8e2Br/N7V2rwKwqKzrBxeFVeiU3qZW/FIU8k0VvBaOe6jcp4
+	iN+4BeJprIBpCVN4C61jA2dlpHhHUTFISthXRHKmIqctnfPkFUNX0Bb0k+tQoYUB/Iwa3KhGzxQ
+	rqgK0mVmVbICmhpHIKwmlZG50sWnSgjelxsJ3rEZ69Sq5ibwA4o+UFk3/kSbJupMzIJ1N7W7PES
+	RId5Ra4HulZ27MiAULdAQYP6jCE1bICgBb4ucqAVjmqaoajtpyguXRDLA6NZYPKj/WF43/dSc1f
+	ad1wLZhjH4r6Q5aJb1oe15yyCvwR1Vd/0+NTU+vX5sM2YbNZ8m9GphZ0s96zp5sF72ZeE=
+X-Received: by 2002:a5d:584f:0:b0:48d:fbe0:62e1 with SMTP id ffacd0b85a97d-48dfbe06466mr4728747f8f.27.1792137374714;
+        Fri, 16 Oct 2026 00:56:14 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a35sm2889606f8f.7.2026.10.16.00.56.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 00:56:14 -0700 (PDT)
+Date: Fri, 16 Oct 2026 10:56:10 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, bui duc phuc <phucduc.bui@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 5778/17613]
+ sound/soc/mediatek/mt8189/mt8189-afe-clk.c:648 mt8189_mck_enable() warn:
+ missing unwind goto?
+Message-ID: <202610152233.eVrGPEyh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,79 +76,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261012-lstp-usb-adapter-v1-10-aambrozewicz@nvidia.com>
 
-Hi Adrian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bbf6b99a57b2479bf51c3c8ad0946f4b8c33ed69]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Ambrozewicz/dt-bindings-gpio-Add-NVIDIA-LSTP-GPIO/20261012-203559
-base:   bbf6b99a57b2479bf51c3c8ad0946f4b8c33ed69
-patch link:    https://lore.kernel.org/r/20261012-lstp-usb-adapter-v1-10-aambrozewicz%40nvidia.com
-patch subject: [PATCH 10/11] tty: Add NVIDIA LSTP UART driver
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20261016/202610160913.yN6dyp5f-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610160913.yN6dyp5f-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b810335a0699d1810683796b0e3ffe8827ddfe6c
+commit: bd9a8d9def207a8d7eeaa4dda1c53c5b4fca4008 [5778/17613] ASoC: mediatek: mt8189: Propagate MCK enable errors
+config: arm64-randconfig-r2200-20261013 (https://download.01.org/0day-ci/archive/20261015/202610152233.eVrGPEyh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610160913.yN6dyp5f-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610152233.eVrGPEyh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+sound/soc/mediatek/mt8189/mt8189-afe-clk.c:648 mt8189_mck_enable() warn: missing unwind goto?
 
-   drivers/tty/lstp_tty.c: In function 'lstp_baud_to_speed':
->> drivers/tty/lstp_tty.c:167:74: error: 'B2500000' undeclared (first use in this function); did you mean 'B1500000'?
-     167 |                 { 1500000, B1500000 }, { 2000000, B2000000 }, { 2500000, B2500000 },
-         |                                                                          ^~~~~~~~
-         |                                                                          B1500000
-   drivers/tty/lstp_tty.c:167:74: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/tty/lstp_tty.c:168:28: error: 'B3000000' undeclared (first use in this function); did you mean 'B1000000'?
-     168 |                 { 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-         |                            ^~~~~~~~
-         |                            B1000000
->> drivers/tty/lstp_tty.c:168:51: error: 'B3500000' undeclared (first use in this function); did you mean 'B1500000'?
-     168 |                 { 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-         |                                                   ^~~~~~~~
-         |                                                   B1500000
->> drivers/tty/lstp_tty.c:168:74: error: 'B4000000' undeclared (first use in this function); did you mean 'B1000000'?
-     168 |                 { 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-         |                                                                          ^~~~~~~~
-         |                                                                          B1000000
+vim +648 sound/soc/mediatek/mt8189/mt8189-afe-clk.c
 
+dc637ffeed6c32 Cyril Chao   2025-10-31  614  
+dc637ffeed6c32 Cyril Chao   2025-10-31  615  int mt8189_mck_enable(struct mtk_base_afe *afe, int mck_id, int rate)
+dc637ffeed6c32 Cyril Chao   2025-10-31  616  {
+dc637ffeed6c32 Cyril Chao   2025-10-31  617  	struct mt8189_afe_private *afe_priv = afe->platform_priv;
+dc637ffeed6c32 Cyril Chao   2025-10-31  618  	int apll = mt8189_get_apll_by_rate(afe, rate);
+dc637ffeed6c32 Cyril Chao   2025-10-31  619  	int apll_clk_id = apll == MT8189_APLL1 ?
+dc637ffeed6c32 Cyril Chao   2025-10-31  620  			  MT8189_CLK_TOP_MUX_AUD_1 : MT8189_CLK_TOP_MUX_AUD_2;
+dc637ffeed6c32 Cyril Chao   2025-10-31  621  	int m_sel_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  622  	int div_clk_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  623  	int ret;
+dc637ffeed6c32 Cyril Chao   2025-10-31  624  
+dc637ffeed6c32 Cyril Chao   2025-10-31  625  	dev_dbg(afe->dev, "mck_id: %d, rate: %d\n", mck_id, rate);
+dc637ffeed6c32 Cyril Chao   2025-10-31  626  
+dc637ffeed6c32 Cyril Chao   2025-10-31  627  	if (mck_id >= MT8189_MCK_NUM || mck_id < 0)
+dc637ffeed6c32 Cyril Chao   2025-10-31  628  		return -EINVAL;
+dc637ffeed6c32 Cyril Chao   2025-10-31  629  
+dc637ffeed6c32 Cyril Chao   2025-10-31  630  	m_sel_id = mck_div[mck_id].m_sel_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  631  	div_clk_id = mck_div[mck_id].div_clk_id;
+dc637ffeed6c32 Cyril Chao   2025-10-31  632  
+dc637ffeed6c32 Cyril Chao   2025-10-31  633  	/* select apll */
+dc637ffeed6c32 Cyril Chao   2025-10-31  634  	if (m_sel_id >= 0) {
+dc637ffeed6c32 Cyril Chao   2025-10-31  635  		ret = mt8189_afe_enable_clk(afe, afe_priv->clk[m_sel_id]);
+dc637ffeed6c32 Cyril Chao   2025-10-31  636  		if (ret)
+dc637ffeed6c32 Cyril Chao   2025-10-31  637  			return ret;
+dc637ffeed6c32 Cyril Chao   2025-10-31  638  
+dc637ffeed6c32 Cyril Chao   2025-10-31  639  		ret = mt8189_afe_set_clk_parent(afe, afe_priv->clk[m_sel_id],
+dc637ffeed6c32 Cyril Chao   2025-10-31  640  						afe_priv->clk[apll_clk_id]);
+dc637ffeed6c32 Cyril Chao   2025-10-31  641  		if (ret)
+bd9a8d9def207a bui duc phuc 2026-09-16  642  			goto err_disable_m_sel_clk;
 
-vim +167 drivers/tty/lstp_tty.c
+cleanup added here
 
-   151	
-   152	/* clang-format off */
-   153	static speed_t lstp_baud_to_speed(u32 baud)
-   154	{
-   155		static const struct {
-   156			u32     baud;
-   157			speed_t speed;
-   158		} map[] = {
-   159			{      50, B50      }, {      75, B75      }, {     110, B110     },
-   160			{     134, B134     }, {     150, B150     }, {     200, B200     },
-   161			{     300, B300     }, {     600, B600     }, {    1200, B1200    },
-   162			{    1800, B1800    }, {    2400, B2400    }, {    4800, B4800    },
-   163			{    9600, B9600    }, {   19200, B19200   }, {   38400, B38400   },
-   164			{   57600, B57600   }, {  115200, B115200  }, {  230400, B230400  },
-   165			{  460800, B460800  }, {  500000, B500000  }, {  576000, B576000  },
-   166			{  921600, B921600  }, { 1000000, B1000000 }, { 1152000, B1152000 },
- > 167			{ 1500000, B1500000 }, { 2000000, B2000000 }, { 2500000, B2500000 },
- > 168			{ 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-   169		};
-   170	
-   171		for (size_t i = 0; i < ARRAY_SIZE(map); i++)
-   172			if (map[i].baud == baud)
-   173				return map[i].speed;
-   174	
-   175		return B0;
-   176	}
-   177	
+dc637ffeed6c32 Cyril Chao   2025-10-31  643  	}
+dc637ffeed6c32 Cyril Chao   2025-10-31  644  
+dc637ffeed6c32 Cyril Chao   2025-10-31  645  	/* enable div, set rate */
+dc637ffeed6c32 Cyril Chao   2025-10-31  646  	if (div_clk_id < 0) {
+dc637ffeed6c32 Cyril Chao   2025-10-31  647  		dev_err(afe->dev, "invalid div_clk_id %d\n", div_clk_id);
+dc637ffeed6c32 Cyril Chao   2025-10-31 @648  		return -EINVAL;
+
+should probably also be added here
+
+dc637ffeed6c32 Cyril Chao   2025-10-31  649  	}
+dc637ffeed6c32 Cyril Chao   2025-10-31  650  
+dc637ffeed6c32 Cyril Chao   2025-10-31  651  	ret = mt8189_afe_enable_clk(afe, afe_priv->clk[div_clk_id]);
+dc637ffeed6c32 Cyril Chao   2025-10-31  652  	if (ret)
+bd9a8d9def207a bui duc phuc 2026-09-16  653  		goto err_disable_m_sel_clk;
+dc637ffeed6c32 Cyril Chao   2025-10-31  654  
+dc637ffeed6c32 Cyril Chao   2025-10-31  655  	ret = mt8189_afe_set_clk_rate(afe, afe_priv->clk[div_clk_id], rate);
+dc637ffeed6c32 Cyril Chao   2025-10-31  656  	if (ret)
+bd9a8d9def207a bui duc phuc 2026-09-16  657  		goto err_disable_div_clk;
+dc637ffeed6c32 Cyril Chao   2025-10-31  658  
+dc637ffeed6c32 Cyril Chao   2025-10-31  659  	return 0;
+bd9a8d9def207a bui duc phuc 2026-09-16  660  
+bd9a8d9def207a bui duc phuc 2026-09-16  661  err_disable_div_clk:
+bd9a8d9def207a bui duc phuc 2026-09-16  662  	mt8189_afe_disable_clk(afe, afe_priv->clk[div_clk_id]);
+bd9a8d9def207a bui duc phuc 2026-09-16  663  err_disable_m_sel_clk:
+bd9a8d9def207a bui duc phuc 2026-09-16  664  	if (m_sel_id >= 0)
+bd9a8d9def207a bui duc phuc 2026-09-16  665  		mt8189_afe_disable_clk(afe, afe_priv->clk[m_sel_id]);
+bd9a8d9def207a bui duc phuc 2026-09-16  666  
+bd9a8d9def207a bui duc phuc 2026-09-16  667  	return ret;
+dc637ffeed6c32 Cyril Chao   2025-10-31  668  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
