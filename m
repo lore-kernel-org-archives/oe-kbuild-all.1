@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F282D73A6;
-	Sat, 17 Oct 2026 15:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3EB3B4404
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Oct 2026 16:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792252709; cv=none; b=f1L+B4tFMHOOGKfNcb9XlCxiwjsJIiZSpQMcPM+4kGO3T2DggBmzTIwoPOFJbMO29H1RhbrNSjTyYJ1TlWTZHE55Jq88ho3y0Y+IUmKrNlzDgy9ceBbm8V2ZSsd7CmdQYhLATx0VSMvYhMWcHFct8/kxCAFWANHC8aISaZt+tvM=
+	t=1792255675; cv=none; b=EoU/j/ppS8rPuOTJnaNIoseDAQLX7Q5rTig/pJ3wz8c2nrhGRWg5w6H6xsJfB6iVeBczcb92gSr6jjQipkJTGk7wPtXul5P3RIft+TFEY3kdRQ0i7SAVDUBylRG7QgxHGt272kN1yCDwVLer6xU1i5cRxA7RoHhRN9+Sa3vdez8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792252709; c=relaxed/simple;
-	bh=l8Yh5Fymi1DtjES7v6fzt680qfEaLaf3RyMwtxw1AAk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mTYYnaLPC7N2JJsOeDs8l/liDiwqoqv9RD+CcqQcblz2K+tlLvY7t1nP5obxmpzNKOzN/3R+vFCUxRctRD+UAeGPp6h50xT86jlNzt7VllR+3yCeXmgcKCUXSyIP38F8RmkLKsV0n28ZIVgB3+YB4art987ULf9FQCWEbBOWVYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2WFRj+4; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1792255675; c=relaxed/simple;
+	bh=Vbvc+iDNyaDse+GH4VHtcwOiJGyLoNGmImqIC9zhnd0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uVXfweJ1PwXT/Gd935C47AQhHzXZhu83Yu2UiJyfnsI6YqIC3I5op/o1s7n8hNxrQbiJuAhJ29j0uUTcd6yywjmLrORmDqv2+u2of7gDoOMrqN/bOinxy6f4piHyaJWexGdxHDRaLhudCn8eMeJ/auf81jwBa2elTFIFrtXY20k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kIo8ScoH; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2WFRj+4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kIo8ScoH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792252706; x=1823788706;
+  t=1792255672; x=1823791672;
   h=date:from:to:cc:subject:message-id;
-  bh=l8Yh5Fymi1DtjES7v6fzt680qfEaLaf3RyMwtxw1AAk=;
-  b=X2WFRj+4ytXPciipBeKmLcKi+i+6PoKYC3USOfclfbYfxkNJ+FmsKPE3
-   edGJ5LzFE4iVo5/FP7yL11v15HX3y8U5BJsiHXV+ltHqXvi/ig6NByFyw
-   GdTOnooZM4b2fUIAvOo1aB+DhJbfRvms1g2csHEy6Q9q9yoRhtc/1THdQ
-   70bja7vRXlX0+L7whjr2LFF6bqS0I6UdQgk/Hxf0YstoFCRheLGR5HSpC
-   Yo1cmDwzCxO/N8eTu4pTiuzUG16hz5P0U16caSZb0O7SkmRgSCafiAjUE
-   elQO73bZXajNEk7ecbqhiv04qPSZRGMzls5+cI+tK+eV2xCJUnUwQr9vA
-   g==;
-X-CSE-ConnectionGUID: rN2Jn4D4SFuQ73rdQv+yWQ==
-X-CSE-MsgGUID: h0NnVn38Tre3dZD+oAk0ZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="888696"
+  bh=Vbvc+iDNyaDse+GH4VHtcwOiJGyLoNGmImqIC9zhnd0=;
+  b=kIo8ScoHb8cvkyf62yDyN1GV1TwgztRHG6Ia0RPeQSF2Z2AqjIY6n6GQ
+   PllJN0bqiF/kR474/n1udsqOT9eS9npnGTcHQ8vepwwtFqNcpDuLcCara
+   4CUvLS++VIUUC7qWhhRPPHUFtlMWSRS0QpccUOcwb/5brcUa1bfmCTOkz
+   1TAR3PDAFh+fCqJidgadNGj5dciDXblY0q3WJtH5u7MfgFBQsauMlqg+f
+   KbaTaKRb8Z4gaYAvaiMVDFHCYmM59IE4eIDqAXSqgMCc3fToA+9oCNGl6
+   DvZBmG7X0IpYqgTM9vIvGpyWb8ZyXmGb0NqYXyTOMtMhGz9i/5beUAFdF
+   w==;
+X-CSE-ConnectionGUID: Z9578SfwREmXZ7VpHy/kHQ==
+X-CSE-MsgGUID: cjRPGl5UT6e/rj3gwGX0hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="876830"
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="888696"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 08:58:25 -0700
-X-CSE-ConnectionGUID: 1HT8uVb3RYu1XCh8JOF45A==
-X-CSE-MsgGUID: qc6i/h+qQEKa1lUpZ7VU8g==
+   d="scan'208";a="876830"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 09:47:52 -0700
+X-CSE-ConnectionGUID: Ek/zAo5DSyO0q8TIAsIjAQ==
+X-CSE-MsgGUID: 8nWDzq15Sf22k7tNP7+8NA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="2173430"
+   d="scan'208";a="2067513"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2026 08:58:23 -0700
+  by orviesa007.jf.intel.com with ESMTP; 17 Oct 2026 09:47:50 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xI6nd-00000000JT8-1B1V;
-	Sat, 17 Oct 2026 15:58:21 +0000
-Date: Sat, 17 Oct 2026 23:57:30 +0800
+	id 1xI7ZU-00000000JX8-1bEY;
+	Sat, 17 Oct 2026 16:47:48 +0000
+Date: Sun, 18 Oct 2026 00:47:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
 Subject: [sailus-media-tree:media-ref 1/17]
- drivers/media/mc/mc-device.c:31:1: error: unknown type name
- 'param_check_unsigned'
-Message-ID: <202610172349.NeNGF1lj-lkp@intel.com>
+ include/linux/moduleparam.h:163:32: error: expected ')' before ',' token
+Message-ID: <202610180038.NjDarZVo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,85 +62,218 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   git://linuxtv.org/sailus/media_tree.git media-ref
 head:   cf47170584526b52366e936406ce2430b99a03a9
 commit: d50da12ab1df5599da158568d31337d2daeee81d [1/17] media: Add "kaboom" module parameter
-config: hexagon-randconfig-1001-20261017 (https://download.01.org/0day-ci/archive/20261017/202610172349.NeNGF1lj-lkp@intel.com/config)
-compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610172349.NeNGF1lj-lkp@intel.com/reproduce)
+config: sh-randconfig-1000-20261017 (https://download.01.org/0day-ci/archive/20261018/202610180038.NjDarZVo-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610180038.NjDarZVo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610172349.NeNGF1lj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610180038.NjDarZVo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/mc/mc-device.c:31:1: error: unknown type name 'param_check_unsigned'
+   In file included from include/linux/module.h:23,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/pci.h:38,
+                    from drivers/media/mc/mc-device.c:19:
+   drivers/media/mc/mc-device.c:31:31: error: expected ';' before 'int'
       31 | module_param(kaboom, unsigned int, 0077);
-         | ^
-   include/linux/moduleparam.h:140:2: note: expanded from macro 'module_param'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^
-   include/linux/moduleparam.h:163:2: note: expanded from macro 'module_param_named'
+         |                               ^~~
+   include/linux/moduleparam.h:163:23: note: in definition of macro 'module_param_named'
      163 |         param_check_##type(name, &(value));                                \
-         |         ^
-   <scratch space>:165:1: note: expanded from here
-     165 | param_check_unsigned
-         | ^
->> drivers/media/mc/mc-device.c:31:1: error: expected ')'
-   include/linux/moduleparam.h:140:2: note: expanded from macro 'module_param'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^
-   include/linux/moduleparam.h:163:25: note: expanded from macro 'module_param_named'
+         |                       ^~~~
+   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+>> include/linux/moduleparam.h:163:32: error: expected ')' before ',' token
      163 |         param_check_##type(name, &(value));                                \
          |                                ^
-   drivers/media/mc/mc-device.c:31:1: note: to match this '('
-   include/linux/moduleparam.h:140:2: note: expanded from macro 'module_param'
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
      140 |         module_param_named(name, name, type, perm)
-         |         ^
-   include/linux/moduleparam.h:163:20: note: expanded from macro 'module_param_named'
-     163 |         param_check_##type(name, &(value));                                \
-         |                           ^
->> drivers/media/mc/mc-device.c:31:1: error: use of undeclared identifier 'param_ops_unsigned'; did you mean 'param_ops_uint'?
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
       31 | module_param(kaboom, unsigned int, 0077);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:140:2: note: expanded from macro 'module_param'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:164:25: note: expanded from macro 'module_param_named'
+         | ^~~~~~~~~~~~
+>> include/linux/moduleparam.h:164:32: error: 'param_ops_unsigned' undeclared here (not in a function); did you mean 'param_ops_uint'?
      164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
-         |                                ^~~~~~~~~~~~~~~~
-   <scratch space>:166:1: note: expanded from here
-     166 | param_ops_unsigned
-         | ^~~~~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:459:38: note: 'param_ops_uint' declared here
-     459 | extern const struct kernel_param_ops param_ops_uint;
-         |                                      ^
->> drivers/media/mc/mc-device.c:31:31: error: expected '}'
-      31 | module_param(kaboom, unsigned int, 0077);
-         |                               ^
-   drivers/media/mc/mc-device.c:31:1: note: to match this '{'
-      31 | module_param(kaboom, unsigned int, 0077);
-         | ^
-   include/linux/moduleparam.h:140:2: note: expanded from macro 'module_param'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^
-   include/linux/moduleparam.h:164:2: note: expanded from macro 'module_param_named'
+         |                                ^~~~~~~~~~
+   include/linux/moduleparam.h:305:46: note: in definition of macro '__module_param_call'
+     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
+         |                                              ^~~
+   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
      164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
-         |         ^
-   include/linux/moduleparam.h:189:2: note: expanded from macro 'module_param_cb'
-     189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
-         |         ^
-   include/linux/moduleparam.h:305:4: note: expanded from macro '__module_param_call'
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
+     140 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+   drivers/media/mc/mc-device.c:31:31: error: expected '}' before 'int'
+      31 | module_param(kaboom, unsigned int, 0077);
+         |                               ^~~
+   include/linux/moduleparam.h:305:46: note: in definition of macro '__module_param_call'
+     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
+         |                                              ^~~
+   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
+     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
+     140 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+   include/linux/moduleparam.h:305:11: note: to match this '{'
      305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
          |           ^
-   4 errors generated.
+   include/linux/moduleparam.h:189:9: note: in expansion of macro '__module_param_call'
+     189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
+     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
+     140 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+--
+   In file included from include/linux/module.h:23,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/pci.h:38,
+                    from mc-device.c:19:
+   mc-device.c:31:31: error: expected ';' before 'int'
+      31 | module_param(kaboom, unsigned int, 0077);
+         |                               ^~~
+   include/linux/moduleparam.h:163:23: note: in definition of macro 'module_param_named'
+     163 |         param_check_##type(name, &(value));                                \
+         |                       ^~~~
+   mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+>> include/linux/moduleparam.h:163:32: error: expected ')' before ',' token
+     163 |         param_check_##type(name, &(value));                                \
+         |                                ^
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
+     140 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+>> include/linux/moduleparam.h:164:32: error: 'param_ops_unsigned' undeclared here (not in a function); did you mean 'param_ops_uint'?
+     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |                                ^~~~~~~~~~
+   include/linux/moduleparam.h:305:46: note: in definition of macro '__module_param_call'
+     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
+         |                                              ^~~
+   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
+     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
+     140 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+   mc-device.c:31:31: error: expected '}' before 'int'
+      31 | module_param(kaboom, unsigned int, 0077);
+         |                               ^~~
+   include/linux/moduleparam.h:305:46: note: in definition of macro '__module_param_call'
+     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
+         |                                              ^~~
+   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
+     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
+     140 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
+   include/linux/moduleparam.h:305:11: note: to match this '{'
+     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
+         |           ^
+   include/linux/moduleparam.h:189:9: note: in expansion of macro '__module_param_call'
+     189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
+     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
+     140 |         module_param_named(name, name, type, perm)
+         |         ^~~~~~~~~~~~~~~~~~
+   mc-device.c:31:1: note: in expansion of macro 'module_param'
+      31 | module_param(kaboom, unsigned int, 0077);
+         | ^~~~~~~~~~~~
 
 
-vim +/param_check_unsigned +31 drivers/media/mc/mc-device.c
+vim +163 include/linux/moduleparam.h
 
-    29	
-    30	static unsigned int kaboom;
-  > 31	module_param(kaboom, unsigned int, 0077);
-    32	
+^1da177e4c3f41 Linus Torvalds  2005-04-16  113  
+546970bc6afc7f Rusty Russell   2010-08-11  114  /**
+546970bc6afc7f Rusty Russell   2010-08-11  115   * module_param - typesafe helper for a module/cmdline parameter
+e2854a1054ab17 Zhenzhong Duan  2019-11-04  116   * @name: the variable to alter, and exposed parameter name.
+546970bc6afc7f Rusty Russell   2010-08-11  117   * @type: the type of the parameter
+546970bc6afc7f Rusty Russell   2010-08-11  118   * @perm: visibility in sysfs.
+546970bc6afc7f Rusty Russell   2010-08-11  119   *
+e2854a1054ab17 Zhenzhong Duan  2019-11-04  120   * @name becomes the module parameter, or (prefixed by KBUILD_MODNAME and a
+546970bc6afc7f Rusty Russell   2010-08-11  121   * ".") the kernel commandline parameter.  Note that - is changed to _, so
+546970bc6afc7f Rusty Russell   2010-08-11  122   * the user can use "foo-bar=1" even for variable "foo_bar".
+546970bc6afc7f Rusty Russell   2010-08-11  123   *
+c6a8b84da4c28b Randy Dunlap    2020-07-17  124   * @perm is 0 if the variable is not to appear in sysfs, or 0444
+546970bc6afc7f Rusty Russell   2010-08-11  125   * for world-readable, 0644 for root-writable, etc.  Note that if it
+b51d23e4e9fea6 Dan Streetman   2015-06-17  126   * is writable, you may need to use kernel_param_lock() around
+546970bc6afc7f Rusty Russell   2010-08-11  127   * accesses (esp. charp, which can be kfreed when it changes).
+546970bc6afc7f Rusty Russell   2010-08-11  128   *
+546970bc6afc7f Rusty Russell   2010-08-11  129   * The @type is simply pasted to refer to a param_ops_##type and a
+546970bc6afc7f Rusty Russell   2010-08-11  130   * param_check_##type: for convenience many standard types are provided but
+546970bc6afc7f Rusty Russell   2010-08-11  131   * you can create your own by defining those variables.
+546970bc6afc7f Rusty Russell   2010-08-11  132   *
+546970bc6afc7f Rusty Russell   2010-08-11  133   * Standard types are:
+7d8365771ffb0e Paul Menzel     2020-07-03  134   *	byte, hexint, short, ushort, int, uint, long, ulong
+546970bc6afc7f Rusty Russell   2010-08-11  135   *	charp: a character pointer
+546970bc6afc7f Rusty Russell   2010-08-11  136   *	bool: a bool, values 0/1, y/n, Y/N.
+546970bc6afc7f Rusty Russell   2010-08-11  137   *	invbool: the above, only sense-reversed (N = true).
+546970bc6afc7f Rusty Russell   2010-08-11  138   */
+546970bc6afc7f Rusty Russell   2010-08-11  139  #define module_param(name, type, perm)				\
+546970bc6afc7f Rusty Russell   2010-08-11  140  	module_param_named(name, name, type, perm)
+546970bc6afc7f Rusty Russell   2010-08-11  141  
+3baee201b06cfa Jani Nikula     2014-08-27  142  /**
+3baee201b06cfa Jani Nikula     2014-08-27  143   * module_param_unsafe - same as module_param but taints kernel
+b6d0531ec7e2ae Fabien Dessenne 2019-12-02  144   * @name: the variable to alter, and exposed parameter name.
+b6d0531ec7e2ae Fabien Dessenne 2019-12-02  145   * @type: the type of the parameter
+b6d0531ec7e2ae Fabien Dessenne 2019-12-02  146   * @perm: visibility in sysfs.
+3baee201b06cfa Jani Nikula     2014-08-27  147   */
+3baee201b06cfa Jani Nikula     2014-08-27  148  #define module_param_unsafe(name, type, perm)			\
+3baee201b06cfa Jani Nikula     2014-08-27  149  	module_param_named_unsafe(name, name, type, perm)
+3baee201b06cfa Jani Nikula     2014-08-27  150  
+546970bc6afc7f Rusty Russell   2010-08-11  151  /**
+546970bc6afc7f Rusty Russell   2010-08-11  152   * module_param_named - typesafe helper for a renamed module/cmdline parameter
+546970bc6afc7f Rusty Russell   2010-08-11  153   * @name: a valid C identifier which is the parameter name.
+546970bc6afc7f Rusty Russell   2010-08-11  154   * @value: the actual lvalue to alter.
+546970bc6afc7f Rusty Russell   2010-08-11  155   * @type: the type of the parameter
+546970bc6afc7f Rusty Russell   2010-08-11  156   * @perm: visibility in sysfs.
+546970bc6afc7f Rusty Russell   2010-08-11  157   *
+546970bc6afc7f Rusty Russell   2010-08-11  158   * Usually it's a good idea to have variable names and user-exposed names the
+546970bc6afc7f Rusty Russell   2010-08-11  159   * same, but that's harder if the variable must be non-static or is inside a
+546970bc6afc7f Rusty Russell   2010-08-11  160   * structure.  This allows exposure under a different name.
+546970bc6afc7f Rusty Russell   2010-08-11  161   */
+546970bc6afc7f Rusty Russell   2010-08-11  162  #define module_param_named(name, value, type, perm)			   \
+546970bc6afc7f Rusty Russell   2010-08-11 @163  	param_check_##type(name, &(value));				   \
+546970bc6afc7f Rusty Russell   2010-08-11 @164  	module_param_cb(name, &param_ops_##type, &value, perm);		   \
+546970bc6afc7f Rusty Russell   2010-08-11  165  	__MODULE_PARM_TYPE(name, #type)
+546970bc6afc7f Rusty Russell   2010-08-11  166  
+
+:::::: The code at line 163 was first introduced by commit
+:::::: 546970bc6afc7fb37447fbac09b82c7884662c21 param: add kerneldoc to moduleparam.h
+
+:::::: TO: Rusty Russell <rusty@rustcorp.com.au>
+:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
 
 --
 0-DAY CI Kernel Test Service
