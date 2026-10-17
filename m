@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C91041A507
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Oct 2026 07:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8FA4CF46F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Oct 2026 08:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792221988; cv=none; b=K77OQlMV5MEO8KxmhowPOA2yguu09qeFVV95fdpAqeQDADN7d0mbZ8vJuv/7+lzc0v8pCtXZ8ngoEJ6I6hHE3ruyGjhe43S/DWgnhkbtT0pPYHYgDb8Iafj76184iIczwtBvPtZt+CWpSUJJFz+DRIF+CR6BLNpf0DTzxSLww/s=
+	t=1792225114; cv=none; b=J4jqwVnTCZc1/ooCwv4ik2V+L2DuguN4Z9J6k1AyrpR6BUq7odQpeFg+9/nhH/D0KJZZKODMEoYpSGQ0iGxCvAKXwidH12/JTCAgEiLu9iduhzqHonDb6JIdhcaCrugEESkeE1akYMhBj+svGnrdOwnZ/f+GLgW8MGaOo9dbAZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792221988; c=relaxed/simple;
-	bh=lnMeAXlry1aZlxCDb+2etqxYGeKJ/0txGAKdnEuivDI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=r+BW4oOEhOQ6chG09+z8zqnKIWQ2IvYRndjU97YlZ/aj6D3wah/rnwdsRI6cySaO2j+24q47CKLUcGtgYIg2PSpdAraBD//s8o43CqRLINlVrvs4XYSuTmTifUQzO0tK4v8JJutGCSKzKgXL/3fhqhRYarTxcD/NZBhYdq67z6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ma9xEett; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1792225114; c=relaxed/simple;
+	bh=OI+RqqlmBSf0XhEdtcoUxYtu5OkrWKWW7riRrjaFn/A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rl50Cb3jFw8sUS8ygjoY3Cg9qPOVaz/iUX5DEMT8pR9erLnSOs0rTNTMX8xSIivvoYDM2SwEkNTjEtzIIiPfJASIyW2pFaQB0Wvop1yPJbbwkjhMs97DG49zU8r/TmTfubfqYag8/O8GJAfMBab+QZqHBeVK98ob8m6LUrkH1bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lYXM7UUb; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ma9xEett"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lYXM7UUb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792221986; x=1823757986;
+  t=1792225113; x=1823761113;
   h=date:from:to:cc:subject:message-id;
-  bh=lnMeAXlry1aZlxCDb+2etqxYGeKJ/0txGAKdnEuivDI=;
-  b=Ma9xEett148xLg644Nzq5hzpE9A92qWfnvXW7lFU64Zr9bDaGGuf0Xfm
-   v9Ykrx3iNaM67BixZD3gT+YimDzBAFH5IvUabTRm5kMVNqWSPMA+jWzGw
-   TjWcDQXYzyRwSl76zbbPdNWTNE1nytKBGtC0BhLsyHi/JGRhphQxcG+by
-   jd7Ol4/OMrPFPqsgzd9SXFlW2D1EvMg3UPowze+O1PNos22s944SWJ8Lu
-   P2eY9gksRj/97Ro8SImxCBEaRFFAQl5/0ViVbHtJiTG0zUjQGnq29bVPq
-   QJ3MEBFwud68vEWM/cRpXPn0lWNws8jZt6hHf9Rd1VeBTE38omy0yuJkk
-   w==;
-X-CSE-ConnectionGUID: Tt8nLiZAQLWS+9RZDAxJRQ==
-X-CSE-MsgGUID: TomdWwfrQH2OrYHJiII14A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="886707"
+  bh=OI+RqqlmBSf0XhEdtcoUxYtu5OkrWKWW7riRrjaFn/A=;
+  b=lYXM7UUbHhU0pBd2kkrWjyKCxcweJsF+w5L8uxJKY66u5ErgSh2e945y
+   i+pe+Ycgjon/iGB5jCWmT4Vh8e6OwwU6OhR4F6PiZeq593HKgyWnc0RVw
+   UZD6GCPc30+Ax1FUVY1crFPuDEoJdjNbJ5/Lgypl+FnxPdS5OXf8d+jxK
+   Xhwr/GYwAWWvjQSx3II2YcDpcbIUSTRGHw9CbRDG0aqUznhOgx9ujIVA9
+   DE1c9b4V7kNxZYSueVv3OUVtkTp4oSFtzuAkYBMXBlrQYaqTvqJCGtHWO
+   prK83WlsPjiuSKtJXWmYoD9LjtSg4iv1Dma8q9wxZSDT0nyjleFXqjVW6
+   g==;
+X-CSE-ConnectionGUID: sVcMxbciSJWsOCDgaRoKHw==
+X-CSE-MsgGUID: qiK6+8+5S92xH/g7XjMt2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="1098438"
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="886707"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 00:26:25 -0700
-X-CSE-ConnectionGUID: m/rbEBHGRFeDyiRNArVOzA==
-X-CSE-MsgGUID: SzARRh2RRpWMazLa33piww==
+   d="scan'208";a="1098438"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 01:18:32 -0700
+X-CSE-ConnectionGUID: oYkPbcxrQyeTnn7NbtDsXw==
+X-CSE-MsgGUID: WARG9qngRvWsBLFz+/5oCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="2101418"
+   d="scan'208";a="2115313"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Oct 2026 00:26:23 -0700
+  by orviesa004.jf.intel.com with ESMTP; 17 Oct 2026 01:18:31 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHyo8-00000000JBa-0UCV;
-	Sat, 17 Oct 2026 07:26:20 +0000
-Date: Sat, 17 Oct 2026 15:25:50 +0800
+	id 1xHzca-00000000JDq-2wxk;
+	Sat, 17 Oct 2026 08:18:28 +0000
+Date: Sat, 17 Oct 2026 16:17:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vicki Pfau <vi@endrift.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
- Jiri Kosina <jikos@kernel.org>, Silvan Jegen <s.jegen@gmail.com>
-Subject: [hid:for-7.4/nintendo 2/5]
- drivers/hid/hid-nintendo.c:3993:undefined reference to `hid_is_usb'
-Message-ID: <202610171559.gZ0QBMFv-lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-6.6-add-OMR-event-ANBZ51468 11/11]
+ kernel/sched/fair.c:9774:69: warning: 'struct lb_env' declared inside
+ parameter list will not be visible outside of this definition or declaration
+Message-ID: <202610171554.VDU1gQUJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,119 +60,75 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-7.4/nintendo
-head:   77c7155e2707ba5b1d56f3dc1acead48cf17f98d
-commit: 9417132df63e5cd7230433af05198538e759f3ae [2/5] HID: nintendo: Add preliminary Switch 2 controller driver
-config: i386-randconfig-1001-20261016 (https://download.01.org/0day-ci/archive/20261017/202610171559.gZ0QBMFv-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610171559.gZ0QBMFv-lkp@intel.com/reproduce)
+Hi Cruz,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-add-OMR-event-ANBZ51468
+head:   2ee4460ef69eb7f1a40741d26df51a3565558ea4
+commit: 64194706630f8c78feb5fb01b6d046aa4aab66df [11/11] anolis: sched: add tunables for expeller and expellee load balance
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20261017/202610171554.VDU1gQUJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610171554.VDU1gQUJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610171559.gZ0QBMFv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610171554.VDU1gQUJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/hid/hid-nintendo.o: in function `switch2_probe':
->> drivers/hid/hid-nintendo.c:3993:(.text+0x6cd7): undefined reference to `hid_is_usb'
+   In file included from kernel/sched/fair.c:56:
+   kernel/sched/sched.h:1859:54: warning: 'struct cgroup_taskset' declared inside parameter list will not be visible outside of this definition or declaration
+    1859 | static inline void sched_core_identity_attach(struct cgroup_taskset *tset) { }
+         |                                                      ^~~~~~~~~~~~~~
+>> kernel/sched/fair.c:9774:69: warning: 'struct lb_env' declared inside parameter list will not be visible outside of this definition or declaration
+    9774 | static inline int id_can_migrate_task(struct task_struct *p, struct lb_env *env)
+         |                                                                     ^~~~~~
 
 
-vim +3993 drivers/hid/hid-nintendo.c
+vim +9774 kernel/sched/fair.c
 
-  3985	
-  3986	static int switch2_probe(struct hid_device *hdev, const struct hid_device_id *id)
-  3987	{
-  3988		struct switch2_controller *ns2;
-  3989		struct usb_device *udev;
-  3990		char phys[64];
-  3991		int ret;
-  3992	
-> 3993		if (!hid_is_usb(hdev))
-  3994			return -ENODEV;
-  3995	
-  3996		udev = hid_to_usb_dev(hdev);
-  3997		if (usb_make_path(udev, phys, sizeof(phys)) < 0)
-  3998			return -EINVAL;
-  3999	
-  4000		ret = hid_parse(hdev);
-  4001		if (ret) {
-  4002			hid_err(hdev, "parse failed %d\n", ret);
-  4003			return ret;
-  4004		}
-  4005	
-  4006		ns2 = switch2_get_controller(phys);
-  4007		if (IS_ERR(ns2))
-  4008			return PTR_ERR(ns2);
-  4009	
-  4010		mutex_lock(&ns2->lock);
-  4011		if (ns2->hdev) {
-  4012			mutex_unlock(&ns2->lock);
-  4013			hid_err(hdev,
-  4014				"Second hdev tried to claim same controller, first=%p vs second=%p\n",
-  4015				ns2->hdev, hdev);
-  4016			kref_put(&ns2->refcount, switch2_kref_put);
-  4017			return -EBUSY;
-  4018		}
-  4019		ns2->hdev = hdev;
-  4020		hid_set_drvdata(hdev, ns2);
-  4021	
-  4022		switch (hdev->product | (hdev->vendor << 16)) {
-  4023		default:
-  4024			strscpy(ns2->name, hdev->name, sizeof(ns2->name));
-  4025			break;
-  4026		/* Some controllers have slightly wrong names so we override them */
-  4027		case USB_DEVICE_ID_NINTENDO_NS2_JOYCONR | (USB_VENDOR_ID_NINTENDO << 16):
-  4028			/* Missing the "2" in the name */
-  4029			strscpy(ns2->name, "Nintendo Joy-Con 2 (R)", sizeof(ns2->name));
-  4030			break;
-  4031		case USB_DEVICE_ID_NINTENDO_NS2_GCCON | (USB_VENDOR_ID_NINTENDO << 16):
-  4032			/* Has "Nintendo" in the name twice */
-  4033			strscpy(ns2->name, "Nintendo GameCube Controller", sizeof(ns2->name));
-  4034			break;
-  4035		}
-  4036	
-  4037		ns2->player_id = U32_MAX;
-  4038		ret = ida_alloc(&nintendo_player_id_allocator, GFP_KERNEL);
-  4039		if (ret < 0)
-  4040			hid_warn(hdev, "Failed to allocate player ID, skipping; ret=%d\n", ret);
-  4041		else
-  4042			ns2->player_id = ret;
-  4043	
-  4044		ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
-  4045		if (ret) {
-  4046			hid_err(hdev, "hw_start failed %d\n", ret);
-  4047			goto err_cleanup;
-  4048		}
-  4049	
-  4050		ret = hid_hw_open(hdev);
-  4051		if (ret) {
-  4052			hid_err(hdev, "hw_open failed %d\n", ret);
-  4053			goto err_stop;
-  4054		}
-  4055	
-  4056		ret = 0;
-  4057		if (ns2->cfg)
-  4058			ret = switch2_init_controller(ns2);
-  4059	
-  4060		if (!ret) {
-  4061			mutex_unlock(&ns2->lock);
-  4062			return 0;
-  4063		}
-  4064	
-  4065		hid_hw_close(hdev);
-  4066	err_stop:
-  4067		hid_hw_stop(hdev);
-  4068	err_cleanup:
-  4069		ida_free(&nintendo_player_id_allocator, ns2->player_id);
-  4070		ns2->hdev = NULL;
-  4071		mutex_unlock(&ns2->lock);
-  4072		switch2_controller_put(ns2);
-  4073		kref_put(&ns2->refcount, switch2_kref_put);
-  4074	
-  4075		return ret;
-  4076	}
-  4077	
+  9740	
+  9741	#else
+  9742	static inline void push_expellee(struct rq *rq) { }
+  9743	#endif
+  9744	static int id_can_migrate_task(struct task_struct *p, struct lb_env *env)
+  9745	{
+  9746		struct rq *src_rq = env->src_rq;
+  9747		struct rq *dst_rq = env->dst_rq;
+  9748	
+  9749		if (!id_expeller_share_core() && env->id_need_redo && task_is_expeller(p) &&
+  9750		    rq_on_expel_by_smt_expeller(dst_rq))
+  9751			goto bad_dst;
+  9752		if ((!sched_feat(ID_SMT_EXPEL) || !task_is_expellee(p)) &&
+  9753		    (!sched_feat(ID_ABSOLUTE_EXPEL) || !task_is_idle(p)))
+  9754			return -1;
+  9755		/* Do not migrate expellee task to CPU on expel */
+  9756		if (should_expel_se(dst_rq, &p->se))
+  9757			goto bad_dst;
+  9758		if (sched_feat(ID_EXPELLEE_NEVER_HOT))
+  9759			goto good_dst;
+  9760		if (!should_expel_se(src_rq, &p->se))
+  9761			return -1;
+  9762		if (!sched_feat(ID_RESCUE_EXPELLEE))
+  9763			return -1;
+  9764	good_dst:
+  9765		schedstat_inc(p->stats.nr_forced_migrations);
+  9766		return 1;
+  9767	bad_dst:
+  9768		schedstat_inc(p->stats.nr_failed_migrations_id);
+  9769		return 0;
+  9770	}
+  9771	#else
+  9772	static inline void update_rq_on_expel(struct rq *rq) { }
+  9773	static inline void push_expellee(struct rq *rq) { }
+> 9774	static inline int id_can_migrate_task(struct task_struct *p, struct lb_env *env)
+  9775	{
+  9776		return -1;
+  9777	}
+  9778	#endif
+  9779	
 
 --
 0-DAY CI Kernel Test Service
