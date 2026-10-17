@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D147C29D288
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Oct 2026 23:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0815F381B1C;
+	Sat, 17 Oct 2026 03:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792194197; cv=none; b=Jnzmjjc6IquhMQg7JzZ+IvMsXy6lktgB+8Q0VczjnCG2x48aC8JfVrjOqJFqGz4f8xG5dkAHmz3WGW2ysMzImbXv04yzBy6qhA9zwHQwWbnfJTW4xAaD9MislKZxa9LJBw11pE1ytR3Z9tRayJ1u40EYPkguovtClAKTvh5T2aM=
+	t=1792206196; cv=none; b=ZGxXggcGkm/9Nz5hmgxysY+hPvI6q7Hwdk2fBgyEEbjrTTzfnmQjCIlYrULBy8Dz2n5eumMRJ9k7ejhfhkKTO5kRWY9H0DKyLDGFMHEKdc/7ubJiL5sULahGUKAjXhVaeq8EKnHXAiIywLvVNlmOLjB4OY8OmG1f/rNxogHuQ5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792194197; c=relaxed/simple;
-	bh=1+N20Ki41ZAv9cM1Dej6mUOi9/r1V+ksSxCl0OscLVg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aBA+NYApAGMWuFTIBuqrfSSfA5+UIX/t/w9+7p4SAQ+MKoZ8+COQG+LDhtQmgRbzOKBRjQtcXQKRoB5H09MZE1Qc88gnCidRlcVxUnBlh3EpOC6fNTxgqd6zIw+pwuYP6MEjAq6M+Iw3zYGS38eadaowla4eOjL59qOGUngEFU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIw6akID; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1792206196; c=relaxed/simple;
+	bh=mygFMgWqiSHfafZnQjJ7WAZSC3efl0oJYGIKaHBWrvA=;
+	h=Date:From:Cc:Subject:Message-ID; b=WSZteCEa3xvfQlFk4wbwQBTYiEqw6RDK49l/sTtPKChof3sh8fKXbe9PalhnrL3tcaCkGG3h82Mw/GumN8FEfRW8MReUjZSgV9aqSLl2ealghOTmw9Tbygpmdn1e5eXfHoUum1V7dqxvhYlq7eyVqu52OqtLbm1oZh78RYpGwnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBFVUFcj; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIw6akID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBFVUFcj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792194195; x=1823730195;
-  h=date:from:to:cc:subject:message-id;
-  bh=1+N20Ki41ZAv9cM1Dej6mUOi9/r1V+ksSxCl0OscLVg=;
-  b=PIw6akIDA1yGa36qTKIP1pLb7xAW9UkFDTvzXcy0kPbEJvY840dq5cmJ
-   nxtNtNYDusypmtTGF6tNMPZ+0aG1rB+8QEitGeuMgdOKnY3hyIMsQiX20
-   bEFEb149FxJvbjbxFewL2b5YPaPHTgcd8lj/9XgEjGzDabykFJPHtyx7E
-   gOT5qoX1OYcamGxry3GB/VkhRqPAGmMBE1MQyCzcWGOC2txOyRqRvIIGC
-   pAIuBAj7futDgRkv3ThvWztm03GrFTWuMLiZwqd1e9PpCqHDhfSN21AZl
-   Mke6m1oGfUQNPzASvUeiiZa1W4yrha2ulz+RagMv/nmoxPsW5fSLxyYxa
-   Q==;
-X-CSE-ConnectionGUID: nq6KLfrHRZOk3NKHo26niw==
-X-CSE-MsgGUID: 6DE4ip6/S0W6f0q9PhvdpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="872724"
-X-IronPort-AV: E=Sophos;i="6.27,162,1787036400"; 
-   d="scan'208";a="872724"
+  t=1792206195; x=1823742195;
+  h=date:from:cc:subject:message-id;
+  bh=mygFMgWqiSHfafZnQjJ7WAZSC3efl0oJYGIKaHBWrvA=;
+  b=PBFVUFcjZCM/5OlENH9dWfor4feBrh9ffeep/uQSSUcE8Kg+w+D4Z22A
+   2hjOl+AyP1QsNT6Odz1EV7CVqvd1HF+vJlNuTff8teZOrzLpSaP/8vYq7
+   gGlsmotBKozInLeb5Kg16VHz2BuS0+TpP4Ln/J1YjYdkCAscmdNW/HjwZ
+   7hG7rrkpkQrDJKqDKx1+FRP2N1STauODzpbWAqoC7Xy4kMnjZDDw0IsRE
+   tKrZDX15j9L+bPZj4qmDG3AxF/2Kh496lwMC/AgA6WZfUdJmyqUtdgxj2
+   187IFNOZWD2d5I9KOM/6Jp/Blnnm7YImEmjKTXeGtRejU5XyN4K9YoNxc
+   g==;
+X-CSE-ConnectionGUID: s3/FHTcITymp8yO5NloHxg==
+X-CSE-MsgGUID: W/X2Iqg2Ss6iBPZc4tbVfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="873977"
+X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
+   d="scan'208";a="873977"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 16:43:14 -0700
-X-CSE-ConnectionGUID: mcxOBhnNSlK7pHKsrk7Xyw==
-X-CSE-MsgGUID: LZ/eNLFCTH6Yw3qlmKTatg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 20:03:15 -0700
+X-CSE-ConnectionGUID: ulNf+x2nTwO8oINHpuLMrw==
+X-CSE-MsgGUID: k7EgTTSQSNKZEmsE3pk/SA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,162,1787036400"; 
-   d="scan'208";a="2061765"
+X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
+   d="scan'208";a="2086243"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Oct 2026 16:43:13 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 16 Oct 2026 20:03:13 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHrZu-00000000IoI-0WFn;
-	Fri, 16 Oct 2026 23:43:10 +0000
-Date: Sat, 17 Oct 2026 07:43:03 +0800
+	id 1xHuhT-00000000Izg-0sSk;
+	Sat, 17 Oct 2026 03:03:11 +0000
+Date: Sat, 17 Oct 2026 11:02:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-add-OMR-event-ANBZ51468 11/11]
- mm/slub.c:1904:1: warning: label 'find' defined but not used
-Message-ID: <202610170759.yYnRRvOp-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [tip:sched/core 18/25] ld.lld: error:
+ vmlinux.a(drivers/scsi/scsi_trace.o):(function scsi_trace_parse_cdb:
+ .text+0xb0): relocation R_RISCV_HI20 out of range: 531330 is not in [-524288,
+ 524287]; references '.L.str.1'
+Message-ID: <202610171107.6ZxJvZXv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,89 +60,30 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Yi,
+CC: linux-kernel@vger.kernel.org
+CC: x86@kernel.org
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Jinjie Ruan <ruanjinjie@huawei.com>
+CC: Shrikanth Hegde <sshegde@linux.ibm.com>
 
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-add-OMR-event-ANBZ51468
-head:   2ee4460ef69eb7f1a40741d26df51a3565558ea4
-commit: 140de6f5ca5e2e49e0b9547b3b47fe986e95dd99 [11/11] anolis: mm: use oot_page_list to cache pages return to buddy
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20261017/202610170759.yYnRRvOp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610170759.yYnRRvOp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
+head:   b99b7f60c5b473d374c68b53753153b4aa9e0702
+commit: 5b9a28eeed37513778ca6b636253aa8dcf39d55f [18/25] sched: dynamic: Remove HAVE_PREEMPT_DYNAMIC_{CALL,KEY}
+config: riscv-randconfig-1001-20261017 (https://download.01.org/0day-ci/archive/20261017/202610171107.6ZxJvZXv-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610171107.6ZxJvZXv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610170759.yYnRRvOp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610171107.6ZxJvZXv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/slub.c: In function 'alloc_slab_page':
->> mm/slub.c:1904:1: warning: label 'find' defined but not used [-Wunused-label]
-    1904 | find:
-         | ^~~~
->> mm/slub.c:1874:13: warning: unused variable 'nid' [-Wunused-variable]
-    1874 |         int nid;
-         |             ^~~
->> mm/slub.c:1872:29: warning: unused variable 't' [-Wunused-variable]
-    1872 |         struct slab *slab, *t;
-         |                             ^
-
-
-vim +/find +1904 mm/slub.c
-
-  1864	
-  1865	/*
-  1866	 * Slab allocation and freeing
-  1867	 */
-  1868	static inline struct slab *alloc_slab_page(struct kmem_cache *s,
-  1869			gfp_t flags, int node, struct kmem_cache_order_objects oo)
-  1870	{
-  1871		struct folio *folio;
-> 1872		struct slab *slab, *t;
-  1873		unsigned int order = oo_order(oo);
-> 1874		int nid;
-  1875	
-  1876		flags |= __GFP_NOKFENCE;
-  1877	
-  1878	#ifdef CONFIG_MODULES
-  1879		if (unlikely(s->is_oot)) {
-  1880			spin_lock(&s->oot_lock);
-  1881			list_for_each_entry_safe(slab, t, &s->oot_page_list, slab_list) {
-  1882				nid = page_to_nid(&(slab_folio(slab)->page));
-  1883				if (nid == node ||
-  1884				   (node == NUMA_NO_NODE && nid == numa_node_id())) {
-  1885					list_del(&slab->slab_list);
-  1886					s->oot_page_num--;
-  1887					spin_unlock(&s->oot_lock);
-  1888					folio = slab_folio(slab);
-  1889					goto find;
-  1890				}
-  1891			}
-  1892			spin_unlock(&s->oot_lock);
-  1893		}
-  1894	#endif
-  1895	
-  1896		if (node == NUMA_NO_NODE)
-  1897			folio = (struct folio *)alloc_pages(flags, order);
-  1898		else
-  1899			folio = (struct folio *)__alloc_pages_node(node, flags, order);
-  1900	
-  1901		if (!folio)
-  1902			return NULL;
-  1903	
-> 1904	find:
-  1905		slab = folio_slab(folio);
-  1906		__folio_set_slab(folio);
-  1907		/* Make the flag visible before any changes to folio->mapping */
-  1908		smp_wmb();
-  1909		if (folio_is_pfmemalloc(folio))
-  1910			slab_set_pfmemalloc(slab);
-  1911	
-  1912		return slab;
-  1913	}
-  1914	
+>> ld.lld: error: vmlinux.a(drivers/scsi/scsi_trace.o):(function scsi_trace_parse_cdb: .text+0xb0): relocation R_RISCV_HI20 out of range: 531330 is not in [-524288, 524287]; references '.L.str.1'
+   >>> referenced by scsi_trace.c:0 (drivers/scsi/scsi_trace.c:0)
+   >>> defined in vmlinux.a(drivers/scsi/scsi_trace.o)
 
 --
 0-DAY CI Kernel Test Service
