@@ -1,83 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D075B3C9891;
-	Sat, 17 Oct 2026 03:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11651374721
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Oct 2026 04:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792208497; cv=none; b=fIqvvCd/fIMMCo6bC8o2wYaZ+gM/CerOYWXy9hpo+5wGX0UDTts4Msq8jnVjcRhgMU7Ae85PreIDF6/tt5vxAhSokOCv1RwfLzIN4ZYH48XHYVZLjm6PeJy7ccP8cIp4l94ezg1cnagcgsDR/EnJscPFl54lYKW9HFT4kZlf6Yg=
+	t=1792212717; cv=none; b=uguqR2AmJqbSqDWdSEjktAyBya5GzMn0Y373KtI0orUKiP5wdjGb5KcA2YbZr47soizd5sAiovoJmVOzBB0qQG0J6BN4HxZH8jpz0Rk4E6mxMOhkUwzuKyI0c/AT4kxUCXMP2iS91c9Y+hswsao3xgm2aAhFoBmRD4Phfqs9DXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792208497; c=relaxed/simple;
-	bh=qyviMIZY4ox7umtLx3YrZA+B6VQau3wATqVWB10qNSc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qOgnFj5FQcvJM/8UfVJWYWugZfxiFYhkFrxaogZ4uoZURwXY1SJVB1wjOowSOTGo0sEifUuAKjquXXk+g7kAkYUQI0NrKAxUmdyKs1+NLKit+rntheDpQsc+AniKCYl7MzSiZSrTuGMDzPDEikNeSMZ4hpnLVb53ItGTBj0X7YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mpefkYKO; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1792212717; c=relaxed/simple;
+	bh=R+8i4LI6E93ty/u9IagDtyMHz+62Q1ZdKBGKtZ47+M8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SWEDXXUZ0YK2RnJsfWPyyACrQQbGr1P6a6EtfhfHbLh/ASV2AhVcb82rzyfZDxUxHqA2Z2vmeHs1D02VnWosSc/n/MZB7qERZrtwPh/bQ1xfd77+I/6L6GqPYiKDcj+RxCmiU/byJ6IoXxKe05+IEyPbA0o//aGs/fv24itgEfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIaLFhAT; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mpefkYKO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIaLFhAT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792208495; x=1823744495;
-  h=date:from:to:cc:subject:message-id;
-  bh=qyviMIZY4ox7umtLx3YrZA+B6VQau3wATqVWB10qNSc=;
-  b=mpefkYKOQBr8z5bNWWlZBUdgWjSXRBAH8NJzg5aGVf79Htpj7PYvGX4K
-   tabJqZyfqg91DRUCUOOjPfQo+3hYaRzTqU/lY+MojgfdF34n2rvkMEh5K
-   V6LD07z2xA8b/H2yu/w91m1LoYr5EfcKMddokDtwRygtc59iE7Mdx6B3i
-   9f1uZPlJsbrb2Hazh9G9DCAiFheLxo8sKU6CwIoDFOkQ+EMe5AYhLKVAI
-   8yJKcbVxHygBojIhzZKl0qjZjhxWGj7Dr2aaYu32gcFlz1TdgHIDj+tRe
-   G6JDpyvpMZmbVYM4219qAz1jqAxtGKmpHuZmYb3hhnDYDUleVpM/aTdSb
-   A==;
-X-CSE-ConnectionGUID: p9Bl+pPlT66vObUYZhuTuw==
-X-CSE-MsgGUID: FgkbOspIRLmdxI2QtPU6DA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="890947"
+  t=1792212715; x=1823748715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R+8i4LI6E93ty/u9IagDtyMHz+62Q1ZdKBGKtZ47+M8=;
+  b=UIaLFhAT7yY6SB3QaPHYK4T92R5YQzgqugmqqrUmlUljueEwk8/a3oqL
+   w4W0DV2LpvhCfvfFMeIJNh/Fjr8In1CefImulyQvNYRBCso0V29PfLezX
+   jAY+WpXw4L7fymUUQE5Oxvo9G8HxJpj9uhf6PF3km6T6ahzP6k/jtYyuM
+   bPGCElNc/L9SVCzWGu7f4kGjf9neJDyoxr4fBpylXvMPj/Yst4S4nc+RL
+   cJoLESa9/23o6jgfupsRKun8PkPuuFbOiF1/tlBpffinI47diifdjUXJd
+   feYqqmsRqPjehApgpoEvWDm8tnm3dJ1FPE8SqiR8D7YWO1KZ4LOCbRtIJ
+   w==;
+X-CSE-ConnectionGUID: UoaO48ClSwa/Ql6ckMelqQ==
+X-CSE-MsgGUID: iDWTn4K7QEu/3HkZzdOA8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="892839"
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="890947"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 20:41:34 -0700
-X-CSE-ConnectionGUID: XwiZvE6HQeqgerIp46znLA==
-X-CSE-MsgGUID: g6e74HY5Q5yieBwoT0sZUg==
+   d="scan'208";a="892839"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2026 21:51:55 -0700
+X-CSE-ConnectionGUID: M1VqWDyyQnmNoMYKGuSGCA==
+X-CSE-MsgGUID: XdJDyz57R7+p3MAdKWHQWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="3924062"
+   d="scan'208";a="2018010"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 16 Oct 2026 20:41:33 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 Oct 2026 21:51:53 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xHvIX-00000000J1A-49FC;
-	Sat, 17 Oct 2026 03:41:29 +0000
-Date: Sat, 17 Oct 2026 11:41:25 +0800
+	id 1xHwOc-00000000J5S-1f4l;
+	Sat, 17 Oct 2026 04:51:50 +0000
+Date: Sat, 17 Oct 2026 12:51:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vicki Pfau <vi@endrift.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
- Silvan Jegen <s.jegen@gmail.com>
-Subject: [hid:for-7.4/nintendo 2/5] ld.lld: error: undefined symbol:
- hid_is_usb
-Message-ID: <202610171134.itp4VPif-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Alex Markuze <amarkuze@redhat.com>, ceph-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alex Markuze <amarkuze@redhat.com>,
+	Ilya Dryomov <idryomov@gmail.com>, Xiubo Li <xiubo.li@clyso.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] ceph: record subvolume quarantine from MDS cap
+ updates
+Message-ID: <202610171220.i77KPiw5-lkp@intel.com>
+References: <3e9b7bcfa68bd2f6bf6917f608254570a0769a12.1792074165.git.amarkuze@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3e9b7bcfa68bd2f6bf6917f608254570a0769a12.1792074165.git.amarkuze@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-7.4/nintendo
-head:   77c7155e2707ba5b1d56f3dc1acead48cf17f98d
-commit: 9417132df63e5cd7230433af05198538e759f3ae [2/5] HID: nintendo: Add preliminary Switch 2 controller driver
-config: i386-randconfig-1005-20261016 (https://download.01.org/0day-ci/archive/20261017/202610171134.itp4VPif-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610171134.itp4VPif-lkp@intel.com/reproduce)
+Hi Alex,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ed0502cb11f84fff29f374238e526ae94d9bdfde]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Markuze/ceph-add-subvolume-quarantine-wire-definitions/20261015-161202
+base:   ed0502cb11f84fff29f374238e526ae94d9bdfde
+patch link:    https://lore.kernel.org/r/3e9b7bcfa68bd2f6bf6917f608254570a0769a12.1792074165.git.amarkuze%40redhat.com
+patch subject: [PATCH v2 2/3] ceph: record subvolume quarantine from MDS cap updates
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261017/202610171220.i77KPiw5-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610171220.i77KPiw5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610171134.itp4VPif-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610171220.i77KPiw5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ld.lld: error: undefined symbol: hid_is_usb
-   >>> referenced by hid-nintendo.c:3993 (drivers/hid/hid-nintendo.c:3993)
-   >>>               drivers/hid/hid-nintendo.o:(nintendo_hid_probe) in archive vmlinux.a
+>> ERROR: modpost: fs/ceph/ceph.ko: symbol 'd_find_alias_rcu' undefined!
 
 --
 0-DAY CI Kernel Test Service
