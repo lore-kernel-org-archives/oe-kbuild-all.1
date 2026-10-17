@@ -1,122 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8006937DAC2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Oct 2026 14:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41B0258EE9;
+	Sat, 17 Oct 2026 15:27:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792247676; cv=none; b=iW8Q3cNhRYLfifY+9TsAuQf/zW7aZ79m9xvoWKirM9Cvz9S1YTftRF6AEg5iHhiZPEppphO9c6OUqy2OYJo1tpBQef2hgNi/cXvI+NvLyRzT8NoF4LuRHH/dsZS6aWQdE74wejIhyZ+924hnuDQmv0PxW7AYeJauneIDBC9+xWM=
+	t=1792250852; cv=none; b=qCsz1NnE8HOum5F43n9sibRGd2tE4EtkKibOoUFnwG3zdajwmtD7WNoEwqzZYCUjc7cjKlbuB1hG+6qpJ+vVNVqgPbFaBj8GneRMvwjURLt5P/PUUEoOlPiqSWGExK9grU21nLG86CTrgIGs14sk6EqBBtIO7icZuwc+AZRan2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792247676; c=relaxed/simple;
-	bh=vvnwZDNYwNMGKlSZBipdTZ3pt4o1J1uBx4LHN1IALaY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LPdLduiMYkBAODiASE+D8Hm3ZB4e4LsFwlRrXOtp3x6traGXl/GqkpDcIChRBm5YwX3YrfgZPFa5SFoqW/shjtzgaqwvS25fR1e8E1fIJbIpEO1GOs9gXqmbA+ZBJfDhO+KsuaevHniZha4Zxenmiw1YQXiaKJfi/e1jtT3kCpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E7d7f/lH; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1792250852; c=relaxed/simple;
+	bh=G/CnlScgoBaEkuoGLZhBTW+lIDcsMvUG0Fr2nLXyon4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kGxsPZodG2g+78Zc2JoSF7oSKqTIb7XbE3WYS/iaxrySnSvZ7MD4jVOEmR8Ozgg93b2J5H8HMNh3WI+EC1ZmGRnMkI4rDtsmKj6ztAh8evCv+NAWNXZLgUlewA9hKWV9nSa85NDe+tdBDLfoVEssIxCcS76+KZNIeBF+JOSIbJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EqJjM2q2; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E7d7f/lH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EqJjM2q2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792247673; x=1823783673;
-  h=date:from:to:cc:subject:message-id;
-  bh=vvnwZDNYwNMGKlSZBipdTZ3pt4o1J1uBx4LHN1IALaY=;
-  b=E7d7f/lHvkcnnD1+htR33ulK+ZxBPmpD6LoUmeqPa74LIZzc9c5eHiRq
-   s8bWuXPrtUaV3m8uGQy6ZaCioDmDEY0qXZ9vNFoa4uHFsEngrV8hLjZbN
-   HalYGvIV9OfxIijDTQpmdjk0aPLcDuyNO/j9KJ9WSZOnKI6ftFZZ8hLJ8
-   L80CM7RGd/KsGJNC0KFHdruLHXRj0aMrXVFug8BvDauXxLPS6P4/9eCHF
-   uM6H3DEIM+huA/l05F8KvpsHkmaP1FIkvUocgeJAxZ82gkkclea3lpPMa
-   HSdTEpJ01lGu0vdTjyagKUjd5esG896c0I0jAZlmIDWocE3Tw36dpKOwf
-   A==;
-X-CSE-ConnectionGUID: ZDZG/2dHQ7Cvyz79h004ig==
-X-CSE-MsgGUID: 73BjyoPwSUu1kprih7LjCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="1017941"
+  t=1792250850; x=1823786850;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G/CnlScgoBaEkuoGLZhBTW+lIDcsMvUG0Fr2nLXyon4=;
+  b=EqJjM2q26ZPnHJtgJcqhvXo4qFDS0rA07BeOO9KBF/y1DTwIy9a5Mvks
+   DslDNpWLUSrpgc3gt7P4AUsm6sNkshahOAb/BCm5qpEh05wCJPWEBdpU4
+   YFnimAevvQJsU3A0SvRx/mnHvjlOvLIT870smiai3FrfoQCnFlosruru9
+   0BicWdgCPgBovU0RndxEX1/9OxKeUoBdI4zgHGqFIPPuQ33jwUqN/DGXp
+   JrraPpcuYzStlAtHCyb7trZw9r8MeXc+tsBRMHcdWiCxHO1MhYo9qIlwH
+   YWWihoSvqQMgWflVpiIN2DO696Nbfz8KXaD+KOMhAumwtKU/5vs7d4Qon
+   w==;
+X-CSE-ConnectionGUID: H/kFtRRQTX+3t+ZcJC5vjQ==
+X-CSE-MsgGUID: GQjT/bpFTu2ZzKPjUXPgjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="1011090"
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="1017941"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 07:34:33 -0700
-X-CSE-ConnectionGUID: eAyRmkUITLyjfwyLRZtqUw==
-X-CSE-MsgGUID: 0cKCusF8SdGug6X/r9lI7g==
+   d="scan'208";a="1011090"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 08:27:29 -0700
+X-CSE-ConnectionGUID: 6aa6gFQoRh6pfuBRo684dA==
+X-CSE-MsgGUID: Mv1IisU8Q5yO+0DvaDlbWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="2227237"
+   d="scan'208";a="2636337"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Oct 2026 07:34:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Oct 2026 08:27:22 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xI5US-00000000JQ2-3RGy;
-	Sat, 17 Oct 2026 14:34:28 +0000
-Date: Sat, 17 Oct 2026 22:33:57 +0800
+	id 1xI6Jb-00000000JRu-0B03;
+	Sat, 17 Oct 2026 15:27:19 +0000
+Date: Sat, 17 Oct 2026 23:26:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/030-misc 14/19]
- drivers/pmdomain/apple/pmp-report.c:110:15: error: implicit declaration of
- function 'readq'; did you mean 'readb'?
-Message-ID: <202610172213.KNNz2YQc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ayush Singh <ayush@beagleboard.org>,
+	Jason Kridner <jkridner@beagleboard.org>, robertcnelson@gmail.com,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ayush Singh <ayush@beagleboard.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Markus Probst <markus.probst@posteo.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	greybus-dev@lists.linaro.org
+Subject: Re: [PATCH v3 4/7] rust: kernel: Add greybus abstractions
+Message-ID: <202610172306.ttuZsLWg-lkp@intel.com>
+References: <20261013-gb-uart-transport-v3-4-81d0a8a1acf7@beagleboard.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013-gb-uart-transport-v3-4-81d0a8a1acf7@beagleboard.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/030-misc
-head:   d6636aea14e70b5b997df5681ff9d254d9e75209
-commit: 96151d95c16448107904d1e4855e34c206167336 [14/19] pmdomain: apple: Add PMP reporting interface
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20261017/202610172213.KNNz2YQc-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610172213.KNNz2YQc-lkp@intel.com/reproduce)
+Hi Ayush,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on becb95e45ef0dda9ffb35156d909d3da7a2789c3]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ayush-Singh/greybus-connection-Export-gb_connection_get-and-gb_connection_put/20261013-173039
+base:   becb95e45ef0dda9ffb35156d909d3da7a2789c3
+patch link:    https://lore.kernel.org/r/20261013-gb-uart-transport-v3-4-81d0a8a1acf7%40beagleboard.org
+patch subject: [PATCH v3 4/7] rust: kernel: Add greybus abstractions
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261017/202610172306.ttuZsLWg-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610172306.ttuZsLWg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610172213.KNNz2YQc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610172306.ttuZsLWg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pmdomain/apple/pmp-report.c: In function 'apple_pmp_report_set_state':
->> drivers/pmdomain/apple/pmp-report.c:110:15: error: implicit declaration of function 'readq'; did you mean 'readb'? [-Wimplicit-function-declaration]
-     110 |         val = readq(rep->base + rep->offsets->tgt_read);
-         |               ^~~~~
-         |               readb
-   drivers/pmdomain/apple/pmp-report.c:114:9: error: implicit declaration of function 'writeq'; did you mean 'writeb'? [-Wimplicit-function-declaration]
-     114 |         writeq(val, rep->base + rep->offsets->tgt_write);
-         |         ^~~~~~
-         |         writeb
-
-
-vim +110 drivers/pmdomain/apple/pmp-report.c
-
-    97	
-    98	#define genpd_to_apple_pmp_report_entry(_genpd) \
-    99		container_of(_genpd, struct apple_pmp_report_entry, genpd)
-   100	
-   101	static int apple_pmp_report_set_state(struct generic_pm_domain *genpd, bool enable)
-   102	{
-   103		struct apple_pmp_report_entry *ent = genpd_to_apple_pmp_report_entry(genpd);
-   104		struct apple_pmp_report *rep = dev_get_drvdata(ent->dev->parent);
-   105		u64 bit_val = 1 << ent->id;
-   106		u64 val;
-   107		unsigned long flags;
-   108	
-   109		spin_lock_irqsave(&rep->lock, flags);
- > 110		val = readq(rep->base + rep->offsets->tgt_read);
-   111		val &= ~bit_val;
-   112		if (enable)
-   113			val |= bit_val;
-   114		writeq(val, rep->base + rep->offsets->tgt_write);
-   115		spin_unlock_irqrestore(&rep->lock, flags);
-   116		val = readq(rep->base + rep->offsets->status);
-   117		if ((val & PMP_REPORT_READY) == 0)
-   118			return 0;
-   119		return readq_poll_timeout_atomic(
-   120			rep->base + rep->offsets->actual,
-   121			val,
-   122			!!(val & bit_val) == !!enable,
-   123			100,
-   124			50000);
-   125	}
-   126	
+>> warning: associated function `new` is never used
+   --> rust/kernel/alloc.rs:42:19
+   |
+   40 | impl Flags {
+   | ---------- associated function in this implementation
+   41 |     /// Create from gfp_t
+   42 |     pub(crate) fn new(v: bindings::gfp_t) -> Self {
+   |                   ^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
 
 --
 0-DAY CI Kernel Test Service
