@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30544443C24
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 07:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72F3448D1D;
+	Sun, 18 Oct 2026 07:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792309966; cv=none; b=jBObltUg+nDfFuSxuhNOCG8p4nIySVeX2AY/rUDGyX0xtg2hmVOGSWqp8iQA5G/9PrehDwQBdZRnthZH4bxujojYCwkk9ntutW51thd8+pxAIenLIc2Y6X08m1Z7fM5oyE7yKklPEuDFuga2qgaUhQsEffz6jfANMeW4I/WHbYI=
+	t=1792309967; cv=none; b=MInDA5Sk68amc0RDEizBBeikW2S1qWf+Qbw+bv6komHV5sJQYqCK+nOhTEHfHHB55w6U4sCnEdYP3cgcyqss5BiuA8QYCC3QCBf326u0pKm0DoXA3vx10n5a7e+o7GRrIjjAnSbD8FYv59oP7ICl+UJb/OU8/nYfTuh4AzACQtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792309966; c=relaxed/simple;
-	bh=TTbDqSd948M8FYXeBDQVIklyv0RX9hrYLz7osFZtvmU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=dCQysc56VewHJEo4EwOfeZp7HQwgGkIP5n9IVfC8mTozGjBc8W86T8E+4OIkYxy+A/ULsntCf3WQmdhnrOFd5B6FvA7hm0/IOqpKdZInCGv04AF+RfdZjSncM3bkFQ44x8Ni5Sez762XvpdvXkK/TDBDOId0tip/vWOjj/OKExg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WQQ6M3AZ; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1792309967; c=relaxed/simple;
+	bh=OKJgmjKos8BeQqOvQHHZfy/Qo2rKCnOBeIDaMRkegwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=E4k/8FGGyPGC2yC6xczC2UA4kXk8fBef6BVH3DlxipzWNOhOQqSom44Z0Lv0G128XHqYs+5Eary6uP01fae4F033+3yWokaUUjSkcqedB6kcSajWO3Nir6esmrURmC5bhqwUyHo8/huqXpvLyHWvDrt8bQs6ivKfhf7g7zuctn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HJRAJiMF; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WQQ6M3AZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJRAJiMF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792309962; x=1823845962;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TTbDqSd948M8FYXeBDQVIklyv0RX9hrYLz7osFZtvmU=;
-  b=WQQ6M3AZwNAbn2F8VzKYA4peyARuYpcxwgymXhEQyivjxEyLODMERZJC
-   nwTe9KkXD0UMwlnnQMcgCAxI1Gtg4XT11upI6zWDoG2rhTLqMBb91vAP9
-   dCNtTGLC3XJ4TklqtLQOa4xAoGgviTtwgG7SN4pPsO9gelSMYsX9jqdH5
-   2NQTpp3hLnX0dTnzSK4bEUmViIYzlNyY4UjlHt5KaiWYHQ1tEjYnRB0Tv
-   MiZmO9YUdWXsKvLmukOhMuAK9of14XUk8qC69FTqXtC+4c7dRGrUA1EOn
-   nAQrCrQkBuoAPSxpDvf4xLXY9FlvBEksbV0y1QCCAj7XOk+evP3AZrFMA
+  t=1792309963; x=1823845963;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OKJgmjKos8BeQqOvQHHZfy/Qo2rKCnOBeIDaMRkegwo=;
+  b=HJRAJiMFj+stooe8nCtlw1+wyJAAp+LYnCPnCyJ8S4DbQvPnmhALk6oA
+   5pi9adAiUracwfc5nMSQ2Uq7U3hWgWXiEwukqtDHusDYDP+ya1LQPj3Pi
+   MxnVpZKK4fx7Igxepbsyz3NqIvF+3a+q+WJpcg97EIEiePW29hJFxnuUL
+   zSMpuYS1Ii1niWC6QrZRJdUel9/VDXdtRtp7Aey1MqR6H4+xqKKXu/2+v
+   14WQXevL7bTGQ6EMRUilnHlXW3qpC7rbTGmffvpAfJgbhX65S6U5Rdg5l
+   1pOJdKrSvWPkYYa0Aik8vKdzb3LAn9L4naLd9/GeM94MwNJKeVX6FtvRu
    g==;
-X-CSE-ConnectionGUID: UUlYzicTQHGZJB6g+G7UbQ==
-X-CSE-MsgGUID: Rj7fK2XbS1uuvVSIWQDrxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="916680"
+X-CSE-ConnectionGUID: UfxBqHeVRcC1kZMMT7ZTzw==
+X-CSE-MsgGUID: W+m8OrF6Q4m3ZA2oREOdVA==
+X-URL-LookUp-ScanningError: 1
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="908861"
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="916680"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 00:52:35 -0700
-X-CSE-ConnectionGUID: z5sdXlmQRC+qNGxLxNnM7g==
-X-CSE-MsgGUID: /g4qS0taRaKf0K7vAk0hdw==
+   d="scan'208";a="908861"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 00:52:37 -0700
+X-CSE-ConnectionGUID: RpvKxAz2RS699rYscI3d3A==
+X-CSE-MsgGUID: wyjdF1C2RgKYlE+wycO1Rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="2340787"
+   d="scan'208";a="4115558"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 18 Oct 2026 00:52:33 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 18 Oct 2026 00:52:36 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xILh1-000000004v9-1wnQ;
-	Sun, 18 Oct 2026 07:52:31 +0000
-Date: Sun, 18 Oct 2026 09:43:32 +0200
+	id 1xILh3-000000004xi-1iCR;
+	Sun, 18 Oct 2026 07:52:33 +0000
+Date: Sun, 18 Oct 2026 09:46:01 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-p3s 27/27]
- =?us-ascii?Q?arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/a?=
- =?us-ascii?Q?rm-smmu-v3/pkvm/nested/arm-smmu-v3.c:410:15:?= sparse:
- sparse: cast to restricted __le64
-Message-ID: <202610162053.aF9Q1dlf-lkp@intel.com>
+To: Jemmy Wong <jemmywong512@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: [tip:sched/core 35/37] ld.lld: error: relocation refers to a
+ symbol in a discarded section: __UNIQUE_ID_addressable_overflowuid_553
+Message-ID: <202610170544.6hPndDUW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,100 +63,28 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
 
-Hi Mostafa,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18-p3s
-head:   b4108abbd0e1cb0df40452dee77291f106e1d711
-commit: 6056d88e71d977020974d7b4af860cbc0ecc6276 [27/27] ANDROID: iommu/arm-smmu-v3-kvm: Support EL2 compiling as a module
-config: arm64-randconfig-r2302-20261016 (https://download.01.org/0day-ci/archive/20261016/202610162053.aF9Q1dlf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610162053.aF9Q1dlf-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610162053.aF9Q1dlf-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:410:15: sparse: sparse: cast to restricted __le64
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:410:15: sparse: sparse: restricted __le64 degrades to integer
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:410:15: sparse: sparse: restricted __le64 degrades to integer
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:411:14: sparse: sparse: cast to restricted __le64
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:411:14: sparse: sparse: restricted __le64 degrades to integer
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:411:14: sparse: sparse: restricted __le64 degrades to integer
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:426:22: sparse: sparse: invalid assignment: |=
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:426:22: sparse:    left side has type restricted __le64
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:426:22: sparse:    right side has type unsigned long long
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:428:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:428:22: sparse:     expected restricted __le64
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:428:22: sparse:     got unsigned long long
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:438:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long @@
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:438:22: sparse:     expected restricted __le64
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:438:22: sparse:     got unsigned long long
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:440:22: sparse: sparse: invalid assignment: |=
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:440:22: sparse:    left side has type restricted __le64
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:440:22: sparse:    right side has type unsigned long long
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:456:40: sparse: sparse: restricted __le64 degrades to integer
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:459:55: sparse: sparse: restricted __le64 degrades to integer
->> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:612:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *base @@     got void * @@
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:612:20: sparse:     expected void [noderef] __iomem *base
-   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c:612:20: sparse:     got void *
-
-vim +410 arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/nested/arm-smmu-v3.c
-
-edfaf6e6f05331 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  402  
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  403  static void smmu_attach_stage_2(struct arm_smmu_ste *ste)
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  404  {
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  405  	unsigned long vttbr;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  406  	unsigned long ts, sl, ic, oc, sh, tg, ps;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  407  	unsigned long cfg;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  408  	struct io_pgtable_cfg *pgt_cfg =  &idmap_pgtable->cfg;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  409  
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17 @410  	cfg = FIELD_GET(STRTAB_STE_0_CFG, ste->data[0]);
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  411  	if (!FIELD_GET(STRTAB_STE_0_V, ste->data[0]) ||
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  412  	    (cfg == STRTAB_STE_0_CFG_ABORT))
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  413  		return;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  414  	/* S2 is not advertised, that should never be attempted. */
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  415  	if (WARN_ON(cfg == STRTAB_STE_0_CFG_NESTED))
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  416  		return;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  417  	vttbr = pgt_cfg->arm_lpae_s2_cfg.vttbr;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  418  	ps = pgt_cfg->arm_lpae_s2_cfg.vtcr.ps;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  419  	tg = pgt_cfg->arm_lpae_s2_cfg.vtcr.tg;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  420  	sh = pgt_cfg->arm_lpae_s2_cfg.vtcr.sh;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  421  	oc = pgt_cfg->arm_lpae_s2_cfg.vtcr.orgn;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  422  	ic = pgt_cfg->arm_lpae_s2_cfg.vtcr.irgn;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  423  	sl = pgt_cfg->arm_lpae_s2_cfg.vtcr.sl;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  424  	ts = pgt_cfg->arm_lpae_s2_cfg.vtcr.tsz;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  425  
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17 @426  	ste->data[1] |= FIELD_PREP(STRTAB_STE_1_SHCFG, STRTAB_STE_1_SHCFG_INCOMING);
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  427  	/* The host shouldn't write dwords 2 and 3, overwrite them. */
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17 @428  	ste->data[2] = FIELD_PREP(STRTAB_STE_2_VTCR,
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  429  				  FIELD_PREP(STRTAB_STE_2_VTCR_S2PS, ps) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  430  				  FIELD_PREP(STRTAB_STE_2_VTCR_S2TG, tg) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  431  				  FIELD_PREP(STRTAB_STE_2_VTCR_S2SH0, sh) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  432  				  FIELD_PREP(STRTAB_STE_2_VTCR_S2OR0, oc) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  433  				  FIELD_PREP(STRTAB_STE_2_VTCR_S2IR0, ic) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  434  				  FIELD_PREP(STRTAB_STE_2_VTCR_S2SL0, sl) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  435  				  FIELD_PREP(STRTAB_STE_2_VTCR_S2T0SZ, ts)) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  436  		 FIELD_PREP(STRTAB_STE_2_S2VMID, 0) |
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  437  		 STRTAB_STE_2_S2AA64 | STRTAB_STE_2_S2R;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  438  	ste->data[3] = vttbr & STRTAB_STE_3_S2TTB_MASK;
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  439  	/* Convert S1 => nested and bypass => S2 */
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  440  	ste->data[0] |= FIELD_PREP(STRTAB_STE_0_CFG, cfg | BIT(1));
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  441  }
-8aef06347393f4 drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c Mostafa Saleh 2025-11-17  442  
-
-:::::: The code at line 410 was first introduced by commit
-:::::: 8aef06347393f4bb6802e81aefa4dd72008e2ee6 FROMLIST: iommu/arm-smmu-v3-kvm: Enable nesting
-
-:::::: TO: Mostafa Saleh <smostafa@google.com>
-:::::: CC: Mostafa Saleh <smostafa@google.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+dHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90
+aXAvdGlwLmdpdCBzY2hlZC9jb3JlCmhlYWQ6ICAgYjk5YjdmNjBjNWI0NzNkMzc0YzY4YjUzNzUz
+MTUzYjRhYTllMDcwMgpjb21taXQ6IGZjY2ViN2RhOTQ2NTk2OTVkNmNiYTk3MTkwZTE4ZTg3ZDlj
+Y2U4MmMgWzM1LzM3XSBzY2hlZC9jYWNoZTogQXZvaWQgcHVibGlzaGluZyBwYXJ0aWFsIExMQyB1
+dGlsaXphdGlvbgpjb25maWc6IHJpc2N2LXJhbmRjb25maWctMjAwMC0yMDI2MTAxNiAoaHR0cHM6
+Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjYxMDE3LzIwMjYxMDE3MDU0NC42
+aFBuZERVVy1sa3BAaW50ZWwuY29tL2NvbmZpZykKY29tcGlsZXI6IGNsYW5nIHZlcnNpb24gMjQu
+MC4wZ2l0IChodHRwczovL2dpdGh1Yi5jb20vbGx2bS9sbHZtLXByb2plY3QgOGE2Nzk0NjRmMTlj
+NDI2ZWY3NmFhZDlmNDU4N2I3MDNkZDNlNTg0ZCkKcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1
+aWxkKTogKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI2MTAxNy8y
+MDI2MTAxNzA1NDQuNmhQbmREVVctbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpCgpJZiB5b3UgZml4
+IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVzdCBhIG5l
+dyB2ZXJzaW9uIG9mCnRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5n
+IHRhZ3MKfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+Cnwg
+Q2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjYxMDE3MDU0
+NC42aFBuZERVVy1sa3BAaW50ZWwuY29tLwoKQWxsIGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQg
+YnkgPj4pOgoKPj4gbGQubGxkOiBlcnJvcjogcmVsb2NhdGlvbiByZWZlcnMgdG8gYSBzeW1ib2wg
+aW4gYSBkaXNjYXJkZWQgc2VjdGlvbjogX19VTklRVUVfSURfYWRkcmVzc2FibGVfb3ZlcmZsb3d1
+aWRfNTUzCiAgID4+PiBkZWZpbmVkIGluIHZtbGludXgubwogICA+Pj4gcmVmZXJlbmNlZCBieSAE
+BRQD0gQIrAUGBkoFCQYDAwk6MjM3MTkKICAgPj4+ICAgICAgICAgICAgICAgdm1saW51eC5vOihs
+dGMyNjY0X2RhY19jb2RlX3dyaXRlKQoKLS0KMC1EQVkgQ0kgS2VybmVsIFRlc3QgU2VydmljZQpo
+dHRwczovL2dpdGh1Yi5jb20vaW50ZWwvbGtwLXRlc3RzL3dpa2kK
