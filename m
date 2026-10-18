@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814CF4078C0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 07:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC843443C26
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 07:52:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792309968; cv=none; b=bG0omY9tg6ocxdGwVa7TmYakIRKNIfke+JlSKb86amMuezyMSCeFUPA1r8EgqV0sHN9pZYXKh6uMdWvLQPhV+jWsdYJxVBm8cDTmQoinEJ/M16QcOEEwzR0CDpAaqwM9EUNA4/epH8pGwZk8gwrK1Y1Y4XwhJs46BCoVDv2LvX4=
+	t=1792309968; cv=none; b=Vdj78B/bS1TMb8OM5lsktK0XYhQPPP82reqRsESGHUn5I9WhjAAgwTwFuCO+7YkzZ5pa05zcyMXP/ZwblYuYjoIp+nZIJv7j9by0oNHzD+Oxssiqjy5rFddrdGuZPkOWkr0N3zIficMvGBHx9hwHF33x/SFhWAuHUaXEsFyxEPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792309968; c=relaxed/simple;
-	bh=aq+tMqX4EUSiOX5q84UcsPqiezJpPRbByiXS1jJ7lLU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aoIuG38mC4Y8mVHcSjeYT7fuYlYURaKkaKZUX8exHJBNIUOtLmKR4E6EJbxrS0J5Zr8Pon6JeyL6HI1GIOG9yu99OqNPxRIJS9eSoW0B07APp4Z1D5zZC6n9jGq4lER2V0xnbaJUJCyLDVEhbuGivATMl8uHzaTJE1veYhPIaW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=atV48We/; arc=none smtp.client-ip=198.175.65.10
+	bh=05HQ0R67uA5HRD9qVcAlCZgYQDllfzqML2NkxxCxSrY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=eDfl+fRipK1uYKIGRlhTcXs6O4nPDgYIDVRVj1IjY8+JjQoCIYn7zaSEOqLRqtwqQ5A6AiqWCnGoFU5VYf36/gmBYRBvq2+GZIttc5rGI9URsACv9vQ3baecqGfz39TVTfLg9+Yoj1buPwCWIYFKNgLaQYOwukOKUlC18mWu/CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UAV0Ub3V; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="atV48We/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UAV0Ub3V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792309967; x=1823845967;
+  t=1792309968; x=1823845968;
   h=date:from:to:cc:subject:message-id;
-  bh=aq+tMqX4EUSiOX5q84UcsPqiezJpPRbByiXS1jJ7lLU=;
-  b=atV48We/3MnZFUBXZE70uGnY1DK1Cud5O/Y1w/R8UGuGpvfBlHSVlMBp
-   m47HtRYNvveAw+51fYhpRWZ9j2t64QSdyDHjoshjlRFnwsnxHHySueS1p
-   JigjpqfToC7FqceOpoga8m/b+eMIt9ig4gomHPYAMN3tY3FRkhB/NNKNQ
-   cjEE+3JG0eyHqjZZUz+/KsZWtRsLhPK36jFaUIYALgIkJiwiAG2WJPFV5
-   qSj8afpuEupA/q3wOtUkNDF9kUeTKgn4TDM+O+gn2J9k8jY7636mEFTuY
-   mymYpx49U57/9YM4c52x74BC25vPDMvaWHJR2DPIVeb72uZHeF6TYByj4
-   A==;
-X-CSE-ConnectionGUID: Rida4UzPSY+6cq2i4uqyAQ==
-X-CSE-MsgGUID: rBtvz3sESF2gS0TKLQHmqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="916681"
+  bh=05HQ0R67uA5HRD9qVcAlCZgYQDllfzqML2NkxxCxSrY=;
+  b=UAV0Ub3VWVfY8JzoI73wHwpl7DgcaaTaxqKPv9pjK+c7dJ6J62RhcQeB
+   n/+tZMRhgCtegsBVWU6c4K3ysA2N1XtGbVaiiQwU+4jwKck1ZY1cyZzKW
+   YIaU8i2IGv22j0jB1WkYvKaSYjmCcs2TqyxqhElkNg5myh9KGvtyk+/2A
+   L71RBNquBfe6KlNPd2dXu9vctMmrPaHhRHNjeEnWz8iP6GeUUJTaIzNgp
+   im+zez3wIo39TNZsuyerLDtdAYVe+x+rZmvPYv+8hvPSKZQMNpKX/2Fox
+   2DPOXzEc6BjZs5bPENa+W7+vQcOC/AJ8sWB1LsuyVi9PS4riCTVYTCFaG
+   Q==;
+X-CSE-ConnectionGUID: nTcOs3d3SSGEntCpqGB83Q==
+X-CSE-MsgGUID: gJEzrPH5SnSXOXbJomOdAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="916698"
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="916681"
+   d="scan'208";a="916698"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 00:52:39 -0700
-X-CSE-ConnectionGUID: UuR6G7KuS52YB4iPfdpUgw==
-X-CSE-MsgGUID: ZhDUdKqCQZa4nwBLQj1qYA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 00:52:40 -0700
+X-CSE-ConnectionGUID: TdSNoUXSRGuSoy8+EJVcKw==
+X-CSE-MsgGUID: KW+mlgnMSaqXUqbwEdajIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="2340800"
+   d="scan'208";a="2340802"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
   by orviesa006.jf.intel.com with ESMTP; 18 Oct 2026 00:52:34 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xILh1-000000004w1-44Er;
-	Sun, 18 Oct 2026 07:52:31 +0000
-Date: Sun, 18 Oct 2026 09:49:23 +0200
+	id 1xILh2-000000004x1-3J7h;
+	Sun, 18 Oct 2026 07:52:32 +0000
+Date: Sun, 18 Oct 2026 09:43:33 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ping Cheng <ping.cheng@wacom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
- Jiri Kosina <jikos@kernel.org>, Lee Jones <lee@kernel.org>
-Subject: [hid:for-7.4/wacom 8/8] drivers/hid/wacom_wac.c:4430:71:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202610180015.KsRqmoTE-lkp@intel.com>
+To: Jiri Pirko <jiri@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpirko-mlxsw:wip_attestation_all_1 43/62]
+ drivers/ctlv/core.c:644:6: warning: 'ctlv_device_priv_aligned' defined but
+ not used
+Message-ID: <202610162114.Al712poE-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,220 +60,50 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-7.4/wacom
-head:   97ce491bcef2d231b8d51cee8e579183319a5ba4
-commit: 97ce491bcef2d231b8d51cee8e579183319a5ba4 [8/8] HID: wacom: Setup SW_MUTE_DEVICE according to the order of input registration
-config: arm64-randconfig-r2300-20261017 (https://download.01.org/0day-ci/archive/20261018/202610180015.KsRqmoTE-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8a679464f19c426ef76aad9f4587b703dd3e584d)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610180015.KsRqmoTE-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw wip_attestation_all_1
+head:   e63637d55bc3ae7cbef988e3525c79b9381dba1b
+commit: 902704a094b6c6cff853cd9f7279da6199ecf93d [43/62] ctlv: Add KUnit support
+config: alpha-randconfig-r2200-20261016 (https://download.01.org/0day-ci/archive/20261016/202610162114.Al712poE-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261016/202610162114.Al712poE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610180015.KsRqmoTE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610162114.Al712poE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/wacom_wac.c:4430:71: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct input_dev *dev @@     got struct input_dev [noderef] __rcu *touch_input @@
-   drivers/hid/wacom_wac.c:4430:71: sparse:     expected struct input_dev *dev
-   drivers/hid/wacom_wac.c:4430:71: sparse:     got struct input_dev [noderef] __rcu *touch_input
+All warnings (new ones prefixed by >>):
 
-vim +4430 drivers/hid/wacom_wac.c
+>> drivers/ctlv/core.c:644:6: warning: 'ctlv_device_priv_aligned' defined but not used [-Wunused-function]
+     644 | bool ctlv_device_priv_aligned(struct ctlv_device *ctlvdev, u32 index)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ctlv/core.c:637:7: warning: 'ctlv_device_priv' defined but not used [-Wunused-function]
+     637 | void *ctlv_device_priv(struct ctlv_device *ctlvdev, u32 index)
+         |       ^~~~~~~~~~~~~~~~
+>> drivers/ctlv/core.c:129:6: warning: 'ctlv_family_claim_remove' defined but not used [-Wunused-function]
+     129 | void ctlv_family_claim_remove(u16 family_id, const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
-  4250	
-  4251	int wacom_setup_pad_input_capabilities(struct input_dev *input_dev,
-  4252					   struct wacom_wac *wacom_wac)
-  4253	{
-  4254		struct wacom_features *features = &wacom_wac->features;
-  4255	
-  4256		if ((features->type == HID_GENERIC) && features->numbered_buttons > 0)
-  4257			features->device_type |= WACOM_DEVICETYPE_PAD;
-  4258	
-  4259		if (!(features->device_type & WACOM_DEVICETYPE_PAD))
-  4260			return -ENODEV;
-  4261	
-  4262		if (features->type == REMOTE && input_dev == wacom_wac->pad_input)
-  4263			return -ENODEV;
-  4264	
-  4265		input_dev->evbit[0] |= BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
-  4266	
-  4267		/* kept for making legacy xf86-input-wacom working with the wheels */
-  4268		__set_bit(ABS_MISC, input_dev->absbit);
-  4269	
-  4270		/* kept for making legacy xf86-input-wacom accepting the pad */
-  4271		if (!(input_dev->absinfo && (input_dev->absinfo[ABS_X].minimum ||
-  4272		      input_dev->absinfo[ABS_X].maximum)))
-  4273			input_set_abs_params(input_dev, ABS_X, 0, 1, 0, 0);
-  4274		if (!(input_dev->absinfo && (input_dev->absinfo[ABS_Y].minimum ||
-  4275		      input_dev->absinfo[ABS_Y].maximum)))
-  4276			input_set_abs_params(input_dev, ABS_Y, 0, 1, 0, 0);
-  4277	
-  4278		/* kept for making udev and libwacom accepting the pad */
-  4279		__set_bit(BTN_STYLUS, input_dev->keybit);
-  4280	
-  4281		wacom_setup_numbered_buttons(input_dev, features->numbered_buttons);
-  4282	
-  4283		switch (features->type) {
-  4284	
-  4285		case CINTIQ_HYBRID:
-  4286		case CINTIQ_COMPANION_2:
-  4287		case DTK:
-  4288		case DTUS:
-  4289		case GRAPHIRE_BT:
-  4290			break;
-  4291	
-  4292		case WACOM_MO:
-  4293			__set_bit(BTN_BACK, input_dev->keybit);
-  4294			__set_bit(BTN_LEFT, input_dev->keybit);
-  4295			__set_bit(BTN_FORWARD, input_dev->keybit);
-  4296			__set_bit(BTN_RIGHT, input_dev->keybit);
-  4297			input_set_abs_params(input_dev, ABS_WHEEL, 0, 71, 0, 0);
-  4298			break;
-  4299	
-  4300		case WACOM_G4:
-  4301			__set_bit(BTN_BACK, input_dev->keybit);
-  4302			__set_bit(BTN_FORWARD, input_dev->keybit);
-  4303			input_set_capability(input_dev, EV_REL, REL_WHEEL);
-  4304			break;
-  4305	
-  4306		case WACOM_24HD:
-  4307			__set_bit(KEY_PROG1, input_dev->keybit);
-  4308			__set_bit(KEY_PROG2, input_dev->keybit);
-  4309			__set_bit(KEY_PROG3, input_dev->keybit);
-  4310	
-  4311			__set_bit(KEY_ONSCREEN_KEYBOARD, input_dev->keybit);
-  4312			__set_bit(KEY_INFO, input_dev->keybit);
-  4313	
-  4314			if (!features->oPid)
-  4315				__set_bit(KEY_BUTTONCONFIG, input_dev->keybit);
-  4316	
-  4317			input_set_abs_params(input_dev, ABS_WHEEL, 0, 71, 0, 0);
-  4318			input_set_abs_params(input_dev, ABS_THROTTLE, 0, 71, 0, 0);
-  4319			break;
-  4320	
-  4321		case WACOM_27QHD:
-  4322			__set_bit(KEY_PROG1, input_dev->keybit);
-  4323			__set_bit(KEY_PROG2, input_dev->keybit);
-  4324			__set_bit(KEY_PROG3, input_dev->keybit);
-  4325	
-  4326			__set_bit(KEY_ONSCREEN_KEYBOARD, input_dev->keybit);
-  4327			__set_bit(KEY_BUTTONCONFIG, input_dev->keybit);
-  4328	
-  4329			if (!features->oPid)
-  4330				__set_bit(KEY_CONTROLPANEL, input_dev->keybit);
-  4331			input_set_abs_params(input_dev, ABS_X, -2048, 2048, 0, 0);
-  4332			input_abs_set_res(input_dev, ABS_X, 1024); /* points/g */
-  4333			input_set_abs_params(input_dev, ABS_Y, -2048, 2048, 0, 0);
-  4334			input_abs_set_res(input_dev, ABS_Y, 1024);
-  4335			input_set_abs_params(input_dev, ABS_Z, -2048, 2048, 0, 0);
-  4336			input_abs_set_res(input_dev, ABS_Z, 1024);
-  4337			__set_bit(INPUT_PROP_ACCELEROMETER, input_dev->propbit);
-  4338			break;
-  4339	
-  4340		case WACOM_22HD:
-  4341			__set_bit(KEY_PROG1, input_dev->keybit);
-  4342			__set_bit(KEY_PROG2, input_dev->keybit);
-  4343			__set_bit(KEY_PROG3, input_dev->keybit);
-  4344	
-  4345			__set_bit(KEY_BUTTONCONFIG, input_dev->keybit);
-  4346			__set_bit(KEY_INFO, input_dev->keybit);
-  4347			fallthrough;
-  4348	
-  4349		case WACOM_21UX2:
-  4350		case WACOM_BEE:
-  4351		case CINTIQ:
-  4352			input_set_abs_params(input_dev, ABS_RX, 0, 4096, 0, 0);
-  4353			input_set_abs_params(input_dev, ABS_RY, 0, 4096, 0, 0);
-  4354			break;
-  4355	
-  4356		case WACOM_13HD:
-  4357			input_set_abs_params(input_dev, ABS_WHEEL, 0, 71, 0, 0);
-  4358			break;
-  4359	
-  4360		case INTUOS3:
-  4361		case INTUOS3L:
-  4362			input_set_abs_params(input_dev, ABS_RY, 0, 4096, 0, 0);
-  4363			fallthrough;
-  4364	
-  4365		case INTUOS3S:
-  4366			input_set_abs_params(input_dev, ABS_RX, 0, 4096, 0, 0);
-  4367			break;
-  4368	
-  4369		case INTUOS5:
-  4370		case INTUOS5L:
-  4371		case INTUOSPM:
-  4372		case INTUOSPL:
-  4373		case INTUOS5S:
-  4374		case INTUOSPS:
-  4375		case INTUOSP2_BT:
-  4376		case INTUOSP2S_BT:
-  4377			input_set_abs_params(input_dev, ABS_WHEEL, 0, 71, 0, 0);
-  4378			break;
-  4379	
-  4380		case INTUOS4WL:
-  4381			/*
-  4382			 * For Bluetooth devices, the udev rule does not work correctly
-  4383			 * for pads unless we add a stylus capability, which forces
-  4384			 * ID_INPUT_TABLET to be set.
-  4385			 */
-  4386			__set_bit(BTN_STYLUS, input_dev->keybit);
-  4387			fallthrough;
-  4388	
-  4389		case INTUOS4:
-  4390		case INTUOS4L:
-  4391		case INTUOS4S:
-  4392			input_set_abs_params(input_dev, ABS_WHEEL, 0, 71, 0, 0);
-  4393			break;
-  4394	
-  4395		case INTUOSHT:
-  4396		case BAMBOO_PT:
-  4397		case BAMBOO_TOUCH:
-  4398		case INTUOSHT2:
-  4399			__clear_bit(ABS_MISC, input_dev->absbit);
-  4400	
-  4401			__set_bit(BTN_LEFT, input_dev->keybit);
-  4402			__set_bit(BTN_FORWARD, input_dev->keybit);
-  4403			__set_bit(BTN_BACK, input_dev->keybit);
-  4404			__set_bit(BTN_RIGHT, input_dev->keybit);
-  4405	
-  4406			break;
-  4407	
-  4408		case REMOTE:
-  4409			input_set_capability(input_dev, EV_MSC, MSC_SERIAL);
-  4410			input_set_abs_params(input_dev, ABS_WHEEL, 0, 71, 0, 0);
-  4411			break;
-  4412	
-  4413		case INTUOSHT3_BT:
-  4414			break;
-  4415	
-  4416		case HID_GENERIC:
-  4417			if (wacom_wac->shared) {
-  4418				/*
-  4419				 * The setup of touch switch capability can only be done
-  4420				 * here for those devices, such as Cintiq Pro 13 and 16,
-  4421				 * that have touch input registered before stylus and pad
-  4422				 * inputs.
-  4423				 *
-  4424				 * There are two ways of reporting inputs from firmware:
-  4425				 * stylus first or touch first. This path covers the touch
-  4426				 * input first case.
-  4427				 */
-  4428				if (wacom_wac->has_mute_touch_switch &&
-  4429				    wacom_wac->shared->touch_input) {
-> 4430					input_set_capability(wacom_wac->shared->touch_input,
-  4431					    EV_SW, SW_MUTE_DEVICE);
-  4432				}
-  4433			}
-  4434			break;
-  4435	
-  4436		default:
-  4437			/* no pad supported */
-  4438			return -ENODEV;
-  4439		}
-  4440		return 0;
-  4441	}
-  4442	
+
+vim +/ctlv_device_priv_aligned +644 drivers/ctlv/core.c
+
+   635	
+   636	VISIBLE_IF_KUNIT
+ > 637	void *ctlv_device_priv(struct ctlv_device *ctlvdev, u32 index)
+   638	{
+   639		return ctlvdev->privs[index].priv;
+   640	}
+   641	EXPORT_SYMBOL_IF_KUNIT(ctlv_device_priv);
+   642	
+   643	VISIBLE_IF_KUNIT
+ > 644	bool ctlv_device_priv_aligned(struct ctlv_device *ctlvdev, u32 index)
+   645	{
+   646		return IS_ALIGNED((unsigned long)ctlvdev->privs[index].priv,
+   647				  CTLV_PRIV_ALIGN);
+   648	}
+   649	EXPORT_SYMBOL_IF_KUNIT(ctlv_device_priv_aligned);
+   650	
 
 --
 0-DAY CI Kernel Test Service
