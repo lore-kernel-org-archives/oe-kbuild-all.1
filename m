@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC135442380
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1911443C25
 	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 07:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792309961; cv=none; b=FLP04J4K/SPMfp5aYlc2cikwUZHs9SBkvVtRsm4FXERn7O9NxLWwwXl4VTpFnshsrZM07bAvFUz0ek5UOxLSXKnSB4n27yiyOBJG5GD1yzRgtE5CzU4KnqTQrrzN+va3AnY+UHkh3z8Ymo9whao82al0wxwZv0VOmeaej+cRHM8=
+	t=1792309962; cv=none; b=h9WRfRNbjqANuolftS0XFjRHrM3bgRYYjYJbeU8vjb2bQSW6ciUsP58kLOOUr+v9FU0N0OuhBJTFzajVSzW9xEPsqCa9+DMO45zqnzCvFcIlOq56KZxtcVM3ndmMcIddpVccP/2pCnFOuteLszCFd5y7fl7m4LTJQ7HgmjZKNRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792309961; c=relaxed/simple;
-	bh=6bn4ZnvRLgJ4+pzD6xiZ1C4xsePLrJ2fl+pDJegf1eE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XBPQ/OyNLCSeuWhrxFrmI/Zzo3WIIKyJs3/cLJ2GV4guAr3ymVchncDJU8epRO+ukyijtFYMvyjNOuddxrmumMMaO5Lmldy7/zlER6l6i2cAdUlFEG71e4Pxt9y9Da8IgPHw5sWNq4P+WbAHB0/BtQrNb4KPgUpcQRkSSuspP3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XjDu++Mp; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1792309962; c=relaxed/simple;
+	bh=A0ktBwQPoDlPfrponlf6ca28i8onl5dAfQY3fotZ51o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UriTkNRldbZbpF34fcax4QHvyueXTD9KYSny2daROGD3MNBZH87bJ0gMh+a3TdOGoZNOd1hW1E/UnI4FjDLKJ2s7RQEVZj0xcHoKmmv5DovfmISOXZnEYXMbwCyV/b/9wJEWmLPjKV+t3pWxkgrGUKSQZUMBdyKcgPEK9mcmwwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F6EmYKmB; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XjDu++Mp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F6EmYKmB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1792309960; x=1823845960;
   h=date:from:to:cc:subject:message-id;
-  bh=6bn4ZnvRLgJ4+pzD6xiZ1C4xsePLrJ2fl+pDJegf1eE=;
-  b=XjDu++MpdLTmxqZRmBUYEwy8emH8M4J1F/CRKUOLqvEmRXhW2Vrb0BrM
-   mLLk9Qvb3BQFFbs5Sr4Smbbhl6ImUQcBeFEPy+GNZgTRmn3Kjn9CBXFsu
-   41s/d2FuZHdjx5tqoHvNMgNieLeX167QLUWMH85FtjMTz/GG+1HGtFzIP
-   5ZIo06Ki6NpJMDACiQrzZdNARbb8agWsSjN6fL6MO9+LwGSefFWcNCqcT
-   K2QS1kle3FpFu2oSD89fPkR1pML18sgLtd3IAJDSRPo9hyLGAxihmuZt8
-   k0fKhXo292IPhK/b2uZBSqFFqwO2ZEWEA9KVthvjCsMO1UwOxfjqPHzBm
-   A==;
-X-CSE-ConnectionGUID: YKu2Nh+OSiCnBB4E225NKw==
-X-CSE-MsgGUID: oCM3gXkpRb2WTZvLZ8fpMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="908850"
+  bh=A0ktBwQPoDlPfrponlf6ca28i8onl5dAfQY3fotZ51o=;
+  b=F6EmYKmBolhPgq/mz4phgiE8xhGnhv6d++Az9PrpVJlxHwf585R3vSdp
+   Gnl+oPdg1x0E9UaQeBo3RbyY3rv2OGf2+3AC/iI4geYstN4rt1dKFMEOz
+   UoVMW1fZisK3Ea7kZ4Dw53Zq3fIRQ1NA2cku+Jjn7YdlG5dgwEJJvuVWI
+   hrYOr/O+r5wAHyk/0LJFqv2yd6suvKtErmyH3qM6z7GZD0KJ2IBYuKvva
+   CQuxttB32QQJPfW9cLRfhlc/hkylYNt24O8LzMJDsKtw7geGAVgV0ZnyT
+   XppBulyzrd/viOj0rSpZrJseYzEbdeGqgP5ze8bZN0PopenN4WWAibyn3
+   Q==;
+X-CSE-ConnectionGUID: WDp/5YbwSWKsU0qmz7vvdA==
+X-CSE-MsgGUID: 8sn0GF8NQqm2K4h1+tZ/ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="916675"
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="908850"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 00:52:36 -0700
-X-CSE-ConnectionGUID: Fz15OFYLQP+iq+J6u1S3/w==
-X-CSE-MsgGUID: IdBM3+UnSGW+GeCgzEEG3A==
+   d="scan'208";a="916675"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 00:52:35 -0700
+X-CSE-ConnectionGUID: WeiyAD96Si27fl2jYcaCuA==
+X-CSE-MsgGUID: 9chKoeaSQjOa1tE5giEkEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="4115550"
+   d="scan'208";a="2340777"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 18 Oct 2026 00:52:35 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Oct 2026 00:52:33 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xILh2-000000004x7-3ZCj;
-	Sun, 18 Oct 2026 07:52:32 +0000
-Date: Sun, 18 Oct 2026 09:50:40 +0200
+	id 1xILh1-000000004vF-2LyE;
+	Sun, 18 Oct 2026 07:52:31 +0000
+Date: Sun, 18 Oct 2026 09:43:46 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 12707/18293]
- arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: dma@f7370000
- (hisilicon,k3-dma-1.0): $nodename:0: 'dma@f7370000' does not match
- '^dma-controller(@.*)?$'
-Message-ID: <202610180619.POWUccUw-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 0/7]
+ drivers/cpufreq/goldfish_cpufreq_stats.c:28:35: warning: integer literal is
+ too large to be represented in type 'long', interpreting as 'unsigned long'
+ per C89; this literal will have type 'long long' in C99 onwards
+Message-ID: <202610170342.VRbxJ8Ne-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,63 +61,104 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64
-commit: 6b0089d88669c87d69df6fa118c198024494a033 [12707/18293] dt-bindings: dma: Convert hisilicon,k3-dma-1.0 to DT schema
-config: arm64-randconfig-2402-20261006 (https://download.01.org/0day-ci/archive/20261018/202610180619.POWUccUw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-dtschema: 2026.10.dev4+g568711590
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610180619.POWUccUw-lkp@intel.com/reproduce)
+Hi Weilun,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   4e4377cd369feab676638318ab082efbd0d315eb
+commit: a3f6baa6885122bc9b7f8ed273fd789a5f52fac3 [0/7] ANDROID: goldfish_cpufreq: Add goldfish cpufreq stats driver
+config: i386-randconfig-2301-20261017 (https://download.01.org/0day-ci/archive/20261017/202610170342.VRbxJ8Ne-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8a679464f19c426ef76aad9f4587b703dd3e584d)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610170342.VRbxJ8Ne-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610180619.POWUccUw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610170342.VRbxJ8Ne-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: soc (simple-bus): replicator: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: soc (simple-bus): stub_clock: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/acpu_sctrl@f6504000: failed to match any schema with compatible: ['hisilicon,hi6220-acpu-sctrl', 'syscon']
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: medianoc_ade@f4520000 (syscon): compatible: ['syscon'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: /soc/stub_clock: failed to match any schema with compatible: ['hisilicon,hi6220-stub-clk']
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: stub_clock (hisilicon,hi6220-stub-clk): hisilicon,hi6220-clk-sram: b'\x00\x00\x00\x10' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml
->> arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: dma@f7370000 (hisilicon,k3-dma-1.0): $nodename:0: 'dma@f7370000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/hisilicon,k3-dma-1.0.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'avdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'dvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'pvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'a2vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi6220-hikey.dtb: adv7533@39 (adi,adv7533): 'v3p3-supply' is a required property
---
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: adv7533@39 (adi,adv7533): 'avdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: adv7533@39 (adi,adv7533): 'dvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: adv7533@39 (adi,adv7533): 'pvdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: adv7533@39 (adi,adv7533): 'a2vdd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: adv7533@39 (adi,adv7533): 'v3p3-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7533.yaml
->> arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: dma@fdf30000 (hisilicon,k3-dma-1.0): $nodename:0: 'dma@fdf30000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/hisilicon,k3-dma-1.0.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: spi@ffd68000 (arm,pl022): Unevaluated properties are not allowed ('label' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-pl022.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: spi@ff3b3000 (arm,pl022): Unevaluated properties are not allowed ('label' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/spi-pl022.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: usb@ff100000 (snps,dwc3): resets: [[31, 144, 8], [31, 144, 7], [31, 144, 6], [31, 144, 5]] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: funnel (arm,coresight-static-funnel): 'clock-names', 'clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/arm,coresight-static-funnel.yaml
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dtb: reboot-mode-syscon@32100000 (syscon): compatible: ['syscon', 'simple-mfd'] is too short
+All warnings (new ones prefixed by >>):
+
+>> drivers/cpufreq/goldfish_cpufreq_stats.c:28:35: warning: integer literal is too large to be represented in type 'long', interpreting as 'unsigned long' per C89; this literal will have type 'long long' in C99 onwards [-Wc99-compat]
+      28 |         len = sprintf(buf, "%lu %llu\n", 3000000000, ++fake_time);
+         |                                          ^
+>> drivers/cpufreq/goldfish_cpufreq_stats.c:56:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      56 |         int ret;
+         |             ^
+   2 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+
+
+vim +28 drivers/cpufreq/goldfish_cpufreq_stats.c
+
+    22	
+    23	static ssize_t time_in_state_show(struct kobject *kobj,
+    24			struct kobj_attribute *attr, char *buf)
+    25	{
+    26		ssize_t len = 0;
+    27	
+  > 28		len = sprintf(buf, "%lu %llu\n", 3000000000, ++fake_time);
+    29		return len;
+    30	}
+    31	
+    32	static struct kobj_attribute time_in_state =
+    33		__ATTR_RO_MODE(time_in_state, 0444);
+    34	
+    35	static struct attribute *cpufreq_stats_attrs[] = {
+    36		&time_in_state.attr,
+    37		NULL
+    38	};
+    39	static struct attribute_group stats_attr_group = {
+    40		.attrs = cpufreq_stats_attrs,
+    41		.name = "stats"
+    42	};
+    43	
+    44	static void cpufreq_stats_free(unsigned int cpu)
+    45	{
+    46		struct device *dev = get_cpu_device(cpu);
+    47		struct kobject **kobj = &per_cpu(cpufreq_kobj, cpu);
+    48	
+    49		sysfs_remove_group(&dev->kobj, &stats_attr_group);
+    50		kobject_put(*kobj);
+    51		*kobj=NULL;
+    52	}
+    53	
+    54	static void cpufreq_stats_create(unsigned int cpu)
+    55	{
+  > 56		int ret;
+    57		struct device *dev = get_cpu_device(cpu);
+    58		struct kobject **kobj = &per_cpu(cpufreq_kobj, cpu);
+    59	
+    60		*kobj = kobject_create_and_add("cpufreq", &dev->kobj);
+    61		ret = sysfs_create_group(*kobj, &stats_attr_group);
+    62	}
+    63	
 
 --
 0-DAY CI Kernel Test Service
