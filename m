@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BE93DB632;
-	Sun, 18 Oct 2026 17:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C8939EF3F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 18:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792345883; cv=none; b=K01f0kWBCy0/ckSO1l/mHbWhyrQwquNJUXVX/VNhpKPGJIT9JhVDCGPCPn+EwkXrjzCCyFyyqodhisOJ2TYbnu+E3Qf6USSS20HGj0cCwEsVYVoj5FbDqRVZFF5zx6adLVTUJKLzkMT1Y2Cpct4JtMFJEf0G75Imv9hKz75Cxhw=
+	t=1792346600; cv=none; b=EySZSCJOSvHtGNvQ/Wd/IAKYOh54ntGFkWatKqdXfPagoWzlHMGlApkzmx2sh7mfyoqOBPQnPJe2LZqlCH9iq+Fl+Xv5wKjFI1oTVQkId0cmifBmTdUHQcPMHpGUvI39eWxJ93eeys9AJNuiGxMQ0WcSO/Bd4yWOUEoj0r8qwbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792345883; c=relaxed/simple;
-	bh=f3HoZjkSCwkivOhFulLxrMOZ92s6GDAwTu4EWmDFzd0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kyOoI3hHoUBfDdq2rmk74SylQ8yplZ6FB1VcmbdhhlWA9pNpmqeXxD8EEYJueeH7ujsyxWNLgwqLIb6oLxSJPaGIYrspy/gbgKJTgjanemzGIiDfTArGKEB5Dign348rPCyNZShqYvH1F/G48v5qFjQ8LyVDGPnDHu57bUEp6yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEFcPIkt; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1792346600; c=relaxed/simple;
+	bh=u5BwnYm/jMt/So6FSjRhM9ikKvxI8Ygsg2Lf6Ax3i78=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qQmizbvnZFUG0UpfRqgKNSa3yIASV51vg8OOGW7aZV1S31K1RgOSudfuimuVxT3/2vYXOmsSL8Fd9S46tPMl9doj7cTUrMo77D66Vv+fbCrzYLhYcNYFIETR0zZXwsMkoFFRXa66SKR8kKkJ/hqVx6pqHxGesaB2asmtcsIVebI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WLwyfIHn; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEFcPIkt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WLwyfIHn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792345877; x=1823881877;
+  t=1792346599; x=1823882599;
   h=date:from:to:cc:subject:message-id;
-  bh=f3HoZjkSCwkivOhFulLxrMOZ92s6GDAwTu4EWmDFzd0=;
-  b=aEFcPIkt95z4Wx/acRE+dusf69f2K9RO8J2VJPy9dAe9lYumdstCxBin
-   TXKtsgY1k3wI0PCoHTxcCiYICdT2ILEw81kGbw5EwkZbAU6Woy5yGke7x
-   t+8I112lLCmRVSyE4Ybog1bl1+XaiCliCgfgLtooptnmuGET/FIe2rP7f
-   6+WWr13GCAwUBgikU6P/TH+LWPS0lhgQ2h728i3SruoClUxvaTi5TSfa/
-   XujZIWFQDvNnhGg1Kwo9ezsmz6m1nYKttXA1BD1z6s5hEhs2Nk3zuTc95
-   vK9WsQjkJuZi796tTheKj76SeyNSD8poVdblerGIGvKZZ63H8p1vdM9u1
-   g==;
-X-CSE-ConnectionGUID: 7aps9+ikQSWE5ZPwzWKwdA==
-X-CSE-MsgGUID: 2RU6uksnRlaJQ+ugT1yTZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1145178"
+  bh=u5BwnYm/jMt/So6FSjRhM9ikKvxI8Ygsg2Lf6Ax3i78=;
+  b=WLwyfIHnuVlcnTIuTVlx99/2ZgDOd+yBhHLw5xfSCA6vLxCiBWRFF5qd
+   nQT/u+S7SHaE4VjB+yOeuRPxfGLQVV56mHaQQHVkXxF9tkSF/ZnoQQ6zw
+   IJMskVj+TSvyl+CXkYuRo1ZlsI0LvHP5OqWpGgaeI7p7s8RtXewrhGsBc
+   7j9K7wevEmfMgznm4D0ADyt/HJw8yApc0kmOfNak3kBiDuwta6n1IsrLQ
+   MmGG+rBQ6O8odLTnUZ3+d+NtT4sOShbtRwYFKlIWp0UH1lJYKgLhnyIXN
+   QlUpwWf+DVtEi1A6D21VQ9yiRE9m9dObwiwp8uEPCaORMD5w6ZIu1L3aa
+   A==;
+X-CSE-ConnectionGUID: PZLe/xDHT8GXTXDvpiy6OQ==
+X-CSE-MsgGUID: rmiDOOkwS1i8YHJHuBvGGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="935134"
 X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="1145178"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 10:51:16 -0700
-X-CSE-ConnectionGUID: z4/c/RUmQkSHizhoBCHruw==
-X-CSE-MsgGUID: /tq2fNciQSm5hF58ShHyjA==
+   d="scan'208";a="935134"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 11:03:18 -0700
+X-CSE-ConnectionGUID: sBqyOhSjRVqc8Hk/WDFfIQ==
+X-CSE-MsgGUID: YMHcywRGT0WwLI8o3RpLSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="2338034"
+   d="scan'208";a="2456869"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Oct 2026 10:51:15 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Oct 2026 11:03:16 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIV2P-00000000KfK-0Xqp;
-	Sun, 18 Oct 2026 17:51:13 +0000
-Date: Mon, 19 Oct 2026 01:51:06 +0800
+	id 1xIVE1-00000000Kfu-3nMU;
+	Sun, 18 Oct 2026 18:03:13 +0000
+Date: Mon, 19 Oct 2026 02:03:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [daveh-devel:kss 28/32] kernel/sched/core.c:5538:16: error:
- invalid operand for instruction
-Message-ID: <202610190133.k55LhRgM-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [daveh-devel:kss 28/32] kernel/sched/core.c:5538: Error:
+ unrecognized opcode `rdsspq a5'
+Message-ID: <202610190123.gja4egzW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,24 +62,19 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kss
 head:   1b2e2aefa6c7e3d15fac1b25a971b2d2cc3b697d
 commit: 22dda6f23b24026b5b1e1e6f968e73f64da9b848 [28/32] kss-debug-empty-ssp
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20261019/202610190133.k55LhRgM-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610190133.k55LhRgM-lkp@intel.com/reproduce)
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20261019/202610190123.gja4egzW-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610190123.gja4egzW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610190133.k55LhRgM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610190123.gja4egzW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/core.c:5538:16: error: invalid operand for instruction
-    5538 |                 asm volatile("rdsspq %0" : "+r" (ssp));
-         |                              ^
-   <inline asm>:1:9: note: instantiated into assembly here
-       1 |         rdsspq %ecx
-         |                ^~~~
-   1 error generated.
+   /tmp/ccSnv8mf.s: Assembler messages:
+>> kernel/sched/core.c:5538: Error: unrecognized opcode `rdsspq a5'
 
 
 vim +5538 kernel/sched/core.c
