@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611F3248896
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 17:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4CC392C2E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 17:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792343999; cv=none; b=hIKhydf2usvrIEQ9/6iRnRWILmkOtLP9HJQlOyoRaKe4MFYBdsFJOxr3kBrtZVUzpvmx7Zz9fblbcVDI+w9TgxtJSsoPNJBHlmrI9K9KPPEHoyHczYw/s5ETd3p8wChzsjbIklM9d7Lx/tVsvWT1iS6nK2y5oO3ZkDAdAjFsJIE=
+	t=1792344656; cv=none; b=if8ziKX2JTZTVq+y9q0mNSagdQgERdk2D/fmObXlOfFGjdzRBuRGXZ/jrqV3cg4T6JjSsbXMmOdr0iafsnGbI/emLniey+dUszJtiT+rKtair5TQLTGgCiAIhmmJRx56UOkFj96st7SnwEJe1gOLjlt8HWmQRH0BkdTyL9ycxxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792343999; c=relaxed/simple;
-	bh=i4gZQDGTFYf3aftZxNQKYUfgmxBxPiESxpimE2+6UGo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GUEOj2Hpk1EK4Od2OZ1BmEcc2jxRw8N+WVSyZ595elnsO50FQ9v8AUzH3pP/AoPaT7Jh4l9FErK7J41L+/wM1rBJntcjs9yVKO2XCtwBgwtNMVsqi4oK2cA6MtbbyM6VJnx7MtWLfzbTs77LgP+uPjuNjhCSH2Q7CPmnFO/WlLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AOW966ng; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1792344656; c=relaxed/simple;
+	bh=BnhKh15CF733e+aKcAAn18aF/AXzWwxrEjAn1aybo30=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=flhsapxbjCkkWlXFTWUGcYnppXJfnAzs6h25GihDln3cOokk1+7b91JqCmqI1vhlBCharXHPz8gOKQZW+LI6dQbwcKwnJvSqhgQBIC33V6Iv7+vI89bE9KREJu6WdfOv0C71RcEOaNt3w8Bt1mi/EQenVDvQIm+IS0q+6OWP7Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iun+nTVU; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AOW966ng"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iun+nTVU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792343994; x=1823879994;
+  t=1792344654; x=1823880654;
   h=date:from:to:cc:subject:message-id;
-  bh=i4gZQDGTFYf3aftZxNQKYUfgmxBxPiESxpimE2+6UGo=;
-  b=AOW966ngBLt0EuHcJhgSJs+LEToIweTYlClunBhBEekDULj8ahdUVpLO
-   lRFOJBIPQAKsaxuINOoCr6/RAZ/f2V0upRD8pz2yk7QFW4r3bRhJQelof
-   UqmjdEBlqWHDCooPgYaA4fE0ddtQPzVzr3PsVh03bdkwo6E2OsBNR2d93
-   K9lfqDb895T3pXbrBztRQFhFhd7XHoFayLT6W+yqeW5NYt6/LcjwG2s3u
-   u4R/7TY4WJfDql1MThH5hf9cjksGI2k3TRJaSIUYK/FVWlhHDLC5AvM82
-   uX1jEjqd90gPx5PJKDQg3CUPC5juO5x2nf/VUMRlnZNFqpTAoe4dFqaFv
-   w==;
-X-CSE-ConnectionGUID: Iybe9pOtSCm/CEH4toR/Cw==
-X-CSE-MsgGUID: hs40PXzrT521AYoLgkr/tA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="946044"
+  bh=BnhKh15CF733e+aKcAAn18aF/AXzWwxrEjAn1aybo30=;
+  b=iun+nTVUKB4ukNZT563Ve1C4wFIDv7hTZOl7WK/4XKWDqMcoS7Bwqm4H
+   6ceGpH1NPHr/yHALo+mx2q7napApqE5dv3xgl/kwFOU45o5te6oQstep1
+   AyXD7cVXP+54IoTtwmGXrtK46+N21YW59Y6SQdwiy4g6li2lbC7OzH+Ep
+   jhdu5yBfM+anBWO3JI6N2gpB7W0NJhiDXm5bE7jGGW9XNP1Wcs2iqlTwb
+   yqnFVrZMTCnKW46E1bBJ8/e2dKvssrbOTUoeHXZBuGXb+F6k4MKVgJ/Ns
+   sT3qRSRiq+QgfR/6rk/5MMmQouF4PXI+cGkm1ARddCU8pXTZLmst8xiqQ
+   g==;
+X-CSE-ConnectionGUID: /s6z+kKXTu6tlD/6PtJNzw==
+X-CSE-MsgGUID: O/EkHrCXSJyTH2GYW554Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="945117"
 X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="946044"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 10:19:53 -0700
-X-CSE-ConnectionGUID: 1jysGurqSLag5ZbSo0FjLA==
-X-CSE-MsgGUID: yzI1VtEwSpWxoXuMKsCAgg==
+   d="scan'208";a="945117"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 10:30:53 -0700
+X-CSE-ConnectionGUID: w1jJ+esPQN2IcfOr/e4rUA==
+X-CSE-MsgGUID: SATqlaudRQGpcjwLgCLatA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="2338573"
+   d="scan'208";a="2753758"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 18 Oct 2026 10:19:52 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 18 Oct 2026 10:30:52 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIUY2-000000005Bb-0WOF;
-	Sun, 18 Oct 2026 17:19:50 +0000
-Date: Sun, 18 Oct 2026 19:19:41 +0200
+	id 1xIUig-000000005Bj-0yQQ;
+	Sun, 18 Oct 2026 17:30:50 +0000
+Date: Sun, 18 Oct 2026 19:30:13 +0200
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- include/trace/hooks/fs.h:144:25: warning: 'struct linux_binprm' declared
- inside parameter list will not be visible outside of this definition or
- declaration
-Message-ID: <202610181939.iQzPNL9m-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 336/336]
+ drivers/ufs/core/ufs-mcq.c:483: warning: Function parameter or member 'hba'
+ not described in 'ufshcd_mcq_sq_cleanup'
+Message-ID: <202610181912.Ynj6xqz2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,223 +60,122 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   3c439af8f6b93b7fb3e196f6290e19873d42072c
-commit: fa573af4b2ab4a7c778dfaf0bb0a081ed59327f8 [1/1] ANDROID: vendor_hooks: add hooks for process authenticator security module
-config: arm-randconfig-r2304-20261018 (https://download.01.org/0day-ci/archive/20261018/202610181939.iQzPNL9m-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610181939.iQzPNL9m-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   85239205a20932568f405bb06f7dc3187e755674
+commit: 2bbead6020e69a3f76448635b4f10827ff34307f [336/336] FROMLIST: ufs: mcq: Add supporting functions for mcq abort
+config: arm64-randconfig-2000-20261018 (https://download.01.org/0day-ci/archive/20261018/202610181912.Ynj6xqz2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610181912.Ynj6xqz2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610181939.iQzPNL9m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610181912.Ynj6xqz2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/events/erofs.h:8,
-                    from fs/erofs/zdata.c:10:
->> include/trace/hooks/fs.h:144:25: warning: 'struct linux_binprm' declared inside parameter list will not be visible outside of this definition or declaration
-     144 |         TP_PROTO(struct linux_binprm *bprm, int depth),
-         |                         ^~~~~~~~~~~~
-   include/linux/tracepoint.h:640:41: note: in definition of macro 'DECLARE_EVENT_NOP'
-     640 |         static inline void trace_##name(proto)                          \
-         |                                         ^~~~~
-   include/trace/hooks/vendor_hooks.h:129:33: note: in expansion of macro 'PARAMS'
-     129 |         DECLARE_EVENT_NOP(name, PARAMS(proto), PARAMS(args))
-         |                                 ^~~~~~
-   include/trace/hooks/fs.h:143:1: note: in expansion of macro 'DECLARE_RESTRICTED_HOOK'
-     143 | DECLARE_RESTRICTED_HOOK(android_rvh_exec_binprm_check,
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/hooks/fs.h:144:9: note: in expansion of macro 'TP_PROTO'
-     144 |         TP_PROTO(struct linux_binprm *bprm, int depth),
-         |         ^~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHY_PACKAGE
-   Depends on [n]: NETDEVICES [=n] && PHYLIB [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_PHY_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_SVA
-   Depends on [n]: IOMMU_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+>> drivers/ufs/core/ufs-mcq.c:483: warning: Function parameter or member 'hba' not described in 'ufshcd_mcq_sq_cleanup'
+>> drivers/ufs/core/ufs-mcq.c:483: warning: Function parameter or member 'task_tag' not described in 'ufshcd_mcq_sq_cleanup'
+>> drivers/ufs/core/ufs-mcq.c:541: warning: Function parameter or member 'utrd' not described in 'ufshcd_mcq_nullify_sqe'
+>> drivers/ufs/core/ufs-mcq.c:564: warning: Function parameter or member 'hba' not described in 'ufshcd_mcq_sqe_search'
+>> drivers/ufs/core/ufs-mcq.c:564: warning: Function parameter or member 'hwq' not described in 'ufshcd_mcq_sqe_search'
+>> drivers/ufs/core/ufs-mcq.c:564: warning: Function parameter or member 'task_tag' not described in 'ufshcd_mcq_sqe_search'
 
 
-vim +144 include/trace/hooks/fs.h
+vim +483 drivers/ufs/core/ufs-mcq.c
 
-    16	
-    17	DECLARE_HOOK(android_vh_ep_create_wakeup_source,
-    18		TP_PROTO(char *name, int len),
-    19		TP_ARGS(name, len));
-    20	
-    21	DECLARE_HOOK(android_vh_timerfd_create,
-    22		TP_PROTO(char *name, int len),
-    23		TP_ARGS(name, len));
-    24	
-    25	DECLARE_HOOK(android_vh_f2fs_printk,
-    26		TP_PROTO(unsigned long s_flag, struct va_format *vaf, int level, bool limit_rate),
-    27		TP_ARGS(s_flag, vaf, level, limit_rate));
-    28	
-    29	DECLARE_HOOK(android_vh_f2fs_create,
-    30		TP_PROTO(struct inode *inode, struct dentry *dentry),
-    31		TP_ARGS(inode, dentry));
-    32	
-    33	DECLARE_HOOK(android_vh_f2fs_set_bio_flag,
-    34		TP_PROTO(struct folio *folio, struct bio *bio),
-    35		TP_ARGS(folio, bio));
-    36	
-    37	DECLARE_HOOK(android_vh_put_super,
-    38		TP_PROTO(struct super_block *sb),
-    39		TP_ARGS(sb));
-    40	
-    41	DECLARE_HOOK(android_vh_wb_dirty_limits,
-    42		TP_PROTO(unsigned long *thresh, struct bdi_writeback *wb),
-    43		TP_ARGS(thresh, wb));
-    44	
-    45	DECLARE_HOOK(android_vh_evict,
-    46		TP_PROTO(struct inode *inode),
-    47		TP_ARGS(inode));
-    48	
-    49	DECLARE_HOOK(android_vh_inode_io_list_del,
-    50		TP_PROTO(struct inode *inode, struct bdi_writeback *wb),
-    51		TP_ARGS(inode, wb));
-    52	
-    53	DECLARE_HOOK(android_vh_redirty_tail_locked,
-    54		TP_PROTO(struct list_head **target_list, struct inode *inode,
-    55			 struct bdi_writeback *wb),
-    56		TP_ARGS(target_list, inode, wb));
-    57	
-    58	DECLARE_HOOK(android_vh_queue_io,
-    59		TP_PROTO(struct bdi_writeback *wb, unsigned int for_kupdate,
-    60			 unsigned long dirtied_before, int *moved),
-    61		TP_ARGS(wb, for_kupdate, dirtied_before, moved));
-    62	
-    63	DECLARE_HOOK(android_vh_mark_inode_dirty,
-    64		TP_PROTO(struct inode *inode, struct bdi_writeback *wb, struct list_head **dirty_list),
-    65		TP_ARGS(inode, wb, dirty_list));
-    66	
-    67	DECLARE_HOOK(android_vh_vfs_fsync_range,
-    68		TP_PROTO(struct inode *inode, unsigned long *cut_off),
-    69		TP_ARGS(inode, cut_off));
-    70	
-    71	DECLARE_RESTRICTED_HOOK(android_rvh_do_fcntl,
-    72		TP_PROTO(struct file *filp, unsigned int cmd, unsigned long arg, long *err),
-    73		TP_ARGS(filp, cmd, arg, err), 1);
-    74	
-    75	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_buffer_write,
-    76		TP_PROTO(struct kiocb *iocb, struct iov_iter *from,
-    77			 ssize_t *ret, bool *write_done),
-    78		TP_ARGS(iocb, from, ret, write_done), 1);
-    79	
-    80	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_move_data_block_bypass,
-    81		TP_PROTO(struct inode *inode, unsigned int bidx, int gc_type,
-    82			 unsigned int segno, int off, int *err, bool *bypass),
-    83		TP_ARGS(inode, bidx, gc_type, segno, off, err, bypass), 1);
-    84	
-    85	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_ra_data_block_bypass,
-    86		TP_PROTO(struct inode *inode, pgoff_t index, int *err, bool *bypass),
-    87		TP_ARGS(inode, index, err, bypass), 1);
-    88	
-    89	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_write_cache_pages,
-    90		TP_PROTO(struct address_space *mapping, struct writeback_control *wbc,
-    91			 int *ret, bool *wb_done),
-    92		TP_ARGS(mapping, wbc, ret, wb_done), 1);
-    93	
-    94	DECLARE_HOOK(android_vh_f2fs_customized_ioctl,
-    95		TP_PROTO(struct file *filp, unsigned int cmd, unsigned long arg,
-    96			 long *ret, bool *ioctl_done),
-    97		TP_ARGS(filp, cmd, arg, ret, ioctl_done));
-    98	
-    99	DECLARE_HOOK(android_vh_f2fs_dnode_set_blkaddr,
-   100		TP_PROTO(struct inode *inode, u32 blkaddr),
-   101		TP_ARGS(inode, blkaddr));
-   102	
-   103	DECLARE_HOOK(android_vh_f2fs_inode_may_compress,
-   104		TP_PROTO(struct inode *inode, int *err),
-   105		TP_ARGS(inode, err));
-   106	
-   107	DECLARE_HOOK(android_vh_f2fs_improve_priority,
-   108		TP_PROTO(struct task_struct *p, int *saved_prio, bool *skip),
-   109		TP_ARGS(p, saved_prio, skip));
-   110	
-   111	DECLARE_HOOK(android_vh_f2fs_restore_priority,
-   112		TP_PROTO(struct task_struct *p, int saved_prio),
-   113		TP_ARGS(p, saved_prio));
-   114	
-   115	DECLARE_RESTRICTED_HOOK(android_rvh_f2fs_down_read,
-   116		TP_PROTO(wait_queue_head_t *read_waiters, struct rw_semaphore *rwsem, bool *skip),
-   117		TP_ARGS(read_waiters, rwsem, skip), 1);
-   118	
-   119	DECLARE_HOOK(android_vh_f2fs_file_open,
-   120		TP_PROTO(struct inode *inode, struct file *filp),
-   121		TP_ARGS(inode, filp));
-   122	
-   123	DECLARE_HOOK(android_vh_erofs_iostat_submit,
-   124		TP_PROTO(struct super_block *sb, struct bio *bio),
-   125		TP_ARGS(sb, bio));
-   126	
-   127	DECLARE_HOOK(android_vh_erofs_iostat_update,
-   128		TP_PROTO(struct super_block *sb, struct bio *bio),
-   129		TP_ARGS(sb, bio));
-   130	
-   131	DECLARE_HOOK(android_vh_f2fs_iostat_submit,
-   132		TP_PROTO(struct super_block *sb, int type, struct bio *bio),
-   133		TP_ARGS(sb, type, bio));
-   134	
-   135	DECLARE_HOOK(android_vh_f2fs_iostat_update,
-   136		TP_PROTO(struct super_block *sb, struct bio *bio, bool *skip),
-   137		TP_ARGS(sb, bio, skip));
-   138	
-   139	DECLARE_RESTRICTED_HOOK(android_rvh_post_setattr,
-   140		TP_PROTO(struct dentry *dentry),
-   141		TP_ARGS(dentry), 1);
-   142	
-   143	DECLARE_RESTRICTED_HOOK(android_rvh_exec_binprm_check,
- > 144		TP_PROTO(struct linux_binprm *bprm, int depth),
-   145		TP_ARGS(bprm, depth), 1);
-   146	
+   473	
+   474	/**
+   475	 * ufshcd_mcq_sq_cleanup - Clean up submission queue resources
+   476	 * associated with the pending command.
+   477	 * @hba - per adapter instance.
+   478	 * @task_tag - The command's task tag.
+   479	 *
+   480	 * Returns 0 for success; error code otherwise.
+   481	 */
+   482	int ufshcd_mcq_sq_cleanup(struct ufs_hba *hba, int task_tag)
+ > 483	{
+   484		struct ufshcd_lrb *lrbp = &hba->lrb[task_tag];
+   485		struct scsi_cmnd *cmd = lrbp->cmd;
+   486		struct ufs_hw_queue *hwq;
+   487		void __iomem *reg, *opr_sqd_base;
+   488		u32 nexus, id, val;
+   489		int err;
+   490	
+   491		if (task_tag != hba->nutrs - UFSHCD_NUM_RESERVED) {
+   492			if (!cmd)
+   493				return -EINVAL;
+   494			hwq = ufshcd_mcq_req_to_hwq(hba, scsi_cmd_to_rq(cmd));
+   495		} else {
+   496			hwq = hba->dev_cmd_queue;
+   497		}
+   498	
+   499		id = hwq->id;
+   500	
+   501		mutex_lock(&hwq->sq_mutex);
+   502	
+   503		/* stop the SQ fetching before working on it */
+   504		err = ufshcd_mcq_sq_stop(hba, hwq);
+   505		if (err)
+   506			goto unlock;
+   507	
+   508		/* SQCTI = EXT_IID, IID, LUN, Task Tag */
+   509		nexus = lrbp->lun << 8 | task_tag;
+   510		opr_sqd_base = mcq_opr_base(hba, OPR_SQD, id);
+   511		writel(nexus, opr_sqd_base + REG_SQCTI);
+   512	
+   513		/* SQRTCy.ICU = 1 */
+   514		writel(SQ_ICU, opr_sqd_base + REG_SQRTC);
+   515	
+   516		/* Poll SQRTSy.CUS = 1. Return result from SQRTSy.RTC */
+   517		reg = opr_sqd_base + REG_SQRTS;
+   518		err = read_poll_timeout(readl, val, val & SQ_CUS, 20,
+   519					MCQ_POLL_US, false, reg);
+   520		if (err)
+   521			dev_err(hba->dev, "%s: failed. hwq=%d, tag=%d err=%ld\n",
+   522				__func__, id, task_tag,
+   523				FIELD_GET(SQ_ICU_ERR_CODE_MASK, readl(reg)));
+   524	
+   525		if (ufshcd_mcq_sq_start(hba, hwq))
+   526			err = -ETIMEDOUT;
+   527	
+   528	unlock:
+   529		mutex_unlock(&hwq->sq_mutex);
+   530		return err;
+   531	}
+   532	
+   533	/**
+   534	 * ufshcd_mcq_nullify_sqe - Nullify the submission queue entry.
+   535	 * Write the sqe's Command Type to 0xF. The host controller will not
+   536	 * fetch any sqe with Command Type = 0xF.
+   537	 *
+   538	 * @utrd - UTP Transfer Request Descriptor to be nullified.
+   539	 */
+   540	static void ufshcd_mcq_nullify_sqe(struct utp_transfer_req_desc *utrd)
+ > 541	{
+   542		u32 dword_0;
+   543	
+   544		dword_0 = le32_to_cpu(utrd->header.dword_0);
+   545		dword_0 &= ~UPIU_COMMAND_TYPE_MASK;
+   546		dword_0 |= FIELD_PREP(UPIU_COMMAND_TYPE_MASK, 0xF);
+   547		utrd->header.dword_0 = cpu_to_le32(dword_0);
+   548	}
+   549	
+   550	/**
+   551	 * ufshcd_mcq_sqe_search - Search for the command in the submission queue
+   552	 * If the command is in the submission queue and not issued to the device yet,
+   553	 * nullify the sqe so the host controller will skip fetching the sqe.
+   554	 *
+   555	 * @hba - per adapter instance.
+   556	 * @hwq - Hardware Queue to be searched.
+   557	 * @task_tag - The command's task tag.
+   558	 *
+   559	 * Returns true if the SQE containing the command is present in the SQ
+   560	 * (not fetched by the controller); returns false if the SQE is not in the SQ.
+   561	 */
+   562	static bool ufshcd_mcq_sqe_search(struct ufs_hba *hba,
+   563					  struct ufs_hw_queue *hwq, int task_tag)
+ > 564	{
 
 --
 0-DAY CI Kernel Test Service
