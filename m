@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858554B9220
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 13:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF354A2E1F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 13:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792330622; cv=none; b=IR1swoXTGLAmyB+NBmegYM6A3QANxqNyFXNSbkh0exanVR2lQdz+9pjc5DRFQoy0+O+7JRRWhYCEt341iViTNinpojSb+pbT5uZeRLPLblm3FY/aD/XKLzJnIUexV7h9cKgKNRNAIBRemtJa+ciJudCrb2bBfqFA+Tq0yiyH89g=
+	t=1792331098; cv=none; b=aaBnK6eVsTzxogfztoB0UpQwhmzKZrC6QNVv7vJsq6VJCN0tHFQUFtihmdjIOCsJVJlXwUErCc861BBMnidTscFKeTTG0bwqUhkzb0QvGqU7Mn3lldwFjC1sIJyRmIusaTXkKUpD6tRG4tySQ8/ZXa+BBF0ygoGc6gvI2aEp/Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792330622; c=relaxed/simple;
-	bh=0YG/ApNFGxfbMLwrJ6sSgmynsY6TO43pycbM41Y5mAw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fa8ub9+8RiKHgtE301qvZwMH5Yicxc0tftjmPqHEFTgtHtGlaPlNLI8czjReFpRD6h9jpaIbIhzpMgNcrNb2Iwzj/WNG4tjffC46cYkqxBQagn83uE7pLWf5hGIR9PFRMbU+rPiFC4N/euuoYyQevpwIgAAFNvziH4Yj+GcyHFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKbYwuAG; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1792331098; c=relaxed/simple;
+	bh=VCXzfulzoa4qXgMSMSMYN/GVB3oEFev7jGIGi+o64y0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ekq+cVjU9/J42asRpwfpsa+s2FrnPUrHvXYgfiHao4+bTtCe1I828BDVumtu4xRxcgXFnVyv5qQ/PnF2i4TeyW6pINGUgeyGBc8ikqS2mCG18vrvK0jePHIokFM6rmnNJ1vNitFGcYiwFY3GNM0cisJZ5zPln3iLO4uiTSN8iRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O1CuufbI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKbYwuAG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O1CuufbI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792330619; x=1823866619;
+  t=1792331096; x=1823867096;
   h=date:from:to:cc:subject:message-id;
-  bh=0YG/ApNFGxfbMLwrJ6sSgmynsY6TO43pycbM41Y5mAw=;
-  b=TKbYwuAGau0FoWUUGc1bu39WuJWqk3rcMacMpl/LbGcbhPDQ80sYN5q0
-   gMPPMF5/ugBTorm10M316dWWoSKSvVMltSInT86yGQtvSpwtfODl/ZTcH
-   1YWC3jMmamyE5MyGRebe0QR8dwFNUREMn3Gfiy0Vc1vJeBp9wXQw9eJDb
-   o092msRTBaqj1l3XnHFF5Vt/elw5RDJl7joGi6t/sCrgl+/H5QFC2psDY
-   0eIP99NPfEx53Z0pgRBZW7a8wfzMCTTL8A4lWi6QOBNbBrK6i5bHPch0S
-   U1n5t74LRYbkT0cn267ugy2KM6wZDuHLMnIpZJ8fVHMpn+T12M2wdF/VK
-   w==;
-X-CSE-ConnectionGUID: flFfyWJJRYC8ODi/WyMRLQ==
-X-CSE-MsgGUID: bKX7BOlHR2y7Lgr2vjr9iQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="1059052"
+  bh=VCXzfulzoa4qXgMSMSMYN/GVB3oEFev7jGIGi+o64y0=;
+  b=O1CuufbIBffBFLz08hDFWpZoMQyzvGJk6nWffd5AKCF+Lj1pjnz89EtN
+   CCl73I+DeW0ID2Hjjto3vUC31xaFsNc7/mLtSFFVNQJ1J6uhs1GPpn29d
+   Mk1Dj8j5wYsl6WnRWnXVjRU2zUgcL5qWkc3fsBXqApJn4TdLnovIivIrb
+   AY6piE5eMckX5105yqRWgDMzezarUERmcEqTTl67AwQF13vYDkR2IMYLK
+   KF7OYuRZw/FmZDB6oA+5lynb6Kv5uwLgMaPlfSulv6GboiZIbRDPSPVpS
+   J6tfH9bQoIZPmWcQMrRTY4H2C9Smdv0f9VINZUQAhnGOEvLRzSX/DAHuo
+   g==;
+X-CSE-ConnectionGUID: KmPPE14VT4eexh0PcLP6Hg==
+X-CSE-MsgGUID: l9UAvQ+SR3iYWuB2pZzlhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="934397"
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="1059052"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 06:36:59 -0700
-X-CSE-ConnectionGUID: rZo2T7TVT2+x3qC86Ikohw==
-X-CSE-MsgGUID: /EdHPvYXQo6mahS40Gh1cg==
+   d="scan'208";a="934397"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 06:44:56 -0700
+X-CSE-ConnectionGUID: LZIb0BdKQ8yy20mRcWeGEQ==
+X-CSE-MsgGUID: MA8oQT0NSA27BtwuqiN1RQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="2666452"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Oct 2026 06:36:58 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="2412328"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 18 Oct 2026 06:44:54 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIR4I-00000000KS6-3r7z;
-	Sun, 18 Oct 2026 13:36:54 +0000
-Date: Sun, 18 Oct 2026 21:36:31 +0800
+	id 1xIRBz-0000000057T-3COR;
+	Sun, 18 Oct 2026 13:44:51 +0000
+Date: Sun, 18 Oct 2026 15:44:46 +0200
 From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
-Subject: [bpf-next:master 35/79]
- include/linux/atomic/atomic-arch-fallback.h:392:14: error: assignment to
- 'struct htab_elem *' from 'int' makes pointer from integer without a cast
-Message-ID: <202610182128.PoooSvpx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1]
+ kernel/cgroup/cpuset.c:3826: warning: Excess function parameter 'work'
+ description in 'cpuset_handle_hotplug'
+Message-ID: <202610181515.Vbpn4oDR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,85 +60,154 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-head:   a6303535c2ad9d49598d52556183911f02287791
-commit: ccb88db8dac8fabde58656d5d4a33711e89c480a [35/79] bpf: Don't hand out a linked element as extra element
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20261018/202610182128.PoooSvpx-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610182128.PoooSvpx-lkp@intel.com/reproduce)
+Hi Kaiqian,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   150617c4d667a241e52441e855befac0c5d6702b
+commit: 0b74ac200f7764c7eae335774f70c6c9f014c132 [1/1] BACKPORT: FROMGIT: cgroup/cpuset: Make cpuset hotplug processing synchronous
+config: arm64-randconfig-2001-20261018 (https://download.01.org/0day-ci/archive/20261018/202610181515.Vbpn4oDR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610181515.Vbpn4oDR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610182128.PoooSvpx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610181515.Vbpn4oDR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/atomic.h:80,
-                    from include/asm-generic/bitops/lock.h:5,
-                    from arch/arc/include/asm/bitops.h:190,
-                    from include/linux/bitops.h:67,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/arc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time64.h:5,
-                    from include/linux/restart_block.h:9,
-                    from include/linux/thread_info.h:14,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:107,
-                    from include/linux/alloc_tag.h:11,
-                    from include/linux/workqueue.h:9,
-                    from include/linux/bpf.h:12,
-                    from kernel/bpf/hashtab.c:5:
-   kernel/bpf/hashtab.c: In function 'alloc_htab_elem':
-   include/linux/atomic/atomic-arch-fallback.h:384:27: error: implicit declaration of function 'arch_cmpxchg_local'; did you mean 'raw_cmpxchg_local'? [-Wimplicit-function-declaration]
-     384 | #define raw_cmpxchg_local arch_cmpxchg_local
-         |                           ^~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:392:16: note: in expansion of macro 'raw_cmpxchg_local'
-     392 |         ___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
-         |                ^~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5022:9: note: in expansion of macro 'raw_try_cmpxchg_local'
-    5022 |         raw_try_cmpxchg_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/hashtab.c:1292:35: note: in expansion of macro 'try_cmpxchg_local'
-    1292 |                         } while (!try_cmpxchg_local(pl_new, &l_new, NULL));
-         |                                   ^~~~~~~~~~~~~~~~~
->> include/linux/atomic/atomic-arch-fallback.h:392:14: error: assignment to 'struct htab_elem *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         ___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:5022:9: note: in expansion of macro 'raw_try_cmpxchg_local'
-    5022 |         raw_try_cmpxchg_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/hashtab.c:1292:35: note: in expansion of macro 'try_cmpxchg_local'
-    1292 |                         } while (!try_cmpxchg_local(pl_new, &l_new, NULL));
-         |                                   ^~~~~~~~~~~~~~~~~
+>> kernel/cgroup/cpuset.c:3826: warning: Excess function parameter 'work' description in 'cpuset_handle_hotplug'
 
 
-vim +392 include/linux/atomic/atomic-arch-fallback.h
+vim +3826 kernel/cgroup/cpuset.c
 
-8c8b096a23d12f Peter Zijlstra 2023-05-31  385  
-9257959a6e5b4f Mark Rutland   2023-06-05  386  #ifdef arch_try_cmpxchg_local
-9257959a6e5b4f Mark Rutland   2023-06-05  387  #define raw_try_cmpxchg_local arch_try_cmpxchg_local
-9257959a6e5b4f Mark Rutland   2023-06-05  388  #else
-9257959a6e5b4f Mark Rutland   2023-06-05  389  #define raw_try_cmpxchg_local(_ptr, _oldp, _new) \
-9257959a6e5b4f Mark Rutland   2023-06-05  390  ({ \
-9257959a6e5b4f Mark Rutland   2023-06-05  391  	typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-9257959a6e5b4f Mark Rutland   2023-06-05 @392  	___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
-9257959a6e5b4f Mark Rutland   2023-06-05  393  	if (unlikely(___r != ___o)) \
-9257959a6e5b4f Mark Rutland   2023-06-05  394  		*___op = ___r; \
-9257959a6e5b4f Mark Rutland   2023-06-05  395  	likely(___r == ___o); \
-9257959a6e5b4f Mark Rutland   2023-06-05  396  })
-8c8b096a23d12f Peter Zijlstra 2023-05-31  397  #endif
-8c8b096a23d12f Peter Zijlstra 2023-05-31  398  
+b1aac8bb824c658 kernel/cpuset.c        Paul Jackson     2006-09-29  3805  
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3806  /**
+0b74ac200f7764c kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3807   * cpuset_handle_hotplug - handle CPU/memory hot{,un}plug for a cpuset
+05f76ae95e71149 kernel/cgroup/cpuset.c Cai Xinchen      2023-08-02  3808   * @work: unused
+956db3ca0606e78 kernel/cpuset.c        Cliff Wickman    2008-02-07  3809   *
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3810   * This function is called after either CPU or memory configuration has
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3811   * changed and updates cpuset accordingly.  The top_cpuset is always
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3812   * synchronized to cpu_active_mask and N_MEMORY, which is necessary in
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3813   * order to make cpusets transparent (of no affect) on systems that are
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3814   * actively using CPU hotplug but making no active use of cpusets.
+956db3ca0606e78 kernel/cpuset.c        Cliff Wickman    2008-02-07  3815   *
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3816   * Non-root cpusets are only affected by offlining.  If any CPUs or memory
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3817   * nodes have been taken down, cpuset_hotplug_update_tasks() is invoked on
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3818   * all descendants.
+7ddf96b02fe8dd4 kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3819   *
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3820   * Note that CPU offlining during suspend is ignored.  We don't modify
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3821   * cpusets across suspend/resume cycles at all.
+0b74ac200f7764c kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3822   *
+0b74ac200f7764c kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3823   * CPU / memory hotplug is handled synchronously.
+956db3ca0606e78 kernel/cpuset.c        Cliff Wickman    2008-02-07  3824   */
+0b74ac200f7764c kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3825  static void cpuset_handle_hotplug(void)
+b1aac8bb824c658 kernel/cpuset.c        Paul Jackson     2006-09-29 @3826  {
+5c5cc62321d9df7 kernel/cpuset.c        Li Zefan         2013-06-09  3827  	static cpumask_t new_cpus;
+5c5cc62321d9df7 kernel/cpuset.c        Li Zefan         2013-06-09  3828  	static nodemask_t new_mems;
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3829  	bool cpus_updated, mems_updated;
+b8d1b8ee93df8ff kernel/cgroup/cpuset.c Waiman Long      2017-08-17  3830  	bool on_dfl = is_in_v2_mode();
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3831  	struct tmpmasks tmp, *ptmp = NULL;
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3832  
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3833  	if (on_dfl && !alloc_cpumasks(NULL, &tmp))
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3834  		ptmp = &tmp;
+b1aac8bb824c658 kernel/cpuset.c        Paul Jackson     2006-09-29  3835  
+0b74ac200f7764c kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3836  	lockdep_assert_cpus_held();
+111cd11bbc54850 kernel/cgroup/cpuset.c Juri Lelli       2023-05-08  3837  	mutex_lock(&cpuset_mutex);
+956db3ca0606e78 kernel/cpuset.c        Cliff Wickman    2008-02-07  3838  
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3839  	/* fetch the available cpus/mems and find out which changed how */
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3840  	cpumask_copy(&new_cpus, cpu_active_mask);
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3841  	new_mems = node_states[N_MEMORY];
+b450129554213a4 kernel/cpuset.c        Paul Jackson     2008-02-07  3842  
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3843  	/*
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3844  	 * If subparts_cpus is populated, it is likely that the check below
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3845  	 * will produce a false positive on cpus_updated when the cpu list
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3846  	 * isn't changed. It is extra work, but it is better to be safe.
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3847  	 */
+7e88291beefbb75 kernel/cpuset.c        Li Zefan         2014-07-09  3848  	cpus_updated = !cpumask_equal(top_cpuset.effective_cpus, &new_cpus);
+7e88291beefbb75 kernel/cpuset.c        Li Zefan         2014-07-09  3849  	mems_updated = !nodes_equal(top_cpuset.effective_mems, new_mems);
+b450129554213a4 kernel/cpuset.c        Paul Jackson     2008-02-07  3850  
+15d428e6fe77fff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3851  	/*
+15d428e6fe77fff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3852  	 * In the rare case that hotplug removes all the cpus in subparts_cpus,
+15d428e6fe77fff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3853  	 * we assumed that cpus are updated.
+15d428e6fe77fff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3854  	 */
+15d428e6fe77fff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3855  	if (!cpus_updated && top_cpuset.nr_subparts_cpus)
+15d428e6fe77fff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3856  		cpus_updated = true;
+15d428e6fe77fff kernel/cgroup/cpuset.c Waiman Long      2021-07-20  3857  
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3858  	/* synchronize cpus_allowed to cpu_active_mask */
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3859  	if (cpus_updated) {
+8447a0fee974433 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3860  		spin_lock_irq(&callback_lock);
+7e88291beefbb75 kernel/cpuset.c        Li Zefan         2014-07-09  3861  		if (!on_dfl)
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3862  			cpumask_copy(top_cpuset.cpus_allowed, &new_cpus);
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3863  		/*
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3864  		 * Make sure that CPUs allocated to child partitions
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3865  		 * do not show up in effective_cpus. If no CPU is left,
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3866  		 * we clear the subparts_cpus & let the child partitions
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3867  		 * fight for the CPUs again.
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3868  		 */
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3869  		if (top_cpuset.nr_subparts_cpus) {
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3870  			if (cpumask_subset(&new_cpus,
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3871  					   top_cpuset.subparts_cpus)) {
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3872  				top_cpuset.nr_subparts_cpus = 0;
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3873  				cpumask_clear(top_cpuset.subparts_cpus);
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3874  			} else {
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3875  				cpumask_andnot(&new_cpus, &new_cpus,
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3876  					       top_cpuset.subparts_cpus);
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3877  			}
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3878  		}
+1344ab9c2991b45 kernel/cpuset.c        Li Zefan         2014-07-09  3879  		cpumask_copy(top_cpuset.effective_cpus, &new_cpus);
+8447a0fee974433 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3880  		spin_unlock_irq(&callback_lock);
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3881  		/* we don't mess with cpumasks of tasks in top_cpuset */
+7ddf96b02fe8dd4 kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3882  	}
+7ddf96b02fe8dd4 kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3883  
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3884  	/* synchronize mems_allowed to N_MEMORY */
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3885  	if (mems_updated) {
+8447a0fee974433 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3886  		spin_lock_irq(&callback_lock);
+7e88291beefbb75 kernel/cpuset.c        Li Zefan         2014-07-09  3887  		if (!on_dfl)
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3888  			top_cpuset.mems_allowed = new_mems;
+1344ab9c2991b45 kernel/cpuset.c        Li Zefan         2014-07-09  3889  		top_cpuset.effective_mems = new_mems;
+8447a0fee974433 kernel/cpuset.c        Vladimir Davydov 2014-10-20  3890  		spin_unlock_irq(&callback_lock);
+d66393e54e0a9dc kernel/cpuset.c        Tejun Heo        2014-02-13  3891  		update_tasks_nodemask(&top_cpuset);
+b1aac8bb824c658 kernel/cpuset.c        Paul Jackson     2006-09-29  3892  	}
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3893  
+111cd11bbc54850 kernel/cgroup/cpuset.c Juri Lelli       2023-05-08  3894  	mutex_unlock(&cpuset_mutex);
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3895  
+5c5cc62321d9df7 kernel/cpuset.c        Li Zefan         2013-06-09  3896  	/* if cpus or mems changed, we need to propagate to descendants */
+5c5cc62321d9df7 kernel/cpuset.c        Li Zefan         2013-06-09  3897  	if (cpus_updated || mems_updated) {
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3898  		struct cpuset *cs;
+492eb21b98f88e4 kernel/cpuset.c        Tejun Heo        2013-08-08  3899  		struct cgroup_subsys_state *pos_css;
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3900  
+fc560a26accea95 kernel/cpuset.c        Tejun Heo        2013-01-07  3901  		rcu_read_lock();
+492eb21b98f88e4 kernel/cpuset.c        Tejun Heo        2013-08-08  3902  		cpuset_for_each_descendant_pre(cs, pos_css, &top_cpuset) {
+ec903c0c858e496 kernel/cpuset.c        Tejun Heo        2014-05-13  3903  			if (cs == &top_cpuset || !css_tryget_online(&cs->css))
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3904  				continue;
+fc560a26accea95 kernel/cpuset.c        Tejun Heo        2013-01-07  3905  			rcu_read_unlock();
+b1aac8bb824c658 kernel/cpuset.c        Paul Jackson     2006-09-29  3906  
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3907  			cpuset_hotplug_update_tasks(cs, ptmp);
+7ddf96b02fe8dd4 kernel/cpuset.c        Srivatsa S. Bhat 2012-05-24  3908  
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3909  			rcu_read_lock();
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3910  			css_put(&cs->css);
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3911  		}
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3912  		rcu_read_unlock();
+388afd8549dc8be kernel/cpuset.c        Li Zefan         2013-06-09  3913  	}
+8d03394877ecdf8 kernel/cpuset.c        Tejun Heo        2013-01-07  3914  
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3915  	/* rebuild sched domains if cpus_allowed has changed */
+50e76632339d465 kernel/cgroup/cpuset.c Peter Zijlstra   2017-09-07  3916  	if (cpus_updated || force_rebuild) {
+50e76632339d465 kernel/cgroup/cpuset.c Peter Zijlstra   2017-09-07  3917  		force_rebuild = false;
+0b74ac200f7764c kernel/cgroup/cpuset.c Kaiqian Zhu      2025-02-27  3918  		rebuild_sched_domains_cpuslocked();
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3919  	}
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3920  
+4b842da276a8a10 kernel/cgroup/cpuset.c Waiman Long      2018-11-08  3921  	free_cpumasks(NULL, ptmp);
+50e76632339d465 kernel/cgroup/cpuset.c Peter Zijlstra   2017-09-07  3922  }
+deb7aa308ea264b kernel/cpuset.c        Tejun Heo        2013-01-07  3923  
 
-:::::: The code at line 392 was first introduced by commit
-:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
+:::::: The code at line 3826 was first introduced by commit
+:::::: b1aac8bb824c658ddebd296b088a8bff5029c288 [PATCH] cpuset: hotunplug cpus and mems in all cpusets
 
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+:::::: TO: Paul Jackson <pj@sgi.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 --
 0-DAY CI Kernel Test Service
