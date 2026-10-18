@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594B0248896;
-	Sun, 18 Oct 2026 09:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7D83D9DB4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 09:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792315741; cv=none; b=jGaZQvRwlzCrTwBb1dEpu7iIHZq8wBwck/ieVuECgnMjTzKBaipPV4xxREfCW+kQ99nt0IrVbaFm8/LUe5AH2HGa1kslswv5i1eOLj00sNdQh6HQzdnlw4uuGkS2afaQfZRBGS0HcBwomHxgy42TFayKVrWXvlLd8jC5oomwF6k=
+	t=1792316400; cv=none; b=sCgOTCsRNdanHeIjIyq+LQH1bzZKt2snpulsSwY+48gw8NMEBEqTJuwPkkQMSHwnfM7dxCSdW4n0bzxjeSd/fUj9tNEU9iN/6cTiyYVMOMZr04g9ataSSzChGY7/NaNCjhqngwG/uRrFxgGAX5JDh+9erdqxvk5zi/v0FanH8B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792315741; c=relaxed/simple;
-	bh=vvsOkaF4+5M2vbtDSDB0NO1sQm7uxZgyQ1bZQP7JiU0=;
+	s=arc-20240116; t=1792316400; c=relaxed/simple;
+	bh=n1y2NmtzRdB5vhgQbqupXPILwaQdTHoyQOYiRId4FV4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gP+bVF0noMlKNTpGVdrhjDVI6/C1/gbAHuJCLnrvuLKjkOjeH77AMDIlqjpUOsqbyEAasm6oeQssMSK8vlSNPCKPEvnf3bvlhhiCagpD78N3DkBNkMhi2zC6MAb7X55GWtZ7FkiejeaxF7X3Zs//2Za7emkXgf0cDev2Qi97K7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SpFyGbNr; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ace6iCnsjcKMIFOarDQaxb9DFsM1ucanP8erbaG3DUaISWM3tcm0quJWOYh6of4+DVMTB3r4VlhK+ezfUdFWHsavksnofxAM3ioPwk/AsbsN3xYjPUe03PJ6mU/H/YKPX07kgGr0+NtFvVPiK6pjonCPAaUKE7SOGbIVRAvKhW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VEifHBGz; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SpFyGbNr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VEifHBGz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792315739; x=1823851739;
+  t=1792316399; x=1823852399;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=vvsOkaF4+5M2vbtDSDB0NO1sQm7uxZgyQ1bZQP7JiU0=;
-  b=SpFyGbNrKmBZU21uhTVcQfGUQppJwmIXltF7q3fTgSm4jtjHXtNysoX+
-   rFFPWtmUKmJ2e+Jcf5r3G1p9QZ9/bercXDzzRR5vylNMkEtJh1mMyFdGI
-   zWq/mwjl68SiC2zOfJEK6TlrUXOGx34qksk1ClJRCpiwXeLqKxvAkFnNV
-   1swijJbw6cun01Kn4VUlThOxWYB0CV2HHx5Hj3V45OMMB6yjUcvEZBKjt
-   6/RIaxEt8jXbXfQ5xwv0Jz3Z+3PJDGnduAA86iDfyFSjOtdUKB00oX1Xf
-   tE2Elv6iDCLflS3/i0C8eUfuBEzCiMsuSs684XgVlUKg3CVS3VGJTOgHz
+  bh=n1y2NmtzRdB5vhgQbqupXPILwaQdTHoyQOYiRId4FV4=;
+  b=VEifHBGz87suKtXpOv+9HAai/vaE6cU7bGJCImfUa5w6Phk/iKbys+hO
+   qNCIus8fXOHMJjmHs3RYXom/kYQ3ZUaYUPYaWgUmuJpRbScFvo0pemovf
+   lZPMjVJzii7S3bgrnIQbIAkEYrUZnE+/dPMro6XO++uhuu8xfXvvZZnBO
+   tAaKGXLPe85AJTPMKsFsHVrQQ6a09TiE8MsD2fzjo1PWwRg4TY4FjLlm7
+   YGWuKkZTICZlJwX9ZlRRnjL9Ycd12fbyeODpIBKKbYZmIuvJjBWncqYpG
+   5KKumxABYev+IHfRTJLXws0RshFC8xQMk0JgWY2a6ZRn/qGUM97e9c9wI
    g==;
-X-CSE-ConnectionGUID: jyU56LJoSj+2eijyt5WtIw==
-X-CSE-MsgGUID: 1qNE9o5fSQiFYm+9aCb2DA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="1052366"
+X-CSE-ConnectionGUID: dEUWemvtRueB73snTvjbuA==
+X-CSE-MsgGUID: ChnA13IHTIil8O8vfnbz8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="932928"
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="1052366"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 02:28:46 -0700
-X-CSE-ConnectionGUID: OipqfHLzR/W5pdUT7a+lxQ==
-X-CSE-MsgGUID: 77ZzfygNReaq8JDHAfK8VQ==
+   d="scan'208";a="932928"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 02:39:47 -0700
+X-CSE-ConnectionGUID: hH07kIS+TyWxNa5KqRRQig==
+X-CSE-MsgGUID: 3ALg+iBDRfGuQdoMnWqikA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="2380860"
+   d="scan'208";a="4048612"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Oct 2026 02:28:44 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 18 Oct 2026 02:39:45 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xINC5-00000000KHm-0wYh;
-	Sun, 18 Oct 2026 09:28:41 +0000
-Date: Sun, 18 Oct 2026 17:27:46 +0800
+	id 1xINMj-00000000KIE-25N2;
+	Sun, 18 Oct 2026 09:39:41 +0000
+Date: Sun, 18 Oct 2026 17:39:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	greybus-dev@lists.linaro.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+a2e50fb40695811c2dab@syzkaller.appspotmail.com,
-	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Subject: Re: [PATCH] greybus: operation: arm the timeout timer before sending
- the request
-Message-ID: <202610181737.03A4hebl-lkp@intel.com>
-References: <20261017171743.24612-1-ngocthang2710.1999@gmail.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+	eddyz87@gmail.com, memxor@gmail.com, netdev@vger.kernel.org,
+	josef@toxicpanda.com, mason@kernel.org
+Subject: Re: [PATCH bpf-next v2 04/43] bpf: don't hand out a linked element
+ as extra element
+Message-ID: <202610181750.BoqAddaF-lkp@intel.com>
+References: <20261017163745.3341787-5-alexei.starovoitov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,132 +65,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261017171743.24612-1-ngocthang2710.1999@gmail.com>
+In-Reply-To: <20261017163745.3341787-5-alexei.starovoitov@gmail.com>
 
-Hi Nguyen,
+Hi Alexei,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v7.3-rc7 next-20261016]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 458575e1f2ddea944d679fe778c92e370a9b61a4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nguyen-Ngoc-Thang/greybus-operation-arm-the-timeout-timer-before-sending-the-request/20261018-001743
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20261017171743.24612-1-ngocthang2710.1999%40gmail.com
-patch subject: [PATCH] greybus: operation: arm the timeout timer before sending the request
-config: i386-buildonly-randconfig-1000-20261018 (https://download.01.org/0day-ci/archive/20261018/202610181737.03A4hebl-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610181737.03A4hebl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/bpf-use-the-frame-mem-type-in-devmap-egress-XDP/20261017-163703
+base:   458575e1f2ddea944d679fe778c92e370a9b61a4
+patch link:    https://lore.kernel.org/r/20261017163745.3341787-5-alexei.starovoitov%40gmail.com
+patch subject: [PATCH bpf-next v2 04/43] bpf: don't hand out a linked element as extra element
+config: arc-randconfig-1000-20261018 (https://download.01.org/0day-ci/archive/20261018/202610181750.BoqAddaF-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610181750.BoqAddaF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610181737.03A4hebl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610181750.BoqAddaF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/greybus/operation.c:785:1: warning: unused label 'err_put_active' [-Wunused-label]
-     785 | err_put_active:
-         | ^~~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from include/linux/atomic.h:80,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/arc/include/asm/bitops.h:190,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/arc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:9,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:107,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:12,
+                    from kernel/bpf/hashtab.c:5:
+   kernel/bpf/hashtab.c: In function 'alloc_htab_elem':
+   include/linux/atomic/atomic-arch-fallback.h:384:27: error: implicit declaration of function 'arch_cmpxchg_local'; did you mean 'raw_cmpxchg_local'? [-Werror=implicit-function-declaration]
+     384 | #define raw_cmpxchg_local arch_cmpxchg_local
+         |                           ^~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:392:16: note: in expansion of macro 'raw_cmpxchg_local'
+     392 |         ___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:5022:9: note: in expansion of macro 'raw_try_cmpxchg_local'
+    5022 |         raw_try_cmpxchg_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/hashtab.c:1292:35: note: in expansion of macro 'try_cmpxchg_local'
+    1292 |                         } while (!try_cmpxchg_local(pl_new, &l_new, NULL));
+         |                                   ^~~~~~~~~~~~~~~~~
+>> include/linux/atomic/atomic-arch-fallback.h:392:14: warning: assignment to 'struct htab_elem *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     392 |         ___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
+         |              ^
+   include/linux/atomic/atomic-instrumented.h:5022:9: note: in expansion of macro 'raw_try_cmpxchg_local'
+    5022 |         raw_try_cmpxchg_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/hashtab.c:1292:35: note: in expansion of macro 'try_cmpxchg_local'
+    1292 |                         } while (!try_cmpxchg_local(pl_new, &l_new, NULL));
+         |                                   ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/err_put_active +785 drivers/greybus/operation.c
+vim +392 include/linux/atomic/atomic-arch-fallback.h
 
-10c69399043351 drivers/staging/greybus/operation.c Alex Elder        2014-11-21  703  
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  704  /**
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  705   * gb_operation_request_send() - send an operation request message
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  706   * @operation:	the operation to initiate
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  707   * @callback:	the operation completion callback
-dbec27298b0df8 drivers/staging/greybus/operation.c Johan Hovold      2017-01-23  708   * @timeout:	operation timeout in milliseconds, or zero for no timeout
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  709   * @gfp:	the memory flags to use for any allocations
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  710   *
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  711   * The caller has filled in any payload so the request message is ready to go.
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  712   * The callback function supplied will be called when the response message has
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  713   * arrived, a unidirectional request has been sent, or the operation is
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  714   * cancelled, indicating that the operation is complete. The callback function
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  715   * can fetch the result of the operation using gb_operation_result() if
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  716   * desired.
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  717   *
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  718   * Return: 0 if the request was successfully queued in the host-driver queues,
-613c15e86b7ac3 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  719   * or a negative errno.
-d90c25b0a279b0 drivers/staging/greybus/operation.c Alex Elder        2014-10-16  720   */
-d90c25b0a279b0 drivers/staging/greybus/operation.c Alex Elder        2014-10-16  721  int gb_operation_request_send(struct gb_operation *operation,
-a52c4352aef855 drivers/staging/greybus/operation.c Johan Hovold      2015-07-01  722  			      gb_operation_callback callback,
-dbec27298b0df8 drivers/staging/greybus/operation.c Johan Hovold      2017-01-23  723  			      unsigned int timeout,
-a52c4352aef855 drivers/staging/greybus/operation.c Johan Hovold      2015-07-01  724  			      gfp_t gfp)
-d90c25b0a279b0 drivers/staging/greybus/operation.c Alex Elder        2014-10-16  725  {
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  726  	struct gb_connection *connection = operation->connection;
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  727  	struct gb_operation_msg_hdr *header;
-4afb7fd0154753 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  728  	unsigned int cycle;
-ea2c2ee8057138 drivers/staging/greybus/operation.c Johan Hovold      2015-03-27  729  	int ret;
-d90c25b0a279b0 drivers/staging/greybus/operation.c Alex Elder        2014-10-16  730  
-ca1f8f809024db drivers/staging/greybus/operation.c Johan Hovold      2016-05-11  731  	if (gb_connection_is_offloaded(connection))
-ca1f8f809024db drivers/staging/greybus/operation.c Johan Hovold      2016-05-11  732  		return -EBUSY;
-ca1f8f809024db drivers/staging/greybus/operation.c Johan Hovold      2016-05-11  733  
-37754030b0b9f7 drivers/staging/greybus/operation.c Johan Hovold      2015-03-27  734  	if (!callback)
-37754030b0b9f7 drivers/staging/greybus/operation.c Johan Hovold      2015-03-27  735  		return -EINVAL;
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  736  
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  737  	/*
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  738  	 * Record the callback function, which is executed in
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  739  	 * non-atomic (workqueue) context when the final result
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  740  	 * of an operation has been set.
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  741  	 */
-d90c25b0a279b0 drivers/staging/greybus/operation.c Alex Elder        2014-10-16  742  	operation->callback = callback;
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  743  
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  744  	/*
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  745  	 * Assign the operation's id, and store it in the request header.
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  746  	 * Zero is a reserved operation id for unidirectional operations.
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  747  	 */
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  748  	if (gb_operation_is_unidirectional(operation)) {
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  749  		operation->id = 0;
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  750  	} else {
-4afb7fd0154753 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  751  		cycle = (unsigned int)atomic_inc_return(&connection->op_cycle);
-4afb7fd0154753 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  752  		operation->id = (u16)(cycle % U16_MAX + 1);
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  753  	}
-3e2ee2c1e50541 drivers/staging/greybus/operation.c Johan Hovold      2016-04-29  754  
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  755  	header = operation->request->header;
-afb2e1342e75b5 drivers/staging/greybus/operation.c Alex Elder        2014-12-03  756  	header->operation_id = cpu_to_le16(operation->id);
-e8b48d1586abd6 drivers/staging/greybus/operation.c Alex Elder        2014-11-20  757  
-3deb37d4ad04c6 drivers/staging/greybus/operation.c Alex Elder        2014-11-25  758  	gb_operation_result_set(operation, -EINPROGRESS);
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  759  
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  760  	/*
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  761  	 * Get an extra reference on the operation. It'll be dropped when the
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  762  	 * operation completes.
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  763  	 */
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  764  	gb_operation_get(operation);
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  765  	ret = gb_operation_get_active(operation);
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  766  	if (ret)
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  767  		goto err_put;
-3325a4ad7122ac drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  768  
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  769  	/* Arm before sending, as the response may complete the operation at once. */
-dbec27298b0df8 drivers/staging/greybus/operation.c Johan Hovold      2017-01-23  770  	if (timeout) {
-dbec27298b0df8 drivers/staging/greybus/operation.c Johan Hovold      2017-01-23  771  		operation->timer.expires = jiffies + msecs_to_jiffies(timeout);
-dbec27298b0df8 drivers/staging/greybus/operation.c Johan Hovold      2017-01-23  772  		add_timer(&operation->timer);
-dbec27298b0df8 drivers/staging/greybus/operation.c Johan Hovold      2017-01-23  773  	}
-dbec27298b0df8 drivers/staging/greybus/operation.c Johan Hovold      2017-01-23  774  
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  775  	ret = gb_message_send(operation->request, gfp);
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  776  	if (ret)
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  777  		goto err_del_timer;
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  778  
-008974cb528d30 drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  779  	return 0;
-008974cb528d30 drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  780  
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  781  err_del_timer:
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  782  	/* A timer that already fired has queued work which drops our references. */
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  783  	if (timeout && !timer_delete_sync(&operation->timer))
-7a8e53d4f57e9c drivers/greybus/operation.c         Nguyen Ngoc Thang 2026-10-18  784  		return ret;
-008974cb528d30 drivers/staging/greybus/operation.c Johan Hovold      2015-07-14 @785  err_put_active:
-3eeac7e37ce985 drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  786  	gb_operation_put_active(operation);
-008974cb528d30 drivers/staging/greybus/operation.c Johan Hovold      2015-07-14  787  err_put:
-ea2c2ee8057138 drivers/staging/greybus/operation.c Johan Hovold      2015-03-27  788  	gb_operation_put(operation);
-ea2c2ee8057138 drivers/staging/greybus/operation.c Johan Hovold      2015-03-27  789  
-ea2c2ee8057138 drivers/staging/greybus/operation.c Johan Hovold      2015-03-27  790  	return ret;
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  791  }
-1dad6b3515b2ca drivers/staging/greybus/operation.c Johan Hovold      2015-03-27  792  EXPORT_SYMBOL_GPL(gb_operation_request_send);
-c25572ca943a1f drivers/staging/greybus/operation.c Alex Elder        2014-12-03  793  
+8c8b096a23d12f Peter Zijlstra 2023-05-31  385  
+9257959a6e5b4f Mark Rutland   2023-06-05  386  #ifdef arch_try_cmpxchg_local
+9257959a6e5b4f Mark Rutland   2023-06-05  387  #define raw_try_cmpxchg_local arch_try_cmpxchg_local
+9257959a6e5b4f Mark Rutland   2023-06-05  388  #else
+9257959a6e5b4f Mark Rutland   2023-06-05  389  #define raw_try_cmpxchg_local(_ptr, _oldp, _new) \
+9257959a6e5b4f Mark Rutland   2023-06-05  390  ({ \
+9257959a6e5b4f Mark Rutland   2023-06-05  391  	typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
+9257959a6e5b4f Mark Rutland   2023-06-05 @392  	___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
+9257959a6e5b4f Mark Rutland   2023-06-05  393  	if (unlikely(___r != ___o)) \
+9257959a6e5b4f Mark Rutland   2023-06-05  394  		*___op = ___r; \
+9257959a6e5b4f Mark Rutland   2023-06-05  395  	likely(___r == ___o); \
+9257959a6e5b4f Mark Rutland   2023-06-05  396  })
+8c8b096a23d12f Peter Zijlstra 2023-05-31  397  #endif
+8c8b096a23d12f Peter Zijlstra 2023-05-31  398  
 
 --
 0-DAY CI Kernel Test Service
