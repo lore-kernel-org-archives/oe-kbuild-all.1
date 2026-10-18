@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21E93D9667
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 15:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32EA367F26
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 15:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792335788; cv=none; b=g8hFtpBqv5FqVzze483JDUiX1ndV8Rih69zFxgQQtyttcnEzDe50y1+8yfIBp3pcDucQL8O7mZvwuof94HKHYBVDVRtv5b8JO3suDACPnkG8UISmj9lt7kf7cwK5WC4o0fgGgfVpLkCr9TEHEau+k5QvucBM82Mm4LIOFaT4pUY=
+	t=1792336649; cv=none; b=KpKFNmyYEhCUa+BZ0wXbD1paLQI0cN+yGvJCakXxXqbfH5ymFVleZ+3UJtwkiiy4n5G5GkFl/cD9GXPJXiMgwLU4gak/wnAorXvwydEZYj+I+2JdeuFchzxJyZE8NfdBwhFmxC5tF11FmuY/Oc/oUcx7RMUi5zDs/IwRoL1+6DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792335788; c=relaxed/simple;
-	bh=/QyUwCU3bDno0nM+2Ny3IRIxq5PZI7xaONqCco5syys=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=G0YpTV/xiUoGjtlX9KQJMDJP6rZKI+b01B/eu4497y5HTP8uZcnCooPt1j0zM9L9iCXP0L2c0SHNkMsQQt+ZPicJoOtoJzgQX99x2U91A0F3cSrE/OqHZ+IwOIk+2Q0WQ2eIq4aC5/Qg85FuEVgEjLkBMKuZxNZYk8SleiBYSnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZq5nNaj; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1792336649; c=relaxed/simple;
+	bh=/74jK33fOqw/cOdR6zE+IM5rPMS2awzsSNjxf/ICu8c=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Yk5Ci+vdBhG21XwJdL6H0VZs2wdGBcgPe9WPU2KeKh2azAU/w9p44IUbVHlmBwwDDqsSjOFDhuJ1pIeXX/twErK5sqWJU7s5cNG3+ZkcoWHpCIl1U48Pn52/8tGW7Lzl5O6RNnj4AB3qkTHruho031/lzporJXeEd+8Y/rjTnuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qe8qEt3i; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZq5nNaj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qe8qEt3i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792335787; x=1823871787;
+  t=1792336648; x=1823872648;
   h=date:from:to:cc:subject:message-id;
-  bh=/QyUwCU3bDno0nM+2Ny3IRIxq5PZI7xaONqCco5syys=;
-  b=YZq5nNajNtjzD4PcDC06IHWELzepx9b/aBAgPARaybcHWbk9cAdKnhTX
-   X18Zu8Bnz4nD4nzkNwAp6IUxbu5Zg0xAbJK4WLg0oHTfKHM5zFKLxd1T1
-   r/sk8erMNCQv9QHkj3yz8sUmSaVRb2vHbTjsm+xZG+wS5AwtW87g0Q08n
-   Q/KLsnjmsUpDnsalbRV/uz1o7L5F4vEVuEhokXRuJMamhlCIHyKVB/jyP
-   sjVHIIZH3J3Usy+63QHoLpn4IHQvnWSfCWHzg8gpVikqhG2zabrrCPtvZ
-   8trFFFAWSLCxz5tIpBr0m1QqIgBqyTg3nZ24PjLkk1e+qnKOtMRZfEDRQ
-   w==;
-X-CSE-ConnectionGUID: eEJdNTHoRTOdV5TSfKPaew==
-X-CSE-MsgGUID: A+HvGzsySJCYjEBVBDAMXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="924126"
+  bh=/74jK33fOqw/cOdR6zE+IM5rPMS2awzsSNjxf/ICu8c=;
+  b=Qe8qEt3i5Wzw2LktcQmnZMbavy/yyY03UWz11HMEKNFGwSCIHztCc+AH
+   tL+cYh69LbsBYTYXG+Kz0/AZwzJvRlDxoPrK/tnPQUikaPeaCMZhcrGCN
+   dTlsaMqLg456FF0DJnTk9G8rX64w5W/O/FZXHEldv6Xsr873qoJkEHQoT
+   hhaZT4kCM2otON4hzkll0zWb5rZIBKfTCHsZKwAjSXn+29Mh9MKM817T4
+   47i+87e+CeGQWVjUKC9b7o6702ehVR0dXNSee/Yn2+DI82dK4GylGghwu
+   L6ReAvP+HkvDojxaHNzNnaL7FQkoFtN9uQUFmuzxJeLLhZ3P6U5x+Gk27
+   A==;
+X-CSE-ConnectionGUID: hgFmNnmSR9qebBAErNXtgQ==
+X-CSE-MsgGUID: BMp4YoReRYWzbbPh7Q1VCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1062219"
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="924126"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 08:03:05 -0700
-X-CSE-ConnectionGUID: aaub17RxTASdXsb9zp4SYw==
-X-CSE-MsgGUID: eWBg23QZRNC9i5cDFMGWAg==
+   d="scan'208";a="1062219"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 08:17:27 -0700
+X-CSE-ConnectionGUID: MlIQJDgkSaOy4lRthZW3xg==
+X-CSE-MsgGUID: WBIoBi44SZyuOlGxYZZb5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="2420695"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Oct 2026 08:03:03 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="2677756"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Oct 2026 08:17:25 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xISPc-00000000KVY-3Pwf;
-	Sun, 18 Oct 2026 15:03:00 +0000
-Date: Sun, 18 Oct 2026 23:02:18 +0800
+	id 1xISdW-0000000059T-2OXi;
+	Sun, 18 Oct 2026 15:17:22 +0000
+Date: Sun, 18 Oct 2026 17:17:02 +0200
 From: kernel test robot <lkp@intel.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lubaolu-intel-iommu:cca/topics/cca-da-gmem-backend 148/343]
- drivers/pci/tsm/core.c:188:9: error: no member named 'ide_cap' in 'struct
- pci_dev'; did you mean 'devcap'?
-Message-ID: <202610182257.NlPHwBaG-lkp@intel.com>
+To: Namhyung Kim <namhyung@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: kernel/events/core.c:5424:21: sparse: sparse: cast removes
+ address space '__rcu' of expression
+Message-ID: <202610181712.Iwovwyoc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,113 +60,185 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Dan,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/LuBaolu/intel-iommu.git cca/topics/cca-da-gmem-backend
-head:   6bdc5a1448b75f784490ac2061dc32ee4bd3b5a4
-commit: 3ce3bac6a3b4fe37fd7c88a0b8227e6cc0e55f9a [148/343] samples/devsec: Introduce a PCI device-security bus + endpoint sample
-config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261018/202610182257.NlPHwBaG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610182257.NlPHwBaG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   32c52ec87d6245ee2d12ed5dd509e40062939b50
+commit: 4960626f956d63dce57f099016c2ecbe637a8229 perf/core: Fix slow perf_event_task_exit() with LBR callstacks
+date:   9 months ago
+config: riscv-randconfig-r2302-20261018 (https://download.01.org/0day-ci/archive/20261018/202610181712.Iwovwyoc-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8a679464f19c426ef76aad9f4587b703dd3e584d)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610181712.Iwovwyoc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 4960626f956d ("perf/core: Fix slow perf_event_task_exit() with LBR callstacks")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610182257.NlPHwBaG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610181712.Iwovwyoc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+   kernel/events/core.c:1585:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1585:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1585:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:1598:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1598:28: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1598:28: sparse:    struct perf_event_context *
+   kernel/events/core.c:3776:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3776:20: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3776:20: sparse:    struct perf_event_context *
+   kernel/events/core.c:3780:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3780:18: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3780:18: sparse:    struct perf_event_context *
+   kernel/events/core.c:3781:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3781:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3781:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:3834:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3834:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3834:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3835:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3835:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3835:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:4252:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4252:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4252:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4660:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4660:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4660:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:5149:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:5149:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:5149:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:6927:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6927:9: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6927:9: sparse:    struct perf_buffer *
+   kernel/events/core.c:5424:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu **___op @@     got struct perf_ctx_data **__ai_oldp @@
+   kernel/events/core.c:5424:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu *__new @@     got struct perf_ctx_data *[assigned] cd @@
+>> kernel/events/core.c:5424:21: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/events/core.c:5435:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu **___op @@     got struct perf_ctx_data **__ai_oldp @@
+   kernel/events/core.c:5435:37: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/events/core.c:6310:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
+   kernel/events/core.c:6678:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6678:22: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6678:22: sparse:    struct perf_buffer *
+   kernel/events/core.c:6802:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6802:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6802:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6835:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6835:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6835:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6948:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6948:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6948:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6964:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6964:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6964:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:8946:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8946:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:8946:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:9034:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9034:13: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:9034:13: sparse:    struct perf_buffer *
+   kernel/events/core.c:9138:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:9138:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:9138:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:9140:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:9140:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:9140:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:9876:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9876:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:9876:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:11071:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11071:9: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11071:9: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11110:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11110:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11110:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11385:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11385:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:11385:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:12462:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
+   kernel/events/core.c:14496:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:14496:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:14496:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:15016:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:15016:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:15016:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:197:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
+   kernel/events/core.c:213:9: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
+   kernel/events/core.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/rcupdate.h:898:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
+   kernel/events/core.c:1632:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
+   kernel/events/core.c:3106:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
+   kernel/events/core.c:5123:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:204:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *src @@
+   kernel/events/core.c:10924:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10924:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10924:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10944:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10944:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10944:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11060:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11060:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11060:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:11060:16: sparse:    struct swevent_hlist *
 
-   In file included from drivers/pci/tsm/core.c:15:
-   include/linux/pci-tsm.h:258:13: error: no member named 'ide_cap' in 'struct pci_dev'; did you mean 'devcap'?
-     258 |                 if (pdev->ide_cap || (pdev->devcap & PCI_EXP_DEVCAP_TEE))
-         |                           ^~~~~~~
-         |                           devcap
-   include/linux/pci.h:381:7: note: 'devcap' declared here
-     381 |         u32             devcap;         /* PCIe Device Capabilities */
-         |                         ^
->> drivers/pci/tsm/core.c:188:9: error: no member named 'ide_cap' in 'struct pci_dev'; did you mean 'devcap'?
-     188 |                 pdev->ide_cap ? "IDE" : "", pdev->ide_cap && tee ? " " : "",
-         |                       ^~~~~~~
-         |                       devcap
-   include/linux/pci.h:2934:65: note: expanded from macro 'pci_dbg'
-    2934 | #define pci_dbg(pdev, fmt, arg...)      dev_dbg(&(pdev)->dev, fmt, ##arg)
-         |                                                                      ^
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                              ^
-   include/linux/dynamic_debug.h:285:19: note: expanded from macro 'dynamic_dev_dbg'
-     285 |                            dev, fmt, ##__VA_ARGS__)
-         |                                        ^
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^
-   include/linux/pci.h:381:7: note: 'devcap' declared here
-     381 |         u32             devcap;         /* PCIe Device Capabilities */
-         |                         ^
-   drivers/pci/tsm/core.c:188:37: error: no member named 'ide_cap' in 'struct pci_dev'; did you mean 'devcap'?
-     188 |                 pdev->ide_cap ? "IDE" : "", pdev->ide_cap && tee ? " " : "",
-         |                                                   ^~~~~~~
-         |                                                   devcap
-   include/linux/pci.h:2934:65: note: expanded from macro 'pci_dbg'
-    2934 | #define pci_dbg(pdev, fmt, arg...)      dev_dbg(&(pdev)->dev, fmt, ##arg)
-         |                                                                      ^
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                              ^
-   include/linux/dynamic_debug.h:285:19: note: expanded from macro 'dynamic_dev_dbg'
-     285 |                            dev, fmt, ##__VA_ARGS__)
-         |                                        ^
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^
-   include/linux/pci.h:381:7: note: 'devcap' declared here
-     381 |         u32             devcap;         /* PCIe Device Capabilities */
-         |                         ^
-   3 errors generated.
+vim +/__rcu +5424 kernel/events/core.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PCI_TSM
-   Depends on [n]: PCI [=y] && ARCH_HAS_CC_PLATFORM [=n]
-   Selected by [m]:
-   - SAMPLE_DEVSEC [=m] && SAMPLES [=y] && m [=m] && MODULES [=y] && PCI [=y] && VIRT_DRIVERS [=y] && PCI_DOMAINS [=y]
-
-
-vim +188 drivers/pci/tsm/core.c
-
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  181  
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  182  static void link_sysfs_enable(struct pci_dev *pdev)
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  183  {
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  184  	bool tee = has_tee(pdev);
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  185  
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  186  	pci_dbg(pdev, "%s Security Manager detected (%s%s%s)\n",
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  187  		pdev->tsm ? "Device" : "Platform TEE",
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12 @188  		pdev->ide_cap ? "IDE" : "", pdev->ide_cap && tee ? " " : "",
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  189  		tee ? "TEE" : "");
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  190  
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  191  	sysfs_update_group(&pdev->dev.kobj, &pci_tsm_auth_attr_group);
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  192  	sysfs_update_group(&pdev->dev.kobj, &pci_tsm_attr_group);
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  193  }
-f7ae6d4ec6520a drivers/pci/tsm.c Dan Williams 2025-11-12  194  
-
-:::::: The code at line 188 was first introduced by commit
-:::::: f7ae6d4ec6520a901787cbab273983e96d8516da PCI/TSM: Add 'dsm' and 'bound' attributes for dependent functions
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+  5412	
+  5413	static int
+  5414	attach_task_ctx_data(struct task_struct *task, struct kmem_cache *ctx_cache,
+  5415			     bool global)
+  5416	{
+  5417		struct perf_ctx_data *cd, *old = NULL;
+  5418	
+  5419		cd = alloc_perf_ctx_data(ctx_cache, global);
+  5420		if (!cd)
+  5421			return -ENOMEM;
+  5422	
+  5423		for (;;) {
+> 5424			if (try_cmpxchg(&task->perf_ctx_data, &old, cd)) {
+  5425				if (old)
+  5426					perf_free_ctx_data_rcu(old);
+  5427				/*
+  5428				 * Above try_cmpxchg() pairs with try_cmpxchg() from
+  5429				 * detach_task_ctx_data() such that
+  5430				 * if we race with perf_event_exit_task(), we must
+  5431				 * observe PF_EXITING.
+  5432				 */
+  5433				if (task->flags & PF_EXITING) {
+  5434					/* detach_task_ctx_data() may free it already */
+  5435					if (try_cmpxchg(&task->perf_ctx_data, &cd, NULL))
+  5436						perf_free_ctx_data_rcu(cd);
+  5437				}
+  5438				return 0;
+  5439			}
+  5440	
+  5441			if (!old) {
+  5442				/*
+  5443				 * After seeing a dead @old, we raced with
+  5444				 * removal and lost, try again to install @cd.
+  5445				 */
+  5446				continue;
+  5447			}
+  5448	
+  5449			if (refcount_inc_not_zero(&old->refcount)) {
+  5450				free_perf_ctx_data(cd); /* unused */
+  5451				return 0;
+  5452			}
+  5453	
+  5454			/*
+  5455			 * @old is a dead object, refcount==0 is stable, try and
+  5456			 * replace it with @cd.
+  5457			 */
+  5458		}
+  5459		return 0;
+  5460	}
+  5461	
 
 --
 0-DAY CI Kernel Test Service
