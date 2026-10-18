@@ -1,157 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC04C38DC73
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 15:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8834D795D;
+	Sun, 18 Oct 2026 16:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792338521; cv=none; b=qlmde9xV+sJrJOQb8LWcFNi5Lk0okyK1gjGp5bMhvbKjT1/uFjYm0SESVuaWaQ6L6iNCZfxfdBGt+Vegd3ABBKKKwDnO/jMDwIZ/AAGnYOxuxR+au5ofM7/xDIPvIOU/dmYrNlqeZYr/0Wd1iZURDRHApzlozzUQyaI6KvyLJGQ=
+	t=1792340892; cv=none; b=IZ4HTbnTatFk9ChBJa0J9AkO+hU9dUvXwQes/OLL8XJ3nbLgfcp3QMJatDgqWvWKCMIRDQOjgqGCNjkXqfXDoIDrawlp9j/Ha2ki+Ivpy5XZjhouf0QQa8J2StaQjoH+xkbnlVQc2Kqp86qwSA3bj+Qj9drF6McwhqbQsyvzAZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792338521; c=relaxed/simple;
-	bh=WjCSeIN67YSRBsfxAiCtRRwOhqiqfgUCm83X8lKAlP0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=at3GZ6VqcaLtFFOne19dBAWbt49iMcr77xlen47nLJ9xQASHIQkvw+QvTHBykOqwWhAaJ8QwkPZoywZVjuGq9U6TBSuywQPtwMH5V3E4rXB/QPU15B2wedEXUdzJqGQMantpAmeCkinbjktM2mHShrfEB4bZSV90e0AehQCjjE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6vMxrOP; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1792340892; c=relaxed/simple;
+	bh=ZBA8tSQbubossuH1e0FKUSZnykdLDrvv7ylxlX+GGLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SEd6MJhu8alezdRkJ3Nb1EITaec+pxgzJdsHpK3Pf10Pj1gnuGEzL112Qp9pntOozi5FV7p/LsS+fEftZJ7zb5YT5BrPgoCtsvEJYXpXwuflCwERcVAI1/MOLzWcRiWPrqw4gs3j5lx6A0uD4pF5iNLUqp3H8nGixgLUeLLDAIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mB954k/U; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6vMxrOP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mB954k/U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792338519; x=1823874519;
-  h=date:from:to:cc:subject:message-id;
-  bh=WjCSeIN67YSRBsfxAiCtRRwOhqiqfgUCm83X8lKAlP0=;
-  b=n6vMxrOP9YgsxXAvuaRkmGRDioVM1TGQ+eZpwUR0Y88xpeeRuir7xq33
-   o8Q3jJmpnTIS1UjwCB2jWqYg3LBJ7/2XrI2zqIXx4GMHCD/qtkQ2behCY
-   sjQfIdiEf65gCEgtZOvmlVFvfgH1CoU+HKKR1dFEhVuQ1c/iQT7XqFU7J
-   DVM+4CroY5rJ2Uu3gL+sr7dmZ5fGFfUY8kbuae2MCNzBpQe8Rotk02QgW
-   8SnhVsdQYyEWteSwUNN9gMDW8xEvK2FhUZJSt5NXO3TPjTTTssCNOE5cF
-   94bRCO5n/WWLxzbAc91BwoHn12BpRmNYMN+8gopZhxF+avrTIvTn3m42O
-   w==;
-X-CSE-ConnectionGUID: ZlEOz2r4Sy+WVHyj/G9u2Q==
-X-CSE-MsgGUID: K6VdW048S/6UA9mKdZVgHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1047124"
+  t=1792340890; x=1823876890;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZBA8tSQbubossuH1e0FKUSZnykdLDrvv7ylxlX+GGLg=;
+  b=mB954k/UhAYtUEVEXsYmHUoot2sO0oyg8vIGhYXv1YJWzMvlZPaM2F+/
+   BZfq6I3+7WJS0CEfirl+d9tGwuQMn30kkr3iodUAhlbSZnuGmDsDvcvO3
+   MCBTOtizMTDgKKDQIJmB5KeNXa50BGN0G0L+IpXKq7gNMR9RC5lAs+OZ5
+   co2mDRqnWW3UE72CvNUtRbAap1rmSxM7cZJI5WAPlySkMutAv2Mc1uEmL
+   bqJpHTY4rVl/cxOfM8fFzDBH+cOjV7egl5cztGpaqvclyhSxO4oNHddq5
+   /k5oylRvB3DjumFTsfMpzFjeCPhzIurtprCpFR+HKKOIaZ7tXIa/R8TtY
+   Q==;
+X-CSE-ConnectionGUID: g6bH15UDQLSY7qV3LdXWTg==
+X-CSE-MsgGUID: awj/Bny1SX6156wkGjnlSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1026110"
 X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="1047124"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 08:48:38 -0700
-X-CSE-ConnectionGUID: Fq7ibaOfROOsr1EFCDARPg==
-X-CSE-MsgGUID: PlWcRDdLQE+gsMH1Xib1Lw==
+   d="scan'208";a="1026110"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 09:28:09 -0700
+X-CSE-ConnectionGUID: 5/7AfZ7UQ2KA15pMTXM/TQ==
+X-CSE-MsgGUID: uwVZIlhrSpSfeTSkzJ/6bQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
-   d="scan'208";a="2325528"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 18 Oct 2026 08:48:36 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+   d="scan'208";a="2647672"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2026 09:28:08 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIT7i-0000000059z-3ZJJ;
-	Sun, 18 Oct 2026 15:48:34 +0000
-Date: Sun, 18 Oct 2026 17:47:58 +0200
+	id 1xITjx-00000000KaE-34ff;
+	Sun, 18 Oct 2026 16:28:05 +0000
+Date: Mon, 19 Oct 2026 00:27:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- fs/incfs/pseudo_files.c:1077:22: sparse: sparse: Using plain integer as NULL
- pointer
-Message-ID: <202610181707.0Ub9AJXr-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Konrad Dybcio <konradybcio@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 04/16] pmdomain: core: Support named indexed virtual
+ attachments
+Message-ID: <202610190046.TT10nBaw-lkp@intel.com>
+References: <20261014-topic-qc_clk_dvfs-v1-4-3041b788e9f7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261014-topic-qc_clk_dvfs-v1-4-3041b788e9f7@oss.qualcomm.com>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   8a4809044467faad32878517d4d0d3dde2f64adb
-commit: 1c1e9693cafba5487c7657f972caca570bb5eca6 [1/1] ANDROID: incremental-fs: Make work with 16k pages
-config: arm-randconfig-r2304-20261018 (https://download.01.org/0day-ci/archive/20261018/202610181707.0Ub9AJXr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610181707.0Ub9AJXr-lkp@intel.com/reproduce)
+Hi Konrad,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 4eb2586bd40db27d77cc5b724ca9386ed0c71d53]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/clk-Propagate-rate-programming-failures/20261014-141901
+base:   4eb2586bd40db27d77cc5b724ca9386ed0c71d53
+patch link:    https://lore.kernel.org/r/20261014-topic-qc_clk_dvfs-v1-4-3041b788e9f7%40oss.qualcomm.com
+patch subject: [PATCH RFC 04/16] pmdomain: core: Support named indexed virtual attachments
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261019/202610190046.TT10nBaw-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610190046.TT10nBaw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610181707.0Ub9AJXr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610190046.TT10nBaw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/incfs/pseudo_files.c:1077:22: sparse: sparse: Using plain integer as NULL pointer
+All warnings (new ones prefixed by >>):
 
-vim +1077 fs/incfs/pseudo_files.c
-
-  1067	
-  1068	static ssize_t log_read(struct file *f, char __user *buf, size_t len,
-  1069				loff_t *ppos)
-  1070	{
-  1071		struct log_file_state *log_state = f->private_data;
-  1072		struct mount_info *mi = get_mount_info(file_superblock(f));
-  1073		int total_reads_collected = 0;
-  1074		int rl_size;
-  1075		ssize_t result = 0;
-  1076		bool report_uid;
-> 1077		void *page = 0;
-  1078		struct incfs_pending_read_info *reads_buf = NULL;
-  1079		struct incfs_pending_read_info2 *reads_buf2 = NULL;
-  1080		size_t record_size;
-  1081		ssize_t reads_to_collect;
-  1082		ssize_t reads_per_page;
-  1083	
-  1084		if (!mi)
-  1085			return -EFAULT;
-  1086	
-  1087		report_uid = mi->mi_options.report_uid;
-  1088		record_size = report_uid ? sizeof(*reads_buf2) : sizeof(*reads_buf);
-  1089		reads_to_collect = len / record_size;
-  1090		reads_per_page = INCFS_DATA_FILE_BLOCK_SIZE / record_size;
-  1091	
-  1092		rl_size = READ_ONCE(mi->mi_log.rl_size);
-  1093		if (rl_size == 0)
-  1094			return 0;
-  1095	
-  1096		page = kzalloc(INCFS_DATA_FILE_BLOCK_SIZE, GFP_NOFS);
-  1097		if (!page)
-  1098			return -ENOMEM;
-  1099	
-  1100		if (report_uid)
-  1101			reads_buf2 = (struct incfs_pending_read_info2 *)page;
-  1102		else
-  1103			reads_buf = (struct incfs_pending_read_info *)page;
-  1104	
-  1105		reads_to_collect = min_t(ssize_t, rl_size, reads_to_collect);
-  1106		while (reads_to_collect > 0) {
-  1107			struct read_log_state next_state;
-  1108			int reads_collected;
-  1109	
-  1110			memcpy(&next_state, &log_state->state, sizeof(next_state));
-  1111			reads_collected = incfs_collect_logged_reads(
-  1112				mi, &next_state, reads_buf, reads_buf2,
-  1113				min_t(ssize_t, reads_to_collect, reads_per_page));
-  1114			if (reads_collected <= 0) {
-  1115				result = total_reads_collected ?
-  1116					       total_reads_collected * record_size :
-  1117					       reads_collected;
-  1118				goto out;
-  1119			}
-  1120			if (copy_to_user(buf, page,
-  1121					 reads_collected * record_size)) {
-  1122				result = total_reads_collected ?
-  1123					       total_reads_collected * record_size :
-  1124					       -EFAULT;
-  1125				goto out;
-  1126			}
-  1127	
-  1128			memcpy(&log_state->state, &next_state, sizeof(next_state));
-  1129			total_reads_collected += reads_collected;
-  1130			buf += reads_collected * record_size;
-  1131			reads_to_collect -= reads_collected;
-  1132		}
-  1133	
-  1134		result = total_reads_collected * record_size;
-  1135		*ppos = 0;
-  1136	out:
-  1137		kfree(page);
-  1138		return result;
-  1139	}
-  1140	
+>> Warning: drivers/pmdomain/core.c:3601 function parameter 'suffix' not described in '__genpd_dev_pm_attach_by_id'
+>> Warning: drivers/pmdomain/core.c:3601 expecting prototype for genpd_dev_pm_attach_by_id(). Prototype was for __genpd_dev_pm_attach_by_id() instead
 
 --
 0-DAY CI Kernel Test Service
