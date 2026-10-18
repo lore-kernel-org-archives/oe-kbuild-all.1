@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607C847604F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 13:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858554B9220
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 13:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792330562; cv=none; b=UkCYkNS3auIh6tJLSKWQtbl5uX09CZtOpExN8NSDL9X10x8++ATZT5CElHs+fgmM6Jcs1jE5EnKcPCeycHgcf9g+1eQSi8CJiqMuSzI9VVve0lUz1/wthjUsSrfn9tdEAY9IPUqFkqfgC8K+dZKTpVigTRsQLaVsuTluWeHKYQ4=
+	t=1792330622; cv=none; b=IR1swoXTGLAmyB+NBmegYM6A3QANxqNyFXNSbkh0exanVR2lQdz+9pjc5DRFQoy0+O+7JRRWhYCEt341iViTNinpojSb+pbT5uZeRLPLblm3FY/aD/XKLzJnIUexV7h9cKgKNRNAIBRemtJa+ciJudCrb2bBfqFA+Tq0yiyH89g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792330562; c=relaxed/simple;
-	bh=BcDhn6eRyq3bcbRd8KizkukZjCoufe2qaaMBWZkVGEc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Bstx1sTJJCZQ3AWgHhd4FXc1VSquk4Sa6Y0f1yyUxglfluulfS0yv5TJwGZIRWY2KbNDuQz6YsWCVr1iPreYlpgWfX53FfuwOJCrVhJHz9LEMk1kt7PuQRw5sWPMhx8I/P8fm46iyUF2HvnJbHuIc0i9Og6BTvS4Tyi4w7AvMlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdMqMv5D; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1792330622; c=relaxed/simple;
+	bh=0YG/ApNFGxfbMLwrJ6sSgmynsY6TO43pycbM41Y5mAw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fa8ub9+8RiKHgtE301qvZwMH5Yicxc0tftjmPqHEFTgtHtGlaPlNLI8czjReFpRD6h9jpaIbIhzpMgNcrNb2Iwzj/WNG4tjffC46cYkqxBQagn83uE7pLWf5hGIR9PFRMbU+rPiFC4N/euuoYyQevpwIgAAFNvziH4Yj+GcyHFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKbYwuAG; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdMqMv5D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKbYwuAG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792330559; x=1823866559;
+  t=1792330619; x=1823866619;
   h=date:from:to:cc:subject:message-id;
-  bh=BcDhn6eRyq3bcbRd8KizkukZjCoufe2qaaMBWZkVGEc=;
-  b=OdMqMv5DbdB7z2KauhE+/ciUN3LSfCd/iT1r99WIu2LNWg3dJhvel1uY
-   nQeA1sZiLhmn+KbYpJmBPhkxYkw9CodMAsXqxitYrxZSSblGDQ3iFGD7e
-   7HqhXSIJCB/4EGMwF9Cc/WDdSVhOk/1xaHJOLkTU5tN0xksttUk/sB/cw
-   8DEJxEXop/hacAneF+HnD2x7/C3x9Dye+xbeGPoPyrd/4bIIV6b2M7gzu
-   ZGHzI+9nvTWhSHZAOgmGjdSjEyzVustvMfvI9iqVDFbbtwFP6zY3lD9/7
-   7b6f7bKBuNmtFfeQMQ0QJ37lRBJksJylGRscj5iT01uGey2GWVIb4KlA8
-   Q==;
-X-CSE-ConnectionGUID: 8xUpH5N/Rgqb192cIM6WVw==
-X-CSE-MsgGUID: AXtIwD8dSZCRVzR9zwNx9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="1028485"
+  bh=0YG/ApNFGxfbMLwrJ6sSgmynsY6TO43pycbM41Y5mAw=;
+  b=TKbYwuAGau0FoWUUGc1bu39WuJWqk3rcMacMpl/LbGcbhPDQ80sYN5q0
+   gMPPMF5/ugBTorm10M316dWWoSKSvVMltSInT86yGQtvSpwtfODl/ZTcH
+   1YWC3jMmamyE5MyGRebe0QR8dwFNUREMn3Gfiy0Vc1vJeBp9wXQw9eJDb
+   o092msRTBaqj1l3XnHFF5Vt/elw5RDJl7joGi6t/sCrgl+/H5QFC2psDY
+   0eIP99NPfEx53Z0pgRBZW7a8wfzMCTTL8A4lWi6QOBNbBrK6i5bHPch0S
+   U1n5t74LRYbkT0cn267ugy2KM6wZDuHLMnIpZJ8fVHMpn+T12M2wdF/VK
+   w==;
+X-CSE-ConnectionGUID: flFfyWJJRYC8ODi/WyMRLQ==
+X-CSE-MsgGUID: bKX7BOlHR2y7Lgr2vjr9iQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11938"; a="1059052"
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="1028485"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 06:35:59 -0700
-X-CSE-ConnectionGUID: HfU0APc/RKWhTGCkPWqmTQ==
-X-CSE-MsgGUID: MD0jLrKASiKjCAx/ocOCXA==
+   d="scan'208";a="1059052"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 06:36:59 -0700
+X-CSE-ConnectionGUID: rZo2T7TVT2+x3qC86Ikohw==
+X-CSE-MsgGUID: /EdHPvYXQo6mahS40Gh1cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,165,1787036400"; 
-   d="scan'208";a="2427422"
+   d="scan'208";a="2666452"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Oct 2026 06:35:57 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 18 Oct 2026 06:36:58 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIR3K-00000000KS2-3klX;
-	Sun, 18 Oct 2026 13:35:54 +0000
-Date: Sun, 18 Oct 2026 21:35:46 +0800
+	id 1xIR4I-00000000KS6-3r7z;
+	Sun, 18 Oct 2026 13:36:54 +0000
+Date: Sun, 18 Oct 2026 21:36:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:media-ref 2/17]
- drivers/media/mc/mc-devnode.c:233:40: error: 'mdev' undeclared; did you mean
- 'cdev'?
-Message-ID: <202610182143.lRvPL9ir-lkp@intel.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
+Subject: [bpf-next:master 35/79]
+ include/linux/atomic/atomic-arch-fallback.h:392:14: error: assignment to
+ 'struct htab_elem *' from 'int' makes pointer from integer without a cast
+Message-ID: <202610182128.PoooSvpx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,165 +60,85 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://linuxtv.org/sailus/media_tree.git media-ref
-head:   cf47170584526b52366e936406ce2430b99a03a9
-commit: 803515300f06fabf69ad489f3f1f8e5ab3f4717f [2/17] media: mc: Merge struct media_device back into struct media_devnode
-config: arm-randconfig-1003-20261018 (https://download.01.org/0day-ci/archive/20261018/202610182143.lRvPL9ir-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610182143.lRvPL9ir-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+head:   a6303535c2ad9d49598d52556183911f02287791
+commit: ccb88db8dac8fabde58656d5d4a33711e89c480a [35/79] bpf: Don't hand out a linked element as extra element
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20261018/202610182128.PoooSvpx-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261018/202610182128.PoooSvpx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610182143.lRvPL9ir-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610182128.PoooSvpx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/mc/mc-devnode.c: In function 'media_devnode_register':
->> drivers/media/mc/mc-devnode.c:233:40: error: 'mdev' undeclared (first use in this function); did you mean 'cdev'?
-     233 |         dev_set_drvdata(&devnode->dev, mdev);
-         |                                        ^~~~
-         |                                        cdev
-   drivers/media/mc/mc-devnode.c:233:40: note: each undeclared identifier is reported only once for each function it appears in
---
-   In file included from include/linux/module.h:23,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/pci.h:38,
-                    from drivers/media/mc/mc-device.c:19:
-   drivers/media/mc/mc-device.c:31:31: error: expected ';' before 'int'
-      31 | module_param(kaboom, unsigned int, 0077);
-         |                               ^~~
-   include/linux/moduleparam.h:163:23: note: in definition of macro 'module_param_named'
-     163 |         param_check_##type(name, &(value));                                \
-         |                       ^~~~
-   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
-      31 | module_param(kaboom, unsigned int, 0077);
-         | ^~~~~~~~~~~~
-   include/linux/moduleparam.h:163:32: error: expected ')' before ',' token
-     163 |         param_check_##type(name, &(value));                                \
-         |                                ^
-   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
-      31 | module_param(kaboom, unsigned int, 0077);
-         | ^~~~~~~~~~~~
-   include/linux/moduleparam.h:164:32: error: 'param_ops_unsigned' undeclared here (not in a function); did you mean 'param_ops_uint'?
-     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
-         |                                ^~~~~~~~~~
-   include/linux/moduleparam.h:305:46: note: in definition of macro '__module_param_call'
-     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
-         |                                              ^~~
-   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
-     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
-      31 | module_param(kaboom, unsigned int, 0077);
-         | ^~~~~~~~~~~~
-   drivers/media/mc/mc-device.c:31:31: error: expected '}' before 'int'
-      31 | module_param(kaboom, unsigned int, 0077);
-         |                               ^~~
-   include/linux/moduleparam.h:305:46: note: in definition of macro '__module_param_call'
-     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
-         |                                              ^~~
-   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
-     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
-      31 | module_param(kaboom, unsigned int, 0077);
-         | ^~~~~~~~~~~~
-   include/linux/moduleparam.h:305:11: note: to match this '{'
-     305 |         = { __param_str_##name, THIS_MODULE, ops,                       \
-         |           ^
-   include/linux/moduleparam.h:189:9: note: in expansion of macro '__module_param_call'
-     189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:164:9: note: in expansion of macro 'module_param_cb'
-     164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
-         |         ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:140:9: note: in expansion of macro 'module_param_named'
-     140 |         module_param_named(name, name, type, perm)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/media/mc/mc-device.c:31:1: note: in expansion of macro 'module_param'
-      31 | module_param(kaboom, unsigned int, 0077);
-         | ^~~~~~~~~~~~
-   drivers/media/mc/mc-device.c: In function '__media_device_register':
->> drivers/media/mc/mc-device.c:761:56: error: 'devnode' undeclared (first use in this function); did you mean 'd_inode'?
-     761 |         mdev->media_dir = debugfs_create_dir(dev_name(&devnode->dev),
-         |                                                        ^~~~~~~
-         |                                                        d_inode
-   drivers/media/mc/mc-device.c:761:56: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/atomic.h:80,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/arc/include/asm/bitops.h:190,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/arc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:9,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:107,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/workqueue.h:9,
+                    from include/linux/bpf.h:12,
+                    from kernel/bpf/hashtab.c:5:
+   kernel/bpf/hashtab.c: In function 'alloc_htab_elem':
+   include/linux/atomic/atomic-arch-fallback.h:384:27: error: implicit declaration of function 'arch_cmpxchg_local'; did you mean 'raw_cmpxchg_local'? [-Wimplicit-function-declaration]
+     384 | #define raw_cmpxchg_local arch_cmpxchg_local
+         |                           ^~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:392:16: note: in expansion of macro 'raw_cmpxchg_local'
+     392 |         ___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:5022:9: note: in expansion of macro 'raw_try_cmpxchg_local'
+    5022 |         raw_try_cmpxchg_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/hashtab.c:1292:35: note: in expansion of macro 'try_cmpxchg_local'
+    1292 |                         } while (!try_cmpxchg_local(pl_new, &l_new, NULL));
+         |                                   ^~~~~~~~~~~~~~~~~
+>> include/linux/atomic/atomic-arch-fallback.h:392:14: error: assignment to 'struct htab_elem *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     392 |         ___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
+         |              ^
+   include/linux/atomic/atomic-instrumented.h:5022:9: note: in expansion of macro 'raw_try_cmpxchg_local'
+    5022 |         raw_try_cmpxchg_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/hashtab.c:1292:35: note: in expansion of macro 'try_cmpxchg_local'
+    1292 |                         } while (!try_cmpxchg_local(pl_new, &l_new, NULL));
+         |                                   ^~~~~~~~~~~~~~~~~
 
 
-vim +233 drivers/media/mc/mc-devnode.c
+vim +392 include/linux/atomic/atomic-arch-fallback.h
 
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  201  
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  202  int __must_check media_devnode_register(struct media_devnode *devnode,
-85de721c46ba8ad drivers/media/media-devnode.c Sakari Ailus          2013-12-12  203  					struct module *owner)
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  204  {
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  205  	int minor;
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  206  	int ret;
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  207  
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  208  	/* Part 1: Find a free minor number */
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  209  	mutex_lock(&media_devnode_lock);
-b5c7e7ec7d3418a drivers/media/mc/mc-devnode.c Yury Norov            2021-08-14  210  	minor = find_first_zero_bit(media_devnode_nums, MEDIA_NUM_DEVICES);
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  211  	if (minor == MEDIA_NUM_DEVICES) {
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  212  		mutex_unlock(&media_devnode_lock);
-3c16b2b330e3339 drivers/media/media-devnode.c Sachin Kamat          2012-09-24  213  		pr_err("could not get a free minor\n");
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  214  		return -ENFILE;
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  215  	}
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  216  
-8c89ddd536bbe97 drivers/media/media-devnode.c Laurent Pinchart      2011-05-30  217  	set_bit(minor, media_devnode_nums);
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  218  	mutex_unlock(&media_devnode_lock);
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  219  
-163f1e93e995048 drivers/media/media-devnode.c Mauro Carvalho Chehab 2016-03-23  220  	devnode->minor = minor;
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  221  
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  222  	/* Part 2: Initialize the media and character devices */
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  223  	cdev_init(&devnode->cdev, &media_devnode_fops);
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  224  	devnode->cdev.owner = owner;
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  225  	kobject_set_name(&devnode->cdev.kobj, "media%d", devnode->minor);
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  226  
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  227  	devnode->dev.bus = &media_bus_type;
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  228  	devnode->dev.devt = MKDEV(MAJOR(media_dev_t), devnode->minor);
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  229  	devnode->dev.release = media_devnode_release;
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  230  	if (devnode->parent)
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  231  		devnode->dev.parent = devnode->parent;
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  232  	dev_set_name(&devnode->dev, "media%d", devnode->minor);
-de9f0c2a1ce3d97 drivers/media/mc/mc-devnode.c Hans Verkuil          2025-11-28 @233  	dev_set_drvdata(&devnode->dev, mdev);
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  234  	device_initialize(&devnode->dev);
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  235  
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  236  	/* Part 3: Add the media and character devices */
-4bc60736154bc9e drivers/media/mc/mc-devnode.c Hans Verkuil          2024-02-23  237  	set_bit(MEDIA_FLAG_REGISTERED, &devnode->flags);
-857313e51006ff5 drivers/media/media-devnode.c Logan Gunthorpe       2017-03-17  238  	ret = cdev_device_add(&devnode->cdev, &devnode->dev);
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  239  	if (ret < 0) {
-857313e51006ff5 drivers/media/media-devnode.c Logan Gunthorpe       2017-03-17  240  		pr_err("%s: cdev_device_add failed\n", __func__);
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  241  		goto cdev_add_error;
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  242  	}
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  243  
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  244  	return 0;
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  245  
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  246  cdev_add_error:
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  247  	mutex_lock(&media_devnode_lock);
-163f1e93e995048 drivers/media/media-devnode.c Mauro Carvalho Chehab 2016-03-23  248  	clear_bit(devnode->minor, media_devnode_nums);
-88336e174645948 drivers/media/media-devnode.c Max Kellermann        2016-03-21  249  	mutex_unlock(&media_devnode_lock);
-5b28dde51d0ccc5 drivers/media/media-devnode.c Shuah Khan            2016-05-04  250  	put_device(&devnode->dev);
-803515300f06fab drivers/media/mc/mc-devnode.c Sakari Ailus          2016-06-18  251  
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  252  	return ret;
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  253  }
-cf4b9211b5680cd drivers/media/media-devnode.c Laurent Pinchart      2009-12-09  254  
+8c8b096a23d12f Peter Zijlstra 2023-05-31  385  
+9257959a6e5b4f Mark Rutland   2023-06-05  386  #ifdef arch_try_cmpxchg_local
+9257959a6e5b4f Mark Rutland   2023-06-05  387  #define raw_try_cmpxchg_local arch_try_cmpxchg_local
+9257959a6e5b4f Mark Rutland   2023-06-05  388  #else
+9257959a6e5b4f Mark Rutland   2023-06-05  389  #define raw_try_cmpxchg_local(_ptr, _oldp, _new) \
+9257959a6e5b4f Mark Rutland   2023-06-05  390  ({ \
+9257959a6e5b4f Mark Rutland   2023-06-05  391  	typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
+9257959a6e5b4f Mark Rutland   2023-06-05 @392  	___r = raw_cmpxchg_local((_ptr), ___o, (_new)); \
+9257959a6e5b4f Mark Rutland   2023-06-05  393  	if (unlikely(___r != ___o)) \
+9257959a6e5b4f Mark Rutland   2023-06-05  394  		*___op = ___r; \
+9257959a6e5b4f Mark Rutland   2023-06-05  395  	likely(___r == ___o); \
+9257959a6e5b4f Mark Rutland   2023-06-05  396  })
+8c8b096a23d12f Peter Zijlstra 2023-05-31  397  #endif
+8c8b096a23d12f Peter Zijlstra 2023-05-31  398  
 
-:::::: The code at line 233 was first introduced by commit
-:::::: de9f0c2a1ce3d97561d5cf4678b80e13943647fd media: mc: add debugfs node to keep track of requests
+:::::: The code at line 392 was first introduced by commit
+:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
 
-:::::: TO: Hans Verkuil <hverkuil+cisco@kernel.org>
-:::::: CC: Hans Verkuil <hverkuil+cisco@kernel.org>
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 --
 0-DAY CI Kernel Test Service
