@@ -1,92 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD6D4AA1CC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 09:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BBA4AA1CC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 09:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403498; cv=none; b=OAMLQIPYKIgejjctMVK/ZsjP+tar0g0Wr/foiK4/3Yx0xE4SlZKWlQgsWrALFkmC7uFAJdyjVnF9jE89Qs5omspOOp/RYbCHVyhrfPBwhNRMhVRN6lQTO0h6joqCf8lhMEjj2E8S0jGZggjEORugZRtVNTLlhxY68mnVLGRq588=
+	t=1792403985; cv=none; b=tNncx8+5wyTJ6itzjM4GYZ7MIKi65fHcMBTsPsOKXUJ24iEl6mdlsBeN29QVFw3m1a3Vtb04H3QskuAsODTFgZQpwvdUwu/oKP0J4pqZshSD8VT+V1xqRkxOSVBq8SAyz4tln2ump+tILOe6oknm/fiqTgGG46AgVnPo0n3YA1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403498; c=relaxed/simple;
-	bh=EVF0qmHJDQol8D8jqArWKeH3H03QLz92qD2FF9Iu+tc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Y+bIV+Kae1vAlNsATIh2UvZunUKDOC8JdFWuVOtoN3sRV2LOe8z0aie2RJEEPtoTQpXZfVxv/eLP6nhAR2VEWe9wSMXT17LStnfX+7VOsqMvWR/4OZTxhgibV58jfuozlODkYVE3+WqOEoA8TLUq9Bpv26RirdxojuDpcTrjq4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CYehwklo; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792403985; c=relaxed/simple;
+	bh=6bNcxzUVlmQvjet7ksUI2Ld7TTjqmjQ//XfC+z0s0z8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j0eGP2glFD7UBw8nvVJzyDV/k8p4Rii2nvI7fEodQCnOUa2GvsBRTC05q0j0FAFzdShQNyzaER+xp9+5yPJuThOKjGrzF10jDAXhJbo7avaraV5A1f57HMDafXg1ATRnv7eSPU6VAfynDSH8klxNWWoq9s4HnoaKsAty1NZpZro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oH8ieUg2; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYehwklo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792403496; x=1823939496;
-  h=date:from:to:cc:subject:message-id;
-  bh=EVF0qmHJDQol8D8jqArWKeH3H03QLz92qD2FF9Iu+tc=;
-  b=CYehwklo9dtBIRJySawx+cLWNFUcl3BoOneRZGmhJxuEpup8ooQ2PpIk
-   cvjRBLxnIAryff1b3sFA/+yeWPnVz8k9a58owvxJeE6S48Yxh4EApWtcc
-   TD6iMtTQR9zoNcpQFf0xymsOT7l4r8heY7aDjwhvATwmiNxxNqNenFkv+
-   ZAz2QZ7RUsYlVdc//oPkYNquKOW+LMmKVSn5uuB3i6TTPKYLraDMMRTgO
-   a0FD0JMb5qfSmzi/TCgCHb7G8w8cHi3MOPFXmuaj6pQcZxYholA0qILcj
-   aB7PjEk+nIvO9xua/BBCTAYTXkGnbwB2LLPaHFFnc3mESdlyoVc6yGfpX
-   Q==;
-X-CSE-ConnectionGUID: SMONHIDdSIOkkaR1dpFQpg==
-X-CSE-MsgGUID: /q0Ov3puTa+Z8ev7FyWgLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="980339"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="980339"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 02:51:36 -0700
-X-CSE-ConnectionGUID: vkZCl1GmSpOAdSKL9utD/A==
-X-CSE-MsgGUID: 8hlASqdNSkK2DZPiISFojA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2807709"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Oct 2026 02:51:34 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xIk1k-000000005Zn-3gXE;
-	Mon, 19 Oct 2026 09:51:32 +0000
-Date: Mon, 19 Oct 2026 11:51:08 +0200
-From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bcain:hexagon 43/82]
- arch/hexagon/kernel/hvx/hvx_main.c:32:19: sparse: sparse: symbol
- 'vregs_cachep' was not declared. Should it be static?
-Message-ID: <202610191152.FnHUQC5R-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oH8ieUg2"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2e608cd460eso10019795ad.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 02:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792403984; x=1793008784; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EGOLZT0g0vS6HQl4RNLoJTQMf+l+IbI+5Jp/8hOXDLs=;
+        b=oH8ieUg27nN/MDW6HQT47Q/N4fke0Z8BtAr/Xoqpdpsh+kq4zhqg4Navoa8j1I9TI2
+         XqTz+uNll3nVwqmhOgDBTX9Kdd0ZpY2awafcdrGDk+g0zbOtNe79nMu/3anPYqJAQBK2
+         gue3l1xMUujI1XGGuBXQEjHpCmcw3GOL8rYoZxt66UocP26SMq7gRWG7Eoqw15K6zJU6
+         jQdKzakQiROOz9Z3RB8epUkHVmfrTLZBDrMYYmgUCRqcl4uKIwL/uQplgVxrm0eGISkB
+         C5yAri7nTfAmdX9h3q3Ot4aXCQJfVVvBxB54ENMyor71s9sSa+DKRR7YzEQmDPAcyBzq
+         Xjow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792403984; x=1793008784;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EGOLZT0g0vS6HQl4RNLoJTQMf+l+IbI+5Jp/8hOXDLs=;
+        b=oCEzOvO26cdkPPJ972X4gal6MARr185Wd9SxCXZP2L5eaLwryHr9aVKtGwcIwkoXbk
+         1y3TjizB2K7SQ2Frwyaxj3ZqA39DhTaRsM0npu/Vp0bmzdLXDtPQ3EcwWn49X5ta8sI1
+         IhAQnRfIb4oSZe1yDCC6jnRDdsBag5J8UBFyuQ3Y5nhiCETcq9rzd0K6T4Jmw0c8Tr9W
+         65k0ODId01dyyhX+e31iowQ1GfAhX6SwiZAVswDJOCuH2F6WpQN00wx0YCfJcxEC75Dd
+         MWOYUAfTuX+JpEpOKQ09H3GViyUJnxK56RUjlPadsoQer9UpbmuYBuz5hYRbbIRR5X6B
+         Bpkg==
+X-Forwarded-Encrypted: i=1; AKwUvBz+e10BxSuvUmGkhtpAnGMH80oBW6iUvUlXMOA0aO2WoHRPK0Pwuha7h/zO7/zedau9b01SK7ThMErjl1KX@lists.linux.dev
+X-Gm-Message-State: AFq9FYJ47uV3MPTd5xJy9OIIaRG12fyIKdqgP9ilqBnYHFwrVTn5sPvN
+	nwjSraoVrXg3t0BNpql2RtwgwJwt0AmoVpep+3BYJ4XyzUH8B1EZQ+z4
+X-Gm-Gg: AYBFou1QUetty/VVjElcgp1w+v8DE4c2LTSxUfj5KmTwzLxtOd5Z8RNfIP0wXO/mKGh
+	4IFNhQG1AI5sLf0cImNeTxjT7DPvAN8tEAkDMmVplZhFf3FYMzMlQPc+osdp8XRAEMrvXkZ1Ksg
+	cRQnNL2Z2S7PfyYmskum00fCEi46T3Ci5Pf5IvcdO5KnWi7lQtqi6m/duvlDvI68lrZ/XfYvuNQ
+	RxbGiXtDgbpJmhmF4MYrASPR37pvDh6k9qinFy7XuQ+d2RwsWpVBf9uAEhm/1R6urcrqatFc48V
+	j5+Sg6GfoFPGrT7j0kBlMAhPReOAsipphX7d/lwwIWLHXFO22oTFNyhF58uj8/fPmWcF8zGb5bO
+	iPo2/Ry+zZ8hslkNOBTWa5MLQ+YYV5HUTppSAGYcGD70rqikobi/7KcYLkjtab9Y/OlJqne1DO7
+	qCCdaytVQ7MMuBjVw7JcPYyHXuTRKWA+wC1nBfvQqJt+THMr0NU9yoaZvz15JT/tvd9DGNeKfB9
+	gzz3CR1SBv4QzFJxsJo7B5adRzszDKE7CRqZSme6XtgfCh5FK7NI7L03UhKCnk8uuJftWvAuerK
+	bLdZBn4=
+X-Received: by 2002:a17:902:f603:b0:2e5:70cd:b606 with SMTP id d9443c01a7336-2e9a705c7c9mr54901255ad.56.1792403983748;
+        Mon, 19 Oct 2026 02:59:43 -0700 (PDT)
+Received: from DESKTOP-G3E0OSP.localdomain ([58.224.60.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e834029sm36631725ad.31.2026.10.19.02.59.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 02:59:43 -0700 (PDT)
+From: Jinseob Kim <kimjinseob88@gmail.com>
+To: jic23@kernel.org
+Cc: linux-iio@vger.kernel.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: [PATCH] iio: osf: avoid a large stack frame in osf_core_init
+Date: Mon, 19 Oct 2026 18:58:49 +0900
+Message-ID: <fc593496353a60a15fd5ef1a2786d41dd9bdff3a.1792403576.git.kimjinseob88@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <202610191514.fRYyu0HX-lkp@intel.com>
+References: <202610191514.fRYyu0HX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git hexagon
-head:   35ab1dadb94646b74469738c1741f68e8c6aac3d
-commit: 191e24d2f97b4950b8beeecfef04b9fd09f573e0 [43/82] hexagon: add HVX coprocessor context management
-config: hexagon-randconfig-r2303-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191152.FnHUQC5R-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 337446dacd2a713010f1c9856c21eb8d899b5613)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191152.FnHUQC5R-lkp@intel.com/reproduce)
+Clang reports a 1344-byte stack frame in osf_core_init() for
+hexagon-allmodconfig, exceeding CONFIG_FRAME_WARN=1280.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610191152.FnHUQC5R-lkp@intel.com/
+The aggregate assignment materializes a temporary struct osf_device on
+the stack and copies it to the destination. With the mutex and caches
+added by the IIO support, this structure is 1328 bytes in the reported
+configuration.
 
-sparse warnings: (new ones prefixed by >>)
->> arch/hexagon/kernel/hvx/hvx_main.c:32:19: sparse: sparse: symbol 'vregs_cachep' was not declared. Should it be static?
->> arch/hexagon/kernel/hvx/hvx_main.c:36:10: sparse: sparse: symbol 'hvx_refcount' was not declared. Should it be static?
+Clear the destination directly, then set dev and initialize latest_lock
+as before. This preserves zero initialization of all other fields,
+including when the core is reinitialized for a new session, without the
+large temporary object.
 
-vim +/vregs_cachep +32 arch/hexagon/kernel/hvx/hvx_main.c
+With the reported Clang 24.0.0git compiler and Hexagon configuration, the
+frame decreases from 1344 to 8 bytes and the warning disappears.
 
-    31	
-  > 32	struct kmem_cache *vregs_cachep;
-    33	
-    34	struct rw_semaphore enabled;
-    35	
-  > 36	atomic_t hvx_refcount = ATOMIC_INIT(0);
-    37	
+Fixes: 7329986669f2 ("iio: osf: add IIO devices from capability reports")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202610191514.fRYyu0HX-lkp@intel.com/
+Assisted-by: LLM
+Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
+---
+ drivers/iio/sensorhubs/osf/osf_core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/iio/sensorhubs/osf/osf_core.c b/drivers/iio/sensorhubs/osf/osf_core.c
+index 4f73ff5e9572..62b086f67e6f 100644
+--- a/drivers/iio/sensorhubs/osf/osf_core.c
++++ b/drivers/iio/sensorhubs/osf/osf_core.c
+@@ -16,9 +16,8 @@
+ 
+ void osf_core_init(struct osf_device *osf, struct device *dev)
+ {
+-	*osf = (struct osf_device) {
+-		.dev = dev,
+-	};
++	memset(osf, 0, sizeof(*osf));
++	osf->dev = dev;
+ 	mutex_init(&osf->latest_lock);
+ }
+ 
+
+base-commit: 43ffda3c7f8456bbe641ae8249a077a361b97880
+-- 
+2.43.0
+
