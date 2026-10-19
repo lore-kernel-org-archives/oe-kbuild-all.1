@@ -1,49 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792439929;
-	b=Edp5iwgSiXhnyrCcTOzjdhioGPKAlCmv0FMfxEuRZDDF8dXedNtnrPNxdf8U/UEUZFXj
-	 kUYT+9eopzBkayVUtRVgxmZLqzVN7HH4+tj9GAl/p9jrxmgDTro03aTCKTeBPH5+Uk9Am
-	 4AoXuEAQEIrQZqMSE1rvzAhXcWobOuXl2q0XLlK6NDFrj3eXhdbPrtCM8JwdZgLPnEKIs
-	 MXyXz2v3zlI6M043v+g9fUKBRcEtRCwTdM/ik6xeVRA0ed6ryE+L7m7aoGOPye2RiXT2t
-	 J01ZO+tqZLVd9/cJEqr8RfYwaibYJbPfVwZf/5hsjZeXfUSyNUQBW08r8slxxhR1KEA==
+	t=1792442298;
+	b=n2ynSxkf9aDrH23bwr5smC332EFB01xLxN+Bau9tlc8fmrKU//13b/0rLYY3KFY+K5MG
+	 KO2RwJ4uTTtURYmgG8e43EYV2JMBY5kZAfzw/7VCzUDM/TySIDSIK640drzmJX7ZEQ7zj
+	 Rcd6gLsEwu8TSsr2Dn7Dz4xJUfJjAP8CALDH7QichrNh9lVpMdGC9+XoNTBn9kjH5yjyP
+	 /YYbfUxtFZiQNAPFv2eK4p8iAyKV3HVEa8cSFCcsg18FEJZC1jvX3pjKHKjgsx1AnoU0f
+	 AAXCPWG718lAi0uVyEWI367WK+ryp91+UkmuXrIHtmNCiqTBBbU7+rc9YyqFgZkPubw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792439929;
-	h=DMARC-Filter:Received:Received:Date:From:To:cc:Subject:In-Reply-To:
-	 Message-ID:References:User-Agent:MIME-Version:Content-Type;
-	bh=ErgWcZmMTaBLQFpV5lxLifZbUpY+cx+TKNxtxNPZQl4=;
-	b=Vo42SkwpTzmIXmsNw96hPjfr3oC5S70voOVSa50XfAn2iszKgk0vl58T0prSdm02J1d8
-	 m9ENcezaMF02/iAaNaQTTrqqv88fWPONR6NveRIA5bhgkViSCthmOiwrOqKkI9BqO51Ul
-	 8HbEulqPvszfbyFaeKzcNbYY5095T6TkpKZWmsJvYmIcksS7jfW5IEsvVUs+KQq9OBNA7
-	 0xF8j6z9OJfrnTHqTnzpwSy8CW4Gtjq7kXQZibFrok/s/AbmG21CtFAeCrJ8uKVuDo63g
-	 hN/v8eIHPbPpZQzjf43ESt94Ej6YfS2g7dRgPVIePmouEp/xRNa3rGVL5QRu3n+pkGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792442298;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=U0DFD7Oo/tQ++iGrT5fkYVrr0A6OhBUDYQM1mMBtCoU=;
+	b=u+VwZ+CVYMCIfD7PjX7hxDU8QKnfJgbRIStcX7z+PSkbnAjmG2ggm4ceH6XYabKxxyce
+	 ypHsqzu7+PByIbNtIxhiKEJZ88BlZFQFeL0fDzQlyvk0MKU0rQ96yNaSAA3qaZ1kS8Nqb
+	 FoXGvE1oDi71jeZkjjm4SrEBWyHe3GkBIZWnicjmOZkuW4JtF0GSsoc9PFtKxPElZY81+
+	 tV8/cYcBdCrwjuZHdu2hmwuIP8Tb6i9Td430I00L569olclA+ENI7ajPv+aSdZu1M3EBP
+	 79NvjrD34Bb2gFqW47CLyMpelnbaQXr83svJwsm40s9HLLmAjNa1T/Sp0os386lMLSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=orcam.me.uk;
-	spf=none smtp.mailfrom=orcam.me.uk;
-	arc=none smtp.remote-ip=78.133.224.34
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5665E606A320
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 19:58:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5665E606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id 4EA1E92009C; Mon, 19 Oct 2026 21:58:41 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id 477C492009B;
-	Mon, 19 Oct 2026 20:58:41 +0100 (BST)
-Date: Mon, 19 Oct 2026 20:58:41 +0100 (BST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-cc: kernel test robot <lkp@intel.com>, Rosen Penev <rosenp@gmail.com>, 
-    linux-mips@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MIPS: lib: prefetch ahead in csum_partial()
-In-Reply-To: <CAMuHMdXCKXN5PiDwRJiEj9aBGcU0J+H=q5tQoO7OfPEboCWGJg@mail.gmail.com>
-Message-ID: <alpine.DEB.2.21.2610192009000.22065@angie.orcam.me.uk>
-References: <20261010065442.23780-1-rosenp@gmail.com> <202610131201.wWk11MLy-lkp@intel.com> <alpine.DEB.2.21.2610190013300.22065@angie.orcam.me.uk> <CAMuHMdVoAthYZFzuMmVb8awHUia4xeEfFKK=1PA23iCV0SsFbw@mail.gmail.com> <alpine.DEB.2.21.2610191519120.22065@angie.orcam.me.uk>
- <CAMuHMdXCKXN5PiDwRJiEj9aBGcU0J+H=q5tQoO7OfPEboCWGJg@mail.gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i3vkEJ4S;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5244606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 20:38:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5244606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i3vkEJ4S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792442298; x=1823978298;
+  h=date:from:to:cc:subject:message-id;
+  bh=OZ7SQsRIE+YVXaApc8ya0f8152jKHm9PE59S3sj/uM8=;
+  b=i3vkEJ4SSHtBayJdfDiZWp5uhgvz9CiqSLxLq7dcE3viEAGVoGYdfDzC
+   cZ5qQtNVRALJVm43/QESjK7o9ty4d/okQ6oi+VTfbohhqJKAwxKkrkx8z
+   at/KVMGYdFdhuGDuidkQrbBTdv0WRKhSR+osAOihmUEUKRyKgHvH+O27b
+   OMRLk6B4umMn5wPM36T2/eRBTFX65/6XrRIWl9nsVem+iXS6303J/CvZc
+   kSLTNsLAtutEvtwkRo0isZx9e+WjF44RPq7B3jD3cPs7vLK2qMEi+eyKd
+   57/+C73zqlQ5Iq40Jhe6RWm6Ve98iUj+5RlQSyabZCPYunwFb8tUwOVyW
+   w==;
+X-CSE-ConnectionGUID: +CLigytQTbqFG9bW9riZXw==
+X-CSE-MsgGUID: V8zXw/O4SfSta8yGxLZ5nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1035941"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1035941"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 13:38:17 -0700
+X-CSE-ConnectionGUID: d1+c5kcDRAWxiTOoq99rEw==
+X-CSE-MsgGUID: ScDemZV6SROMVBY1zLCmzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="2599417"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 19 Oct 2026 13:38:17 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIu7Z-000000005sl-37vH;
+	Mon, 19 Oct 2026 20:38:13 +0000
+Date: Mon, 19 Oct 2026 22:37:14 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10-2026-10 1/1]
+ io_uring/io_uring.c:1466:61: warning: parameter 'locked' set but not used
+Message-ID: <202610192231.34uG86FR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -52,45 +79,63 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-Hi Geert,
+tree:   https://android.googlesource.com/kernel/common android13-5.10-2026-10
+head:   a4c2f82969bc5fa7fcc21ede4b690ece7ff72335
+commit: 76050cdc5c3427bc117501314d31f15a2635d50b [1/1] UPSTREAM: io_uring: import 5.15-stable io_uring
+config: arm-randconfig-r2104-20261018 (https://download.01.org/0day-ci/archive/20261019/202610192231.34uG86FR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610192231.34uG86FR-lkp@intel.com/reproduce)
 
-> >  I'd estimate it as one day worth of engineering effort plus maybe another
-> > one for machines to work through verification, for the binutils side and
-> > the associated changes needed for GCC, i.e. a `-march=' option update plus
-> > maybe enabling a couple of existing machine description patterns for the
-> > Tx49 too.  Would you be able to run GCC verification with your system?
-> 
-> The rbtx4927 is about the slowest system I still do regular testing on.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610192231.34uG86FR-lkp@intel.com/
 
- Speed is of no essence, I've recently run regression-testing with a R3k 
-DECstation, a VAXstation (with NetBSD), and previously, as a day job, with 
-a crippled ARM board well below the capabilities of the former systems.  
-Depending on the components chosen and the amount of breakage triggered by 
-the tests themselves (timeouts!) it could take from several hours to a few 
-days.
+All warnings (new ones prefixed by >>):
 
-> It uses a Debian 8 nfsroot (over 10 Mbps Ethernet), which is the latest
-> Debian release still supporting the instruction subset suppported
-> by TX49XX.
+   io_uring/io_uring.c: In function 'io_queue_async_work':
+>> io_uring/io_uring.c:1466:61: warning: parameter 'locked' set but not used [-Wunused-but-set-parameter]
+    static void io_queue_async_work(struct io_kiocb *req, bool *locked)
+                                                                ^~~~~~
 
- I run most of my target systems NFS-rooted as well (over 100Mbps FDDI for 
-a change).  Little is required from the target environment: an SSH server 
-and a POSIX shell, and then either an NFS client for direct build system 
-access or rsync for remote sysroot maintenance (in which case `rm' command 
-is needed too to discard test cases copied over, once executed).
 
-> So as long as no native compilation of large packages is required,
-> it can be done.  I can also give you remote access?
+vim +/locked +1466 io_uring/io_uring.c
 
- There is no native compilation at all, only remote execution over SSH, 
-driven from the build system by DejaGNU.
+  1465	
+> 1466	static void io_queue_async_work(struct io_kiocb *req, bool *locked)
+  1467	{
+  1468		struct io_ring_ctx *ctx = req->ctx;
+  1469		struct io_kiocb *link = io_prep_linked_timeout(req);
+  1470		struct io_uring_task *tctx = req->task->io_uring;
+  1471	
+  1472		/* must not take the lock, NULL it as a precaution */
+  1473		locked = NULL;
+  1474	
+  1475		BUG_ON(!tctx);
+  1476		BUG_ON(!tctx->io_wq);
+  1477	
+  1478		/* init ->work of the whole link before punting */
+  1479		io_prep_async_link(req);
+  1480	
+  1481		/*
+  1482		 * Not expected to happen, but if we do have a bug where this _can_
+  1483		 * happen, catch it here and ensure the request is marked as
+  1484		 * canceled. That will make io-wq go through the usual work cancel
+  1485		 * procedure rather than attempt to run this request (or create a new
+  1486		 * worker for it).
+  1487		 */
+  1488		if (WARN_ON_ONCE(!same_thread_group(req->task, current)))
+  1489			req->work.flags |= IO_WQ_WORK_CANCEL;
+  1490	
+  1491		trace_io_uring_queue_async_work(ctx, io_wq_is_hashed(&req->work), req,
+  1492						&req->work, req->flags);
+  1493		io_wq_enqueue(tctx->io_wq, &req->work);
+  1494		if (link)
+  1495			io_queue_linked_timeout(link);
+  1496	}
+  1497	
 
- As for remote access, that would be an option, perhaps an easy one since 
-I've done it before with someone else, as long as you can offer temporary 
-storage for the sysroot to operate the target system with (~225MiB for 
-o32, ~285MiB for n64, indicative) and some network bandwidth.
-
-  Maciej
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
