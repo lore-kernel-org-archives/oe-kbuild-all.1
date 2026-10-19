@@ -1,173 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648253DDDDE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 06:16:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB053E63B2;
+	Mon, 19 Oct 2026 06:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792390620; cv=none; b=MNL78mpJq/cxQu11/slrV23jj7RqaZskSzUVsNTUaLt+WH9CjMAr0k723IYgreamLnDEawk++1ZpKqw96mgFfEmS8EzgM0i57n3ez18gswfV7CKQ3PJcKvhPJINl5+AARxKGajHWcRrVyNz9U+l+Pk4Ag0K/hvPBqPV3zhF5cy0=
+	t=1792390825; cv=none; b=up40ih8GxBebuE2sktT0mdy3T5VyEkG2RQhJxuuv7TR08/ihp7HXXKVAkEe/pxWnkf62LqwFa2aUQrHdDwWQ8ftCnssKiGJgfUjL28ifSD3oylNJ02T2AavvtaoxYpK1w68vD4pp7hx017ARV8hnFCmc3/gxeDVmybm3MQILgXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792390620; c=relaxed/simple;
-	bh=5poX0MRFO+yGykJL1pB1WQwb0xhlJoEsmh4SMvfdJW4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BJS4oGhvxLenAfFXrZS+lp4qpOywOw3ODxU9/A8quVMTP92BSi7ILLAbvTcD69WpaQLDrXGq2Ib4Q2qNY/F1mm67n6kukv7vnTZu0i3ugAD2+T57ETgYwLSnloqwjzc2sZUhTTucygo+oZI5jtP2gif7huvdwZG9uaHQFqGjHLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hMfGSBs3; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1792390825; c=relaxed/simple;
+	bh=R2MLtON6QZvDKzXU8DXfFTSL9+WSxYlBfHmakkuqQ1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U4lXRLbjNyPjRR4gViDQqyZcGV2rI/WGJtOt92HcJvjcxuuxh+xpgQ17NnVJTzwwYhLn0/6FZvqTJwUU45B+K9qH4pxvgQUk4VB7UIUwTwWfHjEvJEFpPXh6VqoHIApmlXuLKloreBxjGxkAOf6CfzTGErU6FvX49LUmIpCUgnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0LngejM; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMfGSBs3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0LngejM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792390617; x=1823926617;
-  h=date:from:to:cc:subject:message-id;
-  bh=5poX0MRFO+yGykJL1pB1WQwb0xhlJoEsmh4SMvfdJW4=;
-  b=hMfGSBs3e2JRJmw1Hqf56ub+R36RubY8jqogIcTDmyyfdFcNRAzbKkGr
-   Iq0IlYW2UErlnYbrv5EbGrTXuG9s7lkqP3vtQ+gtRahqsw8Y50z+kP9j/
-   VKSmKn7WJ/gu8EJ0hH/fvAhRZpFkfy2vyP/4pTduT7YTV5E2zFl/My7ix
-   /+MHn//bHbwJ6Gz/+bVaTdVbBEQ80OLqZb84Ia8oBcXV9eBix/u+R00Wc
-   0wJNkdLGQt0QgaD1j6C09hhl/kECq9Ct6euDgaFFFPAAbCwS0g0VlcasQ
-   E0Ikw8mX3U0E+0aFp+Pntn2RJlqkWDYSNMj16o0COdNcD9lplCWWQ/IVC
-   w==;
-X-CSE-ConnectionGUID: EF3+KQ0oTkartzh2vxon2Q==
-X-CSE-MsgGUID: RwQDThj7RCq0FZRjsuwSkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="958647"
+  t=1792390823; x=1823926823;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R2MLtON6QZvDKzXU8DXfFTSL9+WSxYlBfHmakkuqQ1M=;
+  b=m0LngejMpWso5ArGU3Kn/xmLNeDEOUs0zu8k2LDxuiDEB33JOSx9+0Xr
+   eKkydlAJ17uSyFZGsmsLMtrhfrHm6WJDJy6NqxCGQesKiqvbu+RbBMamS
+   Nbiyr6BjVeO1uNR+qNj57zKm+C7DVatPH7NVJs+hmOT80K1VKmbLRNAJL
+   U9Nx/XokhOhggCQ7AnWQTT47jb4rVPtM2h6rr3wbUesppn1Kyk++SjmWU
+   MOO8rb7Sd8vUEy0jViB7mzKzHN/9RZrhHd83aTtE7bHjeiCWTb4temUPj
+   drLLErDPkzWPkNYnZXEq1AR1gCc5N56pNqjw6ryGn+XHm6im8Lw9pS4li
+   g==;
+X-CSE-ConnectionGUID: 7RhusCKaSlGOz+zHhA3LWQ==
+X-CSE-MsgGUID: UOakYBXdTDKkGqfxRJgy1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1100201"
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="958647"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 23:16:56 -0700
-X-CSE-ConnectionGUID: EZLiDHO+SzSL4LOEZoHa+A==
-X-CSE-MsgGUID: IfN5nzcgQ1OVa51iKEs0lA==
+   d="scan'208";a="1100201"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 23:20:23 -0700
+X-CSE-ConnectionGUID: 0KnJaPIiSyG2YBZP6J8xiw==
+X-CSE-MsgGUID: i4q5CNh/RtWSTnnn1u5XYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2440701"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 18 Oct 2026 23:16:56 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+   d="scan'208";a="2431988"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 18 Oct 2026 23:20:20 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIgg1-000000005Vj-0QyI;
-	Mon, 19 Oct 2026 06:16:53 +0000
-Date: Mon, 19 Oct 2026 08:16:28 +0200
+	id 1xIgjI-00000000LKs-35JD;
+	Mon, 19 Oct 2026 06:20:16 +0000
+Date: Mon, 19 Oct 2026 14:19:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/1]
- drivers/usb/host/xhci-mem.c:68:6: warning: no previous prototype for function
- 'xhci_segment_free'
-Message-ID: <202610190826.SWSZZ9Aw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Alexander Usyskin <alexander.usyskin@intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Menachem Adin <menachem.adin@intel.com>,
+	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+	Karol Wachowski <karol.wachowski@linux.intel.com>,
+	Alexander Usyskin <alexander.usyskin@intel.com>,
+	Reuven Abliyev <reuvenab@gmail.com>
+Subject: Re: [PATCH char-misc-next v2 4/4] issei: add driver to driver
+ interface
+Message-ID: <202610191455.cc2xaeEs-lkp@intel.com>
+References: <20261018-issei_pm_and_itf-v2-4-7a07452e3606@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018-issei_pm_and_itf-v2-4-7a07452e3606@intel.com>
 
-Hi Howard,
+Hi Alexander,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   48e3cd973485465613da6d71fa17139773546573
-commit: 6496f6cfbbd3bf241c6f16c7621db32088a1f073 [1/1] ANDROID: usb: host: export symbols for xhci hooks usage
-config: i386-randconfig-2000-20261018 (https://download.01.org/0day-ci/archive/20261019/202610190826.SWSZZ9Aw-lkp@intel.com/config)
+[auto build test WARNING on 79e5797d243a466138f641932f81dc69f796060c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Usyskin/issei-save-power_down-flag-while-processing-event/20261018-123052
+base:   79e5797d243a466138f641932f81dc69f796060c
+patch link:    https://lore.kernel.org/r/20261018-issei_pm_and_itf-v2-4-7a07452e3606%40intel.com
+patch subject: [PATCH char-misc-next v2 4/4] issei: add driver to driver interface
+config: i386-randconfig-1001-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191455.cc2xaeEs-lkp@intel.com/config)
 compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610190826.SWSZZ9Aw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191455.cc2xaeEs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610190826.SWSZZ9Aw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610191455.cc2xaeEs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/host/xhci-mem.c:68:6: warning: no previous prototype for function 'xhci_segment_free' [-Wmissing-prototypes]
-      68 | void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment *seg)
-         |      ^
-   drivers/usb/host/xhci-mem.c:68:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      68 | void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment *seg)
-         | ^
-         | static 
->> drivers/usb/host/xhci-mem.c:79:6: warning: no previous prototype for function 'xhci_free_segments_for_ring' [-Wmissing-prototypes]
-      79 | void xhci_free_segments_for_ring(struct xhci_hcd *xhci,
-         |      ^
-   drivers/usb/host/xhci-mem.c:79:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      79 | void xhci_free_segments_for_ring(struct xhci_hcd *xhci,
-         | ^
-         | static 
->> drivers/usb/host/xhci-mem.c:100:6: warning: no previous prototype for function 'xhci_link_segments' [-Wmissing-prototypes]
-     100 | void xhci_link_segments(struct xhci_segment *prev,
-         |      ^
-   drivers/usb/host/xhci-mem.c:100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     100 | void xhci_link_segments(struct xhci_segment *prev,
-         | ^
-         | static 
->> drivers/usb/host/xhci-mem.c:2075:5: warning: no previous prototype for function 'xhci_check_trb_in_td_math' [-Wmissing-prototypes]
-    2075 | int xhci_check_trb_in_td_math(struct xhci_hcd *xhci)
-         |     ^
-   drivers/usb/host/xhci-mem.c:2075:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2075 | int xhci_check_trb_in_td_math(struct xhci_hcd *xhci)
-         | ^
-         | static 
-   4 warnings generated.
+>> drivers/misc/issei/issei_device.c:163:59: warning: format specifies type 'long' but the argument has type 'ssize_t' (aka 'int') [-Wformat]
+     163 |                         dev_dbg(&idev->dev, "Failed writing data ret = %ld\n", ret);
+         |                                                                        ~~~     ^~~
+         |                                                                        %zd
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                 ~~~    ^~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/xhci_segment_free +68 drivers/usb/host/xhci-mem.c
+vim +163 drivers/misc/issei/issei_device.c
 
-    67	
-  > 68	void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment *seg)
-    69	{
-    70		if (seg->trbs) {
-    71			dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
-    72			seg->trbs = NULL;
-    73		}
-    74		kfree(seg->bounce_buf);
-    75		kfree(seg);
-    76	}
-    77	EXPORT_SYMBOL_GPL(xhci_segment_free);
-    78	
-  > 79	void xhci_free_segments_for_ring(struct xhci_hcd *xhci,
-    80					struct xhci_segment *first)
-    81	{
-    82		struct xhci_segment *seg;
-    83	
-    84		seg = first->next;
-    85		while (seg != first) {
-    86			struct xhci_segment *next = seg->next;
-    87			xhci_segment_free(xhci, seg);
-    88			seg = next;
-    89		}
-    90		xhci_segment_free(xhci, first);
-    91	}
-    92	
-    93	/*
-    94	 * Make the prev segment point to the next segment.
-    95	 *
-    96	 * Change the last TRB in the prev segment to be a Link TRB which points to the
-    97	 * DMA address of the next segment.  The caller needs to set any Link TRB
-    98	 * related flags, such as End TRB, Toggle Cycle, and no snoop.
-    99	 */
- > 100	void xhci_link_segments(struct xhci_segment *prev,
-   101				struct xhci_segment *next,
-   102				enum xhci_ring_type type, bool chain_links)
-   103	{
-   104		u32 val;
-   105	
-   106		if (!prev || !next)
-   107			return;
-   108		prev->next = next;
-   109		if (type != TYPE_EVENT) {
-   110			prev->trbs[TRBS_PER_SEGMENT-1].link.segment_ptr =
-   111				cpu_to_le64(next->dma);
-   112	
-   113			/* Set the last TRB in the segment to have a TRB type ID of Link TRB */
-   114			val = le32_to_cpu(prev->trbs[TRBS_PER_SEGMENT-1].link.control);
-   115			val &= ~TRB_TYPE_BITMASK;
-   116			val |= TRB_TYPE(TRB_LINK);
-   117			if (chain_links)
-   118				val |= TRB_CHAIN;
-   119			prev->trbs[TRBS_PER_SEGMENT-1].link.control = cpu_to_le32(val);
-   120		}
-   121	}
-   122	EXPORT_SYMBOL_GPL(xhci_link_segments);
-   123	
+   113	
+   114	/**
+   115	 * issei_device_write - send data to the firmware client.
+   116	 * @ctx: opaque context
+   117	 * @ubuf: data to send
+   118	 * @length: data length
+   119	 * @timeout: operation timeout in milliseconds
+   120	 *
+   121	 * Return: >=0 data length on success, <0 on error
+   122	 */
+   123	ssize_t issei_device_write(void *ctx, const u8 *ubuf, size_t length, unsigned long timeout)
+   124	{
+   125		struct issei_host_client *cl = ctx;
+   126		struct issei_device *idev = cl->idev;
+   127		ssize_t ret;
+   128		long wret;
+   129	
+   130		if (idev->rst_state != ISSEI_RST_STATE_DONE) {
+   131			dev_dbg(&idev->dev, "Device is in transition\n");
+   132			return -EBUSY;
+   133		}
+   134	
+   135		if (!length)
+   136			return 0;
+   137	
+   138		/* sanity check */
+   139		if (length > idev->dma.length.h2f) {
+   140			dev_dbg(&idev->dev, "Write is too big %zu > %zu\n", length,
+   141				idev->dma.length.h2f);
+   142			return -EFBIG;
+   143		}
+   144	
+   145		u8 *buf __free(kfree) = kmemdup(ubuf, length, GFP_KERNEL);
+   146		if (!buf)
+   147			return -ENOMEM;
+   148	
+   149		do {
+   150			ret = issei_cl_write(cl, buf, length);
+   151			if (ret < 0 && ret != -EAGAIN)
+   152				return ret;
+   153			/* buf is consumed by issei_cl_write on success */
+   154			if (ret >= 0)
+   155				retain_and_null_ptr(buf);
+   156			wret = wait_event_interruptible_timeout(cl->write_wait,
+   157								issei_cl_check_write(cl) != 1,
+   158								msecs_to_jiffies(timeout));
+   159			if (wret == 0) /* timeout */
+   160				wret = -ETIMEDOUT;
+   161			if (wret < 0) {
+   162				issei_cl_clean_all_wbuf(cl);
+ > 163				dev_dbg(&idev->dev, "Failed writing data ret = %ld\n", ret);
+   164				return wret;
+   165			}
+   166		} while (ret == -EAGAIN);
+   167	
+   168		return ret;
+   169	}
+   170	EXPORT_SYMBOL_GPL(issei_device_write);
+   171	
 
 --
 0-DAY CI Kernel Test Service
