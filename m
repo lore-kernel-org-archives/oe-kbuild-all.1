@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15824FC8C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 14:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA203F8891
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 14:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418976; cv=none; b=qp98qtGTeNf81opQPLt+zWHIQc4VP1/rW0vaCHNmTJfmdQ9NaCx+WrnqJ0PbaL1YA5NCHlOoyraZdefQandODQ7gWrHygvQQpHFqAgaJv6nyXnsZZ3WudMIQX2aBW1OfHOZoPJ4echud2F0Zm/6Y43KMa+Eq+drRXzO48W1UOrs=
+	t=1792419638; cv=none; b=PH9baGLvX6rtA9gr9j2IyErCsZABXBHNGoEfRVfj1O6zOlHGMpl3rTs7TdvJyReCVnvZZgXgFFZmDqk1kGjPxpyydAu1Xjq5dtqBx6p8j73BdoNUcq1fIZLjhoDTaE7Aj7IRehBUGaaXWu/onXXeJ67FnHvnD7So6iN8Cz0ItyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418976; c=relaxed/simple;
-	bh=1r5oCVKpops7PN6G6nl7KctpJflsftS4G/OlCoB5mGg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NaEUm/D9qQPy9BTqGA/ZtFWgUOD9hymFITDm2fhtbl7fYRaL2CzvMpyzvABzcJXKH5EDvXZD9QHqpidETDu7hzgzUWT1ifBQb19Pkcytah8GRCfUs4tVVgLRRSG9vzI7SMJUPUbB7VeXY+qgYclisfn6R//VUMH2AJqECU3Icbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=egSUdSfT; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1792419638; c=relaxed/simple;
+	bh=FMRl00v9uLOq1cAJWdWixAYO/rxNZ780NgFc4tY2ugg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Aa/ASayQzvNPqykN0XM91aQVUpGOR9YwD7ETBVTJXNL94qh9/OCzadUJ56pLgAwsUxMj+ui5lMaAa4zLk+uRIyGP5dT1wKc/qKhu9CAHcsBn20AY462sGIbiLp0wp34bl8pp2cYtIn0iZnOv8/9Lb79kmx0UtkWpvoiEikQZM+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFrXN1pK; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egSUdSfT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFrXN1pK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792418975; x=1823954975;
+  t=1792419637; x=1823955637;
   h=date:from:to:cc:subject:message-id;
-  bh=1r5oCVKpops7PN6G6nl7KctpJflsftS4G/OlCoB5mGg=;
-  b=egSUdSfTcMTmH0GfC5wmM/xKjN5gCp7PlawG9O+/lGq6gpGMMlioaBp+
-   zpH0t5ROdVynwfS7qCWi6kJbHK1W1MnlJpWHuzaxy1CtXtR15hCN14wtH
-   CfP8PpGfNpxCiXFOeToaXxEJQqabP+qUvHjVdO2iVWUg3riST0xXFD8Ac
-   UUmoagfvBkWCrcseyjODjMsRBslCjb7o5gIzBiWgx4e3TKvcSUeSagEFd
-   IkdfrFps/+SGBT+y2P4Bijze51Eh40xahWQCXdIZ9zcAwWkkxWvcJi51X
-   6D/J+r3Gm5a4c6FTz4Mhx4axga2OnnhpwKjFvCrbEubfTLZLRAOYTjOek
-   Q==;
-X-CSE-ConnectionGUID: AnUNPf4RTLuODwfSsjcaDA==
-X-CSE-MsgGUID: oXIhJA/KQ5aoDxV9p0fg2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1206571"
+  bh=FMRl00v9uLOq1cAJWdWixAYO/rxNZ780NgFc4tY2ugg=;
+  b=KFrXN1pKcHE5HWfZE7OHFOQ4TpK1DS3Qjlbv/Pfbg0QHP/ue9vihOhUh
+   82szxgxByX7AaF/x07KPib2Sbp/MGYQARVLaOKTtSnlcf60hXE+Ju54Cv
+   3dfTfxMl3l5qFzNmuKRBdjsFa8PofU7uSs3E6MEG/dITBQk21zgEOBepb
+   cx1Ot3iQ34Snf1+ZgnT3KRqEPAgSI7STB6J4ddIlnGE54EvCfJ5v7sT3B
+   LewV8V1q9K8F6eKlTXGA5py+7b/YRBGYqeA2E9cYRFPjZGbozx0+ZvEPr
+   b8XA58QbMTIqLW55L7l+7qaqMDqAHXYPs6xIIBAVzFQFjyfhobluXSfEH
+   g==;
+X-CSE-ConnectionGUID: MdI2P0kdSE2mm5t5IuZq1Q==
+X-CSE-MsgGUID: 88JVuuBiQimmIFEwQLoD5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="998027"
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="1206571"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 07:09:35 -0700
-X-CSE-ConnectionGUID: eUpIAXDlQ++/Bzx5EfuPeA==
-X-CSE-MsgGUID: +c3WnANsRfCrHo9gpV2aFg==
+   d="scan'208";a="998027"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 07:20:36 -0700
+X-CSE-ConnectionGUID: zf/x1DfLS/yIAZi4839eZg==
+X-CSE-MsgGUID: HCinEwOqQLWyr79GtbaccQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2643794"
+   d="scan'208";a="2969106"
 Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Oct 2026 07:09:33 -0700
+  by orviesa010.jf.intel.com with ESMTP; 19 Oct 2026 07:20:34 -0700
 Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIo3O-000000005e3-32Io;
-	Mon, 19 Oct 2026 14:09:30 +0000
-Date: Mon, 19 Oct 2026 16:09:00 +0200
+	id 1xIoE4-000000005eJ-1cg3;
+	Mon, 19 Oct 2026 14:20:32 +0000
+Date: Mon, 19 Oct 2026 16:19:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Mark Salter <msalter@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Justin M. Forbes" <jforbes@fedoraproject.org>,
- Jeremy Cline <jeremycline@linux.microsoft.com>
-Subject: [snitzer:kernel-7.3/snitzer-nfs-fixes-canary 5821/7369]
- arch/arm64/kernel/setup.c:220 init_secureboot_mode() warn: unsigned 'chosen'
- is never less than zero.
-Message-ID: <202610191657.xSS2rjdB-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10-2026-10 0/1]
+ drivers/video/fbdev/core/fbcon.c:1036:6: warning: variable 'cap' set but not
+ used
+Message-ID: <202610191623.D5mM9MZj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,42 +60,178 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/snitzer-nfs-fixes-canary
-head:   c0c4fcd143f7ac71dcea2f5b67325fcca37563de
-commit: 10f592edc6b4ce30ca4b2edd412198afdd2b6cd6 [5821/7369] arm64: add early lockdown for secure boot
-config: arm64-randconfig-r2202-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191657.xSS2rjdB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.3.0
-smatch: v0.5.0-9187-g5189e3fb
+Hi Helge,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.10-2026-10
+head:   a4c2f82969bc5fa7fcc21ede4b690ece7ff72335
+commit: 57e8859acc6024ca9041f7fa58a0afed2ed6ea87 [0/1] fbcon: Add option to enable legacy hardware acceleration
+config: x86_64-randconfig-2101-20261018 (https://download.01.org/0day-ci/archive/20261019/202610191623.D5mM9MZj-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 337446dacd2a713010f1c9856c21eb8d899b5613)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191623.D5mM9MZj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610191657.xSS2rjdB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610191623.D5mM9MZj-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kernel/setup.c:220 init_secureboot_mode() warn: unsigned 'chosen' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-vim +/chosen +220 arch/arm64/kernel/setup.c
+   In file included from <built-in>:2:
+   In file included from include/linux/compiler_types.h:69:
+   include/linux/compiler-clang.h:34:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      34 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:357:9: note: previous definition is here
+     357 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/video/fbdev/core/fbcon.c:1036:6: warning: variable 'cap' set but not used [-Wunused-but-set-variable]
+    1036 |         int cap, ret;
+         |             ^
+   drivers/video/fbdev/core/fbcon.c:3370:7: warning: variable 'pending' set but not used [-Wunused-but-set-variable]
+    3370 |                 int pending = 0;
+         |                     ^
+   drivers/video/fbdev/core/fbcon.c:159:12: warning: variable 'fbcon_has_sysfs' set but not used [-Wunused-but-set-global]
+     159 | static int fbcon_has_sysfs;
+         |            ^
+   drivers/video/fbdev/core/fbcon.c:1357:12: warning: variable 'scrollback_current' set but not used [-Wunused-but-set-global]
+    1357 | static int scrollback_current = 0;
+         |            ^
+   5 warnings generated.
 
-   211	
-   212	static void __init init_secureboot_mode(void)
-   213	{
-   214		void *fdt = initial_boot_params;
-   215		u64 chosen;
-   216		const __be32 *prop;
-   217		int len;
-   218	
-   219		chosen = fdt_path_offset(fdt, "/chosen");
- > 220		if (chosen < 0)
-   221			return;
-   222	
-   223		prop = fdt_getprop(fdt, chosen, "secure-boot-mode", &len);
-   224		if (!prop || len != sizeof(u32))
-   225			return;
-   226	
-   227		efi_set_secure_boot((enum efi_secureboot_mode)fdt32_to_cpu(*prop));
-   228	}
-   229	
+
+vim +/cap +1036 drivers/video/fbdev/core/fbcon.c
+
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1027  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1028  static void fbcon_init(struct vc_data *vc, int init)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1029  {
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2019-05-28  1030  	struct fb_info *info;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1031  	struct fbcon_ops *ops;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1032  	struct vc_data **default_mode = vc->vc_display_fg;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1033  	struct vc_data *svc = *default_mode;
+50233393f0cf9b drivers/video/fbdev/core/fbcon.c Daniel Vetter             2019-05-28  1034  	struct fbcon_display *t, *p = &fb_display[vc->vc_num];
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1035  	int logo = 1, new_rows, new_cols, rows, cols, charcnt = 256;
+460f6b1a238d2e drivers/video/fbdev/core/fbcon.c Helge Deller              2022-02-02 @1036  	int cap, ret;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1037  
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2019-05-28  1038  	if (WARN_ON(info_idx == -1))
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1039  	    return;
+306958e8e8d150 drivers/video/console/fbcon.c    Adrian Bunk               2005-05-01  1040  
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2019-05-28  1041  	if (con2fb_map[vc->vc_num] == -1)
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2019-05-28  1042  		con2fb_map[vc->vc_num] = info_idx;
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2019-05-28  1043  
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2019-05-28  1044  	info = registered_fb[con2fb_map[vc->vc_num]];
+460f6b1a238d2e drivers/video/fbdev/core/fbcon.c Helge Deller              2022-02-02  1045  	cap = info->flags;
+306958e8e8d150 drivers/video/console/fbcon.c    Adrian Bunk               2005-05-01  1046  
+3c5a1b111373e6 drivers/video/fbdev/core/fbcon.c Andreas Schwab            2019-05-06  1047  	if (logo_shown < 0 && console_loglevel <= CONSOLE_LOGLEVEL_QUIET)
+10993504d64735 drivers/video/fbdev/core/fbcon.c Prarit Bhargava           2019-02-08  1048  		logo_shown = FBCON_LOGO_DONTSHOW;
+10993504d64735 drivers/video/fbdev/core/fbcon.c Prarit Bhargava           2019-02-08  1049  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1050  	if (vc != svc || logo_shown == FBCON_LOGO_DONTSHOW ||
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1051  	    (info->fix.type == FB_TYPE_TEXT))
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1052  		logo = 0;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1053  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1054  	if (var_to_display(p, &info->var, info))
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1055  		return;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1056  
+d1baa4ffa677bf drivers/video/console/fbcon.c    Antonino A. Daplas        2007-07-17  1057  	if (!info->fbcon_par)
+d1baa4ffa677bf drivers/video/console/fbcon.c    Antonino A. Daplas        2007-07-17  1058  		con2fb_acquire_newinfo(vc, info, vc->vc_num, -1);
+d1baa4ffa677bf drivers/video/console/fbcon.c    Antonino A. Daplas        2007-07-17  1059  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1060  	/* If we are not the first console on this
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1061  	   fb, copy the font from that console */
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1062  	t = &fb_display[fg_console];
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1063  	if (!p->fontdata) {
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1064  		if (t->fontdata) {
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1065  			struct vc_data *fvc = vc_cons[fg_console].d;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1066  
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1067  			vc->vc_font.data = (void *)(p->fontdata =
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1068  						    fvc->vc_font.data);
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1069  			vc->vc_font.width = fvc->vc_font.width;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1070  			vc->vc_font.height = fvc->vc_font.height;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1071  			p->userfont = t->userfont;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1072  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1073  			if (p->userfont)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1074  				REFCOUNT(p->fontdata)++;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1075  		} else {
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1076  			const struct font_desc *font = NULL;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1077  
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1078  			if (!fontname[0] || !(font = find_font(fontname)))
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1079  				font = get_default_font(info->var.xres,
+2d2699d9849248 drivers/video/console/fbcon.c    Antonino A. Daplas        2007-05-08  1080  							info->var.yres,
+2d2699d9849248 drivers/video/console/fbcon.c    Antonino A. Daplas        2007-05-08  1081  							info->pixmap.blit_x,
+2d2699d9849248 drivers/video/console/fbcon.c    Antonino A. Daplas        2007-05-08  1082  							info->pixmap.blit_y);
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1083  			vc->vc_font.width = font->width;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1084  			vc->vc_font.height = font->height;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1085  			vc->vc_font.data = (void *)(p->fontdata = font->data);
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1086  			vc->vc_font.charcount = 256; /* FIXME  Need to
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1087  							support more fonts */
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1088  		}
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1089  	}
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1090  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1091  	if (p->userfont)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1092  		charcnt = FNTCHARCNT(p->fontdata);
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-06-26  1093  
+b8c909454f046b drivers/video/console/fbcon.c    Antonino A. Daplas        2005-09-09  1094  	vc->vc_can_do_color = (fb_get_color_depth(&info->var, &info->fix)!=1);
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1095  	vc->vc_complement_mask = vc->vc_can_do_color ? 0x7700 : 0x0800;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1096  	if (charcnt == 256) {
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1097  		vc->vc_hi_font_mask = 0;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1098  	} else {
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1099  		vc->vc_hi_font_mask = 0x100;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1100  		if (vc->vc_can_do_color)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1101  			vc->vc_complement_mask <<= 1;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1102  	}
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1103  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1104  	if (!*svc->vc_uni_pagedir_loc)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1105  		con_set_default_unimap(svc);
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1106  	if (!*vc->vc_uni_pagedir_loc)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1107  		con_copy_unimap(vc, svc);
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1108  
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2005-11-08  1109  	ops = info->fbcon_par;
+f235f664a8afab drivers/video/console/fbcon.c    Scot Doyle                2015-10-09  1110  	ops->cur_blink_jiffies = msecs_to_jiffies(vc->vc_cur_blink_ms);
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2017-11-25  1111  
+2428e59b530928 drivers/video/console/fbcon.c    Marcin Slusarz            2008-02-06  1112  	p->con_rotate = initial_rotation;
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2017-11-25  1113  	if (p->con_rotate == -1)
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2017-11-25  1114  		p->con_rotate = info->fbcon_rotate_hint;
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2017-11-25  1115  	if (p->con_rotate == -1)
+f2f4946b0adfd6 drivers/video/fbdev/core/fbcon.c Hans de Goede             2017-11-25  1116  		p->con_rotate = FB_ROTATE_UR;
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2017-11-25  1117  
+b73deed32d0874 drivers/video/console/fbcon.c    Antonino A. Daplas        2006-01-09  1118  	set_blitting_type(vc, info);
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2005-11-08  1119  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1120  	cols = vc->vc_cols;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1121  	rows = vc->vc_rows;
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2005-11-08  1122  	new_cols = FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2005-11-08  1123  	new_rows = FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2005-11-08  1124  	new_cols /= vc->vc_font.width;
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2005-11-08  1125  	new_rows /= vc->vc_font.height;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1126  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1127  	/*
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1128  	 * We must always set the mode. The mode of the previous console
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1129  	 * driver could be in the same resolution but we are using different
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1130  	 * hardware so we have to initialize the hardware.
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1131  	 *
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1132  	 * We need to do it in fbcon_init() to prevent screen corruption.
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1133  	 */
+6ca8dfd78187d8 drivers/video/console/fbcon.c    Jiri Slaby                2016-06-23  1134  	if (con_is_visible(vc) && vc->vc_mode == KD_TEXT) {
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1135  		if (info->fbops->fb_set_par &&
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1136  		    !(ops->flags & FBCON_FLAGS_INIT)) {
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1137  			ret = info->fbops->fb_set_par(info);
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1138  
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1139  			if (ret)
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1140  				printk(KERN_ERR "fbcon_init: detected "
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1141  					"unhandled fb_set_par error, "
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1142  					"error code %d\n", ret);
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1143  		}
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2009-09-22  1144  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1145  		ops->flags |= FBCON_FLAGS_INIT;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1146  	}
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1147  
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1148  	ops->graphics = 0;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2005-04-16  1149  
+
+:::::: The code at line 1036 was first introduced by commit
+:::::: 460f6b1a238d2ee1d69a4911f81ee1728242f0dd Revert "fbcon: Disable accelerated scrolling"
+
+:::::: TO: Helge Deller <deller@gmx.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
