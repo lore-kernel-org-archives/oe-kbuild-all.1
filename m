@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02D74F5E0F;
-	Mon, 19 Oct 2026 13:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCE1305E1F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 13:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792415312; cv=none; b=PdaXiFQoF6LBdwHDdY7MhoVKZIYdz5OQsCGQn6dcRs8TbOXeLb2eaGOkeVBjWyLuNs0tS/bcgDJWEmBhCARVHAd2x9gj1yRgFANExbGS7Tkq/zqF2axeK9li8IQFc9SqbXhHQYFqacC/L0TRULAOgOkbpOEoEQwmrpeA0vHUzOw=
+	t=1792416527; cv=none; b=DtBenglbaFnMORjRxQ+bqWdKt0OO+GKqN1VqDNjHd0//F9mZtNxGyQUdRhCnhdqejL2NxfxPrvxAQrfIzIY7+HdMhQfJPidHcLHxoNmzGMmqIXm9Sm2a553dfn1eFA+yPP+EhL3p79XoL5ZupnCCW1qOansLM6O701MZIYZevKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792415312; c=relaxed/simple;
-	bh=q+f6QWMl7j8i6E3m6M3J/KJVYkqDsNVCMZSuXAQK3hE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GWjEtm+QqJowkvzbdMFkdt6ktWExvJXfJT5/VJljmP7O2RYI6PdEqey+zFYle0diyD9HN/g4smGup3x0yDtNzgO6bPPAKc/X0zbepIgrLiKBUsm4yfUTta5mHwEh+DOpXWuSVBzP98Zl47vSoVZIaaDM7ZcyltNWXP2c9PkDaa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fd5P8V3v; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1792416527; c=relaxed/simple;
+	bh=lmyxpMgNY3gyVyI0VoUqaOi2IiniSdL5VE9DkwnJY5M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CKJRwRmo1erevUHse1/fzvDR++dc03ndWq4ZovCmnsqXyTa+l6VP9b3mQzh0vzVpelM0cqaG+V7cO/iRx7ugac9dEzKcYqVfLIwxUzSaDIf3Hm8KlHhAW9SHLez58G015KJ2FtI69Fikfr2J6W2L6MZ2Lk+Yb97eF9fLI4R8d08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bdwKl3+p; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fd5P8V3v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bdwKl3+p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792415311; x=1823951311;
+  t=1792416525; x=1823952525;
   h=date:from:to:cc:subject:message-id;
-  bh=q+f6QWMl7j8i6E3m6M3J/KJVYkqDsNVCMZSuXAQK3hE=;
-  b=fd5P8V3v7DPMs1rPkeHyLXM2IA0CG4RZQEqT0fJlB7KYxtEe/GY6nV9L
-   dux1vze6wpfhF6+JUcHiHET4DN0a7si1bEayv1jPJeQ0mHFlNSRLYiaOk
-   4+K6xJsLalthpWy77HNR9srsrRWvV1BG0TLU4APxMj8AsYpexCFH+QxEB
-   ACgDbdjd8UCUQJbDgxXmKTJKsOiSPU9kIQYoLgVERb7ot12bWMZH8aF70
-   6QDQX4gEZI7JGqHuJWTS/o+vxuHyglo8OXXIhU91jXxCo1E1sdirTTOgQ
-   cbk4zqXbeou/MTDLZt1gkwnjIuqObew7Y9J/eQJ2ygnFbE6GVKyeY1ebY
+  bh=lmyxpMgNY3gyVyI0VoUqaOi2IiniSdL5VE9DkwnJY5M=;
+  b=bdwKl3+pPVaINjlcerx3yoJU97So7i5FKcMU3yxciR9Av+n+4FkUlSoR
+   dqGKaxsbfQRj/CG+ux8RoThm8KPykDhMjArWD7TmXZpsLB7suIDXbn4Js
+   /v3HhcNdB2oDvGvcZgNGe5PZlyuH9/ijAPBuhrgj5InZIaTneICao+9If
+   ROMvokY/Bc/gcqyJVytD7kS2ucgOV0MoHxnqqlKpmVkY92kaImzcE+B06
+   0nAZMgNMU7gyFhfuGXXXGUPYgPZDAczuUppm214xb/DZ0JQtWWM1kaMez
+   oeThl77YBTZ2Uq2WY+NOX5K+oNF/w+RwK5nw96YanGRrP11WH5rFMejDd
    A==;
-X-CSE-ConnectionGUID: sH0Eq7Q2Tbipcw041tEXMA==
-X-CSE-MsgGUID: SAj8OEL/T1SHtvFdJLOM3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="979358"
+X-CSE-ConnectionGUID: 2dbR5qmCQhafLlbrJI+Kkg==
+X-CSE-MsgGUID: eWeD4PYhQjy0QOFnE2xqVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1000436"
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="979358"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 06:08:30 -0700
-X-CSE-ConnectionGUID: qTe2QUsgTeSw90xHtQ75rA==
-X-CSE-MsgGUID: 3r8Fcl4dRHCSQi6iGL4Jjw==
+   d="scan'208";a="1000436"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 06:28:32 -0700
+X-CSE-ConnectionGUID: coDAQwNUTL6IW6Z91AAxbw==
+X-CSE-MsgGUID: sBkBx4cxSOqgQWP53mahRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2632378"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Oct 2026 06:08:29 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="2536901"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 19 Oct 2026 06:28:30 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIn6I-00000000LiE-0iFW;
-	Mon, 19 Oct 2026 13:08:26 +0000
-Date: Mon, 19 Oct 2026 21:08:10 +0800
+	id 1xInPg-000000005dD-2x4g;
+	Mon, 19 Oct 2026 13:28:28 +0000
+Date: Mon, 19 Oct 2026 15:27:47 +0200
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:wip-rm-ldmxcsr 54/55]
- lib/raid/xor/x86/xor-sse.c:435:2: error: call to undeclared function
- 'kernel_fpu_begin_mask'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202610192057.l8bmrIHr-lkp@intel.com>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: __efistub_cmdline.c:undefined reference to
+ `__efistub___ashldi3'
+Message-ID: <202610191553.uvFTO4t9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,45 +62,26 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-rm-ldmxcsr
-head:   bfbfcfc62eeabb32ed80c920f158a9262aadeb89
-commit: a86e2a52063aaf13992ddd8ba68a42798d6d1faf [54/55] raid: Opt out of initializing MXCSR and 387 state
-config: um-randconfig-1000-20261019 (https://download.01.org/0day-ci/archive/20261019/202610192057.l8bmrIHr-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610192057.l8bmrIHr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c03c1a14507dfaf8b856c2608f9ac216021fc222
+commit: 9a4580db6e9f83428813f671a79486469684069f lib: fix memparse() to handle overflow
+date:   5 months ago
+config: loongarch-randconfig-r2309-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191553.uvFTO4t9-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191553.uvFTO4t9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 9a4580db6e9f ("lib: fix memparse() to handle overflow")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610192057.l8bmrIHr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610191553.uvFTO4t9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/raid/xor/x86/xor-sse.c:435:2: error: call to undeclared function 'kernel_fpu_begin_mask'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     435 |         kernel_fpu_begin_mask(0);
-         |         ^
-   lib/raid/xor/x86/xor-sse.c:451:2: error: call to undeclared function 'kernel_fpu_begin_mask'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     451 |         kernel_fpu_begin_mask(0);
-         |         ^
-   2 errors generated.
---
->> lib/raid/xor/x86/xor-avx.c:148:2: error: call to undeclared function 'kernel_fpu_begin_mask'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     148 |         kernel_fpu_begin_mask(0);
-         |         ^
-   1 error generated.
-
-
-vim +/kernel_fpu_begin_mask +435 lib/raid/xor/x86/xor-sse.c
-
-   431	
-   432	static void xor_gen_sse(void *dest, void **srcs, unsigned int src_cnt,
-   433				unsigned int bytes)
-   434	{
- > 435		kernel_fpu_begin_mask(0);
-   436		xor_gen_sse_inner(dest, srcs, src_cnt, bytes);
-   437		kernel_fpu_end();
-   438	}
-   439	
+   loongarch64-linux-ld: ./drivers/firmware/efi/libstub/lib-cmdline.stub.o: in function `__efistub_.L47':
+>> __efistub_cmdline.c:(.init.text+0x288): undefined reference to `__efistub___ashldi3'
+>> loongarch64-linux-ld: __efistub_cmdline.c:(.init.text+0x298): undefined reference to `__efistub___lshrdi3'
 
 --
 0-DAY CI Kernel Test Service
