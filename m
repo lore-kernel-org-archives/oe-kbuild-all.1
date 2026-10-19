@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422118;
-	b=fzqAS9TJS1MtTlCZpc6T4X2kgaS8516QebWN06dL7TGgLYastMtqD1WTY+595+pe4kmP
-	 sG4XKA/u/YtKrROl2H5P4ycMu4V1zLThE3CQalbitl7hySB4BmrKaoJqclOzzWIE2fDKU
-	 lTLn4t8TGsbK+6tQtgiKF4YtTWAYuhfRxfSMSrIWTZkfCaVA7Qzy9GyMfQYEU7hjBKOlp
-	 UoXNTz9UKvML1klFZ052UvhjCK/Ac9y7f1oBk9OBVic0ksbCdWsHRqbbR3iJj4bp3rcSJ
-	 dAC3JsxG8Zj+Er+bdO/aA1LXveyD0Re86wwTNsGtyGod3Z3sKPHQeuKW0HfYVLcibig==
+	t=1792422710;
+	b=eYNykiFgNn1Gej0BHjg/vmu2aPhfQL+7bfBNy3+An/RsodzzCAE8+HQ0dmluGTqXQnqT
+	 t06jEG4C3xv9vM69Uk+/nNW6GXE6EXKI/i3UqCK/JmWJrQlSvHRCVdEiuT5s0dqpWIhD9
+	 fqHlDxQ8dV4bopSvibo34A+HC5JsmMVyQEBi2O0PeXPirOyEXRyoZg5yDWtyqi6vVGs6y
+	 W1q7hflEWTOMs/x8R9DQQEGww+rpjrJzsqsi56ci0dKyohn9rcshdQYo2BwVd6tvYCiyM
+	 e1FgPL/gtKQwBtr+R9KOUfTPMWeYum8cNO65vBrTq9Zcz2rywSPXxovT3IFGpye+gdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422118;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=V5Scv+S8IrXgj+5/CeTTqsxC/iiG0yrpaL3kmiKglBQ=;
-	b=euxHnQQsCz8+msi+ZDFL9oxvWQUgZSJHOYcw+8bMXYd8JhHF/w83sNnPuzqN/pjqUcaW
-	 3LSEARw+M4n33P4yPT0PXAn+dSmxmOKyfu7HG7VnXeV2UZYgfUpes03pmqw30oNxC8dGQ
-	 kY3cgv/e/ikKEoqovYF7jETwDn/bIsLojy/Xuya4Lk+GNB/Hu9jv7105tCktmRWA0WGL5
-	 nUEaf+sAreLHlR7KfvuKRChwyy9AK4U3n7RvE51ADlv2+W6ptnG+pNMtJfjkmulyqHokH
-	 ybh0yfWrsF6vAjKFVBttE/b4ZS5fM45yiaZPO2d/bm9LIe15PFP2J5xkmOi+Db7/VLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792422710;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=KCrLashFMP9pKf59FX3I9IKUbcpdmWpr6rzqttWL5AA=;
+	b=RQvHN+R2Ue/moCKg4hf5GL/hgnkgegLarsZZ1MiW0GEfKaS0/7VkMB0A/qfQhTdgY9wI
+	 74uhGkHk0KIjA2yCZ6rNcuMQ+6IG1oKvcD3Mzab0hJ4/9xW6im5cBLG4YBP4bvSwP/VV5
+	 6a83WbGKQiUcpX7IkEUdtRt6U9TyTeramICDYX3/xhjjL2iG10T5Kiu8pg176Ry0cIXhI
+	 QbRmV8D72XEoSpO83nUSufheDt5y/XujY0xWAIiRw3H9NQO6ftM1Lhw5Ashu6WE98jty7
+	 Ef9kONHQVfXW4fH6UX/bdl2fz6tRxrAd7EKjFfx13vIVGz4EzhBJXzZD+okxJZPH3cA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.221.179
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EWTZtXcd;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166C7607AF36
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 15:01:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 166C7607AF36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5ead9f60e26so131504e0c.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:01:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792422116; x=1793026916;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=V5Scv+S8IrXgj+5/CeTTqsxC/iiG0yrpaL3kmiKglBQ=;
-        b=MwsjETDxjUFHpLyOT6EWMZU3Df3lPyDP17KUFIbgJsI3VHmGj4CPjQvOhvlmIs3Ev+
-         cSr5LIG9Kcd5LGTUPy8jC69JFw7y8IzpMHjupBW0hUShxmydRLtMWWJfVO7EvK0GusBp
-         9FP1e52+iHFr1Cru1jsfX3adILarvejP7qCER7kYDqiAzGyTaxrEfSqL+5klSekGzLub
-         tL2GS8za680UIu601MfZ1awOBecXKzq/iyd6olxky5rwezCJyVz7WhZ0AY7TkQ/q3nQN
-         /XVUl7YU9OWTZldT5Ipr4OnnAzrsKDnumTYNupu0P3aI4qczWH8DDiD7oI3U9cGAy4dx
-         rIeA==
-X-Forwarded-Encrypted: i=1; AKwUvBxQMPToQvxaWEvP/bO/9iQ35SDj1addUZAKmz3NNKaxDnGIZNxV9m5Tbf66U286Rc0Bkc1xI3nZBwFEl599@lists.linux.dev
-X-Gm-Message-State: AFq9FYKPCl44+PrT48G6VA7FKXNjRc0qYR0/MxX9eaD8cKpA8Oi4Jk1Q
-	pC75g0xZsCqM9RQJ3g/vfsD96bwSdNwWfJRZCBACVv+JvileQktUmkfvBnDA4UNth8M=
-X-Gm-Gg: AYBFou05sVBGmZk5i+7pnwmZ1QY6rztSRff+IEtmfyFKaxjGK2uMjq3eLes63CSbpsA
-	dxsNbZTd0YSVByLixRT4QDzhlZSDGuIfc+INACbjJWTGbcUpSVRwUjy4F7LwWWIRZTGglxfI741
-	eeG7Idfd4dgK9SFeNVW8A9TNFQa62l/QOIJc7XImMh4Ix+OqyzKzZ9CLSPPTxmhO77tUs8VxmzR
-	f97A4hHxUH3BXJ+6T6VXMpGm9c+8d0QWu4fhdwXIEYl2ig6U5TonOe9+ZqIFitR1L3jgpKEMaAz
-	CnK8Pd010ijggzk/DefIjOb5sqh/5wAI+IQVH+Z8qGMf9YjvyxnDSFihIEMo0VVSHSfXUeHjlpv
-	u6Q7s8LA1CwsA/a1rHPgDoRNisBtipfGCbNFYBR6cHvPfJcf4F8lfgiV1sGXcBTKKIseO1TAR8p
-	nIYlhGPv/VGHoVexNDi8G1PVgy6QcTbnb8EJ7Qv/2JKk0TgZYjByQnI7CDmERJN1c9PPE7o944E
-	K1fHTaviuzoVFlHR9KotysXCpT4p0rJYUgYrDtW
-X-Received: by 2002:a05:6122:4f9a:b0:5ea:c984:5ad4 with SMTP id 71dfb90a1353d-5eac9845f53mr826652e0c.2.1792422115422;
-        Mon, 19 Oct 2026 08:01:55 -0700 (PDT)
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b476852sm10350661e0c.6.2026.10.19.08.01.54
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 08:01:54 -0700 (PDT)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5eaa1b5b84aso2618146e0c.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:01:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy7RkU0+MKg0L1gmsEWAaTMmmVbYmRBE7fjwzvVgIxJlKYia35/HvfjxKXZrfrX4XcqRmT9xvaL1v3UJB6p@lists.linux.dev
-X-Received: by 2002:a05:6122:25f9:b0:5ea:bc01:a2f9 with SMTP id
- 71dfb90a1353d-5eabc01a9b5mr1023930e0c.0.1792422113935; Mon, 19 Oct 2026
- 08:01:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E688060705C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 15:11:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E688060705C8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EWTZtXcd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792422709; x=1823958709;
+  h=date:from:to:cc:subject:message-id;
+  bh=SmkzNaE4if4jo6SpMbH/s/C46Xnye/kRD5iHn28a2bU=;
+  b=EWTZtXcd7zSq6WMjC+PCg4RWXsKS7PETnOB4ANxeUZTJuZintN6mhs8e
+   D3Ib0STcznTg+Drm1tS8I9A0xX+YTPeF6iV5GnKRVm/aT/OnsMh0GrkyG
+   1Da37E/ccqmKg35Qcsfy5795hL8hhsnn/C2FTyXWPxchKaLQfIM3YmWUN
+   XehzusxAS7tVCfbauiBJq7EkS+2Y1O9qQOXmv0UL9+q99rMv5beAzVnJt
+   r0VkB2cazGw3cOdQNh5nwSy3hI97hs7oBJrgUr078wjK+HUoRjMlz4K61
+   0KpKVVp5Rdd3mwaLxpRyiBlqHGieJiCClx+1Jv57oZcI8gzO4aydg3M1Z
+   g==;
+X-CSE-ConnectionGUID: V/LKzWo0S5WaNKW5Mz7X9A==
+X-CSE-MsgGUID: jW2PQTOuR5G7nt6kPSVizw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="975291"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="975291"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 08:11:49 -0700
+X-CSE-ConnectionGUID: 5HD7NlWPSLWTem8FsSej/A==
+X-CSE-MsgGUID: mKRREz1RS2SF0T3n+ga7Pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2448194"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 19 Oct 2026 08:11:47 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIp1d-000000005fT-0D3j;
+	Mon, 19 Oct 2026 15:11:45 +0000
+Date: Mon, 19 Oct 2026 17:11:18 +0200
+From: kernel test robot <lkp@intel.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:wip-rm-mmx 1/1] xor-core.c:undefined reference to
+ `xor_block_avx'
+Message-ID: <202610191755.gRsj0q6S-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -78,67 +79,27 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-References: <20261010065442.23780-1-rosenp@gmail.com> <202610131201.wWk11MLy-lkp@intel.com>
- <alpine.DEB.2.21.2610190013300.22065@angie.orcam.me.uk> <CAMuHMdVoAthYZFzuMmVb8awHUia4xeEfFKK=1PA23iCV0SsFbw@mail.gmail.com>
- <alpine.DEB.2.21.2610191519120.22065@angie.orcam.me.uk>
-In-Reply-To: <alpine.DEB.2.21.2610191519120.22065@angie.orcam.me.uk>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 19 Oct 2026 17:01:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXCKXN5PiDwRJiEj9aBGcU0J+H=q5tQoO7OfPEboCWGJg@mail.gmail.com>
-X-Gm-Features: AclHuK-kMNll2TJ6SQ0HmyWWYBoxtNWt2Z3yCcXPLPClFSyKDfXs1dfr7tIH4kE
-Message-ID: <CAMuHMdXCKXN5PiDwRJiEj9aBGcU0J+H=q5tQoO7OfPEboCWGJg@mail.gmail.com>
-Subject: Re: [PATCH] MIPS: lib: prefetch ahead in csum_partial()
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: kernel test robot <lkp@intel.com>, Rosen Penev <rosenp@gmail.com>, linux-mips@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Maciej,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-rm-mmx
+head:   6f82cce65eef74ed32bdf4f86b884f3fabe950c6
+commit: 6f82cce65eef74ed32bdf4f86b884f3fabe950c6 [1/1] raid: remove MMX optimized code
+config: um-randconfig-2001-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191755.gRsj0q6S-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191755.gRsj0q6S-lkp@intel.com/reproduce)
 
-On Mon, 19 Oct 2026 at 16:47, Maciej W. Rozycki <macro@orcam.me.uk> wrote:
-> > >  So oddly enough we're missing Tx49 support in the toolchain and we've
-> > > only managed to survive with CPU_HAS_PREFETCH enabled for CPU_TX49XX
-> > > because it also implies DMA_NONCOHERENT via MACH_TX49XX -> MACH_TXX9,
-> > > which in turn disables stuff in arch/mips/lib/memcpy.S.
-> > >
-> > >  Quite straighforward to fix in binutils since docs are available (as in:
-> > > I have a copy), but do we have any users?  Geert?
-> >
-> > Yes, I still boot test rbtx4927 regularly.
->
->  Thanks for confirming.
->
-> > I never touched binutils sources, though...
->
->  No worries, this seems straightforward: just PREF, MADD/U plus [D]MULT/U
-> extensions, and DERET/SDBBP debug stuff, much of which shared with the
-> Tx39 we already support, so just a matter of sticking another flag onto
-> the existing opcode table entries.
->
->  I'd estimate it as one day worth of engineering effort plus maybe another
-> one for machines to work through verification, for the binutils side and
-> the associated changes needed for GCC, i.e. a `-march=' option update plus
-> maybe enabling a couple of existing machine description patterns for the
-> Tx49 too.  Would you be able to run GCC verification with your system?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610191755.gRsj0q6S-lkp@intel.com/
 
-The rbtx4927 is about the slowest system I still do regular testing on.
-It uses a Debian 8 nfsroot (over 10 Mbps Ethernet), which is the latest
-Debian release still supporting the instruction subset suppported
-by TX49XX.
-So as long as no native compilation of large packages is required,
-it can be done.  I can also give you remote access?
+All errors (new ones prefixed by >>):
 
-Thanks!
+   /usr/bin/ld: lib/raid/xor/xor-core.o: in function `xor_init':
+>> xor-core.c:(.init.text+0x3b6): undefined reference to `xor_block_avx'
+>> /usr/bin/ld: xor-core.c:(.init.text+0x45c): undefined reference to `xor_block_sse'
+>> /usr/bin/ld: xor-core.c:(.init.text+0x492): undefined reference to `xor_block_sse_pf64'
+   collect2: error: ld returned 1 exit status
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
