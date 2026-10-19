@@ -1,101 +1,357 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB654E0B7D;
-	Mon, 19 Oct 2026 11:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDA04B1D11;
+	Mon, 19 Oct 2026 11:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792407965; cv=none; b=jnlTRoXXxwwbrvHbCtedxZe7NzJlNeCR4E/g6XhBEbn3GyJjsttP5exHv4b8KEDgUsjjw3n2msIJXNgDVR56A5iWe+6U5it8hCbOvTpWWzqhDYcmFSfCoASLN2YTUcmY0mAUXy/YKzzpQQZYEzqaeL3qYvOHrxni7SqLH4goz6E=
+	t=1792408093; cv=none; b=Mp2I5OB133hi4Ks0+ivyhAX6jnG5jaYg3zKCtB9z46TnoShbzbhDUibHjV7RRsjD8GgXI6pgJM2amBXNbLlwj78tOrRGCMJm13UawX2Lg3JaKwBxwISCdTvJczEKKrX+By/HiDWgOdBxPG9rmYZTqiMgIurTVQSHHMmo2mr7208=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792407965; c=relaxed/simple;
-	bh=jdcE7CavQjBaeRB2gqAjIU1V2Qkw94QPdQpetUuMqFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KIP5kCFDsEdc80LymNnGwf5hQUpXWEptad2G8L5sPT6xVyMFkHU1xF4OUVabc/razVbJX6ChEih77tYEW7l/Cuvhn0Bt9nfD0C2DKf4AttHhfsp5mOerFIoeHwc23ZlPSeaAUEypL44F4C/NDpWwG1bYk4J7opV3b2Bcri4v+jE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOy5aTKh; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792408093; c=relaxed/simple;
+	bh=k0JfvF3jECqJI4CtleIap8awyvC1tcdGB5u0jGyqdSE=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=epCDoE1q9AuEfdk7urWHX4rR0glBss5MMom6XWH1A1D0rjohIHVIy6AsJ7Zg6l7ZOeDeOPnw3tm2mUdw0NK0nD2OnAciuCjtH0smqDVYo6Oup2u0PfyXo8sfLwNeqs4cANqS9hhmyZ0ZZpbAZti7XGRa04BDVRLp7Pp8cgvVhN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=fc0h3hl2; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOy5aTKh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792407962; x=1823943962;
-  h=date:from:to:cc:subject:message-id;
-  bh=jdcE7CavQjBaeRB2gqAjIU1V2Qkw94QPdQpetUuMqFQ=;
-  b=lOy5aTKhVMt9EByBPRC/729J0gzYRkg+9kQiiHY+IjNRIMtWZMXB6LTZ
-   JfYDfTN0RN7W41xCVSrAubwX+EAMCJQk9Zvoe8CdZQ9JmzNHyiL72XjP2
-   MyuYjmKJNOzOLiFyqgJg/VkRr7YZHsDd2d2ScJzyK1/C9K6s6q1qDMg1R
-   9zuZW1KycTVVPlPuZx40Tk0sQgJE7JZRRcNEtL0m1tKMkK6pBTsieq/5p
-   e2kQpD4EKE22VZoTQlBHcaDLu0E45wf0MhA8B3Vp++kzJr1hQ4GQFmA+J
-   URC2Rv6HXKwS58EfeZ+1olchWOaX8iOmHIIqL8sX8d6+wMV+BRfHt2C0q
-   Q==;
-X-CSE-ConnectionGUID: W+UBU4lWSa6Rq+fAeazLmQ==
-X-CSE-MsgGUID: XG28YpNqQl2a99Vc3qtbXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1096975"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="1096975"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 04:06:01 -0700
-X-CSE-ConnectionGUID: o522qmMKRsejZMfCTcjOmQ==
-X-CSE-MsgGUID: fN7jeY9+QF6ITtSNgyXrDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="4348084"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 19 Oct 2026 04:06:00 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xIlBl-000000005at-3OUg;
-	Mon, 19 Oct 2026 11:05:57 +0000
-Date: Mon, 19 Oct 2026 13:04:57 +0200
-From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bcain:hexagon 41/82]
- arch/hexagon/kernel/hexagon_ksyms.c:22:15: error: use of undeclared
- identifier '__vmhwconfig'
-Message-ID: <202610191251.0QhKvTtb-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="fc0h3hl2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=coLnxrFvFhTSWxpuGzwR//kpT+0QAR1BEIa7BulpPXU=;
+  b=fc0h3hl2c1JIyt7a8thKeVYMAuEY+cXoYADg+q+7FvOZS/q1nILRJwo8
+   xqd0v2QOLSNyH/HUD5zTQQngzeMkNaQBVgzSzVgp7E/TC699kOufZWMY8
+   a7JtoN0fTG33HkWohO9loAjtRNTogdWX06RRAPFsx+tBAlgPNzdMqTtkW
+   E=;
+X-CSE-ConnectionGUID: dku0JJ9oTviHeOMLzCmWFw==
+X-CSE-MsgGUID: v2ZihvHBQC66AIDWxNtRMw==
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.27,167,1787004000"; 
+   d="scan'208";a="300870915"
+Received: from c-76-123-3-53.hsd1.va.comcast.net (HELO hadrien) ([76.123.3.53])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 13:08:03 +0200
+Date: Mon, 19 Oct 2026 07:08:00 -0400 (EDT)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Comfort Oyewole <coyewole7@gmail.com>
+cc: gregkh@linuxfoundation.org, andy@kernel.org, oe-kbuild-all@lists.linux.dev, 
+    outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
+    linux-fbdev@vger.kernel.org, Julia.Lawall@inria.fr
+Subject: Re: [PATCH v2] staging: fbtft: remove trailing semicolons from macro
+ definitionsandy@kernel.org
+In-Reply-To: <202610191356.9yPxs182-lkp@intel.com>
+Message-ID: <f647826f-2686-dc67-cff6-9e8810aa565@inria.fr>
+References: <atUG5LbCbePRNn5M@ubuntu> <202610191356.9yPxs182-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git hexagon
-head:   35ab1dadb94646b74469738c1741f68e8c6aac3d
-commit: ce5a6b702e8c793c721b2431bae81ef249eb17cc [41/82] hexagon: add the hypervisor's hwconfig call to the VM interface
-config: hexagon-randconfig-2001-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191251.0QhKvTtb-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 337446dacd2a713010f1c9856c21eb8d899b5613)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191251.0QhKvTtb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610191251.0QhKvTtb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> arch/hexagon/kernel/hexagon_ksyms.c:22:15: error: use of undeclared identifier '__vmhwconfig'
-      22 | EXPORT_SYMBOL(__vmhwconfig);
-         |               ^~~~~~~~~~~~
-   1 error generated.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
 
-vim +/__vmhwconfig +22 arch/hexagon/kernel/hexagon_ksyms.c
 
-    13	
-    14	/* Additional functions */
-    15	EXPORT_SYMBOL(__clear_user_hexagon);
-    16	EXPORT_SYMBOL(raw_copy_from_user);
-    17	EXPORT_SYMBOL(raw_copy_to_user);
-    18	EXPORT_SYMBOL(__vmgetie);
-    19	EXPORT_SYMBOL(vmgetie_cached);
-    20	EXPORT_SYMBOL(vmsetie_cached);
-    21	EXPORT_SYMBOL(__vmyield);
-  > 22	EXPORT_SYMBOL(__vmhwconfig);
-    23	EXPORT_SYMBOL(memcpy);
-    24	EXPORT_SYMBOL(memset);
-    25	
+On Mon, 19 Oct 2026, kernel test robot wrote:
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Hi Comfort,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on staging/staging-testing]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Comfort-Oyewole/staging-fbtft-remove-trailing-semicolons-from-macro-definitionsandy-kernel-org/20261018-185028
+> base:   staging/staging-testing
+> patch link:    https://lore.kernel.org/r/atUG5LbCbePRNn5M%40ubuntu
+> patch subject: [PATCH v2] staging: fbtft: remove trailing semicolons from macro definitionsandy@kernel.org
+> config: sh-randconfig-1001-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191356.9yPxs182-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 16.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191356.9yPxs182-lkp@intel.com/reproduce)
+
+Comfort,
+
+Did you compile your kernel?  You need to check that you get a .o file for
+every files that you modify.  But that is not a 100% guarantee, when the
+change you make are under an #ifdef.  In that case, you have to check that
+the containing #ifdefs resolve to true so the code is compiled.  If it
+seems complex, you can try adding an error at the point of the code you
+modified to be sure that compiling gives the corresponding error message.
+
+julia
+
+
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202610191356.9yPxs182-lkp@intel.com/
+>
+> All error/warnings (new ones prefixed by >>):
+>
+>      284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+>          | ^~~~~~
+>    drivers/staging/fbtft/fbtft.h:366:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+>      366 | FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)            \
+>          | ^~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+>      302 |         .probe = fbtft_driver_probe_spi,                                        \
+>          |                  ^~~~~~~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:366:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+>      366 | FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)            \
+>          | ^~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    In file included from include/linux/device.h:32,
+>                     from include/linux/acpi.h:15,
+>                     from include/linux/i2c.h:13,
+>                     from include/uapi/linux/fb.h:6,
+>                     from include/linux/fb.h:5,
+>                     from drivers/staging/fbtft/fbtft.h:7:
+>    include/linux/device/driver.h:267:1: error: expected ',' or ';' before 'static'
+>      267 | static int __init __driver##_init(void) \
+>          | ^~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c: In function '__inittest':
+>    drivers/staging/fbtft/fbtft.h:368:19: error: 'fbtft_driver_spi_driver_init' undeclared (first use in this function); did you mean 'fbtft_driver_spi_driver'?
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/module.h:133:18: note: in definition of macro 'module_init'
+>      133 |         { return initfn; }                                      \
+>          |                  ^~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:368:19: note: each undeclared identifier is reported only once for each function it appears in
+>    include/linux/module.h:133:18: note: in definition of macro 'module_init'
+>      133 |         { return initfn; }                                      \
+>          |                  ^~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    In file included from include/linux/compiler_types.h:88,
+>                     from <command-line>:
+>    drivers/staging/fbtft/fb_sh1106.c: At top level:
+>    drivers/staging/fbtft/fbtft.h:368:19: error: 'fbtft_driver_spi_driver_init' undeclared here (not in a function); did you mean 'fbtft_driver_spi_driver'?
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler_attributes.h:92:65: note: in definition of macro '__copy'
+>       92 | # define __copy(symbol)                 __attribute__((__copy__(symbol)))
+>          |                                                                 ^~~~~~
+>    include/linux/device/driver.h:271:1: note: in expansion of macro 'module_init'
+>      271 | module_init(__driver##_init); \
+>          | ^~~~~~~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/module.h:134:13: error: 'init_module' aliased to undefined symbol 'fbtft_driver_spi_driver_init'
+>      134 |         int init_module(void) __copy(initfn)                    \
+>          |             ^~~~~~~~~~~
+>    include/linux/device/driver.h:271:1: note: in expansion of macro 'module_init'
+>      271 | module_init(__driver##_init); \
+>          | ^~~~~~~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >> include/linux/module.h:247:17: error: '__mod_device_table__kmod_fb_sh1106__spi__spi_ids' aliased to undefined symbol 'spi_ids'
+>      247 |         __PASTE(__mod_device_table__,   \
+>          |                 ^~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler_types.h:15:24: note: in definition of macro '___PASTE'
+>       15 | #define ___PASTE(a, b) a##b
+>          |                        ^
+>    include/linux/module.h:247:9: note: in expansion of macro '__PASTE'
+>      247 |         __PASTE(__mod_device_table__,   \
+>          |         ^~~~~~~
+>    include/linux/module.h:256:21: note: in expansion of macro '__mod_device_table'
+>      256 | static typeof(name) __mod_device_table(type, name)                      \
+>          |                     ^~~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fbtft.h:364:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+>      364 | MODULE_DEVICE_TABLE(spi, spi_ids)                                               \
+>          | ^~~~~~~~~~~~~~~~~~~
+>    drivers/staging/fbtft/fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >> drivers/staging/fbtft/fb_sh1106.c:154:29: warning: 'display' defined but not used [-Wunused-variable]
+>      154 | static struct fbtft_display display = {
+>          |                             ^~~~~~~
+> --
+>      284 | static int fbtft_driver_probe_spi(struct spi_device *spi)                       \
+>          | ^~~~~~
+>    fbtft.h:366:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+>      366 | FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)            \
+>          | ^~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    fbtft.h:302:18: error: 'fbtft_driver_probe_spi' undeclared here (not in a function); did you mean 'fbtft_driver_remove_spi'?
+>      302 |         .probe = fbtft_driver_probe_spi,                                        \
+>          |                  ^~~~~~~~~~~~~~~~~~~~~~
+>    fbtft.h:366:1: note: in expansion of macro 'FBTFT_SPI_DRIVER'
+>      366 | FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)            \
+>          | ^~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    In file included from include/linux/device.h:32,
+>                     from include/linux/acpi.h:15,
+>                     from include/linux/i2c.h:13,
+>                     from include/uapi/linux/fb.h:6,
+>                     from include/linux/fb.h:5,
+>                     from fbtft.h:7:
+>    include/linux/device/driver.h:267:1: error: expected ',' or ';' before 'static'
+>      267 | static int __init __driver##_init(void) \
+>          | ^~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    fb_sh1106.c: In function '__inittest':
+>    fbtft.h:368:19: error: 'fbtft_driver_spi_driver_init' undeclared (first use in this function); did you mean 'fbtft_driver_spi_driver'?
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/module.h:133:18: note: in definition of macro 'module_init'
+>      133 |         { return initfn; }                                      \
+>          |                  ^~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    fbtft.h:368:19: note: each undeclared identifier is reported only once for each function it appears in
+>    include/linux/module.h:133:18: note: in definition of macro 'module_init'
+>      133 |         { return initfn; }                                      \
+>          |                  ^~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    In file included from include/linux/compiler_types.h:88,
+>                     from <command-line>:
+>    fb_sh1106.c: At top level:
+>    fbtft.h:368:19: error: 'fbtft_driver_spi_driver_init' undeclared here (not in a function); did you mean 'fbtft_driver_spi_driver'?
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler_attributes.h:92:65: note: in definition of macro '__copy'
+>       92 | # define __copy(symbol)                 __attribute__((__copy__(symbol)))
+>          |                                                                 ^~~~~~
+>    include/linux/device/driver.h:271:1: note: in expansion of macro 'module_init'
+>      271 | module_init(__driver##_init); \
+>          | ^~~~~~~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/module.h:134:13: error: 'init_module' aliased to undefined symbol 'fbtft_driver_spi_driver_init'
+>      134 |         int init_module(void) __copy(initfn)                    \
+>          |             ^~~~~~~~~~~
+>    include/linux/device/driver.h:271:1: note: in expansion of macro 'module_init'
+>      271 | module_init(__driver##_init); \
+>          | ^~~~~~~~~~~
+>    include/linux/spi/spi.h:408:9: note: in expansion of macro 'module_driver'
+>      408 |         module_driver(__spi_driver, spi_register_driver, \
+>          |         ^~~~~~~~~~~~~
+>    fbtft.h:368:1: note: in expansion of macro 'module_spi_driver'
+>      368 | module_spi_driver(fbtft_driver_spi_driver)
+>          | ^~~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+> >> include/linux/module.h:247:17: error: '__mod_device_table__kmod_fb_sh1106__spi__spi_ids' aliased to undefined symbol 'spi_ids'
+>      247 |         __PASTE(__mod_device_table__,   \
+>          |                 ^~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler_types.h:15:24: note: in definition of macro '___PASTE'
+>       15 | #define ___PASTE(a, b) a##b
+>          |                        ^
+>    include/linux/module.h:247:9: note: in expansion of macro '__PASTE'
+>      247 |         __PASTE(__mod_device_table__,   \
+>          |         ^~~~~~~
+>    include/linux/module.h:256:21: note: in expansion of macro '__mod_device_table'
+>      256 | static typeof(name) __mod_device_table(type, name)                      \
+>          |                     ^~~~~~~~~~~~~~~~~~
+>    fbtft.h:364:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+>      364 | MODULE_DEVICE_TABLE(spi, spi_ids)                                               \
+>          | ^~~~~~~~~~~~~~~~~~~
+>    fb_sh1106.c:173:1: note: in expansion of macro 'FBTFT_REGISTER_SPI_DRIVER'
+>      173 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
+>          | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    fb_sh1106.c:154:29: warning: 'display' defined but not used [-Wunused-variable]
+>      154 | static struct fbtft_display display = {
+>          |                             ^~~~~~~
+>
+>
+> vim +247 include/linux/module.h
+>
+> ^1da177e4c3f415 Linus Torvalds 2005-04-16  240
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  241  /*
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  242   * Format: __mod_device_table__kmod_<modname>__<type>__<name>
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  243   * Parts of the string `__kmod_` and `__` are used as delimiters when parsing
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  244   * a symbol in file2alias.c
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  245   */
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  246  #define __mod_device_table(type, name)	\
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18 @247  	__PASTE(__mod_device_table__,	\
+> 9025688bf6d427e Josh Poimboeuf 2025-10-20  248  	__PASTE(kmod_,			\
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  249  	__PASTE(__KBUILD_MODNAME,	\
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  250  	__PASTE(__,			\
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  251  	__PASTE(type,			\
+> 9025688bf6d427e Josh Poimboeuf 2025-10-20  252  	__PASTE(__, name))))))
+> 83fb49389bbe07d Alexey Gladkov 2025-09-18  253
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
