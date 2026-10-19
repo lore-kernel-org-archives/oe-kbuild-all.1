@@ -1,101 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792429687;
-	b=KpYvUNfFcFcgJjF7BYyDEeT4B8Zz7v6hi4QgGH/ntqjteeVonHwDrTr21tebKCr7UbsF
-	 rd4SdClD1vJXgPp7nS1Wb7NC3QpKqM++Qwy8cmJ8V3q/ITEs6HUbjni1LekXGDBWjahAO
-	 Xdc2H9lHTxhzG4Iv7uhGIbFOLiNUNRCksCf2O9WGaMseUaGTQR1LC57LhiiAibhH6Q8k7
-	 2B0bhrSygPgNofsrw9K6oQvtiHa6qCO9ymifWGKOoJuVrgYzkmE5LKb9OHgXfkZVrNCgb
-	 7PmuJPQ4OZyNBE90BOAacqkSvxPhfbxCjbVEQbLH3NZjv7+ank/+xhYgG7E2zuC6PLQ==
+	t=1792431242;
+	b=WQmT2Jjs6nisSXgLTfQX1YoCfuTbAmP8sHXraAETBvKfENWz01IKfkMsmF/tjz75luOR
+	 V8Ye6P+/Qp7QIjsxPoSo+G2QFTbaD31IKQYs/Sv2MUgvnTrC5pLhKXQXrhVz2anU0kTEx
+	 4kmXZqDvAPVG3OCvIFUEzxdq9j66e9VPmJFjYW7ZgLAD0dKa3kYLUIEKsPbhsXjlvobO0
+	 dCnm0aBsXtIYSI5/n4X6ODe/cQpRubICjgvDMTX0kNMeC1m/uOhUFWvTK7qR+yJZi/Nas
+	 BMRFyzchJkvAYkI6RfOx5wtN/046toVjvQMX2TRv+rzhnJ5zqh/tx4fqQ2/aeWGHQtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792429687;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=z9Rf2ubDKz7ML74MPtfck2qyU1vrqP5ztLplisyq7v8=;
-	b=n4wuqtzcb9Z63NREZoK96JnZ6ZEGDp/8Foj7i1hCnOb2Tz6Vszl6w5ouwpJOyuBvKGyu
-	 OX84CkxBNvy/eEsIhTYQ30gfk+GyPnRahsMA+8JhNBcICChtasofEBtq431YEnCBAwz4C
-	 TRhWKrYbRZ/1KdorCxmN0ubKOEh/Q81VQdQX4VKJ9c6U3xs1iq7k5jSWkof9luLD9GwbU
-	 HGqtmhldhKoQSUieDcfEul8raQeOWW1o5Nq5jWxa5WZf/nZ7HGmGf/MYxtSK2Yg86LIy1
-	 uYdDynDLBvJx0/R0LImDq8kgiDqtrhHOf1r+BdohVFkroXMQLO7/5IeItTq3wVbqqWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792431242;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=mocL/vygYOPN85wTlxaUtSXh386rxRdO1dNqJeni4T8=;
+	b=vOHC64estTg0epTYn6F5gwS3WhiHT5uS+uijBuQ3YdJNn0fR0scxxEeP29wMWqLlTAtO
+	 U0SRh1FgLLxm6+pa6ysYHgpnnh5qQV+XLleGyZpsaR9zZWgiGqx81gZnYPbazOOmOwMce
+	 tvyhrZhAvKkGdaWrupQNd30xuIyxkYLF0xlP/CGwffPrHQc+SkBAFWEaaUYiU8T/n8WqT
+	 BnSsKE8pwDxvWIrrCgJrN7BfO7Fd/elW9i0MVBptUth1DNgGMLigzl0taZqg6VnDrhCKB
+	 i1QwXV7AMT3PfsJyo9q/1Ck/KJxo0yyOyEwdIAW4sXI0+jczHF76FDx6Pv/QL5xY7qQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mT4duZqF;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="O8rhpm/X";
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C28606A320
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 17:08:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09C28606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140E2606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 17:34:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 140E2606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mT4duZqF
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso1436724f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 10:08:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792429685; x=1793034485; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=z9Rf2ubDKz7ML74MPtfck2qyU1vrqP5ztLplisyq7v8=;
-        b=mT4duZqF2kRqTt7V5sp/HWkmr2qgriQwLYK509Aap9oJVpQ4oZUelS6Fs/qEiOTte+
-         fKPVuYNiAvJ2ggbgksvfwGh0233Mqaf7x1aUfnN0oPsjYv2+au3OAyl27bEPLLDOIqyi
-         yINSV7gZf1OLIhR6KW1ORzzpBUVs3T528RT3Z93A2L0y4MMQ7tp54fKpVUruipGm3GlB
-         kJrVHGFjXRomH0+S3FKntEXVfrfRLuzwfphy90vwJqmjjyAub1K/aQJ54C58iFNCVV/J
-         osvwVHt2ise7xBpqKWWpVJbGvEGt7T6yihyLlV5/cXW+DS/U6bB2YFFHcBI1MteuMhqx
-         jT/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792429685; x=1793034485;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=z9Rf2ubDKz7ML74MPtfck2qyU1vrqP5ztLplisyq7v8=;
-        b=uj/Ro2s8w4nl9olCtwyUKq29SVnbbK/OzeQX97Z0ymr7e4Fl8Xg7sLiviZ1vYT+dv3
-         OHaSbA+FnG7RPozODZj9bv5cyelx17+s7kzWtY7J1KYM3DsCKVQ7ydhr9tAiU0ASGOWB
-         HmxeMyDXNXfTSJfP5V90SZJv9MafH3y0j672vr4n9pa/02kVFXELgLaFPqKMsLFKGgRQ
-         /FN061BE+HIiw8xacKzjweGzUYLCMaHCre0r7mMx/5TOTOSao2eutYvMaUNh53eIYDUO
-         EMCiktL5fB5GY9ATeJfnVbClVGvltxr3hLu00jDJG2y3k39sTm9/vLISG9sc3VVY3SSV
-         0VbA==
-X-Forwarded-Encrypted: i=1; AKwUvBy5ckzUVBfz+BmuUcKN94xnRlhplz/0SqOyg2QMb+kqIvU+OiETnY/DUjdt0HeJSyzt5HVe86cogegCSKQf@lists.linux.dev
-X-Gm-Message-State: AFq9FYJm41TtXIxiOj1ge3fC5yx1OOalviVr3Elnxh86XIvB/d4MU3X5
-	T+PjQ6nzhnII7GlH9bIOPtbpBxff5qp9f0HMl59EgDT6y+bEGvcm4HeY
-X-Gm-Gg: AYBFou1oNO7WPPlvRgkmybg+T+n7Bjzpv0qtQ1BEMQ0P5oh+MRySqX1+RtVhfYtvwC8
-	J7iNiEtT+P9tYi+DDamaf1qFN4vt+3Gzw1Na3RIR7m8gcwWIri5VOeJOUOCD2I3y4RgLSuUAFQR
-	zzBPo2END+y64kiMQEZiP1GIzSfB56osOMIbcguVrXMm6gPGOkZ7T0QH4eX8jGKNx4rx7fCTD+/
-	M5E4GX8jzMvji4oz391KO/l+c5o2DkEfF7s0VU1KZ4r1Q+lUpCmqiDaPYC/dsgG1t0wVlQVu4a8
-	yIZlroRgxa6+I3bChYMyIagi4faOqnDP8m8yu69pyem1nAGe/rHkySLeL2MwwNb/bNcwLatDe7k
-	FYcyMYQbaQ8rXSuNVawJ8hM1aWNcWq+sKq/FPPOzt7GRb51fEM7Wf3dTLOZsjox+gFnh4dkRc+Z
-	7sd5TACdT23WHCmzJKHMYYNMMnp6FoAqKBzg0NpS0ytr3a4zs5T8y+mp/8zdS60l0fSRSMv3M1A
-	Av3GDT72U1YejnGyzWBt6yIN37OG6qiZ+4=
-X-Received: by 2002:adf:e78f:0:b0:48d:ff81:5201 with SMTP id ffacd0b85a97d-48e07f99fa0mr12300471f8f.41.1792429685165;
-        Mon, 19 Oct 2026 10:08:05 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d818237sm146817f8f.27.2026.10.19.10.08.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 10:08:04 -0700 (PDT)
-Date: Mon, 19 Oct 2026 18:08:03 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Mladek
- <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- bpf@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>, Lorenzo Stoakes
- <ljs@kernel.org>, oe-kbuild-all@lists.linux.dev, Linux Memory Management
- List <linux-mm@kvack.org>, Luis Chamberlain <mcgrof@kernel.org>, Andrey
- Grodzovsky <andrey.grodzovsky@crowdstrike.com>, Steven Rostedt
- <rostedt@goodmis.org>
-Subject: Re: [PATCH v2 next 03/15] kallsyms: Improve selftest
- test_perf_kallsyms_lookup_name() output
-Message-ID: <20261019180803.3ff8c35b@pumpkin>
-In-Reply-To: <202610192356.CItNLOke-lkp@intel.com>
-References: <20261018155206.132411-4-david.laight.linux@gmail.com>
-	<202610192356.CItNLOke-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O8rhpm/X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792431242; x=1823967242;
+  h=date:from:to:cc:subject:message-id;
+  bh=UuXfzNlg+83sP9C3PEmqlOFpHmAdCwZ53PV1viE4sxU=;
+  b=O8rhpm/XFEAZJ8Xxvd9dRvwXrKneBXBXphpusJEsLhKVVb4E7vBAFEO9
+   iDm/52dh5D/0q9hV2nUIoqOfW+ebbCzM4eBLHTiZCCIJf9Cl3NCLekbqA
+   8lFAWtz92UWL10V0REGcUZ3hSZ7xy7wXqSmA8fOUZ7KWzWlE3f7VRWLxD
+   7HUm3VNYLQLH+pdkCb/QgKjk5TBzOpmen5SpAJyu2dMoK4UJWhBPvFrNF
+   5NLpnct/F66t1PoNFbSUL8M1vMua7IemcfushcwmjzQFhMTbem7UOok04
+   NzROiyzC0xM03vMyaW42WhY2XI0nV+uCA6I2BHH+YS9GgWOmUbzBs58+e
+   Q==;
+X-CSE-ConnectionGUID: zHgFOV/YTSKoW5OmuhsTIA==
+X-CSE-MsgGUID: 21wLUVMuRgWG5byMzYhekw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1150303"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1150303"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 10:34:01 -0700
+X-CSE-ConnectionGUID: 14MbCPtdS8S84CVN7r/HeQ==
+X-CSE-MsgGUID: b+Fy9nTMRs63Nmaq6Jhd9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2557774"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 19 Oct 2026 10:34:00 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIrFF-000000005jz-3qqW;
+	Mon, 19 Oct 2026 17:33:57 +0000
+Date: Mon, 19 Oct 2026 19:33:52 +0200
+From: kernel test robot <lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:core/hotplug 1/49]
+ include/linux/stop_machine.h:182:9: error: too few arguments to function
+ 'stop_machine_cpuslocked'
+Message-ID: <202610191939.Rp89zh4J-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -104,44 +80,62 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 20 Oct 2026 00:07:48 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git core/hotplug
+head:   8ff5f866a7c2825213c6aa525a88840cbccf1211
+commit: c7da79bd2c65b3817e4a2ce25fbdcc3bb8c9262f [1/49] stop_machine: Add post function to execute while other CPUs can exit
+config: arc-randconfig-2001-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191939.Rp89zh4J-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191939.Rp89zh4J-lkp@intel.com/reproduce)
 
-> Hi David,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> [also build test WARNING on linus/master v7.3]
-> [cannot apply to next-20261016 next-20261016]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/kallsyms-scripts-kallsyms-c-Avoid-overrunning-on-stack-buffer/20261018-165152
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20261018155206.132411-4-david.laight.linux%40gmail.com
-> patch subject: [PATCH v2 next 03/15] kallsyms: Improve selftest test_perf_kallsyms_lookup_name() output
-> config: nios2-randconfig-1000-20261019 (https://download.01.org/0day-ci/archive/20261019/202610192356.CItNLOke-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 10.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610192356.CItNLOke-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610192356.CItNLOke-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/kallsyms_selftest.c:70:1: warning: 'The_time_has_come_the_Walrus_said_To_talk_of_many_things_Of_shoes_and_ships_and_sealing_wax_Of_cabbages_and_kings_And_why_the_sea_is_boiling_hot_And_whether_pigs_have_wings_O_Oysters_said_the_Carpenter_Youve_had_a_pleasant_run_Shall_we_be_trotting_home_again_But_answer_came_there_none_And_this_was_scarcely_odd_because_Theyd_eaten_every_one_The_moon_was_shining_sulkily_Because_she_thought_the_sun_Had_got_no_business_to_be_there_After_the_day_was_done_Its_very_rude_of_him_she_said_To_come_and_spoil_the_fun' defined but not used [-Wunused-variable]  
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610191939.Rp89zh4J-lkp@intel.com/
 
-Already noted, it depends on the build options.
-I'll use the same 'trick' as done for the other static symbols
-(that is reference it from a non-static function).
+All error/warnings (new ones prefixed by >>):
 
-David
+   In file included from kernel/sched/sched.h:63,
+                    from kernel/sched/rq-offsets.c:5:
+   include/linux/stop_machine.h: In function 'stop_machine':
+>> include/linux/stop_machine.h:182:43: warning: passing argument 3 of 'stop_machine_cpuslocked' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     return stop_machine_cpuslocked(fn, data, cpus);
+                                              ^~~~
+   include/linux/stop_machine.h:167:16: note: expected 'void *' but argument is of type 'const struct cpumask *'
+             void *data, const struct cpumask *cpus)
+             ~~~~~~^~~~
+>> include/linux/stop_machine.h:182:9: error: too few arguments to function 'stop_machine_cpuslocked'
+     return stop_machine_cpuslocked(fn, data, cpus);
+            ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/stop_machine.h:166:28: note: declared here
+    static __always_inline int stop_machine_cpuslocked(cpu_stop_fn_t fn, cpu_stop_fn_t postfn,
+                               ^~~~~~~~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1 shuffle=649157078
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=649157078
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=649157078
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=649157078
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/stop_machine_cpuslocked +182 include/linux/stop_machine.h
+
+9ea09af3bd3090 Heiko Carstens            2008-12-22  178  
+cbf78d85079cee Arnd Bergmann             2021-03-12  179  static __always_inline int
+cbf78d85079cee Arnd Bergmann             2021-03-12  180  stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus)
+fe5595c074005b Sebastian Andrzej Siewior 2017-05-24  181  {
+fe5595c074005b Sebastian Andrzej Siewior 2017-05-24 @182  	return stop_machine_cpuslocked(fn, data, cpus);
+fe5595c074005b Sebastian Andrzej Siewior 2017-05-24  183  }
+fe5595c074005b Sebastian Andrzej Siewior 2017-05-24  184  
+
+:::::: The code at line 182 was first introduced by commit
+:::::: fe5595c074005bd94f0c7d1644175941149f6768 stop_machine: Provide stop_machine_cpuslocked()
+
+:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
