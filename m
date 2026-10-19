@@ -1,117 +1,95 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D441C489885
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 06:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73181485955
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 07:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792392809; cv=none; b=fNnCQSu/Pz9SFQHvNHD+s6avpTyi6rYX5tEXH9CtLYeVKgTNxOvgNydorAA+SW8FCIWq24SjoX6miEbsK+HbGJKM9P4o8Cmnrk3MAQPeY/7z9YGuCsluSsRoSaUMpSaDkvptg5gpuDPU+9e04fUJtAcO7gWICikKJOUESgqWje0=
+	t=1792393467; cv=none; b=LdG5jBkgsxNDZLEuAzyfBh41P6kKtz45dKvMEH8g2BmtBKAVrF6XteJml63R6E483EbxuUo8+iB+81XSfKWcKcQyS4iptD2DV/4L+53+qWbUQBFAM5+Q0y/dXfZr//cXjZajHoZXDjmdAhWbmY33GtOQOHcNayYI11pfGC4JBNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792392809; c=relaxed/simple;
-	bh=d4Ns9MrcjrkL74lU3nY8b1EUlzF1MbtrTa1z9FgniQI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GHZdlbAN1UqYZ6WP23X8nhEAlibWPowUo3+h7V/WDLq7GBb02y20IHvz4bOy0DGZXX27x0VqO8MI/WOH3gdn6iJLInUbQnCaPGgmbiivqfyo5w+cO573R3qdUG1ArPBUE460ED1VrtIfj/gDxfD1Pf6oHKDLGS8C6rbHKuld0yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5ead5ff47caso15161e0c.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 23:53:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792392807; x=1792997607;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=cjJM139EIVeGEh8rWsgMbCEX7knwMHfAW0CurdOdiu8=;
-        b=cGzwx9AfuWrwujNDwJtCZbyC9fWI8MqMGK0h9fvwh1JboFZjHnhjbR5B9rM7AOaVPN
-         xWn+H+oKwPgNhOVixmdlmNNiEPzMFCnZ69VL5cV8M3m6VOTKmi7WaPRXWCpSmFuovVUJ
-         qI1vsRqej88/Pi9CKsl1DTJWfTtF5BmIkULFefCOs2yiQDleW06qru4E6KAK0Nnw0XEs
-         gEVg9IlM/O9WOxYzv1f4MR5othMcFEwDPfCOPsy+ahXyEkVA/E12pk4woRtbRNbTPpA0
-         CfZLcFDk3i6SxzdYhYZlC72WrX55OjoRtdwcldCYnTt4AQSQ1DMjcB0dcxiltQbpHK8m
-         CBJA==
-X-Forwarded-Encrypted: i=1; AKwUvBy63rxIqbIhAZmrUNFHqTnf1WdtvX78Hpeab0Xt8e9uDyKwhGgsQNNiyM1czz77NplsxsSSZQtRhr9BBYq3@lists.linux.dev
-X-Gm-Message-State: AFq9FYKL5cRvFkE8jqFIDKW412JbrdZYSzPGaGbuAOwXcuOX61DLL3j7
-	hmtDruN4eBEtdUff2Cl5KJLiiYi5qOn27GURMYWFdJfwUGUSTpZjMy/ms3yqBWQ/
-X-Gm-Gg: AYBFou2b5BsFuYvkYMIiw+uKkNz93nxL4DBAVcGKVdJVACvNnuT7bKPBfiWhT4d8jXh
-	GuE8i/dXhgAOE3T8nERR9N1FirlCF32jXT8GRCNM7I3VTtgA4kYUR8gr6d+tDd6IpobjGZoA3ck
-	0dloAiXf96mTsNAYXFmzKIGW3AKLDxiM/Vl+B6G2kF+pGvoS2JIwAUvZjxOQPoWQ/WWX5xy/Wcu
-	Dc4Rd0uH7l1XmM45MzvU9JG7fTm3T2o7l+6qI9hQ0gzH8nGrBIshOowlnLffD+6z2QOBQlfgL8r
-	V6CmqJgcE3Fh8EGy4gPa5AGd8EsbFFtS1pDkziyYVLu1OZ9Jj4ioUDphJpk5IHbvxHdt/GOwL4s
-	la1p35XBDO7Frlzzah+0cI098yjj7AopRqBzfDOd6R6FI5y21lZ3DZ4bxUfKh3tFfd+AxYlrz2U
-	GCQ6L/kwwXZK9kKKZhWPvJ8I2V111KYzmWXJDbGm8/NGivhyxmTInGV0rVfKfLrHDULc1XHM8xL
-	D949/Ujp0Fh64aB4j7fFO6MFNgzpY7P4bRowQhK
-X-Received: by 2002:a05:6122:6202:b0:5c9:c60e:3a43 with SMTP id 71dfb90a1353d-5eaaa8a4a7cmr1893889e0c.21.1792392806580;
-        Sun, 18 Oct 2026 23:53:26 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eacd020162sm1494759e0c.10.2026.10.18.23.53.24
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Oct 2026 23:53:24 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5eac7220e9cso270225e0c.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Oct 2026 23:53:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwZCdRaTlMmM2OLXS179LBzqZnQZAJXjpmFwHHlkUHetYMIJtz+ItNuDTUUFBn/RgVIj1DiK5jyzcYzlomZ@lists.linux.dev
-X-Received: by 2002:a05:6102:1492:b0:7a1:f980:e93b with SMTP id
- ada2fe7eead31-7cc36a1726amr1724652137.23.1792392804446; Sun, 18 Oct 2026
- 23:53:24 -0700 (PDT)
+	s=arc-20240116; t=1792393467; c=relaxed/simple;
+	bh=KdGR0L0B8sTgRcjL6DRdMwGYTDMG8ULTuuPtH9owaCU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hy5q4ae/dkDIoqNjxvkWWtzm5JZv8sfiBUp7whNqE5GyJE7/8qKYO3ssnrGadEtXlFA/USLQGf4vT+NNghE80brcaMEbVLTErjqDY4OKOkFp6BUEDEtg1dEL4VIyLADdQUXp5DCLa15wyhk4qOdBtqwJxiZFiY9RDyeSv9oGvIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iw6BCv2v; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iw6BCv2v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792393466; x=1823929466;
+  h=date:from:to:cc:subject:message-id;
+  bh=KdGR0L0B8sTgRcjL6DRdMwGYTDMG8ULTuuPtH9owaCU=;
+  b=Iw6BCv2vxx77CqZvlh4Y+SGVoRnPmd4ipSc5x7SsysBj7bTVg74LcAc5
+   ZN1dF7ekVV+XB5Ul/QjLovopVG6ZQqSurIeDYTGjI1S9FMH+uZDUn717A
+   13XZdHdIxWF0U5EKYVpFz7GkCVPzKJyKEReaHB4nxa2e/NMIF6bEzw27Y
+   I186FFF77GnLWqX/S9jAMXJ1cBXvEPdZWFRvpgowZ6tp0LNkTnUXIgedE
+   Srj2RYeOfwZRaMBUCmPeIA8JPXygXkCNIGyDh33g4nRdzxkEqqcvL2MqB
+   qsirMHzZaCdg9WOs5sP763YaoFXNK4l3B0GMUtwaFAK3Tu0+WaOhmy/Rq
+   w==;
+X-CSE-ConnectionGUID: TfcPrATpSoaIuYas0mwpkg==
+X-CSE-MsgGUID: kJjmk7WaRKeHyZLlMifzmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1070286"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1070286"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 00:04:25 -0700
+X-CSE-ConnectionGUID: mLKkGVk3T16HiHesfMUm3g==
+X-CSE-MsgGUID: /WVl4jySQ/WK7cMcfZDEZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2459913"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 19 Oct 2026 00:04:23 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIhPw-00000000LMo-23eK;
+	Mon, 19 Oct 2026 07:04:20 +0000
+Date: Mon, 19 Oct 2026 15:03:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: [linux-next:master 3902/18293] ERROR: modpost:
+ drivers/firmware/qcom/qcom-scm.ko: symbol 'qcom_tzmem_enable' undefined!
+Message-ID: <202610191421.XPO84JIb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20261010065442.23780-1-rosenp@gmail.com> <202610131201.wWk11MLy-lkp@intel.com>
- <alpine.DEB.2.21.2610190013300.22065@angie.orcam.me.uk>
-In-Reply-To: <alpine.DEB.2.21.2610190013300.22065@angie.orcam.me.uk>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 19 Oct 2026 08:53:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVoAthYZFzuMmVb8awHUia4xeEfFKK=1PA23iCV0SsFbw@mail.gmail.com>
-X-Gm-Features: AclHuK-hkOaUNvhawt4bfdwYbTv8-8VXt4ePnbu5KtWM6yoyqBrlCyoN2rObGDw
-Message-ID: <CAMuHMdVoAthYZFzuMmVb8awHUia4xeEfFKK=1PA23iCV0SsFbw@mail.gmail.com>
-Subject: Re: [PATCH] MIPS: lib: prefetch ahead in csum_partial()
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc: kernel test robot <lkp@intel.com>, Rosen Penev <rosenp@gmail.com>, linux-mips@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Maciej,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64
+commit: 8fecd3194de338bdc0c57597be61fdcf33e1832d [3902/18293] firmware: QCOM interfaces should depend on ARCH_QCOM
+config: x86_64-randconfig-1010-20261018 (https://download.01.org/0day-ci/archive/20261019/202610191421.XPO84JIb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191421.XPO84JIb-lkp@intel.com/reproduce)
 
-On Mon, 19 Oct 2026 at 01:26, Maciej W. Rozycki <macro@orcam.me.uk> wrote:
-> On Tue, 13 Oct 2026, kernel test robot wrote:
-> > config: mips-rbtx49xx_defconfig (https://download.01.org/0day-ci/archive/20261013/202610131201.wWk11MLy-lkp@intel.com/config)
-> > compiler: mips-linux-gcc (GCC) 16.1.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261013/202610131201.wWk11MLy-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202610131201.wWk11MLy-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    Assembler messages:
-> > >> arch/mips/lib/csum_partial.S:202: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x100($4)'
-> >    arch/mips/lib/csum_partial.S:203: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x120($4)'
-> >    arch/mips/lib/csum_partial.S:204: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x140($4)'
-> >    arch/mips/lib/csum_partial.S:205: Error: opcode not supported on this processor: r4600 (mips3) `pref 0,0x160($4)'
->
->  So oddly enough we're missing Tx49 support in the toolchain and we've
-> only managed to survive with CPU_HAS_PREFETCH enabled for CPU_TX49XX
-> because it also implies DMA_NONCOHERENT via MACH_TX49XX -> MACH_TXX9,
-> which in turn disables stuff in arch/mips/lib/memcpy.S.
->
->  Quite straighforward to fix in binutils since docs are available (as in:
-> I have a copy), but do we have any users?  Geert?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610191421.XPO84JIb-lkp@intel.com/
 
-Yes, I still boot test rbtx4927 regularly.
-I never touched binutils sources, though...
+Note: the linux-next/master HEAD 2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64 builds fine.
+      It may have been fixed somewhere.
 
-Gr{oetje,eeting}s,
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-                        Geert
+>> ERROR: modpost: drivers/firmware/qcom/qcom-scm.ko: symbol 'qcom_tzmem_enable' undefined!
+>> ERROR: modpost: drivers/firmware/qcom/qcom-scm.ko: symbol 'qcom_tzmem_to_phys' undefined!
+>> ERROR: modpost: drivers/firmware/qcom/qcom-scm.ko: symbol 'devm_qcom_tzmem_pool_new' undefined!
+>> ERROR: modpost: drivers/firmware/qcom/qcom-scm.ko: symbol 'qcom_tzmem_free' undefined!
+>> ERROR: modpost: drivers/firmware/qcom/qcom-scm.ko: symbol 'qcom_tzmem_alloc' undefined!
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for QCOM_SCM
+   Depends on [n]: ARCH_QCOM || COMPILE_TEST [=n]
+   Selected by [m]:
+   - QCOM_MDT_LOADER [=m]
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
