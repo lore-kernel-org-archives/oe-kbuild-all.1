@@ -1,197 +1,140 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA40D49364D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFF2495021
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792397662; cv=none; b=EO3WJOODX3MRwTKnNcz0AEpd8sQAV8+XtwZ65o83OdysTFdCRvDAeRqFIRjsD8KkdYi6wisav7gagCJ2t57F1QHjKhn5LO6erxhbsjUBkBYgbfLkKXtJ054XjFmCva+WOmzVKgKvGKmyIwKYeNQ1pR+K8XuJMJwkONygD7igUlA=
+	t=1792397767; cv=none; b=R6rC2rB2bLBB7mYq18Lgh/FI6YuAwKLGCREDHrIrSUrN0SxbE7taIR5O6SDYnYnQCdoRX5AAPPFtLFd56yf3W92ZtHm6RoviVdpQCoi/YV1jxC6D0uTFt5b4TvElRZd+8aVmxZjRU4uDgilo9GM6FdG5CJ5KMVh9KL5Wrrm7UiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792397662; c=relaxed/simple;
-	bh=FNPpJhoZHXg84cSDu46rqfnqf0QBzuiIOiLaiCNSMJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ibew42ekGh7h+t4rNShsJJIEv+lWX8hQKMz5VQR14SVFoxQRrOyld6aWUhhM/o2hHlY4Gb59WnW57YECowGvk2ocTPoxlO5m3Mq6R/an/MmjigdxoqRD6wF80j1T7G3f+GCqiHAltlMimgilqYlHDypouwjMhoJY4Vmkp/V6gmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWlB/sfL; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1792397767; c=relaxed/simple;
+	bh=WWAIShMdjFY94grbBUXkQVOtdhE7XaVNGVTircdJUEY=;
+	h=Date:From:To:Cc:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AJi5HBM2GRB5Enxaa5FKcz6DoSITv0yegs2dQE8rCdRms8SjQubs4PwAD7keL1vyFQv0aFtXoShc6Pe87mRjZR0GJjk6LHQxJ0SC+eLHSDfdl5ieFNrpbIBYKTe92CaL8kFM9yjQU/sCriT8Q+wFZB5onjPcXsqbNM/EXmU2uAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DNDnU7Jf; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWlB/sfL"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48afbd2c386so816845f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 01:14:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DNDnU7Jf"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1ec92f655so3150335e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 01:16:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792397659; x=1793002459; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XwFP/qNqnJhOIec8+p02d7LZbx3mWdFlZsC8wkltnaE=;
-        b=IWlB/sfL94mrWIGCy0RGjV0DWvTCnkeGg9uVGh8/xCtVAYRLLOELtAfp0pQgrvzooy
-         myg+xKmLY9G9s7UtHXnFyNvx5Es3Ogv2WwpLFNJkQvzwpdfRnZwzKfSIdcQqG5+wOut4
-         buYOC2S/ffiTX7s56UdUcrMpkoQnnhq+HFPFLqyPZcQNYLNLvcx+66ZsJOOpPcmV2j9E
-         5IuZc6obuDzt0G4bdIb3X+hHPObwEKhKj/N5lxL+Nbco6zE1OoVWOZ/Ex9tOZJ97OnF6
-         7SYJSA97AJhInKIsLeBrt7WxlHkycymKPW8eWnkNInZAR9H2eCVJc4Bk6TXZPEkQkeqr
-         uPpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792397659; x=1793002459;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792397764; x=1793002564; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XwFP/qNqnJhOIec8+p02d7LZbx3mWdFlZsC8wkltnaE=;
-        b=oEEIAUn08ilgbLTp9ifrDripqnv3z/bq9k2Oe23Lqe4V01FUX1m+6EdgYmPGHtkr5F
-         QVTZvW8RY+uqPHrtuPXnxMBcLX6ndxvj2d3ANMB8r3D8RfN/Aiq5UQWmaIekjwAeE0IO
-         qx5p1V01A9cD3NypGTrpKU1g+8DNUb7PnC8aQWyGRUh4zWpZ443ZO5Re2IgEIa+C/X+y
-         GrY6wsXO6J2JNq+5nhVVqZH6JGwuGipLVdFNJK5WXMRqG5lcPLWEtE1sa0Uok332Db6a
-         jAKUxsZwkkODTbDfUr9wEb4hDPSUNZbp+IcW6OuX0ifH1l/VBFWR7oTKd0TB6zKia+Z3
-         X5Sw==
-X-Forwarded-Encrypted: i=1; AKwUvBy7pssixHEfEMJU2by4pkgoXKgT/mPwTdb8k0ymKAFSZwsGv5El1peAVG9rcXlLM5luYD8ZiNinUdICX0PF@lists.linux.dev
-X-Gm-Message-State: AFq9FYLPKcTt52/Wxg8PUMt2cp6u2A/9D7GkIbZ7HODJ+C1n7TFnNo1I
-	J+FPFF+MXMcv9gswt/45Gb+uZG8yAFkd4LWM4qjYNTzQElEsTngJwsGx
-X-Gm-Gg: AYBFou0uC34grylg0jyjbAL+GgOP6pKlxGlLj4FbeHTnvKtQI97gJ81Ltt7zMZWT1F+
-	9aws0amUEF5GUDrF6LLhvhgYDlAWuCpuon9T30wphKB+vMf5pbqT+8Iqo9End/a/ahv6Iu8Ckds
-	dMPZTaLdDedKwDaAykPaJiapybcYNQZ5NMjrkrKMiBPmilqDuVR7Am8jdpuT7PnE5DPEMudnIZy
-	Y+bt3uqbP14ojzLL04fd0JYFwV4Dxq71bxCwz1xall/xaAgXLTj6MvnjkHUdlX1gbEfOSErTm6g
-	IEARdG/YbFh6iss+cqeVOG5ZW9mPPtQachUIwnv9Mo1GJdCO7e+WP+ofyrCyckS7gru97CAVVVz
-	j9YA1ysGOqv7XLyxmhe1Dd6bFRRdsH1MwBOW4hA9m8y2Cg0z7sJDHB/d04kQ6lzPrK+mB6EO3EO
-	49RNaNGvygXuvV1CImGBb2q3ngInMfIsMlg9icX/93vxs+k37yBB7s7SEnk+l3AzDkXiQ=
-X-Received: by 2002:a05:6000:29cc:b0:48c:43a3:6a74 with SMTP id ffacd0b85a97d-48e07bbd250mr8729676f8f.12.1792397658509;
-        Mon, 19 Oct 2026 01:14:18 -0700 (PDT)
+        bh=QdP5SrdtqTRy2WGPh+JDfRDdgFlXL2Ti8LPGAckK34A=;
+        b=DNDnU7JfmKTg3na/oOsNNXdkDmL0n8d0TBo0uyt6PGfeppveL6ZXK+m50zbel+C3wC
+         XnvYq9//GNDXC5TcP57bKBKYX9UsGtPjJ01SLGWHFAn41Qz8F9GkmrtAkoiE3fOMtEYF
+         q7ooXHhCB27a9zZ0S636OZBuEr6UIIxIUpIBzMVRaEvLRvxI016GXpIBwUDUFWyGoA8U
+         GIVBWbtLPl0lxG0wTTlBPnwwQvATkgilaFcBDW3NTmF5bSZ3xTuPkeLDWSrwqUG71Dsx
+         fe4rrNH4wViP5APN4MwekFAt2lpWu8AD3pph6r3zsfXkrDsw+R5vcxVJJWSGh7E1N/Lc
+         YjXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792397764; x=1793002564;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:cc:to:from:date:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QdP5SrdtqTRy2WGPh+JDfRDdgFlXL2Ti8LPGAckK34A=;
+        b=DSRSKbYjXXoiA1sC32xqb3+a1XkJJX2mWVjvAX7K8GJUa4LLs1617eiZxdzE5h5OP5
+         s1N+7V83HFRU1AfDflkf02jLYYWBqnj/HNEQ3hA8gZuIDQvXyQIercBlk6hIa4yJJnDU
+         TPK+KjAEzQjepiqbYAFayDEwzHejU3zMdTekiRwIugPL8q2/Pb2ldE33Te0XCq+I3nl2
+         82V4JHOoFHrSUzVefzAJWlJXRLR70UDOC0Y1CYPRhp1e71NsYVOzyuY7ktU2eO7ueYxV
+         4PbiXLDYO1Sj103QRVqQ5uuli1QvFzW+6gYAYT+DA7G2rdiPW3MaNEfRG/fDb4Kwi1De
+         iK+A==
+X-Forwarded-Encrypted: i=1; AKwUvBzBIAzaqJ/ALJTI7crlIiBF9HyTL5wBCXPDT036eeXGeWSV9K6ZPxmaoFJ8QO4hdAZTEizyc4xshoocis+3@lists.linux.dev
+X-Gm-Message-State: AFq9FYIzlfWByMLVYvw38waTRR7jIKtMRDT3+W+nkxBmkM/Z7LYG4CLq
+	CgkUVLZ3xotKX8iqyIecM2ozlfbYroyNhNuVXwGcxmqMdbTZxEjiFiOZ
+X-Gm-Gg: AYBFou3a362cAHU7fVTtDvrzLLU15ugryQ7CRF9WUH9matFM3n+XawZbe+cP0BOW41Q
+	s4RGJOOYdLP372htaSCQ8nKweJDCt91G55WqtNm80qc9xDUShl6Hx3rjYC0mnrm/M47Hiip1X+x
+	HhxY1mkb6gXumojqHQk4oqXwSeOGEzrXTVzc6XvXgHZIZf8MEQrG2k1t8I9zps6jHSw+oYBs3nh
+	DyYHVmynud7jSggCu5X/DcrAVyB9PYMXlk3SwK2CqLhmPjzHgYfkAZGNpJ41/Lw2g3W3pkETnxw
+	fevHfIlfSKTDFVqFGMZz7w0QN5C9zghIn8ouTHM59trNFFN0XZQ2949q0IDzgZjAOcvcA+TfTwc
+	+xfdP+0SODqrQy0WfwOx+zrtqL3tGnQqUDNv2uVcRqAzkXEm+lpnqMh/EQjgcQt2AN6SQtVWu2x
+	/AkQCzlDgnoe8obxoG7FwyKHYGYio0i4UIUDHV/CkivJduFWBUnG5qQIqrBYqfSUJAbGc=
+X-Received: by 2002:a05:600c:630d:b0:49f:c5aa:9ef4 with SMTP id 5b1f17b1804b1-4a1d75fe0fbmr135593775e9.8.1792397763966;
+        Mon, 19 Oct 2026 01:16:03 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f8bd9sm22482916f8f.35.2026.10.19.01.14.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1e3ebb3aasm175994535e9.0.2026.10.19.01.16.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 01:14:17 -0700 (PDT)
-Date: Mon, 19 Oct 2026 11:14:13 +0300
+        Mon, 19 Oct 2026 01:16:03 -0700 (PDT)
+Date: Mon, 19 Oct 2026 11:15:59 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, Anthony Liu <anthony.liu@mediatek.com>
+To: oe-kbuild@lists.linux.dev,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amade@asmblr.net>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Felix Fietkau <nbd@nbd.name>
-Subject: [linux-next:master 13462/18293]
- drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:2488
- mt7925_mcu_uni_add_beacon_offload() error: __builtin_memcpy()
- 'req.beacon_tlv.pkt' too small (510 vs 512)
-Message-ID: <atXRVRc2T414bLiM@stanley.mountain>
+	Mark Brown <broonie@kernel.org>
+Message-ID: <atXRv7ugNH2a2XET@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64
-commit: d4e5ca3483a0ce95ff8417e16d42af99f7a98da4 [13462/18293] wifi: mt76: mt7928: makes struct beacon_tlv 4-byte aligned.
-config: m68k-randconfig-r2201-20261017 (https://download.01.org/0day-ci/archive/20261017/202610172141.mmRmGqow-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+head:   ba982c33278c1fc739c8c220f410d6539de9d9b9
+commit: 568406bc832e7e9e333e2ab05aafd0b83ffb9610 [37/72] ASoC: soc-dapm: Remove widget from cache on removal
+config: nios2-randconfig-r2202-20261017 (https://download.01.org/0day-ci/archive/20261018/202610180339.A6POXeNa-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610172141.mmRmGqow-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610180339.A6POXeNa-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:2488 mt7925_mcu_uni_add_beacon_offload() error: __builtin_memcpy() 'req.beacon_tlv.pkt' too small (510 vs 512)
+smatch warnings:
+sound/soc/soc-dapm.c:2893 snd_soc_dapm_free_widget() warn: variable dereferenced before check 'w->dapm' (see line 2891)
 
-vim +2488 drivers/net/wireless/mediatek/mt76/mt7925/mcu.c
+vim +2893 sound/soc/soc-dapm.c
 
-c948b5da6bbec7 Deren Wu    2023-09-18  2416  int
-c948b5da6bbec7 Deren Wu    2023-09-18  2417  mt7925_mcu_uni_add_beacon_offload(struct mt792x_dev *dev,
-c948b5da6bbec7 Deren Wu    2023-09-18  2418  				  struct ieee80211_hw *hw,
-c948b5da6bbec7 Deren Wu    2023-09-18  2419  				  struct ieee80211_vif *vif,
-c948b5da6bbec7 Deren Wu    2023-09-18  2420  				  bool enable)
-c948b5da6bbec7 Deren Wu    2023-09-18  2421  {
-c948b5da6bbec7 Deren Wu    2023-09-18  2422  	struct mt792x_vif *mvif = (struct mt792x_vif *)vif->drv_priv;
-c948b5da6bbec7 Deren Wu    2023-09-18  2423  	struct ieee80211_mutable_offsets offs;
-c948b5da6bbec7 Deren Wu    2023-09-18  2424  	struct {
-c948b5da6bbec7 Deren Wu    2023-09-18  2425  		struct req_hdr {
-c948b5da6bbec7 Deren Wu    2023-09-18  2426  			u8 bss_idx;
-c948b5da6bbec7 Deren Wu    2023-09-18  2427  			u8 pad[3];
-c948b5da6bbec7 Deren Wu    2023-09-18  2428  		} __packed hdr;
-c948b5da6bbec7 Deren Wu    2023-09-18  2429  		struct bcn_content_tlv {
-d4e5ca3483a0ce Anthony Liu 2026-10-05  2430  			/* DW 0 */
-c948b5da6bbec7 Deren Wu    2023-09-18  2431  			__le16 tag;
-c948b5da6bbec7 Deren Wu    2023-09-18  2432  			__le16 len;
-d4e5ca3483a0ce Anthony Liu 2026-10-05  2433  			/* DW 1 */
-c948b5da6bbec7 Deren Wu    2023-09-18  2434  			__le16 tim_ie_pos;
-c948b5da6bbec7 Deren Wu    2023-09-18  2435  			__le16 csa_ie_pos;
-d4e5ca3483a0ce Anthony Liu 2026-10-05  2436  			/* DW 2 */
-c948b5da6bbec7 Deren Wu    2023-09-18  2437  			__le16 bcc_ie_pos;
-c948b5da6bbec7 Deren Wu    2023-09-18  2438  			/* 0: disable beacon offload
-c948b5da6bbec7 Deren Wu    2023-09-18  2439  			 * 1: enable beacon offload
-c948b5da6bbec7 Deren Wu    2023-09-18  2440  			 * 2: update probe respond offload
-c948b5da6bbec7 Deren Wu    2023-09-18  2441  			 */
-c948b5da6bbec7 Deren Wu    2023-09-18  2442  			u8 enable;
-c948b5da6bbec7 Deren Wu    2023-09-18  2443  			/* 0: legacy format (TXD + payload)
-c948b5da6bbec7 Deren Wu    2023-09-18  2444  			 * 1: only cap field IE
-c948b5da6bbec7 Deren Wu    2023-09-18  2445  			 */
-c948b5da6bbec7 Deren Wu    2023-09-18  2446  			u8 type;
-d4e5ca3483a0ce Anthony Liu 2026-10-05  2447  			/* DW 3~130 */
-c948b5da6bbec7 Deren Wu    2023-09-18  2448  			__le16 pkt_len;
-d4e5ca3483a0ce Anthony Liu 2026-10-05  2449  			u8 pkt[510];
+b97e26980f6c13 Lars-Peter Clausen   2015-07-21  2870  void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w)
+2b97eabc09f42d Richard Purdie       2006-10-06  2871  {
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2872  	struct snd_soc_dapm_context *d;
+2b97eabc09f42d Richard Purdie       2006-10-06  2873  	struct snd_soc_dapm_path *p, *next_p;
+a3423b02cf745c Lars-Peter Clausen   2015-08-11  2874  	enum snd_soc_dapm_direction dir;
+2b97eabc09f42d Richard Purdie       2006-10-06  2875  
+1c9096f32ad23f Kuninori Morimoto    2022-10-17  2876  	if (!w)
+1c9096f32ad23f Kuninori Morimoto    2022-10-17  2877  		return;
+1c9096f32ad23f Kuninori Morimoto    2022-10-17  2878  
+2b97eabc09f42d Richard Purdie       2006-10-06  2879  	list_del(&w->list);
+5c6679b5cb120f Thomas Hebb          2020-12-12  2880  	list_del(&w->dirty);
+8ddab3f5107c39 Jarkko Nikula        2010-12-14  2881  	/*
+8ddab3f5107c39 Jarkko Nikula        2010-12-14  2882  	 * remove source and sink paths associated to this widget.
+8ddab3f5107c39 Jarkko Nikula        2010-12-14  2883  	 * While removing the path, remove reference to it from both
+8ddab3f5107c39 Jarkko Nikula        2010-12-14  2884  	 * source and sink widgets so that path is removed only once.
+8ddab3f5107c39 Jarkko Nikula        2010-12-14  2885  	 */
+af6d53db28e644 Kuninori Morimoto    2026-01-20  2886  	dapm_for_each_direction(dir) {
+a3423b02cf745c Lars-Peter Clausen   2015-08-11  2887  		snd_soc_dapm_widget_for_each_path_safe(w, dir, p, next_p)
+8872293fc38c49 Lars-Peter Clausen   2013-06-14  2888  			dapm_free_path(p);
+a3423b02cf745c Lars-Peter Clausen   2015-08-11  2889  	}
+8872293fc38c49 Lars-Peter Clausen   2013-06-14  2890  
+8ad13cdc92f663 Trevor Wu            2023-05-26 @2891  	dapm_debugfs_free_widget(w);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+w->dapm dereferenced here
 
-510 bytes.
+8ad13cdc92f663 Trevor Wu            2023-05-26  2892  
+568406bc832e7e Amadeusz Sławiński   2026-10-14 @2893  	if (w->dapm) {
+                                                            ^^^^^^^
+Check is too late.
 
-c948b5da6bbec7 Deren Wu    2023-09-18  2450  		} __packed beacon_tlv;
-c948b5da6bbec7 Deren Wu    2023-09-18  2451  	} req = {
-c948b5da6bbec7 Deren Wu    2023-09-18  2452  		.hdr = {
-30e89baeb01fc7 Deren Wu    2024-06-12  2453  			.bss_idx = mvif->bss_conf.mt76.idx,
-c948b5da6bbec7 Deren Wu    2023-09-18  2454  		},
-c948b5da6bbec7 Deren Wu    2023-09-18  2455  		.beacon_tlv = {
-c948b5da6bbec7 Deren Wu    2023-09-18  2456  			.tag = cpu_to_le16(UNI_BSS_INFO_BCN_CONTENT),
-c948b5da6bbec7 Deren Wu    2023-09-18  2457  			.len = cpu_to_le16(sizeof(struct bcn_content_tlv)),
-c948b5da6bbec7 Deren Wu    2023-09-18  2458  			.enable = enable,
-c948b5da6bbec7 Deren Wu    2023-09-18  2459  			.type = 1,
-c948b5da6bbec7 Deren Wu    2023-09-18  2460  		},
-c948b5da6bbec7 Deren Wu    2023-09-18  2461  	};
-c948b5da6bbec7 Deren Wu    2023-09-18  2462  	struct sk_buff *skb;
-c948b5da6bbec7 Deren Wu    2023-09-18  2463  	u8 cap_offs;
-c948b5da6bbec7 Deren Wu    2023-09-18  2464  
-c948b5da6bbec7 Deren Wu    2023-09-18  2465  	/* support enable/update process only
-c948b5da6bbec7 Deren Wu    2023-09-18  2466  	 * disable flow would be handled in bss stop handler automatically
-c948b5da6bbec7 Deren Wu    2023-09-18  2467  	 */
-c948b5da6bbec7 Deren Wu    2023-09-18  2468  	if (!enable)
-c948b5da6bbec7 Deren Wu    2023-09-18  2469  		return -EOPNOTSUPP;
-c948b5da6bbec7 Deren Wu    2023-09-18  2470  
-c948b5da6bbec7 Deren Wu    2023-09-18  2471  	skb = ieee80211_beacon_get_template(mt76_hw(dev), vif, &offs, 0);
-c948b5da6bbec7 Deren Wu    2023-09-18  2472  	if (!skb)
-c948b5da6bbec7 Deren Wu    2023-09-18  2473  		return -EINVAL;
-c948b5da6bbec7 Deren Wu    2023-09-18  2474  
-c948b5da6bbec7 Deren Wu    2023-09-18  2475  	cap_offs = offsetof(struct ieee80211_mgmt, u.beacon.capab_info);
-c948b5da6bbec7 Deren Wu    2023-09-18  2476  	if (!skb_pull(skb, cap_offs)) {
-c948b5da6bbec7 Deren Wu    2023-09-18  2477  		dev_err(dev->mt76.dev, "beacon format err\n");
-c948b5da6bbec7 Deren Wu    2023-09-18  2478  		dev_kfree_skb(skb);
-c948b5da6bbec7 Deren Wu    2023-09-18  2479  		return -EINVAL;
-c948b5da6bbec7 Deren Wu    2023-09-18  2480  	}
-c948b5da6bbec7 Deren Wu    2023-09-18  2481  
-c948b5da6bbec7 Deren Wu    2023-09-18  2482  	if (skb->len > 512) {
-                                                               ^^^
-512 bytes
-
-c948b5da6bbec7 Deren Wu    2023-09-18  2483  		dev_err(dev->mt76.dev, "beacon size limit exceed\n");
-c948b5da6bbec7 Deren Wu    2023-09-18  2484  		dev_kfree_skb(skb);
-c948b5da6bbec7 Deren Wu    2023-09-18  2485  		return -EINVAL;
-c948b5da6bbec7 Deren Wu    2023-09-18  2486  	}
-c948b5da6bbec7 Deren Wu    2023-09-18  2487  
-c948b5da6bbec7 Deren Wu    2023-09-18 @2488  	memcpy(req.beacon_tlv.pkt, skb->data, skb->len);
-
-2 byte overflow.
-
-c948b5da6bbec7 Deren Wu    2023-09-18  2489  	req.beacon_tlv.pkt_len = cpu_to_le16(skb->len);
-c948b5da6bbec7 Deren Wu    2023-09-18  2490  	offs.tim_offset -= cap_offs;
-c948b5da6bbec7 Deren Wu    2023-09-18  2491  	req.beacon_tlv.tim_ie_pos = cpu_to_le16(offs.tim_offset);
-c948b5da6bbec7 Deren Wu    2023-09-18  2492  
-c948b5da6bbec7 Deren Wu    2023-09-18  2493  	if (offs.cntdwn_counter_offs[0]) {
-c948b5da6bbec7 Deren Wu    2023-09-18  2494  		u16 csa_offs;
-c948b5da6bbec7 Deren Wu    2023-09-18  2495  
-c948b5da6bbec7 Deren Wu    2023-09-18  2496  		csa_offs = offs.cntdwn_counter_offs[0] - cap_offs - 4;
-c948b5da6bbec7 Deren Wu    2023-09-18  2497  		req.beacon_tlv.csa_ie_pos = cpu_to_le16(csa_offs);
-c948b5da6bbec7 Deren Wu    2023-09-18  2498  	}
-c948b5da6bbec7 Deren Wu    2023-09-18  2499  	dev_kfree_skb(skb);
-c948b5da6bbec7 Deren Wu    2023-09-18  2500  
-c948b5da6bbec7 Deren Wu    2023-09-18  2501  	return mt76_mcu_send_msg(&dev->mt76, MCU_UNI_CMD(BSS_INFO_UPDATE),
-c948b5da6bbec7 Deren Wu    2023-09-18  2502  				 &req, sizeof(req), true);
-c948b5da6bbec7 Deren Wu    2023-09-18  2503  }
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2894  		if (w->dapm->card) {
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2895  			for_each_card_dapms(w->dapm->card, d) {
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2896  				if (d->wcache_sink == w)
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2897  					d->wcache_sink = NULL;
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2898  				if (d->wcache_source == w)
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2899  					d->wcache_source = NULL;
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2900  			}
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2901  		} else {
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2902  			if (w->dapm->wcache_sink == w)
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2903  				w->dapm->wcache_sink = NULL;
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2904  			if (w->dapm->wcache_source == w)
+568406bc832e7e Amadeusz Sławiński   2026-10-14  2905  				w->dapm->wcache_source = NULL;
 
 --
 0-DAY CI Kernel Test Service
