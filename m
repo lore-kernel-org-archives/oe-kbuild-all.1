@@ -1,77 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792431242;
-	b=WQmT2Jjs6nisSXgLTfQX1YoCfuTbAmP8sHXraAETBvKfENWz01IKfkMsmF/tjz75luOR
-	 V8Ye6P+/Qp7QIjsxPoSo+G2QFTbaD31IKQYs/Sv2MUgvnTrC5pLhKXQXrhVz2anU0kTEx
-	 4kmXZqDvAPVG3OCvIFUEzxdq9j66e9VPmJFjYW7ZgLAD0dKa3kYLUIEKsPbhsXjlvobO0
-	 dCnm0aBsXtIYSI5/n4X6ODe/cQpRubICjgvDMTX0kNMeC1m/uOhUFWvTK7qR+yJZi/Nas
-	 BMRFyzchJkvAYkI6RfOx5wtN/046toVjvQMX2TRv+rzhnJ5zqh/tx4fqQ2/aeWGHQtQ==
+	t=1792431855;
+	b=qiI8Ft/x4xzkP0IDcoMLuDU8v9uLQFABIt33Q+DWmf8/pnJgJju9EW7xBkX/ud99sy+S
+	 l/0/3K9hfSNImC7Qr4pPjJASzPM4SWLYDZwlY9fQjjkt/4/NrJPP6eoRU6xe8b73sQ3yC
+	 qzEvSJk1pIuPS1VymqpFq2r/fxwwKSPO5sd/J5iVsbf+AXHfO4vOx9WFMyb3RtvwhfuzT
+	 ZQMwqEDYjQ033/9dG2KTLHV6DeXJ1BgV7UUsBHA/0PhZv8ioAeWz84PgMtTM9Myy3s3a8
+	 tyHNIaujFZemF8THuiGxtlZ/OdqAUj9BfZIAt2rDiZKmoa/Z9l+U4Igh17NEJdGYwZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792431242;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=mocL/vygYOPN85wTlxaUtSXh386rxRdO1dNqJeni4T8=;
-	b=vOHC64estTg0epTYn6F5gwS3WhiHT5uS+uijBuQ3YdJNn0fR0scxxEeP29wMWqLlTAtO
-	 U0SRh1FgLLxm6+pa6ysYHgpnnh5qQV+XLleGyZpsaR9zZWgiGqx81gZnYPbazOOmOwMce
-	 tvyhrZhAvKkGdaWrupQNd30xuIyxkYLF0xlP/CGwffPrHQc+SkBAFWEaaUYiU8T/n8WqT
-	 BnSsKE8pwDxvWIrrCgJrN7BfO7Fd/elW9i0MVBptUth1DNgGMLigzl0taZqg6VnDrhCKB
-	 i1QwXV7AMT3PfsJyo9q/1Ck/KJxo0yyOyEwdIAW4sXI0+jczHF76FDx6Pv/QL5xY7qQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792431855;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:To:Cc:Subject:From:References:In-Reply-To:Message-Id:User-Agent:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=+x4XGLGWws4qU2+ljM6zYDkaB+j4Wc1XJmCnn2agD6k=;
+	b=hVcem8aOigikAgGdPeWaQmD6GLvoBUSl1BbO3iWUO1vKbckdREFdzo+V680cMqd7J+w6
+	 k+6N3rfTcCDMSn9KRb2E5ki/nJS6OG//+ylr6sHfXozY62p9RMMgWQdSBCtFgvItvb/do
+	 QF3eJTyV6Ypg4mNUF8EcDT6YFQf5VegsouLgt4qcT2jvzgqGVlIMfDy4389oo/wONOljF
+	 osYDuBGsT+wqw8dWK5bv73F6lKHVMjPq9YGo2byRr3k7K0m5L8rlALTI4GClSPnnNxrYi
+	 Zm2F54iqjNAomD9xvvmheye8glyuuAvftiiJMEl85igaNaxfuonJN5b6tI3JU9jSy4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="O8rhpm/X";
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fwzP7CcG;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140E2606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 17:34:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 140E2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AF7606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 17:44:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11AF7606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O8rhpm/X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792431242; x=1823967242;
-  h=date:from:to:cc:subject:message-id;
-  bh=UuXfzNlg+83sP9C3PEmqlOFpHmAdCwZ53PV1viE4sxU=;
-  b=O8rhpm/XFEAZJ8Xxvd9dRvwXrKneBXBXphpusJEsLhKVVb4E7vBAFEO9
-   iDm/52dh5D/0q9hV2nUIoqOfW+ebbCzM4eBLHTiZCCIJf9Cl3NCLekbqA
-   8lFAWtz92UWL10V0REGcUZ3hSZ7xy7wXqSmA8fOUZ7KWzWlE3f7VRWLxD
-   7HUm3VNYLQLH+pdkCb/QgKjk5TBzOpmen5SpAJyu2dMoK4UJWhBPvFrNF
-   5NLpnct/F66t1PoNFbSUL8M1vMua7IemcfushcwmjzQFhMTbem7UOok04
-   NzROiyzC0xM03vMyaW42WhY2XI0nV+uCA6I2BHH+YS9GgWOmUbzBs58+e
-   Q==;
-X-CSE-ConnectionGUID: zHgFOV/YTSKoW5OmuhsTIA==
-X-CSE-MsgGUID: 21wLUVMuRgWG5byMzYhekw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1150303"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="1150303"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 10:34:01 -0700
-X-CSE-ConnectionGUID: 14MbCPtdS8S84CVN7r/HeQ==
-X-CSE-MsgGUID: b+Fy9nTMRs63Nmaq6Jhd9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2557774"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 19 Oct 2026 10:34:00 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xIrFF-000000005jz-3qqW;
-	Mon, 19 Oct 2026 17:33:57 +0000
-Date: Mon, 19 Oct 2026 19:33:52 +0200
-From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:core/hotplug 1/49]
- include/linux/stop_machine.h:182:9: error: too few arguments to function
- 'stop_machine_cpuslocked'
-Message-ID: <202610191939.Rp89zh4J-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=fwzP7CcG
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48dc202a60eso567764f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 10:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792431853; x=1793036653; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:user-agent
+         :message-id:in-reply-to:references:from:subject:cc:to:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=+x4XGLGWws4qU2+ljM6zYDkaB+j4Wc1XJmCnn2agD6k=;
+        b=fwzP7CcGZle+FdB6lDCDxAkHf4HdwrdxG2eOZCeD9LbBm6yAK1BY7kFAcHDv7ckJwj
+         p575fuYW76Ms17PsnOBqQ0wE2QBPH1QtUnGC+TJdINTGFFw36CGJXqTcd3AbFPPYKx3r
+         1wzXGRLgPzD08iqo3XhN9cqlT8NRFee2d1ZvmIqdzhyCbTdaZT796bPjLekSFbomohH1
+         KpqpKlLUwFxmHQibNf1n80SHVndkLlfsHTMEM8vRbowO8bA6XqWIjn/fhsnHAxI/Oxc1
+         fqJXYlMHXAITN0tEQ6I3kkxH0i6DC29Q18gg18LqokA4zPlbdLhMsK4UGYjYXGd5AbPm
+         fiYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792431853; x=1793036653;
+        h=content-transfer-encoding:content-type:mime-version:user-agent
+         :message-id:in-reply-to:references:from:subject:cc:to:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+x4XGLGWws4qU2+ljM6zYDkaB+j4Wc1XJmCnn2agD6k=;
+        b=AGgejhpS44KCTE2v7ueKVPurNnFYKnWsaJNvY5aftK2E04901/VgsV1YEHbRfwpnWx
+         GroxN7xpgsKmquh8Jg3EKD9V3/6Ccex03Q4JQabACSroVSi/l4V2AfLFj7Ke6b7oMMEr
+         bjmVudZzHtmTkgt65PxjC5vvZdyPDPlOEkIZk9Xw35iHiZhnuFm5N/K5HEPuJYusfaUp
+         ET0wT2kG1H5jB5lGAEq1y6hciA7wrBXI6uldrvrhaxX9lMjB2WdIhRBG8PhMyB5nTGdS
+         ZQ0LCmwazGDHxuPNw5RaZ3hQZf9hGAmsWLnsDXqyMgL27HfOSIonbExWfSO+mFQCA8+r
+         T1zg==
+X-Forwarded-Encrypted: i=1; AKwUvBwq4+/eQcUx4XUjV7Z+S4AafDtkm3jAoA6gUXLpOYtN05izNLYcY8+Rrdta7fdTpUAbCRYCX+7lhN++fL4x@lists.linux.dev
+X-Gm-Message-State: AFq9FYJiamcP308Ei2kNuxbr/B+nX79UrcXnJa6egthCtsKjieQGHqyO
+	XtwOZpIzD3dlzjx1DIlKb3dNTClzzUY3ev5GRoAcLXPfCzxNfb2zOjVCH/LIXA==
+X-Gm-Gg: AYBFou1eWmOEAfbvbC/CZby2veWNYypohNZ+trjqJzrsQPZzuW1/o1D3WvlBINNSKd5
+	5I1q5Hu7B140G+MMKOdqcy1zQucuxvXmTikZP7xi1jOCCtup97zA99+BJdMSgZfJv9nOBuc2TjN
+	G2ukfxDl48M6NrzDsDmjh7cVZRhe1bET5Qe8d2i7Bx7etBJq373ga+mczsxuY7xh5xLwFdmksi0
+	gpOHvnC0IsMkaoGI9IMaR4Kz+z0s5C6wWvEmI1dkK2GUnQ1EK6qz2ipvgGXdrvQqMxQg+xIuwrX
+	X97fIovZtG7I9RtHVzyD23hN5q4X0G/QxTasG7qmEV8I//p0nkNRo3hMmwCOQrz2P2ErVGz8bOJ
+	z4GkHbZAiJtu47LJgmDLomUNlCmTTBA4JARitpBjvA5RErC+sZoARTK3+qIm3lDtFFiLfUPPr6/
+	ZaAb3rsfz0S3mkHzNuGkJ2XsTahPe3UHg4RWXEAq6wKkdJqZ4Fc8W5u4lGP7LPfJeNeS4bRceX
+X-Received: by 2002:a05:6000:430a:b0:48e:43a:1d84 with SMTP id ffacd0b85a97d-48e07bbca55mr17668410f8f.23.1792431853127;
+        Mon, 19 Oct 2026 10:44:13 -0700 (PDT)
+Received: from localhost ([81.6.39.135])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e1d6dd2a2sm413280f8f.7.2026.10.19.10.44.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 10:44:12 -0700 (PDT)
+Date: Mon, 19 Oct 2026 19:44:12 +0200
+To: Jiri Kosina <jikos@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, Vicki Pfau <vi@endrift.com>,
+ oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: nintendo: introduce dependency in USB_HID
+From: "Silvan Jegen" <s.jegen@gmail.com>
+References: <202610171559.gZ0QBMFv-lkp@intel.com>
+ <3HN3VLNWTGRM8.2HVANQO7V2MPM@homearch.localdomain>
+ <8q2ss5so-r679-247p-o8q3-pror0844p3nr@xreary.bet>
+ <224MMXDV49Y20.3OGRUP8M1CBFH@homearch.localdomain>
+ <999rr212-sp54-sr2n-6pp7-rq9o69463677@xreary.bet>
+ <2qs9085o-r962-r57s-16r0-4rp34o81726q@xreary.bet>
+In-Reply-To: <2qs9085o-r962-r57s-16r0-4rp34o81726q@xreary.bet>
+Message-Id: <2SHWV2E59YE9P.3GRUK9VZ1YHPZ@homearch.localdomain>
+User-Agent: mblaze/1.4-3-ga04b747 (2026-07-03)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,62 +100,43 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git core/hotplug
-head:   8ff5f866a7c2825213c6aa525a88840cbccf1211
-commit: c7da79bd2c65b3817e4a2ce25fbdcc3bb8c9262f [1/49] stop_machine: Add post function to execute while other CPUs can exit
-config: arc-randconfig-2001-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191939.Rp89zh4J-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191939.Rp89zh4J-lkp@intel.com/reproduce)
+Jiri Kosina <jikos@kernel.org> wrote:
+> From: Jiri Kosina <jkosina@suse.com>
+>=20
+> hid-nintendo does depend on USB_HID. Reflect that in Kconfig.
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202610171559.gZ0QBMFv-lkp@i=
+ntel.com/
+> Signed-off-by: Jiri Kosina <jkosina@suse.com>
+> ---
+>  drivers/hid/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610191939.Rp89zh4J-lkp@intel.com/
+LGTM!
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from kernel/sched/sched.h:63,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/stop_machine.h: In function 'stop_machine':
->> include/linux/stop_machine.h:182:43: warning: passing argument 3 of 'stop_machine_cpuslocked' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     return stop_machine_cpuslocked(fn, data, cpus);
-                                              ^~~~
-   include/linux/stop_machine.h:167:16: note: expected 'void *' but argument is of type 'const struct cpumask *'
-             void *data, const struct cpumask *cpus)
-             ~~~~~~^~~~
->> include/linux/stop_machine.h:182:9: error: too few arguments to function 'stop_machine_cpuslocked'
-     return stop_machine_cpuslocked(fn, data, cpus);
-            ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/stop_machine.h:166:28: note: declared here
-    static __always_inline int stop_machine_cpuslocked(cpu_stop_fn_t fn, cpu_stop_fn_t postfn,
-                               ^~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1 shuffle=649157078
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1425: prepare0] Error 2 shuffle=649157078
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=649157078
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=649157078
-   make: Target 'prepare' not remade because of errors.
+Thanks for the fix.
 
 
-vim +/stop_machine_cpuslocked +182 include/linux/stop_machine.h
+Cheers,
+Silvan
 
-9ea09af3bd3090 Heiko Carstens            2008-12-22  178  
-cbf78d85079cee Arnd Bergmann             2021-03-12  179  static __always_inline int
-cbf78d85079cee Arnd Bergmann             2021-03-12  180  stop_machine(cpu_stop_fn_t fn, void *data, const struct cpumask *cpus)
-fe5595c074005b Sebastian Andrzej Siewior 2017-05-24  181  {
-fe5595c074005b Sebastian Andrzej Siewior 2017-05-24 @182  	return stop_machine_cpuslocked(fn, data, cpus);
-fe5595c074005b Sebastian Andrzej Siewior 2017-05-24  183  }
-fe5595c074005b Sebastian Andrzej Siewior 2017-05-24  184  
+>=20
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index f06263ddfbfe..f88ec97f3976 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -867,6 +867,7 @@ config HID_NINTENDO
+>  	tristate "Nintendo Joy-Con, NSO, and Pro Controller support"
+>  	depends on NEW_LEDS
+>  	depends on LEDS_CLASS
+> +	depends on USB_HID
+>  	select POWER_SUPPLY
+>  	help
+>  	Adds support for the Nintendo Switch Joy-Cons, NSO, Pro Controller, as
 
-:::::: The code at line 182 was first introduced by commit
-:::::: fe5595c074005bd94f0c7d1644175941149f6768 stop_machine: Provide stop_machine_cpuslocked()
 
-:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
