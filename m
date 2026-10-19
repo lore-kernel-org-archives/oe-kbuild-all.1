@@ -1,138 +1,134 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B75492E37
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF29C49482D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:19:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792397856; cv=none; b=UZnoDI4SOrTx9e/Dy1D0FMe+eZuFPrigkKuYVdRyCmQGFB60qLrGqLscAaxYmS8Rczf5XCP0uws83QZdVjpi9QuM7fsZIpUIfwhO/GZwsTDs90577dISJL8WFTMJ3vJ+Fo/3OZRdjZFqrcCJhN9iFRRqVSlmJXQ0wuBhbbjTRE4=
+	t=1792397984; cv=none; b=exahFKr46ZAwCcmQHyyAI/RhbZrtxkNpgO+gC94M9yPs7BZiMCB9YijKPnjs2F9HMdscIPBAht03A9ZhKAfAYFE6Ycr9zuCyIqcmCSxhHTCjLRDJ5RTVkaU0oh7Z3SA9J+EQ4Dl295QQgIqPm824a8RfEMmXK8HDTGkI356+P34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792397856; c=relaxed/simple;
-	bh=Gt8N0UB2KPF1e7vkq2yrNHlZ7lN/lCheiZswsOhLaPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MQKZv71cmY9UkhsvNf6JMrWHphBvlho0Pa81QmL7oi/BX53XusVSYHOSJq/fnW6CbbxbHEOBokNMOsNddgc0WpeZMyfssjdAXRO+piMsMZpNqJZjcyaxGDTJPudziJEwJgO2r3LwlaxI/x1EPQ+n/57mcPq5pGRnvm4GjrxnL9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TtVmbry6; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792397984; c=relaxed/simple;
+	bh=BBymbZldouqPejYkjvDioF+EvglEY2Q82acwV2HIeQU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FNj+lMYgJPU05SXWTLZzdQA8QvtSTVx8XvUhbsQ0eY3PwomCvnizZ8xzSKMJYfohkc+Rgdmlcbugc/xqNW0u3hElnLvqz1hDFb0byqqjd3A8KbVTUPWYrkBPNybTQTWeeFbl4nlC1+Kn71M9GjrZcl/hnSRZwf/tDZJjb5MDlDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KbJrEXw2; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TtVmbry6"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48b060ec084so1146078f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 01:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792397853; x=1793002653; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vo36ty9zCEoV7zWlmQRq5FLQEFjKxu8JDIOaintjvOo=;
-        b=TtVmbry61PuDnvdywYyT3e7u356uUvtOzdtyTMSy9+tZSgYAbB55WuFcTcu8jVrDtJ
-         Ago+RfQqXRLDWsJ66+tP5ayS1eXSJoAq0A6NKe8RHtd/CYgJ+i/EJjZLo4WkbqVTCxnO
-         7RwlDrrZk1nn1zXbk0iwkmi0HUcy9insB7WGKjUgnOauAjKSwf2z77Kj3ieu4ZAN9z6c
-         fmIniwg2ouWeUrK2ueG0o3HqrWNSliJpPU8MBZWbSft2B3zMjIc7DUKCI+UCxCjok60y
-         6z7hONQEpdKnz4NGrcoxmBcqzqCq0PBEXN44yDBfnY0Z1lknsixjkB9wrHz0z6fAiLnr
-         PDoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792397853; x=1793002653;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vo36ty9zCEoV7zWlmQRq5FLQEFjKxu8JDIOaintjvOo=;
-        b=GrLqHqBt1R4/iyI1986qNKxpF5j4x615ZH52RAxF6HJM1fuWlq2dOlpcgctdeqXwYC
-         l6jS+jJqiVx/6MDyseT7CPjGts+hZTqV5Gtb+cOuqbB42hCNe5xbGbtXLfUalNC5BBEn
-         tccDFMRnmnvBtPrpqhP4lkOaqmrkK7uTtrtlYlMBkQz7m33d1dLea3H4WezQRZW6ps6i
-         f1U/ADoMWAwInU0Ol2JyR/AapKzomoD9KMalVPXRPhQnnBGxsPU8gbxo982G7xWCtdVH
-         HNjR7Lfw3OkInMcVX7jX3T1r4dkVkny16lO6h/+ZEs5txwP1oUVuGEG+N7aKzb7LHOxx
-         stzQ==
-X-Forwarded-Encrypted: i=1; AKwUvByvZkLColLLMRHbizPGni4F1IDOpQ7OVQYnCKGV9gfpAY+RDS4jkzfLbwZ2JNbLK70xIa8u9DgHA0WQXHjf@lists.linux.dev
-X-Gm-Message-State: AFq9FYLEkVx/2UjRr1hbza+RdaLnyKHpzO0yLHDM6fzOfm2/1L8l0mnU
-	Gv3YzWFZmD8pCpL5MAXn9di+kfNtXQkoCVcvjUaStgtAW23bY8fFjJkl
-X-Gm-Gg: AYBFou0cizj1iv6iY1Xzc9VUuVDBVD/osGsfBFfQPc0X8HmHihtCKFyKmnDMIO7h6tW
-	y8adK0Iqe+HV8QxksRggWFiMJDVaBJllZH3cJ82xigbOhSBi5FNnvMpf2mLnNY0N1E1yt8kCie2
-	LcKhSLALTVK8xqckuZ+MQrCY0Wkpc66d0Eao7KT44G5kolXY2xqvJnv4Y1Wz0NRfPJHyhzgK3Oc
-	QTKruWr8RBauW1ivreyjph6UABsicOz9WrFDGyhtuTcXNgIx2HCf6uQjbgnnNTBuJgWDGucWHI1
-	1afJsm43yjjufLi8GenB8WQmKzaan/++M33BuXZAoSSLgiN3xLO+jv3SKq0r/GO13woaRYkfn2z
-	+T7LqzeXm5N8YzkiOzBYsfJqrT5FQmanu8FgG27mWpv9jFN+1zvfhVw+BEfgo16SBHlzn1LZS9r
-	/03dpvKd6jN/sWIS14jbqSDbaUDUrQZhkznPPnTHwm+xK45Pti4Aq2XoSW+YRuQQ6yUv8=
-X-Received: by 2002:a05:6000:26ca:b0:48a:f318:ac03 with SMTP id ffacd0b85a97d-48e07f98fa0mr13856654f8f.25.1792397852653;
-        Mon, 19 Oct 2026 01:17:32 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a35sm18529901f8f.7.2026.10.19.01.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 01:17:32 -0700 (PDT)
-Date: Mon, 19 Oct 2026 11:17:28 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amade@asmblr.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-sound:for-7.4 37/72] sound/soc/soc-dapm.c:2893
- snd_soc_dapm_free_widget() warn: variable dereferenced before check
- 'w->dapm' (see line 2891)
-Message-ID: <atXSGFnmTZ77bCRS@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KbJrEXw2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792397983; x=1823933983;
+  h=date:from:to:cc:subject:message-id;
+  bh=BBymbZldouqPejYkjvDioF+EvglEY2Q82acwV2HIeQU=;
+  b=KbJrEXw2c/Ekd8NMuY5/iG5MpLv0V/XE/zaLPygPVWKH6ZCPM79SpYHN
+   /ZGkRv6GCT0Djd2rUehNm+OEftuEuKvySni0pAA4SYWSy1IHYi3dXm1oc
+   +IPzC10my/x2QOz2UYiCTUVmvMJt0PlveOn/qQc6TJdpTyFXoe8sL7Z5R
+   qJuZQdvVtRHo1481NdpWGlUYZ6V6DF/kfhRqhx3CiMLEgQ5SWvq7IT4IR
+   kjzhubi05WVGGRnLP+akbE6I1UMRGfgcdSyPTexxVqk5Q52jhx6RMDHSF
+   JG4ZCT/UHFtjWYff+sJWhNYzT6Y7fZFsBjV9wQ52Sqpi4c9eilG3uqQNV
+   Q==;
+X-CSE-ConnectionGUID: EcpAk+zfR9G/mUmfDmooaA==
+X-CSE-MsgGUID: q/pbmft6Rmul6l1sCIGw9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1177050"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="1177050"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 01:19:42 -0700
+X-CSE-ConnectionGUID: 57rh8OPIRtihktwOvXKJ+g==
+X-CSE-MsgGUID: lQvdcKlcQs6pykySprsCBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2478395"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 19 Oct 2026 01:19:40 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIiao-000000005Xz-1iAp;
+	Mon, 19 Oct 2026 08:19:38 +0000
+Date: Mon, 19 Oct 2026 10:19:02 +0200
+From: kernel test robot <lkp@intel.com>
+To: Brian Cain <brian.cain@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcain:hexagon 6/82]
+ drivers/video/fbdev/mmp/panel/tpo_tj032md01bw.c:66:12: error: redefinition of
+ 'poweroff' as different kind of symbol
+Message-ID: <202610191058.qlATPZlg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Sorry for sending this without a subject...  :(
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-head:   ba982c33278c1fc739c8c220f410d6539de9d9b9
-commit: 568406bc832e7e9e333e2ab05aafd0b83ffb9610 [37/72] ASoC: soc-dapm: Remove widget from cache on removal
-config: nios2-randconfig-r2202-20261017 (https://download.01.org/0day-ci/archive/20261018/202610180339.A6POXeNa-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git hexagon
+head:   35ab1dadb94646b74469738c1741f68e8c6aac3d
+commit: f2844889af9d4974f59e9eabdc9b5148b6650a49 [6/82] hexagon: add H2 hypervisor interface support
+config: hexagon-randconfig-r2303-20261019 (https://download.01.org/0day-ci/archive/20261019/202610191058.qlATPZlg-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 337446dacd2a713010f1c9856c21eb8d899b5613)
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191058.qlATPZlg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610180339.A6POXeNa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610191058.qlATPZlg-lkp@intel.com/
 
-smatch warnings:
-sound/soc/soc-dapm.c:2893 snd_soc_dapm_free_widget() warn: variable dereferenced before check 'w->dapm' (see line 2891)
+All errors (new ones prefixed by >>):
 
-vim +2893 sound/soc/soc-dapm.c
+>> drivers/video/fbdev/mmp/panel/tpo_tj032md01bw.c:66:12: error: redefinition of 'poweroff' as different kind of symbol
+      66 | static u16 poweroff[] = {
+         |            ^
+   arch/hexagon/include/asm/hexagon_vm.h:79:2: note: previous definition is here
+      79 |         poweroff,
+         |         ^
+>> drivers/video/fbdev/mmp/panel/tpo_tj032md01bw.c:87:30: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
+      87 |                 ret = spi_write(plat->spi, poweroff, sizeof(poweroff));
+         |                                            ^~~~~~~~
+   include/linux/spi/spi.h:1533:47: note: passing argument to parameter 'buf' here
+    1533 | spi_write(struct spi_device *spi, const void *buf, size_t len)
+         |                                               ^
+   2 errors generated.
 
-b97e26980f6c13 Lars-Peter Clausen   2015-07-21  2870  void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w)
-2b97eabc09f42d Richard Purdie       2006-10-06  2871  {
-568406bc832e7e Amadeusz Sławiński   2026-10-14  2872  	struct snd_soc_dapm_context *d;
-2b97eabc09f42d Richard Purdie       2006-10-06  2873  	struct snd_soc_dapm_path *p, *next_p;
-a3423b02cf745c Lars-Peter Clausen   2015-08-11  2874  	enum snd_soc_dapm_direction dir;
-2b97eabc09f42d Richard Purdie       2006-10-06  2875  
-1c9096f32ad23f Kuninori Morimoto    2022-10-17  2876  	if (!w)
-1c9096f32ad23f Kuninori Morimoto    2022-10-17  2877  		return;
-1c9096f32ad23f Kuninori Morimoto    2022-10-17  2878  
-2b97eabc09f42d Richard Purdie       2006-10-06  2879  	list_del(&w->list);
-5c6679b5cb120f Thomas Hebb          2020-12-12  2880  	list_del(&w->dirty);
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2881  	/*
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2882  	 * remove source and sink paths associated to this widget.
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2883  	 * While removing the path, remove reference to it from both
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2884  	 * source and sink widgets so that path is removed only once.
-8ddab3f5107c39 Jarkko Nikula        2010-12-14  2885  	 */
-af6d53db28e644 Kuninori Morimoto    2026-01-20  2886  	dapm_for_each_direction(dir) {
-a3423b02cf745c Lars-Peter Clausen   2015-08-11  2887  		snd_soc_dapm_widget_for_each_path_safe(w, dir, p, next_p)
-8872293fc38c49 Lars-Peter Clausen   2013-06-14  2888  			dapm_free_path(p);
-a3423b02cf745c Lars-Peter Clausen   2015-08-11  2889  	}
-8872293fc38c49 Lars-Peter Clausen   2013-06-14  2890  
-8ad13cdc92f663 Trevor Wu            2023-05-26 @2891  	dapm_debugfs_free_widget(w);
-                                                                                 ^
-This dereferences "w->dapm"
 
-8ad13cdc92f663 Trevor Wu            2023-05-26  2892  
-568406bc832e7e Amadeusz Sławiński   2026-10-14 @2893  	if (w->dapm) {
-                                                            ^^^^^^^
-So this check is too late.
+vim +/poweroff +66 drivers/video/fbdev/mmp/panel/tpo_tj032md01bw.c
 
-568406bc832e7e Amadeusz Sławiński   2026-10-14  2894  		if (w->dapm->card) {
-568406bc832e7e Amadeusz Sławiński   2026-10-14  2895  			for_each_card_dapms(w->dapm->card, d) {
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  65  
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21 @66  static u16 poweroff[] = {
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  67  	0x07d9,
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  68  };
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  69  
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  70  struct tpohvga_plat_data {
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  71  	void (*plat_onoff)(int status);
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  72  	struct spi_device *spi;
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  73  };
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  74  
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  75  static void tpohvga_onoff(struct mmp_panel *panel, int status)
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  76  {
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  77  	struct tpohvga_plat_data *plat = panel->plat_data;
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  78  	int ret;
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  79  
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  80  	if (status) {
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  81  		plat->plat_onoff(1);
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  82  
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  83  		ret = spi_write(plat->spi, init, sizeof(init));
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  84  		if (ret < 0)
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  85  			dev_warn(panel->dev, "init cmd failed(%d)\n", ret);
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  86  	} else {
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21 @87  		ret = spi_write(plat->spi, poweroff, sizeof(poweroff));
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  88  		if (ret < 0)
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  89  			dev_warn(panel->dev, "poweroff cmd failed(%d)\n", ret);
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  90  
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  91  		plat->plat_onoff(0);
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  92  	}
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  93  }
+3c76f15fd50274 drivers/video/mmp/panel/tpo_tj032md01bw.c Lisa Du 2013-02-21  94  
+
+:::::: The code at line 66 was first introduced by commit
+:::::: 3c76f15fd5027474bf738e0a145337370d9c7a8c video: mmp: add tpo hvga panel supported
+
+:::::: TO: Lisa Du <cldu@marvell.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
