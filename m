@@ -1,77 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792434338;
-	b=yXAXsd0ECOeT6Xtjj/+/+mYbGsNItoVOeIek2sZYIStzvX9nsr6i3MfGAn5eiSduZjA/
-	 1+JMbarXh9O1qtjNqARJGzN10azLrzV2NwDin+9dqPeqxxYs21rMTIww6yeSOu1W5noqr
-	 VmKKBylI3gw1LmwA2ngqs5R07T7Fti8FiOq/9o92SgYcu43s9O3B9WIx2g041Ky9CqzxE
-	 VVYOp/OCmpUCxGx9iLzR61y/fbVRgYdWAvxs+eFQVK8NY4RvdEDFhM2jmrLDro/B1OQdg
-	 BP8z8jsOwUtyFk77N6KF87X64kWi5G6v1s+9mqhtfh+UVy5QLncUpvvviK2pD95ihpg==
+	t=1792439453;
+	b=oGtZzwOfCEzq+O/x9EDpeIpMpMdCOomxuqKjDaReotSmt4ydI2BM+cyNIRJG4Y++Jjda
+	 8pf5O7TUteLVNOMy7E/lTtyd0dmku0N2BUC5y+ElI8yd57+gu8fA8RHNrNZnAlg5k5P+8
+	 2oljPxj7RsVRk0osr9vVxq9ewS3XqBNxNUbmTbvbaRDPEHf4YJrbcUxdFFNpsgXvWj0qX
+	 nug9ARZAaK9Bl3OPc7nioz47EuegXblnxc5GK+pj1+O3wxbt5NaRkSnkBwm0FhTA+UIU6
+	 pSyZ29owcOuCJBpd81L4nit3VP4otHKWKN+IndwnJjDqsosQ9oyP/f2HAjTS9jZDcwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792434338;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792439453;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=JG5h206hRo6iW0TrHuAcKSqCO7RY4RdXhMUKQK0a/SU=;
-	b=C3O9wfrK9cU3jjb8vQHcAD9NfkVjcteK/+km9fk+UnunV/1hYjeB05IfwwbJa/90R9lz
-	 8rjsaRbtnFFQC+a1jznNuypI9A84snkxX/4ePB51B3KrkHwwKPtoGARDNRFNXJ0KwNN1K
-	 dOpwFh/WVU7S0fzdMVDUVAYEaeSKWO0e+zMYLZUwf7wL31PAWmWS95DYjyylHV/5WTtmV
-	 MHar1N73cRA3qF15yzxBxbVFFaJghls/03AaGCAGXHkqWGxiUSgrhDwG174P47GES5PTc
-	 QDa208dZK9F6mLB5MHVaUTQwjYPhe7lBqq+9tf3UKmFbESTngaL5iJTyPdnbL1vbNUw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=iQIL6cRyZtwVIh/NjWyixGeu8fpj0ROdrbRqFiXL/B8=;
+	b=dh/yKRrUGHx56aw08Rk1IRsMGCd6YoHVBO+GwlUzgIYKtmZ77uTnpj1uSM9bT9P8YSae
+	 bW/KhWL369syfDRrl7CDlbaWKSaYP6wUjji2Aq9cMk6wryr2K4oByUsGshXFHLJTKDzjT
+	 v8m6C+o0b8gWK/zFiUY6cmbODgPqw7vFHmX1YZhdOPYpvCZDrRbATd/88e7RkqX4v/Y4t
+	 FQmUNrPl89LYrZlOi2UixlEkhP6IeenhRj/nn2fnDZ3XNUubbWZk8NEzA3/8vqYBJQWJc
+	 zgJxz+iTfbJkiOn3l2K0NSZaWeYV3LNPV1pQUmBb2l0vp9zAGYiDZq+wMkU4Jl42P6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KKfBXdqS;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="GR7/1Z75";
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E4E606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 18:25:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15E4E606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6387606A31C;
+	Mon, 19 Oct 2026 19:50:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6387606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KKfBXdqS
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GR7/1Z75
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792434338; x=1823970338;
-  h=date:from:to:cc:subject:message-id;
-  bh=+tIcgTpYeUYiSVYtee6Va55A7EqNK22YUlDKpvXDY7s=;
-  b=KKfBXdqSr5rUWRdJmeT3fAgE+KA483kQ7V6TaYuYX1iiKFNXsA++Kgfq
-   zmtVE8i3Fv3a/1WNPoDSTKJg69KuuB1F7u7t9fQInh2p/Il15yUlY0cWT
-   NA9Uue4HFkzEp2l8fdfKF+Rl/G92ihlM97coxY7JnUnOVZDXpFfYzvXlw
-   U56XvzrvRg1BlIAcPqcTpU7l1AUYnOHmtWOizr/H+dnRGem0u2mlnk+VH
-   tY1H7rtrovObg7zjLcSj2ItcgkVue8k+o5ghvPz1yn0DbT2LBM4l12zXo
-   ZLt2x7ftMTkIv7DCcYheMt9i1WTQqkbLtPOWseOBThShqKqu6ogd1x4QR
-   w==;
-X-CSE-ConnectionGUID: gztBYbRVSvaOYsi6s42ZkQ==
-X-CSE-MsgGUID: P2Gsl3X6T225vF3MhuvKpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1010544"
+  t=1792439451; x=1823975451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DENo3LTyk9RmB9EFH3XG6IgFZAo7Ve/NCjoyjKnjphI=;
+  b=GR7/1Z75vYIgmtT0nTKTqec78O5KskeHj4HmRKxPdP9adnPufJ9DKN9Z
+   34bo7K13VuNZCNtjd3HW86QRrhEXxypWIB7rcaS455Ci/MrLkic7VeYGb
+   7ARRht+Hmt2DYDczTfE3eb1avMt9RrtK6wHuUJ9EloN/LHVtGKYCpf6Jf
+   Ufotlowih0SIUzytzvaraQF3yUT7tKw9327lBr61QD0+Wq/yXR3km4Zt8
+   6S9qrJbrFdQmRnU73JLfYa5PfWcBKDW6R9CxdeWAGW6kmgCllhS+bo3E1
+   pMWlNxALwuVIMtW3af2LFlnIzvRfUTRRUAKOMHl4y5f7Tq5yQyizEp4Sp
+   g==;
+X-CSE-ConnectionGUID: 6Mo4SY/iT0WWq8kIENTo2Q==
+X-CSE-MsgGUID: ZjAhBu9fTfi7vrF/4pnkHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1234503"
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="1010544"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 11:25:37 -0700
-X-CSE-ConnectionGUID: FBOO53xLSGGDKroEHEmV0Q==
-X-CSE-MsgGUID: CsPljI08TTiQVM9rrutiuQ==
+   d="scan'208";a="1234503"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 12:50:50 -0700
+X-CSE-ConnectionGUID: 81WQDgsmQzmzWnzIVBPqJQ==
+X-CSE-MsgGUID: bLLG/m5ATGO0TVoWyQJysw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2564877"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 19 Oct 2026 11:25:36 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+   d="scan'208";a="2620934"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 19 Oct 2026 12:50:47 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xIs3B-000000005p1-1SZJ;
-	Mon, 19 Oct 2026 18:25:33 +0000
-Date: Mon, 19 Oct 2026 20:25:11 +0200
+	id 1xItNc-00000000MJ8-1uPF;
+	Mon, 19 Oct 2026 19:50:44 +0000
+Date: Tue, 20 Oct 2026 03:50:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10-2026-10 1/1]
- drivers/vfio/vfio.c:527: warning: Function parameter or member 'device' not
- described in 'vfio_device_put'
-Message-ID: <202610192036.15w73rFB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: David Laight <david.laight.linux@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	bpf@vger.kernel.org, Jim Cromie <jim.cromie@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Andrey Grodzovsky <andrey.grodzovsky@crowdstrike.com>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH 14/15] kallsyms: scripts/kallsyms: Reduce the output file
+ size
+Message-ID: <202610200336.6v4SE96n-lkp@intel.com>
+References: <20261018155206.132411-15-david.laight.linux@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,68 +90,280 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018155206.132411-15-david.laight.linux@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10-2026-10
-head:   a4c2f82969bc5fa7fcc21ede4b690ece7ff72335
-commit: a2fbf4acd28069d4922c33e4b5b0d58fc38073f8 [1/1] vfio: Split creation of a vfio_device into init and register ops
-config: arm-randconfig-r2104-20261018 (https://download.01.org/0day-ci/archive/20261019/202610192036.15w73rFB-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610192036.15w73rFB-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v7.3]
+[cannot apply to next-20261016 next-20261016]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/kallsyms-scripts-kallsyms-c-Avoid-overrunning-on-stack-buffer/20261018-165152
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20261018155206.132411-15-david.laight.linux%40gmail.com
+patch subject: [PATCH 14/15] kallsyms: scripts/kallsyms: Reduce the output file size
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20261020/202610200336.6v4SE96n-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610200336.6v4SE96n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610192036.15w73rFB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610200336.6v4SE96n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/vfio/vfio.c:214: warning: Function parameter or member 'ops' not described in 'vfio_register_iommu_driver'
-   drivers/vfio/vfio.c:263: warning: Function parameter or member 'group' not described in 'vfio_alloc_group_minor'
-   drivers/vfio/vfio.c:283: warning: Function parameter or member 'container' not described in 'vfio_container_get'
-   drivers/vfio/vfio.c:315: warning: Function parameter or member 'iommu_group' not described in 'vfio_create_group'
->> drivers/vfio/vfio.c:527: warning: Function parameter or member 'device' not described in 'vfio_device_put'
-   drivers/vfio/vfio.c:633: warning: Function parameter or member 'group' not described in 'vfio_group_nb_add_dev'
-   drivers/vfio/vfio.c:633: warning: Function parameter or member 'dev' not described in 'vfio_group_nb_add_dev'
->> drivers/vfio/vfio.c:745: warning: Function parameter or member 'device' not described in 'vfio_init_group_dev'
->> drivers/vfio/vfio.c:745: warning: Function parameter or member 'dev' not described in 'vfio_init_group_dev'
->> drivers/vfio/vfio.c:745: warning: Function parameter or member 'ops' not described in 'vfio_init_group_dev'
->> drivers/vfio/vfio.c:745: warning: Function parameter or member 'device_data' not described in 'vfio_init_group_dev'
-   drivers/vfio/vfio.c:833: warning: Function parameter or member 'dev' not described in 'vfio_device_get_from_dev'
-   drivers/vfio/vfio.c:982: warning: Function parameter or member 'container' not described in 'vfio_ioctl_check_extension'
-   drivers/vfio/vfio.c:982: warning: Function parameter or member 'arg' not described in 'vfio_ioctl_check_extension'
-   drivers/vfio/vfio.c:1253: warning: Function parameter or member 'group' not described in '__vfio_group_unset_container'
-   drivers/vfio/vfio.c:1588: warning: Function parameter or member 'inode' not described in 'vfio_device_fops_release'
-   drivers/vfio/vfio.c:1588: warning: Function parameter or member 'filep' not described in 'vfio_device_fops_release'
-   drivers/vfio/vfio.c:1682: warning: Function parameter or member 'filep' not described in 'vfio_group_get_external_user'
-   drivers/vfio/vfio.c:1719: warning: Function parameter or member 'dev' not described in 'vfio_group_get_external_user_from_dev'
-   drivers/vfio/vfio.c:1779: warning: Function parameter or member 'caps' not described in 'vfio_info_cap_add'
-   drivers/vfio/vfio.c:1779: warning: Function parameter or member 'size' not described in 'vfio_info_cap_add'
-   drivers/vfio/vfio.c:1779: warning: Function parameter or member 'id' not described in 'vfio_info_cap_add'
-   drivers/vfio/vfio.c:1779: warning: Function parameter or member 'version' not described in 'vfio_info_cap_add'
-   drivers/vfio/vfio.c:2298: warning: Function parameter or member 'dev' not described in 'vfio_devnode'
-   drivers/vfio/vfio.c:2298: warning: Function parameter or member 'mode' not described in 'vfio_devnode'
+>> scripts/kallsyms.c:371:26: warning: adding 'int' to a string does not append to the string [-Wstring-plus-int]
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                ~~~~~~~~~~~~~~~^~~~
+   scripts/kallsyms.c:371:26: note: use array indexing to silence this warning
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                               ^   
+         |                                &              [   ]
+>> scripts/kallsyms.c:371:11: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                ^~~~~~~~~~~~~~~~~~~
+   scripts/kallsyms.c:371:11: note: treat the string as an argument to avoid this
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                ^
+         |                                "%s", 
+   scripts/kallsyms.c:428:25: warning: adding 'int' to a string does not append to the string [-Wstring-plus-int]
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                ~~~~~~~~~~~~~~^~~~
+   scripts/kallsyms.c:428:25: note: use array indexing to silence this warning
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                              ^   
+         |                                &             [   ]
+   scripts/kallsyms.c:428:11: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                ^~~~~~~~~~~~~~~~~~
+   scripts/kallsyms.c:428:11: note: treat the string as an argument to avoid this
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                ^
+         |                                "%s", 
+   4 warnings generated.
+--
+>> scripts/kallsyms.c:371:26: warning: adding 'int' to a string does not append to the string [-Wstring-plus-int]
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                ~~~~~~~~~~~~~~~^~~~
+   scripts/kallsyms.c:371:26: note: use array indexing to silence this warning
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                               ^   
+         |                                &              [   ]
+>> scripts/kallsyms.c:371:11: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                ^~~~~~~~~~~~~~~~~~~
+   scripts/kallsyms.c:371:11: note: treat the string as an argument to avoid this
+     371 |                         printf("\n\t.short\t" + !i);
+         |                                ^
+         |                                "%s", 
+   scripts/kallsyms.c:428:25: warning: adding 'int' to a string does not append to the string [-Wstring-plus-int]
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                ~~~~~~~~~~~~~~^~~~
+   scripts/kallsyms.c:428:25: note: use array indexing to silence this warning
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                              ^   
+         |                                &             [   ]
+   scripts/kallsyms.c:428:11: warning: format string is not a string literal (potentially insecure) [-Wformat-security]
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                ^~~~~~~~~~~~~~~~~~
+   scripts/kallsyms.c:428:11: note: treat the string as an argument to avoid this
+     428 |                         printf("\n\t.long\t" + !k);
+         |                                ^
+         |                                "%s", 
+   4 warnings generated.
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:28:
+   In file included from include/linux/cgroup_api.h:1:
+   In file included from include/linux/cgroup.h:27:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   1 warning generated.
+   In file included from rust/helpers/helpers.c:48:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+   1 warning generated.
 
 
-vim +527 drivers/vfio/vfio.c
+vim +/int +371 scripts/kallsyms.c
 
-7ed3ea8a71187a Kirti Wankhede          2016-11-17  521  
-cba3345cc494ad Alex Williamson         2012-07-31  522  /**
-cba3345cc494ad Alex Williamson         2012-07-31  523   * Device objects - create, release, get, put, search
-cba3345cc494ad Alex Williamson         2012-07-31  524   */
-cba3345cc494ad Alex Williamson         2012-07-31  525  /* Device reference always implies a group reference */
-44f507163d9e51 Vijay Mohan Pandarathil 2013-03-11  526  void vfio_device_put(struct vfio_device *device)
-cba3345cc494ad Alex Williamson         2012-07-31 @527  {
-f54fa910e6cb5b Jason Gunthorpe         2021-03-30  528  	if (refcount_dec_and_test(&device->refcount))
-f54fa910e6cb5b Jason Gunthorpe         2021-03-30  529  		complete(&device->comp);
-cba3345cc494ad Alex Williamson         2012-07-31  530  }
-44f507163d9e51 Vijay Mohan Pandarathil 2013-03-11  531  EXPORT_SYMBOL_GPL(vfio_device_put);
-cba3345cc494ad Alex Williamson         2012-07-31  532  
-
-:::::: The code at line 527 was first introduced by commit
-:::::: cba3345cc494ad286ca8823f44b2c16cae496679 vfio: VFIO core
-
-:::::: TO: Alex Williamson <alex.williamson@redhat.com>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+   344	
+   345	static void write_src(void)
+   346	{
+   347		unsigned int i, k, off, off_size, table_size;
+   348		unsigned int best_idx[256];
+   349		char buf[1 + KSYM_NAME_LEN];
+   350		struct sym_entry *se;
+   351	
+   352		printf("\t.section .rodata, \"a\"\n");
+   353		printf("\n");
+   354	
+   355		output_label("kallsyms_token_table");
+   356		off = 0;
+   357		for (i = 0; i < 256; i++) {
+   358			best_idx[i] = off;
+   359			off += token_table[i].len + 1;
+   360			printf("\t.asciz\t\"%s\"\t/* %u: %u */\n",
+   361			       token_table[i].str, i, token_table[i].refs);
+   362		}
+   363		printf(".size kallsyms_token_table, . - kallsyms_token_table\n");
+   364		printf("\n");
+   365	
+   366		output_label("kallsyms_token_index");
+   367		for (i = 0; i < 256; i++) {
+   368			if (i & 15)
+   369				printf(",");
+   370			else
+ > 371				printf("\n\t.short\t" + !i);
+   372			printf("%u", best_idx[i]);
+   373		}
+   374		printf("\n");
+   375		printf(".size kallsyms_token_index, . - kallsyms_token_index\n");
+   376		printf("\n");
+   377	
+   378		output_value("kallsyms_num_syms", symbol_cnt);
+   379	
+   380		output_label("kallsyms_names");
+   381		off = 0;
+   382		for (i = 0; i < symbol_cnt; i++) {
+   383			se = symbol[i];
+   384			se->seq = off;
+   385	
+   386			/* The length must be less than that of the original symbol. */
+   387			if (!se->len || se->len > KSYM_NAME_LEN)
+   388				errx(1, "symbol %d has corrupt compressed length %d\n",
+   389				     i, se->len);
+   390	
+   391			/*
+   392			 * Output the number that identifies the symbol at the start
+   393			 * of the line so that they line up nicely.
+   394			 */
+   395			printf("\t/* n:%u */\t.byte\t", off);
+   396	
+   397			/* Encode length with ULEB128. */
+   398			if (se->len <= 0x7F) {
+   399				/* Most symbols use a single byte for the length. */
+   400				printf("%u", se->len);
+   401				off += se->len + 1;
+   402			} else {
+   403				/* "Big" symbols use two bytes. */
+   404				printf("%u,%u", (se->len & 0x7F) | 0x80, (se->len >> 7) & 0x7F);
+   405				off += se->len + 2;
+   406			}
+   407			for (k = 0; k < se->len; k++)
+   408				printf(",%u", se->sym[k]);
+   409			printf("\n");
+   410	
+   411			/*
+   412			 * Now that we wrote out the compressed symbol name, restore the
+   413			 * original name.
+   414			 */
+   415			se->len = expand_symbol(se->sym, se->len, buf);
+   416			memcpy(se->sym, buf, se->len + 1);
+   417		}
+   418		table_size = off;
+   419		printf(".size kallsyms_names, . - kallsyms_names\n");
+   420		printf("\n");
+   421	
+   422		output_value("kallsyms_marker_shift", marker_shift);
+   423		output_label("kallsyms_markers");
+   424		for (i = 0, k = 0; i < symbol_cnt; i += 1u << marker_shift, k++) {
+   425			if (k & 7)
+   426				printf(",");
+   427			else
+   428				printf("\n\t.long\t" + !k);
+   429			printf("%u", symbol[i]->seq);
+   430		}
+   431		printf("\n");
+   432		printf(".size kallsyms_markers, . - kallsyms_markers\n");
+   433		printf("\n");
+   434	
+   435		output_label("kallsyms_offsets");
+   436	
+   437		for (i = 0; i < symbol_cnt; i++) {
+   438			se = symbol[i];
+   439			if (pc_relative) {
+   440				long long offset = se->addr - _text;
+   441	
+   442				if (offset < INT_MIN || offset > INT_MAX)
+   443					errx(1, "relative symbol %s value %#llx out of range\n",
+   444						se->sym + 1, se->addr);
+   445				printf("\t.long\t_text-.+%d\t/* n:%u %c %s */\n",
+   446				       (int)offset, se->seq, se->sym[0], se->sym + 1);
+   447			} else {
+   448				printf("\t.long\t%#x\t/* n:%u %c %s */\n",
+   449				       (unsigned int)se->addr, se->seq, se->sym[0], se->sym + 1);
+   450			}
+   451		}
+   452		printf(".size kallsyms_offsets, . - kallsyms_offsets\n");
+   453		printf("\n");
+   454	
+   455		sort_symbols_by_name();
+   456		off_size = table_size < (1u << 23) ? 24 : 32;
+   457		output_value("kallsyms_off_size", off_size);
+   458		output_label(off_size == 24 ? "kallsyms_off_24_of_names" : "kallsyms_off_32_of_names");
+   459		for (i = 0; i < symbol_cnt; i++) {
+   460			se = symbol[i];
+   461			off = se->seq << 1;
+   462			if (i && symbol[i - 1]->len == se->len &&
+   463			    !memcmp(symbol[i - 1]->sym + 1, se->sym + 1, se->len - 1))
+   464				/* Mark that this is a duplicate of the previous symbol */
+   465				off |= 1;
+   466			if (off_size == 24) {
+   467	#ifdef CONFIG_CPU_BIG_ENDIAN
+   468				off = __builtin_bswap32(off) >> 8;
+   469	#endif
+   470				/* The three spaces before the tab line up the comments */
+   471				printf("\t.byte\t%u,%u,%u   \t/* n:%u */\n",
+   472					off & 0xff, (off >> 8) & 0xff, off >> 16, se->seq);
+   473			} else {
+   474				printf("\t.long\t%#04x\t/* n:%u */\n", off, se->seq);
+   475			}
+   476		}
+   477		/* Terminator without the 'duplicate' flag. */
+   478		if (off_size == 24)
+   479			printf("\t.byte\t0,0,0\n");
+   480		else
+   481			printf("\t.long\t0\n");
+   482		printf(".size kallsyms_off_%d_of_names, . - kallsyms_off_%d_of_names\n", off_size, off_size);
+   483	
+   484		fflush(stdout);
+   485		if (ferror(stdout))
+   486			errx(1, "error writing to output file");
+   487	}
+   488	
 
 --
 0-DAY CI Kernel Test Service
