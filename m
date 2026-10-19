@@ -1,82 +1,264 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B93948FF6F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 07:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72A4489FC6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 07:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792396117; cv=none; b=EjlirSGTjZxvVKdnIBMBtAgnCXlyc+XtBeVlR4twKSsY+fArsWxo1UjZgN8wxgqARKbXjps18ADPLgJx3l60zEb1BiB/ys1MUgg0udZSI8cY9Zvw9wIz1eshZ1Bdm0I8kksN+LCDd6ns2t5EHNVhKXtgld4AIPr+o/aA123Rnrc=
+	t=1792396158; cv=none; b=mk1rRp+s+ISLETN9Ns81diX+XyI70EqL499hJFIA78WIbbhrhwT3eqrD2j9FejjK1vb/yb+qwVUJsLlxYQd90akKv4MhM3ISLdn2ZidUATk4Beb7CsqhRqMaIY7zXsQ/Xjwc5dzTBeeggEFCxOuB8lda035GVkARNIMkrh20ELY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792396117; c=relaxed/simple;
-	bh=vG70IKrQP02cssZsWg67Waa9N7X8qn2JJz1UJtwAYEs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=B7/taNanqNg3Sww6teTqnZmEX28SrM+0GQzQsvTj0r/lUFYf13VcBDkKwWZPo+Xp/lLTebk1OW07am34wPXQwC2U0U8ZnDcsdOHwWcRyWmL1aUnl1hT9nwBgKFKj4ABUmgbMSa+lr5y1sZZyVf1xN8pLTKW2TUjfc14kT+G5MoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBLy8cGW; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792396158; c=relaxed/simple;
+	bh=TsXXZlvsFdmTm/W/Vp29E1299fj3cnGDO1PEUSFsm98=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ePp5fhJRfP9n1BmOCGdTNPNupa5SAlzEfF1WhH2RIqAH8VxOGdRIxRr7L+uT/w02+hz90pcbk4HtVW81xHfoMQeCGbW0nQhIZd3B+n4wkahhESAgYvex3UrNwoTh6uiTw3ZDy+mLx98bURTCpCdudXlwjbeM0KROA6GMiRu1iHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YERzX4Hw; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBLy8cGW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792396116; x=1823932116;
-  h=date:from:to:cc:subject:message-id;
-  bh=vG70IKrQP02cssZsWg67Waa9N7X8qn2JJz1UJtwAYEs=;
-  b=KBLy8cGWLC0kClXUL0z/W4xWlLSiJzv6bCB1hM99SEfvoUbymju0V9dt
-   QymLV4KkO2ictf1jnRQ4FhiXNLJYPeLRgPsbwr+LAtCPnVDoCRncuOuN4
-   Qu8RcjQftM4cN6dw9gwKQXtQHp354nyR41+VKS00u4MIKw4/GACDE9NHR
-   KQNumeQ7DwwKXJIy4o2mulOr+3vxmJSiY4dyRC/DKV5Jfgurb2JJly0ba
-   2A15G8/hHoKOePtGiEIY2IhxB8tYWHMjoztQ3jfIpmbqiqd0idgXukIps
-   G2+6wkZDXfzZoKIf5jS+B/jQXISTYRps6OxH6Erj1FtSlmG3ZqkMCis6V
-   w==;
-X-CSE-ConnectionGUID: BjbN/1B7QZavF5JwXGTA8w==
-X-CSE-MsgGUID: 31KiQLzTT+2NUUA5juxe/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1087130"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="1087130"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 00:48:36 -0700
-X-CSE-ConnectionGUID: H/wnMllVRf2vhQMwFxC9kg==
-X-CSE-MsgGUID: ipXyDrtoSkGmUOPKGGmVUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="4227846"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 19 Oct 2026 00:48:35 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xIi6i-000000005Xb-2Y79;
-	Mon, 19 Oct 2026 07:48:32 +0000
-Date: Mon, 19 Oct 2026 09:48:09 +0200
-From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bcain:hexagon 31/82] Warning:
- drivers/rpmsg/qcom_glink_native.c:130 struct member 'open_work' not described
- in 'qcom_glink'
-Message-ID: <202610190925.OlRd36tj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YERzX4Hw"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1dede3c2cso18025375e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 00:49:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792396155; x=1793000955; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tHwgNxWhnzQ84KwLQRCnTHCRHrGyYb1VO9L/VRtnJXA=;
+        b=YERzX4HwM1gLiktU/U4+adUzT7H+zSHy3x++f+WCV2aemTldRJCc9w/hIKzym2mSVo
+         JqLm9C4rZKmZaDWr6STZMlcVPnVDFDdsgL4VN7jEMf2cPgZz5fHCQhXE2bcDvPsOQnAQ
+         yzUkRXLl/4O/JD8nVf6uaTD3RPsg0H5BiG0wBgbTbSSo2P6sqnAHm7eXbrjI+Fz4eKbk
+         TjXYZyZ+tTKOJTEPOi0A8qabQGkeAn3uyRQGdf4CcrrQkMRy3rlXs94ghJpGfNdB3H5V
+         bXmCerxc2caERmTbBDJblnoZ+r3e8IQZL2oE2p5rWvEhCWSY75DALbTImAOmktjWCEK6
+         SlBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792396155; x=1793000955;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tHwgNxWhnzQ84KwLQRCnTHCRHrGyYb1VO9L/VRtnJXA=;
+        b=jMgtdl2xsw31UjNqmv+CIJiHONbuXbCG/hBQC+tahGH6R1U1+nTi8zHhZIoC3JLNLj
+         BsJCrHO4vJ7d+VAcJ32YPyebqhZga0OCoMu3rzdudjLQKr4g7+OxN8TBfWipH25ZZBBx
+         g1YL/+vMz+uN23je+YbJ22P/k7Mr715SJWfu7txebH9hffbzrMusXfrobNSdJ8SWY1dV
+         k9oZkLA4jD1HWSy6uzfctJGRpGWYGMWzIWMf9VdY8lWlYl7gsZ2Vi5TGkJ0LG9Ly17/R
+         sS/Cielw8bOMylGfyHYL3uABxKN+H3U2tV6NkF+ShQ0dlYOHHxRMv4+dbc0jjGp2T9WW
+         gd/g==
+X-Forwarded-Encrypted: i=1; AKwUvBzIDksnze2YS1wOWiv1BLWk9wTt8iG9cXr0wDb9wcj7Vl4fV0USVsGzCCC76OHDHXaVUa7g6AC6b9PuoeY/@lists.linux.dev
+X-Gm-Message-State: AFq9FYIz+T9+WCffDh/sUtZd8tSuSgKyQ0Zj6IuL2tKIivVE90EjL11B
+	TD6F4CJ/iL9sXuQgmfHnN7tbC6ox42oSa8SdKfyyNkH7ZuVt6gDC+Qhd
+X-Gm-Gg: AYBFou1pb4iRA9IVyJtUNNpmWdmrXB7q/NEg0DEJmEROUege6ZDCTldGKKtL5xL8gKK
+	eT1kedEfBPGzQ6uJjAfsfwBvc3x4YtcRI6y6i7sBW9MLi+2hrU0JWA07Ln4x3kUCaqitHcBUqdo
+	LJHy1VQqboVs4P5kO1uuv+kkk0mtaKRsUubjAzxb8/XA2rAKdxHMG3ZGZ4bLd/AiGPB4XZuwu3G
+	RvAcjEszmRJUil3LpkT5j/fr/iSI5O8km3nTiMGUJ/caK3WXu33fmmNjFaSX/671L0jK0xG6dps
+	Nw6md/uHEKMp2TEJCJY9DqTPIbC9r9FddWbzT5QzSMvn0nu/RauyUdV3HIPC23vtrXNeA2dYmVB
+	Dzu4KOhRSQKpm/U9Rr9EhqvD3uZJ3cCyct9wCA359hacUDOT2ad2FZiFDvY0pY6mMxAGT3OW2e2
+	LMRimxFxZVAbBJieXESXRHAYcXL6ssClLG6IrM8gyOnoX8jA65pJHjlAqEqu9icuGl8RN911Ecg
+	Vfc4Q==
+X-Received: by 2002:a05:600c:19cc:b0:4a1:70da:3350 with SMTP id 5b1f17b1804b1-4a1d762386fmr133917375e9.32.1792396154509;
+        Mon, 19 Oct 2026 00:49:14 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a72sm23292423f8f.4.2026.10.19.00.49.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 00:49:13 -0700 (PDT)
+Date: Mon, 19 Oct 2026 10:49:10 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-kminext 1/1]
+ drivers/gpu/drm/xe/xe_device.c:699 xe_device_probe() warn: missing unwind
+ goto?
+Message-ID: <atXLdi4TbE3M3WtK@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git hexagon
-head:   35ab1dadb94646b74469738c1741f68e8c6aac3d
-commit: a4310ab4ef4371948e163b1696ae14880866aef1 [31/82] rpmsg: glink: auto-open channels listed in device tree
-config: openrisc-randconfig-r2106-20261019 (https://download.01.org/0day-ci/archive/20261019/202610190925.OlRd36tj-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610190925.OlRd36tj-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
+head:   a42b417921ddca2df90dc3d8cb746eda8cdb6d63
+commit: 884d64e8e4dc6d4f1b0f69c31e4b4eadaf735648 [1/1] drm/xe: Stop ignoring errors from xe_ttm_stolen_mgr_init()
+config: i386-randconfig-2200-20261016 (https://download.01.org/0day-ci/archive/20261017/202610170306.eCvLVXmK-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610190925.OlRd36tj-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610170306.eCvLVXmK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/xe/xe_device.c:699 xe_device_probe() warn: missing unwind goto?
 
->> Warning: drivers/rpmsg/qcom_glink_native.c:130 struct member 'open_work' not described in 'qcom_glink'
->> Warning: drivers/rpmsg/qcom_glink_native.c:130 struct member 'open_work' not described in 'qcom_glink'
+vim +699 drivers/gpu/drm/xe/xe_device.c
+
+dd08ebf6c3525a Matthew Brost          2023-03-30  606  int xe_device_probe(struct xe_device *xe)
+dd08ebf6c3525a Matthew Brost          2023-03-30  607  {
+ad703e06376d5d Matt Roper             2023-06-01  608  	struct xe_tile *tile;
+dd08ebf6c3525a Matthew Brost          2023-03-30  609  	struct xe_gt *gt;
+dd08ebf6c3525a Matthew Brost          2023-03-30  610  	int err;
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  611  	u8 last_gt;
+dd08ebf6c3525a Matthew Brost          2023-03-30  612  	u8 id;
+dd08ebf6c3525a Matthew Brost          2023-03-30  613  
+b445be57102005 Lucas De Marchi        2023-09-27  614  	xe_pat_init_early(xe);
+b445be57102005 Lucas De Marchi        2023-09-27  615  
+0cfb7caefabd74 Michal Wajdeczko       2024-01-04  616  	err = xe_sriov_init(xe);
+0cfb7caefabd74 Michal Wajdeczko       2024-01-04  617  	if (err)
+0cfb7caefabd74 Michal Wajdeczko       2024-01-04  618  		return err;
+0cfb7caefabd74 Michal Wajdeczko       2024-01-04  619  
+dd08ebf6c3525a Matthew Brost          2023-03-30  620  	xe->info.mem_region_mask = 1;
+44e694958b9539 Maarten Lankhorst      2023-08-17  621  	err = xe_display_init_nommio(xe);
+44e694958b9539 Maarten Lankhorst      2023-08-17  622  	if (err)
+44e694958b9539 Maarten Lankhorst      2023-08-17  623  		return err;
+dd08ebf6c3525a Matthew Brost          2023-03-30  624  
+01c2413a5bc2c6 Michał Winiarski       2023-11-29  625  	err = xe_set_dma_info(xe);
+01c2413a5bc2c6 Michał Winiarski       2023-11-29  626  	if (err)
+01c2413a5bc2c6 Michał Winiarski       2023-11-29  627  		return err;
+01c2413a5bc2c6 Michał Winiarski       2023-11-29  628  
+c7117419784f61 Matthew Auld           2024-05-22  629  	err = xe_mmio_probe_tiles(xe);
+c7117419784f61 Matthew Auld           2024-05-22  630  	if (err)
+c7117419784f61 Matthew Auld           2024-05-22  631  		return err;
+f4a0a113f103e2 Michał Winiarski       2023-11-29  632  
+1ccd68e967f13a Michał Winiarski       2023-12-05  633  	xe_ttm_sys_mgr_init(xe);
+1ccd68e967f13a Michał Winiarski       2023-12-05  634  
+65c4de2a914838 Lucas De Marchi        2024-05-13  635  	for_each_gt(gt, xe, id) {
+65c4de2a914838 Lucas De Marchi        2024-05-13  636  		err = xe_gt_init_early(gt);
+65c4de2a914838 Lucas De Marchi        2024-05-13  637  		if (err)
+65c4de2a914838 Lucas De Marchi        2024-05-13  638  			return err;
+65c4de2a914838 Lucas De Marchi        2024-05-13  639  	}
+b62f828a8368de Michał Winiarski       2023-12-05  640  
+791d0362a9e2d4 Michał Winiarski       2023-12-05  641  	for_each_tile(tile, xe, id) {
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  642  		if (IS_SRIOV_VF(xe)) {
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  643  			xe_guc_comm_init_early(&tile->primary_gt->uc.guc);
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  644  			err = xe_gt_sriov_vf_bootstrap(tile->primary_gt);
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  645  			if (err)
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  646  				return err;
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  647  			err = xe_gt_sriov_vf_query_config(tile->primary_gt);
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  648  			if (err)
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  649  				return err;
+ea797cf4b7f847 Michal Wajdeczko       2024-05-24  650  		}
+791d0362a9e2d4 Michał Winiarski       2023-12-05  651  		err = xe_ggtt_init_early(tile->mem.ggtt);
+791d0362a9e2d4 Michał Winiarski       2023-12-05  652  		if (err)
+791d0362a9e2d4 Michał Winiarski       2023-12-05  653  			return err;
+a6581ebe76856b Michal Wajdeczko       2023-12-18  654  		if (IS_SRIOV_VF(xe)) {
+a6581ebe76856b Michal Wajdeczko       2023-12-18  655  			err = xe_memirq_init(&tile->sriov.vf.memirq);
+a6581ebe76856b Michal Wajdeczko       2023-12-18  656  			if (err)
+a6581ebe76856b Michal Wajdeczko       2023-12-18  657  				return err;
+a6581ebe76856b Michal Wajdeczko       2023-12-18  658  		}
+791d0362a9e2d4 Michał Winiarski       2023-12-05  659  	}
+791d0362a9e2d4 Michał Winiarski       2023-12-05  660  
+bf8ec3c3e82c70 Michał Winiarski       2024-02-19  661  	for_each_gt(gt, xe, id) {
+bf8ec3c3e82c70 Michał Winiarski       2024-02-19  662  		err = xe_gt_init_hwconfig(gt);
+bf8ec3c3e82c70 Michał Winiarski       2024-02-19  663  		if (err)
+bf8ec3c3e82c70 Michał Winiarski       2024-02-19  664  			return err;
+bf8ec3c3e82c70 Michał Winiarski       2024-02-19  665  	}
+bf8ec3c3e82c70 Michał Winiarski       2024-02-19  666  
+4209d635a82361 José Roberto de Souza  2024-04-09  667  	err = xe_devcoredump_init(xe);
+4209d635a82361 José Roberto de Souza  2024-04-09  668  	if (err)
+4209d635a82361 José Roberto de Souza  2024-04-09  669  		return err;
+bc54f42c0efaa8 Matthew Auld           2024-05-22  670  	err = devm_add_action_or_reset(xe->drm.dev, xe_driver_flr_fini, xe);
+571622740288f8 Andrzej Hajda          2023-10-27  671  	if (err)
+571622740288f8 Andrzej Hajda          2023-10-27  672  		return err;
+571622740288f8 Andrzej Hajda          2023-10-27  673  
+44e694958b9539 Maarten Lankhorst      2023-08-17  674  	err = xe_display_init_noirq(xe);
+dd08ebf6c3525a Matthew Brost          2023-03-30  675  	if (err)
+dd08ebf6c3525a Matthew Brost          2023-03-30  676  		return err;
+dd08ebf6c3525a Matthew Brost          2023-03-30  677  
+44e694958b9539 Maarten Lankhorst      2023-08-17  678  	err = xe_irq_install(xe);
+44e694958b9539 Maarten Lankhorst      2023-08-17  679  	if (err)
+44e694958b9539 Maarten Lankhorst      2023-08-17  680  		goto err;
+44e694958b9539 Maarten Lankhorst      2023-08-17  681  
+4cb12b71923b6e Himal Prasad Ghimiray  2023-12-12  682  	err = xe_device_set_has_flat_ccs(xe);
+4cb12b71923b6e Himal Prasad Ghimiray  2023-12-12  683  	if (err)
+80bab5c5038f32 Ilia Levi              2024-06-06  684  		goto err;
+4cb12b71923b6e Himal Prasad Ghimiray  2023-12-12  685  
+638d1c79cbf15c Michal Wajdeczko       2024-05-30  686  	err = xe_vram_probe(xe);
+dd08ebf6c3525a Matthew Brost          2023-03-30  687  	if (err)
+80bab5c5038f32 Ilia Levi              2024-06-06  688  		goto err;
+dd08ebf6c3525a Matthew Brost          2023-03-30  689  
+ad703e06376d5d Matt Roper             2023-06-01  690  	for_each_tile(tile, xe, id) {
+ad703e06376d5d Matt Roper             2023-06-01  691  		err = xe_tile_init_noalloc(tile);
+ad703e06376d5d Matt Roper             2023-06-01  692  		if (err)
+80bab5c5038f32 Ilia Levi              2024-06-06  693  			goto err;
+dd08ebf6c3525a Matthew Brost          2023-03-30  694  	}
+dd08ebf6c3525a Matthew Brost          2023-03-30  695  
+d8b52a02cb40fe Maarten Lankhorst      2023-01-12  696  	/* Allocate and map stolen after potential VRAM resize */
+884d64e8e4dc6d Lucas De Marchi        2025-02-13  697  	err = xe_ttm_stolen_mgr_init(xe);
+884d64e8e4dc6d Lucas De Marchi        2025-02-13  698  	if (err)
+884d64e8e4dc6d Lucas De Marchi        2025-02-13 @699  		return err;
+
+This one is actually correct.  All the goto err statements were wrong.
+
+d8b52a02cb40fe Maarten Lankhorst      2023-01-12  700  
+44e694958b9539 Maarten Lankhorst      2023-08-17  701  	/*
+44e694958b9539 Maarten Lankhorst      2023-08-17  702  	 * Now that GT is initialized (TTM in particular),
+44e694958b9539 Maarten Lankhorst      2023-08-17  703  	 * we can try to init display, and inherit the initial fb.
+44e694958b9539 Maarten Lankhorst      2023-08-17  704  	 * This is the reason the first allocation needs to be done
+44e694958b9539 Maarten Lankhorst      2023-08-17  705  	 * inside display.
+44e694958b9539 Maarten Lankhorst      2023-08-17  706  	 */
+44e694958b9539 Maarten Lankhorst      2023-08-17  707  	err = xe_display_init_noaccel(xe);
+44e694958b9539 Maarten Lankhorst      2023-08-17  708  	if (err)
+80bab5c5038f32 Ilia Levi              2024-06-06  709  		goto err;
+44e694958b9539 Maarten Lankhorst      2023-08-17  710  
+dd08ebf6c3525a Matthew Brost          2023-03-30  711  	for_each_gt(gt, xe, id) {
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  712  		last_gt = id;
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  713  
+dd08ebf6c3525a Matthew Brost          2023-03-30  714  		err = xe_gt_init(gt);
+dd08ebf6c3525a Matthew Brost          2023-03-30  715  		if (err)
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  716  			goto err_fini_gt;
+dd08ebf6c3525a Matthew Brost          2023-03-30  717  	}
+dd08ebf6c3525a Matthew Brost          2023-03-30  718  
+87a4c85d3a3ed5 Vitaly Lubart          2023-08-28  719  	xe_heci_gsc_init(xe);
+87a4c85d3a3ed5 Vitaly Lubart          2023-08-28  720  
+67977882a2f133 Ashutosh Dixit         2024-06-17  721  	err = xe_oa_init(xe);
+44e694958b9539 Maarten Lankhorst      2023-08-17  722  	if (err)
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  723  		goto err_fini_gt;
+44e694958b9539 Maarten Lankhorst      2023-08-17  724  
+67977882a2f133 Ashutosh Dixit         2024-06-17  725  	err = xe_display_init(xe);
+67977882a2f133 Ashutosh Dixit         2024-06-17  726  	if (err)
+67977882a2f133 Ashutosh Dixit         2024-06-17  727  		goto err_fini_oa;
+67977882a2f133 Ashutosh Dixit         2024-06-17  728  
+dd08ebf6c3525a Matthew Brost          2023-03-30  729  	err = drm_dev_register(&xe->drm, 0);
+dd08ebf6c3525a Matthew Brost          2023-03-30  730  	if (err)
+9914e19cc215d3 Koby Elbaz             2023-08-30  731  		goto err_fini_display;
+dd08ebf6c3525a Matthew Brost          2023-03-30  732  
+44e694958b9539 Maarten Lankhorst      2023-08-17  733  	xe_display_register(xe);
+44e694958b9539 Maarten Lankhorst      2023-08-17  734  
+cdf02fe1a94a76 Ashutosh Dixit         2024-06-17  735  	xe_oa_register(xe);
+cdf02fe1a94a76 Ashutosh Dixit         2024-06-17  736  
+dd08ebf6c3525a Matthew Brost          2023-03-30  737  	xe_debugfs_register(xe);
+dd08ebf6c3525a Matthew Brost          2023-03-30  738  
+fb1b70607f73af Badal Nilawar          2023-09-25  739  	xe_hwmon_register(xe);
+fb1b70607f73af Badal Nilawar          2023-09-25  740  
+3b1592fb783549 Vinay Belgaumkar       2024-06-20  741  	for_each_gt(gt, xe, id)
+3b1592fb783549 Vinay Belgaumkar       2024-06-20  742  		xe_gt_sanitize_freq(gt);
+3b1592fb783549 Vinay Belgaumkar       2024-06-20  743  
+cee70645a7499e Matthew Auld           2024-05-22  744  	return devm_add_action_or_reset(xe->drm.dev, xe_device_sanitize, xe);
+dd08ebf6c3525a Matthew Brost          2023-03-30  745  
+44e694958b9539 Maarten Lankhorst      2023-08-17  746  err_fini_display:
+44e694958b9539 Maarten Lankhorst      2023-08-17  747  	xe_display_driver_remove(xe);
+44e694958b9539 Maarten Lankhorst      2023-08-17  748  
+67977882a2f133 Ashutosh Dixit         2024-06-17  749  err_fini_oa:
+67977882a2f133 Ashutosh Dixit         2024-06-17  750  	xe_oa_fini(xe);
+67977882a2f133 Ashutosh Dixit         2024-06-17  751  
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  752  err_fini_gt:
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  753  	for_each_gt(gt, xe, id) {
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  754  		if (id < last_gt)
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  755  			xe_gt_remove(gt);
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  756  		else
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  757  			break;
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  758  	}
+997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  759  
+44e694958b9539 Maarten Lankhorst      2023-08-17  760  err:
+44e694958b9539 Maarten Lankhorst      2023-08-17  761  	xe_display_fini(xe);
+dd08ebf6c3525a Matthew Brost          2023-03-30  762  	return err;
+dd08ebf6c3525a Matthew Brost          2023-03-30  763  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
