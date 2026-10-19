@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422105;
-	b=lw6Oc4tc8ilgftYqoVOCj8mJrDQU+XjZ5e8ELIaJN/49FRSWYgfoy1qmdNZlNhMhJ9v3
-	 qFWwXeyGZkvcDrTkM31gsnypf0miZ9UQbdhxqwsM3Fw54kU1BvEUMBioRy/BqgXsbg6C2
-	 MICtkfTHnyW7h3tIbW+uDUwjF2k25Ciz2mU2bWHRQJ2iDgdfxTnrHDdUuzSbZXsMQ3Yte
-	 AGPAlQBQ2CEwRkAzjKL+nQDgM8Pr7huNNE7bu73K6H4YucgSgpPO3T2MgiR2xVzYja8yC
-	 thHLZDRiLMsZQ/alxusU1PAIXQn/vYVilUbsRU5fu900yGinkA7M8wyBAxuo9xcuPIA==
+	t=1792422118;
+	b=fzqAS9TJS1MtTlCZpc6T4X2kgaS8516QebWN06dL7TGgLYastMtqD1WTY+595+pe4kmP
+	 sG4XKA/u/YtKrROl2H5P4ycMu4V1zLThE3CQalbitl7hySB4BmrKaoJqclOzzWIE2fDKU
+	 lTLn4t8TGsbK+6tQtgiKF4YtTWAYuhfRxfSMSrIWTZkfCaVA7Qzy9GyMfQYEU7hjBKOlp
+	 UoXNTz9UKvML1klFZ052UvhjCK/Ac9y7f1oBk9OBVic0ksbCdWsHRqbbR3iJj4bp3rcSJ
+	 dAC3JsxG8Zj+Er+bdO/aA1LXveyD0Re86wwTNsGtyGod3Z3sKPHQeuKW0HfYVLcibig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422105;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=Oqb1j9z4rkPifsl+qWONz8jJ8bXPWSOfqMExu9EYgpY=;
-	b=F6ozrQafa+IqBJETQlM7SPgHvJWpLWHE+1VTq3IWSBKbyoXrglsIBTPz2IW89YGglVi+
-	 ZeVOQvar3bahONRN7CKGpSMB0DTyOmIys3YOgEwjC1mRL0T62qUgGOdNeGm8SQ0uJhoaO
-	 XmZaBtC+gZqRToV5BswMt8UAjcTF3s1oOeBI6gi3UA4BjOMH3hbt3hiPTRy5Eg8QvyzEd
-	 JPGiXelaqIEZYU8txuscxCV3gy7U4+gHjlAYEsymIVqJZOnSjnzCjkDfxZOJDAq8jtegJ
-	 6kWnI0n8SbclVxV5SajgYyuXQ985Ve7HoYQN8aNMPm8u1qcRLBbI10MN9BtpM2k/FGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792422118;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=V5Scv+S8IrXgj+5/CeTTqsxC/iiG0yrpaL3kmiKglBQ=;
+	b=euxHnQQsCz8+msi+ZDFL9oxvWQUgZSJHOYcw+8bMXYd8JhHF/w83sNnPuzqN/pjqUcaW
+	 3LSEARw+M4n33P4yPT0PXAn+dSmxmOKyfu7HG7VnXeV2UZYgfUpes03pmqw30oNxC8dGQ
+	 kY3cgv/e/ikKEoqovYF7jETwDn/bIsLojy/Xuya4Lk+GNB/Hu9jv7105tCktmRWA0WGL5
+	 nUEaf+sAreLHlR7KfvuKRChwyy9AK4U3n7RvE51ADlv2+W6ptnG+pNMtJfjkmulyqHokH
+	 ybh0yfWrsF6vAjKFVBttE/b4ZS5fM45yiaZPO2d/bm9LIe15PFP2J5xkmOi+Db7/VLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B8KpwXtb;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.221.179
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABD4607AF24
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 15:01:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BABD4607AF24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B8KpwXtb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792422104; x=1823958104;
-  h=date:from:to:cc:subject:message-id;
-  bh=KkiRozEYKA7AEY70guf2wPXmWBHcFxl9AIFrQ83Tp70=;
-  b=B8KpwXtb0d9VeFp5blkRStD+PA5AiOS+/fc4dSw/TB1Ucp4se4puLKIJ
-   NlewTCvJ/IwrO2LFJYwOW8VvnrzsBiFDRWqFKHpeoINm1D0/wlG8sazPa
-   KHHSbtLhMeq5rMJbyHTrFGvOHkxnLwktTGOwHO2IzaBq28fZ/fZp++vrR
-   U+ioq8TJzE9N2gL+SfBk83M3O2mNHp14AH3IO+RV0GNK9fxd0OYRVSk62
-   HmT+rrIDXgImQKWdyu+yoas+mjg48dclxkrDy/SAMoTsiRk6uhNjXB0Yg
-   Ef8zPRPrZNgg0O1Y86JwVUCeKFni9uEgA/dK/VHVnXEb9xY3fpwMH1iCa
-   w==;
-X-CSE-ConnectionGUID: fd7GXj+eSo+MKTwT6M8qPA==
-X-CSE-MsgGUID: oam446v7RZqQpWqedDle6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1012934"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="1012934"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 08:01:44 -0700
-X-CSE-ConnectionGUID: IFK8eV57QCamSjBEYMuoVA==
-X-CSE-MsgGUID: b1JLS3fcRtCmyP1KXI1aHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2620321"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 19 Oct 2026 08:01:40 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xIorq-000000005f9-2NQM;
-	Mon, 19 Oct 2026 15:01:38 +0000
-Date: Mon, 19 Oct 2026 17:00:37 +0200
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10-2026-10 1/1]
- drivers/usb/gadget/function/f_accessory.c:1088:5: warning: no previous
- prototype for 'acc_ctrlrequest_composite'
-Message-ID: <202610191628.GaawZRNO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166C7607AF36
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 15:01:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 166C7607AF36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5ead9f60e26so131504e0c.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:01:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792422116; x=1793026916;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=V5Scv+S8IrXgj+5/CeTTqsxC/iiG0yrpaL3kmiKglBQ=;
+        b=MwsjETDxjUFHpLyOT6EWMZU3Df3lPyDP17KUFIbgJsI3VHmGj4CPjQvOhvlmIs3Ev+
+         cSr5LIG9Kcd5LGTUPy8jC69JFw7y8IzpMHjupBW0hUShxmydRLtMWWJfVO7EvK0GusBp
+         9FP1e52+iHFr1Cru1jsfX3adILarvejP7qCER7kYDqiAzGyTaxrEfSqL+5klSekGzLub
+         tL2GS8za680UIu601MfZ1awOBecXKzq/iyd6olxky5rwezCJyVz7WhZ0AY7TkQ/q3nQN
+         /XVUl7YU9OWTZldT5Ipr4OnnAzrsKDnumTYNupu0P3aI4qczWH8DDiD7oI3U9cGAy4dx
+         rIeA==
+X-Forwarded-Encrypted: i=1; AKwUvBxQMPToQvxaWEvP/bO/9iQ35SDj1addUZAKmz3NNKaxDnGIZNxV9m5Tbf66U286Rc0Bkc1xI3nZBwFEl599@lists.linux.dev
+X-Gm-Message-State: AFq9FYKPCl44+PrT48G6VA7FKXNjRc0qYR0/MxX9eaD8cKpA8Oi4Jk1Q
+	pC75g0xZsCqM9RQJ3g/vfsD96bwSdNwWfJRZCBACVv+JvileQktUmkfvBnDA4UNth8M=
+X-Gm-Gg: AYBFou05sVBGmZk5i+7pnwmZ1QY6rztSRff+IEtmfyFKaxjGK2uMjq3eLes63CSbpsA
+	dxsNbZTd0YSVByLixRT4QDzhlZSDGuIfc+INACbjJWTGbcUpSVRwUjy4F7LwWWIRZTGglxfI741
+	eeG7Idfd4dgK9SFeNVW8A9TNFQa62l/QOIJc7XImMh4Ix+OqyzKzZ9CLSPPTxmhO77tUs8VxmzR
+	f97A4hHxUH3BXJ+6T6VXMpGm9c+8d0QWu4fhdwXIEYl2ig6U5TonOe9+ZqIFitR1L3jgpKEMaAz
+	CnK8Pd010ijggzk/DefIjOb5sqh/5wAI+IQVH+Z8qGMf9YjvyxnDSFihIEMo0VVSHSfXUeHjlpv
+	u6Q7s8LA1CwsA/a1rHPgDoRNisBtipfGCbNFYBR6cHvPfJcf4F8lfgiV1sGXcBTKKIseO1TAR8p
+	nIYlhGPv/VGHoVexNDi8G1PVgy6QcTbnb8EJ7Qv/2JKk0TgZYjByQnI7CDmERJN1c9PPE7o944E
+	K1fHTaviuzoVFlHR9KotysXCpT4p0rJYUgYrDtW
+X-Received: by 2002:a05:6122:4f9a:b0:5ea:c984:5ad4 with SMTP id 71dfb90a1353d-5eac9845f53mr826652e0c.2.1792422115422;
+        Mon, 19 Oct 2026 08:01:55 -0700 (PDT)
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com. [209.85.221.181])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b476852sm10350661e0c.6.2026.10.19.08.01.54
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2026 08:01:54 -0700 (PDT)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5eaa1b5b84aso2618146e0c.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 08:01:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBy7RkU0+MKg0L1gmsEWAaTMmmVbYmRBE7fjwzvVgIxJlKYia35/HvfjxKXZrfrX4XcqRmT9xvaL1v3UJB6p@lists.linux.dev
+X-Received: by 2002:a05:6122:25f9:b0:5ea:bc01:a2f9 with SMTP id
+ 71dfb90a1353d-5eabc01a9b5mr1023930e0c.0.1792422113935; Mon, 19 Oct 2026
+ 08:01:53 -0700 (PDT)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,78 +78,67 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+References: <20261010065442.23780-1-rosenp@gmail.com> <202610131201.wWk11MLy-lkp@intel.com>
+ <alpine.DEB.2.21.2610190013300.22065@angie.orcam.me.uk> <CAMuHMdVoAthYZFzuMmVb8awHUia4xeEfFKK=1PA23iCV0SsFbw@mail.gmail.com>
+ <alpine.DEB.2.21.2610191519120.22065@angie.orcam.me.uk>
+In-Reply-To: <alpine.DEB.2.21.2610191519120.22065@angie.orcam.me.uk>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 19 Oct 2026 17:01:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXCKXN5PiDwRJiEj9aBGcU0J+H=q5tQoO7OfPEboCWGJg@mail.gmail.com>
+X-Gm-Features: AclHuK-kMNll2TJ6SQ0HmyWWYBoxtNWt2Z3yCcXPLPClFSyKDfXs1dfr7tIH4kE
+Message-ID: <CAMuHMdXCKXN5PiDwRJiEj9aBGcU0J+H=q5tQoO7OfPEboCWGJg@mail.gmail.com>
+Subject: Re: [PATCH] MIPS: lib: prefetch ahead in csum_partial()
+To: "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: kernel test robot <lkp@intel.com>, Rosen Penev <rosenp@gmail.com>, linux-mips@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10-2026-10
-head:   a4c2f82969bc5fa7fcc21ede4b690ece7ff72335
-commit: 30e6baaaac88f18b10ba5b7474ac35f5efdf4ef8 [1/1] ANDROID: usb: f_accessory: Check buffer size when initialised via composite
-config: arm64-randconfig-r2303-20261018 (https://download.01.org/0day-ci/archive/20261019/202610191628.GaawZRNO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610191628.GaawZRNO-lkp@intel.com/reproduce)
+Hi Maciej,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610191628.GaawZRNO-lkp@intel.com/
+On Mon, 19 Oct 2026 at 16:47, Maciej W. Rozycki <macro@orcam.me.uk> wrote:
+> > >  So oddly enough we're missing Tx49 support in the toolchain and we've
+> > > only managed to survive with CPU_HAS_PREFETCH enabled for CPU_TX49XX
+> > > because it also implies DMA_NONCOHERENT via MACH_TX49XX -> MACH_TXX9,
+> > > which in turn disables stuff in arch/mips/lib/memcpy.S.
+> > >
+> > >  Quite straighforward to fix in binutils since docs are available (as in:
+> > > I have a copy), but do we have any users?  Geert?
+> >
+> > Yes, I still boot test rbtx4927 regularly.
+>
+>  Thanks for confirming.
+>
+> > I never touched binutils sources, though...
+>
+>  No worries, this seems straightforward: just PREF, MADD/U plus [D]MULT/U
+> extensions, and DERET/SDBBP debug stuff, much of which shared with the
+> Tx39 we already support, so just a matter of sticking another flag onto
+> the existing opcode table entries.
+>
+>  I'd estimate it as one day worth of engineering effort plus maybe another
+> one for machines to work through verification, for the binutils side and
+> the associated changes needed for GCC, i.e. a `-march=' option update plus
+> maybe enabling a couple of existing machine description patterns for the
+> Tx49 too.  Would you be able to run GCC verification with your system?
 
-All warnings (new ones prefixed by >>):
+The rbtx4927 is about the slowest system I still do regular testing on.
+It uses a Debian 8 nfsroot (over 10 Mbps Ethernet), which is the latest
+Debian release still supporting the instruction subset suppported
+by TX49XX.
+So as long as no native compilation of large packages is required,
+it can be done.  I can also give you remote access?
 
-   drivers/usb/gadget/function/f_accessory.c:975:5: warning: no previous prototype for 'acc_ctrlrequest' [-Wmissing-prototypes]
-     975 | int acc_ctrlrequest(struct usb_composite_dev *cdev,
-         |     ^~~~~~~~~~~~~~~
->> drivers/usb/gadget/function/f_accessory.c:1088:5: warning: no previous prototype for 'acc_ctrlrequest_composite' [-Wmissing-prototypes]
-    1088 | int acc_ctrlrequest_composite(struct usb_composite_dev *cdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/f_accessory.c:1441:6: warning: no previous prototype for 'acc_disconnect' [-Wmissing-prototypes]
-    1441 | void acc_disconnect(void)
-         |      ^~~~~~~~~~~~~~
-   drivers/usb/gadget/function/f_accessory.c:1546:5: warning: no previous prototype for 'acc_ctrlrequest_configfs' [-Wmissing-prototypes]
-    1546 | int acc_ctrlrequest_configfs(struct usb_function *f,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+Thanks!
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
+Gr{oetje,eeting}s,
 
+                        Geert
 
-vim +/acc_ctrlrequest_composite +1088 drivers/usb/gadget/function/f_accessory.c
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-  1087	
-> 1088	int acc_ctrlrequest_composite(struct usb_composite_dev *cdev,
-  1089				      const struct usb_ctrlrequest *ctrl)
-  1090	{
-  1091		u16 w_length = le16_to_cpu(ctrl->wLength);
-  1092	
-  1093		if (w_length > USB_COMP_EP0_BUFSIZ) {
-  1094			if (ctrl->bRequestType & USB_DIR_IN) {
-  1095				/* Cast away the const, we are going to overwrite on purpose. */
-  1096				__le16 *temp = (__le16 *)&ctrl->wLength;
-  1097	
-  1098				*temp = cpu_to_le16(USB_COMP_EP0_BUFSIZ);
-  1099				w_length = USB_COMP_EP0_BUFSIZ;
-  1100			} else {
-  1101				return -EINVAL;
-  1102			}
-  1103		}
-  1104		return acc_ctrlrequest(cdev, ctrl);
-  1105	}
-  1106	EXPORT_SYMBOL_GPL(acc_ctrlrequest_composite);
-  1107	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
