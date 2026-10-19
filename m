@@ -1,124 +1,139 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA0F390C8A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 07:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06413390C8A;
+	Mon, 19 Oct 2026 07:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792393669; cv=none; b=DFGXJu5o7u9LDTOl3atOZ46EOvdxKCJJpdpx0XAEpc41i78TluedcMVBFL4Wic0qmdD1wJ1tGYpWwMvrLd6Zib1HUfKzqGP9odW9eSIqrPGb07hJvZWbDT3yR1tPBXIItCOy7AfAXUbBPuDCTC+zVrbM0242Nar87uZ3QUnr+8Y=
+	t=1792393701; cv=none; b=aHT446QI81I1/LMOhguUgzxogEtvxJxvHgSh1ovqxB6GFIukz+CpzgrCaFhEtxS+1k24l+aBS4m2y4yOlof/24xN32aOotWjsUhwDpT4kjV156fWI/UxcovIPM2IOhhuSyNA4J2q2tIaaCTuhd4D2G8TkWb7Sjg3x9vwzFxp9T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792393669; c=relaxed/simple;
-	bh=S4fQ8XEc+oFAxEWDCpZJ1/B2hbc2+YG7gMyRh1B6L/o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mP20bVxYNs3j1dL0OSb82hbCIzuDYmd7WP6Rcbm2YV0Keei6KjA7f61OXFzcGCBWtAxQ4E+OQgAwSpblTklxnGRF7BrP2HxMrdia4pHYcjekmYah6yl3BC7Xe73WDVvHdBCI/279SNEl612yaB1P0525yjmmXJ2MQGOzY++179s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STdMKry3; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792393701; c=relaxed/simple;
+	bh=WQTjbdawYfxeQwOSJrQWTeGDyr+KcokpAy4YYWZWm3I=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GlVTFHLsO/lSf7CeUcv6lxgf2sH8uZtlEHdxcSlb8Tr5oiK/5nukbLeuj3Kj/kk4D/WBNGQouGKpQcjoel0YbLBV1RpJM+2/Wu+rMtECW6Ui8hXsHC2qNVNzBipdvrQJO34Q3s0W/eGY7Gl0aoRIZ1NVWO6BSYk5F2uUS0FE4A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEYXy26N; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STdMKry3"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4956869750eso12715155e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 00:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792393666; x=1792998466; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BogBNmuVEjeeMLqvlyDsF36FOVbrrggoEcqAkpHFhxE=;
-        b=STdMKry3iFnhKlQIHk8N/QvJObN4v3Xik0XDl8dsrjqkvJxK7vkUKDYywLira7lKw1
-         wEOsV9oByc2LFm7jSltMJAAdjUMtAzXZYphCbz2QPgyae6gPdrLv++TanH5za+eQv2mx
-         ACH2xR0lpGekT/IPGBXkjcREntm2z9fYTBLJ1iULK8iVa1qWzvCtxyMwz/qqnUE7i+IF
-         KO8QEyOBTEpD6JrUmGerKjd/UULJq982IndTv7Fq2tLw9iBnJAJmfNddQ7uVvvWq71Me
-         WnuGvBiR15fB8lUt21jCJuc6yJE+ojLTnQubRsqRcjGWTHCi9I3MGzRHYE2C95FqyjTH
-         ifnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792393666; x=1792998466;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BogBNmuVEjeeMLqvlyDsF36FOVbrrggoEcqAkpHFhxE=;
-        b=BJyEG+RksWZ4uoJoJz34zR80WxIce7tH32gkrZlwzqKBGnMQmufd8xcb+sGEqsFa2T
-         zudmb5YWsjIQEOjKir/vvdCXYoC/2DC1AawA6Dnq217nm6EWN35p/cySxwvG6F10yb41
-         wAbpamvEcQ1jzt6Vr1lF2ZI+fCDM7Y9hNUzGGfD4UZXnOJzkJkVu/by+a36zK9TKMlYD
-         5HzJ1zSMqjaV00eRRbDbOE8nl7NjbiXRquAsxCqdAZc8T2BtF5K8OZRO08ZmrOGWFv7g
-         yAjSOSu1hEkKTHve+Lj4oF4KO/2dV5Jme4iWzfVixhFZmHP8ahfwaq5+ERnjWqglZFSx
-         ar2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBz9uVcCVRWwjlj2QTRsfIJKOYqDXVkn/UOn9/eRdSWPmn19lSrVSoezGAY/UHha6XyCj/syN8vUFOjqfvoF@lists.linux.dev
-X-Gm-Message-State: AFq9FYL6kijA9aKgz21bbcDfy0FFKuw/bhe3GZGqHp2I/lVufARTHfVB
-	G3NStFrGIyRGwhf97HfnrH1vp6Porutpc8YqUPKG3w0AXHO12CJQjZYB
-X-Gm-Gg: AYBFou35JgSQIa6uWI6nZNep31HLidhL35uDJYEkRmeihCvEsRtzkfh/NZe2y2KbVp5
-	wCmVzZfL0PITDu8uQ74P5qr4bfWDdRgN03DZ2gtF1N9XrTK+vsPQAwCJORYMmhS4VelwWnJ5Adk
-	p/6so+ExLshsX0cXET4gjqDx30R/QB8BkxZwsUSjfDwxHGG+XCH41ZYkSxDFnXlhh1A/yDgA98q
-	RNl+jhJqKbsi+dyEfCqMxriciv0EDc5c7sd+lbwAcXBIY2dmTJvbYNsusTYA7EN6LatxJUTqAO5
-	qOGdXNpDFJIzfTvqDhXwHiV42lR1jMKGvlpe6QG4lmV1fhjhA+cqUjeByeqTK3oB9a/NU39xbeU
-	t3KdoSIviSpvkbe7gBIovTUFD9g0zPXiRKLNgW9rdaBbiEzIcmuxcqq3WxbODW89sqpstkmy+/2
-	SPgxGdHtWhpWnlcWMKsBK0Ql6v7jVq5NN7Cm8WIKWMVPCIuOFdr0Gwc5RkiOCrg3N/tEQ=
-X-Received: by 2002:a05:600c:5492:b0:4a1:d992:9476 with SMTP id 5b1f17b1804b1-4a1d992951cmr127787035e9.23.1792393666098;
-        Mon, 19 Oct 2026 00:07:46 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4fe9d9sm20109761f8f.40.2026.10.19.00.07.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 00:07:45 -0700 (PDT)
-Date: Mon, 19 Oct 2026 10:07:41 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-kminext 1/1]
- drivers/misc/pci_endpoint_test.c:292 pci_endpoint_test_bar() warn:
- signedness bug returning '(-61)'
-Message-ID: <202610170051.ZaPQhbIG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEYXy26N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792393699; x=1823929699;
+  h=date:from:to:cc:subject:message-id;
+  bh=WQTjbdawYfxeQwOSJrQWTeGDyr+KcokpAy4YYWZWm3I=;
+  b=eEYXy26N3v4YHpwiSE2a1DILULk2XHAVdrOhQVZQ4CkYT+lx6wrcgUxj
+   kY9jYQXBVDbNvLDVnPMNQs3QWu5IulSud3xqtOgyEYKvzACQzg5pNVEzL
+   0g4vxhbBpXfhTOnQ3yi29cGu3uTFez2p/nZGi/gpINNEXGkSNbDjnRV8c
+   A4jVbZoxs6ymXlxKXr3bRd5WpqZ2Tqrngf0KNKhcgAFgB0ueXSfZ0DNjN
+   Q5vpi2NDTTd4mM6nxp/upNqSiw5WNcSH0eEYfUU8MYBS8BvQTmAjX170k
+   mSOABpB4SpMDNAFXHE9gDUv17K8nr0tUMIJnNT6OJ90EpgcoD4r72AVj+
+   Q==;
+X-CSE-ConnectionGUID: N0LeEgUDTf6TXmqPFx22wQ==
+X-CSE-MsgGUID: Y6i+xR/sTY+KLuoxmsu64g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="953234"
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="953234"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 00:08:19 -0700
+X-CSE-ConnectionGUID: EhRX2OnFQoKkaT9qUu9dJg==
+X-CSE-MsgGUID: kMQthQ92Ry69HHoISi9HMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
+   d="scan'208";a="2460475"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 19 Oct 2026 00:08:18 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIhTj-000000005Wl-04Zs;
+	Mon, 19 Oct 2026 07:08:15 +0000
+Date: Mon, 19 Oct 2026 09:07:23 +0200
+From: kernel test robot <lkp@intel.com>
+To: Brian Cain <brian.cain@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [bcain:hexagon 2/82] drivers/video/fbdev/smscufx.c:802:52:
+ error: use of undeclared identifier 'PAGE_SHARED'
+Message-ID: <202610190913.B5w1BMXS-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-kminext
-head:   a42b417921ddca2df90dc3d8cb746eda8cdb6d63
-commit: f615e8d2dec6746127d4667c3cae81bfd6a1ed3a [1/1] misc: pci_endpoint_test: Give disabled BARs a distinct error code
-config: i386-randconfig-2200-20261016 (https://download.01.org/0day-ci/archive/20261017/202610170051.ZaPQhbIG-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git hexagon
+head:   35ab1dadb94646b74469738c1741f68e8c6aac3d
+commit: a068d81e03bf28e40eceb94bc49e122f09177d70 [2/82] hexagon: fix the page table model for the Hexagon VM
+config: hexagon-randconfig-2000-20261019 (https://download.01.org/0day-ci/archive/20261019/202610190913.B5w1BMXS-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261019/202610190913.B5w1BMXS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202610170051.ZaPQhbIG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610190913.B5w1BMXS-lkp@intel.com/
 
-smatch warnings:
-drivers/misc/pci_endpoint_test.c:292 pci_endpoint_test_bar() warn: signedness bug returning '(-61)'
+All errors (new ones prefixed by >>):
 
-vim +292 drivers/misc/pci_endpoint_test.c
+>> drivers/video/fbdev/smscufx.c:802:52: error: use of undeclared identifier 'PAGE_SHARED'
+     802 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+         |                                                                  ^
+   1 error generated.
+--
+>> drivers/video/fbdev/udlfb.c:370:52: error: use of undeclared identifier 'PAGE_SHARED'
+     370 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+         |                                                                  ^
+   1 error generated.
 
-2c156ac71c6b251 Kishon Vijay Abraham I 2017-03-27  282  static bool pci_endpoint_test_bar(struct pci_endpoint_test *test,
-                                                               ^^^^
 
-2c156ac71c6b251 Kishon Vijay Abraham I 2017-03-27  283  				  enum pci_barno barno)
-2c156ac71c6b251 Kishon Vijay Abraham I 2017-03-27  284  {
-2a35703a6a00e87 Niklas Cassel          2024-03-22  285  	int j, bar_size, buf_size, iters, remain;
-2a35703a6a00e87 Niklas Cassel          2024-03-22  286  	void *write_buf __free(kfree) = NULL;
-2a35703a6a00e87 Niklas Cassel          2024-03-22  287  	void *read_buf __free(kfree) = NULL;
-cda370ec6d1f7b2 Kishon Vijay Abraham I 2017-08-18  288  	struct pci_dev *pdev = test->pdev;
-2c156ac71c6b251 Kishon Vijay Abraham I 2017-03-27  289  
-f615e8d2dec6746 Niklas Cassel          2025-01-23  290  	bar_size = pci_resource_len(pdev, barno);
-f615e8d2dec6746 Niklas Cassel          2025-01-23  291  	if (!bar_size)
-f615e8d2dec6746 Niklas Cassel          2025-01-23 @292  		return -ENODATA;
+vim +/PAGE_SHARED +802 drivers/video/fbdev/smscufx.c
 
-s/-ENODATA/false/
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  775  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  776  static int ufx_ops_mmap(struct fb_info *info, struct vm_area_struct *vma)
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  777  {
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  778  	unsigned long start = vma->vm_start;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  779  	unsigned long size = vma->vm_end - vma->vm_start;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  780  	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  781  	unsigned long page, pos;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  782  
+5905585103276b7 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2022-04-29  783  	if (info->fbdefio)
+5905585103276b7 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2022-04-29  784  		return fb_deferred_io_mmap(info, vma);
+5905585103276b7 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2022-04-29  785  
+76f92201b821dd2 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2023-11-27  786  	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+76f92201b821dd2 drivers/video/fbdev/smscufx.c Thomas Zimmermann 2023-11-27  787  
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  788  	if (vma->vm_pgoff > (~0UL >> PAGE_SHIFT))
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  789  		return -EINVAL;
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  790  	if (size > info->fix.smem_len)
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  791  		return -EINVAL;
+04f8afbec37f63f drivers/video/smscufx.c       Tomi Valkeinen    2013-04-18  792  	if (offset > info->fix.smem_len - size)
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  793  		return -EINVAL;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  794  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  795  	pos = (unsigned long)info->fix.smem_start + offset;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  796  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  797  	pr_debug("mmap() framebuffer addr:%lu size:%lu\n",
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  798  		  pos, size);
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  799  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  800  	while (size > 0) {
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  801  		page = vmalloc_to_pfn((void *)pos);
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18 @802  		if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  803  			return -EAGAIN;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  804  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  805  		start += PAGE_SIZE;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  806  		pos += PAGE_SIZE;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  807  		if (size > PAGE_SIZE)
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  808  			size -= PAGE_SIZE;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  809  		else
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  810  			size = 0;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  811  	}
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  812  
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  813  	return 0;
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  814  }
+3c8a63e22a0802f drivers/video/smscufx.c       Steve Glendinning 2011-08-18  815  
 
-f615e8d2dec6746 Niklas Cassel          2025-01-23  293  
-2c156ac71c6b251 Kishon Vijay Abraham I 2017-03-27  294  	if (!test->bar[barno])
-2c156ac71c6b251 Kishon Vijay Abraham I 2017-03-27  295  		return false;
-2c156ac71c6b251 Kishon Vijay Abraham I 2017-03-27  296  
-834b9051992580a Kishon Vijay Abraham I 2017-08-18  297  	if (barno == test->test_reg_bar)
-2a35703a6a00e87 Niklas Cassel          2024-03-22  298  		bar_size = 0x4;
-834b9051992580a Kishon Vijay Abraham I 2017-08-18  299  
-2a35703a6a00e87 Niklas Cassel          2024-03-22  300  	/*
+:::::: The code at line 802 was first introduced by commit
+:::::: 3c8a63e22a0802fd56380f6ab305b419f18eb6f5 Add support for SMSC UFX6000/7000 USB display adapters
+
+:::::: TO: Steve Glendinning <steve.glendinning@smsc.com>
+:::::: CC: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
