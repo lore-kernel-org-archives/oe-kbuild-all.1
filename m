@@ -1,84 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792447543;
-	b=jIwjmP139qAs0IabDOMr7O9xuf3uwM2K7dL0oM9L8ZgLQlKLuTq4ka/BJ3NNwkHlLq04
-	 PX35+eiDKvreYd/pSu/I8vb2TMFPQVdnXeUblNNhvc7tLx71AiRKRbZvHUg8zKa0JJsmO
-	 86I+Sn4ytqhBSdjKq05xc1pkfRWGrytbDStiYM6EKJRiwi3JUklnyc2Z9KHV2Jd1S1ZKf
-	 g7DEZVI7zYJKwxcMP2dcit8NHENtwTcQfQ6IiEwGGlj6jj3xkK/4nOjUnEZog9nDDcvaM
-	 InH4deGtBKrWUDIPo3W3/41fbKv3R27Ey1HNlsmLCozkhjRZ0VQgqBAunwsmiL+Fwpw==
+	t=1792450125;
+	b=Vl9PCECkLK6/Z9ecI5E1Y+pa0ML+Vz/8nklaPkXPhwZSt+GmdkW8685Peb7Tb1v25vkA
+	 uxK7/NhZhWZNDU6HmXYak2PSJ563KmF7o81jZOwHPyo7kMgmFLwaumyywzawRxauOAhzr
+	 qwqrW3EiSY0Pzb0my6ef46yoXMpZAhJq43egaoab6zU9ag/TAH3YX4A56qOtrWsV+0e6t
+	 XUZuNfaQTNq0JcSkrQ2JPXBizrK9VryNGt9SvqYK93MHZSG2AjpoZKq3nJSN8tP/0qhKO
+	 yqC16UfYuwYDHBO8i9zX26r7SQDLjiTKqzZEDUphWPeH9MlAXoHl0JL442TbnpPJATw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792447543;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=fmlVs24LQp0dd+1QD+/a5DEQxq5dxAAfPsUSTasLGXs=;
-	b=b/fkwy9GddtweQajHhWw9lG6vmv/j9h9HoXrVa4IXL3KhjJ72BM7nmB/TO8Qj/RL2nWs
-	 WDQAta5e0nJk2xcxda3RptaXej9yBwvp0Y7V7jfRIncdF8pSndBET9NP8e1zZ7qC3RPnM
-	 UZ4c65Rphvb7cMR3wN0N7vcmv5sV2ZcVaVs8kwx73gvbTtl8gnHk/vSb3OTs76WIPWYys
-	 QjeVKtv3kvTm/Hkk2lpXsv9sbpkPg+Vo18kx2qH+WxUugsFNIRIGiuJkVOYPsORd48edu
-	 tKNJXl3bJqQGxYkceR9z11ldEBG8BrIqJgUrlIQklhh7/mquhpD19SlBwBmFUaDKc+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792450125;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=BDETWBk57RhCHkvDEYxUPaeJhjxlvQJ1SuqXF/6o9rU=;
+	b=zGtiPoL5bGkHlYcffdUcKbB8dpgTO6HvMh6f1M4IDYQANMsxMyOQ4QdKcOAWKtbfNwBG
+	 isMukAAki9ri8QpC2p/DzmmB+59qTo8O8pt7S519XLCyPSVPmMq4roW/BnNbDp+8LF7pH
+	 twKSB0U0JxMY8ERBKF3UL5F5Rg/LFYE/3+PcPwitHl76oRIzSRaljaP0Pm+qdbFZT1gyN
+	 EdcPcM6TVfkrbLMnifzhk00tNFxuwdCh6uE/4tjvFYQui5oVkk+SbZJGb0cmcBOElHHXL
+	 DXx6nLsboxuo+pvfhDc9fNjDCEjToS8D1QH1qWYyZ5bslalPaDUs9ROnD7dscK/eAhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="BC+l/gsm";
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i70qfFS7;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72449606A323
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 22:05:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72449606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE056606A319
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 22:48:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE056606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=BC+l/gsm
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a1dfd49525so15867965e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Oct 2026 15:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792447541; x=1793052341; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fmlVs24LQp0dd+1QD+/a5DEQxq5dxAAfPsUSTasLGXs=;
-        b=BC+l/gsmZ/edxTjOry5Css/08fdmVTc4jS+8L6XFI2zL31QfeRVsQtPUeCZsUfon1h
-         XVHrVwGpKQkqHlBFhvgossGxBQuNkDSpMqziLSQsCZfd4kzztOhNO745+9gn48QjUnxL
-         ct8G4CzpLn/DRThWNMq4twz9Xx3BmdA7FAxCBuFSctG1Q+usxtOjBsLFI4sRza8/Afbz
-         rvcmEmgnlHHFV0OC1732BCg2w/GLe2QwUqTkAq47u80xfRnw944NckvlW594Ljal4eno
-         xaklE3o1H1gmrVmLVXC83dQD0aImIxMv/O+/6142hia7SDx8HK5Hytze1JBLbIrojXFk
-         mJeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792447541; x=1793052341;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fmlVs24LQp0dd+1QD+/a5DEQxq5dxAAfPsUSTasLGXs=;
-        b=2upFbeR4rsrIeBN1jwOeoIUybqayVKc9zgB1FIEyNepgBk86FnBBgPwHr+Bm+vPE7v
-         SuIoA8AWxDILxbacWajIF3r9vacPCvcetiEjzSbNBcELk0ELpY0T0GQGqaB2SKQseNaG
-         GoGcjTm9nj3ovc5fWducToDT12I5lLQFWcZ1PzLTGDmJXXfdkBAaX9fkDbQeqQJQHdSw
-         +PafWMR5mDsyXbjfqB6wC3+hryNI3KnXGVBEZrdWGM4ORW0OloVs171113+Q5sfDIfSe
-         ma5PbKUTbQBthFj7LmD7oBQiY8JLi5WSolU2gAbdUFHtT2yM6Yk9L5jsveylDn8bmmrz
-         Xe4Q==
-X-Gm-Message-State: AFq9FYL+b6WRrcI3Jozu/OYFMdWV1CUkU8ld3LTNa4pU+lUjykteh2y/
-	mzznd9/ySMyiHuQajDOPud36d4E1jpkUfRQ2db5HN/KtDQNTShTqT16jDoiCjLFcfV4=
-X-Gm-Gg: AYBFou0C6LTRNZ+PGvX2/HY63Y4qgP4zL7TBJfu6ie7rYClcK7zB5LMeYliJ4zEIDhA
-	iHHvUDTcKovya71bszC2BnKe6mS9aLtJBcRerBStGVZ4SkJDrqV9YNUWdauVK1MJ7tE9JW3f6i/
-	Ox5mmaFPuxkwGkUP30h0ssLC5ggieZ7mQVIgzQxEHPuFM1bFt38NjfzHC/dbrkfpIG+3aD6BHk9
-	WYOJHdyDFegzU5j78oksEAqUMwA1QD64Tvnsqi8zrl9hawIs2lvq7QRx6CDZsqgHRrMKxhoR1XH
-	qi90f3S/q/lXGxHryUUZhcpwWV5hKCwf9EQxdtrtV00/NhWunExVhfG0S35gOefpM4paFc1+K2u
-	nZzjIDWrNfwAPtrb95ShWMelw8nc+pkjKDRwNagSTgkRpYs3AUSlL88H/EIBH7rovB4YOonuI9U
-	FBc+PsDg7/6vOUYGEcY5iOZuwlErmnC2xNTY2X98zLIsA6xy9Gc26TkSwHgYCVbEM=
-X-Received: by 2002:a05:600c:c117:b0:4a0:1c0e:b057 with SMTP id 5b1f17b1804b1-4a1d75af362mr142452765e9.4.1792447540510;
-        Mon, 19 Oct 2026 15:05:40 -0700 (PDT)
-Received: from [172.16.0.229] ([159.196.52.54])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad5da2d6aasm1166899a91.13.2026.10.19.15.05.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 15:05:39 -0700 (PDT)
-Message-ID: <a8441079-e9cf-48a5-a9cc-2353394fd2f3@suse.com>
-Date: Tue, 20 Oct 2026 08:35:35 +1030
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i70qfFS7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792450123; x=1823986123;
+  h=date:from:to:cc:subject:message-id;
+  bh=1FkhxuPRYe50bnWemywEBL3BoBiGWXIsShNXnjHb4k8=;
+  b=i70qfFS7ba/Va3mCjJRma3N/G+909ndANc6EJJXSzX6k7TOFoHhzLV79
+   37loYpVv1ngwO8eXf0ofwHMkGXY6Q3g+LuojloF78iSbz95b6iabkItG7
+   aa5VCQq/A/MtXAnbEd36qiuzGtmYtCQQAaD/u9TVXlQ/QNa7LLSDSVbyG
+   n6xmRHGQYIPJirpN5f0mDF93NDBecHxzFVKmewNbklVEk0uha1M1Zj4GX
+   z2T78jx0UPwXssY294RdyhH+sTk+S7ZSScL3nz3eiTucTlnH0Xiaoo0jo
+   2PxmuXwS/k9Miv8x9zpW7qG0mM52RfJ2t5z8aTcPQrSzVJrHthP/2M43t
+   g==;
+X-CSE-ConnectionGUID: fOzVvmXrTqiH9bEsOUEKcA==
+X-CSE-MsgGUID: p/3VfH9TREe0JqVLpz2j6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1156268"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1156268"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 15:48:42 -0700
+X-CSE-ConnectionGUID: DPGwH1biSUuHwmlwmG0Big==
+X-CSE-MsgGUID: qS0G3a8oRyK2ylTP/7gMUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="3063150"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 19 Oct 2026 15:48:42 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIw9n-00000000MW2-0wRZ;
+	Mon, 19 Oct 2026 22:48:39 +0000
+Date: Tue, 20 Oct 2026 06:48:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [snitzer:kernel-7.3/main.NFSD_TCP_WRITE_ZEROCOPY 406/408]
+ Warning: net/sunrpc/svc_xprt.c:226 function parameter 'wake' not described in
+ 'svc_xprt_do_enqueue'
+Message-ID: <202610200646.FkJTxkGV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,258 +80,26 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] btrfs: add a new 'stripe_len' parameter to
- btrfs_stripe_nr_to_offset()
-To: kernel test robot <lkp@intel.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-References: <48b407f8488edc890710cdf8ebfefe413e7721c2.1792391732.git.wqu@suse.com>
- <202610200549.0ma4is7Y-lkp@intel.com>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-In-Reply-To: <202610200549.0ma4is7Y-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/main.NFSD_TCP_WRITE_ZEROCOPY
+head:   778e7e2f1f623dfd97c17e9da1b5d84d367a3f6f
+commit: 39122acc89c20c5777690dabe10c7c6fc16d8dae [406/408] SUNRPC: Optionally avoid waking a thread after a short TCP receive
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20261020/202610200646.FkJTxkGV-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610200646.FkJTxkGV-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610200646.FkJTxkGV-lkp@intel.com/
 
-在 2026/10/20 08:22, kernel test robot 写道:
-> Hi Qu,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on btrfs/for-next]
+All warnings (new ones prefixed by >>):
 
-This patchset has one extra dependency, which was just merged hours ago.
+>> Warning: net/sunrpc/svc_xprt.c:226 function parameter 'wake' not described in 'svc_xprt_do_enqueue'
+>> Warning: net/sunrpc/svc_xprt.c:226 expecting prototype for svc_xprt_received(). Prototype was for svc_xprt_do_enqueue() instead
+   Warning: net/sunrpc/svc_xprt.c:534 function parameter 'wake' not described in 'svc_xprt_do_enqueue'
+>> Warning: net/sunrpc/svc_xprt.c:534 expecting prototype for svc_xprt_enqueue(). Prototype was for svc_xprt_do_enqueue() instead
 
-Please retry the latest btrfs/for-next branch.
-
-> [also build test ERROR on linus/master v7.3 next-20261016]
-> [cannot apply to kdave/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-reduce-the-width-of-num_stripes-and-sub_stripes/20261019-170957
-> base:   https://github.com/btrfs/linux.git for-next
-> patch link:    https://lore.kernel.org/r/48b407f8488edc890710cdf8ebfefe413e7721c2.1792391732.git.wqu%40suse.com
-> patch subject: [PATCH 5/9] btrfs: add a new 'stripe_len' parameter to btrfs_stripe_nr_to_offset()
-> config: m68k-defconfig (https://download.01.org/0day-ci/archive/20261020/202610200549.0ma4is7Y-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 16.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610200549.0ma4is7Y-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610200549.0ma4is7Y-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->     In file included from include/linux/error-injection.h:5,
->                      from fs/btrfs/tree-checker.c:20:
->     fs/btrfs/tree-checker.c: In function 'btrfs_check_chunk_valid':
->>> fs/btrfs/tree-checker.c:1061:32: error: too few arguments to function 'btrfs_stripe_nr_to_offset'; expected 2, have 1
->      1061 |         if (unlikely(length >= btrfs_stripe_nr_to_offset(U32_MAX))) {
->           |                                ^~~~~~~~~~~~~~~~~~~~~~~~~
->     include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
->        77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
->           |                                             ^
->     In file included from fs/btrfs/tree-checker.c:25:
->     fs/btrfs/volumes.h:725:19: note: declared here
->       725 | static inline u64 btrfs_stripe_nr_to_offset(u32 stripe_nr, u32 stripe_len)
->           |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
->     fs/btrfs/tree-checker.c:1064:35: error: too few arguments to function 'btrfs_stripe_nr_to_offset'; expected 2, have 1
->      1064 |                           length, btrfs_stripe_nr_to_offset(U32_MAX));
->           |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
->     fs/btrfs/volumes.h:725:19: note: declared here
->       725 | static inline u64 btrfs_stripe_nr_to_offset(u32 stripe_nr, u32 stripe_len)
->           |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/btrfs_stripe_nr_to_offset +1061 fs/btrfs/tree-checker.c
-> 
-> c3d6dda60c9da79 Mark Harmstone 2026-01-07   958
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   959  /*
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   960   * The common chunk check which could also work on super block sys chunk array.
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   961   *
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   962   * If @leaf is NULL, then @chunk must be an on-stack chunk item.
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   963   * (For superblock sys_chunk array, and fs_info->sectorsize is unreliable)
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   964   *
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20   965   * Return -EUCLEAN if anything is corrupted.
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   966   * Return 0 if everything is OK.
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   967   */
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   968  int btrfs_check_chunk_valid(const struct btrfs_fs_info *fs_info,
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   969  			    const struct extent_buffer *leaf,
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   970  			    const struct btrfs_chunk *chunk, u64 logical,
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   971  			    u32 sectorsize)
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   972  {
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   973  	u64 length;
-> 347fb0cfc9bab51 Su Yue         2021-01-03   974  	u64 chunk_end;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   975  	u64 stripe_len;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   976  	u16 num_stripes;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   977  	u16 sub_stripes;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   978  	u64 type;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   979  	u64 features;
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   980  	u32 chunk_sector_size;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   981  	bool mixed = false;
-> c3d6dda60c9da79 Mark Harmstone 2026-01-07   982  	bool remapped;
-> 85d07fbe09efd1c Daniel Xu      2020-10-08   983  	int raid_index;
-> 85d07fbe09efd1c Daniel Xu      2020-10-08   984  	int nparity;
-> 85d07fbe09efd1c Daniel Xu      2020-10-08   985  	int ncopies;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   986
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   987  	if (leaf) {
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   988  		length = btrfs_chunk_length(leaf, chunk);
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   989  		stripe_len = btrfs_chunk_stripe_len(leaf, chunk);
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   990  		num_stripes = btrfs_chunk_num_stripes(leaf, chunk);
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   991  		sub_stripes = btrfs_chunk_sub_stripes(leaf, chunk);
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20   992  		type = btrfs_chunk_type(leaf, chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   993  		chunk_sector_size = btrfs_chunk_sector_size(leaf, chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   994  	} else {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   995  		length = btrfs_stack_chunk_length(chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   996  		stripe_len = btrfs_stack_chunk_stripe_len(chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   997  		num_stripes = btrfs_stack_chunk_num_stripes(chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   998  		sub_stripes = btrfs_stack_chunk_sub_stripes(chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21   999  		type = btrfs_stack_chunk_type(chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1000  		chunk_sector_size = btrfs_stack_chunk_sector_size(chunk);
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1001  	}
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1002  	raid_index = btrfs_bg_flags_to_raid_index(type);
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1003  	ncopies = btrfs_raid_array[raid_index].ncopies;
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1004  	nparity = btrfs_raid_array[raid_index].nparity;
-> c3d6dda60c9da79 Mark Harmstone 2026-01-07  1005  	remapped = (type & BTRFS_BLOCK_GROUP_REMAPPED);
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1006
-> c3d6dda60c9da79 Mark Harmstone 2026-01-07  1007  	if (unlikely(!remapped && !num_stripes)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1008  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1009  			  "invalid chunk num_stripes, have %u", num_stripes);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1010  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1011  	}
-> c3d6dda60c9da79 Mark Harmstone 2026-01-07  1012  	if (unlikely(num_stripes != 0 && num_stripes < ncopies)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1013  		chunk_err(fs_info, leaf, chunk, logical,
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1014  			  "invalid chunk num_stripes < ncopies, have %u < %d",
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1015  			  num_stripes, ncopies);
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1016  		return -EUCLEAN;
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1017  	}
-> c7c01a4a2524b3f David Sterba   2020-11-04  1018  	if (unlikely(nparity && num_stripes == nparity)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1019  		chunk_err(fs_info, leaf, chunk, logical,
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1020  			  "invalid chunk num_stripes == nparity, have %u == %d",
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1021  			  num_stripes, nparity);
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1022  		return -EUCLEAN;
-> 85d07fbe09efd1c Daniel Xu      2020-10-08  1023  	}
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1024  	if (unlikely(!IS_ALIGNED(logical, sectorsize))) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1025  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1026  		"invalid chunk logical, have %llu should aligned to %u",
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1027  			  logical, sectorsize);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1028  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1029  	}
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1030  	if (unlikely(chunk_sector_size != sectorsize)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1031  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1032  			  "invalid chunk sectorsize, have %u expect %u",
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1033  			  chunk_sector_size, sectorsize);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1034  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1035  	}
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1036  	if (unlikely(!length || !IS_ALIGNED(length, sectorsize))) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1037  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1038  			  "invalid chunk length, have %llu", length);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1039  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1040  	}
-> 347fb0cfc9bab51 Su Yue         2021-01-03  1041  	if (unlikely(check_add_overflow(logical, length, &chunk_end))) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1042  		chunk_err(fs_info, leaf, chunk, logical,
-> 347fb0cfc9bab51 Su Yue         2021-01-03  1043  "invalid chunk logical start and length, have logical start %llu length %llu",
-> 347fb0cfc9bab51 Su Yue         2021-01-03  1044  			  logical, length);
-> 347fb0cfc9bab51 Su Yue         2021-01-03  1045  		return -EUCLEAN;
-> 347fb0cfc9bab51 Su Yue         2021-01-03  1046  	}
-> c7c01a4a2524b3f David Sterba   2020-11-04  1047  	if (unlikely(!is_power_of_2(stripe_len) || stripe_len != BTRFS_STRIPE_LEN)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1048  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1049  			  "invalid chunk stripe length: %llu",
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1050  			  stripe_len);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1051  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1052  	}
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1053  	/*
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1054  	 * We artificially limit the chunk size, so that the number of stripes
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1055  	 * inside a chunk can be fit into a U32.  The current limit (256G) is
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1056  	 * way too large for real world usage anyway, and it's also much larger
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1057  	 * than our existing limit (10G).
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1058  	 *
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1059  	 * Thus it should be a good way to catch obvious bitflips.
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1060  	 */
-> cb091225a538005 Qu Wenruo      2023-06-22 @1061  	if (unlikely(length >= btrfs_stripe_nr_to_offset(U32_MAX))) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1062  		chunk_err(fs_info, leaf, chunk, logical,
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1063  			  "chunk length too large: have %llu limit %llu",
-> cb091225a538005 Qu Wenruo      2023-06-22  1064  			  length, btrfs_stripe_nr_to_offset(U32_MAX));
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1065  		return -EUCLEAN;
-> 6ded22c1bfe6a8a Qu Wenruo      2023-02-17  1066  	}
-> ef6a31d035a1000 Mark Harmstone 2026-01-07  1067  	if (unlikely(type & ~BTRFS_BLOCK_GROUP_VALID)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1068  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1069  			  "unrecognized chunk type: 0x%llx",
-> ef6a31d035a1000 Mark Harmstone 2026-01-07  1070  			  type & ~BTRFS_BLOCK_GROUP_VALID);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1071  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1072  	}
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1073
-> c7c01a4a2524b3f David Sterba   2020-11-04  1074  	if (unlikely(!has_single_bit_set(type & BTRFS_BLOCK_GROUP_PROFILE_MASK) &&
-> c7c01a4a2524b3f David Sterba   2020-11-04  1075  		     (type & BTRFS_BLOCK_GROUP_PROFILE_MASK) != 0)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1076  		chunk_err(fs_info, leaf, chunk, logical,
-> 80e46cf22ba0bcb Qu Wenruo      2019-03-13  1077  		"invalid chunk profile flag: 0x%llx, expect 0 or 1 bit set",
-> 80e46cf22ba0bcb Qu Wenruo      2019-03-13  1078  			  type & BTRFS_BLOCK_GROUP_PROFILE_MASK);
-> 80e46cf22ba0bcb Qu Wenruo      2019-03-13  1079  		return -EUCLEAN;
-> 80e46cf22ba0bcb Qu Wenruo      2019-03-13  1080  	}
-> c7c01a4a2524b3f David Sterba   2020-11-04  1081  	if (unlikely((type & BTRFS_BLOCK_GROUP_TYPE_MASK) == 0)) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1082  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1083  	"missing chunk type flag, have 0x%llx one bit must be set in 0x%llx",
-> f114024376bceb1 Qu Wenruo      2019-03-20  1084  			  type, BTRFS_BLOCK_GROUP_TYPE_MASK);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1085  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1086  	}
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1087
-> c7c01a4a2524b3f David Sterba   2020-11-04  1088  	if (unlikely((type & BTRFS_BLOCK_GROUP_SYSTEM) &&
-> c7c01a4a2524b3f David Sterba   2020-11-04  1089  		     (type & (BTRFS_BLOCK_GROUP_METADATA |
-> c7c01a4a2524b3f David Sterba   2020-11-04  1090  			      BTRFS_BLOCK_GROUP_DATA)))) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1091  		chunk_err(fs_info, leaf, chunk, logical,
-> f114024376bceb1 Qu Wenruo      2019-03-20  1092  			  "system chunk with data or metadata type: 0x%llx",
-> f114024376bceb1 Qu Wenruo      2019-03-20  1093  			  type);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1094  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1095  	}
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1096
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1097  	features = btrfs_super_incompat_flags(fs_info->super_copy);
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1098  	if (features & BTRFS_FEATURE_INCOMPAT_MIXED_GROUPS)
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1099  		mixed = true;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1100
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1101  	if (!mixed) {
-> c7c01a4a2524b3f David Sterba   2020-11-04  1102  		if (unlikely((type & BTRFS_BLOCK_GROUP_METADATA) &&
-> c7c01a4a2524b3f David Sterba   2020-11-04  1103  			     (type & BTRFS_BLOCK_GROUP_DATA))) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1104  			chunk_err(fs_info, leaf, chunk, logical,
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1105  			"mixed chunk type in non-mixed mode: 0x%llx", type);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1106  			return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1107  		}
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1108  	}
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1109
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1110  	if (unlikely((type & BTRFS_BLOCK_GROUP_METADATA_REMAP) &&
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1111  		     !(features & BTRFS_FEATURE_INCOMPAT_REMAP_TREE))) {
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1112  		chunk_err(fs_info, leaf, chunk, logical,
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1113  		"METADATA_REMAP chunk type without REMAP_TREE incompat bit");
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1114  		return -EUCLEAN;
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1115  	}
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1116
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1117  	if (unlikely(remapped &&
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1118  		     !(features & BTRFS_FEATURE_INCOMPAT_REMAP_TREE))) {
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1119  		chunk_err(fs_info, leaf, chunk, logical,
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1120  		"REMAPPED chunk flag without REMAP_TREE incompat bit");
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1121  		return -EUCLEAN;
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1122  	}
-> 18addf9ec82f857 Mark Harmstone 2026-03-04  1123
-> a6e5521ecc5e712 Filipe Manana  2026-09-16  1124  	if (unlikely(!remapped &&
-> c3d6dda60c9da79 Mark Harmstone 2026-01-07  1125  		     !valid_stripe_count(type & BTRFS_BLOCK_GROUP_PROFILE_MASK,
-> a6e5521ecc5e712 Filipe Manana  2026-09-16  1126  					 num_stripes, sub_stripes))) {
-> 2a9bb78cfd367fd Qu Wenruo      2024-12-21  1127  		chunk_err(fs_info, leaf, chunk, logical,
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1128  			"invalid num_stripes:sub_stripes %u:%u for profile %llu",
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1129  			num_stripes, sub_stripes,
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1130  			type & BTRFS_BLOCK_GROUP_PROFILE_MASK);
-> bf871c3b43b1dcc Qu Wenruo      2019-03-20  1131  		return -EUCLEAN;
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1132  	}
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1133
-> 82fc28fbedbb596 Qu Wenruo      2019-03-20  1134  	return 0;
-> fce466eab7ac6ba Qu Wenruo      2018-07-03  1135  }
-> fce466eab7ac6ba Qu Wenruo      2018-07-03  1136
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
