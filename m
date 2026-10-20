@@ -1,77 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792483359;
-	b=Dncw2ZKocfwfdkqwwHbrv02PgAaq+TR6fxqcxMYix4Vg5fZAji0M0gsMdYtLKgPXAmW2
-	 eGEgTW9Ku/zf1VBQlg1daopHnnw0lJ+/6XKmCLnViGDXSU1LvXssJy6hfHrmtOILx0kzH
-	 18r2s7r0PZnM4Xmew3Eo/iUADvV6WqzwVI9IDn29Fq1P4dAddt46MXeyfA7+C72uFAHtz
-	 dnfIs532QKHxadPJ+aOefHhri3CR0/J5GlMkM/kFthB4JYJXxhsxxj49xcQ4irpkqi5Ng
-	 YjKAiij0Y+tSk5EDui9ggFw9IBOXkC6P3BX2IMs80vztCV2H1xmcDcCz19y93F3Jgzw==
+	t=1792484198;
+	b=fj7Z9KBDbM27uSzxASep5PVpK9X5Vw+hk84sCpb0z+y0XomKxzXBgiNWqSwaE+uGO3si
+	 5F+IqjvGK6KhziwcCXiAzv2e6rXPpnajCUhMBK+kuM6K9mNuunHVPkdvbusUAAmOdqEDL
+	 /9G5nA12VWrlXWSKlt3wkvKJPXx06cKVvx1WBLvBal1k/NZvP6hS+Ox3oKjL7mCqcTWWS
+	 8m2TuSly/sFOT1CO/Vnbk+ET7Pwe1Rj/rcBFtjyGLpoCRUc3qTDgy7+sU83AWULZ0vVH3
+	 fPBsTLtLdw2aD3xDyzvARC1SYFqNQsfLyWaJ8YnX/pSmSa0pzp33Ac12PxV/pv1uFUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792483359;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=H1H53f2tBYw7AlXIk6TsP4Y9NvtB9ypzC5m6clgaxO4=;
-	b=3sOTREU7LV0klFhKjzChQobL3pxn+J/6kUTms3Zbd43y+BncbxX2CLMJf3WcaDyNsQuq
-	 Eltj2loHZ3cbOcA+WjGgtT33Qezj3asIRT0aQYvKa+ECdpavcbVRkeSyi3L2NC+TGXcH2
-	 5MmIYVDejJruMkbUfa9eQSGVLPFUldihqR6iaMWKRN6x/wo65urtuNsTuOKnicwynDQim
-	 uVbaV8v8S+gmc5AvWXE9TDkEat7SMkdgCv45Qtx0AmocYJe0WJCDN8C6FY4Jq8yazSdII
-	 T2YysrJkcB/bKshRWjgHkqn+pSuIKHuf6QR0HK72g52WQ1wK1VopXMcj7I79NjFF3LQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792484198;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=l9uR/N7gLiTwOqReBXdbxE6qJ9gVs9WwY/EYk75QFRc=;
+	b=0YoWQZX2XzbLnz2IS+QdZy3XMORK5hMfVL2qDyfAI4e9tV4DLdETu3ahDfoEzPvpY+tZ
+	 Rp40cvP/5t8zQidHeawM2XgB44Tmp+15B5gWV93J3dtpbOI0RLGmgZWqYy7YCHBXdjcuM
+	 Alj5GgAvvg5c1XvU3ZCBF43uhsLxJktPYm/pqhXW59qNJBncYGJ2e9va6ZtZ9NOMV2wnv
+	 b9xqjDYcS2AmYhdH5gG7UsRv0vNmNzpjJtK7Bo6GKefKpXTCDWy314hWkYBDz1ejJdOwx
+	 g7W7/NOWvDMIDreNTRzkYfc/3g4MQcVi7AH1ba8kk2G11OA+cQT5NpRhrOh+EWaCuVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YGqshRxr;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROii2efd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDC2606A31B;
-	Tue, 20 Oct 2026 08:02:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DCDC2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2894606A31D;
+	Tue, 20 Oct 2026 08:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YGqshRxr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792483358; x=1824019358;
-  h=date:from:to:cc:subject:message-id;
-  bh=zQErPCxKGLshMLMVCuDm1Ugzlte1J2gCkM+PaHCLeY8=;
-  b=YGqshRxr+SKfbFlHV7rORSh8oQk/98iq9Qz4c30Ftjp39p/n9pNmxfPN
-   QPygXBk9v2oUdnWmg1cvmLy7EcjknZnoRPpQpPsuAQzaQKe6TIpAkVMSh
-   mOUY5FXPbp1C+FHtmRVjNtWD3FsotfTsdIn/ZF7zYhGQSDMuzpk53jCi/
-   Ep87ekjcxdWWNK5tXCRWuZ1XhKLnRzhFx0gCrDx2gEZY6eDHEof/RQVY8
-   oTt3kTM1J36w+p51/yvidNR2jTYaywvE5XYvoFeYGqByn2MKGW4EqQvTG
-   ysqvjhNN19Kv9/IDJ8gtfEaQ1UqXiIrzPMZj5vXTmVlKUdWwIWfsNDaQY
-   w==;
-X-CSE-ConnectionGUID: v8jg8WGPTNyZtZ7yQBSaBg==
-X-CSE-MsgGUID: JkwnHfe/T22qebbuAq5I2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1195770"
-X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1195770"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 01:02:34 -0700
-X-CSE-ConnectionGUID: pIQ2ojDrSXCqCV67pUAfJQ==
-X-CSE-MsgGUID: vJbYO43ATl2eAcZ9Y9HGHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="2758735"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Oct 2026 01:02:33 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xJ4nm-000000006B5-3VKS;
-	Tue, 20 Oct 2026 08:02:30 +0000
-Date: Tue, 20 Oct 2026 10:01:46 +0200
-From: kernel test robot <lkp@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [daveh-devel:kss-2026-10-19 16/24]
- include/linux/thread_info.h:237:20: error: redefinition of
- 'arch_kernel_shstk_enabled'
-Message-ID: <202610200912.3obIPJfU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ROii2efd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABFB61F000C6;
+	Tue, 20 Oct 2026 08:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792484197;
+	bh=l9uR/N7gLiTwOqReBXdbxE6qJ9gVs9WwY/EYk75QFRc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ROii2efdOwpCgHdWe4YOER9Dz1CzSCwp1GyIu33YEcAQyuwFiQkxx17LOl1FQCWdi
+	 EKvqXPhpd4yurMzvsRkpFAytHXPoIpIqwE4CQ8+NycXDKyLxOL3mS9NR9svq83yhvm
+	 /t/nof/51il6zWWiZd7XomIvuZYKc3id4/Wa4vBI+KrGJ92j0pJnruiEGxslzOB2yy
+	 e/dTVA5CQdaVK714vJeFb70tRpa+lqORnSVNj0+N0Xd/ZWxBB4tsXs4fYubvxNVeKB
+	 ZVSglQ9E/nTV+DfTeHh4eplzEWCmIIn4HTBL7qYgZho8qI7lSwc9hThxq2YENZXF5S
+	 +PNod0Zyygmtg==
+Date: Tue, 20 Oct 2026 10:16:32 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, Waqar Hameed <waqar.hameed@axis.com>,
+ oe-kbuild-all@lists.linux.dev, Sebastian Reichel
+ <sebastian.reichel@collabora.com>, linux-doc@vger.kernel.org, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [linux-next:master 3622/16987] htmldocs:
+ Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+Message-ID: <20261020101625.01874245@foz.lan>
+In-Reply-To: <a9c10b54-be65-4448-8d1d-fde894336484@infradead.org>
+References: <202610151025.1g5IgCv2-lkp@intel.com>
+	<a9c10b54-be65-4448-8d1d-fde894336484@infradead.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,224 +63,198 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kss-2026-10-19
-head:   b28e7d03a8472efab137c77cbb5dd666fa08e9a7
-commit: 967449663fb3eb7dcca67c4652293712530809c8 [16/24] arch-shadow-stacks-enabled
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261020/202610200912.3obIPJfU-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610200912.3obIPJfU-lkp@intel.com/reproduce)
+On Mon, 19 Oct 2026 17:15:02 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610200912.3obIPJfU-lkp@intel.com/
+> [for kernel-doc people]
+>=20
+> On 10/15/26 1:11 AM, kernel test robot wrote:
+> > Hi Waqar,
+> >=20
+> > FYI, the error/warning still remains.
+> >=20
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git master
+> > head:   d419d682257d813f6cb7a28e42b35d0edf4ad038
+> > commit: 3f21de6784a654503cc148169d1f59d89971da13 [3622/16987] power: su=
+pply: rt9467: Use POWER_SUPPLY_PROP_LOAD_SWITCH
+> > compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca=
+7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+> > docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux) =20
+>=20
+> I am using:
+> $ docutils --version
+> docutils-3.13 (Docutils 0.23, Python 3.13.16, on linux)
+> $ python3 --version
+> Python 3.13.16
+>=20
+>=20
+> > reproduce: (https://download.01.org/0day-ci/archive/20261015/2026101510=
+25.1g5IgCv2-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202610151025.1g5IgCv2-l=
+kp@intel.com/
+> >=20
+> > All warnings (new ones prefixed by >>):
+> >=20
+> >    Using alabaster theme =20
+>=20
+>=20
+> >>> Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline=
+ emphasis start-string without end-string. [docutils] =20
+> >    Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inlin=
+e emphasis start-string without end-string. [docutils] =20
+>=20
+> and I only see one of these warnings (rt9467), although the sources
+> for them are VERY similar.Why would that happen?
+> Do we need to fix anything?
+>=20
+> > vim +1 Documentation/ABI/testing/sysfs-class-power-rt9467
+> >=20
+> > eedb923279b78cb ChiaEn Wu 2023-01-03 @1  What:		/sys/class/power_supply=
+/rt9467-*/sysoff_enable
 
-All errors (new ones prefixed by >>):
+Getting just line 1 is wrong. See:
 
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:60:
-   In file included from include/linux/interrupt_rc.h:17:
-   In file included from include/linux/smp.h:118:
-   In file included from include/linux/thread_info.h:62:
-   arch/x86/include/asm/thread_info.h:237:6: warning: no previous prototype for function 'arch_kernel_shstk_enabled' [-Wmissing-prototypes]
-     237 | bool arch_kernel_shstk_enabled(void)
-         |      ^
-   arch/x86/include/asm/thread_info.h:237:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     237 | bool arch_kernel_shstk_enabled(void)
-         | ^
-         | static 
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:60:
-   In file included from include/linux/interrupt_rc.h:17:
-   In file included from include/linux/smp.h:118:
-   include/linux/thread_info.h:237:8: warning: attribute declaration must precede definition [-Wignored-attributes]
-     237 | static inline bool arch_kernel_shstk_enabled(void)
-         |        ^
-   include/linux/compiler_types.h:235:23: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                       ^
-   include/linux/compiler_attributes.h:165:56: note: expanded from macro '__gnu_inline'
-     165 | #define __gnu_inline                    __attribute__((__gnu_inline__))
-         |                                                        ^
-   arch/x86/include/asm/thread_info.h:237:6: note: previous definition is here
-     237 | bool arch_kernel_shstk_enabled(void)
-         |      ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:60:
-   In file included from include/linux/interrupt_rc.h:17:
-   In file included from include/linux/smp.h:118:
-   include/linux/thread_info.h:237:8: warning: attribute declaration must precede definition [-Wignored-attributes]
-     237 | static inline bool arch_kernel_shstk_enabled(void)
-         |        ^
-   include/linux/compiler_types.h:235:36: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                                    ^
-   include/linux/compiler_types.h:257:31: note: expanded from macro '__inline_maybe_unused'
-     257 | #define __inline_maybe_unused __maybe_unused
-         |                               ^
-   include/linux/compiler_attributes.h:352:56: note: expanded from macro '__maybe_unused'
-     352 | #define __maybe_unused                  __attribute__((__unused__))
-         |                                                        ^
-   arch/x86/include/asm/thread_info.h:237:6: note: previous definition is here
-     237 | bool arch_kernel_shstk_enabled(void)
-         |      ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:60:
-   In file included from include/linux/interrupt_rc.h:17:
-   In file included from include/linux/smp.h:118:
-   include/linux/thread_info.h:237:8: warning: attribute declaration must precede definition [-Wignored-attributes]
-     237 | static inline bool arch_kernel_shstk_enabled(void)
-         |        ^
-   include/linux/compiler_types.h:235:58: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                                                          ^
-   arch/x86/include/asm/linkage.h:9:32: note: expanded from macro 'notrace'
-       9 | #define notrace __attribute__((no_instrument_function))
-         |                                ^
-   arch/x86/include/asm/thread_info.h:237:6: note: previous definition is here
-     237 | bool arch_kernel_shstk_enabled(void)
-         |      ^
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:15:
-   In file included from include/linux/completion.h:12:
-   In file included from include/linux/swait.h:7:
-   In file included from include/linux/spinlock.h:60:
-   In file included from include/linux/interrupt_rc.h:17:
-   In file included from include/linux/smp.h:118:
->> include/linux/thread_info.h:237:20: error: redefinition of 'arch_kernel_shstk_enabled'
-     237 | static inline bool arch_kernel_shstk_enabled(void)
-         |                    ^
-   arch/x86/include/asm/thread_info.h:237:6: note: previous definition is here
-     237 | bool arch_kernel_shstk_enabled(void)
-         |      ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-      99 |                         set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
-     101 |                 return (set->sig[1] | set->sig[0]) == 0;
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:17:
-   In file included from include/linux/fs.h:5:
-   In file included from include/linux/fs/super.h:5:
-   In file included from include/linux/fs/super_types.h:13:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
+	$ ./tools/docs/get_abi.py -D Documentation/ABI/testing/ rest --enable-line=
+no|grep -A20 rt9467
 
 
-vim +/arch_kernel_shstk_enabled +237 include/linux/thread_info.h
+	.. LINENO Documentation/ABI/testing/sysfs-class-power-rt9467#1
 
-e66101020b3651 Dave Hansen 2026-10-19  235  
-5daba193b8cf42 Dave Hansen 2026-10-19  236  #ifndef arch_kernel_shstk_enabled
-5daba193b8cf42 Dave Hansen 2026-10-19 @237  static inline bool arch_kernel_shstk_enabled(void)
-5daba193b8cf42 Dave Hansen 2026-10-19  238  {
-5daba193b8cf42 Dave Hansen 2026-10-19  239  	return false;
-5daba193b8cf42 Dave Hansen 2026-10-19  240  }
-5daba193b8cf42 Dave Hansen 2026-10-19  241  #endif
-5daba193b8cf42 Dave Hansen 2026-10-19  242  
 
-:::::: The code at line 237 was first introduced by commit
-:::::: 5daba193b8cf422043348d59ff40fbda09a528d7 kernel/task: Add "runtime" check for shadow stack support
+	.. _abi_sys_class_power_supply_rt9467_sysoff_enable:
 
-:::::: TO: Dave Hansen <dave.hansen@linux.intel.com>
-:::::: CC: Dave Hansen <dave.hansen@intel.com>
+	+-----------------------------------------------------------+
+	| **\/sys\/class\/power_supply\/rt9467\-\*\/sysoff_enable** |
+	+-----------------------------------------------------------+
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Defined on file :ref:`sysfs-class-power-rt9467 <abi_file_testing_sysfs_cla=
+ss_power_rt9467>`
+
+	This entry allows enabling the sysoff mode of rt9467 charger
+	devices.
+	If enabled and the input is removed, the internal battery FET
+	is turned off to reduce the leakage from the BAT pin. See
+	device datasheet for details. It's commonly used when the
+	product enter shipping stage. After entering shipping mode,
+	only 'VBUS' or 'Power key" pressed can make it leave this mode.
+	'Disable' also can help to leave it, but it's more like to
+	abort the action before the device really enter shipping mode.
+
+	Access: Read, Write
+	Valid values:
+	- 1: enabled
+	- 0: disabled
+
+
+	.. LINENO Documentation/ABI/testing/sysfs-class-power-rt9471#19
+
+Just like kernel-doc, lines are incremented per symbol.
+
+Line 1 means the sysfs data that starts on line 1. In this specific case,
+I'm seeing two issues there:
+
+- 'Power key" - I guess it won't generate a warning, but the quote
+  types don't match.
+
+- Here, blank lines are missing:
+
+	Access: Read, Write
+	Valid values:
+	- 1: enabled
+	- 0: disabled
+
+  Causing this output:
+
+	Access: Read, Write Valid values: - 1: enabled - 0: disabled
+
+  The right way to format it would be:
+
+	Access: Read, Write
+
+	Valid values:
+
+	- 1: enabled
+	- 0: disabled
+
+  As RST format considers a single "\n" as if the next line to be
+  part of the same paragraph. So, to split paragraphs, a blank
+  line is needed.
+
+
+If you want to test it, I suggest placing the rst content on a file
+and ask Sphinx to build it. What I usually do to test stuff created
+via kernel-doc/get_abi/... is to create a:
+
+	Documentation/<temp_dir>
+
+adding there just an index file and the output I want to test.
+Then, I use make with SPHINXDIRS=3D<temp_dir>, as this is a lot
+faster than building the entire Kernel.
+
+	$ mkdir Documentation/get_abi_tmp_dir
+	$ ./tools/docs/get_abi.py -D Documentation/ABI/testing/ rest > Documentati=
+on/get_abi_tmp_dir/testing_abi.rst
+	[WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface n=
+um>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Do=
+cumentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/t=
+esting/sysfs-driver-hid-lenovo-go-s:234
+	[WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface n=
+um>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 tim=
+es: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation=
+/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+	[WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface n=
+um>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 =
+times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentat=
+ion/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+	[WARNING] /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface n=
+um>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defi=
+ned 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Docu=
+mentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+	[INFO] Didn't find ABI reference for 'Documentation/ABI/stable/sysfs-devic=
+es-node'
+	[INFO] Didn't find ABI reference for 'Documentation/ABI/stable/sysfs-devic=
+es-node'
+
+	$ cat <<EOF > get_abi_tmp_dir/index.rst
+	Test
+	=3D=3D=3D=3D
+
+	.. toctree::
+	   :maxdepth: 1
+
+	   testing_abi
+	EOF
+
+	$ make SPHINXDIRS=3Dget_abi_tmp_dir htmldocs
+
+here, I'm placing the entire content of the abi testing, but you
+could alternatively create a dir with a subset of files under ABI
+and test only the ones that hits errors. Once fixed, you can copy
+them back to the ABI directory.
+
+Btw, at least here (docs/docs-mw branch), I can=C2=B4t see any such
+errors.
+=09
+> >=20
+> > :::::: The code at line 1 was first introduced by commit
+> > :::::: eedb923279b78cbfe16dd54dade0d73e9977f118 Documentation: power: r=
+t9467: Document exported sysfs entries
+> >=20
+> > :::::: TO: ChiaEn Wu <chiaen_wu@richtek.com>
+> > :::::: CC: Sebastian Reichel <sre@kernel.org> =20
+>=20
+
+
+
+Thanks,
+Mauro
