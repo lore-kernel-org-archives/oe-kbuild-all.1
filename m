@@ -1,77 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792491902;
-	b=NP7glmA7TSASXpo0MOcTOlYqmTIfdS5lnX7849QPoUSpOyTJ3ddZ93Fq0x7uQ1VZddGZ
-	 JT2nOS07Lud/hMMLxsujafa/MWy0Mb/PgRR5I8ZqYUqZ9ZXzStqCt2MQDKG1hAYvDKI6Z
-	 XYNQv40QnmKvhFuCyk9bhki9SLkr1z+LnCx7RnMWKBTQ2jJullLHM+t8QSAsiCTM62E8H
-	 LSjEkFnXIfYp8a89f1YciLeLJAnofXM6Tbt8CHiu8KbpOcM/EhndsadQH8ZT39727SyAH
-	 r49OjG1vzcxoqQIf63Uyc2q/AYxkTr3aGXqF1Cv3+vXStWXJ+wRBvkv0yFfFpsAviAA==
+	t=1792492753;
+	b=dGyjOAI/9ec44K8OSQXmkx3ke1NTwFT6c0bDqq0ylO5aZMXo+7cixToJzKNTgqkA5+Ag
+	 Wg3mz1hk0SpKFwAJGOlMO4sauqGBz4PA8h47eEsVOsRiGeRjB6wbckAoMWEtNmsrTX5xx
+	 C2QBlo5nsewhaBrn9xqhLYEFOTpSWU+Wg3+LJBOuRGXJYXLvwTlykmvfMhOqF/hmoJQJx
+	 TQtR2mw86UESYsmR31PiewCi9VkbhWbV5goojsygL4FwCn6jWQiAEm/D8YYD1TSfEF8oQ
+	 oySj9Tey0OXlD6mjCMvYR/HIKLEi2tCCgzvsE0mRh9TN7wlRQUS/ogHz2BGzPxEOreQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792491902;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=/BlEiMuh7yCfeS2vyHJHf5aUGJ7iez8XxYqJpPEOQOI=;
-	b=dNTp1/OVY0OSOxc/EBlO0bV4z8cSyW5pts52g7GgPvv6lRZWbvcL/cQJ4XcmBTnkENAR
-	 KZzqr3S/jAWhxxsAtPcVWUmYa0j6Qqr2345NOmlpQoSYcuGFmc/DWsha9b9oQRr62FOr6
-	 6fm8t7zbcAVon2iEJZeUPrDHiei0Av06pNWRjtc1YcU4YNDCGCIezue1+GrHf47KtXIrF
-	 WUobF66FigJ91Lvu/L6mgs6dNZfZo4idG3GQ4pZr2txARKagIbS6ZM8qaaw3PKzp/TG6u
-	 e0CGJUJZeNPMg99gQUvGJ/Tg1FsxToiVDrLPFC7o299l1dPa5BCHIwR6zZRJiWFkqdg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792492753;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type;
+	bh=bw4/okksoRkUbBbA6VAqfuKBL2BrJlcyGwLFcSc0aos=;
+	b=CT9xVUXzI1CUueO6lbngeg0SvHwWxpkr4InDFgX8L7Ns4SbhwKV3yS0FrZxTVEhkc+Ly
+	 FOp9935auTMSCe2Qq+b0LZdmhRyrjZLY44Xp9/QUvK9yx0mKTRymZMyhgmrg9cnSFV33c
+	 v8v7647fZkrYasfb0uNb/cGCfhG9Zi5PKQoHwvRwUEHUAURyYP9rnwuqbHKCt4zEj+7xY
+	 0Riu5xabV3xBBHpbvqWm9aV81kZQRUhk4JbusFEzXudUIjky0n7kHVAzz2CM6VCI4IlKl
+	 XVWNiVNcy6cY+bBZvlQY4elU3Y1VYWcbKzjY2DoYLkhYjf9NpUwLZJihMtEdl/JnAhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=M7KzIGV2;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=sntech.de;
+	spf=pass smtp.mailfrom=sntech.de;
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=RDYqua2h;
+	arc=none smtp.remote-ip=185.11.138.130
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A39606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 10:25:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6A39606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA7606A31A;
+	Tue, 20 Oct 2026 10:39:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DBA7606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=M7KzIGV2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792491901; x=1824027901;
-  h=date:from:to:cc:subject:message-id;
-  bh=Hno9jTvPa+bFFtR6DYL3omrD2/u4rj7XjySj3i/uyU4=;
-  b=M7KzIGV2x7yQ88knCohejj7TpOWnOpMWM6rcxERhynGcnLf7QV5yI7f+
-   JwXx62JozGf7ZEtRlf3aCCorOVfSVGNUSbjCeR1i1wROCvPgnzOTTjNgp
-   U3eV0Bp+kFSdbEtbsKUr9CpthAFG8xZSnVoQ9jLtTzB91FF3TSTTqEAEU
-   yX1hR7S84sIAkuUBU2fkAgWjGuQXhYcdFEeU0aGauyKyZy+ebFmAsliq4
-   WXPh1PUOOjK6HArCx4Dt/Tzx5016C3eeq1CnsCH6sQCdkyXa51fUB3gxD
-   87AvlWpc2tBYLDN3N8l8kNjXhHl2CU3lpXS4++KXfC71UvCT+9phYM+Dj
-   w==;
-X-CSE-ConnectionGUID: ng6R48G+RG22W0aWxOOT6g==
-X-CSE-MsgGUID: vLo9rt0ZQya898cJswZKUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1290730"
-X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1290730"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 03:25:01 -0700
-X-CSE-ConnectionGUID: 65MMbG7bTt6muP+YE2OLFA==
-X-CSE-MsgGUID: Jdsa+oR7TuOvLUTNKRLPvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="4568061"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 20 Oct 2026 03:24:59 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xJ71c-000000006FD-2aYa;
-	Tue, 20 Oct 2026 10:24:56 +0000
-Date: Tue, 20 Oct 2026 12:24:35 +0200
-From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ard Biesheuvel <ardb@kernel.org>
-Subject: crypto/aes.c:38:1: sparse: sparse: static assertion failed:
- "__alignof__(struct aes_cmac_key) <= CRYPTO_MINALIGN"
-Message-ID: <202610201244.rE0N2Qbq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=RDYqua2h
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=bw4/okksoRkUbBbA6VAqfuKBL2BrJlcyGwLFcSc0aos=; b=RDYqua2hibY5Y9+ULdSMC18aV8
+	sN34brcWE7sKFlJIajiNTpa6rzVPfC8B5hUEzmPws8uoqk4jSoSZdsNJV0SA9pjzHFn/yhGK3jo11
+	z9LxoPi8J5wnoUQNCdUmgGmtGVRl7DG2CZB0pat02Sjf0Egk3hgpvZmdqC1ZRozk7Oyoeaxj8hEli
+	oFTxHPgV1XwIeaCoYaT9QXDNMzD/8pUXIApTlsm/91mFD33wwTFyDvdpgOHEL5lAH8s+u9AKcvF/r
+	KLVJ69QRyWon6hajjUlrPte8dSSSKIIxdoc7msg/g+3lnrLn9f9EaWHdjkRQ3NSBOfpXcfgAVgGTB
+	l3Li1UAA==;
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Damon Ding <damon.ding@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject:
+ Re: [PATCH v4 11/14] drm/bridge: analogix_dp: Use bridge->next_bridge instead
+ of plat_data field
+Date: Tue, 20 Oct 2026 12:38:50 +0200
+Message-ID: <3789853.R56niFO833@diego>
+In-Reply-To: <202610201309.w3JSXlP5-lkp@intel.com>
+References:
+ <20261019085836.3065008-12-damon.ding@rock-chips.com>
+ <202610201309.w3JSXlP5-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,85 +80,60 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f47d223627f80cb7a1eb14c585fe6cb35de5e984
-commit: 7137cbf2b5c9feb6302d6da116eab2047c5f05d2 crypto: aes - Add cmac, xcbc, and cbcmac algorithms using library
-date:   8 months ago
-config: powerpc-randconfig-r2310-20261020 (https://download.01.org/0day-ci/archive/20261020/202610201244.rE0N2Qbq-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.5.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610201244.rE0N2Qbq-lkp@intel.com/reproduce)
+Am Dienstag, 20. Oktober 2026, 07:36:21 Mitteleurop=C3=A4ische Sommerzeit s=
+chrieb kernel test robot:
+> Hi Damon,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on drm-misc/drm-misc-next]
+> [also build test ERROR on drm/drm-next next-20261019]
+> [cannot apply to daeinki-drm-exynos/exynos-drm-next linus/master v7.3]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bri=
+dge-analogix_dp-Return-bitmask-from-analogix_dp_get_irq_type/20261019-165823
+> base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+> patch link:    https://lore.kernel.org/r/20261019085836.3065008-12-damon.=
+ding%40rock-chips.com
+> patch subject: [PATCH v4 11/14] drm/bridge: analogix_dp: Use bridge->next=
+_bridge instead of plat_data field
+> config: nios2-randconfig-1000-20261020 (https://download.01.org/0day-ci/a=
+rchive/20261020/202610201309.w3JSXlP5-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20261020/202610201309.w3JSXlP5-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202610201309.w3JSXlP5-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    nios2-linux-ld: drivers/gpu/drm/bridge/analogix/analogix_dp_core.o: in=
+ function `analogix_dp_aux_done_probing':
+> >> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80):=
+ undefined reference to `devm_drm_of_display_mode_bridge'
+> >> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80):=
+ relocation truncated to fit: R_NIOS2_CALL26 against `devm_drm_of_display_m=
+ode_bridge'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 7137cbf2b5c9 ("crypto: aes - Add cmac, xcbc, and cbcmac algorithms using library")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610201244.rE0N2Qbq-lkp@intel.com/
+I guess the Rockchip kconfig for the Analogix-DP also needs a
 
-sparse warnings: (new ones prefixed by >>)
-   crypto/aes.c:14:1: sparse: sparse: static assertion failed: "__alignof__(struct aes_key) <= CRYPTO_MINALIGN"
->> crypto/aes.c:38:1: sparse: sparse: static assertion failed: "__alignof__(struct aes_cmac_key) <= CRYPTO_MINALIGN"
->> crypto/aes.c:88:1: sparse: sparse: static assertion failed: "__alignof__(struct aes_enckey) <= CRYPTO_MINALIGN"
+	select DRM_OF_DISPLAY_MODE_BRIDGE
 
-vim +38 crypto/aes.c
+similar to exynos and imx.
 
-    37	
-  > 38	static_assert(__alignof__(struct aes_cmac_key) <= CRYPTO_MINALIGN);
-    39	#define AES_CMAC_KEY(tfm) ((struct aes_cmac_key *)crypto_shash_ctx(tfm))
-    40	#define AES_CMAC_CTX(desc) ((struct aes_cmac_ctx *)shash_desc_ctx(desc))
-    41	
-    42	static int __maybe_unused crypto_aes_cmac_setkey(struct crypto_shash *tfm,
-    43							 const u8 *in_key,
-    44							 unsigned int key_len)
-    45	{
-    46		return aes_cmac_preparekey(AES_CMAC_KEY(tfm), in_key, key_len);
-    47	}
-    48	
-    49	static int __maybe_unused crypto_aes_xcbc_setkey(struct crypto_shash *tfm,
-    50							 const u8 *in_key,
-    51							 unsigned int key_len)
-    52	{
-    53		if (key_len != AES_KEYSIZE_128)
-    54			return -EINVAL;
-    55		aes_xcbcmac_preparekey(AES_CMAC_KEY(tfm), in_key);
-    56		return 0;
-    57	}
-    58	
-    59	static int __maybe_unused crypto_aes_cmac_init(struct shash_desc *desc)
-    60	{
-    61		aes_cmac_init(AES_CMAC_CTX(desc), AES_CMAC_KEY(desc->tfm));
-    62		return 0;
-    63	}
-    64	
-    65	static int __maybe_unused crypto_aes_cmac_update(struct shash_desc *desc,
-    66							 const u8 *data,
-    67							 unsigned int len)
-    68	{
-    69		aes_cmac_update(AES_CMAC_CTX(desc), data, len);
-    70		return 0;
-    71	}
-    72	
-    73	static int __maybe_unused crypto_aes_cmac_final(struct shash_desc *desc,
-    74							u8 *out)
-    75	{
-    76		aes_cmac_final(AES_CMAC_CTX(desc), out);
-    77		return 0;
-    78	}
-    79	
-    80	static int __maybe_unused crypto_aes_cmac_digest(struct shash_desc *desc,
-    81							 const u8 *data,
-    82							 unsigned int len, u8 *out)
-    83	{
-    84		aes_cmac(AES_CMAC_KEY(desc->tfm), data, len, out);
-    85		return 0;
-    86	}
-    87	
-  > 88	static_assert(__alignof__(struct aes_enckey) <= CRYPTO_MINALIGN);
-    89	#define AES_CBCMAC_KEY(tfm) ((struct aes_enckey *)crypto_shash_ctx(tfm))
-    90	#define AES_CBCMAC_CTX(desc) ((struct aes_cbcmac_ctx *)shash_desc_ctx(desc))
-    91	
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Heiko
+
+
