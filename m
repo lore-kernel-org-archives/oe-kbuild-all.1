@@ -1,71 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792474617;
-	b=VpKCEFlDqfaG8zFo2yRUFvntk6UTVi/sCPll/1uadPwVCky3XCwD4ycAn+NEbrrGdb4Q
-	 fbd81g/P/OO2aUcLOWtHCUPlJdvK1pPTk3FswHVb2OCzX6PwMu1WGTKXvy1UYiwWj4sRy
-	 I9rqOcX5c3Y952wIkjEWsDC+wivkrBD8F8FTsE+pii15nAxfFRqITt6IIgDSY9Q9HcdFt
-	 Y+DzOMl8h7MB7QLyNJnZAkeiBVVE7AcIgITa+4d7K24mvEmjDTlotvYTK+BXe0ug4ASiq
-	 LrIwNQUfmd/rq6KqtRorhgYBTXbOwEUz/tM+utr8Wm6lzSyQqpYfs7Nuf6bGu5k/YqA==
+	t=1792474680;
+	b=tpPCsDT8TEbPEvWUyZJey15RzkP+RCUzc47o1H1PkANB1ESCDZlXvapK9DcHPMRVhWAj
+	 q9UJhTRsrCQAVek17yFJjJuz1KfwMlv1wN6dRfL4ICI9gwAbsD+GvcH1+gneWvNEx88tW
+	 +cYp0bR5MpWCs1Np7qs7rVf9eJffDffPAoNYtIH3Q9yB3St4xUICUvT610dKNVz0VyvV5
+	 j4wpxag7wZkWUBRtc8KeH/1AAqEM+xuVqcMF755a0Uy8w/QF9Owl8o8K2q6UEFTKU7U58
+	 JdmXW9JoNuwNeupU9mFYKrVYzC2IQtaAMmmODuBxll/Oi3TXegTLpOWO0+w1s5HoCew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792474617;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792474680;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=NjQe6HWmekq9HNWm5R7bB5TA0zGBiXEMJZ6wpJ0gEYA=;
-	b=RjHmkP0AkDjhQAjfOVO2rOU5d+UkRldKYitBCwB2SwL0EboMsvCrjsP72MXZouYTtmC2
-	 illbRmOINPOT0DECHOrZxGdCo5Q+rZ0I2yUcrqJJefUjhyQTehN1MMnP4DHk64krAeRQc
-	 cDarPrCQy45WrqYpDmGU2AnbCRIRrSPg108QJGL/j3GoQ+mUFjaMX/5sekvpaLptFnQ2G
-	 L71AiHr8yRWBbVgHQgnSdml/PZsqvxPVvfsxnK8STTCV21ASORU7H3C2lZ/2nTLEJeFPF
-	 jWkYiHvG9poWf2MXbYPzbQETzgrafHkBjVi+thmT/RY4MTIadiQ2d7FF7O1wJUT7+LA==
+	bh=AbQx3F5DeqIg01v5J1HMAoVNtPC3XJeQSCQTqpj8efU=;
+	b=Yl4n0LbMatgriPSgKbvJWAvZwkxR/5vfyBVHGnXwNRyUiKVnSWKKEI5yIRfxA6CFkecQ
+	 s+3JyX5FQa/t04hpkz9UsXtSj7NjwnXBpX6E+y3GVGaasytqHFmho8FPG+ynsJdHsHKY6
+	 l853klB8oNoO3eeppxnz0hhdHiGf1Wa2W2CvVUcuuSr4e8xe0ip6VFIesUotWbAyHldR2
+	 xlHv1x4w194PVHO4jRakKLuR1gydmz36JiMUqmJNsYUb8H+bBZWEBayTnNFsrAbeMp9Kv
+	 y9u9Ac5fIDP9Iwy+tFifKLILWnhZ+wOUh3wC7Qodo0e0x9jouxRzqvycN0OeizY3NJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k8jsSQEz;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RUgD4eHz;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E80606A319
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 05:36:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1E80606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94562606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 05:37:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94562606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k8jsSQEz
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RUgD4eHz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792474616; x=1824010616;
+  t=1792474678; x=1824010678;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NaJiqPkqH2nAedLRE+95pl1WPOXe5cB3p9iVy/Z4kMI=;
-  b=k8jsSQEzd+SVS9XFaOgOSSnnFUi+adP4QJ9X/u6FgdCauxX4Jf0gCo62
-   wP1g4KOT5V8HgrNWgEYpmGkOfamRnm7TCDnaXn8VapZGzpDzSiIHBLf+P
-   fTKDkAybZxxDgEQpS3d8dPgUMIlWJG4Tw7xPgjd8fknWsi6qSFlTw7izF
-   1IRnfOUg7bWyHOKUotQPr1aP5+Nc/gImEBAPmdjqDCj8DKqH8Gar9WAaw
-   RWIHxDHiKki+EkKvz720tbtzpUKaT3dflItG/nE4FPcb/2587ko2uAV1Y
-   /cHvBaEXFMobQaW36ByOcn0mqKfd/d45U7YS9HdW+7iVPlSiat12YXFSc
-   Q==;
-X-CSE-ConnectionGUID: as6IL2CeRZW96QwMBVjVTQ==
-X-CSE-MsgGUID: F2LDPfclTsy8Fitd5CEd6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1059269"
+  bh=CgbzEe28G1zTrLdrNfJYfgWctwC1jg4tju9+nzpN6Co=;
+  b=RUgD4eHzpPUBnKZVvbHMKd1EjVoOsXRWo6EQDyyqUB0lu9O/9vJu4qCU
+   mMteyl3wn7+JrFaj5kwOUJZ2mE1sR3dXQ56UubBuxDKTvZGd7Amn61jna
+   6CY4EUNUBvZHMJK+itmyRzXLD8ElYjfS58eUa/UzcAYcxDUu48Chn35wZ
+   vHppLPPXUG1U9YlokzMZlDofYpmzn66Ma+5B/2+1bTpTFfbJlilbQW6f0
+   JwfZoBcnwM0GaGTVGZXvHjb+5m3hl6caf4Sw/9F/RwrwR8qHbh3fFAEdb
+   szrftpmu8eOhW2J0bZtMpi0RtslsaOjgDX9KyZ7WDdq/raCxZr1dXehXI
+   A==;
+X-CSE-ConnectionGUID: /9oHbXgLSnOWKHRxzO8ykg==
+X-CSE-MsgGUID: GwWHHaflQFiRZWnWdi4xWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1059038"
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1059269"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 22:36:55 -0700
-X-CSE-ConnectionGUID: 9G3YAZlkQj2waR4JmZbv1A==
-X-CSE-MsgGUID: MzXHmm7cTBqL5aMo89B8cA==
+   d="scan'208";a="1059038"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 22:37:57 -0700
+X-CSE-ConnectionGUID: LV6bCR60Sxa6Yc/YIXoDCg==
+X-CSE-MsgGUID: WFK0iYt7RvyviF8oI28nAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="2784862"
+   d="scan'208";a="2691338"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 22:36:50 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Oct 2026 22:37:50 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJ2Wj-00000000Mxa-3KkM;
-	Tue, 20 Oct 2026 05:36:45 +0000
-Date: Tue, 20 Oct 2026 13:36:21 +0800
+	id 1xJ2Xh-00000000Mxi-3lzb;
+	Tue, 20 Oct 2026 05:37:45 +0000
+Date: Tue, 20 Oct 2026 13:37:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: Damon Ding <damon.ding@rock-chips.com>,
 	Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -95,7 +95,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Damon Ding <damon.ding@rock-chips.com>
 Subject: Re: [PATCH v4 11/14] drm/bridge: analogix_dp: Use
  bridge->next_bridge instead of plat_data field
-Message-ID: <202610201309.w3JSXlP5-lkp@intel.com>
+Message-ID: <202610201323.RdqouIbq-lkp@intel.com>
 References: <20261019085836.3065008-12-damon.ding@rock-chips.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -115,7 +115,7 @@ Hi Damon,
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next next-20261019]
+[also build test ERROR on drm/drm-next]
 [cannot apply to daeinki-drm-exynos/exynos-drm-next linus/master v7.3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -125,58 +125,18 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-ana
 base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
 patch link:    https://lore.kernel.org/r/20261019085836.3065008-12-damon.ding%40rock-chips.com
 patch subject: [PATCH v4 11/14] drm/bridge: analogix_dp: Use bridge->next_bridge instead of plat_data field
-config: nios2-randconfig-1000-20261020 (https://download.01.org/0day-ci/archive/20261020/202610201309.w3JSXlP5-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610201309.w3JSXlP5-lkp@intel.com/reproduce)
+config: parisc-randconfig-1001-20261020 (https://download.01.org/0day-ci/archive/20261020/202610201323.RdqouIbq-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610201323.RdqouIbq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610201309.w3JSXlP5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610201323.RdqouIbq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   nios2-linux-ld: drivers/gpu/drm/bridge/analogix/analogix_dp_core.o: in function `analogix_dp_aux_done_probing':
->> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80): undefined reference to `devm_drm_of_display_mode_bridge'
->> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80): relocation truncated to fit: R_NIOS2_CALL26 against `devm_drm_of_display_mode_bridge'
-
-
-vim +1669 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-
-  1660	
-  1661	static int analogix_dp_aux_done_probing(struct drm_dp_aux *aux)
-  1662	{
-  1663		struct analogix_dp_device *dp = to_dp(aux);
-  1664		struct analogix_dp_plat_data *plat_data = dp->plat_data;
-  1665		struct drm_bridge *bridge = &dp->bridge, *next_bridge;
-  1666		int port = plat_data->dev_type == EXYNOS_DP ? 0 : 1;
-  1667	
-  1668		if (plat_data->dev_type == EXYNOS_DP && of_get_display_timings(dp->dev->of_node)) {
-> 1669			next_bridge = devm_drm_of_display_mode_bridge(dp->dev, dp->dev->of_node,
-  1670								      DRM_MODE_CONNECTOR_eDP);
-  1671			if (IS_ERR(next_bridge))
-  1672				return PTR_ERR(next_bridge);
-  1673			bridge->next_bridge = drm_bridge_get(next_bridge);
-  1674	
-  1675			return component_add(dp->dev, plat_data->ops);
-  1676		}
-  1677	
-  1678		/*
-  1679		 * If of_drm_get_bridge_by_endpoint() returns -ENODEV, there may be no
-  1680		 * valid panel or bridge nodes. The driver should go on for the
-  1681		 * driver-free bridge or the DP mode applications.
-  1682		 */
-  1683		bridge->next_bridge = of_drm_get_bridge_by_endpoint(dp->dev->of_node, port, 0);
-  1684		if (IS_ERR(bridge->next_bridge)) {
-  1685			if (PTR_ERR(bridge->next_bridge) == -ENODEV)
-  1686				bridge->next_bridge = NULL;
-  1687			else
-  1688				return PTR_ERR(bridge->next_bridge);
-  1689		}
-  1690	
-  1691		return component_add(dp->dev, plat_data->ops);
-  1692	}
-  1693	
+>> ERROR: modpost: drivers/gpu/drm/bridge/analogix/analogix_dp.ko: symbol 'devm_drm_of_display_mode_bridge' undefined!
 
 --
 0-DAY CI Kernel Test Service
