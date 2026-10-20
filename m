@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792496773;
-	b=uIpJ9VTPsSnPfLeHMuzdf46LXvNJgaUyMu0WtaljKilIjRmE0W0w7kiFGODKH1wuzLrp
-	 tYJHS+g4DJguBK5g8LGDJV3P4ShGASaVh9gpxuc87x1Sgd9NaNKbMnJQwJZq9oV6qV541
-	 c6zGXqPEJRV4+W0qyafChiqZGhcCKcQu+L2BwvFhGpg/KXuGwUsdk278DKi9YMNNZH9FX
-	 aZVDb/wQXcw7IJ0yI2uoirfgQeaLFOoWITkl2IkVKyaIhRe8LJbt5qNyH3Dfiq7cmcCm3
-	 oH/OYiof1TlvU5JV0aee5aiy0a3AZDDGVr11Ngl6cZ63Pv2AEmajcRUrO773DcGGjHw==
+	t=1792497234;
+	b=P9Qugm1JGb6LjBZJTpfsPcIyfqwGJRlBaFg0R4GIWOXrvCcO2vnWo5NHvEqCOYpZHN8X
+	 dvlQZl9q6+bnQghSp3qesTwWWF34PWH2M3OXUHObUhgeXZ+VPhZR7wctoZbcJZfC9HKmc
+	 SqVj8zfOyImSlLuq33aW3M107fLWz4DZ/jFJ+/iT/JdvSGYGDztZKtPE6LRx2/qT3c5QL
+	 VlJmNyzAg77Yy5NZVv+KX0BtCOT9q1CF+dtf+yqI3nUihZHqsXZ9LaOa+6GD9DRP0nwFc
+	 8AqUfxx8v38bX+4ZuJTmSvnvJEYvLOPRSz99yLBfSA2NzYhXZmM1mvxMgbptrqhcopg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792496773;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792497234;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ImZUChEeOkEOUH2/OwS70DBw4oZSAENqE/9AnZnMlUg=;
-	b=y/LM+XvBT+sjUZW6/CbzAJU1KkD+rDDvn2Jx7a0A7oyJrGvoCNcMcrAP7RTbEhyPnqIt
-	 99+tsfe4RsNlI7PlwDuwAuMsECNux/VHNABlb0W8EQsxypUucJc6abtbZ6Sz0u4AmIJiX
-	 508xr16iKe7DSiYWDk/OU2sxsQLq8lUNr7hEuwRaESjO0jU/rESHamvMfSz60SOOR3BMr
-	 YJKDL/5pMih+LW8j2DmI8tX9o6OVBKRwvfPwdrU/05uGHO4RFxkmGs9SEAV++ErXChqvN
-	 KbnSUVcyLO010of1BxINWZyli1CKldLkib4WOXMM7XYAs98V02urLl7aUOSUplZtpZg==
+	bh=3gxmmwLJzoPIAvkBVAuWF5/VJLSOLmbTR3OLisG7gik=;
+	b=3Vgpujkg3dtyYls8WVvi/deFyJSRKK7nihMqCJZYM60zijK2okSm91O6j1x3i46ulcTw
+	 MEk7T+6xSJW2tye1kCT3N9KOyX1Ogd0DPRhtai20HfRQFtiY0HdmV5l3/bXiFzgFa7NY4
+	 XdiZ69XHglvPO5udztx0XKs/EFNd3imW1+5eksy6m7lwKduXnGYf2JmdegnrMCgjObb+e
+	 2j9FVaiLAXFmUZzJJspmHZG94AWKPSqo3bvf/NsOfjrS0um5zVT9NIDAHPQUnfCKbJxy+
+	 HltEFroN4Rozf1WvLAd8wWjTtmg+A226sqxMwRM7baH4CSS00LHBBfMXjBylvtNNrcg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="LUKDkh/m";
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WL04f+N4;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94699606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 11:46:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94699606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E26606A319
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 11:53:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8E26606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LUKDkh/m
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WL04f+N4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792496772; x=1824032772;
+  t=1792497234; x=1824033234;
   h=date:from:to:cc:subject:message-id;
-  bh=aC9r/o4mkpA4Wyan8FKpE7QRka8OeLDaBZgGA+SEIYM=;
-  b=LUKDkh/mh2GhTtJMpHWm0BD58lrzs61lxzvXilJEr6kG2gkbuHHjIEKZ
-   jIGXX5qI614CWNlqPDEQ1wo/l/8EDT72YrGwwdBtYLUAnzCv3RLP1jikr
-   qyHLQ+o3Rt4mqIhx8uszSDnnJ7aT4qy+aoTakILqpORs9yxaTEzetORKf
-   Pgu1uEF8Ekgd0p9+b97EjcnIYcIel2MFSQ4MAvhdz9xBUXVJzSVaF60Fa
-   vxH5aNEqOmvdS2JmXLvVOXdmzOFZtfjDNkMF0+7+T0UBScB7fQXYvr+xu
-   ue7skBvMvUlwFv5gziywmwffewWyvfqMtjvQtprWKx2ZWz9/w/6YWuTcl
-   A==;
-X-CSE-ConnectionGUID: sECsnPNzSQeGDgbkGTK4Og==
-X-CSE-MsgGUID: bLt81J7yT2yGHY070sW58g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1210430"
+  bh=iEkffHjCdNkPeIn03HLrh0b91ZD9Ju0zyUsXLP5dNMY=;
+  b=WL04f+N49MJ17AKNpOC/xM5cnIyWsnvfRVvD+HpBGN9SwUWVFH2plvds
+   BXKAc2xDyqP2paiacgL4/cO1u80Y0o/yGJZw2hPdzurFCRDss2UekB6RO
+   d+hAIxaH130DLZhAiTK5ITV1y9s9wvYlPfDHhxNCh8HJK1Bf6LodvAUz/
+   kX12Z8oz58M1WR3GztVlIzrXxuJwPo6gW91Q9MwpOLBHGdz/tjq1PkpKI
+   pOhdMcVu4Bn6fGBcX8IBJVyTc9kJ0SCIfE25RJ4HCPiqknl+RRv1KucV+
+   Ua/YN0zeZ4QkeMh03yp7aaSYcFyXE9In3QN9tyzd01nNmyT7pa8NiiEiG
+   g==;
+X-CSE-ConnectionGUID: 4peq7WQATNiEP8DsqOB4Ig==
+X-CSE-MsgGUID: BfheP5LBQ7OTPK+LiKnZkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1091174"
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1210430"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 04:46:11 -0700
-X-CSE-ConnectionGUID: OvbMP1RsRN6JChC/IJTlRQ==
-X-CSE-MsgGUID: /r9jXRE1TtqyH9RrIS0hoQ==
+   d="scan'208";a="1091174"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 04:53:54 -0700
+X-CSE-ConnectionGUID: aNfEt3igQyCwPWyPE18ZkQ==
+X-CSE-MsgGUID: +GHAMR/wTkeumLUKywY0Eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="4548463"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 20 Oct 2026 04:46:09 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+   d="scan'208";a="2782640"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 20 Oct 2026 04:53:52 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJ8IA-000000006GZ-2CH3;
-	Tue, 20 Oct 2026 11:46:06 +0000
-Date: Tue, 20 Oct 2026 13:45:46 +0200
+	id 1xJ8Pd-00000000NRS-38NQ;
+	Tue, 20 Oct 2026 11:53:49 +0000
+Date: Tue, 20 Oct 2026 19:53:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ludwig Rydberg <ludwig.rydberg@gaisler.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andreas Larsson <andreas@gaisler.com>
-Subject: [linux-next:master 16823/17742] kernel/seccomp.c:437:9:
- sparse: sparse: cast removes address space '__rcu' of expression
-Message-ID: <202610201358.qXIH5yFX-lkp@intel.com>
+To: Dongcheng Yan <dongcheng.yan@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "sys_oak" <sys_oak@intel.com>
+Subject: [intel-lts:6.18/linux 52/52]
+ drivers/media/i2c/max9x/serdes.c:2693:12: warning: 'max9x_suspend' defined
+ but not used
+Message-ID: <202610201916.riCyaki1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,112 +81,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Ludwig,
+Hi Dongcheng,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3d229ce89862b8e82d71a9e11d6f840ca272a6d6
-commit: f8905074f3f3880ffa4a1f4328a391136d3cfecf [16823/17742] sparc32: add seccomp filter support
-config: sparc-randconfig-r2305-20261020 (https://download.01.org/0day-ci/archive/20261020/202610201358.qXIH5yFX-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.4.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610201358.qXIH5yFX-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
+head:   773b2eb76d5ee325c7d60f2c161b9b12f32d13fa
+commit: baa76709460c288499d118e2daa55ca3df5a6436 [52/52] media: i2c: add gmsl & isx031 support
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20261020/202610201916.riCyaki1-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610201916.riCyaki1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610201358.qXIH5yFX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610201916.riCyaki1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/seccomp.c:1431:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1431:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1431:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/seccomp.c:1443:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/seccomp.c:1443:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/seccomp.c:1443:33: sparse:     got struct spinlock [noderef] __rcu *
->> kernel/seccomp.c:437:9: sparse: sparse: cast removes address space '__rcu' of expression
-   kernel/seccomp.c:451:9: sparse: sparse: cast removes address space '__rcu' of expression
---
-   kernel/fork.c:1695:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:1695:38: sparse:     expected struct refcount_struct [usertype] *r
-   kernel/fork.c:1695:38: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:1704:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1704:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1704:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:1705:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const * @@     got struct k_sigaction [noderef] __rcu * @@
-   kernel/fork.c:1705:9: sparse:     expected void const *
-   kernel/fork.c:1705:9: sparse:     got struct k_sigaction [noderef] __rcu *
-   kernel/fork.c:1706:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:1706:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:1706:33: sparse:     got struct spinlock [noderef] __rcu *
->> kernel/fork.c:1804:9: sparse: sparse: cast removes address space '__rcu' of expression
-   kernel/fork.c:2123:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2123:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2123:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2127:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2127:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2127:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2466:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct [noderef] __rcu *real_parent @@     got struct task_struct * @@
-   kernel/fork.c:2466:32: sparse:     expected struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:2466:32: sparse:     got struct task_struct *
-   kernel/fork.c:2475:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2475:27: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2475:27: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2536:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct list_head *head @@     got struct list_head [noderef] __rcu * @@
-   kernel/fork.c:2536:54: sparse:     expected struct list_head *head
-   kernel/fork.c:2536:54: sparse:     got struct list_head [noderef] __rcu *
-   kernel/fork.c:2556:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2556:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2556:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2582:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2582:29: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2582:29: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2610:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
-   kernel/fork.c:2610:28: sparse:     expected struct sighand_struct *sighand
-   kernel/fork.c:2610:28: sparse:     got struct sighand_struct [noderef] __rcu *sighand
-   kernel/fork.c:2643:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2643:31: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2643:31: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:2645:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/fork.c:2645:33: sparse:     expected struct spinlock [usertype] *lock
-   kernel/fork.c:2645:33: sparse:     got struct spinlock [noderef] __rcu *
-   kernel/fork.c:3096:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *[assigned] parent @@     got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/fork.c:3096:24: sparse:     expected struct task_struct *[assigned] parent
-   kernel/fork.c:3096:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
-   kernel/fork.c:3178:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct const [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   kernel/fork.c:3178:43: sparse:     expected struct refcount_struct const [usertype] *r
-   kernel/fork.c:3178:43: sparse:     got struct refcount_struct [noderef] __rcu *
-   kernel/fork.c:2177:22: sparse: sparse: dereference of noderef expression
-   kernel/fork.c: note: in included file (through include/linux/ftrace.h, include/linux/bpf.h, include/linux/security.h):
-   include/linux/ptrace.h:211:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *new_parent @@     got struct task_struct [noderef] __rcu *parent @@
-   include/linux/ptrace.h:211:45: sparse:     expected struct task_struct *new_parent
-   include/linux/ptrace.h:211:45: sparse:     got struct task_struct [noderef] __rcu *parent
-   include/linux/ptrace.h:211:62: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct cred const *ptracer_cred @@     got struct cred const [noderef] __rcu *ptracer_cred @@
-   include/linux/ptrace.h:211:62: sparse:     expected struct cred const *ptracer_cred
-   include/linux/ptrace.h:211:62: sparse:     got struct cred const [noderef] __rcu *ptracer_cred
-   kernel/fork.c:2532:59: sparse: sparse: dereference of noderef expression
-   kernel/fork.c:2533:59: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +/__rcu +437 kernel/seccomp.c
+>> drivers/media/i2c/max9x/serdes.c:2693:12: warning: 'max9x_suspend' defined but not used [-Wunused-function]
+    2693 | static int max9x_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~
+>> drivers/media/i2c/max9x/serdes.c:2685:12: warning: 'max9x_resume' defined but not used [-Wunused-function]
+    2685 | static int max9x_resume(struct device *dev)
+         |            ^~~~~~~~~~~~
+   drivers/media/i2c/max9x/serdes.c: In function 'parse_serdes_pdata':
+   drivers/media/i2c/max9x/serdes.c:295:47: warning: '%s' directive output may be truncated writing up to 4 bytes into a region of size between 0 and 19 [-Wformat-truncation=]
+     295 |         snprintf(dev_name, I2C_NAME_SIZE, "%s %s", sensor_name, suffix);
+         |                                               ^~
+   In function 'parse_sensor_pdata',
+       inlined from 'parse_serdes_pdata' at drivers/media/i2c/max9x/serdes.c:370:3:
+   drivers/media/i2c/max9x/serdes.c:295:9: note: 'snprintf' output between 2 and 25 bytes into a destination of size 20
+     295 |         snprintf(dev_name, I2C_NAME_SIZE, "%s %s", sensor_name, suffix);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1f41b450416e68 Kees Cook     2014-06-25  434  
-1f41b450416e68 Kees Cook     2014-06-25  435  static inline bool seccomp_may_assign_mode(unsigned long seccomp_mode)
-1f41b450416e68 Kees Cook     2014-06-25  436  {
-69f6a34bdeea4f Guenter Roeck 2014-08-10 @437  	assert_spin_locked(&current->sighand->siglock);
-dbd952127d11bb Kees Cook     2014-06-27  438  
-1f41b450416e68 Kees Cook     2014-06-25  439  	if (current->seccomp.mode && current->seccomp.mode != seccomp_mode)
-1f41b450416e68 Kees Cook     2014-06-25  440  		return false;
-e2cfabdfd07564 Will Drewry   2012-04-12  441  
-1f41b450416e68 Kees Cook     2014-06-25  442  	return true;
-1f41b450416e68 Kees Cook     2014-06-25  443  }
-1f41b450416e68 Kees Cook     2014-06-25  444  
 
-:::::: The code at line 437 was first introduced by commit
-:::::: 69f6a34bdeea4fec50bb90619bc9602973119572 seccomp: Replace BUG(!spin_is_locked()) with assert_spin_lock
+vim +/max9x_suspend +2693 drivers/media/i2c/max9x/serdes.c
 
-:::::: TO: Guenter Roeck <linux@roeck-us.net>
-:::::: CC: Kees Cook <keescook@chromium.org>
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2684  
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08 @2685  static int max9x_resume(struct device *dev)
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2686  {
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2687  	struct i2c_client *client = to_i2c_client(dev);
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2688  	struct max9x_common *common = max9x_client_to_common(client);
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2689  
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2690  	return max9x_common_resume(common);
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2691  }
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2692  
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08 @2693  static int max9x_suspend(struct device *dev)
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2694  {
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2695  	struct i2c_client *client = to_i2c_client(dev);
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2696  	struct max9x_common *common = max9x_client_to_common(client);
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2697  
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2698  	return max9x_common_suspend(common);
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2699  }
+2445b17eae1d53 Shahidan, Muhammad Shahmil 2026-04-08  2700  
+
+:::::: The code at line 2693 was first introduced by commit
+:::::: 2445b17eae1d5356936a0a598940dfaad469c29d Add serdes drivers
+
+:::::: TO: Shahidan, Muhammad Shahmil <muhammad.shahmil.shahidan@intel.com>
+:::::: CC: sys_oak <sys_oak@intel.com>
 
 --
 0-DAY CI Kernel Test Service
