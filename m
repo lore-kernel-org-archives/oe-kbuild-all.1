@@ -1,77 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792492753;
-	b=dGyjOAI/9ec44K8OSQXmkx3ke1NTwFT6c0bDqq0ylO5aZMXo+7cixToJzKNTgqkA5+Ag
-	 Wg3mz1hk0SpKFwAJGOlMO4sauqGBz4PA8h47eEsVOsRiGeRjB6wbckAoMWEtNmsrTX5xx
-	 C2QBlo5nsewhaBrn9xqhLYEFOTpSWU+Wg3+LJBOuRGXJYXLvwTlykmvfMhOqF/hmoJQJx
-	 TQtR2mw86UESYsmR31PiewCi9VkbhWbV5goojsygL4FwCn6jWQiAEm/D8YYD1TSfEF8oQ
-	 oySj9Tey0OXlD6mjCMvYR/HIKLEi2tCCgzvsE0mRh9TN7wlRQUS/ogHz2BGzPxEOreQ==
+	t=1792495931;
+	b=bjtFO4nBUh5eLCSOKY8KjGqrAbMIVL0IPlUB1FLObM4jawkQlLL4NQwzjwJgnBeWPP+2
+	 /0jbLj1aCciDiTJa5ywM/Il4gnA0/4kh6XVvIht8FBev4oPSfpA8UseejwzKz+Hn8YrQx
+	 sNafYo5dpRQFJ2nAfpqZR0TCt8QvKjgKuwWFTzjJ0Z4uQyaczJVJQOcr2QIaCurFEkI2m
+	 yB5ltOi8pw/XMpqaOs/OQltwwskkAdyPs01AwzYcIYx6MtqOTC7obo8Vs0PAkAt6nbOlp
+	 NGRagjMaFCCn95dExL80sL06UnYY3oc6zC9Ld5vP3C7vf1eC6nuLPMSxI+5dw4Koptg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792492753;
-	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 Content-Type;
-	bh=bw4/okksoRkUbBbA6VAqfuKBL2BrJlcyGwLFcSc0aos=;
-	b=CT9xVUXzI1CUueO6lbngeg0SvHwWxpkr4InDFgX8L7Ns4SbhwKV3yS0FrZxTVEhkc+Ly
-	 FOp9935auTMSCe2Qq+b0LZdmhRyrjZLY44Xp9/QUvK9yx0mKTRymZMyhgmrg9cnSFV33c
-	 v8v7647fZkrYasfb0uNb/cGCfhG9Zi5PKQoHwvRwUEHUAURyYP9rnwuqbHKCt4zEj+7xY
-	 0Riu5xabV3xBBHpbvqWm9aV81kZQRUhk4JbusFEzXudUIjky0n7kHVAzz2CM6VCI4IlKl
-	 XVWNiVNcy6cY+bBZvlQY4elU3Y1VYWcbKzjY2DoYLkhYjf9NpUwLZJihMtEdl/JnAhw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792495931;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Mgf339TQwuPr8j2J99LXGWXR6zRjUM8zAg5og24Ycnw=;
+	b=EWZqNAmO2tGsdcSO2FrQQ/lSFkddgsp2XiJBg4WdMZ70xhlNlQiXeOOAAUhy9hINjob/
+	 3+UAF6/nXe0LqRgFASoh3nCVDHkOhuPaNL4r0NEAr2sHSpcV5rae0/5RhsbKRsa9Hn7rB
+	 y7g/bZTIW6YVPaTNRGHnpGN8RWUPP+9mMqJuTUbGjWJJRaduYpq5G/9hlmt4x+QE2XwX5
+	 bNUqGtIbQOoMRob6pZ9hXLEgLQYQNNB0KBRpWQWex9dzyAKLtmPvkZF27QtuEVHsKQaLl
+	 ymxZ4wzVUZesilq3v0bHXk5sGltfGnm9waHqslI8QhuI1l+W5AEWI3xYSUa+sZUa6ng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sntech.de;
-	spf=pass smtp.mailfrom=sntech.de;
-	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=RDYqua2h;
-	arc=none smtp.remote-ip=185.11.138.130
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O1E7GCgh;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBA7606A31A;
-	Tue, 20 Oct 2026 10:39:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DBA7606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBE9606A31E;
+	Tue, 20 Oct 2026 11:32:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDBE9606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=RDYqua2h
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=bw4/okksoRkUbBbA6VAqfuKBL2BrJlcyGwLFcSc0aos=; b=RDYqua2hibY5Y9+ULdSMC18aV8
-	sN34brcWE7sKFlJIajiNTpa6rzVPfC8B5hUEzmPws8uoqk4jSoSZdsNJV0SA9pjzHFn/yhGK3jo11
-	z9LxoPi8J5wnoUQNCdUmgGmtGVRl7DG2CZB0pat02Sjf0Egk3hgpvZmdqC1ZRozk7Oyoeaxj8hEli
-	oFTxHPgV1XwIeaCoYaT9QXDNMzD/8pUXIApTlsm/91mFD33wwTFyDvdpgOHEL5lAH8s+u9AKcvF/r
-	KLVJ69QRyWon6hajjUlrPte8dSSSKIIxdoc7msg/g+3lnrLn9f9EaWHdjkRQ3NSBOfpXcfgAVgGTB
-	l3Li1UAA==;
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Damon Ding <damon.ding@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Dmitry Baryshkov <lumag@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject:
- Re: [PATCH v4 11/14] drm/bridge: analogix_dp: Use bridge->next_bridge instead
- of plat_data field
-Date: Tue, 20 Oct 2026 12:38:50 +0200
-Message-ID: <3789853.R56niFO833@diego>
-In-Reply-To: <202610201309.w3JSXlP5-lkp@intel.com>
-References:
- <20261019085836.3065008-12-damon.ding@rock-chips.com>
- <202610201309.w3JSXlP5-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O1E7GCgh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792495930; x=1824031930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nayHupzZTkRbxRCVzEKooOScyNX1Xe35sNlMf97+PR8=;
+  b=O1E7GCghq+/EWJAZ6HKrFsHP3V4JvTcnIhprW6Kmu2KmPEFLatI3n106
+   rvM1/1O1bYZaPdJKisLPhKb+ykw5fscQO2SoPv2FOqaw60zN1b/14ZQS+
+   swATcI4/eoP7P5yf8G+FWOly0WzKPp/a4QVGGEOnIgdfuLUgX4DvSwr+h
+   4/+M2IbqVcmu9sk4p3F58Nxuwb21k6SCsI9pm7uRVtTX42+8o+P8uPBmW
+   y4Ffs6kwfLbsb8cdTcnbwP+PKVQVZ6QoXmKJMsgNiO/lMiXqX/owTaxE2
+   t435mJ4lxQQV3CQku8EgoBf5n6z3G6mplvZtOaOK1eWY7BFD/43IHuYjl
+   w==;
+X-CSE-ConnectionGUID: 6ZpK0u3dRweEHHywIAEj1A==
+X-CSE-MsgGUID: gOK5LFmFQianrVMEjTQFDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1194621"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1194621"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 04:32:09 -0700
+X-CSE-ConnectionGUID: KCuaApEWSaqTzd376Dup4Q==
+X-CSE-MsgGUID: EB9Zs3RdQmWcphZHno1sBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="2747223"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 20 Oct 2026 04:32:05 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJ84Y-00000000NPi-3A5l;
+	Tue, 20 Oct 2026 11:32:02 +0000
+Date: Tue, 20 Oct 2026 19:31:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pavitrakumar Managutte <pavitrakumarm@vayavyalabs.com>,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, herbert@gondor.apana.org.au,
+	robh@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, krzk@kernel.org,
+	conor+dt@kernel.org, ruud.derwig@gf.com, rbannerm@synopsys.com,
+	manjunath.hadli@vayavyalabs.com, adityak@vayavyalabs.com,
+	navami.telsang@vayavyalabs.com, bhoomikak@vayavyalabs.com,
+	nazim.khan@vayavyalabs.com,
+	Pavitrakumar Managutte <pavitrakumarm@vayavyalabs.com>
+Subject: Re: [PATCH v26 4/4] crypto: spacc - Add SPAcc Kconfig and Makefile
+Message-ID: <202610201938.pmiyNP1i-lkp@intel.com>
+References: <20261019162457.1000115-5-pavitrakumarm@vayavyalabs.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,59 +89,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019162457.1000115-5-pavitrakumarm@vayavyalabs.com>
 
-Am Dienstag, 20. Oktober 2026, 07:36:21 Mitteleurop=C3=A4ische Sommerzeit s=
-chrieb kernel test robot:
-> Hi Damon,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [also build test ERROR on drm/drm-next next-20261019]
-> [cannot apply to daeinki-drm-exynos/exynos-drm-next linus/master v7.3]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bri=
-dge-analogix_dp-Return-bitmask-from-analogix_dp_get_irq_type/20261019-165823
-> base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-> patch link:    https://lore.kernel.org/r/20261019085836.3065008-12-damon.=
-ding%40rock-chips.com
-> patch subject: [PATCH v4 11/14] drm/bridge: analogix_dp: Use bridge->next=
-_bridge instead of plat_data field
-> config: nios2-randconfig-1000-20261020 (https://download.01.org/0day-ci/a=
-rchive/20261020/202610201309.w3JSXlP5-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 11.5.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20261020/202610201309.w3JSXlP5-lkp@intel.com/reproduce)
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610201309.w3JSXlP5-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    nios2-linux-ld: drivers/gpu/drm/bridge/analogix/analogix_dp_core.o: in=
- function `analogix_dp_aux_done_probing':
-> >> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80):=
- undefined reference to `devm_drm_of_display_mode_bridge'
-> >> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80):=
- relocation truncated to fit: R_NIOS2_CALL26 against `devm_drm_of_display_m=
-ode_bridge'
+Hi Pavitrakumar,
 
-I guess the Rockchip kconfig for the Analogix-DP also needs a
+kernel test robot noticed the following build errors:
 
-	select DRM_OF_DISPLAY_MODE_BRIDGE
+[auto build test ERROR on 178aff4cf425b3fc51ff09c571fa1bfbc1eb8ea4]
 
-similar to exynos and imx.
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-Managutte/dt-bindings-crypto-Document-support-for-SPAcc/20261019-215454
+base:   178aff4cf425b3fc51ff09c571fa1bfbc1eb8ea4
+patch link:    https://lore.kernel.org/r/20261019162457.1000115-5-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH v26 4/4] crypto: spacc - Add SPAcc Kconfig and Makefile
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20261020/202610201938.pmiyNP1i-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610201938.pmiyNP1i-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610201938.pmiyNP1i-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/crypto/dwc-spacc/spacc_ahash.c:827:11: error: expected '}'
+     827 |         return 0;
+         |                  ^
+   drivers/crypto/dwc-spacc/spacc_ahash.c:814:1: note: to match this '{'
+     814 | {
+         | ^
+   1 error generated.
 
 
-Heiko
+vim +827 drivers/crypto/dwc-spacc/spacc_ahash.c
 
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  812  
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  813  int spacc_unregister_hash_algs(struct spacc_priv *priv)
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  814  {
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  815  	struct spacc_alg *salg, *tmp;
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  816  
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  817  	if (!priv)
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  818  		return 0;
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  819  
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  820  	guard(mutex)(&priv->hash_alg_mutex);
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  821  
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  822  	list_for_each_entry_safe(salg, tmp, &priv->hash_alg_list, list) {
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  823  		list_del(&salg->list);
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  824  		crypto_engine_unregister_ahash(&salg->alg.hash);
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  825  	}
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19  826  
+756cf2497ce591 Pavitrakumar Managutte 2026-10-19 @827  	return 0;
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
