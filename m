@@ -1,76 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792534290;
-	b=Gnpm/Mq5HjJJrjKoWYEjQoFC6JijTIiZcdPIe2X2Xov9LaDJbIXELG6tf4IYtmHuBYRi
-	 xo/kaTzxB9+HuxkNjOuyukyn4+ajaRz0uxS29F2xGEI6TVeQcMi7fsMKRnQuCMAx5OkYg
-	 H6TOJYdqMKt3EIpM882SV4TvXg+ooFeoctUiV6LGa6BeYHlKLN18B5U7VKeLZmtIG74HB
-	 Tb2ped+0gCQujopNfQkzyeGJUSkWkxAsddd68UybYSZ6XsVMWsRnKiGLFTnF7yu/FgxaY
-	 5HNxUBHcrrC663eHtA3gJyeZl72x32K5UNolD7OsWqGiba1bYriW1ESOSXnkZ8oXvXA==
+	t=1792534334;
+	b=jV/WUylGVlEi/eRUyOSaCpED1UeUZJLxxlr+44sQsSguGfJt+UjciS9WMHQM6WShj6Wd
+	 vrAmtB3LMt1cXt3KFTZKufs3X4Jgv+yPiGrDArfbvt1iA3qRX9T9aO/B2YI8/Dt23D36t
+	 sIyIRb9etkWFY7bRzajZpulBLvrKElBEbNC/62F0i/bZQuZtlF+tbUn8WWBUjZkewQ7r8
+	 po0qW3PNu85YXiFetg3mLCO5dwGFRKzclzR3kn6dDMIHqkNLESEQtp0ScfgSglYB0xnFV
+	 te9eHmRSw2NoCDKdOpOgwPp2V3NAEyLNP2Mj+yuTHxLNU7dLFmFGhPCu8vZBJjgyuuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792534290;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792534334;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:Cc:
-	 Subject:Message-ID:User-Agent;
-	bh=mzPOPbvuh4Co1UIRVBgTRmWaN/HdkZ5C91SoSTpjt/w=;
-	b=rb3Iz5bMdG1hrpMJzorvwF/PkI0NlSBRdffLxkoIUVV/xYvcE4tS9Vsxd5uqDHTFVE6/
-	 bJsycxfJJi60vTwwFeanD9QVrDNzhbt0fNs4ky/K4RC3yIIEgzpbqK7IxO3Uxhej0Y7Bu
-	 MizM+x61hSh4XgAQNRIsAvo2SnUoEYlDxmQ7uUqoahb85GoEVd6qzQ+0VxeuZ9jatznls
-	 tMFofOmCQoMcJ3wV82HXGbwJXWSYJxCU0xp+5KIJOcBS4HpHxNA3mtIqqKLqCm5hR8exq
-	 p6LMPNSwjsR0k8BPJo3uyIOdO/Ou1QMfHmlvAsqL5P+EzL3hn9mpVkAKMqp7YdWRhYg==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=U7au3t5kVB0xpJz0eh7kC1WMWHmi+UbqpJJZk5QKNJc=;
+	b=DCGsmi6ERbapP3jnsc7UKT07Df4Ot3F9NlNXQi5aT9XtlJxvlEwGRFiGzF5ykn2j2ZgP
+	 1eFklmVUZNfb2kS1N8QUzv0L9tfFx5tNcz9Vavv+6vO0GgpcBcGsWBP7+lTAHxu1CP86R
+	 TroLCss8EabtgwmV7wY4/PNp5fRD/khctBD1Ek95xi6Zsut03Tvb9f+0tAIQ333/6T+W3
+	 d/mNucXCgP+c3u+IrUjvPLuOdMrKpy36lHTn72HlxPcPUqieGGrnSTZRbc1vvkbgV8iBf
+	 z2aqnFKSwQHVmAxZRwOMHljEGkfml68ohOci5bzg4uM/sLdZ9DQ6Z8u8l38v69t4oZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
-	spf=(null) smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dYzpTZBU;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="NnHLf/ru";
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1E3606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 22:11:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C1E3606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F4E606A31A;
+	Tue, 20 Oct 2026 22:12:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5F4E606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=tempfail smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dYzpTZBU
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NnHLf/ru
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792534284; x=1824070284;
-  h=date:from:cc:subject:message-id;
-  bh=QnLv3qaBAO1rx73F4s17xQ26EyPaILdRLOb+mkeB7TY=;
-  b=dYzpTZBUSiwIF43kvUvUFNvhwSD8QQ2Jy9GqHG7VgSkQaMuBrUkW4M38
-   7xBxKO+j1BmjztoF4/oqa3HWnBEpN9AiF8RHKL77H6LM8JV3iicHjcKnI
-   GXLgxTC4h92OcUGbgmhv2eR8a6wbXKK61vsdmiHOh10POGSifrzwIDUhl
-   Rckj49hauAUhDZHxa0fFMeoalYybem0GUabeNaZTXmC2etnmIDmyLqDHD
-   juyhvsozKbrwMkYljK49HkmckrCrtoZ6+7DC/ntVV54WUXCz/hgFgTUaP
-   /j4lOvnsb9qoB1KqUvtB0dJ5DboYGMC0RGUw49JX8dsFRBBk8o1qnriYi
-   Q==;
-X-CSE-ConnectionGUID: pnNnewwjS+ivVzkoXPMahA==
-X-CSE-MsgGUID: y6e75mWYQJKyusu7x4c1ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1263490"
+  t=1792534329; x=1824070329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nMLnoNUxgbBDXPR0Eskw1VxGB7hT2iifAx/KYRgAfCk=;
+  b=NnHLf/ruvEioGMm8Kv2wSmuHxiFHExN2Sso3OnxKcvUM7rUgfF0MRdfU
+   Kf+pbE1T9qJ8HMTida7jxdZwdaxakWeHEL3JQ5XxQzyemrTx0XOGWjDZ9
+   fHG4jF+EGpYPiguVbfAwCXq0SRDSao693xuHCSvd9JeHbyBukMyzaog/m
+   10pBQ4q/R/Xn7o8dlSkbpOE5mslYkYmLs17/n3yd9QT+mRFtUw/iFy9Ec
+   lvRFm4MwBhNuvbvzgZ9/SIvxQrjmXIA8RizEsddX/iW0XLkOHpGpc01Qp
+   /E2Giv1NBa3BqqcQmE+q0Ci/itTfYKsVwTPv3UGjIVDDfQJQgsLBLXC9/
+   g==;
+X-CSE-ConnectionGUID: eRJT1P+tR+6rVG2O1SCO1g==
+X-CSE-MsgGUID: BrTHlzgpQlOcBEFtLL2qdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1266408"
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="1263490"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 15:11:09 -0700
-X-CSE-ConnectionGUID: oXu+2f2QR7qK3NF7pkGHWg==
-X-CSE-MsgGUID: epfhF+UvSiSZCavGVqoMJQ==
+   d="scan'208";a="1266408"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 15:12:08 -0700
+X-CSE-ConnectionGUID: azN0FdMLQ1efTuEjWMSWzA==
+X-CSE-MsgGUID: lh+vEJaNSF+VOlWv6EDDRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
-   d="scan'208";a="3267427"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2026 15:11:07 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+   d="scan'208";a="2913292"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 20 Oct 2026 15:12:04 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJI2z-000000006SJ-1jjr;
-	Tue, 20 Oct 2026 22:11:05 +0000
-Date: Wed, 21 Oct 2026 00:10:22 +0200
+	id 1xJI3t-00000000OZi-2Ui4;
+	Tue, 20 Oct 2026 22:12:01 +0000
+Date: Wed, 21 Oct 2026 06:11:12 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Alex Deucher <alexander.deucher@amd.com>
-Subject: [agd5f:asdn-7.2 43/1311] error[E0428]: the name `Mmio` is
- defined multiple times
-Message-ID: <202610210048.sOHLqCOj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Binbin Deng <18983559317@163.com>, anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Binbin Deng <18983559317@163.com>
+Subject: Re: [PATCH v1] i40e: Lock VF cloud filter list operations
+Message-ID: <202610210619.K13qhCpp-lkp@intel.com>
+References: <20261020025856.519623-1-18983559317@163.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,181 +85,38 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261020025856.519623-1-18983559317@163.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git asdn-7.2
-head:   daebab22691416366c30db2ad13ef2d18adf912b
-commit: e94681f652dfa76700cadf4fb55287d2aff06fac [43/1311] Merge tag 'v7.2' into amd-staging-drm-next
-config: um-randconfig-r2108-20261020 (https://download.01.org/0day-ci/archive/20261021/202610210048.sOHLqCOj-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 337446dacd2a713010f1c9856c21eb8d899b5613)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610210048.sOHLqCOj-lkp@intel.com/reproduce)
+Hi Binbin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tnguy-next-queue/dev-queue]
+[also build test WARNING on tnguy-net-queue/dev-queue linus/master v7.3 next-20261019]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Deng/i40e-Lock-VF-cloud-filter-list-operations/20261020-105856
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20261020025856.519623-1-18983559317%40163.com
+patch subject: [PATCH v1] i40e: Lock VF cloud filter list operations
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261021/202610210619.K13qhCpp-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c419645e808a6667eee9dbb16c828f77e2fd2f0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610210619.K13qhCpp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610210048.sOHLqCOj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610210619.K13qhCpp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:28:
-   In file included from include/linux/cgroup_api.h:1:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-   |                                                   ~~~~~~~~~~ ^
-   1 warning generated.
-   llvm-nm: error: rust/helpers/helpers.o: No such file or directory
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-   clang diag: include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->> error[E0428]: the name `Mmio` is defined multiple times
-   --> rust/kernel/io.rs:1180:1
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   | ------------------------------------------------------ previous definition of the type `Mmio` here
-   ...
-   1180 | pub struct Mmio<'a, T: ?Sized> {
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `Mmio` redefined here
-   |
-   = note: `Mmio` must be defined only once in the type namespace of this module
---
->> error[E0747]: constant provided when a type was expected
-   --> rust/kernel/io.rs:249:48
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |                                                ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/io.rs:1220:25
-   |
-   1220 |     fn as_view(self) -> Mmio<'a, T> {
-   |                         ^^^^ -- help: remove the lifetime argument
-   |                         |
-   |                         expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/io.rs:1348:21
-   |
-   1348 | impl<'a, T: ?Sized> Mmio<'a, T> {
-   |                     ^^^^ -- help: remove the lifetime argument
-   |                     |
-   |                     expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/io.rs:1577:20
-   |
-   1577 |     fn from(value: Mmio<'a, T>) -> Self {
-   |                    ^^^^ -- help: remove the lifetime argument
-   |                    |
-   |                    expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/pci/io.rs:275:25
-   |
-   275 |     fn as_view(self) -> Mmio<'a, Self::Target> {
-   |                         ^^^^ -- help: remove the lifetime argument
-   |                         |
-   |                         expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/io.rs:1210:40
-   |
-   1210 | unsafe impl<T: ?Sized + Sync> Send for Mmio<'_, T> {}
-   |                                        ^^^^ -- help: remove the lifetime argument
-   |                                        |
-   |                                        expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/io.rs:1213:40
-   |
-   1213 | unsafe impl<T: ?Sized + Sync> Sync for Mmio<'_, T> {}
-   |                                        ^^^^ -- help: remove the lifetime argument
-   |                                        |
-   |                                        expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/io.rs:1575:26
-   |
-   1575 | impl<'a, T: ?Sized> From<Mmio<'a, T>> for IoSysMap<'a, T> {
-   |                          ^^^^ -- help: remove the lifetime argument
-   |                          |
-   |                          expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0107]: struct takes 0 lifetime arguments but 1 lifetime argument was supplied
-   --> rust/kernel/io.rs:1229:44
-   |
-   1229 |     type View<'a, T: ?Sized + KnownSize> = Mmio<'a, T>;
-   |                                            ^^^^ -- help: remove the lifetime argument
-   |                                            |
-   |                                            expected 0 lifetime arguments
-   |
-   note: struct defined here, with 0 lifetime parameters
-   --> rust/kernel/io.rs:249:12
-   |
-   249 | pub struct Mmio<const SIZE: usize = 0>(MmioRaw<SIZE>);
-   |            ^^^^
---
->> error[E0282]: type annotations needed
-   --> rust/kernel/io.rs:1258:45
-   |
-   1258 |                 unsafe { bindings::$read_fn($backend::as_ptr(view).cast_const().cast()) }
-   |                                             ^^^^^^^^^^^^^^^^^^^^^^ cannot infer type
-   ...
-   1377 | impl_mmio_io_capable!(RelaxedMmioBackend, u8, readb_relaxed, writeb_relaxed);
-   | ---------------------------------------------------------------------------- in this macro invocation
-   |
-   = note: this error originates in the macro `impl_mmio_io_capable` (in Nightly builds, run with -Z macro-backtrace for more info)
-..
+>> Warning: drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:3739 function parameter 'i40e_vf_cloud_filter_lock' not described in 'DEFINE_MUTEX'
+>> Warning: drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:3739 expecting prototype for i40e_del_all_cloud_filters(). Prototype was for DEFINE_MUTEX() instead
 
 --
 0-DAY CI Kernel Test Service
