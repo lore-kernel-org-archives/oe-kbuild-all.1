@@ -1,73 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792474487;
-	b=bZfZbsdK4luqeSSPGiisOzzXtf0fSP+yUg9syHuFyy3NqasJlRO2SxBrbCd9sYmStby7
-	 Mqrx3zDxxPh2pkJjpFqiIZryl2KNzWz/PL8eVzgt3l8n7oNgvzkm4DDCOoG5RgKdlNe+W
-	 9L5XMOdQaLuDI+i2Pwq9DLWUpIYm6xkMbaO3/wsAndjnRlcAeG/oniyTDHJiTaJKT9d2Z
-	 Dq10NsikCf9Naa7utos41ioib40P/aJVprlfhfSoGXB22Vm0O2qhO2ImFcfNCf80F0gAg
-	 0IQw06eoy1+CzrMBUSPS6f3McxTM1+/xqfS9c1uGYDlj0LNQV1zNiGf2PRplGNH29wg==
+	t=1792474617;
+	b=VpKCEFlDqfaG8zFo2yRUFvntk6UTVi/sCPll/1uadPwVCky3XCwD4ycAn+NEbrrGdb4Q
+	 fbd81g/P/OO2aUcLOWtHCUPlJdvK1pPTk3FswHVb2OCzX6PwMu1WGTKXvy1UYiwWj4sRy
+	 I9rqOcX5c3Y952wIkjEWsDC+wivkrBD8F8FTsE+pii15nAxfFRqITt6IIgDSY9Q9HcdFt
+	 Y+DzOMl8h7MB7QLyNJnZAkeiBVVE7AcIgITa+4d7K24mvEmjDTlotvYTK+BXe0ug4ASiq
+	 LrIwNQUfmd/rq6KqtRorhgYBTXbOwEUz/tM+utr8Wm6lzSyQqpYfs7Nuf6bGu5k/YqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792474487;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type:Content-Transfer-Encoding;
-	bh=qh+/bZXJ8PZht9XIAB/y6J7Fil2F2AZNpW/Y6UfVrsA=;
-	b=kcANz7eO2PdKt83M35gXE4gu2CoIWp+IFIDN5Cr9OmyD9AoYJlB0E0jHwKPscRDIuclc
-	 jzFcL+MccNaAw//pwbkRba9YT8WR/OmMSyhCPOJl9ZWzqrteUQJJhaXE0TYWeotCbWfO4
-	 lPtn4LXsiDELF2cunmUmI7d7DkSW2jTtx8u4UAIp0DlR5jIDiwisfgWqmDzJjH+kxDVlP
-	 c3X3wD3U5RvuceJVu1e3NN6dNFUFCm41sGmBfmwyqkG6jRZgOoo5L4rdjDcNXYuPOtqdG
-	 /tJieHoRRU18uj+fo9e6/EF+QEgCxm1ANHrqdyES6lRnf0ohH4k/NEykzOixACTa7GQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792474617;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=NjQe6HWmekq9HNWm5R7bB5TA0zGBiXEMJZ6wpJ0gEYA=;
+	b=RjHmkP0AkDjhQAjfOVO2rOU5d+UkRldKYitBCwB2SwL0EboMsvCrjsP72MXZouYTtmC2
+	 illbRmOINPOT0DECHOrZxGdCo5Q+rZ0I2yUcrqJJefUjhyQTehN1MMnP4DHk64krAeRQc
+	 cDarPrCQy45WrqYpDmGU2AnbCRIRrSPg108QJGL/j3GoQ+mUFjaMX/5sekvpaLptFnQ2G
+	 L71AiHr8yRWBbVgHQgnSdml/PZsqvxPVvfsxnK8STTCV21ASORU7H3C2lZ/2nTLEJeFPF
+	 jWkYiHvG9poWf2MXbYPzbQETzgrafHkBjVi+thmT/RY4MTIadiQ2d7FF7O1wJUT7+LA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M+QxLcYr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k8jsSQEz;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DE5606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 05:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E80606A319
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 05:36:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1E80606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M+QxLcYr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB1841F000C5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 05:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792474486;
-	bh=qh+/bZXJ8PZht9XIAB/y6J7Fil2F2AZNpW/Y6UfVrsA=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=M+QxLcYrb3a3BUkcMEUZeKP9JhMauo119x02q+uhcmY67KOgEzxpLVteawBBSv7gC
-	 ls8XNMuNb9uj41CfLEZ093gD1ZyLDc1l5xboCOUmvUGukRQCT94xmfhTcKZN1DHjvY
-	 lTI00vPaBYfBnAy+clm+gFHHuvo6E2ZZpaXh4CQrgAcAgG9NuUwI9XUc0fZcFJ1FdG
-	 hPvLYdyAkmq2K6mOo7JZhDHt68hTiY+EycuBK1WuYNAU/9vcGFwFbYxi+WfHVyxJ4l
-	 hDOnnyY6QJn1iRnzOYq4c9qzaUCWehsrcm7cKHgMbCO1tdmWsyGaj+w03YWUcrXvo9
-	 LbVx397PbLNSg==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 47ABE198004A;
-	Tue, 20 Oct 2026 01:34:44 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Tue, 20 Oct 2026 01:34:44 -0400
-X-ME-Sender: <xms:c_3WaiBaMA7gKW_myw72X83gbf4tKHyUJma5q7l83DvZe163QarD0w>
-    <xme:c_3WanXznSxbyCByizVcswo1-fp0qV9FFZVXBpgKBdMK1BNKM-kaIgPOGmhkMg3mc
-    ijRM0gpYM-BIlDSomgXtxrsMMdqbOxG7VKJ9VTCggoTcIZFckb76jw>
-X-ME-Proxy-Cause: dmFkZTGB160wOmKXVkMglopWQi1otYh4G2WXvYDrKiX98cC7jJqzvpK49ikJkWkzC23aLS
-    vqTHTPh3QeDpMnYmNPxRdcYIyNNrKwZ1lCkbDTCk2doP+f044FLqfKt7CO7AXGFvri9GR+
-    CW+VOzYUHyGXbtIzuRUhXMzQF+KEvUn91YJ4++E5G2omUo5BdWmka2aNtdX12mwMMNsHFf
-    omovek6ldh6NS68QiSIaq/HdVi8Jjni3iwLAsDtLcAybHEZrF7+N5oKlKkAzQtaWBitHQj
-    2Buonutq66BBl9B+qLKUPRPutTDN8Jx9qwFq1v5QYC2WKhyV4d9xz+2cn7bMckmERWjzGw
-    jAOEAqLGmwB6mcGP6ENl6jiifhw43zgNPazj258RrFs2DNYeEsCf9i5ZdQZnMFKuy7uyuI
-    qWDiRnow+nLbjvQLHkEoXkpVPgo3uqRsuDOui2HqpfraRJyZD7EGAtBCdqth8lWdc6ze1E
-    2R+V83vMJMofOh2hWrNdliP1cdSe25pkvANZ1EtFWFOq/uqrNg5/BzVllh5Da+Md90S2t5
-    0TV+3wlYPUgl9HG4vXCzTm/asuOmb3ohd1ud7xsxLvQTId7YuUix2pV9DuBq15pRCmH4py
-    T3ziGRamfr7L89qTVtcoSmw/V2cnDYiDUm/GrBlex11LugKG3sCgS4RzvBew
-X-ME-Proxy: <xmx:dP3WakuJxczIT95aRxLmBbdXQSlRKpjQPwFlbNsi28TJ023c8gShmw>
-    <xmx:dP3WavYfc2wZ9_vVeOpGodPx4I0tKMf4qsAGn9zzQP910GGHwxN11A>
-    <xmx:dP3WanUdSlAnKmE-SoYeylUDa8DjBVVYlq-zx24E_ObfWqDcuqSa5g>
-    <xmx:dP3Waj6UeQE0T-wQ7hLxvJHnv56CSVKyr1O5eoSWOZLweJYYh_33Wg>
-    <xmx:dP3WaiiFsCQZha25A35f-5O6ZDd5wyEF43Pma7TldbawWUD_9V1OFAIf>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 0F1D6F80090; Tue, 20 Oct 2026 01:34:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k8jsSQEz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792474616; x=1824010616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NaJiqPkqH2nAedLRE+95pl1WPOXe5cB3p9iVy/Z4kMI=;
+  b=k8jsSQEzd+SVS9XFaOgOSSnnFUi+adP4QJ9X/u6FgdCauxX4Jf0gCo62
+   wP1g4KOT5V8HgrNWgEYpmGkOfamRnm7TCDnaXn8VapZGzpDzSiIHBLf+P
+   fTKDkAybZxxDgEQpS3d8dPgUMIlWJG4Tw7xPgjd8fknWsi6qSFlTw7izF
+   1IRnfOUg7bWyHOKUotQPr1aP5+Nc/gImEBAPmdjqDCj8DKqH8Gar9WAaw
+   RWIHxDHiKki+EkKvz720tbtzpUKaT3dflItG/nE4FPcb/2587ko2uAV1Y
+   /cHvBaEXFMobQaW36ByOcn0mqKfd/d45U7YS9HdW+7iVPlSiat12YXFSc
+   Q==;
+X-CSE-ConnectionGUID: as6IL2CeRZW96QwMBVjVTQ==
+X-CSE-MsgGUID: F2LDPfclTsy8Fitd5CEd6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11940"; a="1059269"
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="1059269"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 22:36:55 -0700
+X-CSE-ConnectionGUID: 9G3YAZlkQj2waR4JmZbv1A==
+X-CSE-MsgGUID: MzXHmm7cTBqL5aMo89B8cA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,168,1787036400"; 
+   d="scan'208";a="2784862"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2026 22:36:50 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJ2Wj-00000000Mxa-3KkM;
+	Tue, 20 Oct 2026 05:36:45 +0000
+Date: Tue, 20 Oct 2026 13:36:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Damon Ding <damon.ding@rock-chips.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jingoo Han <jingoohan1@gmail.com>, Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Dmitry Baryshkov <lumag@kernel.org>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v4 11/14] drm/bridge: analogix_dp: Use
+ bridge->next_bridge instead of plat_data field
+Message-ID: <202610201309.w3JSXlP5-lkp@intel.com>
+References: <20261019085836.3065008-12-damon.ding@rock-chips.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -77,45 +106,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 20 Oct 2026 07:34:21 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Message-Id: <0973d140-5d0f-4b6a-8c1c-bd35507f0b5b@app.fastmail.com>
-In-Reply-To: <202610200352.nYbO4QTN-lkp@intel.com>
-References: <202610200352.nYbO4QTN-lkp@intel.com>
-Subject: Re: [ardb:x86-pie-v4 10/22] arch/x86/kernel/kvm.o: warning: objtool:
- __raw_callee_save___kvm_vcpu_is_preempted+0x1a: unreachable instruction
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019085836.3065008-12-damon.ding@rock-chips.com>
 
-This does not reproduce with the instructions and the exact same
-compiler. Could you please elaborate on how this was tested?
+Hi Damon,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next next-20261019]
+[cannot apply to daeinki-drm-exynos/exynos-drm-next linus/master v7.3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Return-bitmask-from-analogix_dp_get_irq_type/20261019-165823
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20261019085836.3065008-12-damon.ding%40rock-chips.com
+patch subject: [PATCH v4 11/14] drm/bridge: analogix_dp: Use bridge->next_bridge instead of plat_data field
+config: nios2-randconfig-1000-20261020 (https://download.01.org/0day-ci/archive/20261020/202610201309.w3JSXlP5-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261020/202610201309.w3JSXlP5-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610201309.w3JSXlP5-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   nios2-linux-ld: drivers/gpu/drm/bridge/analogix/analogix_dp_core.o: in function `analogix_dp_aux_done_probing':
+>> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80): undefined reference to `devm_drm_of_display_mode_bridge'
+>> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1669:(.text+0xb80): relocation truncated to fit: R_NIOS2_CALL26 against `devm_drm_of_display_mode_bridge'
 
 
-On Tue, 20 Oct 2026, at 03:13, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git 
-> x86-pie-v4
-> head:   6a0fa5d8e005033f0d73c2cbabb5e555ea8575d2
-> commit: 60aee4318ce34e68540772a2cdb3f57b04d4c9d1 [10/22] x86/kvm: Use 
-> RIP-relative addressing
-> config: x86_64-randconfig-r2102-20261019 
-> (https://download.01.org/0day-ci/archive/20261020/202610200352.nYbO4QTN-lkp@intel.com/config)
-> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20261020/202610200352.nYbO4QTN-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202610200352.nYbO4QTN-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> arch/x86/kernel/kvm.o: warning: objtool: __raw_callee_save___kvm_vcpu_is_preempted+0x1a: unreachable instruction
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +1669 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+
+  1660	
+  1661	static int analogix_dp_aux_done_probing(struct drm_dp_aux *aux)
+  1662	{
+  1663		struct analogix_dp_device *dp = to_dp(aux);
+  1664		struct analogix_dp_plat_data *plat_data = dp->plat_data;
+  1665		struct drm_bridge *bridge = &dp->bridge, *next_bridge;
+  1666		int port = plat_data->dev_type == EXYNOS_DP ? 0 : 1;
+  1667	
+  1668		if (plat_data->dev_type == EXYNOS_DP && of_get_display_timings(dp->dev->of_node)) {
+> 1669			next_bridge = devm_drm_of_display_mode_bridge(dp->dev, dp->dev->of_node,
+  1670								      DRM_MODE_CONNECTOR_eDP);
+  1671			if (IS_ERR(next_bridge))
+  1672				return PTR_ERR(next_bridge);
+  1673			bridge->next_bridge = drm_bridge_get(next_bridge);
+  1674	
+  1675			return component_add(dp->dev, plat_data->ops);
+  1676		}
+  1677	
+  1678		/*
+  1679		 * If of_drm_get_bridge_by_endpoint() returns -ENODEV, there may be no
+  1680		 * valid panel or bridge nodes. The driver should go on for the
+  1681		 * driver-free bridge or the DP mode applications.
+  1682		 */
+  1683		bridge->next_bridge = of_drm_get_bridge_by_endpoint(dp->dev->of_node, port, 0);
+  1684		if (IS_ERR(bridge->next_bridge)) {
+  1685			if (PTR_ERR(bridge->next_bridge) == -ENODEV)
+  1686				bridge->next_bridge = NULL;
+  1687			else
+  1688				return PTR_ERR(bridge->next_bridge);
+  1689		}
+  1690	
+  1691		return component_add(dp->dev, plat_data->ops);
+  1692	}
+  1693	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
