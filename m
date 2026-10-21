@@ -1,82 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792555588;
-	b=l2R+tGHz8jijbJ+uJ9ev9nzlDsvOJxvDo1gBESFxaZEViMjOqWF82QMcjZt93K0pRwL1
-	 heUMfbUemqKbJYxt5Tu1d8zes2XPD0lnzx/DPbnVgqtpsSK/fkGZg6OoJFHj9avkX1BB5
-	 uPQnjIoTtkRZm5CClryBb8LM4FenaJgwDSgflbd+8/Vt0jT9WFPskJptXCtqwl2NSDeCY
-	 WzFU866/FzHRvN0GVIV7Y8uyhsVHYMQQecJzeMECIxwjIn9CnORVybncDiyswpNqX6iSa
-	 Wu5nNCNU3CtepE1Rf5ml/Cl36fFATH0B1Cmiz85YAsLt5lrs7acMzAt+Ld9IjIRO6FQ==
+	t=1792556752;
+	b=AA4Kw+WJeyXl91NtmZ9xwX13gn/6K+No+dsKS4bPSNFCLwbSZwAxLHcZwUrEbZvPSLMB
+	 TyL9mvQ7FAZ5+X0rJ8NHjCDoO1w/rY+TMEuSdFgThJh9Qil+Y6xOj1w0x9xjjITX0etdB
+	 qtSKYT//37r4k+EdE2TtflX6XYXcUVSw4yIIq3seJj0Z3wgGdxCoingPSLkQQlyEY9iXK
+	 0IUchWJCrAwJUMc8ZhuTvnSJHFRQo8vEGwRFmTaaSCSJ8XNIRW38Jag0zp0GwyJu/JgsM
+	 itW0JgANLxl6YNcqKBGWKeBAGEnAAxneq4X1aCncdnPu6IzcERCKwmT+aWWfWoWznJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792555588;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792556752;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=h1VifQxHOvSIuRV3xF17NLPUJExYIFG+4qI3A3UN69U=;
-	b=iqE0Zj0MACTWHws1u2Yh/EkiucZRA8FGUZo7jpq9nAbmRrqudCya85O43JElC835NNuy
-	 O55tow/LarUzxPqceUEK7nZXlR+ZTKTIw7knPEstTVrHVc/mxnkzjRInvOBYTS5URausd
-	 J48pogRWQY1B4NRmbF1uYuhkgadzQow1CM67jZXlzEbJtZVgTlsky/Ckdu7H5TaX6IVjJ
-	 cFHPnTIU+JnUZ1lZrBpyGEiqvURv/kjgpbN7qe+knrkMZN8YjwAsSdvlPaxZu2wR5bKm+
-	 9jKqwwmUfmZJBwbaehlvq6IwRDly3CO2OCwpGXyCc48pL8aPQ6svoFhj/jmNwRsipTQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=UFSKrAVOLA1wEpTJoIDIGEDNkgB/EG9yWn5pjWxJXkY=;
+	b=3+6w9tb1JWl2vEfFXqTX2Q2zMzY5FZ4F7huO7vjiRP+xJrWHVrvi1SbXdhjdHzpDTxyO
+	 CB8uryhQpuMXYSay+1r8bCf6YcEG26wKdnvu5mSl+zh9wFnT8t9uST6UZzAhcVKJDMAwb
+	 3jIhcDdzyX85N8k8SdLKnnRj7w2i49ud6LODwra4fNHUkSSQVVF3GCGLpAL6wuUGpK+Od
+	 3HYGT5BgkI3od/pXSWLa3fwa4aQUi0SNpGWQZ561yjk+pVo/jMgu1QdEbSrKaZFdhK+L1
+	 a+lO5Do9Zm5aAjkQKWcRKmp8ReMyd0FS2zxVRjKbYTOe5Rb1U1Yk8olg6o8rrzrjQlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YlM3PfZl;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PYQOK5O+;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0862606A33F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 04:06:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0862606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750DE606A319
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 04:25:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 750DE606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YlM3PfZl
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PYQOK5O+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792555582; x=1824091582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cyChiOQQGkCpQKGhiB5E8ZyrnofaXhG+aYNotHbWR2A=;
-  b=YlM3PfZl8XQjkCdQU8dFfvZO9+o06iS9XvEAOSy6LJE5YoCZSdoiEP53
-   CHNx85uevew1x3+p002W9mg/9AtPEutRIGPPqTcmA0FXs+Fe9fGCmkhbu
-   TS720VjUEyLUNyAJKIWLKn/SnMegEo3tJ5u391pOSEMjVavRBc35dwH6I
-   xbux/2m9CC46MsbXVfKUL3sJhNE1hIRhSNeqKVYd9j75nKNc8Hq5ntccN
-   Wzii1QxMccwroFFAUCt9R4/KlvCFX8ebA219OVJpFCZuTgz4NyIG8AaoO
-   p/Pvhmnq39AgpH2LT7Nodg8AO/TTO1ELODMf9WSEaG0xByBH9OG+E+2Vv
-   g==;
-X-CSE-ConnectionGUID: WSCIIo0yRra7bv4OEpdmQg==
-X-CSE-MsgGUID: IHr+zg1CSbaHpbGK5cPnwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1263820"
+  t=1792556750; x=1824092750;
+  h=date:from:to:cc:subject:message-id;
+  bh=qf8jMqBzZXTPgY+3Fb5JgnJfv5kG5G8lrQNDMdfR9I4=;
+  b=PYQOK5O+aKUxjLyxYgMTmu/H05WDT+/Hr+MnMtn7pvQTYgprMlQ/kcTK
+   llaLEyKKLKFwqVvXfzN52PnB+mHjBG6WyljAZ0H2vu4u9mGiTQOz5YmgL
+   CvwNOA7QxvpHwfBZSBT+9fiX9EE1sr9P0Z5xZSytFENEGXCAwIsy1My2r
+   clkec67ZV+uiCclZSLe6lsjFklPxJ2kHB4lYojRFCBmrDR61GQ1D8O/g1
+   jbLfhcWWrz7ZDEKzPNLWfE5QvdN3IibFp0Aks4ADthu8cfnKRiZVhqlp+
+   bTuAlMPo91rqm4Pz/1W9+UuU0sfnNcBxG4Q5yw/WTr4ER3h1f9Ugqa5VS
+   w==;
+X-CSE-ConnectionGUID: 2F8EXrf+TMaKFx9XEaBMJg==
+X-CSE-MsgGUID: xhqaDhWDRuS6ciV05MU7MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1176996"
 X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="1263820"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 21:06:22 -0700
-X-CSE-ConnectionGUID: xVxOU5uvTxmqcUXduAhXcg==
-X-CSE-MsgGUID: +yPgw3TjRp6qfbOfSYRFSA==
+   d="scan'208";a="1176996"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 21:25:50 -0700
+X-CSE-ConnectionGUID: pjtnv2qdQHeV7YsRiYtyTg==
+X-CSE-MsgGUID: lmst17+kRHO4o8jb6HDGpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="2867428"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 Oct 2026 21:06:19 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="2929807"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 20 Oct 2026 21:25:49 -0700
+Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJNaj-00000000OwI-16Xl;
-	Wed, 21 Oct 2026 04:06:17 +0000
-Date: Wed, 21 Oct 2026 12:05:25 +0800
+	id 1xJNta-000000006dP-0xdS;
+	Wed, 21 Oct 2026 04:25:46 +0000
+Date: Wed, 21 Oct 2026 06:25:25 +0200
 From: kernel test robot <lkp@intel.com>
-To: Piotr Kubik <piotr@kubik.pl>, Johannes Berg <johannes@sipsolutions.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Tamizh Chelvam Raja <tamizh.raja@oss.qualcomm.com>,
-	Muna Sinada <muna.sinada@oss.qualcomm.com>,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Piotr Kubik <piotr@kubik.pl>, stable@vger.kernel.org
-Subject: Re: [PATCH wireless 2/2] wifi: mac80211: set the link addresses of a
- 4-address AP_VLAN before its links
-Message-ID: <202610211107.BOyMUaJh-lkp@intel.com>
-References: <20261020124446.188739-3-piotr@kubik.pl>
+To: Sean Rhodes <sean@starlabs.systems>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Tzung-Bi Shih" <tzungbi@kernel.org>
+Subject: drivers/firmware/coreboot/coreboot-cfr.c:343:5-11:
+ inconsistent IS_ERR and PTR_ERR on line 344.
+Message-ID: <202610210637.LiJ3U0ob-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,103 +80,46 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261020124446.188739-3-piotr@kubik.pl>
 
-Hi Piotr,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Piotr-Kubik/wifi-mac80211-change-the-links-of-an-AP_VLAN-station-through-its-AP/20261020-144445
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
-patch link:    https://lore.kernel.org/r/20261020124446.188739-3-piotr%40kubik.pl
-patch subject: [PATCH wireless 2/2] wifi: mac80211: set the link addresses of a 4-address AP_VLAN before its links
-config: powerpc-randconfig-1001-20261021 (https://download.01.org/0day-ci/archive/20261021/202610211107.BOyMUaJh-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610211107.BOyMUaJh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   72a16bcff25e9f4a1d6d42a243301b1b76db2f32
+commit: f2e05ce9763feb1dd7da15afd2cc61df227ee85a firmware: coreboot: Add CFR firmware attributes driver
+date:   3 weeks ago
+config: i386-randconfig-r2106-20261021 (https://download.01.org/0day-ci/archive/20261021/202610210637.LiJ3U0ob-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: f2e05ce9763f ("firmware: coreboot: Add CFR firmware attributes driver")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610211107.BOyMUaJh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610210637.LiJ3U0ob-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/firmware/coreboot/coreboot-cfr.c:343:5-11: inconsistent IS_ERR and PTR_ERR on line 344.
 
-   net/mac80211/cfg.c: In function 'ieee80211_set_sta_4addr':
->> net/mac80211/cfg.c:2739:31: warning: unused variable 'vif' [-Wunused-variable]
-    2739 |         struct ieee80211_vif *vif = &sdata->vif;
-         |                               ^~~
+vim +343 drivers/firmware/coreboot/coreboot-cfr.c
 
-
-vim +/vif +2739 net/mac80211/cfg.c
-
-4fd6931ebe24640 Johannes Berg       2007-12-19  2734  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2735  static int ieee80211_set_sta_4addr(struct ieee80211_local *local,
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2736  				   struct ieee80211_sub_if_data *sdata,
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2737  				   struct sta_info *sta)
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2738  {
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26 @2739  	struct ieee80211_vif *vif = &sdata->vif;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2740  	struct wiphy *wiphy = local->hw.wiphy;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2741  	struct ieee80211_sub_if_data *master;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2742  	struct ieee80211_bss_conf *link_conf;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2743  	struct wireless_dev *wdev;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2744  	unsigned long master_iter;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2745  	int link_id;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2746  	int err;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2747  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2748  	lockdep_assert_wiphy(local->hw.wiphy);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2749  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2750  	if (sdata->u.vlan.sta)
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2751  		return -EBUSY;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2752  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2753  	wdev = &sdata->wdev;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2754  	master = container_of(sdata->bss,
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2755  			      struct ieee80211_sub_if_data,
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2756  			      u.ap);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2757  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2758  	if (sta->sta.valid_links) {
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2759  		u16 sta_links = sta->sta.valid_links;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2760  		u16 new_links = master->vif.valid_links & sta_links;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2761  		u16 orig_links = wdev->valid_links;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2762  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2763  		wdev->valid_links = new_links;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2764  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2765  		master_iter = master->vif.valid_links;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2766  
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2767  		/* ieee80211_link_init() takes the address of a new link from
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2768  		 * wdev->links, so set it before the links are added.
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2769  		 */
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2770  		for_each_set_bit(link_id, &master_iter,
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2771  				 IEEE80211_MLD_MAX_NUM_LINKS) {
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2772  			if (!(sta_links & BIT(link_id))) {
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2773  				eth_zero_addr(wdev->links[link_id].addr);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2774  			} else {
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2775  				link_conf = wiphy_dereference(wiphy,
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2776  							      master->vif.link_conf[link_id]);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2777  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2778  				ether_addr_copy(wdev->links[link_id].addr,
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2779  						link_conf->bssid);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2780  			}
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2781  		}
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2782  
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2783  		err = ieee80211_vif_set_links(sdata, new_links, 0);
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2784  		if (err) {
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2785  			wdev->valid_links = orig_links;
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2786  			return err;
-5cb41f5375432b4 Piotr Kubik         2026-10-20  2787  		}
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2788  	}
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2789  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2790  	rcu_assign_pointer(sdata->u.vlan.sta, sta);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2791  	__ieee80211_check_fast_rx_iface(sdata);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2792  	drv_sta_set_4addr(local, sta->sdata, &sta->sta, true);
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2793  
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2794  	return 0;
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2795  }
-469d5d5a3b7a133 Tamizh Chelvam Raja 2026-03-26  2796  
+   335	
+   336	static int coreboot_cfr_read_value(const struct coreboot_cfr_setting *setting,
+   337					   u32 *value, u32 *attrs)
+   338	{
+   339		efi_char16_t *efi_name __free(kfree) =
+   340			coreboot_cfr_efi_name(setting->name);
+   341		int ret;
+   342	
+ > 343		if (IS_ERR(efi_name))
+ > 344			return PTR_ERR(no_free_ptr(efi_name));
+   345	
+   346		ret = efivar_lock();
+   347		if (ret)
+   348			return ret;
+   349	
+   350		ret = coreboot_cfr_read_efi_value(efi_name, value, attrs);
+   351		efivar_unlock();
+   352	
+   353		return ret;
+   354	}
+   355	
 
 --
 0-DAY CI Kernel Test Service
