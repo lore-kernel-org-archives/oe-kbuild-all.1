@@ -1,88 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792568528;
-	b=5k1dRpTsd/WA/ytYtKLMUuNg11ODu1a+CB9rol1ryNa8Dgi8dkldEACml2lBdWNT4VFV
-	 plo/Bbf55/8tVqSqBMuKHUfoQIvsXcWjBeFBPQ1y76Ohb7SF9Hvok5G22f54ZTpuAPbnn
-	 HZQGedKAIHC80ul/ouMTYcaffge8dUxDVLxBB8rhNfOOKIFJxUYu+lja8PQnOCs+o9JhQ
-	 SHHKWgG25v1Nh/X//AWXWTd9+Wr432H6lMIf9MDco+H3+cZfPjipK8fI/6+cHczfeUGaK
-	 Pj7DwPHnfw2LNlPba3l6RGi5m4HxmEbt6l7soXl8ECsSdX+Jj3EyhL58cwBbjTWthSA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792568528;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=RGi14GFRYI30G0NJsm1BUhv71kMQcZIB0wrkrGWixoo=;
-	b=BBWhKN4fD4bxF2MCaBcgTE+R0XBZlDI/rgU+eDSHnRXcTiqETyY22fmFtz67dk/r+i4S
-	 I2EOWNH84ImIEi+/G1tf/7TD4iHY73XUUrL5LH7a/jZ7krria5P60HIRhBN+lbTDuqv6M
-	 tdKdgSMwh7L9Ab1IIYDcyVh5+StTjrN7K4CyakNxeJl54IDpJbXOfRTbarRfYD04GD1v0
-	 bHEkT5JV8o0/qcAPKsnId3FF7lgBe1hbCklRs03kkuEBKTRCf8ufcNgcyrVku4s/u3fyh
-	 WXZXQUqZRAhff8nHzoi0ruJu+B2GDqslUeQzY/uDRZvDCaRdOaPlDRUS8WM9Vla0TMA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mWOlMyMM;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792569472;
+	b=SNUSWfYHDhyw9D0wcd8GXvmBHgUPfIN4vTYf2Nj4AQIDd+gB5Vf/29prjofhSuZLgikr
+	 VCMHkh5Y2g3H5wxM6M0+rmtrwS78x6nRvFLiTCxBlOT/MGep35CJpD5y52TrEAL5/vYun
+	 LSZcfxnUlvV1iGUOYArzh7DL5+lbUOSCguCqDcvAdg9phcBc0oO1GvPOkg9sZNaFUQ7EX
+	 ACAnD83AYQqm8xc2FIoTj084gC1Qp1KTbzbcReu4A1s3ynvupWl8FF3yiI4K6Ao15Z21Y
+	 ybRcweTBFHHbmcOmuS8WufxHn15fJ/aoFl6tn0q6Sbr8mFjBIKkZH2/9v+Upc/C1V6g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792569472;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Cc:Content-Type;
+	bh=b/9FPAXB5OMzTip3IOGW9at4j0vGcQAizKqkhvnReoM=;
+	b=0oeJ09j0yk9rmOxmo9YoXNrJHAyT7RlP7LQbT7ltm7Oht6Dzno99TUnKu2NJW6L8rTLH
+	 k8kPhDG7yG0kqOWIRdUGVQ8yo1l9YOjc89W0ZiBhdpTDD9cbzwQCiV08ako8nEu6wjqNh
+	 2/RwuivnZRmeybQNqUEtrSQIYJ9J4zVuPhYSd8KyqvGoN8wJLlPaROr/rI16hU0k5aYtF
+	 T5xP6u97yiEqPOD+XSm8c6RmOeOFYIorDj5eM4+c4KKZQnM4jlxoK6xwWge7HZaJNc9Ta
+	 izqPn3MNXxmrhxWD1hTO4cQ9D2YtZbWIQ4rRjzBHnkaAkSfTDE1bXOmu004cx1XsLuw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=starlabs.systems;
+	spf=pass smtp.mailfrom=starlabs.systems;
+	dkim=pass header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=T9W33iiJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.48
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F907606A319;
-	Wed, 21 Oct 2026 07:42:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F907606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B66606A329
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 07:57:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01B66606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mWOlMyMM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792568526; x=1824104526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sF+EXOjWoRjHwSXrYrKIrkJdnKQAkyJ2jM7+RYSypqs=;
-  b=mWOlMyMMFUTmNNyfca5cVl5qr9EuhDO+S7t4Z8kYkyo8mTGWatnvr5JK
-   4AEeDmmUm6oP/7k/aG0E5TL8lRqmmGeA8955a3NtdbdU7WSi4gyTm5oeA
-   WrdtTl8uZVHIbEEH8sM8TAX63fA8fZgObwzpgyMDgY6Tm/8v2QgldnbJF
-   ApfwlVnh4GqCE03qlwgLG50dC0cDx9U9MsPCwaVlNO5iVZhN3T9zH2B9T
-   yEYH1BHRFedHfkRV2kSWWauSYNScmXpAdcR4AsA6UPfr6uCkuhVjcIU4h
-   sn+6I/6MLnLHxp/I4NYkwxKH0W1TIRhnTZgYbwvD2xYoGdYzeecWztTJb
-   Q==;
-X-CSE-ConnectionGUID: uhBA5QqcQF6pOQakHFmieA==
-X-CSE-MsgGUID: qNkPjOcdTwS8wy5LE65rtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1174053"
-X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="1174053"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 00:42:06 -0700
-X-CSE-ConnectionGUID: MrrJJTUUTlyi6yexrGtAqA==
-X-CSE-MsgGUID: riQy9ryIROu1V9qc4P6mbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="2965686"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Oct 2026 00:42:02 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xJQxT-00000000P8c-3o2G;
-	Wed, 21 Oct 2026 07:41:59 +0000
-Date: Wed, 21 Oct 2026 15:41:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw2@infradead.org>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Woodhouse <dwmw@amazon.co.uk>, Jann Horn <jannh@google.com>,
-	Kees Cook <kees@kernel.org>, Breno Leitao <leitao@debian.org>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>
-Subject: Re: [PATCH] kthread: Teach lockdep about kthread_flush_work()
- dependencies
-Message-ID: <202610211501.YBj5GUfA-lkp@intel.com>
-References: <6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel@infradead.org>
+	dkim=pass (2048-bit key, unprotected) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.a=rsa-sha256 header.s=20251104 header.b=T9W33iiJ
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-676804a3a22so364570d50.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 00:57:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792569470; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JXm6g0XzX4QNMyqYqYFvFMZ5Ci1Z7KJjWxDO5a/L4nmiCFF17yoQtJc95+OP4aD6Ua
+         ZiOvT+e6MY9QF6XHyAGp+I5aflLteAXB19OdtmHPBr0ycqjEnh+z4w1tNEukNcikla+u
+         clEHubyMuPIGjQHS9O5N32U+UoPLv5MJ1+V2QKLI/UZZG3PVjePo2P5C1UpvXXwjSqhI
+         D8ZsuqJWVo6hnHmoaSDA9KKHbscZTs8gFicxQXWhgTGthkkaI9aZExICIyzdgrzovifT
+         NPpMCyY7iccmm3iv44YWSbG8VpHI64Oz01ThcQhAf1olPjAce5z6DgPUbula3Fne5UEf
+         v7rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=b/9FPAXB5OMzTip3IOGW9at4j0vGcQAizKqkhvnReoM=;
+        fh=KZbl8Bhno2scRwK/oIOCTHy8IL0qWu/gtAUYkrY4040=;
+        b=WjoT4YczTksWaTyuuaosUQEBKGlH2Lvio+04WiHB1peY/de7fAHz5lopovgiYdGRVY
+         rlIrPh3EK/EwiqpmZQReE7THpLaGjxgTO+OrCJFe0ih7ZGwLy8baGnr+m0sUbEyOrkoH
+         9ZI1/PrYSImEUVQitCJFLyXfGU0oN3ivtXTP0JfTu3Ogq84k62OI8CLEVLzEOt78WCal
+         CNzUu0PGfVZrXgiyJ58gXKVUwjqhoRhkEh44wqJ8M32QXqkmA4Kd5dyypiMjL7/l9DiH
+         yAIrmnKUdKzMXe5tz9EB4lBjWi0d91CryJeWNGc36IzbRiXVyVPfxUaEIp8Y7oJt0ZQt
+         pYaw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=starlabs-systems.20251104.gappssmtp.com; s=20251104; t=1792569470; x=1793174270; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b/9FPAXB5OMzTip3IOGW9at4j0vGcQAizKqkhvnReoM=;
+        b=T9W33iiJcWUwMhcJjm5HZiBDCm3rCqAJ9fkbFDnJkLPaO0DgJfsI0lUUPFKtE6wtzJ
+         Qw7Q2NfuE7kuTLwofQeG6PJ+OQvuo0yfkJMF57sEGuNQqN1gdjTYx2M0YJ3fbvFPVSuE
+         wVlcwK/o6h/Z7fKvWBC8LvPwnRRk50X8rEPtr7HQulamcRjZNtZ8C6Q4u7spdePPaHSZ
+         MjEi6rxqUDT/6bZGYdlTkSmLRe5s9opN7fzIh0983m1yurd+APGGJxDk+A259/kFRo4c
+         ZTxTJGEIiemNyJPofTmbRt0ms51YjnbCN7cHw6BolJlTwaCngS6L6/XPE11yyG37vwt1
+         P0Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792569470; x=1793174270;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=b/9FPAXB5OMzTip3IOGW9at4j0vGcQAizKqkhvnReoM=;
+        b=chz4zd4g2GKsgKOWdRAZ5y6HRn2D9tOpkpLr/GrScSABwJjjB6m3BRZASeZOrBpQth
+         AYFbadWnm4D6bLNJp8SjWXgzChkbmkI+5vM8PCuqCXcxHqi40QYL+0VnE+qQIWscP3Tr
+         BFbxWAgzlS3xMdqn6RQkCFfzzYI0lp5+yytjzms1JwP0qtyx6TTENJWMzDd8/2k9y1D5
+         SEdM6DLmGDfv9GMgMYpU5eDYX9L3SlBCO1qHq6gbItxllDtza3xrwWXH2yok+HbcyVdy
+         t5XtGw1UbHYxT/7qWBEJssAjhOm7rOhWLbr8Gq+ABVihwfM1ieaZpu2FSajDjRaP/uFe
+         5naQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwbZ3cQVyDAni31kl4IGn2BGFy8IDu2ColxI0aI4nK+C0UtgS6Xe+FcNaaIeqHmFKWMHrqfbD/oaci09fLL@lists.linux.dev
+X-Gm-Message-State: AFq9FYL0DtQskluBNDad2+3SPm/H4KqyYHz2sIFKqZbOc1cLYxwUPXPF
+	+aoCq93aqs2gTB5vqtPht1bN+L4dABcOJAE/QWTujycYWsNhoj6lETHQfGupgOgIUWMFFOEFGE5
+	wUvQdadw8LhSvdsIrNvw7Qk3+AwXBAHVzzqA676yD
+X-Gm-Gg: AYBFou3qKt8liG1zDxvxBvpIJ/oqwP75k7JQCjGwUpD/n3wDVyY/1s+C4Jxcjob0o2K
+	19U5stfHgTM79Jj+jvY9lC9KI7g+0j20pbnlbAdBXpNYliudyOT5YTPjQ92KW9NRS4OWxvNYX5+
+	AeJ9d+JT55nwnejSkd3ZtwrNRxdoNWB61ssRXcdIwTwA/Wnwpz8TFoOkMH9QnAmOsh7l7AElMM3
+	nUHjnIa/+cW+gNgXs2fQPzLcI4d3JgFNWXalKpnj4rH/M+l5MytMV8R2y7lc44kipX++MfAvNL+
+	Hodf2qyQkDmB+Hxp+NetcGyRB79dH+ZyzqC/Y9E/KW2PtyjXtb4GWEcT32eaS9LhNZif8VS0q9i
+	3w6jLCnO24PnMqMiDv+Du03pffL7yFKQhWFGyaEtCXlXJDUl7BIkZTsuSXdOTd7v0nh4=
+X-Received: by 2002:a05:690e:e8b:b0:677:c6f6:8cac with SMTP id
+ 956f58d0204a3-67a0dded6d0mr669334d50.0.1792569469623; Wed, 21 Oct 2026
+ 00:57:49 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 21 Oct 2026 07:57:49 +0000
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 21 Oct 2026 07:57:49 +0000
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -92,65 +105,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel@infradead.org>
+From: sean@starlabs.systems
+Date: Wed, 21 Oct 2026 07:57:49 +0000
+X-Gm-Features: AclHuK9CuFn6XAC-EPzrIm8Q5Qt2Oj5aACWiFtIwVz9D5V0ryk4CO-CPJLqqTfU
+Message-ID: <CABtds-16eUH6ah3Rr9R=N2605TPdFgDekM5oXVeWqGcmYfWqag@mail.gmail.com>
+Subject: [PATCH] firmware: coreboot: Fix CFR error-pointer handling warning
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Brian Norris <briannorris@chromium.org>, Julius Werner <jwerner@chromium.org>, 
+	kernel test robot <lkp@intel.com>, chrome-platform@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi David,
+From 4e74bf1ccc0f61b4712f688eab66a7750f693243 Mon Sep 17 00:00:00 2001
+From: Sean Rhodes <sean@starlabs.systems>
+Date: Wed, 21 Oct 2026 08:55:54 +0100
+Subject: [PATCH] firmware: coreboot: Fix CFR error-pointer handling warning
 
-kernel test robot noticed the following build warnings:
+The scoped kfree cleanup already ignores error pointers, so passing the
+pointer through no_free_ptr() before PTR_ERR() is unnecessary. It also
+makes the IS_ERR/PTR_ERR expressions appear inconsistent to Coccinelle.
 
-[auto build test WARNING on chrome-platform/for-next]
-[also build test WARNING on chrome-platform/for-firmware-next linus/master v7.3 next-20261019]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Return PTR_ERR() directly. The scoped cleanup still leaves error pointers
+untouched while freeing successful allocations on later returns.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/kthread-Teach-lockdep-about-kthread_flush_work-dependencies/20261020-160400
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel%40infradead.org
-patch subject: [PATCH] kthread: Teach lockdep about kthread_flush_work() dependencies
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261021/202610211501.YBj5GUfA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610211501.YBj5GUfA-lkp@intel.com/reproduce)
+Fixes: f2e05ce9763f ("firmware: coreboot: Add CFR firmware attributes driver")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202610210637.LiJ3U0ob-lkp@intel.com/
+Signed-off-by: Sean Rhodes <sean@starlabs.systems>
+---
+ drivers/firmware/coreboot/coreboot-cfr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610211501.YBj5GUfA-lkp@intel.com/
+diff --git a/drivers/firmware/coreboot/coreboot-cfr.c
+b/drivers/firmware/coreboot/coreboot-cfr.c
+index 2d9ea5d213d8..61d5191b5447 100644
+--- a/drivers/firmware/coreboot/coreboot-cfr.c
++++ b/drivers/firmware/coreboot/coreboot-cfr.c
+@@ -341,7 +341,7 @@ static int coreboot_cfr_read_value(const struct
+coreboot_cfr_setting *setting,
+ 	int ret;
 
-All warnings (new ones prefixed by >>):
+ 	if (IS_ERR(efi_name))
+-		return PTR_ERR(no_free_ptr(efi_name));
++		return PTR_ERR(efi_name);
 
-   In file included from kernel/rcu/tree.c:45:
-   kernel/rcu/tree_exp.h: In function 'sync_rcu_exp_select_cpus_queue_work':
->> include/linux/kthread.h:219:46: warning: unused variable '__work_key' [-Wunused-variable]
-     219 |                 static struct lock_class_key __work_key;                \
-         |                                              ^~~~~~~~~~
-   kernel/rcu/tree_exp.h:470:9: note: in expansion of macro 'kthread_init_work'
-     470 |         kthread_init_work(&rnp->rew.rew_work, sync_rcu_exp_select_node_cpus);
-         |         ^~~~~~~~~~~~~~~~~
-   kernel/rcu/tree_exp.h: In function 'synchronize_rcu_expedited_queue_work':
->> include/linux/kthread.h:219:46: warning: unused variable '__work_key' [-Wunused-variable]
-     219 |                 static struct lock_class_key __work_key;                \
-         |                                              ^~~~~~~~~~
-   kernel/rcu/tree_exp.h:497:9: note: in expansion of macro 'kthread_init_work'
-     497 |         kthread_init_work(&rew->rew_work, wait_rcu_exp_gp);
-         |         ^~~~~~~~~~~~~~~~~
-
-
-vim +/__work_key +219 include/linux/kthread.h
-
-   216	
-   217	#define kthread_init_work(work, fn)					\
-   218		do {								\
- > 219			static struct lock_class_key __work_key;		\
-   220			memset((work), 0, sizeof(struct kthread_work));		\
-   221			INIT_LIST_HEAD(&(work)->node);				\
-   222			(work)->func = (fn);					\
-   223			__kthread_init_work_lockdep_map((work), &__work_key);	\
-   224		} while (0)
-   225	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ 	ret = efivar_lock();
+ 	if (ret)
+-- 
+2.53.0
