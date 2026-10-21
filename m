@@ -1,77 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792566659;
-	b=EoQ4Gv4o3z+VNsxOPWni5o5x2nhVjUTV1XsHnfx07lbHyTeNltf3J5ElIxpJ0E/JJDgV
-	 Vem1Yofhui642wwYoFLFcbNHft2j2g+hf3Cx37OrP2cYfHbLukdt7jXYfTm3Kydn+aPN8
-	 +YUZLBnCHE1jL+X825JvleBhotPja+qg9i8+qE6IcYrKherpopeT754J3uqDnhMztKw7j
-	 YedWmiASUSEDgxeFPFnu+qZxi+oQoOWKidDti/4S7fqXaHnbD7tGSAIu2pvNvjMu0DrJW
-	 Tl921QAfG1v3qtKPs0JMuB8UMnba2N6vQHyqcIv6gCicrmge9/of3IlpRz63rQCX3AA==
+	t=1792568528;
+	b=5k1dRpTsd/WA/ytYtKLMUuNg11ODu1a+CB9rol1ryNa8Dgi8dkldEACml2lBdWNT4VFV
+	 plo/Bbf55/8tVqSqBMuKHUfoQIvsXcWjBeFBPQ1y76Ohb7SF9Hvok5G22f54ZTpuAPbnn
+	 HZQGedKAIHC80ul/ouMTYcaffge8dUxDVLxBB8rhNfOOKIFJxUYu+lja8PQnOCs+o9JhQ
+	 SHHKWgG25v1Nh/X//AWXWTd9+Wr432H6lMIf9MDco+H3+cZfPjipK8fI/6+cHczfeUGaK
+	 Pj7DwPHnfw2LNlPba3l6RGi5m4HxmEbt6l7soXl8ECsSdX+Jj3EyhL58cwBbjTWthSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792566659;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792568528;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=gKY+wN99+EQDHwj5keMdigrrGw6VSwTariSsP6enGUI=;
-	b=tQ01wAGFtDUPUTVk7hpQKJoYJnXFhVp9REcxj1ArtB38xdhsb8MRIYCp7LlbsP9G4evO
-	 szkbPiuuUjINCjb5szcWkV3ruGVpqKXAO39d0kCtnOD9QZJ7tQwpgQptBvy5c1yfO9Iy9
-	 9sI9tqRguxRJta2+Xh9bCFn5O0c5infe9dIysVq+GnFMTtJjfts+ZNyO6hsrNluA4UYQ+
-	 XSzyucm9qZF4l/crFwpTAUk0G4NFIkZ0PUbhB6z90S+EsFFt5P54Ni9t9ZRTSIFUyI4ep
-	 4k8p8dfEko2fXdfO8Ky0LPFpN1Ntjn6KAsQ4+zrprvmYz3FaGC9aGQW7LfC2mmG0iYg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=RGi14GFRYI30G0NJsm1BUhv71kMQcZIB0wrkrGWixoo=;
+	b=BBWhKN4fD4bxF2MCaBcgTE+R0XBZlDI/rgU+eDSHnRXcTiqETyY22fmFtz67dk/r+i4S
+	 I2EOWNH84ImIEi+/G1tf/7TD4iHY73XUUrL5LH7a/jZ7krria5P60HIRhBN+lbTDuqv6M
+	 tdKdgSMwh7L9Ab1IIYDcyVh5+StTjrN7K4CyakNxeJl54IDpJbXOfRTbarRfYD04GD1v0
+	 bHEkT5JV8o0/qcAPKsnId3FF7lgBe1hbCklRs03kkuEBKTRCf8ufcNgcyrVku4s/u3fyh
+	 WXZXQUqZRAhff8nHzoi0ruJu+B2GDqslUeQzY/uDRZvDCaRdOaPlDRUS8WM9Vla0TMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LEqn9Lpt;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mWOlMyMM;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC7C606A319
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 07:10:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EC7C606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F907606A319;
+	Wed, 21 Oct 2026 07:42:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F907606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LEqn9Lpt
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mWOlMyMM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792566659; x=1824102659;
-  h=date:from:to:cc:subject:message-id;
-  bh=9xz6YIpLd6Kyk2rAuWwU2zaX38wbunakOKqUifLfRTY=;
-  b=LEqn9LptQWy2x1oRffvyb7oo0ALWijpmlHEb6H2aW2FSuU0hqUzaRjA4
-   YrxH2NU72nzAtdhH6n9fqakCkSdwrdQayHrWukZsbFbWfdTqLFf8G+t4i
-   2RWw3fDP/HMpSYAozrEMbYvrw86+d6a925OuFKV1gO0LWpa2BXkOH1hxl
-   C+WrVfxBYwWNhLcr8yGIAlzEQ8seniFmYjUkQDALGVZv4ME9ou9dckEv1
-   GJ/PSS9ZtAEwoz9r7S97GAVLdSIx9jWsymXMQ/KVBUf6j6O+T9Doaptnm
-   efDrIGlbmu67Isjqf+kDnpTGsLKfZ36TLD2bBzzOdz8u/y/7vqjkw6MDP
+  t=1792568526; x=1824104526;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sF+EXOjWoRjHwSXrYrKIrkJdnKQAkyJ2jM7+RYSypqs=;
+  b=mWOlMyMMFUTmNNyfca5cVl5qr9EuhDO+S7t4Z8kYkyo8mTGWatnvr5JK
+   4AEeDmmUm6oP/7k/aG0E5TL8lRqmmGeA8955a3NtdbdU7WSi4gyTm5oeA
+   WrdtTl8uZVHIbEEH8sM8TAX63fA8fZgObwzpgyMDgY6Tm/8v2QgldnbJF
+   ApfwlVnh4GqCE03qlwgLG50dC0cDx9U9MsPCwaVlNO5iVZhN3T9zH2B9T
+   yEYH1BHRFedHfkRV2kSWWauSYNScmXpAdcR4AsA6UPfr6uCkuhVjcIU4h
+   sn+6I/6MLnLHxp/I4NYkwxKH0W1TIRhnTZgYbwvD2xYoGdYzeecWztTJb
    Q==;
-X-CSE-ConnectionGUID: +9ZeWpA3QXK44rgH9KA90A==
-X-CSE-MsgGUID: dtEPF+PRSnWDb9Q3szF7UQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1299655"
+X-CSE-ConnectionGUID: uhBA5QqcQF6pOQakHFmieA==
+X-CSE-MsgGUID: qNkPjOcdTwS8wy5LE65rtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1174053"
 X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="1299655"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 00:10:58 -0700
-X-CSE-ConnectionGUID: ftcQU8ZSTdKLOb73peQOzw==
-X-CSE-MsgGUID: t7QjW/SQSQOFEv1HQdBg6g==
+   d="scan'208";a="1174053"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 00:42:06 -0700
+X-CSE-ConnectionGUID: MrrJJTUUTlyi6yexrGtAqA==
+X-CSE-MsgGUID: riQy9ryIROu1V9qc4P6mbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="3372492"
+   d="scan'208";a="2965686"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Oct 2026 00:10:56 -0700
+  by orviesa002.jf.intel.com with ESMTP; 21 Oct 2026 00:42:02 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJQTO-00000000P6s-1VMP;
-	Wed, 21 Oct 2026 07:10:54 +0000
-Date: Wed, 21 Oct 2026 15:10:03 +0800
+	id 1xJQxT-00000000P8c-3o2G;
+	Wed, 21 Oct 2026 07:41:59 +0000
+Date: Wed, 21 Oct 2026 15:41:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-pie-v4 10/22] arch/x86/kernel/kvm.o: warning:
- objtool: __raw_callee_save___kvm_vcpu_is_preempted+0x1a: unreachable
- instruction
-Message-ID: <202610211540.PkFsNgT1-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: David Woodhouse <dwmw2@infradead.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Woodhouse <dwmw@amazon.co.uk>, Jann Horn <jannh@google.com>,
+	Kees Cook <kees@kernel.org>, Breno Leitao <leitao@debian.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>
+Subject: Re: [PATCH] kthread: Teach lockdep about kthread_flush_work()
+ dependencies
+Message-ID: <202610211501.YBj5GUfA-lkp@intel.com>
+References: <6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel@infradead.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,22 +91,65 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v4
-head:   6a0fa5d8e005033f0d73c2cbabb5e555ea8575d2
-commit: 60aee4318ce34e68540772a2cdb3f57b04d4c9d1 [10/22] x86/kvm: Use RIP-relative addressing
-config: x86_64-randconfig-1015-20261021 (https://download.01.org/0day-ci/archive/20261021/202610211540.PkFsNgT1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610211540.PkFsNgT1-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on chrome-platform/for-next]
+[also build test WARNING on chrome-platform/for-firmware-next linus/master v7.3 next-20261019]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/kthread-Teach-lockdep-about-kthread_flush_work-dependencies/20261020-160400
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel%40infradead.org
+patch subject: [PATCH] kthread: Teach lockdep about kthread_flush_work() dependencies
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261021/202610211501.YBj5GUfA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610211501.YBj5GUfA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610211540.PkFsNgT1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610211501.YBj5GUfA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kernel/kvm.o: warning: objtool: __raw_callee_save___kvm_vcpu_is_preempted+0x1a: unreachable instruction
+   In file included from kernel/rcu/tree.c:45:
+   kernel/rcu/tree_exp.h: In function 'sync_rcu_exp_select_cpus_queue_work':
+>> include/linux/kthread.h:219:46: warning: unused variable '__work_key' [-Wunused-variable]
+     219 |                 static struct lock_class_key __work_key;                \
+         |                                              ^~~~~~~~~~
+   kernel/rcu/tree_exp.h:470:9: note: in expansion of macro 'kthread_init_work'
+     470 |         kthread_init_work(&rnp->rew.rew_work, sync_rcu_exp_select_node_cpus);
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/rcu/tree_exp.h: In function 'synchronize_rcu_expedited_queue_work':
+>> include/linux/kthread.h:219:46: warning: unused variable '__work_key' [-Wunused-variable]
+     219 |                 static struct lock_class_key __work_key;                \
+         |                                              ^~~~~~~~~~
+   kernel/rcu/tree_exp.h:497:9: note: in expansion of macro 'kthread_init_work'
+     497 |         kthread_init_work(&rew->rew_work, wait_rcu_exp_gp);
+         |         ^~~~~~~~~~~~~~~~~
+
+
+vim +/__work_key +219 include/linux/kthread.h
+
+   216	
+   217	#define kthread_init_work(work, fn)					\
+   218		do {								\
+ > 219			static struct lock_class_key __work_key;		\
+   220			memset((work), 0, sizeof(struct kthread_work));		\
+   221			INIT_LIST_HEAD(&(work)->node);				\
+   222			(work)->func = (fn);					\
+   223			__kthread_init_work_lockdep_map((work), &__work_key);	\
+   224		} while (0)
+   225	
 
 --
 0-DAY CI Kernel Test Service
