@@ -1,77 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792559219;
-	b=P/UiacYHVOUCNkV4DbFKbWN7lZ8fLbJB8ruIBhAMaR9/6OBTtNHhr2LUUVz9MHuClucD
-	 lzZ3ur8/RNZavPG6zTZkHbojf+OH73awSs3+/Ayq4C9gxe0HLtuGV7Qf9xHYDUoR9FLfx
-	 QxCszD01ssCU4AM01/V498omosT/ATxj7oGiIEsLD8P9ZrVN++YqXJcPC/tatIjB86/2s
-	 pswp9I4DNosR78Ta/337Zm5BPzO+b5B1vVZ8+pC5V1/s7ckujpuIlI39LUiS5YbPv8HgI
-	 avt7ZtQe6Fbsn6GMcaVMBu5GiwbfkdmHMfj5xxcuwVE+fhzu5pqvGZx0KbYkC1N0bOw==
+	t=1792562093;
+	b=iNml3bCqUJ1E37t9gTwR9V/JxQMA1mesYK5f/AQxDFOw4neb6t/Lvzx6jPCjtm1kmDrj
+	 wtxW+3FhJ0/VfrivJeyNi7M+HeLDi8Bi2w9pp2N8tC35fIaOnh1Djvvy7gambMDi64FCf
+	 0opj6eIVTXxYGe6saFKFSQCL3mTCM18wJ6VS3b0LyiPcmemVBTH4VH1eFJBzrRrudlIZL
+	 pWHE12bgs9wCZpRZRLJ5rfj7iZj64t40UIrbkwkR1zMuWuNnzqG7jS3fs3DMLrNjFiMvx
+	 2f/MAgksakAUVX0X8au/te6NMY2V1y+bgfn03/0ze/tvE46DSw4GEQ1KZSCRyPSurSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792559219;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=aPIqXMW9ArcrByiPMHYnhXD7ZzUebzRTZdvWpKBgeV4=;
-	b=qh0Pi4Nx0hRxpXSZTwPkgTZVjb52E/g4Yns+2/S6V8uiGv/VpIy1O/cpuFKofWBkTT2w
-	 bvJy1pTLwHFZD3ZxCx84cAt8Ky5HDU8rwB0v51wUuH4x0od5fIIJCGfDYebZ4rpG8R8t+
-	 33/Y9AYSnhnHbFgbDLplUok20TeJQXEdbPXyIRxI+cAik6/k21MdABuEaqJu4k+RUKhfF
-	 I1DanUhU0dvEUqE4ZGo8xvFp/WECgAU+PjsTcw43KsRsMANJZmQ5rcNqavedFboNtaUJx
-	 s8MzpeEmUPP1OD6FKuLQPyYvYo9qzYdKSPzC1nljiGkobwJunnP9/+tXS7bj+e0izmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792562093;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition;
+	bh=8Hu2GpYwKr6r5nRoavxB97ryG1ZJTfUyaAPfaDpbWQ0=;
+	b=YVtF6q3JzUMoUJQOP5ycHt677QIXo2X92sYebEBp3zFh+LdRDWmNJgwUaL8TPbhApYNC
+	 KOAXeMkW6weCHzxWKznXtAyuvnwfCpFKrx9X+n1ZUJOydUy24Mu4r+qDZthSl7Yu8z/lj
+	 /YfPhrFnZtvjF59f5VD7YlhPvFPamobdh1CG0BlHodtpw/yZD20w/kETCQqak5kbog9oq
+	 A4X7G2LSOh7MPtLU+qk5MfyafQU5UiyjhGYdhUXapqv3IWQA876w5MKtJoT33OZ62l9cd
+	 h5VcLi20E8AXsua+tInRayefps5qEF9GxA2k2gjnMBhNU0YGDrK9/hz8Rf6FshZjcIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gdVQKSzQ;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HFkAhDUp;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F4A606A319
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 05:06:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7F4A606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAD6606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 05:54:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AAD6606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gdVQKSzQ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792559218; x=1824095218;
-  h=date:from:to:cc:subject:message-id;
-  bh=AkeHxg+vlBWfMZhv2OZGkSvfLCbq2itfPPI3pv4Yr8s=;
-  b=gdVQKSzQrxgF8Pw5wMRQBiVMLcvE2saATJRjhda2YQBNy7vcCDggfZAO
-   P/mCH4tvuRWw2GKwHtQnjMPDEbxPfVRVdGQaWV/1iHCkXAEGFPUXPc/CP
-   QlTMZFtJ+k8hBGtRq3/35cmrkNVnqJDo9yrxUiLCj66o8D7anTVDM9/X9
-   2B1cjmH3zm7bmZbKUAb7QZgjS6+5X9yaGcAtGfKSoF4CyuAp5bI+kh1Jx
-   oFzc/gQQEymQ+Pxjcptp59r+O3MAHHR94M+d1LNFAbtVGSDl5d/wdfjUg
-   QkvhIrApdyRJz186P/+5ebSg20XsWeH1HU6yJNkNfh0nRxQ78khc1tj//
-   g==;
-X-CSE-ConnectionGUID: nVa7sEDSRoCwNLNUIc5TRg==
-X-CSE-MsgGUID: XuTdhKuiSZi6BAQCdf/X3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1313849"
-X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="1313849"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 22:06:58 -0700
-X-CSE-ConnectionGUID: hpm3DHzISJaVy/HOlkMgEA==
-X-CSE-MsgGUID: 7Rmp3RABT8mq/SXZonQHWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="3338461"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2026 22:06:56 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xJOXN-000000006dv-3gG3;
-	Wed, 21 Oct 2026 05:06:53 +0000
-Date: Wed, 21 Oct 2026 07:06:17 +0200
-From: kernel test robot <lkp@intel.com>
-To: stephen.smalley.work@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ssmalley-selinuxns:working-selinuxns 62/70]
- security/selinux/include/security.h:445:6: warning: no previous prototype for
- function 'security_compute_av_user'
-Message-ID: <202610210751.vA7045dH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HFkAhDUp
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a2001dd4e7so565695e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Oct 2026 22:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792562091; x=1793166891; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8Hu2GpYwKr6r5nRoavxB97ryG1ZJTfUyaAPfaDpbWQ0=;
+        b=HFkAhDUpTwCEXrTXeGFzhhBUrmQca6WJBtYNVSoFRbtO4JrLXVCe6/geNx+pZXouqw
+         OBckm4feEAVqceD6oJWRBR2QdwnhhVKAlSZF+fgGKClIj4ecmfu73FV9h9M+Ke0RLdKU
+         irLaeJ37nzhu7vpV7Q1rshnI+z7rAgDO4/i4kD+VDJTsUJxIKEBp8rquNHlgVBepvY3A
+         aGZxp6ID89g1QTALBuNcyI6tbZvDJ8HpAaXM6Onm2Ah7gJndmCTaULWKbJYNgOHL/2Bq
+         jwO634r6Axz0h0T5MdEaanx0MqOS7jXYqKKqWMcRCebw+/Ye4gQxisSXrfSggUi5vGip
+         34Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792562091; x=1793166891;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8Hu2GpYwKr6r5nRoavxB97ryG1ZJTfUyaAPfaDpbWQ0=;
+        b=0b2pFUCAifnWwVv2VKzhtAOijXjxhrQ+opE+odbtGuaU7qO1Wt5N2m2o15BbpxO1qE
+         4V4fVI8lFKQUXQJ4pTS40HRuEQ4wdSHV6OZikWt8ZlNTtx5W2CaZl51buIUYbM4ufkyN
+         px6qYlFJId3y7/sG8qokOty8DBj6Af2xHhBqsi/3iKJBN6h33RKK2AgeDUbrcgtsTox+
+         u5teoKxuTCI8t62CFkaGbsRrSc7zBrrLOcaD4I2mgbzHtaxEQl37VdEC9VyQZPic7Nfp
+         u75Fu4weOhfp2P2lS/0bTFP3MbFc0THipG/0QCcG32nnLzQdUZgDiLc4ZHHLbnsnup0a
+         92Ag==
+X-Forwarded-Encrypted: i=1; AKwUvBy8XQ9PCAUu/iaHCoYoXezBpschF+JesD87tCpfFkk99ppt5b3jz5Amv7/b6SFQ/9NWOQ9cuCYpC1orPuoX@lists.linux.dev
+X-Gm-Message-State: AFq9FYKSAqSy5C3Uo4HpMYrFM4kzkBci1ceWVLggnaK3yR+e3QMZPYjk
+	ObQpHaWKkWFdm+lJUE6w5o9neRveyRui5+5gjHyJrtE+sIQJStRg5xNQ
+X-Gm-Gg: AYBFou3EolfNb8ARrJ4WKarnlE6GxVmVWlp8E8EkRQOn5yV1zxemxlFP/NF0WUmEx2y
+	HQLPYdrsrfl7XWvq3d6jWDTbh1o8Te0uHTKpJm1P+4n/LyaE/TC34EQk3vmSfb+k1iqk6Eyh4Af
+	YP8aSxy9Hpjn/GxXp1yMLl399uDL3vegFsaqEV3I/o3O8FfLJEGDlP16x6sc0dHW2dDT+PpVYZe
+	eL7IE8eSds1Weip8lN1dwoSnILZ41DJ9J/IyK56M7E+Wv6gv42cwlAMvvzWqdcMGcDdMDUyhmKX
+	Z/7BdWxVwYAlYBvHAK6ig9XAaDYMijlZiLDHx0HSl3hIsl8YIZxq7HIdtZT74ZxtfTu2uEOV0EI
+	955yaeh4GsFFI6LHoWWxzWxqHOm+ohkG87Os5iImC8t1LfWVic17xSmf694d74aiGv6huyvydt/
+	bsGrMdQciWOJh6uNdYwO82cqIz+2K9JjBfA5XDopdtr18YUJU7y5CHHTmYdvvkGxG07VhXNBfvm
+	wdWzE+s7zzI8R3at9nTu7i/UBhYVvpMRvRqTRSR2m56kenj4XCN
+X-Received: by 2002:a05:600c:3d92:b0:4a1:e5ad:33b0 with SMTP id 5b1f17b1804b1-4a1fdaf75a5mr17000245e9.8.1792562090837;
+        Tue, 20 Oct 2026 22:54:50 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1fc1066cfsm32594205e9.1.2026.10.20.22.54.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 22:54:50 -0700 (PDT)
+Date: Wed, 21 Oct 2026 08:54:46 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [linux-next:master 18830/19064] sound/core/compress_offload.c:716
+ snd_compr_set_params() warn: missing error code? 'retval'
+Message-ID: <202610202334.hwrqtbb4-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,43 +94,84 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/stephensmalley/selinux-kernel working-selinuxns
-head:   0e1151d851eec2f37b587f6f5a319e1e7021f463
-commit: a47b908c78b6c2c8b187be4e0b6c789fd8f339e7 [62/70] selinux: switch selinuxfs over to using global sidtab
-config: i386-randconfig-2200-20261021 (https://download.01.org/0day-ci/archive/20261021/202610210751.vA7045dH-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8f7df005a7564bd7ffa75da9c3085d5b996f1e16
+commit: fbc74ca9fbf7e0b8f6872ccac62f9f4a1f3b5e53 [18830/19064] ALSA: compress: fix buffer leak on failed SET_PARAMS
+config: i386-randconfig-2200-20261020 (https://download.01.org/0day-ci/archive/20261020/202610202334.hwrqtbb4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610210751.vA7045dH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610210751.vA7045dH-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610202334.hwrqtbb4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+sound/core/compress_offload.c:716 snd_compr_set_params() warn: missing error code? 'retval'
 
-   In file included from security/selinux/nlmsgtab.c:21:
->> security/selinux/include/security.h:445:6: warning: no previous prototype for function 'security_compute_av_user' [-Wmissing-prototypes]
-     445 | void security_compute_av_user(struct selinux_state *state, u32 ssid, u32 tsid,
-         |      ^
-   security/selinux/include/security.h:445:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     445 | void security_compute_av_user(struct selinux_state *state, u32 ssid, u32 tsid,
-         | ^
-         | static 
-   1 warning generated.
+vim +/retval +716 sound/core/compress_offload.c
 
+b21c60a4edd22e Vinod Koul          2011-12-23  680  static int
+b21c60a4edd22e Vinod Koul          2011-12-23  681  snd_compr_set_params(struct snd_compr_stream *stream, unsigned long arg)
+b21c60a4edd22e Vinod Koul          2011-12-23  682  {
+b21c60a4edd22e Vinod Koul          2011-12-23  683  	int retval;
+b21c60a4edd22e Vinod Koul          2011-12-23  684  
+7ea9ee0064281e Srinivas Kandagatla 2023-06-19  685  	if (stream->runtime->state == SNDRV_PCM_STATE_OPEN || stream->next_track) {
+b21c60a4edd22e Vinod Koul          2011-12-23  686  		/*
+b21c60a4edd22e Vinod Koul          2011-12-23  687  		 * we should allow parameter change only when stream has been
+b21c60a4edd22e Vinod Koul          2011-12-23  688  		 * opened not in other cases
+b21c60a4edd22e Vinod Koul          2011-12-23  689  		 */
+14324b8f0760ca Takashi Iwai        2025-12-16  690  		struct snd_compr_params *params __free(kfree) =
+14324b8f0760ca Takashi Iwai        2025-12-16  691  			memdup_user((void __user *)arg, sizeof(*params));
+14324b8f0760ca Takashi Iwai        2025-12-16  692  
+c2f14ba749c1ce Markus Elfring      2016-08-21  693  		if (IS_ERR(params))
+40a024b81d1cba Takashi Iwai        2024-09-02  694  			return PTR_ERR(params);
+4dc040a0b34890 Vinod Koul          2012-09-17  695  
+04177158cf98a7 Jaroslav Kysela     2024-10-02  696  		retval = snd_compress_check_input(stream, params);
+4dc040a0b34890 Vinod Koul          2012-09-17  697  		if (retval)
+9b02221422a55e Takashi Iwai        2024-02-22  698  			return retval;
+4dc040a0b34890 Vinod Koul          2012-09-17  699  
+b21c60a4edd22e Vinod Koul          2011-12-23  700  		retval = snd_compr_allocate_buffer(stream, params);
+9b02221422a55e Takashi Iwai        2024-02-22  701  		if (retval)
+9b02221422a55e Takashi Iwai        2024-02-22  702  			return -ENOMEM;
+4dc040a0b34890 Vinod Koul          2012-09-17  703  
+b21c60a4edd22e Vinod Koul          2011-12-23  704  		retval = stream->ops->set_params(stream, params);
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  705  		if (retval) {
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  706  			/* the stream stays OPEN: drop the buffer of the rejected setup */
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  707  			if (stream->runtime->state == SNDRV_PCM_STATE_OPEN &&
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  708  			    !stream->runtime->dma_buffer_p) {
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  709  				kfree(stream->runtime->buffer);
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  710  				stream->runtime->buffer = NULL;
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  711  			}
+9b02221422a55e Takashi Iwai        2024-02-22  712  			return retval;
+fbc74ca9fbf7e0 Peter Ujfalusi      2026-10-19  713  		}
+49bb6402f1aa1e Charles Keepax      2013-04-18  714  
+7ea9ee0064281e Srinivas Kandagatla 2023-06-19  715  		if (stream->next_track)
+9b02221422a55e Takashi Iwai        2024-02-22 @716  			return retval;
 
-vim +/security_compute_av_user +445 security/selinux/include/security.h
+This should either be "return -ESOMETHING;" or "return 0;".  The current
+code returns zero but in an obfuscated way.
 
-   444	
- > 445	void security_compute_av_user(struct selinux_state *state, u32 ssid, u32 tsid,
-   446				      u16 tclass, struct av_decision *avd)
-   447	{
-   448		selinux_ss_compute_av_user(state, ssid, tsid, tclass, avd);
-   449	}
-   450	
+7ea9ee0064281e Srinivas Kandagatla 2023-06-19  717  
+9727b490e543de Jeeja KP            2013-02-14  718  		stream->metadata_set = false;
+9727b490e543de Jeeja KP            2013-02-14  719  		stream->next_track = false;
+
+This could be deleted because of the above check.
+
+49bb6402f1aa1e Charles Keepax      2013-04-18  720  
+49bb6402f1aa1e Charles Keepax      2013-04-18  721  		stream->runtime->state = SNDRV_PCM_STATE_SETUP;
+769fab2a41da4b Jesper Juhl         2012-01-23  722  	} else {
+b21c60a4edd22e Vinod Koul          2011-12-23  723  		return -EPERM;
+769fab2a41da4b Jesper Juhl         2012-01-23  724  	}
+b21c60a4edd22e Vinod Koul          2011-12-23  725  	return retval;
+b21c60a4edd22e Vinod Koul          2011-12-23  726  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
