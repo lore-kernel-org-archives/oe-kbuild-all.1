@@ -1,108 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.10
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792576245;
-	b=shpraOtrDQW+rQAhZRjmFHYMryYFHTG7ywINO/vfaOOtfgnQYhR3AtbeDK2QlsNTO1O2
-	 zGrq70UBQUfoBSXCTPyN1JmOy5GWrWY5oVopnk24WYNXGJymLAbkrEleHcmIbKfgwWo24
-	 wXw2oanw9C9Xn3RE14f9yE5lvN0e71yDu0Qf9wp81JeUlWJoORpl/FrnyArUTalV7CKM8
-	 7PzF/DMQT/yZhRVHsL5tXPc4+Nu96ZCDZ3gSQXH++trnT3kvR+Xm+wiF3kKfdPkQ+rafY
-	 W+8TB2v/XMQB/oK+4YmTSCjWj+pSJ8IxrDDXGm+XheoKgReYqvfUQ232azw0YoV/Alw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792576245;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type:X-Originating-IP:X-ClientProxiedBy:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=yXD5NKFTgqQUEqojjLAf/+yCV14MNt7xdcGSmlMm4AQ=;
-	b=JpoFkBSoRM1OMpuZAizrYMUpQbwzW8sLL7Qkh6ux6actIgADSjJ4Le2/L1ytL+pbVAst
-	 mJvf2j4xTsdisx5ovDSAWrvYgh6exm40EVGUC/3QyvIpNeETkTX91E1hzp//Vu+56DgZK
-	 LcbmNbtYUazE1o5mQXKTYlllAQOY0g6LomHi0xRUy2a5zPSUCfkGhXIxQGowtuzQgcuXw
-	 tndPkeKHVEej1BLDOOB0XKPMkiXEihCZ/VXY9eANGS5I+yF/uJsEFv+Q2nmnNFVmcV/lE
-	 DFBnEz2nItcwOD85+No9WMPp5sB/WEwOM/GY/PvfGL9EALfk602bvrz9dBeOQ+XKr8Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=axis.com;
-	spf=pass smtp.mailfrom=axis.com;
-	dkim=pass header.d=axis.com header.i=@axis.com header.a=rsa-sha256 header.s=selector1 header.b=TGtgJ6z9;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.10
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013010.outbound.protection.outlook.com [40.107.162.10])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792576518;
+	b=A3IRw/aYuN9SxjuzbGIvh5im8UFf6o0yy1DtdxalReNagVj4C0efGvsE7PR6wzQHI/eG
+	 XHXDlue5dVLg3erRUhLjzZdA+Cd4yMP6GCqZzwHMgdqFFilvv86DTkX7prsA+JFBnX2tI
+	 0Fa1FLZ8Lj07dqEn/PDbEZ6KzMk87+QOIO7eW990vNSDlP+MoUBa3KR4qvbsHMIEBH2Vh
+	 LOHmpHFmwbxUReNDi70XTCuSsYk78Jt+GQAkXgRCsi5w7EPq+R/opQH+CcJ02rqQhToRJ
+	 B1fPbTZoWf3KWW9uUUbQ5YPSeb6Wv6PHlNDOPIGsgMcptL5J/WlFJSVTVkqyCLgfxnQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792576518;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=6PIMmiOU1qXyYQfk2Fo4+uPH8S3U7ef69opGGoBfNoQ=;
+	b=SLpOIHTeyn7yECUxK8dI46bExvGlmGuPAWKyh0YxGU/MP0HTuJoCHEAFBzOjxK+cj2e5
+	 qnUDuJ82mAxTCx42aGQXrav618UqllV9bAgFZFx+JVpYYgEsl6dTo3yZ5CuNkEuZwqtON
+	 L57S5TPZlUcsex5BdEnzbmLDjCIWd0uPBAlUBuoWNPtL8UXC52LlvfZDD74efj1k52sQZ
+	 LGFioeR0oL4Zyz9wlUXay3qL8jdvycouNRCECkPU4idZPpfUDZ5wTFcrjNIb02HOivkLo
+	 awL4but2GMNwMGuxpEkaGoLBekvpqNtMXQu3npdIZz8m4MRwgI3o7Dh7WLIE9cOz3HQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="geNkT5/H";
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE065606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 09:50:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE065606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=axis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axis.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B82606A31B;
+	Wed, 21 Oct 2026 09:55:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3B82606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=axis.com header.i=@axis.com header.a=rsa-sha256 header.s=selector1 header.b=TGtgJ6z9
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pLkSiFFtg2QlgEw19M0DqGq2qDbmPek2t0qV5x5HMhiErVAaXyZ8pI4l3VNYdjK07DaCV1IyRj/ZAsY9D2P7mP1pesPxmX/xeyGZzBIi7OphPIKadpPC0TNlGZQkjv19QlVhinunVD1gGPI7vIFmK4MfcZdEBcwMmaQxsej49FG8tRX5mjm2CUW/orVjFW0lj120Ab4II3G47U63VU2XpdFVmEu92lHpcKfmjNnWcrGZ268UnuGx1ZzJt9yflKG5qL6/w1cYo4YVb7THN6cAWg49mho2ttsVxT3FsRwDAIuMUaTfbYwTLUqlYtCgFW4KpUtGpaTWwRdyDQFtZevvMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yXD5NKFTgqQUEqojjLAf/+yCV14MNt7xdcGSmlMm4AQ=;
- b=rs6T1bAyNqI+KOn2L7Iy//MfOFFyM4Ar2hYX0ZvXT/fZ2iQue+n84N1Yn1Mx3HJexiXCVmfD1rzJIn34eEKn13fmJr1qOZkuNfVy9V0YjhLu2/fm++pTFDSW3MtHRVjgUkH0KP9CqW87Vs+JdpmnTcG5t04HSN86Ksbsxz3j/0x+ugdUXOk95FCbLL9DQYCkBKOLqbcw2tnlAgC79N5Mn41mSIbvvC3ikseUH8nW4/vSDleraZGUgxpRLWPqWc7QLKOJj5qDp7yT686/T4vs1mzg1jVTNlEUE/qegUkGux6WwiDTu+Q6A+IbwIV74SWGL+si9rrjK3QmHraFkXs2bQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lwn.net smtp.mailfrom=axis.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=axis.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yXD5NKFTgqQUEqojjLAf/+yCV14MNt7xdcGSmlMm4AQ=;
- b=TGtgJ6z9gO9vmDNCnz4rZhDQJTbDE8ZOXMC5mJASGJoK2ScB3aoQLuwZ80oF0PlOEk8/8EwLe5WFkQ2eASziosSovWGoQ+cufbWBA9+OaZ4Y49pd7YfLN1YNKhjioz5I28sRsBTr8oSOJe2cpVhSOmOPtOFO0B67eTWn5Z7tP80=
-Received: from PAZP264CA0108.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1fb::23)
- by DU4PR02MB11004.eurprd02.prod.outlook.com (2603:10a6:10:593::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Wed, 21 Oct
- 2026 09:50:40 +0000
-Received: from MI3PEPF00008556.eurprd05.prod.outlook.com
- (2603:10a6:102:1fb:cafe::1f) by PAZP264CA0108.outlook.office365.com
- (2603:10a6:102:1fb::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.20 via Frontend Transport; Wed,
- 21 Oct 2026 09:50:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- MI3PEPF00008556.mail.protection.outlook.com (10.167.240.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.546.15 via Frontend Transport; Wed, 21 Oct 2026 09:50:36 +0000
-Received: from pc67007-2609 (10.4.0.13) by se-mail10w.axis.com (10.20.40.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Wed, 21 Oct
- 2026 11:50:35 +0200
-From: Waqar Hameed <waqar.hameed@axis.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, kernel test robot
-	<lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Sebastian Reichel
-	<sebastian.reichel@collabora.com>, <linux-doc@vger.kernel.org>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [linux-next:master 3622/16987] htmldocs:
- Documentation/ABI/testing/sysfs-class-power-rt9467:1: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-In-Reply-To: <16d0bddf-cca3-4ef7-ad68-4017ae275e80@infradead.org>
-References: <202610151025.1g5IgCv2-lkp@intel.com>
-	<a9c10b54-be65-4448-8d1d-fde894336484@infradead.org>
-	<20261020101625.01874245@foz.lan>
-	<16d0bddf-cca3-4ef7-ad68-4017ae275e80@infradead.org>
-Date: Wed, 21 Oct 2026 11:50:35 +0200
-Message-ID: <pnd4iefjsb8.a.out@axis.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=geNkT5/H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792576516; x=1824112516;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7XaWVNlZkzhLjy2X7YQLJZ55nLrLsjLuUCefqlPCRyY=;
+  b=geNkT5/HkrP8pCphhgCX4yc89lfSdSGD4FFR2r3qQjVcA7IQaWDJNklN
+   g4OvXeeNz7XFQJITSTKwhf8WgjxK+8jrZTmWi9BybMuzPePvC7FYq7MD8
+   tHxOB7nL6YvDpLsvlHCgCmXX+XBwS6/rEJpdLIkIZ96cfmVNglAirgZp7
+   YosyblwUhvJfjXTDFcSC2FDTrcWG1RSmXJj8cIpwlgAsF0o7kAuTEVZyA
+   EdndyqN5ZK9+jXyl7JqrDwmdt3+V3C0r7V4irespSYyxnWjL3SFgmooI/
+   pd0QXKjEiXV1IG9Qtra2Ift6gUmhICC5IOAIiU7HottkBmvNa39VTqKV/
+   A==;
+X-CSE-ConnectionGUID: bEVnC2oESquRsECwWyuzhg==
+X-CSE-MsgGUID: PcqYtzURTf+UrRrx9UYEXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1198663"
+X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
+   d="scan'208";a="1198663"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 02:55:16 -0700
+X-CSE-ConnectionGUID: St5ELqOKQymMwmjBcEIoQg==
+X-CSE-MsgGUID: +XokYbnPSwSHS3ozA7+Elg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
+   d="scan'208";a="3476125"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 21 Oct 2026 02:55:11 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJT2J-00000000PHW-3X6A;
+	Wed, 21 Oct 2026 09:55:07 +0000
+Date: Wed, 21 Oct 2026 17:55:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Woodhouse <dwmw2@infradead.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Woodhouse <dwmw@amazon.co.uk>, Jann Horn <jannh@google.com>,
+	Kees Cook <kees@kernel.org>, Breno Leitao <leitao@debian.org>,
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>
+Subject: Re: [PATCH] kthread: Teach lockdep about kthread_flush_work()
+ dependencies
+Message-ID: <202610211757.UM0pu0Gh-lkp@intel.com>
+References: <6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel@infradead.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -112,46 +93,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: se-mail10w.axis.com (10.20.40.10) To se-mail10w.axis.com
- (10.20.40.10)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PEPF00008556:EE_|DU4PR02MB11004:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8d6ebee-586e-4132-8cf5-08df2f58c1c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|23010399003|376014|82310400026|261009223027099003|10067099003|56012099006|22082099003|18002099003|13003099007|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	M0Lp9Qasw4WhhOLpocsnMkT6zxnBvYVthupbYuot2zWZwi7cJXk2Y5rZXBVzF6/GFFrsRB1bXzcnggAgJ1O+ffUMIgPmWyJheasNU6vTu/GFknhFukMCPyCuk8YuybFtl14zGcMMPhS3KvyTHTciuJfrg6RUhL4aQ4eHo2DZjjJWR1jYgU6Z6XEVgQzwDcBBRMzC84tQdoCsRujkOILy+EUQbZwGN7L/cKGstxir8moJlM8ud1eaSsVOuRGl+VYuC7/899gnjaHKLeNPwMQTpVgJf5rSHBHsDdvL1pIruKtTpwyy+jyd4ZaGpKEwKEQIOuNLi+ptSvvKX4mWOO3npqbNkPRL7FCayZ1COij0zT/FtQnvvFBKQdQIY21jWfAyu88vBDnUnXam/ufP5t8vrQChQCtPldF/BFGQxfNHAqgNRfJdWiQ+lNq/79RzgGjC3Ik8TR25XZ5nDeocav9FI0DsDI9ss5VtfbX+dXeN+saFyUMMX9WKHfJMR4uAHVfHO/YguGq1kPf+4rjBvpANGTPZNjCyVTZtNw9RnIIOrtJeTkyc9CRCVmaP4W6bBk4CIgjeBgggeAxL7wJVd4T6ylnJ8hIo4ZtTCwoUh+rPq/FVgN4njm4gvt7D0XiP1l+Mw0t0WA5Z5bn8d2qOG0zmIZZXESiQPY+EceGMQARhPxo=
-X-Forefront-Antispam-Report:
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(23010399003)(376014)(82310400026)(261009223027099003)(10067099003)(56012099006)(22082099003)(18002099003)(13003099007)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	XRdVIh9UAaNX0kJ8N7xtE8c6tDW13BRDc/AYwg3k64rIqn3vV4DWG6Cw5XgXuPe3sXxR0veNmBXXOJhj1GxBkOO8Mn3zwbSj7OOD+FZxrOX8ChH2oPIzmYCwzfe3E3vZaIrd8jgnFYtklZUhGmCU8iwbaai1vm2lYmOe2FBpsVXw7u7QyCI3Ks6OiZVbS+1YU1of3cN3E3GvBr39oGdNKlASMRCQB8pJTR388UISyW4hrP0oXjavpbFmUE1D+VfyWf2PRHIBd/+J5cEnPvFeHnrFrycp7SJ4mlaOnESWUtT8ezo1aisR1baKm6TMYCwBky5xW5HL5N4cSJo0lXut6cCmLDzYODLuAiYIZePiJHwzME1hBT7lOv8ii+68B4c4W9fBQEeeZB7IirjkhvLlXYnLbrSXnSmfYeu3CnTMiiBz0uRxJA01sZlX2GTmmKsx
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2026 09:50:36.3797
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8d6ebee-586e-4132-8cf5-08df2f58c1c5
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MI3PEPF00008556.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR02MB11004
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel@infradead.org>
 
-On Tue, Oct 20, 2026 at 19:22 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
+Hi David,
 
-[...]
+kernel test robot noticed the following build warnings:
 
-> Thanks for your informative help.
->
-> Waqar, do you want to update these 2 files for the 2 issues that Mauro
-> pointed out?  or I can do it...
+[auto build test WARNING on chrome-platform/for-next]
+[also build test WARNING on chrome-platform/for-firmware-next linus/master v7.3 next-20261019]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I was waiting for Sebastian on the other thread [1]. But as I answered
-there, I'll just send the patch instead. Please stand by!
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/kthread-Teach-lockdep-about-kthread_flush_work-dependencies/20261020-160400
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/6dee36e290c2a3b85dcd7cdba2cab72fe57b25c4.camel%40infradead.org
+patch subject: [PATCH] kthread: Teach lockdep about kthread_flush_work() dependencies
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20261021/202610211757.UM0pu0Gh-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610211757.UM0pu0Gh-lkp@intel.com/reproduce)
 
-[1] https://lore.kernel.org/linux-doc/pndse3cp5s6.a.out@axis.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610211757.UM0pu0Gh-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/vdpa/vdpa_sim/vdpa_sim.c:71:2: warning: unused variable '__work_key' [-Wunused-variable]
+      71 |         kthread_init_work(work, vdpasim_mm_work_fn);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kthread.h:219:32: note: expanded from macro 'kthread_init_work'
+     219 |                 static struct lock_class_key __work_key;                \
+         |                                              ^~~~~~~~~~
+   drivers/vdpa/vdpa_sim/vdpa_sim.c:234:2: warning: unused variable '__work_key' [-Wunused-variable]
+     234 |         kthread_init_work(&vdpasim->work, vdpasim_work_fn);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kthread.h:219:32: note: expanded from macro 'kthread_init_work'
+     219 |                 static struct lock_class_key __work_key;                \
+         |                                              ^~~~~~~~~~
+   2 warnings generated.
+
+
+vim +/__work_key +71 drivers/vdpa/vdpa_sim/vdpa_sim.c
+
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  65  
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  66  static void vdpasim_worker_change_mm_sync(struct vdpasim *vdpasim,
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  67  					  struct vdpasim_mm_work *mm_work)
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  68  {
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  69  	struct kthread_work *work = &mm_work->work;
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  70  
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04 @71  	kthread_init_work(work, vdpasim_mm_work_fn);
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  72  	kthread_queue_work(vdpasim->worker, work);
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  73  
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  74  	kthread_flush_work(work);
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  75  }
+4bb94d2de2fa90a Stefano Garzarella 2023-04-04  76  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
