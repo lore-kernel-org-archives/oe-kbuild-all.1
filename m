@@ -1,78 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792620688;
-	b=HM3Y0E+daRAEIelBmaZNetMYbl0s3tO1e0Jf9IV+G4frunXAcl8WEZ1hIues0YaFJm0h
-	 UxgTgLN51zOI3TWJkiBHdAARRni2RBnN1wFW525LCG1kdXE023RsfYG1GRQkytPzpxILl
-	 cFb/IxXGBTug6aLMPvtMUM1ltTPPUHaz1P0jIpHW8jdj48Kr1Oi5QByhp8bAyoJR3+1ak
-	 HYHBC5riNuXNK6sK9z2o1ZJwpvEo4lirhrrPw/P0y1hcb/uAeNTEKJ1Fo/h7eGnif/vFx
-	 A2XYHPTBQ0hXksriNoKE2HPi70IuI/W5qXGAZ77wfBREH/C/qRBpdZi19sG26qd8aSw==
+	t=1792621343;
+	b=n8zNbfQmwzV6veLK6DviVGX0eKYXlG4nTnS0dRIRhwn56DfBkfEqUr6LcnanbuyXdfy5
+	 YYPGYl0O92MBvbLHH1fjFeVVjq4dz4oqCTTX0LUrrlxrEzZOVOsues4hx9Hal6wwuzkmm
+	 agUWSsOxX9vaT+63U60rRpHFfCQcYCt+H1LXFED9uhOFyg0aL8jWfOGy8Uzkvkn5Re4Uf
+	 eFTykhUyGPUWpDwXKQCkENwixBlvkJj/PFr7cDF6MqpQ0xxtG2MWkuUNYiXxnyrbclERx
+	 Zojcli+2PjaGgv9g/oziSeduEz9FSJOOfsELszZI2IViHSWtr4LCJIuSPdeFgu9jn+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792620688;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792621343;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=pgp21LlpniNONu1v9skxOon6YyG3CjMokylGRRXBzjw=;
-	b=FAkZrWewa9PyDFxuGEvgF5zOMjIWvEPcnlirHWaV4krLOJaa83MbEpLRGeQnuE1UbR58
-	 5iVUmKHimn23rt4NcEE+K3QnFeWei+53/4jot5+4DjDv12DiLDej4wNUmqYx1PmtG8AfP
-	 2LuAf7mLe/RlsWObRZdcSXRWykcK69haGZ11vuvvI1c7oPOPOkk6OueopcV68ve1jbM92
-	 KHmRfaSgRuNEpcoGopkJ17f2uJzlIa70oXmfQK4udtoWj70gbW+jOYbY9hyADx/lQ/gr7
-	 qscmM7sBDe69xYclzILhgZySRtPKX1opsPXe1ysrws0MQ/haf7Mq+axgrA9C4aIqhEg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=fiUM6JnMHmA5Ov/xErJ0AuJ15Kfyu9ttUsUZNXK5l38=;
+	b=iXU/ogYIY/RDQmTaX8CsCocX7iVaTCnNgOm0gegqHSCJdpGrUFp4gbgcel55jmOAcxa3
+	 bvKhce7eVr3KKbn/W9aP9epk4cmsXjnEF4XeiwHWVy7C9cHkHgnuI0mQUE9kaWlJtJwwx
+	 XyaQzKVcAMnAjHgW9kdlggBCaoReCFfmd1K1I+rial26oFbIMwYjP0vOxgcFEfvzFVmFN
+	 U1cFujuwvUOyzEn71O2rUJdAl1RTiBnZ5K7rkFgMybt9OAkswoQGN//UGciakgDWfboMl
+	 WUKSqqGlgbjYuWkTtTRF8rVCqJPMxREHbrXebcmj/wtMyKIhTEFttXbEenyyhS6esGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gxlguvmi;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cKEmHpaZ;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAAC606A319;
-	Wed, 21 Oct 2026 22:11:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AAAC606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F39606A321
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 22:22:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44F39606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gxlguvmi
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cKEmHpaZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792620682; x=1824156682;
-  h=date:from:to:cc:subject:message-id;
-  bh=EDYQvvNbc/yTYM764RogEVKsHxM2Gy0uOXos/HPxGKw=;
-  b=GxlguvmikhW7joscEwvnpCiL11znDILGFYz9uQNAqskT19bPCwgyXbFr
-   gSDqr7x1tM5JZnZjXRoqHtr5B9FsD0g43lTxpm534Fy3ByL93tRmJubAO
-   riRYOD4KY6mAu2XwPF+u0VsZSMlBSpuqXoP7OAQr4ExIi4U2wW96kSKMb
-   CoMv+SHrKtiSOul4fmL3UBTv8KE8GnBgMNuu7NGzZbeigaicTxOgL1pJz
-   9gvKSJDNcb0hETSqoju3KS1LT8OR17cXCICIL85GCbGqvTzu9A0t7JPVM
-   Sti4Q8kEkXX0jHSrsQkcdV7QzJSpYitVXm9XOCd3XvVRMGyVAHRee+/02
-   w==;
-X-CSE-ConnectionGUID: SK3usHv3S/CJKOqKOqdGhA==
-X-CSE-MsgGUID: v13QLwd+ROCFCCwSSW7leA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1260501"
+  t=1792621343; x=1824157343;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rPUtyuFnWu82Z984Cm8dRmoMlFt8wbeuLLGVVyrRq0o=;
+  b=cKEmHpaZAKll5ufRzLNbx8vm9dLyATaoh+4zoO5lEvRwSyFifsB5myjG
+   BfYgR9YwPovf+b3wvCckH9nxhyVz0e92Jbcmes6d2C+pUwDv+kju3perM
+   fwO/twEYqL4MZKrM6OLacdc271eL1z/5FsQW4NkRCJhvbXZQW3KCLontU
+   5ao8WD62uVFySHNiyF85Mgna5sdZYaCTVRkMDRUlZhbL01ZBrLtbgnqKt
+   vsVX36kolWEPkn7FGhT+o1ju2HkJA+dtI8ROhBSqwP+PdKFqdPFJfup8O
+   +ZZALEuJ9FkoO1OV9CeSspHlr/cVJOp+YKmu5AadCMFeb7iDtkgjXDKgV
+   Q==;
+X-CSE-ConnectionGUID: WazcUEQ8QyevlTsLXRfMgQ==
+X-CSE-MsgGUID: saIl1WIzRRCJ+PY7G41U/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1373151"
 X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="1260501"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 15:11:20 -0700
-X-CSE-ConnectionGUID: gYnR4aIuQ7iVEe18Dq+OyQ==
-X-CSE-MsgGUID: qDfRhGpQT0GtCHDjV1VxVQ==
+   d="scan'208";a="1373151"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 15:22:22 -0700
+X-CSE-ConnectionGUID: jERSXTrpQ4mmahGGAlw3dw==
+X-CSE-MsgGUID: Fu/9SPr7QIiN0bURyZL7vA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="3237307"
+   d="scan'208";a="3258258"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Oct 2026 15:11:18 -0700
+  by orviesa006.jf.intel.com with ESMTP; 21 Oct 2026 15:22:20 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJeWi-00000000Q8g-0cz0;
-	Wed, 21 Oct 2026 22:11:16 +0000
-Date: Thu, 22 Oct 2026 06:10:34 +0800
+	id 1xJehM-00000000Q94-2Qb6;
+	Wed, 21 Oct 2026 22:22:16 +0000
+Date: Thu, 22 Oct 2026 06:22:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [lumag-msm:venus-8996-vmem 21/173]
- drivers/media/platform/qcom/venus/core.c:436:45: warning: diagnostic behavior
- may be improved by adding the 'format(printf, 2, 3)' attribute to the
- declaration of 'venus_fwtrace_add'
-Message-ID: <202610220601.FUv6hw4D-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Lee Yongjun <jun85566@gmail.com>, stern@rowland.harvard.edu,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, digidietze@draisberghof.de,
+	xiehongyu1@kylinos.cn, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com,
+	Lee Yongjun <jun85566@gmail.com>
+Subject: Re: [PATCH v2] usb-storage: option_ms: bound probe-time bulk
+ transfers
+Message-ID: <202610220624.5aofbefV-lkp@intel.com>
+References: <20261021081616.89976-1-jun85566@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,58 +87,92 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021081616.89976-1-jun85566@gmail.com>
 
-tree:   https://gitlab.freedesktop.org/lumag/msm venus-8996-vmem
-head:   4dff7b31dd13e97b8f7abab7bc115d2875afd5e8
-commit: 1c74759d645846cbcdd7907ffae600567bfdb220 [21/173] DEBUG: media: venus: trace firmware messages and HFI commands
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261022/202610220601.FUv6hw4D-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c419645e808a6667eee9dbb16c828f77e2fd2f0)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610220601.FUv6hw4D-lkp@intel.com/reproduce)
+Hi Lee,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v7.3 next-20261020]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lee-Yongjun/usb-storage-option_ms-bound-probe-time-bulk-transfers/20261021-171616
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20261021081616.89976-1-jun85566%40gmail.com
+patch subject: [PATCH v2] usb-storage: option_ms: bound probe-time bulk transfers
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20261022/202610220624.5aofbefV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610220624.5aofbefV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610220601.FUv6hw4D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610220624.5aofbefV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/platform/qcom/venus/core.c:436:45: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 3)' attribute to the declaration of 'venus_fwtrace_add' [-Wmissing-format-attribute]
-     436 |         vsnprintf(e->msg, sizeof(e->msg), fmt, args);
-         |                                                    ^
-   drivers/media/platform/qcom/venus/core.h:50:6: note: 'venus_fwtrace_add' declared here
-      50 | void venus_fwtrace_add(struct venus_core *core, const char *fmt, ...);
-         |      ^
-   1 warning generated.
+   drivers/usb/storage/option_ms.c: In function 'option_rezero':
+>> drivers/usb/storage/option_ms.c:49:18: error: implicit declaration of function 'usb_stor_bulk_transfer_buf_timeout'; did you mean 'usb_stor_bulk_transfer_buf'? [-Wimplicit-function-declaration]
+      49 |         result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                  usb_stor_bulk_transfer_buf
 
 
-vim +436 drivers/media/platform/qcom/venus/core.c
+vim +49 drivers/usb/storage/option_ms.c
 
-   423	
-   424	void venus_fwtrace_add(struct venus_core *core, const char *fmt, ...)
-   425	{
-   426		struct venus_fwtrace_entry *e;
-   427		unsigned long flags;
-   428		va_list args;
-   429	
-   430		spin_lock_irqsave(&core->fwtrace_lock, flags);
-   431	
-   432		e = &core->fwtrace[core->fwtrace_head];
-   433		e->ts = local_clock();
-   434	
-   435		va_start(args, fmt);
- > 436		vsnprintf(e->msg, sizeof(e->msg), fmt, args);
-   437		va_end(args);
-   438	
-   439		core->fwtrace_head++;
-   440		if (core->fwtrace_head == VENUS_FWTRACE_ENTRIES) {
-   441			core->fwtrace_head = 0;
-   442			core->fwtrace_wrapped = true;
-   443		}
-   444	
-   445		spin_unlock_irqrestore(&core->fwtrace_lock, flags);
-   446	}
-   447	
+    30	
+    31	static int option_rezero(struct us_data *us)
+    32	{
+    33		static const unsigned char rezero_msg[] = {
+    34		  0x55, 0x53, 0x42, 0x43, 0x78, 0x56, 0x34, 0x12,
+    35		  0x01, 0x00, 0x00, 0x00, 0x80, 0x00, 0x06, 0x01,
+    36		  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    37		  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    38		};
+    39		char *buffer;
+    40		int result;
+    41	
+    42		usb_stor_dbg(us, "Option MS: %s\n", "DEVICE MODE SWITCH");
+    43	
+    44		buffer = kzalloc(RESPONSE_LEN, GFP_KERNEL);
+    45		if (buffer == NULL)
+    46			return USB_STOR_TRANSPORT_ERROR;
+    47	
+    48		memcpy(buffer, rezero_msg, sizeof(rezero_msg));
+  > 49		result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
+    50							    buffer, sizeof(rezero_msg), NULL,
+    51							    OPTION_MS_PROBE_TIMEOUT);
+    52		if (result != USB_STOR_XFER_GOOD) {
+    53			result = USB_STOR_XFER_ERROR;
+    54			goto out;
+    55		}
+    56	
+    57		/*
+    58		 * Some of the devices need to be asked for a response, but we don't
+    59		 * care what that response is.
+    60		 */
+    61		usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
+    62						   buffer, RESPONSE_LEN, NULL,
+    63						   OPTION_MS_PROBE_TIMEOUT);
+    64	
+    65		/* Read the CSW */
+    66		usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
+    67						   buffer, 13, NULL,
+    68						   OPTION_MS_PROBE_TIMEOUT);
+    69	
+    70		result = USB_STOR_XFER_GOOD;
+    71	
+    72	out:
+    73		kfree(buffer);
+    74		return result;
+    75	}
+    76	
 
 --
 0-DAY CI Kernel Test Service
