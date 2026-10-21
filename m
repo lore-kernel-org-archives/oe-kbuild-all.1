@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792547679;
-	b=rRwb12NU5dw+6+W5+0srXP1adXk1yYldSJTlQOyqjApLAQ3zQJ5HK2/6EfUmLzhUS+1L
-	 V31nFYuv8v9C5bshPIQpt5HdXE3kbEXl8TLG7bIAxWuIkJVREgrqs6endvMjx7vFQVXPc
-	 RAWLGDimwgLq2W7oH/MG4sXLmRxTJw88PO8pcfoILDUVedsN6LSi3jvsD68OhwRp0gzm7
-	 Q6tDdScs07aOD2h2JKcLzPOPTlKxMZK7S4x60WEioLzrGQGlEd1fTzWyc9gjmJIKlW9xj
-	 dk0zYrm1Eovv/apQUkxFOgrzu23ra8K9sKtsT3SXiIIAgDsykcLRgGcOIWnTqH0rDSg==
+	t=1792548622;
+	b=hon9IVJmndbzZ/0dKOBnmuAGujLg/J9IebbSFOuVmpM7qgzba+fL1UxpuQ8MK/LGaaPX
+	 iCntY0LonnDt8gbeaY74K8EQM9IFJ6OaHhaRDHnTf2s6QQ5bAXmwmC/Ab5ATR7VGCr77X
+	 tZ6xc08nWj9OpfGJSdEYF1JbPaXw0HgYmIC2PVZbf8psNkujJll5Hlla/Db8umRVGlSAv
+	 +WUF095Kch+D6bxjOj0ANd432xzNKDO98V5zeGVMbwbG19fC4h8FG9nOliJq9eqg+ynKS
+	 ADMMAy248lliVmsWOyKQv1tQ/DnT25gLxMMQ/Z2Zab2OWmBnQ5qqJ3dX3RdQFtGp5Fg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792547679;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792548622;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=0z1uOl2yJIA88ydtZ4Naia5pYPvinKqYydRtlu+CrMU=;
-	b=FKQ7e5oveRs1OZQhqjVCcy3XEu0xp8qflLU4xtB8skY8eaf5Kvin5JbbZZxpIK1/1ppv
-	 0R0tsUt290J+Y8+B7A9wejPc2Fp/rFLMV3xqkhilUjZFnO7dQd9D647d1FaeQwEf1lA6Y
-	 k25B1XBJVvGTFrEgBLMs3qiOkpl9mVhVrxxRflOmbpKZbxx2kg//H2SC9EFiYs3qywzWJ
-	 2k/VNlZQeUCdEiK4PrTz6SU56RIFKDPH81cK27C6VrJkqSYoFIG5083ncGCqY1LCn7xxo
-	 dQJUw190g8kYxqJziGVaHAEHQQCzcEhSg9VQKGy6SxxwQAj2UIXuJz6ZnwsKTzI52xQ==
+	bh=9ut0cmwyUibAGid3TVul3jkQOAw4YrdAQyxJBsn4q84=;
+	b=TpE+7Hvhlgy3RhEpECle+dt9kretWdSxntg7LTCnU0TbhwcWzVGE+B8KcXnWNfWe1UJS
+	 ltbUst60RBYrFpALbIwLKSatnMstlNeBrOQ4kNXEDqNeUeJAMPiikrp+oko6PhFPGPlzR
+	 cCi6gPeKm4m/5Lr6ilTLZ48A293MrZoOPEpJ0eksC01nReUCLO/HRcejY37Ky19fHNekV
+	 +fVZM/uW8gehzc6ZQBxtXzFzXo3blzBe1gnymu8M/Q1fXdZPpp3DIkwETU0Thw//u/Ynk
+	 C2HBIsFAFN1G6TMfMIheSfyaKIby684ezvtgHiZgKaCZGc1AoGeQs/bm70QgxoNiBwg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PQWDCajK;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gWwjtsrR;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19D8606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 01:54:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D19D8606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B2F606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Oct 2026 02:10:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26B2F606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PQWDCajK
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gWwjtsrR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792547678; x=1824083678;
+  t=1792548622; x=1824084622;
   h=date:from:to:cc:subject:message-id;
-  bh=UIWvzw9MhEQz4HHfKqW4WRbVkHXQu4fpNljElUd4+Ck=;
-  b=PQWDCajKGlq/dfVnL8iEQ7sEmqbvXlggUjFNc+kLRqKJ4W+0qyHxI5kF
-   XXctwbL1YwKiPsx9PuDL6J6UvduS8QY7anqc06cDqr8OIvS4wNqsMn0ix
-   /8SGVpR0VTNC6E3/06menH5mxC9Ml5chhN0b2KXPN3mAdzJYOacOytdo3
-   26s+SEYo01IDRLxPtPLaGd5ZNhgc1NswNxh8hPLJPqs8yuEygUBbXbwx6
-   h0r2AM4Hc3f9FoYlaxDqhwH46xwSxCwpSFb5TZ+0k2Q/E6YEJgPqSLFmA
-   0PCLIXSNNkcFwcFqIXLTierLLSB97vIDzUNw1MV78Xv0PjiFy75st+hDl
-   A==;
-X-CSE-ConnectionGUID: 1c3dlB0SRPCiztMzv1M1Pw==
-X-CSE-MsgGUID: wyYLvFF+T96hCSJE/thwAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1364846"
+  bh=MVrZYHBCUXT6WtTFJCusU9/wuBPEz9izhvL3DcO/oqg=;
+  b=gWwjtsrRob+64MLoCEwfGFf0aASpc9JA8e/X9GKQWgXwhxM7pBXYPtTh
+   qkpAYkyAzey5lZBrpljChaJ/0W4wZS83nDvCabV0HuN0cI+sT8bTLWNKc
+   lTdlRDDftc/h9+tcswYlQKOcA5+CEv9y+S3lCDW/xwdb74oDKD1JorbvB
+   Eju4rstd1Kd3PJ6nIe51zx97NsP4280Lz54r4qbJco5RKvsrbnRBCtvTO
+   rcyvHekz5//BxAHk/oOob7WHEiISReEZY5KcLx9mBfpdV3MMFznQOtT5e
+   dcq8uIkdcSFbqnjFc+HgNJl6LIGLmH+bk+q2jnG+HqbW5BpRNcOuMTYpA
+   Q==;
+X-CSE-ConnectionGUID: 0hYQkOf4R6GwVtJ405SHMw==
+X-CSE-MsgGUID: OnQp5cQQQSSczZrSpfCwwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1246598"
 X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="1364846"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 18:54:37 -0700
-X-CSE-ConnectionGUID: B1FWaT/ISPCUz9OpS77fHw==
-X-CSE-MsgGUID: E+eXsUoVR8GaNKMxRYW0ew==
+   d="scan'208";a="1246598"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 19:10:21 -0700
+X-CSE-ConnectionGUID: 14hEx4nDQNy7J6AKRB6zng==
+X-CSE-MsgGUID: bdRjfsIuQ1qbHB/2vaLZsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="2970425"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3c253b998be3) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Oct 2026 18:54:36 -0700
-Received: from kbuild by 3c253b998be3 with local (Exim 4.98.2)
+   d="scan'208";a="3067684"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 20 Oct 2026 19:10:19 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJLXF-000000006aN-41eA;
-	Wed, 21 Oct 2026 01:54:33 +0000
-Date: Wed, 21 Oct 2026 03:53:37 +0200
+	id 1xJLmS-00000000Op4-2BqA;
+	Wed, 21 Oct 2026 02:10:16 +0000
+Date: Wed, 21 Oct 2026 10:10:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: ckkim <changkon12@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-7.3.y 2/59] ERROR: modpost:
- drivers/clk/meson/axg-audio.ko: symbol 'meson_clk_phase_ops' undefined!
-Message-ID: <202610210353.p411HmaK-lkp@intel.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:cancellations 17/40] fdesc.c:undefined reference
+ to `bpf_sk_release_proto'
+Message-ID: <202610210917.nPIPoGWv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,29 +80,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/tobetter/linux odroid-7.3.y
-head:   c30cb664bead7336f81c7a7c7c82709ee1f803cf
-commit: 6d59c25e68051d59dfac85991d9a152489e628c3 [2/59] ODROID-COMMON:sound/soc/meson: add audio module for g12a, g12b, sm1
-config: arm-randconfig-2001-20261020 (https://download.01.org/0day-ci/archive/20261021/202610210353.p411HmaK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610210353.p411HmaK-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux cancellations
+head:   d3a43c8a05ca2e56ecb592c265a238386f3f1ff3
+commit: d5b5e8f94c6af8caf3e43d13671a6bf25dee3759 [17/40] bpf: Release frame descriptor resources from bpf_throw_unwind()
+config: loongarch-randconfig-1000-20261021 (https://download.01.org/0day-ci/archive/20261021/202610210917.nPIPoGWv-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261021/202610210917.nPIPoGWv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610210353.p411HmaK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610210917.nPIPoGWv-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: drivers/clk/meson/axg-audio.ko: symbol 'meson_clk_phase_ops' undefined!
->> ERROR: modpost: drivers/clk/meson/axg-audio.ko: symbol 'meson_clk_triphase_ops' undefined!
->> ERROR: modpost: drivers/clk/meson/axg-audio.ko: symbol 'meson_sclk_div_ops' undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for COMMON_CLK_AXG_AUDIO
-   Depends on [n]: COMMON_CLK [=y] && (ARCH_MESON [=y] || COMPILE_TEST [=y]) && ARM64
-   Selected by [m]:
-   - SND_MESON_AXG_FIFO [=m] && SOUND [=y] && SND [=m] && SND_SOC [=m] && (ARCH_MESON [=y] || COMPILE_TEST [=y] && COMMON_CLK [=y])
+   loongarch64-linux-ld: kernel/bpf/fdesc.o: in function `.L166':
+>> fdesc.c:(.text+0xe80): undefined reference to `bpf_sk_release_proto'
+>> loongarch64-linux-ld: fdesc.c:(.text+0xe84): undefined reference to `bpf_sk_release_proto'
 
 --
 0-DAY CI Kernel Test Service
