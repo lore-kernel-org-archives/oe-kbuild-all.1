@@ -1,78 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792646951;
-	b=X0FuRtx95BWOCni9CeGnomEAqMUTSiBCN61ONGhZH2zoOiDFGNGaRDq4fsGarV2KNFzC
-	 5tPAtCL3p2DpOKS2SUJChsc+nkGF4y/JUXt/lZBqWNUOM69KR0VZlPZL6P30a81NtnLdc
-	 gFq4dsyxLtUs97woVAEmZoriCGvVQrbsYGodhWwFBNzgUk5YEhsYDVoV7+JQvZpMZ3QvS
-	 WQuhcxNIzv64qVfXUfPmlnOa0LUT8pBwnVfezM1I6JDmeYnqdoDl7Qe2VXK+B70YZoFj+
-	 dtFT58QTXqCLn13hOFFr9WFX2jZ2P56rcpnaxdva4pSRXWAQ4qzx0n4As15mVPMyBTA==
+	t=1792647709;
+	b=r6j4Jdj5DFHr1OEAmVa5bQ2TJX3HX/bSo0IKLU5X6HBqhqAKO8EHDKif7gS4un8fMTIq
+	 V/jLnslCg1lJP/eTuoBpBHyUtnywxrflI5IrvOF7F4ckcy9Mhx3QzhOPoL73HmBSkziLJ
+	 BpNHScOAmyFUsbZlUx/8VUhTBC3DAotEF264BgD/hRvvzgstGMo6EFnU6p7fnnXDp23Vf
+	 u8m0UkldFhUyph/GUXm1dZaa5E9nuGwzhUEOy2vSIFKC39kbpZzBpB+5gElAy9QAq9sZ/
+	 YFZjMqywgEKjRVlP8e0pIkChLzetSv0x0M1J9N7UUOe1wyzoh2LotnRVBb50uH7w8yg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792646951;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=dQfaVLwiGfzKWRApDbLS/yWO/nZAUwR0Iibwcn3P/io=;
-	b=v4rbGIK+0fNK23xQG5DjAMpzz0HE0tcHxKO/RND4rM73TPWAgZTrkXRXHzirat8StB59
-	 TopRFmwOMoWZ9CCdLltez7yuC3BjWMrSE1wvbHZ+K2OTjAFglDDvlcXy9/wE73I2DdnLL
-	 X3z8QYHr9DfzZfi9l/WIfoJiJ4GhdJ3mglrK92QJvWNnJ9DT7hhdwSPue1Xv28gXaYI0V
-	 geXrzVbqlvTrhJf5OdC4CCFLQwLd1Ik3tAT7hif1n6epaNhaXU3OAq88XlwCXp7n6CgkM
-	 IvvHrQLA46sKZEzAlwH1qIPlU94urCE49W7wo+VMTMs3mEHlms5vrUN4MSOrvR9v8gg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792647709;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=pVPyH3GoZBrVKP0Ttqz+/rHi2Rfgtq7gjnCe7XfjZjw=;
+	b=qq1hOgu5LgKON8PH9pJ4xT6hkjbRZgjTt92iS6+C1HNUJFMYkGqwx55fYxrCf4sWDmGV
+	 H9wyZ3+a6wh1uMJc+wuO9PDaGkNmsRvJ15CIpLTR1VX01T4h9gKlkx6beGPz3+xsj4743
+	 Nu88UUy0JGYfc9bW0ie8c/I/0VeDmmmSWcFmWhHJNfKMqMwGfHd2An2s78JnKI1KbPh+Q
+	 aT5PS0dv9gAcx8U2qLpmOdgorGt9xs0a3+n2XqV6YfbiY092S5D9eAMFJeJb5gOKpTflE
+	 m65Rfp3FDfs1AX7wIRgQErb9MDTANS0BRtIBhF6FERa/WrvAeJlmIP1T9wBffQOC+OA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EDVt59rM;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Wkb+IYPK;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774E1606A319;
-	Thu, 22 Oct 2026 05:29:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 774E1606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68750606A319;
+	Thu, 22 Oct 2026 05:41:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68750606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EDVt59rM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792646950; x=1824182950;
-  h=date:from:to:cc:subject:message-id;
-  bh=xOYWz1jstK5+PP0eRGnXHxwYmVroTCZFp2ZH5zBcDSU=;
-  b=EDVt59rMnztrl0YtvEApHon3Es8LqpJhJwgRCiWgz8K8dcHO4HlMAHsj
-   pj1nHD28woLvwzpKjDr8lU9U9KSMopgOrjw+YXwI+yfkCR9VM11iZIhQX
-   FhUWiSHge9Yf+lyrWmUjJVi3dBxnjBgzm6fBwP+Odpz/bstYJ2NoRibyX
-   y2s8+7t8mPPi6P83vIJw58kUEfIJGlwJarYSKc3HlX05P9oyUMSMFshyF
-   2SoYCRI/PURR1lCPi+Bjrdky9PHH1kGdrV+OB9F24JN64vBgiqW54lxnw
-   9no2/RwhBA6SKZv8lGlpAE9gBOg5nwH3n9YhSQCP76skt+NMmZmaY6EdO
-   Q==;
-X-CSE-ConnectionGUID: Wcmy1Kp2QPqg80MZtWewjg==
-X-CSE-MsgGUID: 8aY94/tkS8a6cwniufIupA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1285037"
-X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="1285037"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 22:29:09 -0700
-X-CSE-ConnectionGUID: AAmwiDHRQOKZlF4efGzlcA==
-X-CSE-MsgGUID: pWcFPLHNTh6ClxpA0mqAgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="3676598"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Oct 2026 22:29:08 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xJlMP-00000000Qaw-0Fvs;
-	Thu, 22 Oct 2026 05:29:05 +0000
-Date: Thu, 22 Oct 2026 13:28:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Dmitry Baryshkov <lumag@kernel.org>
-Subject: [lumag-msm:venus-8996-vmem 70/173] Warning:
- drivers/cpufreq/qcom-cpufreq-hw.c:118 function parameter 'cpu_dev' not
- described in 'qcom_cpufreq_update_opp'
-Message-ID: <202610221320.83iuWIYk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Wkb+IYPK
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=pVPyH3GoZBrVKP0Ttqz+/rHi2Rfgtq7gjnCe7XfjZjw=; b=Wkb+IYPKcmGAULpRkQRky0WaY+
+	uH6s+FXiNNVvdIa4iiu3r/sEifPsAb4+TdwMbK8+bBT6q5bI6Ih7roTMWzWa/DfcdOJbwXjReS1ic
+	OFpq8Vg1ZCLyqkvdrTjd8Uusonp8W9g1cHtqMoXDbUGQU5AzUEuEl/jugB9J16T/VjgNj+qy1bxRo
+	QDXXRQ0UR2eSqojfz7BxsAiU8olQtK9leY5PEghxLjm/yulVaYoRpECY11HUW0j2ok7nZk3v65XcV
+	SHkHOMCZZH6+QoNNvINg/E8wet8oTlvPxt5A+bB8wCVktUm8KAshkRVF3pVSqzzcA/U3ErHyArDuq
+	Sy5Sr4Pg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xJlYT-0000000DPf8-3CQ0;
+	Thu, 22 Oct 2026 05:41:33 +0000
+Message-ID: <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
+Date: Wed, 21 Oct 2026 22:41:32 -0700
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,26 +57,189 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] changes.rst: introduce 'Required for'-column
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kbuild@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ linux-debuggers@vger.kernel.org, tools@linux.kernel.org,
+ "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Nicolas Schier <n.schier@fritz.com>
+References: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitlab.freedesktop.org/lumag/msm venus-8996-vmem
-head:   4dff7b31dd13e97b8f7abab7bc115d2875afd5e8
-commit: cfa31c4bc448f8442d713de3c9aedba5d810ac88 [70/173] cpufreq: qcom-hw: Add kerneldoc to some functions
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20261022/202610221320.83iuWIYk-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610221320.83iuWIYk-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610221320.83iuWIYk-lkp@intel.com/
+On 10/7/26 9:37 AM, Manuel Ebner wrote:
+> The optional tag isn't obvious nor defined. Therefore remove the tag and
+> add column 'Required for' to make it easier to define the need for the tools.
+> 
+> CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> CC: Nicolas Schier <n.schier@fritz.com>
+> ---
+> If anybody has info to add to or refine the new column I would appreciate it a lot.
+> Please forward this to list or people which can contribute to this patch.
+> 
+> There's also the option to remove the 'Command to check the version'-column
+> and refer to scripts/ver_linux - and with this also removing the duplicated
+> information-issue.
+> 
+> [v3]
+>  Rearange column space of the table in order to add column instead of replacing column
+>  add some requirements to the table
+> 
+> [v2]
+>  Ditch footnotes in favor of a column
+>  Replace 'Check Version Command'-column with optional-column
+>  https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
+> 
+> [v1]
+>  https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
+> ---
+>  Documentation/process/changes.rst | 97 ++++++++++++++++---------------
+>  1 file changed, 51 insertions(+), 46 deletions(-)
+> 
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index 28f2ca633..dafe0530f 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -1,13 +1,14 @@
+>  .. _changes:
+>  
+> -Minimal requirements to compile the Kernel
+> -++++++++++++++++++++++++++++++++++++++++++
+> +Minimal requirements to interact with the Kernel
+> +++++++++++++++++++++++++++++++++++++++++++++++++
+>  
+>  Intro
+>  =====
+>  
+> -This document is designed to provide a list of the minimum levels of
+> -software necessary to run the current kernel version.
+> +This document is designed to provide a list of the minimum versions of
+> +software necessary to change code, compile, install and boot the current
+> +kernel version.
+>  
+>  This document is originally based on my "Changes" file for 2.0.x kernels
+>  and therefore owes credit to the same people as that file (Jared Mauch,
+> @@ -27,48 +28,52 @@ running a Linux kernel.  Also, not all tools are necessary on all
+>  systems; obviously, if you don't have any PC Card hardware, for example,
+>  you probably do not need to concern yourself with pcmciautils.
+>  
+> -====================== ===============  ========================================
+> -        Program        Minimal version       Command to check the version
+> -====================== ===============  ========================================
+> -bash                   4.2              bash --version
+> -bc                     1.06.95          bc --version
+> -bindgen (optional)     0.71.1           bindgen --version
+> -binutils               2.30             ld -v
+> -bison                  2.0              bison --version
+> -btrfs-progs            0.18             btrfs --version
+> -Clang/LLVM (optional)  17.0.1           clang --version
+> -e2fsprogs              1.41.4           e2fsck -V
+> -flex                   2.5.35           flex --version
+> -gdb                    7.2              gdb --version
+> -GNU awk (optional)     5.1.0            gawk --version
+> -GNU C                  8.1              gcc --version
+> -GNU make               4.0              make --version
+> -GNU tar                1.28             tar --version
+> -GRUB                   0.93             grub --version || grub-install --version
+> -gtags (optional)       6.6.5            gtags --version
+> -iptables               1.4.2            iptables -V
+> -jfsutils               1.1.3            fsck.jfs -V
+> -kmod                   13               kmod -V
+> -mcelog                 0.6              mcelog --version
+> -mkimage (optional)     2017.01          mkimage --version
+> -nfs-utils              1.0.5            showmount --version
+> -openssl & libcrypto    1.0.0            openssl version
+> -pahole                 1.26             pahole --version
+> -pcmciautils            004              pccardctl -V
+> -pigz (optional)        2.4              pigz --version
+> -PPP                    2.4.0            pppd --version
+> -procps                 3.2.0            ps --version
+> -Python                 3.9.x            python3 --version
+> -quota-tools            3.09             quota -V
+> -Rust (optional)        1.85.0           rustc --version
+> -Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+> -squashfs-tools         4.0              mksquashfs -version
+> -udev                   081              udevadm --version
+> -util-linux             2.10o            mount --version
+> -xfsprogs               2.6.0            xfs_db -V
+> -====================== ===============  ========================================
+> -
+> -.. [#f1] Sphinx is needed only to build the Kernel documentation
+> +==============  ========  =======================  ========================================
+> +    Program     Minimal      Command to check                  Required for
+> +                version         the version
+> +==============  ========  =======================  ========================================
+> +bash            4.2       bash --version           general requirement
+> +bc              1.06.95   bc --version             Kbuild (
 
-All warnings (new ones prefixed by >>):
+Something missing after the '('?
 
->> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 function parameter 'cpu_dev' not described in 'qcom_cpufreq_update_opp'
->> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 Excess function parameter 'policy' description in 'qcom_cpufreq_update_opp'
->> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 function parameter 'cpu_dev' not described in 'qcom_cpufreq_update_opp'
->> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 Excess function parameter 'policy' description in 'qcom_cpufreq_update_opp'
+> +bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
+> +binutils        2.30      ld -v
+> +bison           2.0       bison --version          Kbuild (.config)
+> +btrfs-progs     0.18      btrfs --version
+> +Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
+> +e2fsprogs       1.41.4    e2fsck -V                ext4
+> +flex            2.5.35    flex --version           Kbuild (.config)
+> +gdb             7.2       gdb --version            Debugging
+> +GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
+> +GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
+> +GNU make        4.0       make --version
+> +GNU tar         1.28      tar --version
+> +GRUB            0.93      grub --version ||
+> +                          grub-install --version
+> +gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
+> +iptables        1.4.2     iptables -V
+> +jfsutils        1.1.3     fsck.jfs -V
+> +kmod            13        kmod -V
+> +mcelog          0.6       mcelog --version
+> +mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
+> +nfs-utils       1.0.5     showmount --version
+> +openssl         1.0.0     openssl version
+> +pahole          1.26      pahole --version
+> +pcmciautils     004       pccardctl -V
+> +pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
+> +PPP             2.4.0     pppd --version
+> +procps          3.2.0     ps --version
+> +Python          3.9.x     python3 --version
+> +quota-tools     3.09      quota -V
+> +Rust            1.85.0    rustc --version          CONFIG_RUST=y
+> +Sphinx          3.4.3     sphinx-build --version   build kernel documentation
+> +squashfs-tools  4.0       mksquashfs -version
+> +udev            081       udevadm --version
+> +util-linux      2.10o     mount --version
+> +xfsprogs        2.6.0     xfs_db -V
+> +==============  ========  =======================  ========================================
+> +    Program     Minimal      Command to check                  Required for
+> +                version      check the version
+> +==============  ========  =======================  ========================================
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On my build of 'make htmldocs', the table ending confuses docutils.
+Did you build this with 'make htmldocs'?
+
+Documentation/process/changes.rst:73: WARNING: Blank line required after table. [docutils]
+Documentation/process/changes.rst:75: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+Documentation/process/changes.rst:419: ERROR: Malformed table.
+Bottom border or header rule does not match top border.
+
+==============  ========  =======================  ========================================
+
+...
+
+Getting updated software
+======================== [docutils]
+
+-- 
+~Randy
+
