@@ -1,54 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792691670;
-	b=0aDXbULeaPNCZ5gOWBdOFyyo3wZVZ9a8jKUIXwPSuYK89dD32RX1kT7eQfZB8C5SM8ds
-	 gyHlTXhK1EUMDEs88s8qkRYcCthuJ+8kvpa1Vu43jOdrR5Lq8EzKDWUJXVdt+UnIhqq0S
-	 ARDUIz6jIb83/Z7gbjse68aeoEY1l59fe7+8gH03IrAJ3ZmmXdqP3sbN4XBEgky1ADtMP
-	 yIn09xYxWpeiMV6awVh6rJ5r4I0ZoLQgE+W9wtFjZEfuA4c4bYDCG4O9KSMs7VXExOoyU
-	 6q4oCCPNvF/Y9qf7E8e9I3hTg5Y5D8HbcqWlBGfzxl5oMDkxOcdiNO9aNO4/HBUuS8g==
+	t=1792692410;
+	b=LDasET2KJkRLqKAHzN18SjTwitPCI7ReXZFfChoVZ23VcYHi1ghZD5QegkvElHkM+hKV
+	 OAwiks4pheCRcqqyptCNSyZ71xMYD/8hoZuc2hV8rFiF3JV+dWVxIRulVAOWEvWvxkC+K
+	 aw94t1BMuQ5bbRbYOgvOXI/dQ7tsKh2+kQhsG5ltk7bo6C0xxiooXO+DDifOkVxE8K8QG
+	 KYlsK4vNQpSQbz++450W1bK1nqXcB3B5W3mam3ypP6jiKMZLnF00qDqGjLk4qXii+jf3e
+	 ZakEQlxG50THVd1s6GNA50d+XQpct3wYCr1Zi8NEvDQzrJFgCMHJXKe1yZnmSdETOPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792691670;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=fbQibgxe69xuj6Tt/lcZHC3t8YlgVovN8bS/Jv4bVys=;
-	b=vqgAis3ApMNs0oTuEs6CSc+I67dfraon0K2s2wQTN6ZVIvRCLK/MCau6sMr6Kjh2rj2o
-	 pAkBbsbtgYT69moWgqyx0GXEiNe0zCQbCYJaFKOWCRXTqN3+7YnvXpoeGD/OdrtbfyOnM
-	 Kocy1IBhKVm5oeSX8l2V1NIJCcVkz0o/N3laaRZCr377OLuVR6Wr1O6/socifOOA1p1Vj
-	 GlGqJnkYJAjrpUO02l6YRnEHTWjd5TFNBnLim6QyeqFVm6A4Va5BC92tuMil1I9jDQzE7
-	 1dadWuW+nUduElnX/OZ6nkJJZj8mDbK+p3rAZWnZFickhdWM/apwuGu9P3tD2j6XfZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792692410;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=ZNgXUFfxb+pfuB4pUvGiJLITHyM0ta/+E9PxL810iRc=;
+	b=w9QOL9iiNjRUNmTzjSdh5klN3dumz+4bmSjkDJHkvcHS+0b+tian9AciDc17Nx3rUCQm
+	 r6mDuagoJXw1AxZQSLnQe7bVg/8So7KMzI688rrz/3ZgrqxGQ+N5sDnm4ttRJycpkkhj4
+	 4H7PMYtStRYTpI75kjyzG4p7XC5JWxRaO0/2FUUH/oZkyMEITn1tw7tZdnTyvs0EH23z6
+	 i8Vz4JK9/84mM2CYcnGQ188Oq7wVA20fyZGnCs44GpNr0I5iDm+cNLM+Kb/+o+Gu08lu/
+	 HWTw6J/b98tRG0hhop7H+6ZveTu1W5tjrErAdfcyzlBlairYTiG04WkFCiJ7CjkwN0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zIcaFNGy;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mlpI0prF;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC35E606A31A;
-	Thu, 22 Oct 2026 17:54:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC35E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E02606A319;
+	Thu, 22 Oct 2026 18:06:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53E02606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=zIcaFNGy
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=fbQibgxe69xuj6Tt/lcZHC3t8YlgVovN8bS/Jv4bVys=; b=zIcaFNGyaMsCr9M0ia4+IPE/tX
-	At2HmdCrlpXOBQ2UyTUdnLUz5SvfLafFw10+N3to7x62m9+QhA7bAWAh/pFkG8hhgIpnxmIBiFfEH
-	xY90xURt7SvBjfa0W9XxmVqXd8+ys34f0CHpn1ZkAyoAFSw91p34YhxVSmfBpGB1fLCki/vGDw80f
-	DYRQhK0UzSSruakLqJVzk7iMCwxplhko4XmI4z35ZLwx0l0U/Ld/yCQgvuyncDj7l6CRdKhHzaItL
-	r0R2dC76Cbw1stEFGeuo5NVLmphxr8JI/sEPLRxvzlHK9d5qSlUloJ180gBjX1DlpCn8q4F+ovQHq
-	tAB8lFug==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xJwzh-0000000Ef54-0yRY;
-	Thu, 22 Oct 2026 17:54:25 +0000
-Message-ID: <3ea9c3c7-a5b8-4474-b2c6-c500cea29487@infradead.org>
-Date: Thu, 22 Oct 2026 10:54:17 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mlpI0prF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792692410; x=1824228410;
+  h=date:from:to:cc:subject:message-id;
+  bh=Uhy7Rc3ZGYdEWwonAjCOaZhHqD8mpDGvxXYLiBZbXig=;
+  b=mlpI0prFCwaacGfKmg3lL09QFKBOS3iigdmqThKgf/EUyprVtsOWO1rJ
+   7O6LQ39HJI+2dMdIEDO0nrp6Ui0QCpBTwaNNfg2EU0tcPsQwSwbUkvy2P
+   c0uHOxNDL66/AwPzAaP6mqMURpe+ATCeZflCjWlYQuSOtNteuPRyH/wpu
+   1elxrndU5F9uuQDQUx5+CIxeKHRYmhcFZnrGBqOq6Bg+C8jaoYTBjsioM
+   XOkQYn5S8v6LB1r+ypYwo0KHdBwyF4z+LOqmAZ5YA1P3wzow3RvAyAo9v
+   XFlx4cYA8qDs8yE5DAdddNriIvCZG4ZwaRqSTFTfa7BeAXrIob0KUNfWo
+   A==;
+X-CSE-ConnectionGUID: ny+wgxObRA6Hxm2JwCa7nA==
+X-CSE-MsgGUID: 2pbKNOSKSSGz6+agf66H/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1352277"
+X-IronPort-AV: E=Sophos;i="6.27,172,1787036400"; 
+   d="scan'208";a="1352277"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 11:06:41 -0700
+X-CSE-ConnectionGUID: cgdQ8OI3QDuEW1cainYpCA==
+X-CSE-MsgGUID: +bT5YJrmSw+Dlcu4K9Y1qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,172,1787036400"; 
+   d="scan'208";a="3339269"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 22 Oct 2026 11:06:39 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJxBV-00000000RSK-02vo;
+	Thu, 22 Oct 2026 18:06:37 +0000
+Date: Fri, 23 Oct 2026 02:06:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, mptcp@lists.linux.dev
+Subject: [mptcp:export 1/35] .b4-config: warning: ignored by one of
+ the .gitignore files
+Message-ID: <202610230103.NS6LPLIU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -57,157 +79,25 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] changes.rst: introduce 'Required for'-column
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kbuild@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- linux-debuggers@vger.kernel.org, tools@linux.kernel.org,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Nicolas Schier <n.schier@fritz.com>
-References: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
- <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
- <6cfc3d91f725146c6d8c6c21b869b1d21a08044e.camel@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <6cfc3d91f725146c6d8c6c21b869b1d21a08044e.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export
+head:   f2f79e9af965c1c49decfe56312fa547095fbbee
+commit: 0d55d8f752543be2b6f4afbc6b3d58dbc7be09dd [1/35] DO-NOT-MERGE: git markup: net
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261023/202610230103.NS6LPLIU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230103.NS6LPLIU-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610230103.NS6LPLIU-lkp@intel.com/
 
-On 10/22/26 2:36 AM, Manuel Ebner wrote:
-> Hi Randy, 
-> 
-> On Wed, 2026-10-21 at 22:41 -0700, Randy Dunlap wrote:
->> Hi,
->>
->> On 10/7/26 9:37 AM, Manuel Ebner wrote:
->>> The optional tag isn't obvious nor defined. Therefore remove the tag and
->>> add column 'Required for' to make it easier to define the need for the tools.
->>>
->>> CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
->>> CC: Nicolas Schier <n.schier@fritz.com>
->>> ---
->>> If anybody has info to add to or refine the new column I would appreciate it a lot.
->>> Please forward this to list or people which can contribute to this patch.
->>>
->>> There's also the option to remove the 'Command to check the version'-column
->>> and refer to scripts/ver_linux - and with this also removing the duplicated
->>> information-issue.
->>>
->>> [v3]
->>>  Rearange column space of the table in order to add column instead of replacing column
->>>  add some requirements to the table
->>>
->>> [v2]
->>>  Ditch footnotes in favor of a column
->>>  Replace 'Check Version Command'-column with optional-column
->>>  https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
->>>
->>> [v1]
->>>  https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
->>> ---
->>>  Documentation/process/changes.rst | 97 ++++++++++++++++---------------
->>>  1 file changed, 51 insertions(+), 46 deletions(-)
->>>
->>> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
->>> index 28f2ca633..dafe0530f 100644
->>> --- a/Documentation/process/changes.rst
->>> +++ b/Documentation/process/changes.rst
->>>
->>>  
->>>  ...
->>>
->>>  
->>> +==============  ========  =======================  ========================================
->>> +    Program     Minimal      Command to check                  Required for
->>> +                version         the version
->>> +==============  ========  =======================  ========================================
->>> +bash            4.2       bash --version           general requirement
->>> +bc              1.06.95   bc --version             Kbuild (
->>
->> Something missing after the '('?
-> 
-> There's something missing because I didn't know what to put there. I know bc is calculating
-> something during the build, but now how to put it.
+All warnings (new ones prefixed by >>):
 
-Some concise summary of:
+>> .b4-config: warning: ignored by one of the .gitignore files
+   .git_markup: warning: ignored by one of the .gitignore files
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
 
-bc is used to generate kernel time constants (depending on CONFIG_HZ) for all
-architectures.
-bc is used to build a static OID registry for fast lookups.
-bc is used in package building.
-bc is used in lots of testing:
-* BPF
-* ftrace
-* math
-* perf
-* CPU
-* networking
-* kernel stack
-* memory hotplug
-* zram
-
-
->>> +bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
->>> +binutils        2.30      ld -v
->>> +bison           2.0       bison --version          Kbuild (.config)
->>> +btrfs-progs     0.18      btrfs --version
->>> +Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
->>> +e2fsprogs       1.41.4    e2fsck -V                ext4
->>> +flex            2.5.35    flex --version           Kbuild (.config)
->>> +gdb             7.2       gdb --version            Debugging
->>> +GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
->>> +GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
->>> +GNU make        4.0       make --version
->>> +GNU tar         1.28      tar --version
->>> +GRUB            0.93      grub --version ||
->>> +                          grub-install --version
->>> +gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
->>> +iptables        1.4.2     iptables -V
->>> +jfsutils        1.1.3     fsck.jfs -V
->>> +kmod            13        kmod -V
->>> +mcelog          0.6       mcelog --version
->>> +mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
->>> +nfs-utils       1.0.5     showmount --version
->>> +openssl         1.0.0     openssl version
->>> +pahole          1.26      pahole --version
->>> +pcmciautils     004       pccardctl -V
->>> +pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
->>> +PPP             2.4.0     pppd --version
->>> +procps          3.2.0     ps --version
->>> +Python          3.9.x     python3 --version
->>> +quota-tools     3.09      quota -V
->>> +Rust            1.85.0    rustc --version          CONFIG_RUST=y
->>> +Sphinx          3.4.3     sphinx-build --version   build kernel documentation
->>> +squashfs-tools  4.0       mksquashfs -version
->>> +udev            081       udevadm --version
->>> +util-linux      2.10o     mount --version
->>> +xfsprogs        2.6.0     xfs_db -V
->>> +==============  ========  =======================  ========================================
->>> +    Program     Minimal      Command to check                  Required for
->>> +                version      check the version
->>> +==============  ========  =======================  ========================================
->>
->> On my build of 'make htmldocs', the table ending confuses docutils.
->> Did you build this with 'make htmldocs'?
->>
->> Documentation/process/changes.rst:73: WARNING: Blank line required after table. [docutils]
->> Documentation/process/changes.rst:75: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/process/changes.rst:419: ERROR: Malformed table.
->> Bottom border or header rule does not match top border.
->>
->> ==============  ========  =======================  ========================================
-> 
-> I'll remove the bottom 'head-row'.
-
-Ack. Thanks.
-
--- 
-~Randy
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
