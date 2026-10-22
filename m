@@ -1,74 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792661797;
-	b=HXKA1UptiD2DAWpinDppoAWJwDi4W/2+IA38wv9KBf/S412QGE58jrFBK6/NJBrH/QkE
-	 8uude88yh3NsEmCAaPhaBdJN5A3uXxhe10QT9hRjWP/e/OeeaL0tG3IE2caRVm9X7n7Kv
-	 o6jykdxY/tOAkyG37O81OQHy2emMq53uUvlojUWKAoK6HEBuIkdPXtbAXb622Fr8b2Hyf
-	 Z8kyuUqoovQfLFuyzaqhLO+nrGBAwgCRZos/5uh9mXVp0mKYrdTUEtKSFPBGZuYVsU8bw
-	 mAaLw3JXZEkfS26APVn+Dd5yRy+QPmSaHZLswB1ECugI8ZgPKFs86dtI4YddcNlpTMA==
+	t=1792662477;
+	b=ukR/032edHMrfIHLctchFTe0w7orwtZMbsXKe2GsikredVJFX+CswbwXTJ2NnJVxcXSZ
+	 8trCS1qD4l96Jb+oc8TjGsHcUELklsEx+OJUAbq2fe6HNrKkATcOofKBkVyb0UeobQkI9
+	 7Uie0TV1uc7XMO9FgXufo1E17t2fTJrhv+nkDBQnfwJMyL4FGc1thy868tYVFCQEHRH3C
+	 NVi6nEFFo7CLFFU1Six+HKVRfPlESSUkR8GDlMCrDcuBpTPEnBD79iqXEgIKOglRZ9Jsj
+	 VFK+mM+PNM89fgT4N5G2FAPkDgKfr7l1+//L8PjdAMBVgiuvy6UhWO8oU9VZCfk92Og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792661797;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-MBO-RS-META:X-MBO-RS-ID;
-	bh=Fc2YFueeB/SK2J9VCO7SMxkejhsFNGh0Gg5Mxu6KtE0=;
-	b=AHwiJWSVzxbYE2/c2kZJyJMVPOMeZes7s0YCNSIVRxMXl86QsUJ97nsnA39hNsizaclL
-	 c7d7l31ZDXVooNgfNvX3KEV/9nZh+TwBZ6W1jyoIRfDXOrlDtAfBz4ie0Xdmisvb/M0gG
-	 O4atURekJMf4xp7o07oRkTIbP7sPKEiPSSG1Cgdre+ux2fPdT8kmz2OGtahwWeXKnxcw3
-	 J34xZOosDywptxOtTxG4L17C3mLa94Ymq74n19sasTmkr+r4pOvLG3sdaRi+cMj/pQc8q
-	 z5wt1fJipGYKqwgI+r8ymRsiQpH/a+yFXMuUWoAzc7M++9fFxFaHfgvglP24oFi7rLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792662477;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=W2Cwh4gNPy5b1lqn8cgFK9yzWoketG5R/QCur1tDfOg=;
+	b=0HdWkZNKqv/nGiYiD3WdvExxdBEZggB+1zyvW7JhS/2IvWjitCRKRgSvA2E2GURYxKA0
+	 cGJS+8/9bdKUJ90m6Kyx3s9EaNHhLnu8WUDVdd5aZjm8PPSmW7WazXt8QhB8TkxY28C/h
+	 W07jB8WL3jz61Z/UmHA5qu/SxCTTq+n4lGZS9QYCbUBlPWx1vGkxo54akPXFfXf6h3ukT
+	 cAeHziUMqwYqICNUWACyDzANJvWz6YyxfbZHp+sV5YlqqQ2SZ6EgluCiUyQl/GbT/Yuhg
+	 HKE67csxM4HkBNI5jrhHBgwdvxsZ0n6TYRNjIKBmE4+QSGjFNHDEvuQwdX+L1ftrCxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=SY11R6Lj;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Id51cUYS;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478BE60A2613
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 09:36:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 478BE60A2613
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C223E606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 09:47:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C223E606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=SY11R6Lj
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4j9LdD58sszKnDb;
-	Thu, 22 Oct 2026 11:36:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1792661792;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fc2YFueeB/SK2J9VCO7SMxkejhsFNGh0Gg5Mxu6KtE0=;
-	b=SY11R6Ljv51h5vDJMn+ZNFZpONum7lk5bqfmYYeGDCsAKuOzh8grQsKtJMQu2lduEHaUfP
-	kUFiRsa5odkckATsX5qwuEfPuHiwKYKvpeExHwu96lTKnbCG6nNK7xRpv5BOm2rmR8Gcx8
-	dSwOHGrQiVQoqB6+/PgatT9o3ftS+zqiImr+NTJbcnpUft1ylqcQS3i/YGBDDxYABWYEK7
-	6JwLqsJTDErlrgJJmZYhRFBtZUZsUolUk8tqwfU9ZOEDFaah0d5AHjYqHsOZpqSDUB3/qG
-	DfDioV2W1Azz8sJWWoT4fgNFKFELfXcwO1iuYx+VURwFqvszXAy88E2I8yVN/w==
-Message-ID: <6cfc3d91f725146c6d8c6c21b869b1d21a08044e.camel@mailbox.org>
-Subject: Re: [PATCH RFC] changes.rst: introduce 'Required for'-column
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-kbuild@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, 	linux-debuggers@vger.kernel.org,
- tools@linux.kernel.org, "open list:DOCUMENTATION PROCESS"	
- <workflows@vger.kernel.org>, "open list:DOCUMENTATION"	
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Nicolas Schier
-	 <n.schier@fritz.com>
-Date: Thu, 22 Oct 2026 11:36:29 +0200
-In-Reply-To: <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
-References: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
-	 <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Id51cUYS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792662472; x=1824198472;
+  h=date:from:to:cc:subject:message-id;
+  bh=nA0wFCZAb4+AoT5PfghWb9xe9COnws390SQvVOmEniw=;
+  b=Id51cUYS+0wpkyn0A0vpnpQwy3i/7yI4MWRL/QCB8q5F9Ospdl34iCLY
+   1GbHrlk3r0w/xT1zde3ZU95/I3MRvl+A59XW43zyB1MPuklU4irc/kOo6
+   5YTxonmFaMHC6A48vBjKCg9gPLRiD+Vfs+CeeM0IInWToXMfGj1Ul3IKe
+   CMn46rB3YaCiO2d/B2CMzMiN2ANmIHRk8HjC+6dOAV+27lfMgnuttMZdt
+   sjiIbgxHx9ccR0yykqNcxSOa+KMT0U6RaRnsEq3qJ7Jdk4T1icg8i1NSm
+   MKVu4M8jYMh1RhOT4kr7EB7E5CxVnXQxyaU6WhtbKkpxSvf609YZxFgLR
+   g==;
+X-CSE-ConnectionGUID: 9cLQ70zkQa2a+8M0GQXwjw==
+X-CSE-MsgGUID: xAYsKvgqTB2SvAvTEQv6Zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1419989"
+X-IronPort-AV: E=Sophos;i="6.27,172,1787036400"; 
+   d="scan'208";a="1419989"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 02:47:51 -0700
+X-CSE-ConnectionGUID: 6KVykKMwTaeK4kLGwUrkWA==
+X-CSE-MsgGUID: JrP/6hHWQHaQ2ejbYMw+rQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,172,1787036400"; 
+   d="scan'208";a="3330806"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 22 Oct 2026 02:47:50 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJpOk-000000000Hn-338u;
+	Thu, 22 Oct 2026 09:47:46 +0000
+Date: Thu, 22 Oct 2026 11:47:09 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-2026-06 0/1]
+ drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible
+ types in comparison expression (different address spaces):
+Message-ID: <202610221129.MOwQIF02-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -77,114 +80,99 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-MBO-RS-META: bh77bp6gb6p4ih3jwhqda78yz39uuz3y
-X-MBO-RS-ID: 11341410093911fc079
 
-SGkgUmFuZHkswqAKCk9uIFdlZCwgMjAyNi0xMC0yMSBhdCAyMjo0MSAtMDcwMCwgUmFuZHkgRHVu
-bGFwIHdyb3RlOgo+IEhpLAo+IAo+IE9uIDEwLzcvMjYgOTozNyBBTSwgTWFudWVsIEVibmVyIHdy
-b3RlOgo+ID4gVGhlIG9wdGlvbmFsIHRhZyBpc24ndCBvYnZpb3VzIG5vciBkZWZpbmVkLiBUaGVy
-ZWZvcmUgcmVtb3ZlIHRoZSB0YWcgYW5kCj4gPiBhZGQgY29sdW1uICdSZXF1aXJlZCBmb3InIHRv
-IG1ha2UgaXQgZWFzaWVyIHRvIGRlZmluZSB0aGUgbmVlZCBmb3IgdGhlIHRvb2xzLgo+ID4gCj4g
-PiBDQzogTWlndWVsIE9qZWRhIDxtaWd1ZWwub2plZGEuc2FuZG9uaXNAZ21haWwuY29tPgo+ID4g
-Q0M6IE5pY29sYXMgU2NoaWVyIDxuLnNjaGllckBmcml0ei5jb20+Cj4gPiAtLS0KPiA+IElmIGFu
-eWJvZHkgaGFzIGluZm8gdG8gYWRkIHRvIG9yIHJlZmluZSB0aGUgbmV3IGNvbHVtbiBJIHdvdWxk
-IGFwcHJlY2lhdGUgaXQgYSBsb3QuCj4gPiBQbGVhc2UgZm9yd2FyZCB0aGlzIHRvIGxpc3Qgb3Ig
-cGVvcGxlIHdoaWNoIGNhbiBjb250cmlidXRlIHRvIHRoaXMgcGF0Y2guCj4gPiAKPiA+IFRoZXJl
-J3MgYWxzbyB0aGUgb3B0aW9uIHRvIHJlbW92ZSB0aGUgJ0NvbW1hbmQgdG8gY2hlY2sgdGhlIHZl
-cnNpb24nLWNvbHVtbgo+ID4gYW5kIHJlZmVyIHRvIHNjcmlwdHMvdmVyX2xpbnV4IC0gYW5kIHdp
-dGggdGhpcyBhbHNvIHJlbW92aW5nIHRoZSBkdXBsaWNhdGVkCj4gPiBpbmZvcm1hdGlvbi1pc3N1
-ZS4KPiA+IAo+ID4gW3YzXQo+ID4gwqBSZWFyYW5nZSBjb2x1bW4gc3BhY2Ugb2YgdGhlIHRhYmxl
-IGluIG9yZGVyIHRvIGFkZCBjb2x1bW4gaW5zdGVhZCBvZiByZXBsYWNpbmcgY29sdW1uCj4gPiDC
-oGFkZCBzb21lIHJlcXVpcmVtZW50cyB0byB0aGUgdGFibGUKPiA+IAo+ID4gW3YyXQo+ID4gwqBE
-aXRjaCBmb290bm90ZXMgaW4gZmF2b3Igb2YgYSBjb2x1bW4KPiA+IMKgUmVwbGFjZSAnQ2hlY2sg
-VmVyc2lvbiBDb21tYW5kJy1jb2x1bW4gd2l0aCBvcHRpb25hbC1jb2x1bW4KPiA+IMKgaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjYwODMxMTUyNTIzLjYzODg4MS0xLW1hbnVlbGVibmVy
-bGlAbWFpbGJveC5vcmcvCj4gPiAKPiA+IFt2MV0KPiA+IMKgaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
-cmcvYWxsLzIwMjYwODEyMTIyNDI2LjE2MzYyMjctMi1tYW51ZWxlYm5lcmxpQG1haWxib3gub3Jn
-Lwo+ID4gLS0tCj4gPiDCoERvY3VtZW50YXRpb24vcHJvY2Vzcy9jaGFuZ2VzLnJzdCB8IDk3ICsr
-KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDUxIGlu
-c2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi9wcm9jZXNzL2NoYW5nZXMucnN0IGIvRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5n
-ZXMucnN0Cj4gPiBpbmRleCAyOGYyY2E2MzMuLmRhZmUwNTMwZiAxMDA2NDQKPiA+IC0tLSBhL0Rv
-Y3VtZW50YXRpb24vcHJvY2Vzcy9jaGFuZ2VzLnJzdAo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9w
-cm9jZXNzL2NoYW5nZXMucnN0Cj4gPiAKPiA+IMKgCj4gPiDCoC4uLgo+ID4gCj4gPiDCoAo+ID4g
-Kz09PT09PT09PT09PT09wqAgPT09PT09PT3CoCA9PT09PT09PT09PT09PT09PT09PT09PcKgID09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiA+ICvCoMKgwqAgUHJvZ3Jh
-bcKgwqDCoMKgIE1pbmltYWzCoMKgwqDCoMKgIENvbW1hbmQgdG8gY2hlY2vCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIFJlcXVpcmVkIGZvcgo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCB2ZXJzaW9uwqDCoMKgwqDCoMKgwqDCoCB0aGUgdmVyc2lvbgo+ID4gKz09
-PT09PT09PT09PT09wqAgPT09PT09PT3CoCA9PT09PT09PT09PT09PT09PT09PT09PcKgID09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiA+ICtiYXNowqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCA0LjLCoMKgwqDCoMKgwqAgYmFzaCAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKg
-wqDCoCBnZW5lcmFsIHJlcXVpcmVtZW50Cj4gPiArYmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAxLjA2Ljk1wqDCoCBiYyAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgS2J1aWxk
-ICgKPiAKPiBTb21ldGhpbmcgbWlzc2luZyBhZnRlciB0aGUgJygnPwoKVGhlcmUncyBzb21ldGhp
-bmcgbWlzc2luZyBiZWNhdXNlIEkgZGlkbid0IGtub3cgd2hhdCB0byBwdXQgdGhlcmUuIEkga25v
-dyBiYyBpcyBjYWxjdWxhdGluZwpzb21ldGhpbmcgZHVyaW5nIHRoZSBidWlsZCwgYnV0IG5vdyBo
-b3cgdG8gcHV0IGl0LgoKPiA+ICtiaW5kZ2VuwqDCoMKgwqDCoMKgwqDCoCAwLjcxLjHCoMKgwqAg
-YmluZGdlbiAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoCBDT05GSUdfUlVTVD15Cj4gPiArYmludXRp
-bHPCoMKgwqDCoMKgwqDCoCAyLjMwwqDCoMKgwqDCoCBsZCAtdgo+ID4gK2Jpc29uwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgMi4wwqDCoMKgwqDCoMKgIGJpc29uIC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKg
-wqDCoCBLYnVpbGQgKC5jb25maWcpCj4gPiArYnRyZnMtcHJvZ3PCoMKgwqDCoCAwLjE4wqDCoMKg
-wqDCoCBidHJmcyAtLXZlcnNpb24KPiA+ICtDbGFuZy9MTFZNwqDCoMKgwqDCoCAxNy4wLjHCoMKg
-wqAgY2xhbmcgLS12ZXJzaW9uwqDCoMKgwqDCoMKgwqDCoMKgIGFsdGVybmF0aXZlIHRvIEdOVSBD
-IChnY2MpCj4gPiArZTJmc3Byb2dzwqDCoMKgwqDCoMKgIDEuNDEuNMKgwqDCoCBlMmZzY2sgLVbC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXh0NAo+ID4gK2ZsZXjCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIDIuNS4zNcKgwqDCoCBmbGV4IC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKgwqDCoMKg
-IEtidWlsZCAoLmNvbmZpZykKPiA+ICtnZGLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgNy4ywqDC
-oMKgwqDCoMKgIGdkYiAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERlYnVnZ2luZwo+
-ID4gK0dOVSBhd2vCoMKgwqDCoMKgwqDCoMKgIDUuMS4wwqDCoMKgwqAgZ2F3ayAtLXZlcnNpb27C
-oMKgwqDCoMKgwqDCoMKgwqDCoCBvYmp0b29sLCBDT05GSUdfU1lTVEVNX0JMQUNLTElTVF9IQVNI
-X0xJU1Q9eQo+ID4gK0dOVSBDwqDCoMKgwqDCoMKgwqDCoMKgwqAgOC4xwqDCoMKgwqDCoMKgIGdj
-YyAtLXZlcnNpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFsdGVybmF0aXZlIHRvIENsYW5nL0xM
-Vk0gKGNsYW5nKQo+ID4gK0dOVSBtYWtlwqDCoMKgwqDCoMKgwqAgNC4wwqDCoMKgwqDCoMKgIG1h
-a2UgLS12ZXJzaW9uCj4gPiArR05VIHRhcsKgwqDCoMKgwqDCoMKgwqAgMS4yOMKgwqDCoMKgwqAg
-dGFyIC0tdmVyc2lvbgo+ID4gK0dSVULCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDAuOTPCoMKgwqDC
-oMKgIGdydWIgLS12ZXJzaW9uIHx8Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZ3J1Yi1pbnN0YWxsIC0tdmVyc2lvbgo+ID4gK2d0YWdzwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgNi42LjXCoMKgwqDCoCBndGFncyAtLXZlcnNpb27CoMKgwqDCoMKg
-wqDCoMKgwqAgdG8gZ2VuZXJhdGUgdGFnIGZpbGVzIHRocm91Z2ggYGBtYWtlIGd0YWdzYGAKPiA+
-ICtpcHRhYmxlc8KgwqDCoMKgwqDCoMKgIDEuNC4ywqDCoMKgwqAgaXB0YWJsZXMgLVYKPiA+ICtq
-ZnN1dGlsc8KgwqDCoMKgwqDCoMKgIDEuMS4zwqDCoMKgwqAgZnNjay5qZnMgLVYKPiA+ICtrbW9k
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAxM8KgwqDCoMKgwqDCoMKgIGttb2QgLVYKPiA+ICttY2Vs
-b2fCoMKgwqDCoMKgwqDCoMKgwqAgMC42wqDCoMKgwqDCoMKgIG1jZWxvZyAtLXZlcnNpb24KPiA+
-ICtta2ltYWdlwqDCoMKgwqDCoMKgwqDCoCAyMDE3LjAxwqDCoCBta2ltYWdlIC0tdmVyc2lvbsKg
-wqDCoMKgwqDCoMKgIEZsYXQgSW1hZ2UgVHJlZSAoRklUKSBvciBBUkNIPWFyYywgYXJtIG9yIHBv
-d2VycGMKPiA+ICtuZnMtdXRpbHPCoMKgwqDCoMKgwqAgMS4wLjXCoMKgwqDCoCBzaG93bW91bnQg
-LS12ZXJzaW9uCj4gPiArb3BlbnNzbMKgwqDCoMKgwqDCoMKgwqAgMS4wLjDCoMKgwqDCoCBvcGVu
-c3NsIHZlcnNpb24KPiA+ICtwYWhvbGXCoMKgwqDCoMKgwqDCoMKgwqAgMS4yNsKgwqDCoMKgwqAg
-cGFob2xlIC0tdmVyc2lvbgo+ID4gK3BjbWNpYXV0aWxzwqDCoMKgwqAgMDA0wqDCoMKgwqDCoMKg
-IHBjY2FyZGN0bCAtVgo+ID4gK3BpZ3rCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDIuNMKgwqDCoMKg
-wqDCoCBwaWd6IC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKgwqDCoMKgIENvbXBpbGUgYW5kIGJvb3Qg
-d2l0aCBLUEdaSVA9eQo+ID4gK1BQUMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAyLjQuMMKgwqDC
-oMKgIHBwcGQgLS12ZXJzaW9uCj4gPiArcHJvY3BzwqDCoMKgwqDCoMKgwqDCoMKgIDMuMi4wwqDC
-oMKgwqAgcHMgLS12ZXJzaW9uCj4gPiArUHl0aG9uwqDCoMKgwqDCoMKgwqDCoMKgIDMuOS54wqDC
-oMKgwqAgcHl0aG9uMyAtLXZlcnNpb24KPiA+ICtxdW90YS10b29sc8KgwqDCoMKgIDMuMDnCoMKg
-wqDCoMKgIHF1b3RhIC1WCj4gPiArUnVzdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMS44NS4wwqDC
-oMKgIHJ1c3RjIC0tdmVyc2lvbsKgwqDCoMKgwqDCoMKgwqDCoCBDT05GSUdfUlVTVD15Cj4gPiAr
-U3BoaW54wqDCoMKgwqDCoMKgwqDCoMKgIDMuNC4zwqDCoMKgwqAgc3BoaW54LWJ1aWxkIC0tdmVy
-c2lvbsKgwqAgYnVpbGQga2VybmVsIGRvY3VtZW50YXRpb24KPiA+ICtzcXVhc2hmcy10b29sc8Kg
-IDQuMMKgwqDCoMKgwqDCoCBta3NxdWFzaGZzIC12ZXJzaW9uCj4gPiArdWRldsKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgMDgxwqDCoMKgwqDCoMKgIHVkZXZhZG0gLS12ZXJzaW9uCj4gPiArdXRpbC1s
-aW51eMKgwqDCoMKgwqAgMi4xMG/CoMKgwqDCoCBtb3VudCAtLXZlcnNpb24KPiA+ICt4ZnNwcm9n
-c8KgwqDCoMKgwqDCoMKgIDIuNi4wwqDCoMKgwqAgeGZzX2RiIC1WCj4gPiArPT09PT09PT09PT09
-PT3CoCA9PT09PT09PcKgID09PT09PT09PT09PT09PT09PT09PT09wqAgPT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PQo+ID4gK8KgwqDCoCBQcm9ncmFtwqDCoMKgwqAgTWlu
-aW1hbMKgwqDCoMKgwqAgQ29tbWFuZCB0byBjaGVja8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgUmVxdWlyZWQgZm9yCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHZlcnNpb27CoMKgwqDCoMKgIGNoZWNrIHRoZSB2ZXJzaW9uCj4gPiArPT09PT09PT09PT09PT3C
-oCA9PT09PT09PcKgID09PT09PT09PT09PT09PT09PT09PT09wqAgPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PQo+IAo+IE9uIG15IGJ1aWxkIG9mICdtYWtlIGh0bWxkb2Nz
-JywgdGhlIHRhYmxlIGVuZGluZyBjb25mdXNlcyBkb2N1dGlscy4KPiBEaWQgeW91IGJ1aWxkIHRo
-aXMgd2l0aCAnbWFrZSBodG1sZG9jcyc/Cj4gCj4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5n
-ZXMucnN0OjczOiBXQVJOSU5HOiBCbGFuayBsaW5lIHJlcXVpcmVkIGFmdGVyIHRhYmxlLiBbZG9j
-dXRpbHNdCj4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5nZXMucnN0Ojc1OiBXQVJOSU5HOiBC
-bG9jayBxdW90ZSBlbmRzIHdpdGhvdXQgYSBibGFuayBsaW5lOyB1bmV4cGVjdGVkIHVuaW5kZW50
-LiBbZG9jdXRpbHNdCj4gRG9jdW1lbnRhdGlvbi9wcm9jZXNzL2NoYW5nZXMucnN0OjQxOTogRVJS
-T1I6IE1hbGZvcm1lZCB0YWJsZS4KPiBCb3R0b20gYm9yZGVyIG9yIGhlYWRlciBydWxlIGRvZXMg
-bm90IG1hdGNoIHRvcCBib3JkZXIuCj4gCj4gPT09PT09PT09PT09PT3CoCA9PT09PT09PcKgID09
-PT09PT09PT09PT09PT09PT09PT09wqAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PQoKSSdsbCByZW1vdmUgdGhlIGJvdHRvbSAnaGVhZC1yb3cnLgoKPiAKPiAuLi4KClRo
-YW5rcwogTWFudWVsIAo=
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-06
+head:   e3be7234b7452a64acdd1faefbfaa8d03fee1947
+commit: 4439db7b8f941e4e418fc4d07e84a2eb31c6f339 [0/1] ANDROID: interconnect: Enable debugfs client
+config: i386-randconfig-2302-20261021 (https://download.01.org/0day-ci/archive/20261022/202610221129.MOwQIF02-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610221129.MOwQIF02-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610221129.MOwQIF02-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/interconnect/debugfs-client.c:60:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/interconnect/debugfs-client.c:60:15: sparse:    char [noderef] __rcu *
+   drivers/interconnect/debugfs-client.c:60:15: sparse:    char *
+   drivers/interconnect/debugfs-client.c:61:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/interconnect/debugfs-client.c:61:15: sparse:    char [noderef] __rcu *
+   drivers/interconnect/debugfs-client.c:61:15: sparse:    char *
+
+vim +60 drivers/interconnect/debugfs-client.c
+
+770c69f037c18c Mike Tipton 2023-08-07   50  
+770c69f037c18c Mike Tipton 2023-08-07   51  static int icc_get_set(void *data, u64 val)
+770c69f037c18c Mike Tipton 2023-08-07   52  {
+770c69f037c18c Mike Tipton 2023-08-07   53  	struct debugfs_path *debugfs_path;
+770c69f037c18c Mike Tipton 2023-08-07   54  	char *src, *dst;
+770c69f037c18c Mike Tipton 2023-08-07   55  	int ret = 0;
+770c69f037c18c Mike Tipton 2023-08-07   56  
+770c69f037c18c Mike Tipton 2023-08-07   57  	mutex_lock(&debugfs_lock);
+770c69f037c18c Mike Tipton 2023-08-07   58  
+770c69f037c18c Mike Tipton 2023-08-07   59  	rcu_read_lock();
+770c69f037c18c Mike Tipton 2023-08-07  @60  	src = rcu_dereference(src_node);
+770c69f037c18c Mike Tipton 2023-08-07   61  	dst = rcu_dereference(dst_node);
+770c69f037c18c Mike Tipton 2023-08-07   62  
+770c69f037c18c Mike Tipton 2023-08-07   63  	/*
+770c69f037c18c Mike Tipton 2023-08-07   64  	 * If we've already looked up a path, then use the existing one instead
+770c69f037c18c Mike Tipton 2023-08-07   65  	 * of calling icc_get() again. This allows for updating previous BW
+770c69f037c18c Mike Tipton 2023-08-07   66  	 * votes when "get" is written to multiple times for multiple paths.
+770c69f037c18c Mike Tipton 2023-08-07   67  	 */
+770c69f037c18c Mike Tipton 2023-08-07   68  	cur_path = get_path(src, dst);
+770c69f037c18c Mike Tipton 2023-08-07   69  	if (cur_path) {
+770c69f037c18c Mike Tipton 2023-08-07   70  		rcu_read_unlock();
+770c69f037c18c Mike Tipton 2023-08-07   71  		goto out;
+770c69f037c18c Mike Tipton 2023-08-07   72  	}
+770c69f037c18c Mike Tipton 2023-08-07   73  
+770c69f037c18c Mike Tipton 2023-08-07   74  	src = kstrdup(src, GFP_ATOMIC);
+770c69f037c18c Mike Tipton 2023-08-07   75  	dst = kstrdup(dst, GFP_ATOMIC);
+770c69f037c18c Mike Tipton 2023-08-07   76  	rcu_read_unlock();
+770c69f037c18c Mike Tipton 2023-08-07   77  
+770c69f037c18c Mike Tipton 2023-08-07   78  	if (!src || !dst) {
+770c69f037c18c Mike Tipton 2023-08-07   79  		ret = -ENOMEM;
+770c69f037c18c Mike Tipton 2023-08-07   80  		goto err_free;
+770c69f037c18c Mike Tipton 2023-08-07   81  	}
+770c69f037c18c Mike Tipton 2023-08-07   82  
+770c69f037c18c Mike Tipton 2023-08-07   83  	cur_path = icc_get(&pdev->dev, src, dst);
+770c69f037c18c Mike Tipton 2023-08-07   84  	if (IS_ERR(cur_path)) {
+770c69f037c18c Mike Tipton 2023-08-07   85  		ret = PTR_ERR(cur_path);
+770c69f037c18c Mike Tipton 2023-08-07   86  		goto err_free;
+770c69f037c18c Mike Tipton 2023-08-07   87  	}
+770c69f037c18c Mike Tipton 2023-08-07   88  
+770c69f037c18c Mike Tipton 2023-08-07   89  	debugfs_path = kzalloc(sizeof(*debugfs_path), GFP_KERNEL);
+770c69f037c18c Mike Tipton 2023-08-07   90  	if (!debugfs_path) {
+770c69f037c18c Mike Tipton 2023-08-07   91  		ret = -ENOMEM;
+770c69f037c18c Mike Tipton 2023-08-07   92  		goto err_put;
+770c69f037c18c Mike Tipton 2023-08-07   93  	}
+770c69f037c18c Mike Tipton 2023-08-07   94  
+770c69f037c18c Mike Tipton 2023-08-07   95  	debugfs_path->path = cur_path;
+770c69f037c18c Mike Tipton 2023-08-07   96  	debugfs_path->src = src;
+770c69f037c18c Mike Tipton 2023-08-07   97  	debugfs_path->dst = dst;
+770c69f037c18c Mike Tipton 2023-08-07   98  	list_add_tail(&debugfs_path->list, &debugfs_paths);
+770c69f037c18c Mike Tipton 2023-08-07   99  
+770c69f037c18c Mike Tipton 2023-08-07  100  	goto out;
+770c69f037c18c Mike Tipton 2023-08-07  101  
+770c69f037c18c Mike Tipton 2023-08-07  102  err_put:
+770c69f037c18c Mike Tipton 2023-08-07  103  	icc_put(cur_path);
+770c69f037c18c Mike Tipton 2023-08-07  104  err_free:
+770c69f037c18c Mike Tipton 2023-08-07  105  	kfree(src);
+770c69f037c18c Mike Tipton 2023-08-07  106  	kfree(dst);
+770c69f037c18c Mike Tipton 2023-08-07  107  out:
+770c69f037c18c Mike Tipton 2023-08-07  108  	mutex_unlock(&debugfs_lock);
+770c69f037c18c Mike Tipton 2023-08-07  109  	return ret;
+770c69f037c18c Mike Tipton 2023-08-07  110  }
+770c69f037c18c Mike Tipton 2023-08-07  111  
+
+:::::: The code at line 60 was first introduced by commit
+:::::: 770c69f037c18cfaa37c3d6c6ef8bd257635513f interconnect: Add debugfs test client
+
+:::::: TO: Mike Tipton <quic_mdtipton@quicinc.com>
+:::::: CC: Georgi Djakov <djakov@kernel.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
