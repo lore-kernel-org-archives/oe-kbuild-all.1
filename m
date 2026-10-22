@@ -1,54 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792647709;
-	b=r6j4Jdj5DFHr1OEAmVa5bQ2TJX3HX/bSo0IKLU5X6HBqhqAKO8EHDKif7gS4un8fMTIq
-	 V/jLnslCg1lJP/eTuoBpBHyUtnywxrflI5IrvOF7F4ckcy9Mhx3QzhOPoL73HmBSkziLJ
-	 BpNHScOAmyFUsbZlUx/8VUhTBC3DAotEF264BgD/hRvvzgstGMo6EFnU6p7fnnXDp23Vf
-	 u8m0UkldFhUyph/GUXm1dZaa5E9nuGwzhUEOy2vSIFKC39kbpZzBpB+5gElAy9QAq9sZ/
-	 YFZjMqywgEKjRVlP8e0pIkChLzetSv0x0M1J9N7UUOe1wyzoh2LotnRVBb50uH7w8yg==
+	t=1792648212;
+	b=Ein3WlJ4QFSV3r7Qjejwl9up3O9uPwWr1rx8f2GfOIAq/ABiuZoMc1oii3wTQdPmW4JZ
+	 Kc/wVCMyGV/a0V+o94RWdv8WMGj6zBACLy1kHZXbUD6nQwh9ke+RBocOV+qWsDtv2Z12X
+	 pJn71KWu2UhyElLk/YfF8XWPbWuG7aGuOjBdidWZgsXylHmKKm8Qod+hT6ewiFymFsTx/
+	 U7cgUI3VJYWIUOwvVXr7Mq/89CFigYv+bFi7QUx0CVVppZDGWq66UjSoy6OPBXoow+kO8
+	 gzuT9EtHRb2kGIpiezfCAvxkU1RyDfRpnDma1ED+sS6IccqSPy1CQBPTwrUEPik98bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792647709;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=pVPyH3GoZBrVKP0Ttqz+/rHi2Rfgtq7gjnCe7XfjZjw=;
-	b=qq1hOgu5LgKON8PH9pJ4xT6hkjbRZgjTt92iS6+C1HNUJFMYkGqwx55fYxrCf4sWDmGV
-	 H9wyZ3+a6wh1uMJc+wuO9PDaGkNmsRvJ15CIpLTR1VX01T4h9gKlkx6beGPz3+xsj4743
-	 Nu88UUy0JGYfc9bW0ie8c/I/0VeDmmmSWcFmWhHJNfKMqMwGfHd2An2s78JnKI1KbPh+Q
-	 aT5PS0dv9gAcx8U2qLpmOdgorGt9xs0a3+n2XqV6YfbiY092S5D9eAMFJeJb5gOKpTflE
-	 m65Rfp3FDfs1AX7wIRgQErb9MDTANS0BRtIBhF6FERa/WrvAeJlmIP1T9wBffQOC+OA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792648212;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=DcroBHo4oZTJ6HbVQoyVYWoa7O+2PyJHtQOoOE6EQWs=;
+	b=x/ZRitPbVU2fULaHZCdq4L0qs1nzsL4hiWpCWVrRs5Ws2jAKNp8NNgQddjzrsSEA404j
+	 zjVowhpixAGZtZbmtWGVzYib3uxt50XByykwPFtvquM5A2H47B/2Jri1fVhJllvm+3ioJ
+	 wXnDQCnc64ONnMz7C0vdbeBk6s40jXd0hYxup25zFVFEe2/VE7NN5VYejfezCSE1YJH5n
+	 dpBN6EJpn/G+7TShaszsaidJL0meBz0Sg2X1Z2Kthe/x58wKeZ5VwxOhDR3OWepVXH35t
+	 O5fIAwtv9BJuMNQMZGsn2/mml33wknrNAANprBLvD9TSd5CyOB090OS01PW3wmMLWnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Wkb+IYPK;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KgQyPzx8;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68750606A319;
-	Thu, 22 Oct 2026 05:41:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68750606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C1D606A319
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 05:50:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3C1D606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Wkb+IYPK
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pVPyH3GoZBrVKP0Ttqz+/rHi2Rfgtq7gjnCe7XfjZjw=; b=Wkb+IYPKcmGAULpRkQRky0WaY+
-	uH6s+FXiNNVvdIa4iiu3r/sEifPsAb4+TdwMbK8+bBT6q5bI6Ih7roTMWzWa/DfcdOJbwXjReS1ic
-	OFpq8Vg1ZCLyqkvdrTjd8Uusonp8W9g1cHtqMoXDbUGQU5AzUEuEl/jugB9J16T/VjgNj+qy1bxRo
-	QDXXRQ0UR2eSqojfz7BxsAiU8olQtK9leY5PEghxLjm/yulVaYoRpECY11HUW0j2ok7nZk3v65XcV
-	SHkHOMCZZH6+QoNNvINg/E8wet8oTlvPxt5A+bB8wCVktUm8KAshkRVF3pVSqzzcA/U3ErHyArDuq
-	Sy5Sr4Pg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xJlYT-0000000DPf8-3CQ0;
-	Thu, 22 Oct 2026 05:41:33 +0000
-Message-ID: <d57ce591-2399-4bd4-ae70-8fdabf63ae82@infradead.org>
-Date: Wed, 21 Oct 2026 22:41:32 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KgQyPzx8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792648211; x=1824184211;
+  h=date:from:to:cc:subject:message-id;
+  bh=dg/rnQRDMC9ydhUiji4+Mm2L+KfieIDY4MvbH7nY5P8=;
+  b=KgQyPzx8lNNN/hrM1Igo3fVVqYYOB5VO4zAAKxSXfAOpXacoQFXr117M
+   ESeXiBLTd39qe2g/lM6JAkW0Q1KcFXYHbcQAu9YZg+z/iD4a4E1peMCeA
+   +BWz7LkCtViF4Yu2WL3l+q0BMK4XNnI8ktFVSNyG46s8bFjrh4lKwbH2C
+   am2yiSPZwtXNPm1g86lRxh7fhL/JiVuB9puF3ZMYvXuDgjE0CalTrJSAX
+   kbdQOVQRNAzN+N9rEq3jn/biN13uqMg4xi+Xd2y5tTHHlQmKwCHWSktHE
+   SESHINoCzqN2nj4HTmPiyA2yIjJXHk29+CcxZeNgQ0TExA0i+Y9FHyB9n
+   w==;
+X-CSE-ConnectionGUID: /rS6cnluTeurs+bgwJi2SQ==
+X-CSE-MsgGUID: HYQiNdTTSC6QN5moMcKMIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1423016"
+X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
+   d="scan'208";a="1423016"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 22:50:10 -0700
+X-CSE-ConnectionGUID: 15aKq2RPTxKzTqB1Xlf/2Q==
+X-CSE-MsgGUID: pKQjS1dYTmq19hRJ+QKCOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
+   d="scan'208";a="3405206"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Oct 2026 22:50:08 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJlgk-00000000Qby-0T8Y;
+	Thu, 22 Oct 2026 05:50:06 +0000
+Date: Thu, 22 Oct 2026 13:49:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 1/1]
+ include/trace/stages/init.h:2:23: warning:
+ 'str__cdc_ether__trace_system_name' defined but not used
+Message-ID: <202610221356.Hd7yHixz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -57,189 +80,151 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] changes.rst: introduce 'Required for'-column
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kbuild@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- linux-debuggers@vger.kernel.org, tools@linux.kernel.org,
- "open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Nicolas Schier <n.schier@fritz.com>
-References: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi yenchia.chen,
 
-On 10/7/26 9:37 AM, Manuel Ebner wrote:
-> The optional tag isn't obvious nor defined. Therefore remove the tag and
-> add column 'Required for' to make it easier to define the need for the tools.
-> 
-> CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-> CC: Nicolas Schier <n.schier@fritz.com>
-> ---
-> If anybody has info to add to or refine the new column I would appreciate it a lot.
-> Please forward this to list or people which can contribute to this patch.
-> 
-> There's also the option to remove the 'Command to check the version'-column
-> and refer to scripts/ver_linux - and with this also removing the duplicated
-> information-issue.
-> 
-> [v3]
->  Rearange column space of the table in order to add column instead of replacing column
->  add some requirements to the table
-> 
-> [v2]
->  Ditch footnotes in favor of a column
->  Replace 'Check Version Command'-column with optional-column
->  https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
-> 
-> [v1]
->  https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
-> ---
->  Documentation/process/changes.rst | 97 ++++++++++++++++---------------
->  1 file changed, 51 insertions(+), 46 deletions(-)
-> 
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 28f2ca633..dafe0530f 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -1,13 +1,14 @@
->  .. _changes:
->  
-> -Minimal requirements to compile the Kernel
-> -++++++++++++++++++++++++++++++++++++++++++
-> +Minimal requirements to interact with the Kernel
-> +++++++++++++++++++++++++++++++++++++++++++++++++
->  
->  Intro
->  =====
->  
-> -This document is designed to provide a list of the minimum levels of
-> -software necessary to run the current kernel version.
-> +This document is designed to provide a list of the minimum versions of
-> +software necessary to change code, compile, install and boot the current
-> +kernel version.
->  
->  This document is originally based on my "Changes" file for 2.0.x kernels
->  and therefore owes credit to the same people as that file (Jared Mauch,
-> @@ -27,48 +28,52 @@ running a Linux kernel.  Also, not all tools are necessary on all
->  systems; obviously, if you don't have any PC Card hardware, for example,
->  you probably do not need to concern yourself with pcmciautils.
->  
-> -====================== ===============  ========================================
-> -        Program        Minimal version       Command to check the version
-> -====================== ===============  ========================================
-> -bash                   4.2              bash --version
-> -bc                     1.06.95          bc --version
-> -bindgen (optional)     0.71.1           bindgen --version
-> -binutils               2.30             ld -v
-> -bison                  2.0              bison --version
-> -btrfs-progs            0.18             btrfs --version
-> -Clang/LLVM (optional)  17.0.1           clang --version
-> -e2fsprogs              1.41.4           e2fsck -V
-> -flex                   2.5.35           flex --version
-> -gdb                    7.2              gdb --version
-> -GNU awk (optional)     5.1.0            gawk --version
-> -GNU C                  8.1              gcc --version
-> -GNU make               4.0              make --version
-> -GNU tar                1.28             tar --version
-> -GRUB                   0.93             grub --version || grub-install --version
-> -gtags (optional)       6.6.5            gtags --version
-> -iptables               1.4.2            iptables -V
-> -jfsutils               1.1.3            fsck.jfs -V
-> -kmod                   13               kmod -V
-> -mcelog                 0.6              mcelog --version
-> -mkimage (optional)     2017.01          mkimage --version
-> -nfs-utils              1.0.5            showmount --version
-> -openssl & libcrypto    1.0.0            openssl version
-> -pahole                 1.26             pahole --version
-> -pcmciautils            004              pccardctl -V
-> -pigz (optional)        2.4              pigz --version
-> -PPP                    2.4.0            pppd --version
-> -procps                 3.2.0            ps --version
-> -Python                 3.9.x            python3 --version
-> -quota-tools            3.09             quota -V
-> -Rust (optional)        1.85.0           rustc --version
-> -Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-> -squashfs-tools         4.0              mksquashfs -version
-> -udev                   081              udevadm --version
-> -util-linux             2.10o            mount --version
-> -xfsprogs               2.6.0            xfs_db -V
-> -====================== ===============  ========================================
-> -
-> -.. [#f1] Sphinx is needed only to build the Kernel documentation
-> +==============  ========  =======================  ========================================
-> +    Program     Minimal      Command to check                  Required for
-> +                version         the version
-> +==============  ========  =======================  ========================================
-> +bash            4.2       bash --version           general requirement
-> +bc              1.06.95   bc --version             Kbuild (
+FYI, the error/warning still remains.
 
-Something missing after the '('?
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   571d9c1bbba0039f8fa842785e434862ba744377
+commit: 6656c5c0734220111bac3790e57b0941565aff90 [1/1] ANDROID: vendor_hooks: Add hooks to support rndis_host
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261022/202610221356.Hd7yHixz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610221356.Hd7yHixz-lkp@intel.com/reproduce)
 
-> +bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
-> +binutils        2.30      ld -v
-> +bison           2.0       bison --version          Kbuild (.config)
-> +btrfs-progs     0.18      btrfs --version
-> +Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
-> +e2fsprogs       1.41.4    e2fsck -V                ext4
-> +flex            2.5.35    flex --version           Kbuild (.config)
-> +gdb             7.2       gdb --version            Debugging
-> +GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
-> +GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
-> +GNU make        4.0       make --version
-> +GNU tar         1.28      tar --version
-> +GRUB            0.93      grub --version ||
-> +                          grub-install --version
-> +gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
-> +iptables        1.4.2     iptables -V
-> +jfsutils        1.1.3     fsck.jfs -V
-> +kmod            13        kmod -V
-> +mcelog          0.6       mcelog --version
-> +mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
-> +nfs-utils       1.0.5     showmount --version
-> +openssl         1.0.0     openssl version
-> +pahole          1.26      pahole --version
-> +pcmciautils     004       pccardctl -V
-> +pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
-> +PPP             2.4.0     pppd --version
-> +procps          3.2.0     ps --version
-> +Python          3.9.x     python3 --version
-> +quota-tools     3.09      quota -V
-> +Rust            1.85.0    rustc --version          CONFIG_RUST=y
-> +Sphinx          3.4.3     sphinx-build --version   build kernel documentation
-> +squashfs-tools  4.0       mksquashfs -version
-> +udev            081       udevadm --version
-> +util-linux      2.10o     mount --version
-> +xfsprogs        2.6.0     xfs_db -V
-> +==============  ========  =======================  ========================================
-> +    Program     Minimal      Command to check                  Required for
-> +                version      check the version
-> +==============  ========  =======================  ========================================
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610221356.Hd7yHixz-lkp@intel.com/
 
-On my build of 'make htmldocs', the table ending confuses docutils.
-Did you build this with 'make htmldocs'?
+All warnings (new ones prefixed by >>):
 
-Documentation/process/changes.rst:73: WARNING: Blank line required after table. [docutils]
-Documentation/process/changes.rst:75: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-Documentation/process/changes.rst:419: ERROR: Malformed table.
-Bottom border or header rule does not match top border.
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/cdc_ether.h:17,
+                    from drivers/android/vendor_hooks.c:87:
+>> include/trace/stages/init.h:2:23: warning: 'str__cdc_ether__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/typec.h:15,
+                    from drivers/android/vendor_hooks.c:86:
+   include/trace/stages/init.h:2:23: warning: 'str__typec__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/dwc3.h:43,
+                    from drivers/android/vendor_hooks.c:85:
+   include/trace/stages/init.h:2:23: warning: 'str__dwc3__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/rcu.h:32,
+                    from drivers/android/vendor_hooks.c:84:
+   include/trace/stages/init.h:2:23: warning: 'str__rcu__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/vb2.h:24,
+                    from drivers/android/vendor_hooks.c:83:
+   include/trace/stages/init.h:2:23: warning: 'str__vb2__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/dmv_debug.h:45,
+                    from drivers/android/vendor_hooks.c:82:
+   include/trace/stages/init.h:2:23: warning: 'str__dmv_debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
-==============  ========  =======================  ========================================
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [y]:
+   - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
+   - INTEL_MEI_PXP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
 
-...
 
-Getting updated software
-======================== [docutils]
+vim +/str__cdc_ether__trace_system_name +2 include/trace/stages/init.h
 
--- 
-~Randy
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
 
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
