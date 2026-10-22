@@ -1,55 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792633449;
-	b=sywq10hf/bKexRVNKw8eVIXJjK7lyNz4guBuJiEykt/JpcTtsssADtAtPh8mRTJg/3PY
-	 URSFH5kXBgcXiPqPz93N3ajF+T1bMYnFeVGs/anKxy2knZZpam3aJ6HcvBu6dEOqJqyK6
-	 ul0CqOlOO+5N6tJpo3biDPZcbKVBYlGcW432yYJCpBVo1aiED/jDC4Vj1IBfQ8Xa7syo2
-	 gKsaRzFOzm1H4lOKdnmt06ZN1gxJ/+TeAZBHmDdX8MIfP+VUA9rTQHSsSQqYM5VLn4xTe
-	 DG3i6OHW1cy5ETzRb6Z3ksdBn57mNYP4hQDMAVrFfEf4gqGvdffn1hTbilwziHrytUQ==
+	t=1792646020;
+	b=LRyVVfnaYDDAZDkVEUEnGHKtCWqq0j8PkyhvlTQZG1O/NrWGwAJ/QpeGcLz+/H93ndWm
+	 rNS7D8gOmKWSnh0+dM63ZIIAiJI92v/lmVVbPkZu4RmKD+FkXDrpwPaI/MBx2XxJRtXyF
+	 maIWR5CoWTdLMfAuOor37IldT4bAvnShwrjf7xMpP3kE+0xYKugTWmF/gcw7tBXXiQeTl
+	 nX8QEFGg04MBaMHAFMBIyuk3dsh6htgHL85QcZ65pu2dME0xe/auLjijJheJS6ZNO+zIT
+	 u2aBPVJlFZmT+k5RSucT8mQ6hMFmv+WTz7wgk+8UJmFFfJVRp+H7BOYJ6QLE7lZGzAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792633449;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=8kJkMtRp5NxpBwXWK16sC7h36iQ9rBNvoglPnh69ZPY=;
-	b=rYII0cj7dO9ct1Mf/MY/MzlrqLe9yJz+0yTN4R19yiWWOl0rVSM5FZjnVa/RE9oO23pI
-	 8Tpid5eRYu2V60TYrvXdZHUV91l/J2rtL/DYjFgfzDnHh7pRl0imMJ5wxx7TePnbM0woS
-	 7A1DvbznuV/6J+qgmFolSUEnQq14skss8Mlsc09GYGkdD0/2hnqB+mvRsMQu4ONIQaoie
-	 q4lfGRyGGBM+8vCe/+pv5N9EGUZ9oqFmP1lzw0XKhitWdoplgp8/iHxjND87cKXspN6oL
-	 gvLyEv2989uDgDqVr9SXNYqqvRzMBZE+X2n9kSguD+gcnRSCEm8v/LJ94aC3aS3jsgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792646020;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=5R69Md8es7PuWV9p8MCvzJEgtmf78UBan1fjwOXPhpg=;
+	b=stYfIbUcl+syKppHWi4VZNjvnXgC3WCCANaY33qU0udRiAaPBf72hs2TaElNETBBzFVO
+	 tNCXajW+tca3r2CREHAcCX3ZXYSJdYWKJ7uBRFlZKkA4AdQjT59U1/n0e98j3+08amwHK
+	 7HbVJ0UkcnJjpww0YVvrRSX26mFwoBUrF4MpnDCpKHjR+CY36sg1qKtBuUVmu+TUmP2EX
+	 qyhPdpm9+BaTQxlj5IGO/gVBoIWfoM0MiVo/zY6stP4YPD1avpuGgolWAPEfy1l+qKJjI
+	 mZty/jag5MwEQhAOAbUIiPN1Ux15HiI/02ORp5L5fSJEkKx3r+sUCjtdb7Tb49kkTgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+IUCCTE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JbMw0xGn;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE76606A319;
-	Thu, 22 Oct 2026 01:44:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC42E606A319
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 05:13:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC42E606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e+IUCCTE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728071F000C1;
-	Thu, 22 Oct 2026 01:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792633448;
-	bh=8kJkMtRp5NxpBwXWK16sC7h36iQ9rBNvoglPnh69ZPY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=e+IUCCTEbtNq4Zu3iaNqbFH7jfR+WK2dtZAdbT2YhzTLC2yaG5YZqifkaDGBpZ1r5
-	 DvIPqe215G9szWDx/EusZPWbqIPkt0XBaOkG26wa2uowUPc9WJO025v5C4V0MJ5uv5
-	 CfxxrWTyUXIrBGEwxEq7eNBrz9iUc++V+WDUgamAh/zpD6mdmUOdK2Z2SJylIEO6Rc
-	 e4n3JqvON/J9mZo/+9w+dxFgcv56gi+e4ar3lZT2QsEXQ1vQ5BvpEEupCvAOnsA2SK
-	 S+lDqYZopPeAz0Ty8BgPvraDI/Y24Sp/DCQpD6L07WM+lxqQakQprGA1n0vfDtSv2p
-	 t9VIoGnsEpcKw==
-Date: Thu, 22 Oct 2026 01:44:05 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: sean@starlabs.systems
-Cc: Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	kernel test robot <lkp@intel.com>, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] firmware: coreboot: Fix CFR error-pointer handling
- warning
-Message-ID: <atlqZb-LZkkuUIz0@google.com>
-References: <CABtds-16eUH6ah3Rr9R=N2605TPdFgDekM5oXVeWqGcmYfWqag@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JbMw0xGn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792646018; x=1824182018;
+  h=date:from:to:cc:subject:message-id;
+  bh=ACn7GZ11slScmNI4xIqtvZzcLobs6jbi2SR9M1XvB+Q=;
+  b=JbMw0xGnooHKZvwlSCrZyCOm77PSTiCxZDaUVEE+f0SJVvocFwX3MGph
+   o2hUgOqJDTGlqKqoqZ23Wt8pI5o2W8oO1R8LKmiGK98OnXo2epJDI7DBz
+   4Tig9oi3P86CknMroR47lu73w060pZC0qw659VqsnI0jYUzG58JI2LCBH
+   yzYEuDpFDboz4hzDrSSReE111QSMSzY+zDqw2gcWErE23FYyt4IYN3sr+
+   LmAgW5bVggtieckfmOR8NYnxxlMVQakfiR1+JdSsF5zMWT/0wKDcDW7Tw
+   Xjgsed19VKJJYvOPkwYJjgfUWmLhY++0n+hBgQzOStbDQCJbxoVXGThCb
+   w==;
+X-CSE-ConnectionGUID: iX6XEtBLSFKBZ2yAWzDqyw==
+X-CSE-MsgGUID: SI494nWLS1ONZlJjvvms6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1385970"
+X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
+   d="scan'208";a="1385970"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 22:13:38 -0700
+X-CSE-ConnectionGUID: 4x5PvGHkSuKTUOZy4Sz+SA==
+X-CSE-MsgGUID: xufhmHJ/T5aRKt2oE81VvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
+   d="scan'208";a="3153131"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 21 Oct 2026 22:13:35 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xJl7M-000000000El-2Wbh;
+	Thu, 22 Oct 2026 05:13:32 +0000
+Date: Thu, 22 Oct 2026 07:12:54 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Harry Yoo (Meta)" <harry@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [harry:b4/memalloc-prof-dont-waste-slabobj-ext-metadata
+ 7/18] radix-tree.c:1603:61: error: 'SLAB_MAY_ACCOUNT' undeclared; did you
+ mean 'SLAB_ACCOUNT'?
+Message-ID: <202610220721.Zgxl2HrQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -58,30 +80,36 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABtds-16eUH6ah3Rr9R=N2605TPdFgDekM5oXVeWqGcmYfWqag@mail.gmail.com>
 
-On Wed, Oct 21, 2026 at 07:57:49AM +0000, sean@starlabs.systems wrote:
-> From 4e74bf1ccc0f61b4712f688eab66a7750f693243 Mon Sep 17 00:00:00 2001
-> From: Sean Rhodes <sean@starlabs.systems>
-> Date: Wed, 21 Oct 2026 08:55:54 +0100
-> Subject: [PATCH] firmware: coreboot: Fix CFR error-pointer handling warning
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git b4/memalloc-prof-dont-waste-slabobj-ext-metadata
+head:   4eb758f1c30dafac114e68279058434bf6e617d9
+commit: ee54e427065efb193ec34ec9db714ecce6eed651 [7/18] lib/xarray: specify SLAB_MAY_ACCOUNT for radix_tree_node cache
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261022/202610220721.Zgxl2HrQ-lkp@intel.com/config)
+compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610220721.Zgxl2HrQ-lkp@intel.com/reproduce)
 
-It looks like the patch is malformed.  I'll remove these when applying it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610220721.Zgxl2HrQ-lkp@intel.com/
 
-> The scoped kfree cleanup already ignores error pointers, so passing the
-> pointer through no_free_ptr() before PTR_ERR() is unnecessary. It also
-> makes the IS_ERR/PTR_ERR expressions appear inconsistent to Coccinelle.
-> 
-> Return PTR_ERR() directly. The scoped cleanup still leaves error pointers
-> untouched while freeing successful allocations on later returns.
-> 
-> Fixes: f2e05ce9763f ("firmware: coreboot: Add CFR firmware attributes driver")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202610210637.LiJ3U0ob-lkp@intel.com/
-> Signed-off-by: Sean Rhodes <sean@starlabs.systems>
+All errors (new ones prefixed by >>):
 
-I'll queue this after -rc1 and send it as a fix.  Thanks for the quick
-patch.
+   In file included from radix-tree.c:26:
+   radix-tree.c: In function 'radix_tree_init':
+>> radix-tree.c:1603:61: error: 'SLAB_MAY_ACCOUNT' undeclared (first use in this function); did you mean 'SLAB_ACCOUNT'?
+    1603 |                         SLAB_PANIC | SLAB_RECLAIM_ACCOUNT | SLAB_MAY_ACCOUNT,
+         |                                                             ^~~~~~~~~~~~~~~~
+   ../../include/linux/slab.h:183:78: note: in definition of macro 'kmem_cache_create'
+     183 |                 default: __kmem_cache_create)(__name, __object_size, __args, __VA_ARGS__)
+         |                                                                              ^~~~~~~~~~~
+   radix-tree.c:1603:61: note: each undeclared identifier is reported only once for each function it appears in
+    1603 |                         SLAB_PANIC | SLAB_RECLAIM_ACCOUNT | SLAB_MAY_ACCOUNT,
+         |                                                             ^~~~~~~~~~~~~~~~
+   ../../include/linux/slab.h:183:78: note: in definition of macro 'kmem_cache_create'
+     183 |                 default: __kmem_cache_create)(__name, __object_size, __args, __VA_ARGS__)
+         |                                                                              ^~~~~~~~~~~
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
