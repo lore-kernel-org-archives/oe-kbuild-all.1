@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792688134;
-	b=W2PZgVg4QyP56eLiL5V+l5UzId/0V8xYD6/BTC1Wwsc2+RTM2wWSFfCS1/zAoAecdb4X
-	 3Ybcdx9/mfSSUw1grkRbQ9wdBvU4kaW6TAjx/6cAPV1xjvlMw+CsPXq78/nOwRDRf7/MY
-	 /G99ifWnq1Yly2ixyQ/i4/eJJFCDzp5JXWww9MNCmbOwrgUTZuA9x4gsTZws7ofwDKtWa
-	 9wR2chtmxGJUX3kZ8bQc6yGRMqP8s1aIe3t+lWzxrNpYrQ7o97ulxnRH9VioaB9QcJeWo
-	 C2e2gFbSjgOmCcF/q2d2j4XybEuNdJgnkQP+H2Bu0KrfP12lcyX4vIS0wUCRSeDUs0g==
+	t=1792688196;
+	b=gmeENd4JXf/H+FhXsqRl+5paG4JMZlrPohLVeFd90ATbx7jPLga94/V6EePAmOwLGpeG
+	 kGrS9Dl1T0iv/SbCIn5cyYAn8xwvTDaSlISc2iHXoyv0K1QaGXHEKX/RYJFdopFgul+0j
+	 YReErdkA5Iz0d77cokVh0RN2FGqi85kUHbp8Cil6cDjhP6EKBKgxRWTEulkEINnf8bf/j
+	 tSZg9e/UuZKaoqxqYVxYFUcgn9PDSmqR6DWD6TDvd3UkCIGVJbjRVP4u8e7wJtjHTOqvN
+	 8d3c+rwBjU0dhOEFeL8dIv6tt6OVCO7V9EqDio6CbbPeyM1cN+GWltJ2qG012nD6Fsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792688134;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792688196;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=fxGuEXWms5ei900DNVNlPxk/bv9CKQ2EBsQIVygoAdc=;
-	b=bz9u0lDEGAbNivz9rA8A7cr7g2deiMHbR6kaWhRGwko6lpnXI+nMjnQj7KG+OJ6Rkyjf
-	 cwf9Db864cIc2/Sc8NpoF/XsDc/MuUL9R91VRr7fLEx/t47aavzzaj0ZnbUnYWKJi2Wpw
-	 1AiImtflQdQYBhJe1zdE9HFNksrDTNkdrDJnvu8fgTGAUvtLgPdGhQ818hiHc40FblCNK
-	 qvnruD1oA8VHQ8z6nRObT5PmsGIPjV7dLYT5drTKOW3M1c9Y/mpl9N/duXSPQJdxTjEFZ
-	 40p5QQSmUjdpGEQrIBSOizzosnYiyyA+gts299M1fiZjNPep86gD5XvLGJ6eInbs3Ww==
+	bh=IQCPNrM+bZND5J85UFj8CC3XbG2GQeBIWs7ailPMPSE=;
+	b=Kkkm1TFSSelxdK9+/3V5XJopLmIojAPL9YGgj9EaOHU5JrNi6XwC2fCsh2o/L6JPk94/
+	 nqpW73gy1PwCs61LqFQFrfD51+YS0xN7iDR3FjBVBal0arPpWJ4rD9DWO2c/aKikNbBrS
+	 s8OX0MH7cVMeNdgu16pg86P+T1+B5zC2oLWgtZ52uEeNTtrjQBoYA2o30vtmte4/KoDl8
+	 T61C+7O2vPuXbLusUkuESH8zMqf9dpw+hFpAaRp9QY6n7AN/8poRi/UBuVAtgSVwwBoda
+	 oo3t9+Car4S/4RtPis3n+nC8Nu4vrKffZV6WFLsNmfpCOrqRTx5fRIayDUd6fTjkwZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Jnor1D72;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J1sXHKV6;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2187606A319
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 16:55:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2187606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC57B606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 16:56:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC57B606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Jnor1D72
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J1sXHKV6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792688134; x=1824224134;
+  t=1792688195; x=1824224195;
   h=date:from:to:cc:subject:message-id;
-  bh=biiVLNqoeeK0gaoxuSuthqgiUv7mbB8NsskN8Iq211U=;
-  b=Jnor1D72WivQxBB9dkPvSxUWQ+8PnWuaF0i24JrOQbp0CiN4ErZ3jyOM
-   vD7ZwRqzf245tAfYTYHYKOqcrYSQ3x7irqfJul1pNfKTGALZWWPTGAwo4
-   7de83EMR12T1G62k71sCf7D9nSbskzVfm3gnvkmx7W4rqzKqrEhrgOad/
-   J81frtAUPsVCsCKOWcTJw8Z7MSQtXrN2W0RSpVO27qcJgTr8PJJRV8Q3/
-   vvvUPkAolLOvfN501LIBEts7qodT3XasiDOvH1MP6ogDdXhOImL9/VbOt
-   wUnbvJjPfnPWbyN6PG1aGbu6FmWEOVxJoszscA30U5gD7D/+MmBTqc27z
-   w==;
-X-CSE-ConnectionGUID: oidpYcTAREe+c398dn7HSA==
-X-CSE-MsgGUID: GA/tAtw8TGSHTYeuFJt2+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1431029"
+  bh=zNTyiJlR+xyZMQqtgUuMwZfum3VKhy7A0U7BEGcAapQ=;
+  b=J1sXHKV6+lqB1WPwQytV1QIJmjDwrfM82GbLIgq2AFa/dxMxqLiw2pvU
+   EY1G8Y4rkkN7C7NLENgHambg87mP+3kG67SZEHQViw9go1mo475gG7a2I
+   aOsTJJsWFhZObl74raslujHcVW69wH2194HCBvAOKbeNMHhFS9wuLYfSZ
+   T46LpiLliLpJcdn+6eT5pg6QAhBLVSHx7OaeXeR70VMiUfHXLx9AkBWmD
+   0sH8Eq0Gf3uNTZA4Eakxb7Z6e8axOGbjCdsdUjX8HKi67m/xgAFpNzOIc
+   8V+0CRrkrecLYuvEeyjynHfy8vxetvFVi3PmquAS/SBPzWzsbl1Fh40xY
+   g==;
+X-CSE-ConnectionGUID: eT70WZMETXWujBwscss+Vw==
+X-CSE-MsgGUID: XKtvdhxGRWeqM3qtlnHvuw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1457577"
 X-IronPort-AV: E=Sophos;i="6.27,172,1787036400"; 
-   d="scan'208";a="1431029"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 09:55:33 -0700
-X-CSE-ConnectionGUID: vpDMD5nLRRKiFk3CQ5NdXA==
-X-CSE-MsgGUID: lhWN+G0hQjKvzClbbgJcSQ==
+   d="scan'208";a="1457577"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 09:56:34 -0700
+X-CSE-ConnectionGUID: zXVGviPiRZOEdmqSSCg9Jg==
+X-CSE-MsgGUID: ajAsrVGFRfeLN2l/JuRpCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,172,1787036400"; 
-   d="scan'208";a="3413197"
+   d="scan'208";a="3753528"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 22 Oct 2026 09:55:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 22 Oct 2026 09:56:32 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJw4g-00000000RNi-09kx;
-	Thu, 22 Oct 2026 16:55:30 +0000
-Date: Fri, 23 Oct 2026 00:54:47 +0800
+	id 1xJw5e-00000000RNu-1XeV;
+	Thu, 22 Oct 2026 16:56:30 +0000
+Date: Fri, 23 Oct 2026 00:55:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 8/8] fs/fuse/dir.c:846:1:
- warning: the frame size of 1384 bytes is larger than 1280 bytes
-Message-ID: <202610230027.XhMqjSoN-lkp@intel.com>
+To: syafiqnizam25 <muhammadsyafiqnizamuddinx.binshafie@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "sys_oak" <sys_oak@intel.com>
+Subject: [intel-lts:6.18/linux 52/52]
+ drivers/media/i2c/d4xx.c:4748:66: warning: '
+Message-ID: <202610230037.KDsJDmWX-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,141 +80,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Paul,
+Hi syafiqnizam25,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   531ecc80abc0c4e56632c7fc40a082951e5b80d1
-commit: 622c1418102486df2d2fcbdbf8fd21acadb975ab [8/8] ANDROID: fuse-bpf: Align data structs for 32-bit kernels
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261023/202610230027.XhMqjSoN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230027.XhMqjSoN-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 6.18/linux
+head:   6f60c9f6344f04a699abb69dd35bc294f6c306d8
+commit: 38131e1f862524e81f78a96ae9daf7d22519ef25 [52/52] media: i2c: add d4xx
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261023/202610230037.KDsJDmWX-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230037.KDsJDmWX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610230027.XhMqjSoN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610230037.KDsJDmWX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/fuse/dir.c: In function 'fuse_create_open':
->> fs/fuse/dir.c:846:1: warning: the frame size of 1384 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     846 | }
-         | ^
-   fs/fuse/dir.c: In function 'fuse_do_setattr':
-   fs/fuse/dir.c:2128:1: warning: the frame size of 1472 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-    2128 | }
-         | ^
+    2718 |         struct ds5 *ds5 = container_of(subdev, struct ds5, mux.sd.subdev);
+         |                     ^~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_get_fw_info':
+   drivers/media/i2c/d4xx.c:3626:13: warning: unused variable 'retry' [-Wunused-variable]
+    3626 |         int retry = 5;
+         |             ^~~~~
+   drivers/media/i2c/d4xx.c:3625:13: warning: unused variable 'ret' [-Wunused-variable]
+    3625 |         int ret;
+         |             ^~~
+   drivers/media/i2c/d4xx.c: At top level:
+   drivers/media/i2c/d4xx.c:4058:17: warning: initialized field overwritten [-Woverride-init]
+    4058 |         .step = 1,
+         |                 ^
+   drivers/media/i2c/d4xx.c:4058:17: note: (near initialization for 'ds5_ctrl_erb.step')
+   drivers/media/i2c/d4xx.c:4072:17: warning: initialized field overwritten [-Woverride-init]
+    4072 |         .step = 1,
+         |                 ^
+   drivers/media/i2c/d4xx.c:4072:17: note: (near initialization for 'ds5_ctrl_ewb.step')
+   drivers/media/i2c/d4xx.c:4086:17: warning: initialized field overwritten [-Woverride-init]
+    4086 |         .step = 1,
+         |                 ^
+   drivers/media/i2c/d4xx.c:4086:17: note: (near initialization for 'ds5_ctrl_hwmc.step')
+   drivers/media/i2c/d4xx.c: In function 'ds5_mux_init':
+   drivers/media/i2c/d4xx.c:4459:14: warning: unused variable 'suffix' [-Wunused-variable]
+    4459 |         char suffix[5];
+         |              ^~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_dfu_device_release':
+   drivers/media/i2c/d4xx.c:4877:22: warning: unused variable 'retry' [-Wunused-variable]
+    4877 |         int ret = 0, retry = 10;
+         |                      ^~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_chrdev_init':
+   drivers/media/i2c/d4xx.c:4917:14: warning: unused variable 'suffix' [-Wunused-variable]
+    4917 |         char suffix[5];
+         |              ^~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_probe':
+   drivers/media/i2c/d4xx.c:5256:40: warning: too many arguments for format [-Wformat-extra-args]
+    5256 |                 dev_info(&client->dev, "D4XX recovery state\n", __func__);
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:160:58: note: in expansion of macro 'dev_fmt'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/media/i2c/d4xx.c:5256:17: note: in expansion of macro 'dev_info'
+    5256 |                 dev_info(&client->dev, "D4XX recovery state\n", __func__);
+         |                 ^~~~~~~~
+   drivers/media/i2c/d4xx.c:5287:13: warning: unused variable 'err' [-Wunused-variable]
+    5287 |         int err = sysfs_create_group(&ds5->client->dev.kobj, &ds5_attr_group);
+         |             ^~~
+   drivers/media/i2c/d4xx.c:5192:36: warning: unused variable 'reg_list' [-Wunused-variable]
+    5192 |         const struct ds5_reg_list *reg_list;
+         |                                    ^~~~~~~~
+   drivers/media/i2c/d4xx.c:5190:29: warning: unused variable 'sd' [-Wunused-variable]
+    5190 |         struct v4l2_subdev *sd;
+         |                             ^~
+   drivers/media/i2c/d4xx.c: At top level:
+   drivers/media/i2c/d4xx.c:5150:13: warning: 'ds5_update_pad_format' defined but not used [-Wunused-function]
+    5150 | static void ds5_update_pad_format(const struct ds5_resolution *resolutions,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:2352:12: warning: 'ds5_mux_set_frame_interval' defined but not used [-Wunused-function]
+    2352 | static int ds5_mux_set_frame_interval(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:2325:12: warning: 'ds5_mux_get_frame_interval' defined but not used [-Wunused-function]
+    2325 | static int ds5_mux_get_frame_interval(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:2157:21: warning: 'ds5_mbus_code_to_mipi' defined but not used [-Wunused-function]
+    2157 | static unsigned int ds5_mbus_code_to_mipi(u32 code)
+         |                     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:1915:12: warning: 'ds5_mux_enum_frame_interval' defined but not used [-Wunused-function]
+    1915 | static int ds5_mux_enum_frame_interval(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:1855:12: warning: 'ds5_mux_enum_frame_size' defined but not used [-Wunused-function]
+    1855 | static int ds5_mux_enum_frame_size(struct v4l2_subdev *sd,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:1564:12: warning: 'ds5_mux_set_stream' defined but not used [-Wunused-function]
+    1564 | static int ds5_mux_set_stream(struct v4l2_subdev *sd, int on)
+         |            ^~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:668:36: warning: 'ds5_size_w10' defined but not used [-Wunused-const-variable=]
+     668 | static const struct ds5_resolution ds5_size_w10 = {
+         |                                    ^~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:497:34: warning: 'ds5_1280_720_30fps_reg_list' defined but not used [-Wunused-const-variable=]
+     497 | static const struct ds5_reg_list ds5_1280_720_30fps_reg_list = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:492:34: warning: 'ds5_1920_1080_30fps_reg_list' defined but not used [-Wunused-const-variable=]
+     492 | static const struct ds5_reg_list ds5_1920_1080_30fps_reg_list = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:487:34: warning: 'ds5_1920_1536_30fps_reg_list' defined but not used [-Wunused-const-variable=]
+     487 | static const struct ds5_reg_list ds5_1920_1536_30fps_reg_list = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:482:34: warning: 'ds5_framesync_reg_list' defined but not used [-Wunused-const-variable=]
+     482 | static const struct ds5_reg_list ds5_framesync_reg_list = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:477:34: warning: 'ds5_init_reg_list' defined but not used [-Wunused-const-variable=]
+     477 | static const struct ds5_reg_list ds5_init_reg_list = {
+         |                                  ^~~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c:448:18: warning: 'ds5_framerate_25' defined but not used [-Wunused-const-variable=]
+     448 | static const u16 ds5_framerate_25 = 25;
+         |                  ^~~~~~~~~~~~~~~~
+   drivers/media/i2c/d4xx.c: In function 'ds5_dfu_device_read':
+>> drivers/media/i2c/d4xx.c:4748:66: warning: '
+      ' directive output may be truncated writing 1 byte into a region of size between 0 and 8 [-Wformat-truncation=]
+    4748 |         snprintf(msg, sizeof(msg), "DFU info: \tver:  %d.%d.%d.%d\n",
+         |                                                                  ^~
+   drivers/media/i2c/d4xx.c:4748:9: note: 'snprintf' output between 26 and 34 bytes into a destination of size 32
+    4748 |         snprintf(msg, sizeof(msg), "DFU info: \tver:  %d.%d.%d.%d\n",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    4749 |                         (fw_ver >> 8) & 0xff, fw_ver & 0xff,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    4750 |                         (fw_build >> 8) & 0xff, fw_build & 0xff);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +846 fs/fuse/dir.c
+vim +4748 drivers/media/i2c/d4xx.c
 
-f5f4199c102aa67 Daniel Rosenberg 2021-12-02  749  
-07e77dca8a1f17a Miklos Szeredi   2010-12-07  750  	forget = fuse_alloc_forget();
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  751  	err = -ENOMEM;
-07e77dca8a1f17a Miklos Szeredi   2010-12-07  752  	if (!forget)
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  753  		goto out_err;
-51eb01e73599efb Miklos Szeredi   2006-06-25  754  
-ce1d5a491f0ee50 Miklos Szeredi   2006-04-10  755  	err = -ENOMEM;
-fcee216beb9c15c Max Reitz        2020-05-06  756  	ff = fuse_file_alloc(fm);
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  757  	if (!ff)
-7078187a795f862 Miklos Szeredi   2014-12-12  758  		goto out_put_forget_req;
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  759  
-fcee216beb9c15c Max Reitz        2020-05-06  760  	if (!fm->fc->dont_mask)
-e0a43ddcc08c34d Miklos Szeredi   2009-06-30  761  		mode &= ~current_umask();
-e0a43ddcc08c34d Miklos Szeredi   2009-06-30  762  
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  763  	flags &= ~O_NOCTTY;
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  764  	memset(&inarg, 0, sizeof(inarg));
-0e9663ee452ffce Miklos Szeredi   2007-10-18  765  	memset(&outentry, 0, sizeof(outentry));
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  766  	inarg.flags = flags;
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  767  	inarg.mode = mode;
-e0a43ddcc08c34d Miklos Szeredi   2009-06-30  768  	inarg.umask = current_umask();
-643a666a89c358e Vivek Goyal      2020-10-09  769  
-d58366aab868542 Miklos Szeredi   2022-04-22  770  	if (fm->fc->handle_killpriv_v2 && trunc &&
-643a666a89c358e Vivek Goyal      2020-10-09  771  	    !(flags & O_EXCL) && !capable(CAP_FSETID)) {
-643a666a89c358e Vivek Goyal      2020-10-09  772  		inarg.open_flags |= FUSE_OPEN_KILL_SUIDGID;
-643a666a89c358e Vivek Goyal      2020-10-09  773  	}
-643a666a89c358e Vivek Goyal      2020-10-09  774  
-d5b4854357f4789 Miklos Szeredi   2019-09-10  775  	args.opcode = FUSE_CREATE;
-d5b4854357f4789 Miklos Szeredi   2019-09-10  776  	args.nodeid = get_node_id(dir);
-d5b4854357f4789 Miklos Szeredi   2019-09-10  777  	args.in_numargs = 2;
-d5b4854357f4789 Miklos Szeredi   2019-09-10  778  	args.in_args[0].size = sizeof(inarg);
-d5b4854357f4789 Miklos Szeredi   2019-09-10  779  	args.in_args[0].value = &inarg;
-d5b4854357f4789 Miklos Szeredi   2019-09-10  780  	args.in_args[1].size = entry->d_name.len + 1;
-d5b4854357f4789 Miklos Szeredi   2019-09-10  781  	args.in_args[1].value = entry->d_name.name;
-d5b4854357f4789 Miklos Szeredi   2019-09-10  782  	args.out_numargs = 2;
-d5b4854357f4789 Miklos Szeredi   2019-09-10  783  	args.out_args[0].size = sizeof(outentry);
-d5b4854357f4789 Miklos Szeredi   2019-09-10  784  	args.out_args[0].value = &outentry;
-d5b4854357f4789 Miklos Szeredi   2019-09-10  785  	args.out_args[1].size = sizeof(outopen);
-d5b4854357f4789 Miklos Szeredi   2019-09-10  786  	args.out_args[1].value = &outopen;
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  787  
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  788  	if (fm->fc->init_security) {
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  789  		err = get_security_context(entry, mode, &security_ctx,
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  790  					   &security_ctxlen);
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  791  		if (err)
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  792  			goto out_put_forget_req;
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  793  
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  794  		args.in_numargs = 3;
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  795  		args.in_args[2].size = security_ctxlen;
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  796  		args.in_args[2].value = security_ctx;
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  797  	}
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  798  
-fcee216beb9c15c Max Reitz        2020-05-06  799  	err = fuse_simple_request(fm, &args);
-eb6c8ea051f8b58 Vivek Goyal      2021-11-11  800  	kfree(security_ctx);
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  801  	if (err)
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  802  		goto out_free_ff;
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  803  
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  804  	err = -EIO;
-eb59bd17d2fa6e5 Miklos Szeredi   2019-11-12  805  	if (!S_ISREG(outentry.attr.mode) || invalid_nodeid(outentry.nodeid) ||
-eb59bd17d2fa6e5 Miklos Szeredi   2019-11-12  806  	    fuse_invalid_attr(&outentry.attr))
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  807  		goto out_free_ff;
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  808  
-c7b7143c6342b87 Miklos Szeredi   2009-04-28  809  	ff->fh = outopen.fh;
-c7b7143c6342b87 Miklos Szeredi   2009-04-28  810  	ff->nodeid = outentry.nodeid;
-c7b7143c6342b87 Miklos Szeredi   2009-04-28  811  	ff->open_flags = outopen.open_flags;
-abbb00d5ae3f6f7 Alessio Balsini  2021-01-25  812  	fuse_passthrough_setup(fc, ff, &outopen);
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  813  	inode = fuse_iget(dir->i_sb, outentry.nodeid, outentry.generation,
-1fb69e7817296da Miklos Szeredi   2007-10-18  814  			  &outentry.attr, entry_attr_timeout(&outentry), 0);
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  815  	if (!inode) {
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  816  		flags &= ~(O_CREAT | O_EXCL | O_TRUNC);
-ebf84d0c7220c7c Kirill Tkhai     2018-11-09  817  		fuse_sync_release(NULL, ff, flags);
-fcee216beb9c15c Max Reitz        2020-05-06  818  		fuse_queue_forget(fm->fc, forget, outentry.nodeid, 1);
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  819  		err = -ENOMEM;
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  820  		goto out_err;
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  821  	}
-07e77dca8a1f17a Miklos Szeredi   2010-12-07  822  	kfree(forget);
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  823  	d_instantiate(entry, inode);
-1fb69e7817296da Miklos Szeredi   2007-10-18  824  	fuse_change_entry_timeout(entry, &outentry);
-261aaba72fdba17 Miklos Szeredi   2018-10-01  825  	fuse_dir_changed(dir);
-be12af3ef5e61eb Al Viro          2018-06-08  826  	err = finish_open(file, entry, generic_file_open);
-30d904947459cca Al Viro          2012-06-22  827  	if (err) {
-ebf84d0c7220c7c Kirill Tkhai     2018-11-09  828  		fi = get_fuse_inode(inode);
-ebf84d0c7220c7c Kirill Tkhai     2018-11-09  829  		fuse_sync_release(fi, ff, flags);
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  830  	} else {
-267d84449f52349 Miklos Szeredi   2017-02-22  831  		file->private_data = ff;
-c7b7143c6342b87 Miklos Szeredi   2009-04-28  832  		fuse_finish_open(inode, file);
-d58366aab868542 Miklos Szeredi   2022-04-22  833  		if (fm->fc->atomic_o_trunc && trunc)
-d58366aab868542 Miklos Szeredi   2022-04-22  834  			truncate_pagecache(inode, 0);
-d58366aab868542 Miklos Szeredi   2022-04-22  835  		else if (!(ff->open_flags & FOPEN_KEEP_CACHE))
-d58366aab868542 Miklos Szeredi   2022-04-22  836  			invalidate_inode_pages2(inode->i_mapping);
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  837  	}
-d95852777bc8ba6 Al Viro          2012-06-22  838  	return err;
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  839  
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  840  out_free_ff:
-fd72faac95d7e47 Miklos Szeredi   2005-11-07  841  	fuse_file_free(ff);
-51eb01e73599efb Miklos Szeredi   2006-06-25  842  out_put_forget_req:
-07e77dca8a1f17a Miklos Szeredi   2010-12-07  843  	kfree(forget);
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  844  out_err:
-d95852777bc8ba6 Al Viro          2012-06-22  845  	return err;
-c8ccbe032feb127 Miklos Szeredi   2012-06-05 @846  }
-c8ccbe032feb127 Miklos Szeredi   2012-06-05  847  
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4732  
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4733  /* When a process reads from our device, this gets called. */
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4734  static ssize_t ds5_dfu_device_read(struct file *flip,
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4735  		char __user *buffer, size_t len, loff_t *offset)
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4736  {
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4737  	struct ds5 *state = flip->private_data;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4738  	u16 fw_ver, fw_build;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4739  	char msg[32];
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4740  	int ret = 0;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4741  
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4742  	if (mutex_lock_interruptible(&state->mutex))
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4743  		return -ERESTARTSYS;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4744  
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4745  	ret |= ds5_get_fw_info(state, &fw_ver, &fw_build);
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4746  	if (ret < 0)
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4747  		goto e_dfu_read_failed;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06 @4748  	snprintf(msg, sizeof(msg), "DFU info: \tver:  %d.%d.%d.%d\n",
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4749  			(fw_ver >> 8) & 0xff, fw_ver & 0xff,
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4750  			(fw_build >> 8) & 0xff, fw_build & 0xff);
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4751  
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4752  	if (copy_to_user(buffer, msg, strlen(msg)))
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4753  		ret = -EFAULT;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4754  	else {
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4755  		state->dfu_dev.msg_write_once = ~state->dfu_dev.msg_write_once;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4756  		ret = strlen(msg) & state->dfu_dev.msg_write_once;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4757  	}
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4758  
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4759  e_dfu_read_failed:
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4760  	mutex_unlock(&state->mutex);
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4761  	return ret;
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4762  };
+9552247d675e3b2 Khai Wen, Ng 2026-01-06  4763  
 
-:::::: The code at line 846 was first introduced by commit
-:::::: c8ccbe032feb127a977c66865cb63d72d9a6e08b fuse: implement i_op->atomic_open()
+:::::: The code at line 4748 was first introduced by commit
+:::::: 9552247d675e3b2f6a968db946f6531505b8047c media: i2c: Add D4XX support and D4XX driver
 
-:::::: TO: Miklos Szeredi <mszeredi@suse.cz>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+:::::: TO: Khai Wen, Ng <khai.wen.ng@intel.com>
+:::::: CC: sys_oak <sys_oak@intel.com>
 
 --
 0-DAY CI Kernel Test Service
