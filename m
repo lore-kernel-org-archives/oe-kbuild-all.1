@@ -1,103 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792648950;
-	b=F66FM/bP10HWP5qCw+HGUkJWbTEBLuYEPiN4WChZHzCAo4EnMg5mwppwmGNGYIdHWT56
-	 /UVulMiu1FMLhSDBzE33UxgU20AOZpErtNgd7HZs7y6Vyk8BmNQvgw6DxfByTzY+EP6J1
-	 HUWZFae0/AzTeMiT/YWyaACpkuFkleTThSUhSiCK9ioxT+q3jAqcxeORvo/rFraxJs6jQ
-	 7qJYuHTpBDfDgsy7aOs4OOkeDSCw7cIdM3ct20Gct3uV+f4d7G+ZMq+8zeZ+RLvWowX8m
-	 5w8AP3ZApohHhFSdiNWRhTuR/GrvHtlNv+3muYJDABTYMUIHPylrDzdu2zosvkTZp2g==
+	t=1792649080;
+	b=2DmpZbzAdAJME2QqVmvUrHlKBNA4auH7+2u6wjF0NQHetl0HR0lUMibbdWXmIQ2Q8V7w
+	 JWhi1h5Zps3m8DP5cbix/R4DbGQHZdKJEVvja26ZTwIZdmTKiFKQtXAxhBNTTxau2jx5s
+	 k9ZbMQiethE/32/vDQhVBbTHSgCu7RXQB4DOhKvRb+VWlLGfj8p2zC6UFuxP1lR27EE6E
+	 QI6TXOxw4y9FEZMcvbP703XL1nx86PO/8cm+IwlFlqB3w+SJu87HEOWyTJ31G4v8ywemU
+	 TxAXMoaTBelDSgOU4hX0nFTIojh/w8mURBvE/J3cSzG/h1YZtXs0zFOfnC3gtJajzow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792648950;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792649080;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=h7yy4ERCejIWJUHBaiW1M9hFVXwnhpKlFetEGTE4qE8=;
-	b=hu/DKdzDKmk8O+1NUN9t0KFh6Y1Zm8oBgG9UP2IYrPlgowhAtYE+pVhxvIoTCvYdbJXT
-	 hLwu6Lm55066HW2e9DHDAIC6BXiEQGlTM089GUIM+kZTqo5qkYEcplMWPrHocArm4/RAs
-	 CY2+QB7UknCoD1rrXNaKLivO5o2TwKAU73lCLY1LyEiogEVGDeBH06tt+GzSFsgm/MS/D
-	 49JGyNOKNTBftV19j4OFNRgJbbvQP5xrS0KQvh2qwO5dljVUSdaFBSTEFeKJ65BcJLJTL
-	 yiBbFlRWTUS+TJlgnRWFMGuhyANrTt7wx5e+ZFZ/Z2f133gsQ6pZUryF0Pyj8t14Zyw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=BDIVAGffyB129ox0WpIM9x42kpjHaRQupngeEd0HKRo=;
+	b=hnlj+lyUC06lCWJcPKE/zQIvgw0GdEgUAd0zSaaKIQjFypeEvkTOHxSdj8h7BkDmvxvg
+	 R9tOELhiGyFVBsNCf0KWaQPJEREOfWiulizq+9HBZnX40U1qsWg6KzD6RV5EmM1KSF4II
+	 bYME1Ccmj6nyuM6UmcrqN9f4OSENvXpXHGH3exu47wwHWATR9iypCs6s7Ov1CgWfGak4z
+	 JlIZ0c/odFFBDhI+yxZElCgoF1yvKhpNsubL2xHLDlnGSPiGWxckVbfq9xctoPa4wEwfn
+	 EF5QUyNni4M8Qxr5ooewjO5FE+SXhALP5I7vcNP1L2coTTFNYDkxgNwQ6L3AfVqCqQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ejl443HM;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E+F3Xn7A;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C9E606A319;
-	Thu, 22 Oct 2026 06:02:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6C9E606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF60606A319
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 06:04:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABF60606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ejl443HM
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E+F3Xn7A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792648949; x=1824184949;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v1kuDdvZyLBvH1hitXXm71AvDg8GURL01c2wxP2YwcE=;
-  b=ejl443HMpF5Azd4uK4sCeivJa4Lmgu/zVfkot0qzBX1jJGlPMgcxNWiq
-   63SVZeF20MpIgB6IjTs+PCLTo2PZPYj2zyZvT1B1IUWAQF130EtUU0IOY
-   N5ZzKRjX6ppgeza5dHdSmTsdU6HD8s/f9H5XEYelpr58VamIyCsn0dorK
-   m2hK/BN4xfJ4iMVFfu3nZLSME1IOt8DgHeQ8nKDhVlkzUok2hwDptv/Ky
-   ZQB0fVkn3hWFEg6F1xAu9zLynE4DStCpqlHs4mflfaEQgwOMUGfsCNqTm
-   MWMxiK44eiZeFAMSTXhFOOJbz8nbyLC57edXNC+wjHGwrxVQvFS3yLWqj
-   Q==;
-X-CSE-ConnectionGUID: cfLCreQ0R0CydoPs4cQy9g==
-X-CSE-MsgGUID: lYVbtGBUS1KZaRJUNc0pWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1258430"
+  t=1792649079; x=1824185079;
+  h=date:from:to:cc:subject:message-id;
+  bh=zZh57W7/FAQjLG9MO0rHToibCz3lBoTWtyJNW0lJx1U=;
+  b=E+F3Xn7AnoqDQdOVx/IY6wjqEDCm+ZPAMAEO/Jiani4Vx7VcQh3zzG3a
+   Acx6r7OOfcrNGeDg1Xecos9exKH/Zie1+Z/8kEXEJ34bbeBc61rNZoNLe
+   rExjPzbcMOvSeVEF56s6iuZdKJFHEoSqujUbF16p6L4+l08gQs3/uWBlg
+   bchrrOi4U8ItoR1LS2yg/bV4leuAQtveEDz361cFl53lEwiLsXGaikyek
+   H934VDMVggeGx0qPYffxQRGxWBS6gEG3rncKDAusfKHelXCZKrQyI34Xd
+   68/1Ebgza8tkHIIygOaxwybS89aIgBkZdjuLHMRpdGVyXSUAgsm3nlAW9
+   g==;
+X-CSE-ConnectionGUID: lw8kkqpwRaCq9FCH9CadCw==
+X-CSE-MsgGUID: Z9+5xPWDRT22mkkoZvtOiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1402515"
 X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="1258430"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 23:02:20 -0700
-X-CSE-ConnectionGUID: 3xt7Bb08QHqzLGMMiaV6SA==
-X-CSE-MsgGUID: gg1NACHpR/2u0GnVF9SKgQ==
+   d="scan'208";a="1402515"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 23:04:39 -0700
+X-CSE-ConnectionGUID: 9cFrtx65SoujW301IRfznA==
+X-CSE-MsgGUID: UfQM2lboTt6vSFmBSj18bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="3161632"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Oct 2026 23:02:12 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5090941"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 21 Oct 2026 23:04:36 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJlsO-00000000Qcc-2m0t;
-	Thu, 22 Oct 2026 06:02:08 +0000
-Date: Thu, 22 Oct 2026 14:01:16 +0800
+	id 1xJluk-000000000Fr-0c8Y;
+	Thu, 22 Oct 2026 06:04:34 +0000
+Date: Thu, 22 Oct 2026 08:04:24 +0200
 From: kernel test robot <lkp@intel.com>
-To: Cunhao Lu via B4 Relay <devnull+1579567540.qq.com@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Elaine Zhang <zhangqing@rock-chips.com>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Ulf Hansson <ulfh@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Wu <david.wu@rock-chips.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH 07/27] clk: rockchip: Add RK3572 clock and reset support
-Message-ID: <202610221315.TGWtYMdM-lkp@intel.com>
-References: <20261022-add-board-ok3572-c-v1-7-0b0fd85a31ee@qq.com>
+To: Matt Turner <mattst88@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Magnus Lindholm <linmag7@gmail.com>
+Subject: [mattst88-alpha:alpha-fp-tininess 1/1]
+ include/math-emu/op-common.h:145:26: warning: variable
+ '_FP_PACK_CANONICAL_T_e' set but not used
+Message-ID: <202610220827.AlfDjqIT-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -106,171 +80,479 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261022-add-board-ok3572-c-v1-7-0b0fd85a31ee@qq.com>
 
-Hi Cunhao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on a804c5742bff224d4cb4d25dd383554d598be32b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cunhao-Lu-via-B4-Relay/dt-bindings-clock-rockchip-Add-RK3572-CRU/20261022-001058
-base:   a804c5742bff224d4cb4d25dd383554d598be32b
-patch link:    https://lore.kernel.org/r/20261022-add-board-ok3572-c-v1-7-0b0fd85a31ee%40qq.com
-patch subject: [PATCH 07/27] clk: rockchip: Add RK3572 clock and reset support
-config: arm-randconfig-1001-20261022 (https://download.01.org/0day-ci/archive/20261022/202610221315.TGWtYMdM-lkp@intel.com/config)
-compiler: clang version 21.1.8 (https://github.com/llvm/llvm-project 2078da43e25a4623cab2d0d60decddf709aaea28)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610221315.TGWtYMdM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mattst88/alpha.git alpha-fp-tininess
+head:   b74843b38da8f1186fd7d447646c835b47096a15
+commit: b74843b38da8f1186fd7d447646c835b47096a15 [1/1] alpha: determine tininess after rounding in the FP emulation
+config: powerpc64-randconfig-r2111-20261022 (https://download.01.org/0day-ci/archive/20261022/202610220827.AlfDjqIT-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610220827.AlfDjqIT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610221315.TGWtYMdM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610220827.AlfDjqIT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/clk/rockchip/clk-rk3572.c:121:40: warning: implicit conversion from 'int' to 's16' (aka 'short') changes value from 47185 to -18351 [-Wconstant-conversion]
-     121 |         RK3588_PLL_RATE(266580000, 1, 178, 4, 47185),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/clk/rockchip/clk.h:607:7: note: expanded from macro 'RK3588_PLL_RATE'
-     604 |         .p = _p,                                                \
-         |         ~
-     605 |         .m = _m,                                                \
-     606 |         .s = _s,                                                \
-     607 |         .k = _k,                                                \
-         |              ^~
-   drivers/clk/rockchip/clk-rk3572.c:116:40: warning: implicit conversion from 'int' to 's16' (aka 'short') changes value from 52428 to -13108 [-Wconstant-conversion]
-     116 |         RK3588_PLL_RATE(604800000, 1, 101, 2, 52428),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/clk/rockchip/clk.h:607:7: note: expanded from macro 'RK3588_PLL_RATE'
-     604 |         .p = _p,                                                \
-         |         ~
-     605 |         .m = _m,                                                \
-     606 |         .s = _s,                                                \
-     607 |         .k = _k,                                                \
-         |              ^~
-   drivers/clk/rockchip/clk-rk3572.c:112:40: warning: implicit conversion from 'int' to 's16' (aka 'short') changes value from 43690 to -21846 [-Wconstant-conversion]
-     112 |         RK3588_PLL_RATE(773000000, 2, 258, 2, 43690),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/clk/rockchip/clk.h:607:7: note: expanded from macro 'RK3588_PLL_RATE'
-     604 |         .p = _p,                                                \
-         |         ~
-     605 |         .m = _m,                                                \
-     606 |         .s = _s,                                                \
-     607 |         .k = _k,                                                \
-         |              ^~
-   drivers/clk/rockchip/clk-rk3572.c:98:41: warning: implicit conversion from 'int' to 's16' (aka 'short') changes value from 52559 to -12977 [-Wconstant-conversion]
-      98 |         RK3588_PLL_RATE(1186812000, 2, 198, 1, 52559),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/clk/rockchip/clk.h:607:7: note: expanded from macro 'RK3588_PLL_RATE'
-     604 |         .p = _p,                                                \
-         |         ~
-     605 |         .m = _m,                                                \
-     606 |         .s = _s,                                                \
-     607 |         .k = _k,                                                \
-         |              ^~
-   drivers/clk/rockchip/clk-rk3572.c:97:41: warning: implicit conversion from 'int' to 's16' (aka 'short') changes value from 52581 to -12955 [-Wconstant-conversion]
-      97 |         RK3588_PLL_RATE(1186814000, 2, 198, 1, 52581),
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/clk/rockchip/clk.h:607:7: note: expanded from macro 'RK3588_PLL_RATE'
-     604 |         .p = _p,                                                \
-         |         ~
-     605 |         .m = _m,                                                \
-     606 |         .s = _s,                                                \
-     607 |         .k = _k,                                                \
-         |              ^~
-   5 warnings generated.
+   In file included from arch/powerpc/math-emu/fnmadd.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fnmadd.c:7:
+   arch/powerpc/math-emu/fnmadd.c: In function 'fnmadd':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:176:9: note: in expansion of macro '_FP_PACK_CANONICAL'
+     176 |         _FP_PACK_CANONICAL(D, 2, X);                                    \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fnmadd.c:52:9: note: in expansion of macro '__FP_PACK_D'
+      52 |         __FP_PACK_D(frD, R);
+         |         ^~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/fadd.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fadd.c:7:
+   arch/powerpc/math-emu/fadd.c: In function 'fadd':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:176:9: note: in expansion of macro '_FP_PACK_CANONICAL'
+     176 |         _FP_PACK_CANONICAL(D, 2, X);                                    \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fadd.c:36:9: note: in expansion of macro '__FP_PACK_D'
+      36 |         __FP_PACK_D(frD, R);
+         |         ^~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/frsp.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from arch/powerpc/math-emu/frsp.c:9:
+   include/math-emu/single.h:50:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      50 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/frsp.c:7:
+   arch/powerpc/math-emu/frsp.c: In function 'frsp':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_S'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:185:12: note: in expansion of macro '_FP_PACK_CANONICAL'
+     185 |            _FP_PACK_CANONICAL(S, 1, __X);                                       \
+         |            ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/frsp.c:27:9: note: in expansion of macro '__FP_PACK_DS'
+      27 |         __FP_PACK_DS(frD, B);
+         |         ^~~~~~~~~~~~
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:189:20: note: in expansion of macro '_FP_PACK_CANONICAL'
+     189 |                    _FP_PACK_CANONICAL(D, 2, X);                                 \
+         |                    ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/frsp.c:27:9: note: in expansion of macro '__FP_PACK_DS'
+      27 |         __FP_PACK_DS(frD, B);
+         |         ^~~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/fmadd.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fmadd.c:7:
+   arch/powerpc/math-emu/fmadd.c: In function 'fmadd':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:176:9: note: in expansion of macro '_FP_PACK_CANONICAL'
+     176 |         _FP_PACK_CANONICAL(D, 2, X);                                    \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fmadd.c:49:9: note: in expansion of macro '__FP_PACK_D'
+      49 |         __FP_PACK_D(frD, R);
+         |         ^~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/fadds.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from arch/powerpc/math-emu/fadds.c:9:
+   include/math-emu/single.h:50:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      50 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fadds.c:7:
+   arch/powerpc/math-emu/fadds.c: In function 'fadds':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_S'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:185:12: note: in expansion of macro '_FP_PACK_CANONICAL'
+     185 |            _FP_PACK_CANONICAL(S, 1, __X);                                       \
+         |            ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fadds.c:37:9: note: in expansion of macro '__FP_PACK_DS'
+      37 |         __FP_PACK_DS(frD, R);
+         |         ^~~~~~~~~~~~
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:189:20: note: in expansion of macro '_FP_PACK_CANONICAL'
+     189 |                    _FP_PACK_CANONICAL(D, 2, X);                                 \
+         |                    ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fadds.c:37:9: note: in expansion of macro '__FP_PACK_DS'
+      37 |         __FP_PACK_DS(frD, R);
+         |         ^~~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/fdiv.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fdiv.c:7:
+   arch/powerpc/math-emu/fdiv.c: In function 'fdiv':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:176:9: note: in expansion of macro '_FP_PACK_CANONICAL'
+     176 |         _FP_PACK_CANONICAL(D, 2, X);                                    \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fdiv.c:54:9: note: in expansion of macro '__FP_PACK_D'
+      54 |         __FP_PACK_D(frD, R);
+         |         ^~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/fsqrts.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from arch/powerpc/math-emu/fsqrts.c:9:
+   include/math-emu/single.h:50:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      50 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fsqrts.c:7:
+   arch/powerpc/math-emu/fsqrts.c: In function 'fsqrts':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_S'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:185:12: note: in expansion of macro '_FP_PACK_CANONICAL'
+     185 |            _FP_PACK_CANONICAL(S, 1, __X);                                       \
+         |            ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fsqrts.c:39:9: note: in expansion of macro '__FP_PACK_DS'
+      39 |         __FP_PACK_DS(frD, R);
+         |         ^~~~~~~~~~~~
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:189:20: note: in expansion of macro '_FP_PACK_CANONICAL'
+     189 |                    _FP_PACK_CANONICAL(D, 2, X);                                 \
+         |                    ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fsqrts.c:39:9: note: in expansion of macro '__FP_PACK_DS'
+      39 |         __FP_PACK_DS(frD, R);
+         |         ^~~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/fdivs.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from arch/powerpc/math-emu/fdivs.c:9:
+   include/math-emu/single.h:50:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      50 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fdivs.c:7:
+   arch/powerpc/math-emu/fdivs.c: In function 'fdivs':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_S'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:185:12: note: in expansion of macro '_FP_PACK_CANONICAL'
+     185 |            _FP_PACK_CANONICAL(S, 1, __X);                                       \
+         |            ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fdivs.c:56:9: note: in expansion of macro '__FP_PACK_DS'
+      56 |         __FP_PACK_DS(frD, R);
+         |         ^~~~~~~~~~~~
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:189:20: note: in expansion of macro '_FP_PACK_CANONICAL'
+     189 |                    _FP_PACK_CANONICAL(D, 2, X);                                 \
+         |                    ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fdivs.c:56:9: note: in expansion of macro '__FP_PACK_DS'
+      56 |         __FP_PACK_DS(frD, R);
+         |         ^~~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/fnmsub.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/fnmsub.c:7:
+   arch/powerpc/math-emu/fnmsub.c: In function 'fnmsub':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:176:9: note: in expansion of macro '_FP_PACK_CANONICAL'
+     176 |         _FP_PACK_CANONICAL(D, 2, X);                                    \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/fnmsub.c:55:9: note: in expansion of macro '__FP_PACK_D'
+      55 |         __FP_PACK_D(frD, R);
+         |         ^~~~~~~~~~~
+--
+   In file included from arch/powerpc/math-emu/lfs.c:8:
+   include/math-emu/double.h:59:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      59 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from arch/powerpc/math-emu/lfs.c:9:
+   include/math-emu/single.h:50:21: warning: "__BIG_ENDIAN" is not defined, evaluates to 0 [-Wundef]
+      50 | #if __BYTE_ORDER == __BIG_ENDIAN
+         |                     ^~~~~~~~~~~~
+   In file included from include/math-emu/soft-fp.h:195,
+                    from arch/powerpc/math-emu/lfs.c:7:
+   arch/powerpc/math-emu/lfs.c: In function 'lfs':
+>> include/math-emu/op-common.h:145:26: warning: variable '_FP_PACK_CANONICAL_T_e' set but not used [-Wunused-but-set-variable]
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   include/math-emu/op-common.h:28:32: note: in definition of macro '_FP_DECL'
+      28 |   _FP_I_TYPE X##_c=0, X##_s=0, X##_e=0; \
+         |                                ^
+   include/math-emu/op-common.h:145:13: note: in expansion of macro 'FP_DECL_D'
+     145 |             FP_DECL_##fs(_FP_PACK_CANONICAL_T);                 \
+         |             ^~~~~~~~
+   arch/powerpc/include/asm/sfp-machine.h:176:9: note: in expansion of macro '_FP_PACK_CANONICAL'
+     176 |         _FP_PACK_CANONICAL(D, 2, X);                                    \
+         |         ^~~~~~~~~~~~~~~~~~
+   arch/powerpc/math-emu/lfs.c:43:17: note: in expansion of macro '__FP_PACK_D'
+      43 |                 __FP_PACK_D(frD, R);
+         |                 ^~~~~~~~~~~
+..
 
 
-vim +121 drivers/clk/rockchip/clk-rk3572.c
+vim +/_FP_PACK_CANONICAL_T_e +145 include/math-emu/op-common.h
 
-    43	
-    44	static struct rockchip_pll_rate_table rk3572_pll_rates[] = {
-    45		/* _mhz, _p, _m, _s, _k */
-    46		RK3588_PLL_RATE(2520000000, 2, 210, 0, 0),
-    47		RK3588_PLL_RATE(2496000000, 2, 208, 0, 0),
-    48		RK3588_PLL_RATE(2472000000, 2, 206, 0, 0),
-    49		RK3588_PLL_RATE(2448000000, 2, 204, 0, 0),
-    50		RK3588_PLL_RATE(2424000000, 2, 202, 0, 0),
-    51		RK3588_PLL_RATE(2400000000, 2, 200, 0, 0),
-    52		RK3588_PLL_RATE(2376000000, 2, 198, 0, 0),
-    53		RK3588_PLL_RATE(2352000000, 2, 196, 0, 0),
-    54		RK3588_PLL_RATE(2328000000, 2, 194, 0, 0),
-    55		RK3588_PLL_RATE(2304000000, 2, 192, 0, 0),
-    56		RK3588_PLL_RATE(2280000000, 2, 190, 0, 0),
-    57		RK3588_PLL_RATE(2256000000, 2, 376, 1, 0),
-    58		RK3588_PLL_RATE(2232000000, 2, 372, 1, 0),
-    59		RK3588_PLL_RATE(2208000000, 2, 368, 1, 0),
-    60		RK3588_PLL_RATE(2184000000, 2, 364, 1, 0),
-    61		RK3588_PLL_RATE(2160000000, 2, 360, 1, 0),
-    62		RK3588_PLL_RATE(2136000000, 2, 356, 1, 0),
-    63		RK3588_PLL_RATE(2112000000, 2, 352, 1, 0),
-    64		RK3588_PLL_RATE(2088000000, 2, 348, 1, 0),
-    65		RK3588_PLL_RATE(2064000000, 2, 344, 1, 0),
-    66		RK3588_PLL_RATE(2040000000, 2, 340, 1, 0),
-    67		RK3588_PLL_RATE(2016000000, 2, 336, 1, 0),
-    68		RK3588_PLL_RATE(1992000000, 2, 332, 1, 0),
-    69		RK3588_PLL_RATE(1968000000, 2, 328, 1, 0),
-    70		RK3588_PLL_RATE(1944000000, 2, 324, 1, 0),
-    71		RK3588_PLL_RATE(1920000000, 2, 320, 1, 0),
-    72		RK3588_PLL_RATE(1896000000, 2, 316, 1, 0),
-    73		RK3588_PLL_RATE(1872000000, 2, 312, 1, 0),
-    74		RK3588_PLL_RATE(1848000000, 2, 308, 1, 0),
-    75		RK3588_PLL_RATE(1824000000, 2, 304, 1, 0),
-    76		RK3588_PLL_RATE(1800000000, 2, 300, 1, 0),
-    77		RK3588_PLL_RATE(1776000000, 2, 296, 1, 0),
-    78		RK3588_PLL_RATE(1752000000, 2, 292, 1, 0),
-    79		RK3588_PLL_RATE(1728000000, 2, 288, 1, 0),
-    80		RK3588_PLL_RATE(1704000000, 2, 284, 1, 0),
-    81		RK3588_PLL_RATE(1680000000, 2, 280, 1, 0),
-    82		RK3588_PLL_RATE(1656000000, 2, 276, 1, 0),
-    83		RK3588_PLL_RATE(1632000000, 2, 272, 1, 0),
-    84		RK3588_PLL_RATE(1608000000, 2, 268, 1, 0),
-    85		RK3588_PLL_RATE(1584000000, 2, 264, 1, 0),
-    86		RK3588_PLL_RATE(1560000000, 2, 260, 1, 0),
-    87		RK3588_PLL_RATE(1536000000, 2, 256, 1, 0),
-    88		RK3588_PLL_RATE(1512000000, 2, 252, 1, 0),
-    89		RK3588_PLL_RATE(1488000000, 2, 248, 1, 0),
-    90		RK3588_PLL_RATE(1464000000, 2, 244, 1, 0),
-    91		RK3588_PLL_RATE(1440000000, 2, 240, 1, 0),
-    92		RK3588_PLL_RATE(1416000000, 2, 236, 1, 0),
-    93		RK3588_PLL_RATE(1392000000, 2, 232, 1, 0),
-    94		RK3588_PLL_RATE(1320000000, 2, 220, 1, 0),
-    95		RK3588_PLL_RATE(1200000000, 2, 200, 1, 0),
-    96		RK3588_PLL_RATE(1188000000, 2, 198, 1, 0),
-    97		RK3588_PLL_RATE(1186814000, 2, 198, 1, 52581),
-    98		RK3588_PLL_RATE(1186812000, 2, 198, 1, 52559),
-    99		RK3588_PLL_RATE(1109000000, 3, 554, 2, 32767),
-   100		RK3588_PLL_RATE(1100000000, 3, 550, 2, 0),
-   101		RK3588_PLL_RATE(1051000000, 3, 525, 2, 32767),
-   102		RK3588_PLL_RATE(1008000000, 2, 336, 2, 0),
-   103		RK3588_PLL_RATE(1000000000, 3, 500, 2, 0),
-   104		RK3588_PLL_RATE(983040000, 4, 655, 2, 23592),
-   105		RK3588_PLL_RATE(955520000, 3, 478, 2, -15730),
-   106		RK3588_PLL_RATE(903168000, 6, 903, 2, 11009),
-   107		RK3588_PLL_RATE(900000000, 2, 300, 2, 0),
-   108		RK3588_PLL_RATE(816000000, 2, 272, 2, 0),
-   109		RK3588_PLL_RATE(786432000, 2, 262, 2, 9437),
-   110		RK3588_PLL_RATE(786000000, 1, 131, 2, 0),
-   111		RK3588_PLL_RATE(785560000, 3, 393, 2, -14419),
-   112		RK3588_PLL_RATE(773000000, 2, 258, 2, 43690),
-   113		RK3588_PLL_RATE(722534400, 8, 963, 2, 24850),
-   114		RK3588_PLL_RATE(697000000, 2, 232, 2, 21845),
-   115		RK3588_PLL_RATE(610400000, 3, 305, 2, 13107),
-   116		RK3588_PLL_RATE(604800000, 1, 101, 2, 52428),
-   117		RK3588_PLL_RATE(600000000, 2, 200, 2, 0),
-   118		RK3588_PLL_RATE(594000000, 2, 198, 2, 0),
-   119		RK3588_PLL_RATE(408000000, 2, 272, 3, 0),
-   120		RK3588_PLL_RATE(312000000, 2, 208, 3, 0),
- > 121		RK3588_PLL_RATE(266580000, 1, 178, 4, 47185),
-   122		RK3588_PLL_RATE(216000000, 2, 288, 4, 0),
-   123		RK3588_PLL_RATE(96000000, 2, 256, 5, 0),
-   124		{ /* sentinel */ },
-   125	};
-   126	
+    81	
+    82	/*
+    83	 * Before packing the bits back into the native fp result, take care
+    84	 * of such mundane things as rounding and overflow.  Also, for some
+    85	 * kinds of fp values, the original parts may not have been fully
+    86	 * extracted -- but that is ok, we can regenerate them now.
+    87	 */
+    88	
+    89	#define _FP_PACK_CANONICAL(fs, wc, X)				\
+    90	do {								\
+    91	  switch (X##_c)						\
+    92	  {								\
+    93	  case FP_CLS_NORMAL:						\
+    94	    X##_e += _FP_EXPBIAS_##fs;					\
+    95	    if (X##_e > 0)						\
+    96	      {								\
+    97		_FP_ROUND(wc, X);					\
+    98		if (_FP_FRAC_OVERP_##wc(fs, X))				\
+    99		  {							\
+   100		    _FP_FRAC_CLEAR_OVERP_##wc(fs, X);			\
+   101		    X##_e++;						\
+   102		  }							\
+   103		_FP_FRAC_SRL_##wc(X, _FP_WORKBITS);			\
+   104		if (X##_e >= _FP_EXPMAX_##fs)				\
+   105		  {							\
+   106		    /* overflow */					\
+   107		    switch (FP_ROUNDMODE)				\
+   108		      {							\
+   109		      case FP_RND_NEAREST:				\
+   110			X##_c = FP_CLS_INF;				\
+   111			break;						\
+   112		      case FP_RND_PINF:					\
+   113			if (!X##_s) X##_c = FP_CLS_INF;			\
+   114			break;						\
+   115		      case FP_RND_MINF:					\
+   116			if (X##_s) X##_c = FP_CLS_INF;			\
+   117			break;						\
+   118		      }							\
+   119		    if (X##_c == FP_CLS_INF)				\
+   120		      {							\
+   121			/* Overflow to infinity */			\
+   122			X##_e = _FP_EXPMAX_##fs;			\
+   123			_FP_FRAC_SET_##wc(X, _FP_ZEROFRAC_##wc);	\
+   124		      }							\
+   125		    else						\
+   126		      {							\
+   127			/* Overflow to maximum normal */		\
+   128			X##_e = _FP_EXPMAX_##fs - 1;			\
+   129			_FP_FRAC_SET_##wc(X, _FP_MAXFRAC_##wc);		\
+   130		      }							\
+   131		    FP_SET_EXCEPTION(FP_EX_OVERFLOW);			\
+   132	            FP_SET_EXCEPTION(FP_EX_INEXACT);			\
+   133		  }							\
+   134	      }								\
+   135	    else							\
+   136	      {								\
+   137		/* we've got a denormalized number */			\
+   138		int _FP_PACK_CANONICAL_is_tiny = 1;			\
+   139		if (_FP_TININESS_AFTER_ROUNDING && X##_e == 0)		\
+   140		  {							\
+   141		    /* Architectures that detect tininess after rounding	\
+   142		       only signal underflow if the result is still		\
+   143		       subnormal once rounded as if the exponent range	\
+   144		       were unbounded.  Round a copy to find out.  */	\
+ > 145		    FP_DECL_##fs(_FP_PACK_CANONICAL_T);			\
+   146		    /* The class field is not used by the rounding below,	\
+   147		       and is unused entirely where this block is dead.  */	\
+   148		    (void)_FP_PACK_CANONICAL_T##_c;			\
+   149		    _FP_FRAC_COPY_##wc(_FP_PACK_CANONICAL_T, X);	\
+   150		    _FP_PACK_CANONICAL_T##_s = X##_s;			\
+   151		    _FP_PACK_CANONICAL_T##_e = X##_e;			\
+   152		    _FP_ROUND(wc, _FP_PACK_CANONICAL_T);		\
+   153		    if (_FP_FRAC_OVERP_##wc(fs, _FP_PACK_CANONICAL_T))	\
+   154		      _FP_PACK_CANONICAL_is_tiny = 0;			\
+   155		  }							\
+   156		X##_e = -X##_e + 1;					\
+   157		if (X##_e <= _FP_WFRACBITS_##fs)			\
+   158		  {							\
+   159		    _FP_FRAC_SRS_##wc(X, X##_e, _FP_WFRACBITS_##fs);	\
+   160		    if (_FP_FRAC_HIGH_##fs(X)				\
+   161			& (_FP_OVERFLOW_##fs >> 1))			\
+   162		      {							\
+   163		        X##_e = 1;					\
+   164		        _FP_FRAC_SET_##wc(X, _FP_ZEROFRAC_##wc);	\
+   165		      }							\
+   166		    else						\
+   167		      {							\
+   168			_FP_ROUND(wc, X);				\
+   169			if (_FP_FRAC_HIGH_##fs(X)			\
+   170			   & (_FP_OVERFLOW_##fs >> 1))			\
+   171			  {						\
+   172			    X##_e = 1;					\
+   173			    _FP_FRAC_SET_##wc(X, _FP_ZEROFRAC_##wc);	\
+   174			    FP_SET_EXCEPTION(FP_EX_INEXACT);		\
+   175			  }						\
+   176			else						\
+   177			  {						\
+   178			    X##_e = 0;					\
+   179			    _FP_FRAC_SRL_##wc(X, _FP_WORKBITS);		\
+   180			  }						\
+   181		      }							\
+   182		    if (_FP_PACK_CANONICAL_is_tiny			\
+   183			&& ((FP_CUR_EXCEPTIONS & FP_EX_INEXACT) ||	\
+   184			    (FP_TRAPPING_EXCEPTIONS & FP_EX_UNDERFLOW)))	\
+   185			FP_SET_EXCEPTION(FP_EX_UNDERFLOW);		\
+   186		  }							\
+   187		else							\
+   188		  {							\
+   189		    /* underflow to zero */				\
+   190		    X##_e = 0;						\
+   191		    if (!_FP_FRAC_ZEROP_##wc(X))			\
+   192		      {							\
+   193		        _FP_FRAC_SET_##wc(X, _FP_MINFRAC_##wc);		\
+   194		        _FP_ROUND(wc, X);				\
+   195		        _FP_FRAC_LOW_##wc(X) >>= (_FP_WORKBITS);	\
+   196		      }							\
+   197		    FP_SET_EXCEPTION(FP_EX_UNDERFLOW);			\
+   198		  }							\
+   199	      }								\
+   200	    break;							\
+   201									\
+   202	  case FP_CLS_ZERO:						\
+   203	    X##_e = 0;							\
+   204	    _FP_FRAC_SET_##wc(X, _FP_ZEROFRAC_##wc);			\
+   205	    break;							\
+   206									\
+   207	  case FP_CLS_INF:						\
+   208	    X##_e = _FP_EXPMAX_##fs;					\
+   209	    _FP_FRAC_SET_##wc(X, _FP_ZEROFRAC_##wc);			\
+   210	    break;							\
+   211									\
+   212	  case FP_CLS_NAN:						\
+   213	    X##_e = _FP_EXPMAX_##fs;					\
+   214	    if (!_FP_KEEPNANFRACP)					\
+   215	      {								\
+   216		_FP_FRAC_SET_##wc(X, _FP_NANFRAC_##fs);			\
+   217		X##_s = _FP_NANSIGN_##fs;				\
+   218	      }								\
+   219	    else							\
+   220	      _FP_FRAC_HIGH_RAW_##fs(X) |= _FP_QNANBIT_##fs;		\
+   221	    break;							\
+   222	  }								\
+   223	} while (0)
+   224	
 
 --
 0-DAY CI Kernel Test Service
