@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792646020;
-	b=LRyVVfnaYDDAZDkVEUEnGHKtCWqq0j8PkyhvlTQZG1O/NrWGwAJ/QpeGcLz+/H93ndWm
-	 rNS7D8gOmKWSnh0+dM63ZIIAiJI92v/lmVVbPkZu4RmKD+FkXDrpwPaI/MBx2XxJRtXyF
-	 maIWR5CoWTdLMfAuOor37IldT4bAvnShwrjf7xMpP3kE+0xYKugTWmF/gcw7tBXXiQeTl
-	 nX8QEFGg04MBaMHAFMBIyuk3dsh6htgHL85QcZ65pu2dME0xe/auLjijJheJS6ZNO+zIT
-	 u2aBPVJlFZmT+k5RSucT8mQ6hMFmv+WTz7wgk+8UJmFFfJVRp+H7BOYJ6QLE7lZGzAg==
+	t=1792646951;
+	b=X0FuRtx95BWOCni9CeGnomEAqMUTSiBCN61ONGhZH2zoOiDFGNGaRDq4fsGarV2KNFzC
+	 5tPAtCL3p2DpOKS2SUJChsc+nkGF4y/JUXt/lZBqWNUOM69KR0VZlPZL6P30a81NtnLdc
+	 gFq4dsyxLtUs97woVAEmZoriCGvVQrbsYGodhWwFBNzgUk5YEhsYDVoV7+JQvZpMZ3QvS
+	 WQuhcxNIzv64qVfXUfPmlnOa0LUT8pBwnVfezM1I6JDmeYnqdoDl7Qe2VXK+B70YZoFj+
+	 dtFT58QTXqCLn13hOFFr9WFX2jZ2P56rcpnaxdva4pSRXWAQ4qzx0n4As15mVPMyBTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792646020;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792646951;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=5R69Md8es7PuWV9p8MCvzJEgtmf78UBan1fjwOXPhpg=;
-	b=stYfIbUcl+syKppHWi4VZNjvnXgC3WCCANaY33qU0udRiAaPBf72hs2TaElNETBBzFVO
-	 tNCXajW+tca3r2CREHAcCX3ZXYSJdYWKJ7uBRFlZKkA4AdQjT59U1/n0e98j3+08amwHK
-	 7HbVJ0UkcnJjpww0YVvrRSX26mFwoBUrF4MpnDCpKHjR+CY36sg1qKtBuUVmu+TUmP2EX
-	 qyhPdpm9+BaTQxlj5IGO/gVBoIWfoM0MiVo/zY6stP4YPD1avpuGgolWAPEfy1l+qKJjI
-	 mZty/jag5MwEQhAOAbUIiPN1Ux15HiI/02ORp5L5fSJEkKx3r+sUCjtdb7Tb49kkTgw==
+	bh=dQfaVLwiGfzKWRApDbLS/yWO/nZAUwR0Iibwcn3P/io=;
+	b=v4rbGIK+0fNK23xQG5DjAMpzz0HE0tcHxKO/RND4rM73TPWAgZTrkXRXHzirat8StB59
+	 TopRFmwOMoWZ9CCdLltez7yuC3BjWMrSE1wvbHZ+K2OTjAFglDDvlcXy9/wE73I2DdnLL
+	 X3z8QYHr9DfzZfi9l/WIfoJiJ4GhdJ3mglrK92QJvWNnJ9DT7hhdwSPue1Xv28gXaYI0V
+	 geXrzVbqlvTrhJf5OdC4CCFLQwLd1Ik3tAT7hif1n6epaNhaXU3OAq88XlwCXp7n6CgkM
+	 IvvHrQLA46sKZEzAlwH1qIPlU94urCE49W7wo+VMTMs3mEHlms5vrUN4MSOrvR9v8gg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JbMw0xGn;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EDVt59rM;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC42E606A319
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Oct 2026 05:13:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC42E606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774E1606A319;
+	Thu, 22 Oct 2026 05:29:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 774E1606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JbMw0xGn
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EDVt59rM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792646018; x=1824182018;
+  t=1792646950; x=1824182950;
   h=date:from:to:cc:subject:message-id;
-  bh=ACn7GZ11slScmNI4xIqtvZzcLobs6jbi2SR9M1XvB+Q=;
-  b=JbMw0xGnooHKZvwlSCrZyCOm77PSTiCxZDaUVEE+f0SJVvocFwX3MGph
-   o2hUgOqJDTGlqKqoqZ23Wt8pI5o2W8oO1R8LKmiGK98OnXo2epJDI7DBz
-   4Tig9oi3P86CknMroR47lu73w060pZC0qw659VqsnI0jYUzG58JI2LCBH
-   yzYEuDpFDboz4hzDrSSReE111QSMSzY+zDqw2gcWErE23FYyt4IYN3sr+
-   LmAgW5bVggtieckfmOR8NYnxxlMVQakfiR1+JdSsF5zMWT/0wKDcDW7Tw
-   Xjgsed19VKJJYvOPkwYJjgfUWmLhY++0n+hBgQzOStbDQCJbxoVXGThCb
-   w==;
-X-CSE-ConnectionGUID: iX6XEtBLSFKBZ2yAWzDqyw==
-X-CSE-MsgGUID: SI494nWLS1ONZlJjvvms6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1385970"
+  bh=xOYWz1jstK5+PP0eRGnXHxwYmVroTCZFp2ZH5zBcDSU=;
+  b=EDVt59rMnztrl0YtvEApHon3Es8LqpJhJwgRCiWgz8K8dcHO4HlMAHsj
+   pj1nHD28woLvwzpKjDr8lU9U9KSMopgOrjw+YXwI+yfkCR9VM11iZIhQX
+   FhUWiSHge9Yf+lyrWmUjJVi3dBxnjBgzm6fBwP+Odpz/bstYJ2NoRibyX
+   y2s8+7t8mPPi6P83vIJw58kUEfIJGlwJarYSKc3HlX05P9oyUMSMFshyF
+   2SoYCRI/PURR1lCPi+Bjrdky9PHH1kGdrV+OB9F24JN64vBgiqW54lxnw
+   9no2/RwhBA6SKZv8lGlpAE9gBOg5nwH3n9YhSQCP76skt+NMmZmaY6EdO
+   Q==;
+X-CSE-ConnectionGUID: Wcmy1Kp2QPqg80MZtWewjg==
+X-CSE-MsgGUID: 8aY94/tkS8a6cwniufIupA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1285037"
 X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="1385970"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 22:13:38 -0700
-X-CSE-ConnectionGUID: 4x5PvGHkSuKTUOZy4Sz+SA==
-X-CSE-MsgGUID: xufhmHJ/T5aRKt2oE81VvQ==
+   d="scan'208";a="1285037"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 22:29:09 -0700
+X-CSE-ConnectionGUID: AAmwiDHRQOKZlF4efGzlcA==
+X-CSE-MsgGUID: pWcFPLHNTh6ClxpA0mqAgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="3153131"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 21 Oct 2026 22:13:35 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="3676598"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 21 Oct 2026 22:29:08 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xJl7M-000000000El-2Wbh;
-	Thu, 22 Oct 2026 05:13:32 +0000
-Date: Thu, 22 Oct 2026 07:12:54 +0200
+	id 1xJlMP-00000000Qaw-0Fvs;
+	Thu, 22 Oct 2026 05:29:05 +0000
+Date: Thu, 22 Oct 2026 13:28:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Harry Yoo (Meta)" <harry@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [harry:b4/memalloc-prof-dont-waste-slabobj-ext-metadata
- 7/18] radix-tree.c:1603:61: error: 'SLAB_MAY_ACCOUNT' undeclared; did you
- mean 'SLAB_ACCOUNT'?
-Message-ID: <202610220721.Zgxl2HrQ-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: [lumag-msm:venus-8996-vmem 70/173] Warning:
+ drivers/cpufreq/qcom-cpufreq-hw.c:118 function parameter 'cpu_dev' not
+ described in 'qcom_cpufreq_update_opp'
+Message-ID: <202610221320.83iuWIYk-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,34 +82,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git b4/memalloc-prof-dont-waste-slabobj-ext-metadata
-head:   4eb758f1c30dafac114e68279058434bf6e617d9
-commit: ee54e427065efb193ec34ec9db714ecce6eed651 [7/18] lib/xarray: specify SLAB_MAY_ACCOUNT for radix_tree_node cache
-config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261022/202610220721.Zgxl2HrQ-lkp@intel.com/config)
-compiler: powerpc64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610220721.Zgxl2HrQ-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/lumag/msm venus-8996-vmem
+head:   4dff7b31dd13e97b8f7abab7bc115d2875afd5e8
+commit: cfa31c4bc448f8442d713de3c9aedba5d810ac88 [70/173] cpufreq: qcom-hw: Add kerneldoc to some functions
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20261022/202610221320.83iuWIYk-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610221320.83iuWIYk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610220721.Zgxl2HrQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610221320.83iuWIYk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from radix-tree.c:26:
-   radix-tree.c: In function 'radix_tree_init':
->> radix-tree.c:1603:61: error: 'SLAB_MAY_ACCOUNT' undeclared (first use in this function); did you mean 'SLAB_ACCOUNT'?
-    1603 |                         SLAB_PANIC | SLAB_RECLAIM_ACCOUNT | SLAB_MAY_ACCOUNT,
-         |                                                             ^~~~~~~~~~~~~~~~
-   ../../include/linux/slab.h:183:78: note: in definition of macro 'kmem_cache_create'
-     183 |                 default: __kmem_cache_create)(__name, __object_size, __args, __VA_ARGS__)
-         |                                                                              ^~~~~~~~~~~
-   radix-tree.c:1603:61: note: each undeclared identifier is reported only once for each function it appears in
-    1603 |                         SLAB_PANIC | SLAB_RECLAIM_ACCOUNT | SLAB_MAY_ACCOUNT,
-         |                                                             ^~~~~~~~~~~~~~~~
-   ../../include/linux/slab.h:183:78: note: in definition of macro 'kmem_cache_create'
-     183 |                 default: __kmem_cache_create)(__name, __object_size, __args, __VA_ARGS__)
-         |                                                                              ^~~~~~~~~~~
+>> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 function parameter 'cpu_dev' not described in 'qcom_cpufreq_update_opp'
+>> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 Excess function parameter 'policy' description in 'qcom_cpufreq_update_opp'
+>> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 function parameter 'cpu_dev' not described in 'qcom_cpufreq_update_opp'
+>> Warning: drivers/cpufreq/qcom-cpufreq-hw.c:118 Excess function parameter 'policy' description in 'qcom_cpufreq_update_opp'
 
 --
 0-DAY CI Kernel Test Service
