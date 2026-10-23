@@ -1,75 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792727492;
-	b=1H4f8c3P6LyeW2kojbKIgt38Ch9DH7ApZk4zm0JmGE/jgxa2JkhgBzAITFPX75u6G7WC
-	 fZ5gPy0y8FA1/T7mWsuo1UNo4y0xd5AU9kMzCserQOwgcTl274yYuUnotLIvo18ktdIyL
-	 aydzWMitPEDYayByK3LZqEme8mqNhpHqyerdMtYczcTZGSEJ+VnIT0U4ZfsM0tTvOepcO
-	 PLH2xEBWycSISkR3HDsE4Opx/DKk55SlEDilDSKyli24bLC6fe6gy1HvGUClhvAJ5/7O6
-	 /p+hhdECRgQDKHeOFo/Ju7XDiPAAXwM7Gdj5POEJGF9QHn8VyTykUTo2NCKZ/HkmrgQ==
+	t=1792731156;
+	b=kj+wQ5iAeiJqroQ5hR/2v0KNQF6EVpz5fjqtJNzj8q7Up9fGAkDuG3U6tT1dkaYCpxKc
+	 +q5wyFULI6nl6pC1m8LDxW7lzCqukJMKDd3GV+ZsNbSN07fRHImpm1Dw+uE4sEnvLkEKE
+	 7Sqg8KAZBrEVTg4k1WntGmO2mR/tdqhwkUB+0NLfbqRjxS0fO7+VW4WJGyunlZs3jdoku
+	 NMOT6RLUoOdWYV3kT5XqDmydvI66wWF8+z7tV9e8gh0SL1K+f9wq5/4OfoWb0ALy++wgs
+	 +dKj7ZaQP6AthYkgzpmGZVJPIguPDQ0TnIzHmMCXslxdlyRAT9Ax5v1C6RZsWkSGwaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792727492;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792731156;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=f5N94CPZ5HY5U20a/frRSTDIfHcRLIuco7NZJMxewKk=;
-	b=OQDUiMiyZEZJbPFLklJ9ukBCHd7Ak0wQrpIx1jpRtgVUgWEP/9nDcsIoNXNpvHS5n8um
-	 NSQCfD1GoWmDLQcK9N9cgpO+53sQZhXba7xZPIF26UFzlnuL/BdxhXMZ7ztLZOdb1g21p
-	 dpNTPB6bHrX93YKaZym2GrE0jIVlykhfI7/T33oPh2aRAtQTEughYgNLunWdTOU1wyT73
-	 X2XM+hVN4Qbjl+6psv7fY1AN3RJmiyvdUeVrgIfEsrZrU5lH/nmg8gv04llWh7zzCBZrj
-	 HS6cF9+f+CVrs17f5/CAfgEPazQG+/Ogfo7bM5t8hslSAldirF+wBHlXE94xHxWR2rA==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=j7smt9a3HeTm07E9N66TbD4N4zmyBNjOqexGnkH8Y1Q=;
+	b=StSqdkQBz9Bmmcpip2DdvzE4CkIyH1cAQDmDKW/B24QOyBS26bqSB2vOHiqoDDJAuQQz
+	 K0VVo465tIyPIue7vq/LBFVboWYpL9/BAqEgimDl22/dy5HqtD8MZjDPcTIXw+3McNR1n
+	 JdUyZEARdhuOjCkyEpfCilJSABYvVzNFNvQ/vuvOv/f11srBUPEk8ylr7N15mLN09qB2w
+	 UjrPAaSEnk4ZDhWLTKqOZ0XbylCTZxkqHzXQk/v4c+wfrGDTvl/L1klvoj76gjoCbIlV8
+	 RjdzfE2cTfjaBxNqLKYTX/EiQiwt06m3itB76eNI7wNqG7G6ISZ95/F549mKgyLz4RA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="oBf3/8cP";
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eiI6Hc4l;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48758606A319
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 03:51:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48758606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898BC606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 04:52:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 898BC606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oBf3/8cP
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eiI6Hc4l
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792727492; x=1824263492;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rr+e1FG17LejI5e/pS0LNCpquUqx1zmJpb5KFRa+e4Y=;
-  b=oBf3/8cPdgsvQ0KXueOJ0/uRcuJofyyNjIMUVpmQEZh12++3u/pUeV8z
-   YhCxOlElm7yqoSG7gv/vMqsZfNXZ8CRoJ4wWq/62QLO06TmYCAB+wjoUX
-   N50zyWEfjYARV25Zy6XuHC5dYlCyasOYDf6LjRpn0Z+kB/mbGcEGwjz1W
-   bk9asEmjfcrkUbMDsLWAppgLSwUbkWVnKz8kF/+WLrQ9Ev8JOmPlySpxA
-   KerJEUOcLreO3Bu+NMkhb5i3jtK95XqwCs7MP3IeviONTW10i3V9RBYA0
-   1J3i8E11acIghO+5Okw8wgnWmf89hJ6RTp+rV1oDlb1jvorG7XTsMhQFz
+  t=1792731153; x=1824267153;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+B48iumM2KUcIWyjf2nZM61sRrHcdWJzhfWqo1k5Z94=;
+  b=eiI6Hc4lGop/aq7Ep8PZeX1kS9259DIbI4aVgd+6VrsKqvmfmEYk1XYs
+   SfoviQndBhXQFzizxQ7W0rDiVsdprKUjxd6yc8SaFYdx2tE6XBLcbpvOx
+   vpCz4Sv8yC7pLlQn4P2cH31sGNRxy70dt3bD4scyoggmm5dVRn3PfF64P
+   8oLCNUFZLOtA+R4SJr9UgJmsJTW9jsk2EQMec3/8RnwULrTUwMvowdHod
+   G8HpnbzLiuhhKX43PigSScg+s25xQwV7Ha+Zu1ND1UiEUYuBzM6HnM3qn
+   Kat04anj4eF+benU1XKp98isbOxEjPIWYL34XbH3bU8YSsSiPtp9FHfMF
    w==;
-X-CSE-ConnectionGUID: DV+AL48ITNmf8rO648eC6w==
-X-CSE-MsgGUID: d8bfxFScQ0GzlguvTcb2Yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1493852"
+X-CSE-ConnectionGUID: OJQaDGliQ5q9bHMXvjWdwg==
+X-CSE-MsgGUID: 8FCz06GiSfGTFvlmhcpCDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1382101"
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1493852"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 20:51:31 -0700
-X-CSE-ConnectionGUID: 6PkQt75xSa+qODx//iHTdw==
-X-CSE-MsgGUID: OxSvrQgKQfSOdROucJSLdQ==
+   d="scan'208";a="1382101"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 21:52:32 -0700
+X-CSE-ConnectionGUID: oqfKrh4pRguc2lSoc0waqw==
+X-CSE-MsgGUID: oWFZqr50QX+CMB+LcowXjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3855439"
+   d="scan'208";a="3484051"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Oct 2026 20:51:29 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 Oct 2026 21:52:31 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xK6JT-000000000VX-22Ju;
-	Fri, 23 Oct 2026 03:51:27 +0000
-Date: Fri, 23 Oct 2026 05:50:56 +0200
+	id 1xK7GW-000000000WB-33wp;
+	Fri, 23 Oct 2026 04:52:28 +0000
+Date: Fri, 23 Oct 2026 06:51:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 18/41] ERROR:
- modpost: kernel/time/time_tests.ko: symbol '__divdi3' undefined!
-Message-ID: <202610230517.q9tTZM5u-lkp@intel.com>
+Subject: [zen:7.3/mglru-fg-v4 21/31]
+ include/linux/compiler_types.h:702:45: error: call to
+ '__compiletime_assert_517' declared with attribute error: min(refs,
+ (((((1UL))) << (({ __auto_type __UNIQUE_ID_x__512 = (1); __auto_type
+ __UNIQUE_ID_y__513 = (32 - 21 - 1 - 3 - 0 - 0 - 0 - 0); do { __a...
+Message-ID: <202610230646.yDGrRBuZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,22 +86,207 @@ List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   a40991dd87115c3f70bf87884b803ed7e09dc387
-commit: 503828dc4bd6f98d85d169659fdfc68f30032df4 [18/41] timekeeping: Add a test for auxiliary to monotonic clock conversions
-config: riscv-randconfig-r2110-20261022 (https://download.01.org/0day-ci/archive/20261023/202610230517.q9tTZM5u-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230517.q9tTZM5u-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 7.3/mglru-fg-v4
+head:   5bcfc49e533b1f416d1ca87f1de9093990df777b
+commit: 2db1a6c8be9d003bc549e3f4f312fb144a064b1a [21/31] mm/mglru, gup: mar=
+k folios referenced via a fast helper
+config: parisc-randconfig-2000-20261023 (https://download.01.org/0day-ci/ar=
+chive/20261023/202610230646.yDGrRBuZ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261023/202610230646.yDGrRBuZ-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610230517.q9tTZM5u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610230646.yDGrRBuZ-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Note: the zen/7.3/mglru-fg-v4 HEAD 5bcfc49e533b1f416d1ca87f1de9093990df777b=
+ builds fine.
+      It only hurts bisectability.
 
->> ERROR: modpost: kernel/time/time_tests.ko: symbol '__divdi3' undefined!
+All errors (new ones prefixed by >>):
+
+   In file included from <command-line>:
+   include/linux/mm_inline.h: In function 'lru_tier_from_refs':
+   include/linux/compiler_types.h:702:45: error: call to '__compiletime_ass=
+ert_377' declared with attribute error: BUILD_BUG_ON failed: fls(LRU_REFS_M=
+AX - 1) > MAX_NR_TIERS - 1
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
+_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:683:25: note: in definition of macro '__c=
+ompiletime_assert'
+     683 |                         prefix ## suffix();                     =
+        \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_comp=
+iletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
+_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletim=
+e_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), =
+msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_O=
+N_MSG'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #con=
+dition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/mm_inline.h:149:9: note: in expansion of macro 'BUILD_BUG_=
+ON'
+     149 |         BUILD_BUG_ON(fls(LRU_REFS_MAX - 1) > MAX_NR_TIERS - 1);
+         |         ^~~~~~~~~~~~
+   mm/vmscan.c: In function 'folio_inc_lru_refs_walk.constprop':
+>> include/linux/compiler_types.h:702:45: error: call to '__compiletime_ass=
+ert_517' declared with attribute error: min(refs, (((((1UL))) << (({ __auto=
+_type __UNIQUE_ID_x__512 =3D (1); __auto_type __UNIQUE_ID_y__513 =3D (32 - =
+21 - 1 - 3 - 0 - 0 - 0 - 0); do { __attribute__((__noreturn__)) extern void=
+ __compiletime_assert_514(void) __attribute__((__error__("min""(""1"", ""32=
+ - 21 - 1 - 3 - 0 - 0 - 0 - 0"") signedness error"))); if (!(!(!(((((typeof=
+(__UNIQUE_ID_x__512))(-1)) < ( typeof(__UNIQUE_ID_x__512))1) ? (2 + (__buil=
+tin_constant_p((typeof(__builtin_choose_expr(sizeof(__UNIQUE_ID_x__512) > 4=
+, 1LL, 1L)))(__UNIQUE_ID_x__512) >=3D 0) && ((typeof(__builtin_choose_expr(=
+sizeof(__UNIQUE_ID_x__512) > 4, 1LL, 1L)))(__UNIQUE_ID_x__512) >=3D 0))) : =
+(1 + 2 * (sizeof(__UNIQUE_ID_x__512) < 4))) & ((((typeof(__UNIQUE_ID_y__513=
+))(-1)) < ( typeof(__UNIQUE_ID_y__513))1) ? (2 + (__builtin_constant_p((typ=
+eof(__builtin_choose_expr(sizeof(__UNIQUE_ID_y__513) > 4, 1LL, 1L)))(__UNIQ=
+UE_ID_y__513) >=3D 0) && ((typeof(__builtin_choose_expr(sizeof(__UNIQUE_ID_=
+y__513) > 4, 1LL, 1L)))(__UNIQUE_ID_y__513) >=3D 0))) : (1 + 2 * (sizeof(__=
+UNIQUE_ID_y__513) < 4))))))) __compiletime_assert_514(); } while (0); ((__U=
+NIQUE_ID_x__512) < (__UNIQUE_ID_y__513) ? (__UNIQUE_ID_x__512) : (__UNIQUE_=
+ID_y__513)); }) + 2)) - 1)) signedness error
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
+_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:683:25: note: in definition of macro '__c=
+ompiletime_assert'
+     683 |                         prefix ## suffix();                     =
+        \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_comp=
+iletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
+_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletim=
+e_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), =
+msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_M=
+SG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_=
+once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_I=
+D(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cm=
+p'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/vmscan.c:1000:56: note: in expansion of macro 'min'
+    1000 |                         lru_set_refs_flags(&new_flags, min(refs,=
+ LRU_REFS_MAX));
+         |                                                        ^~~
+   mm/vmscan.c: In function 'folio_inc_lru_refs':
+   include/linux/compiler_types.h:702:45: error: call to '__compiletime_ass=
+ert_506' declared with attribute error: min(refs, (((((1UL))) << (({ __auto=
+_type __UNIQUE_ID_x__501 =3D (1); __auto_type __UNIQUE_ID_y__502 =3D (32 - =
+21 - 1 - 3 - 0 - 0 - 0 - 0); do { __attribute__((__noreturn__)) extern void=
+ __compiletime_assert_503(void) __attribute__((__error__("min""(""1"", ""32=
+ - 21 - 1 - 3 - 0 - 0 - 0 - 0"") signedness error"))); if (!(!(!(((((typeof=
+(__UNIQUE_ID_x__501))(-1)) < ( typeof(__UNIQUE_ID_x__501))1) ? (2 + (__buil=
+tin_constant_p((typeof(__builtin_choose_expr(sizeof(__UNIQUE_ID_x__501) > 4=
+, 1LL, 1L)))(__UNIQUE_ID_x__501) >=3D 0) && ((typeof(__builtin_choose_expr(=
+sizeof(__UNIQUE_ID_x__501) > 4, 1LL, 1L)))(__UNIQUE_ID_x__501) >=3D 0))) : =
+(1 + 2 * (sizeof(__UNIQUE_ID_x__501) < 4))) & ((((typeof(__UNIQUE_ID_y__502=
+))(-1)) < ( typeof(__UNIQUE_ID_y__502))1) ? (2 + (__builtin_constant_p((typ=
+eof(__builtin_choose_expr(sizeof(__UNIQUE_ID_y__502) > 4, 1LL, 1L)))(__UNIQ=
+UE_ID_y__502) >=3D 0) && ((typeof(__builtin_choose_expr(sizeof(__UNIQUE_ID_=
+y__502) > 4, 1LL, 1L)))(__UNIQUE_ID_y__502) >=3D 0))) : (1 + 2 * (sizeof(__=
+UNIQUE_ID_y__502) < 4))))))) __compiletime_assert_503(); } while (0); ((__U=
+NIQUE_ID_x__501) < (__UNIQUE_ID_y__502) ? (__UNIQUE_ID_x__501) : (__UNIQUE_=
+ID_y__502)); }) + 2)) - 1)) signedness error
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
+_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:683:25: note: in definition of macro '__c=
+ompiletime_assert'
+     683 |                         prefix ## suffix();                     =
+        \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_comp=
+iletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert=
+_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletim=
+e_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), =
+msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_M=
+SG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_=
+once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_I=
+D(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cm=
+p'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   mm/vmscan.c:949:24: note: in expansion of macro 'min'
+     949 |                 refs =3D min(refs, LRU_REFS_MAX);
+         |                        ^~~
+
+
+vim +702 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  688 =20
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  #define _compiletime_assert(con=
+dition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  690  	__compiletime_assert(condition=
+, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  691 =20
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   * compiletime_assert - break b=
+uild and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * @condition: a compile-time c=
+onstant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * @msg:       a message to emi=
+t if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * In tradition of POSIX assert=
+, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * supplied condition is *false=
+*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * compiler has support to do s=
+o.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  701  #define compiletime_assert(cond=
+ition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @702  	_compiletime_assert(condition,=
+ msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  703 =20
+
+:::::: The code at line 702 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletim=
+e_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
