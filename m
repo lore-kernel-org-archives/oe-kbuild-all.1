@@ -1,91 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792746623;
-	b=gFq9psCiwNhRhQTgjRgWKmdEGVBlVPQHB2UBHuSGdSDRH6nVLgJvaNkmwMbIz5vSHE4/
-	 fb8Hhwu6zaqd6K4I2vubUJi2NmuRKlmcH3j/zKoJ1LodXcbF5O712OQ3Jk4+SFpDdvbdd
-	 npQ+pVPQoOhDGd+ssV9XpUSdiiyt6FGRwGsUfURxP6RRvXEJOMOH2rBGSEnu5PwncLzNd
-	 KItoyYO1w9Zw62Q/kQgm3Xtxf2cxBLjx/nOU2fZhmczaUFNbv9XXhnBc28aQ+UslxPYn4
-	 4PdLXOz44tOlKiuUEKJAR1HfhpSwSGodL2AOzZWjwTUEumvCfCnyJQ6UQei8Lf31D5w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792746623;
-	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
-	 Received:Content-Type:Content-Transfer-Encoding:From:Mime-Version:
-	 Subject:Date:Message-Id:References:Cc:In-Reply-To:To:X-Mailer;
-	bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
-	b=XSw0iOEnYM6uOdfRpSo2IP7rwBIkd+QHC/lZXUc/Avx73o65Qt5cGU15d5AXaAX3NP+N
-	 BxGqAjhK5YKSKKuAPWxzNroYpYoN+mwj8wQJnkSLAEFtJGrZ5QHIKM19JvQ5rTWia2JTr
-	 ni3qn5COHmkwboqFmA4q0racgq3hwPeFiMYkgfsRS5oo2Ofb+vecHzWKLSvGpLBC/Qcsm
-	 EVCO+fd1aYjfQvUILPR3CrI3o2K/lFW3iWrnqWYS0QCJ/Pd9ieVL+JIWxVLBLnRCZXqWF
-	 6V4Mw69PPxQYdxPQb4xsF8Z+L7yLkLYUvIrRBjyT1fVbTVtK5cSQSZkn5zQDqMgrxVQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xenosoft.de;
-	spf=none smtp.mailfrom=xenosoft.de;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=EItz6hEu;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=C64gwSyJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.52
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.52])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792746715;
+	b=FCyvpygspjUtilCfFrLcZMKZ4Vg4Vuy1YEf+D8B3hik0Xu8/zybi6zxlJQ0XsNpEoH6z
+	 aptp7Iy3/W4a6FjorU6os/tfbQFXdIroAXUzJkiDj4RSkN5RenwjUFSNrW8NZKNrjBuCl
+	 uZaSXQinpHjdGp2OK+jhSPdUMe+fejkQOjtufd0z1upaLkfTVCMmFJww44KZ7l5KF2/ji
+	 2sAnnoT19ZsY2aNtowwB+dzb9lnR6dTQY02Dmf7qYXtvhl78MgSNW7mopWDJ9DYJdnB7T
+	 8DqpAGY1hpxP9JuVryxvCjOmBISgKLtH6uuOk9mkcEyfxwQnmIt/87KjlaL70PJM6Gw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792746715;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=4JLQijUd7ErmL/2dKA9JIMI5s2Hd32JyINFs311nRSI=;
+	b=3/IPLv8lofKaQ9GUmapuQzLJ8aUHw3G30AHkD3OfV0BBu9+0Xz9H+97wZHCSoa7+ru1w
+	 ngN+I4lXPsmbY667iYptgtXbFDXQEL7gq6ybQ37VvGl6DB1FtQ6U52UvkwTpHKot7J6Oc
+	 v4WUm5mepfc9Uy1Cvli2377697RZMcOrM12TMcuiXI8WgOPicytFX+546o9rzH22Poz4l
+	 rODeA18wDU9GZ1e6n75EKt5on7e3pyH0xOC24E/aF7NTNu9+IqkLloalYH6FXW+uDUN7j
+	 THyJ+g31r2QSH6TPnHZKnEwMYnA2p3O2R1Ox7xc7nbS8gsNJrgrTqUQmZtZ0d1cxf3g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OiygfWzT;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6836606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 09:10:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6836606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1EA606A31A;
+	Fri, 23 Oct 2026 09:11:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=EItz6hEu;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=C64gwSyJ
-ARC-Seal: i=1; a=rsa-sha256; t=1792746577; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=LCLkUGG2bI9r5dSw2cyB4v57wJat8ND+fHrm9Z/iA9RQ5lDCZ5HUno0MvEyIOpcL0V
-    AkePAAK4zSwb42UpkRkzB9d1yPHj6y0aQaUFDMoOivJQplF2vjQiY1+49ErTzTa21Fhr
-    Tpfkba0Bw/lIEw9OSXzxCgQ3sTs++I1ZHjesgW+/V8FSGSjt5wio38FOUwQ64pk3R2bv
-    IgLSZRC40oX0duePLzdfHHHbQKHgZCKp+FPU30mYLkTLzGfHXZLz5iIIueaqWtrW8l8f
-    9lHb1nO/Xy9SL2EvscdhvbMRNekJ5hJvJcOoi6FcT9ZPN0XPu7OIjYvhrZjjMV7Y2ivd
-    7pGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1792746577;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
-    From:Subject:Sender;
-    bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
-    b=BToN0AXvGKzaaTc9M+Yc0lhrIOXD49X0Bwa4+9FfMHsW+1ZnIg0AfIdJnDiaZ+mVas
-    VTcu5T28xMOBvW1Qp1VTlMFWHA6OpB00GGcNoT/1HiHtN1TV/yOutRVa/onq7kaDpSRg
-    k1VsMVT2qQit77gJ2beD4xgbOntAoxAQJZuMBc1nD04o+U9srBXVk1PJZEStWm6m+szV
-    9v/382uejNNdJnFZXvU6JFIzAxi0xc28eCxCITVDIiVcVQTBgcnmTDhAfJ9KwGe1jcZH
-    B9Mp6+HdLpOMYwSdu41/jaWFwrs5hHvn57JK4VXvnlCxk3TT4Qhhj6ZqnetQ43hSnepM
-    WfDw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1792746577;
-    s=strato-dkim-0002; d=xenosoft.de;
-    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
-    From:Subject:Sender;
-    bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
-    b=EItz6hEuI/LDAPJvLWeasBlJVMkDyFS63irOauhUYRb4BoLE+tulerRJhEJ/UKWEwH
-    nhffManP8L8+m7Q6Sau++Hd7m6kBC/jcxLCenYZ1PwQzAFkryclksaSDqAFBi0qfqXmb
-    OeZVSFYY3wjBLn7IKkWC85iGMQzmidACpaThPDB2a/LFwT9VoCgjd1LJhQ9YSExANktw
-    SQIFsYXxAVM03W3eViIt7MOpqDceB5769/U6x04BNwrlv9rW8pr1PJCq8VZrDQe7Vnju
-    P5N3NAzzQ6ob11GpdBQP62kSSHi4199K1EnujZYxth4stj5MbKWHoIlh88uuyHnftBT2
-    0QGA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1792746577;
-    s=strato-dkim-0003; d=xenosoft.de;
-    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
-    From:Subject:Sender;
-    bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
-    b=C64gwSyJHeO6P/nykKZpgCvhbOw2GziBTdD0Xk5d2Bnn+ZvUTv/s4Kni5ITz2AWPcz
-    Y+KmN6He9IC5szLvilDw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7V7X5q1sy7MWioscGEbW2z9QYPf5P1ugQGy1cNYzA=="
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 55.6.3 AUTH)
-    with ESMTPSA id e825d929N99aZHN
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Fri, 23 Oct 2026 11:09:36 +0200 (CEST)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OiygfWzT
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40CD81F01828;
+	Fri, 23 Oct 2026 09:11:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792746714;
+	bh=4JLQijUd7ErmL/2dKA9JIMI5s2Hd32JyINFs311nRSI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=OiygfWzTDqNj9ikWYY0fGgTPT9tEXvUU+IOdrXJrF0MtAvZDzux25PnMQ84ZqwIyH
+	 Tdn0lNTmkqpeX+O36pnn4vPe1nQYFtB7KkG+zX4BszVzSQQRLyF4tLQxpFB2yJNTze
+	 7DWeWb1xcjeGb9WkPeEp7TQxIuZjFOtupDO1aD/b+swWrbn/I/OSrwcQLzVyaUQ2hM
+	 yPjDSJJj1wmztFsGQ7n/tcJMxAoOtXA9UL9sdFWEjJg3LV9zXmEXtqCwIy8kZOlcv7
+	 aWrk9kSPEDqN/5gBlJQFFDJTeBk/voHpnNSyScSIenYURfmVnFSYdXpy3nRGVK2rcR
+	 mxFP8ShjrbGYg==
+Message-ID: <ce442cc1-5820-40fa-beab-e9c0d6a0df3b@kernel.org>
+Date: Fri, 23 Oct 2026 11:11:48 +0200
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -94,48 +50,92 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] Connecting the SB600's i8259 controller rather in pasemi's pci.c than in pasemi's setup.c.
-Date: Fri, 23 Oct 2026 11:09:26 +0200
-Message-Id: <B4E8FA8C-86CC-45A2-8A61-8A265BF02114@xenosoft.de>
-References: <d14e954f-d7ed-493e-bbbd-8a4bd780332d@kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Connecting the SB600's i8259 controller rather in
+ pasemi's pci.c than in pasemi's setup.c.
+To: Christian Zigotzky <chzigotzky@xenosoft.de>
 Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>,
  Madhavan Srinivasan <maddy@linux.ibm.com>,
  Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
  Christophe Leroy <chleroy@kernel.org>, linuxppc-dev@lists.ozlabs.org,
  linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- "R.T.Dickinson" <rtd2@xtra.co.nz>,
- Darren Stevens <darren@stevens-zone.net>,
- Damien Stewart <hypexed@yahoo.com.au>,
- Christian Zigotzky <info@xenosoft.de>
-In-Reply-To: <d14e954f-d7ed-493e-bbbd-8a4bd780332d@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: iPhone Mail (24A446)
+ "R.T.Dickinson" <rtd2@xtra.co.nz>, Darren Stevens <darren@stevens-zone.net>,
+ Damien Stewart <hypexed@yahoo.com.au>, Christian Zigotzky <info@xenosoft.de>
+References: <d14e954f-d7ed-493e-bbbd-8a4bd780332d@kernel.org>
+ <B4E8FA8C-86CC-45A2-8A61-8A265BF02114@xenosoft.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <B4E8FA8C-86CC-45A2-8A61-8A265BF02114@xenosoft.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 23/10/2026 11:09, Christian Zigotzky wrote:
+> 
+> 
+> On 23 October 2026 at 08:48 am, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> 
+> This patch received reports which basically rejected the patch for
+> inclusion and we wait for proper, fixed version, as explained in
+> submitting patches document.
+> 
+> Patch also did not follow standard naming rules of commits, so again,
+> please read the docs (submitting patches) how to properly describe and
+> send your contribution.
+> 
+> Best regards,
+> Krzysztof
+> 
+> - - - 
+> 
+> Hi Krzysztof,
+> 
+> But the patch has been ready for a long time; it has also been tested and is already in the right place: https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20260801043458.12500-1-chzigotzky@xenosoft.de/
 
-
-On 23 October 2026 at 08:48 am, Krzysztof Kozlowski <krzk@kernel.org> wrote:=
-
-
-This patch received reports which basically rejected the patch for
-inclusion and we wait for proper, fixed version, as explained in
-submitting patches document.
-
-Patch also did not follow standard naming rules of commits, so again,
-please read the docs (submitting patches) how to properly describe and
-send your contribution.
+You are referring to some other patch but replied about this one.
 
 Best regards,
 Krzysztof
-
-- - -=20
-
-Hi Krzysztof,
-
-But the patch has been ready for a long time; it has also been tested and is=
- already in the right place: https://patchwork.ozlabs.org/project/linuxppc-d=
-ev/patch/20260801043458.12500-1-chzigotzky@xenosoft.de/
-
-Thanks,
-Christian=
-
