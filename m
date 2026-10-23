@@ -1,83 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792719581;
-	b=vQGchrDDkJTGuo/aUreRpf9tK6ctsQEtXGUEdrZiu13nRdJewksk0JJzz8UoDHsxCcv+
-	 /SZc5YihffC+rp2iNJsmeax6pLIFmYpDOxBOmUVe4NMy4LbIIYcIebyc++Qkb94Yf8bJw
-	 apdiwshOrl8ERptnUC+d6PwzfXX7KwhsrydpNpcybUY4AYW0Qchc+zP4bpbfbH786Wvhy
-	 ygy6cLFasUPhi/oCnzTxcCwJYWCJEkIkr8i12WI6+3es55M/VLKf6bD6SIJ0+/EHrra6e
-	 BMcHc/5qjYYEE4eX1PMU8WsOE5wrSeiKzwLZZNOPikit9kETc66gxmRMfPjxC4OFabw==
+	t=1792724433;
+	b=qsrNwBxSfLvRGLNEdhFI2v8ZafTUMPt15xy8NAIBXQ83lFfA5VvYIeIxoakZxWqY5KeX
+	 RD0vQwIan9Ctt1wh6rTq2eLpGV4zn6QrNs6OxE+p0zbhJ03FktdOBxP6rJsWQtFDkMFO8
+	 H/mfSLZSJe7UjuZFGwTV1/FRELTrfMmhE1lbpGHTpPUCpaV4icWb94ZufBwcxyaLKkGzF
+	 hWmfgsSNc4WibU6fch4js4J0B78+G0pfFWfhAYUmF1LeltVcLLmOD3t1YaDGxq/eDnMta
+	 xURLfLI9pzZmipCIyjBpxHxGDRfoi6nNhwmkZ+KxpX8t3Sbw/0Xil8TLjls2brAwYHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792719581;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792724433;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=zlUgj7MhOA7NiXRah7QpaWYmnmT0MHWnM7+9ThgmOB0=;
-	b=FMVKXOJlvuPFdLjQs4CDrEzxJ/7oRbbJHnSl5l5jJelZREgdVDsX+TOFKqPym9XTFr30
-	 TFyzOYaLzZ4JJnw9oR7+Qr2eVg/uCci8iCEuo1ZFH6eRGxlrnspUH7QTICMlXJ5f8zX7Y
-	 8ZjSTarlLigHZ7Exxz+LUSGE2NJVgE3PXCTNMunZmVShDv5qS4f+O4b7pH8dW3jpkzpGe
-	 M8Rv9UHOCnO3At0TT8n4sp+yJp6Qa0fmfCPzDIeTAtHKP2YjDsA+WU6FSq71/rdIV1/+y
-	 Bz689mixzNlhWWdo+a/nBDYwwFIyB4RDpN//UE/si5mn6zkHVJXb2D4Npe5RBGFLTkw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=3Ez2Kqf2QTbd5K9522dC/LxFH9ip2ul8BqAanqW7T5A=;
+	b=cekKi6nNlkMMLiz0cGMys449Hnnp1MHGsP7HaXJun1V2kzO1Xa4xmOW3jAsS9LOyVbX4
+	 7X959ieuLALG5UYQ7hKGAfS1L5o+sAbSrA3y5GjjCJTqqP1VXAgTf7AJHY8UhgnZ51VpE
+	 rF6IbaxyBpaX5tL+fIBBhrd/kthCBpfx7vpMojm5L6Y8jhZzVCPGDNcWB/KGWDpPr/7rx
+	 8PU9yVBs3vvrxpf9PTPiR8nPppQvKP4IRqQUVV7Y7/k4Omqv032rCJEgzO2b7jZYJAJrT
+	 rzEJbB0w/A6V3anoSxGcJ78AQaj6Xc2rmaWQVQQoyt2XKUGxxMv0rNPphBES7qNSzgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ds+QoCs4;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Z5rwE4F7;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA599606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 01:39:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA599606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9804606A319
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 03:00:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9804606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ds+QoCs4
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Z5rwE4F7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792719579; x=1824255579;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ItD34oWASUxo5/QR3v4k5gW4vxzz9C22A8XfHQIstRk=;
-  b=ds+QoCs4vUg78tcPovimgi75kvA8DRJi2HYLyfyrpOvHNW9dwkh6RxQ7
-   Da5vSGVw1HZxS7Hlj4mRR0rB1KO2H6vwuTrGAmeDv2mTkW3z8wBqCVKJA
-   AeFPh/oIUKXcV7wjogDwIhPl8wt1aPkBwtDLZmhjNA5vNf0cbMfPZr7AW
-   3Ewl9MgjMIW63pkypoh1CA6cJOdrzJmSmIWTOLdC/ZFVSNShcSJHkpEcb
-   N4LhJphNMcK3aC+NdpSEMedTk86zTuwC/w0YerN8a7l2+kbWzR+Yo/Tvp
-   N+mFhjZuOsSUEDYy6G2xEvIYEj43hWbOHiOXZIhfyhL45UcCktNQ+vIFB
-   g==;
-X-CSE-ConnectionGUID: To2VhEViT/SHfgnqngBY6A==
-X-CSE-MsgGUID: OHqKevkhTs6YwMZ3mOxP6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1585830"
+  t=1792724431; x=1824260431;
+  h=date:from:to:cc:subject:message-id;
+  bh=czjk0+9/ziTgIh3MLXGTHwtCP0oYe4BJxcoesJyS088=;
+  b=Z5rwE4F7iBS9EeDo1VtGgkminTFl3u2dyLNSU2UBKHAh4/MQDqQhUWIV
+   xH3+RoXmZ8OfL1yZUbtgSTNiVtV2oYQJPlAVxOynsO9BqebAF9UNVusyW
+   VbKPPDox2ZAhpNbK/+PennBAZ65mhTTe6bCFAadVmrGdAPcUWE3JbAd9X
+   dHg46a3b9WeEgpXIILp6UkYS9k6pCMWsDgocGn48cxy0cumqCJe/WE6BZ
+   BLG/nxPPBC8TwYIGsauE3Vc2SdrrytDoWjmdV7ZaAIhUfn/J3/j3KNMfk
+   9pihhaT0p9592BcCEUaFYGTLEwkk27LCWZUqJ7su4zzH804eXOVf/6fut
+   Q==;
+X-CSE-ConnectionGUID: 6uDkmZ+XRxurj4Uy4QDLQw==
+X-CSE-MsgGUID: ZSXowB5GStizzOJEVx5Fhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1490515"
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1585830"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 18:39:38 -0700
-X-CSE-ConnectionGUID: GY1h/MB/S96sbOwHJkbeEg==
-X-CSE-MsgGUID: yXZ5EHVDTu+otsnBCugiVA==
+   d="scan'208";a="1490515"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 20:00:30 -0700
+X-CSE-ConnectionGUID: tyPdrtosTqyU6yEPCS8NSQ==
+X-CSE-MsgGUID: dxJhbhknR6Cis9HfBIIy1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3413194"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2026 18:39:36 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5282373"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 22 Oct 2026 20:00:28 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xK4Fo-00000000RyQ-3hQ1;
-	Fri, 23 Oct 2026 01:39:32 +0000
-Date: Fri, 23 Oct 2026 09:38:54 +0800
+	id 1xK5W6-000000000VH-0YO3;
+	Fri, 23 Oct 2026 03:00:26 +0000
+Date: Fri, 23 Oct 2026 05:00:06 +0200
 From: kernel test robot <lkp@intel.com>
-To: Manikanta Maddireddy <mmaddireddy@nvidia.com>, jingoohan1@gmail.com,
-	mani@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	bhelgaas@google.com, linux-pci@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org,
-	thierry.reding@kernel.org, jonathanh@nvidia.com, vidyas@nvidia.com,
-	cassel@kernel.org, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, mmaddireddy@nvidia.com
-Subject: Re: [PATCH v2 3/3] PCI: tegra194: Notify Endpoint functions on
- PERST# assert
-Message-ID: <202610230923.2lf3BsLs-lkp@intel.com>
-References: <20261021061903.1269605-4-mmaddireddy@nvidia.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 12/12]
+ include/trace/hooks/perf.h:18:1: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202610230448.poyXnMOL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,100 +80,152 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021061903.1269605-4-mmaddireddy@nvidia.com>
 
-Hi Manikanta,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v7.3 next-20261022]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Maddireddy/PCI-dwc-Reuse-Endpoint-resources-after-fundamental-reset/20261021-114901
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20261021061903.1269605-4-mmaddireddy%40nvidia.com
-patch subject: [PATCH v2 3/3] PCI: tegra194: Notify Endpoint functions on PERST# assert
-config: xtensa-randconfig-1001-20261022 (https://download.01.org/0day-ci/archive/20261023/202610230923.2lf3BsLs-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230923.2lf3BsLs-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   25ff308d0682f31e095c4a1d5fa5f2cfb081a7d3
+commit: eec127b5484d09fef414b9914710cd1faa7be1bc [12/12] ANDROID: vendor_hooks:vendor hook for perf
+config: x86_64-randconfig-r2311-20261022 (https://download.01.org/0day-ci/archive/20261023/202610230448.poyXnMOL-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230448.poyXnMOL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610230923.2lf3BsLs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610230448.poyXnMOL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/events/core.c:1386:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1386:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1386:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:1399:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1399:28: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1399:28: sparse:    struct perf_event_context *
+   kernel/events/core.c:3504:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3504:20: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3504:20: sparse:    struct perf_event_context *
+   kernel/events/core.c:3508:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3508:18: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3508:18: sparse:    struct perf_event_context *
+   kernel/events/core.c:3509:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3509:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3509:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:3558:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3558:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3558:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3559:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3559:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3559:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3946:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3946:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3946:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4340:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4340:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4340:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4820:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4820:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4820:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:6229:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6229:9: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6229:9: sparse:    struct perf_buffer *
+   kernel/events/core.c:5701:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
+   kernel/events/core.c:5945:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:5945:22: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:5945:22: sparse:    struct perf_buffer *
+   kernel/events/core.c:6069:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6069:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6069:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6102:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6102:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6102:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6159:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6159:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6159:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6250:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6250:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6250:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6266:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6266:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6266:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:7991:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:7991:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:7991:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:8078:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8078:13: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:8078:13: sparse:    struct perf_buffer *
+   kernel/events/core.c:8182:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8182:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8182:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:8184:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8184:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8184:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:8872:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8872:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:8872:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:9912:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9912:9: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9912:9: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9951:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9951:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9951:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10226:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10226:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:10226:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:11339:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
+   kernel/events/core.c:13106:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13106:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13106:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:13200:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13200:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13200:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:13212:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13212:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13212:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:13635:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13635:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:13635:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:162:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
+   kernel/events/core.c:170:17: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
+   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
+   include/linux/rcupdate.h:815:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
+   kernel/events/core.c:1433:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
+   kernel/events/core.c:2813:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
+   kernel/events/core.c: note: in included file:
+>> include/trace/hooks/perf.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   kernel/events/core.c:4794:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:209:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *buf @@
+   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'perf_get_pgtable_size' - unexpected unlock
+   kernel/events/core.c:9761:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9761:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9761:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9781:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9781:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9781:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
 
-   drivers/pci/controller/dwc/pcie-tegra194.c: In function 'pex_ep_event_pex_rst_assert':
->> drivers/pci/controller/dwc/pcie-tegra194.c:1708:9: error: implicit declaration of function 'pci_epc_linkdown'; did you mean 'dw_pcie_ep_linkdown'? [-Wimplicit-function-declaration]
-    1708 |         pci_epc_linkdown(pcie->pci.ep.epc);
-         |         ^~~~~~~~~~~~~~~~
-         |         dw_pcie_ep_linkdown
+vim +18 include/trace/hooks/perf.h
 
-
-vim +1708 drivers/pci/controller/dwc/pcie-tegra194.c
-
-  1688	
-  1689	static void pex_ep_event_pex_rst_assert(struct tegra_pcie_dw *pcie)
-  1690	{
-  1691		u32 val;
-  1692		int ret;
-  1693	
-  1694		if (pcie->ep_state == EP_STATE_DISABLED)
-  1695			return;
-  1696	
-  1697		ret = readl_poll_timeout(pcie->appl_base + APPL_DEBUG, val,
-  1698			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_QUIET) ||
-  1699			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_ACT) ||
-  1700			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_PRE_DETECT_QUIET) ||
-  1701			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_WAIT) ||
-  1702			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_L2_IDLE),
-  1703			LTSSM_DELAY_US, LTSSM_TIMEOUT_US);
-  1704		if (ret)
-  1705			dev_info(pcie->dev, "LTSSM state: 0x%x detect timeout: %d\n", val, ret);
-  1706	
-  1707		/* Avoid the DBI register reinitialization in dw_pcie_ep_linkdown(). */
-> 1708		pci_epc_linkdown(pcie->pci.ep.epc);
-  1709	
-  1710		/*
-  1711		 * Deassert LTSSM state to stop the state toggling between
-  1712		 * Polling and Detect.
-  1713		 */
-  1714		val = appl_readl(pcie, APPL_CTRL);
-  1715		val &= ~APPL_CTRL_LTSSM_EN;
-  1716		appl_writel(pcie, val, APPL_CTRL);
-  1717	
-  1718		reset_control_assert(pcie->core_rst);
-  1719	
-  1720		tegra_pcie_disable_phy(pcie);
-  1721	
-  1722		reset_control_assert(pcie->core_apb_rst);
-  1723	
-  1724		clk_disable_unprepare(pcie->core_clk);
-  1725	
-  1726		pm_runtime_put_sync(pcie->dev);
-  1727	
-  1728		if (pcie->enable_ext_refclk) {
-  1729			ret = tegra_pcie_bpmp_set_pll_state(pcie, false);
-  1730			if (ret)
-  1731				dev_err(pcie->dev, "Failed to turn off UPHY: %d\n",
-  1732					ret);
-  1733		}
-  1734	
-  1735		ret = tegra_pcie_bpmp_set_ctrl_state(pcie, false);
-  1736		if (ret)
-  1737			dev_err(pcie->dev, "Failed to disable controller: %d\n", ret);
-  1738	
-  1739		pcie->ep_state = EP_STATE_DISABLED;
-  1740		dev_dbg(pcie->dev, "Uninitialization of endpoint is completed\n");
-  1741	}
-  1742	
+    11	
+    12	struct perf_event;
+    13	DECLARE_RESTRICTED_HOOK(android_rvh_armv8pmu_counter_overflowed,
+    14		TP_PROTO(struct perf_event *event),
+    15		TP_ARGS(event), 1);
+    16	
+    17	struct perf_cpu_pmu_context;
+  > 18	DECLARE_RESTRICTED_HOOK(android_rvh_perf_rotate_context,
+    19		TP_PROTO(struct perf_cpu_pmu_context *cpc),
+    20		TP_ARGS(cpc), 1);
+    21	
 
 --
 0-DAY CI Kernel Test Service
