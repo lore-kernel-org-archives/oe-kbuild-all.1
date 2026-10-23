@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792727038;
-	b=tqpBwFiavftGBYwjHDfBdCGYEApFWYBNDr7syRBZDgWYE70YXHvhRWXNK5ZItx51L1kI
-	 OCAYSEHP+P5UcYG4wGxONTSMurSFw9tjsBx5XBN02DYDlyRRjEnGMfRt0Ia5UBF/yn1l3
-	 i/VS8DSp/6NX3Alr6lbJmghk1U8RLL0FN3t49W/Vdf5vOG3LiMk38tcdA52EVTL6gYNEI
-	 QV2JABCIsPK+BsN5Ka1TSjcOqLSirVSfYNp1d3pE9XfBKsFNeaLx4xXaQbWDb/mbJuqRN
-	 IhAZpBLn87TpN8I86DG8AfQI9WXs4Zo5O7rsq3Y6HFMrM/9mr5qSmiKxaJ96q221Qaw==
+	t=1792727492;
+	b=1H4f8c3P6LyeW2kojbKIgt38Ch9DH7ApZk4zm0JmGE/jgxa2JkhgBzAITFPX75u6G7WC
+	 fZ5gPy0y8FA1/T7mWsuo1UNo4y0xd5AU9kMzCserQOwgcTl274yYuUnotLIvo18ktdIyL
+	 aydzWMitPEDYayByK3LZqEme8mqNhpHqyerdMtYczcTZGSEJ+VnIT0U4ZfsM0tTvOepcO
+	 PLH2xEBWycSISkR3HDsE4Opx/DKk55SlEDilDSKyli24bLC6fe6gy1HvGUClhvAJ5/7O6
+	 /p+hhdECRgQDKHeOFo/Ju7XDiPAAXwM7Gdj5POEJGF9QHn8VyTykUTo2NCKZ/HkmrgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792727038;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792727492;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=kGAxfXaLl7bbml/IqQ6qcVdP1a0UIUaZp84Cq+8lmsM=;
-	b=0s8y0Sb1fgAwdmc5Vr7dwAU6Q2PQseHW9QdYd6e14ldJlDrDIoMueANxAVOLdhWrgq6b
-	 UsJnmkSYyOivefnEthKxpvtslRTUG5IGJTjLREJEb61X94xz9XW7FF3t8Sw7yocfEyJRJ
-	 HIXoSCjtZiX/MHS9Nt+MDs5neT+vwk6UbAgFxoOKGviN45Z94xgkPYS6a0wQVP8bzLEEK
-	 mIHoGsThOfC2T5brOtv8l9pgbFZuCyBqoxtkfwy+y0N6LZOZLrgRiy3IaRiGTzg4UO64V
-	 DanuFBMbT+4/frsLtRm3pYn2AcQqQtHuJjWi20Vhu5lQ5Mb1NY75mqM/wIae5wZ+d0g==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=f5N94CPZ5HY5U20a/frRSTDIfHcRLIuco7NZJMxewKk=;
+	b=OQDUiMiyZEZJbPFLklJ9ukBCHd7Ak0wQrpIx1jpRtgVUgWEP/9nDcsIoNXNpvHS5n8um
+	 NSQCfD1GoWmDLQcK9N9cgpO+53sQZhXba7xZPIF26UFzlnuL/BdxhXMZ7ztLZOdb1g21p
+	 dpNTPB6bHrX93YKaZym2GrE0jIVlykhfI7/T33oPh2aRAtQTEughYgNLunWdTOU1wyT73
+	 X2XM+hVN4Qbjl+6psv7fY1AN3RJmiyvdUeVrgIfEsrZrU5lH/nmg8gv04llWh7zzCBZrj
+	 HS6cF9+f+CVrs17f5/CAfgEPazQG+/Ogfo7bM5t8hslSAldirF+wBHlXE94xHxWR2rA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dTD9uamU;
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="oBf3/8cP";
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A062606A320
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 03:43:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A062606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48758606A319
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 03:51:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48758606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dTD9uamU
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=oBf3/8cP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792727036; x=1824263036;
-  h=date:from:to:cc:subject:message-id;
-  bh=xGMTNhnhtiuOTWvaT49+Oapf4lIJuKGdgWslE+G0S6A=;
-  b=dTD9uamUMUDX01K4B3NHejx3d2KKmq2uGYLHHcCJ51rTwvlclu4nviHV
-   RJqt6wWt7WbpWoZlCssg0ehqT6TOBrcIIptb7wTaQPWTVmiqiainLVaee
-   CjyJpi1vIdbP5Dny7G6K/LXStGGpPCteKuSPUigKytKMV5IViWmS5v/80
-   f0MJVj5/RYI6QC6sywXjqJ+3RVg38QS+83d2Ib4PZwy0MZtX2NdmzQuZX
-   xbtZftQ0Vq7J/lkZJRkCDPjz65NEIdqqgPDfU38eLntpfqT1JnawpSdmm
-   QDWR0+/V/e8eNYD0fZY0QuRhYiIx6l/rGGwMPJPZQcmx60mwObzDctTog
-   g==;
-X-CSE-ConnectionGUID: DtYLNabeSPO6czyOvE2u1w==
-X-CSE-MsgGUID: hByrG7i2R/WH78BPfFOC/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1366567"
+  t=1792727492; x=1824263492;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rr+e1FG17LejI5e/pS0LNCpquUqx1zmJpb5KFRa+e4Y=;
+  b=oBf3/8cPdgsvQ0KXueOJ0/uRcuJofyyNjIMUVpmQEZh12++3u/pUeV8z
+   YhCxOlElm7yqoSG7gv/vMqsZfNXZ8CRoJ4wWq/62QLO06TmYCAB+wjoUX
+   N50zyWEfjYARV25Zy6XuHC5dYlCyasOYDf6LjRpn0Z+kB/mbGcEGwjz1W
+   bk9asEmjfcrkUbMDsLWAppgLSwUbkWVnKz8kF/+WLrQ9Ev8JOmPlySpxA
+   KerJEUOcLreO3Bu+NMkhb5i3jtK95XqwCs7MP3IeviONTW10i3V9RBYA0
+   1J3i8E11acIghO+5Okw8wgnWmf89hJ6RTp+rV1oDlb1jvorG7XTsMhQFz
+   w==;
+X-CSE-ConnectionGUID: DV+AL48ITNmf8rO648eC6w==
+X-CSE-MsgGUID: d8bfxFScQ0GzlguvTcb2Yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1493852"
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1366567"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 20:43:56 -0700
-X-CSE-ConnectionGUID: ybOrxGveRUSHyz4vpOA8Vw==
-X-CSE-MsgGUID: p3BqOemyQXaCe3X89QaL7A==
+   d="scan'208";a="1493852"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 20:51:31 -0700
+X-CSE-ConnectionGUID: 6PkQt75xSa+qODx//iHTdw==
+X-CSE-MsgGUID: OxSvrQgKQfSOdROucJSLdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3438480"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Oct 2026 20:43:54 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="3855439"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Oct 2026 20:51:29 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xK6C8-00000000S6A-1UYy;
-	Fri, 23 Oct 2026 03:43:52 +0000
-Date: Fri, 23 Oct 2026 11:42:59 +0800
+	id 1xK6JT-000000000VX-22Ju;
+	Fri, 23 Oct 2026 03:51:27 +0000
+Date: Fri, 23 Oct 2026 05:50:56 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 347/347]
- drivers/virtio/virtio_pvclock.c:49:6: warning: no previous prototype for
- function 'update_suspend_time'
-Message-ID: <202610231150.mbNfjgIo-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/auxclock-nanosleep 18/41] ERROR:
+ modpost: kernel/time/time_tests.ko: symbol '__divdi3' undefined!
+Message-ID: <202610230517.q9tTZM5u-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,80 +79,24 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-Hi Colin,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   197f6e4d013155f82e6c7a4f8917da803628f323
-commit: bf3f6f01039f7f03350da296935c1f2e2fca7550 [347/347] ANDROID: virtio: virtio_pvclock: initial driver impl
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20261023/202610231150.mbNfjgIo-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610231150.mbNfjgIo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
+head:   a40991dd87115c3f70bf87884b803ed7e09dc387
+commit: 503828dc4bd6f98d85d169659fdfc68f30032df4 [18/41] timekeeping: Add a test for auxiliary to monotonic clock conversions
+config: riscv-randconfig-r2110-20261022 (https://download.01.org/0day-ci/archive/20261023/202610230517.q9tTZM5u-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230517.q9tTZM5u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610231150.mbNfjgIo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610230517.q9tTZM5u-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:94:
-   include/linux/compiler-clang.h:33:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      33 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:353:9: note: previous definition is here
-     353 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> drivers/virtio/virtio_pvclock.c:49:6: warning: no previous prototype for function 'update_suspend_time' [-Wmissing-prototypes]
-      49 | void update_suspend_time(struct work_struct *work)
-         |      ^
-   drivers/virtio/virtio_pvclock.c:49:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      49 | void update_suspend_time(struct work_struct *work)
-         | ^
-         | static 
-   2 warnings generated.
-
-
-vim +/update_suspend_time +49 drivers/virtio/virtio_pvclock.c
-
-    48	
-  > 49	void update_suspend_time(struct work_struct *work)
-    50	{
-    51		u64 suspend_ns, suspend_time_delta = 0;
-    52		struct timespec64 inject_time;
-    53		struct virtio_pvclock *vp;
-    54	
-    55		vp = container_of(work, struct virtio_pvclock,
-    56				  update_suspend_time_work);
-    57	
-    58		virtio_cread(vp->vdev, struct virtio_pvclock_config, suspend_time_ns,
-    59			     &suspend_ns);
-    60	
-    61		mutex_lock(&vp->inject_suspend_lock);
-    62		if (suspend_ns > vp->injected_suspend_ns) {
-    63			suspend_time_delta = suspend_ns - vp->injected_suspend_ns;
-    64			vp->injected_suspend_ns = suspend_ns;
-    65		}
-    66		mutex_unlock(&vp->inject_suspend_lock);
-    67	
-    68		if (suspend_time_delta == 0) {
-    69			dev_err(&vp->vdev->dev,
-    70				"%s: suspend_time_ns is less than injected_suspend_ns\n",
-    71				__func__);
-    72			return;
-    73		}
-    74	
-    75		inject_time = ns_to_timespec64(suspend_time_delta);
-    76	
-    77		timekeeping_inject_sleeptime64(&inject_time);
-    78	
-    79		dev_info(&vp->vdev->dev, "injected sleeptime: %llu ns\n",
-    80			 suspend_time_delta);
-    81	}
-    82	
+>> ERROR: modpost: kernel/time/time_tests.ko: symbol '__divdi3' undefined!
 
 --
 0-DAY CI Kernel Test Service
