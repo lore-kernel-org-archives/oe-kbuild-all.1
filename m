@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792717655;
-	b=EZNorViUZm5ZiwO/TD8GFxAbhDZRI3GDLc2w9gPCqZh6TrXEHXb52DP4/60wQ6RU/bKN
-	 cgngI0tHXOIGTsx5Z1lFgoPAe3/BxYE1Lbhdwe8TCODJ+KnfRdwuLwRfkkzFgX4tEL8aO
-	 FT59zcO+FXai+OPT/YDoL9NddHmDIzJs/gplWbwoVfc6PRLOmxSmvi4OFxde6gzVgZA+x
-	 wOTBdiWWurMwThVMXc/9RT1DJTw2Ezi5AcVuYiMBZbu+a+AF2jLvUhAHpY90dJAFi+5TE
-	 FiPFnz/xBgFAhY0KP+auruWjE6v/iCMzNaNbLbbEKAIl+eZ4IreHYDKE41opsT4NwJQ==
+	t=1792719581;
+	b=vQGchrDDkJTGuo/aUreRpf9tK6ctsQEtXGUEdrZiu13nRdJewksk0JJzz8UoDHsxCcv+
+	 /SZc5YihffC+rp2iNJsmeax6pLIFmYpDOxBOmUVe4NMy4LbIIYcIebyc++Qkb94Yf8bJw
+	 apdiwshOrl8ERptnUC+d6PwzfXX7KwhsrydpNpcybUY4AYW0Qchc+zP4bpbfbH786Wvhy
+	 ygy6cLFasUPhi/oCnzTxcCwJYWCJEkIkr8i12WI6+3es55M/VLKf6bD6SIJ0+/EHrra6e
+	 BMcHc/5qjYYEE4eX1PMU8WsOE5wrSeiKzwLZZNOPikit9kETc66gxmRMfPjxC4OFabw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792717655;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792719581;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=C9dSy1gixxOPJ+dX6oXxYAX8z+8FHw7J2Hfk22nKTKw=;
-	b=ykCthReSY0TD4BcZtYBNqF8eQikJ7N1F8vC80T78WMj4wKcJZcJknIccHGalxjqEfK0R
-	 GHb9/6fVmy15Ev2t2o8m+MMbYoJaKm8MIzI3UDbNGSekx7MNLUPOrhHRX3PNwrTa7XCER
-	 95qL2YDZh3dVg6V9oqmzLiybTVKg2fKtzx6hBSRmtcs4u5A4gCpw2IAEsz0tcq5+ZUPE9
-	 Rb9eKpzLZEPtf+t9oCAYU4Gyv+PJckJoKKYh2bOyZMC+5USATIWcPOIHv0BPOjYfBZI1V
-	 mfKs3pnk9epq+5INS4xn1SsGUpZs4C2337kxFfscikzaQRPr+9YuCXvxi767gVEzGwA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=zlUgj7MhOA7NiXRah7QpaWYmnmT0MHWnM7+9ThgmOB0=;
+	b=FMVKXOJlvuPFdLjQs4CDrEzxJ/7oRbbJHnSl5l5jJelZREgdVDsX+TOFKqPym9XTFr30
+	 TFyzOYaLzZ4JJnw9oR7+Qr2eVg/uCci8iCEuo1ZFH6eRGxlrnspUH7QTICMlXJ5f8zX7Y
+	 8ZjSTarlLigHZ7Exxz+LUSGE2NJVgE3PXCTNMunZmVShDv5qS4f+O4b7pH8dW3jpkzpGe
+	 M8Rv9UHOCnO3At0TT8n4sp+yJp6Qa0fmfCPzDIeTAtHKP2YjDsA+WU6FSq71/rdIV1/+y
+	 Bz689mixzNlhWWdo+a/nBDYwwFIyB4RDpN//UE/si5mn6zkHVJXb2D4Npe5RBGFLTkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GGU3+jXS;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ds+QoCs4;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4736606A319
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 01:07:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4736606A319
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA599606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 01:39:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA599606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GGU3+jXS
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ds+QoCs4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792717653; x=1824253653;
-  h=date:from:to:cc:subject:message-id;
-  bh=iWm/zTSqhu60YbzPCUGrDnysngoQfLbvb1C+O1toHfw=;
-  b=GGU3+jXS+BZF70emF7Uv1uVpXC8oGJHT4s05nf2Iw9PSoJ3CT9ctRBn4
-   JeT4QNDrkoYCRCbGMtGhAs2hCTt86n09KfBfqQ5zlvQ4VkPBc1zV/fIIJ
-   eilzWl+PUbLyD//pjy3lkVNaJ2D9oaHLB9ks+UAHdPWj4ciPnYgNvS1l/
-   MZKW+90WaENZ2C4K15J9eZozVGIcSdmxw4h3GTzxO3n0Z2Q5G/hwuMP6r
-   yB7+PQCoDMZVZ5fZYur3H+hsHjs5UYF2XcWwRe0vK7ft+A5yYY0hN6O3f
-   0yzgwf+GyEGquZHdCAXmSqcan/F7UllZ3egV7dT1SCuHO3W5049FbPcVO
-   Q==;
-X-CSE-ConnectionGUID: gfjzkLo/QyyWiMk95oDh8g==
-X-CSE-MsgGUID: xodjO+O+Q+2x0HV6CvI+XQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1358213"
+  t=1792719579; x=1824255579;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ItD34oWASUxo5/QR3v4k5gW4vxzz9C22A8XfHQIstRk=;
+  b=ds+QoCs4vUg78tcPovimgi75kvA8DRJi2HYLyfyrpOvHNW9dwkh6RxQ7
+   Da5vSGVw1HZxS7Hlj4mRR0rB1KO2H6vwuTrGAmeDv2mTkW3z8wBqCVKJA
+   AeFPh/oIUKXcV7wjogDwIhPl8wt1aPkBwtDLZmhjNA5vNf0cbMfPZr7AW
+   3Ewl9MgjMIW63pkypoh1CA6cJOdrzJmSmIWTOLdC/ZFVSNShcSJHkpEcb
+   N4LhJphNMcK3aC+NdpSEMedTk86zTuwC/w0YerN8a7l2+kbWzR+Yo/Tvp
+   N+mFhjZuOsSUEDYy6G2xEvIYEj43hWbOHiOXZIhfyhL45UcCktNQ+vIFB
+   g==;
+X-CSE-ConnectionGUID: To2VhEViT/SHfgnqngBY6A==
+X-CSE-MsgGUID: OHqKevkhTs6YwMZ3mOxP6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1585830"
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1358213"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 18:07:33 -0700
-X-CSE-ConnectionGUID: l9JSO4O8SGqbv1QofjijyA==
-X-CSE-MsgGUID: 9w2nlIlmQmu0nESKkMp4tg==
+   d="scan'208";a="1585830"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2026 18:39:38 -0700
+X-CSE-ConnectionGUID: GY1h/MB/S96sbOwHJkbeEg==
+X-CSE-MsgGUID: yXZ5EHVDTu+otsnBCugiVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3887356"
+   d="scan'208";a="3413194"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Oct 2026 18:07:30 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2026 18:39:36 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xK3kl-00000000Rvy-3nWx;
-	Fri, 23 Oct 2026 01:07:27 +0000
-Date: Fri, 23 Oct 2026 09:07:27 +0800
+	id 1xK4Fo-00000000RyQ-3hQ1;
+	Fri, 23 Oct 2026 01:39:32 +0000
+Date: Fri, 23 Oct 2026 09:38:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:media-ref 21/27]
- drivers/media/test-drivers/vim2m.c:1537:16: warning: format '%x' expects
- argument of type 'unsigned int', but argument 3 has type 'long unsigned int'
-Message-ID: <202610230952.VqxTerY1-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Manikanta Maddireddy <mmaddireddy@nvidia.com>, jingoohan1@gmail.com,
+	mani@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org,
+	bhelgaas@google.com, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	thierry.reding@kernel.org, jonathanh@nvidia.com, vidyas@nvidia.com,
+	cassel@kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org, mmaddireddy@nvidia.com
+Subject: Re: [PATCH v2 3/3] PCI: tegra194: Notify Endpoint functions on
+ PERST# assert
+Message-ID: <202610230923.2lf3BsLs-lkp@intel.com>
+References: <20261021061903.1269605-4-mmaddireddy@nvidia.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,138 +86,100 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021061903.1269605-4-mmaddireddy@nvidia.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git media-ref
-head:   bb43fe9fe0f40894bec0e5045aade6652ef6a46c
-commit: 5df2cfc0b2f0f0b584050f1b56cf75c78c6e0091 [21/27] koe
-config: x86_64-buildonly-randconfig-1001-20261022 (https://download.01.org/0day-ci/archive/20261023/202610230952.VqxTerY1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230952.VqxTerY1-lkp@intel.com/reproduce)
+Hi Manikanta,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v7.3 next-20261022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Maddireddy/PCI-dwc-Reuse-Endpoint-resources-after-fundamental-reset/20261021-114901
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20261021061903.1269605-4-mmaddireddy%40nvidia.com
+patch subject: [PATCH v2 3/3] PCI: tegra194: Notify Endpoint functions on PERST# assert
+config: xtensa-randconfig-1001-20261022 (https://download.01.org/0day-ci/archive/20261023/202610230923.2lf3BsLs-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610230923.2lf3BsLs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610230952.VqxTerY1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610230923.2lf3BsLs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:195,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from drivers/media/test-drivers/vim2m.c:16:
-   drivers/media/test-drivers/vim2m.c: In function 'vim2m_probe':
->> drivers/media/test-drivers/vim2m.c:1537:16: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
-    1537 |         printk("OBJECT vim2m %p, size %x\n", dev, sizeof(*dev));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~       ~~~~~~~~~~~~
-         |                                                   |
-         |                                                   long unsigned int
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   drivers/media/test-drivers/vim2m.c:1537:9: note: in expansion of macro 'printk'
-    1537 |         printk("OBJECT vim2m %p, size %x\n", dev, sizeof(*dev));
-         |         ^~~~~~
-   drivers/media/test-drivers/vim2m.c:1537:40: note: format string is defined here
-    1537 |         printk("OBJECT vim2m %p, size %x\n", dev, sizeof(*dev));
-         |                                       ~^
-         |                                        |
-         |                                        unsigned int
-         |                                       %lx
+   drivers/pci/controller/dwc/pcie-tegra194.c: In function 'pex_ep_event_pex_rst_assert':
+>> drivers/pci/controller/dwc/pcie-tegra194.c:1708:9: error: implicit declaration of function 'pci_epc_linkdown'; did you mean 'dw_pcie_ep_linkdown'? [-Wimplicit-function-declaration]
+    1708 |         pci_epc_linkdown(pcie->pci.ep.epc);
+         |         ^~~~~~~~~~~~~~~~
+         |         dw_pcie_ep_linkdown
 
 
-vim +1537 drivers/media/test-drivers/vim2m.c
+vim +1708 drivers/pci/controller/dwc/pcie-tegra194.c
 
-  1526	
-  1527	static int vim2m_probe(struct platform_device *pdev)
-  1528	{
-  1529		struct vim2m_dev *dev;
-  1530		struct video_device *vfd;
-  1531		int ret;
-  1532	
-  1533		dev = kzalloc_obj(*dev);
-  1534		if (!dev)
-  1535			return -ENOMEM;
-  1536	
-> 1537		printk("OBJECT vim2m %p, size %x\n", dev, sizeof(*dev));
-  1538	
-  1539		ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
-  1540		if (ret)
-  1541			goto error_free;
-  1542	
-  1543		atomic_set(&dev->num_inst, 0);
-  1544		mutex_init(&dev->dev_mutex);
-  1545	
-  1546		dev->multiplanar = (multiplanar == 2);
-  1547	
-  1548		dev->vfd = vim2m_videodev;
-  1549		vfd = &dev->vfd;
-  1550		vfd->lock = &dev->dev_mutex;
-  1551		vfd->v4l2_dev = &dev->v4l2_dev;
-  1552		vfd->device_caps |= (dev->multiplanar) ? V4L2_CAP_VIDEO_M2M_MPLANE :
-  1553			V4L2_CAP_VIDEO_M2M;
-  1554	
-  1555		video_set_drvdata(vfd, dev);
-  1556		platform_set_drvdata(pdev, dev);
-  1557	
-  1558		dev->m2m_dev = v4l2_m2m_init(&m2m_ops);
-  1559		if (IS_ERR(dev->m2m_dev)) {
-  1560			v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem device\n");
-  1561			ret = PTR_ERR(dev->m2m_dev);
-  1562			dev->m2m_dev = NULL;
-  1563			goto error_dev;
-  1564		}
-  1565	
-  1566		dev->mdev.dev = &pdev->dev;
-  1567		strscpy(dev->mdev.model, "vim2m", sizeof(dev->mdev.model));
-  1568		strscpy(dev->mdev.bus_info, "platform:vim2m",
-  1569			sizeof(dev->mdev.bus_info));
-  1570		media_device_init(&dev->mdev);
-  1571		dev->mdev.ops = &m2m_media_ops;
-  1572		dev->v4l2_dev.mdev = &dev->mdev;
-  1573	
-  1574		ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
-  1575		if (ret) {
-  1576			v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
-  1577			goto error_m2m;
-  1578		}
-  1579	
-  1580		v4l2_info(&dev->v4l2_dev,
-  1581			  "Device registered as /dev/video%d\n", vfd->num);
-  1582	
-  1583		ret = v4l2_m2m_register_media_controller(dev->m2m_dev, vfd,
-  1584							 MEDIA_ENT_F_PROC_VIDEO_SCALER);
-  1585		if (ret) {
-  1586			v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem media controller\n");
-  1587			goto error_v4l2;
-  1588		}
-  1589	
-  1590		ret = media_device_register(&dev->mdev);
-  1591		if (ret) {
-  1592			v4l2_err(&dev->v4l2_dev, "Failed to register mem2mem media device\n");
-  1593			goto error_m2m_mc;
-  1594		}
-  1595	
-  1596		return 0;
-  1597	
-  1598	error_m2m_mc:
-  1599		v4l2_m2m_unregister_media_controller(dev->m2m_dev);
-  1600	error_v4l2:
-  1601		video_unregister_device(&dev->vfd);
-  1602		/* vim2m_device_release called by video_unregister_device to release various objects */
-  1603		return ret;
-  1604	error_m2m:
-  1605		v4l2_m2m_release(dev->m2m_dev);
-  1606	error_dev:
-  1607		v4l2_device_unregister(&dev->v4l2_dev);
-  1608	error_free:
-  1609		kfree(dev);
-  1610	
-  1611		return ret;
-  1612	}
-  1613	
+  1688	
+  1689	static void pex_ep_event_pex_rst_assert(struct tegra_pcie_dw *pcie)
+  1690	{
+  1691		u32 val;
+  1692		int ret;
+  1693	
+  1694		if (pcie->ep_state == EP_STATE_DISABLED)
+  1695			return;
+  1696	
+  1697		ret = readl_poll_timeout(pcie->appl_base + APPL_DEBUG, val,
+  1698			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_QUIET) ||
+  1699			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_ACT) ||
+  1700			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_PRE_DETECT_QUIET) ||
+  1701			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_DETECT_WAIT) ||
+  1702			((val & APPL_DEBUG_LTSSM_STATE_MASK) == LTSSM_STATE_L2_IDLE),
+  1703			LTSSM_DELAY_US, LTSSM_TIMEOUT_US);
+  1704		if (ret)
+  1705			dev_info(pcie->dev, "LTSSM state: 0x%x detect timeout: %d\n", val, ret);
+  1706	
+  1707		/* Avoid the DBI register reinitialization in dw_pcie_ep_linkdown(). */
+> 1708		pci_epc_linkdown(pcie->pci.ep.epc);
+  1709	
+  1710		/*
+  1711		 * Deassert LTSSM state to stop the state toggling between
+  1712		 * Polling and Detect.
+  1713		 */
+  1714		val = appl_readl(pcie, APPL_CTRL);
+  1715		val &= ~APPL_CTRL_LTSSM_EN;
+  1716		appl_writel(pcie, val, APPL_CTRL);
+  1717	
+  1718		reset_control_assert(pcie->core_rst);
+  1719	
+  1720		tegra_pcie_disable_phy(pcie);
+  1721	
+  1722		reset_control_assert(pcie->core_apb_rst);
+  1723	
+  1724		clk_disable_unprepare(pcie->core_clk);
+  1725	
+  1726		pm_runtime_put_sync(pcie->dev);
+  1727	
+  1728		if (pcie->enable_ext_refclk) {
+  1729			ret = tegra_pcie_bpmp_set_pll_state(pcie, false);
+  1730			if (ret)
+  1731				dev_err(pcie->dev, "Failed to turn off UPHY: %d\n",
+  1732					ret);
+  1733		}
+  1734	
+  1735		ret = tegra_pcie_bpmp_set_ctrl_state(pcie, false);
+  1736		if (ret)
+  1737			dev_err(pcie->dev, "Failed to disable controller: %d\n", ret);
+  1738	
+  1739		pcie->ep_state = EP_STATE_DISABLED;
+  1740		dev_dbg(pcie->dev, "Uninitialization of endpoint is completed\n");
+  1741	}
+  1742	
 
 --
 0-DAY CI Kernel Test Service
