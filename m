@@ -1,78 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792743774;
-	b=fs/zRyNFOOtDDDI33veJsj6inTy2bxm4D1n10kWtEKg1Z2/mZ8BAidK+0P6i84Rnk46M
-	 5xHIgQxVYrvTZxqOxdGi+uGpinkj7IrH0TNW3rV82nW6YD8sJyTSOztl7dy/EnRHHftw6
-	 TdAImT4XpDI0OYZWzxv+NL1lgt60XomoOQ2p6F6gr4VBL+5oVpTTih24ps78ug8KAlRp0
-	 xfT/CKdjrAwixQSXdhtYeWkldGYu83J5jmZKd9+iEsNj1joL7QYVjaC+ZE58RUkwsOVlc
-	 7MYjHv5xcz7tp5wXSoCRumPXEEZ8K65c8nQ++9LDhj5dXzDfG3HaOjZwpA2jbN8CIjQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792743774;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=rFwRLuEL800954vZgLUxCOGD08K0kEaYzdU27GRt4rQ=;
-	b=THVn9VKeatG+uMh1SL2qYhPFoKnHibfnb2lYWyIRM87z0rp+wEf8+hECkpHuXd9/W3Xb
-	 E8XfEKNKS8liRjSrcZCj8AOoX6+gNmQxIfVIkvriWJYpJ5K1goOxPFv94MNF5ts931iho
-	 YXAEsEgjrQFpVXhkLll3WgwbyDsQfwZbJfd4XUHwswu7IIzdP1whTUrumtL9k1s1x/bOp
-	 QPMGskPw8rhx5vEh7UxkYpUZL8IUUxOm+aAmIyLB/Scyt7Keq0I3F5ORmV0/HZtAF7mz3
-	 pDlmhUp/sxATDWsnhGEiIBErqrmZCi9L4j7OLk5jU3S1edKP+KgmcQCGkdLHO+9QvHg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cw4EoFat;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.52
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792746623;
+	b=gFq9psCiwNhRhQTgjRgWKmdEGVBlVPQHB2UBHuSGdSDRH6nVLgJvaNkmwMbIz5vSHE4/
+	 fb8Hhwu6zaqd6K4I2vubUJi2NmuRKlmcH3j/zKoJ1LodXcbF5O712OQ3Jk4+SFpDdvbdd
+	 npQ+pVPQoOhDGd+ssV9XpUSdiiyt6FGRwGsUfURxP6RRvXEJOMOH2rBGSEnu5PwncLzNd
+	 KItoyYO1w9Zw62Q/kQgm3Xtxf2cxBLjx/nOU2fZhmczaUFNbv9XXhnBc28aQ+UslxPYn4
+	 4PdLXOz44tOlKiuUEKJAR1HfhpSwSGodL2AOzZWjwTUEumvCfCnyJQ6UQei8Lf31D5w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792746623;
+	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
+	 Received:Content-Type:Content-Transfer-Encoding:From:Mime-Version:
+	 Subject:Date:Message-Id:References:Cc:In-Reply-To:To:X-Mailer;
+	bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
+	b=XSw0iOEnYM6uOdfRpSo2IP7rwBIkd+QHC/lZXUc/Avx73o65Qt5cGU15d5AXaAX3NP+N
+	 BxGqAjhK5YKSKKuAPWxzNroYpYoN+mwj8wQJnkSLAEFtJGrZ5QHIKM19JvQ5rTWia2JTr
+	 ni3qn5COHmkwboqFmA4q0racgq3hwPeFiMYkgfsRS5oo2Ofb+vecHzWKLSvGpLBC/Qcsm
+	 EVCO+fd1aYjfQvUILPR3CrI3o2K/lFW3iWrnqWYS0QCJ/Pd9ieVL+JIWxVLBLnRCZXqWF
+	 6V4Mw69PPxQYdxPQb4xsF8Z+L7yLkLYUvIrRBjyT1fVbTVtK5cSQSZkn5zQDqMgrxVQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=xenosoft.de;
+	spf=none smtp.mailfrom=xenosoft.de;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=EItz6hEu;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=C64gwSyJ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.52
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.52])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5523D606A31B;
-	Fri, 23 Oct 2026 08:22:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5523D606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6836606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Oct 2026 09:10:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6836606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cw4EoFat
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792743774; x=1824279774;
-  h=date:from:to:cc:subject:message-id;
-  bh=te2N4EHsIew9AcDES7tPdYN3OKpGCFwcOOw9pYOjA0Q=;
-  b=Cw4EoFat4vU8fRpqfOidYQVX/pw9OSOrw2MZCrigzKmKtupshDUEyT9+
-   vh0jJtNL1thzZAv9k3N7DjcZPoWYNVxzuOD4V0kQTqtYmdyiXolTXihU4
-   h29t5d3EIan8lSMUyllPwNQp9j+NDD/qm4zFI1PIRrf+lPM/y5t3QmBhD
-   6x9mQw2aCTsxcOKTJjbti4b1RBzqimjb3nGiSU7gUN/sDCm5fNNo4qDgA
-   OJHlSFWMZddijP2gCpYxj85d0IiDtqwVYUaraj7sy+pPCtAehjid1QpfO
-   4vYmnXiZErR0WOme9MExWvlUVxltJ90BUevnxoElfvChjwYKpN1K+J1wS
-   w==;
-X-CSE-ConnectionGUID: txT6VECqRNi+WXND8h1U3w==
-X-CSE-MsgGUID: xrMYMVBHTAGaAgmMukgVkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1381916"
-X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="1381916"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 01:22:53 -0700
-X-CSE-ConnectionGUID: vfgmHO08SxmQCWMjUHzbUw==
-X-CSE-MsgGUID: sy4UbMw0RPWduvj1mvU1PQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,173,1787036400"; 
-   d="scan'208";a="3619693"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Oct 2026 01:22:51 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xKAY4-00000000SLo-1Rf0;
-	Fri, 23 Oct 2026 08:22:48 +0000
-Date: Fri, 23 Oct 2026 16:22:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Madhavan Srinivasan <maddy@linux.ibm.com>,
- "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Subject: error: kernel-address sanitizer is not supported for this
- target
-Message-ID: <202610231657.7LxpWzaj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=EItz6hEu;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=C64gwSyJ
+ARC-Seal: i=1; a=rsa-sha256; t=1792746577; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=LCLkUGG2bI9r5dSw2cyB4v57wJat8ND+fHrm9Z/iA9RQ5lDCZ5HUno0MvEyIOpcL0V
+    AkePAAK4zSwb42UpkRkzB9d1yPHj6y0aQaUFDMoOivJQplF2vjQiY1+49ErTzTa21Fhr
+    Tpfkba0Bw/lIEw9OSXzxCgQ3sTs++I1ZHjesgW+/V8FSGSjt5wio38FOUwQ64pk3R2bv
+    IgLSZRC40oX0duePLzdfHHHbQKHgZCKp+FPU30mYLkTLzGfHXZLz5iIIueaqWtrW8l8f
+    9lHb1nO/Xy9SL2EvscdhvbMRNekJ5hJvJcOoi6FcT9ZPN0XPu7OIjYvhrZjjMV7Y2ivd
+    7pGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1792746577;
+    s=strato-dkim-0002; d=strato.com;
+    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
+    From:Subject:Sender;
+    bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
+    b=BToN0AXvGKzaaTc9M+Yc0lhrIOXD49X0Bwa4+9FfMHsW+1ZnIg0AfIdJnDiaZ+mVas
+    VTcu5T28xMOBvW1Qp1VTlMFWHA6OpB00GGcNoT/1HiHtN1TV/yOutRVa/onq7kaDpSRg
+    k1VsMVT2qQit77gJ2beD4xgbOntAoxAQJZuMBc1nD04o+U9srBXVk1PJZEStWm6m+szV
+    9v/382uejNNdJnFZXvU6JFIzAxi0xc28eCxCITVDIiVcVQTBgcnmTDhAfJ9KwGe1jcZH
+    B9Mp6+HdLpOMYwSdu41/jaWFwrs5hHvn57JK4VXvnlCxk3TT4Qhhj6ZqnetQ43hSnepM
+    WfDw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1792746577;
+    s=strato-dkim-0002; d=xenosoft.de;
+    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
+    From:Subject:Sender;
+    bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
+    b=EItz6hEuI/LDAPJvLWeasBlJVMkDyFS63irOauhUYRb4BoLE+tulerRJhEJ/UKWEwH
+    nhffManP8L8+m7Q6Sau++Hd7m6kBC/jcxLCenYZ1PwQzAFkryclksaSDqAFBi0qfqXmb
+    OeZVSFYY3wjBLn7IKkWC85iGMQzmidACpaThPDB2a/LFwT9VoCgjd1LJhQ9YSExANktw
+    SQIFsYXxAVM03W3eViIt7MOpqDceB5769/U6x04BNwrlv9rW8pr1PJCq8VZrDQe7Vnju
+    P5N3NAzzQ6ob11GpdBQP62kSSHi4199K1EnujZYxth4stj5MbKWHoIlh88uuyHnftBT2
+    0QGA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1792746577;
+    s=strato-dkim-0003; d=xenosoft.de;
+    h=To:In-Reply-To:Cc:References:Message-Id:Date:Subject:From:Cc:Date:
+    From:Subject:Sender;
+    bh=/YMpiyHb/oOoVAqYaniKbsFsgRAlHMfRbUn7Sd2BORY=;
+    b=C64gwSyJHeO6P/nykKZpgCvhbOw2GziBTdD0Xk5d2Bnn+ZvUTv/s4Kni5ITz2AWPcz
+    Y+KmN6He9IC5szLvilDw==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr6KxrfO5Oh7V7X5q1sy7MWioscGEbW2z9QYPf5P1ugQGy1cNYzA=="
+Received: from smtpclient.apple
+    by smtp.strato.de (RZmta 55.6.3 AUTH)
+    with ESMTPSA id e825d929N99aZHN
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Fri, 23 Oct 2026 11:09:36 +0200 (CEST)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,26 +94,48 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] Connecting the SB600's i8259 controller rather in pasemi's pci.c than in pasemi's setup.c.
+Date: Fri, 23 Oct 2026 11:09:26 +0200
+Message-Id: <B4E8FA8C-86CC-45A2-8A61-8A265BF02114@xenosoft.de>
+References: <d14e954f-d7ed-493e-bbbd-8a4bd780332d@kernel.org>
+Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ Darren Stevens <darren@stevens-zone.net>,
+ Damien Stewart <hypexed@yahoo.com.au>,
+ Christian Zigotzky <info@xenosoft.de>
+In-Reply-To: <d14e954f-d7ed-493e-bbbd-8a4bd780332d@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: iPhone Mail (24A446)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
-commit: 73b741adb264967093ef4eb59905618a7e0d0de0 rust: Add PowerPC support
-date:   3 months ago
-config: powerpc-randconfig-1001-20261022 (https://download.01.org/0day-ci/archive/20261023/202610231657.7LxpWzaj-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 2c419645e808a6667eee9dbb16c828f77e2fd2f0)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261023/202610231657.7LxpWzaj-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: 73b741adb264 ("rust: Add PowerPC support")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610231657.7LxpWzaj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+On 23 October 2026 at 08:48 am, Krzysztof Kozlowski <krzk@kernel.org> wrote:=
 
->> error: kernel-address sanitizer is not supported for this target
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This patch received reports which basically rejected the patch for
+inclusion and we wait for proper, fixed version, as explained in
+submitting patches document.
+
+Patch also did not follow standard naming rules of commits, so again,
+please read the docs (submitting patches) how to properly describe and
+send your contribution.
+
+Best regards,
+Krzysztof
+
+- - -=20
+
+Hi Krzysztof,
+
+But the patch has been ready for a long time; it has also been tested and is=
+ already in the right place: https://patchwork.ozlabs.org/project/linuxppc-d=
+ev/patch/20260801043458.12500-1-chzigotzky@xenosoft.de/
+
+Thanks,
+Christian=
+
