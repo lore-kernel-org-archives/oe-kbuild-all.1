@@ -1,75 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792811448;
-	b=bIg5kfKE7QtbjShCNetVmw86/AqNZyHIKi4QNEb0IhSwx4+n6Grj/XFlyd5u1oy/0U6I
-	 R1vAutOaFUbmeRjbR+6Ue6ughhiJGRukRogjK4lck4sBGZl5rCLBsjiW9ooQfZnj/XzR0
-	 xnKCF/DQZOEs3R/VrlhHy0R7EQFQ5FyvhM6VMZjnS2Dac0y3SFRkSxk7Va3OxnIhO+SKD
-	 RdfwPuvd0n1zE225y5YAsE/DCNU4ALqT8yDVbHAC4k38/UsZP+9WRK93OsDM+3rgANA5M
-	 SrRBlfIs26Ud7hgWWYzujgXzfP4xcPaxemTYHWEJtAAjUWefVztNs/TQrHdgj8h9rxg==
+	t=1792811449;
+	b=usig5yWd2J7fcuO/ULNNT+ujXyNSxNpOkeZFy3j5JRTB9a/j8WGFE33N6NUgXobHgXkE
+	 csTeQVV6bRXTXOAKMQz8LxzDA6fgMOzA4EQjTY+UiDxzTdJ+x5aRkxDfxpAwQB2/LdA8+
+	 gsXwfvh143px7iCyeLy1bF4U58Rap5RCpMpRQ8xUKuwsCwJifUmv226guKY4FAqnMA3Ur
+	 daScJODmcPWNvUglLrH1lnd9qpZulwhZetW+JnDB5FO2kcDPYTaPbBBzlw7dB69Kig3Io
+	 MRu5T6YOA2khmGjlZZpAJXcHPvmnpUBurMsXleNALLnVQbeztabVx+PgqvibO98Clwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792811448;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792811449;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=f+Cr+umVgXMe9KfNVEYCW5f8Y8xpCtRjeo6mvNHL0+s=;
-	b=uCcpE3D5Z5LTK15qme+OIDOUGDjhh6OqTBPm5s0pk7SMGe9xOlFr/GijuhP7/l8n7eVI
-	 9jS8JcfYBOgQ3S1qBBRPLl3//BCvfRR+2adBV+EVGXIrnXgvfFEQYz/Rh1dPhgQyaw6fH
-	 6Nv2yO0atE8f7F5+wdyccwh+1Xl/oTAAqan6I1HPTwqfc8cdEjsf+zwZKb6Uw4+CmxjlP
-	 O+1jyRZbv79+ZfYmOgvS2BsH8D8ANR093kK7C6N/+yVMe0BShlqfzrhkNXtfrmyfc0cbU
-	 rgiuWRURaxbGHA7MLgX6FbbAw/guOdKbksTm0FwZKf2wPzFXMN3KDCg9Ss70JvQcIJw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=FuQWEQ8NfRd9spVST/QkaLS5lmee+T4fW47LXXtUoWg=;
+	b=k7AcK+EXU70QLulrR2mB3w1TfmIn7ZsEXh3JsFQ1DeXXTuDHZgharyX/uRex1CSKRn1b
+	 c9S/uZ464Ic6REM1wJZQKazXmCXqD+F4Q0aLsScbMca2LpWYUFNTfInc/ZsMw8XOERfnC
+	 nS1jpLVCccExQTe85ICSl0npsgeVYBXQQltI6XpABlUMFbWeb690WZNKs9GXcCxVE+QI/
+	 0Lz5h103/XgG+9Hws2gSrX9y5kT27MgN9dXyYtqIVEPZyYEahgYzzyADDr8vtZu6SucJa
+	 NPzslgCg54TL8JuBOwh0yfDUg+fgHs2psQ0CklzC8zMbhFNcakLrUdMcTR+Blf588mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SsXtLAU9;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dBjmwa5o;
 	arc=none smtp.remote-ip=198.175.65.20
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64301606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 03:10:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64301606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F5E606A31D;
+	Sat, 24 Oct 2026 03:10:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03F5E606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SsXtLAU9
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dBjmwa5o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792811447; x=1824347447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7u6wnZrpkkGvC4DamhU9kPf1XMYQE+RGL1UjBwaHLXc=;
-  b=SsXtLAU9bE25uy+XEyNKTERWgW6WClh0SEY8v0sHqI7/Ayr09uFDMuaC
-   dRNW1vNhcIGTGwHBKObwtKz1+V6Mw2OR+aoKoZa1zgNM/TJLwMhgEKvt+
-   6pTsMrbK7n/JCRj5p1zcEYfvuFM+gP2xqUlpQJdDlGMJfRR43ps8VRxpD
-   UFzsNwExpSgZYjtDRUjl/4J2loKfLsVieVhx59VajkecK+kxkqOVtb6tU
-   IX3s+GGGlBpRwG4kQ+PJ1dQceBHcDZg6GSrDQhYbUVs7+mQDbmfnhsNn+
-   SZYG7OU7lbC2Rkxv95BL85sI3QFNxnwF/p0RC6LzuIFBrSTN/lvRgf5Ze
-   g==;
-X-CSE-ConnectionGUID: GvViIswbQvCPaqcTDF0f5g==
-X-CSE-MsgGUID: qRh4B+7MR4CnYJ2xH+Xyfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1588000"
+  t=1792811449; x=1824347449;
+  h=date:from:to:cc:subject:message-id;
+  bh=jVM9oydvQ19TtUJnCqVbSAH0i/DmF7TuS02KL/H+GYk=;
+  b=dBjmwa5o3Bq89i6p15rO3Mc5Mrpr64xzEbNLYBA/nxBlHEjExW2I+amK
+   43BRrS86/OZWnOq6llxQRVlwj11C0YXiPUNaM4JtNb3UklIVFT5OH8Q8z
+   eAYbO1/OK07NW7ER4qdbytKCD89XKI7oliMmABhC7V/zgfotdn0qP80UJ
+   gF9j1Ntad9IJ8uTQmwV95eq8Dced4uHLjlDNcUROPrQCOxuDN4trrg+iB
+   oC+urqXVHg7vcnTSWwshP6kTJ7PtXcVm/tzsAj5L34Vm3A2HawRZ9BcD1
+   wofeXIuj+0j9p2RcSy61nOxvDIIvcPqHCieGk+tmTGFv9QXgjMdygvyuH
+   Q==;
+X-CSE-ConnectionGUID: XAr+LRrTTduVqn8MHteBXw==
+X-CSE-MsgGUID: GQOKKg31TMKNbYopvYiV7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1588001"
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="1588000"
+   d="scan'208";a="1588001"
 Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 20:10:47 -0700
-X-CSE-ConnectionGUID: 02VhpRjvRHO33Kkbg4td7A==
-X-CSE-MsgGUID: gQPdsqyqSu28NWQXUmJs0Q==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 20:10:48 -0700
+X-CSE-ConnectionGUID: 0VyYXDyAT9mVg/c1Y6Qorg==
+X-CSE-MsgGUID: rxXYwzp9RfydWHbthX4MRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="5641586"
+   d="scan'208";a="5641589"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by fmviesa011.fm.intel.com with ESMTP; 23 Oct 2026 20:10:45 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKS9b-00000000TWy-2gMd;
+	id 1xKS9b-00000000TWw-2bH9;
 	Sat, 24 Oct 2026 03:10:43 +0000
-Date: Sat, 24 Oct 2026 11:10:08 +0800
+Date: Sat, 24 Oct 2026 11:10:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 18/41]
- aux_clock_test.c:undefined reference to `__aeabi_ldivmod'
-Message-ID: <202610241125.3T5wIcJl-lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Eliot Courtney <ecourtney@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>
+Subject: [linux-next:master 4098/19853] warning: associated function
+ `from_raw` is never used
+Message-ID: <202610241133.L9VWoFcD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,27 +81,48 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   a40991dd87115c3f70bf87884b803ed7e09dc387
-commit: 503828dc4bd6f98d85d169659fdfc68f30032df4 [18/41] timekeeping: Add a test for auxiliary to monotonic clock conversions
-config: arm-randconfig-1002-20261024 (https://download.01.org/0day-ci/archive/20261024/202610241125.3T5wIcJl-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241125.3T5wIcJl-lkp@intel.com/reproduce)
+Hi Joel,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bd1ecbb61afefc6a8b876ccbc31e9228b44e9eab
+commit: 3f1e12fce16f6e88fbaab3404df33f65c8f4df87 [4098/19853] rust: pci: add resource_flags accessor
+config: x86_64-buildonly-randconfig-1005-20261024 (https://download.01.org/0day-ci/archive/20261024/202610241133.L9VWoFcD-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241133.L9VWoFcD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610241125.3T5wIcJl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610241133.L9VWoFcD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: kernel/time/aux_clock_test.o: in function `mono_conv':
->> aux_clock_test.c:(.text+0x288): undefined reference to `__aeabi_ldivmod'
->> arm-linux-gnueabi-ld: aux_clock_test.c:(.text+0x37c): undefined reference to `__aeabi_ldivmod'
-   arm-linux-gnueabi-ld: aux_clock_test.c:(.text+0x4a8): undefined reference to `__aeabi_ldivmod'
+>> warning: associated function `from_raw` is never used
+   --> rust/kernel/io/resource.rs:240:25
+   |
+   216 | impl Flags {
+   | ---------- associated function in this implementation
+   ...
+   240 |     pub(crate) const fn from_raw(value: c_ulong) -> Self {
+   |                         ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+--
+   llvm-nm: error: rust/helpers/helpers.o: No such file or directory
+>> warning: associated function `from_raw` is never used
+   --> rust/kernel/io/resource.rs:240:25
+   |
+   216 | impl Flags {
+   | ---------- associated function in this implementation
+   ...
+   240 |     pub(crate) const fn from_raw(value: c_ulong) -> Self {
+   |                         ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
 
 --
 0-DAY CI Kernel Test Service
