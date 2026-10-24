@@ -1,87 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792836735;
-	b=ccdfu5Vs3W4Rwsu7p8iZphebH7OxY7NPrFZxCBpEbDIav6S7CSGLTJzaU/7IDAZjlk1X
-	 CYRel/fP5ICvdvkjKDBZKUHe8dyGllp1TLUmYetpRGsZEE+tiUa7NYksCaCjKO3EO32Tl
-	 a/a8CpT+5xt7u8AXATJwksN8VWmUC+oUPGKIAvTxwp0vSqVScrJ1lB4nLIeM5Pz+cJi6C
-	 WoAp0tFhB4GThU3Q4NyX1vKu+62mLo3pjErEdxK1KNxdfmZ7r2StPRWLicomTp9rHchhD
-	 +LG7qi3mBr0GIWCoK95g8gp4ha+7ake9JWkfsWIWaVEWOAvadlhQQ51RA4VqperhSWQ==
+	t=1792840818;
+	b=vC66UuBeEqtLALY8dcbO3dNB1frWlSQlE0tKQPyxc/piMKYLh0jAKN/KYH/Dw59PvJM/
+	 ky4BZLypM4/dDz6VkQLnCeiBB3jBHkwtgB+C3a2p7QT/LOZ/SSN0eHvpzX7i8Nq6rWdW5
+	 yYTBKSaL0mS1TjVEwKOULffjjpuO75G6GTaarZo249urjkZf242waxVZtFirDwI9hCa7Q
+	 dKExr4drPiHTMsdoFk0CPJF6tljzltT/m9Xa5i70BtR7X8d11YRuZXdbUEaCIc4PVtEUZ
+	 EDZne3kkXXqfBWtm15nKHeIxaOsggYssC7hmWfxVd6MvIo7h2E2GS7xq3xyJ9BWWuMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792836735;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792840818;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=5dDo2jQtU5YCwFaK037Js+A9XxUT5Bhl12dwg82ypVU=;
-	b=MNKpDxGj63Jxh4BW1wePwrssT0vMT9bYnoyf7OD+EOWL5g8ZSI9JdOyuTV8bPkP+ECY6
-	 TgozG8/8kki+YY6gRKaNni5kEHQrCp4EflD7RRhFFentThvgHewSqP8iVvhfnU1rQO03W
-	 FI7YiR2BlaR/OxxLXAM2htPeky4g6lqDqxbiRG6Qy7d+lRScncKQpd6d6tsoT/Cex4UL0
-	 3SDeAyu+78UqTJxb3zng0jHmj0JkFZ5uUUGR0W3+AnukQblneETg5Vmd3qIZ63nSuEJQ4
-	 HFkFmixSpX2zVhMAqND/Ec2YpOVW5j3RmUkp2sMDZr1VvbLzUXztgwPNBFP1dHeMO0g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=IC5yWO9Rhi+RD1ShAF2GChcdWnCyGC0yXXl7UUedZ4M=;
+	b=qcbzPPNHPzEWLh/iz+2mEiYmru3+5+sessrZhGSj8xBEIIVo5cOag9gQmIOMKyERx6RI
+	 QIKf/IVVGe7oUJPeZkZFmdg9MBYFKcBdNYTCLaxd+g12gV55fG1yMOPDHR+gDTiORilvl
+	 M6sQggjXiMXCpN5eiz7jA4+KwUvtC4IDO9Jbibi0q6oVXM85gN415aFmb9W2Qp0p5yvfV
+	 PeVi52wFYuBBDCR8RC0/zXCNnnCQeKVdI9cgJ9BJVXXiB7+hflHIM512wDnv1qqNBEFml
+	 KI43IYexlGOQXn2Dlda+kDDEjBKH6pCw0PNeTzvfZ0PAaTHRvADONbIa8Op/mTBy1lg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dxpIyPyJ;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hoqpmifN;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF80606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 10:12:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBF80606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C773C606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 11:20:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C773C606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dxpIyPyJ
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hoqpmifN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792836734; x=1824372734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bal+9D+8XcLLe75AoeOEIfT/sagOC17Rzw4JWqJmsYU=;
-  b=dxpIyPyJlg0Lkyhqp2FAKDJMwQ5ZMERjLPOYAnvC2MbvSbvnxRAPBFEe
-   8OocNnk06C7yl4WSn6IKHpEh7PDsH9XURbOd1oAkgiClD5c8GxuqpluIj
-   3y8APK7hJWKepkuQ1BAN6U1tPDsfDEw0DRCOxbj91wm4c+imS+CEBNj1Z
-   c0Mi3qeCKZCEyZt317RPPJGbRUSOyGYsXmXfusNQSLeKQ+Wc5mxP6dcWy
-   d9OV5zBqsn1ZllWzUKVaSe046KtFJGL6FGeU7C9GM+IkKYP72zwqEll8c
-   vmXUfdDrHR8Zi/QdxvmLg57WfTQbPr5+q31ZjEb15W8lgf32UdAA+6PKp
-   g==;
-X-CSE-ConnectionGUID: ZbNLGI1aQuG3lG0UvM3TGA==
-X-CSE-MsgGUID: 2q9UAPbXSCuLQfp0TeEmAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1468216"
+  t=1792840817; x=1824376817;
+  h=date:from:to:cc:subject:message-id;
+  bh=JJCfp3uI5JJ7K3SUDvdcpkvi7XKtvzj7FovN9wkSEFE=;
+  b=hoqpmifN0XVMZNEV+30h9lsg1txyA0OqNcfOzWDqrGus/lDwFQpnYLj4
+   3YpO2OrIt3OXqIEGbcuXPF3UbZPsfmviKzLg8WmwIdyTqLDWTfy4f4ZRP
+   bvOlbsiPoCc1/oV0HHxRVPGDeYiyXDl4Oa/O6Xa0J+w4d1SMDWZEmN3WM
+   ajlKfSqMFTD7VseSMBfsU1g4/NJ2lKaVahixS+dnABEFmUMTheQyLF1ZI
+   EdV2MtWyFeG8oTLQuaPg1CXvKHExu9chzaLqzIoK2u5PBod+kWGxW3liR
+   2JRzyQR6U3XV9kAkEph4G9R5rlvlKBo6qVIINxkypwjlNa99FbO9pbkoQ
+   A==;
+X-CSE-ConnectionGUID: PTgG61npRI+eibr97PSeTg==
+X-CSE-MsgGUID: 81pqaV9FSpWIuUZt5JOtKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1453415"
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="1468216"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 03:12:13 -0700
-X-CSE-ConnectionGUID: c19YS49JSKywUYxU7+lgvQ==
-X-CSE-MsgGUID: Ywu+0ywoRM+SDJ6UcAMoXw==
+   d="scan'208";a="1453415"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 04:20:17 -0700
+X-CSE-ConnectionGUID: I9NnwyioTQitu1p8bJWAiw==
+X-CSE-MsgGUID: poUgPe4yT5GrO4RkkAKdYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="4344600"
+   d="scan'208";a="3870080"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2026 03:12:10 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Oct 2026 04:20:15 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKYjO-00000000TmI-2pwy;
-	Sat, 24 Oct 2026 10:12:06 +0000
-Date: Sat, 24 Oct 2026 18:11:39 +0800
+	id 1xKZnI-00000000ToI-12zN;
+	Sat, 24 Oct 2026 11:20:12 +0000
+Date: Sat, 24 Oct 2026 19:19:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: vmukunda <vmukunda@marvell.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Sunil Goutham <sgoutham@marvell.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	vmukunda <vmukunda@marvell.com>
-Subject: Re: [PATCH net] octeontx2-af: Fix npc_delete_flow counter read for
- cn20k
-Message-ID: <202610241814.S7V8CsQq-lkp@intel.com>
-References: <20261023100112.3402726-1-vmukunda@marvell.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2]
+ drivers/dma-buf/dma-buf.c:345: warning: Function parameter or struct member
+ 'name' not described in 'dma_buf_set_name'
+Message-ID: <202610241904.yTdSMAJx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -90,108 +80,57 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023100112.3402726-1-vmukunda@marvell.com>
 
-Hi vmukunda,
+Hi Guangming,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/vmukunda/octeontx2-af-Fix-npc_delete_flow-counter-read-for-cn20k/20261023-100112
-base:   net/main
-patch link:    https://lore.kernel.org/r/20261023100112.3402726-1-vmukunda%40marvell.com
-patch subject: [PATCH net] octeontx2-af: Fix npc_delete_flow counter read for cn20k
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20261024/202610241814.S7V8CsQq-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241814.S7V8CsQq-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   e64d278d669fa423e1337ad06c6672336c13bea9
+commit: 88a96b0b27bcdda732e9d4e9d35cefad8ea7ffd9 [2/2] ANDROID: dma-buf: support users to change dma_buf.name
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20261024/202610241904.yTdSMAJx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241904.yTdSMAJx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610241814.S7V8CsQq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610241904.yTdSMAJx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/marvell/octeontx2/af/rvu.h:13,
-                    from drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:11:
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c: In function 'rvu_mbox_handler_npc_delete_flow':
->> drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:1962:58: error: 'rvu_pdev' undeclared (first use in this function)
-    1962 |                                 if (blkaddr && !is_cn20k(rvu_pdev))
-         |                                                          ^~~~~~~~
-   include/linux/soc/marvell/silicons.h:22:41: note: in definition of macro 'is_cn20k'
-      22 | #define is_cn20k(pdev)          ((void)(pdev), 0)
-         |                                         ^~~~
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:1962:58: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/soc/marvell/silicons.h:22:41: note: in definition of macro 'is_cn20k'
-      22 | #define is_cn20k(pdev)          ((void)(pdev), 0)
-         |                                         ^~~~
-   include/linux/soc/marvell/silicons.h:22:46: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-      22 | #define is_cn20k(pdev)          ((void)(pdev), 0)
-         |                                              ^
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:1962:49: note: in expansion of macro 'is_cn20k'
-    1962 |                                 if (blkaddr && !is_cn20k(rvu_pdev))
-         |                                                 ^~~~~~~~
+>> drivers/dma-buf/dma-buf.c:345: warning: Function parameter or struct member 'name' not described in 'dma_buf_set_name'
+   drivers/dma-buf/dma-buf.c:345: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
 
 
-vim +/rvu_pdev +1962 drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c
+vim +345 drivers/dma-buf/dma-buf.c
 
-  1932	
-  1933	int rvu_mbox_handler_npc_delete_flow(struct rvu *rvu,
-  1934					     struct npc_delete_flow_req *req,
-  1935					     struct npc_delete_flow_rsp *rsp)
-  1936	{
-  1937		struct npc_mcam *mcam = &rvu->hw->mcam;
-  1938		struct rvu_npc_mcam_rule *iter, *tmp;
-  1939		u16 pcifunc = req->hdr.pcifunc;
-  1940		struct list_head del_list;
-  1941		int blkaddr;
-  1942	
-  1943		req->entry = npc_cn20k_vidx2idx(req->entry);
-  1944		req->start = npc_cn20k_vidx2idx(req->start);
-  1945		req->end = npc_cn20k_vidx2idx(req->end);
-  1946	
-  1947		INIT_LIST_HEAD(&del_list);
-  1948	
-  1949		mutex_lock(&mcam->lock);
-  1950		list_for_each_entry_safe(iter, tmp, &mcam->mcam_rules, list) {
-  1951			if (iter->owner == pcifunc) {
-  1952				/* All rules */
-  1953				if (req->all) {
-  1954					list_move_tail(&iter->list, &del_list);
-  1955				/* Range of rules */
-  1956				} else if (req->end && iter->entry >= req->start &&
-  1957					   iter->entry <= req->end) {
-  1958					list_move_tail(&iter->list, &del_list);
-  1959				/* single rule */
-  1960				} else if (req->entry == iter->entry) {
-  1961					blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_NPC, 0);
-> 1962					if (blkaddr && !is_cn20k(rvu_pdev))
-  1963						rsp->cntr_val = rvu_read64(rvu, blkaddr,
-  1964									   NPC_AF_MATCH_STATX(iter->cntr));
-  1965					list_move_tail(&iter->list, &del_list);
-  1966					break;
-  1967				}
-  1968			}
-  1969		}
-  1970		mutex_unlock(&mcam->lock);
-  1971	
-  1972		list_for_each_entry_safe(iter, tmp, &del_list, list) {
-  1973			u16 entry = iter->entry;
-  1974	
-  1975			/* clear the mcam entry target pcifunc */
-  1976			mcam->entry2target_pffunc[entry] = 0x0;
-  1977			if (npc_delete_flow(rvu, iter, pcifunc))
-  1978				dev_err(rvu->dev, "rule deletion failed for entry:%u",
-  1979					entry);
-  1980		}
-  1981	
-  1982		return 0;
-  1983	}
-  1984	
+   330	
+   331	/**
+   332	 * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+   333	 * It could support changing the name of the dma-buf if the same
+   334	 * piece of memory is used for multiple purpose between different devices.
+   335	 *
+   336	 * @dmabuf: [in]     dmabuf buffer that will be renamed.
+   337	 * @buf:    [in]     A piece of userspace memory that contains the name of
+   338	 *                   the dma-buf.
+   339	 *
+   340	 * Returns 0 on success. If the dma-buf buffer is already attached to
+   341	 * devices, return -EBUSY.
+   342	 *
+   343	 */
+   344	long dma_buf_set_name(struct dma_buf *dmabuf, const char *name)
+ > 345	{
+   346		char *buf = kstrndup(name, DMA_BUF_NAME_LEN, GFP_KERNEL);
+   347		if (!buf)
+   348			return -ENOMEM;
+   349	
+   350		_dma_buf_set_name(dmabuf, buf);
+   351	
+   352		return 0;
+   353	}
+   354	EXPORT_SYMBOL_GPL(dma_buf_set_name);
+   355	
 
 --
 0-DAY CI Kernel Test Service
