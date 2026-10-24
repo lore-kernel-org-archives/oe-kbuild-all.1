@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792800258;
-	b=ydy6hYQsD3ZZ3aXU10ZyQTvlrL9dpJtvZu91eKpZUfKl7TzCnNcwqXFACvMvZ2xnjsEf
-	 +dOyeHOIapA9WLvf/5ZGeBKsAjFmIMjYp3hmieEQiccfl9qgMY0wCJtFF2d/I9YLYkq8q
-	 0/OqX/RrppPz73tXW8vmYw4X3l/PLfNWvnF4U5Wg8fhYPIeN0ByCaWBYZBG/cok9b5rGh
-	 fA5Ar358Tn+OH1kUZrbl4AXe4r0tb2pFi+gjJzVa4aUYwDa5VNQ2tKV8JX+d0PSE+DYuV
-	 IE2t8zwDePq6Ug1naXsp+RctnumqpRBh0z2WbERBHUy9w3b1lmp/4WnTFryKtHF7TJw==
+	t=1792801254;
+	b=FVyxa/oJ6T22xtEbwWYtvio54szGUhfN9MNpcbiOEJLKJJAA5QhYEr5RqOG74yzwGj3W
+	 xeT1GI4SXeLVj0zBEZZAX/IJHvurYVSLWQ1FebPpu1O4+0KCGSISh4TYNogbwoSXazP0O
+	 Q6JkafxDj70F2j2sLfuVFhcNDb62jxHUxhwsZyWn4HHLKX/gZ0my6ISdlyTmzRgUjDbQ5
+	 m15SuB2irFDWc3V1nD+BueoRYCZfC2dtlbaHlxRauglcbFHGVBjjzqD02FV40C89Ralkc
+	 4PRoTUK5NJg73fwKow1VVwrvP2SmVo7J6uNO+kEUI4XvTzTxwqX/PwlMUJYVv4oJcWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792800258;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792801254;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ziYWLz9wM2tT4veM70p1I58aNnF0qcqrKAyoRgOGTlE=;
-	b=pgbyPx18U35M8E5LsY7Zu0ItFoFXmrfPfoce25uxowbrGfDXOxuyTNXZi3FxDEVX03x5
-	 aXzcsZ+XO/lhamAi8AaLFoHB/9WDvtCt4vKJ850xvwYGhx/GHxBKo8kLpOt9pgme2tO5x
-	 sZD4tDligWYIzqIkt3fZ/70XZ0LzI2yFDbSBI5WKvWMU6PFnK1MvUg9JtZWtkGVyOvBrW
-	 3oS6jOQpseXNndrvAl6UZzFldv0AZ2KJjcAVSsvh8S0wMNEcmtUyv/+uV5HP9DHgXhFDf
-	 lPeQGaEHaou8KE4i3nKRKqu9Wh+7UVc1c7eK1ul0l0tALrDh/hLyHRoQXN/3z10WePw==
+	bh=17nM5O68eKtmqdbd3XC2ws9UOxWuocS2TqjlT4WbeMU=;
+	b=ez91PPATk20ElMX6HwhF5bd3t9GRmWPy90Cu8d+ISDHPyahihNRd1i0RiB3rOCXJ50iC
+	 aEvW3QcLz+kjuSfFM8LkZOsP3OQgCM5TmQ8+SjmRtKn3EWiyIhYzid6mJkClQaLe+RzR5
+	 WzEMCFC3tgH/fme2tyWOeyPdS2I3SO+SGqYwNeDSEjf0ngMO+ocSqBwO6ithdAFdUP7mT
+	 pGa2xKK+8DNuH9YkDdHxtajlDJib0xZ1zZm/DIZ+UV4JL1/LsDsWy3TyGgaZnKakNSeXp
+	 kpmp+JIVO/KE7CvyJht0poh6OIcVA+Hd1/HY5dnit4L8N2sbbXn8fKrZcDafi2rl25Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="N/HuAZsJ";
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=as739X0C;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFCD606A321;
-	Sat, 24 Oct 2026 00:04:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EFCD606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA31D606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 00:20:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA31D606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N/HuAZsJ
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=as739X0C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792800257; x=1824336257;
+  t=1792801252; x=1824337252;
   h=date:from:to:cc:subject:message-id;
-  bh=AjEZFQzlNnZwW7yjYYp8BWuGXBYroqkYijbHuo5IdM0=;
-  b=N/HuAZsJhAyk1bZUGbdeliAhVA2vzj/FklqJY4GqAme/wdGkS+DLM43W
-   5NYVBAvvMerPhkAqOrfG/6Agh2PpoWNQp8D2EulL8rinIzaz58dFTALFI
-   q7dWhkmLHXIJI1T2U51T2UPTUgygfIvRxZ4qRJKSER7FtLwrH28u9adQW
-   dobGX3ES8RC0EsZ3VMFmlYFIm2MbVjhROuZHG2WwGG4RjCjFfI09AIsyS
-   ESNtFetB1pMpqRqjzgBWEBjW6EaofgCcY2N2AB+gJ5Ck+Y04PVXtIYI/R
-   gkezGfhRQqkaLTS4dM5/XHKGXkG9JFc2lVYjH4PQU1HBCtQBgvz1DUKSi
-   w==;
-X-CSE-ConnectionGUID: r6XGwDfwQxy5jkV2XQGpGQ==
-X-CSE-MsgGUID: eQazQvdWQfazbx7wQ6pbMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1451808"
+  bh=HNOY/ygLlre1BFPpQfEYOccSZG4wSqzdC+QP9vBkZIg=;
+  b=as739X0Ck+Hhf86CjKbSWP30VOQim6gpcCtQeyBef/KZ1TRONl7a6IaX
+   ERhYqgrwJpo1v1MiF/S3XpCW8UH1ug8pSV4CGa1U1zB9wVrBdQ15Vh+lh
+   OijG/VLM1KrpN5E6RkuY4MXr96RTRZi/G1c65aXiU/PwjOITYytXIqpKw
+   7mh1b3lZ4Vf2F4IMn3ffayqVg1BmtI4CnnMgYBWA9MXoKVzgtVltQMnrq
+   Xj8Sqykfw0WQovUm9ajupj6aC4GCDbyL+JEL+AhVMANWiTGYTe1b3BH3b
+   InqLnnpgia69Bkc6iBv7hEgR7sFmDhJYDBapr5bDyzhEuRWDybahuOXfJ
+   A==;
+X-CSE-ConnectionGUID: /9bXFUJ3QjK/u1bkZa5LSQ==
+X-CSE-MsgGUID: 8kl+DuCpRpa5Be8JesNWHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1439527"
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="1451808"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 17:04:16 -0700
-X-CSE-ConnectionGUID: /AZfbux8RIG3EoZ5oJB+Tw==
-X-CSE-MsgGUID: ighPofzrT2yFjntMxOxPYw==
+   d="scan'208";a="1439527"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 17:20:51 -0700
+X-CSE-ConnectionGUID: PU7Y4pflSw2YoOFjaEwhWQ==
+X-CSE-MsgGUID: JgW+/TJGR+KJOutEydgZow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="4158445"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2026 17:04:13 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="3836101"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 23 Oct 2026 17:20:50 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKPF4-00000000TO0-3hW5;
-	Sat, 24 Oct 2026 00:04:10 +0000
-Date: Sat, 24 Oct 2026 08:03:34 +0800
+	id 1xKPV9-000000002nv-0pQH;
+	Sat, 24 Oct 2026 00:20:47 +0000
+Date: Sat, 24 Oct 2026 02:19:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bcain:hexagon 2/82] drivers/video/fbdev/udlfb.c:370:52:
- error: use of undeclared identifier 'PAGE_SHARED'
-Message-ID: <202610240743.6bfk7K8M-lkp@intel.com>
+To: Zach Brown <zab@zabbo.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zab-rpdfs:rpdfs-initial 83/98] fs/rpdfs/ehtable.c:259:2:
+ warning: variable 'del' is used uninitialized whenever 'for' loop exits
+ because its condition is false
+Message-ID: <202610240228.NDsWRPuI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,79 +81,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git hexagon
-head:   35ab1dadb94646b74469738c1741f68e8c6aac3d
-commit: a068d81e03bf28e40eceb94bc49e122f09177d70 [2/82] hexagon: fix the page table model for the Hexagon VM
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261024/202610240743.6bfk7K8M-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610240743.6bfk7K8M-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zab/linux-rpdfs.git rpdfs-initial
+head:   8a293e5c1bf0416f4d4e116bf8693c00dbe876da
+commit: 2658c3c902752b51b9bebb9bb36cf7dcde32d28d [83/98] rpdfs: add meta code for caching metadata
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20261024/202610240228.NDsWRPuI-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610240228.NDsWRPuI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610240743.6bfk7K8M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610240228.NDsWRPuI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/video/fbdev/udlfb.c:370:52: error: use of undeclared identifier 'PAGE_SHARED'
-     370 |                 if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
-         |                                                                  ^~~~~~~~~~~
-   1 error generated.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:171:
+   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      28 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:372:9: note: previous definition is here
+     372 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   In file included from fs/rpdfs/ehtable.c:9:
+   fs/rpdfs/meta.h:8:43: warning: declaration of 'struct rpdfs_iget_data' will not be visible outside of this function [-Wvisibility]
+       8 | int rpdfs_folio_loc_from_block_key(struct rpdfs_iget_data *igd, pgoff_t *index,
+         |                                           ^
+>> fs/rpdfs/ehtable.c:259:2: warning: variable 'del' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
+     259 |         for_each_entry(ehb, iargs->hash, ent, pl) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/rpdfs/ehtable.c:148:2: note: expanded from macro 'for_each_entry'
+     148 |         __for_each_entry(ehb, base_entry(ehb, hash), ent, pl)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/rpdfs/ehtable.c:144:7: note: expanded from macro '__for_each_entry'
+     144 |              (ent = &ehb->entries[(ent - ehb->entries) & RPDFS_EHTABLE_ENTRIES_MASK]); \
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/rpdfs/ehtable.c:275:31: note: uninitialized use occurs here
+     275 |         for_each_entry_continue(ehb, del, ent, pl) {
+         |                                      ^~~
+   fs/rpdfs/ehtable.c:259:2: note: remove the condition if it is always true
+     259 |         for_each_entry(ehb, iargs->hash, ent, pl) {
+         |         ^
+   fs/rpdfs/ehtable.c:148:2: note: expanded from macro 'for_each_entry'
+     148 |         __for_each_entry(ehb, base_entry(ehb, hash), ent, pl)
+         |         ^
+   fs/rpdfs/ehtable.c:144:7: note: expanded from macro '__for_each_entry'
+     144 |              (ent = &ehb->entries[(ent - ehb->entries) & RPDFS_EHTABLE_ENTRIES_MASK]); \
+         |              ^
+   fs/rpdfs/ehtable.c:254:33: note: initialize the variable 'del' to silence this warning
+     254 |         struct rpdfs_ehtable_entry *del;
+         |                                        ^
+         |                                         = NULL
+   3 warnings generated.
 
 
-vim +/PAGE_SHARED +370 drivers/video/fbdev/udlfb.c
+vim +259 fs/rpdfs/ehtable.c
 
-8de779dc40d35d drivers/video/fbdev/udlfb.c   Rajat Gupta        2026-05-03  342  
-4574203f45eb26 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  343  static int dlfb_ops_mmap(struct fb_info *info, struct vm_area_struct *vma)
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  344  {
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  345  	unsigned long start = vma->vm_start;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  346  	unsigned long size = vma->vm_end - vma->vm_start;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  347  	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  348  	unsigned long page, pos;
-8de779dc40d35d drivers/video/fbdev/udlfb.c   Rajat Gupta        2026-05-03  349  	struct dlfb_data *dlfb = info->par;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  350  
-5905585103276b drivers/video/fbdev/udlfb.c   Thomas Zimmermann  2022-04-29  351  	if (info->fbdefio)
-5905585103276b drivers/video/fbdev/udlfb.c   Thomas Zimmermann  2022-04-29  352  		return fb_deferred_io_mmap(info, vma);
-5905585103276b drivers/video/fbdev/udlfb.c   Thomas Zimmermann  2022-04-29  353  
-76f92201b821dd drivers/video/fbdev/udlfb.c   Thomas Zimmermann  2023-11-27  354  	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
-76f92201b821dd drivers/video/fbdev/udlfb.c   Thomas Zimmermann  2023-11-27  355  
-04f8afbec37f63 drivers/video/udlfb.c         Tomi Valkeinen     2013-04-18  356  	if (vma->vm_pgoff > (~0UL >> PAGE_SHIFT))
-04f8afbec37f63 drivers/video/udlfb.c         Tomi Valkeinen     2013-04-18  357  		return -EINVAL;
-04f8afbec37f63 drivers/video/udlfb.c         Tomi Valkeinen     2013-04-18  358  	if (size > info->fix.smem_len)
-04f8afbec37f63 drivers/video/udlfb.c         Tomi Valkeinen     2013-04-18  359  		return -EINVAL;
-04f8afbec37f63 drivers/video/udlfb.c         Tomi Valkeinen     2013-04-18  360  	if (offset > info->fix.smem_len - size)
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  361  		return -EINVAL;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  362  
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  363  	pos = (unsigned long)info->fix.smem_start + offset;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  364  
-5865889fe43194 drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16  365  	dev_dbg(info->dev, "mmap() framebuffer addr:%lu size:%lu\n",
-2685cffa9e7992 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  366  		pos, size);
-2685cffa9e7992 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  367  
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  368  	while (size > 0) {
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  369  		page = vmalloc_to_pfn((void *)pos);
-f05e0575ed334a drivers/staging/udlfb/udlfb.c Greg Kroah-Hartman 2009-06-03 @370  		if (remap_pfn_range(vma, start, page, PAGE_SIZE, PAGE_SHARED))
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  371  			return -EAGAIN;
-f05e0575ed334a drivers/staging/udlfb/udlfb.c Greg Kroah-Hartman 2009-06-03  372  
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  373  		start += PAGE_SIZE;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  374  		pos += PAGE_SIZE;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  375  		if (size > PAGE_SIZE)
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  376  			size -= PAGE_SIZE;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  377  		else
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  378  			size = 0;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  379  	}
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  380  
-8de779dc40d35d drivers/video/fbdev/udlfb.c   Rajat Gupta        2026-05-03  381  	vma->vm_ops = &dlfb_vm_ops;
-8de779dc40d35d drivers/video/fbdev/udlfb.c   Rajat Gupta        2026-05-03  382  	vma->vm_private_data = dlfb;
-8de779dc40d35d drivers/video/fbdev/udlfb.c   Rajat Gupta        2026-05-03  383  	atomic_inc(&dlfb->mmap_count);
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  384  	return 0;
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  385  }
-88e58b1a42f8c1 drivers/staging/udlfb/udlfb.c Roberto De Ioris   2009-06-03  386  
+bc6c59466912ed0 Zach Brown 2026-07-09  243  
+bc6c59466912ed0 Zach Brown 2026-07-09  244  /*
+bc6c59466912ed0 Zach Brown 2026-07-09  245   * Find and delete an entry that matches the key.  Returns errors if no
+bc6c59466912ed0 Zach Brown 2026-07-09  246   * key was found or gives the caller the offset of the item whose entry
+bc6c59466912ed0 Zach Brown 2026-07-09  247   * was removed.
+bc6c59466912ed0 Zach Brown 2026-07-09  248   */
+bc6c59466912ed0 Zach Brown 2026-07-09  249  static int delete_entry(struct rpdfs_ehtable_block *ehb, struct rpdfs_ehtable_item_args *iargs,
+bc6c59466912ed0 Zach Brown 2026-07-09  250  			u16 *offset)
+bc6c59466912ed0 Zach Brown 2026-07-09  251  {
+bc6c59466912ed0 Zach Brown 2026-07-09  252  	struct rpdfs_ehtable_item *item;
+bc6c59466912ed0 Zach Brown 2026-07-09  253  	struct rpdfs_ehtable_entry *ent;
+bc6c59466912ed0 Zach Brown 2026-07-09  254  	struct rpdfs_ehtable_entry *del;
+bc6c59466912ed0 Zach Brown 2026-07-09  255  	u8 pl;
+bc6c59466912ed0 Zach Brown 2026-07-09  256  	int ret;
+bc6c59466912ed0 Zach Brown 2026-07-09  257  
+bc6c59466912ed0 Zach Brown 2026-07-09  258  	/* search for the entry to delete, setting offset */
+bc6c59466912ed0 Zach Brown 2026-07-09 @259  	for_each_entry(ehb, iargs->hash, ent, pl) {
+bc6c59466912ed0 Zach Brown 2026-07-09  260  		if (ent_is_empty(ent) || pl > ent->probe_len) {
+bc6c59466912ed0 Zach Brown 2026-07-09  261  			ret = -ENOENT;
+bc6c59466912ed0 Zach Brown 2026-07-09  262  			goto out;
+bc6c59466912ed0 Zach Brown 2026-07-09  263  		}
+bc6c59466912ed0 Zach Brown 2026-07-09  264  
+bc6c59466912ed0 Zach Brown 2026-07-09  265  		item = ent_item(ehb, ent);
+bc6c59466912ed0 Zach Brown 2026-07-09  266  		if (keys_match(le32_to_cpu(ent->hash), item_key(item), get_key_size(item),
+bc6c59466912ed0 Zach Brown 2026-07-09  267  			       iargs->hash, iargs->key, iargs->key_size)) {
+bc6c59466912ed0 Zach Brown 2026-07-09  268  			*offset = le16_to_cpu(ent->offset);
+bc6c59466912ed0 Zach Brown 2026-07-09  269  			del = ent;
+bc6c59466912ed0 Zach Brown 2026-07-09  270  			break;
+bc6c59466912ed0 Zach Brown 2026-07-09  271  		}
+bc6c59466912ed0 Zach Brown 2026-07-09  272  	}
+bc6c59466912ed0 Zach Brown 2026-07-09  273  
+bc6c59466912ed0 Zach Brown 2026-07-09  274  	/* move later entries with nonzero probe length back to fill the gap, finally clearing */
+bc6c59466912ed0 Zach Brown 2026-07-09  275  	for_each_entry_continue(ehb, del, ent, pl) {
+bc6c59466912ed0 Zach Brown 2026-07-09  276  		if (ent_is_empty(ent) || ent->probe_len == 0) {
+bc6c59466912ed0 Zach Brown 2026-07-09  277  			memset(del, 0, sizeof(struct rpdfs_ehtable_entry));
+bc6c59466912ed0 Zach Brown 2026-07-09  278  			break;
+bc6c59466912ed0 Zach Brown 2026-07-09  279  		}
+bc6c59466912ed0 Zach Brown 2026-07-09  280  
+bc6c59466912ed0 Zach Brown 2026-07-09  281  		*del = *ent;
+bc6c59466912ed0 Zach Brown 2026-07-09  282  		del->probe_len--;
+bc6c59466912ed0 Zach Brown 2026-07-09  283  		del = ent;
+bc6c59466912ed0 Zach Brown 2026-07-09  284  	}
+bc6c59466912ed0 Zach Brown 2026-07-09  285  
+bc6c59466912ed0 Zach Brown 2026-07-09  286  	ret = 0;
+bc6c59466912ed0 Zach Brown 2026-07-09  287  out:
+bc6c59466912ed0 Zach Brown 2026-07-09  288  	return ret;
+bc6c59466912ed0 Zach Brown 2026-07-09  289  }
+bc6c59466912ed0 Zach Brown 2026-07-09  290  
 
-:::::: The code at line 370 was first introduced by commit
-:::::: f05e0575ed334a23dad91b8f6ed0ac42a3996b8d Staging: udlfb: clean up checkpatch warnings in udlfb.c
+:::::: The code at line 259 was first introduced by commit
+:::::: bc6c59466912ed0c3e69c4283a40e05484ed517c rpdfs: add ehtable for indexing key-value pairs
 
-:::::: TO: Greg Kroah-Hartman <gregkh@suse.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: TO: Zach Brown <zab@zabbo.net>
+:::::: CC: Zach Brown <zab@zabbo.net>
 
 --
 0-DAY CI Kernel Test Service
