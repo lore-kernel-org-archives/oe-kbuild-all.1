@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792840818;
-	b=vC66UuBeEqtLALY8dcbO3dNB1frWlSQlE0tKQPyxc/piMKYLh0jAKN/KYH/Dw59PvJM/
-	 ky4BZLypM4/dDz6VkQLnCeiBB3jBHkwtgB+C3a2p7QT/LOZ/SSN0eHvpzX7i8Nq6rWdW5
-	 yYTBKSaL0mS1TjVEwKOULffjjpuO75G6GTaarZo249urjkZf242waxVZtFirDwI9hCa7Q
-	 dKExr4drPiHTMsdoFk0CPJF6tljzltT/m9Xa5i70BtR7X8d11YRuZXdbUEaCIc4PVtEUZ
-	 EDZne3kkXXqfBWtm15nKHeIxaOsggYssC7hmWfxVd6MvIo7h2E2GS7xq3xyJ9BWWuMw==
+	t=1792843229;
+	b=PgYsmejAi/XgLh8y4rhphjVbNpcvIRM9y4nEa+lq4IHYLOxliNpRbW/OGXNUCCdU6dXq
+	 EFKGd8JeHrbGihvWP73YDD8gKIPOKILIjsOfoW9ydOVHTpaIbh6sf1kWnufEUsaa2+uXV
+	 W1ZXqZd6oYCODbFOyHDeaGs1vYJJ6XK86FhtLEtjSYxM7Sb161YfTw6BhXekOIb5KE3vo
+	 N9+5GiGFrKorjWmyx6hE2RjKGYAZvI0bqJDkLxlHyy/4PNLmL4/j1rwFFsUlMRNfakCD8
+	 UaxwSzf+tlTRKdoELD1S39BPVJuvHnY2jIxTbRTCWU+AwMwiP8qXlEL3PbP6Ug+F37Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792840818;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792843229;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=IC5yWO9Rhi+RD1ShAF2GChcdWnCyGC0yXXl7UUedZ4M=;
-	b=qcbzPPNHPzEWLh/iz+2mEiYmru3+5+sessrZhGSj8xBEIIVo5cOag9gQmIOMKyERx6RI
-	 QIKf/IVVGe7oUJPeZkZFmdg9MBYFKcBdNYTCLaxd+g12gV55fG1yMOPDHR+gDTiORilvl
-	 M6sQggjXiMXCpN5eiz7jA4+KwUvtC4IDO9Jbibi0q6oVXM85gN415aFmb9W2Qp0p5yvfV
-	 PeVi52wFYuBBDCR8RC0/zXCNnnCQeKVdI9cgJ9BJVXXiB7+hflHIM512wDnv1qqNBEFml
-	 KI43IYexlGOQXn2Dlda+kDDEjBKH6pCw0PNeTzvfZ0PAaTHRvADONbIa8Op/mTBy1lg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=iAawE0i7d2dZx6OsfH1v0hH9YdKLVGJsQThzURgrqPc=;
+	b=bhpEbPFUGIZ69FhpdGgq4qI/fTkd82bcRB0Ykdn32jFWx+NqecqM03sZ0bPisdl25P6g
+	 iXKhiWvV7WwIOI7GrSJzlLUGmfsrTC96sIIX4YqCzKxGrjEeaXY38y6b9GyywDZB16J21
+	 zXsZDAmZBYDTG1uIFUz/wyoa/S0n/aXeQ2d8o2pOWqGSvwU5gpP3nzxhazqqKM4nli64Y
+	 LLI5zsmRFceU68nYQP7EdkzeA8aFjpT6cWEggeLD0cDyBoyV/wEp3Vfs53YNjrh3lQwqY
+	 gRXOwvc5ojhqNF2hlnhcWA00Gt5TSXZWbMsPEYQa4tFSmgoTek8YIJSInhWQXgT9v1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hoqpmifN;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QX4dc8Ag;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C773C606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 11:20:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C773C606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D492D606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 12:00:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D492D606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hoqpmifN
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QX4dc8Ag
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792840817; x=1824376817;
-  h=date:from:to:cc:subject:message-id;
-  bh=JJCfp3uI5JJ7K3SUDvdcpkvi7XKtvzj7FovN9wkSEFE=;
-  b=hoqpmifN0XVMZNEV+30h9lsg1txyA0OqNcfOzWDqrGus/lDwFQpnYLj4
-   3YpO2OrIt3OXqIEGbcuXPF3UbZPsfmviKzLg8WmwIdyTqLDWTfy4f4ZRP
-   bvOlbsiPoCc1/oV0HHxRVPGDeYiyXDl4Oa/O6Xa0J+w4d1SMDWZEmN3WM
-   ajlKfSqMFTD7VseSMBfsU1g4/NJ2lKaVahixS+dnABEFmUMTheQyLF1ZI
-   EdV2MtWyFeG8oTLQuaPg1CXvKHExu9chzaLqzIoK2u5PBod+kWGxW3liR
-   2JRzyQR6U3XV9kAkEph4G9R5rlvlKBo6qVIINxkypwjlNa99FbO9pbkoQ
-   A==;
-X-CSE-ConnectionGUID: PTgG61npRI+eibr97PSeTg==
-X-CSE-MsgGUID: 81pqaV9FSpWIuUZt5JOtKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1453415"
+  t=1792843226; x=1824379226;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R2AGPdWUdD6phrB+/se1ceN07sH0CgPftRU5IJSao78=;
+  b=QX4dc8AgsG8wCnfioyJuJHsik2y1k960vckHRrMmQxRl5Uam4Ijnt0Vp
+   vFq87PZN0YA1oRysnCi6IUrFzMnf7WkZvHtTIyAkgy0U6Jyc7c1mSSF0D
+   tPEmRcqW2fYPZCjvB0/a6FTD8jGK1gj9xFpF1Uc0+9ycbc3Mvru9F7evd
+   zBkzZthIFET1zym+GkqGeiuuiQ6HYfYl+J6fGkCOX+O0mYp4OYnP6UBOE
+   VZ3S4CfmNH/H+d4qbKuLyfrt16V0d8UsmC8aPn5wlSvB2Q9D2SNTBtJKG
+   KTPzbqJ1fueWtwOdjqIXEO0m2RKj7ShEFsV1fRsEW1tAPekw3c7fT7ADO
+   w==;
+X-CSE-ConnectionGUID: d7JcKJzbSni+/Ums9tHffw==
+X-CSE-MsgGUID: xBCJz2XgQI+vXrV5E+f8FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1568021"
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="1453415"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 04:20:17 -0700
-X-CSE-ConnectionGUID: I9NnwyioTQitu1p8bJWAiw==
-X-CSE-MsgGUID: poUgPe4yT5GrO4RkkAKdYw==
+   d="scan'208";a="1568021"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 05:00:26 -0700
+X-CSE-ConnectionGUID: SevpA2GZRF2+GiK0R8HMUA==
+X-CSE-MsgGUID: mlfvgZumRlGFpZl/s2XhdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="3870080"
+   d="scan'208";a="5706325"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Oct 2026 04:20:15 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 24 Oct 2026 05:00:22 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKZnI-00000000ToI-12zN;
-	Sat, 24 Oct 2026 11:20:12 +0000
-Date: Sat, 24 Oct 2026 19:19:11 +0800
+	id 1xKaQ6-00000000TqI-3nH2;
+	Sat, 24 Oct 2026 12:00:18 +0000
+Date: Sat, 24 Oct 2026 19:59:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 2/2]
- drivers/dma-buf/dma-buf.c:345: warning: Function parameter or struct member
- 'name' not described in 'dma_buf_set_name'
-Message-ID: <202610241904.yTdSMAJx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: ChunAn Wu <an.wu@canonical.com>, linux-serial@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	markus.probst@posteo.de, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com, mpearson-lenovo@squebb.ca,
+	derekjohn.clark@gmail.com
+Subject: Re: [PATCH v4] platform/x86: dell-uart-backlight: Bind through
+ normal serdev matching
+Message-ID: <202610241920.GJiRENj2-lkp@intel.com>
+References: <20261024022930.2704030-3-an.wu@canonical.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,57 +86,114 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261024022930.2704030-3-an.wu@canonical.com>
 
-Hi Guangming,
+Hi ChunAn,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   e64d278d669fa423e1337ad06c6672336c13bea9
-commit: 88a96b0b27bcdda732e9d4e9d35cefad8ea7ffd9 [2/2] ANDROID: dma-buf: support users to change dma_buf.name
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20261024/202610241904.yTdSMAJx-lkp@intel.com/config)
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus linus/master v7.3 next-20261022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ChunAn-Wu/platform-x86-dell-uart-backlight-Bind-through-normal-serdev-matching/20261024-102929
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20261024022930.2704030-3-an.wu%40canonical.com
+patch subject: [PATCH v4] platform/x86: dell-uart-backlight: Bind through normal serdev matching
+config: i386-randconfig-1007-20261024 (https://download.01.org/0day-ci/archive/20261024/202610241920.GJiRENj2-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241904.yTdSMAJx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241920.GJiRENj2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610241904.yTdSMAJx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610241920.GJiRENj2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/dma-buf/dma-buf.c:345: warning: Function parameter or struct member 'name' not described in 'dma_buf_set_name'
-   drivers/dma-buf/dma-buf.c:345: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
+>> drivers/platform/x86/dell/dell-uart-backlight.c:328:38: error: array type has incomplete element type 'struct serdev_device_id'
+     328 | static const struct serdev_device_id dell_uart_bl_serdev_id[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/platform/x86/dell/dell-uart-backlight.c:338:10: error: 'struct serdev_device_driver' has no member named 'id_table'
+     338 |         .id_table = dell_uart_bl_serdev_id,
+         |          ^~~~~~~~
+   drivers/platform/x86/dell/dell-uart-backlight.c: In function 'dell_uart_bl_pdev_probe':
+>> drivers/platform/x86/dell/dell-uart-backlight.c:363:15: error: too many arguments to function 'serdev_device_add'
+     363 |         ret = serdev_device_add(serdev, KBUILD_MODNAME);
+         |               ^~~~~~~~~~~~~~~~~
+   In file included from drivers/platform/x86/dell/dell-uart-backlight.c:19:
+   include/linux/serdev.h:161:5: note: declared here
+     161 | int serdev_device_add(struct serdev_device *);
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/platform/x86/dell/dell-uart-backlight.c: At top level:
+>> drivers/platform/x86/dell/dell-uart-backlight.c:328:38: warning: 'dell_uart_bl_serdev_id' defined but not used [-Wunused-variable]
+     328 | static const struct serdev_device_id dell_uart_bl_serdev_id[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +345 drivers/dma-buf/dma-buf.c
+vim +328 drivers/platform/x86/dell/dell-uart-backlight.c
 
-   330	
-   331	/**
-   332	 * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
-   333	 * It could support changing the name of the dma-buf if the same
-   334	 * piece of memory is used for multiple purpose between different devices.
-   335	 *
-   336	 * @dmabuf: [in]     dmabuf buffer that will be renamed.
-   337	 * @buf:    [in]     A piece of userspace memory that contains the name of
-   338	 *                   the dma-buf.
-   339	 *
-   340	 * Returns 0 on success. If the dma-buf buffer is already attached to
-   341	 * devices, return -EBUSY.
-   342	 *
-   343	 */
-   344	long dma_buf_set_name(struct dma_buf *dmabuf, const char *name)
- > 345	{
-   346		char *buf = kstrndup(name, DMA_BUF_NAME_LEN, GFP_KERNEL);
-   347		if (!buf)
-   348			return -ENOMEM;
-   349	
-   350		_dma_buf_set_name(dmabuf, buf);
-   351	
-   352		return 0;
-   353	}
-   354	EXPORT_SYMBOL_GPL(dma_buf_set_name);
-   355	
+   327	
+ > 328	static const struct serdev_device_id dell_uart_bl_serdev_id[] = {
+   329		{ KBUILD_MODNAME },
+   330		{ }
+   331	};
+   332	
+   333	static struct serdev_device_driver dell_uart_bl_serdev_driver = {
+   334		.probe = dell_uart_bl_serdev_probe,
+   335		.driver = {
+   336			.name = KBUILD_MODNAME,
+   337		},
+ > 338		.id_table = dell_uart_bl_serdev_id,
+   339	};
+   340	
+   341	static int dell_uart_bl_pdev_probe(struct platform_device *pdev)
+   342	{
+   343		enum acpi_backlight_type bl_type;
+   344		struct serdev_device *serdev;
+   345		struct device *ctrl_dev;
+   346		int ret;
+   347	
+   348		bl_type = acpi_video_get_backlight_type();
+   349		if (bl_type != acpi_backlight_dell_uart) {
+   350			dev_dbg(&pdev->dev, "Not loading (ACPI backlight type = %d)\n", bl_type);
+   351			return -ENODEV;
+   352		}
+   353	
+   354		ctrl_dev = get_serdev_controller("DELL0501", NULL, 0, "serial0");
+   355		if (IS_ERR(ctrl_dev))
+   356			return PTR_ERR(ctrl_dev);
+   357	
+   358		serdev = serdev_device_alloc(to_serdev_controller(ctrl_dev));
+   359		put_device(ctrl_dev);
+   360		if (!serdev)
+   361			return -ENOMEM;
+   362	
+ > 363		ret = serdev_device_add(serdev, KBUILD_MODNAME);
+   364		if (ret) {
+   365			dev_err(&pdev->dev, "error %d adding serdev\n", ret);
+   366			serdev_device_put(serdev);
+   367			return ret;
+   368		}
+   369	
+   370		ret = serdev_device_driver_register(&dell_uart_bl_serdev_driver);
+   371		if (ret)
+   372			goto err_remove_serdev;
+   373	
+   374		/* So that dell_uart_bl_pdev_remove() can remove the serdev */
+   375		platform_set_drvdata(pdev, serdev);
+   376		return 0;
+   377	
+   378	err_remove_serdev:
+   379		serdev_device_remove(serdev);
+   380		return ret;
+   381	}
+   382	
 
 --
 0-DAY CI Kernel Test Service
