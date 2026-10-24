@@ -1,77 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792819016;
-	b=jsf10fhUwF7j0Dy5/5Eq47fESFB3H52pQqAy7Rr4KlZ0fQwwwtz5IvPO/flNc5dUKHpK
-	 vpkTitCKvEqRsoA1kveDlxm7HnXxos6YMPu7DM5j8WF8gzeJ/EW6DqFFTuh08+aR83DDY
-	 Gb9U2YE0BjQPzkunArhY6Zl9cYWPNJRSdiYACzMgDZxWibVK8OtCezD55tZHCcvVDMzlB
-	 WCq37+h0qzQe+yYzy7gLT28fXQ5rSAtWNJqhkvaClxw82G+5SUTwhm/xD87wrk7tFSg2W
-	 A2v/dPJOcrSYp/G5Li/bpOkKfcdDOdnfFTJ8XHZqf/0aiShRXiNDDEiX4hTcP1sHsEg==
+	t=1792819021;
+	b=K9Wdfsv/rDsRAkj85mwnCZez4+sC8Yj2SSz8b4tbVpUrK+taZ+pfoxOdureyQ9KXQu9v
+	 rDLdw0nGjg3u2DH0AK37DeBF1ou/HV9lVCbm4FnlLXcgcAs2UoZ2ka8ymqHEZb2lH2I5j
+	 NBrbGlTXRcjLB780tIKJXvuN674PlvTHdAAtsD6qk2cc5KFC52uZPcXv64JfRhNWif+wk
+	 8y/fOMW67Y5AoVlM9JPjMe4dg+rAhLZbh//claa8PE4Q77k8w6ODUDkA4Ukz7bypqKIst
+	 zNXTZW71zqP34bdqVhsbv46VVRxEzqjM1GPX8uUXsvPYdNJC6VsW/bVjHbls3moNInQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792819016;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792819021;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=SIXTyF0Oz8+Gz9Yqr/A7azLvLEZ2lNbF1I1pKmdAJH0=;
-	b=oK+0xtaXEEsDkmE7DAHor+JZmTtbEiC5gntFjjRCJu9QJT5prsyrYaUXtCVynSp7KVRi
-	 SOmaO446CylHfpM7m7XE477Fniz1TRlj+S1ZNdSi6ZFpP5KkWjVU49WZqUHGj4Izjsnsf
-	 eKiX/7W6u+Otyeb3DEVipuYzn0d6SqbeEK02UXCXKTwaiSLItHVHx/Pl3la/+er02AQyQ
-	 APc8HoXzjBSFt5t5gq6AV50t6mpNiOmgIBKcx0gqSIsuMxoHSyt7YlK8wVN60DhT1bCun
-	 sM9vYkLngQwBdqolm1kn/tAli/b7fEVZf9kyH8COPrz8u2NWvw+6syJxZs1nXnOETRA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=ScrLm99vH6FZ2mLK70y8HlqXBENukSNyevMBSno+jOY=;
+	b=diKI3CnbozwVbtnPq9WzPrybQ3dSwIZEdMJkgv8JKipi4LWtVj7kZ55Vqf//cOjo3O8f
+	 nf5TnubbK4Ee1jSAEjXsO2B14EzMzz4Pm4M8wgN0/f3lGvBqW9SrJVYQJzrJYfZo/y5KY
+	 t9OtDiiZS4OTYeWPi91H3TM2NfYxgRUDE7aknDNQCvRsm7tZCM4QfqpWw/z0hEWxsQ+1r
+	 fi9452dC9/Hi0CMRnDziF/cpGPTtj2lzUi6Wt8E1EPEi3lKc03fLUKX2tC9ERqEUvFMTU
+	 9acodAa3VcwJX8qT0B9H81QYjzgt4PfNX3navg33ZfTz9/CvmpG+wWShNAEksIcgK4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VZGXBBt0;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ilaGBQmw;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2054A606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 05:16:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2054A606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD8D606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 05:16:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDD8D606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VZGXBBt0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ilaGBQmw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792819015; x=1824355015;
-  h=date:from:to:cc:subject:message-id;
-  bh=SPWjWzGb//z8dHpBbczo3BQXMkVGEcO/au5RMuUkTnU=;
-  b=VZGXBBt023Qna/1gqoxQiHx5UzYdte7bus3TBmKgQkP+hpRrxGsTYJj9
-   up1S4ovaVc5a5XlVQiyjlx9/el2oF0KBlio2XU5IhP3zWk9biPbDbuM/p
-   x8wFBOXXxJhAYpMvf52LSgfJF4TdvzzalP2pkjQQeF9e6ofX8mLUmQXEq
-   KF99oC1NVDSYurnFLX1AVlKIcqcxu91MnxbxmyEciLOWlr/IJJiZWpkVF
-   ExLUB9OMpZeE1ORcdJVqB/8nIYJsOOKt17Ok84tFp0b9bZHkLK3el2CCJ
-   OsBkmMuBa8gJqVLbUh9jxpAltsYmvHL07yx5536wsEFYJ85YH+YSiYwf8
+  t=1792819020; x=1824355020;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IIv2fZBANIicJi2ej+JSsJjS2vcWWkfUJDU36V78g9g=;
+  b=ilaGBQmwM+/bA6NaCATu3sUxRk+cIfOEi+oYi4nnlWPf9W838HMXgAPX
+   3+54sUVYcU7scprKVJza8Y0npZENCauGsW2IDh6pYbLMftS1jCUYQedds
+   ZHzYiKnMWc7u8zGUEeFEyCQmMXAaHbYNso7dVznHczgnxWxGEtpNsmaeV
+   YltRQgcUB3pgvHgQpayvD+3eyLVEA7lxZU8KuQ+VHMGCcRr9RqAQ9BRY7
+   gAUKZAfrhH2RFD1vANHeNCalY4G7yePHDNNMAkv5xqy50AYZQnZU1snny
+   VpxKpmrvhUQBdkJvgzhyTTVAjb/6W85Cqh3nYIE6rsxDtwNV/D08/0Vst
    g==;
-X-CSE-ConnectionGUID: R/E3cUrxT4iJP437/RekNg==
-X-CSE-MsgGUID: /qFd9RHgRMajZHPfph2X1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1576056"
+X-CSE-ConnectionGUID: cEbIjZr0RyayenAp0Q8q2g==
+X-CSE-MsgGUID: qJyfDws1T0WHq4vIm1NaJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1590956"
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="1576056"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 22:16:55 -0700
-X-CSE-ConnectionGUID: rxfZbkk7RtGAPJ+DPdKiSQ==
-X-CSE-MsgGUID: /HP/StVcRUeajD8Z9/1tZw==
+   d="scan'208";a="1590956"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 22:16:59 -0700
+X-CSE-ConnectionGUID: nHnj8W89SzyZwvB+ogGEmw==
+X-CSE-MsgGUID: 1xz0TVDqSfuedbh7bk1LMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="3817598"
+   d="scan'208";a="5562893"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Oct 2026 22:16:53 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 23 Oct 2026 22:16:54 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKU7e-00000000TbY-3d2J;
+	id 1xKU7e-00000000TbW-3Xnc;
 	Sat, 24 Oct 2026 05:16:50 +0000
-Date: Sat, 24 Oct 2026 13:16:43 +0800
+Date: Sat, 24 Oct 2026 13:16:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- include/linux/skbuff.h:5067:1: warning: control reaches end of non-void
- function
-Message-ID: <202610241313.lzRTTVmS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	Alexander Koskovich <akoskovich@pm.me>,
+	Jie Zhang <jie.zhang@oss.qualcomm.com>,
+	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+	Bhaskar Reddy Valluru <bvalluru@qti.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 11/14] drm/msm/a8xx: devcoredump state capture support
+Message-ID: <202610241330.82NsqXG7-lkp@intel.com>
+References: <20261021204244.67160-12-robin.clark@oss.qualcomm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,219 +94,181 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021204244.67160-12-robin.clark@oss.qualcomm.com>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   1c132d615b94090d2788af4407b21c6d319731e2
-commit: 3e1da3739d68558bacc60ea5f469fbddaf529c32 [1/1] ANDROID: GKI: Add GKI_HIDDEN_XFRM_OFFLOAD_CONFIGS
-config: arm-randconfig-1002-20261020 (https://download.01.org/0day-ci/archive/20261024/202610241313.lzRTTVmS-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241313.lzRTTVmS-lkp@intel.com/reproduce)
+Hi Rob,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-tip/drm-tip next-20261022]
+[cannot apply to linux-review/Rob-Clark/drm-msm-Import-adreno_snapshot-h/20261020-134615 drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v7.3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-msm-Import-adreno_snapshot-h/20261021-134126
+base:   https://gitlab.freedesktop.org/drm/kernel.git drm-next
+patch link:    https://lore.kernel.org/r/20261021204244.67160-12-robin.clark%40oss.qualcomm.com
+patch subject: [PATCH v2 11/14] drm/msm/a8xx: devcoredump state capture support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261024/202610241330.82NsqXG7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241330.82NsqXG7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610241313.lzRTTVmS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610241330.82NsqXG7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/net/xfrm.h:9,
-                    from net/xfrm/xfrm_replay.c:10:
-   include/linux/skbuff.h: In function 'secpath_exists':
-   include/linux/skbuff.h:5005:16: error: implicit declaration of function 'skb_ext_exist'; did you mean 'skb_ext_reset'? [-Werror=implicit-function-declaration]
-    5005 |         return skb_ext_exist(skb, SKB_EXT_SEC_PATH);
-         |                ^~~~~~~~~~~~~
-         |                skb_ext_reset
-   include/linux/skbuff.h:5005:35: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    5005 |         return skb_ext_exist(skb, SKB_EXT_SEC_PATH);
-         |                                   ^~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:5005:35: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/skbuff.h: In function 'skb_sec_path':
-   include/linux/skbuff.h:5063:16: error: implicit declaration of function 'skb_ext_find'; did you mean 'skb_ext_copy'? [-Werror=implicit-function-declaration]
-    5063 |         return skb_ext_find(skb, SKB_EXT_SEC_PATH);
-         |                ^~~~~~~~~~~~
-         |                skb_ext_copy
-   include/linux/skbuff.h:5063:34: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    5063 |         return skb_ext_find(skb, SKB_EXT_SEC_PATH);
-         |                                  ^~~~~~~~~~~~~~~~
-   In file included from net/xfrm/xfrm_replay.c:10:
-   include/net/xfrm.h: In function 'secpath_reset':
-   include/net/xfrm.h:1179:26: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    1179 |         skb_ext_del(skb, SKB_EXT_SEC_PATH);
-         |                          ^~~~~~~~~~~~~~~~
-   In file included from include/net/xfrm.h:9,
-                    from net/xfrm/xfrm_replay.c:10:
-   include/linux/skbuff.h: In function 'skb_sec_path':
->> include/linux/skbuff.h:5067:1: warning: control reaches end of non-void function [-Wreturn-type]
-    5067 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from net/xfrm/xfrm_input.c:16:
-   include/linux/skbuff.h: In function 'secpath_exists':
-   include/linux/skbuff.h:5005:16: error: implicit declaration of function 'skb_ext_exist'; did you mean 'skb_ext_reset'? [-Werror=implicit-function-declaration]
-    5005 |         return skb_ext_exist(skb, SKB_EXT_SEC_PATH);
-         |                ^~~~~~~~~~~~~
-         |                skb_ext_reset
-   include/linux/skbuff.h:5005:35: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    5005 |         return skb_ext_exist(skb, SKB_EXT_SEC_PATH);
-         |                                   ^~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:5005:35: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/skbuff.h: In function 'skb_sec_path':
-   include/linux/skbuff.h:5063:16: error: implicit declaration of function 'skb_ext_find'; did you mean 'skb_ext_copy'? [-Werror=implicit-function-declaration]
-    5063 |         return skb_ext_find(skb, SKB_EXT_SEC_PATH);
-         |                ^~~~~~~~~~~~
-         |                skb_ext_copy
-   include/linux/skbuff.h:5063:34: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    5063 |         return skb_ext_find(skb, SKB_EXT_SEC_PATH);
-         |                                  ^~~~~~~~~~~~~~~~
-   In file included from net/xfrm/xfrm_input.c:20:
-   include/net/xfrm.h: In function 'secpath_reset':
-   include/net/xfrm.h:1179:26: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    1179 |         skb_ext_del(skb, SKB_EXT_SEC_PATH);
-         |                          ^~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_input.c: In function 'secpath_set':
-   net/xfrm/xfrm_input.c:122:55: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-     122 |         struct sec_path *sp, *tmp = skb_ext_find(skb, SKB_EXT_SEC_PATH);
-         |                                                       ^~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_input.c:124:14: error: implicit declaration of function 'skb_ext_add'; did you mean 'skb_ext_del'? [-Werror=implicit-function-declaration]
-     124 |         sp = skb_ext_add(skb, SKB_EXT_SEC_PATH);
-         |              ^~~~~~~~~~~
-         |              skb_ext_del
-   In file included from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from net/xfrm/xfrm_input.c:16:
-   include/linux/skbuff.h: In function 'skb_sec_path':
->> include/linux/skbuff.h:5067:1: warning: control reaches end of non-void function [-Wreturn-type]
-    5067 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   In file included from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from net/xfrm/xfrm_output.c:10:
-   include/linux/skbuff.h: In function 'secpath_exists':
-   include/linux/skbuff.h:5005:16: error: implicit declaration of function 'skb_ext_exist'; did you mean 'skb_ext_reset'? [-Werror=implicit-function-declaration]
-    5005 |         return skb_ext_exist(skb, SKB_EXT_SEC_PATH);
-         |                ^~~~~~~~~~~~~
-         |                skb_ext_reset
-   include/linux/skbuff.h:5005:35: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    5005 |         return skb_ext_exist(skb, SKB_EXT_SEC_PATH);
-         |                                   ^~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:5005:35: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/skbuff.h: In function 'skb_sec_path':
-   include/linux/skbuff.h:5063:16: error: implicit declaration of function 'skb_ext_find'; did you mean 'skb_ext_copy'? [-Werror=implicit-function-declaration]
-    5063 |         return skb_ext_find(skb, SKB_EXT_SEC_PATH);
-         |                ^~~~~~~~~~~~
-         |                skb_ext_copy
-   include/linux/skbuff.h:5063:34: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    5063 |         return skb_ext_find(skb, SKB_EXT_SEC_PATH);
-         |                                  ^~~~~~~~~~~~~~~~
-   In file included from net/xfrm/xfrm_output.c:19:
-   include/net/xfrm.h: In function 'secpath_reset':
-   include/net/xfrm.h:1179:26: error: 'SKB_EXT_SEC_PATH' undeclared (first use in this function)
-    1179 |         skb_ext_del(skb, SKB_EXT_SEC_PATH);
-         |                          ^~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_output.c: In function 'xfrm4_tunnel_encap_add':
-   net/xfrm/xfrm_output.c:313:9: error: implicit declaration of function 'ip_select_ident'; did you mean 'ipv6_select_ident'? [-Werror=implicit-function-declaration]
-     313 |         ip_select_ident(dev_net(dst->dev), skb, NULL);
-         |         ^~~~~~~~~~~~~~~
-         |         ipv6_select_ident
-   net/xfrm/xfrm_output.c: In function 'xfrm4_tunnel_check_size':
-   net/xfrm/xfrm_output.c:841:49: error: implicit declaration of function 'ip_skb_dst_mtu' [-Werror=implicit-function-declaration]
-     841 |              !skb_gso_validate_network_len(skb, ip_skb_dst_mtu(skb->sk, skb)))) {
-         |                                                 ^~~~~~~~~~~~~~
-   In file included from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from net/xfrm/xfrm_output.c:10:
-   include/linux/skbuff.h: In function 'skb_sec_path':
->> include/linux/skbuff.h:5067:1: warning: control reaches end of non-void function [-Wreturn-type]
-    5067 | }
-         | ^
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=m] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_SVA
-   Depends on [n]: IOMMU_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for XFRM
-   Depends on [n]: NET [=y] && INET [=n]
-   Selected by [y]:
-   - XFRM_ALGO [=y] && NET [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:33: note: in expansion of macro 'GENMASK'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                                 ^~~~~~~
+   include/linux/bits.h:49:27: warning: right shift count >= width of type [-Wshift-count-overflow]
+      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+         |                           ^~
+   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
+     682 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
+      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
+         |         ^~~~~~~~~~~~
+   include/linux/bitfield.h:74:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
+      74 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:91:17: note: in expansion of macro '__BF_FIELD_CHECK_MASK'
+      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:138:17: note: in expansion of macro '__FIELD_PREP'
+     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
+         |                 ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:22: note: in expansion of macro 'FIELD_PREP'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                      ^~~~~~~~~~
+   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:33: note: in expansion of macro 'GENMASK'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                                 ^~~~~~~
+   include/linux/bits.h:48:27: warning: left shift count >= width of type [-Wshift-count-overflow]
+      48 |              (type_max(t) << (l) &                              \
+         |                           ^~
+   include/linux/bitfield.h:92:50: note: in definition of macro '__FIELD_PREP'
+      92 |                 ((typeof(mask))(val) << __bf_shf(mask)) & (mask);       \
+         |                                                  ^~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:22: note: in expansion of macro 'FIELD_PREP'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                      ^~~~~~~~~~
+   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:33: note: in expansion of macro 'GENMASK'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                                 ^~~~~~~
+   include/linux/bits.h:49:27: warning: right shift count >= width of type [-Wshift-count-overflow]
+      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+         |                           ^~
+   include/linux/bitfield.h:92:50: note: in definition of macro '__FIELD_PREP'
+      92 |                 ((typeof(mask))(val) << __bf_shf(mask)) & (mask);       \
+         |                                                  ^~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:22: note: in expansion of macro 'FIELD_PREP'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                      ^~~~~~~~~~
+   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:33: note: in expansion of macro 'GENMASK'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                                 ^~~~~~~
+   include/linux/bits.h:48:27: warning: left shift count >= width of type [-Wshift-count-overflow]
+      48 |              (type_max(t) << (l) &                              \
+         |                           ^~
+   include/linux/bitfield.h:92:60: note: in definition of macro '__FIELD_PREP'
+      92 |                 ((typeof(mask))(val) << __bf_shf(mask)) & (mask);       \
+         |                                                            ^~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:22: note: in expansion of macro 'FIELD_PREP'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                      ^~~~~~~~~~
+   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:33: note: in expansion of macro 'GENMASK'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                                 ^~~~~~~
+   include/linux/bits.h:49:27: warning: right shift count >= width of type [-Wshift-count-overflow]
+      49 |               type_max(t) >> (BITS_PER_TYPE(t) - 1 - (h)))))
+         |                           ^~
+   include/linux/bitfield.h:92:60: note: in definition of macro '__FIELD_PREP'
+      92 |                 ((typeof(mask))(val) << __bf_shf(mask)) & (mask);       \
+         |                                                            ^~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:22: note: in expansion of macro 'FIELD_PREP'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                      ^~~~~~~~~~
+   include/linux/bits.h:51:33: note: in expansion of macro 'GENMASK_TYPE'
+      51 | #define GENMASK(h, l)           GENMASK_TYPE(unsigned long, h, l)
+         |                                 ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:510:33: note: in expansion of macro 'GENMASK'
+     510 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | dwords;
+         |                                 ^~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h: In function 'CD_WRITE':
+>> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_635' declared with attribute error: FIELD_PREP: mask is not constant
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
+     683 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:67:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      67 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:91:17: note: in expansion of macro '__BF_FIELD_CHECK_MASK'
+      91 |                 __BF_FIELD_CHECK_MASK(mask, val, pfx);                  \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:138:17: note: in expansion of macro '__FIELD_PREP'
+     138 |                 __FIELD_PREP(_mask, _val, "FIELD_PREP: ");              \
+         |                 ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/adreno_snapshot.h:503:22: note: in expansion of macro 'FIELD_PREP'
+     503 |         *(p->in++) = FIELD_PREP(GENMASK(63, 44), reg) | BIT(21) | BIT(0);
+         |                      ^~~~~~~~~~
 
 
-vim +5067 include/linux/skbuff.h
+vim +/__compiletime_assert_635 +702 include/linux/compiler_types.h
 
-4ff0620354f2b3 Julian Anastasov 2017-02-06  5059  
-2294be0f11e22b Florian Westphal 2018-12-18  5060  static inline struct sec_path *skb_sec_path(const struct sk_buff *skb)
-def8b4faff5ca3 Alexey Dobriyan  2008-10-28  5061  {
-0b3d8e087bbee2 Denis Kirjanov   2013-10-02  5062  #ifdef CONFIG_XFRM
-4165079ba328dd Florian Westphal 2018-12-18  5063  	return skb_ext_find(skb, SKB_EXT_SEC_PATH);
-def8b4faff5ca3 Alexey Dobriyan  2008-10-28  5064  #else
-def8b4faff5ca3 Alexey Dobriyan  2008-10-28  5065  	return NULL;
-def8b4faff5ca3 Alexey Dobriyan  2008-10-28  5066  #endif
-0b3d8e087bbee2 Denis Kirjanov   2013-10-02 @5067  }
-def8b4faff5ca3 Alexey Dobriyan  2008-10-28  5068  
-
-:::::: The code at line 5067 was first introduced by commit
-:::::: 0b3d8e087bbee2a4e3f479d538a7edd3f1d2950c include/linux/skbuff.h: move CONFIG_XFRM check inside the skb_sec_path()
-
-:::::: TO: Denis Kirjanov <kda@linux-powerpc.org>
-:::::: CC: David S. Miller <davem@davemloft.net>
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  691  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  703  
 
 --
 0-DAY CI Kernel Test Service
