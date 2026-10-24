@@ -1,77 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792800257;
-	b=5IELONn+ZC5BP/Lg2C38qlLzIvsKOVTayN6eRsXyLK3PXTebfzoiWzd1JuzXE3aCCrTF
-	 SRBCxgsIrHIYEQ8vs9KRkN6cjtrmBghzzP6Wl6Res9XN2AHEs5MPyTdp7an0+PNk9RbSw
-	 UN1nNITon7JAG/AZGNukbIJhJeETmRzJF1ccwBS8GZT5Rb93uHYKCisk6DK9TM1T9tbz/
-	 ckwe+oRR6rNdTHor/6JDu5xoPCC7MPJrm/IBZj8qYhivRtEZa+RGNF5YT0UD+FXMsoeFD
-	 u+vK8gipkgT4WFdsYLjT9D6IODCaRSUOhgpIe5s7kkiUyYy+rWLOAIabFW229yZwrFA==
+	t=1792800258;
+	b=Y3cq3Cf3FmnlG67Zv6iNnurxJUPo73nuAhBRXw5y5CcZ0Pb1dQ9SpMLAbO+l9X+SdwbA
+	 dQ5E3S6Fk2NyF7ADYCnaPYS0a2op5jm27PLdNtZzXhTXrAafh88V6vVF5fwE9u6yoVkgw
+	 7z1WJiGfmnX3a7lIfXoyrRZ+GAa2nYLckiCUasKbVsszzS+EpNWKeMWE0duO+DFFJV19y
+	 Tjs3BRFnMBtUEa5jBBr4yQ64gP+nY2A3DxlNWebHQYjFsvXHQrTnRsnhOPhdSp+s84t/X
+	 Un7JK5GZ1BqXQVSfzWGWJJ49kXRnfaTn4yUoEHej2zXwqk7klsuhMtqMkS5Ipo+SF2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792800257;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792800258;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=sSehteLYCxtuRHOHIqxVg7nk+pkfpnAytroWLTWJLZI=;
-	b=HDOaEoK/hDKooORYXTddZUPyeiYvVG3Uttp+i1cV8y6ot+fGiy5Dv34YfmrFhXrsTyp+
-	 RM9eLINSdabNHnuzxVH/zzig0j8NuAXFuWWlko32D/G2DzzeNvB4ra7uVNECHv/pOz+06
-	 OJsT4AGVlPdXYC6gPeLm97g47FF867bCsWpqr3AgAI71E4deg3JrfrbO47YnG1b0DnQXj
-	 0UNqtQyD+pbW/r/zIY2fa0/HWEC7fZ1st4EF74zBtdgLzuA7p4j9qyLBqap8N5DzWF1w4
-	 naqz4b4KR8xYBjX08eISOhe2fvsq1dcPelBUgQ/dWcIpW986GcIrtjopGWLhNFNdv/Q==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=IP4SXJLolNGj8GM5COqEi+6FqjwpuNDCYi1PHZX7pR4=;
+	b=2Dpx1newlYFbFBZr6TE+GerLqqhLtw7PzeldG3kHwqF7CNmi84ngU6q09beRjjNij+Ff
+	 I7PdhURpYmkTE70asaTkZ33X5OjfyqzrygAkpiDjMF2hR0XDleappfjoJPQ4lThrxjAA5
+	 JzGfmwXQpy4S+ZsnFx+cavja6RJa1Up13Soc6IgU3Vf5uhLVEBIEbbjRtjYyQwzGdA5hP
+	 v7gNa1lmYIQdqCIpreM3XgoRkOGf5mPqntFSZV+7FM3evBYNl/cpHUa0XI44BzV5KvxEf
+	 SdVbitsgso1VGe9OdkmisMEPPaoOH7NzkoLdwsXGZC8y0sZdEiqeGmA3hMwFUOAgSZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UBP9O89Q;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b9UE2ZKL;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C43606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 00:04:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24C43606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2530E606A31E;
+	Sat, 24 Oct 2026 00:04:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2530E606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UBP9O89Q
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b9UE2ZKL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792800255; x=1824336255;
-  h=date:from:to:cc:subject:message-id;
-  bh=J1RUpBtFJNYWY+MUAayB2GSnlnrxUeIK8yA5Lv2zpN8=;
-  b=UBP9O89QCojei6zHLYFnvmcvTO+WPTuX8sHto0ZAsx1PhUgAzyauPJ9t
-   3n5n6+fSIwMtVMr59AIH9FZQX6qMSVKWYaqzcue/vmh6H6EPOFGLOV7iF
-   xBGDjsb/xsC6lsbpk27D4xRUvc1FUa3TPSFrgRTfAzbnMnfou3D7tgJt1
-   CDKesGtK3DgaV5Kxf5lIhB54RTczC7M1hCYYJPoAUm7DW4X2CGLAQHoQr
-   KoQxTFyvPAfxc03MvlhKXpuDBLZ2ajmED1xIFdRICtU1WxC9WALjG3X6o
-   5imYWEmAxa0AvnVpFu/1WWCQaekK+IulurWyd8aJaDBixqRksCc8SBH+Y
-   A==;
-X-CSE-ConnectionGUID: 7ZLbTP5FQ4eTxVegyt1jww==
-X-CSE-MsgGUID: Z+b8GloSQK+J4Jzyg0H/dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1451807"
+  t=1792800258; x=1824336258;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P+WfGzR35UbRfWugdtCWwaOpsuK0iCs7ZWA1C8vDcZw=;
+  b=b9UE2ZKLsYrtwp2obzTh15E2r5wsgQWmZbXOmppAL/HiB55/dD+mBUfm
+   x/3M/Rj5QcikYCCspt5LlHCEtvmXIG8ivgCmwRTTkQYiLVpNxPcITmNuR
+   w12vStUWVQTDOlMypskoD8f5+m4msr1Opq7Y8BktyI2KJ2wjg2YMw9xSi
+   kicfdU92Eo1dXDawSiQbDGvUTTYhrDxuMgtGdZRCgRA4qKub1aGowti6x
+   rZgUGp5VzYTywAVXYL7vYxru/YBCTIttOZSvYtY1KOmIsBGWMDZ32Y1gU
+   MxZWyzySHNRsQwAxCdv3duyAalXvfaxVuV0rTVBM2t0axfEhiW5n84+/5
+   w==;
+X-CSE-ConnectionGUID: Yqmrrj1OTASsl7bYBCj39A==
+X-CSE-MsgGUID: 6RwVIoAwS1aWHMK3/ZhyyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1571219"
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="1451807"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 17:04:15 -0700
-X-CSE-ConnectionGUID: Yqxm7skrSTCgzCfk6F8OuA==
-X-CSE-MsgGUID: GJZYYkHjS6usdc9AnHrebQ==
+   d="scan'208";a="1571219"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 17:04:17 -0700
+X-CSE-ConnectionGUID: 8ZKO3aQSQUqN2JunwYUlEg==
+X-CSE-MsgGUID: mcR2cGJBRrelzRwbxZT/Rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="4158442"
+   d="scan'208";a="5612886"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2026 17:04:13 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 23 Oct 2026 17:04:14 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKPF4-00000000TO2-3mRJ;
+	id 1xKPF4-00000000TNy-3Gst;
 	Sat, 24 Oct 2026 00:04:10 +0000
-Date: Sat, 24 Oct 2026 08:03:32 +0800
+Date: Sat, 24 Oct 2026 08:03:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chenhuacai-loongson:loongarch-next 9/22]
- arch/loongarch/include/asm/numa.h:17:48: warning: left shift count >= width
- of type
-Message-ID: <202610240732.2HGud7k8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: vmukunda <vmukunda@marvell.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Ratheesh Kannoth <rkannoth@marvell.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	vmukunda <vmukunda@marvell.com>
+Subject: Re: [PATCH net] octeontx2-af: Fix npc_delete_flow counter read for
+ cn20k
+Message-ID: <202610240701.QMuYCXhI-lkp@intel.com>
+References: <20261023100112.3402726-1-vmukunda@marvell.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,46 +91,93 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023100112.3402726-1-vmukunda@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/linux-loongson.git loongarch-next
-head:   ce668200313df40f8c74752b9601a3a85def24f5
-commit: 9c04d06741cd87a9e18cafff1cfeff8c5ff6727a [9/22] LoongArch: Use pa_to_nid()/nid_to_addrbase() rather than hard-code
-config: loongarch-randconfig-1001-20261023 (https://download.01.org/0day-ci/archive/20261024/202610240732.2HGud7k8-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610240732.2HGud7k8-lkp@intel.com/reproduce)
+Hi vmukunda,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/vmukunda/octeontx2-af-Fix-npc_delete_flow-counter-read-for-cn20k/20261023-100112
+base:   net/main
+patch link:    https://lore.kernel.org/r/20261023100112.3402726-1-vmukunda%40marvell.com
+patch subject: [PATCH net] octeontx2-af: Fix npc_delete_flow counter read for cn20k
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261024/202610240701.QMuYCXhI-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610240701.QMuYCXhI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610240732.2HGud7k8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610240701.QMuYCXhI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/loongarch/pci/pci.c:15:
-   arch/loongarch/pci/pci.c: In function 'mcfg_addr_init':
->> arch/loongarch/include/asm/numa.h:17:48: warning: left shift count >= width of type [-Wshift-count-overflow]
-      17 | #define nid_to_addrbase(nid)    (_ULCAST_(nid) << NODE_ADDRSPACE_SHIFT)
-         |                                                ^~
-   arch/loongarch/pci/pci.c:47:17: note: in expansion of macro 'nid_to_addrbase'
-      47 |         return (nid_to_addrbase(node) | MCFG_EXT_PCICFG_BASE);
-         |                 ^~~~~~~~~~~~~~~
->> arch/loongarch/pci/pci.c:47:39: warning: conversion from 'long long unsigned int' to 'phys_addr_t' {aka 'unsigned int'} changes value from '16484084482048' to '0' [-Woverflow]
-      47 |         return (nid_to_addrbase(node) | MCFG_EXT_PCICFG_BASE);
-         |                ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:1962:30: error: use of undeclared identifier 'rvu_pdev'
+    1962 |                                 if (blkaddr && !is_cn20k(rvu_pdev))
+         |                                                          ^~~~~~~~
+   1 error generated.
 
 
-vim +17 arch/loongarch/include/asm/numa.h
+vim +/rvu_pdev +1962 drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c
 
-d4b6f1562a3c32 Huacai Chen 2022-05-31  15  
-d4b6f1562a3c32 Huacai Chen 2022-05-31  16  #define pa_to_nid(addr)		(((addr) & 0xf00000000000) >> NODE_ADDRSPACE_SHIFT)
-d4b6f1562a3c32 Huacai Chen 2022-05-31 @17  #define nid_to_addrbase(nid)	(_ULCAST_(nid) << NODE_ADDRSPACE_SHIFT)
-d4b6f1562a3c32 Huacai Chen 2022-05-31  18  
-
-:::::: The code at line 17 was first introduced by commit
-:::::: d4b6f1562a3c3284adcef81d6e4f183d7d34b8a9 LoongArch: Add Non-Uniform Memory Access (NUMA) support
-
-:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+  1932	
+  1933	int rvu_mbox_handler_npc_delete_flow(struct rvu *rvu,
+  1934					     struct npc_delete_flow_req *req,
+  1935					     struct npc_delete_flow_rsp *rsp)
+  1936	{
+  1937		struct npc_mcam *mcam = &rvu->hw->mcam;
+  1938		struct rvu_npc_mcam_rule *iter, *tmp;
+  1939		u16 pcifunc = req->hdr.pcifunc;
+  1940		struct list_head del_list;
+  1941		int blkaddr;
+  1942	
+  1943		req->entry = npc_cn20k_vidx2idx(req->entry);
+  1944		req->start = npc_cn20k_vidx2idx(req->start);
+  1945		req->end = npc_cn20k_vidx2idx(req->end);
+  1946	
+  1947		INIT_LIST_HEAD(&del_list);
+  1948	
+  1949		mutex_lock(&mcam->lock);
+  1950		list_for_each_entry_safe(iter, tmp, &mcam->mcam_rules, list) {
+  1951			if (iter->owner == pcifunc) {
+  1952				/* All rules */
+  1953				if (req->all) {
+  1954					list_move_tail(&iter->list, &del_list);
+  1955				/* Range of rules */
+  1956				} else if (req->end && iter->entry >= req->start &&
+  1957					   iter->entry <= req->end) {
+  1958					list_move_tail(&iter->list, &del_list);
+  1959				/* single rule */
+  1960				} else if (req->entry == iter->entry) {
+  1961					blkaddr = rvu_get_blkaddr(rvu, BLKTYPE_NPC, 0);
+> 1962					if (blkaddr && !is_cn20k(rvu_pdev))
+  1963						rsp->cntr_val = rvu_read64(rvu, blkaddr,
+  1964									   NPC_AF_MATCH_STATX(iter->cntr));
+  1965					list_move_tail(&iter->list, &del_list);
+  1966					break;
+  1967				}
+  1968			}
+  1969		}
+  1970		mutex_unlock(&mcam->lock);
+  1971	
+  1972		list_for_each_entry_safe(iter, tmp, &del_list, list) {
+  1973			u16 entry = iter->entry;
+  1974	
+  1975			/* clear the mcam entry target pcifunc */
+  1976			mcam->entry2target_pffunc[entry] = 0x0;
+  1977			if (npc_delete_flow(rvu, iter, pcifunc))
+  1978				dev_err(rvu->dev, "rule deletion failed for entry:%u",
+  1979					entry);
+  1980		}
+  1981	
+  1982		return 0;
+  1983	}
+  1984	
 
 --
 0-DAY CI Kernel Test Service
