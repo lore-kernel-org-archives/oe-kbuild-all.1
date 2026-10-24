@@ -1,87 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792803576;
-	b=Y5CH04NB9jRzt5jdGdB49vu/M7bhy/evJLTRVb0QgSLMz+cKpEqWBZNMB2kekeMjc3ud
-	 2Km4FHTTgCJxbiVxQUKSzyPI8P+9r3Di4sQpa0k/NKp7PnTHLIv8i418b1BZUIYvTF/gF
-	 tQOIYq/6b1NqumPDgQc+oSx9QgWBDmYbtE9qwawhuroQd4+Efg5+smumpiA7LH+7SLVfs
-	 nWgHQVMFqH1r2dJXSjLw2ijO7YW7UYSIpoBMbeVRKU0KKRim8kV7OEM9C0cqcvwRc/Aar
-	 grBykfZo4N+uEHzjF9n/3wMcEzjlmTJ5Mr6bbQu61V5w4rImc90UvR26VyIr100p3lQ==
+	t=1792804930;
+	b=pjeUYrGdxxPWXTc2JJzOyeLue8XIIbovg4NhFUQPmOBaa+uiCi2Wai9fLQoTHNhfzF/s
+	 zWvYobRtC4aRc368oG75YnV4G7+bdFbnP2aOnjX6kJeNEGfJQaUH/13GZBBxVqDF0W/oI
+	 qKMtOFnzR+m3tdhq2XSbBM9K5H8Z0wDoTZese8ltbbbS1BdSqEMzSfwQVv5jkSgoswQEI
+	 bXsf50rRZ8Ma9kkvkoLZopiK3IKu+88zrkIRRBSYBl3HpWyKv+zYixwPlfeBlnAMwcNpB
+	 ulp5wE40Nh6ZRQ+9/5qlM4UW1skgcRm8Rg8BD1i4dQCvGsQiBffz/oaJARh4UCAuYCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792803576;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792804930;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=QYliG5JrqqllTHxErrxFqWbYyN3g1Gh8xTc8edp61B8=;
-	b=xy4Rmnonjc1fFJwUlUBI9MM1pvNXc4nmJoeT1SVrmsP6jeU5e6OwtKukpiY0kwU7gjjM
-	 BlXBiptxuAZyz8DwUJIqrbTAWsIKDsW5UsWnXUYks7Kf9rvA/peGPDmD/vTnZo2YIMiZW
-	 Y+qB/8hEdjM6Hy2+cLwpXOgPyPtmMakylqy4YJnLBtsvfDwc2VLHbo4MMIoPKmb056Ps8
-	 HXLSDi0PffGFM5FufqPI7Y92QTdVymKPONoCs3FLMJAiB53ieV9jExZda+CDLa5iSEO7k
-	 HMuRTbEwKFpnzOI+lteuiqekL8Q/r4yHLYMY7Ny0kan93DIRp5lKRKwIQyr+uAMmcsQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=7G/lfqi4GaLqG9sdNXNrAua7Dz4xnPAGie1bK9TBfiU=;
+	b=q+yh+7OrMhfpwdBuF4XXzcwsGYWKYMSD9q2WAOJ+bZ3NdFpcuuuq/2kO6cp03jMYHWes
+	 Uu8Ra74Kg5hR10l6LL1Lpo08I3+u2lytiGBIjzSb0nIt7okVFY0w0n/Qfj+UD8o8NgBAF
+	 /NztzjGjhIMnkAMIWt+fKPwGvTH5Q/wY+PnPukfquT2BP/ehd1ix80sk9hVxwmtNdMOwj
+	 JYM9dqy4e6xtpvu/HqrgzL3zAeGidUFltQjnRlaDYcDtc4/IxL/IMTbHXjdZAGCD+YTxA
+	 Q2csb+I/KrHLGPbeWb6CHoWRCs62fH2njbMIunGbWuygX39VDF7hJ01NnMjeFFwUdLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nbx9a8yG;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dxlEvSZX;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0A2606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 00:59:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F0A2606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A141D606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 01:22:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A141D606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nbx9a8yG
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dxlEvSZX
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792803575; x=1824339575;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U3gmOgWDxR60gD64nCE0iSuuzCf3ICRp5+uOCWLX4u8=;
-  b=Nbx9a8yGzTUwUxblVAtL7FAWohBl9ACh/T7l0ZQ7PvJrAjc0iZdHThf4
-   jmtAB5+4I5Z3+i6GP4g5p4EYONFj/sjDRsUN2Yx91R4Jl84M1s0QHh33m
-   alTETVeSjyAO5bSEqtfEafwg0w9zZIFMopDMkMNIPXqhoV/qrNdsb2b8R
-   wQtrl/5pAfQ4PdZnA+brNwDYhtpvYfgY9LVTHhgEFpB674gXkv/iFnzQR
-   lyc52oU04m83vtOXRLStjrRsGslvf/4bgH0d36sOGMuhNpixbmdJmg9/s
-   yVrvz+Al6MkBy7tqXVQiWzNuksf8rBaM5wMPC2PVeYmmz9KFn9qqS+0s6
-   w==;
-X-CSE-ConnectionGUID: tYIvtbVeR6y8XGx9n4rXnQ==
-X-CSE-MsgGUID: tfc+5kMLTUSZp8qV5bpxrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1468449"
+  t=1792804929; x=1824340929;
+  h=date:from:to:cc:subject:message-id;
+  bh=AFHulHI98gPx0evrdCtxVtGBjvOCq11Za8suBFXCKBU=;
+  b=dxlEvSZXaLdJPwEpbPrO3yzmj2hF9sw73q1o3yy9pv+VUJqmXBvu+Fh2
+   1w2ar/eG0NeTfItD0sfhRdesDVuhzf/GyOAqjrn2z8SiobXZikRpPTvGB
+   7kryvR3r6qNuuKL8UOik95E4c9PinyLzQ3HdrtGQ5HCcRIq7A2MnZcoE3
+   0lJFZIb7pMrxmiqlsI+bdS60HCZnj3Sqim+/0AqCciRi3Pyc2K1jambFy
+   qiONK5/buyzDl8cOO7KMViPVdhY1YWDfNCKd8xlj/d1RY1+qAYhfOifeX
+   WhGmXRtaitRn4QgLalJ4X2Bd+xg8vAwtnIQyeMtHAon8tuQv+ga/k/0uw
+   A==;
+X-CSE-ConnectionGUID: rrK2ZqEdSOurAWiCBBEdVQ==
+X-CSE-MsgGUID: 6FPsScorRBC+dPltNvFR3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1452287"
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="1468449"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 17:59:34 -0700
-X-CSE-ConnectionGUID: qXl+4vPMRdWX13HfD+/dPg==
-X-CSE-MsgGUID: F1fBYjApSMC90pk5pmk4IQ==
+   d="scan'208";a="1452287"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 18:22:09 -0700
+X-CSE-ConnectionGUID: SwmLBDyNTfW8jX2fF51zjA==
+X-CSE-MsgGUID: odTGu1QLTNap8RjlyDrCxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="3841319"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Oct 2026 17:59:31 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="3739228"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 23 Oct 2026 18:22:07 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKQ6a-00000000TRO-1Jg2;
-	Sat, 24 Oct 2026 00:59:28 +0000
-Date: Sat, 24 Oct 2026 08:58:48 +0800
+	id 1xKQSS-0000000034J-306F;
+	Sat, 24 Oct 2026 01:22:04 +0000
+Date: Sat, 24 Oct 2026 03:21:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: vmukunda <vmukunda@marvell.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Sunil Goutham <sgoutham@marvell.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	vmukunda <vmukunda@marvell.com>
-Subject: Re: [PATCH net] octeontx2-af: Fix npc_delete_flow counter read for
- cn20k
-Message-ID: <202610240855.NijJJoJD-lkp@intel.com>
-References: <20261023100112.3402726-1-vmukunda@marvell.com>
+To: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [daveh-devel:kss-2026-10-23 25/25]
+ arch/x86/kernel/cet.c:351:24: error: 'struct thread_struct' has no member
+ named 'kshstk_ssp'
+Message-ID: <202610240302.dne62y4D-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -90,68 +80,78 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023100112.3402726-1-vmukunda@marvell.com>
 
-Hi vmukunda,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/vmukunda/octeontx2-af-Fix-npc_delete_flow-counter-read-for-cn20k/20261023-100112
-base:   net/main
-patch link:    https://lore.kernel.org/r/20261023100112.3402726-1-vmukunda%40marvell.com
-patch subject: [PATCH net] octeontx2-af: Fix npc_delete_flow counter read for cn20k
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20261024/202610240855.NijJJoJD-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610240855.NijJJoJD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git kss-2026-10-23
+head:   b6fa923e47fcecf329844fd91ed615de35478ea3
+commit: b6fa923e47fcecf329844fd91ed615de35478ea3 [25/25] x86/boot: Add CPU shadow stack bootstrapping
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261024/202610240302.dne62y4D-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610240302.dne62y4D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610240855.NijJJoJD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610240302.dne62y4D-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/marvell/octeontx2/af/rvu.h:13,
-                    from drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:11:
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c: In function 'rvu_mbox_handler_npc_delete_flow':
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:1962:58: error: 'rvu_pdev' undeclared (first use in this function)
-    1962 |                                 if (blkaddr && !is_cn20k(rvu_pdev))
-         |                                                          ^~~~~~~~
-   include/linux/soc/marvell/silicons.h:22:41: note: in definition of macro 'is_cn20k'
-      22 | #define is_cn20k(pdev)          ((void)(pdev), 0)
-         |                                         ^~~~
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:1962:58: note: each undeclared identifier is reported only once for each function it appears in
-   include/linux/soc/marvell/silicons.h:22:41: note: in definition of macro 'is_cn20k'
-      22 | #define is_cn20k(pdev)          ((void)(pdev), 0)
-         |                                         ^~~~
->> include/linux/soc/marvell/silicons.h:22:46: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-      22 | #define is_cn20k(pdev)          ((void)(pdev), 0)
-         |                                              ^
-   drivers/net/ethernet/marvell/octeontx2/af/rvu_npc_fs.c:1962:49: note: in expansion of macro 'is_cn20k'
-    1962 |                                 if (blkaddr && !is_cn20k(rvu_pdev))
-         |                                                 ^~~~~~~~
+   arch/x86/kernel/cet.c:277:17: warning: no previous prototype for 'kshstk_build' [-Wmissing-prototypes]
+     277 | asmlinkage void kshstk_build(unsigned long *root_sp)
+         |                 ^~~~~~~~~~~~
+   arch/x86/kernel/cet.c:330:6: error: redefinition of 'arch_kernel_stack_lock_current'
+     330 | void arch_kernel_stack_lock_current(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/processor.h:30,
+                    from include/linux/sched.h:13,
+                    from include/linux/ptrace.h:6,
+                    from arch/x86/kernel/cet.c:3:
+   arch/x86/include/asm/shstk.h:49:20: note: previous definition of 'arch_kernel_stack_lock_current' with type 'void(void)'
+      49 | static inline void arch_kernel_stack_lock_current(void) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cet.c: In function 'arch_kernel_stack_lock_current':
+>> arch/x86/kernel/cet.c:351:24: error: 'struct thread_struct' has no member named 'kshstk_ssp'
+     351 |         current->thread.kshstk_ssp = kshstk_enable_current();
+         |                        ^
+>> arch/x86/kernel/cet.c:351:38: error: implicit declaration of function 'kshstk_enable_current'; did you mean 'kmsan_enable_current'? [-Wimplicit-function-declaration]
+     351 |         current->thread.kshstk_ssp = kshstk_enable_current();
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+         |                                      kmsan_enable_current
 
 
-vim +22 include/linux/soc/marvell/silicons.h
+vim +351 arch/x86/kernel/cet.c
 
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  12  
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  13  #define CN20K_CHIPID	0x20
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  14  /*
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  15   * Silicon check for CN20K family
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  16   */
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  17  static inline bool is_cn20k(struct pci_dev *pdev)
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  18  {
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  19  	return (pdev->subsystem_device & 0xFF) == CN20K_CHIPID;
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  20  }
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  21  #else
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11 @22  #define is_cn20k(pdev)		((void)(pdev), 0)
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  23  #endif
-25d51ebf0f54f9 Subbaraya Sundeep 2025-06-11  24  
+   320	
+   321	/*
+   322	 * This "locks" the stack in place and does not allow any control
+   323	 * flow manipulation to occur because of changes to the stack.
+   324	 *
+   325	 * CPU enters with shadow stacks disabled and leaves with them
+   326	 * enabled.
+   327	 *
+   328	 * Must be called before the CPU does its first context switch.
+   329	 */
+   330	void arch_kernel_stack_lock_current(void)
+   331	{
+   332		unsigned long flags;
+   333	
+   334		if (!cpu_feature_enabled(X86_FEATURE_KERN_SHSTK))
+   335			return;
+   336	
+   337		kshstk_prepare_pages();
+   338	
+   339		/*
+   340		 * Regular interrupts are delivered on stack level 0. There
+   341		 * is a window within the enabling where CET_SHSTK_EN=1 but
+   342		 * SSP is not yet set. If an interrupt is delivered in that
+   343		 * window, it would try to push on to this stack. Disable
+   344		 * regular interrupts over this window.
+   345		 *
+   346		 * Interrupts that use other stack levels (like NMI) are OK
+   347		 * because FRED switches stacks for them and does not push
+   348		 * on stack level 0.
+   349		 */
+   350		local_irq_save(flags);
+ > 351		current->thread.kshstk_ssp = kshstk_enable_current();
 
 --
 0-DAY CI Kernel Test Service
