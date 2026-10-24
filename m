@@ -1,80 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792806765;
-	b=l26nrGoFBRtBn7mjDdcYISB53GH/799W9Z/teOdCfdY2gx89LJIOak1z5z25f2Pu8RRv
-	 t1TKexTt9avvK33L8EUdaL9/xkczszVTviF3o07f9onnOzs555IDPjHgq48mkT/bbTjf8
-	 OKODuw7+g3gbJ7Mb6njN27MCGQHlvuZXBvt1h/vZHMYYD8tOrjDdj1mdnmfqPbVUv4DVF
-	 hBiyjJU8/q6tC1AdO5R5J18Dz7a0A0B1t2ghVW15/o/aRb7Z7WC5vXA/EgXBrro/429Vi
-	 jyxb2Vd9zy3dt/+aUfD1BqxIg4LMBXgj/p848ctBQzW8NbE0+pqkjW9SyPRjltwL5ZA==
+	t=1792808088;
+	b=tx8kD1hlPe5J7K4Eb/euM9iDxFfKxuZYBvRJGfgtmkU+OZTlZdx2tZOutN+oKroPb6a1
+	 j+2czJxiD4ISSLvjADzafm2PMa6mi7CmfN3kqmEQPM2owOBiSKey9UvLV50775tF/A4eW
+	 xfgquX/OZjj1MFqTD7YzaNRe5ZTBCmy2DR/zd1MvMqiV+1TUzG/htJ7wwGWbzVa2m+VbN
+	 PJyRbTyVxQANjgv5sXumpbmvPRUjBRZTG1flj/bD9b7H+J6LMW/P9CjhR3fqPiaiFoM/x
+	 Vz26GaMuYwXhky7DV4gdsG1yVBM3cZdHl/HAvqnhoHGruJeN45xRaDtsZP+q38mVb8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792806765;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792808088;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=wjuto3d/KuK0tBjAezBeTt5tVciNNcThbLMT4S20fd0=;
-	b=qupr4Mofm/ar9AFGARbM3qA7s0F6eWaBUjvNtoMoPM4uhtTreL5gFHaH9nXebrd+C6bD
-	 fs3/L+ylrUivLZL9yYwT9D11d0CjtBztxRyheZdUMrPyXPZbbEAKqi2NBspQT00IVi06V
-	 MwcLB7SuI0ikFJcQkwN0BVC9ydcOr4bHyjSu2SZcyXNAewvGbghwu3GfgF6uzF/LHo1dM
-	 d1Aierjt4gApIH06BSU5zjfr4JKsN6YJKJlWw90haoIc+xYonlA3FHKgOTIWxquiRlSha
-	 +opBWLh8T8R2/xXDafMbv7dihtqfPrM1TXwCtHLPXqCoX3yOwGlsd1jrKsJ02x11sAw==
+	bh=yAuYor1soPIZA7EX+lfFc4BA32TSGeGLXRlLw71DcRo=;
+	b=RNWtz6yfj8KbnaYKHWxnBLypmU/HIGWSokQjG7qUK0//aKJ24F2DAfSp9lpB8MSZZO80
+	 wuJZbPBxVQ00wGKicnHHnABitZDHsOd61S77Kkz8ytic5U9BZ3rYAi0hy1iqc9P2veLhL
+	 yQRt6GG8RBs3OqpRM9MNgceird5uybunKrwsWTVljU+6zDKMV+7X3txQNDW/F/TlVxByo
+	 SksPl49WD3iro0HWMwssWaoZ6gcf69x6370pmyDQbkKHDsb4LncrQ9IoivqeCov7TJfGw
+	 IPu+Ac6lehUVwaSxjikLj3OVzNIFZU5BSi25dfKUCaTiNYVBXXUD+bPv/9nQxTcQIPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GBgNuVrq;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IqS9y7P3;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59956606A31A;
-	Sat, 24 Oct 2026 01:52:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59956606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177BC606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 02:14:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 177BC606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GBgNuVrq
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IqS9y7P3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792806765; x=1824342765;
+  t=1792808088; x=1824344088;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UFya1hKym3VDaS8cNunTQezFRotwyKjbplRcLEVURx4=;
-  b=GBgNuVrqVAWhMd97SYjvNHWES98PfyJ12V/zPpXCbm9vVD69UwnxzG+O
-   OW7/Lc+IV22hZ5/kZ6P7poLEP4N819k7wGXZZ46TPQdRfOQJrqSHr4DOw
-   5UIRxBzb+HQpTSh1mosmiqCJSRCfIb4GRdFsQK+ihdqbmnNc9vw5N2Thu
-   5t04mQ9rv+FNkDexwm1+SMGkznVWzErpyj8NsRRw1xnRxwGkYA7KNUKRZ
-   j7+GYBIbhzAm3UL4qM1pR0mpAz8ZIvYVaNFBBZuLxTcJqYXxksd+ncljV
-   eyTHJ4C2z7LFKm6E5RFzgLMIyfLHJi1VG7oc1PYEX4LcyEXfF1UfmefaX
+  bh=3vGAHWAWj47J1NUauqlbfdNw4l7B+4Puz5dEkbTphJg=;
+  b=IqS9y7P3XVB416zVw/sj+1q3pJRuDIjiOlaUikMd78tD0HTfMv8JTb0x
+   gf+wtKIO6RrvHTtmtjI34Z23pI5NrmCWVjrk6inkaRnao3Rf9m9p67FW+
+   losQE7vr3cMZCWEA12XYFH8iZai8RAPuOntbHDhXLA0Z5OgrLaqWdrAlG
+   FLiaEDPBOwwr+yOqmt//Je+bhNxt0qkfbdonzRh/C33NefFpGP5q+hON7
+   DzZWpcTVY0P8wfKK3f2VtZzcntedJu9X/vOxFdUuc4bnmh0UNQXjTc2rZ
+   tiM8UdYzKq1sVbtnsC/QUV33g6UEfLcrVuQiEO//pgMGKFawOKHT5sgfp
    A==;
-X-CSE-ConnectionGUID: VkXLUhANSdWe5JJ7f9W/iQ==
-X-CSE-MsgGUID: 2+82eD5IRjGfT99uyad5zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1463007"
+X-CSE-ConnectionGUID: lFjy0Z4XRP2XYDHQtPE2GQ==
+X-CSE-MsgGUID: rehMXnYRSfeZkbDGFj+w2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1587784"
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="1463007"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 18:52:44 -0700
-X-CSE-ConnectionGUID: /QmVDlBGS0apAzWg7GkJCg==
-X-CSE-MsgGUID: MPhhLiUuRzaMRhbSLdoLvA==
+   d="scan'208";a="1587784"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 19:14:47 -0700
+X-CSE-ConnectionGUID: 8mSKeHZjQkCC22iIBpRuVQ==
+X-CSE-MsgGUID: meTqIDLFRqyS9kxVhu4S9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,175,1787036400"; 
-   d="scan'208";a="3846771"
+   d="scan'208";a="3710658"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Oct 2026 18:52:42 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Oct 2026 19:14:44 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKQw3-00000000TUs-2xmk;
-	Sat, 24 Oct 2026 01:52:39 +0000
-Date: Sat, 24 Oct 2026 09:52:19 +0800
+	id 1xKRHN-00000000TVO-1kwu;
+	Sat, 24 Oct 2026 02:14:41 +0000
+Date: Sat, 24 Oct 2026 10:13:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liang Hao <haohlliang@gmail.com>, linux-gpio@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Liang Hao <haohlliang@gmail.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] gpiolib: Add irq_set_affinity helper for GPIO line
- IRQs
-Message-ID: <202610240908.4J3PwdPn-lkp@intel.com>
-References: <20261023151209.58772-2-haohlliang@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Kees Cook <kees@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tycho Andersen <tycho@tycho.pizza>,
+	Namhyung Kim <namhyung@kernel.org>
+Subject: Re: [PATCH v5 2/2] kallsyms: Don't leak pointers for unresolved
+ symbols
+Message-ID: <202610241049.9evBxlP8-lkp@intel.com>
+References: <20261023-vsprintf_kallsym-v5-2-57ff92187c1d@linutronix.de>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,99 +95,74 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261023151209.58772-2-haohlliang@gmail.com>
+In-Reply-To: <20261023-vsprintf_kallsym-v5-2-57ff92187c1d@linutronix.de>
 
-Hi Liang,
+Hi Sebastian,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v7.3 next-20261022]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 091b06388b117fefdcb63336ac09956a4914b961]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Liang-Hao/gpiolib-Add-irq_set_affinity-helper-for-GPIO-line-IRQs/20261023-231104
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20261023151209.58772-2-haohlliang%40gmail.com
-patch subject: [PATCH 1/2] gpiolib: Add irq_set_affinity helper for GPIO line IRQs
-config: mips-ci20_defconfig (https://download.01.org/0day-ci/archive/20261024/202610240908.4J3PwdPn-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610240908.4J3PwdPn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/vsprintf-Don-t-leak-pointers-for-ps-without-KALLSYMS-enabled/20261023-184623
+base:   091b06388b117fefdcb63336ac09956a4914b961
+patch link:    https://lore.kernel.org/r/20261023-vsprintf_kallsym-v5-2-57ff92187c1d%40linutronix.de
+patch subject: [PATCH v5 2/2] kallsyms: Don't leak pointers for unresolved symbols
+config: sh-rsk7201_defconfig (https://download.01.org/0day-ci/archive/20261024/202610241049.9evBxlP8-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241049.9evBxlP8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610240908.4J3PwdPn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610241049.9evBxlP8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpio/gpiolib.c:2154:9: error: no member named 'parent_data' in 'struct irq_data'
-    2154 |         if (d->parent_data)
-         |             ~  ^
->> drivers/gpio/gpiolib.c:2155:10: error: call to undeclared function 'irq_chip_set_affinity_parent'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2155 |                 return irq_chip_set_affinity_parent(d, dest, force);
-         |                        ^
-   drivers/gpio/gpiolib.c:2155:10: note: did you mean 'irq_set_affinity_hint'?
-   include/linux/interrupt.h:407:19: note: 'irq_set_affinity_hint' declared here
-     407 | static inline int irq_set_affinity_hint(unsigned int irq,
-         |                   ^
-   2 errors generated.
+   kernel/kallsyms.c: In function '__sprint_symbol':
+>> kernel/kallsyms.c:486:44: warning: format '%p' expects argument of type 'void *', but argument 3 has type 'long unsigned int' [-Wformat=]
+     486 |                 return sprintf(buffer, "0x%p", address - symbol_offset);
+         |                                           ~^   ~~~~~~~~~~~~~~~~~~~~~~~
+         |                                            |           |
+         |                                            void *      long unsigned int
+         |                                           %ld
 
 
-vim +2154 drivers/gpio/gpiolib.c
+vim +486 kernel/kallsyms.c
 
-  2128	
-  2129	/**
-  2130	 * gpiochip_irq_set_affinity() - irq_chip set_affinity helper for GPIO lines
-  2131	 * @d: Pointer to the GPIO line irq_data
-  2132	 * @dest: Affinity mask to set
-  2133	 * @force: True to enforce the mask without online CPU checks
-  2134	 *
-  2135	 * Hierarchical irqdomains with parent_data delegate through
-  2136	 * irq_chip_set_affinity_parent(). GPIO irqchips that use a chained parent
-  2137	 * handler resolve the parent virq and apply the mask through the parent
-  2138	 * irq_chip as described in gpiochip_chained_parent_virq().
-  2139	 *
-  2140	 * Affinity is programmed on the parent irq, not independently per line. GPIO
-  2141	 * lines that share one parent irq also share its affinity; updating one line
-  2142	 * replaces the mask for all lines on that parent.
-  2143	 *
-  2144	 * Return: IRQ_SET_MASK_* on success, or a negative errno on error.
-  2145	 */
-  2146	int gpiochip_irq_set_affinity(struct irq_data *d,
-  2147				      const struct cpumask *dest, bool force)
-  2148	{
-  2149		struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-  2150		struct irq_data *pdata;
-  2151		unsigned int parent;
-  2152		int ret;
-  2153	
-> 2154		if (d->parent_data)
-> 2155			return irq_chip_set_affinity_parent(d, dest, force);
-  2156	
-  2157		parent = gpiochip_chained_parent_virq(gc, d);
-  2158		if (!parent)
-  2159			return -EINVAL;
-  2160	
-  2161		pdata = irq_get_irq_data(parent);
-  2162		if (!pdata || !pdata->chip || !pdata->chip->irq_set_affinity)
-  2163			return -EINVAL;
-  2164	
-  2165		ret = pdata->chip->irq_set_affinity(pdata, dest, force);
-  2166		switch (ret) {
-  2167		case IRQ_SET_MASK_OK:
-  2168		case IRQ_SET_MASK_OK_NOCOPY:
-  2169		case IRQ_SET_MASK_OK_DONE:
-  2170			irq_data_update_effective_affinity(d,
-  2171				irq_data_get_effective_affinity_mask(pdata));
-  2172			return IRQ_SET_MASK_OK;
-  2173		default:
-  2174			return ret;
-  2175		}
-  2176	}
-  2177	EXPORT_SYMBOL_GPL(gpiochip_irq_set_affinity);
-  2178	
+   469	
+   470	/* Look up a kernel symbol and return it in a text buffer. */
+   471	static int __sprint_symbol(char *buffer, unsigned long address,
+   472				   int symbol_offset, int add_offset, int add_buildid)
+   473	{
+   474		char *modname;
+   475		const unsigned char *buildid;
+   476		unsigned long offset, size;
+   477		int len;
+   478	
+   479		/* Prevent module removal until modname and modbuildid are printed */
+   480		guard(rcu)();
+   481	
+   482		address += symbol_offset;
+   483		len = kallsyms_lookup_buildid(address, &size, &offset, &modname, &buildid,
+   484					       buffer);
+   485		if (!len)
+ > 486			return sprintf(buffer, "0x%p", address - symbol_offset);
+   487	
+   488		offset -= symbol_offset;
+   489	
+   490		if (add_offset)
+   491			len += sprintf(buffer + len, "+%#lx/%#lx", offset, size);
+   492	
+   493		if (modname) {
+   494			len += sprintf(buffer + len, " [%s", modname);
+   495			if (add_buildid)
+   496				len += append_buildid(buffer + len, modname, buildid);
+   497			len += sprintf(buffer + len, "]");
+   498		}
+   499	
+   500		return len;
+   501	}
+   502	
 
 --
 0-DAY CI Kernel Test Service
