@@ -1,76 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792849128;
-	b=atYQb4UWe1sgbeBvSlJi8ikNZYdIMVSb01DwkYExPG2lAgBHnXVbzN6epOlh8+pk9u5J
-	 +MVEhS30NSkkOngcq9roDhgeqF2uxJFaX1dhj/u10LLgyak6nsbrc1FNmO6aDMGUNdTIE
-	 klxYHxYfnrHatFwxocgIiQvrQFBU5itxjdxNT4k5jWUdc8tyCcXkzQJAExqGba64PVp3/
-	 llKXqOy0qwcC05EyBqagJVYcsSCQhxNFrZGkID1u9j4NKkJBGGyJYLqANPGfhb15awLSz
-	 bdoWp6PmbWLuNKbLGrC1WaUUKKCUfB4vVPh0A1SrJhqDt1tXpF+I2W8KcRR1n+lfQcg==
+	t=1792851840;
+	b=qsDSdcON81sF/6ipnHRPskK/98Wrd/BFFaXt3I/GpUP64PRFHAehnpDQu0InhVxR2K0p
+	 r2iqnB8rkjFtNdQnGr8Z4ytN0OValx8TcVAUjFSTR0nxoGGiL6QnVki2YB9POU9l7ASvQ
+	 0unWvHSQaL/uX93QON2CAqcTeqO+tIppKj0misyRoGRFt+wnHiV8SVxl/UPCcGVzQ7E4i
+	 qv+T92F8uN+o4f/iA4ox1ZElXPPV/WHwL1Go4j12r5N3mdyoMs4WAod7gl5FFLNXK3eSg
+	 GlIrl/PiGQP1qReUdx+8b1vHN/JfyveMsG5j3BY4+yaU2KqgPE8Ywhsy0AjST9SNsyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792849128;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792851840;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ODIRZX/iZNrADksvF63s8ZILT0UgO0hiUo7Ih8tA2Cg=;
-	b=VSazcjPHBhLXQmgRYsA5A8i6PEESnaJpZpB3ADZrLX/Zjypw9yiryEbyZPHmROLXXsNM
-	 ykki0tNQqhv64UDB/glfgaXffudPCI5yJGg7yY3J4a7XzJH4Vx2XNMrD6HVdfDQFDtJmf
-	 8kTnaiFCy1aKK6k9llAMUedwLr5AeUN2HRS+prUZ69Q2jRf8oKWVlwsW6vAoPL2gs2Vxm
-	 FCKAFLgEn/JajNVAcaY3lf06BIO/UpqdCrH9Vra/y85oiivOkHFvFxOr22MqYYie/FD81
-	 T0toFhW22zb03ByMqR1VHrB7tCwbJRxjbgSSTinIeI721BKQC26dSACO7ZaO0h+XISg==
+	bh=+T+b7ZDYl/54Qei5grZzUUWJdzOwEZdfGtvM1kweR0A=;
+	b=1THn6+Sprac2F5M9Tjihgr/2ttiMyA4muDClZc67Lr9nybemfyRkuaEKzFGUPfd0oFbZ
+	 ogCIYCbA8k0yt+gcrr6n1BryNNGnn3xQY0xRwOPA7fUXr2ANlW0URrFY9jYGayG9cT7ba
+	 T9OlCW6FchNtyO84JRJGy32rRpUvWrMem0pNL65k4LZKIn0HrWIRIanR2tOETUbUTigMV
+	 F7BiilWDdg4faDD7nfM3qdXCGtIBDT2cvGNCEkQUBqfNXCedMahC41bTcNusXiWr22bGw
+	 6hUUp9duhMuaIT7W1AWlpSoje031+VdpwTYKBav9Z7MJUrta/P68sqZJRKBUoWUockw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j4V+bGf8;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QemIv64T;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090CE606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 13:38:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 090CE606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F062606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 14:23:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F062606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j4V+bGf8
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QemIv64T
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792849126; x=1824385126;
+  t=1792851839; x=1824387839;
   h=date:from:to:cc:subject:message-id;
-  bh=eRHENrJhccxgHJhDj6nIaG0+E5nrNO8qNkUdr6YLpAk=;
-  b=j4V+bGf8rXl+TuuaFvRAU2v0RHCFrKRIeSZKSOtUGLDcdGFQkj1N8QvU
-   B5jjD7/v+bNyq+kjhvjpbGtL9aEVnwtrTPN3pQ0Xlxpu99nl4om9DszvJ
-   hTtspY2oCOjnKQDySsHOS/rdGw7n1zFHhVr7bAR2ZCdBIThOmeoOCyiT7
-   z6cGvH8WbgqPt2dkCmj6qmhUdE3p8aAkFEdhO0oFodmhLQ4EtmEnfHFEn
-   UORVBXarb2i1PUbxeZaVz12M3bMEzbQDNNYbf8isZtX0XKzmy2CVPGuQl
-   rqyNiQhKBTMQo17bpqkbtixuEqQYAAGwu/H9P4sJfviDlcPy51eDROMdt
+  bh=3+i/Ipwc+bu55svqx3mF97l2s8WnhUPnX0A02ZC1j7U=;
+  b=QemIv64TFES4eMJBAyOdGNRksuX9KLofcfKpV4E3mxr4BsefLi96SR7C
+   rgSiIAvV4zN1HWxmwBWx238kpCJ88JzeiSp0gTn8YNatYGoD4q7H3TkEN
+   DhMJnXB6oMI1VlE1aym9POp/cVq5NT8WPlygZK1+v0PEPOB6f6N3zxuTn
+   AhE9pwRTJX4+gKpQdYaIAfE5BsCeSK6zZvFbmkxpQK79yADy/Lyayroou
+   MBW6HguTKFIefsJm+stJe1TMAeAk8+jfNFUk384nG76SiMBohZwMssmt/
+   HCwGS15ZPiYTtqruWrQokCO5ttgUdBRGijedIF0lxifofpYknniAnH41h
    g==;
-X-CSE-ConnectionGUID: ygGK1B5ASHehbmciW4ydNw==
-X-CSE-MsgGUID: K4fYvbDzQVer+R8BA71ciQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1469236"
+X-CSE-ConnectionGUID: gNTkh6eGSsGyFj8YbZWB8A==
+X-CSE-MsgGUID: RELR47D6TOuN3sjcTxY2eQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1603168"
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="1469236"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 06:38:45 -0700
-X-CSE-ConnectionGUID: rJ6aE2fYQ1OD0za2WuBOMw==
-X-CSE-MsgGUID: pyAnE5lbSlK7MgVxOM5npA==
+   d="scan'208";a="1603168"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 07:23:59 -0700
+X-CSE-ConnectionGUID: FCRUo+rVQkiojJFyh/91Mw==
+X-CSE-MsgGUID: h9eD+TzURo+QV43+Bpkh/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="5620398"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 24 Oct 2026 06:38:44 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="4238413"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 24 Oct 2026 07:23:57 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKbxJ-00000000Tua-0JEq;
-	Sat, 24 Oct 2026 13:38:41 +0000
-Date: Sat, 24 Oct 2026 21:38:09 +0800
+	id 1xKcf4-000000003OZ-3t7z;
+	Sat, 24 Oct 2026 14:23:54 +0000
+Date: Sat, 24 Oct 2026 16:23:06 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 2/2]
- drivers/base/core.c:1994: warning: Function parameter or struct member
- 'con_handle' not described in '__fw_devlink_relax_cycles'
-Message-ID: <202610242135.wbWkldtp-lkp@intel.com>
+To: Udaya Kiran Challa <challauday369@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+ "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 16862/19841]
+ arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds
+ (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power',
+ 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$',
+ '^pinctrl-[0-9]+$'
+Message-ID: <202610241613.f8NldyOo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,151 +84,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Saravana,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   e64d278d669fa423e1337ad06c6672336c13bea9
-commit: d34bf994bb973db1d142376e555e093c3146f730 [2/2] driver core: fw_devlink: Stop trying to optimize cycle detection logic
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20261024/202610242135.wbWkldtp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610242135.wbWkldtp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   20a33c6b6cbe7e4805dfb6cd68816937443aa148
+commit: 59cf91cf87abb67a49b1bb7b9d3b06486abde8cf [16862/19841] dt-bindings: leds: lacie,netxbig-leds: Convert to DT schema
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261024/202610241613.f8NldyOo-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261024/202610241613.f8NldyOo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610242135.wbWkldtp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610241613.f8NldyOo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/base/core.c:1994: warning: Function parameter or struct member 'con_handle' not described in '__fw_devlink_relax_cycles'
-   drivers/base/core.c:1994: warning: Excess function parameter 'con' description in '__fw_devlink_relax_cycles'
-
-
-vim +1994 drivers/base/core.c
-
-411c0d58ca6faa Saravana Kannan 2023-02-06  1971  
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1972  /**
-3fb16866b51ded Saravana Kannan 2023-02-06  1973   * __fw_devlink_relax_cycles - Relax and mark dependency cycles.
-3fb16866b51ded Saravana Kannan 2023-02-06  1974   * @con: Potential consumer device.
-3fb16866b51ded Saravana Kannan 2023-02-06  1975   * @sup_handle: Potential supplier's fwnode.
-3fb16866b51ded Saravana Kannan 2023-02-06  1976   *
-3fb16866b51ded Saravana Kannan 2023-02-06  1977   * Needs to be called with fwnode_lock and device link lock held.
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1978   *
-3fb16866b51ded Saravana Kannan 2023-02-06  1979   * Check if @sup_handle or any of its ancestors or suppliers direct/indirectly
-3fb16866b51ded Saravana Kannan 2023-02-06  1980   * depend on @con. This function can detect multiple cyles between @sup_handle
-3fb16866b51ded Saravana Kannan 2023-02-06  1981   * and @con. When such dependency cycles are found, convert all device links
-3fb16866b51ded Saravana Kannan 2023-02-06  1982   * created solely by fw_devlink into SYNC_STATE_ONLY device links. Also, mark
-3fb16866b51ded Saravana Kannan 2023-02-06  1983   * all fwnode links in the cycle with FWLINK_FLAG_CYCLE so that when they are
-3fb16866b51ded Saravana Kannan 2023-02-06  1984   * converted into a device link in the future, they are created as
-3fb16866b51ded Saravana Kannan 2023-02-06  1985   * SYNC_STATE_ONLY device links. This is the equivalent of doing
-3fb16866b51ded Saravana Kannan 2023-02-06  1986   * fw_devlink=permissive just between the devices in the cycle. We need to do
-3fb16866b51ded Saravana Kannan 2023-02-06  1987   * this because, at this point, fw_devlink can't tell which of these
-3fb16866b51ded Saravana Kannan 2023-02-06  1988   * dependencies is not a real dependency.
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1989   *
-3fb16866b51ded Saravana Kannan 2023-02-06  1990   * Return true if one or more cycles were found. Otherwise, return false.
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1991   */
-d34bf994bb973d Saravana Kannan 2024-10-30  1992  static bool __fw_devlink_relax_cycles(struct fwnode_handle *con_handle,
-3fb16866b51ded Saravana Kannan 2023-02-06  1993  				 struct fwnode_handle *sup_handle)
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17 @1994  {
-d34bf994bb973d Saravana Kannan 2024-10-30  1995  	struct device *sup_dev = NULL, *par_dev = NULL, *con_dev = NULL;
-3fb16866b51ded Saravana Kannan 2023-02-06  1996  	struct fwnode_link *link;
-3fb16866b51ded Saravana Kannan 2023-02-06  1997  	struct device_link *dev_link;
-3fb16866b51ded Saravana Kannan 2023-02-06  1998  	bool ret = false;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1999  
-3fb16866b51ded Saravana Kannan 2023-02-06  2000  	if (!sup_handle)
-3fb16866b51ded Saravana Kannan 2023-02-06  2001  		return false;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2002  
-3fb16866b51ded Saravana Kannan 2023-02-06  2003  	/*
-3fb16866b51ded Saravana Kannan 2023-02-06  2004  	 * We aren't trying to find all cycles. Just a cycle between con and
-3fb16866b51ded Saravana Kannan 2023-02-06  2005  	 * sup_handle.
-3fb16866b51ded Saravana Kannan 2023-02-06  2006  	 */
-3fb16866b51ded Saravana Kannan 2023-02-06  2007  	if (sup_handle->flags & FWNODE_FLAG_VISITED)
-3fb16866b51ded Saravana Kannan 2023-02-06  2008  		return false;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2009  
-3fb16866b51ded Saravana Kannan 2023-02-06  2010  	sup_handle->flags |= FWNODE_FLAG_VISITED;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2011  
-3fb16866b51ded Saravana Kannan 2023-02-06  2012  	/* Termination condition. */
-d34bf994bb973d Saravana Kannan 2024-10-30  2013  	if (sup_handle == con_handle) {
-6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2014  		pr_debug("----- cycle: start -----\n");
-3fb16866b51ded Saravana Kannan 2023-02-06  2015  		ret = true;
-3fb16866b51ded Saravana Kannan 2023-02-06  2016  		goto out;
-3fb16866b51ded Saravana Kannan 2023-02-06  2017  	}
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2018  
-d34bf994bb973d Saravana Kannan 2024-10-30  2019  	sup_dev = get_dev_from_fwnode(sup_handle);
-d34bf994bb973d Saravana Kannan 2024-10-30  2020  	con_dev = get_dev_from_fwnode(con_handle);
-3fb16866b51ded Saravana Kannan 2023-02-06  2021  	/*
-3fb16866b51ded Saravana Kannan 2023-02-06  2022  	 * If sup_dev is bound to a driver and @con hasn't started binding to a
-3fb16866b51ded Saravana Kannan 2023-02-06  2023  	 * driver, sup_dev can't be a consumer of @con. So, no need to check
-3fb16866b51ded Saravana Kannan 2023-02-06  2024  	 * further.
-3fb16866b51ded Saravana Kannan 2023-02-06  2025  	 */
-3fb16866b51ded Saravana Kannan 2023-02-06  2026  	if (sup_dev && sup_dev->links.status ==  DL_DEV_DRIVER_BOUND &&
-d34bf994bb973d Saravana Kannan 2024-10-30  2027  	    con_dev && con_dev->links.status == DL_DEV_NO_DRIVER) {
-3fb16866b51ded Saravana Kannan 2023-02-06  2028  		ret = false;
-3fb16866b51ded Saravana Kannan 2023-02-06  2029  		goto out;
-3fb16866b51ded Saravana Kannan 2023-02-06  2030  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  2031  
-3fb16866b51ded Saravana Kannan 2023-02-06  2032  	list_for_each_entry(link, &sup_handle->suppliers, c_hook) {
-b7e1241d8f77ed Saravana Kannan 2024-03-04  2033  		if (link->flags & FWLINK_FLAG_IGNORE)
-b7e1241d8f77ed Saravana Kannan 2024-03-04  2034  			continue;
-b7e1241d8f77ed Saravana Kannan 2024-03-04  2035  
-d34bf994bb973d Saravana Kannan 2024-10-30  2036  		if (__fw_devlink_relax_cycles(con_handle, link->supplier)) {
-3fb16866b51ded Saravana Kannan 2023-02-06  2037  			__fwnode_link_cycle(link);
-3fb16866b51ded Saravana Kannan 2023-02-06  2038  			ret = true;
-3fb16866b51ded Saravana Kannan 2023-02-06  2039  		}
-3fb16866b51ded Saravana Kannan 2023-02-06  2040  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  2041  
-3fb16866b51ded Saravana Kannan 2023-02-06  2042  	/*
-3fb16866b51ded Saravana Kannan 2023-02-06  2043  	 * Give priority to device parent over fwnode parent to account for any
-3fb16866b51ded Saravana Kannan 2023-02-06  2044  	 * quirks in how fwnodes are converted to devices.
-3fb16866b51ded Saravana Kannan 2023-02-06  2045  	 */
-3fb16866b51ded Saravana Kannan 2023-02-06  2046  	if (sup_dev)
-3fb16866b51ded Saravana Kannan 2023-02-06  2047  		par_dev = get_device(sup_dev->parent);
-3fb16866b51ded Saravana Kannan 2023-02-06  2048  	else
-3fb16866b51ded Saravana Kannan 2023-02-06  2049  		par_dev = fwnode_get_next_parent_dev(sup_handle);
-3fb16866b51ded Saravana Kannan 2023-02-06  2050  
-d34bf994bb973d Saravana Kannan 2024-10-30  2051  	if (par_dev && __fw_devlink_relax_cycles(con_handle, par_dev->fwnode)) {
-6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2052  		pr_debug("%pfwf: cycle: child of %pfwf\n", sup_handle,
-6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2053  			 par_dev->fwnode);
-3fb16866b51ded Saravana Kannan 2023-02-06  2054  		ret = true;
-6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2055  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  2056  
-3fb16866b51ded Saravana Kannan 2023-02-06  2057  	if (!sup_dev)
-3fb16866b51ded Saravana Kannan 2023-02-06  2058  		goto out;
-3fb16866b51ded Saravana Kannan 2023-02-06  2059  
-3fb16866b51ded Saravana Kannan 2023-02-06  2060  	list_for_each_entry(dev_link, &sup_dev->links.suppliers, c_node) {
-3fb16866b51ded Saravana Kannan 2023-02-06  2061  		/*
-3fb16866b51ded Saravana Kannan 2023-02-06  2062  		 * Ignore a SYNC_STATE_ONLY flag only if it wasn't marked as
-3fb16866b51ded Saravana Kannan 2023-02-06  2063  		 * such due to a cycle.
-3fb16866b51ded Saravana Kannan 2023-02-06  2064  		 */
-3fb16866b51ded Saravana Kannan 2023-02-06  2065  		if (device_link_flag_is_sync_state_only(dev_link->flags) &&
-3fb16866b51ded Saravana Kannan 2023-02-06  2066  		    !(dev_link->flags & DL_FLAG_CYCLE))
-3fb16866b51ded Saravana Kannan 2023-02-06  2067  			continue;
-3fb16866b51ded Saravana Kannan 2023-02-06  2068  
-d34bf994bb973d Saravana Kannan 2024-10-30  2069  		if (__fw_devlink_relax_cycles(con_handle,
-3fb16866b51ded Saravana Kannan 2023-02-06  2070  					      dev_link->supplier->fwnode)) {
-6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2071  			pr_debug("%pfwf: cycle: depends on %pfwf\n", sup_handle,
-6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2072  				 dev_link->supplier->fwnode);
-3fb16866b51ded Saravana Kannan 2023-02-06  2073  			fw_devlink_relax_link(dev_link);
-3fb16866b51ded Saravana Kannan 2023-02-06  2074  			dev_link->flags |= DL_FLAG_CYCLE;
-3fb16866b51ded Saravana Kannan 2023-02-06  2075  			ret = true;
-3fb16866b51ded Saravana Kannan 2023-02-06  2076  		}
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2077  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  2078  
-3fb16866b51ded Saravana Kannan 2023-02-06  2079  out:
-3fb16866b51ded Saravana Kannan 2023-02-06  2080  	sup_handle->flags &= ~FWNODE_FLAG_VISITED;
-3fb16866b51ded Saravana Kannan 2023-02-06  2081  	put_device(sup_dev);
-3fb16866b51ded Saravana Kannan 2023-02-06  2082  	put_device(par_dev);
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2083  	return ret;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2084  }
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2085  
-
-:::::: The code at line 1994 was first introduced by commit
-:::::: b0e2fa4f611bb9ab22928605d5b1c7fd44e73955 driver core: Handle cycles in device links created by fw_devlink
-
-:::::: TO: Saravana Kannan <saravanak@google.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@3 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@4 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@5 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
 
 --
 0-DAY CI Kernel Test Service
