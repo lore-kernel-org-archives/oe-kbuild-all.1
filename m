@@ -1,77 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792898023;
-	b=n6r0cU+NuWyndqOaaeIQTDQzLycfizhqAEO0ZxQfkRU6C+wo2WJUxW0oZHJoJGxSM4n+
-	 u+QuwwUjPP5AKEo7KSPQUDxNeVRmU1wM41uT3p0j3Dbk8WWNs2Y8K4oRdbPKx+kO/3pfE
-	 eDqFid6A6+vXK9ppHnwC92Hih317mTF9UIQ6C9JMipWSvX0Jm5Wa2PjLkrHD3lehz0NUW
-	 QiMyfLfPVzoCcBM4cMX4pBBnLgWq1vs7xaxXG/NV7ZCvJ2iLdxcW+35zB6Ih333BsdZZj
-	 fheyO4IwyrLbb8lqPKGFSdGiFD6w7oGVvZ+/ZNt5+BUi3qLSvTejCeSuQeAzNFuorsA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792898023;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=aUn1p0bkBdhHEWFvpyQ5EurZf62YrCB8HnfQ3TYbAUU=;
-	b=AewGlUgjybsfe83mZGEOsc36cRoqOcXxzbjy2l9o25jKy/t1umv3YzDpL2dbaoRG+Y6S
-	 dHFWNPeIkZSNVoS0EuRvBOH+NlzfbYRK1NxHJkuOMKYsr/iKLKtEDbRyhA1dnS2LeLtam
-	 juAKHKEHRPxQeumpOhzzPn5HXkYRPQu6UOdlSrjti2t78nP+Qyi5r2Y6XUmoFOf2VAv0t
-	 fHnCfxhuZlA76piWZ/UVIBKyk8idKW0e7L2yqMSc+MBTa6JH6fMI9hib8lXUNy6od1Hm/
-	 TeV0o3oLdMe/jK7Xu7cB20Km7jOWXJNNm4X0+n1e3WOELEMpyd6I09nKebwz/7X+A7w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RlJz19BV;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.53
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792901080;
+	b=r0suB0Pakvxgx8AmM39L+a5YUP+oHrxQ6mFa/EMOpGhsDToO8jmTE9N4zKDmdZtFDX0F
+	 Px4rIEUq2zdRnMv+tsv35b942wFmNXDOWq9jaQbyrdJLrj6l5+JKpneo/QaMyX/Y8NKsa
+	 xRZlf/XTtGVvPDqw26XEhKQnxqtijPOBy2lkmOXaum17uhPvWQ81v420yk1NVHKxDqdxU
+	 fQ4Lw4xysCXAMX1p9yHFzMB9mVSty5nxcbZdS2lrS3mDWs/XSEVqvheEuTlgE6D6rtGTy
+	 2rOvS7NAOlngG56dOm5DdT6ffE+i3dQq7wgTPa+N9xHkuixjB33Yb39bmHf1XkcBPuA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792901080;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=VKL+IlOrUm1VXsCNzHFeD+tPlKLbYMOYzxsjtjq1Vn0=;
+	b=IA6kqOJcI0Vbg9bhhlzSeK4Tozd1NbbC8tMtz/lQqhNgVMJm/jExjKMiNqbQzRb8iNEv
+	 ouSksA3F16/IMCJ73MGYhh3CMOcqnYl/DfITxZAJfKdZ0IGo/c+XvkmT+FHkT6qfeXjEs
+	 lxAM/ZMsc01cNi4OTleF10PTl7RzU33wrJ/PTxT6rt+Qa6kvpUj+YMhyxAmaljAXs2XV3
+	 0/zS4Gts3n/iM+ZhoxlfsVJ/0w1If4xLy2uc1P7YYg3jkszVE0D63QHL9bdInXukbgnGg
+	 gZvLsHTGk6Sp5s5o5V6iA5LRfSUCFzDKUTuEVxAZJrHg29sK/7UDQXfYlWWveHq7lBg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rjurZ4A8;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.53
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1620B606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 03:13:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1620B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C87606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 04:04:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87C87606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RlJz19BV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792898021; x=1824434021;
-  h=date:from:to:cc:subject:message-id;
-  bh=AurJ3R8o/m8Umt0VSdpCQUArjSxVTPrL8MhrFP2v+Ak=;
-  b=RlJz19BVuvTwy5q6sTmoIpVBrhsaOZ4KgMY30sSvQSIor2VWk5eV/Onv
-   avk5AqOt3qoAM27m1Gygq7KhD1EeoWxkqTeHW3dIOhO+23Lv37VbbGhUl
-   PwO2gSGmw43GAa1iih48HtS1vNhNwFc797uZdzTz1sPfijWVl0mGr+sc5
-   a85OhvwpvbsiWMMXJQV4feLUWvEWcpD1DgiH0ZF0icrH7oLBpaIHmIt4+
-   PcxFSV+nNwLVq+EWq49r8ZMc6zwlXdGhj48YkmOr4SsuzUk+pKNMEP/r2
-   hD2bG1hPEoozOHQPTt6SDo5eWqI2d52L5/mAmUWMVoBP0cdqWujY74E7f
-   w==;
-X-CSE-ConnectionGUID: 75LwJ6NqRaq/X6p51HDNrA==
-X-CSE-MsgGUID: aIgU7Gh2TZaENbEbmrL2Tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1613502"
-X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="1613502"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 20:13:41 -0700
-X-CSE-ConnectionGUID: utw5Gg3ERjSBfJebcVZslQ==
-X-CSE-MsgGUID: ZvPaMQK2TjCGTFO29ok48Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="4089735"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Oct 2026 20:13:39 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xKofw-000000003ax-3FPF;
-	Sun, 25 Oct 2026 03:13:36 +0000
-Date: Sun, 25 Oct 2026 04:12:43 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 1/1]
- drivers/acpi/acpica/utresrc.c:182:8: warning: performing pointer subtraction
- with a null pointer has undefined behavior
-Message-ID: <202610250418.w92EI0hx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rjurZ4A8
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7c03a445cb8so1357979137.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Oct 2026 21:04:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792901078; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VdSKuv/giJdvL2i2CUSvG5eAZWtIeBkJbqcfEMzWrKtdzF3qLX1l+fUGk0GJne7qQc
+         +cucSSE4pal6eTazsXE75fQ6sKMraP+QP+BX8bwBEeG0RbUQ0eVmfJr14j+10OPlN+CJ
+         80GxbEd/oUbxVBqECLGds4SGzAi8elstD1O0NDoTcjEpJ6meB2F72sXA6r9ZJ2CkFMnP
+         hE0dzW8zcBb5wSP/gKlEJFmALg52WyrpLlEIvScnCK813QK+wgwIjugWseKAz0EObUdK
+         s48efJk9+hH9smzC7+T/DfHo8FvPDmg3cRooX54CeqTnoBnwhVJ0+9Cjx7DhERyBiYH8
+         4FMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VKL+IlOrUm1VXsCNzHFeD+tPlKLbYMOYzxsjtjq1Vn0=;
+        fh=pPpXZcRLqeViEmHHURpMUa1PfrLYRgf4Ubm9B8bJ7pk=;
+        b=QY5xwUDHlSla9GFLYzvvKTTPp7CtOHSUB99qs0supJb4IK/5alnGEfkIENPNkPLJc/
+         8Hee4slJbJ1lJiuoHaay48aLTLvRCMMSCyHJst6cIkn4JJ6TlTN4BpuHPKT8gNzOIwet
+         wSVRpsELEilzAz/LMAUwr7/T++xzm/4t6gLiRwnVuL41qhyNjU+7X1re2Zh+cJ0BUq6o
+         rtYNe1dPgOithmNGHLbjMPIFHx1LFGU+ZLNdEBqOSHUx/YDkvJm+G6cuK1rdqTuDvTYf
+         pNdXuLPk1jopScoO/17o6+gyoGJj+G4+U7FC9pr6F7vVAfWw/Jkhu+jgM5GF/lQPYxBg
+         zi4A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792901078; x=1793505878; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VKL+IlOrUm1VXsCNzHFeD+tPlKLbYMOYzxsjtjq1Vn0=;
+        b=rjurZ4A8RsEHFPp2aBD1Ob6pHK3kdtxSooI6Ztl2xe86R8cL0NqPi2ENH1fY/JAehd
+         8JGVDFmtSzdE9QIhopBuS+7IEEb3HGB2bmzEYLOCh6WkmYfpQIjlxek+xwOOtMum9bfD
+         36EgITPbTeEuhT1e9XZz5PYs/XyVPhh6Y/XmmvHb9amFH+9+cVxavpTHR1a8kiMkCFvN
+         d2CPmsVDYUXW/A1vta2qucGOLaMtK8YZIOmb0dEp0B5VyQoxVBaz89dj/N1FQLudK21w
+         ZBgJWqx/eTdCfAdq+ECOGBMhrYPsHwT2AbA+C7Yu6qSTazof8I87dcj+tnRf8sFIfbzH
+         H8Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792901078; x=1793505878;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VKL+IlOrUm1VXsCNzHFeD+tPlKLbYMOYzxsjtjq1Vn0=;
+        b=P/lwhgCU6WDtLqaIRDk5FIlGXRn8cjcSwMODwCEKwk8qpC0sizqBuEPZLLP/20loaB
+         BRls17wf9Ri8S9MKJFZvfH2Bx56tRzUsyseokCrq6mN9YrPPtIarjtHTCpwuOU5lMm+x
+         PntW4gSc8Mp7eZiMu1H4ciYQt62VB7Ve/Sez0IyBiCvloV0q0LnZEiGjF2zO9cX1lByA
+         SczJyG73qg8Wd/wFEMaYM6yz3icZ6qtPYv6J8r9XEuKlMX04OmSseMIcW9N+UoBxFTDm
+         TQBuAQSB8LbmPX7bC8m5ape14EkwTcPOjQlZ97nALSbhrh50PiY0ZVypvqbo8yWVBbYX
+         /6Qw==
+X-Forwarded-Encrypted: i=1; AKwUvByUwU967krp7pqOaSm2UJqdl46Gb7wzytPUYcAdd+8wssKACv4bd+W8J2kYxbbzDlFRNGSs+z3LBZ65xLlM@lists.linux.dev
+X-Gm-Message-State: AFq9FYI/FzEW+fQPopSGB0o0GKYgn1GUJASHB1OTysE65WO93Ab+CIfU
+	vm/a5xnxPp69lFOrIldEkYx5wS/QlkLx94RvFcZPQ+2DX8hT0djjJsL2pN6ig6UmIi28DoaVfzC
+	m9fXVaz/KguuOlSmKqJaBc5hxdVMKmZs=
+X-Gm-Gg: AYBFou1gFbd0xCiaziEFgZ4/dI839hUntB9jVYcrPuPIPKI8PpcELgVLkvdUjoCaSlA
+	DQtwTvw3nfeZeqZH7NJqzAlM9pzt4/qgM1ylbGcUd3eU5BVnKAD9XMc2EYvlzQMBR08b+Xzp7gI
+	Gt2HeapeUByfQnY8Fc0J6aoUZxAxLgSwybRTimyEGFnciU4ahb8M5BrePavC5/4q8TOolNPyqMs
+	1uGYks2HD/H9rYz+H3sMJLA2G1EILqbHibKnW1trmK/aoIKyUML1ICbxOAK1xiXk0XjjcRMg6yN
+	fPsN6VXGa8H20Dz5sQsad1wNzCor6N5sDEYHsuMIM1cl/JBcehppzim+yaR+K6eNjfn6kD0HAZx
+	Teq/Mc+eqbSsEa7C0AUtFe1hOu36BTtKYkqQ=
+X-Received: by 2002:a05:6102:148c:b0:7a7:19aa:8a88 with SMTP id
+ ada2fe7eead31-7ce5ce75811mr1182513137.35.1792901078391; Sat, 24 Oct 2026
+ 21:04:38 -0700 (PDT)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,222 +103,459 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+References: <20261024133037.160112-1-dev.adityanagar@gmail.com>
+ <202610250804.hHGFSj0x-lkp@intel.com> <CAHLX7j4HHBsBZnPbP2mRMV_7t1Hwai6fLMD6sy_BDG7LnSgoCw@mail.gmail.com>
+In-Reply-To: <CAHLX7j4HHBsBZnPbP2mRMV_7t1Hwai6fLMD6sy_BDG7LnSgoCw@mail.gmail.com>
+From: Aditya Nagar <dev.adityanagar@gmail.com>
+Date: Sun, 25 Oct 2026 09:34:27 +0530
+X-Gm-Features: AclHuK_zLmaSNGQbD6tKw3EjvTfzvFJV_IV4PBzVX3aOSVcoUtF1BX--Oqer0kQ
+Message-ID: <CAHLX7j4D25+obHwDtQoFNjU9Jo0MOdMFRTy9Y9fg8ayR3903bw@mail.gmail.com>
+Subject: Re: [PATCH] staging: sm750fb: constify the pointer array g_fbmode
+To: kernel test robot <lkp@intel.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy Wang <teddy.wang@siliconmotion.com>, 
+	oe-kbuild-all@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   28463dff2a7af2a53f4a3243fa7a56494bde42ce
-commit: 816badec122fe01d05265f2d306212739f5d3fdb [1/1] ACPICA: Enhance buffer validation in acpi_ut_walk_aml_resources()
-config: i386-randconfig-2101-20261024 (https://download.01.org/0day-ci/archive/20261025/202610250418.w92EI0hx-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a808f8ea7fdc61ead417bfe55e8ef5f728776aeb)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610250418.w92EI0hx-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610250418.w92EI0hx-lkp@intel.com/
+Thanks for the report. The patch is wrong: g_fbmode[] is assigned at
+runtime in lynxfb_set_fbinfo() and sm750fb_setup(), so its elements
+can't be const. The checkpatch warning is a false positive here.
 
-All warnings (new ones prefixed by >>):
+Please drop this patch. Sorry for the noise.
 
-   clang: warning: optimization flag '-falign-jumps=0' is not supported [-Wignored-optimization-argument]
-   In file included from drivers/acpi/acpica/utresrc.c:8:
-   In file included from include/acpi/acpi.h:22:
-   In file included from include/acpi/platform/acenv.h:163:
-   In file included from include/acpi/platform/aclinux.h:55:
-   In file included from include/linux/sched.h:14:
-   In file included from include/linux/pid.h:5:
-   In file included from include/linux/rculist.h:11:
-   In file included from include/linux/rcupdate.h:27:
-   In file included from include/linux/preempt.h:79:
-   In file included from arch/x86/include/asm/preempt.h:7:
-   In file included from include/linux/thread_info.h:39:
-   arch/x86/include/asm/thread_info.h:185:13: warning: calling '__builtin_frame_address' with a nonzero argument is unsafe [-Wframe-address]
-     185 |         oldframe = __builtin_frame_address(1);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/thread_info.h:187:11: warning: calling '__builtin_frame_address' with a nonzero argument is unsafe [-Wframe-address]
-     187 |                 frame = __builtin_frame_address(2);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/acpi/acpica/utresrc.c:8:
-   In file included from include/acpi/acpi.h:22:
-   In file included from include/acpi/platform/acenv.h:163:
-   In file included from include/acpi/platform/aclinux.h:58:
-   In file included from include/linux/slab.h:15:
-   In file included from include/linux/gfp.h:6:
-   include/linux/mmzone.h:1136:6: warning: variable 'nid' set but not used [-Wunused-but-set-variable]
-    1136 |         int nid;
-         |             ^
->> drivers/acpi/acpica/utresrc.c:182:8: warning: performing pointer subtraction with a null pointer has undefined behavior [-Wnull-pointer-subtraction]
-     182 |                      ACPI_OFFSET(struct aml_resource_common_serialbus,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     183 |                                  type) + 1)) {
-         |                                  ~~~~~
-   include/acpi/actypes.h:511:41: note: expanded from macro 'ACPI_OFFSET'
-     511 | #define ACPI_OFFSET(d, f)               ACPI_PTR_DIFF (&(((d *) 0)->f), (void *) 0)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/acpi/actypes.h:505:79: note: expanded from macro 'ACPI_PTR_DIFF'
-     505 | #define ACPI_PTR_DIFF(a, b)             ((acpi_size) (ACPI_CAST_PTR (u8, (a)) - ACPI_CAST_PTR (u8, (b))))
-         |                                                                               ^ ~~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
+Thanks,
+Aditya
 
 
-vim +182 drivers/acpi/acpica/utresrc.c
-
-   117	
-   118	/*******************************************************************************
-   119	 *
-   120	 * FUNCTION:    acpi_ut_walk_aml_resources
-   121	 *
-   122	 * PARAMETERS:  walk_state          - Current walk info
-   123	 * PARAMETERS:  aml                 - Pointer to the raw AML resource template
-   124	 *              aml_length          - Length of the entire template
-   125	 *              user_function       - Called once for each descriptor found. If
-   126	 *                                    NULL, a pointer to the end_tag is returned
-   127	 *              context             - Passed to user_function
-   128	 *
-   129	 * RETURN:      Status
-   130	 *
-   131	 * DESCRIPTION: Walk a raw AML resource list(buffer). User function called
-   132	 *              once for each resource found.
-   133	 *
-   134	 ******************************************************************************/
-   135	
-   136	acpi_status
-   137	acpi_ut_walk_aml_resources(struct acpi_walk_state *walk_state,
-   138				   u8 *aml,
-   139				   acpi_size aml_length,
-   140				   acpi_walk_aml_callback user_function, void **context)
-   141	{
-   142		acpi_status status;
-   143		u8 *end_aml;
-   144		u8 resource_index;
-   145		u32 length;
-   146		u32 offset = 0;
-   147		u8 end_tag[2] = { 0x79, 0x00 };
-   148	
-   149		ACPI_FUNCTION_TRACE(ut_walk_aml_resources);
-   150	
-   151		/* The absolute minimum resource template is one end_tag descriptor */
-   152	
-   153		if (aml_length < sizeof(struct aml_resource_end_tag)) {
-   154			return_ACPI_STATUS(AE_AML_NO_RESOURCE_END_TAG);
-   155		}
-   156	
-   157		/* Point to the end of the resource template buffer */
-   158	
-   159		end_aml = aml + aml_length;
-   160	
-   161		/* Walk the byte list, abort on any invalid descriptor type or length */
-   162	
-   163		while (aml < end_aml) {
-   164			/*
-   165			 * Validate that the remaining buffer space can hold enough
-   166			 * bytes to safely access fields during validation.
-   167			 * For large resource descriptors (bit 7 set), we need enough
-   168			 * bytes to access the Type field in serial_bus resources.
-   169			 * Small resource descriptors only need sizeof(struct aml_resource_end_tag).
-   170			 */
-   171			if ((acpi_size)(end_aml - aml) <
-   172			    sizeof(struct aml_resource_end_tag)) {
-   173				return_ACPI_STATUS(AE_AML_BUFFER_LENGTH);
-   174			}
-   175	
-   176			/*
-   177			 * For large resource descriptors, ensure enough space for
-   178			 * the header plus serial_bus Type field access.
-   179			 */
-   180			if ((ACPI_GET8(aml) & ACPI_RESOURCE_NAME_LARGE) &&
-   181			    ((acpi_size)(end_aml - aml) <
- > 182			     ACPI_OFFSET(struct aml_resource_common_serialbus,
-   183					 type) + 1)) {
-   184				return_ACPI_STATUS(AE_AML_BUFFER_LENGTH);
-   185			}
-   186	
-   187			/* Validate the Resource Type and Resource Length */
-   188	
-   189			status =
-   190			    acpi_ut_validate_resource(walk_state, aml, &resource_index);
-   191			if (ACPI_FAILURE(status)) {
-   192				/*
-   193				 * Exit on failure. Cannot continue because the descriptor
-   194				 * length may be bogus also.
-   195				 */
-   196				return_ACPI_STATUS(status);
-   197			}
-   198	
-   199			/* Get the length of this descriptor */
-   200	
-   201			length = acpi_ut_get_descriptor_length(aml);
-   202	
-   203			/*
-   204			 * Validate that the descriptor length doesn't exceed the
-   205			 * remaining buffer size to prevent reading beyond the end.
-   206			 */
-   207			if (length > (acpi_size)(end_aml - aml)) {
-   208				return_ACPI_STATUS(AE_AML_BUFFER_LENGTH);
-   209			}
-   210	
-   211			/* Invoke the user function */
-   212	
-   213			if (user_function) {
-   214				status =
-   215				    user_function(aml, length, offset, resource_index,
-   216						  context);
-   217				if (ACPI_FAILURE(status)) {
-   218					return_ACPI_STATUS(status);
-   219				}
-   220			}
-   221	
-   222			/* An end_tag descriptor terminates this resource template */
-   223	
-   224			if (acpi_ut_get_resource_type(aml) ==
-   225			    ACPI_RESOURCE_NAME_END_TAG) {
-   226				/*
-   227				 * There must be at least one more byte in the buffer for
-   228				 * the 2nd byte of the end_tag
-   229				 */
-   230				if ((aml + 1) >= end_aml) {
-   231					return_ACPI_STATUS(AE_AML_NO_RESOURCE_END_TAG);
-   232				}
-   233	
-   234				/*
-   235				 * Don't attempt to perform any validation on the 2nd byte.
-   236				 * Although all known ASL compilers insert a zero for the 2nd
-   237				 * byte, it can also be a checksum (as per the ACPI spec),
-   238				 * and this is occasionally seen in the field. July 2017.
-   239				 */
-   240	
-   241				/* Return the pointer to the end_tag if requested */
-   242	
-   243				if (!user_function) {
-   244					*context = aml;
-   245				}
-   246	
-   247				/* Normal exit */
-   248	
-   249				return_ACPI_STATUS(AE_OK);
-   250			}
-   251	
-   252			aml += length;
-   253			offset += length;
-   254		}
-   255	
-   256		/* Did not find an end_tag descriptor */
-   257	
-   258		if (user_function) {
-   259	
-   260			/* Insert an end_tag anyway. acpi_rs_get_list_length always leaves room */
-   261	
-   262			(void)acpi_ut_validate_resource(walk_state, end_tag,
-   263							&resource_index);
-   264			status =
-   265			    user_function(end_tag, 2, offset, resource_index, context);
-   266			if (ACPI_FAILURE(status)) {
-   267				return_ACPI_STATUS(status);
-   268			}
-   269		}
-   270	
-   271		return_ACPI_STATUS(AE_AML_NO_RESOURCE_END_TAG);
-   272	}
-   273	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Sun, Oct 25, 2026 at 9:33=E2=80=AFAM Aditya Nagar <dev.adityanagar@gmail=
+.com> wrote:
+>
+> Hi,
+>
+> Thanks for the report. The patch is wrong: g_fbmode[] is assigned at runt=
+ime in lynxfb_set_fbinfo() and sm750fb_setup(), so its elements can't be co=
+nst. The checkpatch warning is a false positive here.
+>
+> Please drop this patch. Sorry for the noise.
+>
+> Thanks,
+> Aditya
+>
+> On Sun, Oct 25, 2026 at 5:48=E2=80=AFAM kernel test robot <lkp@intel.com>=
+ wrote:
+>>
+>> Hi Aditya,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on staging/staging-linus]
+>> [also build test ERROR on linus/master v7.3]
+>> [cannot apply to staging/staging-testing staging/staging-next next-20261=
+023]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Aditya-Nagar/stag=
+ing-sm750fb-constify-the-pointer-array-g_fbmode/20261024-190037
+>> base:   staging/staging-linus
+>> patch link:    https://lore.kernel.org/r/20261024133037.160112-1-dev.adi=
+tyanagar%40gmail.com
+>> patch subject: [PATCH] staging: sm750fb: constify the pointer array g_fb=
+mode
+>> config: parisc-randconfig-1000-20261025 (https://download.01.org/0day-ci=
+/archive/20261025/202610250804.hHGFSj0x-lkp@intel.com/config)
+>> compiler: hppa-linux-gcc (GCC) 10.5.0
+>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arch=
+ive/20261025/202610250804.hHGFSj0x-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202610250804.hHGFSj0x-lk=
+p@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>    drivers/staging/sm750fb/sm750.c: In function 'lynxfb_set_fbinfo':
+>> >> drivers/staging/sm750fb/sm750.c:762:19: error: assignment of read-onl=
+y location 'g_fbmode[index]'
+>>      762 |   g_fbmode[index] =3D g_def_fbmode;
+>>          |                   ^
+>>    drivers/staging/sm750fb/sm750.c:764:20: error: assignment of read-onl=
+y location 'g_fbmode[index]'
+>>      764 |    g_fbmode[index] =3D g_fbmode[0];
+>>          |                    ^
+>>    drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
+>> >> drivers/staging/sm750fb/sm750.c:872:17: error: assignment of read-onl=
+y location 'g_fbmode[0]'
+>>      872 |     g_fbmode[0] =3D opt;
+>>          |                 ^
+>>    drivers/staging/sm750fb/sm750.c:876:17: error: assignment of read-onl=
+y location 'g_fbmode[1]'
+>>      876 |     g_fbmode[1] =3D opt;
+>>          |                 ^
+>>
+>>
+>> vim +762 drivers/staging/sm750fb/sm750.c
+>>
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  696
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  697  static int lynxfb_s=
+et_fbinfo(struct fb_info *info, int index)
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  698  {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  699     int i;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  700     struct lynxfb_pa=
+r *par;
+>> e359b6a863e19f Mike Rapoport        2015-10-26  701     struct sm750_dev=
+ *sm750_dev;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  702     struct lynxfb_cr=
+tc *crtc;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  703     struct lynxfb_ou=
+tput *output;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  704     struct fb_var_sc=
+reeninfo *var;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  705     struct fb_fix_sc=
+reeninfo *fix;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  706
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  707     const struct fb_=
+videomode *pdb[] =3D {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  708             lynx750_=
+ext, NULL, vesa_modes,
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  709     };
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  710     int cdb[] =3D {A=
+RRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
+>> d0856045f0e9fc Hungyu Lin           2026-04-01  711     static const cha=
+r * const fix_id[2] =3D {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  712             "sm750_f=
+b1", "sm750_fb2",
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  713     };
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  714
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  715     int ret, line_le=
+ngth;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  716
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  717     ret =3D 0;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  718     par =3D (struct =
+lynxfb_par *)info->par;
+>> e359b6a863e19f Mike Rapoport        2015-10-26  719     sm750_dev =3D pa=
+r->dev;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  720     crtc =3D &par->c=
+rtc;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  721     output =3D &par-=
+>output;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  722     var =3D &info->v=
+ar;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  723     fix =3D &info->f=
+ix;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  724
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  725     /* set index */
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  726     par->index =3D i=
+ndex;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  727     output->channel =
+=3D &crtc->channel;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  728     sm750fb_set_drv(=
+par);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  729
+>> d11ac7cbcc266c Sudip Mukherjee      2015-08-07  730     /*
+>> d11ac7cbcc266c Sudip Mukherjee      2015-08-07  731      * set current c=
+ursor variable and proc pointer,
+>> d11ac7cbcc266c Sudip Mukherjee      2015-08-07  732      * must be set a=
+fter crtc member initialized
+>> d11ac7cbcc266c Sudip Mukherjee      2015-08-07  733      */
+>> fdc234d85210d9 Benjamin Philip      2021-07-28  734     crtc->cursor.off=
+set =3D crtc->o_screen + crtc->vidmem_size - 1024;
+>> 1be54c03f7519c Jad Keskes           2026-06-19  735     crtc->cursor.mmi=
+o =3D sm750_dev->mmio +
+>> e359b6a863e19f Mike Rapoport        2015-10-26  736             0x800f0 =
++ (int)crtc->channel * 0x140;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  737
+>> cd33da26036ea5 Christopher Carbone  2022-08-23  738     crtc->cursor.max=
+_h =3D 64;
+>> cd33da26036ea5 Christopher Carbone  2022-08-23  739     crtc->cursor.max=
+_w =3D 64;
+>> 39f9137268ee3d Benjamin Philip      2021-07-26  740     crtc->cursor.siz=
+e =3D crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+>> f50b4602fea62f Jennifer Guo         2026-05-09  741     crtc->cursor.vst=
+art =3D sm750_dev->vmem + crtc->cursor.offset;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  742
+>> 3de08a2d14ff8c Lorenzo Stoakes      2015-03-20  743     memset_io(crtc->=
+cursor.vstart, 0, crtc->cursor.size);
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  744     if (!g_hwcursor)
+>> 52d0744d751d8f Arnd Bergmann        2016-11-09  745             sm750_hw=
+_cursor_disable(&crtc->cursor);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  746
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  747     /* set info->fbo=
+ps, must be set before fb_find_mode */
+>> e359b6a863e19f Mike Rapoport        2015-10-26  748     if (!sm750_dev->=
+accel_off) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  749             /* use 2=
+d acceleration */
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  750             if (!g_h=
+wcursor)
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  751                     =
+info->fbops =3D &lynxfb_ops_accel;
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  752             else
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  753                     =
+info->fbops =3D &lynxfb_ops_accel_with_cursor;
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  754     } else {
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  755             if (!g_h=
+wcursor)
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  756                     =
+info->fbops =3D &lynxfb_ops;
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  757             else
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  758                     =
+info->fbops =3D &lynxfb_ops_with_cursor;
+>> f7c8a046577e09 Thomas Zimmermann    2023-11-27  759     }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  760
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  761     if (!g_fbmode[in=
+dex]) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03 @762             g_fbmode=
+[index] =3D g_def_fbmode;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  763             if (inde=
+x)
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  764                     =
+g_fbmode[index] =3D g_fbmode[0];
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  765     }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  766
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  767     for (i =3D 0; i =
+< 3; i++) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  768             ret =3D =
+fb_find_mode(var, info, g_fbmode[index],
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  769                     =
+           pdb[i], cdb[i], NULL, 8);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  770
+>> db7fb3588ab492 Artem Lytkin         2026-02-23  771             if (ret =
+=3D=3D 1 || ret =3D=3D 2)
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  772                     =
+break;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  773     }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  774
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  775     /* set par */
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  776     par->info =3D in=
+fo;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  777
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  778     /* set info */
+>> e3a3f9f5123683 Mike Rapoport        2015-10-26  779     line_length =3D =
+ALIGN((var->xres_virtual * var->bits_per_pixel / 8),
+>> e3a3f9f5123683 Mike Rapoport        2015-10-26  780                     =
+    crtc->line_pad);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  781
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  782     info->pseudo_pal=
+ette =3D &par->pseudo_palette[0];
+>> cc59bde1c920ab Benjamin Philip      2021-07-28  783     info->screen_bas=
+e =3D crtc->v_screen;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  784     info->screen_siz=
+e =3D line_length * var->yres_virtual;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  785
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  786     /* set info->fix=
+ */
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  787     fix->type =3D FB=
+_TYPE_PACKED_PIXELS;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  788     fix->type_aux =
+=3D 0;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  789     fix->xpanstep =
+=3D crtc->xpanstep;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  790     fix->ypanstep =
+=3D crtc->ypanstep;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  791     fix->ywrapstep =
+=3D crtc->ywrapstep;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  792     fix->accel =3D F=
+B_ACCEL_SMI;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  793
+>> 8c475735085a7d Tim Wassink          2025-12-21  794     strscpy(fix->id,=
+ fix_id[index], sizeof(fix->id));
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  795
+>> fdc234d85210d9 Benjamin Philip      2021-07-28  796     fix->smem_start =
+=3D crtc->o_screen + sm750_dev->vidmem_start;
+>> d11ac7cbcc266c Sudip Mukherjee      2015-08-07  797     /*
+>> d11ac7cbcc266c Sudip Mukherjee      2015-08-07  798      * according to =
+mmap experiment from user space application,
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  799      * fix->mmio_len=
+ should not larger than virtual size
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  800      * (xres_virtual=
+ x yres_virtual x ByPP)
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  801      * Below line ma=
+ybe buggy when user mmap fb dev node and write
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  802      * data into the=
+ bound over virtual size
+>> d11ac7cbcc266c Sudip Mukherjee      2015-08-07  803      */
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  804     fix->smem_len =
+=3D crtc->vidmem_size;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  805     info->screen_siz=
+e =3D fix->smem_len;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  806     fix->line_length=
+ =3D line_length;
+>> e359b6a863e19f Mike Rapoport        2015-10-26  807     fix->mmio_start =
+=3D sm750_dev->vidreg_start;
+>> e359b6a863e19f Mike Rapoport        2015-10-26  808     fix->mmio_len =
+=3D sm750_dev->vidreg_size;
+>> b610e1193a917f Matej Dujava         2020-04-30  809
+>> b610e1193a917f Matej Dujava         2020-04-30  810     lynxfb_set_visua=
+l_mode(info);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  811
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  812     /* set var */
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  813     var->activate =
+=3D FB_ACTIVATE_NOW;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  814     var->accel_flags=
+ =3D 0;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  815     var->vmode =3D F=
+B_VMODE_NONINTERLACED;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  816
+>> 61c507cf652da1 Michel von Czettritz 2015-03-26  817     ret =3D fb_alloc=
+_cmap(&info->cmap, 256, 0);
+>> 61c507cf652da1 Michel von Czettritz 2015-03-26  818     if (ret < 0) {
+>> fbab250eb51d6d Artem Lytkin         2026-02-07  819             dev_err(=
+info->device, "Could not allocate memory for cmap.\n");
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  820             goto exi=
+t;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  821     }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  822
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  823  exit:
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  824     lynxfb_ops_check=
+_var(var, info);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  825     return ret;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  826  }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  827
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  828  /* chip specific g_=
+option configuration routine */
+>> 700591a9adc8b1 Mike Rapoport        2015-10-26  829  static void sm750fb=
+_setup(struct sm750_dev *sm750_dev, char *src)
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  830  {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  831     char *opt;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  832     int swap;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  833
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  834     swap =3D 0;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  835
+>> 523200db5cb01f Hungyu Lin           2026-05-30  836     sm750_dev->init_=
+parm.chip_clock =3D 0;
+>> 523200db5cb01f Hungyu Lin           2026-05-30  837     sm750_dev->init_=
+parm.mem_clock =3D 0;
+>> 523200db5cb01f Hungyu Lin           2026-05-30  838     sm750_dev->init_=
+parm.master_clock =3D 0;
+>> 45a337c12624fc Jennifer Guo         2026-05-09  839     sm750_dev->init_=
+parm.power_mode =3D 0;
+>> 45a337c12624fc Jennifer Guo         2026-05-09  840     sm750_dev->init_=
+parm.reset_memory =3D 1;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  841
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  842     /* defaultly tur=
+n g_hwcursor on for both view */
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  843     g_hwcursor =3D 3=
+;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  844
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  845     if (!src || !*sr=
+c) {
+>> c56de0967a658c Elise Lennion        2016-10-31  846             dev_warn=
+(&sm750_dev->pdev->dev, "no specific g_option.\n");
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  847             goto NO_=
+PARAM;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  848     }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  849
+>> 0fa96e39279988 Sudip Mukherjee      2015-03-10  850     while ((opt =3D =
+strsep(&src, ":")) !=3D NULL && *opt !=3D 0) {
+>> c56de0967a658c Elise Lennion        2016-10-31  851             dev_info=
+(&sm750_dev->pdev->dev, "opt=3D%s\n", opt);
+>> c56de0967a658c Elise Lennion        2016-10-31  852             dev_info=
+(&sm750_dev->pdev->dev, "src=3D%s\n", src);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  853
+>> 144634a6b42146 Katie Dunne          2017-02-19  854             if (!str=
+ncmp(opt, "swap", strlen("swap"))) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  855                     =
+swap =3D 1;
+>> 144634a6b42146 Katie Dunne          2017-02-19  856             } else i=
+f (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+>> 1757d106a9ce8c Mike Rapoport        2015-10-26  857                     =
+sm750_dev->nocrt =3D 1;
+>> 144634a6b42146 Katie Dunne          2017-02-19  858             } else i=
+f (!strncmp(opt, "36bit", strlen("36bit"))) {
+>> 94c938a0c15863 Shubham Chakraborty  2026-04-07  859                     =
+sm750_dev->pnltype =3D SM750_DOUBLE_TFT;
+>> 144634a6b42146 Katie Dunne          2017-02-19  860             } else i=
+f (!strncmp(opt, "18bit", strlen("18bit"))) {
+>> 94c938a0c15863 Shubham Chakraborty  2026-04-07  861                     =
+sm750_dev->pnltype =3D SM750_DUAL_TFT;
+>> 144634a6b42146 Katie Dunne          2017-02-19  862             } else i=
+f (!strncmp(opt, "24bit", strlen("24bit"))) {
+>> 94c938a0c15863 Shubham Chakraborty  2026-04-07  863                     =
+sm750_dev->pnltype =3D SM750_24TFT;
+>> 144634a6b42146 Katie Dunne          2017-02-19  864             } else i=
+f (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  865                     =
+g_hwcursor &=3D ~0x1;
+>> 144634a6b42146 Katie Dunne          2017-02-19  866             } else i=
+f (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  867                     =
+g_hwcursor &=3D ~0x2;
+>> 144634a6b42146 Katie Dunne          2017-02-19  868             } else i=
+f (!strncmp(opt, "nohwc", strlen("nohwc"))) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  869                     =
+g_hwcursor =3D 0;
+>> 144634a6b42146 Katie Dunne          2017-02-19  870             } else {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  871                     =
+if (!g_fbmode[0]) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03 @872                     =
+        g_fbmode[0] =3D opt;
+>> cee9ba1c30d051 Abdul Rauf           2017-01-08  873                     =
+        dev_info(&sm750_dev->pdev->dev,
+>> cee9ba1c30d051 Abdul Rauf           2017-01-08  874                     =
+                 "find fbmode0 : %s\n", g_fbmode[0]);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  875                     =
+} else if (!g_fbmode[1]) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  876                     =
+        g_fbmode[1] =3D opt;
+>> cee9ba1c30d051 Abdul Rauf           2017-01-08  877                     =
+        dev_info(&sm750_dev->pdev->dev,
+>> cee9ba1c30d051 Abdul Rauf           2017-01-08  878                     =
+                 "find fbmode1 : %s\n", g_fbmode[1]);
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  879                     =
+} else {
+>> c56de0967a658c Elise Lennion        2016-10-31  880                     =
+        dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  881                     =
+}
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  882             }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  883     }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  884
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  885  NO_PARAM:
+>> e359b6a863e19f Mike Rapoport        2015-10-26  886     if (sm750_dev->r=
+evid !=3D SM750LE_REVISION_ID) {
+>> d352778979d2ee Ahmet Sezgin Duran   2026-05-21  887             if (g_du=
+alview) {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  888                     =
+if (swap)
+>> 1757d106a9ce8c Mike Rapoport        2015-10-26  889                     =
+        sm750_dev->dataflow =3D sm750_dual_swap;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  890                     =
+else
+>> 1757d106a9ce8c Mike Rapoport        2015-10-26  891                     =
+        sm750_dev->dataflow =3D sm750_dual_normal;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  892             } else {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  893                     =
+if (swap)
+>> 1757d106a9ce8c Mike Rapoport        2015-10-26  894                     =
+        sm750_dev->dataflow =3D sm750_simul_sec;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  895                     =
+else
+>> 1757d106a9ce8c Mike Rapoport        2015-10-26  896                     =
+        sm750_dev->dataflow =3D sm750_simul_pri;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  897             }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  898     } else {
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  899             /* SM750=
+LE only have one crt channel */
+>> 1757d106a9ce8c Mike Rapoport        2015-10-26  900             sm750_de=
+v->dataflow =3D sm750_simul_sec;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  901             /* sm750=
+le do not have complex attributes */
+>> 1757d106a9ce8c Mike Rapoport        2015-10-26  902             sm750_de=
+v->nocrt =3D 0;
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  903     }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  904  }
+>> 81dee67e215b23 Sudip Mukherjee      2015-03-03  905
+>>
+>> --
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
