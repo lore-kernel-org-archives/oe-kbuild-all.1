@@ -1,76 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792897470;
-	b=YFhxKQOwx4HJ27iOyscU1DYgw1v9kZv1bf+o0xehQgnS7UXvwUE2mG59mF98F5pSYS85
-	 vL4R2awSraxMYK0IJcefH2HaYso/slHaoL33G5NcdzpbPWCFO1UKRuERf5yK7Ursv1fj9
-	 3kxk6FLFaas6oO9DtiW0KDkKP8UMNnk8h5uGT/zNZ3kYMGWYXYZeqHdwnnpWbEKaX8AE/
-	 RjrtsvztrA0zXeTmkqMjhkbTuqfiQJoKnfcXfK3Bo16fQAj5fIZpAPcPL8JFvwFMuF6GL
-	 yShQlRADL0Avq/uDNCRZaNEyRNGCfKelT6OFCSL8d79rseROc47M13Mer5XbMkRYoiw==
+	t=1792898023;
+	b=n6r0cU+NuWyndqOaaeIQTDQzLycfizhqAEO0ZxQfkRU6C+wo2WJUxW0oZHJoJGxSM4n+
+	 u+QuwwUjPP5AKEo7KSPQUDxNeVRmU1wM41uT3p0j3Dbk8WWNs2Y8K4oRdbPKx+kO/3pfE
+	 eDqFid6A6+vXK9ppHnwC92Hih317mTF9UIQ6C9JMipWSvX0Jm5Wa2PjLkrHD3lehz0NUW
+	 QiMyfLfPVzoCcBM4cMX4pBBnLgWq1vs7xaxXG/NV7ZCvJ2iLdxcW+35zB6Ih333BsdZZj
+	 fheyO4IwyrLbb8lqPKGFSdGiFD6w7oGVvZ+/ZNt5+BUi3qLSvTejCeSuQeAzNFuorsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792897470;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792898023;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=UnsBp/RFp8C0WAymmcfePUkieD+nlZai0xb8VWuWQSU=;
-	b=VGH7g1lUjQTNgrqGA/GPIcvge+4iYhZbPtCRHZcG1PsPOuFa/7LyPFQne65inUWnIdDw
-	 ChQSADNW1jX/hPDFJXGoJ33j2WJkdpgWeIOiQjEKvpuq608YBgI1zMLCvt8mHctL4WkRt
-	 G9EUsKfUQ6p/eA/I0Cfdy7xPvcmQsiJxahU+ljyyZJVkTm903RzOjlYPrIrP+09q3MtbI
-	 fi1j2qPAWwiYp9ocPDEEYzQqE6pN6+ycu66Bh0pqk3gQDVt2BUJ5gN0lKYvwvr58IMA6T
-	 wJ/6mahtfK2qZ+4EcPTQxsB/42vAarjhr0JSICWQBMYctl8CA6dS16U0ZxjKhHJsTyQ==
+	bh=aUn1p0bkBdhHEWFvpyQ5EurZf62YrCB8HnfQ3TYbAUU=;
+	b=AewGlUgjybsfe83mZGEOsc36cRoqOcXxzbjy2l9o25jKy/t1umv3YzDpL2dbaoRG+Y6S
+	 dHFWNPeIkZSNVoS0EuRvBOH+NlzfbYRK1NxHJkuOMKYsr/iKLKtEDbRyhA1dnS2LeLtam
+	 juAKHKEHRPxQeumpOhzzPn5HXkYRPQu6UOdlSrjti2t78nP+Qyi5r2Y6XUmoFOf2VAv0t
+	 fHnCfxhuZlA76piWZ/UVIBKyk8idKW0e7L2yqMSc+MBTa6JH6fMI9hib8lXUNy6od1Hm/
+	 TeV0o3oLdMe/jK7Xu7cB20Km7jOWXJNNm4X0+n1e3WOELEMpyd6I09nKebwz/7X+A7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gBTNSB+f;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RlJz19BV;
 	arc=none smtp.remote-ip=198.175.65.17
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F2B606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 03:04:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1F2B606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1620B606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 03:13:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1620B606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gBTNSB+f
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RlJz19BV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792897468; x=1824433468;
+  t=1792898021; x=1824434021;
   h=date:from:to:cc:subject:message-id;
-  bh=+wsriXMs5khdRlcyAr5d8CFrhSASmzGY9DHi4WVUNp8=;
-  b=gBTNSB+fdkxhu2SRzrdcxndNg/rshm322eaBdcMXshUFqkU9Txv9qsvR
-   zyQNhgPZ2Vly0rjJtPv6FyEA1fvKITZsdrTeUUTH4j3TjiGIvyzatZ78G
-   ZFAKtENUHvK1eibR8pc/HP2hBqis7lNqkZqbCQCbMDw3fBVDEeEgeH490
-   N/YK65P08mJXk9TK9lgk5GlAKM78uRxwHPc0UR8/EnFYxF3tf6Zt0jQh7
-   ZRDjgtNANUzJUrztEUhbSFACLCFqbYU6fqC9HfMq7LTb/QKbUHhHhAvxW
-   pnmJhkLNqK1TRWT4GnUP46xUjCoDgA0v9Kwte3F/R6GvYzwTtYSYamC2g
+  bh=AurJ3R8o/m8Umt0VSdpCQUArjSxVTPrL8MhrFP2v+Ak=;
+  b=RlJz19BVuvTwy5q6sTmoIpVBrhsaOZ4KgMY30sSvQSIor2VWk5eV/Onv
+   avk5AqOt3qoAM27m1Gygq7KhD1EeoWxkqTeHW3dIOhO+23Lv37VbbGhUl
+   PwO2gSGmw43GAa1iih48HtS1vNhNwFc797uZdzTz1sPfijWVl0mGr+sc5
+   a85OhvwpvbsiWMMXJQV4feLUWvEWcpD1DgiH0ZF0icrH7oLBpaIHmIt4+
+   PcxFSV+nNwLVq+EWq49r8ZMc6zwlXdGhj48YkmOr4SsuzUk+pKNMEP/r2
+   hD2bG1hPEoozOHQPTt6SDo5eWqI2d52L5/mAmUWMVoBP0cdqWujY74E7f
    w==;
-X-CSE-ConnectionGUID: stUO0dGbT+eJcOemu4n7Lw==
-X-CSE-MsgGUID: CKWQUXxqSkas0StqYhYj8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1613151"
+X-CSE-ConnectionGUID: 75LwJ6NqRaq/X6p51HDNrA==
+X-CSE-MsgGUID: aIgU7Gh2TZaENbEbmrL2Tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1613502"
 X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="1613151"
+   d="scan'208";a="1613502"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 20:04:27 -0700
-X-CSE-ConnectionGUID: PqbvLMyGS4Kn3lQlij9YLw==
-X-CSE-MsgGUID: Lgz1TcX5SASEGLdVD57d4Q==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 20:13:41 -0700
+X-CSE-ConnectionGUID: utw5Gg3ERjSBfJebcVZslQ==
+X-CSE-MsgGUID: ZvPaMQK2TjCGTFO29ok48Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="4089145"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Oct 2026 20:04:22 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="4089735"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Oct 2026 20:13:39 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKoWx-00000000UV0-28Oq;
-	Sun, 25 Oct 2026 03:04:19 +0000
-Date: Sun, 25 Oct 2026 11:04:02 +0800
+	id 1xKofw-000000003ax-3FPF;
+	Sun, 25 Oct 2026 03:13:36 +0000
+Date: Sun, 25 Oct 2026 04:12:43 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1] drivers/base/core.c:1941:
- warning: Function parameter or member 'con_handle' not described in
- '__fw_devlink_relax_cycles'
-Message-ID: <202610251023.v7Vd0Gut-lkp@intel.com>
+Subject: [android-common:android13-5.10 1/1]
+ drivers/acpi/acpica/utresrc.c:182:8: warning: performing pointer subtraction
+ with a null pointer has undefined behavior
+Message-ID: <202610250418.w92EI0hx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,152 +81,220 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Saravana,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   745990bb615d19fb450877b6eb7050f085318f42
-commit: f3ae93e738dbce362809662da7ac99c7297ee00c [0/1] driver core: fw_devlink: Stop trying to optimize cycle detection logic
-config: i386-buildonly-randconfig-1002-20261020 (https://download.01.org/0day-ci/archive/20261025/202610251023.v7Vd0Gut-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610251023.v7Vd0Gut-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   28463dff2a7af2a53f4a3243fa7a56494bde42ce
+commit: 816badec122fe01d05265f2d306212739f5d3fdb [1/1] ACPICA: Enhance buffer validation in acpi_ut_walk_aml_resources()
+config: i386-randconfig-2101-20261024 (https://download.01.org/0day-ci/archive/20261025/202610250418.w92EI0hx-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a808f8ea7fdc61ead417bfe55e8ef5f728776aeb)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610250418.w92EI0hx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610251023.v7Vd0Gut-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610250418.w92EI0hx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/base/core.c:68: warning: Function parameter or member 'flags' not described in '__fwnode_link_add'
->> drivers/base/core.c:1941: warning: Function parameter or member 'con_handle' not described in '__fw_devlink_relax_cycles'
-   drivers/base/core.c:1941: warning: Excess function parameter 'con' description in '__fw_devlink_relax_cycles'
+   clang: warning: optimization flag '-falign-jumps=0' is not supported [-Wignored-optimization-argument]
+   In file included from drivers/acpi/acpica/utresrc.c:8:
+   In file included from include/acpi/acpi.h:22:
+   In file included from include/acpi/platform/acenv.h:163:
+   In file included from include/acpi/platform/aclinux.h:55:
+   In file included from include/linux/sched.h:14:
+   In file included from include/linux/pid.h:5:
+   In file included from include/linux/rculist.h:11:
+   In file included from include/linux/rcupdate.h:27:
+   In file included from include/linux/preempt.h:79:
+   In file included from arch/x86/include/asm/preempt.h:7:
+   In file included from include/linux/thread_info.h:39:
+   arch/x86/include/asm/thread_info.h:185:13: warning: calling '__builtin_frame_address' with a nonzero argument is unsafe [-Wframe-address]
+     185 |         oldframe = __builtin_frame_address(1);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/thread_info.h:187:11: warning: calling '__builtin_frame_address' with a nonzero argument is unsafe [-Wframe-address]
+     187 |                 frame = __builtin_frame_address(2);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/acpi/acpica/utresrc.c:8:
+   In file included from include/acpi/acpi.h:22:
+   In file included from include/acpi/platform/acenv.h:163:
+   In file included from include/acpi/platform/aclinux.h:58:
+   In file included from include/linux/slab.h:15:
+   In file included from include/linux/gfp.h:6:
+   include/linux/mmzone.h:1136:6: warning: variable 'nid' set but not used [-Wunused-but-set-variable]
+    1136 |         int nid;
+         |             ^
+>> drivers/acpi/acpica/utresrc.c:182:8: warning: performing pointer subtraction with a null pointer has undefined behavior [-Wnull-pointer-subtraction]
+     182 |                      ACPI_OFFSET(struct aml_resource_common_serialbus,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     183 |                                  type) + 1)) {
+         |                                  ~~~~~
+   include/acpi/actypes.h:511:41: note: expanded from macro 'ACPI_OFFSET'
+     511 | #define ACPI_OFFSET(d, f)               ACPI_PTR_DIFF (&(((d *) 0)->f), (void *) 0)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/acpi/actypes.h:505:79: note: expanded from macro 'ACPI_PTR_DIFF'
+     505 | #define ACPI_PTR_DIFF(a, b)             ((acpi_size) (ACPI_CAST_PTR (u8, (a)) - ACPI_CAST_PTR (u8, (b))))
+         |                                                                               ^ ~~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
 
-vim +1941 drivers/base/core.c
+vim +182 drivers/acpi/acpica/utresrc.c
 
-411c0d58ca6faa Saravana Kannan 2023-02-06  1918  
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1919  /**
-3fb16866b51ded Saravana Kannan 2023-02-06  1920   * __fw_devlink_relax_cycles - Relax and mark dependency cycles.
-3fb16866b51ded Saravana Kannan 2023-02-06  1921   * @con: Potential consumer device.
-3fb16866b51ded Saravana Kannan 2023-02-06  1922   * @sup_handle: Potential supplier's fwnode.
-3fb16866b51ded Saravana Kannan 2023-02-06  1923   *
-3fb16866b51ded Saravana Kannan 2023-02-06  1924   * Needs to be called with fwnode_lock and device link lock held.
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1925   *
-3fb16866b51ded Saravana Kannan 2023-02-06  1926   * Check if @sup_handle or any of its ancestors or suppliers direct/indirectly
-3fb16866b51ded Saravana Kannan 2023-02-06  1927   * depend on @con. This function can detect multiple cyles between @sup_handle
-3fb16866b51ded Saravana Kannan 2023-02-06  1928   * and @con. When such dependency cycles are found, convert all device links
-3fb16866b51ded Saravana Kannan 2023-02-06  1929   * created solely by fw_devlink into SYNC_STATE_ONLY device links. Also, mark
-3fb16866b51ded Saravana Kannan 2023-02-06  1930   * all fwnode links in the cycle with FWLINK_FLAG_CYCLE so that when they are
-3fb16866b51ded Saravana Kannan 2023-02-06  1931   * converted into a device link in the future, they are created as
-3fb16866b51ded Saravana Kannan 2023-02-06  1932   * SYNC_STATE_ONLY device links. This is the equivalent of doing
-3fb16866b51ded Saravana Kannan 2023-02-06  1933   * fw_devlink=permissive just between the devices in the cycle. We need to do
-3fb16866b51ded Saravana Kannan 2023-02-06  1934   * this because, at this point, fw_devlink can't tell which of these
-3fb16866b51ded Saravana Kannan 2023-02-06  1935   * dependencies is not a real dependency.
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1936   *
-3fb16866b51ded Saravana Kannan 2023-02-06  1937   * Return true if one or more cycles were found. Otherwise, return false.
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1938   */
-f3ae93e738dbce Saravana Kannan 2024-10-30  1939  static bool __fw_devlink_relax_cycles(struct fwnode_handle *con_handle,
-3fb16866b51ded Saravana Kannan 2023-02-06  1940  				 struct fwnode_handle *sup_handle)
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17 @1941  {
-f3ae93e738dbce Saravana Kannan 2024-10-30  1942  	struct device *sup_dev = NULL, *par_dev = NULL, *con_dev = NULL;
-3fb16866b51ded Saravana Kannan 2023-02-06  1943  	struct fwnode_link *link;
-3fb16866b51ded Saravana Kannan 2023-02-06  1944  	struct device_link *dev_link;
-3fb16866b51ded Saravana Kannan 2023-02-06  1945  	bool ret = false;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1946  
-3fb16866b51ded Saravana Kannan 2023-02-06  1947  	if (!sup_handle)
-3fb16866b51ded Saravana Kannan 2023-02-06  1948  		return false;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1949  
-3fb16866b51ded Saravana Kannan 2023-02-06  1950  	/*
-3fb16866b51ded Saravana Kannan 2023-02-06  1951  	 * We aren't trying to find all cycles. Just a cycle between con and
-3fb16866b51ded Saravana Kannan 2023-02-06  1952  	 * sup_handle.
-3fb16866b51ded Saravana Kannan 2023-02-06  1953  	 */
-3fb16866b51ded Saravana Kannan 2023-02-06  1954  	if (sup_handle->flags & FWNODE_FLAG_VISITED)
-3fb16866b51ded Saravana Kannan 2023-02-06  1955  		return false;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1956  
-3fb16866b51ded Saravana Kannan 2023-02-06  1957  	sup_handle->flags |= FWNODE_FLAG_VISITED;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1958  
-3fb16866b51ded Saravana Kannan 2023-02-06  1959  	/* Termination condition. */
-f3ae93e738dbce Saravana Kannan 2024-10-30  1960  	if (sup_handle == con_handle) {
-5c764791fb7b81 Saravana Kannan 2024-02-02  1961  		pr_debug("----- cycle: start -----\n");
-3fb16866b51ded Saravana Kannan 2023-02-06  1962  		ret = true;
-3fb16866b51ded Saravana Kannan 2023-02-06  1963  		goto out;
-3fb16866b51ded Saravana Kannan 2023-02-06  1964  	}
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1965  
-f3ae93e738dbce Saravana Kannan 2024-10-30  1966  	sup_dev = get_dev_from_fwnode(sup_handle);
-f3ae93e738dbce Saravana Kannan 2024-10-30  1967  	con_dev = get_dev_from_fwnode(con_handle);
-3fb16866b51ded Saravana Kannan 2023-02-06  1968  	/*
-3fb16866b51ded Saravana Kannan 2023-02-06  1969  	 * If sup_dev is bound to a driver and @con hasn't started binding to a
-3fb16866b51ded Saravana Kannan 2023-02-06  1970  	 * driver, sup_dev can't be a consumer of @con. So, no need to check
-3fb16866b51ded Saravana Kannan 2023-02-06  1971  	 * further.
-3fb16866b51ded Saravana Kannan 2023-02-06  1972  	 */
-3fb16866b51ded Saravana Kannan 2023-02-06  1973  	if (sup_dev && sup_dev->links.status ==  DL_DEV_DRIVER_BOUND &&
-f3ae93e738dbce Saravana Kannan 2024-10-30  1974  	    con_dev && con_dev->links.status == DL_DEV_NO_DRIVER) {
-3fb16866b51ded Saravana Kannan 2023-02-06  1975  		ret = false;
-3fb16866b51ded Saravana Kannan 2023-02-06  1976  		goto out;
-3fb16866b51ded Saravana Kannan 2023-02-06  1977  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  1978  
-3fb16866b51ded Saravana Kannan 2023-02-06  1979  	list_for_each_entry(link, &sup_handle->suppliers, c_hook) {
-dce7a5c7bfa36d Saravana Kannan 2024-03-04  1980  		if (link->flags & FWLINK_FLAG_IGNORE)
-dce7a5c7bfa36d Saravana Kannan 2024-03-04  1981  			continue;
-dce7a5c7bfa36d Saravana Kannan 2024-03-04  1982  
-f3ae93e738dbce Saravana Kannan 2024-10-30  1983  		if (__fw_devlink_relax_cycles(con_handle, link->supplier)) {
-3fb16866b51ded Saravana Kannan 2023-02-06  1984  			__fwnode_link_cycle(link);
-3fb16866b51ded Saravana Kannan 2023-02-06  1985  			ret = true;
-3fb16866b51ded Saravana Kannan 2023-02-06  1986  		}
-3fb16866b51ded Saravana Kannan 2023-02-06  1987  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  1988  
-3fb16866b51ded Saravana Kannan 2023-02-06  1989  	/*
-3fb16866b51ded Saravana Kannan 2023-02-06  1990  	 * Give priority to device parent over fwnode parent to account for any
-3fb16866b51ded Saravana Kannan 2023-02-06  1991  	 * quirks in how fwnodes are converted to devices.
-3fb16866b51ded Saravana Kannan 2023-02-06  1992  	 */
-3fb16866b51ded Saravana Kannan 2023-02-06  1993  	if (sup_dev)
-3fb16866b51ded Saravana Kannan 2023-02-06  1994  		par_dev = get_device(sup_dev->parent);
-3fb16866b51ded Saravana Kannan 2023-02-06  1995  	else
-3fb16866b51ded Saravana Kannan 2023-02-06  1996  		par_dev = fwnode_get_next_parent_dev(sup_handle);
-3fb16866b51ded Saravana Kannan 2023-02-06  1997  
-f3ae93e738dbce Saravana Kannan 2024-10-30  1998  	if (par_dev && __fw_devlink_relax_cycles(con_handle, par_dev->fwnode)) {
-5c764791fb7b81 Saravana Kannan 2024-02-02  1999  		pr_debug("%pfwf: cycle: child of %pfwf\n", sup_handle,
-5c764791fb7b81 Saravana Kannan 2024-02-02  2000  			 par_dev->fwnode);
-3fb16866b51ded Saravana Kannan 2023-02-06  2001  		ret = true;
-5c764791fb7b81 Saravana Kannan 2024-02-02  2002  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  2003  
-3fb16866b51ded Saravana Kannan 2023-02-06  2004  	if (!sup_dev)
-3fb16866b51ded Saravana Kannan 2023-02-06  2005  		goto out;
-3fb16866b51ded Saravana Kannan 2023-02-06  2006  
-3fb16866b51ded Saravana Kannan 2023-02-06  2007  	list_for_each_entry(dev_link, &sup_dev->links.suppliers, c_node) {
-3fb16866b51ded Saravana Kannan 2023-02-06  2008  		/*
-3fb16866b51ded Saravana Kannan 2023-02-06  2009  		 * Ignore a SYNC_STATE_ONLY flag only if it wasn't marked as
-3fb16866b51ded Saravana Kannan 2023-02-06  2010  		 * such due to a cycle.
-3fb16866b51ded Saravana Kannan 2023-02-06  2011  		 */
-3fb16866b51ded Saravana Kannan 2023-02-06  2012  		if (device_link_flag_is_sync_state_only(dev_link->flags) &&
-3fb16866b51ded Saravana Kannan 2023-02-06  2013  		    !(dev_link->flags & DL_FLAG_CYCLE))
-3fb16866b51ded Saravana Kannan 2023-02-06  2014  			continue;
-3fb16866b51ded Saravana Kannan 2023-02-06  2015  
-f3ae93e738dbce Saravana Kannan 2024-10-30  2016  		if (__fw_devlink_relax_cycles(con_handle,
-3fb16866b51ded Saravana Kannan 2023-02-06  2017  					      dev_link->supplier->fwnode)) {
-5c764791fb7b81 Saravana Kannan 2024-02-02  2018  			pr_debug("%pfwf: cycle: depends on %pfwf\n", sup_handle,
-5c764791fb7b81 Saravana Kannan 2024-02-02  2019  				 dev_link->supplier->fwnode);
-3fb16866b51ded Saravana Kannan 2023-02-06  2020  			fw_devlink_relax_link(dev_link);
-3fb16866b51ded Saravana Kannan 2023-02-06  2021  			dev_link->flags |= DL_FLAG_CYCLE;
-3fb16866b51ded Saravana Kannan 2023-02-06  2022  			ret = true;
-3fb16866b51ded Saravana Kannan 2023-02-06  2023  		}
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2024  	}
-3fb16866b51ded Saravana Kannan 2023-02-06  2025  
-3fb16866b51ded Saravana Kannan 2023-02-06  2026  out:
-3fb16866b51ded Saravana Kannan 2023-02-06  2027  	sup_handle->flags &= ~FWNODE_FLAG_VISITED;
-3fb16866b51ded Saravana Kannan 2023-02-06  2028  	put_device(sup_dev);
-3fb16866b51ded Saravana Kannan 2023-02-06  2029  	put_device(par_dev);
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2030  	return ret;
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2031  }
-b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2032  
-
-:::::: The code at line 1941 was first introduced by commit
-:::::: b0e2fa4f611bb9ab22928605d5b1c7fd44e73955 driver core: Handle cycles in device links created by fw_devlink
-
-:::::: TO: Saravana Kannan <saravanak@google.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   117	
+   118	/*******************************************************************************
+   119	 *
+   120	 * FUNCTION:    acpi_ut_walk_aml_resources
+   121	 *
+   122	 * PARAMETERS:  walk_state          - Current walk info
+   123	 * PARAMETERS:  aml                 - Pointer to the raw AML resource template
+   124	 *              aml_length          - Length of the entire template
+   125	 *              user_function       - Called once for each descriptor found. If
+   126	 *                                    NULL, a pointer to the end_tag is returned
+   127	 *              context             - Passed to user_function
+   128	 *
+   129	 * RETURN:      Status
+   130	 *
+   131	 * DESCRIPTION: Walk a raw AML resource list(buffer). User function called
+   132	 *              once for each resource found.
+   133	 *
+   134	 ******************************************************************************/
+   135	
+   136	acpi_status
+   137	acpi_ut_walk_aml_resources(struct acpi_walk_state *walk_state,
+   138				   u8 *aml,
+   139				   acpi_size aml_length,
+   140				   acpi_walk_aml_callback user_function, void **context)
+   141	{
+   142		acpi_status status;
+   143		u8 *end_aml;
+   144		u8 resource_index;
+   145		u32 length;
+   146		u32 offset = 0;
+   147		u8 end_tag[2] = { 0x79, 0x00 };
+   148	
+   149		ACPI_FUNCTION_TRACE(ut_walk_aml_resources);
+   150	
+   151		/* The absolute minimum resource template is one end_tag descriptor */
+   152	
+   153		if (aml_length < sizeof(struct aml_resource_end_tag)) {
+   154			return_ACPI_STATUS(AE_AML_NO_RESOURCE_END_TAG);
+   155		}
+   156	
+   157		/* Point to the end of the resource template buffer */
+   158	
+   159		end_aml = aml + aml_length;
+   160	
+   161		/* Walk the byte list, abort on any invalid descriptor type or length */
+   162	
+   163		while (aml < end_aml) {
+   164			/*
+   165			 * Validate that the remaining buffer space can hold enough
+   166			 * bytes to safely access fields during validation.
+   167			 * For large resource descriptors (bit 7 set), we need enough
+   168			 * bytes to access the Type field in serial_bus resources.
+   169			 * Small resource descriptors only need sizeof(struct aml_resource_end_tag).
+   170			 */
+   171			if ((acpi_size)(end_aml - aml) <
+   172			    sizeof(struct aml_resource_end_tag)) {
+   173				return_ACPI_STATUS(AE_AML_BUFFER_LENGTH);
+   174			}
+   175	
+   176			/*
+   177			 * For large resource descriptors, ensure enough space for
+   178			 * the header plus serial_bus Type field access.
+   179			 */
+   180			if ((ACPI_GET8(aml) & ACPI_RESOURCE_NAME_LARGE) &&
+   181			    ((acpi_size)(end_aml - aml) <
+ > 182			     ACPI_OFFSET(struct aml_resource_common_serialbus,
+   183					 type) + 1)) {
+   184				return_ACPI_STATUS(AE_AML_BUFFER_LENGTH);
+   185			}
+   186	
+   187			/* Validate the Resource Type and Resource Length */
+   188	
+   189			status =
+   190			    acpi_ut_validate_resource(walk_state, aml, &resource_index);
+   191			if (ACPI_FAILURE(status)) {
+   192				/*
+   193				 * Exit on failure. Cannot continue because the descriptor
+   194				 * length may be bogus also.
+   195				 */
+   196				return_ACPI_STATUS(status);
+   197			}
+   198	
+   199			/* Get the length of this descriptor */
+   200	
+   201			length = acpi_ut_get_descriptor_length(aml);
+   202	
+   203			/*
+   204			 * Validate that the descriptor length doesn't exceed the
+   205			 * remaining buffer size to prevent reading beyond the end.
+   206			 */
+   207			if (length > (acpi_size)(end_aml - aml)) {
+   208				return_ACPI_STATUS(AE_AML_BUFFER_LENGTH);
+   209			}
+   210	
+   211			/* Invoke the user function */
+   212	
+   213			if (user_function) {
+   214				status =
+   215				    user_function(aml, length, offset, resource_index,
+   216						  context);
+   217				if (ACPI_FAILURE(status)) {
+   218					return_ACPI_STATUS(status);
+   219				}
+   220			}
+   221	
+   222			/* An end_tag descriptor terminates this resource template */
+   223	
+   224			if (acpi_ut_get_resource_type(aml) ==
+   225			    ACPI_RESOURCE_NAME_END_TAG) {
+   226				/*
+   227				 * There must be at least one more byte in the buffer for
+   228				 * the 2nd byte of the end_tag
+   229				 */
+   230				if ((aml + 1) >= end_aml) {
+   231					return_ACPI_STATUS(AE_AML_NO_RESOURCE_END_TAG);
+   232				}
+   233	
+   234				/*
+   235				 * Don't attempt to perform any validation on the 2nd byte.
+   236				 * Although all known ASL compilers insert a zero for the 2nd
+   237				 * byte, it can also be a checksum (as per the ACPI spec),
+   238				 * and this is occasionally seen in the field. July 2017.
+   239				 */
+   240	
+   241				/* Return the pointer to the end_tag if requested */
+   242	
+   243				if (!user_function) {
+   244					*context = aml;
+   245				}
+   246	
+   247				/* Normal exit */
+   248	
+   249				return_ACPI_STATUS(AE_OK);
+   250			}
+   251	
+   252			aml += length;
+   253			offset += length;
+   254		}
+   255	
+   256		/* Did not find an end_tag descriptor */
+   257	
+   258		if (user_function) {
+   259	
+   260			/* Insert an end_tag anyway. acpi_rs_get_list_length always leaves room */
+   261	
+   262			(void)acpi_ut_validate_resource(walk_state, end_tag,
+   263							&resource_index);
+   264			status =
+   265			    user_function(end_tag, 2, offset, resource_index, context);
+   266			if (ACPI_FAILURE(status)) {
+   267				return_ACPI_STATUS(status);
+   268			}
+   269		}
+   270	
+   271		return_ACPI_STATUS(AE_AML_NO_RESOURCE_END_TAG);
+   272	}
+   273	
 
 --
 0-DAY CI Kernel Test Service
