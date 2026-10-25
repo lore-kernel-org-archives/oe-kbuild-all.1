@@ -1,78 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792945460;
-	b=1zMm6Fhe2HqUSnEwqoM/yD1x352WjOiixGkcKENwtf88MKvrDQ1R7+OUIoNyUzn+OZiF
-	 41lOW6CMe/Pyy5DNLLlel4/5hE2DcZK1HdBiW7jzmjthfs+qwwf/5wLq+joyj7urbPNZx
-	 e9isRFPAYprcgWqymNctRP0zXE3I9wzmV3GZXce10ahnfxdHBWkNDRISMHuqYmpOv/jj6
-	 Y/p+ngRK2Hh1pLKTbaSpXYS02kdgvV0qi+dZlRphtoKuFthZzoprqKbJwHAmlwfDG4BQ+
-	 Wn4HncsJojvhpcr9h41pJsbUdJA9UD7WvHZvwK0DL/yyIPif7gIhloDP3bxe6YSeS9w==
+	t=1792947970;
+	b=pqGFnF868nLKE5geqde4yR+onI6D/JE7Ydkgg1biIXSNxX6kocnDD3Xvo+iflKsVuVIk
+	 1GWW3mWy5+0qhuf7g00ZtiPsCu8CWYHf4sDbRNdF8atiUCPCEdvnscray3+bULG1cumBk
+	 eZkeLgE13Hqe7BCRdAajEBifW5kTSKsspUyzzZ8uYvkmt51r4wP5EtfV9mXlmOH1uvSJT
+	 qNX9GbP/ezZfD2WyOagDoq11OIe6rH78lDILeVS9fSXXUDbHOUTE7ylFL680Nlqu2zXUW
+	 U6/xatVM6AvcXuv2pRBZRlYjTEWlTU6pCmhzXNepYe+8TNmKqjIRUVm1DI7MyeAYyeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792945460;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792947970;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=NoR+/CvcZ9i46T/eDvSe3uiPv3h2+weMhnsha+QIBGg=;
-	b=2DieZM0hlv3pUfUucs2qwUYF3XcGRPPD6/zJinoQAtr4J53zrf0iuAVQ6ii33bqYs3Og
-	 qoP4FtCyt+8BdDC+OEsDvWKSC83P5k9D590TkXnLlpANGZbGSuyjc/MFTiwm6gDQdC1VH
-	 Ny9Eubj65GnvlfEpGo2ukaFu2hmP5EIRD6iLB4WOKcxptyTP5jrFkB5gJ9oXhGTKGNmin
-	 uBvW6PAK7BUoCVRjWgoK9moOpeLYusBVHacolWK2Y7wCOdxatWf4VhJ+J5AgJoI5Zi4nZ
-	 F4xZUweEkxfZkS6ZSQIECvNx9CxFHF5AUqoaIp0H8XfBibAQUpCRrccg8GhUE5DL4aA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=oUwvHq0P/9gsOPpgAsIiXBykttRf2wfXHYBWY4fgpX4=;
+	b=M5mXVtNgOCdK9c8Kb8XJZk8KzqXOLfK+shjcR3SWMIVTdh08JCQtaBYMmEoQiEefT+8g
+	 u959dO1AGzHr0SDgzZ9e0vAMHe3I5f9QtwjFgIB/T4swHv1KsBnjOVmzBS3Yq1+AXAdD0
+	 yUDV4uYBsPgynLUTUihJtfJ5i58MkxJuGFbE28Pgyool/gpe+8JgAWeN5tPeua5XwoKQG
+	 wGl2ZXw+BBW2e4S4sD9lIaQBXi+r1/+G6GVXRKFAianbcG4CsXWPKZeTIicDR6WuluG/e
+	 Ye21uRUZosiueXWK14TahsvK2A6PXBiEZ8nxtkGktkDurqS/fuRYhOVICRx8c1XG78g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TevNKOMs;
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R2sE4R29;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6E8606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 16:24:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA6E8606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1B0606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 17:06:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE1B0606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TevNKOMs
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R2sE4R29
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792945459; x=1824481459;
-  h=date:from:to:cc:subject:message-id;
-  bh=evJfdLCbUxQLeFGIosdB4VtHss3xkljWuC1sBKxAPS0=;
-  b=TevNKOMs3MeNd7ia5nHExS2l6qwHLs1maH1hYhp6PaRy8dGOUm4+wNZM
-   995Y/PBkPE6xa91sNM+bNwwZK7kJQrbuis1F3etdq6yQidise69wq9y1G
-   R0xgYoVVt1DeFFMpKls7aEQ5M4wGmVulc8998+jImPc4rHx+raDwPu1Sw
-   3yWree0IqEQZdDRiizWTT643P6dD/V7WcfIXbBOV5BI1t1vWPO4HeEglc
-   Cct5aBqivn3feHRdm5uignBk9NrPyHUzN2XnZPUjuqK9pR1Gfoba/94N9
-   Td8sys6W+S63YK72D/TD+nbFgBWEG7yDH1A+Y/1m8XZl0nrO/7J/JTmaH
-   g==;
-X-CSE-ConnectionGUID: 2HbklC7iRD+rQlqwBEX76g==
-X-CSE-MsgGUID: I7ksZWr1TXifeY6BAl3tpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1504381"
+  t=1792947963; x=1824483963;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AxOjbFvh/NcIZrioJUJIpPem4ac7BqaQaQFD2sY7xA8=;
+  b=R2sE4R29VIABX3QPzLRl6Z1YY7M7zIGR64PW/rA2dk9afhMKKukVvbL7
+   0k7CFnwNP+cXXqO2QPGQz6gt5pFhBE+5KZQya2Zs2dRRh/m5WHROcNxnT
+   dggBGGoY6hXlrFMn+HDuRtbb9qIQZOBe7FGAiQBknaboIyVUeVC9Ah+pK
+   yoK+W1MMqP/WgUvx278MvgGnNKNyY/+jh0ugQ1mPppf9MIUvOonLzoZwy
+   7STbbizVbcSNgwiWdz3UxI9pMBkKOXP8IY1/+tNY71Mq6w31rKkWuWkDi
+   EHLMAWG0AjxDbDeT6tFbB46QKm71V0fgVh5YgxNCgfqg3bpcWSRR+pHSj
+   Q==;
+X-CSE-ConnectionGUID: idRYcdmNQJmV9ii/BLQfuw==
+X-CSE-MsgGUID: 0KP7AsCQTb6LGzVTbwrdtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1611692"
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1504381"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 09:24:18 -0700
-X-CSE-ConnectionGUID: uzjzuXjuTWGJf4toPtf7mA==
-X-CSE-MsgGUID: V+S/Zn/GRYW+opMV1U7uqg==
+   d="scan'208";a="1611692"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 10:06:02 -0700
+X-CSE-ConnectionGUID: 58RfMdFWTXqNG1oYrD8erg==
+X-CSE-MsgGUID: ITdobinPTCSRoDNVxb84cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="4196681"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Oct 2026 09:24:17 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="4051939"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 25 Oct 2026 10:05:58 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xL113-000000003lB-4ApR;
-	Sun, 25 Oct 2026 16:24:13 +0000
-Date: Sun, 25 Oct 2026 17:23:58 +0100
+	id 1xL1fN-00000000UxW-3BwO;
+	Sun, 25 Oct 2026 17:05:53 +0000
+Date: Mon, 26 Oct 2026 01:05:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linkinjeon-smb:ksmbd-for-next 55/96]
- include/linux/compiler_types.h:702:38: error: call to
- '__compiletime_assert_1021' declared with attribute error: clamp() low limit
- msecs_to_jiffies(1200) greater than high limit 6 * 1024
-Message-ID: <202610251743.jztr17Ib-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
+	Leo Yan <leo.yan@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Pereira <danielmaraboo@gmail.com>,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
+Message-ID: <202610260043.uPhMX80G-lkp@intel.com>
+References: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,73 +94,99 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/smb.git ksmbd-for-next
-head:   ed0063dd214dce027717f64817c594cc1b2e1d41
-commit: c0632d2010ffc006eed9becc8d0d10d54f294bbd [55/96] ksmbd: track delivery of queued TCP writes
-config: mips-randconfig-r2105-20261025 (https://download.01.org/0day-ci/archive/20261025/202610251743.jztr17Ib-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610251743.jztr17Ib-lkp@intel.com/reproduce)
+Hi Amir,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 343cfcbb3ecfdb80aa576a428cfa3b65ad783842]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amir-Ayupov/coresight-etm4x-Fix-event-count-decoding/20261024-233901
+base:   343cfcbb3ecfdb80aa576a428cfa3b65ad783842
+patch link:    https://lore.kernel.org/r/cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov%40fb.com
+patch subject: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261026/202610260043.uPhMX80G-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260043.uPhMX80G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610251743.jztr17Ib-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610260043.uPhMX80G-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   fs/smb/server/transport_tcp.c: In function 'ksmbd_tcp_writev':
->> include/linux/compiler_types.h:702:38: error: call to '__compiletime_assert_1021' declared with attribute error: clamp() low limit msecs_to_jiffies(1200) greater than high limit 6 * 1024
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                      ^
-   include/linux/compiler_types.h:683:4: note: in definition of macro '__compiletime_assert'
-     683 |    prefix ## suffix();    \
-         |    ^~~~~~
-   include/linux/compiler_types.h:702:2: note: in expansion of macro '_compiletime_assert'
-     702 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |  ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
-      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:188:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-     188 |  BUILD_BUG_ON_MSG(statically_true(ulo > uhi),    \
-         |  ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:195:2: note: in expansion of macro '__clamp_once'
-     195 |  __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-         |  ^~~~~~~~~~~~
-   include/linux/minmax.h:218:36: note: in expansion of macro '__careful_clamp'
-     218 | #define clamp_t(type, val, lo, hi) __careful_clamp(type, val, lo, hi)
-         |                                    ^~~~~~~~~~~~~~~
-   fs/smb/server/transport_tcp.c:699:4: note: in expansion of macro 'clamp_t'
-     699 |    clamp_t(unsigned long, 6UL * inet_csk(sk)->icsk_rto,
-         |    ^~~~~~~
+   In file included from include/kvm/arm_pmu.h:11,
+                    from arch/arm64/include/asm/kvm_host.h:38,
+                    from arch/arm64/include/asm/arm_pmuv3.h:9,
+                    from arch/arm64/kernel/cpufeature.c:80:
+   include/linux/perf/arm_pmuv3.h: In function 'pmuv3_event_implemented':
+>> include/linux/perf/arm_pmuv3.h:333:26: error: implicit declaration of function 'pmuv3_implemented'; did you mean 'pmuv3_event_implemented'? [-Wimplicit-function-declaration]
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                          ^~~~~~~~~~~~~~~~~
+         |                          pmuv3_event_implemented
+>> include/linux/perf/arm_pmuv3.h:333:44: error: implicit declaration of function 'read_pmuver' [-Wimplicit-function-declaration]
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                                            ^~~~~~~~~~~
+>> include/linux/perf/arm_pmuv3.h:336:28: error: implicit declaration of function 'read_pmceid0' [-Wimplicit-function-declaration]
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                            ^~~~~~~~~~~~
+>> include/linux/perf/arm_pmuv3.h:336:45: error: implicit declaration of function 'read_pmceid1' [-Wimplicit-function-declaration]
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                                             ^~~~~~~~~~~~
+   arch/arm64/include/asm/arm_pmuv3.h: At top level:
+>> arch/arm64/include/asm/arm_pmuv3.h:49:19: error: conflicting types for 'read_pmuver'; have 'u32(void)' {aka 'unsigned int(void)'}
+      49 | static inline u32 read_pmuver(void)
+         |                   ^~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:333:44: note: previous implicit declaration of 'read_pmuver' with type 'int()'
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                                            ^~~~~~~~~~~
+>> arch/arm64/include/asm/arm_pmuv3.h:160:19: error: conflicting types for 'read_pmceid0'; have 'u64(void)' {aka 'long long unsigned int(void)'}
+     160 | static inline u64 read_pmceid0(void)
+         |                   ^~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:336:28: note: previous implicit declaration of 'read_pmceid0' with type 'int()'
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                            ^~~~~~~~~~~~
+>> arch/arm64/include/asm/arm_pmuv3.h:165:19: error: conflicting types for 'read_pmceid1'; have 'u64(void)' {aka 'long long unsigned int(void)'}
+     165 | static inline u64 read_pmceid1(void)
+         |                   ^~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:336:45: note: previous implicit declaration of 'read_pmceid1' with type 'int()'
+     336 |         pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+         |                                             ^~~~~~~~~~~~
+>> arch/arm64/include/asm/arm_pmuv3.h:170:20: error: conflicting types for 'pmuv3_implemented'; have 'bool(int)' {aka '_Bool(int)'}
+     170 | static inline bool pmuv3_implemented(int pmuver)
+         |                    ^~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:333:26: note: previous implicit declaration of 'pmuv3_implemented' with type 'int()'
+     333 |         if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+         |                          ^~~~~~~~~~~~~~~~~
 
 
-vim +/__compiletime_assert_1021 +702 include/linux/compiler_types.h
+vim +333 include/linux/perf/arm_pmuv3.h
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  688  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  691  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  692  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  696   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  699   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  700   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  703  
-
-:::::: The code at line 702 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   320	
+   321	/*
+   322	 * Whether this CPU's PMU implements a common event, as reported by
+   323	 * PMCEID{0,1}: events 0x0000-0x003f in bits [31:0], and from PMUv3p1 events
+   324	 * 0x4000-0x403f in bits [63:32], which read as zero before PMUv3p1.
+   325	 * Must run on the CPU whose PMU is queried.
+   326	 */
+   327	static inline bool pmuv3_event_implemented(u16 event)
+   328	{
+   329		bool ext = event >= ARMV8_PMUV3_EXT_COMMON_EVENT_BASE;
+   330		u16 id = ext ? event - ARMV8_PMUV3_EXT_COMMON_EVENT_BASE : event;
+   331		u64 pmceid;
+   332	
+ > 333		if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+   334			return false;
+   335	
+ > 336		pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+   337		return pmceid & BIT_ULL(id % 32 + (ext ? 32 : 0));
+   338	}
+   339	
 
 --
 0-DAY CI Kernel Test Service
