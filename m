@@ -1,77 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792902886;
-	b=SxDqukdNqg3ieERfUBGwBz3TJc2U8FZMz1dtGzUQGfe6uRUjy0qcX9puWt1nwABZS6Tn
-	 XXbTp6MJ4uhIgk/dGa7zrNxOtBa5NDnYNnVZyTLyg4OTBMig1fnMwriEggokbR9nJN37I
-	 ShmxHinpEzvk21wugIS7KPIIoZinDTEWP63kTJpToj9dcAgam/o7BulLFz3bwVHFb6Crd
-	 6psEhnvjFgJx0acqEcLmD1meY0tAT6GgQ2jOUSGnflUP2vJ9X4jBofYb60J93IImijnHy
-	 HgVCjwf6JQtK95KDj3TnLIiqN4z3Q2oAeoVDpH5PhM5+9i4IhtS0CW47wy2ORYQWMUQ==
+	t=1792907149;
+	b=IWZZE0W+JS1iOvl2RaRWzB502q++3tvnPdy9ee56CFXM2aFdI4h1F0PS5oRQKuJHavc/
+	 FC5vi9CW9azYxWZ83s03FUs/EH1Qul/6utxjiUqSbtIGH3HtAeEFUQ01LXsongdDKSa0+
+	 ocwNchUi4zDuTT87GsBMIsaZ14IFuFOJ3b41IXgIIk4r10QFheapNEkXeh8UzGNAwFkoa
+	 Zse44XJg4HyvrEovmRt7c/5tA41vKMYbD4d31m1xpCAOw9uP/cgFhbTIgVBne46zx6XUA
+	 VKs6OwI0CQJKlKvzdLEnfYA+XdDP4K4x+i0HRA3uca+eKq2IOemHRsOM/ruAb6OYgRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792902886;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792907149;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=k8SxkW6hRm+hHFvtY9ZhGLiYVcCyFDMDpCnD8iFs6TQ=;
-	b=kOWbVIftDLdHSRrd0skGU7hvInshQu/nxtVrJB8yxtutP6nnI4E8rv5EMx5qDTkwVbvn
-	 FSxB4QfyMJROefLNYnkPVryGBnyVJ4OQpT+e2HnUAxICXpaJmtlqf465aKiYZIiTdj83A
-	 Jf+DpXthrZdpfdHyzOYJKGy/JUwMW308JcS848aDa5UK1aYul0bHEcptPYxJ2hoc5cwRY
-	 ejs29QWHYOElYULMwdaUvOni+PZaA7mJTkGlZTruoxreRxaMI1EZr0LCJIZDW1qsUfrPA
-	 0o+IC+33gB7thWnwHwe24gaYDJVY5D0M2ZknH6YuvZL2OkUfl3rNh72iG7OPOYtEQaA==
+	bh=Nf0BbV31s0GsrWMdwpldLmShhTjHFFHLGpaB1SRvD1s=;
+	b=I88+mRtKe9lDK2bX78Mcz99E+qS7tN8xmn048zhmOI14gkzCElaPtrK40JrTwLM9Ux+Z
+	 2KIoBwgodheMeM2nA6FP43ue7cAyeK1/0anB9C8HAv76tM71mjYKBdyydrdoVWlyA1LCe
+	 rqM4QlL+Z6zRTAeyLO7euxqAyhYs+RdmcL7BdMDzrmFoupg6JwG38ozVw++7nI2svmpHM
+	 uuqH+w2V2UdhxRzKfPYEh4c+9KwKpsybwfsKKDAkF/BKjknLE99N3jIhu0hJ3L8iUZRpR
+	 OBCZ8lA4IWfLDARXr9VfKbgwjDxMqGNMlQJ+pfDCKDoAO2EsM0EBx9DCNtDyd+76DTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fm9uYAlI;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RdZXalpz;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D71606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 04:34:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2D71606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E26606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 05:45:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62E26606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fm9uYAlI
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RdZXalpz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792902884; x=1824438884;
+  t=1792907146; x=1824443146;
   h=date:from:to:cc:subject:message-id;
-  bh=3f2O6UkxexmrB9uni7V5HMLlFbjEcylEuVvuGpnI9Gc=;
-  b=fm9uYAlIcGpbTCZU+UiIc1paNk2HKGETD9MMtcEKATG6OV1d9oJavgXi
-   a/pjy3u9de90z0aQLASaGebyIjlnOMU0hglEOLdd4ljwTqvM8KeU4lsib
-   UnZLzxoikz3MnoXqdXxZDR4DyakfOlQm75gze2qzU8WLlyZfZ/oPOTOOC
-   cnAHIIrUWLc8YhdtfwkazqjtWXHNeYGZ85X0wUK6I4ds/5EUcgKY/FjDm
-   vB0EdKFqv1Q+0SQlKrgZ0ygskP9P9iGFd6MRZqum7rpsoc8ukLXyVsW7h
-   3b46Qhxp3fKNJ4M/NuRGFm6W9/3Q+pWMGaQBFbRk/NduUnJ1TyBD45EC7
+  bh=ibQLl6mh1B7aEAL+vWX/oLiuw5LMOxNBSS7n2FO1ff0=;
+  b=RdZXalpz5zSrplHi7Hj6oydy79s4XZZIVkKEZwpmqydEbxQnk4/BUL4f
+   PtiG0KXm6eaNG351dPQhGEnA5lEwZhr0X6zvqv6XjDk/FhyM8L2UjvSlP
+   AZhGUTuLWvhM9LbPQ1+0pG1XfHn8Ky7LgdMn9jT7/bxx+E3lWwZ6tJMm0
+   YeFJlDniKNaHxOeyz38Sgrk1WlUm1ZzLFMwY6+BfT0kpFbnGqO6cYqXKe
+   E63skDY42LIj2Woxj4YUpuPTSzNJpcYuUurj7hNLob+NiqLN4rj8XifQH
+   HF/HokKyF++NWDPYAED7At2u1UZBd1zLlU9zHG95f9YZJnrvkk32JCfDM
    A==;
-X-CSE-ConnectionGUID: 0tDwhdJFQcq6uN2QJsND3g==
-X-CSE-MsgGUID: JquSdzgTRwqMryxpgL3HyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1474763"
+X-CSE-ConnectionGUID: HrpNzJcERHiYHHdT7Sew1Q==
+X-CSE-MsgGUID: UB/Y4ZazRrSI2VR/xAvdbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11945"; a="1593008"
 X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="1474763"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 21:34:44 -0700
-X-CSE-ConnectionGUID: KPzy1wh8RS2mTA71ev94nw==
-X-CSE-MsgGUID: OrW+qSmbTNWiW2Zt2rPzwA==
+   d="scan'208";a="1593008"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 22:45:46 -0700
+X-CSE-ConnectionGUID: WLFKf3RYSfCpMsaJB++wZQ==
+X-CSE-MsgGUID: 0QrvWhnRRKa68lnh3dnEEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,177,1787036400"; 
-   d="scan'208";a="4327133"
+   d="scan'208";a="5737030"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Oct 2026 21:34:43 -0700
+  by fmviesa012.fm.intel.com with ESMTP; 24 Oct 2026 22:45:44 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xKpwO-000000003cV-0RB6;
-	Sun, 25 Oct 2026 04:34:40 +0000
-Date: Sun, 25 Oct 2026 05:33:48 +0100
+	id 1xKr37-000000003d5-10C2;
+	Sun, 25 Oct 2026 05:45:41 +0000
+Date: Sun, 25 Oct 2026 06:45:17 +0100
 From: kernel test robot <lkp@intel.com>
-To: Daniel Zahka <daniel.zahka@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>
-Subject: drivers/net/ethernet/meta/mpnic/mpnic_txrx.c:273:48:
- warning: '%u' directive output may be truncated writing between 1 and 10
- bytes into a region of size between 6 and 21
-Message-ID: <202610250507.qjcLBj0W-lkp@intel.com>
+To: Udaya Kiran Challa <challauday369@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+ "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 16862/19841]
+ arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds
+ (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power',
+ 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$',
+ '^pinctrl-[0-9]+$'
+Message-ID: <202610250604.ZlrPg2yH-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,89 +84,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   330517c63aa9b48227b6ab45f01003effac77ae4
-commit: 3d4e4ad43aa455353067cf004d0618009ac39205 eth: mpnic: implement Tx queue allocation and cleanup
-date:   4 weeks ago
-config: arm64-randconfig-r2301-20261025 (https://download.01.org/0day-ci/archive/20261025/202610250507.qjcLBj0W-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610250507.qjcLBj0W-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   20a33c6b6cbe7e4805dfb6cd68816937443aa148
+commit: 59cf91cf87abb67a49b1bb7b9d3b06486abde8cf [16862/19841] dt-bindings: leds: lacie,netxbig-leds: Convert to DT schema
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261025/202610250604.ZlrPg2yH-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610250604.ZlrPg2yH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3d4e4ad43aa4 ("eth: mpnic: implement Tx queue allocation and cleanup")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610250507.qjcLBj0W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610250604.ZlrPg2yH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/meta/mpnic/mpnic_txrx.c: In function 'mpnic_alloc_napi_vectors':
->> drivers/net/ethernet/meta/mpnic/mpnic_txrx.c:273:48: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size between 6 and 21 [-Wformat-truncation=]
-     snprintf(nv->name, sizeof(nv->name), "%s-TxRx-%u",
-                                                   ^~
-   drivers/net/ethernet/meta/mpnic/mpnic_txrx.c:273:39: note: directive argument in the range [0, 4294967294]
-     snprintf(nv->name, sizeof(nv->name), "%s-TxRx-%u",
-                                          ^~~~~~~~~~~~
-   drivers/net/ethernet/meta/mpnic/mpnic_txrx.c:273:2: note: 'snprintf' output between 8 and 32 bytes into a destination of size 27
-     snprintf(nv->name, sizeof(nv->name), "%s-TxRx-%u",
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       mpn->netdev->name, idx);
-       ~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +273 drivers/net/ethernet/meta/mpnic/mpnic_txrx.c
-
-   244	
-   245	static int mpnic_alloc_napi_vector(struct mpnic_dev *mpd,
-   246					   struct mpnic_net *mpn, unsigned int idx)
-   247	{
-   248		u32 __iomem *uc_addr = READ_ONCE(mpd->uc_addr0);
-   249		struct mpnic_napi_vector *nv;
-   250		int err;
-   251	
-   252		/* Doorbells are plain pointers into the register window, they have
-   253		 * no way of noticing that it went away.
-   254		 */
-   255		if (!uc_addr)
-   256			return -EIO;
-   257	
-   258		nv = kzalloc_flex(*nv, qt, 1);
-   259		if (!nv)
-   260			return -ENOMEM;
-   261	
-   262		nv->txt_count = 1;
-   263		nv->mpd = mpd;
-   264		nv->dev = mpd->dev;
-   265		nv->v_idx = idx + MPNIC_NON_NAPI_VECTORS;
-   266	
-   267		mpn->napi[idx] = nv;
-   268		netif_napi_add_config_locked(mpn->netdev, &nv->napi, mpnic_poll, idx);
-   269		netif_napi_set_irq_locked(&nv->napi,
-   270					  pci_irq_vector(to_pci_dev(mpd->dev),
-   271							 nv->v_idx));
-   272	
- > 273		snprintf(nv->name, sizeof(nv->name), "%s-TxRx-%u",
-   274			 mpn->netdev->name, idx);
-   275	
-   276		err = mpnic_request_irq(mpd, nv->v_idx, mpnic_msix_clean_rings, 0,
-   277					nv->name, nv);
-   278		if (err)
-   279			goto err_napi_del;
-   280	
-   281		mpnic_ring_init(&nv->qt[0].sub0, &uc_addr[MPNIC_TWQ_TAIL(idx, 0)], idx);
-   282		mpnic_ring_init(&nv->qt[0].cmpl, &uc_addr[MPNIC_TCQ_HEAD(idx)], idx);
-   283		mpn->tx[idx] = &nv->qt[0].sub0;
-   284	
-   285		return 0;
-   286	
-   287	err_napi_del:
-   288		netif_napi_del_locked(&nv->napi);
-   289		mpn->napi[idx] = NULL;
-   290		kfree(nv);
-   291		return err;
-   292	}
-   293	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@3 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@4 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@5 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
 
 --
 0-DAY CI Kernel Test Service
