@@ -1,76 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792959457;
-	b=1o5pEkfj4Wikv9+FIrkm++re3DViVpgBogme0qCMR0TS3TlDgEdQf5DTnUg/K/yu0x2W
-	 QYtBaOAl4J7jPfhennT9mY5tulLDrPj4F3RNRsZI5lC9nxHxFO14ajOr9ig7bQcW+dcWR
-	 I/WHS4HGxNirXwocfbakrCYes8gkTTnNBpHkgYfYw3iZquWY7kywnVGiLrDyTJxL6Miaw
-	 GwA4G61atAR+ToOYcJbvwRFNd+JUG+5LRJPV2mI75xvuYI9ZvyRzsDwKaYYipTTa4pJ0c
-	 CjPRISynU8sKOWXuN3UPdfJ4EFXT18JG08M6QRwwomNNgZaEPrlXPkdcAw83U2CxUtg==
+	t=1792960913;
+	b=B9nMeygoxnYw+h0ATxqpdZt7zRGkYDWNIJdYRVoVY4+x53OiPAK2rdla2HcKEGr8Pp7z
+	 wsJqtXHa+Bx544+bqiMccIBjKcEgbmxuBrfI4Z5P2yr18g+784Jz/fStLxXevHQOyFSKG
+	 4XFr7kcZ9vhZm+/WfO36bE9afi5XFlPH4hUhtZdPIg34+HzkKRUMP84n38p5dBBUmU8kK
+	 y7vt3GYC9HyTvIT+cBQgxanlL5Lo07zJITpAS9iTIzOXaGYKE9mePzvkKWHwwHByLPKDY
+	 6Mp6EwCQ2ukOIk8xoazA8ASxYGeTrWs8dhbUClvisppGd/OEBWyBDsmcQH5rLiLrguQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792959457;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792960913;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=46WEtRZ+0CGOkp0Boc8DGNL6y/8ZUUah7QZB53jNGg0=;
-	b=R50dzfDI3o874UlwYHjvFtf72jR6qeofcVW5k5CXldKdOAftdwAyaadhSw+/Enf3yV3K
-	 k9bcrvj218ch1yJsJKwPE5r5dPcPfg8YYf7rvHKY7/GSksEKudcu64amOsLaIF+iCnY1/
-	 LK+H+WWoeun24FMMn7J2/dtdi7CXFNNVwCyhDSgdUcda+ALZ6o8eHCDoON3oxQ5Y+v3Lf
-	 mK0gvMEWzBT8Swj9P8WKzq6+F5D6sx8O3zMlwKC2xMP8RRuTH2O7JYX1E2aE9x2l9Y2wM
-	 LKQj4y3r1lTuoiAilWHhULq0YaTdrGCDZQIfpCa9QtRlEttim0Fqs9h0r9UGqnHVsmg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=3CcZDuPFATvQ2ExU1c9yUD5sEliMrlWJl5jzTcVoGa4=;
+	b=BVKCs7bzWhniLlisFzpF4VNfChMHPWEEHZfzJiS4fPeA6QcI6cvnbPaZDg6S+KyKkpod
+	 uOYzq/QdBkq73lq08eyNapUHlRUPFhBMaK1mlm+llH4X7uPhBL2cxn2lAJ9MBUEJgrIcG
+	 MRDlrarhESQbk00CWs7CtMySQw8GQL5y9puV63KQETKOwHN0whi3r2ZU6Wlff7joH6e8a
+	 7ln6LNn9Y1n/fB3L20rYMhxFKoh56YLYo3FbbFygVhk8uaHxtsJ9eX5XPV3ffwokUdpGw
+	 2P87kJBYAR2uAlt3qA27v+L04H/jIOEIhOXx2grVs+nm1HDdvvLN7NAmq73Y/FfwFBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cwOmVmPK;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i6inozXc;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606CF606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 20:17:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 606CF606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04951606A31A;
+	Sun, 25 Oct 2026 20:41:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04951606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cwOmVmPK
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i6inozXc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792959456; x=1824495456;
-  h=date:from:to:cc:subject:message-id;
-  bh=syAfG+kp2XB6yrbAcLipgM6CejacTQP8smCRAWAmD8Y=;
-  b=cwOmVmPKxaK/OgHQAvyZFejsFWj56gE+cTTgCYY7Tgpgh7DXgc4EotE8
-   Jsb0NhoDezO2e9zKfGLGN7cGePLsardJN0SfwgGMyOfSTOfSNDKt7Q0Fe
-   pUeiaK45OaOvMg6h21flK5aOWzGjG2HgxXeZNusrqZwuDrSuZ1fq7vRaw
-   2DjXPVKDARHsDCHNPcP1RqhitpB1HjXeOR/KaQlQgf+fkUETVKZQ/moX+
-   9d3Z47M1+GVS+zqZAs1w9Ox14x3hzFIn/krE8LOvmuJPVt9luG3/D8BiN
-   oNUHjP4AGZyHyurrm33At49g0X+k36uq2btr1ifEywhegZoq3AiOPDI8P
-   g==;
-X-CSE-ConnectionGUID: hbXtttlkQkSGEPk/6XwXkg==
-X-CSE-MsgGUID: 4UaBdJE2TYyfSHwcIcn4Hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1654653"
+  t=1792960912; x=1824496912;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8KxctUHP4pWWDpHfQ9QOIlxQinkrh6vqlKGrAnUe08I=;
+  b=i6inozXcl8W60maqfWGXYOoPjCWlczyUzicQuliy3SiOEZFmldTC+5MH
+   jMXIudybOCTb4tvhNYrqjokyrQaUpoGmvhnEBrcouH07Lrp2ovwcmvIgM
+   jrDSA4WYNyV5Zjo+4a1XIy1+3PQGWOgz1bRaa3HrHp289bi8S2jVhXiuG
+   26otn2TCTNgvsq7xMygzs/8mviLjHRzp9C8NzaTd+d2NrssiWkRSOvjXO
+   JoTeLK1esYpGzf3KwYQOF5J6kiEGuRkmS31lw9ICvgXY7eH5I4W7vtZmk
+   iQuWkw+Ov2W4AY3TFFhZD6cq8K7LivvH2UpMn2BBDT8HctQkKDjg/bQvU
+   Q==;
+X-CSE-ConnectionGUID: LsZB97ZfRGKLNFW3wUeorQ==
+X-CSE-MsgGUID: Wem/ZQFvR/S38Ds8yN/1pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1529917"
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1654653"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 13:17:35 -0700
-X-CSE-ConnectionGUID: n7+DC3RSTeqZ/YJio4cTYQ==
-X-CSE-MsgGUID: bBKqubHNQiyuUDoT++hNdw==
+   d="scan'208";a="1529917"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 13:41:51 -0700
+X-CSE-ConnectionGUID: iX+M+mzCTFWj+QaEcNGGQQ==
+X-CSE-MsgGUID: 0+SCQi1sRE2Dbg3RSzUD5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="4050398"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 25 Oct 2026 13:17:34 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="4130758"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 25 Oct 2026 13:41:49 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xL4eq-000000003ot-24Wf;
-	Sun, 25 Oct 2026 20:17:32 +0000
-Date: Sun, 25 Oct 2026 21:17:24 +0100
+	id 1xL52I-00000000V8c-1EwL;
+	Sun, 25 Oct 2026 20:41:46 +0000
+Date: Mon, 26 Oct 2026 04:41:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: vmlinux.o: error: objtool: do_jit+0x4f77: relocation to
- !ENDBR: .text+0x24c3b5
-Message-ID: <202610252131.3Wl3JYJ5-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+	Nikhil Gautam <nikhilgtr@gmail.com>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jesper X Nilsson <jesper.x.nilsson@axis.com>
+Subject: Re: [PATCH v1 1/1] iio: light: opt4001: Re-use generic struct
+ s32_fract
+Message-ID: <202610260406.ghXhpqoZ-lkp@intel.com>
+References: <20261023090802.1957593-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,24 +87,65 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023090802.1957593-1-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   21a7f44fd0765fcc5194130b28767786eba1d1e7
-commit: cff94a3d78d8cc12ceaf60aa9272aac422b1dc39 bpf, x86: Support unwind_goto and unwind_exit
-date:   5 days ago
-config: x86_64-randconfig-r2107-20261025 (https://download.01.org/0day-ci/archive/20261025/202610252131.3Wl3JYJ5-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261025/202610252131.3Wl3JYJ5-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v7.3 next-20261023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/iio-light-opt4001-Re-use-generic-struct-s32_fract/20261023-110802
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20261023090802.1957593-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] iio: light: opt4001: Re-use generic struct s32_fract
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261026/202610260406.ghXhpqoZ-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260406.ghXhpqoZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: cff94a3d78d8 ("bpf, x86: Support unwind_goto and unwind_exit")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610252131.3Wl3JYJ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610260406.ghXhpqoZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> vmlinux.o: error: objtool: do_jit+0x4f77: relocation to !ENDBR: .text+0x24c3b5
+>> drivers/iio/light/opt4001.c:90:2: error: expected expression
+      90 |         ,ratio = { .numerator = 4375, .denominator = 10000000 },
+         |         ^
+>> drivers/iio/light/opt4001.c:90:3: error: use of undeclared identifier 'ratio'
+      90 |         ,ratio = { .numerator = 4375, .denominator = 10000000 },
+         |          ^~~~~
+   drivers/iio/light/opt4001.c:90:11: error: expected expression
+      90 |         ,ratio = { .numerator = 4375, .denominator = 10000000 },
+         |                  ^
+   drivers/iio/light/opt4001.c:95:2: error: expected expression
+      95 |         ,ratio = { .numerator = 3125, .denominator = 10000000 },
+         |         ^
+   drivers/iio/light/opt4001.c:95:3: error: use of undeclared identifier 'ratio'
+      95 |         ,ratio = { .numerator = 3125, .denominator = 10000000 },
+         |          ^~~~~
+   drivers/iio/light/opt4001.c:95:11: error: expected expression
+      95 |         ,ratio = { .numerator = 3125, .denominator = 10000000 },
+         |                  ^
+   6 errors generated.
+
+
+vim +90 drivers/iio/light/opt4001.c
+
+    88	
+    89	static const struct opt4001_chip_info opt4001_sot_5x3_info = {
+  > 90		,ratio = { .numerator = 4375, .denominator = 10000000 },
+    91		.name = "opt4001-sot-5x3"
+    92	};
+    93	
 
 --
 0-DAY CI Kernel Test Service
