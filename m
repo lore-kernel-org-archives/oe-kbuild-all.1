@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793019079;
-	b=nR1g1bsF0aRLskIXn5if6x5DwRkixFZRb+JiNrQaMfVAhRLy76scnl9Ms1vIjKsv4HHj
-	 +J9NzkV98qjS9qd8rgMufMe1TND8BUOSfXfmzbThjrK1mmCdgHqfvzF7JRDI9M+DeNR5B
-	 dP3JC26H1qGiyN6KPKxSk2+dzGrXksh2qKHZzOrtKZWGnLQdxzzrR6ibudH022SMLYwFH
-	 P2V88FNpN8q32mvzYYRKIbDUL3XJ1n9DMVKDq+/+kqg85UFVQfufNm8zOCvzTrJ7sjWYP
-	 Kj2HgnbtmcqRIU3Jv8CF6FluFME7o22mdxfqRgCPhgDOfNArrN78aCygOkZdg1efGQg==
+	t=1793019080;
+	b=lL09wzNDD9MMbDQvaVwZaTnc/MMfKGEu77QdzmKA+amjjvfItTNdh0P70jhoMdRUNwlg
+	 cOpwfDixsJYJOsoh6520fqOOvooiEpIoeobdrGiUHIStlr89oIbOXU056Gt5zfiVH9LTj
+	 WmBfZ6xau5PS7bTRE7Ee8yQ2kWO/TGfAEyM76bvfkuU/hgCTvs9MpT3t2HPzfX3PZCqrK
+	 2jKVr96EJsal8I9dvya1q3TBMZ25tRSVo4MFdqv9z4RtWNT6ABKqDjUZGMFsSz1vTJH/T
+	 Gh4P38Mxm90aj6siI6BRmfKIWDVQ7lvooMaw9kMCM+KnJNxGCI+SqjUsSZ/3KvozQSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793019079;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793019080;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=bK3nbaukeJcGdNNGB3JkzMZLtME/bGhzkgpLSf/Eta0=;
-	b=nNEapzcRxF9VWqwzgOxnDZlXTZlpTx0Z0dS1UR90TVcf4DoZWokgnrxBw3y0kxK+13PR
-	 MztiDReW0xYwrwKJVIkd4Zbd7m9ebBPbmppEn/1J5XK+5invhfHxDvUBny+gF+hpwZ+sL
-	 lYa+tjVmH2U0nZyH8bDlE7kgzDzxPyjAvtlPFpOVPV6tqhgSVRfwQ16rvhic3zw65ZZso
-	 DTzWprZxZrZohd7w2PisVhnFz8vG0CvtgfL69jeGwAffKl8ChIahnNZbUYX597gIm2FSS
-	 y6cBXDYBZ9CdFt3yNOpPFNS9qfSj8simvxXJPW2udUxvbwnWrDth5kclc3fC72xX77g==
+	bh=xC9fPSQ6xDr4OD0G323ztnNOq3mubFnIHeok17w1PaM=;
+	b=FNR422UaHvP6IpXJ+VIyibT54/OtkqKfvhHB7JPJ5OIWQ+NN+yCH/g0faCu3BWliPu8x
+	 lO0inhj6/mrQ/or/myrpddvZJx4h8nb+KrIHB92csQcN0+EhZ03/VvlQagZ1ymky6/fRW
+	 rmjdDPCXLH63Anzo8H8Z9O3vNL3opY3by4GVPLhUSm+GTDaoZ0tZZHWOVlUFRaagoiWs3
+	 qzTL0L41A5N6w9gU5Kj4pW9Gs66VQfhkIiMyZ2izqH0OJgYF038c1ABGyhfWeU7Ei9Wwq
+	 WkzxCAO0DsTM94WIokqlzZL/PfdP0vnDUS9NLAgOS/pFaM2qKltg6CFknxQp0HJBb6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RNWAON9+;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L18iMw8r;
 	arc=none smtp.remote-ip=192.198.163.7
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFD4606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 12:51:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FFD4606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0A9606A329
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 12:51:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC0A9606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RNWAON9+
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L18iMw8r
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793019077; x=1824555077;
+  t=1793019079; x=1824555079;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OgOER5MPFRdRXUX6yhpDc31WszGMJQVizEP2uzzNS/4=;
-  b=RNWAON9+x/D8M4WL/+HORIeMa3s9p+oZbIEPAcm97xkc42on5Kn493Fw
-   H1JhRWq4zoNBzdYmWhV5v2wEVXmENJ8XfJQKVXYrr8Igk0OCJAk+HqiX8
-   uMSwF16bIxzHp9sa6PPEgIsuGK+LdylK91jF9c9pBXJLbnxAq5w4LZ2v9
-   dlPuHOuSzoJtMexpAaiXvt6OyIr+f9Ntx2h2KBR5vlMgFHlLD4QDmPVXV
-   xeM2LkBRpsD7V1IQypexe3/MxwUN4j7iPl4DfIqUWS+x1XeeFslDnjx7l
-   3pd48QklM9h7Ro9m2eRqTm30Ibf+Fr82/4hjklWSoiUxGa4AodpocFdFn
+  bh=03rdcH42nn8tmGzo0tvY92dQC/c0boKbcsBt01VW9jw=;
+  b=L18iMw8rUHxmX+XhFvA7Zod4PruJMrqHst4Z+wUCLdzMyFNEhfLgJq1m
+   uBlkkUORaMiNlgSmJ6UvJ8UWso+q59oINoDZF6Lj8K8HfJdfgMr9I8hBQ
+   EnF9tzjhKsKxr20Cx1YCBfh5AVlUmDRGMmyHXMdiM1ZhwLNHk0R2+O1ej
+   GdauJeoBlIPt8npqZZltl5kxrl1ifexIkWk4tjUBMckaFMu7gTvGqcj0P
+   V5IrC4d8v0/hjr8oEXfOIFLFEyWampIpTFE753kgWXTnY6Ej93bZ8WNCP
+   ElQTu73nf3wq31dXdiOKVty8gNLh5wua7Wx77AsXCoA04GU66M0me7Bwu
    w==;
-X-CSE-ConnectionGUID: qXDu9ernQ22dDjic7gJoFA==
-X-CSE-MsgGUID: +AxR3tjzQIWbsWYzqE03Ig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1580203"
+X-CSE-ConnectionGUID: OYYmFUzNT061n2w27I1rhg==
+X-CSE-MsgGUID: wtOPF0a4Ts+wCq2kjcfcfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1580206"
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1580203"
+   d="scan'208";a="1580206"
 Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:51:17 -0700
-X-CSE-ConnectionGUID: oeOhjOIzRX28nx/LCHUfcA==
-X-CSE-MsgGUID: qGzxhDcGQI+4l1LQOX0WXA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:51:18 -0700
+X-CSE-ConnectionGUID: IU0SW4qyRGORhRp1TSRzKA==
+X-CSE-MsgGUID: yZEotI56SzGx5RTrEnuB5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="6083940"
+   d="scan'208";a="6083942"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 05:51:17 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLKAT-00000000Vvw-3QfS;
+	id 1xLKAT-00000000Vvs-33yq;
 	Mon, 26 Oct 2026 12:51:13 +0000
-Date: Mon, 26 Oct 2026 20:51:08 +0800
+Date: Mon, 26 Oct 2026 20:50:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC bpf-next 4/9] bpf: Add kfuncs to allocate and seal user
- pages
-Message-ID: <202610262046.jyr2SpRS-lkp@intel.com>
-References: <20261021195759.119421-5-jolsa@kernel.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
+	eddyz87@gmail.com, memxor@gmail.com
+Subject: Re: [PATCH bpf 07/81] bpf: One time slice of may_goto for a run of a
+ prog
+Message-ID: <202610262044.OQsV3p74-lkp@intel.com>
+References: <20261026025943.404450-8-alexei.starovoitov@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,100 +85,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261021195759.119421-5-jolsa@kernel.org>
+In-Reply-To: <20261026025943.404450-8-alexei.starovoitov@gmail.com>
 
-Hi Jiri,
+Hi Alexei,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on bpf/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/bpf-Add-__srcptr-kfunc-argument-suffix/20261021-215750
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20261021195759.119421-5-jolsa%40kernel.org
-patch subject: [RFC bpf-next 4/9] bpf: Add kfuncs to allocate and seal user pages
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261026/202610262046.jyr2SpRS-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610262046.jyr2SpRS-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/selftests-bpf-Remove-tests-for-global-data-in-arena/20261026-025822
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20261026025943.404450-8-alexei.starovoitov%40gmail.com
+patch subject: [PATCH bpf 07/81] bpf: One time slice of may_goto for a run of a prog
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20261026/202610262044.OQsV3p74-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610262044.OQsV3p74-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610262046.jyr2SpRS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610262044.OQsV3p74-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/bpf/helpers.c: In function 'bpf_user_page_exec':
->> kernel/bpf/helpers.c:3855:9: error: implicit declaration of function 'flush_icache_user_page'; did you mean 'flush_icache_page'? [-Werror=implicit-function-declaration]
-    3855 |         flush_icache_user_page(vma, page, addr, PAGE_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         flush_icache_page
-   cc1: some warnings being treated as errors
+>> kernel/bpf/core.c:3633:6: warning: no previous prototype for 'bpf_prog_begin_run' [-Wmissing-prototypes]
+    3633 | void bpf_prog_begin_run(const struct bpf_prog *prog)
+         |      ^~~~~~~~~~~~~~~~~~
 
 
-vim +3855 kernel/bpf/helpers.c
+vim +/bpf_prog_begin_run +3633 kernel/bpf/core.c
 
-  3807	
-  3808	/**
-  3809	 * bpf_user_page_exec() - Make a BPF-allocated user page read/execute
-  3810	 * @addr: Address of the page to change
-  3811	 *
-  3812	 * Changes a writable page created by bpf_user_page_alloc() to read/execute.
-  3813	 * The page cannot be made writable again after this call.
-  3814	 *
-  3815	 * Return: 0 on success, or a negative error code.
-  3816	 */
-  3817	__bpf_kfunc int bpf_user_page_exec(unsigned long addr)
-  3818	{
-  3819		struct mm_struct *mm = current->mm;
-  3820		struct vm_area_struct *vma;
-  3821		struct page *page;
-  3822		int err = -EINVAL;
-  3823	
-  3824		if (unlikely(in_interrupt() ||
-  3825			     current->flags & (PF_KTHREAD | PF_EXITING)))
-  3826			return -EPERM;
-  3827		if (unlikely(!nmi_uaccess_okay()))
-  3828			return -EPERM;
-  3829		if (unlikely(!mm))
-  3830			return -EFAULT;
-  3831		if ((addr & ~PAGE_MASK) || addr > ULONG_MAX - PAGE_SIZE)
-  3832			return -EINVAL;
-  3833	
-  3834		if (mmap_write_lock_killable(mm))
-  3835			return -EINTR;
-  3836	
-  3837		vma = find_vma(mm, addr);
-  3838		if (!vma || vma->vm_start > addr)
-  3839			goto out;
-  3840		/* Allow to change only vma allocated by bpf_user_page_alloc. */
-  3841		if (vma->vm_private_data != &bpf_user_page_marker)
-  3842			goto out;
-  3843		if (!(vma->vm_flags & VM_WRITE) || !(vma->vm_flags & VM_MAYEXEC))
-  3844			goto out;
-  3845	
-  3846		vma_start_write(vma);
-  3847	
-  3848		err = get_user_pages(addr, 1, FOLL_WRITE, &page);
-  3849		if (err != 1) {
-  3850			if (!err)
-  3851				err = -EFAULT;
-  3852			goto out;
-  3853		}
-  3854	
-> 3855		flush_icache_user_page(vma, page, addr, PAGE_SIZE);
-  3856		err = do_mprotect_pkey_locked(addr, PAGE_SIZE, PROT_READ | PROT_EXEC, -1);
-  3857		if (!err) {
-  3858			vma = find_vma(mm, addr);
-  3859			vm_flags_clear(vma, VM_MAYWRITE);
-  3860		}
-  3861		put_page(page);
-  3862	out:
-  3863		mmap_write_unlock(mm);
-  3864		return err;
-  3865	}
-  3866	
+  3628	
+  3629	/*
+  3630	 * The kernel is about to call an async callback of @prog on this cpu: a run begins.
+  3631	 * The main prog does the same in its first insns.
+  3632	 */
+> 3633	void bpf_prog_begin_run(const struct bpf_prog *prog)
+  3634	{
+  3635		struct bpf_prog_aux *aux;
+  3636	
+  3637		if (!prog)
+  3638			return;
+  3639		aux = prog->aux->main_prog_aux;
+  3640		if (aux->may_goto_budget) {
+  3641			this_cpu_write(aux->may_goto_budget->start, 0);
+  3642			this_cpu_write(aux->may_goto_budget->count, BPF_MAX_TIMED_LOOPS);
+  3643		}
+  3644	}
+  3645	
 
 --
 0-DAY CI Kernel Test Service
