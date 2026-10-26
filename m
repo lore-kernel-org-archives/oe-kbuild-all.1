@@ -1,59 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792977621;
-	b=yugKSXzgXHN7I2qYjkbHYZCQ48SeUjCCfgrslTSkmaUsgpb5TGNSUmjmPZkExCjEl+hB
-	 6IdWak0iYQvd/h8RX72dRMuoMOC74TZVmB7BzOFWTqG4MSAjsczFWiLsp3998r0+Fic8h
-	 mqYoN3Tr/lvnl/dxdABgoHaSNTfIgFGkoRIbolmPcCRb//Y/nEwUnVdGzw0JQsyvaP2PH
-	 vMI5Mcp1AyKys2BOy9GdxLDy2YkK7te3yfDFouEbttgJhxy9JtFDbJbQhjDoa2DAuLWSI
-	 y51rSyYtI7s7GWG6V5QaljwAzbG/Pf/8Yj/nqru1KnWFs2eRAPRJlubEX3qOI6ztsFQ==
+	t=1792978538;
+	b=NLDZOnTNx/mCcGuXECC0FW9+Vdiy4uhFu0TFTFNi6i2txI7+fWcjvvufMGDo9iKZ1LL2
+	 d3c3+mo0u8JUc6H4GwbG56wZcHYf/i7ROlkP1YR/7CYsqd1Rst4TNbxMPyNiyDbRLfp3J
+	 8l3aeUeQZBNivFG5CXPykiTV3m9+3iZQ46PZdO8tF/qb+Zn7bbREdQDErWOczQcrOfVjm
+	 lGtcK+cyqNOpz11r7F+weWMZQtUTJP0Nlx+OG4/6YRFVyD4Wba08rQ5uciOSwnHCwy8Nc
+	 vAXTS5d2YkZ+0fGHPGLT4pmTfJBelTuEFSlfgm7MkaSfK8+0QkcbhxU6FiWmpsYPnlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792977621;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792978538;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Date:From:To:cc:Subject:Message-ID:
-	 MIME-Version:Content-Type;
-	bh=nACYY/J1flcBazt/DWhDPB6T+PC33voNTI/bWAr/LwY=;
-	b=g68SUHwanraNSGpNQC7qEVz28VMnY2R++7mpB4AWIVE5KFncNw+lgYC1oBPENmvmkwOd
-	 ZJ26pC6D/hPI3nhA4L8EKkFCVlwbbspeqCUKLuU6utFP2mqwyaMUID9yOe6p6IYY6O2IN
-	 XT/XA/rwT1VAkuKm6dMEDag2bHwzjqN+Fgj6hc4JQn70HcpSRxMplEWGVPn67gG8MNndY
-	 Z1NgmEUmwBvGxTVmlhbfiYEE+FdpyWmgl6wCbHcBDFJuIxY0ZLzuW/J2g30D5yH1oySHB
-	 8aZQUk7Y+Sjv2oQB0g1VdMA4O+M2sV+5nqJaiu5jFnFJwSNlvuaKOl4hZdClJ5Mr1yQ==
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=lGz688wnSiLBt9+k0E3kJwGc/ixPHcTO0dNjdQ1l4Hg=;
+	b=xwBs5yoZN/Q967MCfrYRRZ5/IwkMNMnhoRV6fn0t/envBIVADb0otpZmIXSIbGORe+hy
+	 F0aZSkFA/y1f1U6D6pRWn56AZpVEwYmzUaAkZycrzWR7GC1B31z0IUY/4XdX9EK73G0eT
+	 JyF0Zp62ySv8dmTHKqRozNUFmxoF4eSyNQdt57b6n2pO0vbzAWFAbxnttiHg4RWsKwkDT
+	 rpkOPw1b+fmizD1MB98lFZt2wp1fNZlXNxfuB2i708JlmdrAAr64URXBqXdNvXYZIXxkp
+	 z/ek9QTWh4+qdT1hrdoacmHC4GJn0DM6Yq73rRGbvbzWv6jvIIToguWRGZQ7jb/xPuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inria.fr;
-	spf=pass smtp.mailfrom=inria.fr;
-	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b="j/G3veEU";
-	arc=none smtp.remote-ip=192.134.164.104
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eSEUPBH6;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF12606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 01:20:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0BF12606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390A2606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 01:35:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 390A2606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=j/G3veEU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nACYY/J1flcBazt/DWhDPB6T+PC33voNTI/bWAr/LwY=;
-  b=j/G3veEUPUPx5wUUmKpHK4LVt9Cs5DmPZXOHh4T6dRdC4foYdCD9vBnP
-   lno84N3t/WEvINOmn70xvfS6ZYqd+/v6G2g28pSVqYw2kX/3OyH7YJbE7
-   8PGdpmKV4Bb3+ulFifx5D4/TSWpfXKLAMCRLWBWuuMmgchPveN//81gbA
-   s=;
-X-CSE-ConnectionGUID: MTEcJWBxS3Os1DcDOHwIfg==
-X-CSE-MsgGUID: vhRg6G3oRl2G1xOaUyTa9w==
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.27,178,1787004000"; 
-   d="scan'208";a="160828793"
-Received: from c-76-123-3-53.hsd1.va.comcast.net (HELO hadrien) ([76.123.3.53])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:20:10 +0100
-Date: Sun, 25 Oct 2026 21:20:07 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: cros-kernel-buildreports@googlegroups.com
-cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-lts 2/2] fs/eventpoll.c:1009:2-11:
- second lock on line 994 (fwd)
-Message-ID: <fea95cfa-9ce5-ac56-9c85-7ad88e837bc4@inria.fr>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eSEUPBH6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792978537; x=1824514537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6XeH1nDmIKEwWHahs4esRbq75DGdv4dggga0X48z5aw=;
+  b=eSEUPBH6T8Q016bNzJ00C1hFieXAsgN/C7tVsDrH19JAyM2h5bh2QWhW
+   BGnkiq4VTpHMwWhVc8f1Sulj8btJEcI+pPQjx2aQIk0EyD7pMY+Q/L0r8
+   v3Q/q8oJaF59VbrztuxMU5ontR2mxuWqQ/I5QwjwVxQ95xe5IeUPt5ZV0
+   tnW/OkzEC17HUaWUSH8uKnE8bHRIBxLZZjlmap0l/sg44sXvIPz0NhyQ5
+   UqcE5tAYvbGyfNeCTSRSOj9EBISmA6R1pScW0KgO6w/t5v4qvHeqhYbuO
+   r+Bwx5kDZd+8iuXVCjwmwVutp9LhA9KyFW2tGDykYgNIbrTWo3x0aCkEH
+   w==;
+X-CSE-ConnectionGUID: yCtyomzHTXmD87f+g2gXAQ==
+X-CSE-MsgGUID: UHXgkLZ8RWijqcNp/5CA8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1516728"
+X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
+   d="scan'208";a="1516728"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 18:35:36 -0700
+X-CSE-ConnectionGUID: vn57Yzv8QpO+fs+7TSm88Q==
+X-CSE-MsgGUID: UBJTCDoEQU252vSwaq5npw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
+   d="scan'208";a="4147146"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 25 Oct 2026 18:35:31 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xL9cW-00000000VL4-0M45;
+	Mon, 26 Oct 2026 01:35:28 +0000
+Date: Mon, 26 Oct 2026 09:34:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Philipp Stanner <phasta@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, Philipp Stanner <phasta@kernel.org>
+Subject: Re: [PATCH 2/2] dma-buf/dma-fence: Order setting of the signaled-bit
+ properly
+Message-ID: <202610260958.IcV50YNq-lkp@intel.com>
+References: <20261021095512.1345191-4-phasta@kernel.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -63,89 +92,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021095512.1345191-4-phasta@kernel.org>
 
-After line 1009, does somerhing unlock the lock?
+Hi Philipp,
 
-julia
+kernel test robot noticed the following build errors:
 
----------- Forwarded message ----------
-Date: Sun, 25 Oct 2026 21:48:10 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [android-common:android13-5.15-lts 2/2] fs/eventpoll.c:1009:2-11:
-    second lock on line 994
+[auto build test ERROR on 1ecab8b0bad393750c60cc3819ce9c256595463c]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15-lts
-head:   28ca5d8b733ed5c4ea847e57cc94f90cfa929e94
-commit: 9208957e850335d35905a45e0041c09aac9ea5fb [2/2] UPSTREAM: eventpoll: kill __ep_remove()
-:::::: branch date: 10 hours ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-2102-20261025 (https://download.01.org/0day-ci/archive/20261025/202610252137.KYEUgiaP-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project a808f8ea7fdc61ead417bfe55e8ef5f728776aeb)
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/asm-generic-bitops-Add-set_bit_release/20261021-115512
+base:   1ecab8b0bad393750c60cc3819ce9c256595463c
+patch link:    https://lore.kernel.org/r/20261021095512.1345191-4-phasta%40kernel.org
+patch subject: [PATCH 2/2] dma-buf/dma-fence: Order setting of the signaled-bit properly
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261026/202610260958.IcV50YNq-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260958.IcV50YNq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202610252137.KYEUgiaP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610260958.IcV50YNq-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/eventpoll.c:1009:2-11: second lock on line 994
+All errors (new ones prefixed by >>):
 
-vim +1009 fs/eventpoll.c
+   drivers/dma-buf/dma-fence.c: In function 'dma_fence_signal_timestamp_locked':
+>> drivers/dma-buf/dma-fence.c:393:9: error: implicit declaration of function 'set_bit_release'; did you mean 'seq_release'? [-Wimplicit-function-declaration]
+     393 |         set_bit_release(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
+         |         ^~~~~~~~~~~~~~~
+         |         seq_release
 
-7699acd1341c63 Davide Libenzi    2007-05-10   976
-b611967de4dc5c Davide Libenzi    2006-10-11   977  /*
-7699acd1341c63 Davide Libenzi    2007-05-10   978   * This is called from eventpoll_release() to unlink files from the eventpoll
-7699acd1341c63 Davide Libenzi    2007-05-10   979   * interface. We need to have this facility to cleanup correctly files that are
-7699acd1341c63 Davide Libenzi    2007-05-10   980   * closed without being removed from the eventpoll interface.
-b611967de4dc5c Davide Libenzi    2006-10-11   981   */
-7699acd1341c63 Davide Libenzi    2007-05-10   982  void eventpoll_release_file(struct file *file)
-b611967de4dc5c Davide Libenzi    2006-10-11   983  {
-7699acd1341c63 Davide Libenzi    2007-05-10   984  	struct eventpoll *ep;
-44cdc1d952e3f7 Al Viro           2020-09-27   985  	struct epitem *epi;
-f2451def095c17 Paolo Abeni       2023-03-22   986  	bool dispose;
-f2451def095c17 Paolo Abeni       2023-03-22   987
-f2451def095c17 Paolo Abeni       2023-03-22   988  	/*
-f2451def095c17 Paolo Abeni       2023-03-22   989  	 * Use the 'dying' flag to prevent a concurrent ep_clear_and_put() from
-f2451def095c17 Paolo Abeni       2023-03-22   990  	 * touching the epitems list before eventpoll_release_file() can access
-f2451def095c17 Paolo Abeni       2023-03-22   991  	 * the ep->mtx.
-f2451def095c17 Paolo Abeni       2023-03-22   992  	 */
-f2451def095c17 Paolo Abeni       2023-03-22   993  again:
-f2451def095c17 Paolo Abeni       2023-03-22  @994  	spin_lock(&file->f_lock);
-f2451def095c17 Paolo Abeni       2023-03-22   995  	if (file->f_ep && file->f_ep->first) {
-f2451def095c17 Paolo Abeni       2023-03-22   996  		epi = hlist_entry(file->f_ep->first, struct epitem, fllink);
-9208957e850335 Christian Brauner 2026-09-29   997  		WRITE_ONCE(epi->dying, true);
-f2451def095c17 Paolo Abeni       2023-03-22   998  		spin_unlock(&file->f_lock);
-f2451def095c17 Paolo Abeni       2023-03-22   999
-f2451def095c17 Paolo Abeni       2023-03-22  1000  		/*
-f2451def095c17 Paolo Abeni       2023-03-22  1001  		 * ep access is safe as we still own a reference to the ep
-f2451def095c17 Paolo Abeni       2023-03-22  1002  		 * struct
-b611967de4dc5c Davide Libenzi    2006-10-11  1003  		 */
-7699acd1341c63 Davide Libenzi    2007-05-10  1004  		ep = epi->ep;
-f2451def095c17 Paolo Abeni       2023-03-22  1005  		mutex_lock(&ep->mtx);
-9208957e850335 Christian Brauner 2026-09-29  1006
-9208957e850335 Christian Brauner 2026-09-29  1007  		ep_unregister_pollwait(ep, epi);
-9208957e850335 Christian Brauner 2026-09-29  1008
-9208957e850335 Christian Brauner 2026-09-29 @1009  		spin_lock(&file->f_lock);
-9208957e850335 Christian Brauner 2026-09-29  1010  		__ep_remove_file(ep, epi, file);
-9208957e850335 Christian Brauner 2026-09-29  1011  		dispose = __ep_remove_epi(ep, epi);
-9208957e850335 Christian Brauner 2026-09-29  1012
-d47de16c722196 Davide Libenzi    2007-05-15  1013  		mutex_unlock(&ep->mtx);
-f2451def095c17 Paolo Abeni       2023-03-22  1014
-c36fff461c90c6 Linus Torvalds    2025-07-09  1015  		if (dispose && ep_refcount_dec_and_test(ep))
-f2451def095c17 Paolo Abeni       2023-03-22  1016  			ep_free(ep);
-f2451def095c17 Paolo Abeni       2023-03-22  1017  		goto again;
-b611967de4dc5c Davide Libenzi    2006-10-11  1018  	}
-f2451def095c17 Paolo Abeni       2023-03-22  1019  	spin_unlock(&file->f_lock);
-b611967de4dc5c Davide Libenzi    2006-10-11  1020  }
-b611967de4dc5c Davide Libenzi    2006-10-11  1021
+
+vim +393 drivers/dma-buf/dma-fence.c
+
+   337	
+   338	/**
+   339	 * dma_fence_signal_timestamp_locked - signal completion of a fence
+   340	 * @fence: the fence to signal
+   341	 * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time domain
+   342	 *
+   343	 * Signal completion for software callbacks on a fence, this will unblock
+   344	 * dma_fence_wait() calls and run all the callbacks added with
+   345	 * dma_fence_add_callback(). Can be called multiple times, but since a fence
+   346	 * can only go from the unsignaled to the signaled state and not back, it will
+   347	 * only be effective the first time. Set the timestamp provided as the fence
+   348	 * signal timestamp.
+   349	 *
+   350	 * Unlike dma_fence_signal_timestamp(), this function must be called with
+   351	 * &dma_fence.lock held.
+   352	 */
+   353	void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+   354					      ktime_t timestamp)
+   355	{
+   356		const struct dma_fence_ops *ops;
+   357		struct dma_fence_cb *cur, *tmp;
+   358		struct list_head cb_list;
+   359	
+   360		dma_fence_assert_held(fence);
+   361	
+   362		if (unlikely(dma_fence_test_signaled_flag(fence)))
+   363			return;
+   364	
+   365		trace_dma_fence_signaled(fence);
+   366	
+   367		/*
+   368		 * When neither a release nor a wait operation is specified set the ops
+   369		 * pointer to NULL to allow the fence structure to become independent
+   370		 * from who originally issued it.
+   371		 */
+   372		ops = rcu_dereference_protected(fence->ops, true);
+   373		if (!ops->release && !ops->wait)
+   374			RCU_INIT_POINTER(fence->ops, NULL);
+   375	
+   376		/* Stash the cb_list before replacing it with the timestamp */
+   377		list_replace(&fence->cb_list, &cb_list);
+   378	
+   379		fence->timestamp = timestamp;
+   380		set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+   381	
+   382		list_for_each_entry_safe(cur, tmp, &cb_list, node) {
+   383			INIT_LIST_HEAD(&cur->node);
+   384			cur->func(fence, cur);
+   385		}
+   386	
+   387		/*
+   388		 * This orders the signaled-state with the test_bit_acquire() in
+   389		 * dma_fence_test_signaled_flag(). This ensures that functions like
+   390		 * dma_fence_is_signaled() can only ever return true once signaling is
+   391		 * completed (i.e., after the callbacks above ran).
+   392		 */
+ > 393		set_bit_release(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
+   394	}
+   395	EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
+   396	
 
 --
 0-DAY CI Kernel Test Service
