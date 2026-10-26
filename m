@@ -1,80 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793004519;
-	b=K1gf8GJV8sBB+mUyyG3cfhgh77R8iKJZIDa2bifjy7CNM23gJANLnu8zDTRzIXkaWXc0
-	 zS2Dz9hJAsbRqW8a+Q4qjKr/gwpcOeKrAfBpu9nIgzyF2hlr99bUhJObQm+h+INE8rnUy
-	 UC2fjG4Q7O2gMmUf2Z1pTnVMDY6MOj8IUxlUQ5cL8xfm//ItLbIdL+tAjinBR/ufuSZZX
-	 3QuFfr4jivJcwFKjawVy+MTrK015iGL28X+VyumoPhCPxdcAXJZKRDzEbCRdquSa4YUPA
-	 Aowjy9XLRB0VgCvfjIwn3UHfeN30IuEdxWpZznIWvDUEQK833LmVpPSRKdW0XTADMAg==
+	t=1793009815;
+	b=V16r4JfA8W2CvW0vDeM4X+Ao53HXJ5Eq3BomdLpAsfiO7uNba/5Qz3hHQE/X47ALDxhT
+	 ywEOWZ5ZV2ma4s3cG7DdaVzajd0MymKKC4XXOHCYFvsTYlmfiLmiZHlE5pr99mZjFfqRZ
+	 wRPUxfiv2pg3oDYnx3rUiV3Ivg6scbzNrwo4Tj76bmXGCj3cNRquBRhhsKfOGWPZQ8Xa5
+	 cLj/mns7nJvNFNVjESKVkItFzv8nVjphaFtAsgUuPCjrhPPLphv8IgtnxAEDJsVNtjGvU
+	 wUD68QE63iLVDIQXR5Q4cZaItudweWI/hdO/dx4uvo7Ox+eVt3nSFlW96kDAoHpA3ZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793004519;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793009815;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=qo9n0FD8jfRWT/8tpIm3AfT+OEv6sUgixSY7ZM4bhNk=;
-	b=f7l9deZ34Shds7mEE8w6YEUPjxJMQayQFXvUWsrc91wg7aD+IaNeAlz6qsTuPC3M+/Tk
-	 0AU3cdQtVT+XUjHt6jiVQimdESD115V4UbUWfp/KKQ3EkLsTIid2+nUNqt+7jxPXh6xue
-	 ZfYiV2PdkuNfKf7OYvYKAzJtPsaNtSxAIVlrcFNSeS4VUuUYfe/MCBullQhf7oBV9DBqd
-	 zdxSaVvKZpeO+OXfx39B7agTjxlUHi9OYr7RJtB3wSDGMxflLc9vIsqYc6NZY+fjo+GJi
-	 IeO4LFaDNX2yO5ZnwYVYto1ujNLuIK3jHhFtWvKiRegImMBD69ittnuld+HyoAmBWLg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=jwXQSkgeTDUCwcRst5l5tu5yBS+0uD1rATX61ggobOM=;
+	b=4LMVvkHAEjM7DAzTT39Ogb7IZnc6gvP/d1uqrtVG8aZDIINtmbGcFY88KePSRWFuaPQu
+	 TJB4dZIB1kPJKWSisDHEUS7szMTq9HHrIQpnsi2I2mLH+fOPbmHOiakiMGVdfnZ+G27aI
+	 +JtbOFH6kfDanqsRFKBNE7qH8meQFvrPH7O6cTRIsL3GOrMfWEfV4QEGlZbEhGQg5seNt
+	 +tSEjnvpp4MS4QWXiTfq2hWmJlHw7nq8VKv152A2+WWjTodRsK46lsXDCAK002GREAuaC
+	 8Zxy3zZvzrM6p+T+izMjkTI1ehP/rya8/+UKgPLbxfr+c69ExC87mUHktR36RpYGWfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hdfitSgv;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CdYaNOuC;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2900606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 08:48:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2900606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BD6606A31B;
+	Mon, 26 Oct 2026 10:16:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4BD6606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hdfitSgv
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CdYaNOuC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793004517; x=1824540517;
-  h=date:from:to:cc:subject:message-id;
-  bh=Y188Dg0tac6YXAOlTsYJ0pKMJCVRL8XHRdbYwGEsl9A=;
-  b=hdfitSgvLEbxDbSUdoQiuwKuyRddEtd4bzJEWiWPgh5YIl6lVkre6EYC
-   yNCIRGKCFkU0L9nvSUt/FYl1Tg6/OhjG1WFzICTwcjS6z+6f2EvnrH2bk
-   +ULnUk+GFsJnRzUjmxPZKBIuVS+xzhMNPWYBhYOWGsCg58vKA7p6hZo+Y
-   oVqDUIYOFDkollA+RVI1e0qBs0Tbeo5fHvcRQ6pfiNOMCCM3WZgk/Fg0G
-   b+kw80s2ccF0SI27v3XT3T2Mi+2MtXsuvdca0z60FDQlAG+I19fYfBZXd
-   9W+1oIAi4B2CmvDzxRNfDK3jYLEXwcfX36n0PkVTg8p9gjhAj1rzBUx08
-   A==;
-X-CSE-ConnectionGUID: 60sT6+u3TfG4wYZiQMlXWw==
-X-CSE-MsgGUID: ARFYO48uRsaVWVD23IlkWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1771198"
+  t=1793009815; x=1824545815;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sccwMZ5lXE/ezOElJpzKdefyC1MnNFSrtljA29CphbE=;
+  b=CdYaNOuCD9WEoR4IPwsjA6SLGAcFHdHTqqimyzZ3dWNr0lMg8+aFWudt
+   CakNiOkxLy0FXjJjG0CKowQkVAaF3wGWMiIH8sbXn+rDU2nzYFfbezVUI
+   NjVGB/TDiD30UEXhnb/z5KRLyCUtf8S6Ru0w8S/ZAxwL5cKtJnVmVhAEj
+   0BODvYvy/ekCR7cgipkvTpHaKWBh6zv2g9iJvbYazqsBP27Z83M1F5fxH
+   t0mmCK2rIyqpvOMr7u/WSAGob1YQXhnXLtU26KFMguUcKlT3Hzyy5L8Q8
+   +9UfRfkkcCIHMcr7rt0mJm+TJQPjrEvCqfhfQMDY7RJ4iFal+PzBZ82ff
+   g==;
+X-CSE-ConnectionGUID: vTv92U5oRdGEMM8BAfRYZw==
+X-CSE-MsgGUID: fr2xItPnTPuDb7SL2dij5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1550513"
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1771198"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 01:48:36 -0700
-X-CSE-ConnectionGUID: c0JzeBPJRJWLgNZH8wQNAA==
-X-CSE-MsgGUID: D2IAn5qGT3SDeh0ShLeUZQ==
+   d="scan'208";a="1550513"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 03:16:54 -0700
+X-CSE-ConnectionGUID: 9tru8aW9RbW/ONVFgc4DNQ==
+X-CSE-MsgGUID: EUsbzJQ4RWuCnYnFSGXC1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="4595525"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2026 01:48:35 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="4579780"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Oct 2026 03:16:49 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLGNc-0000000041H-1nbh;
-	Mon, 26 Oct 2026 08:48:32 +0000
-Date: Mon, 26 Oct 2026 09:47:48 +0100
+	id 1xLHl0-00000000Vm2-0tdH;
+	Mon, 26 Oct 2026 10:16:46 +0000
+Date: Mon, 26 Oct 2026 18:16:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Udaya Kiran Challa <challauday369@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: [linux-next:master 16862/19841]
- arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds
- (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power',
- 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$',
- '^pinctrl-[0-9]+$'
-Message-ID: <202610260908.MGqGCNpi-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+	letux-kernel@openphoenux.org, kernel@pyra-handheld.com,
+	Paul Boddie <paul@boddie.org.uk>,
+	"H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH 2/4] clk: ingenic: Add Ingenic X1600 CGU clock driver
+ support
+Message-ID: <202610261821.QhaEUvEU-lkp@intel.com>
+References: <50983be55e467076e83e3ffc37b30fc4e5648e15.1792955907.git.hns@goldelico.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -83,80 +93,110 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50983be55e467076e83e3ffc37b30fc4e5648e15.1792955907.git.hns@goldelico.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   20a33c6b6cbe7e4805dfb6cd68816937443aa148
-commit: 59cf91cf87abb67a49b1bb7b9d3b06486abde8cf [16862/19841] dt-bindings: leds: lacie,netxbig-leds: Convert to DT schema
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261026/202610260908.MGqGCNpi-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260908.MGqGCNpi-lkp@intel.com/reproduce)
+Hi Nikolaus,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on robh/for-next linus/master v7.3 next-20261023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/H-Nikolaus-Schaller/dt-bindings-clock-Add-Ingenic-X1600-CGU-bindings/20261025-201824
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/50983be55e467076e83e3ffc37b30fc4e5648e15.1792955907.git.hns%40goldelico.com
+patch subject: [PATCH 2/4] clk: ingenic: Add Ingenic X1600 CGU clock driver support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261026/202610261821.QhaEUvEU-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610261821.QhaEUvEU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610260908.MGqGCNpi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610261821.QhaEUvEU-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): #size-cells: 0 is not one of [1, 2]
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
---
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
---
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
---
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@3 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@4 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@5 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+All warnings (new ones prefixed by >>):
+
+>> drivers/clk/ingenic/x1600-cgu.c:129:38: warning: variable 'm' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
+     129 |         for (od_combined = od_combined_min; od_combined <= od_combined_max; od_combined++) {
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/ingenic/x1600-cgu.c:141:8: note: uninitialized use occurs here
+     141 |         *pm = m;
+         |               ^
+   drivers/clk/ingenic/x1600-cgu.c:129:38: note: remove the condition if it is always true
+     129 |         for (od_combined = od_combined_min; od_combined <= od_combined_max; od_combined++) {
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/ingenic/x1600-cgu.c:115:17: note: initialize the variable 'm' to silence this warning
+     115 |         unsigned long m, n;
+         |                        ^
+         |                         = 0
+>> drivers/clk/ingenic/x1600-cgu.c:129:38: warning: variable 'n' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
+     129 |         for (od_combined = od_combined_min; od_combined <= od_combined_max; od_combined++) {
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/ingenic/x1600-cgu.c:142:8: note: uninitialized use occurs here
+     142 |         *pn = n;
+         |               ^
+   drivers/clk/ingenic/x1600-cgu.c:129:38: note: remove the condition if it is always true
+     129 |         for (od_combined = od_combined_min; od_combined <= od_combined_max; od_combined++) {
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/ingenic/x1600-cgu.c:115:20: note: initialize the variable 'n' to silence this warning
+     115 |         unsigned long m, n;
+         |                           ^
+         |                            = 0
+   2 warnings generated.
+
+
+vim +129 drivers/clk/ingenic/x1600-cgu.c
+
+   104	
+   105	static void
+   106	x1600_pll_calc_m_n_od(const struct ingenic_cgu_pll_info *pll_info,
+   107			      unsigned long rate, unsigned long parent_rate,
+   108			      unsigned int *pm, unsigned int *pn, unsigned int *pod,
+   109			      unsigned int *pod1)
+   110	{
+   111		const unsigned int od_max = pll_info->od_max - 1;
+   112		const unsigned int od1_max = pll_info->od1_max - 1;
+   113		const unsigned int m_max = GENMASK(pll_info->m_bits - 1, 0);
+   114		const unsigned int n_max = GENMASK(pll_info->n_bits - 1, 0);
+   115		unsigned long m, n;
+   116		unsigned int od = 1, od1 = 1;
+   117		const unsigned long fvco_min = 600000000, fvco_max = 2400000000;
+   118		unsigned long fvco;
+   119	
+   120		/*
+   121		 * Combined output divider range:
+   122		 *
+   123		 * ceil(fvco_min / rate) - fvco_max / rate
+   124		 */
+   125		unsigned int od_combined_min = (fvco_min + rate) / rate;
+   126		unsigned int od_combined_max = fvco_max / rate;
+   127		unsigned int od_combined;
+   128	
+ > 129		for (od_combined = od_combined_min; od_combined <= od_combined_max; od_combined++) {
+   130			od = int_sqrt(od_combined);
+   131			od1 = od_combined / od;
+   132	
+   133			/* od == floor(sqrt(od_combined)); od1 >= od */
+   134			if ((od * od1 == od_combined) && od <= od_max && od1 <= od1_max) {
+   135				fvco = rate * od_combined;
+   136				rational_best_approximation(fvco, parent_rate, m_max, n_max, &m, &n);
+   137				break;
+   138			}
+   139		}
+   140	
+   141		*pm = m;
+   142		*pn = n;
+   143		*pod = od;
+   144		*pod1 = od1;
+   145	}
+   146	
 
 --
 0-DAY CI Kernel Test Service
