@@ -1,77 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793051437;
-	b=mW0XkQGJv+Hk3ca1Y68/7oyqSSarUwh9NoaH8/0+UefXklHbHi9ELzNVCe0OHbLViJ4I
-	 WHNPo2IIsj5sfJN8NG42zkpYcroZMBVV1RhC0S153twCdOogK2QtE0cG+l0bxBsumvnZt
-	 oE+O0wYqGag36KNLSQGE2gGmFiOE1Df6eZBp6UzZh0e1ZNt+qstpnN9tQHmFfTRzqgJGC
-	 LP3i15fDoFTDcoAFJDDM1NiOp5ch7EQxNqDmBTIN9ExwuyY/HCQEwnBSilmQdPkP6qbHy
-	 bKHrRVsSWY2bjz06nmaaqDyumSafE/IS/2zUG7GYre1l8zOYXduNiw54hEQAnVOHqOw==
+	t=1793051755;
+	b=YGdDdgjoG9POkeXnm1BUO3Jswx/DAy8VrUnNq52djr/lPf6+EoNCMhnMlLiI8FBumHcB
+	 bLWxQ4fTCg6sbOjy3ac2RrnyFa/AzYJy0FvXACRY1GdpduI2BkSfAAHK8Vgs24zAYzqZ1
+	 wWIVZfp+FY9p0Rq/Ym5V2AAlgb+AdssavAsb8KKtD0+xZqA0b/FVsTkb6IqurjiyBrHn2
+	 1uxFxRXGS7fhnrd2lZm6cc4fuMrEheNwCRGiawzSbdj6zsma/12IpjBj+jhe/wVM41WOt
+	 oFRF+Ou8GdnRmVVR3h3MVq9+Nzgo1zQDhF0ixEGvKmeMToFqsI3lRiVRu3sCAqudajw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793051437;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=+addTj74tfBP8ZQZ4109DB0wBAURMk2wu4zfm1aE3DM=;
-	b=LsrHAWJZ3o33oApne9/OBOtkN+TVwhSFOvv1pmYdf28Hr7SRP2Q0KE7s5Otqj/zV+kca
-	 zhyqG61G7KPpQLYcSRuN8zKtro5YuLOXpiCV6HKwvYpQTuMMSUivnDX3sbLzp+x0i32jQ
-	 x1+fXuOj0nfNzKucDV3iWXQYGiGLNwY3aMbSeSgvsgzXhpTfyEhjJOVyyordIGRVFPGjy
-	 SFPGV/LgTlQ8FZr9Tuzmn8Mbk7PWqqZovbU0d9QRURc49txE7GptCA8qocAf0MUSpaGET
-	 wbBOV5kT0dDX9ipLJpQ4hUhAxShlNYdCxk/B+u5j9zJJepJFoDfNm6tHvDH2rf+8ClA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793051755;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=EhGcnjUkFtHrBzTYh2OSeEzvO4o7DxmKsvaxyBcAlmM=;
+	b=uISuY9mgYZ8/X4kTl+lTiZIkIPY5lRltZBDDYN9iS0In4u3aNj9Sr9auLazSoGeQbeSs
+	 rE6Gg+5XiWMaocYJ5vhRLZKqJuW9QC2Df+UmB5LhgCJOvgQNHng3rFE0Pde3UUSBFxbOE
+	 BR9VbMBvZJLcqB/2yPw0WpnwQHOeWvyKh9ln51c1ExgAKszQXsE21yY3+mpZ8eTkrr/mx
+	 pOBXuOxfJk8AYsoQQp5TqKAT8OqSav2yPv9R+1k8HXS8sHhWTdr3mbg/JUO3zYsF6pxVK
+	 Fs+zZRdBLCCQboz4ziLdPkdDCRqXgJQDBqv6Yy1h4ToMYwzWyHBbvb7g3Rp9CZ2I6jw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WD5b8paV;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l8AIqsWH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E4F606A31A;
-	Mon, 26 Oct 2026 21:50:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 56E4F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAE8606A31B;
+	Mon, 26 Oct 2026 21:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WD5b8paV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793051437; x=1824587437;
-  h=date:from:to:cc:subject:message-id;
-  bh=uQ0Eb8ogczpbBY8AhuHuuD0YhzbXF/HDRgKfmZa72Nk=;
-  b=WD5b8paVzN22JRAyJvIe0whT2qQvNZ+oaxrrn4c1+MKx8BZLmNYDmuwR
-   U8iqXG+ZYqKrss/j0OLEtFO5QNKoG0D2xD5EnJCx3rr7AcCoqQ28GNAQi
-   trlmriXr5rZc+PitiEaqS9ric3y47pfIi3rUDjIkD+P/T8OZr4+JeUjzb
-   JzkjtnZdQKACTJErVldzsPKxrMAlaWp7yjOPaEo6qN79lB0hLBSSbIO4c
-   PHnzohhHaFymP2NFwPnh+A9Qw5StorSq4HHl24gFHEZ1Zg771JDK2ivu3
-   0Z4PW/wrCkd9NTd1gm1JmLGxLuVPCK9NDhxHXVs/HOls3LJSxa+++pPUm
-   A==;
-X-CSE-ConnectionGUID: 5JVLRoh+Q4ughOfyXlemQQ==
-X-CSE-MsgGUID: Q+ngyFUiRbqmKr/XwD5CNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1646299"
-X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1646299"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 14:50:36 -0700
-X-CSE-ConnectionGUID: Q28RyjUgR3Ksl7CgSbupZQ==
-X-CSE-MsgGUID: YxBIo9GnSqGuP5MzDxdR8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="4455545"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2026 14:50:34 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xLSaO-000000004Ed-0IBz;
-	Mon, 26 Oct 2026 21:50:32 +0000
-Date: Mon, 26 Oct 2026 22:49:45 +0100
-From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [chao:bugfix/misc 3/7] include/trace/events/f2fs.h:2738:19:
- error: call to undeclared function 'get_pages'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202610262238.mtklrqr0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l8AIqsWH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C971F01825;
+	Mon, 26 Oct 2026 21:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793051755;
+	bh=EhGcnjUkFtHrBzTYh2OSeEzvO4o7DxmKsvaxyBcAlmM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l8AIqsWHD6Eek/lVL5PX3vbyVuzj0D/I7YVo9HTfIM/gie0y8YEuOq3n8oKCNjx8q
+	 Zat0kz50JUM74onR0VO8BtctuCnn1CP+vorJRPVHouZPp+heTK6g6IZZLSKm+OzHn/
+	 E1HdJZxqcD+gHtdGaFaAwih8F/srTIRYO3TOS/nal8E+pUJMEIfBAqnjice3qJdmlN
+	 bjYSk3Yb/s3LOhTPqzM5cDrIyzOJfKG4Aqs6BxBXpRM5ChgtDIMrVpwFJ+PnoXEXbY
+	 IHZAMEfqnvq780qQ2vhKZJjIBNhZpb3DvkfHMVcXdCvafFi6CJnKNWEpCfmWfVfAUU
+	 SgKcdJGQ0zs1Q==
+Date: Mon, 26 Oct 2026 14:55:51 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Jason A. Donenfeld" <zx2c4@kernel.org>
+Subject: Re: error[E0080]: evaluation panicked: assertion failed:
+ size_of::<isize>() == size_of::<isize_atomic_repr>()
+Message-ID: <20261026215551.GD1330439@ax162>
+References: <202610261307.vnC1uCAL-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,88 +56,102 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610261307.vnC1uCAL-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/misc
-head:   df1ed8c6e6ade66abf786248b520f59b8a62e8e5
-commit: f73f52daa2c47803a5139f277cae951aea207015 [3/7] f2fs: introduce trace_f2fs_enable_checkpoint()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20261026/202610262238.mtklrqr0-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610262238.mtklrqr0-lkp@intel.com/reproduce)
+On Mon, Oct 26, 2026 at 01:51:14PM +0100, kernel test robot wrote:
+> Hi Nathan,
+> 
+> FYI, the error/warning still remains.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610262238.mtklrqr0-lkp@intel.com/
+I think the result of this bisection is wrong. When building at the
+parent change (703749b069d5) with this toolchain, there is the error
+that this change (eb13a1ff271b) resolves:
 
-All errors (new ones prefixed by >>):
+  ld.lld: error: undefined symbol: memset
+  >>> referenced by getrandom.c:87 (lib/vdso/getrandom.c:87)
+  >>>               arch/loongarch/vdso/vgetrandom.o:(__vdso_getrandom)
+  make[4]: *** [arch/loongarch/vdso/Makefile:83: arch/loongarch/vdso/vdso.so.dbg] Error 1
 
-   In file included from fs/f2fs/super.c:42:
-   In file included from include/trace/events/f2fs.h:2761:
-   In file included from include/trace/define_trace.h:132:
-   In file included from include/trace/trace_events.h:489:
->> include/trace/events/f2fs.h:2738:19: error: call to undeclared function 'get_pages'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2738 |                 __entry->meta   = get_pages(sbi, F2FS_DIRTY_META);
-         |                                   ^
-   include/trace/events/f2fs.h:2738:19: note: did you mean 'get_page'?
-   include/linux/mm.h:2125:20: note: 'get_page' declared here
-    2125 | static inline void get_page(struct page *page)
-         |                    ^
-   In file included from fs/f2fs/super.c:42:
-   In file included from include/trace/events/f2fs.h:2761:
-   In file included from include/trace/define_trace.h:133:
-   In file included from include/trace/perf.h:110:
->> include/trace/events/f2fs.h:2738:19: error: call to undeclared function 'get_pages'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2738 |                 __entry->meta   = get_pages(sbi, F2FS_DIRTY_META);
-         |                                   ^
-   2 errors generated.
+If I use LLVM 23.1.4 + rust 1.99.1 to build at the parent change, I can
+get the same error reported, so I don't think my change is responsible
+for it.
 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   6b4b543fa18757297ac756a6fe6e64f506b7844a
+> commit: eb13a1ff271b0d180687eebb30611b0b276d5193 random: vDSO: avoid call to memset() when zeroing reserved parameter
+> date:   3 weeks ago
+> config: loongarch-randconfig-r2103-20261026 (https://download.01.org/0day-ci/archive/20261026/202610261307.vnC1uCAL-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
+> rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610261307.vnC1uCAL-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: eb13a1ff271b ("random: vDSO: avoid call to memset() when zeroing reserved parameter")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202610261307.vnC1uCAL-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> error[E0080]: evaluation panicked: assertion failed: size_of::<isize>() == size_of::<isize_atomic_repr>()
+>    --> rust/kernel/build_assert.rs:112:23
+>    |
+>    112 |         const _: () = ::core::assert!($condition $(,$arg)?);
+>    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
+>    |
+>    ::: rust/kernel/sync/atomic/predefine.rs:98:1
+>    |
+>    98 | static_assert!(size_of::<isize>() == size_of::<isize_atomic_repr>());
+>    | -------------------------------------------------------------------- in this macro invocation
+>    |
+>    = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
+> --
+> >> error[E0080]: evaluation panicked: assertion failed: align_of::<isize>() == align_of::<isize_atomic_repr>()
+>    --> rust/kernel/build_assert.rs:112:23
+>    |
+>    112 |         const _: () = ::core::assert!($condition $(,$arg)?);
+>    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
+>    |
+>    ::: rust/kernel/sync/atomic/predefine.rs:99:1
+>    |
+>    99 | static_assert!(align_of::<isize>() == align_of::<isize_atomic_repr>());
+>    | ---------------------------------------------------------------------- in this macro invocation
+>    |
+>    = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
+> --
+> >> error[E0080]: evaluation panicked: assertion failed: size_of::<usize>() == size_of::<isize_atomic_repr>()
+>    --> rust/kernel/build_assert.rs:112:23
+>    |
+>    112 |         const _: () = ::core::assert!($condition $(,$arg)?);
+>    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
+>    |
+>    ::: rust/kernel/sync/atomic/predefine.rs:100:1
+>    |
+>    100 | static_assert!(size_of::<usize>() == size_of::<isize_atomic_repr>());
+>    | -------------------------------------------------------------------- in this macro invocation
+>    |
+>    = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
+> --
+> >> error[E0080]: evaluation panicked: assertion failed: align_of::<usize>() == align_of::<isize_atomic_repr>()
+>    --> rust/kernel/build_assert.rs:112:23
+>    |
+>    112 |         const _: () = ::core::assert!($condition $(,$arg)?);
+>    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
+>    |
+>    ::: rust/kernel/sync/atomic/predefine.rs:101:1
+>    |
+>    101 | static_assert!(align_of::<usize>() == align_of::<isize_atomic_repr>());
+>    | ---------------------------------------------------------------------- in this macro invocation
+>    |
+>    = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-vim +/get_pages +2738 include/trace/events/f2fs.h
-
-  2719	
-  2720		TP_PROTO(struct f2fs_sb_info *sbi, u16 phase),
-  2721	
-  2722		TP_ARGS(sbi, phase),
-  2723	
-  2724		TP_STRUCT__entry(
-  2725			__field(dev_t, dev)
-  2726			__field(u16, phase)
-  2727			__field(long long, meta)
-  2728			__field(long long, imeta)
-  2729			__field(long long, nodes)
-  2730			__field(long long, data)
-  2731			__field(long long, dents)
-  2732			__field(long long, qdata)
-  2733		),
-  2734	
-  2735		TP_fast_assign(
-  2736			__entry->dev	= sbi->sb->s_dev;
-  2737			__entry->phase	= phase;
-> 2738			__entry->meta	= get_pages(sbi, F2FS_DIRTY_META);
-  2739			__entry->imeta	= get_pages(sbi, F2FS_DIRTY_IMETA);
-  2740			__entry->nodes	= get_pages(sbi, F2FS_DIRTY_NODES);
-  2741			__entry->data	= get_pages(sbi, F2FS_DIRTY_DATA);
-  2742			__entry->dents	= get_pages(sbi, F2FS_DIRTY_DENTS);
-  2743			__entry->qdata	= get_pages(sbi, F2FS_DIRTY_QDATA);
-  2744		),
-  2745	
-  2746		TP_printk("dev = (%d,%d), phase: %s, meta: %lld, imeta: %lld, "
-  2747			"nodes: %lld, data: %lld, dents: %lld, qdata: %lld",
-  2748			show_dev(__entry->dev),
-  2749			show_enable_cp_phase(__entry->phase),
-  2750			__entry->meta,
-  2751			__entry->imeta,
-  2752			__entry->nodes,
-  2753			__entry->data,
-  2754			__entry->dents,
-  2755			__entry->qdata)
-  2756	);
-  2757	
-  2758	#endif /* _TRACE_F2FS_H */
-  2759	
-  2760	 /* This part must be outside protection */
-> 2761	#include <trace/define_trace.h>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Cheers,
+Nathan
