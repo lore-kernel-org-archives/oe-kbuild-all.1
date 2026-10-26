@@ -1,79 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792973462;
-	b=lRHuwcEPuRI7wCsQGUUvA8sDAKslubqpyPL0Alr1hrMlmM/oqIbvyF0AWWjc/bwf3hCL
-	 ycTybLxI01V8fcnQlDuHS0XaSJjI2OzQkiTpxpsK5H5e1w0W8zSuU+qtnN+Jw7MIUaY6+
-	 PsQHR8t7JvrjPco29bZio2BaFnOSCniKHnPW/W9Xui8LQYmI38m+KbrduONHzG/3PcMbe
-	 ocja91v6SaGOsK2b0JTt6Z1y2t8HZI6LuvQgu+YeE6uNTD+hx4fnj3sbKBTqT5GH7Daup
-	 Nbe1+J+iBLzNUilcRKb68ksl+jCZBAIQD99uQfdNBBuJPfrbekRyliOVHkpDixNBNng==
+	t=1792974117;
+	b=PrDHzJzsXcvmBYL7GqvVWZPKxoBZFyH+yJaZW7Em0RGruJeUOGlAWRAVnVPpw+/2pgAQ
+	 B1r+nrrKAHn1SpEP8qzPj38YtD6qLI5XqXQO+gSvcCEyeBh4ycWwb6MKlYBgAtZQMvx/Q
+	 PvpzbNBOuve3u7czE8AmHMc/68Du+An2nnyxZ37ztJjRRWRH4h3pzi99nSA44VmBrw8up
+	 3lmtVWDT7cUm22Y5LHEmy7GlO7h5xNjqqD/4EnSDZSJ9MScqKVmtXESpsix9enG7gaZpO
+	 c/E37lcT1gKrnZywnTrdYFR/CDPoBT2ZFqilq2Bp6phJ1OQZS4/w//6/aLm1Q3C983w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792973462;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792974117;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ozbBcQyIdBGbmL2rBz3QxXwVSHoqODmdETa/KRMvXpQ=;
-	b=Rb8Nm/a86jKT9kelo8t2ukhLG816NS16OkyFDwZrdhtmxrsAYjSLoLSRbgGBGxE06j0N
-	 uAPuWVIdWGultzcGehK27hWq68Ds6kywrIdFqwBthYKRo8t6UfAecr1GdahzxtIurAiMt
-	 Ngk6QuTpGfL2YizyCULnPQmOxFoRUfC8JuQ2e1+Jk2e9qAEm76Fh/ZfytX8Xu2V/P3Ysn
-	 GeZhZONWvBsAt06ctjfxZNiJHCfbEbtfAt1cXEfJgzl0W+hfsWDloKjfW73abdeKHNCrE
-	 q/LixDgQTv/+3hnXE2pNHrPh3zkbrgEuiOmk/2WipEtydY455KxIGErgM9KfcRajgWg==
+	bh=MpzxMDOhyIUgVJMpYHSEsMC5Onbvvs/JspUzsUGCsy8=;
+	b=MvNhdiw+iVP7h7m9pzBI7UNlSYJF2/bXsYNIrmEIufctaJ11GBVB6KcS6KEFMVpSS8UC
+	 MZaGb24BZfcera8UF4qvcoqHukEgiJ3yZHK+IVpofqKrvK06BZ8iWjoqgMimSCAIeoDBm
+	 rDNyWbxfMKckzwVMrZgoETv6kvVNinSy7rnygYr8ZpI3aPK0Gkro6qBmwp4H4o20rIg7q
+	 dDsOX1a8sfeFUHYMJzUILWrthXt4Ke3Qkczf8B+h7EPLBr90cdhUcpCykYwEr2SZSQPiL
+	 xFSqtxKKEaFVarQF0cGexzdJhzPcmo7AjsTPjZ9TF2as/LJpNot8ZKBp91OlZ8N5p5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GHUTGNO5;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LjptMoVA;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A12606A320
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 00:10:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93A12606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEDF5606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 00:21:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEDF5606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GHUTGNO5
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LjptMoVA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792973460; x=1824509460;
+  t=1792974117; x=1824510117;
   h=date:from:to:cc:subject:message-id;
-  bh=tQYdNn0baDVGeuZDQKD8od1jKrgMegkfoQHibbw3tmk=;
-  b=GHUTGNO5kKvaMkOelXBuPg7SniMpW9dl/E7UE6bbJ66/jE8Re9yf0bqp
-   +VE/CR1wNV51p4iB+abYdrp19p5SJ9TIjC5eSOznfd38BotlZhSo01lEj
-   kDUdHkHXiJ7x46rArAQVdcqqXBg5Cdgn6g4x/AENnbdqbCDLxMNXM/1Ss
-   IBsDGaMiOfhLeXzBQ85YgB5tA3AmzOiQaSEyZl2R+Yi+xHHf4qWoVW9wJ
-   Uz4VN9qOGYfPtjGbttO2DlajTjJQ99ywDiQOCOkkgYH3yNRVkWqEznpgq
-   I7Fk0GosNIJ1Yh3h3Mpv+prEzAJgcol0m1AnFVs//B6wvGeEk+y/IpPmS
-   w==;
-X-CSE-ConnectionGUID: 750CUjK/S2u8jfdE6veDpQ==
-X-CSE-MsgGUID: 43TCIuIVQIqCR22Irz9e2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1519610"
+  bh=AVo5WPhbgyVdzbQXx9qGWr/1wNmQRaWUmQ3jy3eogPA=;
+  b=LjptMoVAPfHl+HHQApEJ8pw8DEK75sPfL6jlN6Mgc6kNZw3cYROtr/+b
+   oBLosfyeZvbR6MoZlh1p0vu17Ts1A0bhx4+/CXl4DUYD7ceXuMKg3p9lY
+   RxDJohNEwQZnAMJ8gaQFy5jJ6a6IYTiaZZ4htZ7qaeNuPXBdm3oLZV6aa
+   NA2VPna9JvngLW5QTNjgysxTOx73QMr+gI8a2B7DJDUm9w+ZrfvpjvUZj
+   la2r7Rsa/QON6JpAigO+M1CZb/G/dp+rcNyu9asoS+Ix62OcYn80Msyf0
+   2MDL4Odb3tlDK6mjPbtlOq7aOd5CKOz2l+uGHCFgtUW23uz4sV7wSpGxW
+   A==;
+X-CSE-ConnectionGUID: 5zril4isQKOnFXqI3imtcw==
+X-CSE-MsgGUID: icbMRXpBTPmZ6HU7MoHuow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1530394"
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1519610"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 17:11:00 -0700
-X-CSE-ConnectionGUID: 96aextt0T9K3jvHGdcXmzQ==
-X-CSE-MsgGUID: mupkf1YgSiSGN3UoPyPcDA==
+   d="scan'208";a="1530394"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 17:21:56 -0700
+X-CSE-ConnectionGUID: /cyGstz6Qz+0n2wsLQX3ag==
+X-CSE-MsgGUID: vJBhN5GUQAWTIHwjDvzy5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="5954394"
+   d="scan'208";a="4501885"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 25 Oct 2026 17:10:52 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 25 Oct 2026 17:21:54 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xL8Ic-000000003tL-2wdP;
-	Mon, 26 Oct 2026 00:10:50 +0000
-Date: Mon, 26 Oct 2026 01:10:20 +0100
+	id 1xL8TI-000000003tr-0iKa;
+	Mon, 26 Oct 2026 00:21:52 +0000
+Date: Mon, 26 Oct 2026 01:20:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev,
  Christian Brauner <christianvanbrauner@gmail.com>,
  Christian Brauner <brauner@kernel.org>,
  Paulo Alcantara <pc@manguebit.org>
-Subject: [brauner-vfs:vfs-7.4.netfs.2 3/11] fs/netfs/bvecq.c:79:20:
- error: assignment to 'struct bvecq *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202610260138.cMdqeLvj-lkp@intel.com>
+Subject: [brauner-vfs:vfs-7.4.netfs.2 3/11] fs/netfs/bvecq.c:79:22:
+ error: implicit declaration of function 'mempool_alloc'; did you mean
+ 'mm_alloc'?
+Message-ID: <202610260142.OtiiGQeS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,29 +87,32 @@ Precedence: list
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.4.netfs.2
 head:   0c7a920f6b8c5cdd7e5c86f5d9ac1195295ff53f
 commit: 96adfb795d392d2bf40db295c6796052ec73bce9 [3/11] netfs: Add some tools for managing bvecq chains
-config: sh-randconfig-2000-20261025 (https://download.01.org/0day-ci/archive/20261026/202610260138.cMdqeLvj-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260138.cMdqeLvj-lkp@intel.com/reproduce)
+config: sh-randconfig-r2107-20261025 (https://download.01.org/0day-ci/archive/20261026/202610260142.OtiiGQeS-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260142.OtiiGQeS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610260138.cMdqeLvj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610260142.OtiiGQeS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    fs/netfs/bvecq.c: In function 'bvecq_alloc_one':
-   fs/netfs/bvecq.c:79:22: error: implicit declaration of function 'mempool_alloc'; did you mean 'mm_alloc'? [-Wimplicit-function-declaration]
+>> fs/netfs/bvecq.c:79:22: error: implicit declaration of function 'mempool_alloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
       79 |                 bq = mempool_alloc(&netfs_bvecq_pool, gfp);
          |                      ^~~~~~~~~~~~~
          |                      mm_alloc
->> fs/netfs/bvecq.c:79:20: error: assignment to 'struct bvecq *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   fs/netfs/bvecq.c:79:20: warning: assignment to 'struct bvecq *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
       79 |                 bq = mempool_alloc(&netfs_bvecq_pool, gfp);
          |                    ^
    fs/netfs/bvecq.c: In function 'bvecq_put':
-   fs/netfs/bvecq.c:275:25: error: implicit declaration of function 'mempool_free' [-Wimplicit-function-declaration]
+>> fs/netfs/bvecq.c:275:25: error: implicit declaration of function 'mempool_free' [-Werror=implicit-function-declaration]
      275 |                         mempool_free(bq, &netfs_bvecq_pool);
          |                         ^~~~~~~~~~~~
+   Assembler messages:
+   {standard input}:286: Error: offset to unaligned destination
+   cc1: some warnings being treated as errors
 
 
 vim +79 fs/netfs/bvecq.c
@@ -179,6 +182,185 @@ vim +79 fs/netfs/bvecq.c
    100	}
    101	EXPORT_SYMBOL(bvecq_alloc_one);
    102	
+   103	/**
+   104	 * bvecq_alloc_chain - Allocate an unpopulated bvecq chain
+   105	 * @nr_slots: Number of slots to allocate
+   106	 * @gfp: The allocation constraints.
+   107	 * @for_writeback: True if allocating for writeback
+   108	 *
+   109	 * Allocate a chain of bvecq nodes providing at least the requested cumulative
+   110	 * number of slots.  Each node is a maximum of 4KiB in size.
+   111	 *
+   112	 * Return: The first node pointer or NULL on allocation failure.
+   113	 */
+   114	struct bvecq *bvecq_alloc_chain(size_t nr_slots, gfp_t gfp, bool for_writeback)
+   115	{
+   116		struct bvecq *head = NULL, *tail = NULL;
+   117	
+   118		_enter("%zu", nr_slots);
+   119	
+   120		for (;;) {
+   121			struct bvecq *bq;
+   122	
+   123			bq = bvecq_alloc_one(min(nr_slots, BVECQ_4KB_SLOTS), gfp, for_writeback);
+   124			if (!bq)
+   125				goto oom;
+   126	
+   127			if (tail)
+   128				bvecq_append(tail, bq);
+   129			else
+   130				head = bq;
+   131			tail = bq;
+   132			if (tail->max_slots >= nr_slots)
+   133				break;
+   134			nr_slots -= tail->max_slots;
+   135		}
+   136	
+   137		return head;
+   138	oom:
+   139		bvecq_put(head);
+   140		return NULL;
+   141	}
+   142	EXPORT_SYMBOL(bvecq_alloc_chain);
+   143	
+   144	/**
+   145	 * bvecq_alloc_buffer2 - Allocate a bvecq chain and populate with buffers
+   146	 * @size: Target size of the buffer (can be 0 for an empty buffer)
+   147	 * @pre_slots: Number of preamble slots to set aside
+   148	 * @gfp: The allocation constraints.
+   149	 * @for_writeback: True if allocating for writeback
+   150	 *
+   151	 * Allocate a chain of bvecq nodes and populate the slots with sufficient pages
+   152	 * to provide at least the requested amount of space, leaving the first
+   153	 * @pre_slots slots unset.  The pre-slots must all fit into the the first
+   154	 * bvecq.
+   155	 *
+   156	 * The pages allocated may be compound pages larger than PAGE_SIZE and thus
+   157	 * occupy fewer slots.  The pages have their refcounts set to 1 and can be
+   158	 * passed to MSG_SPLICE_PAGES.
+   159	 *
+   160	 * Return: The first node pointer or NULL on allocation failure.
+   161	 */
+   162	struct bvecq *bvecq_alloc_buffer2(size_t size, unsigned int pre_slots, gfp_t gfp,
+   163					  bool for_writeback)
+   164	{
+   165		struct bvecq *head = NULL, *p = NULL;
+   166		size_t nr_per_bq = BVECQ_POOL_SLOTS;
+   167		size_t count = pre_slots + DIV_ROUND_UP(size, PAGE_SIZE);
+   168	
+   169		_enter("%zx,%zx,%u", size, count, pre_slots);
+   170	
+   171		if (WARN_ON_ONCE(pre_slots > nr_per_bq))
+   172			return NULL;
+   173	
+   174		head = bvecq_alloc_chain(count, gfp, for_writeback);
+   175		if (!head)
+   176			return NULL;
+   177	
+   178		p = head;
+   179		do {
+   180			struct page **pages;
+   181			size_t unused, want, got, slot;
+   182	
+   183			if (!count)
+   184				break;
+   185			if (WARN_ON_ONCE(!p))
+   186				goto oom;
+   187	
+   188			if (p->nr_slots == 0) {
+   189				/* Need to clear pre slots and pages[], so just clear all. */
+   190				memset(p->bv, 0, p->max_slots * sizeof(p->bv[0]));
+   191				p->mem_type = BVECQ_MEM_ALLOCED;
+   192				p->nr_slots = pre_slots;
+   193				count -= pre_slots;
+   194				pre_slots = 0;
+   195				if (!count)
+   196					break;
+   197			}
+   198	
+   199			if (p->nr_slots >= p->max_slots) {
+   200				p = p->next;
+   201				continue;
+   202			}
+   203			unused = p->max_slots - p->nr_slots;
+   204	
+   205			pages = (struct page **)&p->bv[p->max_slots];
+   206			pages -= unused;
+   207	
+   208			want = min(count, unused);
+   209			got = alloc_pages_bulk(gfp, want, pages);
+   210			if (!got)
+   211				goto oom;
+   212	
+   213			slot = p->nr_slots;
+   214			for (int i = 0; i < got; i++)
+   215				bvec_set_page(&p->bv[slot++], pages[i], PAGE_SIZE, 0);
+   216	
+   217			bvecq_filled_to(p, slot);
+   218			count -= got;
+   219		} while (count > 0);
+   220	
+   221		return head;
+   222	oom:
+   223		bvecq_put(head);
+   224		return NULL;
+   225	}
+   226	EXPORT_SYMBOL(bvecq_alloc_buffer2);
+   227	
+   228	/*
+   229	 * Free the page pointed to by a slot as necessary.
+   230	 */
+   231	static void bvecq_free_slot(struct bvecq *bq, unsigned int slot)
+   232	{
+   233		struct page *page = bq->bv[slot].bv_page;
+   234	
+   235		if (!page)
+   236			return;
+   237	
+   238		switch (bq->mem_type) {
+   239		case BVECQ_MEM_EXTERNAL:
+   240			break;
+   241		case BVECQ_MEM_PAGECACHE:
+   242			put_page(page);
+   243			break;
+   244		case BVECQ_MEM_GUP:
+   245			unpin_user_page(page);
+   246			break;
+   247		case BVECQ_MEM_ALLOCED:
+   248			__free_pages(page, compound_order(page));
+   249			break;
+   250		default:
+   251			WARN_ON_ONCE(1);
+   252			break;
+   253		}
+   254	}
+   255	
+   256	/**
+   257	 * bvecq_put - Put a ref on a bvec queue
+   258	 * @bq: The start of the folio queue to free
+   259	 *
+   260	 * Put the ref(s) on the nodes in a bvec queue, freeing up the node and the
+   261	 * page fragments it points to as the refcounts become zero.
+   262	 */
+   263	void bvecq_put(struct bvecq *bq)
+   264	{
+   265		struct bvecq *next;
+   266	
+   267		for (; bq; bq = next) {
+   268			if (!refcount_dec_and_test(&bq->ref))
+   269				break;
+   270			for (int slot = 0; slot < bq->nr_slots; slot++)
+   271				bvecq_free_slot(bq, slot);
+   272			next = bq->next;
+   273			netfs_stat_d(&netfs_n_bvecq);
+   274			if (bq->from_pool)
+ > 275				mempool_free(bq, &netfs_bvecq_pool);
+   276			else
+   277				kfree(bq);
+   278		}
+   279	}
+   280	EXPORT_SYMBOL(bvecq_put);
+   281	
 
 --
 0-DAY CI Kernel Test Service
