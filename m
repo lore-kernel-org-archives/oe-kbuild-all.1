@@ -1,79 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793019080;
-	b=qm+TrgI8S+1cwzNtA9MMpR/+bdHta0fhty/nRqvoezom5sfglFHAUrwE88T8uNDuYE25
-	 GEROuO3pvrPgPDncmbjKswW9AQxFcFRrMEHKjkKOHwM7nVr7V9QUhJpz1I55u2Op+QUby
-	 3cBa9xCdCIcmWoFyiuq4Qqb7RulNXSJ3OucGbftqxT5pDrNUFj2x96E4Zchz/hS5IVe71
-	 F2tkHVj6+dDWM3r419Cv1auGnsqYl6r6HzkIK7TEVVDwO3vZTAhpsVY8FuF4rD3wP/9It
-	 Y6N4+SMogvtzvRR0SjlA2iCHSbiVOeaICkx3zAeaTFgc6vvQ1ZhCf18dYr8dkco2k5A==
+	t=1793019082;
+	b=gCm1r8O+2/ckln4DzAMMjA3fGGyfKX8H4/tlmGcIO5TzK7c+Nw+qbjKJvfeZDhF8YZbe
+	 ZB/xs7IFfwrNgHhmteVQze6c0lM57X3YpAGjzWUitV2/hxvKgD0xZNLNHmwHVLmumGWq6
+	 jOAjU3Zk+J1l4wuzaNBbRIWqoNkGfJmc1hIy9JJDjV43RuAAd+/P8iFnt194jrR0T5MuI
+	 s7jDBIEW31LMD9vv8Ks3AOmVTZS3I53tX2vOZcXy5CbkcD9yRmnCV9xRBePfvMPVSr9Qa
+	 LycQuSab44CBvojbb/S41P6BkuaCnOMJRO0IyyoneUhS6y+7iVA94jhs1X8FFPvjqsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793019080;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793019082;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=lMwn+4oIVnsstSCbfq8MK68QF37dEg/bjP544vEx8bw=;
-	b=eHen7FaedZnWclKLMzvtCSDT0DzH5OdDXGzF7x7qDm7NXomxV/yHeSq2PfIYBXgXENmp
-	 YshdnMbgukPeq3OVvLV1/og9rgM+MLFg7DqBYmyWfyItI/c/zO41JUcgHVgsw4uJtq47d
-	 0RTPvz+Hke5UH0vhYtedbZnBukMb6HU7Gd/GX9v/QPCB9r2BKLnIVtAkaddBdDYBGTO04
-	 3fUxxFahU9K+nafSYW5V9xT/+z6Ilg9+o3aXelZunlYMmzKksNH4kE3iLAlIVf3+l4G01
-	 a1X3pBa5UxBg6nt6qvbl+J5C062SPs6x8r/CyjOiwlP80o0jKCxcH4Q69DBVoLvotvw==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=F8szgZKbup36rnTjzztsF3nyDIrjVIlZaiGjJwJeU/U=;
+	b=Euwxnr0HaCr3Dle8vtnyhHf9y7HHZGo4RaJjO9MdyLJxyTJMMUo6wtI7fzeiVWwRK9va
+	 eOW3zh3joQwgta2guskQS/a7f7ltwa/F1TxBrE+CU1PcoeFA317ztXqc7scs7cG6YtXKY
+	 mcasrHjJgxZxNEWfYXN4Ss4S+4Qg70e9FJPv2FxwqvRiUMCroQXAmI86QCO5A0AtpZHKd
+	 juRegjZsQ3Mllpzs7Jf2hHXBYVSX+sOeLkJNZP8DIcDaRYNsTddmppV8G9Hwxh/bvmVrH
+	 cbO8ePSpK3ee+KOChtXd5HOxPL6MkXPt4SNXrIw33sYiQTtCPLCDa/pD8MtB9YWb5pQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KdDwZtwa;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WzIebW9M;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F9E606A322
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 12:51:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78F9E606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0740F606A31B;
+	Mon, 26 Oct 2026 12:51:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0740F606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KdDwZtwa
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WzIebW9M
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793019079; x=1824555079;
+  t=1793019081; x=1824555081;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ov/Z1+WmlvQ5EUqwjTPj/XboqzU4ywFSwt7x4HPKUXs=;
-  b=KdDwZtwacW9lPLETUzxgzIpm+A4bL0MUbMDXpF0odupClEIipnKyYrbh
-   zIMvBkw8HrWrZHQd7DJT0j7lWAzRVlT2Q3XMA31mtMORv8I5yrAiP64DE
-   A2pvFSQ1QJwAXmzKS+C0zriWRHK2FhhFR6bOGfBxgRtgu1bN2Y4f3Vp7E
-   /hm65Zh27FAsLgykKxOIG7QLQ7dBpDxk5bzY+LZbO8zwsrbMQ6d03ShKL
-   oxCr1nGT6tFQfFhVz5hFl12GGoh0B+//IfpZOh0oDbclu7PsehAuNuBRu
-   AfSA798BkixWPgcGYDmdQqIgvohLPNikD5kzddHXUnBvsJMeHVPEMMd1I
-   w==;
-X-CSE-ConnectionGUID: KQmU/ddCS+WRs4d+0FKRWg==
-X-CSE-MsgGUID: p6EowaZBTnSlY+x4R/KN1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1580215"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=pFxTYZtPPSR39b79kBl6/XP9+bGJX6+0ouOVT2RXIAw=;
+  b=WzIebW9MxCG4J+E5XdGF6l85+R1H2D9u+T7gEyo6rAjdb7EsHt0H37wf
+   M3fR1BFRydRHHm2FLYNNQeDqD+TTgDx57ukV91TUTfjJl6qK3M6+QHIGc
+   W1AezsCREu+qmamnRTjSp8O/DusiqOuTutQkWAj4cr5KpRR5OMEXgqHkK
+   eW4bmrZ12SlU7ZN/bh1TrniNZKllqAerQbF2e4n2siaxan4ybZYjLRfJP
+   /vy1kNMXmCO6WUFJefQPKzETR4FZ77xhMvaAF1hALp/RM5eXicw2BtpDk
+   OwXoyLyjZvyFPWYwHd6QCgdF0QpnnDYMBiHs9gWtnidBbLj5UrjIzjnRG
+   Q==;
+X-CSE-ConnectionGUID: dD7fzNCoQCezH94AaBbJwQ==
+X-CSE-MsgGUID: 7B9W8HyxSsKI3a7eKZv/JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1697214"
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1580215"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:51:18 -0700
-X-CSE-ConnectionGUID: otJytBP+RsS61yzVfDMkjQ==
-X-CSE-MsgGUID: DhD2CGvfRxGXL9bEq03kAA==
+   d="scan'208";a="1697214"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:51:20 -0700
+X-CSE-ConnectionGUID: pKJqMod6Txq9jUGATxrGaA==
+X-CSE-MsgGUID: UDRXdixbRPOZRpsaO+UvLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="6083943"
+   d="scan'208";a="4653784"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 05:51:17 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2026 05:51:17 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLKAT-00000000Vvu-3EaZ;
+	id 1xLKAT-00000000Vvq-2mhi;
 	Mon, 26 Oct 2026 12:51:13 +0000
-Date: Mon, 26 Oct 2026 20:51:11 +0800
+Date: Mon, 26 Oct 2026 20:51:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
-	eddyz87@gmail.com, memxor@gmail.com
-Subject: Re: [PATCH bpf 51/81] bpf: Check stack and count calls of recursive
- subprogs at run time
-Message-ID: <202610262057.WlLdhg8d-lkp@intel.com>
-References: <20261026025943.404450-52-alexei.starovoitov@gmail.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Paul Burton <paulburton@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+	letux-kernel@openphoenux.org, kernel@pyra-handheld.com,
+	"H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH 3/6] MIPS: Ingenic: Add cpu-probe setup for XBurst and
+ XBurst II R2
+Message-ID: <202610262006.fTqK3Ge7-lkp@intel.com>
+References: <1658997f198411f20bc5a489e9488800e4597e19.1792956055.git.hns@goldelico.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -83,247 +89,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261026025943.404450-52-alexei.starovoitov@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1658997f198411f20bc5a489e9488800e4597e19.1792956055.git.hns@goldelico.com>
 
-Hi Alexei,
+Hi Nikolaus,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf/master]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.3 next-20261023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/selftests-bpf-Remove-tests-for-global-data-in-arena/20261026-025822
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20261026025943.404450-52-alexei.starovoitov%40gmail.com
-patch subject: [PATCH bpf 51/81] bpf: Check stack and count calls of recursive subprogs at run time
-config: powerpc-randconfig-1000-20261026 (https://download.01.org/0day-ci/archive/20261026/202610262057.WlLdhg8d-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610262057.WlLdhg8d-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/H-Nikolaus-Schaller/MIPS-Ingenic-Fix-inverted-MIPS_NO_APPENDED_DTB-logic-in-Kconfig/20261025-202050
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1658997f198411f20bc5a489e9488800e4597e19.1792956055.git.hns%40goldelico.com
+patch subject: [PATCH 3/6] MIPS: Ingenic: Add cpu-probe setup for XBurst and XBurst II R2
+config: mips-bcm47xx_defconfig (https://download.01.org/0day-ci/archive/20261026/202610262006.fTqK3Ge7-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610262006.fTqK3Ge7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610262057.WlLdhg8d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610262006.fTqK3Ge7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/bpf/fixups.c: In function 'bpf_insert_recursion_checks':
->> kernel/bpf/fixups.c:792:28: error: macro "__fortify_memcpy_chk" passed 9 arguments, but takes just 8
-             2 * sizeof(buf[0]));
-                               ^
-   In file included from include/linux/string.h:396,
-                    from include/crypto/sha2.h:10,
-                    from include/linux/bpf.h:11,
-                    from kernel/bpf/fixups.c:3:
->> include/linux/fortify-string.h:638:26: error: '__fortify_memcpy_chk' undeclared (first use in this function); did you mean 'fortify_memcpy_chk'?
-    #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
-                             ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/fixups.c:791:3: note: in expansion of macro 'memcpy'
-      memcpy(buf + n, (struct bpf_insn[]){ BPF_LD_IMM64(BPF_REG_0, (long)depth) },
-      ^~~~~~
-   include/linux/fortify-string.h:638:26: note: each undeclared identifier is reported only once for each function it appears in
-    #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
-                             ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/fixups.c:791:3: note: in expansion of macro 'memcpy'
-      memcpy(buf + n, (struct bpf_insn[]){ BPF_LD_IMM64(BPF_REG_0, (long)depth) },
-      ^~~~~~
-   kernel/bpf/fixups.c:834:27: error: macro "__fortify_memcpy_chk" passed 9 arguments, but takes just 8
-            2 * sizeof(buf[0]));
-                              ^
-   kernel/bpf/fixups.c:865:28: error: macro "__fortify_memcpy_chk" passed 9 arguments, but takes just 8
-             2 * sizeof(buf[0]));
-                               ^
+>> arch/mips/kernel/cpu-probe.c:1840:16: error: use of undeclared identifier 'CPU_XBURST2'; did you mean 'CPU_XBURST'?
+    1840 |                 c->cputype = CPU_XBURST2;
+         |                              ^~~~~~~~~~~
+         |                              CPU_XBURST
+   arch/mips/include/asm/cpu.h:317:32: note: 'CPU_XBURST' declared here
+     317 |         CPU_BMIPS4380, CPU_BMIPS5000, CPU_XBURST, CPU_LOONGSON32, CPU_M14KC,
+         |                                       ^
+   1 error generated.
 
 
-vim +/__fortify_memcpy_chk +792 kernel/bpf/fixups.c
+vim +1840 arch/mips/kernel/cpu-probe.c
 
-   696	
-   697	/*
-   698	 * How deep a recursion goes is not known, so it is counted at run time. In the same
-   699	 * spirit as may_goto: the program goes on for as long as there is budget and
-   700	 * takes a way out that was verified when there is none.
-   701	 *
-   702	 * Every subprog on a cycle of the call graph adds its weight to a per-cpu
-   703	 * counter of the program when it is entered and takes it back at every exit.
-   704	 * The weight is the part of the budget that its frame takes: of the stack
-   705	 * room, or of the room in the stack in arena, whichever is larger. So these
-   706	 * frames take no more than BPF_RECURSION_STACK, on top of the chain of calls
-   707	 * without recursion that check_max_stack_depth() looked at.
-   708	 *
-   709	 * A subprog that calls itself twice doesn't have to go deep to go on forever. So
-   710	 * the calls are counted too: BPF_MAX_LOOPS of them in a run of the prog, like the
-   711	 * callbacks of bpf_loop(). Once they are used up every call returns at once, and
-   712	 * the frames that are there come to an end.
-   713	 *
-   714	 * Another run of the program on the same cpu, in interrupt or after
-   715	 * preemption, counts in the same counter. Then there is less for both.
-   716	 */
-   717	int bpf_insert_recursion_checks(struct bpf_verifier_env *env)
-   718	{
-   719		struct bpf_subprog_info *si = env->subprog_info;
-   720		u32 frame, min_frame = U32_MAX, arena_frame = 0, arena_room = 0, weight;
-   721		u32 limit = BPF_RECURSION_STACK;
-   722		struct bpf_insn buf[24], first;
-   723		struct bpf_prog *new_prog;
-   724		struct bpf_recursion_budget __percpu *depth;
-   725		/* Only this cpu touches the counters */
-   726		int fetch_add = BPF_ADD | BPF_FETCH |
-   727				(bpf_jit_supports_local_atomics() ? BPF_ATOMIC_LOCAL : 0);
-   728		int i, s, n, bail, bail_len, err;
-   729	
-   730		for (s = 0; s < env->subprog_cnt; s++) {
-   731			if (!si[s].recursive)
-   732				continue;
-   733			frame = recursive_frame_size(env, s);
-   734			si[s].recursion_weight = DIV_ROUND_UP(frame * BPF_RECURSION_UNITS, limit);
-   735			min_frame = min(min_frame, frame);
-   736			arena_frame = max(arena_frame, si[s].arena_stack_depth);
-   737		}
-   738		if (min_frame == U32_MAX)
-   739			return 0;
-   740		if (arena_frame) {
-   741			/*
-   742			 * One more frame is for the subprog that finds that there is no
-   743			 * budget: it has its frame by then.
-   744			 */
-   745			u32 room = BPF_ARENA_STACK_MAX - env->max_arena_stack_depth;
-   746	
-   747			if (room < 2 * arena_frame) {
-   748				verbose(env, "no room in the stack in arena for recursion\n");
-   749				return -EACCES;
-   750			}
-   751			/* no more than the frames that fit in the stack can take */
-   752			arena_room = min(room - arena_frame, limit / min_frame * arena_frame);
-   753			env->max_arena_stack_depth += arena_room + arena_frame;
-   754		}
-   755		for (s = 0; s < env->subprog_cnt; s++) {
-   756			if (!si[s].recursive)
-   757				continue;
-   758			if (si[s].arena_stack_depth)
-   759				si[s].recursion_weight = max(si[s].recursion_weight,
-   760							     DIV_ROUND_UP(si[s].arena_stack_depth *
-   761									  BPF_RECURSION_UNITS, arena_room));
-   762			if (si[s].recursion_weight > BPF_RECURSION_UNITS) {
-   763				verbose(env, "the frame of recursive %s() is too large\n",
-   764					bpf_subprog_name(env, s));
-   765				return -EACCES;
-   766			}
-   767		}
-   768	
-   769		depth = alloc_percpu_gfp(struct bpf_recursion_budget, GFP_KERNEL_ACCOUNT);
-   770		if (!depth)
-   771			return -ENOMEM;
-   772		env->prog->aux->call_depth = depth;
-   773		env->prog->jit_required = 1;
-   774	
-   775		/* From the last one, so that nothing moves in those that are yet to be done. */
-   776		for (s = env->subprog_cnt - 1; s > 0; s--) {
-   777			if (!si[s].recursive)
-   778				continue;
-   779			/*
-   780			 * R0 has nothing at the entry. The address is not for AX:
-   781			 * blinding of constants takes ld_imm64 apart with the help of
-   782			 * AX. It leaves alone the insns that have AX in them.
-   783			 */
-   784			n = 0;
-   785			first = env->prog->insnsi[si[s].start];
-   786			/* The exit drops the frame in the stack in arena. Take it before the check. */
-   787			if (is_arena_sp_adj(&first)) {
-   788				buf[n++] = first;
-   789				first = BPF_JMP_A(0);
-   790			}
-   791			memcpy(buf + n, (struct bpf_insn[]){ BPF_LD_IMM64(BPF_REG_0, (long)depth) },
- > 792			       2 * sizeof(buf[0]));
-   793			n += 2;
-   794			buf[n++] = BPF_MOV64_PERCPU_REG(BPF_REG_0, BPF_REG_0);
-   795			weight = si[s].recursion_weight;
-   796			bail_len = bpf_ret_reg_pair(env, s) ? 3 : 2;
-   797			buf[n++] = BPF_MOV64_IMM(BPF_REG_AX, weight);
-   798			buf[n++] = BPF_ATOMIC_OP(BPF_W, fetch_add, BPF_REG_0, BPF_REG_AX,
-   799						 offsetof(struct bpf_recursion_budget, depth));
-   800			buf[n++] = BPF_JMP_IMM(BPF_JGT, BPF_REG_AX, BPF_RECURSION_UNITS - weight, 3);
-   801			buf[n++] = BPF_MOV64_IMM(BPF_REG_AX, 1);
-   802			buf[n++] = BPF_ATOMIC_OP(BPF_W, fetch_add, BPF_REG_0, BPF_REG_AX,
-   803						 offsetof(struct bpf_recursion_budget, calls));
-   804			buf[n++] = BPF_JMP_IMM(BPF_JLT, BPF_REG_AX, BPF_MAX_LOOPS, bail_len);
-   805			bail = n;
-   806			buf[n++] = BPF_MOV64_IMM(BPF_REG_0, 0);
-   807			if (bpf_ret_reg_pair(env, s))
-   808				buf[n++] = BPF_MOV64_IMM(BPF_REG_2, 0);
-   809			buf[n++] = budget_exit_insn(env, &si[s]);
-   810			buf[n] = first;
-   811			err = bpf_adj_moved_insn(&buf[n], n);
-   812			if (err) {
-   813				verbose(env, "insn %d cannot be patched due to 16-bit range\n",
-   814					env->insn_aux_data[si[s].start].orig_idx);
-   815				return err;
-   816			}
-   817			n++;
-   818			new_prog = __bpf_patch_insn_data(env, si[s].start, buf, n, BPF_PATCH_MOVE_TARGET);
-   819			if (!new_prog)
-   820				return -ENOMEM;
-   821			env->prog = new_prog;
-   822			env->insn_aux_data[si[s].start + bail].recursion_bail = true;
-   823			/* calls get to the check, jumps to the first insn do not */
-   824			err = adjust_jmp_off(env->prog, si[s].start, n - 1);
-   825			if (err)
-   826				return err;
-   827		}
-   828	
-   829		/*
-   830		 * The calls are counted anew when a run begins. For async callbacks see
-   831		 * bpf_prog_begin_run(). R0 has nothing at the entry.
-   832		 */
-   833		memcpy(buf, (struct bpf_insn[]){ BPF_LD_IMM64(BPF_REG_0, (long)depth) },
-   834		       2 * sizeof(buf[0]));
-   835		buf[2] = BPF_MOV64_PERCPU_REG(BPF_REG_0, BPF_REG_0);
-   836		/* calls and reported */
-   837		buf[3] = BPF_ST_MEM(BPF_DW, BPF_REG_0, 0, 0);
-   838		buf[4] = env->prog->insnsi[0];
-   839		err = bpf_adj_moved_insn(&buf[4], 4);
-   840		if (err) {
-   841			verbose(env, "insn %d cannot be patched due to 16-bit range\n",
-   842				env->insn_aux_data[0].orig_idx);
-   843			return err;
-   844		}
-   845		new_prog = __bpf_patch_insn_data(env, 0, buf, 5, BPF_PATCH_MOVE_TARGET);
-   846		if (!new_prog)
-   847			return -ENOMEM;
-   848		env->prog = new_prog;
-   849		/* a jump to the first insn doesn't begin a run */
-   850		err = adjust_jmp_off(env->prog, 0, 4);
-   851		if (err)
-   852			return err;
-   853	
-   854		/* R1 is nothing to the caller. Jumps to exit get to what is added. */
-   855		for (i = 0; i < env->prog->len; i++) {
-   856			if (bpf_is_ldimm64(&env->prog->insnsi[i])) {
-   857				i++;
-   858				continue;
-   859			}
-   860			if (env->prog->insnsi[i].code != (BPF_JMP | BPF_EXIT) ||
-   861			    !bpf_find_containing_subprog(env, i)->recursive)
-   862				continue;
-   863			n = 0;
-   864			memcpy(buf, (struct bpf_insn[]){ BPF_LD_IMM64(BPF_REG_1, (long)depth) },
-   865			       2 * sizeof(buf[0]));
-   866			n += 2;
-   867			buf[n++] = BPF_MOV64_PERCPU_REG(BPF_REG_1, BPF_REG_1);
-   868			weight = bpf_find_containing_subprog(env, i)->recursion_weight;
-   869			buf[n++] = BPF_MOV64_IMM(BPF_REG_AX, -(int)weight);
-   870			buf[n++] = BPF_ATOMIC_OP(BPF_W, fetch_add, BPF_REG_1, BPF_REG_AX,
-   871						 offsetof(struct bpf_recursion_budget, depth));
-   872			buf[n++] = env->prog->insnsi[i];
-   873			new_prog = bpf_patch_insn_data(env, i, buf, n);
-   874			if (!new_prog)
-   875				return -ENOMEM;
-   876			env->prog = new_prog;
-   877			i += n - 1;
-   878		}
-   879		return 0;
-   880	}
-   881	
+  1751	
+  1752	static inline void cpu_probe_ingenic(struct cpuinfo_mips *c, unsigned int cpu)
+  1753	{
+  1754		decode_configs(c);
+  1755	
+  1756		/*
+  1757		 * XBurst misses a config2 register, so config3 decode was skipped in
+  1758		 * decode_configs().
+  1759		 */
+  1760		decode_config3(c);
+  1761	
+  1762		/* XBurst does not implement the CP0 counter. */
+  1763		c->options &= ~MIPS_CPU_COUNTER;
+  1764		BUG_ON(__builtin_constant_p(cpu_has_counter) && cpu_has_counter);
+  1765	
+  1766		/* XBurst has virtually tagged icache */
+  1767		c->icache.flags |= MIPS_CACHE_VTAG;
+  1768	
+  1769		switch (c->processor_id & PRID_IMP_MASK) {
+  1770	
+  1771		/* XBurst®1 with ISA */
+  1772		case PRID_IMP_XBURST:
+  1773			c->cputype = CPU_XBURST;
+  1774			c->writecombine = _CACHE_UNCACHED_ACCELERATED;
+  1775			__cpu_name[cpu] = "Ingenic XBurst";
+  1776			break;
+  1777	
+  1778		/* XBurst®1 with MXU1.0/MXU1.1 SIMD ISA */
+  1779		case PRID_IMP_XBURST_REV1:
+  1780	
+  1781			/*
+  1782			 * The XBurst core by default attempts to avoid branch target
+  1783			 * buffer lookups by detecting & special casing loops. This
+  1784			 * feature will cause BogoMIPS and lpj calculate in error.
+  1785			 * Set cp0 config7 bit 4 to disable this feature.
+  1786			 */
+  1787			set_c0_config7(MIPS_CONF7_BTB_LOOP_EN);
+  1788	
+  1789			switch (c->processor_id & PRID_COMP_MASK) {
+  1790	
+  1791			/*
+  1792			 * The config0 register in the XBurst CPUs with a processor ID of
+  1793			 * PRID_COMP_INGENIC_D0 report themselves as MIPS32r2 compatible,
+  1794			 * but they don't actually support this ISA.
+  1795			 */
+  1796			case PRID_COMP_INGENIC_D0:
+  1797				c->isa_level &= ~MIPS_CPU_ISA_M32R2;
+  1798	
+  1799				/* FPU is not properly detected on JZ4760(B). */
+  1800				if (c->processor_id == 0x2ed0024f)
+  1801					c->options |= MIPS_CPU_FPU;
+  1802	
+  1803				fallthrough;
+  1804	
+  1805			/*
+  1806			 * The config0 register in the XBurst CPUs with a processor ID of
+  1807			 * PRID_COMP_INGENIC_D0 or PRID_COMP_INGENIC_D1 has an abandoned
+  1808			 * huge page tlb mode, this mode is not compatible with the MIPS
+  1809			 * standard, it will cause tlbmiss and into an infinite loop
+  1810			 * (line 21 in the tlb-funcs.S) when starting the init process.
+  1811			 * After chip reset, the default is HPTLB mode, Write 0xa9000000
+  1812			 * to cp0 register 5 sel 4 to switch back to VTLB mode to prevent
+  1813			 * getting stuck.
+  1814			 */
+  1815			case PRID_COMP_INGENIC_D1:
+  1816				write_c0_page_ctrl(XBURST_PAGECTRL_HPTLB_DIS);
+  1817				break;
+  1818	
+  1819			default:
+  1820				break;
+  1821			}
+  1822			fallthrough;
+  1823	
+  1824		/* XBurst®1 with MXU2.0 SIMD ISA */
+  1825		case PRID_IMP_XBURST_REV2:
+  1826			/* Ingenic uses the WA bit to achieve write-combine memory writes */
+  1827			c->writecombine = _CACHE_CACHABLE_WA;
+  1828			c->cputype = CPU_XBURST;
+  1829			__cpu_name[cpu] = "Ingenic XBurst";
+  1830			break;
+  1831	
+  1832		/* XBurst®2 with MXU2.1 SIMD ISA */
+  1833		case PRID_IMP_XBURST2:
+  1834			c->cputype = CPU_XBURST;
+  1835			__cpu_name[cpu] = "Ingenic XBurst II";
+  1836			break;
+  1837	
+  1838		/* XBurst®2 with MXU3.0 SIMD ISA */
+  1839		case PRID_IMP_XBURST2_R2:
+> 1840			c->cputype = CPU_XBURST2;
+  1841			c->writecombine = _CACHE_UNCACHED_ACCELERATED;
+  1842			__cpu_name[cpu] = "Ingenic XBurst II R2";
+  1843			break;
+  1844	
+  1845		default:
+  1846			panic("Unknown Ingenic Processor ID!");
+  1847			break;
+  1848		}
+  1849	}
+  1850	
 
 --
 0-DAY CI Kernel Test Service
