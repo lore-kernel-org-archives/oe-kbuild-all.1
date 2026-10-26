@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793019120;
-	b=sV/Jd//MO1vz4EImg1SLGvTtR1O5NVEFA8pjQVJVB5Igq0M0t33QXV4KkpcmIzM/OqYO
-	 L24Gf9MA2I6cyNa6o7w9aEmgcnB4NRbE4ZxgbT3s30FJ3PAh8QI6W25YpOGyAZIkAJqju
-	 A3NTt8Qb6jQkeSbdANbCiOCAbVmJK1t22HRPzcFgfs00HdcIzA4CDFZ9K06Wtl6H9snXM
-	 nrusIer2Xaa/lKRpS+G3Cs0kpIM2Gu9Ipp2+LT+5wpqcnzBR5uqRm3N0N9HqaWROgz76K
-	 WJTbk1bndt3FTm8YC4fALaJylSJ13VHfuVR2IpdBUpHm6m5wgSIp3CMd1Z4s1TKLUgA==
+	t=1793021584;
+	b=omF2dyzAdaUuAUtNZvU0MnP4lQTrmCRS1Pd1thSLwilRss2kEbGtyn+cmoI2LzVrPutR
+	 tEebm7723e00IwUVB8AAEYdVs5XOdZiocqnwj5Et8bWVmw1k6sd87a/PSb+UE5GLViytV
+	 QAerBYo1Djq1wj8TSSJnTiV0oygh3Le03E2BkT6NyzXr54wzR4VR1oZ6AYIUGV/NMAucS
+	 5mCTKh16E2cK05FlKifqa2L28H38jbpv2e97xhFj4BVa5E9Dhpp+QQuk31XTdYLW34WOH
+	 Vv8kZnCIc0EGbchfVTzTCCoKKOakR0KlmKnUThsWN7kvMEeJFcQMIPJVgdsAllSzoHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793019120;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793021584;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=rxKtCkuubO0zp/LQIsqmfacKmaitnLQEq4/IsiTEkeo=;
-	b=s5DmNNMfVcrnyojhNe/EO9X+hj2kKnHXbDM018Uq7w4PJo6kyOnBWBf+mUzOCD5Cz288
-	 cytzLWaHSKC4QOymfDVU8iT5TnZzNvHdXol8Maa3Dl8+/rFtsFvnVFEqDScezkMMjlsWR
-	 iECYT5V4OyO/AkMgqzA8cqcFIxXN2ELNhRg6m2RDb0776BTVll3JW9cp9fTaMidKGizPp
-	 rjr62G8ofQIN6zOKyAjruHcRw8v4BgT9BzxOuKicbT8bbbOdLAzMpOf3cTL0mqMTBSWVM
-	 YiqGDXWbnCVDrdBPOimQoibQObuSDpviivB6Ph5rMO+mrOhSrvazIOVmT/DprrZAFFQ==
+	bh=X6uNh0G/yQmI7ewJk5+yhKWaCtEDySNn4CTyFZEF3+Y=;
+	b=a2+zgW2hLemBCQ2E9Giuobx/k/wt5brt7smmyyebG5dJlidb0fjpuZsdBlwcA1Q89nfy
+	 lXVi3KVZElWdlG6zZV1E7ZZeu2AupLBHh3RNiMudfL+Rn6inMojRHF1dpk2+x2wIFhNrC
+	 1NcUsiSNCi0ouOtsFN+4Ei6Ip7Csga84pVKZPpb6WwOL8KRVTY0QXlWyohLS0gF54OSKH
+	 zrN1GXLcqfzMUgRW6/rcOA4S8zfOOSiQlGSMQfAMH0SzDfD4Pjbjn2MGUT/+H/i+1A5e+
+	 jx9/KLORk1fUSvFKBdvfbTBORSklCd1VPxqaxpAZKLJwsTzoMRgFwAUIuoi9GPDvamA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SSpE3m06;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ECz9axqh;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EFA606A31E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 12:51:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4EFA606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB67C606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 13:33:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB67C606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SSpE3m06
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ECz9axqh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793019118; x=1824555118;
+  t=1793021583; x=1824557583;
   h=date:from:to:cc:subject:message-id;
-  bh=yiy4WuJ3nqfKx9wc6w2okMivt9nSiIuK6DpZQhRruMU=;
-  b=SSpE3m06F18LPhsN4mZsh4vU4tyzReF9edQol6MqPcQAvrG78rLcCSVu
-   SBLEAR7plMfILv4nQnDpdqYNPcz7P/nmCQYveQaaoq0Jf6OPuhL+XzqrQ
-   /7yJiSQ36ZQyV3AhgX6UL4+KAhnnE+Z77LCbR03fwgQGJnTYL8qIsurwM
-   0YyzvNuQ97TejL5+pMrHYh164Snd53KdjG/AxlbhnL9tG71LC8H2zeM1r
-   g8sd0nBikpeaKSC0O5TZhA47LJ+4cxEj0xlKDkysH4crdER4CM4d2Ts1l
-   EcxO+O8zfvCIW05lp+6VOt7D2Xdik6IXtGAIF1DbNw7BkupcD9ohW+3S1
+  bh=ipIF1+ipnPZv/yMfd46vRVlrbA1+4NTGt/AW2SIDzhQ=;
+  b=ECz9axqhD9S6YQpUFu/IjPYPVOf80ElqCuuCAvWGbF2D4donJzRkhFCp
+   eh7OJtEdOmD5rR67zPKcLc1FWpoTgONDXtKvCODxC6/E/g8a0cbie0jyq
+   nf/+6IQJR8h7G8r34Mo65BTHQasYIon2Ao8t5H5Z05gaLXxmBILNR4quL
+   IsmxeHr9lFtz3IKRI8Zb5pMEE0qvve97/dGQt1MtlMrUoZEHC4lQi2Pu7
+   lqp/H2vzfHkONZEHXXIHv0GJ6clylB+2Fa25TdmlcFMgtZbQ6T+jvSKuK
+   Owv4PnO1DTlN4PSmz+hG216yPpbETMIB8/wAgw/s2IWkAn5nljazMYn2P
    A==;
-X-CSE-ConnectionGUID: 0oRZPo6WRaeTHR4GvVu2RA==
-X-CSE-MsgGUID: t03dq4OXQ0GOQmpX/2u0aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1705515"
+X-CSE-ConnectionGUID: qrJp9iGPTx2M7+aCVTFQ0g==
+X-CSE-MsgGUID: WQRHS7QxS06GMMKCUYQ67Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1719142"
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1705515"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:51:56 -0700
-X-CSE-ConnectionGUID: UfUzhIvjTJiauVYGKPOubw==
-X-CSE-MsgGUID: T5jaaAEbTJK04qKXd9ESuQ==
+   d="scan'208";a="1719142"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 06:33:03 -0700
+X-CSE-ConnectionGUID: 2Q+x0k1ZRwGe4r/iFGHhRw==
+X-CSE-MsgGUID: igWMhFEcSIeqhldcmz2X+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="4655592"
+   d="scan'208";a="4654886"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Oct 2026 05:51:54 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2026 06:33:01 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLKB4-0000000046x-2AJF;
-	Mon, 26 Oct 2026 12:51:50 +0000
-Date: Mon, 26 Oct 2026 13:51:14 +0100
+	id 1xLKos-0000000047n-2m3C;
+	Mon, 26 Oct 2026 13:32:58 +0000
+Date: Mon, 26 Oct 2026 14:32:01 +0100
 From: kernel test robot <lkp@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Jason A. Donenfeld" <zx2c4@kernel.org>
-Subject: error[E0080]: evaluation panicked: assertion failed:
- size_of::<isize>() == size_of::<isize_atomic_repr>()
-Message-ID: <202610261307.vnC1uCAL-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:thread-safety 85/133]
+ drivers/infiniband/core/uverbs_std_types_dmabuf.c:194:1: warning: unused
+ label 'unlock'
+Message-ID: <202610261401.SEKydNvW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,78 +81,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Nathan,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6b4b543fa18757297ac756a6fe6e64f506b7844a
-commit: eb13a1ff271b0d180687eebb30611b0b276d5193 random: vDSO: avoid call to memset() when zeroing reserved parameter
-date:   3 weeks ago
-config: loongarch-randconfig-r2103-20261026 (https://download.01.org/0day-ci/archive/20261026/202610261307.vnC1uCAL-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610261307.vnC1uCAL-lkp@intel.com/reproduce)
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   09aab91c2fcb166bfe35c0f9c2c5b6b960722087
+commit: ed41e5171bfb2fbf79e518ef59bfebe2446d37a7 [85/133] RDMA/core: Check the dma_resv_lock() return value
+config: x86_64-randconfig-2102-20261026 (https://download.01.org/0day-ci/archive/20261026/202610261401.SEKydNvW-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610261401.SEKydNvW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: eb13a1ff271b ("random: vDSO: avoid call to memset() when zeroing reserved parameter")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610261307.vnC1uCAL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610261401.SEKydNvW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0080]: evaluation panicked: assertion failed: size_of::<isize>() == size_of::<isize_atomic_repr>()
-   --> rust/kernel/build_assert.rs:112:23
-   |
-   112 |         const _: () = ::core::assert!($condition $(,$arg)?);
-   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
-   |
-   ::: rust/kernel/sync/atomic/predefine.rs:98:1
-   |
-   98 | static_assert!(size_of::<isize>() == size_of::<isize_atomic_repr>());
-   | -------------------------------------------------------------------- in this macro invocation
-   |
-   = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0080]: evaluation panicked: assertion failed: align_of::<isize>() == align_of::<isize_atomic_repr>()
-   --> rust/kernel/build_assert.rs:112:23
-   |
-   112 |         const _: () = ::core::assert!($condition $(,$arg)?);
-   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
-   |
-   ::: rust/kernel/sync/atomic/predefine.rs:99:1
-   |
-   99 | static_assert!(align_of::<isize>() == align_of::<isize_atomic_repr>());
-   | ---------------------------------------------------------------------- in this macro invocation
-   |
-   = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0080]: evaluation panicked: assertion failed: size_of::<usize>() == size_of::<isize_atomic_repr>()
-   --> rust/kernel/build_assert.rs:112:23
-   |
-   112 |         const _: () = ::core::assert!($condition $(,$arg)?);
-   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
-   |
-   ::: rust/kernel/sync/atomic/predefine.rs:100:1
-   |
-   100 | static_assert!(size_of::<usize>() == size_of::<isize_atomic_repr>());
-   | -------------------------------------------------------------------- in this macro invocation
-   |
-   = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0080]: evaluation panicked: assertion failed: align_of::<usize>() == align_of::<isize_atomic_repr>()
-   --> rust/kernel/build_assert.rs:112:23
-   |
-   112 |         const _: () = ::core::assert!($condition $(,$arg)?);
-   |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ evaluation of `sync::atomic::predefine::_` failed here
-   |
-   ::: rust/kernel/sync/atomic/predefine.rs:101:1
-   |
-   101 | static_assert!(align_of::<usize>() == align_of::<isize_atomic_repr>());
-   | ---------------------------------------------------------------------- in this macro invocation
-   |
-   = note: this error originates in the macro `::core::assert` which comes from the expansion of the macro `static_assert` (in Nightly builds, run with -Z macro-backtrace for more info)
+>> drivers/infiniband/core/uverbs_std_types_dmabuf.c:194:1: warning: unused label 'unlock' [-Wunused-label]
+     194 | unlock:
+         | ^~~~~~~
+   1 warning generated.
+
+
+vim +/unlock +194 drivers/infiniband/core/uverbs_std_types_dmabuf.c
+
+   172	
+   173	DECLARE_UVERBS_NAMED_METHOD(
+   174		UVERBS_METHOD_DMABUF_ALLOC,
+   175		UVERBS_ATTR_FD(UVERBS_ATTR_ALLOC_DMABUF_HANDLE,
+   176			       UVERBS_OBJECT_DMABUF,
+   177			       UVERBS_ACCESS_NEW,
+   178			       UA_MANDATORY),
+   179		UVERBS_ATTR_PTR_IN(UVERBS_ATTR_ALLOC_DMABUF_PGOFF,
+   180				   UVERBS_ATTR_TYPE(u64),
+   181				   UA_MANDATORY));
+   182	
+   183	static void uverbs_dmabuf_fd_destroy_uobj(struct ib_uobject *uobj,
+   184						  enum rdma_remove_reason why)
+   185	{
+   186		struct ib_uverbs_dmabuf_file *uverbs_dmabuf =
+   187			container_of(uobj, struct ib_uverbs_dmabuf_file, uobj);
+   188	
+   189		mutex_lock(&uverbs_dmabuf->mmap_entry->dmabufs_lock);
+   190		if (!uverbs_dmabuf->revoked) {
+   191			list_del(&uverbs_dmabuf->dmabufs_elm);
+   192			ib_uverbs_dmabuf_revoke(uverbs_dmabuf);
+   193		}
+ > 194	unlock:
+   195		mutex_unlock(&uverbs_dmabuf->mmap_entry->dmabufs_lock);
+   196	
+   197		/* Matches the get done as part of pgoff_to_mmap_entry() */
+   198		rdma_user_mmap_entry_put(uverbs_dmabuf->mmap_entry);
+   199	}
+   200	
 
 --
 0-DAY CI Kernel Test Service
