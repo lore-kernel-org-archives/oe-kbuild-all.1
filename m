@@ -1,77 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792989875;
-	b=O5VU/vnBeboplw0k9FGw7c6LJMbg6KTYvd3VgPZUrA50QIXKE0X9jtwRAlzShQD8sjS/
-	 uCVsWFJ54rM1WkK+hR6l0QkSRnmQyVuIzShxdGIh0yqCWNmifIBJnFpDEbkuJaslMPq4Y
-	 8udA4QFeDlkJa9Vpkqgl8SC1x3VfCfveDgFIo0drHpmu/m47pvDw17iauC+ia3sPgUCFG
-	 bED0eCOILR5r2Suvf2AIZskazbpeZsHw+9IjFHRa6k3cjxv+b8a89ihDt94VNSPPgj+kd
-	 g/hF6jt5quI6UCN05RE9d2Y1oMiUZIDy6tt1KUnXvsoMwhdwad1FEG+6x/f1vKBzy7A==
+	t=1792991783;
+	b=5cbceKttA33NgWqQ9zu8waw6txZr3/VWoH8IsZ82WqFs2C60RydM3f77XDmekwInsafU
+	 /O3iA8uBVKXGYPFcs5+vT4DcMMesnLSw3JWtrHqng+t3Rbfp7fQZBP+KfD/lpeFANhyn9
+	 yoLU8lYoUXGezrF1wgoTOyT3ath/FEmK42GBBJ2pRlMICF4f/gS7tdyX+N7DscILekg5K
+	 xi5gjmuGCXx1XfWBm9mF+bnfv1ljAjEyR6yJgWi8CUPWi8sjLFA3JttHuVjwbi14H/Hu5
+	 7uzg26yMZbfQ/ffywPAaYeSmUd//JkdjDvjfOhQ2NndmeYY8sUidaHbDHsEPkX9shjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792989875;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792991783;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=zQVvgy16UMx63ijSb4wwTVVG0akgIBjHstnDThvluLw=;
-	b=Ou9RtY7rXbvVxCpdy8I7XpBPwxL13jcNx4nBiwxc9EBeV8JHjnNhWI+voAvYl7dtw3k0
-	 zItwxHuLWWxCQKxTHB48NBfJrRyDS2vO9jVzOK18xe87hdRwTWbMVTUmAdk6JfUOKDNKn
-	 3l0eqOa1KVrE6LSOyiRMKpShtl2KNL4rnpYhHGybJy4YOuB539sD9tmn+YIwBmC6yZLls
-	 yW+bI+zF/zk/6zl8pIG5WUqse7ulD97y7R2SSTOqJ4T48QMU0DOLBYjNPrm3E6EJ4wvcf
-	 10Px3cMp1eZxO1ZcX3aR9dGGwvOiY/4Cgd8Qgqnf5LUKn8ehUs5xSyQ8t/XRGf6MuOw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=FPY7uMWS3gJRnZSftZqSTXUGgjttMjmwRr8ba5P+Pyo=;
+	b=5b5NTvs8Rbj90HiuyCiWfHauO2BSc07qXqaGngZrqVIJI6BOrxwL6/G/APwrLwqKu6Fz
+	 TpmMEMrXP/mESHM7+JbpfXcgXeUPOZ5rhi5lB02v1Etr6UotGtWACkOeuAGT2K60xKqoy
+	 8Ac5exnt/vcewSX8mbhEYqVcIEIMawZ0fVnhJ6o/b8k23yBqlZdFjOLBrVPU3R5nDIrq3
+	 MbW+XzRRSXa50AaNPkq1FAgWttxyj9VW6lJTlWn9Bepcqe3AKQsDsUwxUGVohz1o/TvuL
+	 0BYFf/t544yoMdi4vt35+vb9XSh/fTSIdgT8rx1bqMG5BrJcYg1ZY1yKjaWkcGnolqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aEqnRwzD;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KqWUxK4t;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B54E606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 04:44:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B54E606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E464606A321
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 05:16:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E464606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aEqnRwzD
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KqWUxK4t
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792989872; x=1824525872;
-  h=date:from:to:cc:subject:message-id;
-  bh=4SpEi8vXVzk36INOCgVZeYlcuW2pjnW2sO1ReSYVoLY=;
-  b=aEqnRwzD4xTv4dGo4SKbKS8q2NeC1jifwN85oT6GoJDwyj+4uGxeSekc
-   pPnZiNhdgdooMQk2WqmxLJz910WmBL6yJXT1/nj00LA6drRuZ+kXxU3SJ
-   ZZJl97IWWtC2oyWkwb3hUmf2r+VTduWpVz2z3+lnUPiAa2foXkMzv2srx
-   85XkiJlVOEZrjqqiXgnEgMrrnCDwUtkwEcpIgNrQeaT1OX0+MqUUq5VFu
-   H8fFkutO5vopFuhykRGVgXhxzHV4xYmrp74MyBCe8r8xLQnW2uukqZW/j
-   NEcYB10gBMM81CkHQm4GObT38EkDAak8jrzfDx0i+SilOzJhJDLLBT1YZ
+  t=1792991780; x=1824527780;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=VZBsH9Gc3d1uFr3N5f5EManr9WtzzyQSEkjdd32MNUk=;
+  b=KqWUxK4t/OIr8W5yFS5LWQpBBi7Oi8wbT8FgGoaYzbYMd7eoGuBCAL/u
+   omTe79FayAvHjg9Yy6PMtGbQLS2JBCE26mKutW9dvM1dAlcl6iwj/W1mX
+   /O5Ep3ONBr6LJ2+MjrcN5xUKl2vNNeDnsJpnKwYquiD27krlHHJ+U+REY
+   SKcsrhJoTKkXVYnnvk7MUeQu1x3WvAUnNdaekmCdv4sI0Ug1ko3tJK4CJ
+   XqreaHKyDHoJKcelh2z5Hf71PtPCNqfmj34ioveu+BwXvH8sDXdj1e03/
+   S4cB8wLhilQz40k46U5NJPbvpldo73lVVY+qoYpaCdhMwqqLdfKo5j++j
    w==;
-X-CSE-ConnectionGUID: vwmFJdM2RGujGA57NfsKEw==
-X-CSE-MsgGUID: iKqhb1CDQnSZ9T1N0JpdSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1553630"
+X-CSE-ConnectionGUID: nhdcKiXARpqLPyCes9elTQ==
+X-CSE-MsgGUID: ixf3uC1QTW+eZ+sRG7zBNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1637568"
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1553630"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 21:44:31 -0700
-X-CSE-ConnectionGUID: NUYKYyayTQWSiYmRaDV6MQ==
-X-CSE-MsgGUID: vAnGQSVwTYKzsJAmjsfEdw==
+   d="scan'208";a="1637568"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 22:16:20 -0700
+X-CSE-ConnectionGUID: EwpBZi60RGGHAkyP7SVYGg==
+X-CSE-MsgGUID: 6TVeHbr+SneqFZFQgwE5JA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="4543477"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Oct 2026 21:44:30 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="5925800"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 25 Oct 2026 22:16:17 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLCZO-000000003yB-1sD7;
-	Mon, 26 Oct 2026 04:44:26 +0000
-Date: Mon, 26 Oct 2026 05:44:24 +0100
+	id 1xLD4A-00000000VTW-0AiY;
+	Mon, 26 Oct 2026 05:16:14 +0000
+Date: Mon, 26 Oct 2026 13:15:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>
-Subject: fs/bpf_fs_kfuncs.c:377:26: sparse: sparse: symbol
- 'bpf_real_data_inode' was not declared. Should it be static?
-Message-ID: <202610260537.GikAbao4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Paul Burton <paulburton@kernel.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
+	kernel@pyra-handheld.com,
+	"H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH 3/6] MIPS: Ingenic: Add cpu-probe setup for XBurst and
+ XBurst II R2
+Message-ID: <202610261320.3AF5hDGi-lkp@intel.com>
+References: <1658997f198411f20bc5a489e9488800e4597e19.1792956055.git.hns@goldelico.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,48 +88,147 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1658997f198411f20bc5a489e9488800e4597e19.1792956055.git.hns@goldelico.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6b4b543fa18757297ac756a6fe6e64f506b7844a
-commit: 3f8c65b06fafc3f779abda5f7b81707411d05d4c bpf: have bpf_real_data_inode() take a struct file
-date:   4 months ago
-config: arm64-randconfig-r2305-20261026 (https://download.01.org/0day-ci/archive/20261026/202610260537.GikAbao4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260537.GikAbao4-lkp@intel.com/reproduce)
+Hi Nikolaus,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.3 next-20261023]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/H-Nikolaus-Schaller/MIPS-Ingenic-Fix-inverted-MIPS_NO_APPENDED_DTB-logic-in-Kconfig/20261025-202050
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1658997f198411f20bc5a489e9488800e4597e19.1792956055.git.hns%40goldelico.com
+patch subject: [PATCH 3/6] MIPS: Ingenic: Add cpu-probe setup for XBurst and XBurst II R2
+config: mips-allnoconfig (https://download.01.org/0day-ci/archive/20261026/202610261320.3AF5hDGi-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610261320.3AF5hDGi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 3f8c65b06faf ("bpf: have bpf_real_data_inode() take a struct file")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610260537.GikAbao4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610261320.3AF5hDGi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/bpf_fs_kfuncs.c:377:26: sparse: sparse: symbol 'bpf_real_data_inode' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/bpf_real_data_inode +377 fs/bpf_fs_kfuncs.c
+   arch/mips/kernel/cpu-probe.c: In function 'cpu_probe_ingenic':
+>> arch/mips/kernel/cpu-probe.c:1840:30: error: 'CPU_XBURST2' undeclared (first use in this function); did you mean 'CPU_XBURST'?
+    1840 |                 c->cputype = CPU_XBURST2;
+         |                              ^~~~~~~~~~~
+         |                              CPU_XBURST
+   arch/mips/kernel/cpu-probe.c:1840:30: note: each undeclared identifier is reported only once for each function it appears in
 
-   361	
-   362	/**
-   363	 * bpf_real_data_inode - get the real inode hosting a file's data
-   364	 * @file: file to resolve
-   365	 *
-   366	 * Resolve @file to the inode that hosts its data. For a regular file on a
-   367	 * union/overlay filesystem this is the underlying (upper or lower) inode that
-   368	 * stores the data, not the overlay inode.
-   369	 *
-   370	 * Data resolution only applies to regular files. For a non-regular file (e.g.
-   371	 * a device node, fifo or socket) on a union/overlay filesystem the overlay
-   372	 * inode itself is returned; for any file on a non-union filesystem the inode
-   373	 * attached to @file is returned.
-   374	 *
-   375	 * Return: The inode hosting @file's data, or NULL.
-   376	 */
- > 377	__bpf_kfunc struct inode *bpf_real_data_inode(struct file *file)
-   378	{
-   379		return d_real_inode(file_dentry(file));
-   380	}
-   381	
+
+vim +1840 arch/mips/kernel/cpu-probe.c
+
+  1751	
+  1752	static inline void cpu_probe_ingenic(struct cpuinfo_mips *c, unsigned int cpu)
+  1753	{
+  1754		decode_configs(c);
+  1755	
+  1756		/*
+  1757		 * XBurst misses a config2 register, so config3 decode was skipped in
+  1758		 * decode_configs().
+  1759		 */
+  1760		decode_config3(c);
+  1761	
+  1762		/* XBurst does not implement the CP0 counter. */
+  1763		c->options &= ~MIPS_CPU_COUNTER;
+  1764		BUG_ON(__builtin_constant_p(cpu_has_counter) && cpu_has_counter);
+  1765	
+  1766		/* XBurst has virtually tagged icache */
+  1767		c->icache.flags |= MIPS_CACHE_VTAG;
+  1768	
+  1769		switch (c->processor_id & PRID_IMP_MASK) {
+  1770	
+  1771		/* XBurst®1 with ISA */
+  1772		case PRID_IMP_XBURST:
+  1773			c->cputype = CPU_XBURST;
+  1774			c->writecombine = _CACHE_UNCACHED_ACCELERATED;
+  1775			__cpu_name[cpu] = "Ingenic XBurst";
+  1776			break;
+  1777	
+  1778		/* XBurst®1 with MXU1.0/MXU1.1 SIMD ISA */
+  1779		case PRID_IMP_XBURST_REV1:
+  1780	
+  1781			/*
+  1782			 * The XBurst core by default attempts to avoid branch target
+  1783			 * buffer lookups by detecting & special casing loops. This
+  1784			 * feature will cause BogoMIPS and lpj calculate in error.
+  1785			 * Set cp0 config7 bit 4 to disable this feature.
+  1786			 */
+  1787			set_c0_config7(MIPS_CONF7_BTB_LOOP_EN);
+  1788	
+  1789			switch (c->processor_id & PRID_COMP_MASK) {
+  1790	
+  1791			/*
+  1792			 * The config0 register in the XBurst CPUs with a processor ID of
+  1793			 * PRID_COMP_INGENIC_D0 report themselves as MIPS32r2 compatible,
+  1794			 * but they don't actually support this ISA.
+  1795			 */
+  1796			case PRID_COMP_INGENIC_D0:
+  1797				c->isa_level &= ~MIPS_CPU_ISA_M32R2;
+  1798	
+  1799				/* FPU is not properly detected on JZ4760(B). */
+  1800				if (c->processor_id == 0x2ed0024f)
+  1801					c->options |= MIPS_CPU_FPU;
+  1802	
+  1803				fallthrough;
+  1804	
+  1805			/*
+  1806			 * The config0 register in the XBurst CPUs with a processor ID of
+  1807			 * PRID_COMP_INGENIC_D0 or PRID_COMP_INGENIC_D1 has an abandoned
+  1808			 * huge page tlb mode, this mode is not compatible with the MIPS
+  1809			 * standard, it will cause tlbmiss and into an infinite loop
+  1810			 * (line 21 in the tlb-funcs.S) when starting the init process.
+  1811			 * After chip reset, the default is HPTLB mode, Write 0xa9000000
+  1812			 * to cp0 register 5 sel 4 to switch back to VTLB mode to prevent
+  1813			 * getting stuck.
+  1814			 */
+  1815			case PRID_COMP_INGENIC_D1:
+  1816				write_c0_page_ctrl(XBURST_PAGECTRL_HPTLB_DIS);
+  1817				break;
+  1818	
+  1819			default:
+  1820				break;
+  1821			}
+  1822			fallthrough;
+  1823	
+  1824		/* XBurst®1 with MXU2.0 SIMD ISA */
+  1825		case PRID_IMP_XBURST_REV2:
+  1826			/* Ingenic uses the WA bit to achieve write-combine memory writes */
+  1827			c->writecombine = _CACHE_CACHABLE_WA;
+  1828			c->cputype = CPU_XBURST;
+  1829			__cpu_name[cpu] = "Ingenic XBurst";
+  1830			break;
+  1831	
+  1832		/* XBurst®2 with MXU2.1 SIMD ISA */
+  1833		case PRID_IMP_XBURST2:
+  1834			c->cputype = CPU_XBURST;
+  1835			__cpu_name[cpu] = "Ingenic XBurst II";
+  1836			break;
+  1837	
+  1838		/* XBurst®2 with MXU3.0 SIMD ISA */
+  1839		case PRID_IMP_XBURST2_R2:
+> 1840			c->cputype = CPU_XBURST2;
+  1841			c->writecombine = _CACHE_UNCACHED_ACCELERATED;
+  1842			__cpu_name[cpu] = "Ingenic XBurst II R2";
+  1843			break;
+  1844	
+  1845		default:
+  1846			panic("Unknown Ingenic Processor ID!");
+  1847			break;
+  1848		}
+  1849	}
+  1850	
 
 --
 0-DAY CI Kernel Test Service
