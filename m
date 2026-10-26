@@ -1,77 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793013651;
-	b=wJ+fSzGHib4Es6QOm8k5Msjevg/M9gmY2RPgbzruMawRwgASvV90L2fovpNntaJ9zZ20
-	 VWf8NOcnwtbQjOkTv41JCI2DV3N9kbhDo+Eu9Wy9wbYvHqIqEweTzCGSw37wBHdp1ldEw
-	 ISPyoTswd4Z2VznLJ6LUxFMSrzb3QT2TMq9IxI7V0Ib3cr+Uv3iR5uGg0OvUwozGxipMf
-	 JrbXpONs/ZUXbO0JDdQ+N+ATNCvz22/pu76KtqRJIhH1mTqsNqh+rx6k+nNLw/TzNKqWo
-	 AVursrmBmjujWnWuksDO19Aiw0GsAXjushnj/YDipjTMEI7OX5Sf/Zl/U51srj6u+Jw==
+	t=1793019079;
+	b=nR1g1bsF0aRLskIXn5if6x5DwRkixFZRb+JiNrQaMfVAhRLy76scnl9Ms1vIjKsv4HHj
+	 +J9NzkV98qjS9qd8rgMufMe1TND8BUOSfXfmzbThjrK1mmCdgHqfvzF7JRDI9M+DeNR5B
+	 dP3JC26H1qGiyN6KPKxSk2+dzGrXksh2qKHZzOrtKZWGnLQdxzzrR6ibudH022SMLYwFH
+	 P2V88FNpN8q32mvzYYRKIbDUL3XJ1n9DMVKDq+/+kqg85UFVQfufNm8zOCvzTrJ7sjWYP
+	 Kj2HgnbtmcqRIU3Jv8CF6FluFME7o22mdxfqRgCPhgDOfNArrN78aCygOkZdg1efGQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793013651;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793019079;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=xmg2mS39hpCYA1Z3AM0sPBkLEA8uAYpfPLsJJ//wi3w=;
-	b=lzmiPCIG9sAJqVYdLGWTTsq5ytHuTZCrfeAVT3AAhz+8xw6T2j2zb1rmfQQ3hMJ+HZJd
-	 yN1VJmUdcFvyx5SRfs1GrkxcozbW/a9jEPq8UfT+eFYtMAeAWSIxu+98M175r1Mn+KMly
-	 wKG9AmX6FcVT1DgORakT2ramdCCVNnvmFvdq0C6pvQNROP2EK9HbqUiodpou7gaJd955A
-	 oblyF8HnBWI8zV5Io+/9lLb+O9z+z5ymNMOu28bsYvCSX7cyh9OaMiNK9kTytcMvin36P
-	 jqmmgq8bbqyyd1kJiMORKdjt6Y6M3xIXDPWG4/vWRlBq0fIFYfoLweanOHtSGnMmLZw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=bK3nbaukeJcGdNNGB3JkzMZLtME/bGhzkgpLSf/Eta0=;
+	b=nNEapzcRxF9VWqwzgOxnDZlXTZlpTx0Z0dS1UR90TVcf4DoZWokgnrxBw3y0kxK+13PR
+	 MztiDReW0xYwrwKJVIkd4Zbd7m9ebBPbmppEn/1J5XK+5invhfHxDvUBny+gF+hpwZ+sL
+	 lYa+tjVmH2U0nZyH8bDlE7kgzDzxPyjAvtlPFpOVPV6tqhgSVRfwQ16rvhic3zw65ZZso
+	 DTzWprZxZrZohd7w2PisVhnFz8vG0CvtgfL69jeGwAffKl8ChIahnNZbUYX597gIm2FSS
+	 y6cBXDYBZ9CdFt3yNOpPFNS9qfSj8simvxXJPW2udUxvbwnWrDth5kclc3fC72xX77g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BxzYzrT5;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RNWAON9+;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F052606A31A;
-	Mon, 26 Oct 2026 11:20:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F052606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFD4606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 12:51:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FFD4606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BxzYzrT5
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RNWAON9+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793013650; x=1824549650;
-  h=date:from:to:cc:subject:message-id;
-  bh=iCglwzwjvzyhgl7CC1BSULErpRK6VGP/OGBu0WumKS0=;
-  b=BxzYzrT5SxFzeLZVlSBjyKDLo74wVxLPAIuHoQlp74w9Eukg7+iJbl/A
-   LvHukRPYQCUF6MtVzzmTPyR2MgpwWswFN6rIK0OMrM+scaqOgLJC2JQIZ
-   qMzBm/o/E5K9xLAyefs0c5AHzKX/Ddlg51h88TV6FFHiI2ct2LSkFnVXr
-   hyrI9M8N2c6lxjhPqLpaTSLr982mPxD3S/BMs6p6mcEo8gBhz3+EWMiqX
-   HtqkQUB1O6hkKYM1k+IlFbqHspCTgSVJRJDZStrMiuxC4djc4SY/1wK06
-   4ZsXzoVrc0RAU/TyTvIX5XY47UAI8o4TS61N1TPQHXfwHhFOg1XytDlID
-   g==;
-X-CSE-ConnectionGUID: c6z+jAigSDCVWq0twN64hA==
-X-CSE-MsgGUID: xFAiVSiUSj6MMyjKnP77hQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1689436"
+  t=1793019077; x=1824555077;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OgOER5MPFRdRXUX6yhpDc31WszGMJQVizEP2uzzNS/4=;
+  b=RNWAON9+x/D8M4WL/+HORIeMa3s9p+oZbIEPAcm97xkc42on5Kn493Fw
+   H1JhRWq4zoNBzdYmWhV5v2wEVXmENJ8XfJQKVXYrr8Igk0OCJAk+HqiX8
+   uMSwF16bIxzHp9sa6PPEgIsuGK+LdylK91jF9c9pBXJLbnxAq5w4LZ2v9
+   dlPuHOuSzoJtMexpAaiXvt6OyIr+f9Ntx2h2KBR5vlMgFHlLD4QDmPVXV
+   xeM2LkBRpsD7V1IQypexe3/MxwUN4j7iPl4DfIqUWS+x1XeeFslDnjx7l
+   3pd48QklM9h7Ro9m2eRqTm30Ibf+Fr82/4hjklWSoiUxGa4AodpocFdFn
+   w==;
+X-CSE-ConnectionGUID: qXDu9ernQ22dDjic7gJoFA==
+X-CSE-MsgGUID: +AxR3tjzQIWbsWYzqE03Ig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1580203"
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1689436"
+   d="scan'208";a="1580203"
 Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 04:20:50 -0700
-X-CSE-ConnectionGUID: 7H4Su7U9R/eK/vHb0SRxbQ==
-X-CSE-MsgGUID: D/858oBmTpuHgpzTYDfj0g==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:51:17 -0700
+X-CSE-ConnectionGUID: oeOhjOIzRX28nx/LCHUfcA==
+X-CSE-MsgGUID: qGzxhDcGQI+4l1LQOX0WXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="6061994"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 04:20:48 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6083940"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 05:51:17 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLIkv-0000000045r-2RT5;
-	Mon, 26 Oct 2026 11:20:45 +0000
-Date: Mon, 26 Oct 2026 12:20:01 +0100
+	id 1xLKAT-00000000Vvw-3QfS;
+	Mon, 26 Oct 2026 12:51:13 +0000
+Date: Mon, 26 Oct 2026 20:51:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 89/133] net/core/devmem.c:77:2:
- warning: ignoring return value of function declared with 'warn_unused_result'
- attribute
-Message-ID: <202610261208.1M0H73SK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC bpf-next 4/9] bpf: Add kfuncs to allocate and seal user
+ pages
+Message-ID: <202610262046.jyr2SpRS-lkp@intel.com>
+References: <20261021195759.119421-5-jolsa@kernel.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,66 +81,103 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021195759.119421-5-jolsa@kernel.org>
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   09aab91c2fcb166bfe35c0f9c2c5b6b960722087
-commit: 138228c4404c30f42ca28639aeab8f8a1f92d07a [89/133] dma-resv: Make checking the dma_resv_lock() return value mandatory
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20261026/202610261208.1M0H73SK-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610261208.1M0H73SK-lkp@intel.com/reproduce)
+Hi Jiri,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/bpf-Add-__srcptr-kfunc-argument-suffix/20261021-215750
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20261021195759.119421-5-jolsa%40kernel.org
+patch subject: [RFC bpf-next 4/9] bpf: Add kfuncs to allocate and seal user pages
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261026/202610262046.jyr2SpRS-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610262046.jyr2SpRS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610261208.1M0H73SK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610262046.jyr2SpRS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> net/core/devmem.c:77:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-      77 |         dma_resv_lock(binding->dmabuf->resv, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/devmem.c:246:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-     246 |         dma_resv_lock(dmabuf->resv, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/devmem.c:359:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-     359 |         dma_resv_lock(dmabuf->resv, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
+   kernel/bpf/helpers.c: In function 'bpf_user_page_exec':
+>> kernel/bpf/helpers.c:3855:9: error: implicit declaration of function 'flush_icache_user_page'; did you mean 'flush_icache_page'? [-Werror=implicit-function-declaration]
+    3855 |         flush_icache_user_page(vma, page, addr, PAGE_SIZE);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         flush_icache_page
+   cc1: some warnings being treated as errors
 
 
-vim +/warn_unused_result +77 net/core/devmem.c
+vim +3855 kernel/bpf/helpers.c
 
-5c024716f52bb8b Bobby Eshleman     2026-01-07  66  
-bd61848900bff59 Mina Almasry       2025-05-08  67  void __net_devmem_dmabuf_binding_free(struct work_struct *wq)
-170aafe35cb98e0 Mina Almasry       2024-09-10  68  {
-bd61848900bff59 Mina Almasry       2025-05-08  69  	struct net_devmem_dmabuf_binding *binding = container_of(wq, typeof(*binding), unbind_w);
-bd61848900bff59 Mina Almasry       2025-05-08  70  
-083e64a3af77173 Stanislav Fomichev 2026-09-17  71  	if (binding->freelist)
-13648ba787223c8 Stanislav Fomichev 2026-09-17  72  		WARN(binding->free_count != binding->area.num_niovs,
-1cf2f913b3dd934 Stanislav Fomichev 2026-09-25  73  		     "destroying dmabuf binding with outstanding net_iovs: total=%zu, free=%u",
-13648ba787223c8 Stanislav Fomichev 2026-09-17  74  		     binding->area.num_niovs, binding->free_count);
-170aafe35cb98e0 Mina Almasry       2024-09-10  75  
-13648ba787223c8 Stanislav Fomichev 2026-09-17  76  	kvfree(binding->area.niovs);
-69ab87acc614cbe Erfan Sharafzadeh  2026-10-13 @77  	dma_resv_lock(binding->dmabuf->resv, NULL);
-69ab87acc614cbe Erfan Sharafzadeh  2026-10-13  78  	dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-fa516c0d8bf90da Jakub Kicinski     2025-07-31  79  				 binding->direction);
-69ab87acc614cbe Erfan Sharafzadeh  2026-10-13  80  	dma_buf_unpin(binding->attachment);
-69ab87acc614cbe Erfan Sharafzadeh  2026-10-13  81  	dma_resv_unlock(binding->dmabuf->resv);
-170aafe35cb98e0 Mina Almasry       2024-09-10  82  	dma_buf_detach(binding->dmabuf, binding->attachment);
-170aafe35cb98e0 Mina Almasry       2024-09-10  83  	dma_buf_put(binding->dmabuf);
-170aafe35cb98e0 Mina Almasry       2024-09-10  84  	xa_destroy(&binding->bound_rxqs);
-5c024716f52bb8b Bobby Eshleman     2026-01-07  85  	percpu_ref_exit(&binding->ref);
-083e64a3af77173 Stanislav Fomichev 2026-09-17  86  	kvfree(binding->freelist);
-bd61848900bff59 Mina Almasry       2025-05-08  87  	kvfree(binding->tx_vec);
-170aafe35cb98e0 Mina Almasry       2024-09-10  88  	kfree(binding);
-170aafe35cb98e0 Mina Almasry       2024-09-10  89  }
-170aafe35cb98e0 Mina Almasry       2024-09-10  90  
-
-:::::: The code at line 77 was first introduced by commit
-:::::: 69ab87acc614cbe0bd08a65ece6e1aabee805106 net: devmem: allow peer-to-peer dma-buf attach for bindings
-
-:::::: TO: Erfan Sharafzadeh <erfansh@meta.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
+  3807	
+  3808	/**
+  3809	 * bpf_user_page_exec() - Make a BPF-allocated user page read/execute
+  3810	 * @addr: Address of the page to change
+  3811	 *
+  3812	 * Changes a writable page created by bpf_user_page_alloc() to read/execute.
+  3813	 * The page cannot be made writable again after this call.
+  3814	 *
+  3815	 * Return: 0 on success, or a negative error code.
+  3816	 */
+  3817	__bpf_kfunc int bpf_user_page_exec(unsigned long addr)
+  3818	{
+  3819		struct mm_struct *mm = current->mm;
+  3820		struct vm_area_struct *vma;
+  3821		struct page *page;
+  3822		int err = -EINVAL;
+  3823	
+  3824		if (unlikely(in_interrupt() ||
+  3825			     current->flags & (PF_KTHREAD | PF_EXITING)))
+  3826			return -EPERM;
+  3827		if (unlikely(!nmi_uaccess_okay()))
+  3828			return -EPERM;
+  3829		if (unlikely(!mm))
+  3830			return -EFAULT;
+  3831		if ((addr & ~PAGE_MASK) || addr > ULONG_MAX - PAGE_SIZE)
+  3832			return -EINVAL;
+  3833	
+  3834		if (mmap_write_lock_killable(mm))
+  3835			return -EINTR;
+  3836	
+  3837		vma = find_vma(mm, addr);
+  3838		if (!vma || vma->vm_start > addr)
+  3839			goto out;
+  3840		/* Allow to change only vma allocated by bpf_user_page_alloc. */
+  3841		if (vma->vm_private_data != &bpf_user_page_marker)
+  3842			goto out;
+  3843		if (!(vma->vm_flags & VM_WRITE) || !(vma->vm_flags & VM_MAYEXEC))
+  3844			goto out;
+  3845	
+  3846		vma_start_write(vma);
+  3847	
+  3848		err = get_user_pages(addr, 1, FOLL_WRITE, &page);
+  3849		if (err != 1) {
+  3850			if (!err)
+  3851				err = -EFAULT;
+  3852			goto out;
+  3853		}
+  3854	
+> 3855		flush_icache_user_page(vma, page, addr, PAGE_SIZE);
+  3856		err = do_mprotect_pkey_locked(addr, PAGE_SIZE, PROT_READ | PROT_EXEC, -1);
+  3857		if (!err) {
+  3858			vma = find_vma(mm, addr);
+  3859			vm_flags_clear(vma, VM_MAYWRITE);
+  3860		}
+  3861		put_page(page);
+  3862	out:
+  3863		mmap_write_unlock(mm);
+  3864		return err;
+  3865	}
+  3866	
 
 --
 0-DAY CI Kernel Test Service
