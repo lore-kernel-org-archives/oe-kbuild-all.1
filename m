@@ -1,79 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792974718;
-	b=Hxnhv1AHGVio0IkivCKkl6JGMEEOe+VH4yeO6+ig5fa58I6hVheCcNRVco4NcZkOLn7j
-	 fxy0mD/tTJ1AA4y/dXA2Za/0uVgEbyRacRm9OlYsP30tOZpSpW1uFVJWvQSQqEmc5xuhA
-	 HNr3cfxRO2AxrGXiN3NUekNc+QXTCBlQ7KniecvuukpSOX+2kJjtCwdpsfBCRY4EbSuSX
-	 c9fgrOd7lnt+q9uFYZv5SR59648OwbBZQsIh05fML1Umqss2PlMs3GOdTLYO920/q7yPH
-	 Oiorpy0hflitZwRK2VA9WsHfSgV8GbLnWbdYBBF7hxzZhPAmGdlzBX6cYk/o1KuBrXw==
+	t=1792975457;
+	b=eldLo4gKeQVrUr44UsSetpE84bSI2Q/kMPZiVV9K5wI2HTld79llv8Ye32v0ldalqep8
+	 tKN8YlDkTp2uXOvg4eL1g8L9sDjCYZ75LZNculRDhFLL2b2NrK76Rz1xkEudfxToxEaED
+	 TQNapGVaJMiBZjtyCLdcy4frGiADR2NcElen9hfoloe/cIB0lKnv0jzD2ssHvrDOAvFYH
+	 Io7YK98VjYo9UkEjfUbeqtp5eseWNLefSNbHXTHFFxFUcpYU4ZHk+AigymrNo9FUmFUkV
+	 g+bpByaRfONb4k1zxFeQ0P2fqsGsiMXWWrvm7lmJoHxbLMeTu1YIQHgQ0YpMrTmxIfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792974718;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792975457;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=z8AyVLqxzw0RjJtpixgN8sfg9NBBnTB2Xqmw3dFhLHw=;
-	b=W0arv+Id2YAJrDA/Gkwpi1TZ/brkNCR95CsR40VUSOuJx+KW7F7MUuLRB8tNUcErP9SA
-	 79LTpptwBSXDqzEAtFOkBy3ML+7arYGD2LFfi+85SDCP/I8IOP3A0uxSKXqo3hUebyEoV
-	 I7A0a+bMIbZvM/UWpb58nLxWyyScYLvNKlvKZAZ2E/pZn279iM7rE1AheH4q06cmYBfet
-	 KlblSfE6iI0+jdTiAWPHstxDhA3cbWjCE7US/LBQsUfrGsfh9Q8fLfroG8G3qjnT5KHdE
-	 0e2BFq7bFfpZzs2DdzCN7nK2TfqOhAyC9gLyfv4a0TWueA6Aouu/rpO2uRBTofUcd5A==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=EtiE/FdWM7rG34+O2SLPeqmbkSmBbjQoRkkeXj5Nnfs=;
+	b=MxAzHAwrnhJw927oxLiksu9vfp8QNgDldfBDEM3JHxNP60FIme+2jAz3ycGslDWhmrrp
+	 HJe21UGJK3Ty2jBJHLmsCQbUUiC6NYMP3/4A8PFx2BvuMdAv/BUo8Crx/pNJucgO//8Xh
+	 KEQ3eFuDumqhebcAcI0EYBtqz023oKQHyHVHmGty0tle+Kf7J69j7qqV1+EwTKlsi4VVF
+	 GA03NoeolY4+P6wOPGLKxiSKvgDuGqPoaOvr4mUN2A235C70+ev2E2SYO8baan8PxLjIN
+	 TgsQv+bcvrQ+HSvi9kFUl/bMx7rMyhPKYBxWraWO6K/QuFHjC3hsMwv1/l+jUdc26Jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BFDwDSux;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YbjwPIO2;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0712A606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 00:31:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0712A606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1E9606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 00:44:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E1E9606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BFDwDSux
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YbjwPIO2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792974717; x=1824510717;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8AncecGmITwTjoAgfLFcvqUWC366u3u9qOXdep1P9MU=;
-  b=BFDwDSuxW1webxQd7JPQ7Uee4T40POj6vkhTbOb4mIR63vctfQ5n/LyP
-   3TaC7+Gb1/xujln6/Q26+4qIx6y/koRcNm9R5Vo2oBU/gE6z/NJ5jpO7W
-   e21ffLfuzzr8u44bW1cbgZiT3N4LgnEjZVyZmTdNkMXlDvdBGaoFys0Va
-   VlxDOsdck+E0Z6+1eZMR2Mr3/CK4mzyXJxwgkTy7/3aIHPoQY9EzGP/ic
-   nXuOwhPH9vMnrsAY2JB0aykPkmX+vAciLYE45wK5YoAIuwFqinUccsdPz
-   PzN+uQKw6kxoIKgDnj5er8g0XNuY+lZJ+ZkHrflmkcWseXw2h3N/xlVn9
-   g==;
-X-CSE-ConnectionGUID: nihFP+OcSoC2TIsE49rshw==
-X-CSE-MsgGUID: KZWv/Pg2THSgIEqyWQvHuA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1534397"
+  t=1792975455; x=1824511455;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KtqGlUfYbHkNSyFkfxUygtbxGNdFcPZECBy9JtfaDBU=;
+  b=YbjwPIO2oeyZCRgMLUg/fSIn+emJ8BIguGd/7sA/FZ9h5Xa+QfI0E2Cj
+   3dBs5Afi2j75zXX7oy+Zpg5iPDmLCKJoG0zbrmPR8Sw5bgk/GIIgV0mTN
+   tZvnr9TnaAAU2TuoS82c1PQZEawhXE3tUHt+05VwamtB1iyAKHDPdZ+MZ
+   MtiSIRiYHl/bIMcMbBJjTpbOBcplXOFR1Lv6rorp71SRzh0oYD/vlEbPE
+   UgRa3m5sZ7fRKOgnvvNnexiU8lwz+z22CinxEl8As0XXwQ2afXa2F4qze
+   smikie29CYZm8nKZV41pFxFUFv/R1TZKKoajXB/PvbIk3Bx8wvghhGboL
+   w==;
+X-CSE-ConnectionGUID: kiklQvJYRLqOAd2X2vQjkw==
+X-CSE-MsgGUID: OjD/KufyTg+UcH6KJ18NUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1531191"
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1534397"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 17:31:56 -0700
-X-CSE-ConnectionGUID: ckREdX1dQ6mRFJMUDHHBcg==
-X-CSE-MsgGUID: Puj00DfjSBSrcevwZv+Naw==
+   d="scan'208";a="1531191"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 17:44:14 -0700
+X-CSE-ConnectionGUID: cxbaJDKtSH6ztnei4iFFFQ==
+X-CSE-MsgGUID: szcqLn1KTFunxeID2vIPFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="4071078"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 25 Oct 2026 17:31:55 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="4503957"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 25 Oct 2026 17:44:10 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xL8cy-000000003uJ-2KZi;
-	Mon, 26 Oct 2026 00:31:52 +0000
-Date: Mon, 26 Oct 2026 01:31:26 +0100
+	id 1xL8oo-00000000VJ8-42Gt;
+	Mon, 26 Oct 2026 00:44:06 +0000
+Date: Mon, 26 Oct 2026 08:43:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10-lts 6/6]
- security/smack/smack_lsm.c:1261: warning: Excess function parameter
- 'mnt_userns' description in 'smack_inode_setxattr'
-Message-ID: <202610260105.HlEhbjTV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
+	Leo Yan <leo.yan@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Daniel Pereira <danielmaraboo@gmail.com>,
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
+Message-ID: <202610260838.P0WtLZz6-lkp@intel.com>
+References: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -83,436 +95,320 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov@fb.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10-lts
-head:   f61a392235e085addf6e809b78c6e6114320e6e7
-commit: 665f9113e0d21ab27c56d99180e45790fda6e15f [6/6] Smack: fix W=3D1 bui=
-ld warnings
-config: i386-randconfig-2000-20261025 (https://download.01.org/0day-ci/arch=
-ive/20261026/202610260105.HlEhbjTV-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261026/202610260105.HlEhbjTV-lkp@intel.com/reproduce)
+Hi Amir,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 343cfcbb3ecfdb80aa576a428cfa3b65ad783842]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amir-Ayupov/coresight-etm4x-Fix-event-count-decoding/20261024-233901
+base:   343cfcbb3ecfdb80aa576a428cfa3b65ad783842
+patch link:    https://lore.kernel.org/r/cd3e622681f7254216b0488f09d2cb2d91a2d8ca.1792907333.git.aaupov%40fb.com
+patch subject: [PATCH v3 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
+config: arm64-randconfig-1003-20261026 (https://download.01.org/0day-ci/archive/20261026/202610260838.P0WtLZz6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260838.P0WtLZz6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610260105.HlEhbjTV-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610260838.P0WtLZz6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/smack/smack_lsm.c:1261: warning: Excess function parameter 'mnt=
-_userns' description in 'smack_inode_setxattr'
->> security/smack/smack_lsm.c:1384: warning: Excess function parameter 'mnt=
-_userns' description in 'smack_inode_removexattr'
->> security/smack/smack_lsm.c:1445: warning: Excess function parameter 'mnt=
-_userns' description in 'smack_inode_getsecurity'
+   In file included from include/kvm/arm_pmu.h:11,
+                    from arch/arm64/include/asm/kvm_host.h:38,
+                    from arch/arm64/include/asm/arm_pmuv3.h:9,
+                    from arch/arm64/kernel/cpufeature.c:80:
+   include/linux/perf/arm_pmuv3.h: In function 'pmuv3_event_implemented':
+   include/linux/perf/arm_pmuv3.h:333:19: error: implicit declaration of function 'pmuv3_implemented'; did you mean 'pmuv3_event_implemented'? [-Werror=implicit-function-declaration]
+     if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+                      ^~~~~~~~~~~~~~~~~
+                      pmuv3_event_implemented
+   include/linux/perf/arm_pmuv3.h:333:37: error: implicit declaration of function 'read_pmuver'; did you mean 'read_tcr'? [-Werror=implicit-function-declaration]
+     if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+                                        ^~~~~~~~~~~
+                                        read_tcr
+   include/linux/perf/arm_pmuv3.h:336:21: error: implicit declaration of function 'read_pmceid0'; did you mean 'read_cpuid'? [-Werror=implicit-function-declaration]
+     pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+                        ^~~~~~~~~~~~
+                        read_cpuid
+   include/linux/perf/arm_pmuv3.h:336:38: error: implicit declaration of function 'read_pmceid1'; did you mean 'read_cpuid'? [-Werror=implicit-function-declaration]
+     pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+                                         ^~~~~~~~~~~~
+                                         read_cpuid
+   In file included from arch/arm64/kernel/cpufeature.c:80:
+   arch/arm64/include/asm/arm_pmuv3.h: At top level:
+>> arch/arm64/include/asm/arm_pmuv3.h:49:19: error: conflicting types for 'read_pmuver'
+    static inline u32 read_pmuver(void)
+                      ^~~~~~~~~~~
+   In file included from include/kvm/arm_pmu.h:11,
+                    from arch/arm64/include/asm/kvm_host.h:38,
+                    from arch/arm64/include/asm/arm_pmuv3.h:9,
+                    from arch/arm64/kernel/cpufeature.c:80:
+   include/linux/perf/arm_pmuv3.h:333:37: note: previous implicit declaration of 'read_pmuver' was here
+     if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+                                        ^~~~~~~~~~~
+   In file included from arch/arm64/kernel/cpufeature.c:80:
+>> arch/arm64/include/asm/arm_pmuv3.h:160:19: error: conflicting types for 'read_pmceid0'
+    static inline u64 read_pmceid0(void)
+                      ^~~~~~~~~~~~
+   In file included from include/kvm/arm_pmu.h:11,
+                    from arch/arm64/include/asm/kvm_host.h:38,
+                    from arch/arm64/include/asm/arm_pmuv3.h:9,
+                    from arch/arm64/kernel/cpufeature.c:80:
+   include/linux/perf/arm_pmuv3.h:336:21: note: previous implicit declaration of 'read_pmceid0' was here
+     pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+                        ^~~~~~~~~~~~
+   In file included from arch/arm64/kernel/cpufeature.c:80:
+>> arch/arm64/include/asm/arm_pmuv3.h:165:19: error: conflicting types for 'read_pmceid1'
+    static inline u64 read_pmceid1(void)
+                      ^~~~~~~~~~~~
+   In file included from include/kvm/arm_pmu.h:11,
+                    from arch/arm64/include/asm/kvm_host.h:38,
+                    from arch/arm64/include/asm/arm_pmuv3.h:9,
+                    from arch/arm64/kernel/cpufeature.c:80:
+   include/linux/perf/arm_pmuv3.h:336:38: note: previous implicit declaration of 'read_pmceid1' was here
+     pmceid = id < 32 ? read_pmceid0() : read_pmceid1();
+                                         ^~~~~~~~~~~~
+   In file included from arch/arm64/kernel/cpufeature.c:80:
+>> arch/arm64/include/asm/arm_pmuv3.h:170:20: error: conflicting types for 'pmuv3_implemented'
+    static inline bool pmuv3_implemented(int pmuver)
+                       ^~~~~~~~~~~~~~~~~
+   In file included from include/kvm/arm_pmu.h:11,
+                    from arch/arm64/include/asm/kvm_host.h:38,
+                    from arch/arm64/include/asm/arm_pmuv3.h:9,
+                    from arch/arm64/kernel/cpufeature.c:80:
+   include/linux/perf/arm_pmuv3.h:333:19: note: previous implicit declaration of 'pmuv3_implemented' was here
+     if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+                      ^~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3364:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ISAR2_EL1, LUT, LUT6, CAP_HWCAP, KERNEL_HWCAP_SVE_LUT6),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3364:21: note: (near initialization for 'arm64_elf_hwcaps[44].matches')
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ISAR2_EL1, LUT, LUT6, CAP_HWCAP, KERNEL_HWCAP_SVE_LUT6),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3366:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2p3, CAP_HWCAP, KERNEL_HWCAP_SVE2P3),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3366:21: note: (near initialization for 'arm64_elf_hwcaps[46].matches')
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2p3, CAP_HWCAP, KERNEL_HWCAP_SVE2P3),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3367:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2p2, CAP_HWCAP, KERNEL_HWCAP_SVE2P2),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3367:21: note: (near initialization for 'arm64_elf_hwcaps[47].matches')
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2p2, CAP_HWCAP, KERNEL_HWCAP_SVE2P2),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3368:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2p1, CAP_HWCAP, KERNEL_HWCAP_SVE2P1),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3368:21: note: (near initialization for 'arm64_elf_hwcaps[48].matches')
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2p1, CAP_HWCAP, KERNEL_HWCAP_SVE2P1),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3369:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2, CAP_HWCAP, KERNEL_HWCAP_SVE2),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3369:21: note: (near initialization for 'arm64_elf_hwcaps[49].matches')
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, SVEver, SVE2, CAP_HWCAP, KERNEL_HWCAP_SVE2),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3370:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, AES, IMP, CAP_HWCAP, KERNEL_HWCAP_SVEAES),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3370:21: note: (near initialization for 'arm64_elf_hwcaps[50].matches')
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, AES, IMP, CAP_HWCAP, KERNEL_HWCAP_SVEAES),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3371:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, AES, PMULL128, CAP_HWCAP, KERNEL_HWCAP_SVEPMULL),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3371:21: note: (near initialization for 'arm64_elf_hwcaps[51].matches')
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, AES, PMULL128, CAP_HWCAP, KERNEL_HWCAP_SVEPMULL),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3372:21: warning: initialized field overwritten [-Woverride-init]
+     HWCAP_CAP_MATCH_ID(has_sve_feature, ID_AA64ZFR0_EL1, AES, AES2, CAP_HWCAP, KERNEL_HWCAP_SVE_AES2),
+                        ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/cpufeature.c:3273:14: note: in definition of macro 'HWCAP_CAP_MATCH_ID'
+      .matches = match,      \
+                 ^~~~~
+   arch/arm64/kernel/cpufeature.c:3372:21: note: (near initialization for 'arm64_elf_hwcaps[52].matches')
 
 
-vim +1261 security/smack/smack_lsm.c
+vim +/read_pmuver +49 arch/arm64/include/asm/arm_pmuv3.h
 
-e114e473771c84 Casey Schaufler       2008-02-04  1245 =20
-e114e473771c84 Casey Schaufler       2008-02-04  1246  /**
-e114e473771c84 Casey Schaufler       2008-02-04  1247   * smack_inode_setxa=
-ttr - Smack check for setting xattrs
-665f9113e0d21a Casey Schaufler       2021-10-13  1248   * @mnt_userns: acti=
-ve user namespace
-e114e473771c84 Casey Schaufler       2008-02-04  1249   * @dentry: the obje=
-ct
-e114e473771c84 Casey Schaufler       2008-02-04  1250   * @name: name of th=
-e attribute
-e95ef49b7f8f49 Lukasz Pawelczyk      2014-08-29  1251   * @value: value of =
-the attribute
-e95ef49b7f8f49 Lukasz Pawelczyk      2014-08-29  1252   * @size: size of th=
-e value
-e114e473771c84 Casey Schaufler       2008-02-04  1253   * @flags: unused
-e114e473771c84 Casey Schaufler       2008-02-04  1254   *
-e114e473771c84 Casey Schaufler       2008-02-04  1255   * This protects the=
- Smack attribute explicitly.
-e114e473771c84 Casey Schaufler       2008-02-04  1256   *
-e114e473771c84 Casey Schaufler       2008-02-04  1257   * Returns 0 if acce=
-ss is permitted, an error code otherwise
-e114e473771c84 Casey Schaufler       2008-02-04  1258   */
-8f0cfa52a1d4ff David Howells         2008-04-29  1259  static int smack_ino=
-de_setxattr(struct dentry *dentry, const char *name,
-8f0cfa52a1d4ff David Howells         2008-04-29  1260  				const void *valu=
-e, size_t size, int flags)
-e114e473771c84 Casey Schaufler       2008-02-04 @1261  {
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1262  	struct smk_audit_in=
-fo ad;
-19760ad03cc639 Casey Schaufler       2013-12-16  1263  	struct smack_known =
-*skp;
-19760ad03cc639 Casey Schaufler       2013-12-16  1264  	int check_priv =3D =
-0;
-19760ad03cc639 Casey Schaufler       2013-12-16  1265  	int check_import =
-=3D 0;
-19760ad03cc639 Casey Schaufler       2013-12-16  1266  	int check_star =3D =
-0;
-bcdca225bfa016 Casey Schaufler       2008-02-23  1267  	int rc =3D 0;
-bcdca225bfa016 Casey Schaufler       2008-02-23  1268 =20
-19760ad03cc639 Casey Schaufler       2013-12-16  1269  	/*
-19760ad03cc639 Casey Schaufler       2013-12-16  1270  	 * Check label vali=
-dity here so import won't fail in post_setxattr
-19760ad03cc639 Casey Schaufler       2013-12-16  1271  	 */
-e114e473771c84 Casey Schaufler       2008-02-04  1272  	if (strcmp(name, XA=
-TTR_NAME_SMACK) =3D=3D 0 ||
-e114e473771c84 Casey Schaufler       2008-02-04  1273  	    strcmp(name, XA=
-TTR_NAME_SMACKIPIN) =3D=3D 0 ||
-19760ad03cc639 Casey Schaufler       2013-12-16  1274  	    strcmp(name, XA=
-TTR_NAME_SMACKIPOUT) =3D=3D 0) {
-19760ad03cc639 Casey Schaufler       2013-12-16  1275  		check_priv =3D 1;
-19760ad03cc639 Casey Schaufler       2013-12-16  1276  		check_import =3D 1;
-19760ad03cc639 Casey Schaufler       2013-12-16  1277  	} else if (strcmp(n=
-ame, XATTR_NAME_SMACKEXEC) =3D=3D 0 ||
-7898e1f8e9eb1b Casey Schaufler       2011-01-17  1278  		   strcmp(name, XA=
-TTR_NAME_SMACKMMAP) =3D=3D 0) {
-19760ad03cc639 Casey Schaufler       2013-12-16  1279  		check_priv =3D 1;
-19760ad03cc639 Casey Schaufler       2013-12-16  1280  		check_import =3D 1;
-19760ad03cc639 Casey Schaufler       2013-12-16  1281  		check_star =3D 1;
-5c6d1125f8dbd1 Jarkko Sakkinen       2010-12-07  1282  	} else if (strcmp(n=
-ame, XATTR_NAME_SMACKTRANSMUTE) =3D=3D 0) {
-19760ad03cc639 Casey Schaufler       2013-12-16  1283  		check_priv =3D 1;
-a354d9e3b66c1e Roberto Sassu         2023-11-16  1284  		if (!S_ISDIR(d_bac=
-king_inode(dentry)->i_mode) ||
-a354d9e3b66c1e Roberto Sassu         2023-11-16  1285  		    size !=3D TRAN=
-S_TRUE_SIZE ||
-5c6d1125f8dbd1 Jarkko Sakkinen       2010-12-07  1286  		    strncmp(value,=
- TRANS_TRUE, TRANS_TRUE_SIZE) !=3D 0)
-5c6d1125f8dbd1 Jarkko Sakkinen       2010-12-07  1287  			rc =3D -EINVAL;
-bcdca225bfa016 Casey Schaufler       2008-02-23  1288  	} else
-bcdca225bfa016 Casey Schaufler       2008-02-23  1289  		rc =3D cap_inode_s=
-etxattr(dentry, name, value, size, flags);
-e114e473771c84 Casey Schaufler       2008-02-04  1290 =20
-19760ad03cc639 Casey Schaufler       2013-12-16  1291  	if (check_priv && !=
-smack_privileged(CAP_MAC_ADMIN))
-19760ad03cc639 Casey Schaufler       2013-12-16  1292  		rc =3D -EPERM;
-19760ad03cc639 Casey Schaufler       2013-12-16  1293 =20
-19760ad03cc639 Casey Schaufler       2013-12-16  1294  	if (rc =3D=3D 0 && =
-check_import) {
-b862e561bad637 Konstantin Khlebnikov 2014-08-07  1295  		skp =3D size ? smk=
-_import_entry(value, size) : NULL;
-e774ad683f425a Lukasz Pawelczyk      2015-04-20  1296  		if (IS_ERR(skp))
-e774ad683f425a Lukasz Pawelczyk      2015-04-20  1297  			rc =3D PTR_ERR(sk=
-p);
-e774ad683f425a Lukasz Pawelczyk      2015-04-20  1298  		else if (skp =3D=
-=3D NULL || (check_star &&
-19760ad03cc639 Casey Schaufler       2013-12-16  1299  		    (skp =3D=3D &s=
-mack_known_star || skp =3D=3D &smack_known_web)))
-19760ad03cc639 Casey Schaufler       2013-12-16  1300  			rc =3D -EINVAL;
-19760ad03cc639 Casey Schaufler       2013-12-16  1301  	}
-19760ad03cc639 Casey Schaufler       2013-12-16  1302 =20
-a269434d2fb48a Eric Paris            2011-04-25  1303  	smk_ad_init(&ad, __=
-func__, LSM_AUDIT_DATA_DENTRY);
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1304  	smk_ad_setfield_u_f=
-s_path_dentry(&ad, dentry);
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1305 =20
-d166c8024d620d Casey Schaufler       2014-08-27  1306  	if (rc =3D=3D 0) {
-c6f493d631c4d4 David Howells         2015-03-17  1307  		rc =3D smk_curacc(=
-smk_of_inode(d_backing_inode(dentry)), MAY_WRITE, &ad);
-c6f493d631c4d4 David Howells         2015-03-17  1308  		rc =3D smk_bu_inod=
-e(d_backing_inode(dentry), MAY_WRITE, rc);
-d166c8024d620d Casey Schaufler       2014-08-27  1309  	}
-bcdca225bfa016 Casey Schaufler       2008-02-23  1310 =20
-bcdca225bfa016 Casey Schaufler       2008-02-23  1311  	return rc;
-e114e473771c84 Casey Schaufler       2008-02-04  1312  }
-e114e473771c84 Casey Schaufler       2008-02-04  1313 =20
-e114e473771c84 Casey Schaufler       2008-02-04  1314  /**
-e114e473771c84 Casey Schaufler       2008-02-04  1315   * smack_inode_post_=
-setxattr - Apply the Smack update approved above
-e114e473771c84 Casey Schaufler       2008-02-04  1316   * @dentry: object
-e114e473771c84 Casey Schaufler       2008-02-04  1317   * @name: attribute =
-name
-e114e473771c84 Casey Schaufler       2008-02-04  1318   * @value: attribute=
- value
-e114e473771c84 Casey Schaufler       2008-02-04  1319   * @size: attribute =
-size
-e114e473771c84 Casey Schaufler       2008-02-04  1320   * @flags: unused
-e114e473771c84 Casey Schaufler       2008-02-04  1321   *
-e114e473771c84 Casey Schaufler       2008-02-04  1322   * Set the pointer i=
-n the inode blob to the entry found
-e114e473771c84 Casey Schaufler       2008-02-04  1323   * in the master lab=
-el list.
-e114e473771c84 Casey Schaufler       2008-02-04  1324   */
-8f0cfa52a1d4ff David Howells         2008-04-29  1325  static void smack_in=
-ode_post_setxattr(struct dentry *dentry, const char *name,
-8f0cfa52a1d4ff David Howells         2008-04-29  1326  				      const void=
- *value, size_t size, int flags)
-e114e473771c84 Casey Schaufler       2008-02-04  1327  {
-2f823ff8bec03a Casey Schaufler       2013-05-22  1328  	struct smack_known =
-*skp;
-fb4021b6fb5818 Casey Schaufler       2018-11-12  1329  	struct inode_smack =
-*isp =3D smack_inode(d_backing_inode(dentry));
-676dac4b1bee04 Casey Schaufler       2010-12-02  1330 =20
-2f823ff8bec03a Casey Schaufler       2013-05-22  1331  	if (strcmp(name, XA=
-TTR_NAME_SMACKTRANSMUTE) =3D=3D 0) {
-2f823ff8bec03a Casey Schaufler       2013-05-22  1332  		isp->smk_flags |=
-=3D SMK_INODE_TRANSMUTE;
-2f823ff8bec03a Casey Schaufler       2013-05-22  1333  		return;
-2f823ff8bec03a Casey Schaufler       2013-05-22  1334  	}
-2f823ff8bec03a Casey Schaufler       2013-05-22  1335 =20
-676dac4b1bee04 Casey Schaufler       2010-12-02  1336  	if (strcmp(name, XA=
-TTR_NAME_SMACK) =3D=3D 0) {
-9598f4c9e7069a Jos=C3=A9 Bollo            2014-04-03  1337  		skp =3D smk_i=
-mport_entry(value, size);
-e774ad683f425a Lukasz Pawelczyk      2015-04-20  1338  		if (!IS_ERR(skp))
-21c7eae21a2100 Lukasz Pawelczyk      2014-08-29  1339  			isp->smk_inode =
-=3D skp;
-5c6d1125f8dbd1 Jarkko Sakkinen       2010-12-07  1340  	} else if (strcmp(n=
-ame, XATTR_NAME_SMACKEXEC) =3D=3D 0) {
-9598f4c9e7069a Jos=C3=A9 Bollo            2014-04-03  1341  		skp =3D smk_i=
-mport_entry(value, size);
-e774ad683f425a Lukasz Pawelczyk      2015-04-20  1342  		if (!IS_ERR(skp))
-2f823ff8bec03a Casey Schaufler       2013-05-22  1343  			isp->smk_task =3D =
-skp;
-7898e1f8e9eb1b Casey Schaufler       2011-01-17  1344  	} else if (strcmp(n=
-ame, XATTR_NAME_SMACKMMAP) =3D=3D 0) {
-9598f4c9e7069a Jos=C3=A9 Bollo            2014-04-03  1345  		skp =3D smk_i=
-mport_entry(value, size);
-e774ad683f425a Lukasz Pawelczyk      2015-04-20  1346  		if (!IS_ERR(skp))
-2f823ff8bec03a Casey Schaufler       2013-05-22  1347  			isp->smk_mmap =3D =
-skp;
-2f823ff8bec03a Casey Schaufler       2013-05-22  1348  	}
-e114e473771c84 Casey Schaufler       2008-02-04  1349 =20
-e114e473771c84 Casey Schaufler       2008-02-04  1350  	return;
-e114e473771c84 Casey Schaufler       2008-02-04  1351  }
-e114e473771c84 Casey Schaufler       2008-02-04  1352 =20
-ce8a432197d989 Casey Schaufler       2011-09-29  1353  /**
-e114e473771c84 Casey Schaufler       2008-02-04  1354   * smack_inode_getxa=
-ttr - Smack check on getxattr
-e114e473771c84 Casey Schaufler       2008-02-04  1355   * @dentry: the obje=
-ct
-e114e473771c84 Casey Schaufler       2008-02-04  1356   * @name: unused
-e114e473771c84 Casey Schaufler       2008-02-04  1357   *
-e114e473771c84 Casey Schaufler       2008-02-04  1358   * Returns 0 if acce=
-ss is permitted, an error code otherwise
-e114e473771c84 Casey Schaufler       2008-02-04  1359   */
-8f0cfa52a1d4ff David Howells         2008-04-29  1360  static int smack_ino=
-de_getxattr(struct dentry *dentry, const char *name)
-e114e473771c84 Casey Schaufler       2008-02-04  1361  {
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1362  	struct smk_audit_in=
-fo ad;
-d166c8024d620d Casey Schaufler       2014-08-27  1363  	int rc;
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1364 =20
-a269434d2fb48a Eric Paris            2011-04-25  1365  	smk_ad_init(&ad, __=
-func__, LSM_AUDIT_DATA_DENTRY);
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1366  	smk_ad_setfield_u_f=
-s_path_dentry(&ad, dentry);
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1367 =20
-c6f493d631c4d4 David Howells         2015-03-17  1368  	rc =3D smk_curacc(s=
-mk_of_inode(d_backing_inode(dentry)), MAY_READ, &ad);
-c6f493d631c4d4 David Howells         2015-03-17  1369  	rc =3D smk_bu_inode=
-(d_backing_inode(dentry), MAY_READ, rc);
-d166c8024d620d Casey Schaufler       2014-08-27  1370  	return rc;
-e114e473771c84 Casey Schaufler       2008-02-04  1371  }
-e114e473771c84 Casey Schaufler       2008-02-04  1372 =20
-ce8a432197d989 Casey Schaufler       2011-09-29  1373  /**
-e114e473771c84 Casey Schaufler       2008-02-04  1374   * smack_inode_remov=
-exattr - Smack check on removexattr
-665f9113e0d21a Casey Schaufler       2021-10-13  1375   * @mnt_userns: acti=
-ve user namespace
-e114e473771c84 Casey Schaufler       2008-02-04  1376   * @dentry: the obje=
-ct
-e114e473771c84 Casey Schaufler       2008-02-04  1377   * @name: name of th=
-e attribute
-e114e473771c84 Casey Schaufler       2008-02-04  1378   *
-e114e473771c84 Casey Schaufler       2008-02-04  1379   * Removing the Smac=
-k attribute requires CAP_MAC_ADMIN
-e114e473771c84 Casey Schaufler       2008-02-04  1380   *
-e114e473771c84 Casey Schaufler       2008-02-04  1381   * Returns 0 if acce=
-ss is permitted, an error code otherwise
-e114e473771c84 Casey Schaufler       2008-02-04  1382   */
-8f0cfa52a1d4ff David Howells         2008-04-29  1383  static int smack_ino=
-de_removexattr(struct dentry *dentry, const char *name)
-e114e473771c84 Casey Schaufler       2008-02-04 @1384  {
-676dac4b1bee04 Casey Schaufler       2010-12-02  1385  	struct inode_smack =
-*isp;
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1386  	struct smk_audit_in=
-fo ad;
-bcdca225bfa016 Casey Schaufler       2008-02-23  1387  	int rc =3D 0;
-e114e473771c84 Casey Schaufler       2008-02-04  1388 =20
-bcdca225bfa016 Casey Schaufler       2008-02-23  1389  	if (strcmp(name, XA=
-TTR_NAME_SMACK) =3D=3D 0 ||
-bcdca225bfa016 Casey Schaufler       2008-02-23  1390  	    strcmp(name, XA=
-TTR_NAME_SMACKIPIN) =3D=3D 0 ||
-676dac4b1bee04 Casey Schaufler       2010-12-02  1391  	    strcmp(name, XA=
-TTR_NAME_SMACKIPOUT) =3D=3D 0 ||
-5c6d1125f8dbd1 Jarkko Sakkinen       2010-12-07  1392  	    strcmp(name, XA=
-TTR_NAME_SMACKEXEC) =3D=3D 0 ||
-7898e1f8e9eb1b Casey Schaufler       2011-01-17  1393  	    strcmp(name, XA=
-TTR_NAME_SMACKTRANSMUTE) =3D=3D 0 ||
-5e9ab593c2da30 Pankaj Kumar          2013-12-13  1394  	    strcmp(name, XA=
-TTR_NAME_SMACKMMAP) =3D=3D 0) {
-1880eff77e7a7c Casey Schaufler       2012-06-05  1395  		if (!smack_privile=
-ged(CAP_MAC_ADMIN))
-bcdca225bfa016 Casey Schaufler       2008-02-23  1396  			rc =3D -EPERM;
-bcdca225bfa016 Casey Schaufler       2008-02-23  1397  	} else
-bcdca225bfa016 Casey Schaufler       2008-02-23  1398  		rc =3D cap_inode_r=
-emovexattr(dentry, name);
-bcdca225bfa016 Casey Schaufler       2008-02-23  1399 =20
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1400  	if (rc !=3D 0)
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1401  		return rc;
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1402 =20
-a269434d2fb48a Eric Paris            2011-04-25  1403  	smk_ad_init(&ad, __=
-func__, LSM_AUDIT_DATA_DENTRY);
-ecfcc53fef3c35 Etienne Basset        2009-04-08  1404  	smk_ad_setfield_u_f=
-s_path_dentry(&ad, dentry);
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1405 =20
-c6f493d631c4d4 David Howells         2015-03-17  1406  	rc =3D smk_curacc(s=
-mk_of_inode(d_backing_inode(dentry)), MAY_WRITE, &ad);
-c6f493d631c4d4 David Howells         2015-03-17  1407  	rc =3D smk_bu_inode=
-(d_backing_inode(dentry), MAY_WRITE, rc);
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1408  	if (rc !=3D 0)
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1409  		return rc;
-bcdca225bfa016 Casey Schaufler       2008-02-23  1410 =20
-fb4021b6fb5818 Casey Schaufler       2018-11-12  1411  	isp =3D smack_inode=
-(d_backing_inode(dentry));
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1412  	/*
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1413  	 * Don't do anythin=
-g special for these.
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1414  	 *	XATTR_NAME_SMACK=
-IPIN
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1415  	 *	XATTR_NAME_SMACK=
-IPOUT
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1416  	 */
-8012495e177bbf Jos=C3=A9 Bollo            2016-01-12  1417  	if (strcmp(nam=
-e, XATTR_NAME_SMACK) =3D=3D 0) {
-fc64005c93090c Al Viro               2016-04-10  1418  		struct super_block=
- *sbp =3D dentry->d_sb;
-8012495e177bbf Jos=C3=A9 Bollo            2016-01-12  1419  		struct superb=
-lock_smack *sbsp =3D sbp->s_security;
-8012495e177bbf Jos=C3=A9 Bollo            2016-01-12  1420 =20
-8012495e177bbf Jos=C3=A9 Bollo            2016-01-12  1421  		isp->smk_inod=
-e =3D sbsp->smk_default;
-8012495e177bbf Jos=C3=A9 Bollo            2016-01-12  1422  	} else if (str=
-cmp(name, XATTR_NAME_SMACKEXEC) =3D=3D 0)
-676dac4b1bee04 Casey Schaufler       2010-12-02  1423  		isp->smk_task =3D =
-NULL;
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1424  	else if (strcmp(nam=
-e, XATTR_NAME_SMACKMMAP) =3D=3D 0)
-7898e1f8e9eb1b Casey Schaufler       2011-01-17  1425  		isp->smk_mmap =3D =
-NULL;
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1426  	else if (strcmp(nam=
-e, XATTR_NAME_SMACKTRANSMUTE) =3D=3D 0)
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1427  		isp->smk_flags &=
-=3D ~SMK_INODE_TRANSMUTE;
-676dac4b1bee04 Casey Schaufler       2010-12-02  1428 =20
-f59bdfba3e2b0b Casey Schaufler       2014-04-10  1429  	return 0;
-e114e473771c84 Casey Schaufler       2008-02-04  1430  }
-e114e473771c84 Casey Schaufler       2008-02-04  1431 =20
-e114e473771c84 Casey Schaufler       2008-02-04  1432  /**
-e114e473771c84 Casey Schaufler       2008-02-04  1433   * smack_inode_getse=
-curity - get smack xattrs
-665f9113e0d21a Casey Schaufler       2021-10-13  1434   * @mnt_userns: acti=
-ve user namespace
-e114e473771c84 Casey Schaufler       2008-02-04  1435   * @inode: the object
-e114e473771c84 Casey Schaufler       2008-02-04  1436   * @name: attribute =
-name
-e114e473771c84 Casey Schaufler       2008-02-04  1437   * @buffer: where to=
- put the result
-57e7ba04d422c3 Casey Schaufler       2017-09-19  1438   * @alloc: duplicate=
- memory
-e114e473771c84 Casey Schaufler       2008-02-04  1439   *
-e114e473771c84 Casey Schaufler       2008-02-04  1440   * Returns the size =
-of the attribute or an error code
-e114e473771c84 Casey Schaufler       2008-02-04  1441   */
-ea861dfd9e0e7e Andreas Gruenbacher   2015-12-24  1442  static int smack_ino=
-de_getsecurity(struct inode *inode,
-e114e473771c84 Casey Schaufler       2008-02-04  1443  				   const char *n=
-ame, void **buffer,
-e114e473771c84 Casey Schaufler       2008-02-04  1444  				   bool alloc)
-e114e473771c84 Casey Schaufler       2008-02-04 @1445  {
-e114e473771c84 Casey Schaufler       2008-02-04  1446  	struct socket_smack=
- *ssp;
-e114e473771c84 Casey Schaufler       2008-02-04  1447  	struct socket *sock;
-e114e473771c84 Casey Schaufler       2008-02-04  1448  	struct super_block =
-*sbp;
-e114e473771c84 Casey Schaufler       2008-02-04  1449  	struct inode *ip =
-=3D (struct inode *)inode;
-21c7eae21a2100 Lukasz Pawelczyk      2014-08-29  1450  	struct smack_known =
-*isp;
-297c51c63fe156 Roberto Sassu         2023-05-08  1451  	struct inode_smack =
-*ispp;
-297c51c63fe156 Roberto Sassu         2023-05-08  1452  	size_t label_len;
-297c51c63fe156 Roberto Sassu         2023-05-08  1453  	char *label =3D NUL=
-L;
-e114e473771c84 Casey Schaufler       2008-02-04  1454 =20
-297c51c63fe156 Roberto Sassu         2023-05-08  1455  	if (strcmp(name, XA=
-TTR_SMACK_SUFFIX) =3D=3D 0) {
-e114e473771c84 Casey Schaufler       2008-02-04  1456  		isp =3D smk_of_ino=
-de(inode);
-297c51c63fe156 Roberto Sassu         2023-05-08  1457  	} else if (strcmp(n=
-ame, XATTR_SMACK_TRANSMUTE) =3D=3D 0) {
-297c51c63fe156 Roberto Sassu         2023-05-08  1458  		ispp =3D smack_ino=
-de(inode);
-297c51c63fe156 Roberto Sassu         2023-05-08  1459  		if (ispp->smk_flag=
-s & SMK_INODE_TRANSMUTE)
-297c51c63fe156 Roberto Sassu         2023-05-08  1460  			label =3D TRANS_T=
-RUE;
-297c51c63fe156 Roberto Sassu         2023-05-08  1461  		else
-297c51c63fe156 Roberto Sassu         2023-05-08  1462  			label =3D "";
-297c51c63fe156 Roberto Sassu         2023-05-08  1463  	} else {
-e114e473771c84 Casey Schaufler       2008-02-04  1464  		/*
-e114e473771c84 Casey Schaufler       2008-02-04  1465  		 * The rest of the=
- Smack xattrs are only on sockets.
-e114e473771c84 Casey Schaufler       2008-02-04  1466  		 */
-e114e473771c84 Casey Schaufler       2008-02-04  1467  		sbp =3D ip->i_sb;
-e114e473771c84 Casey Schaufler       2008-02-04  1468  		if (sbp->s_magic !=
-=3D SOCKFS_MAGIC)
-e114e473771c84 Casey Schaufler       2008-02-04  1469  			return -EOPNOTSUP=
-P;
-e114e473771c84 Casey Schaufler       2008-02-04  1470 =20
-e114e473771c84 Casey Schaufler       2008-02-04  1471  		sock =3D SOCKET_I(=
-ip);
-2e1d146a19f294 Ahmed S. Darwish      2008-02-13  1472  		if (sock =3D=3D NU=
-LL || sock->sk =3D=3D NULL)
-e114e473771c84 Casey Schaufler       2008-02-04  1473  			return -EOPNOTSUP=
-P;
-e114e473771c84 Casey Schaufler       2008-02-04  1474 =20
-3628f8be466567 Casey Schaufler       2026-07-23  1475  		ssp =3D smack_sock=
-(sock->sk);
-e114e473771c84 Casey Schaufler       2008-02-04  1476 =20
-e114e473771c84 Casey Schaufler       2008-02-04  1477  		if (strcmp(name, X=
-ATTR_SMACK_IPIN) =3D=3D 0)
-21c7eae21a2100 Lukasz Pawelczyk      2014-08-29  1478  			isp =3D ssp->smk_=
-in;
-e114e473771c84 Casey Schaufler       2008-02-04  1479  		else if (strcmp(na=
-me, XATTR_SMACK_IPOUT) =3D=3D 0)
-21c7eae21a2100 Lukasz Pawelczyk      2014-08-29  1480  			isp =3D ssp->smk_=
-out;
-e114e473771c84 Casey Schaufler       2008-02-04  1481  		else
-e114e473771c84 Casey Schaufler       2008-02-04  1482  			return -EOPNOTSUP=
-P;
-57e7ba04d422c3 Casey Schaufler       2017-09-19  1483  	}
-e114e473771c84 Casey Schaufler       2008-02-04  1484 =20
-297c51c63fe156 Roberto Sassu         2023-05-08  1485  	if (!label)
-297c51c63fe156 Roberto Sassu         2023-05-08  1486  		label =3D isp->smk=
-_known;
-297c51c63fe156 Roberto Sassu         2023-05-08  1487 =20
-297c51c63fe156 Roberto Sassu         2023-05-08  1488  	label_len =3D strle=
-n(label);
-297c51c63fe156 Roberto Sassu         2023-05-08  1489 =20
-57e7ba04d422c3 Casey Schaufler       2017-09-19  1490  	if (alloc) {
-297c51c63fe156 Roberto Sassu         2023-05-08  1491  		*buffer =3D kstrdu=
-p(label, GFP_KERNEL);
-57e7ba04d422c3 Casey Schaufler       2017-09-19  1492  		if (*buffer =3D=3D =
-NULL)
-57e7ba04d422c3 Casey Schaufler       2017-09-19  1493  			return -ENOMEM;
-e114e473771c84 Casey Schaufler       2008-02-04  1494  	}
-e114e473771c84 Casey Schaufler       2008-02-04  1495 =20
-297c51c63fe156 Roberto Sassu         2023-05-08  1496  	return label_len;
-e114e473771c84 Casey Schaufler       2008-02-04  1497  }
-e114e473771c84 Casey Schaufler       2008-02-04  1498 =20
-
-:::::: The code at line 1261 was first introduced by commit
-:::::: e114e473771c848c3cfec05f0123e70f1cdbdc99 Smack: Simplified Mandatory=
- Access Control Kernel
-
-:::::: TO: Casey Schaufler <casey@schaufler-ca.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+df29ddf4f04b00 Marc Zyngier      2023-03-17   48  
+df29ddf4f04b00 Marc Zyngier      2023-03-17  @49  static inline u32 read_pmuver(void)
+df29ddf4f04b00 Marc Zyngier      2023-03-17   50  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17   51  	u64 dfr0 = read_sysreg(id_aa64dfr0_el1);
+df29ddf4f04b00 Marc Zyngier      2023-03-17   52  
+df29ddf4f04b00 Marc Zyngier      2023-03-17   53  	return cpuid_feature_extract_unsigned_field(dfr0,
+df29ddf4f04b00 Marc Zyngier      2023-03-17   54  			ID_AA64DFR0_EL1_PMUVer_SHIFT);
+df29ddf4f04b00 Marc Zyngier      2023-03-17   55  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17   56  
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   57) static inline bool pmuv3_has_icntr(void)
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   58) {
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   59) 	u64 dfr1 = read_sysreg(id_aa64dfr1_el1);
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   60) 
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   61) 	return !!cpuid_feature_extract_unsigned_field(dfr1,
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   62) 			ID_AA64DFR1_EL1_PMICNTR_SHIFT);
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   63) }
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   64) 
+403edfa436286b Ilkka Koskinen    2023-11-02   65  static inline void write_pmcr(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17   66  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17   67  	write_sysreg(val, pmcr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17   68  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17   69  
+403edfa436286b Ilkka Koskinen    2023-11-02   70  static inline u64 read_pmcr(void)
+df29ddf4f04b00 Marc Zyngier      2023-03-17   71  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17   72  	return read_sysreg(pmcr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17   73  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17   74  
+df29ddf4f04b00 Marc Zyngier      2023-03-17   75  static inline void write_pmselr(u32 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17   76  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17   77  	write_sysreg(val, pmselr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17   78  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17   79  
+df29ddf4f04b00 Marc Zyngier      2023-03-17   80  static inline void write_pmccntr(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17   81  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17   82  	write_sysreg(val, pmccntr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17   83  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17   84  
+df29ddf4f04b00 Marc Zyngier      2023-03-17   85  static inline u64 read_pmccntr(void)
+df29ddf4f04b00 Marc Zyngier      2023-03-17   86  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17   87  	return read_sysreg(pmccntr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17   88  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17   89  
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   90) static inline void write_pmicntr(u64 val)
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   91) {
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   92) 	write_sysreg_s(val, SYS_PMICNTR_EL0);
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   93) }
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   94) 
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   95) static inline u64 read_pmicntr(void)
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   96) {
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   97) 	return read_sysreg_s(SYS_PMICNTR_EL0);
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   98) }
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31   99) 
+a4a6e2078d85a9 Rob Herring (Arm  2024-07-31  100) static inline void write_pmcntenset(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  101  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  102  	write_sysreg(val, pmcntenset_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  103  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  104  
+a4a6e2078d85a9 Rob Herring (Arm  2024-07-31  105) static inline void write_pmcntenclr(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  106  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  107  	write_sysreg(val, pmcntenclr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  108  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  109  
+a4a6e2078d85a9 Rob Herring (Arm  2024-07-31  110) static inline void write_pmintenset(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  111  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  112  	write_sysreg(val, pmintenset_el1);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  113  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  114  
+a4a6e2078d85a9 Rob Herring (Arm  2024-07-31  115) static inline void write_pmintenclr(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  116  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  117  	write_sysreg(val, pmintenclr_el1);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  118  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  119  
+403edfa436286b Ilkka Koskinen    2023-11-02  120  static inline void write_pmccfiltr(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  121  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  122  	write_sysreg(val, pmccfiltr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  123  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  124  
+741ee5284551cf Rob Herring (Arm  2024-07-31  125) static inline u64 read_pmccfiltr(void)
+741ee5284551cf Rob Herring (Arm  2024-07-31  126) {
+741ee5284551cf Rob Herring (Arm  2024-07-31  127) 	return read_sysreg(pmccfiltr_el0);
+741ee5284551cf Rob Herring (Arm  2024-07-31  128) }
+741ee5284551cf Rob Herring (Arm  2024-07-31  129) 
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  130) static inline void write_pmicfiltr(u64 val)
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  131) {
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  132) 	write_sysreg_s(val, SYS_PMICFILTR_EL0);
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  133) }
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  134) 
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  135) static inline u64 read_pmicfiltr(void)
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  136) {
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  137) 	return read_sysreg_s(SYS_PMICFILTR_EL0);
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  138) }
+d8226d8cfbaf5e Rob Herring (Arm  2024-07-31  139) 
+a4a6e2078d85a9 Rob Herring (Arm  2024-07-31  140) static inline void write_pmovsclr(u64 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  141  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  142  	write_sysreg(val, pmovsclr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  143  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  144  
+a4a6e2078d85a9 Rob Herring (Arm  2024-07-31  145) static inline u64 read_pmovsclr(void)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  146  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  147  	return read_sysreg(pmovsclr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  148  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  149  
+df29ddf4f04b00 Marc Zyngier      2023-03-17  150  static inline void write_pmuserenr(u32 val)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  151  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  152  	write_sysreg(val, pmuserenr_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  153  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  154  
+0bbff9ed81654d Rob Herring (Arm  2024-10-02  155) static inline void write_pmuacr(u64 val)
+0bbff9ed81654d Rob Herring (Arm  2024-10-02  156) {
+0bbff9ed81654d Rob Herring (Arm  2024-10-02  157) 	write_sysreg_s(val, SYS_PMUACR_EL1);
+0bbff9ed81654d Rob Herring (Arm  2024-10-02  158) }
+0bbff9ed81654d Rob Herring (Arm  2024-10-02  159) 
+403edfa436286b Ilkka Koskinen    2023-11-02 @160  static inline u64 read_pmceid0(void)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  161  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  162  	return read_sysreg(pmceid0_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  163  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  164  
+403edfa436286b Ilkka Koskinen    2023-11-02 @165  static inline u64 read_pmceid1(void)
+df29ddf4f04b00 Marc Zyngier      2023-03-17  166  {
+df29ddf4f04b00 Marc Zyngier      2023-03-17  167  	return read_sysreg(pmceid1_el0);
+df29ddf4f04b00 Marc Zyngier      2023-03-17  168  }
+df29ddf4f04b00 Marc Zyngier      2023-03-17  169  
+711432770f78e5 Zaid Al-Bassam    2023-03-17 @170  static inline bool pmuv3_implemented(int pmuver)
+711432770f78e5 Zaid Al-Bassam    2023-03-17  171  {
+711432770f78e5 Zaid Al-Bassam    2023-03-17  172  	return !(pmuver == ID_AA64DFR0_EL1_PMUVer_IMP_DEF ||
+711432770f78e5 Zaid Al-Bassam    2023-03-17  173  		 pmuver == ID_AA64DFR0_EL1_PMUVer_NI);
+711432770f78e5 Zaid Al-Bassam    2023-03-17  174  }
+711432770f78e5 Zaid Al-Bassam    2023-03-17  175  
 
 --
 0-DAY CI Kernel Test Service
