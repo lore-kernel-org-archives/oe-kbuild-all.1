@@ -1,83 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792968081;
-	b=me4xo560jieng9Sf7QmXOCJiKZoWqmy2s/ID4kkR/hiqpLLs6Q0bmO9/AwecME39bj4N
-	 GAl+1NsRbchtmXpnbfbizFOoXg+of6JHLSfVPWoMaG8Thz2VmDbunNXyZUHFFa2nVR7Od
-	 avvIurYE7jgDk1ZjiaG5fW5e4Op0pZqAbBGlFxjTJre8c93JxGpl1erDo24kdXI0G5ocH
-	 qRKMNEjXBrwuexgPuwxZWl8kHikkGIW2eC0iVc/U88yA6gBE4EK4f9JceaVtTs2HcgPUq
-	 7qfVL9aKciZsu5trCqfNccw/xBza/KbFtd/fZTcGeJu7YYUDUuwUe4VprFjmeiio4rg==
+	t=1792973462;
+	b=lRHuwcEPuRI7wCsQGUUvA8sDAKslubqpyPL0Alr1hrMlmM/oqIbvyF0AWWjc/bwf3hCL
+	 ycTybLxI01V8fcnQlDuHS0XaSJjI2OzQkiTpxpsK5H5e1w0W8zSuU+qtnN+Jw7MIUaY6+
+	 PsQHR8t7JvrjPco29bZio2BaFnOSCniKHnPW/W9Xui8LQYmI38m+KbrduONHzG/3PcMbe
+	 ocja91v6SaGOsK2b0JTt6Z1y2t8HZI6LuvQgu+YeE6uNTD+hx4fnj3sbKBTqT5GH7Daup
+	 Nbe1+J+iBLzNUilcRKb68ksl+jCZBAIQD99uQfdNBBuJPfrbekRyliOVHkpDixNBNng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792968081;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792973462;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=BYhwEPlk5ecLTu4XbRi6L+u2Q7cMf+48BjLiZm8/FDg=;
-	b=A62YVTnzHRS54O8tCDGeNfBQXThZIWHfsYKb5djImqnMM7BAq/ik1Bj0+Nc12Qq03WNW
-	 P0dzHW9qtg7SOyeyX3iR5aGV48CTe+mq//o67SkmXGoDjiX2mIxDBAxJaNQBHKnIn6LRF
-	 IkrickDIj69uWQ54u4Z8EtzJmcE4dr2hIfflgZYy9EPiHk0CU7cH6+z3dVcVjBWGe7Gsx
-	 ZUOPQ3zeUy19wif00nPjYPe5SbdZovAtxWTPqwxpykuvbYrHjAbuktzBDZpR8BaY+1YAh
-	 65qbZvTpS6cAZNPOKNvzm6Zu0ZVxXh9/m+wfbn3/KtpUnw46Sar1JWRkvm9M8FmGPAA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=ozbBcQyIdBGbmL2rBz3QxXwVSHoqODmdETa/KRMvXpQ=;
+	b=Rb8Nm/a86jKT9kelo8t2ukhLG816NS16OkyFDwZrdhtmxrsAYjSLoLSRbgGBGxE06j0N
+	 uAPuWVIdWGultzcGehK27hWq68Ds6kywrIdFqwBthYKRo8t6UfAecr1GdahzxtIurAiMt
+	 Ngk6QuTpGfL2YizyCULnPQmOxFoRUfC8JuQ2e1+Jk2e9qAEm76Fh/ZfytX8Xu2V/P3Ysn
+	 GeZhZONWvBsAt06ctjfxZNiJHCfbEbtfAt1cXEfJgzl0W+hfsWDloKjfW73abdeKHNCrE
+	 q/LixDgQTv/+3hnXE2pNHrPh3zkbrgEuiOmk/2WipEtydY455KxIGErgM9KfcRajgWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E1oBN3nm;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GHUTGNO5;
 	arc=none smtp.remote-ip=198.175.65.11
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF91606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Oct 2026 22:41:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAF91606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A12606A320
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Oct 2026 00:10:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93A12606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E1oBN3nm
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GHUTGNO5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792968078; x=1824504078;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kvzwoR+8VNI8tNzfRJsQ8MOvQ6RSGD+e6l76DLCTh2s=;
-  b=E1oBN3nmDpGkZzzX+C83blUDNOZifLvqsh0p6RZ0Gl1XJn9v59GRO97W
-   jkP9jGtaS4DBlLcF4HQ2gG7X7lbB2ce1fUADT3ez1bno2OiZHN3VgGRuU
-   Ch6bHQbj8vo1UMnKi1fkZH8T57X3oXK/fl0YZvo9OKSJdGDia2qQ0wcyE
-   2VUCbyDhLADV9yvmx99DSRoo2FLQBrbLuP8G1uc9RcYzng/HD+IxUUCc6
-   4T11+Q3SXG3rFR1EzmM1j6knPWinxeo7hJYMDzv1ZaHm/aqXruTLoAxac
-   c9XfxMIu+k5oPZTkeAw2/LxSZ/emoCxXEhwCNb2CkPn1qsJITzSLE51cj
+  t=1792973460; x=1824509460;
+  h=date:from:to:cc:subject:message-id;
+  bh=tQYdNn0baDVGeuZDQKD8od1jKrgMegkfoQHibbw3tmk=;
+  b=GHUTGNO5kKvaMkOelXBuPg7SniMpW9dl/E7UE6bbJ66/jE8Re9yf0bqp
+   +VE/CR1wNV51p4iB+abYdrp19p5SJ9TIjC5eSOznfd38BotlZhSo01lEj
+   kDUdHkHXiJ7x46rArAQVdcqqXBg5Cdgn6g4x/AENnbdqbCDLxMNXM/1Ss
+   IBsDGaMiOfhLeXzBQ85YgB5tA3AmzOiQaSEyZl2R+Yi+xHHf4qWoVW9wJ
+   Uz4VN9qOGYfPtjGbttO2DlajTjJQ99ywDiQOCOkkgYH3yNRVkWqEznpgq
+   I7Fk0GosNIJ1Yh3h3Mpv+prEzAJgcol0m1AnFVs//B6wvGeEk+y/IpPmS
    w==;
-X-CSE-ConnectionGUID: LuztqQVZQPaaKKcuApABzQ==
-X-CSE-MsgGUID: BbjUsNpcT7O1413qW+Fz4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1516594"
+X-CSE-ConnectionGUID: 750CUjK/S2u8jfdE6veDpQ==
+X-CSE-MsgGUID: 43TCIuIVQIqCR22Irz9e2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1519610"
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="1516594"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 15:41:17 -0700
-X-CSE-ConnectionGUID: sldzHzjYQtKokEHKL9G8+A==
-X-CSE-MsgGUID: iaNmNMiMS+mcTQoLjeiqZg==
+   d="scan'208";a="1519610"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2026 17:11:00 -0700
+X-CSE-ConnectionGUID: 96aextt0T9K3jvHGdcXmzQ==
+X-CSE-MsgGUID: mupkf1YgSiSGN3UoPyPcDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,178,1787036400"; 
-   d="scan'208";a="4009937"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Oct 2026 15:41:16 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5954394"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa013.fm.intel.com with ESMTP; 25 Oct 2026 17:10:52 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xL6ts-00000000VDO-32qq;
-	Sun, 25 Oct 2026 22:41:12 +0000
-Date: Mon, 26 Oct 2026 06:41:01 +0800
+	id 1xL8Ic-000000003tL-2wdP;
+	Mon, 26 Oct 2026 00:10:50 +0000
+Date: Mon, 26 Oct 2026 01:10:20 +0100
 From: kernel test robot <lkp@intel.com>
-To: Wang Zhaolong <wangzhaolong3@outlook.com>,
-	Namjae Jeon <linkinjeon@kernel.org>
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Tom Talpey <tom@talpey.com>,
-	ChenXiaoSong <chenxiaosong@chenxiaosong.com>,
-	linux-cifs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ksmbd: fix named-pipe reply loss with small output
- buffers
-Message-ID: <202610260610.5prVfJss-lkp@intel.com>
-References: <TYZPR02MB695916EEB5AC02FE8DBC31BCE6622@TYZPR02MB6959.apcprd02.prod.outlook.com>
+ Christian Brauner <christianvanbrauner@gmail.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Paulo Alcantara <pc@manguebit.org>
+Subject: [brauner-vfs:vfs-7.4.netfs.2 3/11] fs/netfs/bvecq.c:79:20:
+ error: assignment to 'struct bvecq *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202610260138.cMdqeLvj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,35 +83,102 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYZPR02MB695916EEB5AC02FE8DBC31BCE6622@TYZPR02MB6959.apcprd02.prod.outlook.com>
 
-Hi Wang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on f47d223627f80cb7a1eb14c585fe6cb35de5e984]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wang-Zhaolong/ksmbd-avoid-races-between-named-pipe-operations/20261025-173237
-base:   f47d223627f80cb7a1eb14c585fe6cb35de5e984
-patch link:    https://lore.kernel.org/r/TYZPR02MB695916EEB5AC02FE8DBC31BCE6622%40TYZPR02MB6959.apcprd02.prod.outlook.com
-patch subject: [PATCH 2/2] ksmbd: fix named-pipe reply loss with small output buffers
-config: powerpc64-randconfig-1001-20261026 (https://download.01.org/0day-ci/archive/20261026/202610260610.5prVfJss-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260610.5prVfJss-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.4.netfs.2
+head:   0c7a920f6b8c5cdd7e5c86f5d9ac1195295ff53f
+commit: 96adfb795d392d2bf40db295c6796052ec73bce9 [3/11] netfs: Add some tools for managing bvecq chains
+config: sh-randconfig-2000-20261025 (https://download.01.org/0day-ci/archive/20261026/202610260138.cMdqeLvj-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261026/202610260138.cMdqeLvj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610260610.5prVfJss-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610260138.cMdqeLvj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: fs/smb/server/smb2pdu.c:8670 function parameter 'rpc' not described in 'smb2_pipe_response_done'
->> Warning: fs/smb/server/smb2pdu.c:8670 function parameter 'nbytes' not described in 'smb2_pipe_response_done'
->> Warning: fs/smb/server/smb2pdu.c:8670 expecting prototype for smb2_read_pipe(). Prototype was for smb2_pipe_response_done() instead
+   fs/netfs/bvecq.c: In function 'bvecq_alloc_one':
+   fs/netfs/bvecq.c:79:22: error: implicit declaration of function 'mempool_alloc'; did you mean 'mm_alloc'? [-Wimplicit-function-declaration]
+      79 |                 bq = mempool_alloc(&netfs_bvecq_pool, gfp);
+         |                      ^~~~~~~~~~~~~
+         |                      mm_alloc
+>> fs/netfs/bvecq.c:79:20: error: assignment to 'struct bvecq *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      79 |                 bq = mempool_alloc(&netfs_bvecq_pool, gfp);
+         |                    ^
+   fs/netfs/bvecq.c: In function 'bvecq_put':
+   fs/netfs/bvecq.c:275:25: error: implicit declaration of function 'mempool_free' [-Wimplicit-function-declaration]
+     275 |                         mempool_free(bq, &netfs_bvecq_pool);
+         |                         ^~~~~~~~~~~~
+
+
+vim +79 fs/netfs/bvecq.c
+
+    38	
+    39	/**
+    40	 * bvecq_alloc_one - Allocate a single bvecq node with unpopulated slots
+    41	 * @nr_slots: Number of slots to allocate
+    42	 * @gfp: The allocation constraints.
+    43	 * @for_writeback: True if allocating for writeback
+    44	 *
+    45	 * Allocate a single bvecq node and initialise the header.  The allocation is
+    46	 * rounded up to the size of the smallest slab granule that will accommodate it
+    47	 * and all the remaining space is set as an inline slot array with max_slots
+    48	 * set to the number of slots.  The slot array is not initialised.
+    49	 *
+    50	 * If @for_writeback is set, then the emergency mempool may be used for
+    51	 * allocation.  If it does allocate from that pool, the maximum number of slots
+    52	 * available will be BVECQ_POOL_SLOTS which may be less than requested.  Also,
+    53	 * if @for_writeback is set, the function will not fail - though it may have to
+    54	 * wait.
+    55	 *
+    56	 * Return: The node pointer or NULL on allocation failure.
+    57	 */
+    58	struct bvecq *bvecq_alloc_one(size_t nr_slots, gfp_t gfp, bool for_writeback)
+    59	{
+    60		struct bvecq *bq;
+    61		const size_t pool_size = struct_size_t(struct bvecq, __bv, BVECQ_POOL_SLOTS);
+    62		size_t size;
+    63		bool from_pool = false;
+    64	
+    65		size = kmalloc_size_roundup(struct_size(bq, __bv, nr_slots));
+    66		gfp &= ~(GFP_ZONEMASK | __GFP_THISNODE);
+    67	
+    68		if (for_writeback) {
+    69			if (size != pool_size) {
+    70				gfp_t gfp_temp = gfp;
+    71	
+    72				gfp_temp |= __GFP_NOMEMALLOC | __GFP_NORETRY | __GFP_NOWARN;
+    73				gfp_temp &= ~(__GFP_DIRECT_RECLAIM | __GFP_IO);
+    74				bq = kmalloc(size, gfp_temp);
+    75				if (bq)
+    76					goto success;
+    77			}
+    78	
+  > 79			bq = mempool_alloc(&netfs_bvecq_pool, gfp);
+    80			if (!bq)
+    81				return bq;
+    82			from_pool = true;
+    83			size = pool_size;
+    84		} else {
+    85			bq = kmalloc(size, gfp);
+    86			if (!bq)
+    87				return bq;
+    88		}
+    89	
+    90	success:
+    91		*bq = (struct bvecq) {
+    92			.ref		= REFCOUNT_INIT(1),
+    93			.bv		= bq->__bv,
+    94			.inline_bv	= true,
+    95			.max_slots	= (size - sizeof(*bq)) / sizeof(bq->__bv[0]),
+    96			.from_pool	= from_pool,
+    97		};
+    98		netfs_stat(&netfs_n_bvecq);
+    99		return bq;
+   100	}
+   101	EXPORT_SYMBOL(bvecq_alloc_one);
+   102	
 
 --
 0-DAY CI Kernel Test Service
