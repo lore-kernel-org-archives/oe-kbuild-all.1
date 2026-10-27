@@ -1,97 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793079569;
-	b=1VJpwBAWtXhtGzLLW+uebTXwDpxDDuJebDvB7vqWutqAtwlJc/Lpb7hTors0G9oFvhpL
-	 OXJM2mUB9EfsJLPNVkQvt7QiIAhwKpZ06uLDtgXPpZyWmFIYMMqs/v/jKHUd0AD8dQr7T
-	 sxF30AO0H7T6vuMERPwqL7N6OBrAwFJRj0m7kUNqrlw6MUfThJA2eN77zB6WyGNt20rWl
-	 ByMsvuJYoXh19pCkwKcKnGC2T6CAyw+pZgj+34DvEeeaeWOEiPe4s4mQ29DCl7G+KJ4Rs
-	 p8ybEWZ4ljGuwGiUGibpuMNYfd0lKDp3iDR+TdCxg5tcNbrxO7Lu+1s2AJTGbqosHHw==
+	t=1793079618;
+	b=JXBPQfsc2olDxR1V/WSpdVVRtAvxMGLZ5uAdNPzB+1ydUFOOlpHT4TWMi1tc5y4Wsc/y
+	 lCNigAKoeqQ2MdJothp5IVRHqBA60GncfDgcSItNtRKsTZ1OVhi8ffoqUyRMVJrNBWmRf
+	 DnOriPjo7IXOdw6fM3QLJn3n6l3eNJHssrGH0shB0LLYn0YZOigQ6zVK3yhfddCsRznhP
+	 9NW95mnMHY2dhUc9JSDSBz3wHay+GMopR040KP51rvxsDyvUNnGjX+C3B+GqtJwlvNFk1
+	 Hsv4RPX74YvkHZnAPIxwbWjVTXOwPXRs1LpZ2CEh9n/YVBftM65WdNXf5EfOb6t6l+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793079569;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793079618;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=QMFHkYsqBmcbVrWKDFByhexqX1LEHDSolSs6zJfCkfQ=;
-	b=rRz4y1h8SYWhJiXawoD5Vynhlar19OH/G6aU14OkOwPWRZizh7UOyF07BhFM+d68dr67
-	 kw5enW5oLc9VTknLeJOPVkC+Cymk/hKB6iW9xO5ThVOXJIRY9eN2/DM+F8IUmEk2LdLus
-	 pFTyqwFwPnw687LjaKoYlcp//LNMe4w9lCCKng1D/SVFica9kid51FpCZIJQeBGw2/2ql
-	 Y6rkYSf8BLL3c0+adJwVvupT5MgO95YjwDiQSTbeKZSm4elt/bdbqh2wXaWD0NRrl8IPc
-	 yvxcKykwhPOo1mXx61qxnIUH/y6fcMBJGg/taxky6eOKaYMO9v5Jj1mWvDTY+ui+uoA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=CBkqcXepXyeEolMpDK8yLJBbyeFO4x2td//q1WISnvk=;
+	b=wdIF8IHvtpaKESOyl6Rlbu2R+ZYKTJR8QEx0KqELWZIoJdA/8aqSA1wZn+qpMnWV+mnP
+	 JKQrvddv0P/oSoiQqYmTvSWkuREGTFLtK1SIzTcsKThi72DYD9yNl7AVE0r4VzvAF9XC/
+	 +o+u0quGI7TzxAEYpbJRtgCcBisWshkTi4jOgw7zIYkoR8/vocbc4wffzmj+ANhd/zPpu
+	 QHXE/0ytq9TuSDvLtOl0fqEryaQFu1JPDncO2C54hoPWoexgZIPrwIqNjg9SwZRUsC6JD
+	 yo13Zwng/woa0/Ego3AWLKFW24snGlzJB2XX7llGW0uPsFyjlZI7Ju0BwmQuolCCneQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j7uXFMbK;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TkfXIV0s;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D146E606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 05:39:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D146E606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10008606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 05:40:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10008606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j7uXFMbK
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TkfXIV0s
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793079568; x=1824615568;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pzpMExCU3NEyvekb7kKHOljun21uUmMNQ6c0Pg++oXE=;
-  b=j7uXFMbKpf89IH0ErCdVPNLnszj6wE1ogB6m1DBZBFHgmWbgXi8I8esO
-   s8zwlVTWS5xyfpC05M3INW2qvqyLzm9YnoUBh3u2pxfPZr0hpHycZP2B2
-   socFwvoGh5455XK97pDI/tTHS9HHdFMZk2bVAR5lIgi5ok7tyw62pRD8v
-   T6thqoxf4nb5DF3c4Xu4/ADY8Y6vjnV18dWjeauKcSF9n+UJl1+cSoLNs
-   ylarYzmLfn/x1/RCkafhpDeashwNZhg0J/uCpd+gTUXgRg+WY0Pz1lLIZ
-   ZfgdQiNcOAoxl/5kNgZwOfr3m6wRkPcqneiNv0UOfLE0VDuDScUu+cwXB
-   Q==;
-X-CSE-ConnectionGUID: dDSXvt6PSCqmylbTKTtz+Q==
-X-CSE-MsgGUID: 6s9E4R/lSkSzDWwAvv3WDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1781500"
+  t=1793079617; x=1824615617;
+  h=date:from:to:cc:subject:message-id;
+  bh=sQzFDrUNrDkH18PBEWLyy30KVc1FqbUH+MCkOsN1Ing=;
+  b=TkfXIV0smQrU6MESVV18CQ2t8Uzd6sBLrMxDzVOIlN0JBA/CgW2E1Twu
+   zPuKfRxvhnH3fqU14g3VTzHqPMwt0Vw10JqJ5D70SfDv+A+9kJ0k2PULt
+   UyolvJzVR6q0RWsiUoQgxw4h9JuXNWlg2vlJ31jQmHQVKzQGlpG62g0rs
+   XSmyqs5t382rnTnq4dwc0hOXNIJL+Pf/3NSRTsTyyjTAeU8xxtt1h6XK9
+   +hERy/ZNhSfeSL8mQsV39QAzFNXu+mQfAY4PQr5uxSQsEli22Xe6q4xkF
+   ztjhRrzA8+0NaVAAe8ND4axcSWMR5cH/CIMRBQPL+JcPYp7GfStnnYnYw
+   w==;
+X-CSE-ConnectionGUID: YkIfzcdKTDqNnjScia026w==
+X-CSE-MsgGUID: DUlw32y3SvO6AnZjHdPMKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1860217"
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1781500"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 22:39:27 -0700
-X-CSE-ConnectionGUID: 1kxPM+3HSqW+g3X4zqBZMQ==
-X-CSE-MsgGUID: jyfpNWjzS7ynp1/Q36Pggw==
+   d="scan'208";a="1860217"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 22:40:16 -0700
+X-CSE-ConnectionGUID: 7BbIxTJvTnqvMutoHspzhQ==
+X-CSE-MsgGUID: iDMWTudDSNWj81po+uqeGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="4843020"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2026 22:39:22 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="4542371"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2026 22:40:16 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLZu2-00000000WtE-2eZ1;
-	Tue, 27 Oct 2026 05:39:18 +0000
-Date: Tue, 27 Oct 2026 13:38:19 +0800
+	id 1xLZuv-000000004Ot-0hQA;
+	Tue, 27 Oct 2026 05:40:13 +0000
+Date: Tue, 27 Oct 2026 06:40:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	David Matlack <dmatlack@google.com>
-Subject: Re: [PATCH v2 07/10] mm/shmem_luo: Retrieve tmpfs files onto a tmpfs
- mount chosen by userspace
-Message-ID: <202610271346.EnKIU96f-lkp@intel.com>
-References: <20261022225035.377445-8-dmatlack@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 353/353]
+ lib/maple_tree.c:4736:7: warning: no previous prototype for 'mas_next_slot'
+Message-ID: <202610270650.FCnpQWic-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -100,49 +79,116 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261022225035.377445-8-dmatlack@google.com>
 
-Hi David,
+Hi Liam,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 80cf37169daef112b6bea9ae7d9808355a045475]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Matlack/liveupdate-Pass-user-argument-to-file-preserve-and-retrieve/20261022-225026
-base:   80cf37169daef112b6bea9ae7d9808355a045475
-patch link:    https://lore.kernel.org/r/20261022225035.377445-8-dmatlack%40google.com
-patch subject: [PATCH v2 07/10] mm/shmem_luo: Retrieve tmpfs files onto a tmpfs mount chosen by userspace
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20261027/202610271346.EnKIU96f-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610271346.EnKIU96f-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   6b915aa34a0d468d55e46535173b0d946dfcf9a5
+commit: 84719794e06c13fd9a3fd0c547af5bf9d76f7c3b [353/353] FROMGIT: maple_tree: introduce mas_next_slot() interface
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261027/202610270650.FCnpQWic-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270650.FCnpQWic-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610271346.EnKIU96f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610270650.FCnpQWic-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/shmem.c:5867:6: warning: no previous prototype for 'shmem_inode_on_internal_mount' [-Wmissing-prototypes]
-    5867 | bool shmem_inode_on_internal_mount(const struct inode *inode)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/maple_tree.c:4736:7: warning: no previous prototype for 'mas_next_slot' [-Wmissing-prototypes]
+    4736 | void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
+         |       ^~~~~~~~~~~~~
 
 
-vim +/shmem_inode_on_internal_mount +5867 mm/shmem.c
+vim +/mas_next_slot +4736 lib/maple_tree.c
 
-  5862	
-  5863	/*
-  5864	 * Whether @inode is on the internal shmem mount, which is used by
-  5865	 * shmem_file_setup() and thus by memfd_create().
-  5866	 */
-> 5867	bool shmem_inode_on_internal_mount(const struct inode *inode)
-  5868	{
-  5869		return inode->i_sb == shm_mnt->mnt_sb;
-  5870	}
-  5871	
+  4726	
+  4727	/*
+  4728	 * mas_next_slot() - Get the entry in the next slot
+  4729	 *
+  4730	 * @mas: The maple state
+  4731	 * @max: The maximum starting range
+  4732	 * @empty: Can be empty
+  4733	 *
+  4734	 * Return: The entry in the next slot which is possibly NULL
+  4735	 */
+> 4736	void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
+  4737	{
+  4738		void __rcu **slots;
+  4739		unsigned long *pivots;
+  4740		unsigned long pivot;
+  4741		enum maple_type type;
+  4742		struct maple_node *node;
+  4743		unsigned char data_end;
+  4744		unsigned long save_point = mas->last;
+  4745		void *entry;
+  4746	
+  4747	retry:
+  4748		node = mas_mn(mas);
+  4749		type = mte_node_type(mas->node);
+  4750		pivots = ma_pivots(node, type);
+  4751		data_end = ma_data_end(node, type, pivots, mas->max);
+  4752		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
+  4753			goto retry;
+  4754	
+  4755	again:
+  4756		if (mas->max >= max) {
+  4757			if (likely(mas->offset < data_end))
+  4758				pivot = pivots[mas->offset];
+  4759			else
+  4760				return NULL; /* must be mas->max */
+  4761	
+  4762			if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
+  4763				goto retry;
+  4764	
+  4765			if (pivot >= max)
+  4766				return NULL;
+  4767		}
+  4768	
+  4769		if (likely(mas->offset < data_end)) {
+  4770			mas->index = pivots[mas->offset] + 1;
+  4771			mas->offset++;
+  4772			if (likely(mas->offset < data_end))
+  4773				mas->last = pivots[mas->offset];
+  4774			else
+  4775				mas->last = mas->max;
+  4776		} else  {
+  4777			if (mas_next_node(mas, node, max)) {
+  4778				mas_rewalk(mas, save_point);
+  4779				goto retry;
+  4780			}
+  4781	
+  4782			if (mas_is_none(mas))
+  4783				return NULL;
+  4784	
+  4785			mas->offset = 0;
+  4786			mas->index = mas->min;
+  4787			node = mas_mn(mas);
+  4788			type = mte_node_type(mas->node);
+  4789			pivots = ma_pivots(node, type);
+  4790			mas->last = pivots[0];
+  4791		}
+  4792	
+  4793		slots = ma_slots(node, type);
+  4794		entry = mt_slot(mas->tree, slots, mas->offset);
+  4795		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
+  4796			goto retry;
+  4797	
+  4798		if (entry)
+  4799			return entry;
+  4800	
+  4801		if (!empty) {
+  4802			if (!mas->offset)
+  4803				data_end = 2;
+  4804			goto again;
+  4805		}
+  4806	
+  4807		return entry;
+  4808	}
+  4809	
 
 --
 0-DAY CI Kernel Test Service
