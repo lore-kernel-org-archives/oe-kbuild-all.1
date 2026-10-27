@@ -1,75 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793079618;
-	b=JXBPQfsc2olDxR1V/WSpdVVRtAvxMGLZ5uAdNPzB+1ydUFOOlpHT4TWMi1tc5y4Wsc/y
-	 lCNigAKoeqQ2MdJothp5IVRHqBA60GncfDgcSItNtRKsTZ1OVhi8ffoqUyRMVJrNBWmRf
-	 DnOriPjo7IXOdw6fM3QLJn3n6l3eNJHssrGH0shB0LLYn0YZOigQ6zVK3yhfddCsRznhP
-	 9NW95mnMHY2dhUc9JSDSBz3wHay+GMopR040KP51rvxsDyvUNnGjX+C3B+GqtJwlvNFk1
-	 Hsv4RPX74YvkHZnAPIxwbWjVTXOwPXRs1LpZ2CEh9n/YVBftM65WdNXf5EfOb6t6l+A==
+	t=1793082081;
+	b=sBUpe0VYBaBoptnnMbBaeue4nAM+7kkFBYuLyznR+mvF2RahNH0f+n4Dc8vQc2hJ5QaT
+	 fuJWBEPr3BQpZzWbf88uJprWb6lJs8AkQ0/Vg/kCsJUg1/0N7KJblTEcZcHWqbGkUilV7
+	 aA+IZwrz12HV2pk8CGP4RMXenjF2lHLChkItSQbcXxKxZh7aUT68ogyrln1Aq+j/MPRP+
+	 q2fEupcDfulIiz6IpO5KjU3jQ5T+gYNTvjOE4loVn9Pv/uOC6OCWyViTWVT96EJhwFLcJ
+	 lg8i9792l56sHbAyfy2UPZC0zacWFdz0xWd68Tiz7/gHz9kM271eWWqQaXA+Qm6Kn+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793079618;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793082081;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=CBkqcXepXyeEolMpDK8yLJBbyeFO4x2td//q1WISnvk=;
-	b=wdIF8IHvtpaKESOyl6Rlbu2R+ZYKTJR8QEx0KqELWZIoJdA/8aqSA1wZn+qpMnWV+mnP
-	 JKQrvddv0P/oSoiQqYmTvSWkuREGTFLtK1SIzTcsKThi72DYD9yNl7AVE0r4VzvAF9XC/
-	 +o+u0quGI7TzxAEYpbJRtgCcBisWshkTi4jOgw7zIYkoR8/vocbc4wffzmj+ANhd/zPpu
-	 QHXE/0ytq9TuSDvLtOl0fqEryaQFu1JPDncO2C54hoPWoexgZIPrwIqNjg9SwZRUsC6JD
-	 yo13Zwng/woa0/Ego3AWLKFW24snGlzJB2XX7llGW0uPsFyjlZI7Ju0BwmQuolCCneQ==
+	bh=C1HGCzEts5FhWN/0c/kmpCyKUCtnx8elLYeqHe7xyuQ=;
+	b=PsqHJKe6DN57KaaeCmblUUdZvKukcu0woHsJAMWSJSKn0nYTjKtzOptqGJ/9OJZrbGCK
+	 JrlvUjBBchomQfFKNzIDgKlO+0bBiukK1AE3WPgMOaxidHM4I9dcs7NIjRGXKo8JG/xnE
+	 KhLSY30e1tcwqjLclQuUosrePaFJl0RQWUhhJKxi5pM5HbeuDnafKwuAjMdmsUOLJY2wL
+	 FYY+CvajuPtqIzS0HP2HBrmdJhR/z9YOlXT6WZqZ04pch/S6c4DdmyJGCwg0Tmy7cwE++
+	 D1lzlJlUVweEu2WjnRR7rbUPlHvxs2MVFkUUDOcTjYSptJdAPyT7s6xJHDnERDL15rw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TkfXIV0s;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eoqLHCWJ;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10008606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 05:40:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10008606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5437A606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 06:21:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5437A606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TkfXIV0s
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eoqLHCWJ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793079617; x=1824615617;
+  t=1793082079; x=1824618079;
   h=date:from:to:cc:subject:message-id;
-  bh=sQzFDrUNrDkH18PBEWLyy30KVc1FqbUH+MCkOsN1Ing=;
-  b=TkfXIV0smQrU6MESVV18CQ2t8Uzd6sBLrMxDzVOIlN0JBA/CgW2E1Twu
-   zPuKfRxvhnH3fqU14g3VTzHqPMwt0Vw10JqJ5D70SfDv+A+9kJ0k2PULt
-   UyolvJzVR6q0RWsiUoQgxw4h9JuXNWlg2vlJ31jQmHQVKzQGlpG62g0rs
-   XSmyqs5t382rnTnq4dwc0hOXNIJL+Pf/3NSRTsTyyjTAeU8xxtt1h6XK9
-   +hERy/ZNhSfeSL8mQsV39QAzFNXu+mQfAY4PQr5uxSQsEli22Xe6q4xkF
-   ztjhRrzA8+0NaVAAe8ND4axcSWMR5cH/CIMRBQPL+JcPYp7GfStnnYnYw
-   w==;
-X-CSE-ConnectionGUID: YkIfzcdKTDqNnjScia026w==
-X-CSE-MsgGUID: DUlw32y3SvO6AnZjHdPMKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1860217"
+  bh=FnmrINqASpiP3ae+XIm+SSotaoSMoIsF52+jCcCg1TA=;
+  b=eoqLHCWJAlajpuiMvRIlMrXqaRvKtg1eShcVTLpAiXv6PnOywWolg5q0
+   mngIp0W4zEzxzLGrHen0olE2rcG/gSbYgUvzl22P8IfxY95uPdML9EsM4
+   /WNEiSufKjzZgrPdv1kkC5V6veAt80FWw6o5LpFkpFiMqZ5tH+DeOlrWE
+   lAjTEL1xnliUMANrOn7eP9PXII0511l/5ASrUaD6CRci0ytc4qQflRfbz
+   pQE/cM9+Pur8z0Z5y5mfQDXVMLZHFczTYh4dJda0e8LIxEr2l/sDMNr4r
+   L+numIqgbZyiVDSzqiZgWZUJzn+LMXAjEpsT+zYrs6Ca0mzKA9YLD0nz+
+   A==;
+X-CSE-ConnectionGUID: L7KaVu0UR8y55SJijqIQSA==
+X-CSE-MsgGUID: ssLyVPi/QC+qggGustDhdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1784944"
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1860217"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 22:40:16 -0700
-X-CSE-ConnectionGUID: 7BbIxTJvTnqvMutoHspzhQ==
-X-CSE-MsgGUID: iDMWTudDSNWj81po+uqeGg==
+   d="scan'208";a="1784944"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 23:21:18 -0700
+X-CSE-ConnectionGUID: MqQArQghQqqTe5x9dKXoFA==
+X-CSE-MsgGUID: vhJKEH8hSd+H/+K5zbCOvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="4542371"
+   d="scan'208";a="4444293"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2026 22:40:16 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Oct 2026 23:21:17 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLZuv-000000004Ot-0hQA;
-	Tue, 27 Oct 2026 05:40:13 +0000
-Date: Tue, 27 Oct 2026 06:40:10 +0100
+	id 1xLaYc-000000004PL-20TZ;
+	Tue, 27 Oct 2026 06:21:14 +0000
+Date: Tue, 27 Oct 2026 07:20:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 353/353]
- lib/maple_tree.c:4736:7: warning: no previous prototype for 'mas_next_slot'
-Message-ID: <202610270650.FCnpQWic-lkp@intel.com>
+To: Udaya Kiran Challa <challauday369@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>
+Subject: arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds
+ (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power',
+ 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$',
+ '^pinctrl-[0-9]+$'
+Message-ID: <202610270710.aWUm0pbv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,115 +83,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Liam,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   6b915aa34a0d468d55e46535173b0d946dfcf9a5
-commit: 84719794e06c13fd9a3fd0c547af5bf9d76f7c3b [353/353] FROMGIT: maple_tree: introduce mas_next_slot() interface
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261027/202610270650.FCnpQWic-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270650.FCnpQWic-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d135ab453a7400a34930bdda1ef4bdc8acfac80e
+commit: 59cf91cf87abb67a49b1bb7b9d3b06486abde8cf dt-bindings: leds: lacie,netxbig-leds: Convert to DT schema
+date:   12 days ago
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261027/202610270710.aWUm0pbv-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270710.aWUm0pbv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 59cf91cf87ab ("dt-bindings: leds: lacie,netxbig-leds: Convert to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610270650.FCnpQWic-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610270710.aWUm0pbv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> lib/maple_tree.c:4736:7: warning: no previous prototype for 'mas_next_slot' [-Wmissing-prototypes]
-    4736 | void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
-         |       ^~~~~~~~~~~~~
-
-
-vim +/mas_next_slot +4736 lib/maple_tree.c
-
-  4726	
-  4727	/*
-  4728	 * mas_next_slot() - Get the entry in the next slot
-  4729	 *
-  4730	 * @mas: The maple state
-  4731	 * @max: The maximum starting range
-  4732	 * @empty: Can be empty
-  4733	 *
-  4734	 * Return: The entry in the next slot which is possibly NULL
-  4735	 */
-> 4736	void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
-  4737	{
-  4738		void __rcu **slots;
-  4739		unsigned long *pivots;
-  4740		unsigned long pivot;
-  4741		enum maple_type type;
-  4742		struct maple_node *node;
-  4743		unsigned char data_end;
-  4744		unsigned long save_point = mas->last;
-  4745		void *entry;
-  4746	
-  4747	retry:
-  4748		node = mas_mn(mas);
-  4749		type = mte_node_type(mas->node);
-  4750		pivots = ma_pivots(node, type);
-  4751		data_end = ma_data_end(node, type, pivots, mas->max);
-  4752		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4753			goto retry;
-  4754	
-  4755	again:
-  4756		if (mas->max >= max) {
-  4757			if (likely(mas->offset < data_end))
-  4758				pivot = pivots[mas->offset];
-  4759			else
-  4760				return NULL; /* must be mas->max */
-  4761	
-  4762			if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4763				goto retry;
-  4764	
-  4765			if (pivot >= max)
-  4766				return NULL;
-  4767		}
-  4768	
-  4769		if (likely(mas->offset < data_end)) {
-  4770			mas->index = pivots[mas->offset] + 1;
-  4771			mas->offset++;
-  4772			if (likely(mas->offset < data_end))
-  4773				mas->last = pivots[mas->offset];
-  4774			else
-  4775				mas->last = mas->max;
-  4776		} else  {
-  4777			if (mas_next_node(mas, node, max)) {
-  4778				mas_rewalk(mas, save_point);
-  4779				goto retry;
-  4780			}
-  4781	
-  4782			if (mas_is_none(mas))
-  4783				return NULL;
-  4784	
-  4785			mas->offset = 0;
-  4786			mas->index = mas->min;
-  4787			node = mas_mn(mas);
-  4788			type = mte_node_type(mas->node);
-  4789			pivots = ma_pivots(node, type);
-  4790			mas->last = pivots[0];
-  4791		}
-  4792	
-  4793		slots = ma_slots(node, type);
-  4794		entry = mt_slot(mas->tree, slots, mas->offset);
-  4795		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4796			goto retry;
-  4797	
-  4798		if (entry)
-  4799			return entry;
-  4800	
-  4801		if (!empty) {
-  4802			if (!mas->offset)
-  4803				data_end = 2;
-  4804			goto again;
-  4805		}
-  4806	
-  4807		return entry;
-  4808	}
-  4809	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): #size-cells: 0 is not one of [1, 2]
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
+   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
+--
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@3 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@4 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@5 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
+>> arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
 
 --
 0-DAY CI Kernel Test Service
