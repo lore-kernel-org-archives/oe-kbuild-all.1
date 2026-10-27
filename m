@@ -1,101 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793121426;
-	b=Gd+ZzIaVA2hJsCjFinKeMUWXTZJfSvrjFMw6c+OYNit9XQFa1vdFRI2s16boyi5JvaT2
-	 vhCp/iRy8gKYI33WPJ88BXngzrIhb/BxdBS69nBkVVRuJwEZIRANNJyBpkhEw8iZuIvCk
-	 KNL/iCA6OBjVJBaXtGmP/XMQB950KpLDk8AdoFxF8Awd4ZMwF77NUU7IEg4hDAZc2ZYD0
-	 9w11P3bP1B3s3eoSzqv9EKFzDJD8ca5vI3cXEVhR7Y8g0V59MSLOgpta+g04atAa2MFvK
-	 eILpUk7bGoTqy96buH9xoGPDMm+YTuL2E4a9cr/l6GbwIQad7oYOCZpNikt013z6EEg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793121426;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=iblJiMWnPdBHDjKTq/8J7cpk5hZRzHhNlWjpa0Z4c5s=;
-	b=0o1U6x4+wsItsW1o9508Zb+0k6qdLyM+7UWYXkIj2xI+lt8HEtp2QnDHpMk5MlwOAwCh
-	 A/IZDpGiwDZe8iukoqXpev8ZzUgygeBDP6h67tdXxTX+edWoQEKh1i79k3xTeQX8qERPA
-	 Fe5khXtgOw7fXA3qk7pcpTjd82MqPwHO+C7Cd1/9qtCb5EYWyYlVZbQXyrW/uZE2hnFxn
-	 zRNYt5IcSI3AlnbT1hfp4geHrzldz29VyLqJCG8wiKnKXGly7lIsrFKEsWhH9q+phaJvJ
-	 5m9g/BmuBHG6GjHT3/9s9stPRINNsR8xrZzkVDEFBnv56IslHNE3/jXmxRP9vClizkA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qsg9O0nK;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793123441;
+	b=fd9xmnCzaQsQSo7iA+t86ErQ5Lr8F0d0iF7u27MI3WM9rwfCFAAtK2jCyJrX4GTHx2R+
+	 FYxDYMt3XonbGrRWU6Y7UES4QD4GXXhF92g6ZXHDX8bBIhbywJwxq6N19wCeD7JG8SyAm
+	 zUOfZabp8GOlf7LdKhmwgZtUlF/zhNbrZPljsX3aLEotD4jZ/KxRlnzxLZ364JYF54ZJO
+	 2vYZfP3T05iYEbow+dhivuEpLyZXnbHrJI3JJiJe1Rj7Z1yfUs8tXB7wAZbnaiQFqMmRD
+	 2nnVJjWZG+U6aBI8EGw94V4RoZqUomWiu2mudT1tq09lW4fvgAj5+elIvCP/6IUWz9Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793123441;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=iE80t4vY72z6T95VOd72pvf/x6MITL5I+FVejfoRQ3s=;
+	b=u2UsvJFITYocFxzb1i6jVUKFpXHiGr4OIWTEooVhu+p5B7BW3iHsvwE8tw4YYY+V/mJ7
+	 dnHcspcNsBXBOSohfh/BqTBdeVGz1Q7FK7FvRvwaBt8edqtTkv7cFsIEMl2sAcimhzqlo
+	 vVJHt9uukDd+KhAp3Jx2ZGzkVGNwm2x0yXcwTUrK+K2HOFXPW8V8jwKB2asCxrNT0RQRh
+	 8di7fJsOem8LphEwNw/3cJLNEzCCrYrYONbfDp714sjWuRIf9yz7nXM6B5BIqUEZcqiCo
+	 yRivIqRJULD4enCRrgPA7FvH134z6f3FHTfzK7APFovIM4Mr3nL0VmN4tCB6kmY2k1w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EVrjVI0K;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2713F606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 17:17:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2713F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB25606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 17:50:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FB25606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Qsg9O0nK
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a2d6cf958bso539055e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 10:17:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793121424; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XLsKk5dFXdtzPBjac+twJ5Ns46M2wryb0fN3vamyFpK1ea+/pbhDOtY1vZQJf4UIIE
-         cRUdjZleLBVUhZGluh/x+re/8p/BnXGcQN24QTFZ5UKB4rZHqMmniWLiPNqyUkiQJDPo
-         ML+YZrjStqZ/SnEk6R4UNFes/JfQN/A/B+qbYAbdjGVrRaf12HGYaYu25bj+gRQ16R+B
-         OIdumFOM3XLcAayyfvqH18JQjsB04NoPX4674bwZuy6VkvgX022kMCYzbwf7FBFNc/Tt
-         mxByyoaiQW7IHEKJKB0vIRJy1gdjbo0klL0FadpJQM20kYEuRTEGLmAQzfyQpfBOPjCB
-         wFZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iblJiMWnPdBHDjKTq/8J7cpk5hZRzHhNlWjpa0Z4c5s=;
-        fh=WfJV/ODyPOw/7fX3NtCeKmciyojD8HorOciXasldNsU=;
-        b=Xxd3MBnfVWvbIez+gc77eRUCiNdHrvUXYBPd8YYBMdxZI2bAGGuJ3LEZWIClVJOKQH
-         Zp8ri6qqZMjTBNzHrltY+g0R9e8G925aD+SnY7reOZdwfNXa/Kl0p2QMwCvaonBlwPw8
-         Rd/VLPsGh/jN12H/EhmJuWk81/L+/olyRsHl07MbMiRoZdonBGbEnWe2UXApVJzMaUsq
-         7jb9m1tZRwiQeRn0LEdK3PqpBM5GeFztJpM4xQRcXWvDUfqh1gxhPEaoBZmDAL9ZwTVP
-         Rpytta7f1p45LVvwRG/oJy6RclOKrGTMAmGVqlmL2IYEYotM0+qa2z8QV16SFYCSxYH5
-         2k/Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793121424; x=1793726224; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iblJiMWnPdBHDjKTq/8J7cpk5hZRzHhNlWjpa0Z4c5s=;
-        b=Qsg9O0nKFuPpFKWDrrMOgPyT+kzotrzmfrLHgAxwyCVWg9CXwYmryb0PG5JpRjNmqF
-         18HrXqxIXfNZ1S3Nyu46B0TMjvJrT5affzNuEphCoxgSI0XgpKt9HX1xPyfb3y+uJL34
-         HU9EuTePlDxVUgcac5jTKS3MndPN7aOtZIrpT9jyVSkD2RRNLCtaX49JkGFEwXcuiocm
-         lICNPXoSgIK0/y+AV5hcqWC6MNMNWk8QzD7v+Y+oBdKR2bfgLcwYm0NUFvxisK6R4eQf
-         MENlA+l/RPMYbUT1LuFamzgapuh8XvHq3VjAJyZuxClZLIzKUmpAM8xGux4xiLM4if8M
-         RSGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793121424; x=1793726224;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iblJiMWnPdBHDjKTq/8J7cpk5hZRzHhNlWjpa0Z4c5s=;
-        b=VKDqfD75SG6Md3MAsRf2tPxbbJ+R7wmCdoy5wfcKC3DvxmvRFK2puGCWdEORUEYZaI
-         YH1LK7b872OVspIMuZvTYrLg7eiZCoHQ3P5jYzHbNBajOMQItG9qk4abRb8G4VHAptQP
-         sGlCFmPkrCeBe9Pg3SVuycdGrAPEMRNGH0WdBUdWAllqPr4jmBO60a3m0IYP0wKLQlAd
-         XknI6zmkRhwKsKL95ZRymb8lEaJ5WwexXKdzndmcpwrN/g1sviiuyLHuWKq3LwtzS+qY
-         wrBNuy58zk87UPvHDeMSZUVDfkHZpA4/lO9ZaOpPGHIDfDGwT0bQpUmA2p4kl1hExjTo
-         PgjA==
-X-Forwarded-Encrypted: i=1; AKwUvBwjbpliHI0SOOBO5xtjepVxRoAROut84TsXMONIRX13yesOUUMnxB3tYcd3HwkBJ2WUvan7ictRQEscFtI4@lists.linux.dev
-X-Gm-Message-State: AFq9FYIIUwRjn086NSf1peiNNo8mFWsXyNHBR9jh4ZnM2FyZaLreOK1t
-	6oCK5ql6zyYX7WfRlJSZu6dPIC6LcOn5RF0n8pNlWMQWD2CIPd5ifznjWmTGzAzqiCBntQHN/JK
-	hEDyWUjCElb+mTlhYsUt7p3Vq7XjpS3w=
-X-Gm-Gg: AYBFou3NyddpgMGD7Tm3lYv9DlDGjDdgXcgqdEAarsAEz42leN0SX5n+TxN0TAUJCkg
-	GZ1jcwH8a0kEEq8fWukej6e3XiGX+jM/SzHoyghs7bQmXyx+grcIoBNA2WBhqo7cnzA8wCE5nfh
-	47PtqDIkfJSnyJ6t8wE/8/kgc+85jx8g1YQjcn/xkCeNwNDxSBs0XvPY6ZnbZ90QoxpdAON5TGy
-	VC4j92PmneX3Z+038h7bszE2bJlvgChf2kPO/51t25m3t/fi7h4FVxCQXBbIAGHKaEXm0aQobqY
-	HMN0rUnMqs3v20o76j1NUW7Hy908foL6HKOL//WLG0ScUCzXhH8RypGQ6l64PvcE6Dr3nvohmGZ
-	71lEbmdx8bhOgEzLLGKhuBAX942j4MfCjEPVC/KdEOgcqfwqW3PRyr3fFGD2sY27PQcEFMp7SlG
-	BjM8Est4okvBtEd79w7dxHtARgk+BwcpifNvxEvghFT99AdJL9i/wW
-X-Received: by 2002:a05:600c:3b2a:b0:4a1:71e5:9420 with SMTP id
- 5b1f17b1804b1-4a35aca4e4emr201223965e9.13.1793121424293; Tue, 27 Oct 2026
- 10:17:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EVrjVI0K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793123440; x=1824659440;
+  h=date:from:to:cc:subject:message-id;
+  bh=qavb1q2tIfZH5VQGpuaPI1rjr4n2Lm00gszmwcJbarA=;
+  b=EVrjVI0KFiAgCRsQJAOTmUkuyj5sh0ko8Bm4sA4i2K+qm/lcAOjGqkI2
+   9m2DrtnQXUE8A2BpcNA1mMTtvWCVOXLrWX8dsZ7sXDlUrquPnXTan7/3W
+   0kA6cS6KVDvnqO0eBXN8PIub5YxHS7btGNOwIWDhr/P3gsc/s4n7Xia0k
+   tb/RKgze1iqoHfaodjZZd43gH5GE+wlB823Ih/bHCuEpqJ4N3h/2fr4Mk
+   PtEfqMZ1oH/584CoQ/PxA3ZQgz5MOXKReNdJcejKtnG6qOsFJfK7FMT8X
+   EPPNdH+tUwaLpkmTuUc2llDGWOm3x3Md4ZAkYrJI8B2ykb89jJpYcjNAW
+   w==;
+X-CSE-ConnectionGUID: txBevW0/T+6/uWq/yF015Q==
+X-CSE-MsgGUID: MDjru3LvR/StDZfUGnMkVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1713990"
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="1713990"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 10:50:36 -0700
+X-CSE-ConnectionGUID: a/XrxoDaQZmXLrXEIC1RzA==
+X-CSE-MsgGUID: eyWJFbJHRMyLkMwWjpweTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="4686838"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 27 Oct 2026 10:50:34 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xLlJg-000000004a7-2Y8n;
+	Tue, 27 Oct 2026 17:50:32 +0000
+Date: Tue, 27 Oct 2026 18:49:51 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 2/2]
+ drivers/clk/imx/clk-composite-7ulp.c:87:24: sparse: sparse: Using plain
+ integer as NULL pointer
+Message-ID: <202610271857.YWxyE3IO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -104,110 +80,117 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-References: <20261021060323.553433-5-nphamcs@gmail.com> <202610252143.VHe95EJ2-lkp@intel.com>
-In-Reply-To: <202610252143.VHe95EJ2-lkp@intel.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 27 Oct 2026 10:16:52 -0700
-X-Gm-Features: AclHuK_GYh22kYzzreGUYEjOs1aNdMyJmSBQ2LFiLtGHu053ctUFbYTdpv3zDcE
-Message-ID: <CAKEwX=Pqr0v2ok-c2URz2wN86aujNSPmPRaJH2XU-48n+ozQdQ@mail.gmail.com>
-Subject: Re: [PATCH v6 04/12] mm, swap: support physical swap as a vswap backend
-To: kernel test robot <lkp@intel.com>
-Cc: akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
-	chrisl@kernel.org, kasong@tencent.com, hannes@cmpxchg.org, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, yosry@kernel.org, 
-	david@kernel.org, muchun.song@linux.dev, shikemeng@huaweicloud.com, 
-	baoquan.he@linux.dev, baohua@kernel.org, youngjun.park@lge.com, 
-	chengming.zhou@linux.dev, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, qi.zheng@linux.dev, 
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
-	riel@surriel.com, gourry@gourry.net, haowenchao22@gmail.com, corbet@lwn.net, 
-	hughd@google.com, baolin.wang@linux.alibaba.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 25, 2026 at 6:29=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Nhat,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on 4dbe24720eb3811563cd56b35d87ddf3f9beed2a]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Nhat-Pham/mm-swap-=
-add-virtual-swap-device-infrastructure/20261020-230312
-> base:   4dbe24720eb3811563cd56b35d87ddf3f9beed2a
-> patch link:    https://lore.kernel.org/r/20261021060323.553433-5-nphamcs%=
-40gmail.com
-> patch subject: [PATCH v6 04/12] mm, swap: support physical swap as a vswa=
-p backend
-> config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/2026102=
-5/202610252143.VHe95EJ2-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 16.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20261025/202610252143.VHe95EJ2-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202610252143.VHe95EJ2-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    In file included from mm/workingset.c:19:
->    mm/swap_table.h: In function 'swp_entry_to_swp_tb_vswap':
-> >> mm/swap_table.h:418:17: error: implicit declaration of function 'swp_o=
-ffset'; did you mean 'pud_offset'? [-Wimplicit-function-declaration]
->      418 |         return (swp_offset(entry) << SWP_TB_VSWAP_MARK_BITS) |=
- SWP_TB_VSWAP_MARK;
->          |                 ^~~~~~~~~~
->          |                 pud_offset
->    mm/swap_table.h: In function 'swp_tb_vswap_to_swp_entry':
-> >> mm/swap_table.h:427:16: error: implicit declaration of function 'swp_e=
-ntry'; did you mean 'seq_dentry'? [-Wimplicit-function-declaration]
->      427 |         return swp_entry(vswap_si->type, offset);
->          |                ^~~~~~~~~
->          |                seq_dentry
-> >> mm/swap_table.h:427:16: error: incompatible types when returning type =
-'int' but 'swp_entry_t' was expected
->      427 |         return swp_entry(vswap_si->type, offset);
->          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
->
-> vim +418 mm/swap_table.h
->
->    415
->    416  static inline unsigned long swp_entry_to_swp_tb_vswap(swp_entry_t=
- entry)
->    417  {
->  > 418          return (swp_offset(entry) << SWP_TB_VSWAP_MARK_BITS) | SW=
-P_TB_VSWAP_MARK;
->    419  }
->    420
->    421  static inline swp_entry_t swp_tb_vswap_to_swp_entry(unsigned long=
- swp_tb)
->    422  {
->    423          unsigned long offset;
->    424
->    425          VM_WARN_ON(!swp_tb_is_vswap(swp_tb));
->    426          offset =3D (swp_tb & SWP_RMAP_ENTRY_MASK) >> SWP_TB_VSWAP=
-_MARK_BITS;
->  > 427          return swp_entry(vswap_si->type, offset);
->    428  }
->    429
->
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   b83ca11f560a414ae30f680b4c212094f6abdf19
+commit: 335426e9740474f8a64ab1444d9201e53e8ea3d6 [2/2] clk: imx: composite-7ulp: Check the PCC present bit
+config: arm-randconfig-r2308-20261027 (https://download.01.org/0day-ci/archive/20261027/202610271857.YWxyE3IO-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610271857.YWxyE3IO-lkp@intel.com/reproduce)
 
-I think swp_tb_vswap_to_swp_entry() should be gated behind CONFIG_SWAP here=
- :)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610271857.YWxyE3IO-lkp@intel.com/
 
-Checking swapops.h, seems like "swp_entry" etc. are only defined in
-CONFIG_MMU (makes sense).
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/imx/clk-composite-7ulp.c:87:24: sparse: sparse: Using plain integer as NULL pointer
 
-Same with the other report.
+vim +87 drivers/clk/imx/clk-composite-7ulp.c
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+    70	
+    71	static struct clk_hw *imx_ulp_clk_hw_composite(const char *name,
+    72					     const char * const *parent_names,
+    73					     int num_parents, bool mux_present,
+    74					     bool rate_present, bool gate_present,
+    75					     void __iomem *reg, bool has_swrst)
+    76	{
+    77		struct clk_hw *mux_hw = NULL, *fd_hw = NULL, *gate_hw = NULL;
+    78		struct clk_fractional_divider *fd = NULL;
+    79		struct clk_gate *gate = NULL;
+    80		struct clk_mux *mux = NULL;
+    81		struct clk_hw *hw;
+    82		u32 val;
+    83	
+    84		val = readl(reg);
+    85		if (!(val & PCG_PR_MASK)) {
+    86			pr_info("PCC PR is 0 for clk:%s, bypass\n", name);
+  > 87			return 0;
+    88		}
+    89	
+    90		if (mux_present) {
+    91			mux = kzalloc(sizeof(*mux), GFP_KERNEL);
+    92			if (!mux)
+    93				return ERR_PTR(-ENOMEM);
+    94			mux_hw = &mux->hw;
+    95			mux->reg = reg;
+    96			mux->shift = PCG_PCS_SHIFT;
+    97			mux->mask = PCG_PCS_MASK;
+    98			if (has_swrst)
+    99				mux->lock = &imx_ccm_lock;
+   100		}
+   101	
+   102		if (rate_present) {
+   103			fd = kzalloc(sizeof(*fd), GFP_KERNEL);
+   104			if (!fd) {
+   105				kfree(mux);
+   106				return ERR_PTR(-ENOMEM);
+   107			}
+   108			fd_hw = &fd->hw;
+   109			fd->reg = reg;
+   110			fd->mshift = PCG_FRAC_SHIFT;
+   111			fd->mwidth = PCG_FRAC_WIDTH;
+   112			fd->mmask  = PCG_FRAC_MASK;
+   113			fd->nshift = PCG_PCD_SHIFT;
+   114			fd->nwidth = PCG_PCD_WIDTH;
+   115			fd->nmask = PCG_PCD_MASK;
+   116			fd->flags = CLK_FRAC_DIVIDER_ZERO_BASED;
+   117			if (has_swrst)
+   118				fd->lock = &imx_ccm_lock;
+   119		}
+   120	
+   121		if (gate_present) {
+   122			gate = kzalloc(sizeof(*gate), GFP_KERNEL);
+   123			if (!gate) {
+   124				kfree(mux);
+   125				kfree(fd);
+   126				return ERR_PTR(-ENOMEM);
+   127			}
+   128			gate_hw = &gate->hw;
+   129			gate->reg = reg;
+   130			gate->bit_idx = PCG_CGC_SHIFT;
+   131			if (has_swrst)
+   132				gate->lock = &imx_ccm_lock;
+   133			/*
+   134			 * make sure clock is gated during clock tree initialization,
+   135			 * the HW ONLY allow clock parent/rate changed with clock gated,
+   136			 * during clock tree initialization, clocks could be enabled
+   137			 * by bootloader, so the HW status will mismatch with clock tree
+   138			 * prepare count, then clock core driver will allow parent/rate
+   139			 * change since the prepare count is zero, but HW actually
+   140			 * prevent the parent/rate change due to the clock is enabled.
+   141			 */
+   142			val = readl_relaxed(reg);
+   143			val &= ~(1 << PCG_CGC_SHIFT);
+   144			writel_relaxed(val, reg);
+   145		}
+   146	
+   147		hw = clk_hw_register_composite(NULL, name, parent_names, num_parents,
+   148					       mux_hw, &clk_mux_ops, fd_hw,
+   149					       &clk_fractional_divider_ops, gate_hw,
+   150					       has_swrst ? &pcc_gate_ops : &clk_gate_ops, CLK_SET_RATE_GATE |
+   151					       CLK_SET_PARENT_GATE | CLK_SET_RATE_NO_REPARENT);
+   152		if (IS_ERR(hw)) {
+   153			kfree(mux);
+   154			kfree(fd);
+   155			kfree(gate);
+   156		}
+   157	
+   158		return hw;
+   159	}
+   160	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
