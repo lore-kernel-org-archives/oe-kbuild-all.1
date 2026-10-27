@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793108111;
-	b=rWuT9R2JDgEYUzKm0n01nzH80AWnpD8a1E5TRPwkrfBNOWD59Q54stCT+YxHOYM1u5KD
-	 tnawnnaKr7eDCE8Rixo2Z/SPK0NkB4KGi5jtzsr6/oIcXXh0UxNXJP8hb+daalhamxwWH
-	 zlwvhg+TB6S5vynvnncbzM2bsaqTJVyP4B/dUOIsHWcK68z1ryMrXuBxSZZGYy1LJipZV
-	 NDYd4TBP/L7WfasnAwfm6YSoqewaBO/YtkVYu3yVNqRpupTNNI0BEXaTGh4q+WNXj5py0
-	 EQV1efCCYGFwyHkLhnz8/HWSO0Kv6RHHomVSywE8LU8wN2XeBo8IuIWf7YUfheFzoQw==
+	t=1793109312;
+	b=Y2lh2bJdRlTScHKdBbPDlIlsdUFvKqUXCBcZPv7ob7OJA3KbYMh75yI5ocNEcU9nwKMo
+	 gUwogJyYOBF7ZJKFIeJz8NBomXkIuu+IkqWL+H7x9NsquV4lAF9uT/hQVjw970uI6vfAf
+	 +Or8jNyf/KzUYpSne5O9nbWDga7u0y+QhxCFUiDiIFXdn34t16JH8BKmFYieMOXIyMbqH
+	 M4y6qazCnVsrWiXFuxXaNPQiyS8Jv7MV+BNACeiQsVIBl2p19xT36sVvCAG7NcTIvvQ52
+	 MDDR7u0dcEl5kJ5fhn+EeZO17Hs9Q/717hXDzXRpMbLsbi3IQ3G1R+wHrN53Ie8PGZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793108111;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793109312;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=AoBNXOQoi1a4swVO+Hu1/0L+yWX2oi8HONhp+980T+0=;
-	b=fhc2uHDppJbEMM3byRzo0vilLTpTCzr5F6ImVCeiK6lv+ZsJ9N0DvP0KYvCatEuA/ZzN
-	 eyupwiz4iINdSorYcy5XG04g3xyLAvEHL3q7dhf0XUOWED0QIp4ETILWyFT+tCRCUEk2n
-	 PNea8+zOuPkaJ7gQgQnG9HK3Na1s0FnHUMapdaIvSjJS7tt1OOyOgmBGsPupI7qCL3e5f
-	 P4fsEKVrXbzrrKT5t/WZ290foozecKNM9sgGrvCWDGBTcC4WWdtS/0iVfwJhgJ87cxKg5
-	 Bx0Wuyffa0yXVaih4pfv3dbH0bKBHb7csNocSH5u8S4Dgy07AcU7KwY4hguGP+5XzrQ==
+	bh=FsOXePtEaiL8knFYAeQ6VMilP1ugMy+X1ZMYvkzwnfY=;
+	b=SlIfnKti4cmC7mtvA7BX6ofBYuvCtyfDW2++GXOW8rd6oG6ZWDVnS3kfYiZm3NHVxTgY
+	 y4NAtfIXj3TByjx12ttImtpU7jRuqcN9TeEcsbJduacvo/KGs7fdpYmt2pDD9Mba/qE0B
+	 uHf+3p5L5rj4RSLqe4sLomIlH28kxDx/urrBN3/+YxmkdPgrsbk3c1UT4TYClXPxt41nt
+	 KQRLvtWrZ+csa63TK0po/Cmf9FA8+NjN0e1q25aNY8jwg/tt42Vsl5BCPPigyp63as12E
+	 8XLTEZt2+6Mmbipg4HCQ5lnJ1N36BSx/1vyLgpsSdqY+T0exc6JClpQ3Cl5p8CXG1rQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VHXAk0To;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="QiQ/m9qj";
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF1F606A321
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 13:35:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FF1F606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D09D606A327
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 13:55:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D09D606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VHXAk0To
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QiQ/m9qj
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793108111; x=1824644111;
+  t=1793109311; x=1824645311;
   h=date:from:to:cc:subject:message-id;
-  bh=M9YDtvvUlc1CuYmNza3TKPhD9GpAHkbG4taruddUJj0=;
-  b=VHXAk0ToEHpmMBSvZM2wal7b/k4ntwheff4MlbS6IInVfy4T3MA/MXeb
-   qnDiVZYkK+2/tVXUIejNJJoGOMuJRbTHq97m0hrC6G4cigEUBLoNu79Xp
-   DnQg0eJmAsb7N3oqYjOmAkF8+5x9N9FkPUa6ZVXnkV4Nq58ZyBo8lL8Fq
-   kuScwWRhDlx5bGouCERQ2thAq3MLpE96N/svflsIV+ryFFxycItPCFULa
-   JQpWVL6OhdWD/zuhpTRvZS+lqSvkN38gbP/PynIAhO1Dldtmjtw0ET/m9
-   7HJNZTDUiy2OkR///VOskg5z/J4ew/smdwfRhR3s7SVp4zyq/5DYriyl7
-   A==;
-X-CSE-ConnectionGUID: R5APW+t9TUmYAbL/aHlqLQ==
-X-CSE-MsgGUID: su80pMQITPOaeqbTYRUl6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1696619"
+  bh=0RX7xeIMgbxl0V6Ig33FuF2pevuRHaszxnWKZH3rP6A=;
+  b=QiQ/m9qjFmpZKZTYoJQS3PrC77j5LpDYXeQFLxncDFABOGDRXP8lWQtg
+   LES3zyFPbpSXNtyGApup+oRDUxM1uT9OHAIg+JBltdFEm7M8668BT+N0+
+   RlbkmuFSZMy+TNgF2cqonU5A7QCQcBa3Z1rvlPpoFOOym0MZHtvGnpSnm
+   wikTIeL/dPOB9I0Mm13HNqCeG/8DMQzUMO8g8+23hhCY/OOfg9Ksags0K
+   c5n9J2UsN50FJ91zL+pSQH2P1i+tD48RZfOo8flJKwg1GKKVCgNDrjS3W
+   ZlC2EHA3DCE9JUYKFqAThowKs8D/5SmOGBCsvUiFU6J/55f6/Gzvd+QsO
+   Q==;
+X-CSE-ConnectionGUID: t52JwFUsRTGs8h9FPxPfGQ==
+X-CSE-MsgGUID: 4/bUBTKpR6yZFkKJ13hSUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1840074"
 X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="1696619"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 06:35:09 -0700
-X-CSE-ConnectionGUID: 5BSQnQfHR82/neDQ6epjHQ==
-X-CSE-MsgGUID: ck5I/wElRp6+6wV0fXDGUA==
+   d="scan'208";a="1840074"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 06:55:10 -0700
+X-CSE-ConnectionGUID: 4wjuZK4QRiGa0lajKmjEOg==
+X-CSE-MsgGUID: oOq9yT9sQBe8o9wbtrtC7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="5070948"
+   d="scan'208";a="4625314"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Oct 2026 06:35:08 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Oct 2026 06:55:09 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLhKT-000000004Wx-3n03;
-	Tue, 27 Oct 2026 13:35:05 +0000
-Date: Tue, 27 Oct 2026 14:34:06 +0100
+	id 1xLhdq-000000004XL-2N5a;
+	Tue, 27 Oct 2026 13:55:06 +0000
+Date: Tue, 27 Oct 2026 14:54:44 +0100
 From: kernel test robot <lkp@intel.com>
-To: Rustam Adilov <adilov@disroot.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Gleixner <tglx@kernel.org>
-Subject: drivers/irqchip/irq-realtek-rtl.c:79:15: sparse: sparse:
- incorrect type in argument 1 (different address spaces)
-Message-ID: <202610271430.H39Nrho1-lkp@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kuba:dma 2/11] drivers/xen/swiotlb-xen.c:435:11: error:
+ initialization of 'void * (*)(struct device *, size_t,  dma_addr_t *, gfp_t, 
+ long unsigned int)' {aka 'void * (*)(struct device *, long unsigned int, 
+ long long unsigned int *, unsigned int,  long unsigned int)'} ...
+Message-ID: <202610271408.Ck6gnDo8-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,86 +82,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d135ab453a7400a34930bdda1ef4bdc8acfac80e
-commit: 58b34b72b64bfbfc5f8ad4d8f229942aff76597e irqchip/irq-realtek-rtl: Use readl_be()/writel_be() instead of readl()/writel()
-date:   10 weeks ago
-config: mips-randconfig-r2311-20261027 (https://download.01.org/0day-ci/archive/20261027/202610271430.H39Nrho1-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
+Hi Jakub,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kuba/linux.git dma
+head:   cd9029ebe3033a797c066b493e4cfcf5337cf829
+commit: 40f9c52cdcf8713402ec7a31c47511d06bdcf5d2 [2/11] dma-direct: pass the NUMA node to dma_direct_alloc()
+config: arm64-randconfig-r2310-20261027 (https://download.01.org/0day-ci/archive/20261027/202610271408.Ck6gnDo8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
 sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610271430.H39Nrho1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610271408.Ck6gnDo8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 58b34b72b64b ("irqchip/irq-realtek-rtl: Use readl_be()/writel_be() instead of readl()/writel()")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610271430.H39Nrho1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610271408.Ck6gnDo8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/irqchip/irq-realtek-rtl.c:79:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:79:15: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:79:15: sparse:     got unsigned int *
->> drivers/irqchip/irq-realtek-rtl.c:79:15: sparse: sparse: cast to restricted __be32
->> drivers/irqchip/irq-realtek-rtl.c:81:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     expected unsigned int [usertype] val
-   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     got restricted __be32 [usertype]
->> drivers/irqchip/irq-realtek-rtl.c:81:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     expected void volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:81:9: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:167:19: sparse: sparse: cast to restricted __be32
-   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:168:19: sparse: sparse: cast to restricted __be32
-   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:58:16: sparse: sparse: cast to restricted __be32
-   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     expected unsigned int [usertype] val
-   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     got restricted __be32 [usertype]
-   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     expected void volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:60:9: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: cast to restricted __be32
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected unsigned int [usertype] val
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got restricted __be32 [usertype]
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected void volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse:     got unsigned int *
-   drivers/irqchip/irq-realtek-rtl.c:67:16: sparse: sparse: cast to restricted __be32
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected unsigned int [usertype] val
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got restricted __be32 [usertype]
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *mem @@     got unsigned int * @@
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     expected void volatile [noderef] __iomem *mem
-   drivers/irqchip/irq-realtek-rtl.c:69:9: sparse:     got unsigned int *
+All errors (new ones prefixed by >>):
 
-vim +79 drivers/irqchip/irq-realtek-rtl.c
+>> drivers/xen/swiotlb-xen.c:435:11: error: initialization of 'void * (*)(struct device *, size_t,  dma_addr_t *, gfp_t,  long unsigned int)' {aka 'void * (*)(struct device *, long unsigned int,  long long unsigned int *, unsigned int,  long unsigned int)'} from incompatible pointer type 'void * (*)(struct device *, size_t,  dma_addr_t *, gfp_t,  long unsigned int,  int)' {aka 'void * (*)(struct device *, long unsigned int,  long long unsigned int *, unsigned int,  long unsigned int,  int)'} [-Werror=incompatible-pointer-types]
+     .alloc = dma_direct_alloc,
+              ^~~~~~~~~~~~~~~~
+   drivers/xen/swiotlb-xen.c:435:11: note: (near initialization for 'xen_swiotlb_dma_ops.alloc')
+   cc1: some warnings being treated as errors
 
-    71	
-    72	static void write_irr(unsigned int cpu, int hw_irq, u32 value)
-    73	{
-    74		void __iomem *irr0 = REG(cpu, RTL_ICTL_IRR0);
-    75		unsigned int offset = IRR_OFFSET(hw_irq);
-    76		unsigned int shift = IRR_SHIFT(hw_irq);
-    77		u32 irr;
-    78	
-  > 79		irr = readl_be(irr0 + offset) & ~(0xf << shift);
-    80		irr |= (value & 0xf) << shift;
-  > 81		writel_be(irr, irr0 + offset);
-    82	}
-    83	
+
+vim +435 drivers/xen/swiotlb-xen.c
+
+eb1ddc00b81cb8 Stefano Stabellini 2013-10-09  429  
+dceb1a6819ab2c Christoph Hellwig  2017-05-21  430  const struct dma_map_ops xen_swiotlb_dma_ops = {
+566fb90e050dfa Christoph Hellwig  2022-04-22  431  #ifdef CONFIG_X86
+dceb1a6819ab2c Christoph Hellwig  2017-05-21  432  	.alloc = xen_swiotlb_alloc_coherent,
+dceb1a6819ab2c Christoph Hellwig  2017-05-21  433  	.free = xen_swiotlb_free_coherent,
+566fb90e050dfa Christoph Hellwig  2022-04-22  434  #else
+566fb90e050dfa Christoph Hellwig  2022-04-22 @435  	.alloc = dma_direct_alloc,
+
+:::::: The code at line 435 was first introduced by commit
+:::::: 566fb90e050dfa2132340bbdab9533b727dda6f1 swiotlb-xen: fix DMA_ATTR_NO_KERNEL_MAPPING on arm
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 --
 0-DAY CI Kernel Test Service
