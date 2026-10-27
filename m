@@ -1,78 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793082081;
-	b=sBUpe0VYBaBoptnnMbBaeue4nAM+7kkFBYuLyznR+mvF2RahNH0f+n4Dc8vQc2hJ5QaT
-	 fuJWBEPr3BQpZzWbf88uJprWb6lJs8AkQ0/Vg/kCsJUg1/0N7KJblTEcZcHWqbGkUilV7
-	 aA+IZwrz12HV2pk8CGP4RMXenjF2lHLChkItSQbcXxKxZh7aUT68ogyrln1Aq+j/MPRP+
-	 q2fEupcDfulIiz6IpO5KjU3jQ5T+gYNTvjOE4loVn9Pv/uOC6OCWyViTWVT96EJhwFLcJ
-	 lg8i9792l56sHbAyfy2UPZC0zacWFdz0xWd68Tiz7/gHz9kM271eWWqQaXA+Qm6Kn+Q==
+	t=1793083942;
+	b=LbpBqzz2+FKWecC+f62HtmoO43Z9yBZ7KU22Kl5y6XLkFCX0T0HsBTIAGvkuMbPZbi28
+	 JrF1OKWVu1Rqj7PIZujAnuapMBNCRxWT0MzSoZX/fX37qlTWK3igSCgrJxljvw3HycpPJ
+	 FJWZDOkb/Pghm16f2QnBdYBWg9cgSkwaUX5Hd3N7OF6Vg3/wWHQj23m4KMyhBcIzimpS4
+	 KY9W7c5rbCHZuO9pQtxfEoc8PDI55Lf///yhODuzmeZ2NBL6kVgs64V5+XjHexl5A2SVz
+	 E5051Tl623k5rEpJqIBvQN64g7DPW9ROT+IooIx1R312hL2KCzfMICmCV5g51qlN4xQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793082081;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793083942;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=C1HGCzEts5FhWN/0c/kmpCyKUCtnx8elLYeqHe7xyuQ=;
-	b=PsqHJKe6DN57KaaeCmblUUdZvKukcu0woHsJAMWSJSKn0nYTjKtzOptqGJ/9OJZrbGCK
-	 JrlvUjBBchomQfFKNzIDgKlO+0bBiukK1AE3WPgMOaxidHM4I9dcs7NIjRGXKo8JG/xnE
-	 KhLSY30e1tcwqjLclQuUosrePaFJl0RQWUhhJKxi5pM5HbeuDnafKwuAjMdmsUOLJY2wL
-	 FYY+CvajuPtqIzS0HP2HBrmdJhR/z9YOlXT6WZqZ04pch/S6c4DdmyJGCwg0Tmy7cwE++
-	 D1lzlJlUVweEu2WjnRR7rbUPlHvxs2MVFkUUDOcTjYSptJdAPyT7s6xJHDnERDL15rw==
+	bh=pOrh2MFQFwoeKAEOwItYFzPqyXCMeW+jRXRdKXe8PJw=;
+	b=arXTaFy25KiCfb4mrkhdyRE7p5A9cGYsxlt3b+qQsuZb1zCiMKnvzcEgyKoGjwCyt7RN
+	 iiKPVqL41TM0g/ydGG/VvI1G6ITEqgtww4PgWouQpJ70s9YmxtNOa0g8HEs7G0iPoCaV4
+	 xQI8Qhu2ZiVYcR97aEyQ4DkDQLG6LedmZXmUWN4bo3sDFopJQ0/wf+DzpwKP5J1AKT53n
+	 fowJutprubZqwSHs4YH8ba1ikml2Z+mzFPX5OLoS76034eO/hRG+hM5NHvdcUQ2TEn1kN
+	 br7lJGY6jK2yQU67GWuaxvA9VMAp+1o8LQDv9JI6kAGJaLN7Ur3BrbSwyjhI2p4i6Gg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eoqLHCWJ;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iOU3hIFj;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5437A606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 06:21:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5437A606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A56606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 06:52:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7A56606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eoqLHCWJ
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iOU3hIFj
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793082079; x=1824618079;
+  t=1793083940; x=1824619940;
   h=date:from:to:cc:subject:message-id;
-  bh=FnmrINqASpiP3ae+XIm+SSotaoSMoIsF52+jCcCg1TA=;
-  b=eoqLHCWJAlajpuiMvRIlMrXqaRvKtg1eShcVTLpAiXv6PnOywWolg5q0
-   mngIp0W4zEzxzLGrHen0olE2rcG/gSbYgUvzl22P8IfxY95uPdML9EsM4
-   /WNEiSufKjzZgrPdv1kkC5V6veAt80FWw6o5LpFkpFiMqZ5tH+DeOlrWE
-   lAjTEL1xnliUMANrOn7eP9PXII0511l/5ASrUaD6CRci0ytc4qQflRfbz
-   pQE/cM9+Pur8z0Z5y5mfQDXVMLZHFczTYh4dJda0e8LIxEr2l/sDMNr4r
-   L+numIqgbZyiVDSzqiZgWZUJzn+LMXAjEpsT+zYrs6Ca0mzKA9YLD0nz+
-   A==;
-X-CSE-ConnectionGUID: L7KaVu0UR8y55SJijqIQSA==
-X-CSE-MsgGUID: ssLyVPi/QC+qggGustDhdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1784944"
+  bh=5/DhER74t7R43mkV1F4OKqvIMomVNCrA9zuC7f2r3KU=;
+  b=iOU3hIFjPS7mNRheLECiTR+6/h35yiQRzikw9lHYS45c4grjBXVCQ4KU
+   Ay/6UADirai8JpERQijkClFmAGM1Him/KGQMKsii2oZp/q/RZ0atJXwms
+   H4xK1QTGBLr6lvKDoy21OeY84qNaOapXaSOqUJTOOJtA3awYeFvByMsII
+   B0/9E9FTz9efc42EfUdaPHAzduaH59kgp8pLkeYHkpbCiUqpKXtgc4jIA
+   JIttSCjo+29neCjxc+tLb1Vevm96zVtPqvLvMac9Bi3GAscrXDJ6qkf2R
+   qCtaUBO69mcq79thYWzcKdU/lBcg61x8TqqA98YKNBogZR77+ZH/oLnD+
+   g==;
+X-CSE-ConnectionGUID: tIW2cNxeRRK9bcH//lIzKQ==
+X-CSE-MsgGUID: Uck00Ys4TIKrb3izidRr4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1765411"
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1784944"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 23:21:18 -0700
-X-CSE-ConnectionGUID: MqQArQghQqqTe5x9dKXoFA==
-X-CSE-MsgGUID: vhJKEH8hSd+H/+K5zbCOvQ==
+   d="scan'208";a="1765411"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 23:52:19 -0700
+X-CSE-ConnectionGUID: zk2c8gUqQjCdKbjNUELyFA==
+X-CSE-MsgGUID: THHgkT/XSV+fb3Y8DpEOPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="4444293"
+   d="scan'208";a="4815961"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 26 Oct 2026 23:21:17 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 26 Oct 2026 23:52:18 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLaYc-000000004PL-20TZ;
-	Tue, 27 Oct 2026 06:21:14 +0000
-Date: Tue, 27 Oct 2026 07:20:57 +0100
+	id 1xLb2d-000000004Pv-3T6X;
+	Tue, 27 Oct 2026 06:52:15 +0000
+Date: Tue, 27 Oct 2026 07:51:45 +0100
 From: kernel test robot <lkp@intel.com>
-To: Udaya Kiran Challa <challauday369@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Lee Jones <lee@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>
-Subject: arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds
- (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power',
- 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$',
- '^pinctrl-[0-9]+$'
-Message-ID: <202610270710.aWUm0pbv-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 2/2]
+ drivers/dma-buf/heaps/page_pool.c:235:17: sparse: sparse: symbol
+ 'pool_shrinker' was not declared. Should it be static?
+Message-ID: <202610270749.TnClUGgT-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,81 +81,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d135ab453a7400a34930bdda1ef4bdc8acfac80e
-commit: 59cf91cf87abb67a49b1bb7b9d3b06486abde8cf dt-bindings: leds: lacie,netxbig-leds: Convert to DT schema
-date:   12 days ago
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261027/202610270710.aWUm0pbv-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270710.aWUm0pbv-lkp@intel.com/reproduce)
+Hi Hridya,
+
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   e7e4a657fff86db1dc8f902e5ff8c713b81f6d39
+commit: 70ad75e771d15cdf21f43548ee47bb38b4c2f564 [2/2] ANDROID: dma-heap: Make the page-pool library built-in
+config: arm-randconfig-r2308-20261027 (https://download.01.org/0day-ci/archive/20261027/202610270749.TnClUGgT-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270749.TnClUGgT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 59cf91cf87ab ("dt-bindings: leds: lacie,netxbig-leds: Convert to DT schema")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610270710.aWUm0pbv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610270749.TnClUGgT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): #size-cells: 0 is not one of [1, 2]
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
-   arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-d2net.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
---
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
-   arch/arm/boot/dts/marvell/kirkwood-nas2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
---
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): $nodename:0: 'regulators' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulators (simple-bus): 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net2big.dtb: fan (gpio-fan): 'gpio-fan,speed-map' is a required property
-   	from schema $id: http://devicetree.org/schemas/hwmon/gpio-fan.yaml
---
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@1 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@2 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@3 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@4 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
-   arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: regulator@5 (regulator-fixed): Unevaluated properties are not allowed ('reg' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml
->> arch/arm/boot/dts/marvell/kirkwood-net5big.dtb: netxbig-leds (lacie,netxbig-leds): 'blue-power', 'blue-sata0', 'blue-sata1', 'red-power', 'red-sata0', 'red-sata1' do not match any of the regexes: '^led-[a-z0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/leds/lacie,netxbig-leds.yaml
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/heaps/page_pool.c:235:17: sparse: sparse: symbol 'pool_shrinker' was not declared. Should it be static?
+   drivers/dma-buf/heaps/page_pool.c:242:5: sparse: sparse: symbol 'dmabuf_page_pool_init_shrinker' was not declared. Should it be static?
+
+vim +/pool_shrinker +235 drivers/dma-buf/heaps/page_pool.c
+
+d3b59a75e86384 John Stultz 2020-10-02  234  
+d3b59a75e86384 John Stultz 2020-10-02 @235  struct shrinker pool_shrinker = {
+d3b59a75e86384 John Stultz 2020-10-02  236  	.count_objects = dmabuf_page_pool_shrink_count,
+d3b59a75e86384 John Stultz 2020-10-02  237  	.scan_objects = dmabuf_page_pool_shrink_scan,
+d3b59a75e86384 John Stultz 2020-10-02  238  	.seeks = DEFAULT_SEEKS,
+d3b59a75e86384 John Stultz 2020-10-02  239  	.batch = 0,
+d3b59a75e86384 John Stultz 2020-10-02  240  };
+d3b59a75e86384 John Stultz 2020-10-02  241  
+
+:::::: The code at line 235 was first introduced by commit
+:::::: d3b59a75e86384b6d5302159fa89446ead81e71e ANDROID: dma-buf: heaps: Add a shrinker controlled page pool
+
+:::::: TO: John Stultz <john.stultz@linaro.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@google.com>
 
 --
 0-DAY CI Kernel Test Service
