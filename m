@@ -1,78 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793076520;
-	b=fEKxTNpNpmIO9ZWacxgcK9kj/Pjc+gB+wT+tN0EUk0zd7V+T32AtwS1eZtSX+arDsvwN
-	 F31soBG0b3eHj5waTqVAVFEMhyYBxCU9xTt6xRxuQRRXy6U5jNdVuxHbhAyUMkd03qdDW
-	 sFB/jdEdbMvD0r1aTtsp1rCmY0ssSMvk13ylFHA5JLM+RnwxjlfNmnDVC8JC2M8Y2kQhy
-	 WxnW7IzopNywSueCQp6lJDgI0p/BbWlMhncJiI8N+ByAGGFjpueFG74prGMyjWIUYexr9
-	 el03vzUleBPO3JxQKFWG3RpxHQ9ncXA/EaVHhQXbcpPhuRiEQyhKCzaDQMYuoTpd7ow==
+	t=1793077469;
+	b=ceVcDSLWK/GWdKA2rO2QXKKcvlm0ZpmA0IsMN74wWej+f0UpGw2ITr96VksPN4eONeSJ
+	 w96UQzPS5f8+yZrEEq3Sjx7ofMTmTFwR7bJZxK/lsCg8xx8nC+rQBFhOvh3emw0dQqnLK
+	 lvInfW2RCoIQagpv0NEzU2HjO9vrdndmnonxVDMB6uGeErPdzvxM6AeqHtONMVcT3QmY2
+	 X2i8+BIpSM/eBzop3TPfox30ot16UQ9HEx9A2FQnmusiM0DOyRmIMloFoxsBjc/H5Za2+
+	 ORzPm3tqyV02EoNb8MzdGFHukNe9hwpNHjszGAUtl1hRFKsbRuiSt7Q93UxHvVV6+WQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793076520;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793077469;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=Y+JTv5rYNBbHs9BbzcKbF1n78nuXP9mgmC5sBnYk5ZE=;
-	b=kKXJTVNyGqLjJYgItsBOLe1k1FAV+dqWuGGYabDo4VYovfUvtWRdqq3U726nLABWNLlV
-	 iW70jsuIDkBXgTuop8B+xoSDQeqpoO24kgFTqFq0d/RU+HXBZVhzNeGkOF6MtAhmF0g2j
-	 bOMXsU+kep3n/3aNgM9fQXJY/miPvbMmBeXbP+fDh5EsteRxlgeiazcnP6+DyeJREdmqw
-	 aarfKmag4Lq6255mC8oedpL8rJvrAPT7+g5iZT30t/2VbqOZaYSuySEs0fq6LgWldc152
-	 IcTPcRN0X0CY0Gb8Zd2G9JfuuEabR91PW7vve8n4nlj6h2lMGOpT/3Ef/8EzTAUv6jQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Ai6yw3OuibhURm/WO66vXn3DXBjDe0k2rnzBv97yR0A=;
+	b=UAFjT4lYoljh23Kd1eiJbuENxMUn8fq2ZedzE1myZusFvjRZXFlm8lS2Jdy9HUm9qlQd
+	 PLhBtF1o3TRnU3SVQoq0OO59K1oCxF7a+hWOMX4QWYOPLsru8RraGB0KZrcLFxYrIQEl/
+	 s03MwIk+3saAj6KEFrhX+ESpETDcM7EO63ErfpVQXWhleST7TtlgMWY2p3LHTuaHH9rJ+
+	 syV/aj8okTY0JjQ0q0a+hMGle8DSEjr1Ce0r4GoD4D3pBdEwAz4jHLlPEt5LhwAxL7Kjg
+	 oY/h1v9ksmQgUrPJgouEa17dK79SebZdHsiWHOLfp8Vi4vr3J8gDcJNJbm9uicUrAjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TGPpghBI;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UhGqxwCm;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88255606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 04:48:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88255606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4520D606A31B;
+	Tue, 27 Oct 2026 05:04:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4520D606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TGPpghBI
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UhGqxwCm
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793076518; x=1824612518;
-  h=date:from:to:cc:subject:message-id;
-  bh=3QQTbMbJIqsE1k9AO/UxyTyb3drJs8XJ0BYTNFL0lno=;
-  b=TGPpghBIG/zXPGmN56wcR4o0+hZ2iGPwYez3d66Yo64NuzW9NWgK4Slb
-   1FfsPQas26v7ifUXxkn4tnz6c11TE/7FVR311urlndW7uhHvR0BC7Ym93
-   7BPIUNqTycBZmBZskz1u9l5L1SHGKWOSAWZIaBrgXK5PNWKIe9DhyzALM
-   ryrU8jl2l37iVi44GUDISWp/NHCaiapQVwOI+gaCVslqvaPPdvHBORXSZ
-   kEhWvVjMXMolvieqSNEWUoEPS/yxZ++Tnfj9yDpuXQiCbynzzQMjVj7wV
-   sohjn2+losT+/AXpkj5H2xntj4qVtpgM4FqX2FBrMM//rqEkihq8FDHBn
-   Q==;
-X-CSE-ConnectionGUID: jx//7PQSQLyrD+K2RS/XEQ==
-X-CSE-MsgGUID: pxe4ZQFUQ0OyxJkEmTI+0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1777009"
+  t=1793077467; x=1824613467;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HAhrArfOGx4d2m+iNXRk5VLLSvyuYaHbyyD0xEP12kY=;
+  b=UhGqxwCmc3z1LpSG4EUSUyCFCEx9cbQwPK5uuGJGiEfQeXIHqQO8pt14
+   5A71N9XiErTpRAtNv+xgexTQStlc9JGaVMItg7mFZydcfysf/T22kheFR
+   6AzRmn0bvpt3vAC2SYGiL1FgL3hOd4lsIOyCstEFjfeTuLNbNG/P3UWuF
+   9EuETMtlmhHk03qCY9cH+4tUNuSEtvcqAVps1CUTpqVJzcliFz6QI/TGM
+   p6gTG9HSX0o6v+hrd+PhNoFtL5XrwXNCRBip3dFUtahraCP4HKxM55jI2
+   Uze4rJi8dyONO24zvrm1yIbI3MtkZBqe8m7iEZfOcVTJPjoRQHImzQN4t
+   g==;
+X-CSE-ConnectionGUID: 6kybuR/GTyWE3qPU2NpHiw==
+X-CSE-MsgGUID: nwXS/fHcSxO/imxiKF5HCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1800152"
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1777009"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 21:48:16 -0700
-X-CSE-ConnectionGUID: m0LzlfvTR1+SbBP1sv17fA==
-X-CSE-MsgGUID: SpZy1VGTTBOjYJF2CjAPHA==
+   d="scan'208";a="1800152"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 22:04:26 -0700
+X-CSE-ConnectionGUID: GCpDDQhAQtuGSgdOwwRe2g==
+X-CSE-MsgGUID: mzaicXv/SACWC/OGO9hrOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="6323987"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 26 Oct 2026 21:48:14 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="4843596"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2026 22:04:20 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLZ6Z-000000004OJ-2KWH;
-	Tue, 27 Oct 2026 04:48:11 +0000
-Date: Tue, 27 Oct 2026 05:47:58 +0100
+	id 1xLZM8-00000000WrA-3Kg9;
+	Tue, 27 Oct 2026 05:04:16 +0000
+Date: Tue, 27 Oct 2026 13:04:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sudeep-holla:for-next/scmi/fixes 24/24]
- drivers/firmware/arm_scmi/driver.c:3110:16: error: call to undeclared
- function 'acpi_device_hid'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202610270525.oVjCqg5U-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	David Matlack <dmatlack@google.com>
+Subject: Re: [PATCH v2 07/10] mm/shmem_luo: Retrieve tmpfs files onto a tmpfs
+ mount chosen by userspace
+Message-ID: <202610271253.yDB2IOkw-lkp@intel.com>
+References: <20261022225035.377445-8-dmatlack@google.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,48 +101,54 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261022225035.377445-8-dmatlack@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git for-next/scmi/fixes
-head:   7f73b4cb4b3afff60577e5ddc532fd026b55d4e5
-commit: 7f73b4cb4b3afff60577e5ddc532fd026b55d4e5 [24/24] firmware: arm_scmi: Drop redundant ACPI configuration guard
-config: arm-randconfig-r2101-20261027 (https://download.01.org/0day-ci/archive/20261027/202610270525.oVjCqg5U-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270525.oVjCqg5U-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 80cf37169daef112b6bea9ae7d9808355a045475]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Matlack/liveupdate-Pass-user-argument-to-file-preserve-and-retrieve/20261022-225026
+base:   80cf37169daef112b6bea9ae7d9808355a045475
+patch link:    https://lore.kernel.org/r/20261022225035.377445-8-dmatlack%40google.com
+patch subject: [PATCH v2 07/10] mm/shmem_luo: Retrieve tmpfs files onto a tmpfs mount chosen by userspace
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261027/202610271253.yDB2IOkw-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610271253.yDB2IOkw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610270525.oVjCqg5U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610271253.yDB2IOkw-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/firmware/arm_scmi/driver.c:3110:16: error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3110 |         return adev ? acpi_device_hid(adev) : "unknown";
-         |                       ^
-   drivers/firmware/arm_scmi/driver.c:3110:16: note: did you mean 'acpi_device_handle'?
-   include/linux/acpi.h:919:27: note: 'acpi_device_handle' declared here
-     919 | static inline acpi_handle acpi_device_handle(struct acpi_device *adev)
-         |                           ^
->> drivers/firmware/arm_scmi/driver.c:3110:14: warning: pointer/integer type mismatch in conditional expression ('int' and 'char *') [-Wconditional-type-mismatch]
-    3110 |         return adev ? acpi_device_hid(adev) : "unknown";
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~   ~~~~~~~~~
-   1 warning and 1 error generated.
+>> mm/shmem.c:5867:6: warning: no previous prototype for function 'shmem_inode_on_internal_mount' [-Wmissing-prototypes]
+    5867 | bool shmem_inode_on_internal_mount(const struct inode *inode)
+         |      ^
+   mm/shmem.c:5867:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    5867 | bool shmem_inode_on_internal_mount(const struct inode *inode)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +/acpi_device_hid +3110 drivers/firmware/arm_scmi/driver.c
+vim +/shmem_inode_on_internal_mount +5867 mm/shmem.c
 
-c3d4aed763ce4a Cristian Marussi 2023-01-18  3107  
-17b3cdaa7ab4e9 Sudeep Holla     2026-09-15  3108  static const char *scmi_acpi_device_hid(struct acpi_device *adev)
-17b3cdaa7ab4e9 Sudeep Holla     2026-09-15  3109  {
-17b3cdaa7ab4e9 Sudeep Holla     2026-09-15 @3110  	return adev ? acpi_device_hid(adev) : "unknown";
-17b3cdaa7ab4e9 Sudeep Holla     2026-09-15  3111  }
-17b3cdaa7ab4e9 Sudeep Holla     2026-09-15  3112  
-
-:::::: The code at line 3110 was first introduced by commit
-:::::: 17b3cdaa7ab4e9c4fc9b1b6816e80d9ade153272 firmware: arm_scmi: Fall back to ACPI HID when "compatible" is absent
-
-:::::: TO: Sudeep Holla <sudeep.holla@kernel.org>
-:::::: CC: Sudeep Holla <sudeep.holla@kernel.org>
+  5862	
+  5863	/*
+  5864	 * Whether @inode is on the internal shmem mount, which is used by
+  5865	 * shmem_file_setup() and thus by memfd_create().
+  5866	 */
+> 5867	bool shmem_inode_on_internal_mount(const struct inode *inode)
+  5868	{
+  5869		return inode->i_sb == shm_mnt->mnt_sb;
+  5870	}
+  5871	
 
 --
 0-DAY CI Kernel Test Service
