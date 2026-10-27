@@ -1,78 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793066045;
-	b=EU+oUqFkLSbX+x0q9UuKZSkiLRPXf0s/9CffiB6C64p5+tEdtZ1pxfr9KZkby5/RorPu
-	 JtrV2lbpLs0U9anZ1AZZlHAA5qQWqQTgKGQ7IkxL5xY1WrD3iGQxxzx4AnYm0vDpBnNz4
-	 ggkry3/0anWZIB4k1nS4r6WR0Cyjkniu0e+bGc9fK1l1t09Co8NxG0JYGNPlY9UU3dx5f
-	 57JSvgq8prkcyauXDJPmySB+FXLMO8Xa6f/W/fvBP2WnST8NrinnrBU2g2M6qzVFNVmX9
-	 xN9QYS9ZVKyuFMt+ChpJBzchbbTpUYcDuPpCG4iSXT2YapahM1KMOdRbgzEpTarznlw==
+	t=1793067243;
+	b=qqwcMe0kqZwFzmFfLsvQnngP6tCW54Cy6u3PA8jVXOmzwC/bB8bi2vShsfNL+MbItaX0
+	 xAGq3g4aZX7hBRlg3ABqtISeICRcN0BXgDJn3qisEqmLNK3mBmGXv3dmYmX6Ljck3GbiZ
+	 KkbFdIAShZYuHQ6NFfKAROuPXsCChrOvSnnY0kqvGvKq82Q9B/K2sD4DT7V11ityDWepx
+	 2vhGlXrwlCbQ0sfsYfYUzQxVmHyUKhfQvRuqq3ctE+CIhIwNbUbW0DmmzGgw4pHnPAZb9
+	 CGI+Dm4sgOXsLlKSZXinOjGdnTTbkkq45/d3/r/c7YJHBcoR2TTRRJOX7MSkTGvVqGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793066045;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793067243;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=v0bsZ0wmShcjVDwqyvh6ZmvX9rPXh6bV5tkBl5SjttA=;
-	b=2KVUrKnQmyTwS/IHeRCeX0MAYP/ujjWPXK4LfZc8XXO2UDxq5eTmGw7Kfcx3wz10oju6
-	 ogMpxL6CvRMAfI16CyKr0txFq04IbzBRxcNQ+8IGsjKIvbuizKb1M3hShW0qOrXXH8cOT
-	 mEfN3yFSBcIlAFOE/0J0V22KxsJPY1d4Vg5eE+3+3n9i9Dy2oZifLMrYtkpKc1jjK0QWG
-	 ohehBTg8xhNPN0Yi6CfVw/a3coeb51VW7fvvyh9RYQgXAr9nUT2cSmADRSsYwvFX4f6g1
-	 A1xB+gBxqvCijvHJtumvWdbS5Ze0lTiDVdAvsYkc0oTA5NwLUABufq1V3/Y+Rw2EjCg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=9XQYM4CdUlCvpW1E1LWQozi4IAjXoDDAUa6YcxOY6CI=;
+	b=VAOdlFKkwuETEk3YEBuexJxRpvM2C65LEQSSiKw5Y2lX7mFc/0aActEfinY3YUZQ+aV4
+	 4aD02y2V6ZyNdbhxa2aUrALNcV3IuZBDHFDEy7D7Y9WKp0l3kmf+MeYaXxB70h4pgdleU
+	 ZV44UPMWBRO8W7P3PTh1LKFm3JqwlpFpCklrNEmn/hv+6hgyhKMHClIwec/wMiELiZ5zu
+	 8uYwXpgrRxMk45ZndQg+8r41j9SyvEz7fVqbW0WrkdwcSefRiYaSCz3t8qrPTVZmyV0+s
+	 80zL6kiQWURsagRaWrWUp2P+g04+/A21KYNWPCZq6vmG+bqGMwmZwDw2fah+f340g3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="jz3YlHS/";
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L5U9zrzf;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C42606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 01:54:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49C42606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91094606A320
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 02:14:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91094606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jz3YlHS/
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L5U9zrzf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793066041; x=1824602041;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=j6qeL+IQwpkZA4UOA+pJBVcHp43F+k5Yib5B7ECFZGs=;
-  b=jz3YlHS/RJeXdmr6tOFkWSZDS5NWayXRF0SYjLEKx8BT2J88QsKr3rsg
-   dx7hFGgQ2Gz3LDnAVh5htfUajI6EffY3cHwqFqrfZGQAY5NMPqiQuoccM
-   yWm+eFbGvlsrh3UpSoNkEMKsSq/x2idfzAXIZCbZPYMmHP2YaqdVeYJ16
-   otvLopOn0yaZm6H2pqpyzS3K7EXpcWt0u8omyw5Vp2qxJ/M3O54O1jWGP
-   TpO7B2uulETGR/T+ccbkOGNxXoFDa/gz2KjhjupDHc6pJ70gfmq5BWJjT
-   iWdW0MjouyyEYVXV7SjESHMnARKzyKNZSgw+N98NUBfQ8bZIHji3pGiOH
-   w==;
-X-CSE-ConnectionGUID: TkMiFDiaQmmjeQeTPW+RlA==
-X-CSE-MsgGUID: IP7yvoKdTkGhL8IofiSNZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1756237"
+  t=1793067241; x=1824603241;
+  h=date:from:to:cc:subject:message-id;
+  bh=4gSng04JXd1E+Nayk7qIU0NHKSiNcfdbx/qUlYLss1s=;
+  b=L5U9zrzfZgJsPgDwXP2okBs1xBPVBXqKUb73WuuaeHYYvIVThsIWSwMZ
+   CUE+exEWLaS+S/jnHohD8eV40nujyD68Z07y+DwJUSu5z+g0WmS+kQRU5
+   VhUsYX2ab7FlhfyHh5LWksJqDtUTIM8NcC0y9NCAaI7EvUwZp+qs4MJmT
+   UyBQS5vxHEzsYZPNOTMj3uy4hehiXrqWh9rVVsqruZo/yILWixQW1w3Mz
+   PPzxKvM9T3d987emjayE4ImD4ry1gvz7zIu3KMu5hSb7grM9kAPRKjeDN
+   j8b4C/B+H9Cvc8qtKWwMtK+JVslrJk2fGlgt+q88ttaMhH6UySB0BQAow
+   g==;
+X-CSE-ConnectionGUID: PrBt+ZKlTkqbK2oiV24pLw==
+X-CSE-MsgGUID: 52CmqNAWSY6y+2gE4HT9Pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1640329"
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1756237"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 18:54:01 -0700
-X-CSE-ConnectionGUID: McM/uRs5QtqJULCqzVR8bQ==
-X-CSE-MsgGUID: MXDYMyFFSXWsWzXJgOvbaw==
+   d="scan'208";a="1640329"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 19:14:01 -0700
+X-CSE-ConnectionGUID: xgDdThVMR66V9moA02IFUQ==
+X-CSE-MsgGUID: SgD1D80jQhW+9LuRLI+85g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="4505222"
+   d="scan'208";a="6251978"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 26 Oct 2026 18:54:00 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 19:14:00 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLWNx-000000004LL-1C8l;
-	Tue, 27 Oct 2026 01:53:57 +0000
-Date: Tue, 27 Oct 2026 02:53:13 +0100
+	id 1xLWhJ-000000004LX-3UNJ;
+	Tue, 27 Oct 2026 02:13:57 +0000
+Date: Tue, 27 Oct 2026 03:13:49 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 353/353]
- mm/memory.c:1709: warning: Function parameter or member 'start_t' not
- described in 'unmap_vmas'
-Message-ID: <202610270246.5loG7xvL-lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/tty/serial/cpm_uart.c:1533:31: sparse: sparse:
+ unsigned value that used to be signed checked against zero?
+Message-ID: <202610270303.TbvTqZ1N-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,115 +79,65 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Liam,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d135ab453a7400a34930bdda1ef4bdc8acfac80e
+commit: 831603b3e8aa3892de229fda846b2f859c518699 serial: cpm_uart: replace irq_of_parse_and_map with platform_get_irq
+date:   4 months ago
+config: powerpc-randconfig-r2304-20261026 (https://download.01.org/0day-ci/archive/20261027/202610270303.TbvTqZ1N-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.5.0
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270303.TbvTqZ1N-lkp@intel.com/reproduce)
 
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   6b915aa34a0d468d55e46535173b0d946dfcf9a5
-commit: e9fdabfc2aeb273168e60795e68896dfdeed6fdd [353/353] FROMLIST: BACKPO=
-RT: mm: Change do_vmi_align_munmap() side tree index
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/202=
-61027/202610270246.5loG7xvL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261027/202610270246.5loG7xvL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 831603b3e8aa ("serial: cpm_uart: replace irq_of_parse_and_map with platform_get_irq")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610270246.5loG7xvL-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610270303.TbvTqZ1N-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/tty/serial/cpm_uart.c:1091:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc volatile [usertype] *bdp @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur @@
+   drivers/tty/serial/cpm_uart.c:1091:13: sparse:     expected struct cpm_buf_desc volatile [usertype] *bdp
+   drivers/tty/serial/cpm_uart.c:1091:13: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur
+   drivers/tty/serial/cpm_uart.c:1110:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc volatile [usertype] *bdp @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_bd_base @@
+   drivers/tty/serial/cpm_uart.c:1110:21: sparse:     expected struct cpm_buf_desc volatile [usertype] *bdp
+   drivers/tty/serial/cpm_uart.c:1110:21: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_bd_base
+   drivers/tty/serial/cpm_uart.c:1113:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur @@     got struct cpm_buf_desc [usertype] * @@
+   drivers/tty/serial/cpm_uart.c:1113:23: sparse:     expected struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur
+   drivers/tty/serial/cpm_uart.c:1113:23: sparse:     got struct cpm_buf_desc [usertype] *
+>> drivers/tty/serial/cpm_uart.c:1533:31: sparse: sparse: unsigned value that used to be signed checked against zero?
+   drivers/tty/serial/cpm_uart.c:1532:43: sparse: signed value source
 
->> mm/memory.c:1709: warning: Function parameter or member 'start_t' not de=
-scribed in 'unmap_vmas'
->> mm/memory.c:1709: warning: Function parameter or member 'end_t' not desc=
-ribed in 'unmap_vmas'
+vim +1533 drivers/tty/serial/cpm_uart.c
 
-
-vim +1709 mm/memory.c
-
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1685 =20
-f5cc4eef9987d0b Al Viro         2012-03-05  1686  /**
-f5cc4eef9987d0b Al Viro         2012-03-05  1687   * unmap_vmas - unmap a r=
-ange of memory covered by a list of vma's
-f5cc4eef9987d0b Al Viro         2012-03-05  1688   * @tlb: address of the c=
-aller's struct mmu_gather
-763ecb035029f50 Liam R. Howlett 2022-09-06  1689   * @mt: the maple tree
-f5cc4eef9987d0b Al Viro         2012-03-05  1690   * @vma: the starting vma
-f5cc4eef9987d0b Al Viro         2012-03-05  1691   * @start_addr: virtual a=
-ddress at which to start unmapping
-f5cc4eef9987d0b Al Viro         2012-03-05  1692   * @end_addr: virtual add=
-ress at which to end unmapping
-f5cc4eef9987d0b Al Viro         2012-03-05  1693   *
-f5cc4eef9987d0b Al Viro         2012-03-05  1694   * Unmap all pages in the=
- vma list.
-f5cc4eef9987d0b Al Viro         2012-03-05  1695   *
-f5cc4eef9987d0b Al Viro         2012-03-05  1696   * Only addresses between=
- `start' and `end' will be unmapped.
-f5cc4eef9987d0b Al Viro         2012-03-05  1697   *
-f5cc4eef9987d0b Al Viro         2012-03-05  1698   * The VMA list must be s=
-orted in ascending virtual address order.
-f5cc4eef9987d0b Al Viro         2012-03-05  1699   *
-f5cc4eef9987d0b Al Viro         2012-03-05  1700   * unmap_vmas() assumes t=
-hat the caller will flush the whole unmapped address
-f5cc4eef9987d0b Al Viro         2012-03-05  1701   * range after unmap_vmas=
-() returns.  So the only responsibility here is to
-f5cc4eef9987d0b Al Viro         2012-03-05  1702   * ensure that any thus-f=
-ar unmapped pages are flushed before unmap_vmas()
-f5cc4eef9987d0b Al Viro         2012-03-05  1703   * drops the lock and sch=
-edules.
-f5cc4eef9987d0b Al Viro         2012-03-05  1704   */
-763ecb035029f50 Liam R. Howlett 2022-09-06  1705  void unmap_vmas(struct mm=
-u_gather *tlb, struct maple_tree *mt,
-f5cc4eef9987d0b Al Viro         2012-03-05  1706  		struct vm_area_struct *=
-vma, unsigned long start_addr,
-e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1707  		unsigned long end_addr,=
- unsigned long start_t,
-e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1708  		unsigned long end_t)
-f5cc4eef9987d0b Al Viro         2012-03-05 @1709  {
-ac46d4f3c43241f J=C3=A9r=C3=B4me Glisse   2018-12-28  1710  	struct mmu_not=
-ifier_range range;
-999dad824c39ed1 Peter Xu        2022-05-12  1711  	struct zap_details detai=
-ls =3D {
-04ada095dcfc4ae Mike Kravetz    2022-11-14  1712  		.zap_flags =3D ZAP_FLAG=
-_DROP_MARKER | ZAP_FLAG_UNMAP,
-999dad824c39ed1 Peter Xu        2022-05-12  1713  		/* Careful - we need to=
- zap private pages too! */
-999dad824c39ed1 Peter Xu        2022-05-12  1714  		.even_cows =3D true,
-999dad824c39ed1 Peter Xu        2022-05-12  1715  	};
-e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1716  	MA_STATE(mas, mt, start_=
-t, start_t);
-f5cc4eef9987d0b Al Viro         2012-03-05  1717 =20
-6f4f13e8d9e27ce J=C3=A9r=C3=B4me Glisse   2019-05-13  1718  	mmu_notifier_r=
-ange_init(&range, MMU_NOTIFY_UNMAP, 0, vma, vma->vm_mm,
-6f4f13e8d9e27ce J=C3=A9r=C3=B4me Glisse   2019-05-13  1719  				start_addr,=
- end_addr);
-ac46d4f3c43241f J=C3=A9r=C3=B4me Glisse   2018-12-28  1720  	mmu_notifier_i=
-nvalidate_range_start(&range);
-763ecb035029f50 Liam R. Howlett 2022-09-06  1721  	do {
-999dad824c39ed1 Peter Xu        2022-05-12  1722  		unmap_single_vma(tlb, v=
-ma, start_addr, end_addr, &details);
-e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1723  	} while ((vma =3D mas_fi=
-nd(&mas, end_t - 1)) !=3D NULL);
-ac46d4f3c43241f J=C3=A9r=C3=B4me Glisse   2018-12-28  1724  	mmu_notifier_i=
-nvalidate_range_end(&range);
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1725  }
-^1da177e4c3f415 Linus Torvalds  2005-04-16  1726 =20
-
-:::::: The code at line 1709 was first introduced by commit
-:::::: f5cc4eef9987d0b517364d01e290d6438e47ee5d VM: make zap_page_range() c=
-allers that act on a single VMA use separate helper
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  1515	
+  1516	static int cpm_uart_probe(struct platform_device *ofdev)
+  1517	{
+  1518		int index = probe_index++;
+  1519		struct uart_cpm_port *pinfo = &cpm_uart_ports[index];
+  1520		int ret;
+  1521	
+  1522		pinfo->port.line = index;
+  1523	
+  1524		if (index >= UART_NR)
+  1525			return -ENODEV;
+  1526	
+  1527		platform_set_drvdata(ofdev, pinfo);
+  1528	
+  1529		/* initialize the device pointer for the port */
+  1530		pinfo->port.dev = &ofdev->dev;
+  1531	
+  1532		pinfo->port.irq = platform_get_irq(ofdev, 0);
+> 1533		if (pinfo->port.irq < 0)
+  1534			return pinfo->port.irq;
+  1535	
+  1536		ret = cpm_uart_init_port(ofdev->dev.of_node, pinfo);
+  1537		if (!ret)
+  1538			return uart_add_one_port(&cpm_reg, &pinfo->port);
+  1539	
+  1540		return ret;
+  1541	}
+  1542	
 
 --
 0-DAY CI Kernel Test Service
