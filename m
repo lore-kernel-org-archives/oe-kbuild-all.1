@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793067243;
-	b=qqwcMe0kqZwFzmFfLsvQnngP6tCW54Cy6u3PA8jVXOmzwC/bB8bi2vShsfNL+MbItaX0
-	 xAGq3g4aZX7hBRlg3ABqtISeICRcN0BXgDJn3qisEqmLNK3mBmGXv3dmYmX6Ljck3GbiZ
-	 KkbFdIAShZYuHQ6NFfKAROuPXsCChrOvSnnY0kqvGvKq82Q9B/K2sD4DT7V11ityDWepx
-	 2vhGlXrwlCbQ0sfsYfYUzQxVmHyUKhfQvRuqq3ctE+CIhIwNbUbW0DmmzGgw4pHnPAZb9
-	 CGI+Dm4sgOXsLlKSZXinOjGdnTTbkkq45/d3/r/c7YJHBcoR2TTRRJOX7MSkTGvVqGw==
+	t=1793070914;
+	b=x367RNiMqQDjZ871I0BvmaK3yQ+1EuDflKCw9xoH3thcVdY/gQVWcc49c6R3VdzYgExz
+	 hJUnyGxsOMWDO/M2IPFVMt1lSbGxNlwbGuy7YiTtNRSh5w5LCZERmBIUzWAKkRdlw+b/r
+	 fkaDI6Wrhv7oCoARt3+5HU9IGcmXeXtWeMGOPUIuoUZBisyBlleedYE4KGSUf9TWc9VjM
+	 hujt1+vtX4NX35J22B0mCBGA7DGUryGjUwSWQZohpiYLohQE0l4ir0WhWRTEREzyEQAJ3
+	 vNDSOWXYf2chdLK4FhHDTU5gSm2tKf2yiLOU2Lda0WLiSkqdnm0LXgObpd4E9bUcCyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793067243;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793070914;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=9XQYM4CdUlCvpW1E1LWQozi4IAjXoDDAUa6YcxOY6CI=;
-	b=VAOdlFKkwuETEk3YEBuexJxRpvM2C65LEQSSiKw5Y2lX7mFc/0aActEfinY3YUZQ+aV4
-	 4aD02y2V6ZyNdbhxa2aUrALNcV3IuZBDHFDEy7D7Y9WKp0l3kmf+MeYaXxB70h4pgdleU
-	 ZV44UPMWBRO8W7P3PTh1LKFm3JqwlpFpCklrNEmn/hv+6hgyhKMHClIwec/wMiELiZ5zu
-	 8uYwXpgrRxMk45ZndQg+8r41j9SyvEz7fVqbW0WrkdwcSefRiYaSCz3t8qrPTVZmyV0+s
-	 80zL6kiQWURsagRaWrWUp2P+g04+/A21KYNWPCZq6vmG+bqGMwmZwDw2fah+f340g3g==
+	bh=ii6vBJIYZeyibefYqp7Vp7AU3CfMuoTrE7c7tR5MojU=;
+	b=S7Je/Tusq6F3tHw+Uc4240z4gsddZK5RF2bYkVQgiYDIAINvBHEFlffNPG3foBNaxuTO
+	 VB/M13Mj7doNe10sZkVIWgR2LG074NQI+Yt3i7D/+j8qxcOrpbBO4rDrLpIXc/uIRSG6i
+	 MiYh7FPl8EVPMZV4CiS34WShuQJUyBkoSFfHwgJHNfeim5wUQEnCBJEr3P7C0lazanpLT
+	 wY/LaHbOrizim0Z6XYFHgJmkHJEelwFLOvi+zNBZyVj9xeh2Ja0kAcg41AWLru7oxBQlg
+	 f1vMm3t6zkpsZtS4pGbGZRuc5nU6WrWWc5TCZKF9IivZKEWFLruXz25rfnYwbnkKaig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L5U9zrzf;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="JWvj/N+0";
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91094606A320
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 02:14:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91094606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13634606A320
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Oct 2026 03:15:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13634606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L5U9zrzf
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JWvj/N+0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793067241; x=1824603241;
+  t=1793070912; x=1824606912;
   h=date:from:to:cc:subject:message-id;
-  bh=4gSng04JXd1E+Nayk7qIU0NHKSiNcfdbx/qUlYLss1s=;
-  b=L5U9zrzfZgJsPgDwXP2okBs1xBPVBXqKUb73WuuaeHYYvIVThsIWSwMZ
-   CUE+exEWLaS+S/jnHohD8eV40nujyD68Z07y+DwJUSu5z+g0WmS+kQRU5
-   VhUsYX2ab7FlhfyHh5LWksJqDtUTIM8NcC0y9NCAaI7EvUwZp+qs4MJmT
-   UyBQS5vxHEzsYZPNOTMj3uy4hehiXrqWh9rVVsqruZo/yILWixQW1w3Mz
-   PPzxKvM9T3d987emjayE4ImD4ry1gvz7zIu3KMu5hSb7grM9kAPRKjeDN
-   j8b4C/B+H9Cvc8qtKWwMtK+JVslrJk2fGlgt+q88ttaMhH6UySB0BQAow
-   g==;
-X-CSE-ConnectionGUID: PrBt+ZKlTkqbK2oiV24pLw==
-X-CSE-MsgGUID: 52CmqNAWSY6y+2gE4HT9Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1640329"
+  bh=FAlxPQtvOSrdmWVXS/IxGKg4gCe1fsEhR6Km86Tg+U0=;
+  b=JWvj/N+0zcIQfQLRIWneIIbyindQa6PxJNBlaZp1NazQUgmyfBZIbcvT
+   IgphPC8FwXEDlW21IZdW2qfw6yEU1A8BIoJoIDgZqNASOv/t0+HqS1HtZ
+   xaZmpyLFGSvcWN2AQnTyjdDYck3Ycxa7JuxUodkzR+gvQbq7lHGN0lJtU
+   jFN9Bxwd2B/LaDRz2zawqN5P0HuI9PShpLC2xJkYOHTRHPM3g2tGmyG5N
+   UdJsrDEepVYrzWKp1Yw3EZZHImPcdKUv9RVrjG1k4/WDen3n5pGCbTO1y
+   8jq07m0+Z4RtLKvhNNVSf1lUB9p3j3w40FRuVlFYKggzKwse9c9LXerBA
+   A==;
+X-CSE-ConnectionGUID: cotF4d72RpG4k1zGhyWAHQ==
+X-CSE-MsgGUID: hFqGvvUtSnGhZQ3HO3DpIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1662946"
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="1640329"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 19:14:01 -0700
-X-CSE-ConnectionGUID: xgDdThVMR66V9moA02IFUQ==
-X-CSE-MsgGUID: SgD1D80jQhW+9LuRLI+85g==
+   d="scan'208";a="1662946"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 20:15:11 -0700
+X-CSE-ConnectionGUID: 65hUI0doTpqtR47A6XxlWA==
+X-CSE-MsgGUID: m+RVyDEsQ0qqpmmaCagCug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,180,1787036400"; 
-   d="scan'208";a="6251978"
+   d="scan'208";a="4539794"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 19:14:00 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2026 20:15:09 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLWhJ-000000004LX-3UNJ;
-	Tue, 27 Oct 2026 02:13:57 +0000
-Date: Tue, 27 Oct 2026 03:13:49 +0100
+	id 1xLXeV-000000004Mj-3QLM;
+	Tue, 27 Oct 2026 03:15:07 +0000
+Date: Tue, 27 Oct 2026 04:14:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/tty/serial/cpm_uart.c:1533:31: sparse: sparse:
- unsigned value that used to be signed checked against zero?
-Message-ID: <202610270303.TbvTqZ1N-lkp@intel.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [cilium:jit-arm64 16/26]
+ arch/arm64/net/bpf_jit_comp.c:140:22: sparse: sparse: cast truncates bits
+ from constant value (ffff0000 becomes 0)
+Message-ID: <202610270444.263OivX5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,64 +81,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d135ab453a7400a34930bdda1ef4bdc8acfac80e
-commit: 831603b3e8aa3892de229fda846b2f859c518699 serial: cpm_uart: replace irq_of_parse_and_map with platform_get_irq
-date:   4 months ago
-config: powerpc-randconfig-r2304-20261026 (https://download.01.org/0day-ci/archive/20261027/202610270303.TbvTqZ1N-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.5.0
+tree:   https://github.com/cilium/linux.git jit-arm64
+head:   7392504323b30f65cc4558a1580250a11ee5dafd
+commit: b1a0a44fcf6d15126bfa547f85cd9c98b1b8b8d1 [16/26] bpf, arm64: Use a move or mvn for the and and xor with all ones
+config: arm64-randconfig-r2305-20261027 (https://download.01.org/0day-ci/archive/20261027/202610270444.263OivX5-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
 sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270303.TbvTqZ1N-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270444.263OivX5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: 831603b3e8aa ("serial: cpm_uart: replace irq_of_parse_and_map with platform_get_irq")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610270303.TbvTqZ1N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610270444.263OivX5-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/cpm_uart.c:1091:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc volatile [usertype] *bdp @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur @@
-   drivers/tty/serial/cpm_uart.c:1091:13: sparse:     expected struct cpm_buf_desc volatile [usertype] *bdp
-   drivers/tty/serial/cpm_uart.c:1091:13: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur
-   drivers/tty/serial/cpm_uart.c:1110:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc volatile [usertype] *bdp @@     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_bd_base @@
-   drivers/tty/serial/cpm_uart.c:1110:21: sparse:     expected struct cpm_buf_desc volatile [usertype] *bdp
-   drivers/tty/serial/cpm_uart.c:1110:21: sparse:     got struct cpm_buf_desc [noderef] [usertype] __iomem *rx_bd_base
-   drivers/tty/serial/cpm_uart.c:1113:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur @@     got struct cpm_buf_desc [usertype] * @@
-   drivers/tty/serial/cpm_uart.c:1113:23: sparse:     expected struct cpm_buf_desc [noderef] [usertype] __iomem *rx_cur
-   drivers/tty/serial/cpm_uart.c:1113:23: sparse:     got struct cpm_buf_desc [usertype] *
->> drivers/tty/serial/cpm_uart.c:1533:31: sparse: sparse: unsigned value that used to be signed checked against zero?
-   drivers/tty/serial/cpm_uart.c:1532:43: sparse: signed value source
+>> arch/arm64/net/bpf_jit_comp.c:140:22: sparse: sparse: cast truncates bits from constant value (ffff0000 becomes 0)
+   arch/arm64/net/bpf_jit_comp.c:153:22: sparse: sparse: cast truncates bits from constant value (ffff0000 becomes 0)
+   arch/arm64/net/bpf_jit_comp.c:164:22: sparse: sparse: cast truncates bits from constant value (ffff0000 becomes 0)
 
-vim +1533 drivers/tty/serial/cpm_uart.c
+vim +140 arch/arm64/net/bpf_jit_comp.c
 
-  1515	
-  1516	static int cpm_uart_probe(struct platform_device *ofdev)
-  1517	{
-  1518		int index = probe_index++;
-  1519		struct uart_cpm_port *pinfo = &cpm_uart_ports[index];
-  1520		int ret;
-  1521	
-  1522		pinfo->port.line = index;
-  1523	
-  1524		if (index >= UART_NR)
-  1525			return -ENODEV;
-  1526	
-  1527		platform_set_drvdata(ofdev, pinfo);
-  1528	
-  1529		/* initialize the device pointer for the port */
-  1530		pinfo->port.dev = &ofdev->dev;
-  1531	
-  1532		pinfo->port.irq = platform_get_irq(ofdev, 0);
-> 1533		if (pinfo->port.irq < 0)
-  1534			return pinfo->port.irq;
-  1535	
-  1536		ret = cpm_uart_init_port(ofdev->dev.of_node, pinfo);
-  1537		if (!ret)
-  1538			return uart_add_one_port(&cpm_reg, &pinfo->port);
-  1539	
-  1540		return ret;
-  1541	}
-  1542	
+710618c760c0a32 Puranjay Mohan  2025-08-01  125  
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  126  /*
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  127   * A 32-bit immediate, sign extended for the 64-bit variant: a single movz
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  128   * or movn when one half is zero or all ones and the other half agrees with
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  129   * the sign the 64-bit variant extends, a single orr when it is a bitmask
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  130   * immediate, and the pair of a movz or movn with a movk otherwise.
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  131   */
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  132  static inline void emit_a64_mov_i(const int is64, const int reg,
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  133  				  const s32 val, struct jit_ctx *ctx)
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  134  {
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  135  	u16 hi = val >> 16;
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  136  	u16 lo = val & 0xffff;
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  137  	u32 insn;
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  138  
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  139  	if (hi == 0xffff) {
+e54bcde3d69d400 Zi Shen Lim     2014-08-26 @140  		emit(A64_MOVN(is64, reg, (u16)~lo, 0), ctx);
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  141  		return;
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  142  	}
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  143  	if (!hi) {
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  144  		emit(A64_MOVZ(is64, reg, lo, 0), ctx);
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  145  		return;
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  146  	}
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  147  	/* The 64-bit variant has the upper half set or clear with the sign */
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  148  	if (!lo && (!is64 || !(hi & 0x8000))) {
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  149  		emit(A64_MOVZ(is64, reg, hi, 16), ctx);
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  150  		return;
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  151  	}
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  152  	if (lo == 0xffff && (!is64 || (hi & 0x8000))) {
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  153  		emit(A64_MOVN(is64, reg, (u16)~hi, 16), ctx);
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  154  		return;
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  155  	}
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  156  
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  157  	insn = A64_ORR_I(is64, reg, A64_ZR, val);
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  158  	if (insn != AARCH64_BREAK_FAULT) {
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  159  		emit(insn, ctx);
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  160  		return;
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  161  	}
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  162  
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  163  	if (hi & 0x8000) {
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  164  		emit(A64_MOVN(is64, reg, (u16)~hi, 16), ctx);
+cac96d79e60eec8 Daniel Borkmann 2026-10-17  165  		emit(A64_MOVK(is64, reg, lo, 0), ctx);
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  166  	} else {
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  167  		emit(A64_MOVZ(is64, reg, lo, 0), ctx);
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  168  		emit(A64_MOVK(is64, reg, hi, 16), ctx);
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  169  	}
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  170  }
+e54bcde3d69d400 Zi Shen Lim     2014-08-26  171  
+
+:::::: The code at line 140 was first introduced by commit
+:::::: e54bcde3d69d40023ae77727213d14f920eb264a arm64: eBPF JIT compiler
+
+:::::: TO: Zi Shen Lim <zlim.lnx@gmail.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 --
 0-DAY CI Kernel Test Service
