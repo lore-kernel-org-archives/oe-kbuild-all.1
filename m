@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793184469;
-	b=ytPu7LHEDuzY7j3TvjcZJnRmk8BIP1Co2fcx4aswARd7AoZVbEuQABeIEO0ZMvFpEeJU
-	 TwUZAUtkvXyBm1MkUxLHfXoBWALLtqcQ/NtmQRX4pIMlEvYPcVHQ1kXtGIZuJXwBGYWi+
-	 4CrjhmWJgdqNnltahBHRXG6I+j9sbrK1yb4rBx71dFnOvl+BVtvMrOMnJHbnHMmI7FDp4
-	 a9Bu+CvniuxsXDTfhYslmvL9eAVmK+VhZm92O8oGmw79EpRDPo0LHqXccrC+B3PCxKFT1
-	 F/5ZVvl2/SVKwDVzi94aGYbCs9C97hCK5RdOfC2f0hDTKZYnoSV0GTK94YZiOPB6Lug==
+	t=1793184882;
+	b=JlXuctmKL32Uz8qXy4MBLwNBc/YcZve0dfWWadRo/icUdIvELIEL+/8b6glwjba9Tzlr
+	 gTleyrVTHQ7lriQOnyF932t62ILjSA/rLyHAsObL7HXpPNfMbblj/GBJNAioemkut6wPT
+	 2bbrKboCeCT+lZ1LV/+lxBeUaUSuQlbBPC2riB1r5s+QHfQs3tRhFUg02HJxLhXR6cMS6
+	 OpN9o9g97RBJVO8GSWUKtv8Iz8Eiggpv/9wwn6vwDGNWLaN/6h/T/1MhccHtHMaC3zrTi
+	 Hu+eDwGBV2BHxz61KLutUz1FroROtJOChnTProrZgA6X/O2Pwz/fXgNKoyX2sP5G+wQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793184469;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793184882;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=N0Tuu5uDOCQs+TZfslsReW/XWhsem9UX92W0Y7noVv4=;
-	b=trNoVGg/wGsXi4F0YTZcXDv9qgoImmzXuY0YhXZgMAg/2Vk28Kb8Ft5p/6u+kStM335W
-	 2xx58a8nRORkiuA4puRWFmUwQoXutfBbdsISXSABT96Md5Iabl8Fwyk8QgqvQ4mZYZdWo
-	 qpKa9WS5xN7RO9zGcgwLK9gHCvsmvjqBA9/VUz4qUhB4pZRSnbogD4tUTC+Y8+gGaEWav
-	 rTKGG/cMPirmtYRwC+aG7fpKLGcu+hj/mbinzrhBz8kbqoT+eLZnrFKSu+D+Ur+Qi4xaG
-	 hWeKATKnVujiimh1mmi3TDzCaf7Z2P0lb6epaboMmNXuxAQUy+tacaezD7TApH4cgzw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=uoyhanJreUhzLPDA+ljmTZwIPetuIE1Ivz/9P3UXD3E=;
+	b=byAp738Gq592OSk2Nt8c5ro6cabgB2dTVBjtvxrDnv7+sq8GNWox+pRLgRDfsi5ZYL2E
+	 PIwg3gRLxC+dUyNSE+N88+qeb2acWZ9Ig8rngjeByaM4RRWUjUV2CZshxM4DD77/ASkoi
+	 LYbFPY9TQdER7spuUNmE0bYaHFRH9DQNqYIj2P4rVHifxXmAfmpaxAc2JEkmB7PwnrHRI
+	 UiDw1eyz4TXpny0uZQ4KFdRHgvXbtGqkhlWoHdbFT2rjyHw/6AL3GuwE9k/EgwgOarLEB
+	 4YbG4TqGTr9ofP58ZHF5/AhfjQT30fFBbr/kznqzJpngrcjA2qLNU3ebbfHp1xL7DSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Icb68cwU;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iyYCa32g;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5719E606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 10:47:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5719E606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DDA606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 10:54:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99DDA606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Icb68cwU
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iyYCa32g
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793184468; x=1824720468;
-  h=date:from:to:cc:subject:message-id;
-  bh=XClwrusllkS7wj9ZQ5zgS3ICZlxgGJPrTfe17iNDrEM=;
-  b=Icb68cwUio0fas5w3KFPi60S7nJ+AnCdK2jcM5P15eg4SGPDleyW/40K
-   iLiW7b09rnO/UpMDKXxBxD2iDFUF6kp5ZEDyE4T9G+qH7/CsqzBe46UwH
-   EeBG4+hY9CK1EftWau9djeaIfYSqbsHuxzirf9RyoOjzuzh892nFRC5Nv
-   1Ojk5J9P1CHjv1KYovqZg/mmpcHK8N6vu9dkGG1nezmeqPsSOkVl4f2uI
-   09fzvf8ODk6HtaSS/flZK/ApTIyRmQ/VCgsJUDweFZCH/dL7cNCo97ltB
-   CT9ya/c+L5OK2T7B1jeHWINeYhCfBWwDSD550SCs5NrJxmglq67kD6CKj
-   Q==;
-X-CSE-ConnectionGUID: IRCJ3b6vQfiEjIu/yj79Lg==
-X-CSE-MsgGUID: CiSqMk30Tu+jDPVTAZ/B8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1786486"
+  t=1793184882; x=1824720882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z3aNUzcd8LQRCPT46+lVga/502IGAQyJemLKQGD1rOQ=;
+  b=iyYCa32g6GAaHdc8hvExBOlmo2wYbFCBnrsPazv8w+QLO4hYRAbkfVM2
+   Odd9IlCgJFmf6TxAcz0Ukv/jAzeDlKaQQM7PCVYlQT3Z49zir/veI9wX1
+   6Uu24t7O50tB1T/HBvpNWh2owSeZnmiZmeWZuOaXH1u68yhDO3wiBCpVd
+   J6Yo7rRinfKa3AxVPrq8Z44B6k69HOYvOJiA39r5VgtCeM3ToTGBddO1i
+   xKm7mOoljopmCrwYfiTNcFrItuUbVvUxaLggRPrltnT4/sBPxeEA0wicu
+   EGQhRUhzjtyzMv+FFjxcatSAMZzeRvJM80F8MTFSZdB2y8fBIHlr0/Ash
+   g==;
+X-CSE-ConnectionGUID: /exM2WrrRzaYrMtWgYhgWQ==
+X-CSE-MsgGUID: 7NmIoadYRiCn2gt5lfUpOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1891176"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1786486"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 03:47:47 -0700
-X-CSE-ConnectionGUID: i43uK4PURq6dHXlSMYNCUA==
-X-CSE-MsgGUID: Qd6VTyiTSz6rZJ9b9WBnuw==
+   d="scan'208";a="1891176"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 03:54:41 -0700
+X-CSE-ConnectionGUID: gSq73B0+TAqXDZb1qQLHYg==
+X-CSE-MsgGUID: h2GJqdhjSLmk9ONPpyHirA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="4773703"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 28 Oct 2026 03:47:45 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="5153537"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 28 Oct 2026 03:54:38 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xM1C2-000000004qB-395y;
-	Wed, 28 Oct 2026 10:47:42 +0000
-Date: Wed, 28 Oct 2026 11:47:41 +0100
+	id 1xM1Ig-00000000Ybs-3trJ;
+	Wed, 28 Oct 2026 10:54:34 +0000
+Date: Wed, 28 Oct 2026 18:53:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chao:feature/large_folio 19/19] fs/f2fs/f2fs.h:2303:3:
- error: call to undeclared function 'set_sbi_flag'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202610281130.8xOnZsGi-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: christian.koever-draxl@student.uibk.ac.at, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, neil.armstrong@linaro.org,
+	khilman@baylibre.com, jbrunet@baylibre.com,
+	martin.blumenstingl@googlemail.com
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Christian Stefan =?iso-8859-1?Q?K=F6v=E9r-Draxl?= <ckoever@outlook.de>
+Subject: Re: [PATCH 2/2] firmware: meson: sm: make power-off work on S4
+Message-ID: <202610281810.Or8lhrj7-lkp@intel.com>
+References: <20261025192144.208954-3-christian.koever-draxl@student.uibk.ac.at>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,59 +86,58 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261025192144.208954-3-christian.koever-draxl@student.uibk.ac.at>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/large_folio
-head:   5b72086892ee05798082621df69a27afeff2b233
-commit: 6d9668b701d81625696253d7d736b79d7c704a13 [19/19] diff: fix patch 1
-config: s390-randconfig-r2102-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281130.8xOnZsGi-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281130.8xOnZsGi-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/christian-koever-draxl-student-uibk-ac-at/dt-bindings-firmware-amlogic-meson-gxbb-sm-add-amlogic-meson-s4-sm/20261025-202143
+base:   7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+patch link:    https://lore.kernel.org/r/20261025192144.208954-3-christian.koever-draxl%40student.uibk.ac.at
+patch subject: [PATCH 2/2] firmware: meson: sm: make power-off work on S4
+config: arm64-randconfig-1000-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281810.Or8lhrj7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281810.Or8lhrj7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610281130.8xOnZsGi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610281810.Or8lhrj7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/f2fs/hash.c:18:
->> fs/f2fs/f2fs.h:2303:3: error: call to undeclared function 'set_sbi_flag'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2303 |                 f2fs_bug_on(F2FS_F_SB(folio), 1);
-         |                 ^
-   fs/f2fs/f2fs.h:38:4: note: expanded from macro 'f2fs_bug_on'
-      38 |                         set_sbi_flag(sbi, SBI_NEED_FSCK);               \
-         |                         ^
-   fs/f2fs/f2fs.h:2303:3: note: did you mean 'set_cpu_flag'?
-   fs/f2fs/f2fs.h:38:4: note: expanded from macro 'f2fs_bug_on'
-      38 |                         set_sbi_flag(sbi, SBI_NEED_FSCK);               \
-         |                         ^
-   arch/s390/include/asm/processor.h:64:29: note: 'set_cpu_flag' declared here
-      64 | static __always_inline void set_cpu_flag(int flag)
-         |                             ^
-   1 error generated.
+   drivers/firmware/meson/meson_sm.c: In function 'meson_sm_power_off_prepare':
+>> drivers/firmware/meson/meson_sm.c:318:6: error: implicit declaration of function 'freeze_secondary_cpus'; did you mean 'thaw_secondary_cpus'? [-Werror=implicit-function-declaration]
+     if (freeze_secondary_cpus(0))
+         ^~~~~~~~~~~~~~~~~~~~~
+         thaw_secondary_cpus
+   cc1: some warnings being treated as errors
 
 
-vim +/set_sbi_flag +2303 fs/f2fs/f2fs.h
+vim +318 drivers/firmware/meson/meson_sm.c
 
-  2290	
-  2291	static inline bool f2fs_folio_has_ffs(const struct folio *folio)
-  2292	{
-  2293		unsigned long private = (unsigned long)folio->private;
-  2294	
-  2295		if (!folio_test_large(folio) || !private)
-  2296			return false;
-  2297	
-  2298		/*
-  2299		 * A large folio should always carry f2fs_folio_state rather than
-  2300		 * non-pointer private flags at its folio->private.
-  2301		 */
-  2302		if (unlikely(test_bit(PAGE_PRIVATE_NOT_POINTER, &private))) {
-> 2303			f2fs_bug_on(F2FS_F_SB(folio), 1);
-  2304			return false;
-  2305		}
-  2306		return true;
-  2307	}
-  2308	
+   308	
+   309	/*
+   310	 * The S4 firmware implements PSCI SYSTEM_OFF as DDR self-refresh: on the
+   311	 * power key it jumps back to the kernel instead of booting, which hangs the
+   312	 * board. Setting the shutdown flag first makes it cold-boot instead, and the
+   313	 * secondary CPUs must have been taken down through PSCI CPU_OFF beforehand,
+   314	 * otherwise the wake-up path hangs as well.
+   315	 */
+   316	static int meson_sm_power_off_prepare(struct sys_off_data *data)
+   317	{
+ > 318		if (freeze_secondary_cpus(0))
+   319			pr_warn("meson-sm: failed to stop secondary CPUs\n");
+   320	
+   321		return NOTIFY_DONE;
+   322	}
+   323	
 
 --
 0-DAY CI Kernel Test Service
