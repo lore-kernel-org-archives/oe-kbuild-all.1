@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793187593;
-	b=UvzcYHTfXkvPUFZwX1NNtbvKpqbY1yXx7Io5A++Ndg/8EDZUGE8oP7etbxwWbTlZJOcM
-	 7dYh1E8erg/OS3afA56SHSmScym6A7fhdvs2b7yizUmXh2RuVMqLMxqm+InUrFPe7Kw49
-	 v8dDmp+HC6O6LZvqsgrMMU/Hcf3vgEW+48cOFhgiuaV/1kGApI77v5H2+GX42xAOEmVyq
-	 yem63LHtsJqaHYSaB+UfFpYmkUABpAgaa3eKLcF67TAfiPhNXCNV/5THFZcqa/Yky9Xh1
-	 kQP/s3LflhpFW0fFNunE59O25Othry86V7PY5cQQyYYhXecgtm9U5e/bjgVmVYfvB8A==
+	t=1793188254;
+	b=PxFt3k5IaphKlKPcWcUxxHuyVyYyYK98h2371fQuAeh096Hw8qpHnqDhhZpZxchtpH6L
+	 YbZ5JvqpCqYhHQx9n76gBqnxWtOjNXSU/h4eUm+WUysSIA66I/s5y3WQAaNl5lAMDzL9/
+	 1WFAgLH1QIPTwkqvD1ZRauyJbTY/CKSOfnQiesXSVCNdrmHxXothfMqeGao9vLGJi12LE
+	 68Jff11Y7XhHLDINZiDGjV66je/A0YppFF9snyvCrxPcqUhclMwZ4oRIiDRObIMU21fju
+	 2FebIFceRKXcvHv26IFauCZnA/1yrD53jdvil6pmOsjwManr0OkM+csiZxSmQhVYfmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793187593;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793188254;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=0FODrjNxzB5MvPvQ84udigeiOH/4245t9NIBABFazGQ=;
-	b=EcvrEEuRoeCL/S1tg3/cjrqhevlFOLjqaqc3Y/6qxjKkmbqeuhlhm+8hqeISEPYKZTsA
-	 T9asnldTQ045aCJH2pu+50TOUQ4m42vDSPcxP7GNVpwyu0ci6W7xvWxPpzIQO6gYfpzq1
-	 BmlXGsJYwS9Mn9t/9Pbpuk7CcE1BEJC6fFkHW8D+fxay8Cca990bG0XeyMbajzI3rUxJN
-	 a7A06Nk9TbuLGmAln6CVlBQC64kqW+oZfmVh5nX4ROSF6M6fBHe+i4CT8y+GZhI+lr4n/
-	 qLxcPs5bC7y2IW6SPKTaP+wB2naHXUn2AMgvm51MRNBUDYzDTIpFQBojzGAGCzTL1eA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=ILmpU58pn4WuCrk5c+ZzrCDkwfHX/pWceOAKGTCwoeg=;
+	b=2dwArvCV0w9+3beKK6026VeJ3SzU4FhcUehb2FQsdzV8y8/rdCyhROJCTIaOd2y49pi4
+	 jeBuKamCNbj8kKEONlUoJTKsZB/zQGQnuyJb88Dd4gw8m9agvOo19hh4qIATSzwdaIzm7
+	 akWOu92f0ANkNDtX1d+/3AbWjQvHXxgkSon77ioAZFMd1zjiDup/4hmFMkPR+hva5ntV7
+	 KWJouoRJDOVKAyLOx0ThOc5z8smCfSB4BGvVw1VTSKx2ExTAJNUiXdc8UqQ+/WiSgzqEp
+	 BuTs02aDGgylBjfRoPi1WadCOlEsgijC1aDT5CDGTnXfCcYVgH6kE8YT4CZh+/vU8JQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EhVJRJKu;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iZ+r61mM;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926C0606A320
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 11:39:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 926C0606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D36606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 11:50:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0D36606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EhVJRJKu
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iZ+r61mM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793187593; x=1824723593;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uBW3PVgVFFDTxgfjHNZTcuotQZPONMB0aCC8Ww0DpZY=;
-  b=EhVJRJKu3ACZUfoHMUsx5Q93fFOJz6+hgWR1Tq1JuPfEg2nwj8PoaFkt
-   0AdaENmKq18hKAyJXZDWEaYU7RByLUDEPgT1fy+79sCNYWAWivgfB2iE9
-   HWxVL993of2B8wch+FmcEW+H19FdYvcC2McHak9s4P/acBjG+iUwt6i2y
-   xeh66gX648zeah3GLJyofXqXbQXH741JTv088Fu/vTRveTKhkxNg16vDj
-   SDaDfkFpagSlV6iQSDyCYv1ehBPupTgX30iC2ZVR4khPqMsIn1gcRaNVH
-   A/DsfldEZDE/b3+4qX/NkbmYA7VDUleVURCAphXGTqLeg52cRdodBX3tO
-   w==;
-X-CSE-ConnectionGUID: D26PhaK4THOvn/31V4Olvg==
-X-CSE-MsgGUID: MUu6t1eAS+qIffbbyvdYMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1895046"
+  t=1793188253; x=1824724253;
+  h=date:from:to:cc:subject:message-id;
+  bh=Fap8A0K/pq09M8ngCkU77UUGwSY5wif0sxpAl/bixGs=;
+  b=iZ+r61mMQ1fL2HWo3Dzni75jrF25bDURjfo2PG2h2pjPcWDvIodWUXM2
+   1hXh4CWMnnyUfIAi019GPG3qBCNGPK+03VfrzfZXg50LeHtU2W07+kiAy
+   P0Hum1q9njdmbpno+/pPi0yI+fqJVpY9liMMyTax5BOX8aaEtSI9qVd++
+   uepbaktAC+50hlwgbDOgm/Qa7Y436SFPqtEeBE7hBpqct/Ms1ERDeD2Gk
+   DgCdl1pGGYWcnl2nFPzVWJqah1MyB7KPnqpqy9PDQRXOLZkCEsYXRczsf
+   iXbIgSqODu5tWORBbULQuzO2vIQstrXrA8+KTkeBCOhNdSno7pwa0HMMl
+   Q==;
+X-CSE-ConnectionGUID: gEidXyptTemci0BCm9umZQ==
+X-CSE-MsgGUID: 4MA0DQxHRuSwfHCVFq/Ozg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="2010958"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1895046"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:39:52 -0700
-X-CSE-ConnectionGUID: 8AGDxEgASSiXb6Rss4TxoA==
-X-CSE-MsgGUID: y95OQI4AR42cZzCY6WLC0w==
+   d="scan'208";a="2010958"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:50:52 -0700
+X-CSE-ConnectionGUID: 9QPSfoenRMWbAse+SO7Ejg==
+X-CSE-MsgGUID: ldhubrL1TKSF6jHS1lGGyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="5187312"
+   d="scan'208";a="4829926"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2026 04:39:51 -0700
+  by orviesa002.jf.intel.com with ESMTP; 28 Oct 2026 04:50:51 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xM20R-000000004qx-3DFH;
-	Wed, 28 Oct 2026 11:39:47 +0000
-Date: Wed, 28 Oct 2026 12:39:24 +0100
+	id 1xM2B6-000000004r5-3WO1;
+	Wed, 28 Oct 2026 11:50:48 +0000
+Date: Wed, 28 Oct 2026 12:49:50 +0100
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Subject: [brgl:gpio/for-next 19/30]
- drivers/gpio/gpio-aggregator.c:1251:10: error: 'const struct
- config_item_type' has no member named 'ct_attrs_const'
-Message-ID: <202610281215.PpynnBO9-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 353/353]
+ kernel/delayacct.c:282:5: sparse: sparse: symbol 'delayacct_enabled' was not
+ declared. Should it be static?
+Message-ID: <202610281254.MfZWz7II-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,51 +80,32 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   5e826d71d4839d8471784d968274823f1f492eb5
-commit: 59abcfeb59426e7575e80be53b7024a151def2b2 [19/30] gpio: aggregator: constify struct configfs_attribute
-config: openrisc-randconfig-r2200-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281215.PpynnBO9-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.2.0
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281215.PpynnBO9-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   0951885c34a0e48adda08777b026c61fed9613ea
+commit: 35bb2c8c5fd3f623e062757cd943617efa29a172 [353/353] ANDROID: Add vendor_hooks to workaround CONFIG_TASK_DELAY_ACCT
+config: arm-randconfig-r2303-20261026 (https://download.01.org/0day-ci/archive/20261028/202610281254.MfZWz7II-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281254.MfZWz7II-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610281215.PpynnBO9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610281254.MfZWz7II-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/delayacct.c:282:5: sparse: sparse: symbol 'delayacct_enabled' was not declared. Should it be static?
 
->> drivers/gpio/gpio-aggregator.c:1251:10: error: 'const struct config_item_type' has no member named 'ct_attrs_const'
-    1251 |         .ct_attrs_const = gpio_aggregator_line_attrs,
-         |          ^~~~~~~~~~~~~~
->> drivers/gpio/gpio-aggregator.c:1251:27: error: initialization of 'const struct configfs_group_operations *' from incompatible pointer type 'const struct configfs_attribute * const*' [-Wincompatible-pointer-types]
-    1251 |         .ct_attrs_const = gpio_aggregator_line_attrs,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-aggregator.c:1251:27: note: (near initialization for 'gpio_aggregator_line_type.ct_group_ops')
-   drivers/gpio/gpio-aggregator.c:1318:10: error: 'const struct config_item_type' has no member named 'ct_attrs_const'
-    1318 |         .ct_attrs_const = gpio_aggregator_device_attrs,
-         |          ^~~~~~~~~~~~~~
-   drivers/gpio/gpio-aggregator.c:1318:27: error: initialization of 'const struct configfs_group_operations *' from incompatible pointer type 'const struct configfs_attribute * const*' [-Wincompatible-pointer-types]
-    1318 |         .ct_attrs_const = gpio_aggregator_device_attrs,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-aggregator.c:1318:27: note: (near initialization for 'gpio_aggregator_device_type.ct_group_ops')
-   drivers/gpio/gpio-aggregator.c:1318:27: warning: initialized field overwritten [-Woverride-init]
-   drivers/gpio/gpio-aggregator.c:1318:27: note: (near initialization for 'gpio_aggregator_device_type.ct_group_ops')
+vim +/delayacct_enabled +282 kernel/delayacct.c
 
-
-vim +1251 drivers/gpio/gpio-aggregator.c
-
-  1248	
-  1249	static const struct config_item_type gpio_aggregator_line_type = {
-  1250		.ct_item_ops	= &gpio_aggregator_line_item_ops,
-> 1251		.ct_attrs_const	= gpio_aggregator_line_attrs,
-  1252		.ct_owner	= THIS_MODULE,
-  1253	};
-  1254	
+   281	
+ > 282	int delayacct_enabled __read_mostly;	/* Delay accounting turned on/off */
+   283	bool get_delayacct_enabled(void)
+   284	{
+   285		return delayacct_enabled;
+   286	}
+   287	
 
 --
 0-DAY CI Kernel Test Service
