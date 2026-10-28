@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793166026;
-	b=KJOyfFGnTqdGwqGIKFR1NoejRMkFbw1Rf6n1jAcW/a2EkAgvQN9JTrHNolsYWVG27vUl
-	 saGQx5V2oaPVML4H0D6DKkc6m42VumvB6cK/PDioPtn6HfmGEEAoPgeEYmG2i4G0l2lUN
-	 w4QXpbMl/wGMwbQ0lyOtObpi/coKV/P1LccbLuBvDbNs3H16q+A0jshvslyEu3aqSqwRY
-	 ak41yS95WFp/q9rzo2Ye5LR/NNOGohT9D3rvmTZCH6r9tYaLcm2gv4Ghx6UldgqoOynfB
-	 VLM+AkL4MF8R5fKTCVmDJPT+2DPguy5g+Igg4iOY2Mdpd+UrsM1WV/mTecIk99+vddw==
+	t=1793166231;
+	b=1mI1pUAycrqEADbhS8LNzZ24tVmKb1CabRsAL7+sFPxw9l2cLhl9gNiVf05O3Bhl9C8C
+	 7IZJkvBoP+/xo7ujrCRNGrOP+bJK/+IEpgleOKtEOFDFQ5ATYc/65I2qPbd7aErfyfBud
+	 Fy0ecmBDRQy+35K85I6ZcUvDWbvzWOlpAOtgdXw3dVuArqrkdYk9/ovg3Ab1eThWXfx6a
+	 +KW0rtSIlsdSg//Ymap6pDjqyxi2PsbufpUmxVyE3C3TyKsgaLmhvB1YuFI7KHNlAAbAY
+	 sjbrcw/8O2IawKm/edaMxe4AE9+Z7vOsduYaxun7vKyg49NN07bBitMqdzg/E/qKlVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793166026;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793166231;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=UMbfrnTVxBRddQ4FXjN6c6CnNQ+Ka8aYU6wt0jjzJ0g=;
-	b=vnlvBcCS6BIyB845BUt82fJnBCJmTzZXuV3MNB6ov7TS5chUay6vRf41CjYbRuHqx9r7
-	 nTidmopFZrsKbvU6YiGUBT3WCC+3j5ZD+Lc/wZGXPKfbPc4J7n04ZtX2kirLgd+Vytuiw
-	 xaQdHJQC5+TdaPvYQiyPqBMH+hXLlks/kc6/f/F8x8SM783J3qsyjiq5fAXoza9avxENT
-	 L1RFR9Lxw2c1DJBeB/Izq5gErn2XQ5iooOq4qx3Pz2UaWs88/S3oEjRfVwAKZnjl2WItm
-	 VWwPdn+zAGze7uGG7IrGG3P5v1UINw/k2ZA/quFAlPrrZknS/5vWiwPpDltmAB2pNFg==
+	bh=9gMNYLfmtuesxU14YhsiOvJOEhrqFE/wH5vrHRpzBls=;
+	b=i4r6qcw7nkIol5lTBWGsF88I4OxGxhE9ZgghYNSO0zd2UxlAakXmeXqz/xSR8J9n8z9l
+	 SBxgcYnTE+jBK1SKpGIboibSiOQCnvYcXRBwOohb1KSzX0WgKYaf50/yc/B5nGxJqvRwE
+	 HKulJqw2FbWs2KBVZHT5w37HsdqNF4stv4ox71AOpYvLIM3e7ULJcMxZPIEVfuTl/A//R
+	 OWl8hqFUJ1yETg1HntNoUFesQlO7mvfpAnhn99enMJ+oR06k5Wf3Co2CVMVThXRBwGVrv
+	 AhYtLxldIFQHDtHdoGq/0RRc5KdhoorWniS6fthSSoaCEfuq3NLGdQz8jvizDMQe4JA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RNZ13yT8;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fz4A3liN;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69924606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 05:40:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69924606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857E2606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 05:43:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 857E2606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RNZ13yT8
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fz4A3liN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793166023; x=1824702023;
+  t=1793166231; x=1824702231;
   h=date:from:to:cc:subject:message-id;
-  bh=WCqW+UAoYBFYv6f3CPMYjZRvp6Uk2dwEXEvOeIMIecU=;
-  b=RNZ13yT8E5y2MfPjz35FH3tSPWMnsdgZMMBgQg5aQj+FcohKqDpLT4AZ
-   4Fm8+WESJEBf0QR34lPIOcTWkiFDgJBn7iTVBJc/k9qppAeq4klbL6gZC
-   23WpK/h91YOeQKCYGMp/7YUduYE0RF9NzRXv6Feap6aDBtbBiUEk4FfjF
-   AiScsIhGnoSKMdEkavcdPhWVf5KZpZwboVOH+VbaMwsx04MtYbrDRX6Hg
-   wVarxWwylAmOiXsSGMymjr7ONTkyj09GKtbBJofOsSVU16zbcNs0yiJda
-   ry+fWzYOGW0/IRe1x93Kxg87feC995nTMroeUoNFfzS3GkjlajCDN0PI2
+  bh=sKuw+lRA60BT1LnJAbj46eIOugri5zRVMrxBXKFGxWs=;
+  b=Fz4A3liN63OEPAKs1QjtYAY0isljX/XRqNewJ34w6CMidfc/hf5xiPnw
+   w81jk1N7mkbozci3xI3pAOiAuLEYEBVb0X+lNlpl0vwGQ7Bi0JqP1BT5B
+   qsQ897SJpapcipD7sFIyFHz5H6MTPQffcP7lY0qiwnLBHIvbCY6sjXtnl
+   pPKI7FoUy+lhYKnIpCeOn2IKVNlUOg8aIaAU92C+gTiFCrMiIdnI7K+/l
+   oM32bh36+Q4vAJfrKiSQgBHZBefqsQVNcmoENHJzHiae/OESRYFT/dqXp
+   SRj7Lhj3AIe8XCWRRUyM60i++H+uZLCJ4hmwSiRFL3QUxCKm1aDsoChKN
    A==;
-X-CSE-ConnectionGUID: G6lQtZrnRcq/wXdD0UTNWA==
-X-CSE-MsgGUID: gR4u3C3fS9i/DSGmkE7Fow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1891246"
+X-CSE-ConnectionGUID: 7wkxNU3BRguXS+1NpSuxVg==
+X-CSE-MsgGUID: 67e07tz2Sfy4tDSm+GHUvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1776226"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1891246"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 22:40:23 -0700
-X-CSE-ConnectionGUID: DUm5ZFNnSZOqpH8WJxOnLA==
-X-CSE-MsgGUID: PHd8sooQT86DKMa5uhCFBQ==
+   d="scan'208";a="1776226"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 22:43:50 -0700
+X-CSE-ConnectionGUID: k5cdsQhgTNWAoN3SrqfhVQ==
+X-CSE-MsgGUID: buTuwQvJS0yjUGyg5IUs2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="4789442"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 27 Oct 2026 22:40:21 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="4715532"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 27 Oct 2026 22:43:49 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLwOZ-000000004ln-1vBD;
-	Wed, 28 Oct 2026 05:40:19 +0000
-Date: Wed, 28 Oct 2026 06:39:34 +0100
+	id 1xLwRu-00000000YKG-1OtW;
+	Wed, 28 Oct 2026 05:43:46 +0000
+Date: Wed, 28 Oct 2026 13:43:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:arena-lazy-pte 2/6]
- arch/m68k/include/asm/page.h:20:22: error: lvalue required as unary '&'
- operand
-Message-ID: <202610280608.Ih8U8FnH-lkp@intel.com>
+Subject: [android-common:android14-5.15-2026-10 0/1]
+ drivers/platform/x86/hp/hp-wmi.c:342:24: warning: cast to smaller integer
+ type 'enum hp_wmi_radio' from 'void *'
+Message-ID: <202610281328.MX4ePzzC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,69 +81,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/kkdwivedi/linux arena-lazy-pte
-head:   ce19d941e895a85d7dc1e7d49e6b90b1262f7e79
-commit: 0ec7dbb5a7536124b8723d262ad2f6e11244767d [2/6] mm: Add lockless kernel PMD populate, clear and range-flush helpers
-config: m68k-randconfig-r2109-20261028 (https://download.01.org/0day-ci/archive/20261028/202610280608.Ih8U8FnH-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610280608.Ih8U8FnH-lkp@intel.com/reproduce)
+Hi Jorge,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15-2026-10
+head:   e3d5b6f9a1ddf140aa63e90d13891a73306ffebd
+commit: a832a43fdd95bc689bc23862326a114579aa025b [0/1] platform/x86: Move existing HP drivers to a new hp subdir
+config: x86_64-randconfig-1002-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281328.MX4ePzzC-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1da436a23e613c425fc9b868fc8deb979ede47a4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281328.MX4ePzzC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610280608.Ih8U8FnH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610281328.MX4ePzzC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:62,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:107,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:18,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/jump_label.h:243,
-                    from include/linux/once.h:6,
-                    from include/linux/prandom.h:12,
-                    from kernel/sched/sched.h:8,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/pgtable.h: In function 'pmdp_try_clear':
->> arch/m68k/include/asm/page.h:20:22: error: lvalue required as unary '&' operand
-    #define pmd_val(x) ((&x)->pmd)
-                         ^
-   include/linux/pgtable.h:1119:6: note: in expansion of macro 'pmd_val'
-     if (pmd_val(pmdp_get(pmdp)) != pmd_val(old))
-         ^~~~~~~
-   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1 shuffle=2209011291
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1436: prepare0] Error 2 shuffle=2209011291
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2209011291
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2209011291
-   make: Target 'prepare' not remade because of errors.
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:357:9: note: previous definition is here
+     357 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/platform/x86/hp/hp-wmi.c:342:24: warning: cast to smaller integer type 'enum hp_wmi_radio' from 'void *' [-Wvoid-pointer-to-enum-cast]
+     342 |         enum hp_wmi_radio r = (enum hp_wmi_radio) data;
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +20 arch/m68k/include/asm/page.h
+vim +342 drivers/platform/x86/hp/hp-wmi.c
 
-138ff3462f53a7 Greg Ungerer   2010-09-07  14  
-138ff3462f53a7 Greg Ungerer   2010-09-07  15  /*
-138ff3462f53a7 Greg Ungerer   2010-09-07  16   * These are used to make use of C type-checking..
-138ff3462f53a7 Greg Ungerer   2010-09-07  17   */
-60e50f34b13e9e Mike Rapoport  2019-12-04  18  #if !defined(CONFIG_MMU) || CONFIG_PGTABLE_LEVELS == 3
-ef22d8abd876e8 Peter Zijlstra 2020-01-31  19  typedef struct { unsigned long pmd; } pmd_t;
-ef22d8abd876e8 Peter Zijlstra 2020-01-31 @20  #define pmd_val(x)	((&x)->pmd)
-ef22d8abd876e8 Peter Zijlstra 2020-01-31  21  #define __pmd(x)	((pmd_t) { (x) } )
-60e50f34b13e9e Mike Rapoport  2019-12-04  22  #endif
-60e50f34b13e9e Mike Rapoport  2019-12-04  23  
+f82bdd0d77b6bf0 drivers/platform/x86/hp-wmi.c Kyle Evans           2014-06-09  339  
+19d337dff95cbf7 drivers/platform/x86/hp-wmi.c Johannes Berg        2009-06-02  340  static int hp_wmi_set_block(void *data, bool blocked)
+62ec30d45ecbb85 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  341  {
+e5fbba85a7acc26 drivers/platform/x86/hp-wmi.c Alan Jenkins         2009-07-21 @342  	enum hp_wmi_radio r = (enum hp_wmi_radio) data;
+e5fbba85a7acc26 drivers/platform/x86/hp-wmi.c Alan Jenkins         2009-07-21  343  	int query = BIT(r + 8) | ((!blocked) << r);
+6d96e00cef35036 drivers/platform/x86/hp-wmi.c Thomas Renninger     2010-05-21  344  	int ret;
+62ec30d45ecbb85 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  345  
+d8193cff33906e2 drivers/platform/x86/hp-wmi.c Darren Hart (VMware  2017-04-19  346) 	ret = hp_wmi_perform_query(HPWMI_WIRELESS_QUERY, HPWMI_WRITE,
+c3021ea1beeeb1a drivers/platform/x86/hp-wmi.c Anssi Hannula        2011-02-20  347  				   &query, sizeof(query), 0);
+527376c89caf595 drivers/platform/x86/hp-wmi.c Darren Hart (VMware  2017-04-19  348) 
+527376c89caf595 drivers/platform/x86/hp-wmi.c Darren Hart (VMware  2017-04-19  349) 	return ret <= 0 ? ret : -EINVAL;
+62ec30d45ecbb85 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  350  }
+62ec30d45ecbb85 drivers/misc/hp-wmi.c         Matthew Garrett      2008-07-25  351  
 
-:::::: The code at line 20 was first introduced by commit
-:::::: ef22d8abd876e805b604e8f655127de2beee2869 m68k: mm: Restructure Motorola MMU page-table layout
+:::::: The code at line 342 was first introduced by commit
+:::::: e5fbba85a7acc2626d4fe14501816811d702f3e9 hp-wmi: improve rfkill support
 
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Geert Uytterhoeven <geert@linux-m68k.org>
+:::::: TO: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
+:::::: CC: Len Brown <len.brown@intel.com>
 
 --
 0-DAY CI Kernel Test Service
