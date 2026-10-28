@@ -1,91 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793180305;
-	b=RyshcJNvTXvmkXkaCWzdYOHFLUKjOEOv8SXi2oYILbe07C3OflaOw0USiS8LaeTYNhCT
-	 szaIwGh1D027vqhVwNfiYU1MQFX//x/jEBq8AoYawdrrQ19odqqUhUolAzn051FykZXTD
-	 68HBD5pEXDZAhUvFhQhyFeDsBMy6YYti9CWsn7tkoGsfxB+iuEpF2Wlr4ibfLQMXgr3Ut
-	 VfybYZ7QycnUHQddi+q19nu+nbvbP0x/drKlQcwLqTQ/XYnGyOR/ap+1Ak2UtE6NQ6Ecf
-	 l3ljijL0gG3AKW6VM3lWNoccivbqK4q1C9tWRAkphKBH9G5QtYqkSbwxKVCtVNs2j4Q==
+	t=1793180362;
+	b=27HSPE230n/7wXqsRK48gc/oh/1/7qWC8nJ83DKLiiWmsSQsUhAHjSZkEsVlVQkKYaJi
+	 44EFsMa5jyNNST9LsrzTJSzEIOsoE8MqMi6vVVNRk9oV3TovUffwL2jbnzuLE9oKRYhXn
+	 uvuJuIbMIFenH4LsVMgHG9TzfpuBHusVSLnqxYLXo81J9rUeZN3ITik48plrWX5+gPuxM
+	 CAw8rjvXs1FKC/1lfZ6TAF4mzoMJj7lUeUkOux8olcfkzE6s4Ipbz5StYL4H7Yqbi0S8Z
+	 MWCcXwpf706ehPvsRbFlGquNXF55XyIXttKEUWVh69k5fKiuRytLTy0XDoBvTvfpNuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793180305;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793180362;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=C5Zve2yUOC8yB0rGIv8b0aK3NGYsoSH80/7cyPpB4hk=;
-	b=c+T3jsLg8WYfilyXZqx2W6n4kitV7opFbjAWVv0QQ0rY8LyWN/jF+tCnRSN+ksaZ0UcS
-	 IP4yMBd/vif/YP6X9cpI3Tq4l3F/eTd0Vg/LBdSXsq5krJHbDafaHhtznfjiWSx9ac9dm
-	 yT2Lk7gX/4DwqKAKLyM7GNxjlaI9u0mNRpBdjPw4mJ+XiTs8MnzVjBoInDFo5GJuKOCYw
-	 t6LqXaW3Nrj/DgeI1pdIpfePo6glqoi3rxX0w8qjKvTayvHwymoK7xg8D6zkfjPEEBbpu
-	 04wzCsNnlV1Hq6U/pu4qKWEeNM1UwSOnhvodDT8EYEEx3LSneqe3RY/VHkS+PRMK2ag==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=l1tagEQZtt8LCdpTPeXz5POo+RT7kzUsva0JCEL5PPc=;
+	b=yrpLypCJ6Rbi88+rtSWXS/pFj4XIAQ/BoHTvZeCJgToy/taCuAtNnp8MkB+OVliVusu+
+	 bpeVZGxigorkWrfkrpblUve9uWkL3H+zHw5O2A3+BOYlDKzjUnfKPIiKfHtb01e/6k9b2
+	 uELuUd9f36/cpOJE2+EUPoiDAlQR5w7z2DiZhThZZpw65PIHswZTVUDrx1lI04jI3hnWd
+	 tX1kv2OvR2vXXWGt7XbW69u+SYzs8dCiv8mqJdWkmn97CJk61Q/4keS+V+k6drhxXcn5X
+	 iTEF41P53DBpA0Mhne8s3Y5k4VrRTXZe+Zht8FEvlH3ZgCpxGc+8O5CrLe2VJJcn01A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mcZ70rbk;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="cWqlqhq/";
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3106606A31D;
-	Wed, 28 Oct 2026 09:38:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3106606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37F5606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 09:39:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A37F5606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mcZ70rbk
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cWqlqhq/
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793180304; x=1824716304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IlSmwz3t4apRrEpsmg5yqaNQ+6v66Gb3F1C490RGPSM=;
-  b=mcZ70rbkNx0D/75sYooY393N+VMsTX7cW2Akt3CeSsVlI4s5OLMVaS+w
-   9O6sytw4jQTh6/2az1yLd4GLmh3RCA1G1hfOoltkhRsvjzo4QUOyXCEa5
-   2M+Et0lKwVRrCr/An1vJJrgBEQ5xv70cc7+YfYxnVgnR25Jg5TdWTvehq
-   iFhLVa6ZF1H6dlgKB3cG4iGAf7CmGPKGNGR0DW+X/pwnf57P+fDTddR2Z
-   pU7Hw9nwQxZkiEKVuM/ewBBXkIEUftSSNHSz+KQZ/tEnFn5Cb1fqR/wUt
-   tXw6cYkoQCX4LL+xfHnNliSL6R3O3Y8ZlxK0A72hZ7zDWghCcbzrOk6LY
+  t=1793180361; x=1824716361;
+  h=date:from:to:cc:subject:message-id;
+  bh=ypxz9mFiqijy3TwbAArpd6yErFgrEpl4yrDWRjeZ3xY=;
+  b=cWqlqhq/rPxAOtlRdDMLMv51S1zrp5TVEczecqWnD9dd1/6wHaSynmoa
+   ynX4Tc5ndh+QFulplYEPMXV2feRCs9R12xjbLKNUAOBBqc5AiU8cjja/r
+   FSjId+mGJvXJAKVI2m3MfsIfUVKdReCqmt3+c5ZxEhPzoNIWJEqtXbUBg
+   MH6UkRJIDd2oQ4lvpNdQsaDsna4UNttJV7xSshBCyjk5XwmC7XMpSWSaH
+   ILIwuyaaFpkNMRUF9qdHXnQQGW7UHK98TulMimc2oYOpOh2y5GPMozPew
+   icrySh7wgm5HWr0I79aApNUIAPfRHbozbXfZHShQtfpwDsQQFDju+RQOB
    Q==;
-X-CSE-ConnectionGUID: +NGbxTDfR5K0CPVjf6gVvA==
-X-CSE-MsgGUID: z89en88QTC++/K3dc9OUEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1788151"
+X-CSE-ConnectionGUID: 4kdm19C+QJ2jRdtVgoV7wg==
+X-CSE-MsgGUID: 5f34P2niQkGUa5iOv0T3dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1778254"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1788151"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 02:38:24 -0700
-X-CSE-ConnectionGUID: Q82VjP2sQ7yXQDALF0Wfpw==
-X-CSE-MsgGUID: +1HltY5zThyFajnK6gx61w==
+   d="scan'208";a="1778254"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 02:39:21 -0700
+X-CSE-ConnectionGUID: U2b/V86CRu63nsyYMz2WWA==
+X-CSE-MsgGUID: euN7XqBOTQOoe8ZoDSJCTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="4762682"
+   d="scan'208";a="4931821"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Oct 2026 02:38:20 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Oct 2026 02:39:20 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xM06r-00000000YXg-1W4S;
-	Wed, 28 Oct 2026 09:38:17 +0000
-Date: Wed, 28 Oct 2026 17:37:49 +0800
+	id 1xM07p-00000000YXo-1qoL;
+	Wed, 28 Oct 2026 09:39:17 +0000
+Date: Wed, 28 Oct 2026 17:38:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Henry Martin <bsdhenrymartin@gmail.com>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Ilya Maximets <i.maximets@ovn.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>, Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Petr Machata <petrm@nvidia.com>,
-	Ferruh Yigit <ferruh.yigit@amd.com>,
-	Antoine Tenart <atenart@redhat.com>,
-	Seungwon Bae <qotmddnjs@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Henry Martin <bsdhenrymartin@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH net v4 2/2] vxlan: reject VNI add when the default fdb
- entry is nexthop-backed
-Message-ID: <202610281752.nKGCORKp-lkp@intel.com>
-References: <20261027104713.328028-2-bsdhenrymartin@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/9] mm/cma.c:196: warning:
+ Function parameter or struct member 'gcma' not described in
+ 'cma_init_reserved_mem'
+Message-ID: <202610281747.jubguq3K-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -94,101 +80,92 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027104713.328028-2-bsdhenrymartin@gmail.com>
 
-Hi Henry,
+Hi Suren,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Henry-Martin/vxlan-reject-VNI-add-when-the-default-fdb-entry-is-nexthop-backed/20261027-184713
-base:   net/main
-patch link:    https://lore.kernel.org/r/20261027104713.328028-2-bsdhenrymartin%40gmail.com
-patch subject: [PATCH net v4 2/2] vxlan: reject VNI add when the default fdb entry is nexthop-backed
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20261028/202610281752.nKGCORKp-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1da436a23e613c425fc9b868fc8deb979ede47a4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281752.nKGCORKp-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   606d03f6372c0cd085fc0d154cbfc17c298058f2
+commit: 0dad457899d7c4f28855dfadf6c71a1ff8d751ff [0/9] ANDROID: integrate GCMA with CMA using dt-bindings
+config: i386-randconfig-1003-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281747.jubguq3K-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281747.jubguq3K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610281752.nKGCORKp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610281747.jubguq3K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/vxlan/vxlan_vnifilter.c:846:33: error: member reference type 'struct vxlan_config *' is a pointer; did you mean to use '->'?
-     846 |             !vxlan_addr_any(&vxlan->cfg.remote_ip)) {
-         |                              ~~~~~~~~~~^
-         |                                        ->
-   1 error generated.
+>> mm/cma.c:196: warning: Function parameter or struct member 'gcma' not described in 'cma_init_reserved_mem'
 
 
-vim +846 drivers/net/vxlan/vxlan_vnifilter.c
+vim +196 mm/cma.c
 
-   819	
-   820	static int vxlan_vni_add(struct vxlan_dev *vxlan,
-   821				 struct vxlan_vni_group *vg,
-   822				 u32 vni, union vxlan_addr *group,
-   823				 struct netlink_ext_ack *extack)
-   824	{
-   825		const struct vxlan_config *cfg = rtnl_dereference(vxlan->cfg);
-   826		struct vxlan_vni_node *vninode;
-   827		__be32 v = cpu_to_be32(vni);
-   828		bool changed = false;
-   829		int err = 0;
-   830	
-   831		if (vxlan_vnifilter_lookup(vxlan, v))
-   832			return vxlan_vni_update(vxlan, vg, v, group, &changed, extack);
-   833	
-   834		err = vxlan_vni_in_use(vxlan->net, vxlan, cfg, v);
-   835		if (err) {
-   836			NL_SET_ERR_MSG(extack, "VNI in use");
-   837			return err;
-   838		}
-   839	
-   840		/* A default fdb entry that is backed by a nexthop group can
-   841		 * never take a remote; reject before the VNI is installed,
-   842		 * otherwise a failure in vxlan_vni_update_group() would leave
-   843		 * the VNI half-installed.
-   844		 */
-   845		if ((group && !vxlan_addr_any(group)) ||
- > 846		    !vxlan_addr_any(&vxlan->cfg.remote_ip)) {
-   847			if (vxlan_fdb_entry_nh_backed(vxlan, all_zeros_mac, v)) {
-   848				NL_SET_ERR_MSG(extack,
-   849					       "Cannot add a remote to a nexthop fdb entry");
-   850				return -EOPNOTSUPP;
-   851			}
-   852		}
-   853	
-   854		vninode = vxlan_vni_alloc(vxlan, v);
-   855		if (!vninode)
-   856			return -ENOMEM;
-   857	
-   858		err = rhashtable_lookup_insert_fast(&vg->vni_hash,
-   859						    &vninode->vnode,
-   860						    vxlan_vni_rht_params);
-   861		if (err) {
-   862			vxlan_vni_free(vninode);
-   863			return err;
-   864		}
-   865	
-   866		__vxlan_vni_add_list(vxlan, vg, vninode);
-   867	
-   868		if (vxlan->dev->flags & IFF_UP)
-   869			vxlan_vs_add_del_vninode(vxlan, vninode, false);
-   870	
-   871		err = vxlan_vni_update_group(vxlan, vninode, group, true, &changed,
-   872					     extack);
-   873	
-   874		vxlan_vnifilter_notify(vxlan, vninode, RTM_NEWTUNNEL);
-   875	
-   876		return err;
-   877	}
-   878	
+27d121d0ec6d60 Hari Bathini       2022-03-22  179  
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  180  /**
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  181   * cma_init_reserved_mem() - create custom contiguous area from reserved memory
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  182   * @base: Base address of the reserved area
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  183   * @size: Size of the reserved area (in bytes),
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  184   * @order_per_bit: Order of pages represented by one bit on bitmap.
+e8b098fc5747a7 Mike Rapoport      2018-04-05  185   * @name: The name of the area. If this parameter is NULL, the name of
+e8b098fc5747a7 Mike Rapoport      2018-04-05  186   *        the area will be set to "cmaN", where N is a running counter of
+e8b098fc5747a7 Mike Rapoport      2018-04-05  187   *        used areas.
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  188   * @res_cma: Pointer to store the created cma region.
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  189   *
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  190   * This function creates custom contiguous area from already reserved memory.
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  191   */
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  192  int __init cma_init_reserved_mem(phys_addr_t base, phys_addr_t size,
+ac173824959ade Sasha Levin        2015-04-14  193  				 unsigned int order_per_bit,
+f318dd083c8128 Laura Abbott       2017-04-18  194  				 const char *name,
+0dad457899d7c4 Suren Baghdasaryan 2025-02-28  195  				 struct cma **res_cma, bool gcma)
+de9e14eebf33a6 Marek Szyprowski   2014-10-13 @196  {
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  197  	struct cma *cma;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  198  
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  199  	/* Sanity checks */
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  200  	if (cma_area_count == ARRAY_SIZE(cma_areas)) {
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  201  		pr_err("Not enough slots for CMA reserved regions!\n");
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  202  		return -ENOSPC;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  203  	}
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  204  
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  205  	if (!size || !memblock_is_region_reserved(base, size))
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  206  		return -EINVAL;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  207  
+e16faf26780fc0 David Hildenbrand  2022-03-22  208  	/* ensure minimal alignment required by mm core */
+e16faf26780fc0 David Hildenbrand  2022-03-22  209  	if (!IS_ALIGNED(base | size, CMA_MIN_ALIGNMENT_BYTES))
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  210  		return -EINVAL;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  211  
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  212  	/*
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  213  	 * Each reserved area must be initialised later, when more kernel
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  214  	 * subsystems (like slab allocator) are available.
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  215  	 */
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  216  	cma = &cma_areas[cma_area_count];
+18e98e56f4407b Barry Song         2020-08-11  217  
+18e98e56f4407b Barry Song         2020-08-11  218  	if (name)
+18e98e56f4407b Barry Song         2020-08-11  219  		snprintf(cma->name, CMA_MAX_NAME, name);
+18e98e56f4407b Barry Song         2020-08-11  220  	else
+0dad457899d7c4 Suren Baghdasaryan 2025-02-28  221  		snprintf(cma->name, CMA_MAX_NAME,
+0dad457899d7c4 Suren Baghdasaryan 2025-02-28  222  			 gcma ? "gcma%d\n" : "cma%d\n", cma_area_count);
+18e98e56f4407b Barry Song         2020-08-11  223  
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  224  	cma->base_pfn = PFN_DOWN(base);
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  225  	cma->count = size >> PAGE_SHIFT;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  226  	cma->order_per_bit = order_per_bit;
+0dad457899d7c4 Suren Baghdasaryan 2025-02-28  227  	cma->gcma = gcma;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  228  	*res_cma = cma;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  229  	cma_area_count++;
+5c0532500f102a Hao Ge             2024-07-29  230  	totalcma_pages += cma->count;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  231  
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  232  	return 0;
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  233  }
+de9e14eebf33a6 Marek Szyprowski   2014-10-13  234  
+
+:::::: The code at line 196 was first introduced by commit
+:::::: de9e14eebf33a60712a52a0bc6e08c043c0aba53 drivers: dma-contiguous: add initialization from device tree
+
+:::::: TO: Marek Szyprowski <m.szyprowski@samsung.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
