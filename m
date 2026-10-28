@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793188254;
-	b=PxFt3k5IaphKlKPcWcUxxHuyVyYyYK98h2371fQuAeh096Hw8qpHnqDhhZpZxchtpH6L
-	 YbZ5JvqpCqYhHQx9n76gBqnxWtOjNXSU/h4eUm+WUysSIA66I/s5y3WQAaNl5lAMDzL9/
-	 1WFAgLH1QIPTwkqvD1ZRauyJbTY/CKSOfnQiesXSVCNdrmHxXothfMqeGao9vLGJi12LE
-	 68Jff11Y7XhHLDINZiDGjV66je/A0YppFF9snyvCrxPcqUhclMwZ4oRIiDRObIMU21fju
-	 2FebIFceRKXcvHv26IFauCZnA/1yrD53jdvil6pmOsjwManr0OkM+csiZxSmQhVYfmA==
+	t=1793189454;
+	b=kUnILXLHsZqBY5FrZngWej+BA6rBPF7Ol0mhymlgPY2tUhCvj8IPODAHeTZ1lWbGUAcV
+	 1HguTeha03kqlm9HedzbKSVc8mhj+kKgo7ZnRc9l3SJ0nbtd8VjcteDdr5FsTLmznsjjZ
+	 U6wb9uT0/vnMKMDYoM6R0p9jZ3eZ6uL5skuVy9zw3vV85QHQLhJrVdnyWxPn/b6pjsUgk
+	 LGLk6vi2siajaM5CgqjMpIXDowl3c2YVvA/4LZ/vH0JABovU/ojnQlpKYf8EQNUOYUHAa
+	 qbfg73CJ7YYXVHpU9M20DL+V1yVyXh0fUm2CEZDCjrypXFHYSnoI+eXjUL+0Pi3qK+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793188254;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793189454;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ILmpU58pn4WuCrk5c+ZzrCDkwfHX/pWceOAKGTCwoeg=;
-	b=2dwArvCV0w9+3beKK6026VeJ3SzU4FhcUehb2FQsdzV8y8/rdCyhROJCTIaOd2y49pi4
-	 jeBuKamCNbj8kKEONlUoJTKsZB/zQGQnuyJb88Dd4gw8m9agvOo19hh4qIATSzwdaIzm7
-	 akWOu92f0ANkNDtX1d+/3AbWjQvHXxgkSon77ioAZFMd1zjiDup/4hmFMkPR+hva5ntV7
-	 KWJouoRJDOVKAyLOx0ThOc5z8smCfSB4BGvVw1VTSKx2ExTAJNUiXdc8UqQ+/WiSgzqEp
-	 BuTs02aDGgylBjfRoPi1WadCOlEsgijC1aDT5CDGTnXfCcYVgH6kE8YT4CZh+/vU8JQ==
+	bh=SEDQ4wbHh2SuAIX+vVsMZt0nvULByD3JCW/DwbZSdTY=;
+	b=2hU4Thl/l/4bQBO3nKnPESzh+LxwDz+jU7w1u2IAUdU1fqqZ1qiK5pxqot43NEufyiST
+	 bwdibVeIvoliZ05MkI2/S6yLNJUevgoPNQTqOfK4PcsgmDjZ010GLVv9XA8vZwRl13QRT
+	 AaA3aiNjVRxs6CntVGWKQe++h90vja7iFV2N/mW+MXC+jMnRb2afJudPT5cUHDfyZShSr
+	 z93SVPuU0Xfvjg1VSVsHcLvqaBmTHUDsrMtLgP4tfjMfx1pcQMY4+0TaUGSkLSRvP115v
+	 lgHh5LCJpwbEXN6pPC4eF0X3lSk/yq1V0j5p+BZ32UgHVN+YaBrtGxB6mDmQ2uio+fA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iZ+r61mM;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k3HzwD0K;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D36606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 11:50:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0D36606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFFB606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 12:10:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFFFB606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iZ+r61mM
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k3HzwD0K
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793188253; x=1824724253;
+  t=1793189453; x=1824725453;
   h=date:from:to:cc:subject:message-id;
-  bh=Fap8A0K/pq09M8ngCkU77UUGwSY5wif0sxpAl/bixGs=;
-  b=iZ+r61mMQ1fL2HWo3Dzni75jrF25bDURjfo2PG2h2pjPcWDvIodWUXM2
-   1hXh4CWMnnyUfIAi019GPG3qBCNGPK+03VfrzfZXg50LeHtU2W07+kiAy
-   P0Hum1q9njdmbpno+/pPi0yI+fqJVpY9liMMyTax5BOX8aaEtSI9qVd++
-   uepbaktAC+50hlwgbDOgm/Qa7Y436SFPqtEeBE7hBpqct/Ms1ERDeD2Gk
-   DgCdl1pGGYWcnl2nFPzVWJqah1MyB7KPnqpqy9PDQRXOLZkCEsYXRczsf
-   iXbIgSqODu5tWORBbULQuzO2vIQstrXrA8+KTkeBCOhNdSno7pwa0HMMl
+  bh=q7PgZwWzS+tByCZivflOo2w0lqEAYPLi1gj2IvMHZXU=;
+  b=k3HzwD0KXleQxuxhbQwBO0uc272gvR6G8k6P1bQl2Xjem7rJb9/tONPV
+   YLOgVo/cMBFwDrKmDw/DR6wHmvKjGxs4NwJD5QN8XN3Xgevtw65PcK3Qs
+   ynwhlTE4a4L+JL1qMzfD7Ks+xcn7GDzOXFJ5EXWkkJTlMjrW1TxYDR05H
+   ofl0MlmAl8E3rC8MwtH5URMLP9TuS3BSXHmSJxsE8iMZOa5INp30LXLmS
+   T7YDwOsGnN4M6uCBk5vmSLwHjVV9GhO0Z0hWQ1QzrOL5UJniCvBx6C2tg
+   DczeNGMBWZrpr1Tib4mQqhzBNPE7PbZEUhgnya6HQrb2067Uxp9J8rJ5a
    Q==;
-X-CSE-ConnectionGUID: gEidXyptTemci0BCm9umZQ==
-X-CSE-MsgGUID: 4MA0DQxHRuSwfHCVFq/Ozg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="2010958"
+X-CSE-ConnectionGUID: STVeRacsQX+edU9/qBjAmg==
+X-CSE-MsgGUID: VyXqNggxQgqPfwTWhbmbrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1799901"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="2010958"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:50:52 -0700
-X-CSE-ConnectionGUID: 9QPSfoenRMWbAse+SO7Ejg==
-X-CSE-MsgGUID: ldhubrL1TKSF6jHS1lGGyQ==
+   d="scan'208";a="1799901"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 05:10:52 -0700
+X-CSE-ConnectionGUID: 3wAFeXXXRPy8iB7zvaXPiQ==
+X-CSE-MsgGUID: TbYi2ZGASm6y2qtZeFVg+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="4829926"
+   d="scan'208";a="6641827"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 28 Oct 2026 04:50:51 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 28 Oct 2026 05:10:51 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xM2B6-000000004r5-3WO1;
-	Wed, 28 Oct 2026 11:50:48 +0000
-Date: Wed, 28 Oct 2026 12:49:50 +0100
+	id 1xM2UT-000000004rL-1ATv;
+	Wed, 28 Oct 2026 12:10:49 +0000
+Date: Wed, 28 Oct 2026 13:10:27 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 353/353]
- kernel/delayacct.c:282:5: sparse: sparse: symbol 'delayacct_enabled' was not
- declared. Should it be static?
-Message-ID: <202610281254.MfZWz7II-lkp@intel.com>
+Subject: [android-common:android17-6.18 2/2] ld.lld: error: undefined
+ symbol: swiotlb_update_mem_attributes
+Message-ID: <202610281351.WLyuenvq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,31 +80,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   0951885c34a0e48adda08777b026c61fed9613ea
-commit: 35bb2c8c5fd3f623e062757cd943617efa29a172 [353/353] ANDROID: Add vendor_hooks to workaround CONFIG_TASK_DELAY_ACCT
-config: arm-randconfig-r2303-20261026 (https://download.01.org/0day-ci/archive/20261028/202610281254.MfZWz7II-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   15827c4bafdc766e79e2aba39e39404baabc4673
+commit: 81f530a28fb33cd66ad4af454b01c788f14e3619 [2/2] ANDROID: x86/pkvm: Add pkvm guest memory share support
+config: i386-randconfig-r2308-20261027 (https://download.01.org/0day-ci/archive/20261028/202610281351.WLyuenvq-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
 sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281254.MfZWz7II-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281351.WLyuenvq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610281254.MfZWz7II-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610281351.WLyuenvq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/delayacct.c:282:5: sparse: sparse: symbol 'delayacct_enabled' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/delayacct_enabled +282 kernel/delayacct.c
+>> ld.lld: error: undefined symbol: swiotlb_update_mem_attributes
+   >>> referenced by mem_encrypt.c:95 (arch/x86/mm/mem_encrypt.c:95)
+   >>>               arch/x86/mm/mem_encrypt.o:(mem_encrypt_init) in archive vmlinux.a
 
-   281	
- > 282	int delayacct_enabled __read_mostly;	/* Delay accounting turned on/off */
-   283	bool get_delayacct_enabled(void)
-   284	{
-   285		return delayacct_enabled;
-   286	}
-   287	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_SVA
+   Depends on [n]: IOMMU_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 --
 0-DAY CI Kernel Test Service
