@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793217833;
-	b=IPWqUeTpU9krnYG9nM0ffzWEL4wXkeSfjH8OwgbjR/jHatwvWG/mWZ3enxwxbx4HI7hl
-	 F+k+l0PtKTQUFnwJcHeHIx/++6Z/zft8zoruHc0NvfSvAnDCdHnahrUembi7ybMAEvszJ
-	 NE2nTodb6E+/Pi8nhEO+98Mla6au08C0R+0uC5zqHeafxfdsmtKSiNOaxw1rPQb+gFauk
-	 zejId9t2uRqWXxDjWENtGMLbL1HWRMhco9LbPjIdxldcXOUA6YM26gSRwYwPNZ3ht1tJt
-	 LTDCJl5g7MCcIbUWK9sWA9TC+tgbo5kKdkFEVTIEha0weHeJHsb9qXehxk1AD0yCBvA==
+	b=ZiQBvoZh5vvD0m7oVwOOhfBtgz7hUup8gyHenWDhCxpMzwpIMQXV7ic9prbvuLcEWfnC
+	 grSGHk8G2FYeSn3gAwqDgH+a1Ys+eqaEd/XDsa+z2fmknmXdmF+3IpvBre5QBoCvLnE2W
+	 YXtGwnJJxBkGJi7bktFGjjpZgyFgPbHS+jxqu+fXe+mi3jb4rzGxj6C9VbTNaanXGhmOW
+	 OVmxLw/euXOSXVB+R/r2LPlRpc8rVipePDsxizbTCxYIf4KAPRVnJAYVRlXGD/sc481Ql
+	 EO9lIKFEVBOvDXMUkUVHr5Y1LLTl5tCfVMxBawY08a/Xz1DNg7fEeY2LKcR9wMLYBdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793217833;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=o9HySPFa8L1+i3e+Wx7Q/DlVhmmb6GGX7c9KKx8dcIQ=;
-	b=pMOH1JbGBTccxctwGXwJmcSs8UvUh7PMFfnOa8cLorYXemGGdW0z/kvBVUb3bVJgLWjw
-	 OWgw9xMYvriZlgH+swi+xaJfhUt1X/YKUAGUkuPrrOG0w9nbg2vkeqn6YMgct15d2akYi
-	 pi3pNhcyKE2ipPzZNKQofuCswg88FL4KDpQagGyRWOkKGVu3orDbmDzaKs3yQfCnwATZG
-	 0hya+ystWhvSVsvuhCDeRmTisWrWoarmO0Lw+RTCY8laLVjbyxFiSQIk5/oYd1zqsDyWB
-	 3TuDwbotvQF1aTyEpxIq1hJd96YxLN7SwfGhWt8VqGwQTWlQEDOyPrqer0YDOQo4+uQ==
+	bh=tpbnIu/d3rLM5M1JvjPqptl33WibOEP3jqE4e3G6LME=;
+	b=v8plQk4ypFsIFIonjyz2W7nFzZL5X/IYNiY8umpV9iS62mK+PujpioYgcaYN1SB07J5z
+	 pogY8cRjrOl7E9qVNrM9FTcjzj+ovfRUOVbQRKv5HgGhfUzH5yvHLnAAqEYeed1keqA8F
+	 MKIzsqvygmLpdui6OZSDt7VraqOGL3rr8naiJZHK51lExzHpHBs6dVb+wFKo7y563JlOq
+	 NvjHfCGgu0sSF5YV7dFKRcBdU08lMFx2ZRH7S3JVwDPchdjgqM20S5jQUlbunb71/rdDy
+	 Sk7hetcEfbzp7IECBJJLdZPqExYUDmKtN6kcI0pGLxQbJExdrT0L/C1IQZEDpNGXBRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LbJIRCQc;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ESYGBZyM;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE4E606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 20:03:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECE4E606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE93606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 20:03:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FE93606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LbJIRCQc
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ESYGBZyM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793217832; x=1824753832;
+  t=1793217833; x=1824753833;
   h=date:from:to:cc:subject:message-id;
-  bh=d8+LodBk1GCCOwj6A3+4STCB4vLjLuJKr9hDs8nngoM=;
-  b=LbJIRCQcjL6vS/0o+elRlew2iFwO1I6AT/bidsT50ml+6qYiLx+s4YCS
-   X1Jt5whlXy5m9G6FEzocpaNfGd2zeTU//raaQFv3MeVckPoweCnNZdRuq
-   lKDmCY+rwHRpQgHWAUQAJKCaD4SABQp0OyQWTjnnEGaTqlOJvrVxIH9aj
-   7RGvJVu70wdcr4bZH/rviIurFv+lNNHRS3+G+8YJnQUcHY0q0LkLNtwNw
-   8H0GLByrHVqaMHhMgZBVZISVpEluj1wwPloNrnxkl3JHUx24sTvwCh5wS
-   TCBYEQlEQnwd5RDuWkmZddBqG2XkMH79awTxiekT/Vonm2QWer6yi5Xcv
+  bh=UTT28YlIMxCksOhUGVqy2waCnusrPaDkZ3v66p+Rh60=;
+  b=ESYGBZyMvaG7/ZG4lkIyrRCyPHVBPjKWUTZQ67bp46bSdb3ikYaYFszx
+   cQYo6yMGylTVVNymgRJ8dV1BpGMka67ZGOaTi43EuU+SqaOzHm1cXUcxT
+   r5pmweMO3LuQ8j8x4Jy+iNq/2hqNBEr3KKyG5b4nZk7fu+1FUIROOpH8m
+   xGnhXV0lV994XNuYIRcVosYplQB74t8oby7eQ12JSExB/PNRjIdZ7ddOm
+   AiOmxbHelFPe3w3Mdow1dI5lWyCB0lKTOYRBttQdDuVPd123xhmj4S5hK
+   ygoWQkEt7cJXjeGHgeKh60CS1lda0A38SOC6PhMTJbgfgtIIEPZUcJmYd
    Q==;
-X-CSE-ConnectionGUID: ZqFevC5yTHa4lccg0gACnw==
-X-CSE-MsgGUID: jvbHjMY8QuSBrsBt5KFSFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2046504"
+X-CSE-ConnectionGUID: Aq0/3M2/QwiXY5xgjbPkoA==
+X-CSE-MsgGUID: RVY7SbWhSAmjBL2LUSB6pQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1838553"
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="2046504"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 13:03:52 -0700
-X-CSE-ConnectionGUID: IMGNJTsJSYyBpj0ktjyeig==
-X-CSE-MsgGUID: khQp+6yJR+m5jjwKyK0Urg==
+   d="scan'208";a="1838553"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 13:03:52 -0700
+X-CSE-ConnectionGUID: 5EdgMkTnQSyzTXBR8PE5nQ==
+X-CSE-MsgGUID: hg5GYphlQg6MyieBPxLovg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5026726"
+   d="scan'208";a="4868418"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Oct 2026 13:03:50 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 Oct 2026 13:03:50 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xM9sB-000000004yB-405W;
-	Wed, 28 Oct 2026 20:03:47 +0000
-Date: Wed, 28 Oct 2026 21:03:32 +0100
+	id 1xM9sC-000000004yD-00Lr;
+	Wed, 28 Oct 2026 20:03:48 +0000
+Date: Wed, 28 Oct 2026 21:03:45 +0100
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:cancellations 3/29]
- arch/s390/net/bpf_jit_comp.c:649:42: error: 'struct bpf_prog_aux' has no
- member named 'exception_boundary'
-Message-ID: <202610282018.wVaIICD7-lkp@intel.com>
+To: Petko Manolov <petko.manolov@konsulko.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dinh Nguyen <dinguyen@kernel.org>
+Subject: [linux-next:master 17492/20300]
+ arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: soc
+ (simple-bus): sdramedac: 'ranges' is a required property
+Message-ID: <202610282129.EbfEAoVo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,111 +81,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/kkdwivedi/linux cancellations
-head:   d085b61bdd9ef20d93fc010b4f0092f65b869e5a
-commit: b1cc125c910e54e5242ef9babf1d05e267c5ebf3 [3/29] bpf: Remove exception_boundary, which nothing reads any more
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261028/202610282018.wVaIICD7-lkp@intel.com/config)
-compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610282018.wVaIICD7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f1ac44c32cba88ad65dcecd4a279661d14e93651
+commit: bb3f9d4267bad8948a10e12b15aeeb0daaff8fa8 [17492/20300] arm: dts: altera: add Draeger M48 CPU Module
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261028/202610282129.EbfEAoVo-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+dtschema: 2026.10.dev5+gd1fbcafd6
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610282129.EbfEAoVo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610282018.wVaIICD7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610282129.EbfEAoVo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/s390/net/bpf_jit_comp.c: In function 'bpf_jit_prologue':
->> arch/s390/net/bpf_jit_comp.c:649:42: error: 'struct bpf_prog_aux' has no member named 'exception_boundary'
-     649 |                                   fp->aux->exception_boundary ? NVREGS : 0);
-         |                                          ^~
-
-
-vim +649 arch/s390/net/bpf_jit_comp.c
-
-f1d5df84cd8c3ec Ilya Leoshkevich        2023-01-29  603  
-054623105728b06 Michael Holzheu         2015-04-01  604  /*
-054623105728b06 Michael Holzheu         2015-04-01  605   * Emit function prologue
-054623105728b06 Michael Holzheu         2015-04-01  606   *
-054623105728b06 Michael Holzheu         2015-04-01  607   * Save registers and create stack frame if necessary.
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  608   * Stack frame layout is described by struct prog_frame.
-054623105728b06 Michael Holzheu         2015-04-01  609   */
-b2268d550d20ff8 Ilya Leoshkevich        2025-06-24  610  static void bpf_jit_prologue(struct bpf_jit *jit, struct bpf_prog *fp)
-054623105728b06 Michael Holzheu         2015-04-01  611  {
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  612  	BUILD_BUG_ON(sizeof(struct prog_frame) != STACK_FRAME_OVERHEAD);
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  613  
-227b4e108adcc4e Heiko Carstens          2026-07-27  614  	emit_kcfi(bpf_is_subprog(fp) ? cfi_bpf_subprog_hash : cfi_bpf_hash, jit);
-227b4e108adcc4e Heiko Carstens          2026-07-27  615  
-f1d5df84cd8c3ec Ilya Leoshkevich        2023-01-29  616  	/* No-op for hotpatching */
-f1d5df84cd8c3ec Ilya Leoshkevich        2023-01-29  617  	/* brcl 0,prologue_plt */
-f1d5df84cd8c3ec Ilya Leoshkevich        2023-01-29  618  	EMIT6_PCREL_RILC(0xc0040000, 0, jit->prologue_plt);
-f1d5df84cd8c3ec Ilya Leoshkevich        2023-01-29  619  	jit->prologue_plt_ret = jit->prg;
-f1d5df84cd8c3ec Ilya Leoshkevich        2023-01-29  620  
-9af27da6313c8f8 Kumar Kartikeya Dwivedi 2023-09-13  621  	if (!bpf_is_subprog(fp)) {
-dd691e847d28ac5 Ilya Leoshkevich        2023-01-29  622  		/* Initialize the tail call counter in the main program. */
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  623  		/* xc tail_call_cnt(4,%r15),tail_call_cnt(%r15) */
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  624  		_EMIT6(0xd703f000 | offsetof(struct prog_frame, tail_call_cnt),
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  625  		       0xf000 | offsetof(struct prog_frame, tail_call_cnt));
-6651ee070b3124f Michael Holzheu         2015-06-08  626  	} else {
-94ad428df53688a Ilya Leoshkevich        2020-07-17  627  		/*
-dd691e847d28ac5 Ilya Leoshkevich        2023-01-29  628  		 * Skip the tail call counter initialization in subprograms.
-dd691e847d28ac5 Ilya Leoshkevich        2023-01-29  629  		 * Insert nops in order to have tail_call_start at a
-dd691e847d28ac5 Ilya Leoshkevich        2023-01-29  630  		 * predictable offset.
-94ad428df53688a Ilya Leoshkevich        2020-07-17  631  		 */
-94ad428df53688a Ilya Leoshkevich        2020-07-17  632  		bpf_skip(jit, 6);
-6651ee070b3124f Michael Holzheu         2015-06-08  633  	}
-6651ee070b3124f Michael Holzheu         2015-06-08  634  	/* Tail calls have to skip above initialization */
-227b4e108adcc4e Heiko Carstens          2026-07-27  635  	jit->tail_call_start = jit->prg - cfi_get_offset();
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  636  	if (fp->aux->exception_cb) {
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  637  		/*
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  638  		 * Switch stack, the new address is in the 2nd parameter.
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  639  		 *
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  640  		 * Arrange the restoration of %r6-%r15 in the epilogue.
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  641  		 * Do not restore them now, the prog does not need them.
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  642  		 */
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  643  		/* lgr %r15,%r3 */
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  644  		EMIT4(0xb9040000, REG_15, REG_3);
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  645  		jit->seen_regs |= NVREGS;
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  646  	} else {
-054623105728b06 Michael Holzheu         2015-04-01  647  		/* Save registers */
-b2268d550d20ff8 Ilya Leoshkevich        2025-06-24  648  		save_restore_regs(jit, REGS_SAVE,
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03 @649  				  fp->aux->exception_boundary ? NVREGS : 0);
-fa7bd4b000a7ae3 Ilya Leoshkevich        2024-07-03  650  	}
-c10302efe569bfd Martin Schwidefsky      2012-07-31  651  	/* Setup literal pool */
-fcf35131396ace1 Ilya Leoshkevich        2019-11-14  652  	if (is_first_pass(jit) || (jit->seen & SEEN_LITERAL)) {
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  653  		if (!is_first_pass(jit) &&
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  654  		    is_valid_ldisp(jit->size - (jit->prg + 2))) {
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  655  			/* basr %l,0 */
-054623105728b06 Michael Holzheu         2015-04-01  656  			EMIT2(0x0d00, REG_L, REG_0);
-c10302efe569bfd Martin Schwidefsky      2012-07-31  657  			jit->base_ip = jit->prg;
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  658  		} else {
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  659  			/* larl %l,lit32_start */
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  660  			EMIT6_PCREL_RILB(0xc0000000, REG_L, jit->lit32_start);
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  661  			jit->base_ip = jit->lit32_start;
-c1aff5682da2977 Ilya Leoshkevich        2019-11-18  662  		}
-c10302efe569bfd Martin Schwidefsky      2012-07-31  663  	}
-054623105728b06 Michael Holzheu         2015-04-01  664  	/* Setup stack and backchain */
-fcf35131396ace1 Ilya Leoshkevich        2019-11-14  665  	if (is_first_pass(jit) || (jit->seen & SEEN_STACK)) {
-88aeca15d637c27 Michael Holzheu         2015-06-01  666  		/* lgr %w1,%r15 (backchain) */
-88aeca15d637c27 Michael Holzheu         2015-06-01  667  		EMIT4(0xb9040000, REG_W1, REG_15);
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  668  		/* la %bfp,unused_end(%r15) (BPF frame pointer) */
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  669  		EMIT4_DISP(0x41000000, BPF_REG_FP, REG_15,
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  670  			   offsetofend(struct prog_frame, unused));
-b2268d550d20ff8 Ilya Leoshkevich        2025-06-24  671  		/* aghi %r15,-frame_off */
-b2268d550d20ff8 Ilya Leoshkevich        2025-06-24  672  		EMIT4_IMM(0xa70b0000, REG_15, -jit->frame_off);
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  673  		/* stg %w1,backchain(%r15) */
-88aeca15d637c27 Michael Holzheu         2015-06-01  674  		EMIT6_DISP_LH(0xe3000000, 0x0024, REG_W1, REG_0,
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  675  			      REG_15,
-e26d523edf2a62b Ilya Leoshkevich        2025-06-24  676  			      offsetof(struct prog_frame, backchain));
-054623105728b06 Michael Holzheu         2015-04-01  677  	}
-6d59b7dbf72ed20 Daniel Borkmann         2017-12-14  678  }
-c10302efe569bfd Martin Schwidefsky      2012-07-31  679  
-
-:::::: The code at line 649 was first introduced by commit
-:::::: fa7bd4b000a7ae32eb6fc049125943561e5b46f3 s390/bpf: Implement exceptions
-
-:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:88.33-95.5: Warning (simple_bus_reg): /soc/fpga-region: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:562.40-566.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:713.18-731.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:825.13-829.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
+   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:936.19-940.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: soc (simple-bus): sdramedac: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: soc (simple-bus): stmmac-axi-config: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: soc (simple-bus): usbphy: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: amba (simple-bus): $nodename:0: 'amba' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: pdma@ffe01000 (arm,pl330): $nodename:0: 'pdma@ffe01000' does not match '^dma-controller(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/dma/arm,pl330.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: osc2 (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: f2s_periph_ref_clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: f2s_sdram_ref_clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: fpga_bridge@ff400000 (altr,socfpga-lwhps2fpga-bridge): $nodename:0: 'fpga_bridge@ff400000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: fpga_bridge@ff500000 (altr,socfpga-hps2fpga-bridge): $nodename:0: 'fpga_bridge@ff500000' does not match '^fpga-bridge(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/fpga/altr,socfpga-hps2fpga-bridge.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: spi@ff705000 (intel,socfpga-qspi): resets: [[6, 37]] is too short
+   	from schema $id: http://devicetree.org/schemas/spi/cdns,qspi-nor.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: timer0@ffc08000 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: timer1@ffc09000 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: timer2@ffd00000 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
+>> arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_draeger_m48.dtb: timer3@ffd01000 (snps,dw-apb-timer): 'reset-names' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/snps,dw-apb-timer.yaml
 
 --
 0-DAY CI Kernel Test Service
