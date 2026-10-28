@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793227031;
-	b=pJ4g54T8Lohfo91mqDtEVbPcuHDf/uTEv8FWP43taKu7qPNNOEOujffSs6+1cWkOYBzg
-	 QQl9rPU3/Lx+Bb1/cfuu3QVZrlbkBGoCD5ifj6z0MxAeveELq1JBnKlLLwWEI/pKXwrsx
-	 tcBZs0gwHSDPpg2SrvYDQmDKaRP0QEmoNJB80Vr8lYysIt07y7y00TKgQlV1ioeW6IJPo
-	 kfP+2uCAg7b+t1F+t1IiNgSBVARdFxR5Q4PMjKeDXFORxqP5Vwx0+9SGuFD87yIEvFPma
-	 8esbvGyAbCXcZtNPlydsfVvLdNB/nXOhGv3ZadLLNE3bEn12+s7AY/GNLlMeFZe74sQ==
+	t=1793227119;
+	b=bEoGk05H4ge1rr9tJLqjoKFz6TZSGwpBkhIpYdHzXPnSWHQWCezUSrxK7rCqLH2nbNTi
+	 WnBaZGvJlu0MHG35i0LrGM6fKbMvXc1Fiuz6a2EyETkjPpv+U+2hULUonR2CgReX7tEyE
+	 me1dl7GSKk/8IAve56g+ATD5Evl61FcqSzxMZq0vpAkyfYh6imKUcMJhR+QCPZpW/88zu
+	 OThYuyP2Sea5JuraVLs9/aRLUE18Atjq7h14xuILu5w2BFuI9Fr+CicEMe4TaBt+omyIa
+	 3wK6S6AtVmzpYs1aec+Sy/+YB8vHTQ+2iygxvmswLFBnc/Kc7R3Os9ley//jTqqoFdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793227031;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793227119;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=jm0bOBlvJtf+c9cbCm5uoFNtSxOKCVNvIERBo9B/4SQ=;
-	b=ZSc4loSEM2koPNTc6J//cDo0hrYTTl77tJxhuKlAu02ay3s477YHH+gSUS+F++AAmK9w
-	 L0AHKlLTTwaOad8yeyQQGIN+mieXq/ycta4o4yhdJ/52te9L5kAUVy1aNejdsXXqaUS23
-	 00UT2Ct7m9ZwYgN99qdhdq/QwOwubM4VtlrXmzTmp+gl/ll6/XTbcnfWGvtEEMX6t2VHD
-	 H4erdMvAaPRuP/UYj4oomHZzkQQoCiWdCD4Vy/mf+/K308L06AZX50DJ2C2QORGYLwC7b
-	 9V/eepqWXBneWWEfDaznKBTqIjDE7IIkYvx/JYV0iK4vikx7VaudITPzPEyHBttoXmA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=U3YfO3bs8WxCTBDlFk96+ErgIaFrrUGE+9IORdHDrfw=;
+	b=XTDu2EavsFkKuKONNg3eapiBBxR4c7MicMkwMYlCrR4dUmrBsLQ/sIv3rPP3PvCHfUxa
+	 t8Q/4kVN4gMbidHmwyRHKUghqVISMN6gzi63j1PbnJ8NPx+mdRdxtyRC6WZEGUUffvW9C
+	 Eiz7gpWntSpwbvfsK0L1xnWu8sCGsL/tQvx/HnaVYYAzEDXS8JTXvIOvBc5m7qXgQ12g/
+	 ZpJ3PoG0M4bvYbH6OJBm6xyrJWKbrypRraqFaN9iYXLhNtjvSSNpMmuPirCdFZc4gbZ1G
+	 +b3rUlAgZVXzVKmtzKERnZgoWyIfykpS0ae0OROgt3ERC3TUeI7D5scoLowcJX82Iow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h3220zwt;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BmEHGBSe;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA94606A31A;
-	Wed, 28 Oct 2026 22:37:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DA94606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC04606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 22:38:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EDC04606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=h3220zwt
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BmEHGBSe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793227029; x=1824763029;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xAFL3xR5HoY7fL7rQF+os/jWINYhG5Z304bdPN+0Buc=;
-  b=h3220zwtjOIQA0IN+JYPDQFK0CI5cdTwzSLRKXIH/287wxWj8JOvPxCu
-   258O/yAr9CojmZuw78hV92kD5c6UCwkd96JxVtyj5tU1+SxXgs7evkWIs
-   1Tubxk3d+tOAPgale+CPe2mA1uf+i+wrfJw1xmeaTsq7FmDbKzRnCH3Jg
-   113MG6f/3nw4/0sBLsrqvviV9sfDwhFkAAoP6bercklmO/yEr4lq2CJBH
-   r+12lp+e6xlRa4uKbPVWoUHRLtVzdaFGA4DbFBTMTapank+xzTmlXtpOR
-   IzVlGzY2OnKzWRkCt551sGpsvT7eLWFKWP84b3Ny7mnzOznQN287pXG4V
+  t=1793227119; x=1824763119;
+  h=date:from:to:cc:subject:message-id;
+  bh=CNVVCkIBsIZQbDnZnvlhRoKO3tz+Q7mJovLPFhCtkY4=;
+  b=BmEHGBSe5+RfnMNsXQqTppFsxKHzimtrmERExc8U51ImqhIcFpMhxS+X
+   /1DmlB/bmi+PCsclRuv2Gouo7xxUL9OPSgVWpWitc0gaprdCAQDefZ1OV
+   dkfly1mKhBR4uj9R66P2aMhBSzeHb/k6ZAo3g3Apruja2CewK3M786hPl
+   5Nzi8fLS2p/dHaX4c/oqD0bVk7ujjVXKulXSX8QoMVxlasIt1YYXGo8J5
+   z4dbluN1ulXNZmrhFviweHoQqPpZ3rJN7X78jFKj0FmEtrKoa/YZ8CBbW
+   zt/dUqNGyroDA9oJALflnUaWWbWwzfypQdTw5hwbBSix9QWFXXtEPm3lA
    g==;
-X-CSE-ConnectionGUID: F3gbwWsoSXC4KNVDVK248A==
-X-CSE-MsgGUID: jwky0FRETpSWckJYVY87ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1861449"
+X-CSE-ConnectionGUID: O7zxsV2IT36g1qLyLblQ2A==
+X-CSE-MsgGUID: 5Gfw90KfSTiD/aS3iojFNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1842901"
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="1861449"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 15:37:08 -0700
-X-CSE-ConnectionGUID: P+RacY5GQGOrqg1ZCWl6Bw==
-X-CSE-MsgGUID: xFdtIE9aQA2az64fdblalA==
+   d="scan'208";a="1842901"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 15:38:39 -0700
+X-CSE-ConnectionGUID: vhbZ/K+mSc+6QxwP1weySg==
+X-CSE-MsgGUID: ZvGmXcluRK6Herwvzf/0cQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5360428"
+   d="scan'208";a="6786193"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Oct 2026 15:37:07 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 28 Oct 2026 15:37:07 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMCGX-000000004zQ-0nLh;
+	id 1xMCGX-000000004zN-0cD9;
 	Wed, 28 Oct 2026 22:37:05 +0000
-Date: Wed, 28 Oct 2026 23:36:41 +0100
+Date: Wed, 28 Oct 2026 23:36:40 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh?= (Schneider Electric)" <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/auxclock-nanosleep 35/41]
- kernel/time/timer_list.c:117:57: error: no member named 'disabled_bases' in
- 'struct hrtimer_cpu_base'
-Message-ID: <202610282341.X4ssVNgi-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-10-28 354/356] ERROR: modpost:
+ sound/soc/snd-soc-core.ko: symbol 'soc_compr_dyn_ops' undefined!
+Message-ID: <202610282323.MtZtSFgr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,59 +79,23 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/auxclock-nanosleep
-head:   b07585bb535605fb7baff6811b5b778c83af0805
-commit: e135d1b5014d752a74322230ad9e2708ea093ebf [35/41] timer_list: Add auxiliary clock support
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20261028/202610282341.X4ssVNgi-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610282341.X4ssVNgi-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-10-28
+head:   2c12c77b79ee23bdb76491d35cb04685b999c968
+commit: f3a160e1d378e3126d7e98a1d74e115d62d6cc17 [354/356] ASoC: soc-pcm: add new_compress() on rtd_ops
+config: loongarch-randconfig-2000-20261028 (https://download.01.org/0day-ci/archive/20261028/202610282323.MtZtSFgr-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610282323.MtZtSFgr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610282341.X4ssVNgi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610282323.MtZtSFgr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> kernel/time/timer_list.c:117:57: error: no member named 'disabled_bases' in 'struct hrtimer_cpu_base'
-     117 |                 bool enabled = ((1U << base->index) & base->cpu_base->disabled_bases);
-         |                                                       ~~~~~~~~~~~~~~  ^
-   1 error generated.
-
-
-vim +117 kernel/time/timer_list.c
-
-   107	
-   108	static void
-   109	print_base(struct seq_file *m, struct hrtimer_clock_base *base, ktime_t now)
-   110	{
-   111		SEQ_printf(m, "  .base:       %p\n", base);
-   112		SEQ_printf(m, "  .index:      %d\n", base->index);
-   113	
-   114		SEQ_printf(m, "  .resolution: %u nsecs\n", hrtimer_resolution);
-   115	#ifdef CONFIG_HIGH_RES_TIMERS
-   116		if (clockid_is_aux_clock(base->clockid)) {
- > 117			bool enabled = ((1U << base->index) & base->cpu_base->disabled_bases);
-   118			const struct tk_aux_mono_conv *conv = base->aux_mono_conv;
-   119	
-   120			SEQ_printf(m, ".enabled:      %d\n", enabled);
-   121			if (enabled) {
-   122				SEQ_printf(m, "  .mono_base:  %lld nsecs\n", (long long)conv->mono_base);
-   123				SEQ_printf(m, "  .aux_base:   %lld nsecs\n", (long long)conv->aux_base);
-   124				SEQ_printf(m, "  .mono_mult:  %u\n", conv->mono_mult);
-   125				SEQ_printf(m, "  .aux_mult:   %u\n", conv->aux_mult);
-   126			}
-   127		} else {
-   128			SEQ_printf(m, "  .offset:     %lld nsecs\n", (long long)*base->offset);
-   129		}
-   130	#endif
-   131		SEQ_printf(m,   "active timers:\n");
-   132		print_active_timers(m, base, base_now(base, now));
-   133	}
-   134	
+>> ERROR: modpost: sound/soc/snd-soc-core.ko: symbol 'soc_compr_dyn_ops' undefined!
+>> ERROR: modpost: sound/soc/snd-soc-core.ko: symbol 'snd_soc_basic_new_compress' undefined!
 
 --
 0-DAY CI Kernel Test Service
