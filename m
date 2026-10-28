@@ -1,77 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793159592;
-	b=u576UB9YtCBXlkHmb+fIyZDe41jU2T0qmorIsUDcUdmr4iY9w1JytB10iD6KaEFuz32j
-	 S1tp4kqttgCv3aMfULGrYe04hfNJkS4oZSovmclOBIx2n3dsUjEffKqejJu0f1/fPHZ11
-	 yTW1aeY98aGkwHnwnw8J4Xn9B9GdeG4XtHqLF0n4rRVaGn8x9ebcAYQ5cq2XfzAYDgdfv
-	 BQ2llwiSDwhqojKJt/KCaIXPT9aqsLC4THPyMem7MKzORxjD2km7Js0r2CLZ+kohaqZof
-	 DWlBgZP0HxFMlafh+g4wXGXpkGUy45JGnZ+nvhtpH9KKdxJati6eLfl6hszsEFP+A8w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793159592;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=KjSqW1C/LEK0HL0Ta0VOldnWmMKiwniUkCSVV2Vkf28=;
-	b=Lxik7qeGk93N75wcZJify4v38nxUhFxJZLve0tGbLEsyO6EeCDAPeTZilJKkGgNXnY/w
-	 Z48DhiES2TfSdEq9+rZSPOwPfoxv6DzzrlXLkGY6kricNoDVP6gNiPJs9QGDdfcwGerRP
-	 T+UA61j3WX1x/qq/UVOF2NxxQVBXOFrPJCUklO104sUGI0udYyluUNsexxl7oxpk66xH6
-	 CdAtsr3mOfDg8s+jFmVZLggndEmoVQobDCMYr/E0AnWXrk5N2Id7i4hUBZLXqVkiD2h05
-	 juDZ8bHQ3wnAadly2hPgoJPRjMIgmC0+N+XfFUKKwb8/st0K6ZkTfRokeIXbQhanU3w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jeXSv67P;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793159684;
+	b=M7mCc6rAx8O1d2j8bM6i8OV5+islgYXATyDQ7Xo0hZ6OoBQY0h89iKXuJdB7Ayw1j1oA
+	 LD35+BCLKdXm8HfrQx7YS8v7UUOfij61RAY5ipipVtSSrBKdZAl68NKZg8Soux2oxc6dj
+	 WciFhBgygBZmO98+Cox8lDUa5ryoZamG05NLtPrinYVp2DjXkGCuRUEsMZmr4PnxrVK/d
+	 GanK7yEj5x9j+X56m3dgEBkBtegy1829TkLZ/WxvIEUu/6lyiQvRRH96v/ONb+th0e38B
+	 JUUKVNKWL2kNWYL/jw7S7CdhkScy69AkfFAX1fzXUGwQfwF/VuwxzprPBQNiYKb6Y8A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793159684;
+	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
+	 Received:Subject:To:Cc:References:From:Organization:Message-ID:Date:
+	 X-Mailer:MIME-Version:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
+	b=qpjFcE2wOuAPxghR4LczyIH16957UVL4FkkkIzFyZqFNmG8jNlFPwzziLZyEqVzwcnmU
+	 YEptpxHQLi6eA/f1Uk5eS53xdGkddcwG+ilR9iHDCfxasS9A5OJcaSTd0pBWsE29Rzyth
+	 f6EKZH93d8yH2Eo5azmargYtDE7+3FlsXo9XmIZHH8jGUJAmEsGLNvxuCS6hJWIzmfmQo
+	 ynE6Up8slHIMsIumGHF1Vz4lji+M5CUHKhj6LYgD0yGOE5gKIAh31khPzOgXCFjIbQXJe
+	 Zv3aU849zr3BgmJzuPhjCkLo2W1G/Cx3Q5aWu+wvdIUea54hIwkv/kPp3TRSVNtS5ug==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=xenosoft.de;
+	spf=none smtp.mailfrom=xenosoft.de;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=RjGDVltN;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=AHRMsllZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.51
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FDC606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 03:53:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83FDC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8876B606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 03:54:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8876B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jeXSv67P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793159589; x=1824695589;
-  h=date:from:to:cc:subject:message-id;
-  bh=hYNRE7U1DQ7tNrnxbypOycM/9EX4a3XHEaV8EA8klCw=;
-  b=jeXSv67PSsHWGAB57ZKdhPvcxWhVUG2ByRvlhzGN1Tty10VEA/GzZJTr
-   9NkOC+OxVz4GG7aNpiZe7AD8NI0UJFFhqMD51RYojq7NYncD0GbRfyaZ+
-   UX42DjhdyDzMQys0bAcosEb6Tm5heHf0ffrRZtE14gEXJNLydFNNJHQrs
-   nTSI6RMMY6SYkcKvTTgfDvOs0c9DFr5beQqxKRM5WMFgThvvktL7FB9Lb
-   bmXNWjatnvT2UV7HumHR65kbU7wZhlBOFxiaHA2MhKAgtSE6b4bjEce8n
-   mYijLCOSbEyKjJJXHcVfcQGKEvvSXG6TXOaEgFFGQXWYf6So2RJr7eDwk
-   Q==;
-X-CSE-ConnectionGUID: qmSIdn60TO6p6j9W+5XX9Q==
-X-CSE-MsgGUID: Le5LNRxsTR+HHrVbtwXqAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1873121"
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1873121"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 20:53:09 -0700
-X-CSE-ConnectionGUID: ZpID3l5iT/eZpj6Bvoji2Q==
-X-CSE-MsgGUID: 8GjErwAPTwiX63XYigV6wA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="5065783"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Oct 2026 20:53:01 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xLuid-00000000Y8K-0HM5;
-	Wed, 28 Oct 2026 03:52:55 +0000
-Date: Wed, 28 Oct 2026 11:52:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 353/353]
- mm/memory.c:5148: warning: Function parameter or member 'mm' not described in
- 'mm_account_fault'
-Message-ID: <202610281141.i9gucIrI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=RjGDVltN;
+	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=AHRMsllZ
+ARC-Seal: i=1; a=rsa-sha256; t=1793159627; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=c4mN3i2uNU+04aJPbvyBaU6I7N5YzApmRxylPPLOuWoQ0U8eDuryKuomZWdDF6Go5r
+    T6vNYq6HXyRTJX5A1TFemyAayF3auVKwvkhrZMPozriOS2HNBReNWR1U02gsNpmRn/cD
+    3WFmXX4/HsBcyMumg3vawo9JiGAPUDZD80Q2TG3EiQk42omXsO+7ogn4XVyPwn+DRL2p
+    vVbqnwGUpeP5jV2g4m/i230OSUCOBQnPOa1adnxM9mL62iiDc6LY4gKJK5PY+aBdMoD0
+    zG5tK2E2DjOfKtjeLHWaR21k+Ywcqyuuqpier3RD3pS2pVLmdCWaHUr3Cu/tlONLwXJg
+    4GtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1793159627;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
+    b=EzGIGlKM+TQbpvf/KQ95eZA1pmouxZCRTCosdbgWdjbh0szWZNelxh/pxrvBSK+4jD
+    6lZtx2cnyu7dmU9pBnCitLyPN/Jm2fv9EknpwPeWthfPuHTMAnwWdHsuEzeP1+86hwsW
+    Pq4F+P9mHkfuCZYkNLmoWm3ZgW+1ILTT9UT4PliiJfQyO5fZRodDEoPx1MAjr29Rv+nz
+    bEjGBcILkPbrCM6J/LS0gMkDkRvCuKOknPERKVpm0Rb3inDbp06+hyc7LJHMLF6MVZHs
+    7fh2BdxCm8yEW/eXJx6GhgBR6CTPB4RhFEKJg9V1M/ejZKGHlxBZViVOser8ysgCUN7D
+    d/Zw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793159627;
+    s=strato-dkim-0002; d=xenosoft.de;
+    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
+    b=RjGDVltNBVIsR64C2thO1D6B6Ng2r4KuHEm7rh9IB8+3LPeYRQmIdhhSsDfq+TIt5U
+    62eiAMFQb8ju6Txscs3bGl1wqx/NqXZ0529j6MQOhFwXAV1WDp8Trp1E5Ma1fqqGWf5f
+    ECzEhqvkj0wke7sutUyIJmhXusXPg1M5d+JtjL9xfXpl0bmErt8UA/aUim3MGh8xH70A
+    6K92/sevpYP6TwnvNJC0qZ0KTqfcX1Ic9YAq2cFGEumNBDOkYBfW87zeBzV8Vch+qOtI
+    XA6ZyadozneZ2vDc2CzRtnSknFm9EJf9jLPpWZKe4MMcQJQMGQSQZh5U1qGvGxI0QDKw
+    wCXA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793159627;
+    s=strato-dkim-0003; d=xenosoft.de;
+    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
+    b=AHRMsllZWqLmmHntNaHylTMmq+VVWfBAyCjpVCu6g5gAkwbEeYFtXtOQffBNzTm8Ff
+    eg7eaLWzfs1GvRZVEqCA==
+X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr4thIFiqT9BURIS+t6nc="
+Received: from void-ppc.a-eon.tld
+    by smtp.strato.de (RZmta 55.6.3 DYNA|AUTH)
+    with ESMTPSA id e825d929S3rjnsu
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Wed, 28 Oct 2026 04:53:45 +0100 (CET)
+Subject: [PATCH] powerpc/pasemi: Defer Nemo IRQ initialization
+To: maddy@linux.ibm.com, mpe@ellerman.id.au, linuxppc-dev@lists.ozlabs.org
+Cc: npiggin@gmail.com, Christian Zigotzky A-EON Open Source
+ <info@xenosoft.de>, Darren Stevens <darren@stevens-zone.net>,
+ "R.T.Dickinson" <rtd2@xtra.co.nz>, mad skateman <madskateman@gmail.com>,
+ Damien Stewart <hypexed@yahoo.com.au>, oe-kbuild-all@lists.linux.dev,
+ Philip Li <philip.li@intel.com>
+References: <20261024075519.18877-1-chzigotzky@xenosoft.de>
+From: Christian Zigotzky <chzigotzky@xenosoft.de>
+Organization: A-EON Open Source
+Message-ID: <7cf987e2-0ac7-f523-21a9-b340f10dc592@xenosoft.de>
+Date: Wed, 28 Oct 2026 04:53:45 +0100
+X-Mailer: BrassMonkey/35.0.2
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,109 +105,115 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+In-Reply-To: <20261024075519.18877-1-chzigotzky@xenosoft.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Suren,
+Hi all,
 
-FYI, the error/warning still remains.
+I have created a new patch. I hope it is OK. It works without any problems.
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   0951885c34a0e48adda08777b026c61fed9613ea
-commit: a264d8efcb8f7231898dc4cb306ef8e20e6e285e [353/353] BACKPORT: mm: do not increment pgfault stats when page fault handler retries
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20261028/202610281141.i9gucIrI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281141.i9gucIrI-lkp@intel.com/reproduce)
+Thanks,
+Christian
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610281141.i9gucIrI-lkp@intel.com/
+On 24/10/26 09:55, chzigotzky@xenosoft.de wrote:
+> From: Christian Zigotzky A-EON Open Source <info@xenosoft.de>
+>
+> Since pas_pci_init() is now called later during boot, the i8259
+> initialization in pas_init_IRQ() happens too early and accesses
+> registers that are not yet mapped, preventing the board from booting.
+>
+> Move the Nemo-specific i8259 initialization to pas_add_bridge(),
+> after the ISA bridge has been discovered.
+>
+> Suggested-by: Darren Stevens <darren@stevens-zone.net>
+> Tested-by: Christian Zigotzky <chzigotzky@xenosoft.de>
+> Signed-off-by: Christian Zigotzky A-EON Open Source <info@xenosoft.de>
+> ---
+>   arch/powerpc/platforms/pasemi/pasemi.h |  6 ++++++
+>   arch/powerpc/platforms/pasemi/pci.c    |  5 +++++
+>   arch/powerpc/platforms/pasemi/setup.c  | 12 ++++--------
+>   3 files changed, 15 insertions(+), 8 deletions(-)
+>
+> diff --git a/arch/powerpc/platforms/pasemi/pasemi.h b/arch/powerpc/platforms/pasemi/pasemi.h
+> index 6f6743b8e48d..01bcfa258625 100644
+> --- a/arch/powerpc/platforms/pasemi/pasemi.h
+> +++ b/arch/powerpc/platforms/pasemi/pasemi.h
+> @@ -7,6 +7,12 @@ extern void pas_pci_init(void);
+>   struct pci_dev;
+>   extern void pas_pci_dma_dev_setup(struct pci_dev *dev);
+>   
+> +#ifdef CONFIG_PPC_PASEMI_NEMO
+> +void __init nemo_init_IRQ(void);
+> +#else
+> +static inline void __init nemo_init_IRQ(void) { }
+> +#endif
+> +
+>   void __iomem *__init pasemi_pci_getcfgaddr(struct pci_dev *dev, int offset);
+>   
+>   extern void __init pasemi_map_registers(void);
+> diff --git a/arch/powerpc/platforms/pasemi/pci.c b/arch/powerpc/platforms/pasemi/pci.c
+> index 2df955274652..fb53782da7ec 100644
+> --- a/arch/powerpc/platforms/pasemi/pci.c
+> +++ b/arch/powerpc/platforms/pasemi/pci.c
+> @@ -265,6 +265,11 @@ static int __init pas_add_bridge(struct device_node *dev)
+>   	 */
+>   	isa_bridge_find_early(hose);
+>   
+> +	/*
+> +	 * ISA bridge is now active, add the i8259 cascade (if needed)
+> +	 */
+> +	nemo_init_IRQ();
+> +
+>   	return 0;
+>   }
+>   
+> diff --git a/arch/powerpc/platforms/pasemi/setup.c b/arch/powerpc/platforms/pasemi/setup.c
+> index 45792ecd5dfd..7a961f2a228f 100644
+> --- a/arch/powerpc/platforms/pasemi/setup.c
+> +++ b/arch/powerpc/platforms/pasemi/setup.c
+> @@ -216,10 +216,12 @@ static void sb600_8259_cascade(struct irq_desc *desc)
+>   	chip->irq_eoi(&desc->irq_data);
+>   }
+>   
+> -static void __init nemo_init_IRQ(struct mpic *mpic)
+> +void __init nemo_init_IRQ(void)
+>   {
+>   	struct device_node *np;
+>   	int gpio_virq;
+> +	struct mpic *mpic;
+> +
+>   	/* Connect the SB600's legacy i8259 controller */
+>   	np = of_find_node_by_path("/pxp@0,e0000000");
+>   	i8259_init(np, 0);
+> @@ -230,14 +232,10 @@ static void __init nemo_init_IRQ(struct mpic *mpic)
+>   	irq_set_chained_handler(gpio_virq, sb600_8259_cascade);
+>   	mpic_unmask_irq(irq_get_irq_data(gpio_virq));
+>   
+> +	mpic = irq_get_chip_data(gpio_virq);
+>   	irq_set_default_domain(mpic->irqhost);
+>   }
+>   
+> -#else
+> -
+> -static inline void nemo_init_IRQ(struct mpic *mpic)
+> -{
+> -}
+>   #endif
+>   
+>   static __init void pas_init_IRQ(void)
+> @@ -300,8 +298,6 @@ static __init void pas_init_IRQ(void)
+>   		mpic_unmask_irq(irq_get_irq_data(nmi_virq));
+>   	}
+>   
+> -	nemo_init_IRQ(mpic);
+> -
+>   	of_node_put(mpic_node);
+>   	of_node_put(root);
+>   }
 
-All warnings (new ones prefixed by >>):
 
-   mm/memory.c:1714: warning: Function parameter or member 'start_t' not described in 'unmap_vmas'
-   mm/memory.c:1714: warning: Function parameter or member 'end_t' not described in 'unmap_vmas'
-   mm/memory.c:1714: warning: Function parameter or member 'mm_wr_locked' not described in 'unmap_vmas'
->> mm/memory.c:5148: warning: Function parameter or member 'mm' not described in 'mm_account_fault'
+-- 
+Sent with BrassMonkey 35.0.2 (https://github.com/chzigotzky/Web-Browsers-and-Suites-for-Linux-PPC/releases/tag/BrassMonkey_35.0.2)
 
-
-vim +5148 mm/memory.c
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  5129  
-bce617edecada0 Peter Xu           2020-08-11  5130  /**
-f0953a1bbaca71 Ingo Molnar        2021-05-06  5131   * mm_account_fault - Do page fault accounting
-bce617edecada0 Peter Xu           2020-08-11  5132   *
-bce617edecada0 Peter Xu           2020-08-11  5133   * @regs: the pt_regs struct pointer.  When set to NULL, will skip accounting
-bce617edecada0 Peter Xu           2020-08-11  5134   *        of perf event counters, but we'll still do the per-task accounting to
-bce617edecada0 Peter Xu           2020-08-11  5135   *        the task who triggered this page fault.
-bce617edecada0 Peter Xu           2020-08-11  5136   * @address: the faulted address.
-bce617edecada0 Peter Xu           2020-08-11  5137   * @flags: the fault flags.
-bce617edecada0 Peter Xu           2020-08-11  5138   * @ret: the fault retcode.
-bce617edecada0 Peter Xu           2020-08-11  5139   *
-f0953a1bbaca71 Ingo Molnar        2021-05-06  5140   * This will take care of most of the page fault accounting.  Meanwhile, it
-bce617edecada0 Peter Xu           2020-08-11  5141   * will also include the PERF_COUNT_SW_PAGE_FAULTS_[MAJ|MIN] perf counter
-f0953a1bbaca71 Ingo Molnar        2021-05-06  5142   * updates.  However, note that the handling of PERF_COUNT_SW_PAGE_FAULTS should
-bce617edecada0 Peter Xu           2020-08-11  5143   * still be in per-arch page fault handlers at the entry of page fault.
-bce617edecada0 Peter Xu           2020-08-11  5144   */
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5145  static inline void mm_account_fault(struct mm_struct *mm, struct pt_regs *regs,
-bce617edecada0 Peter Xu           2020-08-11  5146  				    unsigned long address, unsigned int flags,
-bce617edecada0 Peter Xu           2020-08-11  5147  				    vm_fault_t ret)
-bce617edecada0 Peter Xu           2020-08-11 @5148  {
-bce617edecada0 Peter Xu           2020-08-11  5149  	bool major;
-bce617edecada0 Peter Xu           2020-08-11  5150  
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5151  	/* Incomplete faults will be accounted upon completion. */
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5152  	if (ret & VM_FAULT_RETRY)
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5153  		return;
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5154  
-bce617edecada0 Peter Xu           2020-08-11  5155  	/*
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5156  	 * To preserve the behavior of older kernels, PGFAULT counters record
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5157  	 * both successful and failed faults, as opposed to perf counters,
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5158  	 * which ignore failed cases.
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5159  	 */
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5160  	count_vm_event(PGFAULT);
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5161  	count_memcg_event_mm(mm, PGFAULT);
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5162  
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5163  	/*
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5164  	 * Do not account for unsuccessful faults (e.g. when the address wasn't
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5165  	 * valid).  That includes arch_vma_access_permitted() failing before
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5166  	 * reaching here. So this is not a "this many hardware page faults"
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5167  	 * counter.  We should use the hw profiling for that.
-bce617edecada0 Peter Xu           2020-08-11  5168  	 */
-a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5169  	if (ret & VM_FAULT_ERROR)
-bce617edecada0 Peter Xu           2020-08-11  5170  		return;
-bce617edecada0 Peter Xu           2020-08-11  5171  
-bce617edecada0 Peter Xu           2020-08-11  5172  	/*
-bce617edecada0 Peter Xu           2020-08-11  5173  	 * We define the fault as a major fault when the final successful fault
-bce617edecada0 Peter Xu           2020-08-11  5174  	 * is VM_FAULT_MAJOR, or if it retried (which implies that we couldn't
-bce617edecada0 Peter Xu           2020-08-11  5175  	 * handle it immediately previously).
-bce617edecada0 Peter Xu           2020-08-11  5176  	 */
-bce617edecada0 Peter Xu           2020-08-11  5177  	major = (ret & VM_FAULT_MAJOR) || (flags & FAULT_FLAG_TRIED);
-bce617edecada0 Peter Xu           2020-08-11  5178  
-a2beb5f1efede6 Peter Xu           2020-08-11  5179  	if (major)
-a2beb5f1efede6 Peter Xu           2020-08-11  5180  		current->maj_flt++;
-a2beb5f1efede6 Peter Xu           2020-08-11  5181  	else
-a2beb5f1efede6 Peter Xu           2020-08-11  5182  		current->min_flt++;
-a2beb5f1efede6 Peter Xu           2020-08-11  5183  
-bce617edecada0 Peter Xu           2020-08-11  5184  	/*
-a2beb5f1efede6 Peter Xu           2020-08-11  5185  	 * If the fault is done for GUP, regs will be NULL.  We only do the
-a2beb5f1efede6 Peter Xu           2020-08-11  5186  	 * accounting for the per thread fault counters who triggered the
-a2beb5f1efede6 Peter Xu           2020-08-11  5187  	 * fault, and we skip the perf event updates.
-bce617edecada0 Peter Xu           2020-08-11  5188  	 */
-bce617edecada0 Peter Xu           2020-08-11  5189  	if (!regs)
-bce617edecada0 Peter Xu           2020-08-11  5190  		return;
-bce617edecada0 Peter Xu           2020-08-11  5191  
-a2beb5f1efede6 Peter Xu           2020-08-11  5192  	if (major)
-bce617edecada0 Peter Xu           2020-08-11  5193  		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MAJ, 1, regs, address);
-a2beb5f1efede6 Peter Xu           2020-08-11  5194  	else
-bce617edecada0 Peter Xu           2020-08-11  5195  		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MIN, 1, regs, address);
-bce617edecada0 Peter Xu           2020-08-11  5196  }
-bce617edecada0 Peter Xu           2020-08-11  5197  
-
-:::::: The code at line 5148 was first introduced by commit
-:::::: bce617edecada007aee8610fbe2c14d10b8de2f6 mm: do page fault accounting in handle_mm_fault
-
-:::::: TO: Peter Xu <peterx@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
