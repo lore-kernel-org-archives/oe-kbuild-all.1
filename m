@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793161690;
-	b=PYy+Gl9HnMx7ZknlpByVadqtA3tA4uBBZfeFUTCszXXwrs+IZx4wYPgX9sZR3+NQ5mUg
-	 qksi7ioM7Vd1FWeT6WkmktG8X1m+9pfXkNJuSmapmzFCNRnPFBknKDAmM0rXd1mGl6zDZ
-	 5LtasEiifwLsJtwQhy2mvkbryWVuBdHTTO4PgPcadBdkBJyMlq97C4gWwH36TOgEamSXJ
-	 HiDQ3MF37FG2V6Kh/JNAxRvS4cpyYvS4k69caJ5E623TS6BqEtOdDWUw718BRddfjzVpD
-	 xRRh9xsS6stV2UZu/XUmpUkSNSt4uLF+tFZiziNPUGeQ4HG3+dQOU6bxcvw/CIeNoSQ==
+	t=1793162184;
+	b=DViWqcSScvNV33XARhxlEOrSYIKvyUal4I/GFF5KyeTF8bpn9Xb7LQKOwNpDwtL4rj6b
+	 gK7PmcNkAqC5FwoanFDQmIpoltH7SLMfsRGqYTQ9VpL7UzcaO1E3wln/uCU6xOCFbtEcJ
+	 awH2xbmrzaXLccrKCYaypbVGMRvxt+M8yN9IlaXWTPlsE/MUS3RrtezT5GiCZkL4TwLxe
+	 8HJGdX5r9ZVmGGGdg2EfIo7eFZzeW6d1TTdC/5LcnU8qkO3o108SqWVnaxXFP6nzxZLQH
+	 q1/EQvvA5/WnDpMsNhE2GHZ7MVfcs92B5iy6D3p7ZLXya8wVN8vwULuqRaU6nAj5dYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793161690;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793162184;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=f11pBDw3ynSRUKGw7GQ5i7tK3JlV2ws1fuasotK4CUo=;
-	b=ZZmLZoVKoua/4CpbOUSb0c6yObBpAQPerUgYRFWyt6sKU/vYskuYuOXQ+6Wew5WV9UNd
-	 tG0w+J/eUYZ1EeHLN1IikDy/NP7S/s6tFRma2BR16MBySHN264+TK/mgFy0nUhmckS1SP
-	 QcyYeh43Dl6dyxoMFcSp9LDTmHUmilzc6DAxuM+MMGk41MI0TwDrz1eFpvtizhgHTKTcs
-	 yP23O/e0Abmu5sD7WMDqlI2EyWfYFxpSDEBQ3zdEIjsChHm/nM2B7N2pOqGHGgWgx/Z3p
-	 1yThGZyMgQHVO8aEGuL1VVQSVlWyXXjGVVgHRwHqCn/5o4gxXFu9fFbvmlM3LqZpg6g==
+	bh=j1wQ4YjAt0HAxTKF93leHHMf3nC/7mAqjXYSd2aKTDE=;
+	b=Fb17XSmUWSJhtYMprMcInLoWTh3O40272t23rFEpACEDMBX8eIRoZ+8o8mxpzdzg3UBT
+	 iguVAoRqVbL0DpeXDccRyK73RLUAHWcrBLlJBfY6IUiegQF9yN0O4HP697sBqUK60rAIy
+	 Lk5gHoV7JiEkuecFvdq4rQYUNseQW6QqPfPcbQiSUshlyatlkbSYJEF7opjwrsf85NTH8
+	 4DcAhOlnB/YlDZNcl1BvcpPrQ/9wnnfBkCaHdnO90DZQ9KJ/N3aCIevXtFWUZWMwznHmc
+	 EYCL+WHM3unrp6p4F0MfBwWOiewFVQICE0azs4cPtu2axpsTF3dI/lY5P4WPY1FlquQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G8Ufdwus;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Yz6Tr7sY;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589BE606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 04:28:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 589BE606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD8B606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 04:36:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AD8B606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G8Ufdwus
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Yz6Tr7sY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793161690; x=1824697690;
+  t=1793162184; x=1824698184;
   h=date:from:to:cc:subject:message-id;
-  bh=fSHd7BBHeWVfS6hcrUWpbjWpHxp38rPEfAZkvoa+JI0=;
-  b=G8Ufdwus2zt/u+98iBykmzaKbG2CDgy6d/49vPbE71bKhWvxqza2dgTN
-   Kx7isKHf6poI28EChHBG2GmCUcwM9Bklx+PXAM2vJQzjI7ElST1t7WfZ8
-   90XfWG4uep7azmC1Kb+nNPDERXnQlHh8DZH9i9PiuUOx9xmngTKwI7wMw
-   Thg4vSYZEuwvYn5PajpPkrjHd1gttWIkImNMmUToNaAIfRux4vX58T2YC
-   b9tyrsQGy0C+8IRqU+y0Zo5kYjXTeRYSSIIm1vmS7kGXCyuRK6Wr/OEOa
-   CZWBhR0FTAuynGlRN0Lde8tq6kic4myFMCItgcQD3s13+2+3J/4P5zqNJ
-   w==;
-X-CSE-ConnectionGUID: mKquxKAFRSGbZsWyH+1f7g==
-X-CSE-MsgGUID: DDtIH+3GTcCGtzO9g+n2sA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1899453"
+  bh=ciGgeQbZShGPPjMHuEYWXmMHUNKEdSThEFiVq54UW2k=;
+  b=Yz6Tr7sYxtG1FqhkXKLKDRwJ2LDTN+SCvg6W/Ayjp297/az9RH1x2VPM
+   3/+j9PppbVGO2KLbd79Un5wBdJTRL+5Gq91o9GRSxXivgvwmXn1OvXvFe
+   SO/HB34qg2ZS5bjVQbbvsnoSVF680Uo97ve+wz3twzAmdJarA8jUe+8dn
+   nVblDsfGGjgDAGv5PICekECYfH0dwhZF7RP31AYfm6rSKIPir5lYz1t8Z
+   vvvEWjw000FYGO5Tk9sQPtxyN2Hpv05DWZbS5EVpwkVDRfwwQFqa1iVQw
+   GK+AOhj7kKjNRw9aDLhskv2DjGC8P3wDlAvIlr2oUfNQZBjMq2F9OXhj3
+   A==;
+X-CSE-ConnectionGUID: 3/oo0/QUQSSKuWJoPXlDVQ==
+X-CSE-MsgGUID: iDf6Yo+sQCuyYNhHxWRM+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1980219"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1899453"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 21:28:09 -0700
-X-CSE-ConnectionGUID: jUv2oaesShOdI+HocUHZtg==
-X-CSE-MsgGUID: UOT01OvWSiydrqJHBQyg1g==
+   d="scan'208";a="1980219"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 21:36:23 -0700
+X-CSE-ConnectionGUID: jhnmyLOCTNKNdi31/lcReg==
+X-CSE-MsgGUID: ynFuZpMDTLyJPiiee5OWHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="6498811"
+   d="scan'208";a="4863020"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 27 Oct 2026 21:28:07 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 27 Oct 2026 21:36:18 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xLvGe-00000000YBP-2zWs;
-	Wed, 28 Oct 2026 04:28:04 +0000
-Date: Wed, 28 Oct 2026 12:27:19 +0800
+	id 1xLvOZ-00000000YDc-2Yzi;
+	Wed, 28 Oct 2026 04:36:15 +0000
+Date: Wed, 28 Oct 2026 12:35:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2026-04 0/1]
- lib/sbitmap.c:104: warning: Function parameter or member 'sb' not described
- in 'sbitmap_spinlock'
-Message-ID: <202610281213.v9uf2IFP-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:7.3-rsslro3 3/17]
+ utils/firmware/aeonsemi/as21x1x_fw_1.8.5.bin: warning: ignored by one of the
+ .gitignore files
+Message-ID: <202610281214.43GSaSKS-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,93 +81,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Bart,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-04
-head:   7da6ff620cd4f55d97a6bce32fbce1aea0da6484
-commit: 05baf38affa65735b6698f089e82af7c0e17b349 [0/1] ANDROID: sbitmap: Fix sbitmap_spinlock()
-config: i386-randconfig-1003-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281213.v9uf2IFP-lkp@intel.com/config)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.3-rsslro3
+head:   1e2ab754d102ac67e5c12206bd1b87738f807ab6
+commit: 3a1d90cc8bccb2c478fe2df039404d7431ed8e13 [3/17] build.sh/defconfig
+config: x86_64-buildonly-randconfig-1003-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281214.43GSaSKS-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281213.v9uf2IFP-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281214.43GSaSKS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610281213.v9uf2IFP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610281214.43GSaSKS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/sbitmap.c:104: warning: Function parameter or member 'sb' not described in 'sbitmap_spinlock'
->> lib/sbitmap.c:104: warning: Excess function parameter 'map' description in 'sbitmap_spinlock'
->> lib/sbitmap.c:104: warning: Excess function parameter 'map_nr' description in 'sbitmap_spinlock'
-
-
-vim +104 lib/sbitmap.c
-
-bf2c4282a10a92 Ming Lei        2021-01-22   59  
-783d6780cd6684 Yang Yang       2024-07-16   60  /**
-783d6780cd6684 Yang Yang       2024-07-16   61   * sbitmap_spinlock() - Get the spinlock corresponding to sbitmap_work.
-783d6780cd6684 Yang Yang       2024-07-16   62   * @map: The memory address of the index sbitmap_work area.
-783d6780cd6684 Yang Yang       2024-07-16   63   * @map_nr: Number of words (cachelines) being used for the bitmap.
-783d6780cd6684 Yang Yang       2024-07-16   64   * @index: The index of the spinlock.
-783d6780cd6684 Yang Yang       2024-07-16   65   *
-783d6780cd6684 Yang Yang       2024-07-16   66   * this lock: serializes simultaneous updates of ->word and ->cleared.
-783d6780cd6684 Yang Yang       2024-07-16   67   * sbitmap_spinlock is for checking on ->cleared and updating on both
-783d6780cd6684 Yang Yang       2024-07-16   68   * ->cleared and ->word need to be done atomically.
-783d6780cd6684 Yang Yang       2024-07-16   69   *  Prevent the following situations from causing block:
-783d6780cd6684 Yang Yang       2024-07-16   70   * Configuration for sbq:
-783d6780cd6684 Yang Yang       2024-07-16   71   * depth=64, wake_batch=6, shift=6, map_nr=1
-783d6780cd6684 Yang Yang       2024-07-16   72   *
-783d6780cd6684 Yang Yang       2024-07-16   73   * 1. There are 64 requests in progress:
-783d6780cd6684 Yang Yang       2024-07-16   74   * map->word = 0xFFFFFFFFFFFFFFFF
-783d6780cd6684 Yang Yang       2024-07-16   75   * 2. After all the 64 requests complete, and no more requests come:
-783d6780cd6684 Yang Yang       2024-07-16   76   * map->word = 0xFFFFFFFFFFFFFFFF, map->cleared = 0xFFFFFFFFFFFFFFFF
-783d6780cd6684 Yang Yang       2024-07-16   77   * 3. Now two tasks try to allocate requests:
-783d6780cd6684 Yang Yang       2024-07-16   78   * T1:                                       T2:
-783d6780cd6684 Yang Yang       2024-07-16   79   * __blk_mq_get_tag                          .
-783d6780cd6684 Yang Yang       2024-07-16   80   * __sbitmap_queue_get                       .
-783d6780cd6684 Yang Yang       2024-07-16   81   * sbitmap_get                               .
-783d6780cd6684 Yang Yang       2024-07-16   82   * sbitmap_find_bit                          .
-783d6780cd6684 Yang Yang       2024-07-16   83   * sbitmap_find_bit_in_word                  .
-783d6780cd6684 Yang Yang       2024-07-16   84   * sbitmap_get_word  -> nr=-1              __blk_mq_get_tag
-783d6780cd6684 Yang Yang       2024-07-16   85   * sbitmap_deferred_clear                    __sbitmap_queue_get
-783d6780cd6684 Yang Yang       2024-07-16   86   * //map->cleared=0xFFFFFFFFFFFFFFFF         sbitmap_find_bit
-783d6780cd6684 Yang Yang       2024-07-16   87   *   if (!READ_ONCE(map->cleared))           sbitmap_find_bit_in_word
-783d6780cd6684 Yang Yang       2024-07-16   88   *     return false;                         __sbitmap_get_word -> nr=-1
-783d6780cd6684 Yang Yang       2024-07-16   89   * mask = xchg(&map->cleared, 0)             sbitmap_deferred_clear
-783d6780cd6684 Yang Yang       2024-07-16   90   * atomic_long_andnot()                      // map->cleared=0
-783d6780cd6684 Yang Yang       2024-07-16   91   *                                             if (!(map->cleared))
-783d6780cd6684 Yang Yang       2024-07-16   92   *                                               return false;
-783d6780cd6684 Yang Yang       2024-07-16   93   *
-783d6780cd6684 Yang Yang       2024-07-16   94   *                                    // map->cleared is cleared by T1
-783d6780cd6684 Yang Yang       2024-07-16   95   *                                    // T2 fail to acquire the tag
-783d6780cd6684 Yang Yang       2024-07-16   96   *
-783d6780cd6684 Yang Yang       2024-07-16   97   * 4. T2 is the sole tag waiter. When T1 puts the tag, T2 cannot be woken
-783d6780cd6684 Yang Yang       2024-07-16   98   * up due to the wake_batch being set at 6. If no more requests come, T1
-783d6780cd6684 Yang Yang       2024-07-16   99   * will wait here indefinitely.
-783d6780cd6684 Yang Yang       2024-07-16  100   *
-783d6780cd6684 Yang Yang       2024-07-16  101   * Return: Returns the spinlock corresponding to index.
-783d6780cd6684 Yang Yang       2024-07-16  102   */
-05baf38affa657 Bart Van Assche 2025-04-03  103  static spinlock_t *sbitmap_spinlock(struct sbitmap *sb, unsigned int index)
-783d6780cd6684 Yang Yang       2024-07-16 @104  {
-05baf38affa657 Bart Van Assche 2025-04-03  105  	const unsigned int max_map_nr = *(unsigned int *)&sb->map[-1];
-05baf38affa657 Bart Van Assche 2025-04-03  106  	spinlock_t *const base_lock = (spinlock_t *)
-05baf38affa657 Bart Van Assche 2025-04-03  107  		round_up((uintptr_t)&sb->map[max_map_nr],
-05baf38affa657 Bart Van Assche 2025-04-03  108  			 __alignof__(spinlock_t));
-05baf38affa657 Bart Van Assche 2025-04-03  109  
-05baf38affa657 Bart Van Assche 2025-04-03  110  	WARN_ON_ONCE(index < 0 || index >= sb->map_nr);
-783d6780cd6684 Yang Yang       2024-07-16  111  
-783d6780cd6684 Yang Yang       2024-07-16  112  	return &base_lock[index];
-783d6780cd6684 Yang Yang       2024-07-16  113  }
-783d6780cd6684 Yang Yang       2024-07-16  114  
-
-:::::: The code at line 104 was first introduced by commit
-:::::: 783d6780cd66848c96945c8143a808a2b98c9836 ANDROID: Fixed the KMI corruption issue caused by the patch of 72d04bdcf3f7.
-
-:::::: TO: Yang Yang <yang.yang@vivo.com>
-:::::: CC: Todd Kjos <tkjos@google.com>
+   Documentation/.renames.txt: warning: ignored by one of the .gitignore files
+   utils/firmware/aeonsemi/as21x1x_fw.bin: warning: ignored by one of the .gitignore files
+>> utils/firmware/aeonsemi/as21x1x_fw_1.8.5.bin: warning: ignored by one of the .gitignore files
+   utils/firmware/aeonsemi/as21x1x_fw_1.9.1.bin: warning: ignored by one of the .gitignore files
+   utils/firmware/aeonsemi/as21x1x_fw_1.9.2.bin: warning: ignored by one of the .gitignore files
+   utils/firmware/airoha/EthMD32.DSP.bin: warning: ignored by one of the .gitignore files
+   utils/firmware/airoha/EthMD32.dm.bin: warning: ignored by one of the .gitignore files
+   utils/firmware/mediatek/mt7987/i2p5ge-phy-DSPBitTb.bin: warning: ignored by one of the .gitignore files
+   utils/firmware/mediatek/mt7987/i2p5ge-phy-pmb.bin: warning: ignored by one of the .gitignore files
 
 --
 0-DAY CI Kernel Test Service
