@@ -1,102 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793159684;
-	b=M7mCc6rAx8O1d2j8bM6i8OV5+islgYXATyDQ7Xo0hZ6OoBQY0h89iKXuJdB7Ayw1j1oA
-	 LD35+BCLKdXm8HfrQx7YS8v7UUOfij61RAY5ipipVtSSrBKdZAl68NKZg8Soux2oxc6dj
-	 WciFhBgygBZmO98+Cox8lDUa5ryoZamG05NLtPrinYVp2DjXkGCuRUEsMZmr4PnxrVK/d
-	 GanK7yEj5x9j+X56m3dgEBkBtegy1829TkLZ/WxvIEUu/6lyiQvRRH96v/ONb+th0e38B
-	 JUUKVNKWL2kNWYL/jw7S7CdhkScy69AkfFAX1fzXUGwQfwF/VuwxzprPBQNiYKb6Y8A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793159684;
-	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
-	 Received:Subject:To:Cc:References:From:Organization:Message-ID:Date:
-	 X-Mailer:MIME-Version:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
-	b=qpjFcE2wOuAPxghR4LczyIH16957UVL4FkkkIzFyZqFNmG8jNlFPwzziLZyEqVzwcnmU
-	 YEptpxHQLi6eA/f1Uk5eS53xdGkddcwG+ilR9iHDCfxasS9A5OJcaSTd0pBWsE29Rzyth
-	 f6EKZH93d8yH2Eo5azmargYtDE7+3FlsXo9XmIZHH8jGUJAmEsGLNvxuCS6hJWIzmfmQo
-	 ynE6Up8slHIMsIumGHF1Vz4lji+M5CUHKhj6LYgD0yGOE5gKIAh31khPzOgXCFjIbQXJe
-	 Zv3aU849zr3BgmJzuPhjCkLo2W1G/Cx3Q5aWu+wvdIUea54hIwkv/kPp3TRSVNtS5ug==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=xenosoft.de;
-	spf=none smtp.mailfrom=xenosoft.de;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=RjGDVltN;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=AHRMsllZ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.51
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793161690;
+	b=PYy+Gl9HnMx7ZknlpByVadqtA3tA4uBBZfeFUTCszXXwrs+IZx4wYPgX9sZR3+NQ5mUg
+	 qksi7ioM7Vd1FWeT6WkmktG8X1m+9pfXkNJuSmapmzFCNRnPFBknKDAmM0rXd1mGl6zDZ
+	 5LtasEiifwLsJtwQhy2mvkbryWVuBdHTTO4PgPcadBdkBJyMlq97C4gWwH36TOgEamSXJ
+	 HiDQ3MF37FG2V6Kh/JNAxRvS4cpyYvS4k69caJ5E623TS6BqEtOdDWUw718BRddfjzVpD
+	 xRRh9xsS6stV2UZu/XUmpUkSNSt4uLF+tFZiziNPUGeQ4HG3+dQOU6bxcvw/CIeNoSQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793161690;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=f11pBDw3ynSRUKGw7GQ5i7tK3JlV2ws1fuasotK4CUo=;
+	b=ZZmLZoVKoua/4CpbOUSb0c6yObBpAQPerUgYRFWyt6sKU/vYskuYuOXQ+6Wew5WV9UNd
+	 tG0w+J/eUYZ1EeHLN1IikDy/NP7S/s6tFRma2BR16MBySHN264+TK/mgFy0nUhmckS1SP
+	 QcyYeh43Dl6dyxoMFcSp9LDTmHUmilzc6DAxuM+MMGk41MI0TwDrz1eFpvtizhgHTKTcs
+	 yP23O/e0Abmu5sD7WMDqlI2EyWfYFxpSDEBQ3zdEIjsChHm/nM2B7N2pOqGHGgWgx/Z3p
+	 1yThGZyMgQHVO8aEGuL1VVQSVlWyXXjGVVgHRwHqCn/5o4gxXFu9fFbvmlM3LqZpg6g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G8Ufdwus;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8876B606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 03:54:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8876B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xenosoft.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=xenosoft.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 589BE606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 04:28:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 589BE606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=xenosoft.de header.i=@xenosoft.de header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=RjGDVltN;
-	dkim=pass header.d=xenosoft.de header.i=@xenosoft.de header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=AHRMsllZ
-ARC-Seal: i=1; a=rsa-sha256; t=1793159627; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=c4mN3i2uNU+04aJPbvyBaU6I7N5YzApmRxylPPLOuWoQ0U8eDuryKuomZWdDF6Go5r
-    T6vNYq6HXyRTJX5A1TFemyAayF3auVKwvkhrZMPozriOS2HNBReNWR1U02gsNpmRn/cD
-    3WFmXX4/HsBcyMumg3vawo9JiGAPUDZD80Q2TG3EiQk42omXsO+7ogn4XVyPwn+DRL2p
-    vVbqnwGUpeP5jV2g4m/i230OSUCOBQnPOa1adnxM9mL62iiDc6LY4gKJK5PY+aBdMoD0
-    zG5tK2E2DjOfKtjeLHWaR21k+Ywcqyuuqpier3RD3pS2pVLmdCWaHUr3Cu/tlONLwXJg
-    4GtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1793159627;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
-    b=EzGIGlKM+TQbpvf/KQ95eZA1pmouxZCRTCosdbgWdjbh0szWZNelxh/pxrvBSK+4jD
-    6lZtx2cnyu7dmU9pBnCitLyPN/Jm2fv9EknpwPeWthfPuHTMAnwWdHsuEzeP1+86hwsW
-    Pq4F+P9mHkfuCZYkNLmoWm3ZgW+1ILTT9UT4PliiJfQyO5fZRodDEoPx1MAjr29Rv+nz
-    bEjGBcILkPbrCM6J/LS0gMkDkRvCuKOknPERKVpm0Rb3inDbp06+hyc7LJHMLF6MVZHs
-    7fh2BdxCm8yEW/eXJx6GhgBR6CTPB4RhFEKJg9V1M/ejZKGHlxBZViVOser8ysgCUN7D
-    d/Zw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1793159627;
-    s=strato-dkim-0002; d=xenosoft.de;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
-    b=RjGDVltNBVIsR64C2thO1D6B6Ng2r4KuHEm7rh9IB8+3LPeYRQmIdhhSsDfq+TIt5U
-    62eiAMFQb8ju6Txscs3bGl1wqx/NqXZ0529j6MQOhFwXAV1WDp8Trp1E5Ma1fqqGWf5f
-    ECzEhqvkj0wke7sutUyIJmhXusXPg1M5d+JtjL9xfXpl0bmErt8UA/aUim3MGh8xH70A
-    6K92/sevpYP6TwnvNJC0qZ0KTqfcX1Ic9YAq2cFGEumNBDOkYBfW87zeBzV8Vch+qOtI
-    XA6ZyadozneZ2vDc2CzRtnSknFm9EJf9jLPpWZKe4MMcQJQMGQSQZh5U1qGvGxI0QDKw
-    wCXA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1793159627;
-    s=strato-dkim-0003; d=xenosoft.de;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=ZcjibqjjjL4B8urMPCai9DU9KGZVULQYy3DlUK2r/Qk=;
-    b=AHRMsllZWqLmmHntNaHylTMmq+VVWfBAyCjpVCu6g5gAkwbEeYFtXtOQffBNzTm8Ff
-    eg7eaLWzfs1GvRZVEqCA==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGN0rBVhd9dFr4thIFiqT9BURIS+t6nc="
-Received: from void-ppc.a-eon.tld
-    by smtp.strato.de (RZmta 55.6.3 DYNA|AUTH)
-    with ESMTPSA id e825d929S3rjnsu
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Wed, 28 Oct 2026 04:53:45 +0100 (CET)
-Subject: [PATCH] powerpc/pasemi: Defer Nemo IRQ initialization
-To: maddy@linux.ibm.com, mpe@ellerman.id.au, linuxppc-dev@lists.ozlabs.org
-Cc: npiggin@gmail.com, Christian Zigotzky A-EON Open Source
- <info@xenosoft.de>, Darren Stevens <darren@stevens-zone.net>,
- "R.T.Dickinson" <rtd2@xtra.co.nz>, mad skateman <madskateman@gmail.com>,
- Damien Stewart <hypexed@yahoo.com.au>, oe-kbuild-all@lists.linux.dev,
- Philip Li <philip.li@intel.com>
-References: <20261024075519.18877-1-chzigotzky@xenosoft.de>
-From: Christian Zigotzky <chzigotzky@xenosoft.de>
-Organization: A-EON Open Source
-Message-ID: <7cf987e2-0ac7-f523-21a9-b340f10dc592@xenosoft.de>
-Date: Wed, 28 Oct 2026 04:53:45 +0100
-X-Mailer: BrassMonkey/35.0.2
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G8Ufdwus
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793161690; x=1824697690;
+  h=date:from:to:cc:subject:message-id;
+  bh=fSHd7BBHeWVfS6hcrUWpbjWpHxp38rPEfAZkvoa+JI0=;
+  b=G8Ufdwus2zt/u+98iBykmzaKbG2CDgy6d/49vPbE71bKhWvxqza2dgTN
+   Kx7isKHf6poI28EChHBG2GmCUcwM9Bklx+PXAM2vJQzjI7ElST1t7WfZ8
+   90XfWG4uep7azmC1Kb+nNPDERXnQlHh8DZH9i9PiuUOx9xmngTKwI7wMw
+   Thg4vSYZEuwvYn5PajpPkrjHd1gttWIkImNMmUToNaAIfRux4vX58T2YC
+   b9tyrsQGy0C+8IRqU+y0Zo5kYjXTeRYSSIIm1vmS7kGXCyuRK6Wr/OEOa
+   CZWBhR0FTAuynGlRN0Lde8tq6kic4myFMCItgcQD3s13+2+3J/4P5zqNJ
+   w==;
+X-CSE-ConnectionGUID: mKquxKAFRSGbZsWyH+1f7g==
+X-CSE-MsgGUID: DDtIH+3GTcCGtzO9g+n2sA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1899453"
+X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
+   d="scan'208";a="1899453"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 21:28:09 -0700
+X-CSE-ConnectionGUID: jUv2oaesShOdI+HocUHZtg==
+X-CSE-MsgGUID: UOT01OvWSiydrqJHBQyg1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
+   d="scan'208";a="6498811"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 27 Oct 2026 21:28:07 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xLvGe-00000000YBP-2zWs;
+	Wed, 28 Oct 2026 04:28:04 +0000
+Date: Wed, 28 Oct 2026 12:27:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2026-04 0/1]
+ lib/sbitmap.c:104: warning: Function parameter or member 'sb' not described
+ in 'sbitmap_spinlock'
+Message-ID: <202610281213.v9uf2IFP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -105,115 +80,95 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-In-Reply-To: <20261024075519.18877-1-chzigotzky@xenosoft.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi all,
+Hi Bart,
 
-I have created a new patch. I hope it is OK. It works without any problems.
+FYI, the error/warning still remains.
 
-Thanks,
-Christian
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-04
+head:   7da6ff620cd4f55d97a6bce32fbce1aea0da6484
+commit: 05baf38affa65735b6698f089e82af7c0e17b349 [0/1] ANDROID: sbitmap: Fix sbitmap_spinlock()
+config: i386-randconfig-1003-20261028 (https://download.01.org/0day-ci/archive/20261028/202610281213.v9uf2IFP-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610281213.v9uf2IFP-lkp@intel.com/reproduce)
 
-On 24/10/26 09:55, chzigotzky@xenosoft.de wrote:
-> From: Christian Zigotzky A-EON Open Source <info@xenosoft.de>
->
-> Since pas_pci_init() is now called later during boot, the i8259
-> initialization in pas_init_IRQ() happens too early and accesses
-> registers that are not yet mapped, preventing the board from booting.
->
-> Move the Nemo-specific i8259 initialization to pas_add_bridge(),
-> after the ISA bridge has been discovered.
->
-> Suggested-by: Darren Stevens <darren@stevens-zone.net>
-> Tested-by: Christian Zigotzky <chzigotzky@xenosoft.de>
-> Signed-off-by: Christian Zigotzky A-EON Open Source <info@xenosoft.de>
-> ---
->   arch/powerpc/platforms/pasemi/pasemi.h |  6 ++++++
->   arch/powerpc/platforms/pasemi/pci.c    |  5 +++++
->   arch/powerpc/platforms/pasemi/setup.c  | 12 ++++--------
->   3 files changed, 15 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/powerpc/platforms/pasemi/pasemi.h b/arch/powerpc/platforms/pasemi/pasemi.h
-> index 6f6743b8e48d..01bcfa258625 100644
-> --- a/arch/powerpc/platforms/pasemi/pasemi.h
-> +++ b/arch/powerpc/platforms/pasemi/pasemi.h
-> @@ -7,6 +7,12 @@ extern void pas_pci_init(void);
->   struct pci_dev;
->   extern void pas_pci_dma_dev_setup(struct pci_dev *dev);
->   
-> +#ifdef CONFIG_PPC_PASEMI_NEMO
-> +void __init nemo_init_IRQ(void);
-> +#else
-> +static inline void __init nemo_init_IRQ(void) { }
-> +#endif
-> +
->   void __iomem *__init pasemi_pci_getcfgaddr(struct pci_dev *dev, int offset);
->   
->   extern void __init pasemi_map_registers(void);
-> diff --git a/arch/powerpc/platforms/pasemi/pci.c b/arch/powerpc/platforms/pasemi/pci.c
-> index 2df955274652..fb53782da7ec 100644
-> --- a/arch/powerpc/platforms/pasemi/pci.c
-> +++ b/arch/powerpc/platforms/pasemi/pci.c
-> @@ -265,6 +265,11 @@ static int __init pas_add_bridge(struct device_node *dev)
->   	 */
->   	isa_bridge_find_early(hose);
->   
-> +	/*
-> +	 * ISA bridge is now active, add the i8259 cascade (if needed)
-> +	 */
-> +	nemo_init_IRQ();
-> +
->   	return 0;
->   }
->   
-> diff --git a/arch/powerpc/platforms/pasemi/setup.c b/arch/powerpc/platforms/pasemi/setup.c
-> index 45792ecd5dfd..7a961f2a228f 100644
-> --- a/arch/powerpc/platforms/pasemi/setup.c
-> +++ b/arch/powerpc/platforms/pasemi/setup.c
-> @@ -216,10 +216,12 @@ static void sb600_8259_cascade(struct irq_desc *desc)
->   	chip->irq_eoi(&desc->irq_data);
->   }
->   
-> -static void __init nemo_init_IRQ(struct mpic *mpic)
-> +void __init nemo_init_IRQ(void)
->   {
->   	struct device_node *np;
->   	int gpio_virq;
-> +	struct mpic *mpic;
-> +
->   	/* Connect the SB600's legacy i8259 controller */
->   	np = of_find_node_by_path("/pxp@0,e0000000");
->   	i8259_init(np, 0);
-> @@ -230,14 +232,10 @@ static void __init nemo_init_IRQ(struct mpic *mpic)
->   	irq_set_chained_handler(gpio_virq, sb600_8259_cascade);
->   	mpic_unmask_irq(irq_get_irq_data(gpio_virq));
->   
-> +	mpic = irq_get_chip_data(gpio_virq);
->   	irq_set_default_domain(mpic->irqhost);
->   }
->   
-> -#else
-> -
-> -static inline void nemo_init_IRQ(struct mpic *mpic)
-> -{
-> -}
->   #endif
->   
->   static __init void pas_init_IRQ(void)
-> @@ -300,8 +298,6 @@ static __init void pas_init_IRQ(void)
->   		mpic_unmask_irq(irq_get_irq_data(nmi_virq));
->   	}
->   
-> -	nemo_init_IRQ(mpic);
-> -
->   	of_node_put(mpic_node);
->   	of_node_put(root);
->   }
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610281213.v9uf2IFP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> lib/sbitmap.c:104: warning: Function parameter or member 'sb' not described in 'sbitmap_spinlock'
+>> lib/sbitmap.c:104: warning: Excess function parameter 'map' description in 'sbitmap_spinlock'
+>> lib/sbitmap.c:104: warning: Excess function parameter 'map_nr' description in 'sbitmap_spinlock'
 
 
--- 
-Sent with BrassMonkey 35.0.2 (https://github.com/chzigotzky/Web-Browsers-and-Suites-for-Linux-PPC/releases/tag/BrassMonkey_35.0.2)
+vim +104 lib/sbitmap.c
 
+bf2c4282a10a92 Ming Lei        2021-01-22   59  
+783d6780cd6684 Yang Yang       2024-07-16   60  /**
+783d6780cd6684 Yang Yang       2024-07-16   61   * sbitmap_spinlock() - Get the spinlock corresponding to sbitmap_work.
+783d6780cd6684 Yang Yang       2024-07-16   62   * @map: The memory address of the index sbitmap_work area.
+783d6780cd6684 Yang Yang       2024-07-16   63   * @map_nr: Number of words (cachelines) being used for the bitmap.
+783d6780cd6684 Yang Yang       2024-07-16   64   * @index: The index of the spinlock.
+783d6780cd6684 Yang Yang       2024-07-16   65   *
+783d6780cd6684 Yang Yang       2024-07-16   66   * this lock: serializes simultaneous updates of ->word and ->cleared.
+783d6780cd6684 Yang Yang       2024-07-16   67   * sbitmap_spinlock is for checking on ->cleared and updating on both
+783d6780cd6684 Yang Yang       2024-07-16   68   * ->cleared and ->word need to be done atomically.
+783d6780cd6684 Yang Yang       2024-07-16   69   *  Prevent the following situations from causing block:
+783d6780cd6684 Yang Yang       2024-07-16   70   * Configuration for sbq:
+783d6780cd6684 Yang Yang       2024-07-16   71   * depth=64, wake_batch=6, shift=6, map_nr=1
+783d6780cd6684 Yang Yang       2024-07-16   72   *
+783d6780cd6684 Yang Yang       2024-07-16   73   * 1. There are 64 requests in progress:
+783d6780cd6684 Yang Yang       2024-07-16   74   * map->word = 0xFFFFFFFFFFFFFFFF
+783d6780cd6684 Yang Yang       2024-07-16   75   * 2. After all the 64 requests complete, and no more requests come:
+783d6780cd6684 Yang Yang       2024-07-16   76   * map->word = 0xFFFFFFFFFFFFFFFF, map->cleared = 0xFFFFFFFFFFFFFFFF
+783d6780cd6684 Yang Yang       2024-07-16   77   * 3. Now two tasks try to allocate requests:
+783d6780cd6684 Yang Yang       2024-07-16   78   * T1:                                       T2:
+783d6780cd6684 Yang Yang       2024-07-16   79   * __blk_mq_get_tag                          .
+783d6780cd6684 Yang Yang       2024-07-16   80   * __sbitmap_queue_get                       .
+783d6780cd6684 Yang Yang       2024-07-16   81   * sbitmap_get                               .
+783d6780cd6684 Yang Yang       2024-07-16   82   * sbitmap_find_bit                          .
+783d6780cd6684 Yang Yang       2024-07-16   83   * sbitmap_find_bit_in_word                  .
+783d6780cd6684 Yang Yang       2024-07-16   84   * sbitmap_get_word  -> nr=-1              __blk_mq_get_tag
+783d6780cd6684 Yang Yang       2024-07-16   85   * sbitmap_deferred_clear                    __sbitmap_queue_get
+783d6780cd6684 Yang Yang       2024-07-16   86   * //map->cleared=0xFFFFFFFFFFFFFFFF         sbitmap_find_bit
+783d6780cd6684 Yang Yang       2024-07-16   87   *   if (!READ_ONCE(map->cleared))           sbitmap_find_bit_in_word
+783d6780cd6684 Yang Yang       2024-07-16   88   *     return false;                         __sbitmap_get_word -> nr=-1
+783d6780cd6684 Yang Yang       2024-07-16   89   * mask = xchg(&map->cleared, 0)             sbitmap_deferred_clear
+783d6780cd6684 Yang Yang       2024-07-16   90   * atomic_long_andnot()                      // map->cleared=0
+783d6780cd6684 Yang Yang       2024-07-16   91   *                                             if (!(map->cleared))
+783d6780cd6684 Yang Yang       2024-07-16   92   *                                               return false;
+783d6780cd6684 Yang Yang       2024-07-16   93   *
+783d6780cd6684 Yang Yang       2024-07-16   94   *                                    // map->cleared is cleared by T1
+783d6780cd6684 Yang Yang       2024-07-16   95   *                                    // T2 fail to acquire the tag
+783d6780cd6684 Yang Yang       2024-07-16   96   *
+783d6780cd6684 Yang Yang       2024-07-16   97   * 4. T2 is the sole tag waiter. When T1 puts the tag, T2 cannot be woken
+783d6780cd6684 Yang Yang       2024-07-16   98   * up due to the wake_batch being set at 6. If no more requests come, T1
+783d6780cd6684 Yang Yang       2024-07-16   99   * will wait here indefinitely.
+783d6780cd6684 Yang Yang       2024-07-16  100   *
+783d6780cd6684 Yang Yang       2024-07-16  101   * Return: Returns the spinlock corresponding to index.
+783d6780cd6684 Yang Yang       2024-07-16  102   */
+05baf38affa657 Bart Van Assche 2025-04-03  103  static spinlock_t *sbitmap_spinlock(struct sbitmap *sb, unsigned int index)
+783d6780cd6684 Yang Yang       2024-07-16 @104  {
+05baf38affa657 Bart Van Assche 2025-04-03  105  	const unsigned int max_map_nr = *(unsigned int *)&sb->map[-1];
+05baf38affa657 Bart Van Assche 2025-04-03  106  	spinlock_t *const base_lock = (spinlock_t *)
+05baf38affa657 Bart Van Assche 2025-04-03  107  		round_up((uintptr_t)&sb->map[max_map_nr],
+05baf38affa657 Bart Van Assche 2025-04-03  108  			 __alignof__(spinlock_t));
+05baf38affa657 Bart Van Assche 2025-04-03  109  
+05baf38affa657 Bart Van Assche 2025-04-03  110  	WARN_ON_ONCE(index < 0 || index >= sb->map_nr);
+783d6780cd6684 Yang Yang       2024-07-16  111  
+783d6780cd6684 Yang Yang       2024-07-16  112  	return &base_lock[index];
+783d6780cd6684 Yang Yang       2024-07-16  113  }
+783d6780cd6684 Yang Yang       2024-07-16  114  
+
+:::::: The code at line 104 was first introduced by commit
+:::::: 783d6780cd66848c96945c8143a808a2b98c9836 ANDROID: Fixed the KMI corruption issue caused by the patch of 72d04bdcf3f7.
+
+:::::: TO: Yang Yang <yang.yang@vivo.com>
+:::::: CC: Todd Kjos <tkjos@google.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
