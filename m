@@ -1,76 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793190365;
-	b=kUT9uEARZwR2Pa3LGR0OtE3r+VGllULIrMXQgkdt2pQQghr1/62akfGBKFFHvqv0y2MJ
-	 sU7d8Nvo4YMWgvY3Z4pqOy2Fu3D8z/L02sQo0oCXaf8YVlm/4eWq0tawEAODVKZrS4uz+
-	 9NWQJncTcW9Odyy+pc131K7p27JN9NKFpUSfGCVHLveC38h3J8F2ybjuYWO96IGzOLkEh
-	 97KwtcjK307KL65eaBX0hurCheyxNNCW1T1wLYo0PQ2BFgAW5JLvN8JHC4JKOokaE8UvO
-	 DPg6o9vLrttHdgpMzEZdbN99UNO+9TyF9ao/BVOjJk0UN+NwjwHAeh8/s+EK/q7sF8A==
+	t=1793191027;
+	b=34GjWfuWXk0aALVr4/wJ08HXiyYObGMInyU9QItLJdIP3ATFZawzM1ZK8nYmGsW2wLAc
+	 HmOW7Qp54VfC0j2xg+ccwlHguOiDhbvvBfXDqPQ/JGzLRN4kOF6w35iksBHFoesw6RB5O
+	 o95yxd6KxsaDybI1W9tnZXLFr/HeD2pLat+ZpY/jmWs36RVASBEg7Rl6qUd7D3x/yxBkz
+	 A+qT62AWmhgPWfLQGzkCCktkkt2M2e+NPJUjeoPQ92ViziXj7vyn4ktitvtqz3OI/P31Y
+	 RHIQsDYuo5W7NGPM6BgzG4lnsVwJssYl1Mnu1L7GTqx92PW8STkM7XxYHyBJpWlBGcw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793190365;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793191027;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=osvU82IfX9cl4tEplliRE+fliMVVwMs5Ku7zJUezdUU=;
-	b=TFIayTpNzDM5ldwqdxU2tTx9f81qtwxIPdTbyF9lVlutbid3nLxY7jLSLrbeuxPBujwd
-	 4vkouo3q49bv620k3usZQaf2hQrkAN+IYhp3Vd0Vl9gDxLs6nWpp33/TyppAvPeJodVTd
-	 7zqJUr4yImskW1PNkTC147wIQoxBbA4Kep2q8Wkzn99slANvJz2ggigeKi4Vsz/fl7vcZ
-	 sCe1Zb6Rb17YAWRnN6hZqYy6+9ADqAxlHCnzlYPzH0Iw7bk565e3x8938GwyEPssJ70OF
-	 snd/Jt6pITcE7yLDHpxmk+/mmXToxvKaDmgP9jo4oN1C/4347hRQhvORyDOcm1BEn/g==
+	bh=cyUDhnbNjFVO9vLgt9jG8dEY2afPdaAN8+6ET/o7wUM=;
+	b=rsK+pTXvBW1TYjigsc+3fK8CNvP40HOf7nj5HGbkxfuEWP4kt0tSnQg9Okby7Qo4aGVW
+	 lnUmOzJ6eqVc+xPtTgMxjuO74/fRw8IuYCCIj+QNFk7r0o1dbKgZ1iHDlwoPzOkxy4q5Y
+	 okQy7X85zcFrxd9M0Z8j+9MoUVopV0dXF3Q2jZIsn5yTUyRu1wIT4R6DDxJuKsbPdCB1G
+	 zcYKnIFvDVEbAPwc2vhIUs1NKQHbIw32ZhAohCP8RLtSvrwg8EqbVmZWdxY53uHKcE7gw
+	 6V91h18mcg/97cm8yMkcODMqH6M4MRy25JHHww8GZ23raLJKYbsoksVm4tPzeg/r0pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fokilld0;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hJraWI96;
 	arc=none smtp.remote-ip=192.198.163.11
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC40606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 12:26:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AC40606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE13B606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Oct 2026 12:37:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE13B606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Fokilld0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hJraWI96
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793190363; x=1824726363;
+  t=1793191026; x=1824727026;
   h=date:from:to:cc:subject:message-id;
-  bh=p0KRQs8dCvMJL9RTbrP4Fcb+JvGy+Q5m+EXu3EzYCVw=;
-  b=Fokilld0FOBzaYIfEB4aB7GVtsECyadryWYM1iionEP31FeREwhGrmTf
-   175dUNvWNjH30KTete8TQ0+iv+O0NDZo25AdbVjXvBcVCbOursWblQYfB
-   VOUkANM8i79POguo8WH2aV9zv/ppAqlAj/Tqq3gytqZsXwSZQdopt81eD
-   TozY3V561KsVPK5W1r1KBY+X9SaTbZTzkfu5F5H1a3TxZSIQr+he24j53
-   26ai0Vr5byrVoumhkJhzpsliccyJH8Jjd7tTBMQ2dcWcRKgqNGOKkixQS
-   HRHd0lUa7E04pRIZE9xukeZxVv2qYqlArM6bnxD98EZ/t4CtIj6PAueDs
+  bh=ichMsVQird7klE5QhBeLiMfnUam/qQ5EJ6Yf3dzEfHY=;
+  b=hJraWI96tloZzdpwKvMQEK3QMBHwUMGoppZbY7lsaCJ5XkvYbcEBBCmF
+   UsiWmTPdGL8pKDxoMpDTSvPeV9DQHBUk6yHfEWqj1wZYL8fY+RnF5qwK7
+   Y7KjbdNRE0CnvMqhxLF2PviTkfM0pOEqy2m8z3VWklKaFyQXNH9GnPIkk
+   6MD+tKdUFbnL46az8xyOSu6gYhWQqnLHi3Ls9HJ4O/GI4YEd4LikmABRE
+   8Cbtrr45aULZMJRuLdj7kV88O2q0e0TqILVWyn+bt6OXkiQ3JYkAviZpp
+   6I043rwqHk6tyZ8He8E3RebaceGZq/Do/JBlbca9uWykTStNANsihUsTi
    A==;
-X-CSE-ConnectionGUID: Ud+nu3S8QryEgfJE2/jWOg==
-X-CSE-MsgGUID: 9/1L4PxGQeeyl5llfGJvIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1817899"
+X-CSE-ConnectionGUID: VACYCs8IRpOsr660xhW6sw==
+X-CSE-MsgGUID: tkMl8lqqRrCwZTmNQ+8jNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1818647"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1817899"
+   d="scan'208";a="1818647"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 05:26:03 -0700
-X-CSE-ConnectionGUID: VRFu2MTnQYq/+ONIvMjQnQ==
-X-CSE-MsgGUID: B25TsG+XQlC84tqssPcsLQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 05:37:05 -0700
+X-CSE-ConnectionGUID: 6FCu+qDpT6WkKkgNEz0jtA==
+X-CSE-MsgGUID: uKGqVMq7Rs+FQPnWN0e1eQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="4906668"
+   d="scan'208";a="4908564"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Oct 2026 05:26:02 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 Oct 2026 05:37:04 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xM2j9-00000000YhQ-1j97;
-	Wed, 28 Oct 2026 12:25:59 +0000
-Date: Wed, 28 Oct 2026 20:25:55 +0800
+	id 1xM2tp-00000000YiG-2uG9;
+	Wed, 28 Oct 2026 12:37:01 +0000
+Date: Wed, 28 Oct 2026 20:36:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:arena-lazy-pte 2/6]
- arch/m68k/include/asm/page.h:20:27: error: lvalue required as unary '&'
- operand
-Message-ID: <202610282023.2XwwglSs-lkp@intel.com>
+Subject: [android-common:android16-6.12 0/9]
+ drivers/tty/n_gsm.c:4171: warning: Function parameter or struct member 'dlci'
+ not described in 'gsm_modem_send_initial_msc'
+Message-ID: <202610282030.TalGzges-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,69 +81,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/kkdwivedi/linux arena-lazy-pte
-head:   ce19d941e895a85d7dc1e7d49e6b90b1262f7e79
-commit: 0ec7dbb5a7536124b8723d262ad2f6e11244767d [2/6] mm: Add lockless kernel PMD populate, clear and range-flush helpers
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20261028/202610282023.2XwwglSs-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610282023.2XwwglSs-lkp@intel.com/reproduce)
+Hi Seppo,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   606d03f6372c0cd085fc0d154cbfc17c298058f2
+commit: 5416e89b81b00443cb03c88df8da097ae091a141 [0/9] tty: n_gsm: Don't block input queue by waiting MSC
+config: i386-randconfig-1003-20261028 (https://download.01.org/0day-ci/archive/20261028/202610282030.TalGzges-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261028/202610282030.TalGzges-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610282023.2XwwglSs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610282030.TalGzges-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/thread_info.h:6,
-                    from include/linux/thread_info.h:62,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:107,
-                    from arch/m68k/include/asm/irqflags.h:6,
-                    from include/linux/irqflags.h:18,
-                    from arch/m68k/include/asm/atomic.h:6,
-                    from include/linux/atomic.h:7,
-                    from include/linux/jump_label.h:243,
-                    from include/linux/once.h:6,
-                    from include/linux/prandom.h:12,
-                    from kernel/sched/sched.h:8,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/pgtable.h: In function 'pmdp_try_clear':
->> arch/m68k/include/asm/page.h:20:27: error: lvalue required as unary '&' operand
-      20 | #define pmd_val(x)      ((&x)->pmd)
-         |                           ^
-   include/linux/pgtable.h:1119:13: note: in expansion of macro 'pmd_val'
-    1119 |         if (pmd_val(pmdp_get(pmdp)) != pmd_val(old))
-         |             ^~~~~~~
-   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1436: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/tty/n_gsm.c:4171: warning: Function parameter or struct member 'dlci' not described in 'gsm_modem_send_initial_msc'
 
 
-vim +20 arch/m68k/include/asm/page.h
+vim +4171 drivers/tty/n_gsm.c
 
-138ff3462f53a7 Greg Ungerer   2010-09-07  14  
-138ff3462f53a7 Greg Ungerer   2010-09-07  15  /*
-138ff3462f53a7 Greg Ungerer   2010-09-07  16   * These are used to make use of C type-checking..
-138ff3462f53a7 Greg Ungerer   2010-09-07  17   */
-60e50f34b13e9e Mike Rapoport  2019-12-04  18  #if !defined(CONFIG_MMU) || CONFIG_PGTABLE_LEVELS == 3
-ef22d8abd876e8 Peter Zijlstra 2020-01-31  19  typedef struct { unsigned long pmd; } pmd_t;
-ef22d8abd876e8 Peter Zijlstra 2020-01-31 @20  #define pmd_val(x)	((&x)->pmd)
-ef22d8abd876e8 Peter Zijlstra 2020-01-31  21  #define __pmd(x)	((pmd_t) { (x) } )
-60e50f34b13e9e Mike Rapoport  2019-12-04  22  #endif
-60e50f34b13e9e Mike Rapoport  2019-12-04  23  
-
-:::::: The code at line 20 was first introduced by commit
-:::::: ef22d8abd876e805b604e8f655127de2beee2869 m68k: mm: Restructure Motorola MMU page-table layout
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Geert Uytterhoeven <geert@linux-m68k.org>
+  4159	
+  4160	/**
+  4161	 * gsm_modem_send_initial_msc - Send initial modem status message
+  4162	 *
+  4163	 * @dlci channel
+  4164	 *
+  4165	 * Send an initial MSC message after DLCI open to set the initial
+  4166	 * modem status lines. This is only done for basic mode.
+  4167	 * Does not wait for a response as we cannot block the input queue
+  4168	 * processing.
+  4169	 */
+  4170	static int gsm_modem_send_initial_msc(struct gsm_dlci *dlci)
+> 4171	{
+  4172		u8 modembits[2];
+  4173	
+  4174		if (dlci->adaption != 1 || dlci->gsm->encoding != GSM_BASIC_OPT)
+  4175			return 0;
+  4176	
+  4177		modembits[0] = (dlci->addr << 2) | 2 | EA; /* DLCI, Valid, EA */
+  4178		modembits[1] = (gsm_encode_modem(dlci) << 1) | EA;
+  4179		return gsm_control_command(dlci->gsm, CMD_MSC, (const u8 *)&modembits, 2);
+  4180	}
+  4181	
 
 --
 0-DAY CI Kernel Test Service
