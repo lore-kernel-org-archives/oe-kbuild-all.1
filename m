@@ -1,81 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793240950;
-	b=smAKvOjfFK7O4gemGvC5XaEkvSrXJbQ6ntC/vs220PwgNP+8qS4dPw+fL6a3GQGvkzrW
-	 J36WHryw5sSjt5thsoKaCblXc0wIp3ljU4ZnEmL/+kHTtQrzIz05MQvic17hvw69KPaSH
-	 l62L38AOuYdrkHOiqs9a0yZgiRj0rg0qtOIFis5Ni6/kupwp3PlbCem9USjAOxOiyoSjt
-	 jaia6a8xE8OiSIDWBIHBRkjyqo4egVhtj0FFtMO2zZn4jVSGYYKa7VGgjb5TQG4saPVHW
-	 wyYmIEIecTpEwxvr99R3FNOs1aix+OgcyuUkyB4zfykXAI1MLIRAuo4C/y+cDZotxmA==
+	t=1793242272;
+	b=HfOhcjsTfahZssBpq58aphOHYZ90iR6NS/XR5FZ6e4/H33whiwTjAmBPCJ3QVHm3ML/7
+	 lph1ndOjD1uju9gbu+/Bcd2iteRGoDyLCcNjYmHp4EwL+qTf4OYa6luubyeGDrAPuqpD1
+	 mOlP6VbUWKAdow6oBy7x09KdD4eHQu810EMxdTiqcgT93xN+vj6A1XtGrIX2CRjNnzEGj
+	 bTMmY7T5CK5p/qMRwpKN/eIiiZdU9B2avlHWLmTWueUeguGjq0xWjGOh9xp870wSK+USk
+	 qoy0bwJ4ZSJtPDy5fQI1Qqf+eqAmLr3KIMzbjcK4B6unAPOtldfkmfyUj5QA9jC7RSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793240950;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793242272;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=M72bklrIu09iEbCbSB40g8WJ8vZOUqKg09TgIo6oM7s=;
-	b=g7RCY5KzGgyyrzY+dBMfClGYgN3T1xFj+CIMrfNqCjWIUt/iMU0vYlZPoLlyd5SvtMVY
-	 zWKPe3FbR4eNPtLZspCeGrcN/u1corASM/8SaiZKp/p8e3WSISd8zKt1LHIrYh/5I6TDS
-	 QGAC6KKTucy7ohRP8EhzhLIxgRvdDeS7PfThmqn+2m4FqPYdb+rtdQfN6n9BL5rVT+1Lx
-	 qLXM0jT0/IXaLpoJEOs3k9Q2m6rvcjt76gk9qnzo2eX2yqNuQJgPEPf5WMK4wLUqAaHdR
-	 pHBgUy5Ex7sXEm0rqYI5EVkV86J4TG8mKeA+VWo5gx72AJ1CDjYn2CosqefD2Uc624g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=Si9G60rDoQUxFgckGVPL51r1HFazEHB74w48C8zg6CI=;
+	b=Lo5UWoFUVUm/l9zDFDilcmpBy3qQmgqE0wXvWk/TmgSjUnZKfArh7VZKtJ0OmeDAZwFr
+	 Did8OkkGYS0zZFawx1xRwCncCLONugD5G1t45s935eKojsGn9dYub8Xq5Pp4KYYMhXf0y
+	 0f0gfYxnDpM47FBnrCi3C3e4wQOvqB2HkYRRpz2uEFS+DYmEIvg+slEEpo/FfjLmTcOaw
+	 252JLq+z1ofRnTMJaMaHeEg0nXJNsXdJfxKRs8fpGDoFl0gQ3GdEj12dBfqETFEUw9Mxn
+	 koOJuhd+jRjf0h+EO7coBorhtOhvFMnJvjtmCYPRQZ7GRNCFaoRUl3KLBlyToezTC0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SPKOMHwK;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lmZnuchS;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BF5606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 02:29:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7BF5606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA821606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 02:51:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA821606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SPKOMHwK
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lmZnuchS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793240949; x=1824776949;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T9gdfsQMp6W/ayVj5uDJFH5wzK4XwY/ukHerPwjIVRU=;
-  b=SPKOMHwK75TotAHOWWYERPKQJZWJ40Br4xa2HjKiwF5SMESHCL/Jvh0v
-   k0uQgd0XsilAvwyIRVD46y/QFp0ZK6T7liZ+n+kXb78IlhTuCq4aJwX5M
-   WYZlv3yfJjqaKSHHXMG9jcTfRMPO1itTj3JhEf+rZxeiS/HZIkFvPiZ+0
-   9cLk/FarX0J2q5rBvCxz9+luA5kVfJIRInf+eKvsD8neGV+14r20zp3+9
-   tUMom+Kh1jHUKQ7EHSH15fsU5jn8Nu5wl98omjWq2mwhVpZ9wSfRpfkba
-   0l+Mk0xZ8fJjTWDqmuxNayC6hfF1Opxu9O34buOFu85App+1LYXE+g+Eg
+  t=1793242271; x=1824778271;
+  h=date:from:to:cc:subject:message-id;
+  bh=Aq/I64h7Yr3cUV70PfOukMOAQxz9l9QTsi+E98UYZVQ=;
+  b=lmZnuchSHIKgHj0HHq1Fp5rjF6SPgxAfMVgTR7BmBmz/jvh/FjG2exja
+   8Y1D1+gLSIhmuDDMkH2gZrcVq67UratjRzVYMuKGVdkVCQrdnhE+M2Y0D
+   po6KDBkteXxy4Zs4THgjKfoMj/3I8fZMdnI7wYE2Fxs0VgTmndta0UsCL
+   k/2mXMQQnoqpFFKoTHsNMgadULgu0rmXh74gpIWQSezuJEaZnPHZaR3K3
+   3F2PqRWj7hj7fYep33/+3WkEjIkzZSfqLoGcu3ycw1W+UCGrUVhtRRS79
+   p6bvMytUYa/7oPKHGvHplBypE1wvJOkyLTvEZQtT3U4VYBBENfcCPLqHI
    A==;
-X-CSE-ConnectionGUID: 2Kv/Uz+7QoWZdqJQ05pYOg==
-X-CSE-MsgGUID: z24ilxH3RKOnwJRxTkziaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1965862"
+X-CSE-ConnectionGUID: 2N0exqEkQXydPs22m+ievg==
+X-CSE-MsgGUID: 8peA0NbGSRestAOX9Oe+Qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2070808"
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="1965862"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 19:29:08 -0700
-X-CSE-ConnectionGUID: rzefarvVSo+KCk5pir41Dw==
-X-CSE-MsgGUID: M9dYC7nJRtiKJkrfwxub3A==
+   d="scan'208";a="2070808"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 19:51:10 -0700
+X-CSE-ConnectionGUID: LHRhxvNERV+svEyTLXHn7w==
+X-CSE-MsgGUID: 2h5EAHIGQtCtjVwP+89CUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5393002"
+   d="scan'208";a="5350899"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Oct 2026 19:29:05 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 Oct 2026 19:51:09 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMFsz-00000000ZVs-0VAF;
-	Thu, 29 Oct 2026 02:29:01 +0000
-Date: Thu, 29 Oct 2026 10:28:33 +0800
+	id 1xMGEM-00000000ZWe-24cO;
+	Thu, 29 Oct 2026 02:51:06 +0000
+Date: Thu, 29 Oct 2026 10:50:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jackie Liu <liu.yun@linux.dev>, glider@google.com
-Cc: oe-kbuild-all@lists.linux.dev, dvyukov@google.com, elver@google.com,
-	pjw@kernel.org, alex@ghiti.fr, aou@eecs.berkeley.edu,
-	linux-riscv@lists.infradead.org, linux-mm@kvack.org,
-	kasan-dev@googlegroups.com, muchun.song@linux.dev,
-	liu.yun@linux.dev
-Subject: Re: [PATCH 3/3] riscv: keep booting if KFENCE pool reservation fails
-Message-ID: <202610290904.wbrEL97y-lkp@intel.com>
-References: <58e3baebbf4e454725e6bde8b7a267fb71cfdaae.1793017074.git.liuyun01@kylinos.cn>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 374/374]
+ fs/kernfs/dir.c:482: warning: Excess function parameter 'drop_supers'
+ description in 'kernfs_drain'
+Message-ID: <202610290921.MfKiTVZh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,110 +80,84 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <58e3baebbf4e454725e6bde8b7a267fb71cfdaae.1793017074.git.liuyun01@kylinos.cn>
 
-Hi Jackie,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jackie-Liu/kfence-fix-pool-cleanup-on-metadata-allocation-failure/20261026-202302
-base:   7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
-patch link:    https://lore.kernel.org/r/58e3baebbf4e454725e6bde8b7a267fb71cfdaae.1793017074.git.liuyun01%40kylinos.cn
-patch subject: [PATCH 3/3] riscv: keep booting if KFENCE pool reservation fails
-config: riscv-randconfig-1001-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290904.wbrEL97y-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290904.wbrEL97y-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   0951885c34a0e48adda08777b026c61fed9613ea
+commit: d9c80a173a8ce60e5b86601a231209002e313be6 [374/374] UPSTREAM: kernfs: Add missing documentation for kernfs_put_active's drop_supers argument
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20261029/202610290921.MfKiTVZh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290921.MfKiTVZh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610290904.wbrEL97y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610290921.MfKiTVZh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/mm/init.c:30:
-   arch/riscv/include/asm/kfence.h: In function 'kfence_protect_page':
->> arch/riscv/include/asm/kfence.h:21:22: error: implicit declaration of function 'virt_to_kpte'; did you mean 'virt_to_page'? [-Wimplicit-function-declaration]
-      21 |         pte_t *pte = virt_to_kpte(addr);
-         |                      ^~~~~~~~~~~~
-         |                      virt_to_page
->> arch/riscv/include/asm/kfence.h:21:22: error: initialization of 'pte_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
->> arch/riscv/include/asm/kfence.h:24:17: error: implicit declaration of function 'set_pte'; did you mean 'set_pgd'? [-Wimplicit-function-declaration]
-      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
-         |                 ^~~~~~~
-         |                 set_pgd
-   In file included from arch/riscv/include/asm/thread_info.h:11,
-                    from include/linux/thread_info.h:62,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/riscv/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:107,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:8,
-                    from arch/riscv/mm/init.c:10:
->> arch/riscv/include/asm/kfence.h:24:44: error: implicit declaration of function 'ptep_get' [-Wimplicit-function-declaration]
-      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
-         |                                            ^~~~~~~~
-   arch/riscv/include/asm/page.h:75:37: note: in definition of macro '__pte'
-      75 | #define __pte(x)        ((pte_t) { (x) })
-         |                                     ^
-   arch/riscv/include/asm/kfence.h:24:36: note: in expansion of macro 'pte_val'
-      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
-         |                                    ^~~~~~~
->> arch/riscv/include/asm/page.h:71:29: error: request for member 'pte' in something not a structure or union
-      71 | #define pte_val(x)      ((x).pte)
-         |                             ^
-   arch/riscv/include/asm/page.h:75:37: note: in definition of macro '__pte'
-      75 | #define __pte(x)        ((pte_t) { (x) })
-         |                                     ^
-   arch/riscv/include/asm/kfence.h:24:36: note: in expansion of macro 'pte_val'
-      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
-         |                                    ^~~~~~~
->> arch/riscv/include/asm/page.h:71:29: error: request for member 'pte' in something not a structure or union
-      71 | #define pte_val(x)      ((x).pte)
-         |                             ^
-   arch/riscv/include/asm/page.h:75:37: note: in definition of macro '__pte'
-      75 | #define __pte(x)        ((pte_t) { (x) })
-         |                                     ^
-   arch/riscv/include/asm/kfence.h:26:36: note: in expansion of macro 'pte_val'
-      26 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) | _PAGE_PRESENT));
-         |                                    ^~~~~~~
->> arch/riscv/include/asm/kfence.h:27:17: error: implicit declaration of function 'mark_new_valid_map' [-Wimplicit-function-declaration]
-      27 |                 mark_new_valid_map();
-         |                 ^~~~~~~~~~~~~~~~~~
->> arch/riscv/include/asm/kfence.h:31:9: error: implicit declaration of function 'local_flush_tlb_kernel_range'; did you mean 'local_flush_icache_range'? [-Wimplicit-function-declaration]
-      31 |         local_flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         local_flush_icache_range
+>> fs/kernfs/dir.c:482: warning: Excess function parameter 'drop_supers' description in 'kernfs_drain'
 
 
-vim +21 arch/riscv/include/asm/kfence.h
+vim +482 fs/kernfs/dir.c
 
-47513f243b452a Liu Shixin      2021-06-15  18  
-47513f243b452a Liu Shixin      2021-06-15  19  static inline bool kfence_protect_page(unsigned long addr, bool protect)
-47513f243b452a Liu Shixin      2021-06-15  20  {
-47513f243b452a Liu Shixin      2021-06-15 @21  	pte_t *pte = virt_to_kpte(addr);
-47513f243b452a Liu Shixin      2021-06-15  22  
-8d6c8c40e733b3 Vivian Wang     2026-03-03  23  	if (protect) {
-edf95564726942 Alexandre Ghiti 2023-12-13 @24  		set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
-8d6c8c40e733b3 Vivian Wang     2026-03-03  25  	} else {
-edf95564726942 Alexandre Ghiti 2023-12-13  26  		set_pte(pte, __pte(pte_val(ptep_get(pte)) | _PAGE_PRESENT));
-8d6c8c40e733b3 Vivian Wang     2026-03-03 @27  		mark_new_valid_map();
-8d6c8c40e733b3 Vivian Wang     2026-03-03  28  	}
-47513f243b452a Liu Shixin      2021-06-15  29  
-b3431a8bb336ce Alexandre Ghiti 2024-12-09  30  	preempt_disable();
-b3431a8bb336ce Alexandre Ghiti 2024-12-09 @31  	local_flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
-b3431a8bb336ce Alexandre Ghiti 2024-12-09  32  	preempt_enable();
-47513f243b452a Liu Shixin      2021-06-15  33  
-47513f243b452a Liu Shixin      2021-06-15  34  	return true;
-47513f243b452a Liu Shixin      2021-06-15  35  }
-47513f243b452a Liu Shixin      2021-06-15  36  
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  468  
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  469  /**
+81c173cb5e87fbb Tejun Heo    2014-02-03  470   * kernfs_drain - drain kernfs_node
+81c173cb5e87fbb Tejun Heo    2014-02-03  471   * @kn: kernfs_node to drain
+d9c80a173a8ce60 T.J. Mercier 2026-03-13  472   * @drop_supers: Set to true if this function is called with the
+d9c80a173a8ce60 T.J. Mercier 2026-03-13  473   *               kernfs_supers_rwsem locked.
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  474   *
+2b052bf46e870da Randy Dunlap 2022-11-11  475   * Drain existing usages and nuke all existing mmaps of @kn.  Multiple
+81c173cb5e87fbb Tejun Heo    2014-02-03  476   * removers may invoke this function concurrently on @kn and all will
+81c173cb5e87fbb Tejun Heo    2014-02-03  477   * return after draining is complete.
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  478   */
+81c173cb5e87fbb Tejun Heo    2014-02-03  479  static void kernfs_drain(struct kernfs_node *kn)
+393c3714081a537 Minchan Kim  2021-11-18  480  	__releases(&kernfs_root(kn)->kernfs_rwsem)
+393c3714081a537 Minchan Kim  2021-11-18  481  	__acquires(&kernfs_root(kn)->kernfs_rwsem)
+fd7b9f7b9776b11 Tejun Heo    2013-11-28 @482  {
+abd54f028ec3097 Tejun Heo    2014-02-03  483  	struct kernfs_root *root = kernfs_root(kn);
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  484  
+393c3714081a537 Minchan Kim  2021-11-18  485  	lockdep_assert_held_write(&root->kernfs_rwsem);
+81c173cb5e87fbb Tejun Heo    2014-02-03  486  	WARN_ON_ONCE(kernfs_active(kn));
+abd54f028ec3097 Tejun Heo    2014-02-03  487  
+2d7f9f8c1815707 Tejun Heo    2022-08-27  488  	/*
+2d7f9f8c1815707 Tejun Heo    2022-08-27  489  	 * Skip draining if already fully drained. This avoids draining and its
+2d7f9f8c1815707 Tejun Heo    2022-08-27  490  	 * lockdep annotations for nodes which have never been activated
+2d7f9f8c1815707 Tejun Heo    2022-08-27  491  	 * allowing embedding kernfs_remove() in create error paths without
+2d7f9f8c1815707 Tejun Heo    2022-08-27  492  	 * worrying about draining.
+2d7f9f8c1815707 Tejun Heo    2022-08-27  493  	 */
+2d7f9f8c1815707 Tejun Heo    2022-08-27  494  	if (atomic_read(&kn->active) == KN_DEACTIVATED_BIAS &&
+2d7f9f8c1815707 Tejun Heo    2022-08-27  495  	    !kernfs_should_drain_open_files(kn))
+2d7f9f8c1815707 Tejun Heo    2022-08-27  496  		return;
+2d7f9f8c1815707 Tejun Heo    2022-08-27  497  
+393c3714081a537 Minchan Kim  2021-11-18  498  	up_write(&root->kernfs_rwsem);
+35beab0635f3cdd Tejun Heo    2014-02-03  499  
+182fd64b6634221 Tejun Heo    2014-02-03  500  	if (kernfs_lockdep(kn)) {
+35beab0635f3cdd Tejun Heo    2014-02-03  501  		rwsem_acquire(&kn->dep_map, 0, 0, _RET_IP_);
+35beab0635f3cdd Tejun Heo    2014-02-03  502  		if (atomic_read(&kn->active) != KN_DEACTIVATED_BIAS)
+324a56e16e44bae Tejun Heo    2013-12-11  503  			lock_contended(&kn->dep_map, _RET_IP_);
+35beab0635f3cdd Tejun Heo    2014-02-03  504  	}
+abd54f028ec3097 Tejun Heo    2014-02-03  505  
+abd54f028ec3097 Tejun Heo    2014-02-03  506  	wait_event(root->deactivate_waitq,
+abd54f028ec3097 Tejun Heo    2014-02-03  507  		   atomic_read(&kn->active) == KN_DEACTIVATED_BIAS);
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  508  
+182fd64b6634221 Tejun Heo    2014-02-03  509  	if (kernfs_lockdep(kn)) {
+324a56e16e44bae Tejun Heo    2013-12-11  510  		lock_acquired(&kn->dep_map, _RET_IP_);
+5facae4f3549b5c Qian Cai     2019-09-19  511  		rwsem_release(&kn->dep_map, _RET_IP_);
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  512  	}
+35beab0635f3cdd Tejun Heo    2014-02-03  513  
+bdb2fd7fc56e197 Tejun Heo    2022-08-27  514  	if (kernfs_should_drain_open_files(kn))
+0e67db2f9fe9193 Tejun Heo    2016-12-27  515  		kernfs_drain_open_files(kn);
+ccf02aaf8167bb8 Tejun Heo    2014-02-03  516  
+393c3714081a537 Minchan Kim  2021-11-18  517  	down_write(&root->kernfs_rwsem);
+a6607930b6cd829 Tejun Heo    2014-02-03  518  }
+fd7b9f7b9776b11 Tejun Heo    2013-11-28  519  
+
+:::::: The code at line 482 was first introduced by commit
+:::::: fd7b9f7b9776b11df629e9dd3865320bf57ce588 sysfs, kernfs: move dir core code to fs/kernfs/dir.c
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --
 0-DAY CI Kernel Test Service
