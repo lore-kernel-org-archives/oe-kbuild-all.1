@@ -1,82 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793255100;
-	b=ggEaOoHj4P+bssXnLB+3/4FYFlA3wb4g+haqTjIPrk3Mw8d6C/Awzqh9DgMPdPxy9BSk
-	 8FsBh0Qajjvv2ekYoytwC0r8Nh0jbrgcLCHxbuvuYHyoPWf3Yb71A6LUAnQS+KkqN8Ryl
-	 5C8avF11fBHh/bU3KJeA/lmQXoxs/UADCQL07anCzAM/gl1moPJB1IojgE+FlspKD/sVC
-	 XLFNd30WKi1Tj7/DkzvcHXSoXqSZDJoSxuMGFp2WXli7okN1uDcyGqraIds86hnYfzO+d
-	 puiNjGVGHRqUVMeOFZLlWGZnUWIU4e8jwV2aSvBRL4JMqlZGTMAxjh0DRMZDJrb7u7w==
+	t=1793256950;
+	b=DmJkgGb5sfQnK7qJwDK/DXieQMocrhuooPU/aKMkm8AkmOaj7y7Kwt3qdrhZpE/NP87D
+	 Q2vwtLMut9Ue3qf3G/0ZeXkVdKgVPeTEJFwgLKjJ064uAlTWQGzmHAJrUb011qaIVgWtY
+	 wdB21Apy5FXEMAEGONKrjpYGjedbt1CPikquTKJ1ZnFCh+LQB/H0XHvn6XuTaiOQYu7ce
+	 eUb0rlN80Xn3ld4Pu8ds6SWL3cAu1pdWXUJZUW3L/t4Y+HQpdnw/7wX0rtIirfZRSvAeJ
+	 OKL0KseXlsWjPkPHzsPwpkLhJunLXpyTES36BeSkUF18rJ+C4ORcsFOmSs5VWMh62iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793255100;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793256950;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=GoWcFfV9M2fId+2o3IT2LxfxmhwYOP2ZbBx5GEYSW/g=;
-	b=D5Fs3ZNIrEkIBWo2woZ/IW416xu9zZgtg/Nc/S6rYEacYU9X8q7gWH2ONQhygkyPjkw4
-	 4UhdbgrVUw4dmVxulMbn/fHpNkeE121wCtIyD0Xm3NtFduoj87ZNMoKs/pP0pwBBwlYgr
-	 m0WvmFDiB8lky2PHe2q8zTgKHMmpaeneOPxC4rLaen+IJWVC3ilTwqMPTRQFHGipyouUW
-	 5bwnFG9a7cqjVR6kbXO6ufqDFqMJav28iyItK/BwincTvQFXzwhEGbnL31ZvACZ98R+qb
-	 WKCZXnUEaWBNvdz3r7ywxIBKjxa1ORYSak3MY63KCDxTBSSC6TiUfEpgLk9OOyu3hpg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=+UU1qjMxbR21YMRxgMQwYzKdIVAq90y6z777wF5bcqU=;
+	b=Ia6k0qnYWjmaEmqnJlaERoftsSVCeCmZDF6lX9qHqm4ocdlLvmySAvJ5oDNH5YuzZd2L
+	 0jDQpjWrKSE9oEbkQejfurq7q2yUaNTsJd7xxdA+wIGvFgjdoZoy0McH7WPgWwjiTfDl8
+	 N3kl8BxALna0sUN1Jxv9XhF1jlSzOMBq+UsJkb6eupWGhAYx6DMHflG2zn9VefhGJImKq
+	 ZIWQ/Shis8KeI8QiO63oS1gNbuP//GUYZHwAohiNSFmdVUiq5n2EHBfjK5kwwFpMymLEG
+	 unn7vmWuyVUHdNJWcNeBE8nnLJFTu94L/58EHYmVV3OkOjHSfbaX46JmnVElQKX+Nig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nScnmFMC;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CdWJhkxC;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B2D606A31D;
-	Thu, 29 Oct 2026 06:24:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0B2D606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEDE606A320
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 06:55:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DEDE606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nScnmFMC
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CdWJhkxC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793255093; x=1824791093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iSIBsFr6RspUk/5LZrqwFhSWs4iU4YOkCBQI/UmN6tA=;
-  b=nScnmFMCF6UvkehtH3kp1qagJftoSK4R2/fSXkp9KNdNdQaC5qha5KFP
-   paUKALxFjYkOrThv4eCuCP1zUR5OQFk0nRgNQA/15gs4GCZUp9kmy3UTZ
-   KOcHPHq3Ce1699QfHdSPz9OWDZvBQfvoAa/50E1bo80tPD+oimIBF/nYO
-   3eibgyfYovJxGBWzlSiYZ8wBLSCf/CBl7gz8fcZd0FjSXYa2ZP1zbP0e4
-   Fo6XMgXzof2iKBQPAbr4KO5TSSFikwkRHkj7YDveaHYcJBVMm3MFErWVe
-   1x7JinFidTAmel6g7uJH4mZiXYfnP/wiU2zQo4IdIoErI3HxHWhxz8043
+  t=1793256948; x=1824792948;
+  h=date:from:to:cc:subject:message-id;
+  bh=NR3aTBJx49lCKzdE3LxpE8E3cuSWMkJO7IOv1zh/R7M=;
+  b=CdWJhkxCasdTIaRNFaDIHfiOwF1va9HiHBrxsoNvqJJLgIu2kDcw5AmW
+   yEnv55EI9AUo25IuWn3UYZBVOF9s7YQphpZcDrx5hOtzGdxa3OhS+2N8j
+   UaBYZ84bJl9TnZXQUAmRjkKBCW22txBjvZYMxyljvIiI2rd7oz/jUhBbk
+   u1TQHsQKYAtF66Ev57EKSfjnXHeAl505xCb/ksa4sk6g/UaT7SNptzt+b
+   nISOUgWkhqleIOs8IijHgoaG4SMNiiAJKTOQPXwVUqLZhT2n+2FOQH6Li
+   zLTLYjkkkXw7neZCdyQF4ZxNOdTJt8yRMg9FqheNQh06TDEeHnW8yHuWR
    A==;
-X-CSE-ConnectionGUID: ZZKNDieHQFabXxSuxkYaiA==
-X-CSE-MsgGUID: fKMZzkb9RVesPB1+p6cG7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1901723"
+X-CSE-ConnectionGUID: mQ5mUe1iQXi4m4YTIk2f6Q==
+X-CSE-MsgGUID: om57e88eSV2rhKawdUURxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1867999"
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1901723"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 23:24:52 -0700
-X-CSE-ConnectionGUID: CsEknmunREmuJ83o0a3MNw==
-X-CSE-MsgGUID: ObcGxGaXSb2D3wwGb1/fdA==
+   d="scan'208";a="1867999"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 23:55:47 -0700
+X-CSE-ConnectionGUID: UOlRmn3pTmmF7kg4xCzZiA==
+X-CSE-MsgGUID: vlWajP/ERU+OL1D5rfeIHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="6880887"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 28 Oct 2026 23:24:49 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5417419"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2026 23:55:46 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMJZ8-00000000ZgW-1itp;
-	Thu, 29 Oct 2026 06:24:46 +0000
-Date: Thu, 29 Oct 2026 14:24:14 +0800
+	id 1xMK36-000000005AJ-0aBK;
+	Thu, 29 Oct 2026 06:55:44 +0000
+Date: Thu, 29 Oct 2026 07:55:43 +0100
 From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macroalpha82@gmail.com>, linux-pm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	heiko@sntech.de, conor+dt@kernel.org, krzk+dt@kernel.org,
-	robh@kernel.org, sre@kernel.org, t.schramm@manjaro.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH 2/3] power: supply: cw2217: Add support for Cellwise
- cw2217
-Message-ID: <202610291456.pByroJTe-lkp@intel.com>
-References: <20261027131751.1724448-3-macroalpha82@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-2026-09 1/1]
+ arch/arm64/include/asm/barrier.h:137:13: error: invalid type argument of
+ unary '*' (have 'int')
+Message-ID: <202610290747.7auZwzFb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,100 +80,355 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027131751.1724448-3-macroalpha82@gmail.com>
 
-Hi Chris,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on sre-power-supply/for-next]
-[also build test ERROR on rockchip/for-next amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.3 next-20261028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-power-cw2015-add-cw2215-cw2217-and-cw2218/20261027-081749
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20261027131751.1724448-3-macroalpha82%40gmail.com
-patch subject: [PATCH 2/3] power: supply: cw2217: Add support for Cellwise cw2217
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261029/202610291456.pByroJTe-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1da436a23e613c425fc9b868fc8deb979ede47a4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291456.pByroJTe-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-09
+head:   a69319c19fd01d6ddb506d4e39b1e50451bdb352
+commit: 06f8e52b34f38555bb820ac1cb1d9547a3c9c50a [1/1] ANDROID: GKI: Introduce GKI_HIDDEN_IOMMU_CONFIGS
+config: arm64-randconfig-r2202-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290747.7auZwzFb-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290747.7auZwzFb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291456.pByroJTe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610290747.7auZwzFb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/power/supply/cw2217_battery.c:261:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     261 |         fw_ver = FIELD_GET(CW2217_ID_MASK, cw_bat->fw_version);
+   arch/arm64/include/asm/barrier.h:132:2: note: in expansion of macro 'compiletime_assert_atomic_type'
+     132 |  compiletime_assert_atomic_type(*p);    \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:23: error: 'struct mm_struct' has no member named 'iommu_mm'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |                       ^~
+   include/linux/compiler.h:68:3: note: in definition of macro '__trace_if_value'
+      68 |  (cond) ?     \
+         |   ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   include/linux/compiler_types.h:548:3: note: in expansion of macro 'if'
+     548 |   if (!(condition))     \
+         |   ^~
+   include/linux/compiler_types.h:556:2: note: in expansion of macro '__compiletime_assert'
+     556 |  __compiletime_assert(condition, msg, prefix, suffix)
+         |  ^~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:2: note: in expansion of macro 'compiletime_assert'
+     571 |  compiletime_assert(__native_word(t),    \
+         |  ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:571:21: note: in expansion of macro '__native_word'
+     571 |  compiletime_assert(__native_word(t),    \
+         |                     ^~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:132:2: note: in expansion of macro 'compiletime_assert_atomic_type'
+     132 |  compiletime_assert_atomic_type(*p);    \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from arch/arm64/include/asm/cache.h:40,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/arm64/include/asm/processor.h:29,
+                    from include/linux/sched.h:13,
+                    from arch/arm64/include/asm/mmu_context.h:14,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   drivers/iommu/iommu-sva.c:51:23: error: 'struct mm_struct' has no member named 'iommu_mm'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |                       ^~
+   arch/arm64/include/asm/barrier.h:133:33: note: in definition of macro '__smp_store_release'
+     133 |  kasan_check_write(__p, sizeof(*p));    \
+         |                                 ^
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:133:20: warning: passing argument 1 of '__kasan_check_write' makes pointer from integer without a cast [-Wint-conversion]
+     133 |  kasan_check_write(__p, sizeof(*p));    \
+         |                    ^~~
+         |                    |
+         |                    int
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/rwonce.h:26,
+                    from arch/arm64/include/asm/rwonce.h:67,
+                    from include/linux/compiler.h:390,
+                    from arch/arm64/include/asm/mmu_context.h:13,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   include/linux/kasan-checks.h:20:47: note: expected 'const volatile void *' but argument is of type 'int'
+      20 | bool __kasan_check_write(const volatile void *p, unsigned int size);
+         |                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from arch/arm64/include/asm/cache.h:40,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from arch/arm64/include/asm/processor.h:29,
+                    from include/linux/sched.h:13,
+                    from arch/arm64/include/asm/mmu_context.h:14,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   drivers/iommu/iommu-sva.c:51:23: error: 'struct mm_struct' has no member named 'iommu_mm'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |                       ^~
+   arch/arm64/include/asm/barrier.h:134:18: note: in definition of macro '__smp_store_release'
+     134 |  switch (sizeof(*p)) {      \
          |                  ^
-   drivers/power/supply/cw2217_battery.c:465:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     465 |                                        FIELD_GET(CW2217_IC_READY_MASK, reg) == CW2217_IC_READY,
-         |                                        ^
-   drivers/power/supply/cw2217_battery.c:491:6: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     491 |         if (FIELD_GET(CW2217_CONFIG_ACT_MSK, reg)) {
-         |             ^
-   3 errors generated.
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+>> arch/arm64/include/asm/barrier.h:137:13: error: invalid type argument of unary '*' (have 'int')
+     137 |     : "=Q" (*__p)    \
+         |             ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:143:13: error: invalid type argument of unary '*' (have 'int')
+     143 |     : "=Q" (*__p)    \
+         |             ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:149:13: error: invalid type argument of unary '*' (have 'int')
+     149 |     : "=Q" (*__p)    \
+         |             ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/barrier.h:155:13: error: invalid type argument of unary '*' (have 'int')
+     155 |     : "=Q" (*__p)    \
+         |             ^~~~
+   include/asm-generic/barrier.h:172:55: note: in expansion of macro '__smp_store_release'
+     172 | #define smp_store_release(p, v) do { kcsan_release(); __smp_store_release(p, v); } while (0)
+         |                                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:51:2: note: in expansion of macro 'smp_store_release'
+      51 |  smp_store_release(&mm->iommu_mm, iommu_mm);
+         |  ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c: At top level:
+   drivers/iommu/iommu-sva.c:68:19: error: redefinition of 'iommu_sva_bind_device'
+      68 | struct iommu_sva *iommu_sva_bind_device(struct device *dev, struct mm_struct *mm)
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/iommu-sva.c:8:
+   include/linux/iommu.h:1576:1: note: previous definition of 'iommu_sva_bind_device' was here
+    1576 | iommu_sva_bind_device(struct device *dev, struct mm_struct *mm)
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/kernel.h:22,
+                    from arch/arm64/include/asm/cpufeature.h:26,
+                    from arch/arm64/include/asm/processor.h:39,
+                    from include/linux/sched.h:13,
+                    from arch/arm64/include/asm/mmu_context.h:14,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   drivers/iommu/iommu-sva.c: In function 'iommu_sva_bind_device':
+   drivers/iommu/iommu-sva.c:114:33: error: 'struct mm_struct' has no member named 'iommu_mm'
+     114 |  list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
+         |                                 ^~
+   include/linux/container_of.h:19:26: note: in definition of macro 'container_of'
+      19 |  void *__mptr = (void *)(ptr);     \
+         |                          ^~~
+   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
+     612 |  list_entry((ptr)->next, type, member)
+         |  ^~~~~~~~~~
+   include/linux/list.h:770:13: note: in expansion of macro 'list_first_entry'
+     770 |  for (pos = list_first_entry(head, typeof(*pos), member); \
+         |             ^~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:114:2: note: in expansion of macro 'list_for_each_entry'
+     114 |  list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
+         |  ^~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/processor.h:28,
+                    from include/linux/sched.h:13,
+                    from arch/arm64/include/asm/mmu_context.h:14,
+                    from include/linux/mmu_context.h:5,
+                    from drivers/iommu/iommu-sva.c:5:
+   drivers/iommu/iommu-sva.c:114:33: error: 'struct mm_struct' has no member named 'iommu_mm'
+     114 |  list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
+         |                                 ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
+      20 |  static_assert(__same_type(*(ptr), ((type *)0)->member) || \
+         |  ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
+      20 |  static_assert(__same_type(*(ptr), ((type *)0)->member) || \
+         |                ^~~~~~~~~~~
+   include/linux/list.h:601:2: note: in expansion of macro 'container_of'
+     601 |  container_of(ptr, type, member)
+         |  ^~~~~~~~~~~~
+   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
+     612 |  list_entry((ptr)->next, type, member)
+         |  ^~~~~~~~~~
+   include/linux/list.h:770:13: note: in expansion of macro 'list_first_entry'
+     770 |  for (pos = list_first_entry(head, typeof(*pos), member); \
+         |             ^~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:114:2: note: in expansion of macro 'list_for_each_entry'
+     114 |  list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
+         |  ^~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommu-sva.c:114:33: error: 'struct mm_struct' has no member named 'iommu_mm'
+     114 |  list_for_each_entry(domain, &mm->iommu_mm->sva_domains, next) {
+         |                                 ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DIMLIB
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y] && 64BIT [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_SVA
+   Depends on [n]: IOMMU_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_IOMMU_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +/FIELD_GET +261 drivers/power/supply/cw2217_battery.c
+vim +137 arch/arm64/include/asm/barrier.h
 
-   231	
-   232	/*
-   233	 * Current is a signed 16bit register (0x0E 0x0F) that reports current A/D
-   234	 * converter result of the voltage across the current sense resistor,
-   235	 * 10mohm typical. The register value should be divided by the sense
-   236	 * resistance to convert to amperes. The value of the sense resistor
-   237	 * determines the resolution and the full-scale range of the current readings.
-   238	 * The LSB of 0x0F is (52.4/32768)uV for CW2215 and CW2217. The LSB of 0x0F is
-   239	 * (125/32768)uV for CW2218.
-   240	 */
-   241	static int cw2217_get_current(struct cw2217_battery *cw_bat)
-   242	{
-   243		s32 cw_current;
-   244		__be16 reg;
-   245		u8 fw_ver;
-   246		int ret;
-   247	
-   248		if (cw_bat->fw_version == 0) {
-   249			cw_bat->cw_current = 0;
-   250			dev_err(cw_bat->dev, "Error! CW2217 firmware read error!\n");
-   251			return -EIO;
-   252		}
-   253	
-   254		ret = regmap_bulk_read(cw_bat->regmap, CW2217_CURRENT_H,
-   255				       &reg, sizeof(reg));
-   256		if (ret)
-   257			return ret;
-   258	
-   259		cw_current = (s16)be16_to_cpu(reg);
-   260	
- > 261		fw_ver = FIELD_GET(CW2217_ID_MASK, cw_bat->fw_version);
-   262		switch (fw_ver) {
-   263		case CW2215_ID:
-   264		case CW2217_ID:
-   265			cw_current = (cw_current * 1600) / (cw_bat->user_rsense / 1000);
-   266			cw_bat->cw_current = cw_current * 1000;
-   267			break;
-   268		case CW2218_ID:
-   269			cw_current = (cw_current * 3815) / (cw_bat->user_rsense / 1000);
-   270			cw_bat->cw_current = cw_current * 1000;
-   271			break;
-   272		default:
-   273			cw_bat->cw_current = 0;
-   274			dev_err(cw_bat->dev, "Error! CW2217 firmware read error!\n");
-   275			return -EIO;
-   276		}
-   277	
-   278		return 0;
-   279	}
-   280	
+47933ad41a86a4 Peter Zijlstra     2013-11-06  126  
+fd072df850e536 Michael S. Tsirkin 2015-12-27  127  #define __smp_store_release(p, v)					\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  128  do {									\
+131e135f7fd14b Mark Rutland       2019-04-09  129  	typeof(p) __p = (p);						\
+10223c5286f738 Will Deacon        2019-12-19  130  	union { __unqual_scalar_typeof(*p) __val; char __c[1]; } __u =	\
+10223c5286f738 Will Deacon        2019-12-19  131  		{ .__val = (__force __unqual_scalar_typeof(*p)) (v) };	\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  132  	compiletime_assert_atomic_type(*p);				\
+131e135f7fd14b Mark Rutland       2019-04-09  133  	kasan_check_write(__p, sizeof(*p));				\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  134  	switch (sizeof(*p)) {						\
+878a84d5a8a18a Andre Przywara     2015-04-20  135  	case 1:								\
+878a84d5a8a18a Andre Przywara     2015-04-20  136  		asm volatile ("stlrb %w1, %0"				\
+131e135f7fd14b Mark Rutland       2019-04-09 @137  				: "=Q" (*__p)				\
+39c8275de81cf7 Mark Rutland       2023-03-14  138  				: "rZ" (*(__u8 *)__u.__c)		\
+994870bead4ab1 Mark Rutland       2017-05-03  139  				: "memory");				\
+878a84d5a8a18a Andre Przywara     2015-04-20  140  		break;							\
+878a84d5a8a18a Andre Przywara     2015-04-20  141  	case 2:								\
+878a84d5a8a18a Andre Przywara     2015-04-20  142  		asm volatile ("stlrh %w1, %0"				\
+131e135f7fd14b Mark Rutland       2019-04-09  143  				: "=Q" (*__p)				\
+39c8275de81cf7 Mark Rutland       2023-03-14  144  				: "rZ" (*(__u16 *)__u.__c)		\
+994870bead4ab1 Mark Rutland       2017-05-03  145  				: "memory");				\
+878a84d5a8a18a Andre Przywara     2015-04-20  146  		break;							\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  147  	case 4:								\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  148  		asm volatile ("stlr %w1, %0"				\
+131e135f7fd14b Mark Rutland       2019-04-09  149  				: "=Q" (*__p)				\
+39c8275de81cf7 Mark Rutland       2023-03-14  150  				: "rZ" (*(__u32 *)__u.__c)		\
+994870bead4ab1 Mark Rutland       2017-05-03  151  				: "memory");				\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  152  		break;							\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  153  	case 8:								\
+39c8275de81cf7 Mark Rutland       2023-03-14  154  		asm volatile ("stlr %x1, %0"				\
+131e135f7fd14b Mark Rutland       2019-04-09  155  				: "=Q" (*__p)				\
+39c8275de81cf7 Mark Rutland       2023-03-14  156  				: "rZ" (*(__u64 *)__u.__c)		\
+994870bead4ab1 Mark Rutland       2017-05-03  157  				: "memory");				\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  158  		break;							\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  159  	}								\
+47933ad41a86a4 Peter Zijlstra     2013-11-06  160  } while (0)
+47933ad41a86a4 Peter Zijlstra     2013-11-06  161  
+
+:::::: The code at line 137 was first introduced by commit
+:::::: 131e135f7fd14b1de7a5eb26631076705c18073f arm64: instrument smp_{load_acquire,store_release}
+
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 --
 0-DAY CI Kernel Test Service
