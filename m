@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793238819;
-	b=0/QI5KzAzzhquhrdK/gpXowALanOvxT40xD/ChNS8LI54s4aXqOybxJYq8oD7reRT/Xu
-	 3l23Lv8ESha4TknymZAEEEYnMjSvbay0351MqQZ5PQoUFAF4NKeadlAvJjHEHb+RpcYEb
-	 K5TEWs5D36F4Mhq1SF7bhy7tW0W8/Da9GMpndtsPQj5IkRitGXcdz/rVTG8gZisIrNQa2
-	 Jwc//hcGygaTQWHpHC9rDg8api/34/Ot618xO31hWFfc85ccCoWt2Q/EH6EB32clVJFis
-	 lKo2wEC3J4XJcwzSBzAgcL1ZgeXA/FlbojdmH0PDovosZd94FVM3S9U4k92sFboxu9w==
+	t=1793240483;
+	b=S5Es0R25mtp3oEPqEwnBBDpuPx9zPKaHsTKNgheHTgtwTeOH1K2382mAYy/ul+6KtR5C
+	 uPuJwcFT5L0PvPgtPyTa90+1o7RN0+rJZG8o9GWeU+9mYV0SOSgQpqc0KRIiKAa3Uu89V
+	 +zmsbAIdL7CMs1dutLRNlN4h/j5ZOABvFvDy0u7ZwxyBeygjqqWK8i2GO9NPjv4IRbLo1
+	 QugmQHgJ+KZkTFsOADiF5WY3iXvaF90yWY0qMJu8GMuuO/quOnuGouKgap+1dV1F+YCmL
+	 xs8bjh1vElJxolEtuxubA8YlIDR4o10EQfbTCvtxcqiPg6dnCR9rY6f7E7oJDKydxoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793238819;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793240483;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=hsXWYWgMuwwLKps/wubLVvfQmkiKjZ8HX4vdHY3Yhiw=;
-	b=oYlM/OeC9xgv2rvi0RWp0/wWi/AGTDJzSFLmIPHAF0y9aSjf+VuQe7jNG6EimqJJMiox
-	 xwrecHlot7nlwQCcKIqyH6ctsty7DNBtICdoBysyw5T1VAqmKcFzLX5ru74QfePKRURPz
-	 Ju6dNAQTEczYWZu1Iw9CiXfU/VICu7TVx5/7cK6buosMU+EQnontE5UaozZ5qcq1g9lOI
-	 DsQnCYNyV74rUkA0TVisnpxhNgahyA3FLFLKtajo9RC/sKMwHZPxiSYcv2VUhf2ZgUQ+G
-	 5DEw6GjGoTwOCy/VR8ccPceOu9BrpNdlKJ75+yx1LTp67FHUyFFhSA6CG9QKsavny9Q==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=4n5SYWljsfHg2yfJ+u4z/LrBOlfPceBDthittcfENSk=;
+	b=Hndom5mIulPi0SqFnGcfPmvvgbMmwMDOh514fWmQrFwYinZT2fLqXGGh34y75hgQ5Lnr
+	 CGcDLvCS0TDuZnjWpUsLM2S0e8dDscNCXYlmuKrBX81oaFMcsativvmw3Seg/vKRzyF26
+	 N6bxEjD1fa0NBHpVGmhx6jqqxmNJ4SzA2w7GZ4C3bKlctgywFQNdeI5BBoJjXSxivjmee
+	 JTzzt/MAK+R4vMAu5qjlmOKTOiv/11T5fukV+PZFrxim0wBfharBvIaldXfRBirfTWCql
+	 eNldIh5h255wgWV0FIviPW7qBJr7UHJJqaXIp36TRsaZW06SiFOtcn1rgJ/pECjFApw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=biOzgisO;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PAlgb+Nk;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D633606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 01:53:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D633606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E201606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 02:21:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E201606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=biOzgisO
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PAlgb+Nk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793238818; x=1824774818;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OJ5E3OIq/gjO6irdH0wT/tyBrXlysIvBXAfHmzzwqeE=;
-  b=biOzgisOvKj6f+X7pWguFppGiVAK47gF6SQ8wEW5WgikzMleBOCLZbH8
-   aJnvQIW5Bsap0VwJq0PlBWslwBL0uy2I7+cilIyECoOjZEU+TdM3bjOyQ
-   N2r6O6FBMsLaqX3LgPP2oyOZ7EykkmR/3HxbtXxfQe2tmlJdK7I/5lF6Z
-   aDYj1qYTdz7BAJ9UU4BqosIcjyq/rJiPrXjKBrev/aCXIVBlaHRuetR+v
-   De8CQrgCv8LzVOj7tXx2GwzAwxiVErDuvF4dl8wAA77L9QhC1TqQHAFc1
-   AMwvCMhUlAYkdeyPzyJN3Y9YWBnVS/UgkFY//cjJ9tdDDJdMIUQPB9TCH
-   Q==;
-X-CSE-ConnectionGUID: fn+EsKxeSfCP+Y47vBnULw==
-X-CSE-MsgGUID: rS3x21T+Qp2NZnU6/kTh4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1876701"
+  t=1793240481; x=1824776481;
+  h=date:from:to:cc:subject:message-id;
+  bh=Fk7SMKenelRAxwnX6JRmhYMzCufCCl34K27kRyHm+u0=;
+  b=PAlgb+NkU7LyoDptR9o1AuVZrw+G0IrYaCOZzMFY29LwhOtTCWgJRGXo
+   lGJuYpFB2XdGtHzB60/Iy0HlJUwZbZoTuTZMNTu649bDrcIXXjnu8w49R
+   4+52gFruTwr386hhEYivu7hLln+QxWu6BlK3AuZbwIE/Tt6MTCTAokMlf
+   Zh1ljCn2S4Fi7zElkxYJG+lOGIpAJiZYw1+M976S+gSUkc71/kN/yUuoP
+   Y6af4I8tjzWOIWGIqDGe3awVxAAMPQLPPgnSHw1yBpAJNjtrCEx4zZNKI
+   IreqnRkxSneEYlgm+y2BT891v2G4+ry8g2PgOawNstzms1FC8HsYBezU5
+   w==;
+X-CSE-ConnectionGUID: LtBnZ3UOTEODbjNcOShXWA==
+X-CSE-MsgGUID: Yl5uLFMNS4Cr6n6JPgcByg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1991774"
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="1876701"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 18:53:37 -0700
-X-CSE-ConnectionGUID: HMzjkn2US5OFj9HsGz1tdQ==
-X-CSE-MsgGUID: ywVXSH7jSqaMkOrpVFoR8g==
+   d="scan'208";a="1991774"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 19:21:20 -0700
+X-CSE-ConnectionGUID: rlGqCr5QTHOcmV2lGZVBcA==
+X-CSE-MsgGUID: FVgBKta3T365aehJR8O0cA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5089502"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Oct 2026 18:53:35 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5364134"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2026 19:21:20 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMFKe-00000000ZSy-3ktI;
-	Thu, 29 Oct 2026 01:53:32 +0000
-Date: Thu, 29 Oct 2026 09:52:38 +0800
+	id 1xMFlV-00000000575-1Gxs;
+	Thu, 29 Oct 2026 02:21:17 +0000
+Date: Thu, 29 Oct 2026 03:20:21 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-classmaps-v13-akpm 28/40] Warning:
- lib/dynamic_debug.c:740 expecting prototype for param_set_dyndbg_classes().
- Prototype was for param_set_dyndbg_module_classes() instead
-Message-ID: <202610290927.uujcAeA3-lkp@intel.com>
+Subject: [kkdwivedi:cancellations 3/29]
+ arch/s390/net/bpf_jit_comp.c:649:16: error: no member named
+ 'exception_boundary' in 'struct bpf_prog_aux'
+Message-ID: <202610290313.euXk0BQ0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,24 +80,113 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dd-classmaps-v13-akpm
-head:   a61a00820061f0c17a4416b3bf47eeb3f98c238d
-commit: 6ee79369c7f2a0d78a4087eb30f12b2bae53f162 [28/40] dyndbg-API: promote DYNAMIC_DEBUG_CLASSMAP_PARAM to API
-config: xtensa-randconfig-1001-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290927.uujcAeA3-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290927.uujcAeA3-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux cancellations
+head:   d085b61bdd9ef20d93fc010b4f0092f65b869e5a
+commit: b1cc125c910e54e5242ef9babf1d05e267c5ebf3 [3/29] bpf: Remove exception_boundary, which nothing reads any more
+config: s390-randconfig-r2303-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290313.euXk0BQ0-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290313.euXk0BQ0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610290927.uujcAeA3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610290313.euXk0BQ0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: lib/dynamic_debug.c:740 expecting prototype for param_set_dyndbg_classes(). Prototype was for param_set_dyndbg_module_classes() instead
+>> arch/s390/net/bpf_jit_comp.c:649:16: error: no member named 'exception_boundary' in 'struct bpf_prog_aux'
+     649 |                                   fp->aux->exception_boundary ? NVREGS : 0);
+         |                                   ~~~~~~~  ^
+   1 error generated.
+
+
+vim +649 arch/s390/net/bpf_jit_comp.c
+
+f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  603  
+054623105728b0 Michael Holzheu         2015-04-01  604  /*
+054623105728b0 Michael Holzheu         2015-04-01  605   * Emit function prologue
+054623105728b0 Michael Holzheu         2015-04-01  606   *
+054623105728b0 Michael Holzheu         2015-04-01  607   * Save registers and create stack frame if necessary.
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  608   * Stack frame layout is described by struct prog_frame.
+054623105728b0 Michael Holzheu         2015-04-01  609   */
+b2268d550d20ff Ilya Leoshkevich        2025-06-24  610  static void bpf_jit_prologue(struct bpf_jit *jit, struct bpf_prog *fp)
+054623105728b0 Michael Holzheu         2015-04-01  611  {
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  612  	BUILD_BUG_ON(sizeof(struct prog_frame) != STACK_FRAME_OVERHEAD);
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  613  
+227b4e108adcc4 Heiko Carstens          2026-07-27  614  	emit_kcfi(bpf_is_subprog(fp) ? cfi_bpf_subprog_hash : cfi_bpf_hash, jit);
+227b4e108adcc4 Heiko Carstens          2026-07-27  615  
+f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  616  	/* No-op for hotpatching */
+f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  617  	/* brcl 0,prologue_plt */
+f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  618  	EMIT6_PCREL_RILC(0xc0040000, 0, jit->prologue_plt);
+f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  619  	jit->prologue_plt_ret = jit->prg;
+f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  620  
+9af27da6313c8f Kumar Kartikeya Dwivedi 2023-09-13  621  	if (!bpf_is_subprog(fp)) {
+dd691e847d28ac Ilya Leoshkevich        2023-01-29  622  		/* Initialize the tail call counter in the main program. */
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  623  		/* xc tail_call_cnt(4,%r15),tail_call_cnt(%r15) */
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  624  		_EMIT6(0xd703f000 | offsetof(struct prog_frame, tail_call_cnt),
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  625  		       0xf000 | offsetof(struct prog_frame, tail_call_cnt));
+6651ee070b3124 Michael Holzheu         2015-06-08  626  	} else {
+94ad428df53688 Ilya Leoshkevich        2020-07-17  627  		/*
+dd691e847d28ac Ilya Leoshkevich        2023-01-29  628  		 * Skip the tail call counter initialization in subprograms.
+dd691e847d28ac Ilya Leoshkevich        2023-01-29  629  		 * Insert nops in order to have tail_call_start at a
+dd691e847d28ac Ilya Leoshkevich        2023-01-29  630  		 * predictable offset.
+94ad428df53688 Ilya Leoshkevich        2020-07-17  631  		 */
+94ad428df53688 Ilya Leoshkevich        2020-07-17  632  		bpf_skip(jit, 6);
+6651ee070b3124 Michael Holzheu         2015-06-08  633  	}
+6651ee070b3124 Michael Holzheu         2015-06-08  634  	/* Tail calls have to skip above initialization */
+227b4e108adcc4 Heiko Carstens          2026-07-27  635  	jit->tail_call_start = jit->prg - cfi_get_offset();
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  636  	if (fp->aux->exception_cb) {
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  637  		/*
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  638  		 * Switch stack, the new address is in the 2nd parameter.
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  639  		 *
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  640  		 * Arrange the restoration of %r6-%r15 in the epilogue.
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  641  		 * Do not restore them now, the prog does not need them.
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  642  		 */
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  643  		/* lgr %r15,%r3 */
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  644  		EMIT4(0xb9040000, REG_15, REG_3);
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  645  		jit->seen_regs |= NVREGS;
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  646  	} else {
+054623105728b0 Michael Holzheu         2015-04-01  647  		/* Save registers */
+b2268d550d20ff Ilya Leoshkevich        2025-06-24  648  		save_restore_regs(jit, REGS_SAVE,
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03 @649  				  fp->aux->exception_boundary ? NVREGS : 0);
+fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  650  	}
+c10302efe569bf Martin Schwidefsky      2012-07-31  651  	/* Setup literal pool */
+fcf35131396ace Ilya Leoshkevich        2019-11-14  652  	if (is_first_pass(jit) || (jit->seen & SEEN_LITERAL)) {
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  653  		if (!is_first_pass(jit) &&
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  654  		    is_valid_ldisp(jit->size - (jit->prg + 2))) {
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  655  			/* basr %l,0 */
+054623105728b0 Michael Holzheu         2015-04-01  656  			EMIT2(0x0d00, REG_L, REG_0);
+c10302efe569bf Martin Schwidefsky      2012-07-31  657  			jit->base_ip = jit->prg;
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  658  		} else {
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  659  			/* larl %l,lit32_start */
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  660  			EMIT6_PCREL_RILB(0xc0000000, REG_L, jit->lit32_start);
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  661  			jit->base_ip = jit->lit32_start;
+c1aff5682da297 Ilya Leoshkevich        2019-11-18  662  		}
+c10302efe569bf Martin Schwidefsky      2012-07-31  663  	}
+054623105728b0 Michael Holzheu         2015-04-01  664  	/* Setup stack and backchain */
+fcf35131396ace Ilya Leoshkevich        2019-11-14  665  	if (is_first_pass(jit) || (jit->seen & SEEN_STACK)) {
+88aeca15d637c2 Michael Holzheu         2015-06-01  666  		/* lgr %w1,%r15 (backchain) */
+88aeca15d637c2 Michael Holzheu         2015-06-01  667  		EMIT4(0xb9040000, REG_W1, REG_15);
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  668  		/* la %bfp,unused_end(%r15) (BPF frame pointer) */
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  669  		EMIT4_DISP(0x41000000, BPF_REG_FP, REG_15,
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  670  			   offsetofend(struct prog_frame, unused));
+b2268d550d20ff Ilya Leoshkevich        2025-06-24  671  		/* aghi %r15,-frame_off */
+b2268d550d20ff Ilya Leoshkevich        2025-06-24  672  		EMIT4_IMM(0xa70b0000, REG_15, -jit->frame_off);
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  673  		/* stg %w1,backchain(%r15) */
+88aeca15d637c2 Michael Holzheu         2015-06-01  674  		EMIT6_DISP_LH(0xe3000000, 0x0024, REG_W1, REG_0,
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  675  			      REG_15,
+e26d523edf2a62 Ilya Leoshkevich        2025-06-24  676  			      offsetof(struct prog_frame, backchain));
+054623105728b0 Michael Holzheu         2015-04-01  677  	}
+6d59b7dbf72ed2 Daniel Borkmann         2017-12-14  678  }
+c10302efe569bf Martin Schwidefsky      2012-07-31  679  
+
+:::::: The code at line 649 was first introduced by commit
+:::::: fa7bd4b000a7ae32eb6fc049125943561e5b46f3 s390/bpf: Implement exceptions
+
+:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 --
 0-DAY CI Kernel Test Service
