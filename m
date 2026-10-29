@@ -1,77 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793240483;
-	b=S5Es0R25mtp3oEPqEwnBBDpuPx9zPKaHsTKNgheHTgtwTeOH1K2382mAYy/ul+6KtR5C
-	 uPuJwcFT5L0PvPgtPyTa90+1o7RN0+rJZG8o9GWeU+9mYV0SOSgQpqc0KRIiKAa3Uu89V
-	 +zmsbAIdL7CMs1dutLRNlN4h/j5ZOABvFvDy0u7ZwxyBeygjqqWK8i2GO9NPjv4IRbLo1
-	 QugmQHgJ+KZkTFsOADiF5WY3iXvaF90yWY0qMJu8GMuuO/quOnuGouKgap+1dV1F+YCmL
-	 xs8bjh1vElJxolEtuxubA8YlIDR4o10EQfbTCvtxcqiPg6dnCR9rY6f7E7oJDKydxoQ==
+	t=1793240950;
+	b=smAKvOjfFK7O4gemGvC5XaEkvSrXJbQ6ntC/vs220PwgNP+8qS4dPw+fL6a3GQGvkzrW
+	 J36WHryw5sSjt5thsoKaCblXc0wIp3ljU4ZnEmL/+kHTtQrzIz05MQvic17hvw69KPaSH
+	 l62L38AOuYdrkHOiqs9a0yZgiRj0rg0qtOIFis5Ni6/kupwp3PlbCem9USjAOxOiyoSjt
+	 jaia6a8xE8OiSIDWBIHBRkjyqo4egVhtj0FFtMO2zZn4jVSGYYKa7VGgjb5TQG4saPVHW
+	 wyYmIEIecTpEwxvr99R3FNOs1aix+OgcyuUkyB4zfykXAI1MLIRAuo4C/y+cDZotxmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793240483;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793240950;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=4n5SYWljsfHg2yfJ+u4z/LrBOlfPceBDthittcfENSk=;
-	b=Hndom5mIulPi0SqFnGcfPmvvgbMmwMDOh514fWmQrFwYinZT2fLqXGGh34y75hgQ5Lnr
-	 CGcDLvCS0TDuZnjWpUsLM2S0e8dDscNCXYlmuKrBX81oaFMcsativvmw3Seg/vKRzyF26
-	 N6bxEjD1fa0NBHpVGmhx6jqqxmNJ4SzA2w7GZ4C3bKlctgywFQNdeI5BBoJjXSxivjmee
-	 JTzzt/MAK+R4vMAu5qjlmOKTOiv/11T5fukV+PZFrxim0wBfharBvIaldXfRBirfTWCql
-	 eNldIh5h255wgWV0FIviPW7qBJr7UHJJqaXIp36TRsaZW06SiFOtcn1rgJ/pECjFApw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=M72bklrIu09iEbCbSB40g8WJ8vZOUqKg09TgIo6oM7s=;
+	b=g7RCY5KzGgyyrzY+dBMfClGYgN3T1xFj+CIMrfNqCjWIUt/iMU0vYlZPoLlyd5SvtMVY
+	 zWKPe3FbR4eNPtLZspCeGrcN/u1corASM/8SaiZKp/p8e3WSISd8zKt1LHIrYh/5I6TDS
+	 QGAC6KKTucy7ohRP8EhzhLIxgRvdDeS7PfThmqn+2m4FqPYdb+rtdQfN6n9BL5rVT+1Lx
+	 qLXM0jT0/IXaLpoJEOs3k9Q2m6rvcjt76gk9qnzo2eX2yqNuQJgPEPf5WMK4wLUqAaHdR
+	 pHBgUy5Ex7sXEm0rqYI5EVkV86J4TG8mKeA+VWo5gx72AJ1CDjYn2CosqefD2Uc624g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PAlgb+Nk;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SPKOMHwK;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E201606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 02:21:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E201606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BF5606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 02:29:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7BF5606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PAlgb+Nk
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SPKOMHwK
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793240481; x=1824776481;
-  h=date:from:to:cc:subject:message-id;
-  bh=Fk7SMKenelRAxwnX6JRmhYMzCufCCl34K27kRyHm+u0=;
-  b=PAlgb+NkU7LyoDptR9o1AuVZrw+G0IrYaCOZzMFY29LwhOtTCWgJRGXo
-   lGJuYpFB2XdGtHzB60/Iy0HlJUwZbZoTuTZMNTu649bDrcIXXjnu8w49R
-   4+52gFruTwr386hhEYivu7hLln+QxWu6BlK3AuZbwIE/Tt6MTCTAokMlf
-   Zh1ljCn2S4Fi7zElkxYJG+lOGIpAJiZYw1+M976S+gSUkc71/kN/yUuoP
-   Y6af4I8tjzWOIWGIqDGe3awVxAAMPQLPPgnSHw1yBpAJNjtrCEx4zZNKI
-   IreqnRkxSneEYlgm+y2BT891v2G4+ry8g2PgOawNstzms1FC8HsYBezU5
-   w==;
-X-CSE-ConnectionGUID: LtBnZ3UOTEODbjNcOShXWA==
-X-CSE-MsgGUID: Yl5uLFMNS4Cr6n6JPgcByg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1991774"
+  t=1793240949; x=1824776949;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T9gdfsQMp6W/ayVj5uDJFH5wzK4XwY/ukHerPwjIVRU=;
+  b=SPKOMHwK75TotAHOWWYERPKQJZWJ40Br4xa2HjKiwF5SMESHCL/Jvh0v
+   k0uQgd0XsilAvwyIRVD46y/QFp0ZK6T7liZ+n+kXb78IlhTuCq4aJwX5M
+   WYZlv3yfJjqaKSHHXMG9jcTfRMPO1itTj3JhEf+rZxeiS/HZIkFvPiZ+0
+   9cLk/FarX0J2q5rBvCxz9+luA5kVfJIRInf+eKvsD8neGV+14r20zp3+9
+   tUMom+Kh1jHUKQ7EHSH15fsU5jn8Nu5wl98omjWq2mwhVpZ9wSfRpfkba
+   0l+Mk0xZ8fJjTWDqmuxNayC6hfF1Opxu9O34buOFu85App+1LYXE+g+Eg
+   A==;
+X-CSE-ConnectionGUID: 2Kv/Uz+7QoWZdqJQ05pYOg==
+X-CSE-MsgGUID: z24ilxH3RKOnwJRxTkziaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1965862"
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="1991774"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 19:21:20 -0700
-X-CSE-ConnectionGUID: rlGqCr5QTHOcmV2lGZVBcA==
-X-CSE-MsgGUID: FVgBKta3T365aehJR8O0cA==
+   d="scan'208";a="1965862"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 19:29:08 -0700
+X-CSE-ConnectionGUID: rzefarvVSo+KCk5pir41Dw==
+X-CSE-MsgGUID: M9dYC7nJRtiKJkrfwxub3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5364134"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2026 19:21:20 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="5393002"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 28 Oct 2026 19:29:05 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMFlV-00000000575-1Gxs;
-	Thu, 29 Oct 2026 02:21:17 +0000
-Date: Thu, 29 Oct 2026 03:20:21 +0100
+	id 1xMFsz-00000000ZVs-0VAF;
+	Thu, 29 Oct 2026 02:29:01 +0000
+Date: Thu, 29 Oct 2026 10:28:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:cancellations 3/29]
- arch/s390/net/bpf_jit_comp.c:649:16: error: no member named
- 'exception_boundary' in 'struct bpf_prog_aux'
-Message-ID: <202610290313.euXk0BQ0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jackie Liu <liu.yun@linux.dev>, glider@google.com
+Cc: oe-kbuild-all@lists.linux.dev, dvyukov@google.com, elver@google.com,
+	pjw@kernel.org, alex@ghiti.fr, aou@eecs.berkeley.edu,
+	linux-riscv@lists.infradead.org, linux-mm@kvack.org,
+	kasan-dev@googlegroups.com, muchun.song@linux.dev,
+	liu.yun@linux.dev
+Subject: Re: [PATCH 3/3] riscv: keep booting if KFENCE pool reservation fails
+Message-ID: <202610290904.wbrEL97y-lkp@intel.com>
+References: <58e3baebbf4e454725e6bde8b7a267fb71cfdaae.1793017074.git.liuyun01@kylinos.cn>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,113 +84,110 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <58e3baebbf4e454725e6bde8b7a267fb71cfdaae.1793017074.git.liuyun01@kylinos.cn>
 
-tree:   https://github.com/kkdwivedi/linux cancellations
-head:   d085b61bdd9ef20d93fc010b4f0092f65b869e5a
-commit: b1cc125c910e54e5242ef9babf1d05e267c5ebf3 [3/29] bpf: Remove exception_boundary, which nothing reads any more
-config: s390-randconfig-r2303-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290313.euXk0BQ0-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 42d4451d86c175b745d6ea1c4081787994c7259b)
-sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290313.euXk0BQ0-lkp@intel.com/reproduce)
+Hi Jackie,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jackie-Liu/kfence-fix-pool-cleanup-on-metadata-allocation-failure/20261026-202302
+base:   7be4bc52fd9e0e55dc9a2e0232b89427d2c4b614
+patch link:    https://lore.kernel.org/r/58e3baebbf4e454725e6bde8b7a267fb71cfdaae.1793017074.git.liuyun01%40kylinos.cn
+patch subject: [PATCH 3/3] riscv: keep booting if KFENCE pool reservation fails
+config: riscv-randconfig-1001-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290904.wbrEL97y-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290904.wbrEL97y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610290313.euXk0BQ0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610290904.wbrEL97y-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/s390/net/bpf_jit_comp.c:649:16: error: no member named 'exception_boundary' in 'struct bpf_prog_aux'
-     649 |                                   fp->aux->exception_boundary ? NVREGS : 0);
-         |                                   ~~~~~~~  ^
-   1 error generated.
+   In file included from arch/riscv/mm/init.c:30:
+   arch/riscv/include/asm/kfence.h: In function 'kfence_protect_page':
+>> arch/riscv/include/asm/kfence.h:21:22: error: implicit declaration of function 'virt_to_kpte'; did you mean 'virt_to_page'? [-Wimplicit-function-declaration]
+      21 |         pte_t *pte = virt_to_kpte(addr);
+         |                      ^~~~~~~~~~~~
+         |                      virt_to_page
+>> arch/riscv/include/asm/kfence.h:21:22: error: initialization of 'pte_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>> arch/riscv/include/asm/kfence.h:24:17: error: implicit declaration of function 'set_pte'; did you mean 'set_pgd'? [-Wimplicit-function-declaration]
+      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
+         |                 ^~~~~~~
+         |                 set_pgd
+   In file included from arch/riscv/include/asm/thread_info.h:11,
+                    from include/linux/thread_info.h:62,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:107,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:8,
+                    from arch/riscv/mm/init.c:10:
+>> arch/riscv/include/asm/kfence.h:24:44: error: implicit declaration of function 'ptep_get' [-Wimplicit-function-declaration]
+      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
+         |                                            ^~~~~~~~
+   arch/riscv/include/asm/page.h:75:37: note: in definition of macro '__pte'
+      75 | #define __pte(x)        ((pte_t) { (x) })
+         |                                     ^
+   arch/riscv/include/asm/kfence.h:24:36: note: in expansion of macro 'pte_val'
+      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
+         |                                    ^~~~~~~
+>> arch/riscv/include/asm/page.h:71:29: error: request for member 'pte' in something not a structure or union
+      71 | #define pte_val(x)      ((x).pte)
+         |                             ^
+   arch/riscv/include/asm/page.h:75:37: note: in definition of macro '__pte'
+      75 | #define __pte(x)        ((pte_t) { (x) })
+         |                                     ^
+   arch/riscv/include/asm/kfence.h:24:36: note: in expansion of macro 'pte_val'
+      24 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
+         |                                    ^~~~~~~
+>> arch/riscv/include/asm/page.h:71:29: error: request for member 'pte' in something not a structure or union
+      71 | #define pte_val(x)      ((x).pte)
+         |                             ^
+   arch/riscv/include/asm/page.h:75:37: note: in definition of macro '__pte'
+      75 | #define __pte(x)        ((pte_t) { (x) })
+         |                                     ^
+   arch/riscv/include/asm/kfence.h:26:36: note: in expansion of macro 'pte_val'
+      26 |                 set_pte(pte, __pte(pte_val(ptep_get(pte)) | _PAGE_PRESENT));
+         |                                    ^~~~~~~
+>> arch/riscv/include/asm/kfence.h:27:17: error: implicit declaration of function 'mark_new_valid_map' [-Wimplicit-function-declaration]
+      27 |                 mark_new_valid_map();
+         |                 ^~~~~~~~~~~~~~~~~~
+>> arch/riscv/include/asm/kfence.h:31:9: error: implicit declaration of function 'local_flush_tlb_kernel_range'; did you mean 'local_flush_icache_range'? [-Wimplicit-function-declaration]
+      31 |         local_flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         local_flush_icache_range
 
 
-vim +649 arch/s390/net/bpf_jit_comp.c
+vim +21 arch/riscv/include/asm/kfence.h
 
-f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  603  
-054623105728b0 Michael Holzheu         2015-04-01  604  /*
-054623105728b0 Michael Holzheu         2015-04-01  605   * Emit function prologue
-054623105728b0 Michael Holzheu         2015-04-01  606   *
-054623105728b0 Michael Holzheu         2015-04-01  607   * Save registers and create stack frame if necessary.
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  608   * Stack frame layout is described by struct prog_frame.
-054623105728b0 Michael Holzheu         2015-04-01  609   */
-b2268d550d20ff Ilya Leoshkevich        2025-06-24  610  static void bpf_jit_prologue(struct bpf_jit *jit, struct bpf_prog *fp)
-054623105728b0 Michael Holzheu         2015-04-01  611  {
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  612  	BUILD_BUG_ON(sizeof(struct prog_frame) != STACK_FRAME_OVERHEAD);
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  613  
-227b4e108adcc4 Heiko Carstens          2026-07-27  614  	emit_kcfi(bpf_is_subprog(fp) ? cfi_bpf_subprog_hash : cfi_bpf_hash, jit);
-227b4e108adcc4 Heiko Carstens          2026-07-27  615  
-f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  616  	/* No-op for hotpatching */
-f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  617  	/* brcl 0,prologue_plt */
-f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  618  	EMIT6_PCREL_RILC(0xc0040000, 0, jit->prologue_plt);
-f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  619  	jit->prologue_plt_ret = jit->prg;
-f1d5df84cd8c3e Ilya Leoshkevich        2023-01-29  620  
-9af27da6313c8f Kumar Kartikeya Dwivedi 2023-09-13  621  	if (!bpf_is_subprog(fp)) {
-dd691e847d28ac Ilya Leoshkevich        2023-01-29  622  		/* Initialize the tail call counter in the main program. */
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  623  		/* xc tail_call_cnt(4,%r15),tail_call_cnt(%r15) */
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  624  		_EMIT6(0xd703f000 | offsetof(struct prog_frame, tail_call_cnt),
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  625  		       0xf000 | offsetof(struct prog_frame, tail_call_cnt));
-6651ee070b3124 Michael Holzheu         2015-06-08  626  	} else {
-94ad428df53688 Ilya Leoshkevich        2020-07-17  627  		/*
-dd691e847d28ac Ilya Leoshkevich        2023-01-29  628  		 * Skip the tail call counter initialization in subprograms.
-dd691e847d28ac Ilya Leoshkevich        2023-01-29  629  		 * Insert nops in order to have tail_call_start at a
-dd691e847d28ac Ilya Leoshkevich        2023-01-29  630  		 * predictable offset.
-94ad428df53688 Ilya Leoshkevich        2020-07-17  631  		 */
-94ad428df53688 Ilya Leoshkevich        2020-07-17  632  		bpf_skip(jit, 6);
-6651ee070b3124 Michael Holzheu         2015-06-08  633  	}
-6651ee070b3124 Michael Holzheu         2015-06-08  634  	/* Tail calls have to skip above initialization */
-227b4e108adcc4 Heiko Carstens          2026-07-27  635  	jit->tail_call_start = jit->prg - cfi_get_offset();
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  636  	if (fp->aux->exception_cb) {
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  637  		/*
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  638  		 * Switch stack, the new address is in the 2nd parameter.
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  639  		 *
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  640  		 * Arrange the restoration of %r6-%r15 in the epilogue.
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  641  		 * Do not restore them now, the prog does not need them.
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  642  		 */
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  643  		/* lgr %r15,%r3 */
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  644  		EMIT4(0xb9040000, REG_15, REG_3);
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  645  		jit->seen_regs |= NVREGS;
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  646  	} else {
-054623105728b0 Michael Holzheu         2015-04-01  647  		/* Save registers */
-b2268d550d20ff Ilya Leoshkevich        2025-06-24  648  		save_restore_regs(jit, REGS_SAVE,
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03 @649  				  fp->aux->exception_boundary ? NVREGS : 0);
-fa7bd4b000a7ae Ilya Leoshkevich        2024-07-03  650  	}
-c10302efe569bf Martin Schwidefsky      2012-07-31  651  	/* Setup literal pool */
-fcf35131396ace Ilya Leoshkevich        2019-11-14  652  	if (is_first_pass(jit) || (jit->seen & SEEN_LITERAL)) {
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  653  		if (!is_first_pass(jit) &&
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  654  		    is_valid_ldisp(jit->size - (jit->prg + 2))) {
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  655  			/* basr %l,0 */
-054623105728b0 Michael Holzheu         2015-04-01  656  			EMIT2(0x0d00, REG_L, REG_0);
-c10302efe569bf Martin Schwidefsky      2012-07-31  657  			jit->base_ip = jit->prg;
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  658  		} else {
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  659  			/* larl %l,lit32_start */
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  660  			EMIT6_PCREL_RILB(0xc0000000, REG_L, jit->lit32_start);
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  661  			jit->base_ip = jit->lit32_start;
-c1aff5682da297 Ilya Leoshkevich        2019-11-18  662  		}
-c10302efe569bf Martin Schwidefsky      2012-07-31  663  	}
-054623105728b0 Michael Holzheu         2015-04-01  664  	/* Setup stack and backchain */
-fcf35131396ace Ilya Leoshkevich        2019-11-14  665  	if (is_first_pass(jit) || (jit->seen & SEEN_STACK)) {
-88aeca15d637c2 Michael Holzheu         2015-06-01  666  		/* lgr %w1,%r15 (backchain) */
-88aeca15d637c2 Michael Holzheu         2015-06-01  667  		EMIT4(0xb9040000, REG_W1, REG_15);
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  668  		/* la %bfp,unused_end(%r15) (BPF frame pointer) */
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  669  		EMIT4_DISP(0x41000000, BPF_REG_FP, REG_15,
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  670  			   offsetofend(struct prog_frame, unused));
-b2268d550d20ff Ilya Leoshkevich        2025-06-24  671  		/* aghi %r15,-frame_off */
-b2268d550d20ff Ilya Leoshkevich        2025-06-24  672  		EMIT4_IMM(0xa70b0000, REG_15, -jit->frame_off);
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  673  		/* stg %w1,backchain(%r15) */
-88aeca15d637c2 Michael Holzheu         2015-06-01  674  		EMIT6_DISP_LH(0xe3000000, 0x0024, REG_W1, REG_0,
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  675  			      REG_15,
-e26d523edf2a62 Ilya Leoshkevich        2025-06-24  676  			      offsetof(struct prog_frame, backchain));
-054623105728b0 Michael Holzheu         2015-04-01  677  	}
-6d59b7dbf72ed2 Daniel Borkmann         2017-12-14  678  }
-c10302efe569bf Martin Schwidefsky      2012-07-31  679  
-
-:::::: The code at line 649 was first introduced by commit
-:::::: fa7bd4b000a7ae32eb6fc049125943561e5b46f3 s390/bpf: Implement exceptions
-
-:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+47513f243b452a Liu Shixin      2021-06-15  18  
+47513f243b452a Liu Shixin      2021-06-15  19  static inline bool kfence_protect_page(unsigned long addr, bool protect)
+47513f243b452a Liu Shixin      2021-06-15  20  {
+47513f243b452a Liu Shixin      2021-06-15 @21  	pte_t *pte = virt_to_kpte(addr);
+47513f243b452a Liu Shixin      2021-06-15  22  
+8d6c8c40e733b3 Vivian Wang     2026-03-03  23  	if (protect) {
+edf95564726942 Alexandre Ghiti 2023-12-13 @24  		set_pte(pte, __pte(pte_val(ptep_get(pte)) & ~_PAGE_PRESENT));
+8d6c8c40e733b3 Vivian Wang     2026-03-03  25  	} else {
+edf95564726942 Alexandre Ghiti 2023-12-13  26  		set_pte(pte, __pte(pte_val(ptep_get(pte)) | _PAGE_PRESENT));
+8d6c8c40e733b3 Vivian Wang     2026-03-03 @27  		mark_new_valid_map();
+8d6c8c40e733b3 Vivian Wang     2026-03-03  28  	}
+47513f243b452a Liu Shixin      2021-06-15  29  
+b3431a8bb336ce Alexandre Ghiti 2024-12-09  30  	preempt_disable();
+b3431a8bb336ce Alexandre Ghiti 2024-12-09 @31  	local_flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
+b3431a8bb336ce Alexandre Ghiti 2024-12-09  32  	preempt_enable();
+47513f243b452a Liu Shixin      2021-06-15  33  
+47513f243b452a Liu Shixin      2021-06-15  34  	return true;
+47513f243b452a Liu Shixin      2021-06-15  35  }
+47513f243b452a Liu Shixin      2021-06-15  36  
 
 --
 0-DAY CI Kernel Test Service
