@@ -1,77 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793311523;
-	b=N7bAXwMaK2sZQvjaBeBJh70lf9uTv8xvldhh35Rs1AKWGtD5h99e1WzVVe67v4FUZsI1
-	 kYahcqSja6draeLBhH08QT5dECTc5ZPEKeDzEVMOHMrZfMl3ZMOFhtlKcmN7+irHwUfCT
-	 6qvaBtYC3WXs/PDT3Sit5JBuiTOzDp/6cobpJ/IThqDjgegTgfCMtdNS0SSKTxg6S7zCT
-	 1nGfHL3fztf0axd/GYNrUAN1U5jbof4gcjnBv+Fj1tKiBqgJ+xT139dqbDJ6vbP4ICggu
-	 wcCKbSVPDIHExE5JDtuXvA5aUMwNaM7+V5jNQR+wDxHBo/2d/rVNt6Ok7+l9tqmkzbA==
+	t=1793311577;
+	b=Dxyq5NNQodcafCh3Bnz4EueauKlx0XtSV1iV8UvaTK7qjYqOsfB+5XUNXM2oVsanld0L
+	 CPyl6d0go3clD7p0esNLU5yceIpaYIsIl7dz+OFMnhc8gNrWx13ycQDm+taRW/MjwYo2r
+	 IzzomueKSupDX8rkA5etxIYVt2hxQ7UjV2BjO4Ka/lXU3dm/4ezxHQMTZ34myImClE+DZ
+	 E6OHJJybzNNky9NsDQjRjtij1sLbeXHVBrno6O/X/BpjV1ai6Yzgw8lULDpC4Sftxf+XN
+	 PsAq3o0srG11lziYtKDFSAFG34uGTnwQ9fFGQHqDuxXXc9ZDBfoeUKwfnJ9uytSyKVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793311523;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=CAPhJ15hu5aheqz58ZUolUySdjqBMiTOrM3Q2nOO+6g=;
-	b=GXLQgDllkyiYkrAcp2091NFul/1U8rrWISL+sOZyo1KGYubxADypnWS8NGCWkHSOFApR
-	 s3ZnBKkec9jbsB/arMyj30NkxjbGywQyFjOgUHAUJnyzRWcE0yOlUGWCL0AuUC3PeQM4d
-	 NHGU3+kwYDK0KE660HdrqceckB3onNdnEquz63J6A1MCEVMgn/LF2pA49a7f+NwofVdAD
-	 5aTvISTvkiRPF/BDjtyEhiYXlGLVnwEkR3PGl1MaJoHXBok6+XgGF91YCBzHiMTI0ewSU
-	 0aK8Umw+vJlnI5a7NA1QZ1sYsy1bZHneAFWJc6dJx+DvydG6M9wZt8dv8ofS6LVor6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793311577;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=hIXWGtv3vTjBGlEeZwThLsjKFl9jTOn5RKkkJ1kexYI=;
+	b=bwiAzzY3be6R2BSpEQZOXUPoVHfusw4cEGdHVeFxj24nkQDoJCjjLtbigGLrO7BogeUs
+	 O1ocKD6WyWKqlq04H5i69OpOFMIo5S3oBQlvxUozaICaLptfFgw3I6yeBEYGiZfhLmXNf
+	 su2xQPJ3RZToDuEIbfr7TQ8lRsx6Q8vdT9OWpIXBObgRLy5GYLcgwMo7fBPq4NndwIkh3
+	 n5HSLWcrIum7Pm1+RWUsHP9+pcxcIsGbGkTCAflJjhhgsaYim4Qz7DPK3oesqz8i7Lhdp
+	 YrOdqTGYQzZxYlPz/mUoSiuM3uG9I1qkgB7hENf68XupR52ONWjeKEc7w6C4r39v70A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HTsDQWjJ;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aMf7r9hS;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="UH0oc/xX";
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EA6606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 22:05:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9EA6606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631E2606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 22:06:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 631E2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HTsDQWjJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793311521; x=1824847521;
-  h=date:from:to:cc:subject:message-id;
-  bh=pWNDlVRkz3cDdtBEA4XL8+I4ZgqkW7hPAl55UCAelfU=;
-  b=HTsDQWjJqks/V+4jjN2BKdj2YRIJEt1eyynCGLmTAXQKlJz9IHljWMVn
-   517ynjdYyWcdBaz4Bnr4L23kRXRRh+IXli3x6mOULsczXldFqkEZMKlt/
-   eAwri53sUhfvBpLu5h/oTiUTbeU7b5dCS+e3plUrT30TIjCuWWNnsV+y+
-   otMGhSHta3jJWM4NM83cWOclJ1UlSGvAYWsvryzfFe+QW8dwS2W9GKqws
-   FEzJV6g6qgU7XdyKAAwDOhrs0vLVujBpGDEyKJdLHZDx3hXbh4dISpvwP
-   fqbweDTdjA4MCl6fsP5ZpnhtNseORHcZ8oM3MZZ1aRfX+Hb4tbg2tU/Lm
-   g==;
-X-CSE-ConnectionGUID: RCZVdeKpQKmX0HoG4YvgnQ==
-X-CSE-MsgGUID: GIuM7qsASbyRsblCwgHDRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2163089"
-X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="2163089"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 15:05:20 -0700
-X-CSE-ConnectionGUID: 4mzT5kG3RY+2OykCzNHG5Q==
-X-CSE-MsgGUID: geHOkkvzTPGDcbmblitNbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="5361917"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2026 15:05:19 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xMYFI-000000005MD-3qPR;
-	Thu, 29 Oct 2026 22:05:16 +0000
-Date: Thu, 29 Oct 2026 23:05:15 +0100
-From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/qmi-elem-info-clean 1/2]
- drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.c:229:35: warning:
- 'wlfw_mem_seg_resp_s_v01_ei' defined but not used
-Message-ID: <202610292328.ryUZaTgz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=aMf7r9hS;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UH0oc/xX
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69TLauI52372761
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 22:06:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	hIXWGtv3vTjBGlEeZwThLsjKFl9jTOn5RKkkJ1kexYI=; b=aMf7r9hS+ZZLMfI9
+	kMEUYytN/y66qnXyFTLQkKN7v+JEfgHh6ho6zFpTS+SSYxYf+IKnREgR0WwJboxf
+	GX30XnbgTQQ/T+csTSzl8wEqiFXXnrxsNC2AeX1CE5HKI7M3QdnwpKPNCVDJ7Nxf
+	h4n1HxnYbAu0gGJz+ge3TI+D/KHmT1LTX1iOC+DGuEO/W/uwp22SFr/+qwECKBx/
+	sXi7wdbM26pd69eJzEKHmMpULtewTY0Tr9GADsjhpTebr+J02/7DIHuy9Uy+wEh3
+	J4NuH2vPGRnMf6chJ2ZgUGQCVap1hxfeHPSZR9PXs3bOt8DvyUbmE9M9UShqsIFM
+	GTZkWw==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme75037t-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 22:06:16 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-7c02e1df088so3885137.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 15:06:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793311575; x=1793916375; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hIXWGtv3vTjBGlEeZwThLsjKFl9jTOn5RKkkJ1kexYI=;
+        b=UH0oc/xXsp1182QJQ4RPtZHnpcRFEQ7oJz9X4voEZXEe+EIWJGclpIzytLhssv62Op
+         1W5s+TDnFh1oP2jWGQEgn+U1tybpS+fp5gc6/HengoGmOKUBqR628I64Np+RDzuxC6g+
+         KfZIoI+lD683zg5M1Ho7xaqkXjLbmB9Hnrpm99uWeEWM2NqnfhRIJwcX/Doz07z0FSmD
+         qtp2NhL8tjm3+ZWBB3jZAOTOfH+XuDcxE8t91QtWC6e9OLEllu/g4qeWv4h6st2QoXNh
+         Eva9AQy3RuvAOu6b6Hsq50OiYeCw3Wgykdyovpe12GAD2kzYZohGmJzszxtorfGXxLsh
+         iSng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793311575; x=1793916375;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hIXWGtv3vTjBGlEeZwThLsjKFl9jTOn5RKkkJ1kexYI=;
+        b=pvXLbcG91cf4RPU6w7ed6u6tKvtoyqfUltgeDVIGwvwlhc85Wb++ByIhauds0KlmMe
+         6tCSz6OhZ1cUddz7BjJm/cXfbiCbvnSmtO5jaVLBUVDVTJ4Sun0oYUaqgT2DnWZJIqON
+         NtTC1GFwkD0z7AGUvyi4mWDRShyU166SYCwk/raVgQ2f3kB5UM6zhdEe0YMukLA98O2F
+         aTDeuEZcpI4EbOwC9E8nEj/OxOXUNxswpTQJEy/PzWSDEYMyXPPVuDeq1HwB/ZmdQ1a5
+         wl9qfViE+mb96K4VEDqbfenp1DWONMhV/jExCauw0BcF6xlbD24ruC5WGpZd97+fwG6p
+         bn1Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwgzmMGoClghBehWGxpHD7vTBx2MLjqf9ShmtjxXJOeInhXFMUtVPcrrWtJ6Rl41zfpaMe1OJGORbLDz3g5@lists.linux.dev
+X-Gm-Message-State: AFq9FYLXMym2kspgCsntHBZY/Z0THbUIvSOihq/sAKOmDuzKa2OJPK+b
+	2fKtwxkVvSxgRVHvl2EbyHi2FrIqelbwB3qdIQ5F436D4Du0BiVd2T8SD6W485CTEOS/EPDcpBh
+	f6XgCgZKBilk6sLNZQZXzwdd/JB2qnABTnVU3oVost2hoko/pwN8JHWFj8ruet3Xxht5e
+X-Gm-Gg: AYBFou3+FT1InKcRieyaTwPulIiquXgbvuvAjph0aVvNs/7lUhQgVUKuTbWYhpIoYYg
+	RGqKER8uYQFLkdly4Urgz2F+6Hy1pwJQcM/Wc+QC/yaqFxUjsmpe/PWeZ62dKs9clpdwwtXqtE2
+	Uv8JTXVCIkwzLnQ+UtuJ//HV84rGUNbsYSOJGP2IHKZLl0O/cTyMnkj1OS0Yy2dTVzocvk5WPQA
+	3+QagXsHkBD0UBN8q1K58agfO9madKMQuNHfPZD8CepX33p/vYCF3BvQEdi86zLv+hVy6wd/TYR
+	hiOPOeuff4ptIz44lgkRozja6y32aKJm7IJDwJiyYBvXgp041/1wMalRNsBnkakOouL+stja5To
+	DYjuu8wDb5cJnMgp9rOdxKFm7ZQWHjYR3o228lqK/+POV4PhYH2WKcyv2xZG0I9buL16v370uu7
+	TT5dokE1y3CA5OgVY75cNNRvLHvXRWHuc7pjM=
+X-Received: by 2002:a05:6102:32cd:b0:7c1:5862:a97c with SMTP id ada2fe7eead31-7d072d818d7mr296185137.37.1793311575402;
+        Thu, 29 Oct 2026 15:06:15 -0700 (PDT)
+X-Received: by 2002:a05:6102:32cd:b0:7c1:5862:a97c with SMTP id ada2fe7eead31-7d072d818d7mr296170137.37.1793311574895;
+        Thu, 29 Oct 2026 15:06:14 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:7fbe:151a:486d:a2cc? ([2a05:6e02:1041:c10:7fbe:151a:486d:a2cc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e712cbf2csm9212f8f.34.2026.10.29.15.06.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Oct 2026 15:06:14 -0700 (PDT)
+Message-ID: <542fea3d-c587-4077-bc75-28afdf3e543d@oss.qualcomm.com>
+Date: Thu, 29 Oct 2026 23:06:13 +0100
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,111 +115,68 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: vmlinux.o: warning: objtool: mtk_timer_probe+0x23: no-cfi
+ indirect call!
+To: Luca Leonardo Scorcia <l.scorcia@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@kernel.org>,
+        kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+        oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <202610290223.iOEGeDs2-lkp@intel.com>
+ <20261028202400.GA835963@ax162>
+ <CAORyz2KEJ5M86-+z2zWXVTJwbNO8SY4DWjn5Y6EO_-nPhdiytw@mail.gmail.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <CAORyz2KEJ5M86-+z2zWXVTJwbNO8SY4DWjn5Y6EO_-nPhdiytw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: c8Y6HXNeZpSyPynr9liYLdz9U2lU9v4y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDA4NyBTYWx0ZWRfX42s1oPOhYSDQ
+ RqcAnMZ+zOynIZfX9ZgK61OlbuJqvJPUDXCM0WAcgr+J/e3XM76pBshxkZJ5eqfUibqwWETT6mY
+ sqm6aLn4I3aCfrpLDxGnK9myvrMahXLfDwINX1BS+ipHaCkWj68wEoYQa3/FXk5iEKwACKlyNsH
+ iKuIwebDGDdzSRIfB/IIP4ed9XHFym19F1v8u8cfnuWU6gAV0IKbW/iS3NRJfbw0c/TJX/c8wKi
+ d/k+dZsEYfDDj6UXkbbco9HdbrcX0gjclOXJdjeYSMzcKc9JTv+dUz1jkg18KrtoKInL3mgM6ri
+ XXhME3kS+4EMyGGS2n8YcskMT7BAkN/TL3dzbmHgubJIoRCXVHvPP4RaR8n5FRGOH0N57hteaim
+ xGVihLLtMI7giUhcsZ0QiMqmrHmTlrYqFx3WKKNUHxeCfKl3+CfKqaFDzeVngFwxcuOVmtw+USC
+ 5d55YLPKtHZU+Ahcsyg==
+X-Proofpoint-ORIG-GUID: c8Y6HXNeZpSyPynr9liYLdz9U2lU9v4y
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDA4NyBTYWx0ZWRfX/vYCq/zh8vMV
+ +7R1bZ73ZY3v13u4YBPtp1MovIqkGOMZzbfDUxjA4IqheiFpGF5Ihtgh30uRErKKafoIMuAfPxd
+ AT5AYzdO00+7vfFiy9R7HYvsnCdc3I8=
+X-Authority-Analysis: v=2.4 cv=KdtHIgYD c=1 sm=1 tr=0 ts=6ae3c358 cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=aSKgorFW_ocjRd5Bht4A:9
+ a=QEXdDO2ut3YA:10 a=crWF4MFLhNY0qMRaF8an:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-29_06,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 clxscore=1011 spamscore=0 phishscore=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610290087
 
-tree:   https://github.com/krzk/linux n/qmi-elem-info-clean
-head:   145edb2b10d358ba7ae541f22f39b73222f7c8bf
-commit: 9090b0046ce1c96b4cb0ad6e097474796798c4d7 [1/2] wifi: ath10k: Drop unused qmi_elem_info arrays
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20261029/202610292328.ryUZaTgz-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610292328.ryUZaTgz-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610292328.ryUZaTgz-lkp@intel.com/
+Hi Luca,
 
-All warnings (new ones prefixed by >>):
+On 10/29/26 19:54, Luca Leonardo Scorcia wrote:
+> Thank you Nathan for the analysis and suggested fix. I agree your
+> patch would be useful even if the warning wasn't there, to make the
+> device probe more robust.
+> 
+> Being a new contributor I'm not quite sure what the process is now -
+> should I send out a patch with the correction, just as I did for the
+> initial contribution? 
 
->> drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.c:229:35: warning: 'wlfw_mem_seg_resp_s_v01_ei' defined but not used [-Wunused-const-variable=]
-     229 | static const struct qmi_elem_info wlfw_mem_seg_resp_s_v01_ei[] = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.c:188:35: warning: 'wlfw_mem_seg_s_v01_ei' defined but not used [-Wunused-const-variable=]
-     188 | static const struct qmi_elem_info wlfw_mem_seg_s_v01_ei[] = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
+If you can send a fix that would be nice
 
+> Or is it going to be fixed by the maintainers
+> autonomously? (Obviously adding a Suggested-by tag with the rest of
+> the bots' tags).
+> 
+> Thank you for your help
 
-vim +/wlfw_mem_seg_resp_s_v01_ei +229 drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.c
-
-bc17d4b90cdd3e Govind Singh 2018-10-11  187  
-11e1fcf2b494da Jeff Johnson 2022-09-14 @188  static const struct qmi_elem_info wlfw_mem_seg_s_v01_ei[] = {
-bc17d4b90cdd3e Govind Singh 2018-10-11  189  	{
-bc17d4b90cdd3e Govind Singh 2018-10-11  190  		.data_type      = QMI_UNSIGNED_4_BYTE,
-bc17d4b90cdd3e Govind Singh 2018-10-11  191  		.elem_len       = 1,
-bc17d4b90cdd3e Govind Singh 2018-10-11  192  		.elem_size      = sizeof(u32),
-bc17d4b90cdd3e Govind Singh 2018-10-11  193  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e Govind Singh 2018-10-11  194  		.tlv_type       = 0,
-bc17d4b90cdd3e Govind Singh 2018-10-11  195  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  196  					   size),
-bc17d4b90cdd3e Govind Singh 2018-10-11  197  	},
-bc17d4b90cdd3e Govind Singh 2018-10-11  198  	{
-bc17d4b90cdd3e Govind Singh 2018-10-11  199  		.data_type      = QMI_SIGNED_4_BYTE_ENUM,
-bc17d4b90cdd3e Govind Singh 2018-10-11  200  		.elem_len       = 1,
-bc17d4b90cdd3e Govind Singh 2018-10-11  201  		.elem_size      = sizeof(enum wlfw_mem_type_enum_v01),
-bc17d4b90cdd3e Govind Singh 2018-10-11  202  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e Govind Singh 2018-10-11  203  		.tlv_type       = 0,
-bc17d4b90cdd3e Govind Singh 2018-10-11  204  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  205  					   type),
-bc17d4b90cdd3e Govind Singh 2018-10-11  206  	},
-bc17d4b90cdd3e Govind Singh 2018-10-11  207  	{
-bc17d4b90cdd3e Govind Singh 2018-10-11  208  		.data_type      = QMI_DATA_LEN,
-bc17d4b90cdd3e Govind Singh 2018-10-11  209  		.elem_len       = 1,
-bc17d4b90cdd3e Govind Singh 2018-10-11  210  		.elem_size      = sizeof(u8),
-bc17d4b90cdd3e Govind Singh 2018-10-11  211  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e Govind Singh 2018-10-11  212  		.tlv_type       = 0,
-bc17d4b90cdd3e Govind Singh 2018-10-11  213  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  214  					   mem_cfg_len),
-bc17d4b90cdd3e Govind Singh 2018-10-11  215  	},
-bc17d4b90cdd3e Govind Singh 2018-10-11  216  	{
-bc17d4b90cdd3e Govind Singh 2018-10-11  217  		.data_type      = QMI_STRUCT,
-bc17d4b90cdd3e Govind Singh 2018-10-11  218  		.elem_len       = QMI_WLFW_MAX_NUM_MEM_CFG_V01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  219  		.elem_size      = sizeof(struct wlfw_mem_cfg_s_v01),
-bc17d4b90cdd3e Govind Singh 2018-10-11  220  		.array_type       = VAR_LEN_ARRAY,
-bc17d4b90cdd3e Govind Singh 2018-10-11  221  		.tlv_type       = 0,
-bc17d4b90cdd3e Govind Singh 2018-10-11  222  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  223  					   mem_cfg),
-bc17d4b90cdd3e Govind Singh 2018-10-11  224  		.ei_array      = wlfw_mem_cfg_s_v01_ei,
-bc17d4b90cdd3e Govind Singh 2018-10-11  225  	},
-bc17d4b90cdd3e Govind Singh 2018-10-11  226  	{}
-bc17d4b90cdd3e Govind Singh 2018-10-11  227  };
-bc17d4b90cdd3e Govind Singh 2018-10-11  228  
-11e1fcf2b494da Jeff Johnson 2022-09-14 @229  static const struct qmi_elem_info wlfw_mem_seg_resp_s_v01_ei[] = {
-bc17d4b90cdd3e Govind Singh 2018-10-11  230  	{
-bc17d4b90cdd3e Govind Singh 2018-10-11  231  		.data_type      = QMI_UNSIGNED_8_BYTE,
-bc17d4b90cdd3e Govind Singh 2018-10-11  232  		.elem_len       = 1,
-bc17d4b90cdd3e Govind Singh 2018-10-11  233  		.elem_size      = sizeof(u64),
-bc17d4b90cdd3e Govind Singh 2018-10-11  234  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e Govind Singh 2018-10-11  235  		.tlv_type       = 0,
-bc17d4b90cdd3e Govind Singh 2018-10-11  236  		.offset         = offsetof(struct wlfw_mem_seg_resp_s_v01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  237  					   addr),
-bc17d4b90cdd3e Govind Singh 2018-10-11  238  	},
-bc17d4b90cdd3e Govind Singh 2018-10-11  239  	{
-bc17d4b90cdd3e Govind Singh 2018-10-11  240  		.data_type      = QMI_UNSIGNED_4_BYTE,
-bc17d4b90cdd3e Govind Singh 2018-10-11  241  		.elem_len       = 1,
-bc17d4b90cdd3e Govind Singh 2018-10-11  242  		.elem_size      = sizeof(u32),
-bc17d4b90cdd3e Govind Singh 2018-10-11  243  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e Govind Singh 2018-10-11  244  		.tlv_type       = 0,
-bc17d4b90cdd3e Govind Singh 2018-10-11  245  		.offset         = offsetof(struct wlfw_mem_seg_resp_s_v01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  246  					   size),
-bc17d4b90cdd3e Govind Singh 2018-10-11  247  	},
-bc17d4b90cdd3e Govind Singh 2018-10-11  248  	{
-bc17d4b90cdd3e Govind Singh 2018-10-11  249  		.data_type      = QMI_SIGNED_4_BYTE_ENUM,
-bc17d4b90cdd3e Govind Singh 2018-10-11  250  		.elem_len       = 1,
-bc17d4b90cdd3e Govind Singh 2018-10-11  251  		.elem_size      = sizeof(enum wlfw_mem_type_enum_v01),
-bc17d4b90cdd3e Govind Singh 2018-10-11  252  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e Govind Singh 2018-10-11  253  		.tlv_type       = 0,
-bc17d4b90cdd3e Govind Singh 2018-10-11  254  		.offset         = offsetof(struct wlfw_mem_seg_resp_s_v01,
-bc17d4b90cdd3e Govind Singh 2018-10-11  255  					   type),
-bc17d4b90cdd3e Govind Singh 2018-10-11  256  	},
-bc17d4b90cdd3e Govind Singh 2018-10-11  257  	{}
-bc17d4b90cdd3e Govind Singh 2018-10-11  258  };
-bc17d4b90cdd3e Govind Singh 2018-10-11  259  
-
-:::::: The code at line 229 was first introduced by commit
-:::::: 11e1fcf2b494da810d551553c46f739e36501adc wifi: ath10k: Make QMI message rules const
-
-:::::: TO: Jeff Johnson <quic_jjohnson@quicinc.com>
-:::::: CC: Kalle Valo <quic_kvalo@quicinc.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
