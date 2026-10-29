@@ -1,82 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793245222;
-	b=OShifl+IwwBRKqNVThonenlv0g/Y7N3NtT/sPURs2EHLEWsiwPftaAw4deJ2XRId2+ED
-	 GHIY+Db3XXBRJd8pSC4TkuZHdSm/U2kgsHl1rhKrl5GiWWCoA2gaNKYDFANIoJBGlYrwU
-	 USTrNxlYtsJUL1pPKBvB6NA9H1zZaNXGWzIZetUTdnVQdLUtBCu6NQ20atVNc3NbUqjJj
-	 lz0UGswP5mT5H6LV7Dszdtp8x6kNeImLhCMMaPhDD2fRb36+cGVPgpbRUFxQZ9WzEKV0b
-	 13CLrWi5t7jlzi/8Y5xpwVhIY57ricEN6jTLQpHTdSZkz0/nfjKDvd47iZlmELnaC9g==
+	t=1793248476;
+	b=cN/MRwoLRmHieHJI2OYbzvUQzLlf39o0kKnbn+JlGmbIWHLVpY5VgRFUipy5BhyfWA/A
+	 pKZud8qTCNrCYi5yGFFBPcuNx0Gi0O/B4YkZ0xausNOkExcFvuPGzlPyBgajSQ+LutSny
+	 CZWV7Jp/jNIe4p4asBcmnOcwk9K/eDGjII9e4BjkETVcNf9DJJFuQvgyhnGRS0bBlWptG
+	 DKeQ0qsFUld7vBIfb/C5nzX7xPy1F544zDeqDo7dOe7g5RYll+JHK1mQEQEP0GluwvX1a
+	 2ddwrXl1dsbqWEwcoTb3O/3d7lLieeLRU6RCWb8dyMSraNNlm4oP5WWe8bFKVM0Rnug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793245222;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793248476;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=T2wJHvvfHh5stRmUDRprT6CqvsTMqTsUp6BRdeqqGCI=;
-	b=cb7OBDZCvircevjLvKc1iD63EEWFgiAk0UM31ylknYvXLzO6BRiHeB71rZTRlTn2TH6Z
-	 9MSa/kiEecBvSVJGKF440PDDHXyWnt30DYn5ZlQRS2cRKLv7heb4rUMSyQy7S9CQ64gk1
-	 ySBQDGNaGiSs4lMWORFv2QhoD3GIPU+CeL5OnsCSmEhH7hbags1Ga2Nhz3eCJ97F4vDg6
-	 rvpZN8xfAXr+kHJs0uS/iSe0dqmhImDIJYJUTU4eczD7CnsZfb+mSzqd11ujt+Xmdksds
-	 yWrRNQ9vhVkgm1Xyf7XnjAIDvsz89qWKz2C4b+kzipABZCDY6tqfSh4Bb2JOkVX8gGQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=sKuNCsRMWpe9gQWqL2d1H/93/1i9nCrdPIfWiyy2Zkw=;
+	b=dlpWK2r88oNe2dmFZh3SckSU7+zwe8nKbYg+HGxnol40SKIkD5Dt5cdpmHClNW1FJSN3
+	 M/8UOhIXlr387QLJCYBdxfLl5M7l8eSnWTOR6sGVYN3K+K3zij24X47dstrMfMrSjoRuW
+	 BuaLfBU/Ut53YVxhVz79ecvW/SkKJjIfFVeDqQfiCCL+gDsQ/E/0+SFAKGJ/WpjSURd+0
+	 DYSJ3IcVKMOeI/TQ0AH45bUkNMRwJFPZ71zSa0t6Xu7/X3fjW14+xmZZvU5JipjcNf471
+	 cVSj6u/riWu/AwHIXWk6GAYlFqzX8ndg4UGUR6v4s3bvO0UjvvP+NFXD5RsRt6ENlUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZlkUj1KF;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E3iHLnrV;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5E7606A32E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 03:40:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE5E7606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A42606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 04:34:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81A42606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZlkUj1KF
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E3iHLnrV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793245220; x=1824781220;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6He+g3AusxeH/gTF4BqtGi6Idfhj/4/mur9we+ezF4w=;
-  b=ZlkUj1KFGQ0CHAoMAKsPK0CsiEEJJu+7ttpobi5UK2lPdaAT+O1PMlTM
-   K2BqOfjvEShSFtntSauhZ7eBboCwEaA6/ympxV5bLlNG+NDfkztyiAPeM
-   +kcJQPKow9IIIDe2zbCTW5xcIpAPPC4T5jUkhJ3S5W6oVtbC+RBIN0jiX
-   B432Qqn8QM2qxd4DghKIHiA4X/AFyY7SpZvKhUuTE8u9sTje84V6znlLw
-   ZN6YYFdWJImZN5Qs50Jk2OoImkOZpv07Lk3f3ZRdDSimLiQWBuYSL53Em
-   JwnCJFG9sLGwamlIKjpuru3ZEWb3opFqJFlyVdvz3/1+/vSLARbMflo7r
-   Q==;
-X-CSE-ConnectionGUID: 2NNGpr4CTKuAxD7co3mczQ==
-X-CSE-MsgGUID: i6XXf/TzSai4w56p5dDBKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2012085"
+  t=1793248473; x=1824784473;
+  h=date:from:to:cc:subject:message-id;
+  bh=QNW09L29CAYqdn/EbKRkcxYf8IK4YWN3/u0FPrYXoNM=;
+  b=E3iHLnrV39Gdkq4qAyzTZF58R+4BajYB9MRaqkxnGx45Lsv6deHYJapD
+   LG7/0e55JcSaEs3MCm84pEqdoJLxKaZN0ImtAxjBCZULvGQnBWhjgLh0H
+   iSojOkqj4buh25sQ475wpeu1lEC3vyePvLE4kvBwB2cyUjTjzHyttdUT0
+   mRlHv/mevLneem13IvBLgxj8Rfd/bVZmQRttJAMyj2BoUIEEBvHQrXWtU
+   nalZDsaDIsgmw6JVV2VBDhJfiO1S2pDjXMlnHxqyvVEp+PZy+FAj72eMS
+   byBOYEhfKDh5gr3pczOwWiIjtjiaDgummSpxQAzIwt03IRiknBm+XfyxG
+   A==;
+X-CSE-ConnectionGUID: 3aR+0U5WQBGc9QrVdLVyqg==
+X-CSE-MsgGUID: c2/NWi45S8ODkQ9hlLu8XQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1879686"
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="2012085"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 20:40:19 -0700
-X-CSE-ConnectionGUID: ksy7pyXKTUmlIOtfUgQwJw==
-X-CSE-MsgGUID: Xn2yZ/ccSASehaLbTgTq5Q==
+   d="scan'208";a="1879686"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 21:34:33 -0700
+X-CSE-ConnectionGUID: Stbq01D8QlCvZOiDjwkEfQ==
+X-CSE-MsgGUID: 23aAoDLfTDyDFmOb7ArAMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5143393"
+   d="scan'208";a="5043575"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Oct 2026 20:40:15 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Oct 2026 21:34:32 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMGzs-00000000ZYe-0jbr;
-	Thu, 29 Oct 2026 03:40:12 +0000
-Date: Thu, 29 Oct 2026 11:39:39 +0800
+	id 1xMHqP-00000000Zbi-25QP;
+	Thu, 29 Oct 2026 04:34:29 +0000
+Date: Thu, 29 Oct 2026 12:33:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjiang Tu <tujinjiang@huawei.com>, akpm@linux-foundation.org,
-	david@kernel.org, ljs@kernel.org, catalin.marinas@arm.com,
-	will@kernel.org, mark.rutland@arm.com, ryan.roberts@arm.com,
-	peterx@redhat.com, dave.jiang@intel.com,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, wangkefeng.wang@huawei.com,
-	sunnanyong@huawei.com, tujinjiang@huawei.com
-Subject: Re: [PATCH RESEND 3/3] arm64: Add PUD THP support for DAX and pfnmap
-Message-ID: <202610291125.dNGHD2Vr-lkp@intel.com>
-References: <20261028121404.853944-4-tujinjiang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-lts 1/1]
+ mm/memblock.c:2164:13: warning: variable 'memsize_memmap' set but not used
+Message-ID: <202610291221.kPhlng8F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,74 +79,50 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261028121404.853944-4-tujinjiang@huawei.com>
 
-Hi Jinjiang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on arm64/for-next/core powerpc/next powerpc/fixes tip/x86/core tip/x86/mm linus/master v7.3 next-20261027]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjiang-Tu/mm-define-generic-pudp_invalidate-implementation/20261028-201402
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20261028121404.853944-4-tujinjiang%40huawei.com
-patch subject: [PATCH RESEND 3/3] arm64: Add PUD THP support for DAX and pfnmap
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261029/202610291125.dNGHD2Vr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291125.dNGHD2Vr-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-lts
+head:   7aa62a531907e90da2a2bcd2aa20be3e26c4d37e
+commit: 072e0f68d1fe520c676146dfe87f9fc483564c7e [1/1] ANDROID: memblock: print kernel internal size
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20261029/202610291221.kPhlng8F-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1da436a23e613c425fc9b868fc8deb979ede47a4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291221.kPhlng8F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291125.dNGHD2Vr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610291221.kPhlng8F-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/io.h:13,
-                    from include/linux/io.h:12,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/arm64/include/asm/hardirq.h:17,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from arch/arm64/kernel/asm-offsets.c:13:
->> include/linux/pgtable.h:2098:19: error: redefinition of 'pud_trans_huge'
-    2098 | static inline int pud_trans_huge(pud_t pud)
-         |                   ^~~~~~~~~~~~~~
-   In file included from include/linux/pgtable.h:6:
-   arch/arm64/include/asm/pgtable.h:842:19: note: previous definition of 'pud_trans_huge' with type 'int(pud_t)'
-     842 | static inline int pud_trans_huge(pud_t pud)
-         |                   ^~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:185: arch/arm64/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1416: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> mm/memblock.c:2164:13: warning: variable 'memsize_memmap' set but not used [-Wunused-but-set-global]
+    2164 | static long memsize_memmap;
+         |             ^
+>> mm/memblock.c:2165:22: warning: variable 'memsize_code' set but not used [-Wunused-but-set-global]
+    2165 | static unsigned long memsize_code __initdata_memblock;
+         |                      ^
+>> mm/memblock.c:2166:22: warning: variable 'memsize_data' set but not used [-Wunused-but-set-global]
+    2166 | static unsigned long memsize_data __initdata_memblock;
+         |                      ^
+>> mm/memblock.c:2167:22: warning: variable 'memsize_ro' set but not used [-Wunused-but-set-global]
+    2167 | static unsigned long memsize_ro __initdata_memblock;
+         |                      ^
+>> mm/memblock.c:2168:22: warning: variable 'memsize_bss' set but not used [-Wunused-but-set-global]
+    2168 | static unsigned long memsize_bss __initdata_memblock;
+         |                      ^
+   5 warnings generated.
 
 
-vim +/pud_trans_huge +2098 include/linux/pgtable.h
+vim +/memsize_memmap +2164 mm/memblock.c
 
-1501899a898dfb5 include/asm-generic/pgtable.h Dan Williams   2017-11-29  2095  
-a00cc7d9dd93d66 include/asm-generic/pgtable.h Matthew Wilcox 2017-02-24  2096  #if !defined(CONFIG_TRANSPARENT_HUGEPAGE) || \
-bcd0dea5f4fb3d0 include/linux/pgtable.h       Liu Shixin     2022-08-29  2097  	!defined(CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD)
-a00cc7d9dd93d66 include/asm-generic/pgtable.h Matthew Wilcox 2017-02-24 @2098  static inline int pud_trans_huge(pud_t pud)
-a00cc7d9dd93d66 include/asm-generic/pgtable.h Matthew Wilcox 2017-02-24  2099  {
-a00cc7d9dd93d66 include/asm-generic/pgtable.h Matthew Wilcox 2017-02-24  2100  	return 0;
-a00cc7d9dd93d66 include/asm-generic/pgtable.h Matthew Wilcox 2017-02-24  2101  }
-a00cc7d9dd93d66 include/asm-generic/pgtable.h Matthew Wilcox 2017-02-24  2102  #endif
-a00cc7d9dd93d66 include/asm-generic/pgtable.h Matthew Wilcox 2017-02-24  2103  
+  2161	
+  2162	static struct memsize_rgn_struct memsize_rgn[CONFIG_MAX_MEMBLOCK_MEMSIZE] __initdata_memblock;
+  2163	static int memsize_rgn_count __initdata_memblock;
+> 2164	static long memsize_memmap;
+> 2165	static unsigned long memsize_code __initdata_memblock;
+> 2166	static unsigned long memsize_data __initdata_memblock;
+> 2167	static unsigned long memsize_ro __initdata_memblock;
+> 2168	static unsigned long memsize_bss __initdata_memblock;
+  2169	
 
 --
 0-DAY CI Kernel Test Service
