@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793268559;
-	b=qFL9Je7RLukTNqhfPk67q+tKgbWEjg/tELquaXo4gvEPU4Nh4nBJUqPHCrxZqiN9a30U
-	 zAv6gbGkzwUabt1fdpMksyIyOA2wOX1hXGSm0nFY86ePDsh1a12Zfe7ptJpRLleAh6k2k
-	 oEAtmY/2fD88xZbXyoyUS+tKf1xLVp5KDa9r1he80yCQZKpMZIashZy86Dc74Jpb1A4dZ
-	 A0hINdQV2q8YaUPfBPGXDR+uO/B/eoQjrMl5ds1515h3BMbQ0dvsbp0ANKzCYAOI8HLJ/
-	 gggGb2+yTZbZbq3kFgGhVblznSIJvk4rRGpCMzW4z46gQKvxcADO5yuJKgYyOPu7SkA==
+	t=1793269197;
+	b=j/bLzmBo1o292xAuV2xVxqmHX8NCsJ9EJFk5BqYKOeios/gRd+heDn9yqcRJsBDZMSa8
+	 WffgnXYihEaSvgWP/BAUZR/P5sOmuCp2SEAu0tQZt2H3hCLpxmf5+3CTd4OWQO1OnFpxw
+	 YjBkOzVzqjk924vEXiixyiG18ps9I9bAZr/qWYzqXtU5rgz44Bcyzs0vNNWsSfT2MZfoL
+	 mhSeWEmAfSPlTpEBokPhaPPlrk5ZGLJMPIq8pca9uGLaQun49KkN62EBzvHD/4TYf6Li8
+	 j/FGEO+hpCWphn3KbPiC+QpE3PyQ7D0uIM5rDsSb13kRgu9D0letS4VNkDHt+zrBAJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793268559;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793269197;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=mb5QS8md76HursNl7Hlwn8Zj4WcLaU2/qvqXZZsUK6s=;
-	b=oNq69iiQSEvqZ+4/1QgYprGRX3msnzwYa2+c8dYXufHXW4ruVjvib//XENj1IkNk+JnP
-	 f28RJXC7vJdKaDpxsOYajWcel7gVqzS4BkOkixJmKCBP0yzjxTSh9shDcD+8s4z3/qR98
-	 M7A64elvYMitMjLB+c2S26wZJFLnjYPR8fsdkaxVMvcMIBWBtlmiFMUni4jihOd7AptVn
-	 7LG1DAt7I2PYisE5xY5OQmLJ+cp/c9RF9oHZBTHDf+OEV6oqsazZ3OQmrPSXyDX71QR9d
-	 iRnZ69NHpjTnvH1UCeNHkSfgvH0mAYmQ1NeKxAKWDTnHUVJzpQcVuDds8FzfNxxcjjQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=zfY9oMoIW/0okd9xFFx3UCLsKMsJOADfA+RNZfH9SM0=;
+	b=gc2U0AFfszc/3JgP6c9iZhVxGnD536+QfnsHrj4T5OjMxA/mb2K3VGcAAUA57aEp76RF
+	 +GR8QnT0xFm1onYijipPf1AAhkcnd13th3Ws75Myd8CTtASk2locfqPFlbcJpZMTw8LBK
+	 YQk2ESymtoHQVgpwwWTyQSkWvSSBSm+2X/1ZAzeBIMk0P+y4M/VMLPjQLK2FsirpUrgb+
+	 +3I8BKE25scFrW63FcvKR8EWLDr+yhwUVt/9LNqeJMOXRQIKyvKzke3UWoDfB7F68GNVC
+	 PfoBC34MFwQ675j0jN3yGU37xUsBmpVC38M2PWaDbO6uP00EDiiEnBJFauOsv6Kl0zg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Jp3nNBWJ;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cM9IhEPC;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877CC606A337
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 10:09:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 877CC606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FD7606A320;
+	Thu, 29 Oct 2026 10:19:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14FD7606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Jp3nNBWJ
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cM9IhEPC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793268558; x=1824804558;
-  h=date:from:to:cc:subject:message-id;
-  bh=RnokM0hsYotkP14BbhRFArFE1rrL5udYIqZNh+Oev9Y=;
-  b=Jp3nNBWJOALwuTEIC27y5qoU4S1dGiqPl7d6ugQlIgySP4QvvgLUH4eA
-   DFHboJXWDfXuAcdsLI3zEYNipAw3Kc938zJx7kdjwgUZK4Y0kxMxOUdWK
-   eqvulojGgN3SypgBGz5sUme4EtGg5q1A3mM9+4xnTmAhA6+Pcc9Qb5D8q
-   EDoA45NtRpJZWI4yJt5+isboVxWfRR/eVZUCKZW/rXtGP7TGma3cs6Qlj
-   2DOWcAFGRpcTfMajOZfsr5hPKi6OpxpVwURdkadBBy0EWMd+rTwp939H3
-   CyF7uuwZWZiH+Dknpj36C832j+DYC6swtAfKgnoxqeGlc8mSyPaTjnU6i
+  t=1793269196; x=1824805196;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Qt6D4YLPwSHv5zAOxXUaLkXyrpRhNSrHIbMspXroy44=;
+  b=cM9IhEPCqBq+zO7PeJUhczV/19F6tI12u0jw53S/+D2fKqJGrpIGVm1z
+   sCeYg5JBVb5AK4SAA2UBqDf9+dqs2t9BqOAnaE30XbY2g6NI2t6qjvFhw
+   /G1ZgmIohvQTQr48h4qNxt2hvWgm/cQHOR/cTqpzAkDEiTpme3Ax8wFdc
+   UsLIBM4g4eTpWHa3SOhjTqzHaTj8T9CYIB8slqBmyjrhrSO8hxmQwx830
+   /2s+mW3PllCCvdZcCtZ5x5VOxEuzR4bz+NrCzVUxCAls5P/Gkyow9gLag
+   o9HcRcPNKA4ePzT4fkiM0GmWCK4xCs7TCfhsbCjQNq/JLinjhRe2tchF3
    g==;
-X-CSE-ConnectionGUID: HzRyfMXzTCCYUkPsigwWpA==
-X-CSE-MsgGUID: c34z3dZyQo2Vhffewf6qqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2011274"
+X-CSE-ConnectionGUID: semNkrLhQ4ex6T/ozfbINg==
+X-CSE-MsgGUID: FrJJw8cPQvyqKInkLU+cZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2024006"
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="2011274"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 03:09:17 -0700
-X-CSE-ConnectionGUID: ti0JbxTQRnuQroHx/IQ2Fw==
-X-CSE-MsgGUID: lnNSfd8SROm3aOjt2qrzcQ==
+   d="scan'208";a="2024006"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 03:19:47 -0700
+X-CSE-ConnectionGUID: H6ANZahERZeuR9ZW3Z4ybA==
+X-CSE-MsgGUID: Iq/Jf3wIQGmkAMGQYBYpXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="4982805"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 29 Oct 2026 03:09:14 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="4986684"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 29 Oct 2026 03:19:45 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMN4I-000000005DL-3yfG;
-	Thu, 29 Oct 2026 10:09:10 +0000
-Date: Thu, 29 Oct 2026 11:08:34 +0100
+	id 1xMNEU-00000000ZxU-25rj;
+	Thu, 29 Oct 2026 10:19:42 +0000
+Date: Thu, 29 Oct 2026 18:19:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-riscv64 1/1]
- include/linux/pgtable.h:8:20: error: 'PMD_SHIFT' undeclared; did you mean
- 'PUD_SHIFT'?
-Message-ID: <202610291108.SJnw2kl5-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: =?iso-8859-1?Q?Iv=E1n?= Ezequiel Rodriguez <ivanrwcm25@gmail.com>,
+	David Howells <dhowells@redhat.com>,
+	Paulo Alcantara <pc@manguebit.org>, netfs@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Shyam Prasad N <sprasad@microsoft.com>,
+	Steve French <stfrench@microsoft.com>,
+	linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH netfs v1 2/2] netfs: add KUnit coverage for reissue
+ prepare_write errno
+Message-ID: <202610291753.Jr3HECY2-lkp@intel.com>
+References: <20261028181229.1408342-3-ivanrwcm25@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,95 +86,83 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261028181229.1408342-3-ivanrwcm25@gmail.com>
 
-Hi Carlos,
+Hi Iván,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
-head:   bc98d35a57962e5876c2021937cd8356f3d011f4
-commit: 0cc6f52b2aab23f59b9b92188194b0847105ceee [1/1] Merge 0bcb517f0a70 ("Merge tag 'mm-hotfixes-stable-2026-03-28-10-45' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm") into android-mainline
-config: arm-randconfig-r2304-20261029 (https://download.01.org/0day-ci/archive/20261029/202610291108.SJnw2kl5-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291108.SJnw2kl5-lkp@intel.com/reproduce)
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v7.3 next-20261028]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Iv-n-Ezequiel-Rodriguez/netfs-preserve-prepare_write-errno-on-reissue/20261028-151228
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20261028181229.1408342-3-ivanrwcm25%40gmail.com
+patch subject: [PATCH netfs v1 2/2] netfs: add KUnit coverage for reissue prepare_write errno
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20261029/202610291753.Jr3HECY2-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291753.Jr3HECY2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291108.SJnw2kl5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610291753.Jr3HECY2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mm.h:32,
-                    from include/linux/scatterlist.h:8,
-                    from include/linux/dma-buf.h:19,
-                    from drivers/gpu/drm/drm_gem_shmem_helper.c:6:
-   drivers/gpu/drm/drm_gem_shmem_helper.c: In function 'drm_gem_shmem_any_fault':
->> include/linux/pgtable.h:8:20: error: 'PMD_SHIFT' undeclared (first use in this function); did you mean 'PUD_SHIFT'?
-    #define PMD_ORDER (PMD_SHIFT - PAGE_SHIFT)
-                       ^~~~~~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:584:24: note: in expansion of macro 'PMD_ORDER'
-     if (order && order != PMD_ORDER)
-                           ^~~~~~~~~
-   include/linux/pgtable.h:8:20: note: each undeclared identifier is reported only once for each function it appears in
-    #define PMD_ORDER (PMD_SHIFT - PAGE_SHIFT)
-                       ^~~~~~~~~
-   drivers/gpu/drm/drm_gem_shmem_helper.c:584:24: note: in expansion of macro 'PMD_ORDER'
-     if (order && order != PMD_ORDER)
-                           ^~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for DRM_TTM
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for HMM_MIRROR
-   Depends on [n]: MMU [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && DRM [=y]
+   fs/netfs/write_reissue_kunit.c: In function 'reissue_preserves_prep_error':
+>> fs/netfs/write_reissue_kunit.c:61:1: warning: the frame size of 1400 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+      61 | }
+         | ^
 
 
-vim +8 include/linux/pgtable.h
+vim +61 fs/netfs/write_reissue_kunit.c
 
-f25748e3c34eb8b include/asm-generic/pgtable.h Dan Williams            2016-01-15   7  
-051ddcfeb1bdbae include/linux/pgtable.h       Matthew Wilcox (Oracle  2023-08-18  @8) #define PMD_ORDER	(PMD_SHIFT - PAGE_SHIFT)
-051ddcfeb1bdbae include/linux/pgtable.h       Matthew Wilcox (Oracle  2023-08-18   9) #define PUD_ORDER	(PUD_SHIFT - PAGE_SHIFT)
-051ddcfeb1bdbae include/linux/pgtable.h       Matthew Wilcox (Oracle  2023-08-18  10) 
-
-:::::: The code at line 8 was first introduced by commit
-:::::: 051ddcfeb1bdbae45e660c0db2468d29ca15c6c2 mm: move PMD_ORDER to pgtable.h
-
-:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    25	
+    26	/*
+    27	 * prepare_write_failed() sets FAILED + errno, then write_retry still calls
+    28	 * reissue_write().  Before the fix, reissue wiped error to 0 so terminated
+    29	 * reported success and mapping_set_error(0) was a no-op.
+    30	 */
+    31	static void reissue_preserves_prep_error(struct kunit *test)
+    32	{
+    33		struct term_capture cap = {};
+    34		struct netfs_io_request wreq = {};
+    35		struct netfs_io_stream stream = {
+    36			.source = NETFS_UPLOAD_TO_SERVER,
+    37		};
+    38		struct netfs_io_subrequest subreq = {
+    39			.rreq = &wreq,
+    40			.len = 1,
+    41			.transferred = 0,
+    42			.error = -EIO,
+    43			.source = NETFS_UPLOAD_TO_SERVER,
+    44		};
+    45		char buf[1] = { 0 };
+    46		struct kvec kvec = { .iov_base = buf, .iov_len = 1 };
+    47		struct iov_iter source;
+    48	
+    49		__set_bit(NETFS_SREQ_FAILED, &subreq.flags);
+    50		iov_iter_kvec(&source, ITER_SOURCE, &kvec, 1, 1);
+    51	
+    52		test->priv = &cap;
+    53		kunit_activate_static_stub(test, netfs_write_subrequest_terminated,
+    54					   capture_terminated);
+    55	
+    56		netfs_reissue_write(&stream, &subreq, &source);
+    57	
+    58		KUNIT_EXPECT_TRUE(test, cap.called);
+    59		KUNIT_EXPECT_EQ(test, cap.transferred_or_error, -EIO);
+    60		KUNIT_EXPECT_EQ(test, subreq.error, -EIO);
+  > 61	}
+    62	
 
 --
 0-DAY CI Kernel Test Service
