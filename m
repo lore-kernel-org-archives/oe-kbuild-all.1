@@ -1,76 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793248478;
-	b=Tmqg3V3+QRq1O24wliqUxLpy2KK2NN6nhvavnKgKx918Y84WPywbzQP/wE1qBAskO+JY
-	 NdTDGhoQRAZTyqLV2R8Ag64C02s59Nw4PbI4eNexWZ4Cw6jQHiwwWM94mHJp6XM49cc+/
-	 8TriMNGcuHynEcDZ5mOFmsJe/u9Tk/8BySKxpKSctlYc3BdvFrY8+EAN15wugX8y6loBn
-	 /+SoXkO1GDE3rd6YPA4v4jt7YQ/Xh2eLkeojT3zjvcV7GrT6WMlELI6/UiAm7EgTrcOLp
-	 gz1C6EZIzToFj/L8QN0TNqPJsWU2x+3Dl07inFbr2/IvJ9RA+mJYAH6ZUIg/+pIKhew==
+	t=1793255100;
+	b=ggEaOoHj4P+bssXnLB+3/4FYFlA3wb4g+haqTjIPrk3Mw8d6C/Awzqh9DgMPdPxy9BSk
+	 8FsBh0Qajjvv2ekYoytwC0r8Nh0jbrgcLCHxbuvuYHyoPWf3Yb71A6LUAnQS+KkqN8Ryl
+	 5C8avF11fBHh/bU3KJeA/lmQXoxs/UADCQL07anCzAM/gl1moPJB1IojgE+FlspKD/sVC
+	 XLFNd30WKi1Tj7/DkzvcHXSoXqSZDJoSxuMGFp2WXli7okN1uDcyGqraIds86hnYfzO+d
+	 puiNjGVGHRqUVMeOFZLlWGZnUWIU4e8jwV2aSvBRL4JMqlZGTMAxjh0DRMZDJrb7u7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793248478;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793255100;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=V7fiTvOhRwCrIEa94ENK3mj57JgcQP9TRsWAqIk8Tsc=;
-	b=n9T4BnIAI2Pkxdx5bJg5OM4jQ2PVnPgJupJ6KgvPKhLkdlJoNbXOleM1TNrmsT4PWOK4
-	 EH7tcdcr4PF2W5Z9rsu8+KeeFUedoOEiONTr/FikXVx3sS0Bh91pP1z2sse4l0Q5Le9gh
-	 Yxbwq2EaiwVY+UPavm2x4CAK5fDp2sHHsyfcIzipS9tK7qzNA72eIt+hhO8ocgQdMbat9
-	 kyzkTGRE1GSoE9ED2sjMIWAbLP+BUGCk48qP+St6YTiO7RkaskIqiWdJ0tA9cPpaU87WP
-	 BEI8oIOwZQwAbFu+JCtsJR2J4+klfFO4iO8CC/0UQMjt72NuqDwBTGIdaZ+0aPy/YqA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=GoWcFfV9M2fId+2o3IT2LxfxmhwYOP2ZbBx5GEYSW/g=;
+	b=D5Fs3ZNIrEkIBWo2woZ/IW416xu9zZgtg/Nc/S6rYEacYU9X8q7gWH2ONQhygkyPjkw4
+	 4UhdbgrVUw4dmVxulMbn/fHpNkeE121wCtIyD0Xm3NtFduoj87ZNMoKs/pP0pwBBwlYgr
+	 m0WvmFDiB8lky2PHe2q8zTgKHMmpaeneOPxC4rLaen+IJWVC3ilTwqMPTRQFHGipyouUW
+	 5bwnFG9a7cqjVR6kbXO6ufqDFqMJav28iyItK/BwincTvQFXzwhEGbnL31ZvACZ98R+qb
+	 WKCZXnUEaWBNvdz3r7ywxIBKjxa1ORYSak3MY63KCDxTBSSC6TiUfEpgLk9OOyu3hpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m0nnSl6I;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nScnmFMC;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E2D606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 04:34:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3E2D606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B2D606A31D;
+	Thu, 29 Oct 2026 06:24:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0B2D606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m0nnSl6I
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nScnmFMC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793248477; x=1824784477;
-  h=date:from:to:cc:subject:message-id;
-  bh=fQWHBLjwtUkApVoi1uPT8s+m4oq1KENvm1+ydIb2RFQ=;
-  b=m0nnSl6IpMazL7nShUrIRFIFjFR6XXJcfbUZnGBlSdzSZvr4+M0WlmFN
-   Oricq9wRC9BERjsjsRq9CN4NZNpTn2e/yHto5tJDx+iGMBdcSMmIE4GUK
-   Smr5zpRCgHG9RkwltKSUWmJ9Q6IURH1fzRKUC7Qs8E8XJjDN9+4P+jKbs
-   A9YD0wh1NTRfYE9t8ua8r6AIf+SWrv3BT5Prq0Z+jOTDbs8NiIW4DcULe
-   3H48eUpECNoeOnBm83WZevP/E5d251QuZgGdFvHCxE81HmQZd5MUHX2z+
-   YkB6SAy5Rma/LFP6CmEZQvGle+/RI+G8kzNmtYecQHXUKTpvEPf2f2rko
-   g==;
-X-CSE-ConnectionGUID: KW4IOnWrSjiAOu3LUJExYw==
-X-CSE-MsgGUID: BvweaOueSUa3j0LZ8KVisA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1879689"
-X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="1879689"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 21:34:33 -0700
-X-CSE-ConnectionGUID: mGrQ4/QEQ+6WuJcfelqxhw==
-X-CSE-MsgGUID: EdqDb7x4TTaY8MjGU6cnGw==
+  t=1793255093; x=1824791093;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iSIBsFr6RspUk/5LZrqwFhSWs4iU4YOkCBQI/UmN6tA=;
+  b=nScnmFMCF6UvkehtH3kp1qagJftoSK4R2/fSXkp9KNdNdQaC5qha5KFP
+   paUKALxFjYkOrThv4eCuCP1zUR5OQFk0nRgNQA/15gs4GCZUp9kmy3UTZ
+   KOcHPHq3Ce1699QfHdSPz9OWDZvBQfvoAa/50E1bo80tPD+oimIBF/nYO
+   3eibgyfYovJxGBWzlSiYZ8wBLSCf/CBl7gz8fcZd0FjSXYa2ZP1zbP0e4
+   Fo6XMgXzof2iKBQPAbr4KO5TSSFikwkRHkj7YDveaHYcJBVMm3MFErWVe
+   1x7JinFidTAmel6g7uJH4mZiXYfnP/wiU2zQo4IdIoErI3HxHWhxz8043
+   A==;
+X-CSE-ConnectionGUID: ZZKNDieHQFabXxSuxkYaiA==
+X-CSE-MsgGUID: fKMZzkb9RVesPB1+p6cG7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1901723"
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="1901723"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 23:24:52 -0700
+X-CSE-ConnectionGUID: CsEknmunREmuJ83o0a3MNw==
+X-CSE-MsgGUID: ObcGxGaXSb2D3wwGb1/fdA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5043577"
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="6880887"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Oct 2026 21:34:32 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 28 Oct 2026 23:24:49 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMHqP-00000000Zbg-1jfM;
-	Thu, 29 Oct 2026 04:34:29 +0000
-Date: Thu, 29 Oct 2026 12:33:50 +0800
+	id 1xMJZ8-00000000ZgW-1itp;
+	Thu, 29 Oct 2026 06:24:46 +0000
+Date: Thu, 29 Oct 2026 14:24:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2026-07 4/4]
- mm/shmem.c:2180:12: warning: no previous prototype for 'shmem_fault'
-Message-ID: <202610291128.JsPIw1Qz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chris Morgan <macroalpha82@gmail.com>, linux-pm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	heiko@sntech.de, conor+dt@kernel.org, krzk+dt@kernel.org,
+	robh@kernel.org, sre@kernel.org, t.schramm@manjaro.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH 2/3] power: supply: cw2217: Add support for Cellwise
+ cw2217
+Message-ID: <202610291456.pByroJTe-lkp@intel.com>
+References: <20261027131751.1724448-3-macroalpha82@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,110 +85,100 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027131751.1724448-3-macroalpha82@gmail.com>
 
-Hi Kalesh,
+Hi Chris,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2026-07
-head:   16c3ec26766e69f67992c085e1fec7ed5ffb811f
-commit: db302359ea1b5252a28abcb23a382be91c961ac0 [4/4] ANDROID: 16K: Handle pgoff > file_size for shmem and file backed VMAs
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261029/202610291128.JsPIw1Qz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291128.JsPIw1Qz-lkp@intel.com/reproduce)
+[auto build test ERROR on sre-power-supply/for-next]
+[also build test ERROR on rockchip/for-next amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.3 next-20261028]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-power-cw2015-add-cw2215-cw2217-and-cw2218/20261027-081749
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20261027131751.1724448-3-macroalpha82%40gmail.com
+patch subject: [PATCH 2/3] power: supply: cw2217: Add support for Cellwise cw2217
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261029/202610291456.pByroJTe-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 1da436a23e613c425fc9b868fc8deb979ede47a4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291456.pByroJTe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291128.JsPIw1Qz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610291456.pByroJTe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/shmem.c:2180:12: warning: no previous prototype for 'shmem_fault' [-Wmissing-prototypes]
-    2180 | vm_fault_t shmem_fault(struct vm_fault *vmf)
-         |            ^~~~~~~~~~~
+>> drivers/power/supply/cw2217_battery.c:261:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     261 |         fw_ver = FIELD_GET(CW2217_ID_MASK, cw_bat->fw_version);
+         |                  ^
+   drivers/power/supply/cw2217_battery.c:465:12: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     465 |                                        FIELD_GET(CW2217_IC_READY_MASK, reg) == CW2217_IC_READY,
+         |                                        ^
+   drivers/power/supply/cw2217_battery.c:491:6: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     491 |         if (FIELD_GET(CW2217_CONFIG_ACT_MSK, reg)) {
+         |             ^
+   3 errors generated.
 
 
-vim +/shmem_fault +2180 mm/shmem.c
+vim +/FIELD_GET +261 drivers/power/supply/cw2217_battery.c
 
-  2179	
-> 2180	vm_fault_t shmem_fault(struct vm_fault *vmf)
-  2181	{
-  2182		struct vm_area_struct *vma = vmf->vma;
-  2183		struct inode *inode = file_inode(vma->vm_file);
-  2184		gfp_t gfp = mapping_gfp_mask(inode->i_mapping);
-  2185		struct folio *folio = NULL;
-  2186		int err;
-  2187		vm_fault_t ret = VM_FAULT_LOCKED;
-  2188	
-  2189		/*
-  2190		 * Trinity finds that probing a hole which tmpfs is punching can
-  2191		 * prevent the hole-punch from ever completing: which in turn
-  2192		 * locks writers out with its hold on i_rwsem.  So refrain from
-  2193		 * faulting pages into the hole while it's being punched.  Although
-  2194		 * shmem_undo_range() does remove the additions, it may be unable to
-  2195		 * keep up, as each new page needs its own unmap_mapping_range() call,
-  2196		 * and the i_mmap tree grows ever slower to scan if new vmas are added.
-  2197		 *
-  2198		 * It does not matter if we sometimes reach this check just before the
-  2199		 * hole-punch begins, so that one fault then races with the punch:
-  2200		 * we just need to make racing faults a rare case.
-  2201		 *
-  2202		 * The implementation below would be much simpler if we just used a
-  2203		 * standard mutex or completion: but we cannot take i_rwsem in fault,
-  2204		 * and bloating every shmem inode for this unlikely case would be sad.
-  2205		 */
-  2206		if (unlikely(inode->i_private)) {
-  2207			struct shmem_falloc *shmem_falloc;
-  2208	
-  2209			spin_lock(&inode->i_lock);
-  2210			shmem_falloc = inode->i_private;
-  2211			if (shmem_falloc &&
-  2212			    shmem_falloc->waitq &&
-  2213			    vmf->pgoff >= shmem_falloc->start &&
-  2214			    vmf->pgoff < shmem_falloc->next) {
-  2215				struct file *fpin;
-  2216				wait_queue_head_t *shmem_falloc_waitq;
-  2217				DEFINE_WAIT_FUNC(shmem_fault_wait, synchronous_wake_function);
-  2218	
-  2219				ret = VM_FAULT_NOPAGE;
-  2220				fpin = maybe_unlock_mmap_for_io(vmf, NULL);
-  2221				if (fpin)
-  2222					ret = VM_FAULT_RETRY;
-  2223	
-  2224				shmem_falloc_waitq = shmem_falloc->waitq;
-  2225				prepare_to_wait(shmem_falloc_waitq, &shmem_fault_wait,
-  2226						TASK_UNINTERRUPTIBLE);
-  2227				spin_unlock(&inode->i_lock);
-  2228				schedule();
-  2229	
-  2230				/*
-  2231				 * shmem_falloc_waitq points into the shmem_fallocate()
-  2232				 * stack of the hole-punching task: shmem_falloc_waitq
-  2233				 * is usually invalid by the time we reach here, but
-  2234				 * finish_wait() does not dereference it in that case;
-  2235				 * though i_lock needed lest racing with wake_up_all().
-  2236				 */
-  2237				spin_lock(&inode->i_lock);
-  2238				finish_wait(shmem_falloc_waitq, &shmem_fault_wait);
-  2239				spin_unlock(&inode->i_lock);
-  2240	
-  2241				if (fpin)
-  2242					fput(fpin);
-  2243				return ret;
-  2244			}
-  2245			spin_unlock(&inode->i_lock);
-  2246		}
-  2247	
-  2248		err = shmem_get_folio_gfp(inode, vmf->pgoff, &folio, SGP_CACHE,
-  2249					  gfp, vma, vmf, &ret);
-  2250		if (err)
-  2251			return vmf_error(err);
-  2252		if (folio)
-  2253			vmf->page = folio_file_page(folio, vmf->pgoff);
-  2254		return ret;
-  2255	}
-  2256	
+   231	
+   232	/*
+   233	 * Current is a signed 16bit register (0x0E 0x0F) that reports current A/D
+   234	 * converter result of the voltage across the current sense resistor,
+   235	 * 10mohm typical. The register value should be divided by the sense
+   236	 * resistance to convert to amperes. The value of the sense resistor
+   237	 * determines the resolution and the full-scale range of the current readings.
+   238	 * The LSB of 0x0F is (52.4/32768)uV for CW2215 and CW2217. The LSB of 0x0F is
+   239	 * (125/32768)uV for CW2218.
+   240	 */
+   241	static int cw2217_get_current(struct cw2217_battery *cw_bat)
+   242	{
+   243		s32 cw_current;
+   244		__be16 reg;
+   245		u8 fw_ver;
+   246		int ret;
+   247	
+   248		if (cw_bat->fw_version == 0) {
+   249			cw_bat->cw_current = 0;
+   250			dev_err(cw_bat->dev, "Error! CW2217 firmware read error!\n");
+   251			return -EIO;
+   252		}
+   253	
+   254		ret = regmap_bulk_read(cw_bat->regmap, CW2217_CURRENT_H,
+   255				       &reg, sizeof(reg));
+   256		if (ret)
+   257			return ret;
+   258	
+   259		cw_current = (s16)be16_to_cpu(reg);
+   260	
+ > 261		fw_ver = FIELD_GET(CW2217_ID_MASK, cw_bat->fw_version);
+   262		switch (fw_ver) {
+   263		case CW2215_ID:
+   264		case CW2217_ID:
+   265			cw_current = (cw_current * 1600) / (cw_bat->user_rsense / 1000);
+   266			cw_bat->cw_current = cw_current * 1000;
+   267			break;
+   268		case CW2218_ID:
+   269			cw_current = (cw_current * 3815) / (cw_bat->user_rsense / 1000);
+   270			cw_bat->cw_current = cw_current * 1000;
+   271			break;
+   272		default:
+   273			cw_bat->cw_current = 0;
+   274			dev_err(cw_bat->dev, "Error! CW2217 firmware read error!\n");
+   275			return -EIO;
+   276		}
+   277	
+   278		return 0;
+   279	}
+   280	
 
 --
 0-DAY CI Kernel Test Service
