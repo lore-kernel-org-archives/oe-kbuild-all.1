@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793242272;
-	b=HfOhcjsTfahZssBpq58aphOHYZ90iR6NS/XR5FZ6e4/H33whiwTjAmBPCJ3QVHm3ML/7
-	 lph1ndOjD1uju9gbu+/Bcd2iteRGoDyLCcNjYmHp4EwL+qTf4OYa6luubyeGDrAPuqpD1
-	 mOlP6VbUWKAdow6oBy7x09KdD4eHQu810EMxdTiqcgT93xN+vj6A1XtGrIX2CRjNnzEGj
-	 bTMmY7T5CK5p/qMRwpKN/eIiiZdU9B2avlHWLmTWueUeguGjq0xWjGOh9xp870wSK+USk
-	 qoy0bwJ4ZSJtPDy5fQI1Qqf+eqAmLr3KIMzbjcK4B6unAPOtldfkmfyUj5QA9jC7RSA==
+	t=1793242956;
+	b=y8vjZt1cF8Bn+T0WzQpHC1tzF6MnEb986qc0xeEK0XfSzr4lzX/e+GiUhMhyHeUX6SsE
+	 3Gkh0PhOWQpHRM539imtsrKhYsvQJH/Fbwn5vUSwSWOg//GJABURFkGPJuYR/H4COxw0l
+	 ZRbBT2jAoEzJV5La9NlOG0EZr366hZ4XJy5bmGe2jNykecRbl4A2VoElmqlxaVn8DTKia
+	 8RKMMfAvIAXtm9QymwKShya2XqquHhjwIjV4vZh0LeOyUMZ1NxKHKPBDMn+HjuhN2laCg
+	 20keS1CvEKOyNuqS1mdJnnZhFAdaiKW/kZ0hTlIf9nso34kTNFzlrPd7EYSBHa5NYLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793242272;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793242956;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=Si9G60rDoQUxFgckGVPL51r1HFazEHB74w48C8zg6CI=;
-	b=Lo5UWoFUVUm/l9zDFDilcmpBy3qQmgqE0wXvWk/TmgSjUnZKfArh7VZKtJ0OmeDAZwFr
-	 Did8OkkGYS0zZFawx1xRwCncCLONugD5G1t45s935eKojsGn9dYub8Xq5Pp4KYYMhXf0y
-	 0f0gfYxnDpM47FBnrCi3C3e4wQOvqB2HkYRRpz2uEFS+DYmEIvg+slEEpo/FfjLmTcOaw
-	 252JLq+z1ofRnTMJaMaHeEg0nXJNsXdJfxKRs8fpGDoFl0gQ3GdEj12dBfqETFEUw9Mxn
-	 koOJuhd+jRjf0h+EO7coBorhtOhvFMnJvjtmCYPRQZ7GRNCFaoRUl3KLBlyToezTC0A==
+	bh=qpTJW5QWmfevHFgrIcUc7Ec9nreDr6kcUnSOw+Iu4Zk=;
+	b=48WZlfrDDun0YXDWz5UpySEPdv7HaKFZBfl5O0ydHOvt44XdMmPI67r53cjfxzrWcwQO
+	 vg/MdOmL+JJ9FgZPSDCjAsQYpwA8x+R9gLeYdtYN5sPidf2LRJ4bR0GH2e9V6oeDPUQQz
+	 X4bhd0GP5zWcAZxEXNIC5EWkIj8C7J1YC6sZZ5SQDj0LwOGLBmONPKZxmS3DRRTTHNoAC
+	 +oQs3pvd9yky5dI2RbijpStpNram+JArmewMB169xe5tJYSArhtVKBiAsGlPW3PVfEt+4
+	 cfIwIZ/zCXR9c+RLVQ7QfdsECsnKcwKJay/FuGuf73qE2VTZKbe7iDFdy7yHfYndyOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lmZnuchS;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bBA18Vln;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA821606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 02:51:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA821606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2D2606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 03:02:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A2D2606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lmZnuchS
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bBA18Vln
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793242271; x=1824778271;
+  t=1793242954; x=1824778954;
   h=date:from:to:cc:subject:message-id;
-  bh=Aq/I64h7Yr3cUV70PfOukMOAQxz9l9QTsi+E98UYZVQ=;
-  b=lmZnuchSHIKgHj0HHq1Fp5rjF6SPgxAfMVgTR7BmBmz/jvh/FjG2exja
-   8Y1D1+gLSIhmuDDMkH2gZrcVq67UratjRzVYMuKGVdkVCQrdnhE+M2Y0D
-   po6KDBkteXxy4Zs4THgjKfoMj/3I8fZMdnI7wYE2Fxs0VgTmndta0UsCL
-   k/2mXMQQnoqpFFKoTHsNMgadULgu0rmXh74gpIWQSezuJEaZnPHZaR3K3
-   3F2PqRWj7hj7fYep33/+3WkEjIkzZSfqLoGcu3ycw1W+UCGrUVhtRRS79
-   p6bvMytUYa/7oPKHGvHplBypE1wvJOkyLTvEZQtT3U4VYBBENfcCPLqHI
-   A==;
-X-CSE-ConnectionGUID: 2N0exqEkQXydPs22m+ievg==
-X-CSE-MsgGUID: 8peA0NbGSRestAOX9Oe+Qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2070808"
+  bh=MeClWH1MPk6oRHUOIbKtQFvcsIV4qHtV33DV4oVGwNw=;
+  b=bBA18Vln2OtMvJKPgD7zbPxe23kVraS6nYk6aCkHyhbbNBuHE/2FJoSC
+   m0ZQ/cxVbDVPMymsCi5OeervKAuc11JjU0+Wg5nUJBFl13q55rCONMALR
+   Oip4FieC/aKOqfxgkEDW8ZByrxZO2IBfbYl5qmu0QhnbLUW337nr6xFdS
+   FDaQzsfdzcGBxFMK7l8UJIrMy9OQcuL9WOqNSGabZv31mgsIcG3QUgNkS
+   AjEZ/4Y33VVIn5XcJ4f5hu9+Ivsf4Y9xcxGzZrZqTAm3xKDaXqRGoY5y7
+   iviFGyjXZa+u12BtWiDEL7BhiBQHdoFljAG53H1K6W4y6lRFjHdIrRqo1
+   g==;
+X-CSE-ConnectionGUID: 8zDiHLulQke1JMciAf6Pqg==
+X-CSE-MsgGUID: KwAWxnEBS/GRjcuQ+puFVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1869484"
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="2070808"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 19:51:10 -0700
-X-CSE-ConnectionGUID: LHRhxvNERV+svEyTLXHn7w==
-X-CSE-MsgGUID: 2h5EAHIGQtCtjVwP+89CUg==
+   d="scan'208";a="1869484"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 20:02:34 -0700
+X-CSE-ConnectionGUID: iRxIKE6YQO+J6+VD4jzs1w==
+X-CSE-MsgGUID: VLKyVZUTSUWI2Qflq2K7ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,183,1787036400"; 
-   d="scan'208";a="5350899"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Oct 2026 19:51:09 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5355253"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 28 Oct 2026 20:02:32 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMGEM-00000000ZWe-24cO;
-	Thu, 29 Oct 2026 02:51:06 +0000
-Date: Thu, 29 Oct 2026 10:50:55 +0800
+	id 1xMGPL-0000000057X-3KTg;
+	Thu, 29 Oct 2026 03:02:27 +0000
+Date: Thu, 29 Oct 2026 04:01:20 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 374/374]
- fs/kernfs/dir.c:482: warning: Excess function parameter 'drop_supers'
- description in 'kernfs_drain'
-Message-ID: <202610290921.MfKiTVZh-lkp@intel.com>
+To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:sse_test_v10 6/9]
+ arch/riscv/kernel/perf_callchain.c:104:54: sparse: sparse: incorrect type in
+ argument 2 (different address spaces)
+Message-ID: <202610290308.ffDFtbzR-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,83 +81,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   0951885c34a0e48adda08777b026c61fed9613ea
-commit: d9c80a173a8ce60e5b86601a231209002e313be6 [374/374] UPSTREAM: kernfs: Add missing documentation for kernfs_put_active's drop_supers argument
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20261029/202610290921.MfKiTVZh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290921.MfKiTVZh-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git sse_test_v10
+head:   b153606b426cd9cdcd8786f48fc3774eb1f61abe
+commit: 2ff6aa7cc8aff24dfae190b31053f7cab8762459 [6/9] perf: RISC-V: support callchains with SSE delivery
+config: riscv-randconfig-r2308-20261029 (https://download.01.org/0day-ci/archive/20261029/202610290308.ffDFtbzR-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+sparse: v0.6.5-rc1-1-gc4640450
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610290308.ffDFtbzR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610290921.MfKiTVZh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610290308.ffDFtbzR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/perf_callchain.c:104:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *src @@
+   arch/riscv/kernel/perf_callchain.c:104:54: sparse:     expected void const [noderef] __user *from
+   arch/riscv/kernel/perf_callchain.c:104:54: sparse:     got void const *src
+>> arch/riscv/kernel/perf_callchain.c:109:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got void const *src @@
+   arch/riscv/kernel/perf_callchain.c:109:14: sparse:     expected void const [noderef] __user *ptr
+   arch/riscv/kernel/perf_callchain.c:109:14: sparse:     got void const *src
 
->> fs/kernfs/dir.c:482: warning: Excess function parameter 'drop_supers' description in 'kernfs_drain'
+vim +104 arch/riscv/kernel/perf_callchain.c
 
-
-vim +482 fs/kernfs/dir.c
-
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  468  
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  469  /**
-81c173cb5e87fbb Tejun Heo    2014-02-03  470   * kernfs_drain - drain kernfs_node
-81c173cb5e87fbb Tejun Heo    2014-02-03  471   * @kn: kernfs_node to drain
-d9c80a173a8ce60 T.J. Mercier 2026-03-13  472   * @drop_supers: Set to true if this function is called with the
-d9c80a173a8ce60 T.J. Mercier 2026-03-13  473   *               kernfs_supers_rwsem locked.
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  474   *
-2b052bf46e870da Randy Dunlap 2022-11-11  475   * Drain existing usages and nuke all existing mmaps of @kn.  Multiple
-81c173cb5e87fbb Tejun Heo    2014-02-03  476   * removers may invoke this function concurrently on @kn and all will
-81c173cb5e87fbb Tejun Heo    2014-02-03  477   * return after draining is complete.
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  478   */
-81c173cb5e87fbb Tejun Heo    2014-02-03  479  static void kernfs_drain(struct kernfs_node *kn)
-393c3714081a537 Minchan Kim  2021-11-18  480  	__releases(&kernfs_root(kn)->kernfs_rwsem)
-393c3714081a537 Minchan Kim  2021-11-18  481  	__acquires(&kernfs_root(kn)->kernfs_rwsem)
-fd7b9f7b9776b11 Tejun Heo    2013-11-28 @482  {
-abd54f028ec3097 Tejun Heo    2014-02-03  483  	struct kernfs_root *root = kernfs_root(kn);
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  484  
-393c3714081a537 Minchan Kim  2021-11-18  485  	lockdep_assert_held_write(&root->kernfs_rwsem);
-81c173cb5e87fbb Tejun Heo    2014-02-03  486  	WARN_ON_ONCE(kernfs_active(kn));
-abd54f028ec3097 Tejun Heo    2014-02-03  487  
-2d7f9f8c1815707 Tejun Heo    2022-08-27  488  	/*
-2d7f9f8c1815707 Tejun Heo    2022-08-27  489  	 * Skip draining if already fully drained. This avoids draining and its
-2d7f9f8c1815707 Tejun Heo    2022-08-27  490  	 * lockdep annotations for nodes which have never been activated
-2d7f9f8c1815707 Tejun Heo    2022-08-27  491  	 * allowing embedding kernfs_remove() in create error paths without
-2d7f9f8c1815707 Tejun Heo    2022-08-27  492  	 * worrying about draining.
-2d7f9f8c1815707 Tejun Heo    2022-08-27  493  	 */
-2d7f9f8c1815707 Tejun Heo    2022-08-27  494  	if (atomic_read(&kn->active) == KN_DEACTIVATED_BIAS &&
-2d7f9f8c1815707 Tejun Heo    2022-08-27  495  	    !kernfs_should_drain_open_files(kn))
-2d7f9f8c1815707 Tejun Heo    2022-08-27  496  		return;
-2d7f9f8c1815707 Tejun Heo    2022-08-27  497  
-393c3714081a537 Minchan Kim  2021-11-18  498  	up_write(&root->kernfs_rwsem);
-35beab0635f3cdd Tejun Heo    2014-02-03  499  
-182fd64b6634221 Tejun Heo    2014-02-03  500  	if (kernfs_lockdep(kn)) {
-35beab0635f3cdd Tejun Heo    2014-02-03  501  		rwsem_acquire(&kn->dep_map, 0, 0, _RET_IP_);
-35beab0635f3cdd Tejun Heo    2014-02-03  502  		if (atomic_read(&kn->active) != KN_DEACTIVATED_BIAS)
-324a56e16e44bae Tejun Heo    2013-12-11  503  			lock_contended(&kn->dep_map, _RET_IP_);
-35beab0635f3cdd Tejun Heo    2014-02-03  504  	}
-abd54f028ec3097 Tejun Heo    2014-02-03  505  
-abd54f028ec3097 Tejun Heo    2014-02-03  506  	wait_event(root->deactivate_waitq,
-abd54f028ec3097 Tejun Heo    2014-02-03  507  		   atomic_read(&kn->active) == KN_DEACTIVATED_BIAS);
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  508  
-182fd64b6634221 Tejun Heo    2014-02-03  509  	if (kernfs_lockdep(kn)) {
-324a56e16e44bae Tejun Heo    2013-12-11  510  		lock_acquired(&kn->dep_map, _RET_IP_);
-5facae4f3549b5c Qian Cai     2019-09-19  511  		rwsem_release(&kn->dep_map, _RET_IP_);
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  512  	}
-35beab0635f3cdd Tejun Heo    2014-02-03  513  
-bdb2fd7fc56e197 Tejun Heo    2022-08-27  514  	if (kernfs_should_drain_open_files(kn))
-0e67db2f9fe9193 Tejun Heo    2016-12-27  515  		kernfs_drain_open_files(kn);
-ccf02aaf8167bb8 Tejun Heo    2014-02-03  516  
-393c3714081a537 Minchan Kim  2021-11-18  517  	down_write(&root->kernfs_rwsem);
-a6607930b6cd829 Tejun Heo    2014-02-03  518  }
-fd7b9f7b9776b11 Tejun Heo    2013-11-28  519  
-
-:::::: The code at line 482 was first introduced by commit
-:::::: fd7b9f7b9776b11df629e9dd3865320bf57ce588 sysfs, kernfs: move dir core code to fs/kernfs/dir.c
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    92	
+    93	unsigned long riscv_perf_out_copy_user(void *dst, const void *src,
+    94					       unsigned long n)
+    95	{
+    96		unsigned long addr = (unsigned long)src;
+    97		unsigned long copied = 0;
+    98	
+    99		/* Keep the generic fast path unchanged outside an SSE handler. */
+   100		if (!riscv_sse_get_interrupted_context()) {
+   101			unsigned long ret;
+   102	
+   103			pagefault_disable();
+ > 104			ret = __copy_from_user_inatomic(dst, src, n);
+   105			pagefault_enable();
+   106			return ret;
+   107		}
+   108	
+ > 109		if (!access_ok(src, n))
+   110			return n;
+   111	
+   112		/* Do not sample user memory through an unrelated active page table. */
+   113		if (!current->mm ||
+   114		    (csr_read(CSR_SATP) & SATP_PPN) != virt_to_pfn(current->mm->pgd))
+   115			return n;
+   116	
+   117		while (copied < n) {
+   118			unsigned long offset = offset_in_page(addr);
+   119			unsigned long chunk = min(n - copied, PAGE_SIZE - offset);
+   120			struct page *page;
+   121	
+   122			/*
+   123			 * Fast-only GUP cannot fault. This follows perf_virt_to_phys():
+   124			 * local interrupts remain disabled throughout SSE processing, so a
+   125			 * concurrent unmap cannot complete its TLB teardown before this
+   126			 * temporary reference is put.
+   127			 */
+   128			if (!get_user_page_fast_only(addr, 0, &page))
+   129				break;
+   130	
+   131			memcpy((char *)dst + copied,
+   132			       (char *)page_address(page) + offset, chunk);
+   133			put_page(page);
+   134			addr += chunk;
+   135			copied += chunk;
+   136		}
+   137	
+   138		return n - copied;
+   139	}
+   140	#endif
+   141	
 
 --
 0-DAY CI Kernel Test Service
