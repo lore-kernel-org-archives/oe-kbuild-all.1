@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793272823;
-	b=GG5HaB9uYMJy5xePokj7stWWPj7H8t9Nnj4FGyW/aO/zlFICRNtdfHkTzQ8ovpCRVTq9
-	 NS9jLe8gzQK7vG3NpY6DMCe1NMo6EkCGSkTOIY2ByvrWVUHpbIPrQpOio80JHtfWjWo98
-	 pmZbLwfjcrYo4JUm4m8QliksvJLx4KyppdJHQ29ctKhqzfvNRrd8YMhRmsizK61XuRRwV
-	 6z/WZzbZ3vb4UItcxVMb3nDMRDZb6+80I42YIAqK+XoknyiUHKzRWC7IZpG0ztlZPJFdx
-	 Clq+/2OFCp4mb9HSy2RahYPSMpPECEvu3we0cFti4ld7FNhKYmOr3p7pdWvlZOZNzag==
+	t=1793275946;
+	b=SkhcjfZ77Czy6SUjhxkZD3CgIr8H0UeXk3/Nj+6NMTv39wuyZrEZWCmCUrn9IkCLBkli
+	 So/njNm3QsVwTHjlv1WQRRyznuADRbD1H8Q70ymwtVaW5kD50tv0w6qJ3L2P2HCZZ7IhJ
+	 TUdHPzB7QJOxoLYRZalcecgrlwMdDJDEH2Vb+erMvOaJTUiiDN3iu1pO+txcqi5FM4muL
+	 JmPAimditcqIHMlfV5tAm0HXnG+Onsq2NsQrSSYbwouOTpVJjeyozyD9Ug/BcXGqGga1T
+	 4cOMmK+1ZE73ay01783s0Qc911SYcTUF1TFpOkNYenp4uV3r+2hlPzK+AfKGBNBXGjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793272823;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793275946;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=IAk4OfK0yuDD3Q1zcxykdIo2Qu+b+KLDG+VccMie5Qw=;
-	b=ho9IaSQjj8AnmhAOxywpmUphXZLVKAUiQtG0SftD9KJd1Ci8+Y2GYu5AAELA60juwKsI
-	 MeLwInvaqyZ4trVptqBeTgRrFRhIlWlORT2D+nkRAF7VGELQDQ2RRoByZCpzBFiM2R7fT
-	 ZSduIn0Q1F+oK2zVTAEegm6gwcWmyegGlijtQHiKtE7T12nMxM7QEgEbjTriIpJ3EIdZS
-	 vE5TkQ8nndeOkyu0z0RWR4bwk5ULQlK3wm/AwLl/khlscB4OKu0OU72hVkoV3d3sA7guM
-	 B9uBg5dgdvOo9TDzbd/TCpDUPCTJLyTmUMAIJycB7u92deC7Wl3FnGzqxeOeKxVxl+g==
+	bh=YeKP/mx9Y1SzI4SBw40DyIyFHV7jhZM9ZR9OchFrjeU=;
+	b=NHgSIp5VLlgweOPlxvXb6SHRdeyLO5jWnFhXbnyqfaNz5e0PPkoglOzEu+cg2hAuxmfQ
+	 tU2JzywsyaqkznJSPk7gTG8kt3fQcn1aY9GARD2YLN01zEf5AVdVOMRLKpYnRHpo2pKLs
+	 vB+MUu0KNCCmVBcDHJAIPCrG0x/CQgMRFLxHLV8JWYJiV+6EHs0MbiGy94btanHvnhEHU
+	 Ca5APKnK6kjUZA9UA+k1Ai4mLZilK3e77ylOcizwm5S0Ua6Ua77CtPvV19g/w9wjafGVu
+	 +/TV6A3bhlmgDLS7h4/w+yFdbgfmbAdHk7vDbMV8PVLOHTF8rwetX2hI4H6dONJifXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TKVZWPPy;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W81drkan;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CF5606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 11:20:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8CF5606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F9A606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 12:12:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0F9A606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TKVZWPPy
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W81drkan
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793272822; x=1824808822;
+  t=1793275945; x=1824811945;
   h=date:from:to:cc:subject:message-id;
-  bh=KLhEeIEpHV2dsA31YxyI5EDZ61n0ReYQbULpliZxdm8=;
-  b=TKVZWPPyT5tt25KphJeO6i8wNDtFAzVAc6lhs37DWb6YsCfzRYBfaHpS
-   9owtPSlbq1kE4DEDksWsJpksD4TfA0jBOX7y25u0ZOZrHwjyQ1nl2pjMc
-   4yI03y8hgOuDuc/52eVmNA73qRJiylXBt6A6IXWudfGfU12mRJiX6kqdS
-   4c75rVG9O7niwWtZ1u5FOl7doCIp20x8lrQ/adxbBXEBaQsAEuLbQlYMA
-   /fnagghPWPyYYllLX61X8iXoHMCF8UX6lGBxZRayuiCWfHYVwcGwE/TGi
-   2+9EYevto09l0r5HWE7P+8fQOdWT2JtDKQ69pqAXIqV/c2ctLrlEsZ8+f
+  bh=DipbPASF0CgBbzINXWMr9xFrVFvLJNf1x/ZKWI+KkMg=;
+  b=W81drkan+XQgM2+6uUWoBV6SnUKSDLhGNWo1HeDnasFTeYtzfROs98CU
+   yVLwE6JuKZp6fR/BfkBSq5K7sD4mq5PEy/4JQfYfb06iHupRLfvO/t/XH
+   xnmnYF1bLl5D+2/Cu3IyMsufiNnom4P8+VujV4eEbZgbMQCriVFfbJXw8
+   FSS40EtdtLrbC1Fa4QXHViRdkFR7o5JHJ6+Y84BHNxg7yuzb6uuUgjIpu
+   UKhp+WHzaKmpd0ryasWIAEQeKdqJJYvUV2S5U+A9OuXnNkbFdj1NoVzF6
+   rhHt+af3amLV+m0EDlNRPF12rW0wlm63NkIZWVk3Hpj58EU07/syiQT1T
    g==;
-X-CSE-ConnectionGUID: IoHAsfsuRSGLBY588i4I8g==
-X-CSE-MsgGUID: BhtI7xJaQZWrlXey2xbXtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1906045"
+X-CSE-ConnectionGUID: RnOAIFINQKy7XM0ui/JKcg==
+X-CSE-MsgGUID: 4Tg+a/XWSR+zI4TaqObVDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1900546"
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1906045"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 04:20:21 -0700
-X-CSE-ConnectionGUID: lVtpX8hHTzSKspCcogzjEA==
-X-CSE-MsgGUID: lk1FgvYTShSpSe6K6kElHg==
+   d="scan'208";a="1900546"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 05:12:23 -0700
+X-CSE-ConnectionGUID: 48BOMm5wTIOrtAfrZGl1vw==
+X-CSE-MsgGUID: 6cA/iKzNQCikHjwleKxEvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="5444089"
+   d="scan'208";a="5085153"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Oct 2026 04:20:20 -0700
+  by orviesa001.jf.intel.com with ESMTP; 29 Oct 2026 05:12:21 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMOB7-000000005EJ-2P4e;
-	Thu, 29 Oct 2026 11:20:17 +0000
-Date: Thu, 29 Oct 2026 12:20:03 +0100
+	id 1xMOzT-000000005Et-1AfM;
+	Thu, 29 Oct 2026 12:12:19 +0000
+Date: Thu, 29 Oct 2026 13:11:53 +0100
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: "Liam R. Howlett (Google)" <liam@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:coroutine 14/19] kernel/bpf/helpers.c:2451:18:
- sparse: sparse: symbol 'bpf_coro_suspend' was not declared. Should it be
- static?
-Message-ID: <202610291254.CEY38DsM-lkp@intel.com>
+Subject: [liam:dense_ulong 61/80] lib/maple_tree.c:2443:47: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202610291348.aEQzm9l2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,135 +80,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/kkdwivedi/linux coroutine
-head:   010227bd8fe1e7e1bcd7ac230700d24c9be9b714
-commit: d53fe5798cf63f95f210cd13d1371a9578ab35bc [14/19] bpf: Add no-op bpf_coro_suspend() kfunc
-config: x86_64-randconfig-r2309-20261029 (https://download.01.org/0day-ci/archive/20261029/202610291254.CEY38DsM-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/liam/linux.git dense_ulong
+head:   05d6e5c4cab7c4912959bf9ea5f797e6bc55eca5
+commit: 9559a25306a2b87205eb83d584989b64f82a5cfc [61/80] maple_tree: Add ENODE_NULL support
+config: microblaze-randconfig-r2310-20261029 (https://download.01.org/0day-ci/archive/20261029/202610291348.aEQzm9l2-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 10.5.0
 sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291254.CEY38DsM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291348.aEQzm9l2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291254.CEY38DsM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610291348.aEQzm9l2-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/helpers.c:1269:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long ( *[usertype] callback_fn )( ... ) @@     got void [noderef] __rcu * @@
-   kernel/bpf/helpers.c:1269:21: sparse:     expected unsigned long long ( *[usertype] callback_fn )( ... )
-   kernel/bpf/helpers.c:1269:21: sparse:     got void [noderef] __rcu *
-   kernel/bpf/helpers.c:2095:29: sparse: sparse: symbol 'bpf_get_current_task_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2096:29: sparse: sparse: symbol 'bpf_get_current_task_btf_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2097:29: sparse: sparse: symbol 'bpf_probe_read_user_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2098:29: sparse: sparse: symbol 'bpf_probe_read_user_str_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2099:29: sparse: sparse: symbol 'bpf_probe_read_kernel_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2100:29: sparse: sparse: symbol 'bpf_probe_read_kernel_str_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2101:29: sparse: sparse: symbol 'bpf_task_pt_regs_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2102:29: sparse: sparse: symbol 'bpf_perf_event_read_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2103:29: sparse: sparse: symbol 'bpf_send_signal_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2104:29: sparse: sparse: symbol 'bpf_send_signal_thread_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2107:29: sparse: sparse: symbol 'bpf_get_branch_snapshot_proto' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2393:18: sparse: sparse: symbol 'bpf_obj_new' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2407:18: sparse: sparse: symbol 'bpf_obj_new_impl' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2423:18: sparse: sparse: symbol 'bpf_percpu_obj_new' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2431:18: sparse: sparse: symbol 'bpf_percpu_obj_new_impl' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2446:18: sparse: sparse: symbol 'bpf_coro_frame_free' was not declared. Should it be static?
->> kernel/bpf/helpers.c:2451:18: sparse: sparse: symbol 'bpf_coro_suspend' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2486:18: sparse: sparse: symbol 'bpf_obj_drop' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2505:18: sparse: sparse: symbol 'bpf_percpu_obj_drop' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2526:18: sparse: sparse: symbol 'bpf_refcount_acquire' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2543:18: sparse: sparse: symbol 'bpf_refcount_acquire_impl' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2601:17: sparse: sparse: symbol 'bpf_list_push_front' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2612:17: sparse: sparse: symbol 'bpf_list_push_front_impl' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2631:17: sparse: sparse: symbol 'bpf_list_push_back' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2642:17: sparse: sparse: symbol 'bpf_list_push_back_impl' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2649:17: sparse: sparse: symbol 'bpf_list_add' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2685:34: sparse: sparse: symbol 'bpf_list_pop_front' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2692:34: sparse: sparse: symbol 'bpf_list_pop_back' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2699:34: sparse: sparse: symbol 'bpf_list_del' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2708:34: sparse: sparse: symbol 'bpf_list_front' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2718:34: sparse: sparse: symbol 'bpf_list_back' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2728:18: sparse: sparse: symbol 'bpf_list_is_first' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2740:18: sparse: sparse: symbol 'bpf_list_is_last' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2752:18: sparse: sparse: symbol 'bpf_list_empty' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2765:32: sparse: sparse: symbol 'bpf_rbtree_remove' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2850:26: sparse: sparse: symbol 'bpf_rbtree_add' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2862:26: sparse: sparse: symbol 'bpf_rbtree_add_impl' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2873:32: sparse: sparse: symbol 'bpf_rbtree_first' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2880:32: sparse: sparse: symbol 'bpf_rbtree_root' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2887:32: sparse: sparse: symbol 'bpf_rbtree_left' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2897:32: sparse: sparse: symbol 'bpf_rbtree_right' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2913:32: sparse: sparse: symbol 'bpf_task_acquire' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2924:18: sparse: sparse: symbol 'bpf_task_release' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2929:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2942:27: sparse: sparse: symbol 'bpf_cgroup_acquire' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2954:18: sparse: sparse: symbol 'bpf_cgroup_release' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2959:18: sparse: sparse: symbol 'bpf_cgroup_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2972:27: sparse: sparse: symbol 'bpf_cgroup_ancestor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2992:27: sparse: sparse: symbol 'bpf_cgroup_from_id' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3012:18: sparse: sparse: symbol 'bpf_task_under_cgroup' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3055:27: sparse: sparse: symbol 'bpf_task_get_cgroup1' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3072:32: sparse: sparse: symbol 'bpf_task_from_pid' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3091:32: sparse: sparse: symbol 'bpf_task_from_vpid' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3134:18: sparse: sparse: symbol 'bpf_dynptr_slice' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3257:17: sparse: sparse: symbol 'bpf_dynptr_adjust' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3276:18: sparse: sparse: symbol 'bpf_dynptr_is_null' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3283:18: sparse: sparse: symbol 'bpf_dynptr_is_rdonly' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3293:17: sparse: sparse: symbol 'bpf_dynptr_size' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3303:17: sparse: sparse: symbol 'bpf_dynptr_clone' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3330:17: sparse: sparse: symbol 'bpf_dynptr_copy' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3385:17: sparse: sparse: symbol 'bpf_dynptr_memset' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3420:18: sparse: sparse: symbol 'bpf_cast_to_kern_ctx' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3425:18: sparse: sparse: symbol 'bpf_rdonly_cast' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3430:18: sparse: sparse: symbol 'bpf_rcu_read_lock' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3440:18: sparse: sparse: symbol 'bpf_throw' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3445:17: sparse: sparse: symbol 'bpf_wq_init' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3459:17: sparse: sparse: symbol 'bpf_wq_start' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3483:17: sparse: sparse: symbol 'bpf_wq_set_callback' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3496:18: sparse: sparse: symbol 'bpf_preempt_disable' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3560:1: sparse: sparse: symbol 'bpf_iter_bits_new' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3621:17: sparse: sparse: symbol 'bpf_iter_bits_next' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3647:18: sparse: sparse: symbol 'bpf_iter_bits_destroy' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3677:17: sparse: sparse: symbol 'bpf_copy_from_user_str' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3718:17: sparse: sparse: symbol 'bpf_copy_from_user_mm' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3762:17: sparse: sparse: symbol 'bpf_copy_from_user_mm_str' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3808:17: sparse: sparse: symbol 'bpf_copy_from_user_task_str' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3842:18: sparse: sparse: symbol 'bpf_local_irq_save' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3852:18: sparse: sparse: symbol '__bpf_trap' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3907:17: sparse: sparse: symbol 'bpf_strcmp' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3925:17: sparse: sparse: symbol 'bpf_strcasecmp' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3944:17: sparse: sparse: symbol 'bpf_strncasecmp' was not declared. Should it be static?
-   kernel/bpf/helpers.c:3965:17: sparse: sparse: symbol 'bpf_strnchr' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4002:17: sparse: sparse: symbol 'bpf_strchr' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4019:17: sparse: sparse: symbol 'bpf_strchrnul' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4051:17: sparse: sparse: symbol 'bpf_strrchr' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4084:17: sparse: sparse: symbol 'bpf_strnlen' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4114:17: sparse: sparse: symbol 'bpf_strlen' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4132:17: sparse: sparse: symbol 'bpf_strspn' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4176:17: sparse: sparse: symbol 'bpf_strcspn' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4267:17: sparse: sparse: symbol 'bpf_strstr' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4286:17: sparse: sparse: symbol 'bpf_strcasestr' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4305:17: sparse: sparse: symbol 'bpf_strnstr' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4326:17: sparse: sparse: symbol 'bpf_strncasestr' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4820:17: sparse: sparse: symbol 'bpf_task_work_schedule_signal' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4838:17: sparse: sparse: symbol 'bpf_task_work_schedule_resume' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4921:17: sparse: sparse: symbol 'bpf_call_rcu' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4939:17: sparse: sparse: symbol 'bpf_call_rcu_tasks_trace' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4969:17: sparse: sparse: symbol 'bpf_dynptr_from_file' was not declared. Should it be static?
-   kernel/bpf/helpers.c:4979:17: sparse: sparse: symbol 'bpf_dynptr_file_discard' was not declared. Should it be static?
-   kernel/bpf/helpers.c:5008:17: sparse: sparse: symbol 'bpf_timer_cancel_async' was not declared. Should it be static?
-   kernel/bpf/helpers.c: note: in included file:
-   include/linux/bpf_unwind.h:137:48: sparse: sparse: undefined identifier '__builtin_dwarf_cfa'
-   include/linux/bpf_unwind.h:137:32: sparse: sparse: cast from unknown type
-   include/linux/bpf_unwind.h:137:32: sparse: sparse: cast from unknown type
+>> lib/maple_tree.c:2443:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:2443:47: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:2443:47: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4763:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4763:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4763:25: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4763:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4763:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4763:25: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4812:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4812:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4812:25: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4812:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4812:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4812:25: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4763:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4763:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4763:25: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4812:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4812:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4812:25: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4763:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4763:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4763:25: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:4812:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *node @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:4812:25: sparse:     expected struct maple_enode const *node
+   lib/maple_tree.c:4812:25: sparse:     got void [noderef] __rcu *
 
-vim +/bpf_coro_suspend +2451 kernel/bpf/helpers.c
+vim +2443 lib/maple_tree.c
 
+  2415	
+  2416	/*
+  2417	 * ma_has_null() - Is there a NULL entry in @node, or below it?
+  2418	 * @node: The maple node
+  2419	 * @type: The maple node type
+  2420	 * @min: The first index of the node
+  2421	 * @max: The last index of the node
+  2422	 *
+  2423	 * A leaf is scanned; an internal node asks its children's NULL bits.
+  2424	 */
+  2425	static bool ma_has_null(struct maple_node *node, enum maple_type type,
+  2426				u64 min, u64 max)
+  2427	{
+  2428		void __rcu **slots = ma_slots(node, type);
+  2429		unsigned char i, end;
+  2430	
+  2431		if (ma_is_dense(type))
+  2432			end = max - min;
+  2433		else
+  2434			end = ma_data_end(node, type, max);
+  2435	
+  2436		if (ma_is_leaf(type)) {
+  2437			for (i = 0; i <= end; i++) {
+  2438				if (!slots[i])
+  2439					return true;
+  2440			}
+  2441		} else {
+  2442			for (i = 0; i <= end; i++) {
+> 2443				if (mte_has_null(slots[i]))
+  2444					return true;
+  2445			}
+  2446		}
+  2447	
+  2448		return false;
+  2449	}
   2450	
-> 2451	__bpf_kfunc void bpf_coro_suspend(void *p__ign)
-  2452	{
-  2453	}
-  2454	
 
 --
 0-DAY CI Kernel Test Service
