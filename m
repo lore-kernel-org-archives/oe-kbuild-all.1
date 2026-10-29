@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793285073;
-	b=gKiAcCeLA38BWh7HcbKA86pTIMETeOBXBp/TGqzP7E5n9uk0AICE68Upd7xpaMQo9Inw
-	 eUfBw/++LxqXYnpfRsS5l40zyV5+x87mQFT8TkL/YzvnZj3n/a/gZubIzEcnQ2rcC42rk
-	 ags3RThsrGJhFBUnhkB7LIFBAIHGln65lbHnkJEFMiBg30jfgD+/+i+9+gmjQXDB5TBb7
-	 q+aUnV9n3+gKozHlKP77OlEZjwzWCqaDKqJy5t/4QlF/g4aMvEl06XoxtIhZhwdyV4Ej/
-	 9OfBHw1mO95MEJ/BfDAvKLxCXV5HDVo+J3WdzqYSES1L3EU4P7v7sbGYro6wOf5nmWQ==
+	t=1793285357;
+	b=jVXfzuLWjbJOcy59wvWu6NRe9c7IbYrMD+COXHx7MiadNIuPPb91QJZGHBxvod+fg1FH
+	 SwJTG/POIMW0XxTVYK9D4/9T5TiGF0Zf/6lB4QS4sHqTI8lU/HqKtGH9OPOM2TIcp/l9a
+	 wO9FP4/lq4mukuNbNMqki9kqeivKjXcSOAhngkMFf3cSas2Cc8Hs2X7ICl0/NMGPhJ+RK
+	 iLHhhEUWaEa8GQ1BpKWjPvVRMrfQVrWeiDGuHF4n0rM1nwNa5amcRf4To86NvI/xCiDaV
+	 kHymfg0hUySZNN55HRXguMId+mm948qJrDfGDH28SWBhV2qQyWonOvUc05YbTgmYadA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793285073;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793285357;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=8cW/sx37a6dIPJXTAg3GSLUwpZwNABlo6rBpicA9g+k=;
-	b=mqtXHLMuWylAKT2iSlSb9/0X+6cr69kimeYw4wATNr4SA50XKktJKMxLoto6X+pjw0eI
-	 gbNEFO1ocDrPH8+XqzhbTEXnMGy1r0bAXqjp5CZCYCnttcSoOaWoLc588/TbAnAr6LFQq
-	 YDtm2hI9ZtV9eL4kFiRSNSIVbKHE2wdAcwdDnz3XKPEbRFVBWDpq2Kb4kQESGbbCL/Vto
-	 AxNgiTj/5wwUJf3Oj1UKLgsKUXdu3L9asI+mKLml5IsI/MUkGK7IhljJexJ56cNpEMqcV
-	 H3q9kxmSxajUrtUsJTn6eyCKGIwYhkKAWxRPcNZ8MZzWXbTZ9DuJCGBXCrsQMhFAaqg==
+	bh=rNVOFdXX6gkgr2VQ8Eq84yLJN2tkCmfcFhd28RDFj+U=;
+	b=blvndgtA0An+OBDCC5KDFaOGlBqqv9wwf2MJMN3YIvJElbSeA44OGN7v8r4lXO2Ao+vm
+	 cX0RUluyX4AUej++ZJZwsyfGwAiI2D8PMbhRfCYf/V0QPlTp0ueB2C67Y0Yn6LcyYWh82
+	 u+2rjxi62K/qps6zN4rgARvLB8qzRVSH/6F/UxEcNS1KvUS07c3LUeJwxOaOsEJ00kwWP
+	 tmGY1yORJ6Drb5Cfpx3zUQi9kzrlpAmUCb1/TKvruOlQH3iKEcbnEtMXgrmx3lCBiLliR
+	 zGgvLkYrvaG08EyZWqQ1KAu2z1pjr2idb171SjWe/T3wnRSxjwxC+QBnQfUSGoy7vxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kAPXHEXq;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HNKw8KY3;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81389606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 14:44:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81389606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B52606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 14:49:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83B52606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kAPXHEXq
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HNKw8KY3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793285072; x=1824821072;
+  t=1793285356; x=1824821356;
   h=date:from:to:cc:subject:message-id;
-  bh=/TlNNJyTiJbyMpWzH9rZRH7jfnIZMEgb5YN+7H6/NmQ=;
-  b=kAPXHEXqijekQx544xVlu3fnt7pNsJKRkx5N1MBFuBq48DtLh+wdOYn9
-   pbr5inewvuWU5nhu35NsX0QE1Xcx+YELGbhvaLvuu6GZZBFneic79YIM0
-   yKlSlCXp7N6CfW49rUgco6+lTEUaHwK8d7BpWIcjdKtaXYiGBt8uS+bWP
-   Wan6Z8zZFiC5xJEX+oJPqkYj+g+Ioopkl/TPEX5vSJGwWXEgSCUcBgY/C
-   4sdmdrq1uvrSvD1TgX+mAjHUu8LSU3Qdkb7zIRH4zHZ1rFvbmbdMbVneR
-   L8ddYJBqBNt5N3sJM5MON59a9FeSiSXoC+VVIo7u9f+tEgk1RLpTlwMlR
-   w==;
-X-CSE-ConnectionGUID: NBjzTD3BTJ60qmOjwtx9QA==
-X-CSE-MsgGUID: D+zg/d4CTLi6Kb8QC6G0OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1912578"
+  bh=XL2noOHb4Y8ae3FzNdNqTc+NsVDObeYhBB1ch5WjkNE=;
+  b=HNKw8KY3s5YZN/h4aipl9Xg6oUASzz/4VQo02tS2/uuM9eKixWROCrhg
+   sVYf4BqX+euRH63I1riUERkEynkzPsguAlviZqgFVvcJHpd8k4hE8fJyk
+   SGGKVu9lz8DlZ306M6aZJyuTgNQaPYgdaHDTFYHAQDl7GR6qrU+lUnmS1
+   6TneVGCOkSCzZdAslGhlI/O2JI2rKiI4gHd2Uz/WRmkNj9VGe9f3O/s/M
+   mzOe83Ac7NUTvcLITzcTUbRRUZPz+eh39VDHlCD9QVFeVEm/JNdlmQRoc
+   FEqA6LzW1vcsug3nrGW+ZcNbGciLtFEZPgkkc42W2hxNgyogjzEQ6D6JE
+   Q==;
+X-CSE-ConnectionGUID: Z4sGH9SiQKi4IdMu685TmQ==
+X-CSE-MsgGUID: CdmlE1SASyeGoghJ6tAq3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2123484"
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1912578"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 07:44:31 -0700
-X-CSE-ConnectionGUID: sYfG7wBRQCe5HZ067/0nTw==
-X-CSE-MsgGUID: AqNioLsgQsutJfZQ8t8aUQ==
+   d="scan'208";a="2123484"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 07:49:16 -0700
+X-CSE-ConnectionGUID: uW7isfpsRJiLWUwxZkqaQA==
+X-CSE-MsgGUID: 8hIfa9oCTXK6wej/gWJ7Yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="5092855"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 29 Oct 2026 07:44:29 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="7000652"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa011.fm.intel.com with ESMTP; 29 Oct 2026 07:49:15 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMRMg-000000005Gl-3om7;
-	Thu, 29 Oct 2026 14:44:26 +0000
-Date: Thu, 29 Oct 2026 15:44:05 +0100
+	id 1xMRRI-00000000aFU-1AAi;
+	Thu, 29 Oct 2026 14:49:12 +0000
+Date: Thu, 29 Oct 2026 22:48:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-2026-09 1/1]
- net/ipv4/fib_trie.c:320:13: warning: implicit conversion from 'unsigned long'
- to 'u32' (aka 'unsigned int') changes value from 2305843009213693946 to
- 4294967290
-Message-ID: <202610291501.qubtmNJx-lkp@intel.com>
+Subject: [android-common:android16-6.12-p3s 2/2]
+ arch/arm64/kvm/mmu.c:378: warning: Function parameter or struct member 'addr'
+ not described in '___unmap_stage2_range'
+Message-ID: <202610292257.ELEb1wQN-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,83 +81,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-09
-head:   a69319c19fd01d6ddb506d4e39b1e50451bdb352
-commit: 3e1da3739d68558bacc60ea5f469fbddaf529c32 [1/1] ANDROID: GKI: Add GKI_HIDDEN_XFRM_OFFLOAD_CONFIGS
-config: x86_64-randconfig-2001-20261029 (https://download.01.org/0day-ci/archive/20261029/202610291501.qubtmNJx-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291501.qubtmNJx-lkp@intel.com/reproduce)
+Hi Quentin,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-p3s
+head:   606d03f6372c0cd085fc0d154cbfc17c298058f2
+commit: fcc111df8789eb3964c040712266abb15c823476 [2/2] ANDROID: KVM: arm64: Unshare pages from __unmap_stage2_range()
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261029/202610292257.ELEb1wQN-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c2ea4440d4b64c148de4fdfca1fc2c437a0701e4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610292257.ELEb1wQN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291501.qubtmNJx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610292257.ELEb1wQN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:171:
-   include/linux/compiler-clang.h:28:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      28 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:353:9: note: previous definition is here
-     353 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from net/ipv4/fib_trie.c:69:
-   In file included from include/net/tcp.h:45:
-   include/net/xfrm.h:2088:30: error: no member named 'xfrm' in 'struct dst_entry'
-    2088 |         struct xfrm_state *x = dst->xfrm;
-         |                                ~~~  ^
-   include/net/xfrm.h:2095:46: error: no member named 'xfrm' in 'struct dst_entry'
-    2095 |         if (!x->xso.offload_handle && !xdst->child->xfrm)
-         |                                        ~~~~~~~~~~~  ^
-   include/net/xfrm.h:2098:20: error: no member named 'xfrm' in 'struct dst_entry'
-    2098 |             !xdst->child->xfrm)
-         |              ~~~~~~~~~~~  ^
->> net/ipv4/fib_trie.c:320:13: warning: implicit conversion from 'unsigned long' to 'u32' (aka 'unsigned int') changes value from 2305843009213693946 to 4294967290 [-Wconstant-conversion]
-     320 |         if (bits > TNODE_VMALLOC_MAX)
-         |                    ^~~~~~~~~~~~~~~~~
-   net/ipv4/fib_trie.c:301:35: note: expanded from macro 'TNODE_VMALLOC_MAX'
-     301 |         ilog2((SIZE_MAX - TNODE_SIZE(0)) / sizeof(struct key_vector *))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:162:14: note: expanded from macro 'ilog2'
-     162 |         __ilog2_u32(n) :                \
-         |         ~~~~~~~~~~~ ^
-   2 warnings and 3 errors generated.
+>> arch/arm64/kvm/mmu.c:378: warning: Function parameter or struct member 'addr' not described in '___unmap_stage2_range'
+>> arch/arm64/kvm/mmu.c:378: warning: expecting prototype for __unmap_stage2_range(). Prototype was for ___unmap_stage2_range() instead
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
 
 
-vim +320 net/ipv4/fib_trie.c
+vim +378 arch/arm64/kvm/mmu.c
 
-37fd30f2da573c Alexander Duyck   2014-12-31  314  
-dc35dbeda3e00a Alexander Duyck   2015-03-06  315  static struct tnode *tnode_alloc(int bits)
-f0e36f8cee8101 Patrick McHardy   2005-07-05  316  {
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  317  	size_t size;
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  318  
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  319  	/* verify bits is within bounds */
-1de3d87bcd2c2e Alexander Duyck   2015-03-04 @320  	if (bits > TNODE_VMALLOC_MAX)
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  321  		return NULL;
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  322  
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  323  	/* determine size and verify it is non-zero and didn't overflow */
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  324  	size = TNODE_SIZE(1ul << bits);
-1de3d87bcd2c2e Alexander Duyck   2015-03-04  325  
-2373ce1ca04dd4 Robert Olsson     2005-08-25  326  	if (size <= PAGE_SIZE)
-8d96544475b236 Eric Dumazet      2008-01-13  327  		return kzalloc(size, GFP_KERNEL);
-15be75cdb5db44 Stephen Hemminger 2008-04-10  328  	else
-7a1c8e5ab120a5 Eric Dumazet      2010-11-20  329  		return vzalloc(size);
-15be75cdb5db44 Stephen Hemminger 2008-04-10  330  }
-2373ce1ca04dd4 Robert Olsson     2005-08-25  331  
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  339  
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  340  /*
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  341   * Unmapping vs dcache management:
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  342   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  343   * If a guest maps certain memory pages as uncached, all writes will
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  344   * bypass the data cache and go directly to RAM.  However, the CPUs
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  345   * can still speculate reads (not writes) and fill cache lines with
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  346   * data.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  347   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  348   * Those cache lines will be *clean* cache lines though, so a
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  349   * clean+invalidate operation is equivalent to an invalidate
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  350   * operation, because no cache lines are marked dirty.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  351   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  352   * Those clean cache lines could be filled prior to an uncached write
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  353   * by the guest, and the cache coherent IO subsystem would therefore
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  354   * end up writing old data to disk.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  355   *
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  356   * This is why right after unmapping a page/section and invalidating
+52bae936f0e7be arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  357   * the corresponding TLBs, we flush to make sure the IO subsystem will
+52bae936f0e7be arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  358   * never hit in the cache.
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  359   *
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  360   * This is all avoided on systems that have ARM64_HAS_STAGE2_FWB, as
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  361   * we then fully enforce cacheability of RAM, no matter what the guest
+e48d53a91f6e90 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  362   * does.
+363ef89f8e9bce arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  363   */
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  364  /**
+ffd9eaffa34d79 arch/arm64/kvm/mmu.c Randy Dunlap     2024-01-17  365   * __unmap_stage2_range -- Clear stage2 page table entries to unmap a range
+c9c0279cc02b4e arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  366   * @mmu:   The KVM stage-2 MMU pointer
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  367   * @start: The intermediate physical base address of the range to unmap
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  368   * @size:  The size of the area to unmap
+c9c0279cc02b4e arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  369   * @may_block: Whether or not we are permitted to block
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  370   *
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  371   * Clear a range of stage-2 mappings, lowering the various ref-counts.  Must
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  372   * be called while holding mmu_lock (unless for freeing the stage2 pgd before
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  373   * destroying the VM), otherwise another faulting VCPU may come in and mess
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  374   * with things behind our backs.
+7a1c831ee8553b arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  375   */
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  376  
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  377  static int ___unmap_stage2_range(struct kvm_s2_mmu *mmu, u64 addr, u64 size)
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11 @378  {
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  379  	if (!is_protected_kvm_enabled())
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  380  		return kvm_pgtable_stage2_unmap(mmu->pgt, addr, size);
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  381  
+fcc111df8789eb arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  382  	return pkvm_unmap_range(kvm_s2_mmu_to_kvm(mmu), addr, addr + size);
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  383  }
+80a72f6ae4aa66 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  384  
 
-:::::: The code at line 320 was first introduced by commit
-:::::: 1de3d87bcd2c2e631500b9e4f0c40b38ce0d0d57 fib_trie: Prevent allocating tnode if bits is too big for size_t
+:::::: The code at line 378 was first introduced by commit
+:::::: 80a72f6ae4aa66b8fb00a1c8a0d61f054d618003 ANDROID: KVM: amr64: Pass kvm_s2_mmu struct from stage2_apply_range()
 
-:::::: TO: Alexander Duyck <alexander.h.duyck@redhat.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Quentin Perret <qperret@google.com>
+:::::: CC: Keir Fraser <keirf@google.com>
 
 --
 0-DAY CI Kernel Test Service
