@@ -1,76 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793304801;
-	b=C1zYrdY5ORaQXDr8ym64O8HrZk1bUmXGsRkZ9VZzDvOSmUWhqrHmtUzgIuoJbeh+IUMQ
-	 ETCRWenBSMXbc/lnZg1btLzJRNm14OYKzoSjtP9cMjXablPE8qfSNRPRqt24XuT7OGvgb
-	 O0wkwtY4zwUVjB22XQS9+Szdwa0J6k1p5GMymB4idmqFv+fsS9DrGS/kA4bSP9YlOryBA
-	 fmlj4jDAc9+LySEw9Tt3p7WyTExHuXXnex5+lLGgV1orRkqgNeeX9W0qCCq+OA6b7E6sx
-	 ruoaT2lP3T25VOJs3//iR9g5xoR+I6dtF3wEzSvVX4KXw1Y8Vs2yJK3TFsfiwG2bxRQ==
+	t=1793307261;
+	b=rfQ29oapGi8SNmQi3e9UbEsZiPJ9ZIJEcGYNeu7OkYSSsm3WKCDvjgakYziorjoZTVEQ
+	 55qXuue7WE8sK5FXosdnx52huaExOENWT3QdvvPBI0G0RWwQpAs0ekJndFuGauMBfhqXG
+	 AFqIG2wyTLWCOvqZ89bb1r4acGgfbavS5geYBUru/LSQRnnz12xmFQlabIvrt7m187ZIl
+	 US2fen9IPPbMOXWfeYSD16Cb/ritra/PBszCJThxuhY5yDRlTvZrqA6HG/rNONM/N9Beg
+	 ctny8i2RsVr/xelUCUTXNotmEWL6rGM4d47aYmU7zo4oKpNMX3EJzgjz6ckeyjrRQ1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793304801;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793307261;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=WUVE2h0BDxKC0G22G0A1P6b67SG64BoW1r8s84KkXr4=;
-	b=Zx+HBmJVyKu+zJUY7HnnJ/Yblxj8LsEQCwqBOZFTLb/Q9CqUDSGF24r4KPlYSCaiPngl
-	 nrn8A/ZD+qiUEQUA2JBxRjxg/9JASJNqNQl106zxTm5Pf0tERSqoWiMz6NSXg102YSZdA
-	 98moXUoCsHOOo67GH+1Bk53BrQIDUnMnh4j4uhmhFS30FJSy0WJLy4TOJBbkF/E7+6ctm
-	 G+irIOvawa2FuBoHMsqODqX6UGngEu0731T/h1+sLQ68ginZAiJS9gk6v4WkLsF9zIP+0
-	 f+EI283KnmO0GE/00Qgtic14ViRBHH9rcpGMc9uNQNAHbFjBkgjScsBUQMOh2meMzvQ==
+	bh=lGu69vDvGx+7L4WZE7mVDe2bLPktA6ISozdTi5g/Juk=;
+	b=MTaEwzf9bbgC0X++zzG/9FEVX9qJoJu+yFLroqgV3lY31IszSUAI36JGSpJm22/QSj3D
+	 wHABNgoU8U0p1I/cDMoKFcjovK+Z1+Z4KPVTBPFMMpTaPbqA9CgSbSMBhe1gtZI5cSwO9
+	 D2GAvs0Hyl7XC27wyvWWc1X86FCTQE9BuxfWMRC71uLs5zlXr6UgjCE+NDCixLoD6ttmA
+	 J76oIjXcBzdmyy3EHYE5us2ft/ueMG47SUXeZbB6V/KbrEK65W11wthuflbPHfD8zGfm9
+	 w0tYBqdTjpoJFUuX46ED1T7NiQ0rzlYwi+iXHKorBlzCpDCS6wT9GmsoLc0VWp4UCDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=igMcA1z1;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cfdddEid;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF7606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 20:13:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41EF7606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62FC606A322
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 20:54:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E62FC606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=igMcA1z1
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cfdddEid
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793304799; x=1824840799;
+  t=1793307260; x=1824843260;
   h=date:from:to:cc:subject:message-id;
-  bh=1vME+IYHLnnIz39+Ib3HNx+cIDCKoRZ2c5RoEAyrxzQ=;
-  b=igMcA1z1E9dm0m1jXMxuBrZHSZ8+4pCq1IluNVWHDfx9JYLPr9taJPZC
-   OCCLzdkBfZ1GYOTtV8RRZiyjwx6kGWISO+1pAKBVsZ3XvbxMHpVpSxJpq
-   90rBdf61voG+Dsw04TD0tCbsZSBM8q8wUC6NPQ+SE6s8Zs8AykzRcdXTG
-   GaxRW1Hk0/8j6preCybOyu2RBL4BYc6gbIomkAu5wUmG0IY2icjVjbsAh
-   MzRbuGZTg+I8oQCNSdnfLD8qTWBhlp2SjSLjjMROygxrPrwlRqfjNumJB
-   GpQDSTnwwVM4oKfoG3AS1Ya2E/KxPM6zwp/0bW2QsnOnnlKnP/czkXRy+
-   g==;
-X-CSE-ConnectionGUID: pmwT8aWzTfS6fNWqtGAY0w==
-X-CSE-MsgGUID: x6ZNimJhS9++fEOjxv7N+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1955916"
+  bh=gWxtGLHDvEyB9hQHU+iVke1FUdNo0PxD3/rIURZ/IWo=;
+  b=cfdddEidVqcYCZY7kDw+V2CA2R8N/a9FC8m2B0WQDwpwtmKuqfZOuwVM
+   5KPWly65elLuDG9/Nz2k1Rrq6D8VzlVBg/HNEmggglvjCsgb9J1AVPvNx
+   xGuuImUel9B3B0i7hhdD7cfliRokyZSLuVp+okAJrPqX06WIrgBxHbHQN
+   2cr3Z5GGzgqZ57f2rexzxku2e155WWXtYSt6szdG9bGrNBe+CgP72x/81
+   Tw3DsNwYZ8GdhDF31qDNDl2Pqcq6Wiasz3cg8hirV4d3QHMEid9yc8og4
+   MFC8t9O9dnm7+WEwXwz0328nYS+vlnha5ltkhGSugxid+5/bBD6vVeInY
+   A==;
+X-CSE-ConnectionGUID: dNG+rISlSvWg4YVjb7mj0g==
+X-CSE-MsgGUID: Jp3DoddhRMynbpSkLwNicw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2054741"
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="1955916"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 13:13:18 -0700
-X-CSE-ConnectionGUID: y4XNKrgsQK+8zkOy7q7dGQ==
-X-CSE-MsgGUID: IE/B7cQ2QtiWHtCa8CaEcA==
+   d="scan'208";a="2054741"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 13:54:20 -0700
+X-CSE-ConnectionGUID: sVXAUUIdQ6CLSNJs9335FA==
+X-CSE-MsgGUID: 6yJ9WioLQPufnjJTRi69Cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="5782651"
+   d="scan'208";a="5275470"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 29 Oct 2026 13:13:18 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Oct 2026 13:54:17 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMWUs-000000005Kt-3cut;
-	Thu, 29 Oct 2026 20:13:14 +0000
-Date: Thu, 29 Oct 2026 21:12:35 +0100
+	id 1xMX8Z-000000005LH-3CKd;
+	Thu, 29 Oct 2026 20:54:15 +0000
+Date: Thu, 29 Oct 2026 21:53:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:x86/syscall 4/5]
- arch/x86/include/asm/syscall_wrapper.h:101:21: error: conflicting types for
- '__x64_sys_gettimeofday'; have 'long int(const struct pt_regs *)'
-Message-ID: <202610292140.C00OahQG-lkp@intel.com>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>
+Subject: [tnguy-net-queue:100GbE 5/11]
+ drivers/net/ethernet/intel/ice/ice_ptp.c:1253:15: error: 'struct ice_ptp_tx'
+ has no member named 'calibrating'
+Message-ID: <202610292105.A3nUSLeQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,123 +83,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/syscall
-head:   57a2da426dba48424406ee52c0c931c6d024138a
-commit: 91b5c0df2a770d3c281a82da51feb9b488bd7ace [4/5] x86_64/entry: Mark all syscalls __noendbr
-config: x86_64-randconfig-2300-20261029 (https://download.01.org/0day-ci/archive/20261029/202610292140.C00OahQG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610292140.C00OahQG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git 100GbE
+head:   3c73d34ba643c4e24ff549f3f083372a36b09952
+commit: 64639b94e14663a7f80953ac0d075edac626ee96 [5/11] ice: E825: stop clearing PHY_REG_TX_OFFSET_READY
+config: sparc-randconfig-2000-20261029 (https://download.01.org/0day-ci/archive/20261029/202610292105.A3nUSLeQ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610292105.A3nUSLeQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610292140.C00OahQG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610292105.A3nUSLeQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sys_ni.c:10:
->> arch/x86/include/asm/syscall_wrapper.h:101:21: error: conflicting types for '__x64_sys_gettimeofday'; have 'long int(const struct pt_regs *)'
-     101 |         __weak long __##abi##_##name(const struct pt_regs *__unused);   \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:116:9: note: in expansion of macro '__COND_SYSCALL'
-     116 |         __COND_SYSCALL(x64, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:253:9: note: in expansion of macro '__X64_COND_SYSCALL'
-     253 |         __X64_COND_SYSCALL(name)                                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:354:1: note: in expansion of macro 'COND_SYSCALL'
-     354 | COND_SYSCALL(gettimeofday);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:262:16: note: previous declaration of '__x64_sys_gettimeofday' with type 'long int(const struct pt_regs *)'
-     262 | long __noendbr __x64_sys_gettimeofday(const struct pt_regs *regs);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:102:21: error: conflicting types for '__x64_sys_gettimeofday'; have 'long int(const struct pt_regs *)'
-     102 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:116:9: note: in expansion of macro '__COND_SYSCALL'
-     116 |         __COND_SYSCALL(x64, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:253:9: note: in expansion of macro '__X64_COND_SYSCALL'
-     253 |         __X64_COND_SYSCALL(name)                                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:354:1: note: in expansion of macro 'COND_SYSCALL'
-     354 | COND_SYSCALL(gettimeofday);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:262:16: note: previous declaration of '__x64_sys_gettimeofday' with type 'long int(const struct pt_regs *)'
-     262 | long __noendbr __x64_sys_gettimeofday(const struct pt_regs *regs);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/syscall_wrapper.h:101:21: error: conflicting types for '__x64_sys_time'; have 'long int(const struct pt_regs *)'
-     101 |         __weak long __##abi##_##name(const struct pt_regs *__unused);   \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:116:9: note: in expansion of macro '__COND_SYSCALL'
-     116 |         __COND_SYSCALL(x64, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:253:9: note: in expansion of macro '__X64_COND_SYSCALL'
-     253 |         __X64_COND_SYSCALL(name)                                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:356:1: note: in expansion of macro 'COND_SYSCALL'
-     356 | COND_SYSCALL(time);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:263:16: note: previous declaration of '__x64_sys_time' with type 'long int(const struct pt_regs *)'
-     263 | long __noendbr __x64_sys_time(const struct pt_regs *regs);
-         |                ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:102:21: error: conflicting types for '__x64_sys_time'; have 'long int(const struct pt_regs *)'
-     102 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:116:9: note: in expansion of macro '__COND_SYSCALL'
-     116 |         __COND_SYSCALL(x64, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:253:9: note: in expansion of macro '__X64_COND_SYSCALL'
-     253 |         __X64_COND_SYSCALL(name)                                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:356:1: note: in expansion of macro 'COND_SYSCALL'
-     356 | COND_SYSCALL(time);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:263:16: note: previous declaration of '__x64_sys_time' with type 'long int(const struct pt_regs *)'
-     263 | long __noendbr __x64_sys_time(const struct pt_regs *regs);
-         |                ^~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_port_phy_stop':
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:1253:15: error: 'struct ice_ptp_tx' has no member named 'calibrating'
+      ptp_port->tx.calibrating = true;
+                  ^
+   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_port_phy_restart':
+   drivers/net/ethernet/intel/ice/ice_ptp.c:1328:15: error: 'struct ice_ptp_tx' has no member named 'calibrating'
+      ptp_port->tx.calibrating = true;
+                  ^
+   drivers/net/ethernet/intel/ice/ice_ptp.c:1338:15: error: 'struct ice_ptp_tx' has no member named 'calibrating'
+      ptp_port->tx.calibrating = false;
+                  ^
 
 
-vim +101 arch/x86/include/asm/syscall_wrapper.h
+vim +1253 drivers/net/ethernet/intel/ice/ice_ptp.c
 
-56062d60f117dcc Richard Palethorpe 2024-01-10   76  
-56062d60f117dcc Richard Palethorpe 2024-01-10   77  #define __SC_COMPAT_CAST(t, a)						\
-56062d60f117dcc Richard Palethorpe 2024-01-10   78  	(__typeof(__builtin_choose_expr(__TYPE_IS_L(t), 0, 0U)))	\
-56062d60f117dcc Richard Palethorpe 2024-01-10   79  	(unsigned int)a
-56062d60f117dcc Richard Palethorpe 2024-01-10   80  
-ebeb8c82ffaf944 Dominik Brodowski  2018-04-05   81  /* Mapping of registers to parameters for syscalls on i386 */
-ebeb8c82ffaf944 Dominik Brodowski  2018-04-05   82  #define SC_IA32_REGS_TO_ARGS(x, ...)					\
-56062d60f117dcc Richard Palethorpe 2024-01-10   83  	SYSCALL_PT_ARGS(x, __SC_COMPAT_CAST,				\
-56062d60f117dcc Richard Palethorpe 2024-01-10   84  			__MAP(x, __SC_TYPE, __VA_ARGS__))		\
-ebeb8c82ffaf944 Dominik Brodowski  2018-04-05   85  
-d2b5de495ee9838 Brian Gerst        2020-03-13   86  #define __SYS_STUB0(abi, name)						\
-91b5c0df2a770d3 Peter Zijlstra     2026-06-19   87  	long __noendbr __##abi##_##name(const struct pt_regs *regs);		\
-d2b5de495ee9838 Brian Gerst        2020-03-13   88  	ALLOW_ERROR_INJECTION(__##abi##_##name, ERRNO);			\
-91b5c0df2a770d3 Peter Zijlstra     2026-06-19   89  	long __noendbr __##abi##_##name(const struct pt_regs *regs)		\
-d2b5de495ee9838 Brian Gerst        2020-03-13   90  		__alias(__do_##name);
-d2b5de495ee9838 Brian Gerst        2020-03-13   91  
-4399e0cf494f739 Brian Gerst        2020-03-13   92  #define __SYS_STUBx(abi, name, ...)					\
-91b5c0df2a770d3 Peter Zijlstra     2026-06-19   93  	long __noendbr __##abi##_##name(const struct pt_regs *regs);		\
-4399e0cf494f739 Brian Gerst        2020-03-13   94  	ALLOW_ERROR_INJECTION(__##abi##_##name, ERRNO);			\
-91b5c0df2a770d3 Peter Zijlstra     2026-06-19   95  	long __noendbr __##abi##_##name(const struct pt_regs *regs)		\
-4399e0cf494f739 Brian Gerst        2020-03-13   96  	{								\
-4399e0cf494f739 Brian Gerst        2020-03-13   97  		return __se_##name(__VA_ARGS__);			\
-4399e0cf494f739 Brian Gerst        2020-03-13   98  	}
-4399e0cf494f739 Brian Gerst        2020-03-13   99  
-6cc8d2b286d9e71 Brian Gerst        2020-03-13  100  #define __COND_SYSCALL(abi, name)					\
-7dfe553affd0d00 Masahiro Yamada    2021-03-01 @101  	__weak long __##abi##_##name(const struct pt_regs *__unused);	\
-0f78ff17112d8b3 Brian Gerst        2020-03-13  102  	__weak long __##abi##_##name(const struct pt_regs *__unused)	\
-6cc8d2b286d9e71 Brian Gerst        2020-03-13  103  	{								\
-6cc8d2b286d9e71 Brian Gerst        2020-03-13  104  		return sys_ni_syscall();				\
-6cc8d2b286d9e71 Brian Gerst        2020-03-13  105  	}
-6cc8d2b286d9e71 Brian Gerst        2020-03-13  106  
-
-:::::: The code at line 101 was first introduced by commit
-:::::: 7dfe553affd0d003c7535b7ba60d09193471ea9d x86/syscalls: Fix -Wmissing-prototypes warnings from COND_SYSCALL()
-
-:::::: TO: Masahiro Yamada <masahiroy@kernel.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+  1222	
+  1223	/**
+  1224	 * ice_ptp_port_phy_stop - Stop timestamping for a PHY port
+  1225	 * @ptp_port: PTP port to stop
+  1226	 *
+  1227	 * Context: must hold the adapter ps_lock.
+  1228	 */
+  1229	static int
+  1230	ice_ptp_port_phy_stop(struct ice_ptp_port *ptp_port)
+  1231	{
+  1232		struct ice_pf *pf = ptp_port_to_pf(ptp_port);
+  1233		u8 port = ptp_port->port_num;
+  1234		struct ice_hw *hw = &pf->hw;
+  1235		unsigned long flags;
+  1236		int err;
+  1237	
+  1238		lockdep_assert_held(&pf->adapter->ps_lock);
+  1239	
+  1240		switch (hw->mac_type) {
+  1241		case ICE_MAC_E810:
+  1242		case ICE_MAC_E830:
+  1243			err = 0;
+  1244			break;
+  1245		case ICE_MAC_GENERIC:
+  1246			kthread_cancel_delayed_work_sync(&ptp_port->ov_work);
+  1247	
+  1248			err = ice_stop_phy_timer_e82x(hw, port, true);
+  1249			break;
+  1250		case ICE_MAC_GENERIC_3K_E825:
+  1251			/* Disable new Tx timestamp requests */
+  1252			spin_lock_irqsave(&ptp_port->tx.lock, flags);
+> 1253			ptp_port->tx.calibrating = true;
+  1254			spin_unlock_irqrestore(&ptp_port->tx.lock, flags);
+  1255	
+  1256			ice_ptp_mark_tx_tracker_stale(&ptp_port->tx);
+  1257	
+  1258			err = ice_stop_phy_timer_eth56g(hw, port);
+  1259			break;
+  1260		default:
+  1261			err = -ENODEV;
+  1262		}
+  1263		if (err && err != -EBUSY)
+  1264			dev_err(ice_pf_to_dev(pf), "PTP failed to set PHY port %d down, err %d\n",
+  1265				port, err);
+  1266	
+  1267		return err;
+  1268	}
+  1269	
 
 --
 0-DAY CI Kernel Test Service
