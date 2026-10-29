@@ -1,78 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793297407;
-	b=5thGWsaQygLG2kocirWAFu1/yAhxry5aP1SMqMR2QvPbTnb6R+5u9tRjbRPD/02+n0Hu
-	 BIItAfIBe9ZbBahANHZ9Cz2CKjLqmRjdLVwR8rsqJ9CUIe9FqRV2dsfsXrLf9cAU2IDJh
-	 tQ+RZuwTTckUVdFN2uGfN4o4Sk1NgbYUtWrMVoS5JWob7+jUh0RZPmdG0f4F51h3xR6Y2
-	 fGnJlYldfV9TlwWbZ6iVJ24akHY0+pvkJF02SoCkrCK3EO24DQ03H/XcjdMHaUc4SXnby
-	 nLYyHBHPDvvF3UZkgHn+Vykt+UUTiEymJHBGMCeCtTnQwjl582AiJlU5HJYeFxHoB0g==
+	t=1793299870;
+	b=QJ6Jsh091NRd9Peo9X6zxHZSBsOOLLc1REWgf2EqDla3YOgZJduC7BBzkjRCUM/xQqkw
+	 ZdZo1LvVUQGpvOP+kD0+wB3H9NXYjicIpNXwmeLKV2RkAvCSq6sCNhQhQIurl6c10YSrz
+	 LS5ATarKUDaCSYIeR/hSSNvD5qEfmrYfEUziKuUQnQ3/BaHCJuXRCX3xRp25bbpOVCBfq
+	 BPsANlTtxorvA9+8bkw99e67ZypQCHWlk8+eG2CobkaucfK5Q5jS8OhtMInY+eUFwhzq8
+	 K2tczzm3bZukJAHWKJIGz5guhGJpaBOac4XNV436DZV0LJ69QvXJ2Dnfu4XyRwnwKvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793297407;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793299870;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=lDYV7LC0tPYdhNv6gG0dGxdubaa4fsUXaYUAuaRc2bg=;
-	b=G9rvOHOvq5fybxn8qdDb9uSMCwGOs0519Pupryp1tbwbnHnYh6UlzmRDH6RyUjpv05EV
-	 YBKy1rUdGU/VARwTVWpiBL5TnWNyvIg56HwSFYj+bd9Vozavk0mup/RAOt9l9BKRgpXC3
-	 r1DSh5qUj9DmbtZYDtJoZ8iSb2cpa6k6VVLIzn3VwEQNjJ3QVjfooiCPGOmNluuEo5pRk
-	 ZFnv1nteOnueV5+o6hps1I0VpWRzSyC+MbXeVAKJIf6SOfYgrwRMI+HDvg6SalFkgjG+W
-	 afGYN12a8lFDayg/sd9vlOccsoQGq9Xw4hH8bRfj63pL0BWkpAVrMzco1hb509CHbbA==
+	bh=zK+Pc60f/vCFaNiI+/6ZugtTyuRKKM2JpoL+xPgvN+k=;
+	b=LHUKl8Dfu80WcrFiM1+7TYtrFgfUmHcWxIv0M12qXNnaLbukBSE33PkhnBOTP2VHe0wy
+	 bDL9kr/04penXRizWo9k8PrLlV0F10/w17XhQZxZmPi7VxgSpzXv1qUwzxsOth7K+Ge3b
+	 ZH4EKpsE23nYIBmDG3/jEhcvyPdzgAvMVVSTN8sbgcvcwftjc6dzRZA6UrlXOvcdnFRrq
+	 nR2y1T6TA2pZDdsSYxq0QvRYPu2Wt4xraADBwgGkKBWhjrVpk9X9lIIHLyMjJYZ36ySbk
+	 WqCx7HuQqZ+6UhLaMj6Go3Nl/bNclynVuW4tuXwN9cMx/y5iTyILs+BdZEuBR/ad9ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XxR3ZcCR;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="UPk341/W";
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AB960A5BEA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 18:10:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54AB960A5BEA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9015606A31F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 18:51:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9015606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XxR3ZcCR
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UPk341/W
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793297406; x=1824833406;
+  t=1793299869; x=1824835869;
   h=date:from:to:cc:subject:message-id;
-  bh=Sau3PHBG4aHlid8FgOjQIUInhQe+UkWmTSWeDemng5k=;
-  b=XxR3ZcCRgUOD2xKiU77OpJx99/3VOVpXYp8iNG+FEw6qlTd7CJgR0L9R
-   8FLPt3RXwDapSpv0Mg0xliFbrtbke/ImDe0VVxY89H4MJzzXziDIZpyvY
-   7R+POTt/sh06lSmeyvhW3spnhP2KqNUpBtiYBQgJoA7e0RPqDfCb99KjK
-   hf3cw0xERKnSsjNhxQWJhq19MZXJLbGZMimmwT3LQ0UXLdu2uQUVXB+2k
-   rdmgD2UaW8KCcSLsvwFgflXCTZUKQajf+J53/bKZjasnQsEy64A1GlVpv
-   zak86nBTib+XwtM+VqnFfdgN861dfknrAw+TAXqHe5TQRBiWqm2PFnXrL
-   w==;
-X-CSE-ConnectionGUID: QYpUGdFfSIiulRZ8kQYzTg==
-X-CSE-MsgGUID: hZI60hlKTbO7o4WJvpsLhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1935830"
+  bh=uTHALUyykAeURXlcewCCEM1G1FkN1KKJjeLXJmcYW18=;
+  b=UPk341/WWdmG80rRE58Xpvq9jWyKIFXbuzHnqQHKD4LECJZ+7OkmwNJS
+   axfojIgZNPTJtja+LApriJ0DD6ozpfJz7NiPdvpG4s5sK7jZt4jZQQwc+
+   NAURmRUjedP/Yr1nzA/RwnLDwimKq10ooIeTY1WX8qzsw7vtLMxUZXjYc
+   rblPs2zXCQMVf/GMVSou/lz8tP1BqmmUEol1enY0Ox7i9IKchSpFD6aWr
+   gyNjJ84UsE2FpoLQ1P69qHJQfEevy1QJgM8XNZmfBspYcLOXqY/8oxYzH
+   G4zYvfLTWGpd0rN/Dpvr6wmrvflBpK1LS0B/k3l0q1BH8EvIjb4w6rDqw
+   g==;
+X-CSE-ConnectionGUID: Y7hnFOl0RiKnsGGZI6lgAg==
+X-CSE-MsgGUID: 3JAAWxw/QGqsErPH3h9fQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2060673"
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1935830"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 11:10:05 -0700
-X-CSE-ConnectionGUID: gRX8wnPdSAq4lxqGreJO+Q==
-X-CSE-MsgGUID: nZFgO8HmTXa20/gX7TQeVQ==
+   d="scan'208";a="2060673"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 11:51:08 -0700
+X-CSE-ConnectionGUID: 050A28sBQMWmhOQeyjYNPA==
+X-CSE-MsgGUID: W9m+Oq7fTNONUmhxEABU5w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="5311507"
+   d="scan'208";a="5616539"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2026 11:10:04 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 29 Oct 2026 11:51:08 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMUZd-000000005J5-2RO7;
-	Thu, 29 Oct 2026 18:10:01 +0000
-Date: Thu, 29 Oct 2026 19:09:58 +0100
+	id 1xMVDN-000000005Jf-1aOd;
+	Thu, 29 Oct 2026 18:51:05 +0000
+Date: Thu, 29 Oct 2026 19:50:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>
-Subject: [arnd-asm-generic:asm-generic 15/15]
- /usr/aarch64-linux-gnu/include/linux/types.h:12: Error: unknown mnemonic
- `typedef' -- `typedef __signed__ __int128 __s128
- __attribute__((aligned(16)))'
-Message-ID: <202610291918.kHO0GTDB-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android18-7.3 1/1] ld.lld: error: undefined
+ symbol: ashmem_memfd_ioctl
+Message-ID: <202610291910.EweEb54T-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,131 +80,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git asm-generic
-head:   dd7cc8c26b6a37a54adc5ce38d286521b7201044
-commit: dd7cc8c26b6a37a54adc5ce38d286521b7201044 [15/15] treewide: Stop defining __ASSEMBLY__ for assembler files
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261029/202610291918.kHO0GTDB-lkp@intel.com/config)
-compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291918.kHO0GTDB-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android18-7.3
+head:   c3c384d4d5fd887a90e4061229522d9547a54ea4
+commit: 398bbc0409f7586f909b17195dc4a1268d855277 [1/1] ANDROID: mm/memfd-ashmem-shim: Align ioctl handler name with Rust version
+config: i386-randconfig-r2109-20261029 (https://download.01.org/0day-ci/archive/20261029/202610291910.EweEb54T-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291910.EweEb54T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291918.kHO0GTDB-lkp@intel.com/
-
-Note: the arnd-asm-generic/asm-generic HEAD dd7cc8c26b6a37a54adc5ce38d286521b7201044 builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610291910.EweEb54T-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h: Assembler messages:
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:20: Error: unknown mnemonic `typedef' -- `typedef __signed__ char __s8'
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:21: Error: unknown mnemonic `typedef' -- `typedef unsigned char __u8'
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:23: Error: unknown mnemonic `typedef' -- `typedef __signed__ short __s16'
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:24: Error: unknown mnemonic `typedef' -- `typedef unsigned short __u16'
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:26: Error: unknown mnemonic `typedef' -- `typedef __signed__ int __s32'
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:27: Error: unknown mnemonic `typedef' -- `typedef unsigned int __u32'
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:30: Error: unknown mnemonic `__extension__' -- `__extension__ typedef __signed__ long long __s64'
->> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:31: Error: unknown mnemonic `__extension__' -- `__extension__ typedef unsigned long long __u64'
->> /usr/aarch64-linux-gnu/include/linux/posix_types.h:25: Error: unknown mnemonic `typedef' -- `typedef struct{'
->> /usr/aarch64-linux-gnu/include/linux/posix_types.h:26: Error: unknown mnemonic `unsigned' -- `unsigned long fds_bits[1024/(8*sizeof(long))]'
->> /usr/aarch64-linux-gnu/include/linux/posix_types.h:27: Error: junk at end of line, first unrecognized character is `}'
->> /usr/aarch64-linux-gnu/include/linux/posix_types.h:30: Error: unknown mnemonic `typedef' -- `typedef void(*__kernel_sighandler_t)(int)'
->> /usr/aarch64-linux-gnu/include/linux/posix_types.h:33: Error: unknown mnemonic `typedef' -- `typedef int __kernel_key_t'
->> /usr/aarch64-linux-gnu/include/linux/posix_types.h:34: Error: unknown mnemonic `typedef' -- `typedef int __kernel_mqd_t'
->> /usr/aarch64-linux-gnu/include/asm/posix_types.h:5: Error: unknown mnemonic `typedef' -- `typedef unsigned short __kernel_old_uid_t'
->> /usr/aarch64-linux-gnu/include/asm/posix_types.h:6: Error: unknown mnemonic `typedef' -- `typedef unsigned short __kernel_old_gid_t'
->> /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:15: Error: unknown mnemonic `typedef' -- `typedef long __kernel_long_t'
->> /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:16: Error: unknown mnemonic `typedef' -- `typedef unsigned long __kernel_ulong_t'
->> /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:20: Error: unknown mnemonic `typedef' -- `typedef __kernel_ulong_t __kernel_ino_t'
->> /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:24: Error: unknown mnemonic `typedef' -- `typedef unsigned int __kernel_mode_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:28: Error: unknown mnemonic `typedef' -- `typedef int __kernel_pid_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:32: Error: unknown mnemonic `typedef' -- `typedef int __kernel_ipc_pid_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:36: Error: unknown mnemonic `typedef' -- `typedef unsigned int __kernel_uid_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:37: Error: unknown mnemonic `typedef' -- `typedef unsigned int __kernel_gid_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:41: Error: unknown mnemonic `typedef' -- `typedef __kernel_long_t __kernel_suseconds_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:45: Error: unknown mnemonic `typedef' -- `typedef int __kernel_daddr_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:49: Error: unknown mnemonic `typedef' -- `typedef unsigned int __kernel_uid32_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:50: Error: unknown mnemonic `typedef' -- `typedef unsigned int __kernel_gid32_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:59: Error: unknown mnemonic `typedef' -- `typedef unsigned int __kernel_old_dev_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:72: Error: unknown mnemonic `typedef' -- `typedef __kernel_ulong_t __kernel_size_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:73: Error: unknown mnemonic `typedef' -- `typedef __kernel_long_t __kernel_ssize_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:74: Error: unknown mnemonic `typedef' -- `typedef __kernel_long_t __kernel_ptrdiff_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:79: Error: unknown mnemonic `typedef' -- `typedef struct{'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:80: Error: unknown mnemonic `int' -- `int val[2]'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:81: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:87: Error: unknown mnemonic `typedef' -- `typedef __kernel_long_t __kernel_off_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:88: Error: unknown mnemonic `typedef' -- `typedef long long __kernel_loff_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:89: Error: unknown mnemonic `typedef' -- `typedef __kernel_long_t __kernel_old_time_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:90: Error: unknown mnemonic `typedef' -- `typedef __kernel_long_t __kernel_time_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:91: Error: unknown mnemonic `typedef' -- `typedef long long __kernel_time64_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:92: Error: unknown mnemonic `typedef' -- `typedef __kernel_long_t __kernel_clock_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:93: Error: unknown mnemonic `typedef' -- `typedef int __kernel_timer_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:94: Error: unknown mnemonic `typedef' -- `typedef int __kernel_clockid_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:95: Error: unknown mnemonic `typedef' -- `typedef char*__kernel_caddr_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:96: Error: unknown mnemonic `typedef' -- `typedef unsigned short __kernel_uid16_t'
-   /usr/aarch64-linux-gnu/include/asm-generic/posix_types.h:97: Error: unknown mnemonic `typedef' -- `typedef unsigned short __kernel_gid16_t'
-   /usr/aarch64-linux-gnu/include/linux/types.h:12: Error: unknown mnemonic `typedef' -- `typedef __signed__ __int128 __s128 __attribute__((aligned(16)))'
-   /usr/aarch64-linux-gnu/include/linux/types.h:13: Error: unknown mnemonic `typedef' -- `typedef unsigned __int128 __u128 __attribute__((aligned(16)))'
-   /usr/aarch64-linux-gnu/include/linux/types.h:31: Error: unknown mnemonic `typedef' -- `typedef __u16 __le16'
-   /usr/aarch64-linux-gnu/include/linux/types.h:32: Error: unknown mnemonic `typedef' -- `typedef __u16 __be16'
-   /usr/aarch64-linux-gnu/include/linux/types.h:33: Error: unknown mnemonic `typedef' -- `typedef __u32 __le32'
-   /usr/aarch64-linux-gnu/include/linux/types.h:34: Error: unknown mnemonic `typedef' -- `typedef __u32 __be32'
-   /usr/aarch64-linux-gnu/include/linux/types.h:35: Error: unknown mnemonic `typedef' -- `typedef __u64 __le64'
-   /usr/aarch64-linux-gnu/include/linux/types.h:36: Error: unknown mnemonic `typedef' -- `typedef __u64 __be64'
-   /usr/aarch64-linux-gnu/include/linux/types.h:38: Error: unknown mnemonic `typedef' -- `typedef __u16 __sum16'
-   /usr/aarch64-linux-gnu/include/linux/types.h:39: Error: unknown mnemonic `typedef' -- `typedef __u32 __wsum'
-   /usr/aarch64-linux-gnu/include/linux/types.h:55: Error: unknown mnemonic `typedef' -- `typedef unsigned __poll_t'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:88: Error: unknown mnemonic `struct' -- `struct user_pt_regs{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:89: Error: unknown mnemonic `__u64' -- `__u64 regs[31]'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:90: Error: unknown mnemonic `__u64' -- `__u64 sp'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:91: Error: unknown mnemonic `__u64' -- `__u64 pc'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:92: Error: unknown mnemonic `__u64' -- `__u64 pstate'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:93: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:95: Error: unknown mnemonic `struct' -- `struct user_fpsimd_state{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:96: Error: unknown mnemonic `__uint128_t' -- `__uint128_t vregs[32]'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:97: Error: unknown mnemonic `__u32' -- `__u32 fpsr'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:98: Error: unknown mnemonic `__u32' -- `__u32 fpcr'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:99: Error: unknown mnemonic `__u32' -- `__u32 __reserved[2]'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:100: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:102: Error: unknown mnemonic `struct' -- `struct user_hwdebug_state{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:103: Error: unknown mnemonic `__u32' -- `__u32 dbg_info'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:104: Error: unknown mnemonic `__u32' -- `__u32 pad'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:105: Error: unknown mnemonic `struct' -- `struct {'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:106: Error: unknown mnemonic `__u64' -- `__u64 addr'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:107: Error: unknown mnemonic `__u32' -- `__u32 ctrl'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:108: Error: unknown mnemonic `__u32' -- `__u32 pad'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:109: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:110: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:114: Error: unknown mnemonic `struct' -- `struct user_sve_header{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:115: Error: unknown mnemonic `__u32' -- `__u32 size'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:116: Error: unknown mnemonic `__u32' -- `__u32 max_size'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:117: Error: unknown mnemonic `__u16' -- `__u16 vl'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:118: Error: unknown mnemonic `__u16' -- `__u16 max_vl'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:119: Error: unknown mnemonic `__u16' -- `__u16 flags'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:120: Error: unknown mnemonic `__u16' -- `__u16 __reserved'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:121: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:253: Error: unknown mnemonic `struct' -- `struct user_pac_mask{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:254: Error: unknown mnemonic `__u64' -- `__u64 data_mask'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:255: Error: unknown mnemonic `__u64' -- `__u64 insn_mask'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:256: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:260: Error: unknown mnemonic `struct' -- `struct user_pac_address_keys{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:261: Error: unknown mnemonic `__uint128_t' -- `__uint128_t apiakey'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:262: Error: unknown mnemonic `__uint128_t' -- `__uint128_t apibkey'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:263: Error: unknown mnemonic `__uint128_t' -- `__uint128_t apdakey'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:264: Error: unknown mnemonic `__uint128_t' -- `__uint128_t apdbkey'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:265: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:267: Error: unknown mnemonic `struct' -- `struct user_pac_generic_keys{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:268: Error: unknown mnemonic `__uint128_t' -- `__uint128_t apgakey'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:269: Error: junk at end of line, first unrecognized character is `}'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:273: Error: unknown mnemonic `struct' -- `struct user_za_header{'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:274: Error: unknown mnemonic `__u32' -- `__u32 size'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:275: Error: unknown mnemonic `__u32' -- `__u32 max_size'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:276: Error: unknown mnemonic `__u16' -- `__u16 vl'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:277: Error: unknown mnemonic `__u16' -- `__u16 max_vl'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:278: Error: unknown mnemonic `__u16' -- `__u16 flags'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:279: Error: unknown mnemonic `__u16' -- `__u16 __reserved'
-   /usr/aarch64-linux-gnu/include/asm/ptrace.h:280: Error: junk at end of line, first unrecognized character is `}'
+>> ld.lld: error: undefined symbol: ashmem_memfd_ioctl
+   >>> referenced by shmem.c
+   >>>               mm/shmem.o:(shmem_file_operations) in archive vmlinux.a
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
 
 --
 0-DAY CI Kernel Test Service
