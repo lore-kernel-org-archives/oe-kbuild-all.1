@@ -1,87 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793263476;
-	b=yCaPqIz8oyOIr8B6l8keE0k1SLbWI8idInWSkOF1/fQ06FMeybnCkmy8BR4GYCMEQ/qG
-	 UrVU7/tH5z+uryp1Lz5jbgRchqb8lZIH1afviTML9pAJ/fS3nd3qRpVrCToAQ9PTK3M8w
-	 LgMcHb259QY/+pQWddAlV5B72B6jLufehP+Cbc+uoxTMkgTvhZvarnZrGH4YhYR+6gf12
-	 ya7Fs0SpQrNAsLXoUmCXNQi+ZvDWT32dGFnSPIO0OxeHT1E9htPEQ+AaOrgaTX7TNoTp+
-	 JEZOW2IBl8WWHIfoNCf/K3RR5HRXqhOPKOpH1GCuGG3/mxF8Q0SHu1eveEnf9wceSWw==
+	t=1793267384;
+	b=XGHqUl6dGXlKdfNrrCXdFzIU6Ut/x3D3rKgUXxuPOWo9AVLS80um+FlwPlZnd1b+XtgU
+	 WI2/Rn22VBzeHrsDQ99ryJ24tBt3Td/i5qdHyzaLg/njK9NgXtTjQL5J9UlLdGuEfj87d
+	 +tnSJYTbDbjCF/yazaYez7RjPBe7qjVBmygZqVUsrkAXVoCTC3udO7OAKFRVODAvXVUCw
+	 dtF2otVKfXe6B6H5MeGEyVj/i6y8BJmwAyaJCcn1Oqro64gxX/WqnBt7nIxhGCvWgy3Wu
+	 MU/Hpb1xB/9avY13GuCfOJw0elrEn17b4bSOjYPbGhAdbjWhf4QvujFu61hvqRuyoZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793263476;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793267384;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=/oWraMZQPV6fMMEjMwIgrElFPlULY+ClRBpUMakebME=;
-	b=2v4EfpH86FRoqHKSfpJS8/Iex2eRKnsnCxW59fALzQW/YocMi/yUMmojuYQKa/HgAAKL
-	 UKbUwEtHn87tRsUgv/Gfwr8dc0RDlYt6ziLx6pU6gijdb9p3qbZV5/PJ3VIqdEGKMPTFo
-	 Ajg2/8eVxgluRC4HjgXsig7o/a7+E+ibD2TvvzJlN6w4hOCOxKKsCXdTuUo7VkE0qq5qc
-	 kLy4uqgAA6GHP5g9vmdXdLLxMh22SKDT4Vd4KddOLhxWGdppRhajZAghJ7AXWQwTaSAtS
-	 mZFNTp6JdEqxzjDdf8rmcmKK6yvBD+CEaG5bCZDPxKpBhwB5y5d/1OM1OiOvCelw1GA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=7A/e2CVZPB1B4o5fReieiwEgrH3inu/+ZJClj3ViNgA=;
+	b=VU1TI+RoFL06QsbQQeERlIRKksfZhQMJE2x7x0lMoxBvaKxWvIL5jVfnNVRismgHPxw6
+	 wix0RQOGJNN/yHrtqVCRfto0k0ysKkhELjhogXEeiGtrou7h7PIT46P/DDH1VujBZckJG
+	 +v+o+WLJ5wi4bVJyZlBeaelGgK8fEE7+XqG6nSE+EuRxZyBVp8nfN+f0gAI19ajM7uMbN
+	 H4JnRG46UwoDVpt3EYczMZMkaJHAp6rOX2aZ3OsTw95+spj/Mu4I0E9v9KGRVtJDRxpjP
+	 MDROSWCnKO6j6DaHuEAOGxejmfXKo/5M1VjAson0Mgzx8nJjFAlQx8TEYKqD7eVKGMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="N/YldqI7";
-	arc=none smtp.remote-ip=198.175.65.12
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UOrfhdgo;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BA0606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 08:44:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09BA0606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E020606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 09:49:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E020606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N/YldqI7
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UOrfhdgo
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793263475; x=1824799475;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zP6j9o6F/w03axY+MsD6UxM7gNTFpqrQ1pytm/sRx+k=;
-  b=N/YldqI7ne2V98PNHu6FXMXomdG9cX9o9cei0knZRPnhzS9ANauYcKxs
-   g9Lbc8aXnAGnJGji+3hS5sP5IHfxrVQ7/0eLI9slrjmBxPpIOlfpiWFL4
-   6Tc0DQkrvNBO6ukCp1UvDbEr3DLOYddyqZXT5n61Cwuju1t2nvdwghm5n
-   geUrS+vsgGxR9JDSsZK+8nnNwW1HLEZINriC7usDVTt20B+m7a12Rh7ks
-   bIvlAX7QY8EfVhCmvzt266Z5UstxKvqtmqLd4QQL+bvRa9e/aiw298m3T
-   QMChIara4DR2ODRVRQYnHQjxo1yeW4BblGG11tDLXnYoLP7DzAOv3qsf5
-   w==;
-X-CSE-ConnectionGUID: 63b+sHyMSFi2SWce0VJhvw==
-X-CSE-MsgGUID: N24vKhCSQjyBWgbAAo/iTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1883087"
+  t=1793267382; x=1824803382;
+  h=date:from:to:cc:subject:message-id;
+  bh=fj19YMMmxSwN1vocUI33kHeRfuu7dLy2zKuEapReTHs=;
+  b=UOrfhdgon7YymbaxGqpupdutEQWTLxcc4dIdazGAzTPTRuyF2JbGyCR6
+   SEtlmpvs5g3Ch89bzwoXU+UaQJebFuVmJBMKgQmucJmvdxdCVDUM7yzVY
+   E+7QL6GbP/RURovDinKlPXFezdVokEv8RZ25NKsk5ziyicXYbqQ1MR2MR
+   +6InHcMpNxKsYXnO5HEO2zDotk5feNYtM75My2+E1FFrIy5Tz5lm6DF5A
+   zmUW1OtaUaQmY2IAXOB+JTTqXY57yXGA6XD5bvlHt1AqeKku19NB91vpp
+   jFsAafwAYnrz6f5TauhCNaD3Xj6xX/d1ntoXiherNBfx4DP39jpe5AhkB
+   A==;
+X-CSE-ConnectionGUID: IE8yxw13Tg6+6n/I8qg+Qw==
+X-CSE-MsgGUID: uchk7XNwQFuFGnxRL1EUhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2021444"
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1883087"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 01:44:34 -0700
-X-CSE-ConnectionGUID: 4rCsOan0TAGSv25eri71LQ==
-X-CSE-MsgGUID: rzUW03PeSzOCgCTooWn4jw==
+   d="scan'208";a="2021444"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 02:49:42 -0700
+X-CSE-ConnectionGUID: wtiyghDMTuyrdV+uKTgO6w==
+X-CSE-MsgGUID: vIUmUC5kQ4KDqSUkJob92w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="4986244"
+   d="scan'208";a="5188932"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 29 Oct 2026 01:44:31 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2026 02:49:40 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMLkK-00000000Zqq-0ZYA;
-	Thu, 29 Oct 2026 08:44:28 +0000
-Date: Thu, 29 Oct 2026 16:43:48 +0800
+	id 1xMMlO-00000000Zv0-1bzi;
+	Thu, 29 Oct 2026 09:49:38 +0000
+Date: Thu, 29 Oct 2026 17:48:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>,
-	David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, keyrings@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Thomas Graf <tgraf@suug.ch>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>, linux-kernel@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] KEYS: Replace assoc_array with rhashtable
-Message-ID: <202610291634.MckYHsJq-lkp@intel.com>
-References: <20261025001105.1824178-6-jarkko@kernel.org>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chao:bugfix/misc 3/7] include/trace/events/f2fs.h:2738:35:
+ error: implicit declaration of function 'get_pages'; did you mean 'get_page'?
+Message-ID: <202610291714.dzEEWOHB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -90,190 +79,89 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261025001105.1824178-6-jarkko@kernel.org>
 
-Hi Jarkko,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[cannot apply to akpm-mm/mm-nonmm-unstable manguebit/cifs-next manguebit/cifs-fixes device-mapper-dm/for-next fsverity/for-next fsverity/for-current shuah-kselftest/next shuah-kselftest/fixes dhowells-fs/fscache-next dhowells-fs/keys-next v7.3 next-20261028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/KEYS-Expand-key-datalen-quotalen-to-unsigned-int/20261025-031009
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20261025001105.1824178-6-jarkko%40kernel.org
-patch subject: [PATCH v3 5/6] KEYS: Replace assoc_array with rhashtable
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261029/202610291634.MckYHsJq-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/misc
+head:   df1ed8c6e6ade66abf786248b520f59b8a62e8e5
+commit: f73f52daa2c47803a5139f277cae951aea207015 [3/7] f2fs: introduce trace_f2fs_enable_checkpoint()
+config: i386-randconfig-1001-20261029 (https://download.01.org/0day-ci/archive/20261029/202610291714.dzEEWOHB-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291634.MckYHsJq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291714.dzEEWOHB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610291634.MckYHsJq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610291714.dzEEWOHB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   kernel/bpf/keys.c: In function 'bpf_lookup_keyring':
->> kernel/bpf/keys.c:32:35: error: 'struct key' has no member named 'keys'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |                                   ^~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   In file included from include/trace/define_trace.h:132,
+                    from include/trace/events/f2fs.h:2761,
+                    from fs/f2fs/super.c:42:
+   include/trace/events/f2fs.h: In function 'do_trace_event_raw_event_f2fs_enable_checkpoint':
+>> include/trace/events/f2fs.h:2738:35: error: implicit declaration of function 'get_pages'; did you mean 'get_page'? [-Wimplicit-function-declaration]
+    2738 |                 __entry->meta   = get_pages(sbi, F2FS_DIRTY_META);
+         |                                   ^~~~~~~~~
+   include/trace/trace_events.h:448:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
+     448 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:456:23: note: in expansion of macro 'PARAMS'
+     456 |                       PARAMS(assign), PARAMS(print))                    \
+         |                       ^~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
          |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/keys.c:32:14: note: in expansion of macro 'READ_ONCE'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |              ^~~~~~~~~
->> kernel/bpf/keys.c:32:35: error: 'struct key' has no member named 'keys'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |                                   ^~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/keys.c:32:14: note: in expansion of macro 'READ_ONCE'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |              ^~~~~~~~~
->> kernel/bpf/keys.c:32:35: error: 'struct key' has no member named 'keys'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |                                   ^~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/keys.c:32:14: note: in expansion of macro 'READ_ONCE'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |              ^~~~~~~~~
->> kernel/bpf/keys.c:32:35: error: 'struct key' has no member named 'keys'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |                                   ^~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/keys.c:32:14: note: in expansion of macro 'READ_ONCE'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |              ^~~~~~~~~
->> kernel/bpf/keys.c:32:35: error: 'struct key' has no member named 'keys'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |                                   ^~
-   include/linux/compiler_types.h:682:23: note: in definition of macro '__compiletime_assert'
-     682 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
-     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/keys.c:32:14: note: in expansion of macro 'READ_ONCE'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |              ^~~~~~~~~
->> kernel/bpf/keys.c:32:35: error: 'struct key' has no member named 'keys'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |                                   ^~
-   include/linux/compiler_types.h:635:53: note: in definition of macro '__unqual_scalar_typeof'
-     635 | #define __unqual_scalar_typeof(x) __typeof_unqual__(x)
-         |                                                     ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   kernel/bpf/keys.c:32:14: note: in expansion of macro 'READ_ONCE'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |              ^~~~~~~~~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:391,
-                    from include/uapi/linux/filter.h:9,
-                    from include/linux/bpf.h:8,
-                    from kernel/bpf/keys.c:4:
->> kernel/bpf/keys.c:32:35: error: 'struct key' has no member named 'keys'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |                                   ^~
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   kernel/bpf/keys.c:32:14: note: in expansion of macro 'READ_ONCE'
-      32 |         if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-         |              ^~~~~~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   include/trace/events/f2fs.h:2718:1: note: in expansion of macro 'TRACE_EVENT'
+    2718 | TRACE_EVENT(f2fs_enable_checkpoint,
+         | ^~~~~~~~~~~
+   include/trace/events/f2fs.h:2735:9: note: in expansion of macro 'TP_fast_assign'
+    2735 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
 
 
-vim +32 kernel/bpf/keys.c
+vim +2738 include/trace/events/f2fs.h
 
-abaa0835b4f3810 Daniel Borkmann 2026-08-28  25  
-264d8fd2794fabe Daniel Borkmann 2026-08-28  26  struct bpf_key *bpf_lookup_keyring(void)
-264d8fd2794fabe Daniel Borkmann 2026-08-28  27  {
-264d8fd2794fabe Daniel Borkmann 2026-08-28  28  	struct bpf_key *bkey;
-264d8fd2794fabe Daniel Borkmann 2026-08-28  29  
-264d8fd2794fabe Daniel Borkmann 2026-08-28  30  	if (!bpf_keyring)
-264d8fd2794fabe Daniel Borkmann 2026-08-28  31  		return NULL;
-264d8fd2794fabe Daniel Borkmann 2026-08-28 @32  	if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
-264d8fd2794fabe Daniel Borkmann 2026-08-28  33  	    !READ_ONCE(bpf_keyring->restrict_link))
-264d8fd2794fabe Daniel Borkmann 2026-08-28  34  		return NULL;
-264d8fd2794fabe Daniel Borkmann 2026-08-28  35  
-264d8fd2794fabe Daniel Borkmann 2026-08-28  36  	bkey = kmalloc_obj(*bkey);
-264d8fd2794fabe Daniel Borkmann 2026-08-28  37  	if (!bkey)
-264d8fd2794fabe Daniel Borkmann 2026-08-28  38  		return NULL;
-264d8fd2794fabe Daniel Borkmann 2026-08-28  39  
-264d8fd2794fabe Daniel Borkmann 2026-08-28  40  	bkey->key = bpf_keyring;
-264d8fd2794fabe Daniel Borkmann 2026-08-28  41  	bkey->has_ref = false;
-264d8fd2794fabe Daniel Borkmann 2026-08-28  42  	return bkey;
-264d8fd2794fabe Daniel Borkmann 2026-08-28  43  }
-264d8fd2794fabe Daniel Borkmann 2026-08-28  44  
+  2719	
+  2720		TP_PROTO(struct f2fs_sb_info *sbi, u16 phase),
+  2721	
+  2722		TP_ARGS(sbi, phase),
+  2723	
+  2724		TP_STRUCT__entry(
+  2725			__field(dev_t, dev)
+  2726			__field(u16, phase)
+  2727			__field(long long, meta)
+  2728			__field(long long, imeta)
+  2729			__field(long long, nodes)
+  2730			__field(long long, data)
+  2731			__field(long long, dents)
+  2732			__field(long long, qdata)
+  2733		),
+  2734	
+  2735		TP_fast_assign(
+  2736			__entry->dev	= sbi->sb->s_dev;
+  2737			__entry->phase	= phase;
+> 2738			__entry->meta	= get_pages(sbi, F2FS_DIRTY_META);
+  2739			__entry->imeta	= get_pages(sbi, F2FS_DIRTY_IMETA);
+  2740			__entry->nodes	= get_pages(sbi, F2FS_DIRTY_NODES);
+  2741			__entry->data	= get_pages(sbi, F2FS_DIRTY_DATA);
+  2742			__entry->dents	= get_pages(sbi, F2FS_DIRTY_DENTS);
+  2743			__entry->qdata	= get_pages(sbi, F2FS_DIRTY_QDATA);
+  2744		),
+  2745	
+  2746		TP_printk("dev = (%d,%d), phase: %s, meta: %lld, imeta: %lld, "
+  2747			"nodes: %lld, data: %lld, dents: %lld, qdata: %lld",
+  2748			show_dev(__entry->dev),
+  2749			show_enable_cp_phase(__entry->phase),
+  2750			__entry->meta,
+  2751			__entry->imeta,
+  2752			__entry->nodes,
+  2753			__entry->data,
+  2754			__entry->dents,
+  2755			__entry->qdata)
+  2756	);
+  2757	
 
 --
 0-DAY CI Kernel Test Service
