@@ -1,79 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793342916;
-	b=Xn6NWuz8qCyex+I0waR/H2pannRiiJfUYGAxwWjOXqeefsIh5DGLW3Nv8baclkDWUscf
-	 zQDGWCai7glM6SnuIMKFXCgQglPGTugBLWPcHt5/RiR46CBVrdnMUheJRQaOpjTAfu3K5
-	 xQXlckvmMEgLiDf6WuvER+QtulODacRcd+B6UYFk31+EVdtUITGyq6hOZByys3aKIQbRF
-	 TshWrOsQLH1xp8Gw26SD8vD8ZxCd1+GQ0wVz4a8LRO6aEEM08vSoWBX6potDb+Yjn+NoP
-	 3VNj5AtQaMAVxzqeHdLba1b281+2ZOWIwL/TmAekq/H3hRHjqd+YlJOvBvLrRta3UYw==
+	t=1793345621;
+	b=a5CmiDQn3rGs8x86adW8HtvUjkQ3ab4hElRRHQ57I/nhFOu1lGyR5Lu2q/3ofkDJ4cpg
+	 LRkNz5w1GbmbZehhtaQtfG4UYkjD7t0rCAGkp6agfw5IQ2uG0mH0VB3CK8X/z+R9VpKn9
+	 O86f3nxS51JHWziA/TmUnOJzE0YdZzrOPMq933HX2frfjpSNwbfzwjfvGA4m+UJG9NX6h
+	 dn8gLtXje1kYOTzJfPBWjEJwhb9lo+AuOrW+Gzg8UJ01OlNgpkEg4Z6UGlqE53XwKx/me
+	 HiZUK6XAVBHtr+7OLXAKKTKsRNW+EowLrd4tk6U0RCh2lpt/h+AtgNXWacj/LWSghcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793342916;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793345621;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=cf6iy9oHtlZWbLxZ+1iZWA1366GURTBJ3phBMmkuzYc=;
-	b=yu9LQK/iSgMlnG7A1cver5dNazeQ/Fu4KXYr9jQKj/H7DZPmIzjL1Gj+EUprriuidU8x
-	 tK54uMPERCaAwBSUpW5OwBcs/ua6mjLiNa5zR7LRH/p7vi3YQvVPZhWfaRwV6GJxC5Xpr
-	 KFBLVw8cEMtz5jfpUjBX0jPaM6vsp+Sq9lh8PZtKzqefnjkKngEBRTQy3b1hSvBg39eib
-	 iXHsL39qA/WXm5sbHDw5QDRqJeirrMwUbdCd6dndobRK/ljOvb71NH/lhYU17FMXVuwpO
-	 MgRk8q9SIxNOV7P63BEraxAeaRyaC5sEBYmSDteTk7rRcNDIxYNS4m9OLOXwTBbnx/w==
+	bh=nyfgh/II6LZpCSnyU0q61QMGB96//51QOCZPTDo1wog=;
+	b=mtWVzD6UfKUNcjXwC4StW4DOMPLbdgjYTH+7tyPf1o1B+JglD5GGvtV939D2b+MldE/q
+	 7mk+dnIESrsXAmF4r9LT8JB29J5MNQ74a7MeA+71w9dYrCy2iAUqaM3zWVmzs3Iix2pGE
+	 Fvwucpqlxx6ZgQYrWqiurM8ADR31HuXqFjiyFAMVQCjAyVOEbFfi4I6gyV6s97NSd1vGI
+	 bnM1U7b1MCY59yCZQxGw2FFvPsXDMPbiOtALx72fjQytZbWVcvUNjdIH8xLR6uAc91wVX
+	 4hCGzkzL8XSl/0BGBzn1HqpPi7h8hSjV/mwz0EeC8TtXIjjx4hvl9D89goG/34euZfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ngeg+OuW;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SO9LJ2FU;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DB9606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 06:48:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39DB9606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5431606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 07:33:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5431606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ngeg+OuW
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SO9LJ2FU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793342915; x=1824878915;
+  t=1793345620; x=1824881620;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IUQk8g38/sUWUuvYSNz6J7vGLBBv85cH4vsW/TIJkXM=;
-  b=Ngeg+OuWkNGPl7Yav9Ji2fjgBgncte974V6wLO+zhW/Y3JyfInr2gynr
-   n7dDbIiaIQdyd/2CvXGTPa7/EMd3q+WvcRsT+fRlfCOT5dbOeYqPFHrim
-   BO409PMTiYmhKF20EQiaekBZ7pO6neE0GMmqHqyZLMs2Gi70Nsw3rBYgL
-   J825VNKOGmyCz+Hnq70BtCeWwb16nk3TG0fPTorJ4djeHBUPdjOvQXoHx
-   SOPLFi9xWmwfJHomVIY7bm4DYRKPdjB0N6Km7onBOfDgxLIlFkRQ4sWI/
-   tenCIFoKxeGX8Oerfss6NNpLAdz23pV5dHZa6LieBfO7IuXwImdqvSsgl
-   w==;
-X-CSE-ConnectionGUID: /9QMK/ezQy+JP6O/KJC7CQ==
-X-CSE-MsgGUID: rtAlov24SvaMK6JgUgiMmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1983090"
+  bh=wXoub5dVaFtT1vJ2r5ovOqT9wv0lnrNE+mRfFkW6cnQ=;
+  b=SO9LJ2FUhoNKn7W0xpOmYinJG6fMotaZXmoOcCFZ3qd0TuTCRwz1XSjc
+   T5ylNn9ai0Ktdhr7WvJpzPQ6KaMO9rrkLSHvGQAKsvOsDeie7UgaIVfn+
+   27zW6k2gFiWawyDyIudgbcm/nfXe0JDdgEVUjB6wAv9C4Qf82Yi2QgFIv
+   +Mr6XIsyd16yEyNTj/4CWKQzuext9xDRf3hPZFYpzZVqKakgku9HlmHbL
+   26oKupP+9mZrJC/h1wghIY5qY6NzqWwFfShPGbaNUH2Xv1ePudR2AGJgw
+   TiG0nHL7cnTj5X8NuW7bDpT5Dhc5NG5aqw31sUqc5/2YvKDahzZ+CTQNU
+   Q==;
+X-CSE-ConnectionGUID: tYwWX8t6SXeOpxe8zWtmaQ==
+X-CSE-MsgGUID: 1W239O2YQUaJR8kqfm28wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2134081"
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="1983090"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 23:48:35 -0700
-X-CSE-ConnectionGUID: oU40DDAvSRukqBvV7Q+8sg==
-X-CSE-MsgGUID: UPMs6LhdT6+Q24nOkaQW6w==
+   d="scan'208";a="2134081"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 00:33:39 -0700
+X-CSE-ConnectionGUID: P8rDnVFKSB6qDwcg3ZfUEQ==
+X-CSE-MsgGUID: l2FvtpqZQDisCUHR6+M+Cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="7189165"
+   d="scan'208";a="5334479"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 29 Oct 2026 23:48:33 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2026 00:33:36 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMgPe-00000000bOq-1sbR;
-	Fri, 30 Oct 2026 06:48:30 +0000
-Date: Fri, 30 Oct 2026 14:47:35 +0800
+	id 1xMh7F-00000000bRE-1ruu;
+	Fri, 30 Oct 2026 07:33:33 +0000
+Date: Fri, 30 Oct 2026 15:33:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-	Jeff Johnson <jjohnson@kernel.org>, linux-wireless@vger.kernel.org,
-	ath10k@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH] wifi: ath10k: Drop unused qmi_elem_info arrays
-Message-ID: <202610301453.rMXyuD6F-lkp@intel.com>
-References: <20261029111127.85147-2-krzysztof.kozlowski@oss.qualcomm.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Henrik Grimler <henrik@grimler.se>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] clk: samsung: exynos5-subcmu: Defer probe until
+ power domains are available
+Message-ID: <202610301504.RWCpxqfG-lkp@intel.com>
+References: <20261029125118.3191455-4-m.szyprowski@samsung.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,116 +95,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029111127.85147-2-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20261029125118.3191455-4-m.szyprowski@samsung.com>
 
-Hi Krzysztof,
+Hi Marek,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ath/ath-next]
-[also build test WARNING on wireless/main wireless-next/main linus/master v7.3 next-20261029]
+[auto build test WARNING on krzk/for-next]
+[also build test WARNING on clk/clk-next linus/master v7.3 next-20261029]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/wifi-ath10k-Drop-unused-qmi_elem_info-arrays/20261029-121128
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
-patch link:    https://lore.kernel.org/r/20261029111127.85147-2-krzysztof.kozlowski%40oss.qualcomm.com
-patch subject: [PATCH] wifi: ath10k: Drop unused qmi_elem_info arrays
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20261030/202610301453.rMXyuD6F-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610301453.rMXyuD6F-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Szyprowski/clk-samsung-exynos-audss-Propagate-EPROBE_DEFER-from-input-clocks/20261029-135114
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20261029125118.3191455-4-m.szyprowski%40samsung.com
+patch subject: [PATCH v2 3/3] clk: samsung: exynos5-subcmu: Defer probe until power domains are available
+config: nios2-randconfig-1000-20261030 (https://download.01.org/0day-ci/archive/20261030/202610301504.RWCpxqfG-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610301504.RWCpxqfG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610301453.rMXyuD6F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610301504.RWCpxqfG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.c:229:35: warning: 'wlfw_mem_seg_resp_s_v01_ei' defined but not used [-Wunused-const-variable=]
-     229 | static const struct qmi_elem_info wlfw_mem_seg_resp_s_v01_ei[] = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.c:188:35: warning: 'wlfw_mem_seg_s_v01_ei' defined but not used [-Wunused-const-variable=]
-     188 | static const struct qmi_elem_info wlfw_mem_seg_s_v01_ei[] = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/wlfw_mem_seg_resp_s_v01_ei +229 drivers/net/wireless/ath/ath10k/qmi_wlfw_v01.c
-
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  187  
-11e1fcf2b494da8 Jeff Johnson 2022-09-14 @188  static const struct qmi_elem_info wlfw_mem_seg_s_v01_ei[] = {
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  189  	{
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  190  		.data_type      = QMI_UNSIGNED_4_BYTE,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  191  		.elem_len       = 1,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  192  		.elem_size      = sizeof(u32),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  193  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  194  		.tlv_type       = 0,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  195  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  196  					   size),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  197  	},
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  198  	{
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  199  		.data_type      = QMI_SIGNED_4_BYTE_ENUM,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  200  		.elem_len       = 1,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  201  		.elem_size      = sizeof(enum wlfw_mem_type_enum_v01),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  202  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  203  		.tlv_type       = 0,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  204  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  205  					   type),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  206  	},
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  207  	{
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  208  		.data_type      = QMI_DATA_LEN,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  209  		.elem_len       = 1,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  210  		.elem_size      = sizeof(u8),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  211  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  212  		.tlv_type       = 0,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  213  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  214  					   mem_cfg_len),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  215  	},
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  216  	{
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  217  		.data_type      = QMI_STRUCT,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  218  		.elem_len       = QMI_WLFW_MAX_NUM_MEM_CFG_V01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  219  		.elem_size      = sizeof(struct wlfw_mem_cfg_s_v01),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  220  		.array_type       = VAR_LEN_ARRAY,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  221  		.tlv_type       = 0,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  222  		.offset         = offsetof(struct wlfw_mem_seg_s_v01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  223  					   mem_cfg),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  224  		.ei_array      = wlfw_mem_cfg_s_v01_ei,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  225  	},
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  226  	{}
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  227  };
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  228  
-11e1fcf2b494da8 Jeff Johnson 2022-09-14 @229  static const struct qmi_elem_info wlfw_mem_seg_resp_s_v01_ei[] = {
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  230  	{
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  231  		.data_type      = QMI_UNSIGNED_8_BYTE,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  232  		.elem_len       = 1,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  233  		.elem_size      = sizeof(u64),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  234  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  235  		.tlv_type       = 0,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  236  		.offset         = offsetof(struct wlfw_mem_seg_resp_s_v01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  237  					   addr),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  238  	},
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  239  	{
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  240  		.data_type      = QMI_UNSIGNED_4_BYTE,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  241  		.elem_len       = 1,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  242  		.elem_size      = sizeof(u32),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  243  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  244  		.tlv_type       = 0,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  245  		.offset         = offsetof(struct wlfw_mem_seg_resp_s_v01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  246  					   size),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  247  	},
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  248  	{
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  249  		.data_type      = QMI_SIGNED_4_BYTE_ENUM,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  250  		.elem_len       = 1,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  251  		.elem_size      = sizeof(enum wlfw_mem_type_enum_v01),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  252  		.array_type     = NO_ARRAY,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  253  		.tlv_type       = 0,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  254  		.offset         = offsetof(struct wlfw_mem_seg_resp_s_v01,
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  255  					   type),
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  256  	},
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  257  	{}
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  258  };
-bc17d4b90cdd3e5 Govind Singh 2018-10-11  259  
+>> WARNING: modpost: vmlinux: section mismatch in reference: exynos5_subcmu_probe+0x2c (section: .text) -> samsung_clk_register_div (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: exynos5_subcmu_probe+0x40 (section: .text) -> samsung_clk_register_gate (section: .init.text)
 
 --
 0-DAY CI Kernel Test Service
