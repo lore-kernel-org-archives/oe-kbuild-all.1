@@ -1,77 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793324454;
-	b=Lk52ixhAr7rr/O425BiEIlK1LXS9AugjZ/WT3jFPqM/2gIY1p7C6/rc1Bn6B+J+tcBLZ
-	 98LwChLTNtQiPxlbm63w6PmeEtazFnKM7CuxkbgB5NbFWyw70KzHsLqR5UDwGCClW5KA+
-	 /Xg2zzlzTgp7JatNn0N9h9tzj19jXFSKZqBW/hagoBiwjFaLIQcIhvF3tIVnnMLiK1LE0
-	 x311/n2p/nBcVVuIWzISA8WhTGEvyiooAgS5gJs0bf3JXlmE1GnzMPcn4gLVqIbNnDAtf
-	 9nYAZehoJHu7NGijw7PKftHJ6bK07NaED2gk8wO4v7o2wMN00lMxaptmGYk760h6zPA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793324454;
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.9
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793326278;
+	b=OPCuYpHrR+E5Ot6zWlEQfLggjj5IsH+9eQ7LWYIzeHDCiqULwYJxo+9YnxGKG+eMjiAz
+	 lx+aE5qgYpivB8Oh6fffBp4aA9EVhQI16SMKpNKS6F+C6jcOZT8oCBSB3k/CHhtdCpOZj
+	 KabJQ4D70EE3kVP64I3jr7v9x7NuzCckdnM9dDLE+8CIYWWa1S9diIf2V9bF1cZRlpWNz
+	 oYg+/+yCYitNjPs+qVhahbxa9Ej7D+c/aLbMuugccaTUE/OREGEBcQJvmIga0VCT2s3q2
+	 Y8lsXU0GpC2SUyAHJE8ELQzKou7Ye8Q0VFs/P/eW0CFuBMYvj3LVlQxD8FbeuSnzqhA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793326278;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=bkHAGqPS1ULlbiPgayqYBbd2zive5xfQZImnUDAvJUU=;
-	b=qyEtvv2FvXIsPW2cSbqaevjkoBC3BTZ1xBT9Z4Hf5NAIfI55A+ImxI2bUJ5BJ7JlMHkP
-	 zbbaAJm5Nu8V9SLqCDz+z2pGTRQ4grrNYB+PFTbq2bYytzLCqKcFNyYdE/1Iy2FTHwqn2
-	 hmJGKgLewDzMQzqrwYNtoSemnOFjwaQlmLhE2OpY2fuSUCsOE9w644fMxt5z525RLTDUx
-	 3FVx3n9t6VPhGrqvd7vh4h7zu7BKx9JNrzo29dHhhEmLba0GtWDGbN57pjaezKIyaubRq
-	 6nb31r86GTZKtu8F/eL+N0b8ATNf5SemrhARfBEkQCOwRc22r3xAQw8UoQjv6xPv3KQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Date:From:To:CC:Subject:Message-ID:
+	 Content-Type:Content-Disposition:X-ClientProxiedBy:MIME-Version:
+	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=C3mF9b/k6lttnS3XTD6N02IARn3F4bm6XXaxTuY+7ac=;
+	b=xN0Ztzsp6n9VtzJME+f4V7Lte2eZjwIL5shC6xHrUGR/VDuYDuPxfWKZCO0hD2Uv+sSP
+	 s/SjbCTKPJvtI57YeKig3hpliFWHsbiqIwW2TxPPbdnTiH2PzTWQU0D5OV3MaYnZloirK
+	 qzGdcz4Vn69f6r/liXLS7EDrNOTEOhxirrGeq+yGD2AYRiK5jH76SVoUNevB5vniAHHKu
+	 K+5Z9JGESRDsdLZThnUj+0O65lkJ0iAK1cRCZ4iAcymMEF5F8E2HVDFTv+PkvJp4hNYYt
+	 +SmdjVXPu9DaHsFw2FQ+P4EuTQvUDgm5UNNt2qs/LTyoEzxtEHj3U+dwxA43zJRirdg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RoEwNuKA;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fa2AnO5u;
+	arc=fail smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2349E606A322
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 01:40:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2349E606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA54D606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 02:11:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA54D606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RoEwNuKA
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fa2AnO5u
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793324452; x=1824860452;
-  h=date:from:to:cc:subject:message-id;
-  bh=BBLxDpdljXQ0fXeNTv6Jk1DU/mLdU0fWskSvqUTpRrU=;
-  b=RoEwNuKAS7CxukdEnG6KDK5P4nDKxzGWi7g8JVpH8ld1P9PfD+GZ0OyS
-   NBwzPXg7ed+6kcE4htNJzE+edwmLtGuY2EmII9uM5iSruieERS4NS7VjZ
-   gkDMn/0EA56JO8Fmkck5/flwQURA4cggJS2TSM5pspT19CIUJycSd65c7
-   31Cszv0Ufs0ptLAH4407FVF6JT+fwie4lK7STuwxblSmiCwj1Bew1kDE3
-   isQzb9rivv8vp5yQu8fjP55TACzxPPPwOYoewgi8rl7Okwrq72sxrCd4/
-   PlX0rcS63ouoSDmQCXGXgRmxKEyQsK+2KpxvYiKIoO2y4VkAIi5t0ZslB
-   A==;
-X-CSE-ConnectionGUID: lbvgm8fpSwSsWRimMMbAKg==
-X-CSE-MsgGUID: HeAEYQGAQTSkKLcLNAvuHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1967904"
+  t=1793326277; x=1824862277;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M9w5Y+cQCXvhbqg/WG8nac0au8zHyHxuSEKjzJ8fGEM=;
+  b=fa2AnO5u0yxYmTc1u1Cap/FF9DH3Z9up8x8EtAAbr/Pft6T/tfKFpzGf
+   Si1Ag9KGTbComG/loXiuFai5vu4f5NTLA8sbB6m+hS2CwCs8YJNDHsEbF
+   6WJCTBZU+xtePCWlGSf0hP7IkyMbLW6pKE0meRcdWJi01iXOYJgrjOSQk
+   sR1o1m6vgrgRXg3pcJXudSlDXolODECjItQZZ3qew7N7cKwB7tvi9gLk7
+   1B6cHISNWh46t0ocA+TuLlpYeuTBIKQ3a79s9vTQ9JHmcQ0Zp6/2GLNre
+   vapzLp99eAbB5DDJX2eLxiAoO9iIThWQvaDlLedY/jywr8+bf/s/zEOa2
+   Q==;
+X-CSE-ConnectionGUID: 3L/+7hEqQA6UtpqcNyFNbg==
+X-CSE-MsgGUID: doPbAzIDSbaF0qGDn5GcpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1969176"
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="1967904"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 18:40:52 -0700
-X-CSE-ConnectionGUID: 90cqTANiTmmmomfkGa9EaA==
-X-CSE-MsgGUID: NpHnObr1RaGpeMHTqAiqNQ==
+   d="scan'208";a="1969176"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 19:11:16 -0700
+X-CSE-ConnectionGUID: uoSMwVtwR1uAvWf/TlkYBw==
+X-CSE-MsgGUID: 8d15H2cuS0+sYMrCyqFy1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="5425748"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Oct 2026 18:40:49 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xMbbq-000000005RT-2JAB;
-	Fri, 30 Oct 2026 01:40:46 +0000
-Date: Fri, 30 Oct 2026 02:40:28 +0100
+   d="scan'208";a="7129991"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa011.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 19:11:16 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Thu, 29 Oct 2026 19:11:15 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Thu, 29 Oct 2026 19:11:15 -0700
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.22) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Thu, 29 Oct 2026 19:11:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Qy/uiCGqAz/JxV9/tp6xuQzm3OANW8kPJJcrdoAKAebzgJNZ24JiD+nqH5iXxlk5t3n5k2m1BcqFRQazFOUwgCLWbqfQXLMwfH+w1drH8ao5RUAI18bAB0BYJKvZMDREgC01xcCeDVQ+nERTJlCIYIE096jG7RL8Sr/ylTVU9AjUB5nmKdPbYLQJpJm+m0VbMqEf2fNetsQM7rBdiLia14tpoioOiVxBfaHhRLf2w7HJo8BGns+eB1g1+oAPsFDNin0C6Ii///gDeDsZddjWbm0EAiKVDdj3OTaPC5kPhX9svIHz273HU0Jk/sD2ZG5tBLZzwkE6VtqfV68AcfH7mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C3mF9b/k6lttnS3XTD6N02IARn3F4bm6XXaxTuY+7ac=;
+ b=LkBSs7oeWhb/ILTzeaBT5b49hpR26HUXivhgsrF9QVpsaAvaHDtneRD7spR/FDqvnLpVVTTC34Qy4iFOqAWbYUQnujPKzh5Z28tklBsCCFUvhjFTUA8Gw9Y16dLsTIf28CAZd5pQxMLPId8AxD57zBxp42VZFtdZwbIiRuIxvJbFh9TN91UczIiGjLcTF2zkPEoagTpXF1pQdJQ+gLilZU8LXbt8KpRycRDvqwHCLQuFOh3COfyWjnb6l67QV0Soefz8I6YOxtpolQOFDYgu5jU5iC0gUmd9/92xgPZ8hnzW3d6LjELmfJMD7Kl5Pk9znfZrsdxSCqHSwEJ0yBLD2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS6PR11MB362586.namprd11.prod.outlook.com (2603:10b6:8:4c4::14)
+ by SN7PR11MB7489.namprd11.prod.outlook.com (2603:10b6:806:342::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.9; Fri, 30 Oct
+ 2026 02:11:12 +0000
+Received: from DS6PR11MB362586.namprd11.prod.outlook.com
+ ([fe80::71a6:38f9:43ed:8f8a]) by DS6PR11MB362586.namprd11.prod.outlook.com
+ ([fe80::71a6:38f9:43ed:8f8a%6]) with mapi id 15.21.0569.007; Fri, 30 Oct 2026
+ 02:11:12 +0000
+Date: Fri, 30 Oct 2026 10:11:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10-2026-10 1/1]
- mm/memory.c:3303:13: sparse: sparse: incorrect type in assignment (different
- base types)
-Message-ID: <202610300250.YUae689b-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Liam R. Howlett (Google)" <liam@infradead.org>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [liam:dense_ulong 2/80]
+ ../shared/linux/../../../../include/linux/maple_tree.h:346:1: error: static
+ assertion failed
+Message-ID: <auP8t+yu4Q5bPk9b@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SI1PR02CA0047.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::15) To DS6PR11MB362586.namprd11.prod.outlook.com
+ (2603:10b6:8:4c4::14)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,303 +128,91 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS6PR11MB362586:EE_|SN7PR11MB7489:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44ebc341-19a1-4229-dc07-08df362b11db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|18002099003|56012099006|11063799006|261022075727099003|10067099003|261028144727099003|261022105027099003|261009223027099003|261026121527099003|261026140227099003;
+X-Microsoft-Antispam-Message-Info: TC1m5pV8E0dWld3ozPWEQWskFBWIXz6CGXSO5bmUp2/GzFMnAzumx+xGlBzHmmFCQ2Mw7qxAGtMIMYLh4ZlOp6retDUge13x1TSwyk4VXi1/Wr3VxaO9Td0m6b/e5q2hZ+fqy51mb6M2E1QhEAimv4EfFKpJMB+N4I21bq7MmXF5ptP0sl6/geqR3dTUXM+YamXuUZPtOucz5EaIhLIFtU8ZzZZlE8halfIZ+erY+uEXDLUSxJbKrmwS4NrBUK4VvEg5F15L1GNnjq0IxvCdmgD2df6RdufTr6CVp95KxwyAyJRcK86Nkp/mRQ1b1rZePTNmfrFQu9FAxKx9rhkxDXOqTQP6UIa2ibIyKbCV6URsgWXRkyZp4j60POMqys0qfDy3+yzLOVUPCILii/DlSiq5l7vdl2SQeXwHOtST1Sd7Qr5fpRqy9lY39e7JRDBIIUb+pKqrzXg6ZCjw6uNVy7iDSQMUcP35MNkYhqx55a2pqZsH1MMICqtBAT+xnxGeMvsAExY5haEM2DW4gAuS71FWygIkG3at3oDZiXM2oEPKh0sTDMO4TFwKuPs5uXFvkj6ps/UFS+ryGufLyUhz9aNsHm6Ri1AJgcirWH+LXR2G0p+dEjA7h9qaItjU5cD8
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS6PR11MB362586.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(18002099003)(56012099006)(11063799006)(261022075727099003)(10067099003)(261028144727099003)(261022105027099003)(261009223027099003)(261026121527099003)(261026140227099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?c58eIVBpwNrSlW5kBOzWuKhaywc2+Ed7mXe+2xJsVwtgRj3xs73MJ0c8A/u6?=
+ =?us-ascii?Q?X7MXHFHdr8x0oCWki2y+WdH7W4rPQSJYkT5xeYgk+Z0EnYPVDmjwYT5UKSZ8?=
+ =?us-ascii?Q?qKLdBCQYz1QiI+mEpPbcv73jUIeYnHOWo8gMD4Zm877Dg+hPBKYZNGap081e?=
+ =?us-ascii?Q?Lj9mg8bcVAsZEK7++Cj0FXVOR5jBJyojUmVU1G7Xtp0Lv+a71kjM9LZohbCJ?=
+ =?us-ascii?Q?argNMjyxNIgnI6YAut2B+lYWyU0Sl27amNRLL31xct06G8PT344Pl5P9u5Rc?=
+ =?us-ascii?Q?MYPRcP1q0U2W2EzuuTmowNFMFfFoylpG7xvPzcgCfE1bgZppgg01EY40nMPV?=
+ =?us-ascii?Q?fRr5xbP7S6sXohGWWcviNqpq4py6R1nEg/et9n1Y/AlhYdIScCKv16RryBSa?=
+ =?us-ascii?Q?QCEeDrCcL4y8CHVYM8AxoJq84o1+lSOCiyl/n2qfvUb7jqSZ8pKEaleGMaAW?=
+ =?us-ascii?Q?b9R82/jGaEnWKO869dVo2oX9ogaz61p0F+Js2IV0kuGtuIGgwl93Npk2XDJr?=
+ =?us-ascii?Q?QqK++MW2lvKhm16clTSlyeYsaV6PRNHtVPq/U8Jyh0fRXCK7DGyi5VidjfRp?=
+ =?us-ascii?Q?CN2K2aH8RfXx3u/iUWw5izaidX/pq5yq4knz5Dn01qTviC0jMU6tdbUy6NgK?=
+ =?us-ascii?Q?v3Oc+uKp7wEx2KfWpUWZ5Mr2SwnZlB+NzgV0I8Qg8Ez2QHQmiFIoSVszzbxR?=
+ =?us-ascii?Q?X6Ir9ZbxR/GM8GUZM5Q9Aw49V+tjcPZOzd8/vfYdYXwwlgb29MI80bGtfHbs?=
+ =?us-ascii?Q?KfIffRCivH3FJowbVVhR8F2SXIGVnNMCcQsqrz/KnjYzz8GKuo/X54vxBDZX?=
+ =?us-ascii?Q?L/LAIw1eReAlqImRopXCRUwzt3k9M0WFLL6xApDAo169bYTt1JUu+a+ROHxM?=
+ =?us-ascii?Q?UGRX8JNLiTIIn1mud1NpTvXPfwUaoNdOVQGGVjqWwsuhCAmFdu/xfTuddz85?=
+ =?us-ascii?Q?DgdoEAk5Gb+zTzzV2mh21ZdbJYP8X6wx9Km9F5CSbAb46VGzwCfiDN6qSYFa?=
+ =?us-ascii?Q?87CxZTAWmfRhwLQMS2SCHdMC/6VuwBQN5skkX4N928h1qH0HbDzpduGolQoQ?=
+ =?us-ascii?Q?H6TMvyaO2R5SDWNZChKVVJx8rTVpKW7lXn00BY6wrzECEoIEvJqFwDr+Kt/h?=
+ =?us-ascii?Q?Ilkijofue6ZYTkGSGtrP6DPxTkqRdjo17v/JhFuPJYj2CU0HzljQFiCyJD1e?=
+ =?us-ascii?Q?qXnzr/zQyLQ7R8z3eti/EakyxCRQB/G68uvHL0Yoa1A67PDPYi3E0ZoKHJWf?=
+ =?us-ascii?Q?qwJwTPKvne7ZbhPeVigblC5LmvkS+eqhdH4dKU2v8+KQi1KWIm1rlfNlUX97?=
+ =?us-ascii?Q?N2B8oAglIjNGDY0ZtS51mdOuAvj3sknYSpD5bB9MZlU7YFMAw5riqFDLQt3D?=
+ =?us-ascii?Q?CKmOaamVUj7bmG1sGKqz5/ak1rpTiRfvw129JWUwxQkmlW8fFRDe92NFbMD2?=
+ =?us-ascii?Q?8+qBhJYe7EzCy3cg5Gnir5JQKuOhiDimMWtR+E0hNOODABTd3KfPUvEFUR6/?=
+ =?us-ascii?Q?ABhnMtVUczt/AS6x3THXJ0YWtxYWzizdBJBnzgSmlEadZaiJH6AUci5u2+Tb?=
+ =?us-ascii?Q?ltz16ujY5pzZk+HVQJGvRMwaqctC8kS2Ug1HhpfAgTtqlaqJh+8uhLP/8c95?=
+ =?us-ascii?Q?t5M4XWIwVnGkQyNOIHhX943xiW+fKx3XQHpWGvZOG7wyL9m39zRESFkotr55?=
+ =?us-ascii?Q?zI3uNgC6oCq5kxF6FR0rYr9cUIqADrOidOR+5/keYceRPo8Uq/5hr57xKaUr?=
+ =?us-ascii?Q?sgdkO985EA=3D=3D?=
+X-Exchange-RoutingPolicyChecked: KeY0XG4SniUq9SD3NglAUoBETJxqZhY5gaQWzPjEb8XkTep+VU0zh02BJjriSyi5un9/7Pu60wexfMoFL0Z+N/HURqV/FCDYOdJwxJEBdinmNEaNcx+vtOgCvmsIa52nKb8DIOJRDRIYTh38QKPEEtMxbysQNtiW2EgGVRcnxMV9Z9OqBUVQEQkauq/FW9tmVIvuqwoklA4UlCnTftELOXNVuLANc0uWfdGnipidNuog/95L0+3RIcED789rZSeQWz979TAaU8oI6LRRzb/pXOusgnGmQSzRiEhP0Ksv3jauXq2Qqh4FuRAtmmESI6hfuX7eD0ZY16QWezJ4KOh1OA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44ebc341-19a1-4229-dc07-08df362b11db
+X-MS-Exchange-CrossTenant-AuthSource: DS6PR11MB362586.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 02:11:12.4947
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SSaSz4xGSpVDJLA4bTiQAapTtQwEcx7qYdaGVPU4FICFX4Os61nuUQNDeFl1I3RWEDvQFU8XYscY/6FHlwshuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7489
+X-OriginatorOrg: intel.com
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10-2026-10
-head:   a4c2f82969bc5fa7fcc21ede4b690ece7ff72335
-commit: 5835d87162afa8424c692a73a10ef5723dcc183b [1/1] FROMLIST: mm: make pte_unmap_same compatible with SPF
-config: arm64-randconfig-r2309-20261018 (https://download.01.org/0day-ci/archive/20261030/202610300250.YUae689b-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610300250.YUae689b-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/liam/linux.git dense_ulong
+head:   05d6e5c4cab7c4912959bf9ea5f797e6bc55eca5
+commit: 02b16ccaeab9ace765973a2fb9f473e84982b58b [2/80] maple_tree: assert the node size
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 hours ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261029/202610291258.hR9ndwFc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261029/202610291258.hR9ndwFc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610300250.YUae689b-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202610291258.hR9ndwFc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/memory.c:145:15: sparse: sparse: symbol 'zero_pfn' was not declared. Should it be static?
-   mm/memory.c:2873:19: sparse: sparse: incorrect type in initializer (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   mm/memory.c:2873:19: sparse:     expected int ret
-   mm/memory.c:2873:19: sparse:     got restricted vm_fault_t
-   mm/memory.c:2918:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   mm/memory.c:2918:21: sparse:     expected int ret
-   mm/memory.c:2918:21: sparse:     got restricted vm_fault_t
-   mm/memory.c:3012:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int ret @@
-   mm/memory.c:3012:16: sparse:     expected restricted vm_fault_t
-   mm/memory.c:3012:16: sparse:     got int ret
->> mm/memory.c:3303:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] ret @@     got int @@
-   mm/memory.c:3303:13: sparse:     expected restricted vm_fault_t [usertype] ret
-   mm/memory.c:3303:13: sparse:     got int
-   mm/memory.c:5262:22: sparse: sparse: cast removes address space '__user' of expression
-   mm/memory.c:957:17: sparse: sparse: context imbalance in 'copy_pte_range' - different lock contexts for basic block
-   mm/memory.c:1637:16: sparse: sparse: context imbalance in '__get_locked_pte' - different lock contexts for basic block
-   mm/memory.c:1686:9: sparse: sparse: context imbalance in 'insert_page' - different lock contexts for basic block
-   mm/memory.c:2188:17: sparse: sparse: context imbalance in 'remap_pte_range' - different lock contexts for basic block
-   mm/memory.c:2433:17: sparse: sparse: context imbalance in 'apply_to_pte_range' - unexpected unlock
-   mm/memory.c:2711:17: sparse: sparse: context imbalance in 'wp_page_copy' - unexpected unlock
-   mm/memory.c:3060:17: sparse: sparse: context imbalance in 'wp_pfn_shared' - unexpected unlock
-   mm/memory.c:3123:19: sparse: sparse: context imbalance in 'do_wp_page' - different lock contexts for basic block
-   mm/memory.c:3719:19: sparse: sparse: context imbalance in 'pte_alloc_one_map' - different lock contexts for basic block
-   mm/memory.c:3947:17: sparse: sparse: context imbalance in 'finish_fault' - unexpected unlock
-   mm/memory.c:4056:9: sparse: sparse: context imbalance in 'do_fault_around' - unexpected unlock
-   mm/memory.c:4775:12: sparse: sparse: context imbalance in '__follow_pte_pmd' - different lock contexts for basic block
-   mm/memory.c:4861:16: sparse: sparse: context imbalance in 'follow_pte_pmd' - different lock contexts for basic block
+All errors (new ones prefixed by >>):
 
-vim +3303 mm/memory.c
-
-  3283	
-  3284	/*
-  3285	 * We enter with non-exclusive mmap_lock (to exclude vma changes,
-  3286	 * but allow concurrent faults), and pte mapped but not yet locked.
-  3287	 * We return with pte unmapped and unlocked.
-  3288	 *
-  3289	 * We return with the mmap_lock locked or unlocked in the same cases
-  3290	 * as does filemap_fault().
-  3291	 */
-  3292	vm_fault_t do_swap_page(struct vm_fault *vmf)
-  3293	{
-  3294		struct vm_area_struct *vma = vmf->vma;
-  3295		struct page *page = NULL, *swapcache;
-  3296		swp_entry_t entry;
-  3297		pte_t pte;
-  3298		int locked;
-  3299		int exclusive = 0;
-  3300		vm_fault_t ret;
-  3301		void *shadow = NULL;
-  3302	
-> 3303		ret = pte_unmap_same(vmf);
-  3304		if (ret) {
-  3305			/*
-  3306			 * If pte != orig_pte, this means another thread did the
-  3307			 * swap operation in our back.
-  3308			 * So nothing else to do.
-  3309			 */
-  3310			if (ret == VM_FAULT_PTNOTSAME)
-  3311				ret = 0;
-  3312			goto out;
-  3313		}
-  3314	
-  3315		entry = pte_to_swp_entry(vmf->orig_pte);
-  3316		if (unlikely(non_swap_entry(entry))) {
-  3317			if (is_migration_entry(entry)) {
-  3318				migration_entry_wait(vma->vm_mm, vmf->pmd,
-  3319						     vmf->address);
-  3320			} else if (is_device_private_entry(entry)) {
-  3321				vmf->page = device_private_entry_to_page(entry);
-  3322				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
-  3323			} else if (is_hwpoison_entry(entry)) {
-  3324				ret = VM_FAULT_HWPOISON;
-  3325			} else {
-  3326				print_bad_pte(vma, vmf->address, vmf->orig_pte, NULL);
-  3327				ret = VM_FAULT_SIGBUS;
-  3328			}
-  3329			goto out;
-  3330		}
-  3331	
-  3332	
-  3333		delayacct_set_flag(DELAYACCT_PF_SWAPIN);
-  3334		page = lookup_swap_cache(entry, vma, vmf->address);
-  3335		swapcache = page;
-  3336	
-  3337		if (!page) {
-  3338			struct swap_info_struct *si = swp_swap_info(entry);
-  3339	
-  3340			if (data_race(si->flags & SWP_SYNCHRONOUS_IO) &&
-  3341			    __swap_count(entry) == 1) {
-  3342				/* skip swapcache */
-  3343				gfp_t flags = GFP_HIGHUSER_MOVABLE;
-  3344	
-  3345				trace_android_rvh_set_skip_swapcache_flags(&flags);
-  3346				page = alloc_page_vma(flags, vma, vmf->address);
-  3347				if (page) {
-  3348					int err;
-  3349	
-  3350					__SetPageLocked(page);
-  3351					__SetPageSwapBacked(page);
-  3352					set_page_private(page, entry.val);
-  3353	
-  3354					/* Tell memcg to use swap ownership records */
-  3355					SetPageSwapCache(page);
-  3356					err = mem_cgroup_charge(page, vma->vm_mm,
-  3357								GFP_KERNEL);
-  3358					ClearPageSwapCache(page);
-  3359					if (err) {
-  3360						ret = VM_FAULT_OOM;
-  3361						goto out_page;
-  3362					}
-  3363	
-  3364					shadow = get_shadow_from_swap_cache(entry);
-  3365					if (shadow)
-  3366						workingset_refault(page, shadow);
-  3367	
-  3368					lru_cache_add(page);
-  3369					swap_readpage(page, true);
-  3370				}
-  3371			} else {
-  3372				page = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE,
-  3373							vmf);
-  3374				swapcache = page;
-  3375			}
-  3376	
-  3377			if (!page) {
-  3378				/*
-  3379				 * Back out if the VMA has changed in our back during
-  3380				 * a speculative page fault or if somebody else
-  3381				 * faulted in this pte while we released the pte lock.
-  3382				 */
-  3383				if (!pte_map_lock(vmf)) {
-  3384					delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3385					ret = VM_FAULT_RETRY;
-  3386					goto out;
-  3387				}
-  3388	
-  3389				if (likely(pte_same(*vmf->pte, vmf->orig_pte)))
-  3390					ret = VM_FAULT_OOM;
-  3391				delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3392				goto unlock;
-  3393			}
-  3394	
-  3395			/* Had to read the page from swap area: Major fault */
-  3396			ret = VM_FAULT_MAJOR;
-  3397			count_vm_event(PGMAJFAULT);
-  3398			count_memcg_event_mm(vma->vm_mm, PGMAJFAULT);
-  3399		} else if (PageHWPoison(page)) {
-  3400			/*
-  3401			 * hwpoisoned dirty swapcache pages are kept for killing
-  3402			 * owner processes (which may be unknown at hwpoison time)
-  3403			 */
-  3404			ret = VM_FAULT_HWPOISON;
-  3405			delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3406			goto out_release;
-  3407		}
-  3408	
-  3409		locked = lock_page_or_retry(page, vma->vm_mm, vmf->flags);
-  3410	
-  3411		delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
-  3412		if (!locked) {
-  3413			ret |= VM_FAULT_RETRY;
-  3414			goto out_release;
-  3415		}
-  3416	
-  3417		/*
-  3418		 * Make sure try_to_free_swap or reuse_swap_page or swapoff did not
-  3419		 * release the swapcache from under us.  The page pin, and pte_same
-  3420		 * test below, are not enough to exclude that.  Even if it is still
-  3421		 * swapcache, we need to check that the page's swap has not changed.
-  3422		 */
-  3423		if (unlikely((!PageSwapCache(page) ||
-  3424				page_private(page) != entry.val)) && swapcache)
-  3425			goto out_page;
-  3426	
-  3427		page = ksm_might_need_to_copy(page, vma, vmf->address);
-  3428		if (unlikely(!page)) {
-  3429			ret = VM_FAULT_OOM;
-  3430			page = swapcache;
-  3431			goto out_page;
-  3432		}
-  3433	
-  3434		cgroup_throttle_swaprate(page, GFP_KERNEL);
-  3435	
-  3436		/*
-  3437		 * Back out if the VMA has changed in our back during a speculative
-  3438		 * page fault or if somebody else already faulted in this pte.
-  3439		 */
-  3440		if (!pte_map_lock(vmf)) {
-  3441			ret = VM_FAULT_RETRY;
-  3442			goto out_page;
-  3443		}
-  3444		if (unlikely(!pte_same(*vmf->pte, vmf->orig_pte)))
-  3445			goto out_nomap;
-  3446	
-  3447		if (unlikely(!PageUptodate(page))) {
-  3448			ret = VM_FAULT_SIGBUS;
-  3449			goto out_nomap;
-  3450		}
-  3451	
-  3452		/*
-  3453		 * The page isn't present yet, go ahead with the fault.
-  3454		 *
-  3455		 * Be careful about the sequence of operations here.
-  3456		 * To get its accounting right, reuse_swap_page() must be called
-  3457		 * while the page is counted on swap but not yet in mapcount i.e.
-  3458		 * before page_add_anon_rmap() and swap_free(); try_to_free_swap()
-  3459		 * must be called after the swap_free(), or it will never succeed.
-  3460		 */
-  3461	
-  3462		inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
-  3463		dec_mm_counter_fast(vma->vm_mm, MM_SWAPENTS);
-  3464		pte = mk_pte(page, vma->vm_page_prot);
-  3465		if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page, NULL)) {
-  3466			pte = maybe_mkwrite(pte_mkdirty(pte), vma);
-  3467			vmf->flags &= ~FAULT_FLAG_WRITE;
-  3468			ret |= VM_FAULT_WRITE;
-  3469			exclusive = RMAP_EXCLUSIVE;
-  3470		}
-  3471		flush_icache_page(vma, page);
-  3472		if (pte_swp_soft_dirty(vmf->orig_pte))
-  3473			pte = pte_mksoft_dirty(pte);
-  3474		if (pte_swp_uffd_wp(vmf->orig_pte)) {
-  3475			pte = pte_mkuffd_wp(pte);
-  3476			pte = pte_wrprotect(pte);
-  3477		}
-  3478		set_pte_at(vma->vm_mm, vmf->address, vmf->pte, pte);
-  3479		arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
-  3480		vmf->orig_pte = pte;
-  3481	
-  3482		/* ksm created a completely new copy */
-  3483		if (unlikely(page != swapcache && swapcache)) {
-  3484			page_add_new_anon_rmap(page, vma, vmf->address, false);
-  3485			lru_cache_add_inactive_or_unevictable(page, vma);
-  3486		} else {
-  3487			do_page_add_anon_rmap(page, vma, vmf->address, exclusive);
-  3488		}
-  3489	
-  3490		swap_free(entry);
-  3491		if (mem_cgroup_swap_full(page) ||
-  3492		    (vma->vm_flags & VM_LOCKED) || PageMlocked(page))
-  3493			try_to_free_swap(page);
-  3494		unlock_page(page);
-  3495		if (page != swapcache && swapcache) {
-  3496			/*
-  3497			 * Hold the lock to avoid the swap entry to be reused
-  3498			 * until we take the PT lock for the pte_same() check
-  3499			 * (to avoid false positives from pte_same). For
-  3500			 * further safety release the lock after the swap_free
-  3501			 * so that the swap count won't change under a
-  3502			 * parallel locked swapcache.
-  3503			 */
-  3504			unlock_page(swapcache);
-  3505			put_page(swapcache);
-  3506		}
-  3507	
-  3508		if (vmf->flags & FAULT_FLAG_WRITE) {
-  3509			ret |= do_wp_page(vmf);
-  3510			if (ret & VM_FAULT_ERROR)
-  3511				ret &= VM_FAULT_ERROR;
-  3512			goto out;
-  3513		}
-  3514	
-  3515		/* No need to invalidate - it was non-present before */
-  3516		update_mmu_cache(vma, vmf->address, vmf->pte);
-  3517	unlock:
-  3518		pte_unmap_unlock(vmf->pte, vmf->ptl);
-  3519	out:
-  3520		return ret;
-  3521	out_nomap:
-  3522		pte_unmap_unlock(vmf->pte, vmf->ptl);
-  3523	out_page:
-  3524		unlock_page(page);
-  3525	out_release:
-  3526		put_page(page);
-  3527		if (page != swapcache && swapcache) {
-  3528			unlock_page(swapcache);
-  3529			put_page(swapcache);
-  3530		}
-  3531		return ret;
-  3532	}
-  3533	
+   In file included from /usr/include/x86_64-linux-gnu/urcu/assert.h:26,
+                    from /usr/include/x86_64-linux-gnu/urcu/debug.h:12,
+                    from /usr/include/x86_64-linux-gnu/urcu/static/urcu-memb.h:24,
+                    from /usr/include/x86_64-linux-gnu/urcu/urcu-memb.h:47,
+                    from /usr/include/x86_64-linux-gnu/urcu/urcu.h:25,
+                    from /usr/include/x86_64-linux-gnu/urcu.h:6,
+                    from ../shared/linux/rcupdate.h:5,
+                    from ../shared/shared.h:11,
+                    from ../shared/maple-shared.h:8,
+                    from ../shared/maple-shim.c:5:
+>> ../shared/linux/../../../../include/linux/maple_tree.h:346:1: error: static assertion failed
+     346 | static_assert(sizeof(struct maple_node) == 256);
+         | ^~~~~~~~~~~~~
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
