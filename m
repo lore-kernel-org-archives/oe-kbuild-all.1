@@ -1,92 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793339308;
-	b=rlnBsfuSaHvgSA84KEYuL4m9tS+txPN9MNMXNam9nTW/2CwWd0nViLp2b0YVJ4NO4+Gw
-	 mDY7jC1z+B7a7CSsJX352rfvBJm0eeFQkUTgq/M+BnjKSW7Cwr1d+20gThTYwPPH9NXGS
-	 4zqH26VS5D7dmwkufD23AeF6tU3GwdHIcd7Ywr8BAkYFadNLdBCjaPQaUGPyJ6pRmIO5K
-	 70DGS2A2krl/ecvjN9YUzRTvofrL+brksgEzG+UbJ+MGK1MsiL/iSu/SnYM91puwak4eN
-	 heagGtvB5SVWIn8tXAsTbnxpjtaG4guckEiDSsnF0mEwAGs+Vl2wloY/CIMP39e/Mww==
+	t=1793340151;
+	b=C0WsJ6exYNI5KnrUda0EemfF+QccKaA/eSSYbWL52ZRtUonTW6cEXq0Whkk66867EzwF
+	 8a1hcw+oKqo1gZnqJoUotuZYFIhoFtBytmYUq1GwHknTZb/Eei6GZcnZiHs7hWUF1mCA5
+	 b9mkvyoSRL/5TkrC0XCUdvplmxZYEIDOT797aOXUi/baf0dKEDwOd7WvTsISOaGYXzCoL
+	 g9DufImkypNKwiKIXZETy/p+0nXV1gYlqPLLJql3V8FjTSX9regSwOfKfd1plExcFN59l
+	 h/Q/g3tEv2nJLblOMyCI+vn5zjALyYboMQeOJkkkTm+2p/PzcGPeyDs+Ka4hboxnUcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793339308;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:Autocrypt:
-	 In-Reply-To:X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:
-	 X-Mimecast-Originator:Content-Language:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=jk0rm4jvaiDVGk2youcQLM21ekVKsq8blgclz8ObRLc=;
-	b=q7Tb6ddaKO/L4WkS0p8X7Ro/dvFOiJfW+wh2tCDgvRN98sk/CtaYUDfNJyaCz+H8V0dw
-	 ozJNPQkUxol7Ak+EWITI7ICSJDLkTYXffTYiLumo7hwt5NGkaOu1RO6WxjL4F9dinLjBp
-	 1rg0tNizsSBd9CISAkMwKo1Z7Skv/lm7UbFMGj0eMcGYRhSBZeqi5rQ4Cq6QC3N40KwSV
-	 +0WGl1NALPwYIRwnL/JoYfOcDFVhRDuz2UecfSQG+gcoBMPVYZAUrT+fMSN5CGXtqJGcd
-	 EZ0NKLpW4C7Mw+i0NTTVdjTcMysph/F2UBz4uIMJFe9QtMrKL+3nVeJ6WcZsTYR2wfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793340151;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=7ppeadpG4/tDRk1yFHN0tOr9ktrKxnCuGPwlhtKCFwk=;
+	b=gihO0JQ+sHe8qCSrG4tN2CEA6/UlZYCPuwy3GQXkJl9KVNfGR8Fr1ihKdn1n8bLwWlpi
+	 NTocK4xaKdZkxiRsDeiU2b11096jepEIRcHABY0gXkSbxtDvSmmvxT/WfNtX3H/489arT
+	 N8bUhwEe5ubIQE+FzTLTd/4FDkB80of9VpsMmlXwqEVo88cWia7hoJr9c7kCPAdKDxxgC
+	 j7AXpQNVIrflvG3/TyCJKHNeYb2lrT14xs0Utrd9QhgYLHij7vYnSPcmmV9DRq5j3Acjs
+	 B53GZpx9HM8+Jx0zwakB6ZEfp4E4r6/wr7Dj3oCQqxa7C/5Jrf0QOMZMaB7vYnaMGdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AxJPmpnn;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EQqjBxEu;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375D0606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 05:48:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 375D0606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885DE606A31F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 06:02:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 885DE606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=AxJPmpnn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793339307;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=jk0rm4jvaiDVGk2youcQLM21ekVKsq8blgclz8ObRLc=;
-	b=AxJPmpnnLcdHHccfyTTqysQCNlGB0yWnrUCZeZf6LkMnrW3iOvdDRrDHgBDe0DN8BbCX/U
-	Ve+8RRvQefAISntUtBHjIGduNJgrFRUq8LVhJvysbzZgW7z7iDfJwxrBQ2xSWw/0Zc13xt
-	mHg9DQHzQD9WS9NZSk+yJf6q/D4WXuM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-533-dFSEsyuzMDqvvjPFGY8reQ-1; Fri, 30 Oct 2026 01:48:21 -0400
-X-MC-Unique: dFSEsyuzMDqvvjPFGY8reQ-1
-X-Mimecast-MFC-AGG-ID: dFSEsyuzMDqvvjPFGY8reQ_1793339301
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-48dff112181so312116f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Oct 2026 22:48:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793339300; x=1793944100;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jk0rm4jvaiDVGk2youcQLM21ekVKsq8blgclz8ObRLc=;
-        b=ZohArVS6r+03gcMUy35R+I4RFGOSWfQNChwnJl3H2CX1SZLzhuPbBAVZukK0AOcLC0
-         vP3UcPiIpexpATrY6ZCVyaSMiwnvGWE/hTsvGa4AXMapmgiDRg7Y4mIU7RiDi8waEKDV
-         uHazQXKg1Oy8iCl2DLrH/mzV+JLDZFA3i4Ku5WgbiK5mQDRlca1cLZ756L66DbDxWlHv
-         G1I57wPyDy9YkK2JAWAlipZ0H/asvktvLE9dmSjcRsWyfYyXy+MbGES9oGtG5rw5YEYk
-         9YbvWE51J194l1fEZ60Ox7daKHSezvAv1ebaLzg/9//rkjxtD093FVa/h3TeKw0dxIy0
-         zyng==
-X-Gm-Message-State: AFq9FYJD9cQxVtzs7q2Bq6/p4w4XRTlGwX7Nn6c9/adMi7xJeb5G6A65
-	QyHk+UqczLoRiUkoaqnh+MGOvEQpItGLIeWhSm/4edz744mzLKljCH0QtQJ5SICmpQPH0fHfpD+
-	LHK//1VeAmg+4X6MeJsOPJESnQrSKjDwWRSlV+j9FN/UumK/saw8sFyMZst8VKop47uQ=
-X-Gm-Gg: AYBFou2NjydQO1JcxW9F8ehp4/Sj0Ls6UrWMY3PSxy0ySgT0Td8/z8z6ljg9g+bm+Oe
-	BLGoa4GXzXPHTrlNo879cqeWg4GTL8paUSvdadGZfrzmwPhY5ZKxLXSuQTu7rNx42NC4Iw4Zvcv
-	RDzhB6Hqnfg9TNyC4p6JZWgLUvEHXMfZBccKFKQ9uL0BKRXPTz7ErbXdjXey1pLZCBoFTIwKG2r
-	oQqDxbwboHLDHSJSG2QJvybT65QIgGo7uy3vzAOrm+mQFqAI1QWK+3jtRP1/jsIrOj2U7dSpoQn
-	Sl+otrO67pYZ2/co2qi8c8N1QH0Nzt8rWiMhC4P7aEzvXB/us2uY+NNGZaTX/7a6MjlzuHDyXbx
-	OVD7W+NuZ6afZ/uSXHWeiVGk2Zy42OLTpuV96d5UR6rIa5vI=
-X-Received: by 2002:a05:600c:354a:b0:4a3:5aee:2c25 with SMTP id 5b1f17b1804b1-4ac181e759dmr23905785e9.31.1793339300606;
-        Thu, 29 Oct 2026 22:48:20 -0700 (PDT)
-X-Received: by 2002:a05:600c:354a:b0:4a3:5aee:2c25 with SMTP id 5b1f17b1804b1-4ac181e759dmr23905515e9.31.1793339300195;
-        Thu, 29 Oct 2026 22:48:20 -0700 (PDT)
-Received: from [192.168.0.9] ([47.64.112.102])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71a4d5dfsm1501346f8f.3.2026.10.29.22.48.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 22:48:19 -0700 (PDT)
-Message-ID: <0a5de4d5-8b02-40f3-8067-f75b9f1020eb@redhat.com>
-Date: Fri, 30 Oct 2026 06:48:17 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EQqjBxEu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793340151; x=1824876151;
+  h=date:from:to:cc:subject:message-id;
+  bh=kpQ+VUMRrydozpk5Y+PSQKhN6PU/3mhTpApQmzS9O7Y=;
+  b=EQqjBxEuR8aGMQ8v3wa5+8p6ZM5r1PJxjK0XPjkI7Q756bQ2+9xolH2q
+   U1CrQvKeyfAwT9EdSJ5qcGvKvk/PASbc07wTA2J8sm5IiTECf02unWDsv
+   geTxHbinG0mTJEG0zmNupFSk/SerkOyEell0SDXX/Q8IQBFSQ6pExeV+s
+   mPxI3AseAj1sC80XqAS/SImEDDmdhbpVUVQFxkm3EWkF1yQlJt3PiiVY7
+   zvGnZUB2T+BhI/YdHzJFL6rU80tg4BGCZD8e1ChNn6lKyfWk+kB1tm9Yi
+   yywn1MIts7CxBo+yeYVBj1cBTDQR5O2J6KVRdQbLJFGIbcVXhlkyE2bZm
+   g==;
+X-CSE-ConnectionGUID: bCI45l0rSeeyQ8IxGzdNNg==
+X-CSE-MsgGUID: cXQLesTJRMqfBBpbTdYj1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="1983530"
+X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
+   d="scan'208";a="1983530"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 23:02:30 -0700
+X-CSE-ConnectionGUID: GI7SQUfPTuCJ9peLX5/4eg==
+X-CSE-MsgGUID: zM+acZ7rS0O8rnxoDjp9yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
+   d="scan'208";a="7163562"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 29 Oct 2026 23:02:28 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xMfh3-00000000bMu-1T2C;
+	Fri, 30 Oct 2026 06:02:25 +0000
+Date: Fri, 30 Oct 2026 14:01:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-p3s 2/2]
+ arch/arm64/kvm/hyp/nvhe/ftrace.c:91:15: warning: no previous prototype for
+ function '__hyp_ftrace_trace'
+Message-ID: <202610301323.FilmGRSw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -95,111 +80,236 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [arnd-asm-generic:asm-generic 15/15]
- /usr/aarch64-linux-gnu/include/linux/types.h:12: Error: unknown mnemonic
- `typedef' -- `typedef __signed__ __int128 __s128
- __attribute__((aligned(16)))'
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
- Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
- "Jason A. Donenfeld" <Jason@zx2c4.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-References: <202610291918.kHO0GTDB-lkp@intel.com>
- <9e294bfd-4704-42a5-a704-f301f4afe042@app.fastmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Autocrypt: addr=thuth@redhat.com; keydata=
- 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
-In-Reply-To: <9e294bfd-4704-42a5-a704-f301f4afe042@app.fastmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: GvKKOMCbyM6UUpnyjbER0D8tKEybKo1gGN-xuSwGLLU_1793339301
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 29/10/2026 23.13, Arnd Bergmann wrote:
-> On Thu, Oct 29, 2026, at 19:09, kernel test robot wrote:
->> tree:
->> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git
->> asm-generic
->> head:   dd7cc8c26b6a37a54adc5ce38d286521b7201044
->> commit: dd7cc8c26b6a37a54adc5ce38d286521b7201044 [15/15] treewide: Stop
->> defining __ASSEMBLY__ for assembler files
-> 
-> Hi Thomas,
-> 
->> config: arm64-allnoconfig-bpf
->> (https://download.01.org/0day-ci/archive/20261029/202610291918.kHO0GTDB-lkp@intel.com/config)
->> compiler: aarch64-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
->> reproduce (this is a W=1 build):
->> (https://download.01.org/0day-ci/archive/20261029/202610291918.kHO0GTDB-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new
->> version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes:
->> https://lore.kernel.org/oe-kbuild-all/202610291918.kHO0GTDB-lkp@intel.com/
->>
->> Note: the arnd-asm-generic/asm-generic HEAD
->> dd7cc8c26b6a37a54adc5ce38d286521b7201044 builds fine.
->>        It only hurts bisectability.
->>
->> All errors (new ones prefixed by >>):
->>
->>     /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h: Assembler messages:
->>>> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:20: Error: unknown mnemonic `typedef' -- `typedef __signed__ char __s8'
->>>> /usr/aarch64-linux-gnu/include/asm-generic/int-ll64.h:21: Error: unknown mnemonic `typedef' -- `typedef unsigned char __u8'
-> 
-> 
->  From what I can tell, this happens after your last patch when cross-compiling
-> kselftest against system headers that still check for __ASSEMBLY__ instead of
-> __ASSEMBLER__.
-D'oh! Could you please drop that last patch for now 'til I figured out a 
-solution for that mess...?
+Hi Vincent,
 
-  Thanks,
-   Thomas
+First bad commit (maybe != root cause):
 
+tree:   https://android.googlesource.com/kernel/common android16-6.12-p3s
+head:   fd6fb6e5a1163b81047df5e1876919a55e9a4d22
+commit: 58ca789e21bb4fc0af3eaeacd88252a5564a816b [2/2] ANDROID: KVM: arm64: PROTECTED_NVHE_FTRACE to PKVM_FTRACE
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261030/202610301323.FilmGRSw-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c2ea4440d4b64c148de4fdfca1fc2c437a0701e4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610301323.FilmGRSw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610301323.FilmGRSw-lkp@intel.com/
+
+Note: functions only called from assembly code should be annotated with the asmlinkage attribute
+All warnings (new ones prefixed by >>):
+
+>> arch/arm64/kvm/hyp/nvhe/ftrace.c:91:15: warning: no previous prototype for function '__hyp_ftrace_trace' [-Wmissing-prototypes]
+      91 | unsigned long __hyp_ftrace_trace(unsigned long ip, unsigned long parent,
+         |               ^
+   arch/arm64/kvm/hyp/nvhe/ftrace.c:91:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      91 | unsigned long __hyp_ftrace_trace(unsigned long ip, unsigned long parent,
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/ftrace.c:109:15: warning: no previous prototype for function '__hyp_ftrace_ret_trace' [-Wmissing-prototypes]
+     109 | unsigned long __hyp_ftrace_ret_trace(void)
+         |               ^
+   arch/arm64/kvm/hyp/nvhe/ftrace.c:109:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     109 | unsigned long __hyp_ftrace_ret_trace(void)
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/ftrace.c:252:13: warning: no previous prototype for function '__get_phys' [-Wmissing-prototypes]
+     252 | phys_addr_t __get_phys(unsigned long addr)
+         |             ^
+   arch/arm64/kvm/hyp/nvhe/ftrace.c:252:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     252 | phys_addr_t __get_phys(unsigned long addr)
+         | ^
+         | static 
+   3 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [m]:
+   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+
+
+vim +/__hyp_ftrace_trace +91 arch/arm64/kvm/hyp/nvhe/ftrace.c
+
+e5a5778f97569e Vincent Donnefort 2024-10-01   90  
+e5a5778f97569e Vincent Donnefort 2024-10-01  @91  unsigned long __hyp_ftrace_trace(unsigned long ip, unsigned long parent,
+e5a5778f97569e Vincent Donnefort 2024-10-01   92  				 unsigned long offset_idx)
+e5a5778f97569e Vincent Donnefort 2024-10-01   93  {
+e5a5778f97569e Vincent Donnefort 2024-10-01   94  	unsigned long func = __kern_addr(offset_idx, ip);
+e5a5778f97569e Vincent Donnefort 2024-10-01   95  	unsigned long parent_offset_idx;
+e5a5778f97569e Vincent Donnefort 2024-10-01   96  
+e5a5778f97569e Vincent Donnefort 2024-10-01   97  	/* When modules are called from core */
+e5a5778f97569e Vincent Donnefort 2024-10-01   98  	parent_offset_idx = parent > (unsigned long)__hyp_text_start ? 0 : offset_idx;
+e5a5778f97569e Vincent Donnefort 2024-10-01   99  
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  100  	trace_func(func, __kern_addr(parent_offset_idx, parent));
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  101  
+e5a5778f97569e Vincent Donnefort 2024-10-01  102  	/* Only install the trampoline if we can revert to the original parent */
+e5a5778f97569e Vincent Donnefort 2024-10-01  103  	if (hyp_ftrace_func_push(func, parent))
+e5a5778f97569e Vincent Donnefort 2024-10-01  104  		return (unsigned long)__hyp_ftrace_ret_tramp;
+e5a5778f97569e Vincent Donnefort 2024-10-01  105  
+e5a5778f97569e Vincent Donnefort 2024-10-01  106  	return parent;
+e5a5778f97569e Vincent Donnefort 2024-10-01  107  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  108  
+e5a5778f97569e Vincent Donnefort 2024-10-01 @109  unsigned long __hyp_ftrace_ret_trace(void)
+e5a5778f97569e Vincent Donnefort 2024-10-01  110  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  111  	struct hyp_ftrace_stack_frame *frame = hyp_ftrace_func_pop();
+e5a5778f97569e Vincent Donnefort 2024-10-01  112  
+e5a5778f97569e Vincent Donnefort 2024-10-01  113  	BUG_ON(!frame);
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  114  	trace_func_ret(frame->func);
+e5a5778f97569e Vincent Donnefort 2024-10-01  115  
+e5a5778f97569e Vincent Donnefort 2024-10-01  116  	return frame->ret;
+e5a5778f97569e Vincent Donnefort 2024-10-01  117  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  118  
+e5a5778f97569e Vincent Donnefort 2024-10-01  119  void hyp_ftrace_ret_flush(void)
+e5a5778f97569e Vincent Donnefort 2024-10-01  120  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  121  	struct hyp_ftrace_stack_frame *frame = hyp_ftrace_func_pop();
+e5a5778f97569e Vincent Donnefort 2024-10-01  122  
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  123  	while (frame) {
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  124  		trace_func_ret(frame->func);
+e5a5778f97569e Vincent Donnefort 2024-10-01  125  		frame = hyp_ftrace_func_pop();
+e5a5778f97569e Vincent Donnefort 2024-10-01  126  	}
+600ba9bc4d4627 Vincent Donnefort 2024-10-01  127  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  128  
+e5a5778f97569e Vincent Donnefort 2024-10-01  129  static int __get_offset_idx_ins(unsigned long *func, unsigned long ip, u32 *insn,
+e5a5778f97569e Vincent Donnefort 2024-10-01  130  				void *args)
+e5a5778f97569e Vincent Donnefort 2024-10-01  131  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  132  	unsigned long idx = (unsigned long)args;
+e5a5778f97569e Vincent Donnefort 2024-10-01  133  	u32 imm, mask = (BIT(16) - 1) << 5;
+e5a5778f97569e Vincent Donnefort 2024-10-01  134  
+e5a5778f97569e Vincent Donnefort 2024-10-01  135  	imm = (idx << 5) & mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  136  
+e5a5778f97569e Vincent Donnefort 2024-10-01  137  	*insn = aarch64_insn_get_movz_value();
+e5a5778f97569e Vincent Donnefort 2024-10-01  138  	*insn |= BIT(31);			/* 64-bits variant */
+e5a5778f97569e Vincent Donnefort 2024-10-01  139  	*insn |= 10;				/* x10 */
+e5a5778f97569e Vincent Donnefort 2024-10-01  140  	*insn &= ~mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  141  	*insn |= imm;
+e5a5778f97569e Vincent Donnefort 2024-10-01  142  	*insn = cpu_to_le32(*insn);
+e5a5778f97569e Vincent Donnefort 2024-10-01  143  
+e5a5778f97569e Vincent Donnefort 2024-10-01  144  	return 0;
+e5a5778f97569e Vincent Donnefort 2024-10-01  145  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  146  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  147  static int __get_disable_ins(unsigned long *func, unsigned long ip, u32 *insn,
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  148  			     void *args)
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  149  {
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  150  	static u32 nop;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  151  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  152  	if (!nop)
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  153  		nop = aarch64_insn_gen_nop();
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  154  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  155  	*insn = cpu_to_le32(nop);
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  156  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  157  	return 0;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  158  }
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  159  
+e5a5778f97569e Vincent Donnefort 2024-10-01  160  static int __get_enable_ins(unsigned long ip, u32 *insn, void *tramp)
+e5a5778f97569e Vincent Donnefort 2024-10-01  161  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  162  	u32 imm, mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  163  	long delta;
+e5a5778f97569e Vincent Donnefort 2024-10-01  164  
+e5a5778f97569e Vincent Donnefort 2024-10-01  165  	delta = (long)tramp - (long)ip;
+e5a5778f97569e Vincent Donnefort 2024-10-01  166  
+e5a5778f97569e Vincent Donnefort 2024-10-01  167  	if (delta > SZ_128M || delta <= -SZ_128M)
+e5a5778f97569e Vincent Donnefort 2024-10-01  168  		return -ERANGE;
+e5a5778f97569e Vincent Donnefort 2024-10-01  169  
+e5a5778f97569e Vincent Donnefort 2024-10-01  170  	mask = BIT(26) - 1;
+e5a5778f97569e Vincent Donnefort 2024-10-01  171  	imm = (delta >> 2) & mask;
+e5a5778f97569e Vincent Donnefort 2024-10-01  172  
+e5a5778f97569e Vincent Donnefort 2024-10-01  173  	*insn = aarch64_insn_get_bl_value() & ~(mask);
+e5a5778f97569e Vincent Donnefort 2024-10-01  174  	*insn |= imm;
+e5a5778f97569e Vincent Donnefort 2024-10-01  175  	*insn = cpu_to_le32(*insn);
+e5a5778f97569e Vincent Donnefort 2024-10-01  176  
+e5a5778f97569e Vincent Donnefort 2024-10-01  177  	return 0;
+e5a5778f97569e Vincent Donnefort 2024-10-01  178  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  179  
+e5a5778f97569e Vincent Donnefort 2024-10-01  180  #define funcs_pg_enabled(func)	((func) & 0x1)
+e5a5778f97569e Vincent Donnefort 2024-10-01  181  #define funcs_pg_func(func)	((func) & ~BIT(0))
+e5a5778f97569e Vincent Donnefort 2024-10-01  182  #define funcs_pg_is_end(func)						      \
+e5a5778f97569e Vincent Donnefort 2024-10-01  183  ({									      \
+e5a5778f97569e Vincent Donnefort 2024-10-01  184  	(!(*(func)) ||							      \
+e5a5778f97569e Vincent Donnefort 2024-10-01  185  	 ((PAGE_ALIGN((unsigned long)(func) + 1) - (unsigned long)(func)) <= 8)); \
+e5a5778f97569e Vincent Donnefort 2024-10-01  186  })
+e5a5778f97569e Vincent Donnefort 2024-10-01  187  
+e5a5778f97569e Vincent Donnefort 2024-10-01  188  /*
+e5a5778f97569e Vincent Donnefort 2024-10-01  189   * During init the kernel can notify a function needs to be enabled. This is
+e5a5778f97569e Vincent Donnefort 2024-10-01  190   * relying on the same encoding as the func_pg.
+e5a5778f97569e Vincent Donnefort 2024-10-01  191   */
+e5a5778f97569e Vincent Donnefort 2024-10-01  192  #define get_func(func)		funcs_pg_func(func)
+e5a5778f97569e Vincent Donnefort 2024-10-01  193  
+e5a5778f97569e Vincent Donnefort 2024-10-01  194  static int __get_enable_disable_ins_early(unsigned long *func, unsigned long ip,
+e5a5778f97569e Vincent Donnefort 2024-10-01  195  					  u32 *insn, void *tramp)
+e5a5778f97569e Vincent Donnefort 2024-10-01  196  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  197  	if (funcs_pg_enabled(*func))
+e5a5778f97569e Vincent Donnefort 2024-10-01  198  		return __get_enable_ins(ip, insn, tramp);
+e5a5778f97569e Vincent Donnefort 2024-10-01  199  
+e5a5778f97569e Vincent Donnefort 2024-10-01  200  	/* Nothing else to do */
+e5a5778f97569e Vincent Donnefort 2024-10-01  201  	return 1;
+e5a5778f97569e Vincent Donnefort 2024-10-01  202  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  203  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  204  struct __ftrace_sync_patch_args {
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  205  	void		*tramp;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  206  	unsigned long	offset_idx;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  207  	unsigned long	*funcs_pg;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  208  };
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  209  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  210  static int
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  211  __get_enable_disable_ins_from_funcs_pg(unsigned long *func, unsigned long ip,
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  212  				       u32 *insn, void *__args)
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  213  {
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  214  	struct __ftrace_sync_patch_args *args = __args;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  215  	unsigned long kern_addr;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  216  	static u32 nop;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  217  	u32 cur_insn;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  218  	bool enable;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  219  	int ret = 0;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  220  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  221  	if (funcs_pg_is_end(args->funcs_pg))
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  222  		return -EAGAIN;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  223  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  224  	kern_addr = __kern_addr(args->offset_idx, *func);
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  225  	if (get_func(kern_addr) != funcs_pg_func(*args->funcs_pg)) {
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  226  		ret = -EINVAL;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  227  		goto end;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  228  	}
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  229  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  230  	if (!nop)
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  231  		nop = aarch64_insn_gen_nop();
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  232  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  233  	enable = funcs_pg_enabled(*args->funcs_pg);
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  234  	cur_insn = *(u32 *)ip;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  235  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  236  	/* Are we modifying anything? */
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  237  	if ((cur_insn == nop) != enable) {
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  238  		ret = -EBUSY;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  239  		goto end;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  240  	}
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  241  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  242  	if (funcs_pg_enabled(*args->funcs_pg))
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  243  		ret = __get_enable_ins(ip, insn, args->tramp);
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  244  	else
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  245  		*insn = cpu_to_le32(nop);
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  246  
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  247  end:
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  248  	args->funcs_pg++;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  249  	return ret;
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  250  }
+e630ddc2c3e915 Vincent Donnefort 2024-10-01  251  
+e5a5778f97569e Vincent Donnefort 2024-10-01 @252  phys_addr_t __get_phys(unsigned long addr)
+e5a5778f97569e Vincent Donnefort 2024-10-01  253  {
+e5a5778f97569e Vincent Donnefort 2024-10-01  254  	if (addr >= (unsigned long)__hyp_text_start)
+e5a5778f97569e Vincent Donnefort 2024-10-01  255  		return __hyp_pa(addr);
+e5a5778f97569e Vincent Donnefort 2024-10-01  256  
+e5a5778f97569e Vincent Donnefort 2024-10-01  257  	return __pkvm_private_range_pa((void *)addr);
+e5a5778f97569e Vincent Donnefort 2024-10-01  258  }
+e5a5778f97569e Vincent Donnefort 2024-10-01  259  
+
+:::::: The code at line 91 was first introduced by commit
+:::::: e5a5778f97569eaad67f9b89f20e19eb2adf76c9 ANDROID: KVM: arm64: Add Ftrace patching for pKVM hyp
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Vincent Donnefort <vdonnefort@google.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
