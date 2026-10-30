@@ -1,111 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793395185;
-	b=3J8sAEGb0d3yH3+0wG/ARC9dd+cMLBwMZiXspf7/asdB0JPMS0V2l7YKAFPfYHnIgVHU
-	 mxD73v5B+LsWg2rbaFVSQ+06eAnh2C+d2FH5oZCS+U9deaCrwtB6nSFTZmoRd79NraJ2e
-	 4Q97om0u6c8PaZRoIdojbmDNM0LMWOYDLcqsrWKwAjG1erkfiJsTirO8+ph7DoujpHaVJ
-	 h8XoEg8BVMTXN3+tp1nzW5sygXkSS/GCqkJ5/EQe5U6yPzLs12nBe0kQ2jYJYIN6RSd/V
-	 1a+g+27itFm52bUmj0pzVpj9FaOvFpNtBNbBIzdJf0kUys8YeQ/7rOtAijymZ4zBGGw==
+	t=1793396620;
+	b=rT1q/Hju4wNR0YWxOsyoZuGLKL5wCpmiWEmaysalZ3d/mogU4ui7FCfRHv8azfE2wDcp
+	 29wBcGD+9qtFtcx//hZv1tZSYJhYLVOsvlV70QDqqMsiJT9kDNbMzPnw8G+M0tfWeoigt
+	 oeplUij2TrG/38JT/9BYWwjn1trVgGljDrkQSqAEptN9MCCQQVql6hZ9Azk/o4+oIMEpC
+	 Px6ETSCHUIdWjz/ySqp0bTSmnuvcaQxtxbmo6jfqkpVBxwiTqfH92v8SUfZwbLHk1A8Pl
+	 pXMY8/3Yf4On2eYI2KlahKKRVu12VFEMvKx7242zPNoZuioqB4U8QpujmiCEtYOSeig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793395185;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=Dl1LG0Y6RzLXrRfxv+91NkboHhB++1KT+VI/hXOnas8=;
-	b=MvLTxm9VeMK6IhUUwIoPCr1o8aFXqLLNc2RwVeODAk1LnubuvZXg44svD2Lj93jjEtY9
-	 D2VEcQP5nHUQX6yvd04qEwJAvDh4uFd4Xl0hy5mw37g8DGG5Ii/s9She30ynCb2KuPFaq
-	 BJs+ayeJ1SDRr3bt58NFY3KcauLu+M2RMef+wklzenVXypyjbYjJbZd+yHL1b17CNMK91
-	 XdUTyMDPd6sQaVIyBvKKlF18ZtTr7OVolPRXfGslroaLRCVKAQCDeysvZKEWuL9LfolbZ
-	 eSqOUue3MMRteOfANUz6S+oQ7OiDNmu6WTUNoKPL66vpmJk6quyPVIlC929LMgLtecA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793396620;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=Co4Q9F6w3RzvxiuCZhuCBdwh2cpjPJuHxfTBSguqV+0=;
+	b=TdnjQmxnB8Y23KIao4UlDeSNLYgtP/uXDkBMh5SqjZlMxmRxAwbTNXAKtcLXRClqMWjB
+	 i6KNeQCJ5faJ8ABvk0CqUF8X8jn+L17bguMSHTFzLvgEjmEFy3sg/yoa/Moced5a7OotJ
+	 ouCxxHRvW6i5Ap8peHvld3t2azmC8Ep18TVN9NmqgUJO5D2Z/IRT6K0g9v245abfF778n
+	 V5OnbGi9GYTyAWJxsoa6NIHT7BXpu9DknBqMW5B/H3BYGdiKxsqpDVZ/mb4Zm75d9A50b
+	 imi8WNQGtFBeQLJqKYDtTXdCuab/oeTgCK4ThJ5rmsP92jUdo2hHIiy2xYzevq/mKwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arndb.de;
-	spf=pass smtp.mailfrom=arndb.de;
-	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=R0EhaWD0;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Z5yTrlF1;
-	arc=none smtp.remote-ip=103.168.172.146
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ePuOkLP3;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F8860A2614
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 21:19:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76F8860A2614
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B96606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 21:43:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76B96606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=R0EhaWD0;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Z5yTrlF1
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfout.phl.internal (Postfix) with ESMTP id 5F52BEC016D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 17:19:43 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Fri, 30 Oct 2026 17:19:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1793395181;
-	 x=1793481581; bh=Dl1LG0Y6RzLXrRfxv+91NkboHhB++1KT+VI/hXOnas8=; b=
-	R0EhaWD0glqlAYetqHP9Ja6C96jrEhWB3wSZI6VzNiuoTCCVXc1UHwaebnK1IyEg
-	79WvABcWEArSQxpu6b78zF255M6ugNXSMqVdDxL/SILxJ6jwe9FbgBcyY1vorJGm
-	5oRT/BVLLesLLVLgD9du0OBIrTb/kjEd3Gr5UtKkfwqabnIbtvuz9F7tR5hIoj1u
-	MHm3wY/bt/EgDwlSO28yrxPQP9dFCrbgKkwqOXcGeLGvmWzWMROzJL9dJGoFHSwZ
-	OXDhiSXj5QLS6Z5a65lqQh3aQ54erwwOdkCuvqghX0ropV3HQcy9Rg5/4UAKkSuS
-	ABtER50GX5LBpOnGEYZO1w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793395181; x=
-	1793481581; bh=Dl1LG0Y6RzLXrRfxv+91NkboHhB++1KT+VI/hXOnas8=; b=Z
-	5yTrlF1K8Bx+GGJh3vT+CRDs98zizzfvz2L2qpP4P4nHhsoQJ1BOfwEm35tmpYSx
-	Ci6K6fNr8CwdmPcAIJG7c4ir1XYUFTRHtznTw8NH4K6ExPS3LFEVzO8t8R+L/kvH
-	m860SMVAoEJkL3AbZmiBO1VjMKr4R6t3AoWY5LS4ZcinjMqLU0sZzrzfhIAm7wBL
-	GZk0utE15f9crwZKGGAD1B8kG5QPS7Qfo1gzIR4dlfF878jR/2dDwRKXHvRgfa21
-	LvhnjME+dWxCDgmPXggltKFVQskZ0mlF/9Ck2Ouh7uIqqCnwEKM02I5qXegA8JJF
-	uKPx/ihSS5JWMEGd6nLzw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793395181; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:l6kGGbJj81cT0UnomHQrbY0U/wdnFsUZYvBykOEtLf0/YAP
-	8lgiAIqgxviYsTcOf8LM78N4wR6z0kHM/ju30qfCtSW132OCZ+7DxIi6HGZDSnQT
-	kS3In6BJ0MFUP+ucoMkPtTQeXaPwBK4BZ0176iudVU5tcU155vHKWqcSuA2sreb3
-	dgw3ZTEEHpfWqwJDPlWgftqLR4P6HLTOgbXx8sTVKWzNApXNkT2U9S2m8Gyeiaf0
-	aKNaiU7kfKgz0jccEfWKHVOE9if6Y6aJ/SLLuKmEfQKXtcXznC6j4HOTMH3yEBDx
-	xN3Jtzh85s+6PPshxom08ClBKp9XuQEo6kB1xWA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:GhglIsL3uu6nEtiuA3MobcUZlxx1huwAF0Pf5N1Xnl8=:kTM8AS4UB0+gUZDZkMLnPfvC5c9V7l9e1Y/veHALxpU=;
-X-ME-Sender: <xms:6QnlameD8brMS30tx9lsvkhYNLC2YvuPbr6p33PgT2O-WgaomGgoIQ>
-    <xme:6QnlarBQZuWSubC8k7Fuk93X0Yb2KHi9_Ar3ffCzN0ehd_zd--xgLqbeundl5UM_O
-    lBYVMwvcG2bFRPCmP0_g_foJq7yNRMPkz-ImjxxOcwQ0NXrSyUr5Yn4>
-X-ME-Proxy-Cause: dmFkZTEHE8Apd9U84xVPbS3T5EaOX9zQ6tn1ko49jsbH1txIARGoXweFutRVrEw7AYzJ08
-    KdP+z1OcfT+37axmqkfNpq90uZK7KBIHNXyKuXnVEpI/zNRq+NdpIkFfd6ouHVC3oJybgo
-    HSsgLKAgakHTS4fQXyu4kJYYt5nJMx7B75q2L3BD4QyYDI5VUqlvTZZnXCWIR6HPg0K7tt
-    hbHy72G3HYu21HXWR3iVtVPPuzK/mL3U1MTkdN7stwm8O0vqCYepocQQ3J1qbzoVxD4iAp
-    +6FsoDjfuspqqJ6g9dmRYP7Ez+gzmlC8UzVcTfMtpAimvCIA/aKUrLQ2INAlrZWMk9xIM5
-    WqI7L07jNXSpaXvsE78C9IkoM05pGRsnTS/ULlWLQ8jHXhOA2hNkvVzQbzbH2EKDcEELXy
-    q/U7QIFb5fy1XblL0BOwkX+Xz0c2xi+SuDBbW92kx9D8RC7eoDXIe8L75JvSN3ymIGYhb0
-    GdceRtvRTgUyDOLCpBJLN4aHWRx9bzHkizPpb8UUwAHxnQDbscbSpewGvx2UHQdkGz/71f
-    GkbnoyFBtmc9KdZ1poqniQJMS4qnV8vZ1RkhJfA8xguCnrQ98bzFgdKkY2b/T7CSTvE+UJ
-    4dfCv97bEE2dAj58Teh+PyPLVN3lvjaIceYZhoyMq5kW2xEHQazLvUigf/8w
-X-ME-Proxy: <xmx:6gnlajPxCt9_R_bYbqEWis8dwI2RpBG7say7iZSKuSHVwGl8hRpS6g>
-    <xmx:6gnlaghlFJTerTIz5k4_U3gSOtn1sFHVchvK134QSnQvbsJRKbCqLQ>
-    <xmx:6gnlal4J8vknUa5xET2pCJIvMrmdUyNgkm4l2HQFi6_EIvkGKYYySw>
-    <xmx:6gnlan0mrRQK5xaWWO9Fv_C-VM5D0QrBEHdSq8ZYgLEJRae4vrOZ1A>
-    <xmx:7Qnlavni9x1lDrdOtW-fq4JXnf7anM6j79YhzEloMB_8bEim6AGel6lU>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 3280032A0093; Fri, 30 Oct 2026 17:19:37 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ePuOkLP3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793396617; x=1824932617;
+  h=date:from:to:cc:subject:message-id;
+  bh=Turn9n+Bjfb6aGT2UJDdq2ZycXxL559UWpsBWmI3gR4=;
+  b=ePuOkLP3A4Ro5EQjFYqM/U7YtsPdaQqsA3mvPrW35lj0ii1rpRfNM+1h
+   evapUcQUYqLiAb9BhHl66lgqZcDe0LIwn2SYncrS0Yl0WNSHWQqJCbLus
+   QeYrtpXn+k7Jkaybx5WCdZrCRHZBVqbh6NHh3hsalR51YTQ2m7MGlYpK4
+   mkgt7ATRWAGhU+MsQJs8MURDUU7emtkfXdloheTmqJQhywsbcbEukw+Q+
+   cLetLD6mus17JY/gxrGcjtxrjZjRC3ilRO9yb5+3V8MqTr3KvGXeD+yHV
+   VNWDk6u1dS93nvp/XqR3OK4VA3JshCicoVtdkN0T7SERg50QUPRoSvCwO
+   w==;
+X-CSE-ConnectionGUID: SZ4LKm+RQh+iRvz9BmymVQ==
+X-CSE-MsgGUID: 4zHK3nACSgOWLvXxl2vR/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2183336"
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="2183336"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 14:43:37 -0700
+X-CSE-ConnectionGUID: 8QrRogYdT2mWYHvhsB1YQA==
+X-CSE-MsgGUID: 6Uc95yBOSRO1E/uLX5iyxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="5434471"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 30 Oct 2026 14:43:36 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xMuNp-000000005iN-34Wx;
+	Fri, 30 Oct 2026 21:43:33 +0000
+Date: Fri, 30 Oct 2026 22:42:45 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Chen-Yu Tsai" <wens@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wens:sunxi-wip 36/36]
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1930:1: warning: label 'pm_put' defined
+ but not used
+Message-ID: <202610302254.Ekd0JM5s-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -114,48 +80,63 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-ThreadId: AA4M8BakChSJ
-Date: Fri, 30 Oct 2026 22:16:18 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Huth" <thuth@redhat.com>, "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
- shuah <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
- "Jason A . Donenfeld" <Jason@zx2c4.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Message-Id: <33492528-ecd8-444b-a42d-d084857a57cd@app.fastmail.com>
-In-Reply-To: <5f898f0f-915c-4aef-a3f9-0118f4539951@app.fastmail.com>
-References: <202610291918.kHO0GTDB-lkp@intel.com>
- <9e294bfd-4704-42a5-a704-f301f4afe042@app.fastmail.com>
- <cdf09fa3-e251-4d8d-9f0a-316998df036b@redhat.com>
- <5f898f0f-915c-4aef-a3f9-0118f4539951@app.fastmail.com>
-Subject: Re: [arnd-asm-generic:asm-generic 15/15]
- /usr/aarch64-linux-gnu/include/linux/types.h:12: Error: unknown mnemonic
- `typedef' -- `typedef __signed__ __int128 __s128
- __attribute__((aligned(16)))'
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 30, 2026, at 19:23, Arnd Bergmann wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
+head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
+commit: e8e10ee67982c55fd3900953641c680a2fbef1c6 [36/36] HACK: drm/etnaviv: check if GPU is actually there
+config: x86_64-randconfig-r2304-20261030 (https://download.01.org/0day-ci/archive/20261030/202610302254.Ekd0JM5s-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610302254.Ekd0JM5s-lkp@intel.com/reproduce)
 
-> The idea sounds right, but it doesn't appear to do anything for me,
-> I still get the same output:
->
-> arnd@studio:~/arm-soc/asm-generic$ make O=../build/tmp/ ARCH=arm64 -C 
-> tools/testing/selftests/vDSO/ V=1
-...
->
-> It looks like tools/testing/selftests/ is built in the source directory,
-> while the 'make headers_install' installed the headers to the object
-> directory in '../build/tmp/usr/include/'.
->
-> I have never been able to figure out how kselftest actually wants
-> to handle this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610302254.Ekd0JM5s-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/etnaviv/etnaviv_gpu.c: In function 'etnaviv_gpu_detect':
+>> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1930:1: warning: label 'pm_put' defined but not used [-Wunused-label]
+    1930 | pm_put:
+         | ^~~~~~
 
 
-Nevermind, I figured out that your fix works when doing
-'make -C tools/testing/selftests', since tools/testing/selftests/Makefile
-is what sets KHDR_INCLUDES. When I tried to use 'make -C tools/testing/selftests/vDSO'
-the assignment gets skipped, so I got the same error as before.
+vim +/pm_put +1930 drivers/gpu/drm/etnaviv/etnaviv_gpu.c
 
-      Arnd
+  1904	
+  1905	static int etnaviv_gpu_detect(struct etnaviv_gpu *gpu)
+  1906	{
+  1907		int ret;
+  1908	
+  1909		ret = pm_runtime_resume_and_get(gpu->dev);
+  1910		if (ret < 0)
+  1911			return dev_err_probe(gpu->dev, ret,
+  1912					     "Failed to enable GPU power domain\n");
+  1913	
+  1914		ret = etnaviv_gpu_reset_deassert(gpu);
+  1915		if (ret) {
+  1916			dev_err_probe(gpu->dev, ret,
+  1917				      "GPU reset deassert failed\n");
+  1918			goto fail;
+  1919		}
+  1920	
+  1921		etnaviv_hw_identify(gpu);
+  1922	
+  1923		if (gpu->identity.model == 0) {
+  1924			ret = -ENODEV;
+  1925			dev_err_probe(gpu->dev, ret, "Unknown GPU model\n");
+  1926		}
+  1927	
+  1928	fail:
+  1929		pm_runtime_mark_last_busy(gpu->dev);
+> 1930	pm_put:
+  1931		pm_runtime_put_autosuspend(gpu->dev);
+  1932	
+  1933		return ret;
+  1934	}
+  1935	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
