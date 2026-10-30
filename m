@@ -1,89 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793345621;
-	b=a5CmiDQn3rGs8x86adW8HtvUjkQ3ab4hElRRHQ57I/nhFOu1lGyR5Lu2q/3ofkDJ4cpg
-	 LRkNz5w1GbmbZehhtaQtfG4UYkjD7t0rCAGkp6agfw5IQ2uG0mH0VB3CK8X/z+R9VpKn9
-	 O86f3nxS51JHWziA/TmUnOJzE0YdZzrOPMq933HX2frfjpSNwbfzwjfvGA4m+UJG9NX6h
-	 dn8gLtXje1kYOTzJfPBWjEJwhb9lo+AuOrW+Gzg8UJ01OlNgpkEg4Z6UGlqE53XwKx/me
-	 HiZUK6XAVBHtr+7OLXAKKTKsRNW+EowLrd4tk6U0RCh2lpt/h+AtgNXWacj/LWSghcg==
+	t=1793345627;
+	b=2wL9VVW9nlkshAc3JtA/UAim7M1FRnnmCIq+qh4GjvXNfAYMtPWVCFJ0B/GHeo16c+xp
+	 zeuZZXiJBzz6xC2M3bCI9BC6bT0bIPt9HJag8yfQjN6BnSSZ6pdisYwJiuvHGuUf59z0o
+	 FvK7VSj4FQpOhvGF+bN11VnOFNrUmM12XApEjEJgJcZQNOY1saRv5N4+RGn/WP/dcKgX+
+	 vdxXw+4bae1boPkeGNsg9KHUGiWWBRO7ZXMaZ8AGkhOXnZZqt5y8Tlw8xWj+VRpQ6Y9/C
+	 YJflHo2sb97rbFYbcvqO7EzAgdm2o6sRDwsRyLG+KwY19aI3usUt1GyQ4twPSn8F8OQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793345621;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793345627;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=nyfgh/II6LZpCSnyU0q61QMGB96//51QOCZPTDo1wog=;
-	b=mtWVzD6UfKUNcjXwC4StW4DOMPLbdgjYTH+7tyPf1o1B+JglD5GGvtV939D2b+MldE/q
-	 7mk+dnIESrsXAmF4r9LT8JB29J5MNQ74a7MeA+71w9dYrCy2iAUqaM3zWVmzs3Iix2pGE
-	 Fvwucpqlxx6ZgQYrWqiurM8ADR31HuXqFjiyFAMVQCjAyVOEbFfi4I6gyV6s97NSd1vGI
-	 bnM1U7b1MCY59yCZQxGw2FFvPsXDMPbiOtALx72fjQytZbWVcvUNjdIH8xLR6uAc91wVX
-	 4hCGzkzL8XSl/0BGBzn1HqpPi7h8hSjV/mwz0EeC8TtXIjjx4hvl9D89goG/34euZfg==
+	bh=l+GxroivXOXnIGiRc6t4AzQb29umfEUWlMNvPoOav9M=;
+	b=F1ReZQwmC4b8tSeqDHL9S51YTncm0tzE3XAbJ9CIjiQhUyBvVfgStQQRRxynx1C0rUrw
+	 RE4EXIfWswJvLOrGcUnVjOimMUSxZT6e1PMp1ft5f5BmJ0TZCzV0xGbh+Du6EKK6+sCG2
+	 98Xy4VABhCg8slB7dOOtcHp/a209ejC9qaHgrqZrGZPZqlIPIZIEe6ezeWpLIFo1nFr7n
+	 AUVElGb0TcxGQeXWngpk/M9wWIJB/a9g1wOslzfXGBAZs11146dkiFlMeIdkbnOqUzt6T
+	 RLBklqR4r7yD+uyNmn4SxIKSlHSqhbl+gN+4AXsXq0+CAlzWimQwv5F5tO4AbjrdZnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SO9LJ2FU;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J+Zk9CHA;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5431606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 07:33:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5431606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2EC606A31F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 07:33:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F2EC606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SO9LJ2FU
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J+Zk9CHA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793345620; x=1824881620;
+  t=1793345625; x=1824881625;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wXoub5dVaFtT1vJ2r5ovOqT9wv0lnrNE+mRfFkW6cnQ=;
-  b=SO9LJ2FUhoNKn7W0xpOmYinJG6fMotaZXmoOcCFZ3qd0TuTCRwz1XSjc
-   T5ylNn9ai0Ktdhr7WvJpzPQ6KaMO9rrkLSHvGQAKsvOsDeie7UgaIVfn+
-   27zW6k2gFiWawyDyIudgbcm/nfXe0JDdgEVUjB6wAv9C4Qf82Yi2QgFIv
-   +Mr6XIsyd16yEyNTj/4CWKQzuext9xDRf3hPZFYpzZVqKakgku9HlmHbL
-   26oKupP+9mZrJC/h1wghIY5qY6NzqWwFfShPGbaNUH2Xv1ePudR2AGJgw
-   TiG0nHL7cnTj5X8NuW7bDpT5Dhc5NG5aqw31sUqc5/2YvKDahzZ+CTQNU
+  bh=OvL84YuB+sd7nusZ01AizX9eVWHoZzJ3a7z3XIO0Te0=;
+  b=J+Zk9CHAT7EXvzBT9XwkWwtA3C1rY7TiOvcjkEGYsx5mGf8EvlqMo6sN
+   nblR7YWCB5Fqb8/9+8WVAlw8UU7UvnxcVtlGlQHnz4M+xmd2/l//1tx2d
+   g4/KVH6RyVeMAFKzFruXXGZMq3mt3hhod3bAhDBDvsMWLQeLR357I3m0z
+   Jz858Pd+JtfMXUXpqJne8+a195vlN+Yg4SS0oF1iFw86aq86C1jWFjXyh
+   mxXuwkNH9tE5R7ST8DIRiv/idwknqYd2cR+O0N0I8FbITYlAfM+KUwvNg
+   7V2SrOhxKUe1ZN5GaLy94lWKMoenAaIlwEMOY8M/4Nc2ZRc18WXmmkB0c
    Q==;
-X-CSE-ConnectionGUID: tYwWX8t6SXeOpxe8zWtmaQ==
-X-CSE-MsgGUID: 1W239O2YQUaJR8kqfm28wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2134081"
+X-CSE-ConnectionGUID: YT+EHF7wSve7uM68arkYow==
+X-CSE-MsgGUID: jKkH/6m7RgykUCBxJOUGzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2130591"
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="2134081"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 00:33:39 -0700
-X-CSE-ConnectionGUID: P8rDnVFKSB6qDwcg3ZfUEQ==
-X-CSE-MsgGUID: l2FvtpqZQDisCUHR6+M+Cg==
+   d="scan'208";a="2130591"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 00:33:44 -0700
+X-CSE-ConnectionGUID: n1B27IJ1RvWE7D3KAUe0Vw==
+X-CSE-MsgGUID: 2ZzALyrXQKyc25Ph53vDLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="5334479"
+   d="scan'208";a="5706029"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2026 00:33:36 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 30 Oct 2026 00:33:37 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMh7F-00000000bRE-1ruu;
+	id 1xMh7F-00000000bRG-1zGx;
 	Fri, 30 Oct 2026 07:33:33 +0000
-Date: Fri, 30 Oct 2026 15:33:13 +0800
+Date: Fri, 30 Oct 2026 15:33:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
-	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org
+To: hang.suan.wang@altera.com, Dinh Nguyen <dinguyen@kernel.org>,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Gabriel Whigham <gabewhigham@gmail.com>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Henrik Grimler <henrik@grimler.se>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] clk: samsung: exynos5-subcmu: Defer probe until
- power domains are available
-Message-ID: <202610301504.RWCpxqfG-lkp@intel.com>
-References: <20261029125118.3191455-4-m.szyprowski@samsung.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	muhammad.nazim.amirul.nazle.asmade@altera.com,
+	tze.yee.ng@altera.com, chee.nouk.phoon@altera.com,
+	genevieve.chan@altera.com, adrian.ho.yin.ng@altera.com
+Subject: Re: [PATCH v8 3/3] firmware: socfpga-fcs: add Altera SoCFPGA FCS
+ driver with SDOS feature
+Message-ID: <202610301520.wvw7Vv6S-lkp@intel.com>
+References: <d2a662d1b783146e48642dc85c920008a02b433c.1793197438.git.hang.suan.wang@altera.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -95,35 +106,53 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029125118.3191455-4-m.szyprowski@samsung.com>
+In-Reply-To: <d2a662d1b783146e48642dc85c920008a02b433c.1793197438.git.hang.suan.wang@altera.com>
 
-Hi Marek,
+Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on krzk/for-next]
-[also build test WARNING on clk/clk-next linus/master v7.3 next-20261029]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master next-20261029]
+[cannot apply to v7.3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Szyprowski/clk-samsung-exynos-audss-Propagate-EPROBE_DEFER-from-input-clocks/20261029-135114
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20261029125118.3191455-4-m.szyprowski%40samsung.com
-patch subject: [PATCH v2 3/3] clk: samsung: exynos5-subcmu: Defer probe until power domains are available
-config: nios2-randconfig-1000-20261030 (https://download.01.org/0day-ci/archive/20261030/202610301504.RWCpxqfG-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610301504.RWCpxqfG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/hang-suan-wang-altera-com/firmware-stratix10-svc-increase-args-array/20261028-221419
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/d2a662d1b783146e48642dc85c920008a02b433c.1793197438.git.hang.suan.wang%40altera.com
+patch subject: [PATCH v8 3/3] firmware: socfpga-fcs: add Altera SoCFPGA FCS driver with SDOS feature
+config: nios2-randconfig-1001-20261030 (https://download.01.org/0day-ci/archive/20261030/202610301520.wvw7Vv6S-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610301520.wvw7Vv6S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610301504.RWCpxqfG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610301520.wvw7Vv6S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: exynos5_subcmu_probe+0x2c (section: .text) -> samsung_clk_register_div (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: exynos5_subcmu_probe+0x40 (section: .text) -> samsung_clk_register_gate (section: .init.text)
+   In file included from <command-line>:
+>> ./usr/include/misc/socfpga-fcs-crypto.h:43:9: error: unknown type name '__u64'
+      43 |         __u64 error_code;       /* ptr to __s32 (out)              */
+         |         ^~~~~
+   ./usr/include/misc/socfpga-fcs-crypto.h:44:9: error: unknown type name '__u64'
+      44 |         __u64 src;              /* ptr to input buffer (in)        */
+         |         ^~~~~
+   ./usr/include/misc/socfpga-fcs-crypto.h:45:9: error: unknown type name '__u64'
+      45 |         __u64 dst;              /* ptr to output buffer (out)      */
+         |         ^~~~~
+   ./usr/include/misc/socfpga-fcs-crypto.h:46:9: error: unknown type name '__u64'
+      46 |         __u64 dst_size;         /* ptr to __u32 capacity/len (in/out) */
+         |         ^~~~~
+>> ./usr/include/misc/socfpga-fcs-crypto.h:47:9: error: unknown type name '__u32'
+      47 |         __u32 op_mode;          /* (in)  */
+         |         ^~~~~
+   ./usr/include/misc/socfpga-fcs-crypto.h:48:9: error: unknown type name '__u32'
+      48 |         __u32 src_size;         /* (in)  */
+         |         ^~~~~
 
 --
 0-DAY CI Kernel Test Service
