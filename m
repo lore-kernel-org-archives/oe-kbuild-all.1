@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793374672;
-	b=q+0VUqQpVNTWsNuPlK8iT3tqqRXWfaP4n3cmHQDTmucwMaD1QKLS9a1zDdYd4UsEUjOq
-	 rkINeKkWXInAUtU6hVJViAlD5g3fbjLipfChFxNq96ntXgJ9lDbqjitsP33Bbucc4Djo9
-	 bnNRKWVqKw28gLL2opazRVrphoI2zVqGc4i9kLt2NJarpxH7LfqpHAzsnm1WVTMExICvl
-	 AdYoblfxPfp0P5KnSp9WEt36iF8j9G2NmFDSsRjwXMTWK5NheAWkUdno6tq1gOt2LUTh4
-	 1mkcnCKYoPGqn52BayYMVYZrVNNL9bobyqk+fOByTfGm5nR/etKXHzIv48eKsQYPMuA==
+	t=1793380162;
+	b=b6GbM2acgdNYIy4T+ZiXDCwmn1CmtXFP4ocshamHFvQrpZvlV0QYjbD7f4GFAsCYCWZX
+	 GYM5LidqPfH1KBapg3In8F72kJxkYM8g9fulR7Ut8L/tO1hfFj8x/9yWZDpwGn7gXW0mw
+	 1vrPi+8/Q41BJRLFYv0vrwl4wgEaA92rFB1UYpKLOLq5pNzDAkL1J5ZYrags+0B/dOrdO
+	 qU9xjOW6PIx6DU9QTXv+DdMQzcD42arHA1dE0XDmFOeaMkg/bvHBzCZl17yXTZJ4nkMix
+	 fn12vYeL4wSNkKBOUpGy9kybNr5PZL2j32icrv+RhdsXCS8YErbIlMnZ1SE8caQVVLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793374672;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793380162;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=ZVIlfayF5vUxT7epbX9dc09pgWCaEWLWPRoQ2PnaHw8=;
-	b=HyAhNu743o1M8wUsPoM1T/kBRtmsDI96/CndZjoPOyaWXTR1oIHWLxHQMObbw9UQv7MG
-	 ZZbDTQK5BXnV+j8sAPCIPAQpQfC+XnHVBYIS10+a4LYwBULvIZvhU0tjGviyGHBGMKrTr
-	 YR/7PKmjA0KZ68FKoYwawSedjr310RyxeDYXmwjkAd+0wUzB+J7GTG7gUUmrSh3zOhEV+
-	 nP/SQiXVVzY4CQKclLqwzJmrDfcL7GN4NIXNqRwTNomhlOfD4+3pWLXCXle7E2vvbuFDR
-	 7TXI4ic1xC+uD5lXVUmpbyWfKvokuzIu9hiJQvdMtdp7mqeJ0hP8/WZzE0EVjb78LOA==
+	bh=GZvBWeku+uNU31TcPa5jj3a8qLB7dQZh6lrbAIxT2zo=;
+	b=YYRRgyMSj+Sqe1PmNwkXI+eThDhcMoTW2fHjinebq7jF0FGlNPH4tVwC1W9LqR0EhST0
+	 N7Ap1T+piTT8VXY23rT/38+uz8IZMehKBIL6gKerkhZlPtfObcrbj3yHIjy0PlbjuF2jN
+	 zppy3pazmmXdojcd6l0Jmj4JHUHaa0a3pWTSL9sewqkfvKqaKE3hPxDm2DAZYhVFZoVvP
+	 HVg+8KDuOvj/dvHYaxvADJJ3JZdRtCG+4PiZnFznB3S68AdAP7+Yy9D/n7BU7XaZnEhjB
+	 CwBzP4a1KrN0KxiglbbXqu5BdWKg8ZKe7FoVHq9Em0YAC8uQvaAbq4lUra0etJH14Qw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bGkoaaMJ;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C5MwuzMM;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C97606A32F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 15:37:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44C97606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED44B606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 17:09:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED44B606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bGkoaaMJ
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C5MwuzMM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793374672; x=1824910672;
+  t=1793380161; x=1824916161;
   h=date:from:to:cc:subject:message-id;
-  bh=8nADVrkXlSf8Rzfp23Bj0glyjKPxgJMbJBa8KcK4Zbc=;
-  b=bGkoaaMJp3P8BIwV1FVWucGwrCS/OXyuUqSfOZBg35d9YsxuBIrBNpvT
-   /lAReRNGfHfgOSxaDBQNFRDBZCuJoCd4geq0HiDUacirHOCqQckJ2diES
-   P1mAwXaf+jNo8KU60ne8QXGZPR2B4Z8NZgebR78Pf1GXW3Gr9up3GXHld
-   yGxTyfz6eGyQjxGFlZ/UugQN+Uyc3HX9LWq0H+AbgPiYjtCVO8Kas5V+F
-   sYtQoJN8+YAGUANeOAITuONpG97W8Bn+vnni1kGruirEq5qUJu/Cjq3Rc
-   m6Sf6GMeZ7dNUt19AFu6/dXD9p5mDfMeL73hhzhAd5U3YKlNQy9Bxg9qT
-   g==;
-X-CSE-ConnectionGUID: HTpvjMh4RH2ENdrw3oOSzw==
-X-CSE-MsgGUID: T8+qa51hQM6GuLul3b0glw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2018535"
+  bh=S0+Foz5nO51HpBYRnHQqRxwrxrxiTkbdYqxPQyq9lvg=;
+  b=C5MwuzMMuT7y5dzS2ZPjy9hOTvNMLO4vv5laQJPRagZoptjRaQiSuHIG
+   fILC9vd3hj2O1uQkWx3Ae/9EWf5+1Uqi1cVPHCa5ZncNJFiYkbBrg8u3t
+   a4Ykw4wQZ+EpXpeOIacSrrH1CbG2WJrk9rM62gyVIWMAO56GV8I+/HLbW
+   tFkrIqBx0C0PxOIVOs1iBvQue4iscFbYrYOMZIcyTAR7n43A83LGRGccj
+   3/phBhajT0CbldMas5wtDiMjlTqI8+yd3qPLGLkbQxpRML+2+e07JEO9M
+   LqsYwEqf2W4Xzoeq7jXo+7oh/4Ty8VsnT5KKE8PpRdZY/Y+QQ7KSqCMxu
+   Q==;
+X-CSE-ConnectionGUID: fJ7Y4aBAQBqNM4lPMGmKxA==
+X-CSE-MsgGUID: SNP7dY09SDq119e6MBX/qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2063073"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2018535"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 08:37:51 -0700
-X-CSE-ConnectionGUID: vu+uvwjuRMq7oHTmZNpcXw==
-X-CSE-MsgGUID: 5JmSM+7VQ8uyWLI9H50nJA==
+   d="scan'208";a="2063073"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 10:09:20 -0700
+X-CSE-ConnectionGUID: aoG8auCtTCyrP5oIRBcqhQ==
+X-CSE-MsgGUID: Rte3WldiRKGh2A/pLERmig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5789039"
+   d="scan'208";a="5569751"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Oct 2026 08:37:49 -0700
+  by orviesa009.jf.intel.com with ESMTP; 30 Oct 2026 10:09:19 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMofq-000000005cP-2dy4;
-	Fri, 30 Oct 2026 15:37:46 +0000
-Date: Fri, 30 Oct 2026 16:36:57 +0100
+	id 1xMq6N-000000005eN-3ABT;
+	Fri, 30 Oct 2026 17:09:15 +0000
+Date: Fri, 30 Oct 2026 18:08:26 +0100
 From: kernel test robot <lkp@intel.com>
-To: Florian Westphal <fw@strlen.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Pablo Neira Ayuso <pablo@netfilter.org>
-Subject: net/netfilter/ipset/ip_set_hash_ipportnet.c:141:25: sparse:
- sparse: cast to non-scalar
-Message-ID: <202610301616.CMLXGsZd-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 3/3] ERROR: modpost: module
+ ecryptfs uses symbol lock_rename from namespace
+ VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not
+ import it.
+Message-ID: <202610301805.uWwWi7Go-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,111 +82,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d89e1d186ec9271bf78e62771779e9fc03bf0fc3
-commit: e80456d79ec83b00a6bd44c377684b1632ccc3c7 netfilter: ipset: remove need to allocate memory on delete operations
-date:   2 months ago
-config: alpha-randconfig-r2311-20261030 (https://download.01.org/0day-ci/archive/20261030/202610301616.CMLXGsZd-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610301616.CMLXGsZd-lkp@intel.com/reproduce)
+Hi Todd,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   e99406ef2429696d82cc58f2d5c24721c5a2e133
+commit: e2c81a7fa3cb3fe3ff19af6fcf11cf014a578f24 [3/3] ANDROID: Fix incorrect namespacing for ANDROID_GKI_VFS_EXPORT_ONLY
+config: arm64-randconfig-r2311-20261030 (https://download.01.org/0day-ci/archive/20261030/202610301805.uWwWi7Go-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610301805.uWwWi7Go-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e80456d79ec8 ("netfilter: ipset: remove need to allocate memory on delete operations")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610301616.CMLXGsZd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610301805.uWwWi7Go-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/netfilter/ipset/ip_set_hash_ipportnet.c: note: in included file:
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
->> net/netfilter/ipset/ip_set_hash_ipportnet.c:141:25: sparse: sparse: cast to non-scalar
->> net/netfilter/ipset/ip_set_hash_ipportnet.c:141:25: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_ipportnet.c: note: in included file:
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_ipportnet.c:401:25: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_ipportnet.c:401:25: sparse: sparse: cast from non-scalar
---
-   net/netfilter/ipset/ip_set_hash_netnet.c: note: in included file:
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast from non-scalar
->> net/netfilter/ipset/ip_set_hash_netnet.c:153:21: sparse: sparse: cast to non-scalar
->> net/netfilter/ipset/ip_set_hash_netnet.c:153:21: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_netnet.c:154:21: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_netnet.c:154:21: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_netnet.c: note: in included file:
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:368:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:440:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:460:22: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1333:40: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_gen.h:1341:48: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_netnet.c:394:21: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_netnet.c:394:21: sparse: sparse: cast from non-scalar
-   net/netfilter/ipset/ip_set_hash_netnet.c:395:21: sparse: sparse: cast to non-scalar
-   net/netfilter/ipset/ip_set_hash_netnet.c:395:21: sparse: sparse: cast from non-scalar
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +141 net/netfilter/ipset/ip_set_hash_ipportnet.c
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/md/dm-bow.o
+ERROR: modpost: module ext4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ext4 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module ecryptfs uses symbol lock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module ecryptfs uses symbol unlock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module ecryptfs uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol fsstack_copy_inode_size from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module autofs4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module autofs4 uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module autofs4 uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module btrfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ubi uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
 
-3d14b171f004f75 Jozsef Kadlecsik 2011-06-16  132  
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  133  static int
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  134  hash_ipportnet4_kadt(struct ip_set *set, const struct sk_buff *skb,
-b66554cf03fe866 Jozsef Kadlecsik 2011-06-16  135  		     const struct xt_action_param *par,
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  136  		     enum ipset_adt adt, struct ip_set_adt_opt *opt)
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  137  {
-21956ab290f7f3f Jozsef Kadlecsik 2015-06-26  138  	const struct hash_ipportnet4 *h = set->data;
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  139  	ipset_adtfn adtfn = set->variant->adt[adt];
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  140  	struct hash_ipportnet4_elem e = {
-8e5fd2a55e2468f Jozsef Kadlecsik 2026-07-30 @141  		.cidr = INIT_CIDR(h->rnets[0], HOST_MASK),
-9b03a5ef49c0151 Jozsef Kadlecsik 2011-06-16  142  	};
-ca134ce86451f3f Jozsef Kadlecsik 2013-09-07  143  	struct ip_set_ext ext = IP_SET_INIT_KEXT(skb, opt, set);
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  144  
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  145  	if (adt == IPSET_TEST)
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  146  		e.cidr = HOST_MASK - 1;
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  147  
-ac8cc925d35fc5a Jozsef Kadlecsik 2011-06-16  148  	if (!ip_set_get_ip4_port(skb, opt->flags & IPSET_DIM_TWO_SRC,
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  149  				 &e.port, &e.proto))
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  150  		return -EINVAL;
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  151  
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  152  	ip4addrptr(skb, opt->flags & IPSET_DIM_ONE_SRC, &e.ip);
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  153  	ip4addrptr(skb, opt->flags & IPSET_DIM_THREE_SRC, &e.ip2);
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  154  	e.ip2 &= ip_set_netmask(e.cidr + 1);
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  155  
-5d50e1d88336a93 Jozsef Kadlecsik 2013-04-08  156  	return adtfn(set, &e, &ext, &opt->ext, opt->cmdflags);
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  157  }
-41d22f7b2e48c77 Jozsef Kadlecsik 2011-02-01  158  
-
-:::::: The code at line 141 was first introduced by commit
-:::::: 8e5fd2a55e2468f6225ef5af01ae58cdbcbae8cf netfilter: ipset: rework cidr bookkeeping
-
-:::::: TO: Jozsef Kadlecsik <kadlec@netfilter.org>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 --
 0-DAY CI Kernel Test Service
