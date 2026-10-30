@@ -1,111 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793384638;
-	b=kuXt64pTU+adYWucA91ljr1hhmmlxuxb+Cy9oSw8QoqwdqAEnZ6VeDTp+W8VrTZU47rn
-	 ywmMI7p6+yswMh1zXakQ/7nyFrVXi/7z6sxR3xZijKr5lbOY/d7YmuRkYFFA6xg3+E1ys
-	 MbPmPQV/7PIFIn7Kf4u0wKkY81IjYFCGPA8U5pFuqH7coaTh/gQfE1l2duTp/QT8WHhYg
-	 XI5K0RsKBe7BsysimhkqA71iBORccClwQzbNlwvdqyFIE5CR2Iqzo+p6aFKnEdSAyupSA
-	 4OLQJwSEZPrOYehoWzRricNhk1/hHHV/4pVixtUqBchxC0rcNHYiS6u2oQmBQItR//w==
+	t=1793385709;
+	b=O+edPOZd6YWYi1fJjmrHx0MGbchG+rByTa9Wi/GDqpQTCJUenQh13iF9BzTptpocl0VC
+	 E77aT536Jhg+zznYCYT9YwpIN2qwdQFc1mc8KNv4lDGdpL8dpWuMpB3m9bh200MvL/28E
+	 4Jz5AbqxiiQASjAGfGJRz0DeeWwj0c5xjCAfBHI7xCQKbH3l2SDJt4Zf0q9gnya7IaXqb
+	 /x3eniOJZ4VeHXeIJPU1jCFRyiMmEB0aMBxfmc+zXKDo15bkjvhr1NfUS80u5AQD4+ThD
+	 nMwKM1mUEjxgWtVmrIjHjL52Ldnau6+8hB0KMVeaws/33Dy70gKqji1wFd8sQrq28UQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793384638;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=st/TkA6CBLvuYEqwa+4bf7yeukWH3Bzp53kbH1Y4OCQ=;
-	b=CsIivfqW9rJiyTkPKGz/pBD/qjUNru1JUBHnPBBCKlma9BUPed5vcpYd+CofoUlwrYoD
-	 mEmjZFYW/saYTfT63H8bh9nGBLBaMgBrSRdnOVQzVvcNS5ZMmeIETi4boanvB+kMTMiN6
-	 sM0rJlmLnTsaPlyZyknfNKL/0i6skmfSaM3naZ/HlHEGcXWGB7zNVW1ciKRob7j5WsTmg
-	 DBgYjRXIlCZGKFT4JJT0VQEC4IxnvBeTk6kB3t+jpLiI2lMFoZ3czV+fN7ZNGgyExz3J+
-	 gOCibk/fI//JyurVslCOPbtQeiYUOEU/wdDZcnvHNI9gSQGGcNb9Bgw2uIBOylK+6Iw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793385709;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=BM2z5rQD/0zOwuMVHeFkDnyqQdb8koUoCxqoZKzxWZg=;
+	b=zQt5wPvf/jxcol+JaxRha6ZGS3pfuT99bpi0Q33ogoHTu6SoaGI3/2xpQYf0AQJqBa5b
+	 LW+myD3bGsHKfFW8Jh0E+6wLSUm/N5hl/vkOeKMzOXaLJtiCRyxXlsG22IeP3jLDeIzd0
+	 fux/tG95qF5v4m7LmQ57aiBgMrX9msNW3wr6WfVAPefmHZOJgDHacZWxRYhcER7v5ah3o
+	 vBT9u/c1DsOYY75b3Axo7xGgix4Ud8PSuNp7YkxPiON+8oHADbBYUoOLps5+geymEDocn
+	 o5EVvfOQzXdnt2Q+87vjlqqv1DEvuOxlY5Pe3i/GJpA+weKTMwev7/sejkEWcVzbOnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arndb.de;
-	spf=pass smtp.mailfrom=arndb.de;
-	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=jm0TEPUQ;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=YcZlobTd;
-	arc=none smtp.remote-ip=103.168.172.157
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LjoHNtpn;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D6D606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 18:23:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8D6D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBBE606A31D;
+	Fri, 30 Oct 2026 18:41:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FBBE606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=jm0TEPUQ;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=YcZlobTd
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 9924614001BB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 14:23:56 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Fri, 30 Oct 2026 14:23:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1793384634;
-	 x=1793471034; bh=st/TkA6CBLvuYEqwa+4bf7yeukWH3Bzp53kbH1Y4OCQ=; b=
-	jm0TEPUQIa3Is3BgMXlrBATE52PsQRU58rWlFIzdzO63kLG3qDoJ+OtDHCltsabb
-	pJt/+qXt28Vk+hUNWYtUcfZ5tR6npQwJAKWcYIOk+CcD1H5k2URXrJ7kehR/QsEX
-	etnNm71UY5KRhYOki5V1Yk2H5JgDsImUqkcO6WxPCYmrkjGTsUeyYhSyysG1ktom
-	R+EKgmncReTBsDX8XJCURkEECNNbPxtzYh8tjNvh0pGqCLAv33EDeXq03A+JtoEr
-	poGGPySKBvBGHo5YRb3qhrD4vgXDHIsKenBWWoifZI0jQOFrcjmEBTTocoBEQoFd
-	iYo1d4CBCvXB94WQ/fKMrw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793384634; x=
-	1793471034; bh=st/TkA6CBLvuYEqwa+4bf7yeukWH3Bzp53kbH1Y4OCQ=; b=Y
-	cZlobTdKjuNElX0tkSAggn098DsNOfBfR+8bi5YyVYFg6wBxkrTAs2725dqx0dhJ
-	CdI4P12n1xXNGQqzpAwJozzp51zq3/S5cAqZk2IJHKCbpJnJ17K/3l8l0uan4Mdf
-	j6fOuDJmV7sCbcSAiZObjIavAi5YABidWMzAyoii+YXl7Pttb2jvybccUYG0I2xz
-	VDYgDXQLTQw8/IET1moAJsXAh4F8H91AxdLIwmkJJAfZS4CYqnUArF6DLXVbBZtp
-	9WwKjQPs/1rdqSq/KnAhbBV+yPs7Yg6zymU/pJiIBy8nR52Y0kW0WVPjkK8EvOj2
-	q5rRqa7M1eFsNmf6KpK3g==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793384634; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:MT+9/gAqHEfQAO9dsg6hwWrCJ8Ds4/VJLkkoo+O1JXf33Iz
-	KVXZNbIbE8FxDNQNnVyEpbRI1c/jAzOJnaG+T5jX8GRoSQy8U5zJAudjH9i1T3bx
-	4ZUbFBrN7/CY5U8XPLaIxt4jvTa+aQ7IkIz+e1+rF+8id9KYHseJBIx2cfmwFx5J
-	ogB+UfR4PIOBzlFCds/vUboARWVY6THk3z2a5einFuPujgYWRwqYNfb/zLibqmn0
-	LTToJLXZ2XKg7kUtlH85cmgyhLx8D3+nNnBSesvXV+iejqj38aDV5vP1Iwr0Qyd8
-	Dd8F3LvYleiriAQT5nyvYseROcVRoZ52Xj7k8jQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:wSTNAuUov5ELYxK0Ezwh6wKOfN1DQCJ+buHooUAknuc=:CJjo0U4Q4WipuJBG6WDA4qv8EpzWNDrOCQwbutjeOgQ=;
-X-ME-Sender: <xms:tuDkalg5ZRqDYu6TWRpgvkK9dTxe188VEl0lyRyOzuugVATS07YKVw>
-    <xme:tuDkak1OTTe-thO_El-oboLsYAufoeCICCOA4tRRc8jJ4DqMdINbNKjF0bSxqrIS6
-    nUibdeNxGRYMWK96raI8lyL9Iu2Pem4R_x8pVIlz0vNheSdby_x1qNz9Q>
-X-ME-Proxy-Cause: dmFkZTFHz7yaXqSibdqx0TXzdAIv9WG31ARUUtQAsNvw3trTKkJqvMEcJ72/EEKZAETlDx
-    B8XezTsJEEgkSNUEH6sTEwEUQY29QcGCn6EqKcwtbz7Hccm9w/NKrSnV6hk2ZAhFVqnYPQ
-    8SWdIEFk1RqHQ9W1BzlC2nlkkQHrvZk0S8w/lGu5hyRZwAiQxkGfkWY330qwlJT0lTsdG3
-    FJqJvp7ipBAyeadxFYwqHPjZjWRAB9Xc06qu7irEKi0Q3Q6LNvSo09cTbl8lEgTLNy4ThB
-    mm/UyDCay8VFVAD5XvcCGfV698AjsSv8MRF8+0tU8JR14nMcum6I2G6Bn10615A7V2nua8
-    WZ/YCnl2ayBV2cYjs0wdXacltDpXtAcmdmd/UA97Ht+nVV4z7Jhp3Q9DzHEbMxOkorcDyG
-    1qY59pVi9/HruJvrqaFrcdtBWkcZS1r0GePa+W1uk2G4A1kiO4nmcEXz1bjw2tvQiHPiit
-    MWKgMpx0jpelg01eC8+JgsSAmS2+9aHMamWmCpbvVxyJNOcBGlZAJ9JNJob1DsOt4egY61
-    1KnPCelHqk7eIxNRz19yqqh0kTY7t1P/l3eKyAnWEQhFOKbJhImP4vQW5b7f7VCchH7I6R
-    JgUWN/xJud6iPJRxqvef92bseDiQ/MbVW7Rvg+Ckc8vXPzat6x7U+G3W2lPA
-X-ME-Proxy: <xmx:uODkagT3CaKHEJxKHGQjco2NhaWl30vt-vC337p6DzsZIKJ6lCu5OA>
-    <xmx:uODkagWlj1Q6rC2PWZCKeysISPjZmXwvR-ymcbYMhORmofh_fYC-IQ>
-    <xmx:uODkaheWJQ31OQoK5BQ_WqsEr2yU3-2o2WAkBPkYSmRCyGrxW-gsHg>
-    <xmx:uODkakJHmrpijvuzft31wRhLIVws9KWJYsSpF_3x7vNCauvlcSmK0A>
-    <xmx:uuDkapaq4uwX8LmqERqamOWFCuD6L9Ogr5tQyB6y2jycqot7bnShvde9>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 60F7E32A0093; Fri, 30 Oct 2026 14:23:50 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LjoHNtpn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793385709; x=1824921709;
+  h=date:from:to:cc:subject:message-id;
+  bh=mBgv421BW9yunCOY+KUuaACZB4V95/9H4QBCYfA6YKA=;
+  b=LjoHNtpn6N3jo8EH2iP73iCvCfgM852u72Qnms5onzR5JQ9cnrvIE6Oj
+   RYrU/O2gO9Sj8XdgjRj6vUjHb8Q8fpf3NXnSBaPIXUqOnHdJB6oN1xRFQ
+   /lwcuQgpBeSqe/wH7DVi6d5mrwWQzP+ZZrLFmmcSm2rfd/pq2lLOeftRV
+   SqdPjY5QZqfO218AbJPUXLNBm8XdWdPH1lam2Lt95hWm/iAnA4xlDw5Vl
+   rTLgV9dv8ywMHhNhDFN8SHFXeUwDssqQBtRdimh6mdALI7l82rM3VvUkf
+   UpqhtTbE0pjY+R9lBYSB9JfElV9eGSuEX5u8dL0ITz0eXxsL2YYmJ7Wus
+   w==;
+X-CSE-ConnectionGUID: EEHj99QiSVC3xAYy5eIP6g==
+X-CSE-MsgGUID: PYS9Y1I9THOcS74j6Q84Lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2185605"
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="2185605"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 11:41:47 -0700
+X-CSE-ConnectionGUID: cnpdeB1oQb2vybZE45ZUug==
+X-CSE-MsgGUID: l6OtPwUnRayCvICXIgjEUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="5911282"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Oct 2026 11:41:46 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xMrXq-00000000c72-3CEq;
+	Fri, 30 Oct 2026 18:41:42 +0000
+Date: Sat, 31 Oct 2026 02:41:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: sofus <sofus.c@icloud.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/240-isp 88/94]
+ drivers/media/platform/apple/avd/avd-drv.c:155:5: error: call to undeclared
+ function 'FIELD_PREP'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202610310246.uoJRTKaf-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -114,61 +82,86 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-ThreadId: AA4M8BakChSJ
-Date: Fri, 30 Oct 2026 19:23:30 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Huth" <thuth@redhat.com>, "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
- shuah <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
- "Jason A . Donenfeld" <Jason@zx2c4.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Message-Id: <5f898f0f-915c-4aef-a3f9-0118f4539951@app.fastmail.com>
-In-Reply-To: <cdf09fa3-e251-4d8d-9f0a-316998df036b@redhat.com>
-References: <202610291918.kHO0GTDB-lkp@intel.com>
- <9e294bfd-4704-42a5-a704-f301f4afe042@app.fastmail.com>
- <cdf09fa3-e251-4d8d-9f0a-316998df036b@redhat.com>
-Subject: Re: [arnd-asm-generic:asm-generic 15/15]
- /usr/aarch64-linux-gnu/include/linux/types.h:12: Error: unknown mnemonic
- `typedef' -- `typedef __signed__ __int128 __s128
- __attribute__((aligned(16)))'
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 30, 2026, at 18:46, Thomas Huth wrote:
-> On 29/10/2026 23.13, Arnd Bergmann wrote:
->> On Thu, Oct 29, 2026, at 19:09, kernel test robot wrote:
+Hi sofus,
 
->> and looking at the preprocessed file, I see a wild mix of tools/include,
->> ${srctree}/arch/arm64/include/ and /usr/include. I also see that at least
->> part of the problem is that arch/arm64/kernel/vdso/vgetrandom-chacha.S
->> includes arch/arm64/include/asm/assembler.h, which then goes on to include
->> the world.
-> After getting access to an aarch64 host, I was finally able to reproduce the 
-> problem. I think it's likely best if we force the selftest to use the 
-> headers from the current kernel sources instead of using the headers from
-> /usr/include ... i.e. this patch fixes the issue for me:
->
->   https://lore.kernel.org/lkml/20261030174323.370687-1-thuth@redhat.com/
->
-> WDYT?
+FYI, the error/warning still remains.
 
-The idea sounds right, but it doesn't appear to do anything for me,
-I still get the same output:
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   2e6ef8294919b4bd7b23756d836b447b0b4ffb5f
+commit: 0765a0974a15233ed105e144fec796291dacb32d [88/94] media: apple: avd: add a dedicated "submit" step
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20261031/202610310246.uoJRTKaf-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310246.uoJRTKaf-lkp@intel.com/reproduce)
 
-arnd@studio:~/arm-soc/asm-generic$ make O=../build/tmp/ ARCH=arm64 -C tools/testing/selftests/vDSO/ V=1
-make: Entering directory '/home/arnd/arm-soc/asm-generic/tools/testing/selftests/vDSO'
-gcc -std=gnu99 -O2 -Wall -Wstrict-prototypes -D_GNU_SOURCE= -I/home/arnd/arm-soc/asm-generic/tools/testing/selftests/../../../tools/testing/selftests -isystem /home/arnd/arm-soc/asm-generic/tools/testing/selftests/../../../usr/include -idirafter /home/arnd/arm-soc/asm-generic/tools/testing/selftests/../../../tools/include -idirafter /home/arnd/arm-soc/asm-generic/tools/testing/selftests/../../../tools/include/generated -idirafter /home/arnd/arm-soc/asm-generic/tools/testing/selftests/../../../arch/arm64/include -idirafter /home/arnd/arm-soc/asm-generic/tools/testing/selftests/../../../include -Wa,--noexecstack    vdso_test_chacha.c vgetrandom-chacha.S  -o /home/arnd/arm-soc/asm-generic/tools/testing/selftests/vDSO/vdso_test_chacha
-/tmp/ccKJRkeX.s: Assembler messages:
-/usr/include/asm-generic/int-ll64.h:20: Error: unknown mnemonic `typedef' -- `typedef __signed__ char __s8'
-/usr/include/asm-generic/int-ll64.h:21: Error: unknown mnemonic `typedef' -- `typedef unsigned char __u8'
-/usr/include/asm-generic/int-ll64.h:23: Error: unknown mnemonic `typedef' -- `typedef __signed__ short __s16'
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610310246.uoJRTKaf-lkp@intel.com/
 
-It looks like tools/testing/selftests/ is built in the source directory,
-while the 'make headers_install' installed the headers to the object
-directory in '../build/tmp/usr/include/'.
+All errors (new ones prefixed by >>):
 
-I have never been able to figure out how kselftest actually wants
-to handle this.
+>> drivers/media/platform/apple/avd/avd-drv.c:155:5: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     155 |                                 AVD_OP_EXEC_REV3_VP9_MASK :
+         |                                 ^
+   drivers/media/platform/apple/avd/avd-inst.h:16:35: note: expanded from macro 'AVD_OP_EXEC_REV3_VP9_MASK'
+      16 | #define AVD_OP_EXEC_REV3_VP9_MASK       FIELD_PREP(GENMASK(23, 12), 0xfff)
+         |                                         ^
+   1 error generated.
 
-      Arnd
+
+vim +/FIELD_PREP +155 drivers/media/platform/apple/avd/avd-drv.c
+
+   145	
+   146	int avd_submit_job(struct avd_ctx *ctx)
+   147	{
+   148		struct avd_dev *avd = ctx->dev;
+   149		struct avd_job *sub = &ctx->job;
+   150		struct avd_segment *seg;
+   151		int i, idx = 0, vp = 0;
+   152		void __iomem *reg;
+   153		u32 exec_mask = sub->codec == AVD_CODEC_VP9 &&
+   154						avd->variant->revision == 3 ?
+ > 155					AVD_OP_EXEC_REV3_VP9_MASK :
+   156					0;
+   157		u32 exec_rev_flag =
+   158			AVD_OP_EXEC_FLAG_START_REV4(avd->variant->revision == 4) |
+   159			AVD_OP_EXEC_FLAG_START_REV3(avd->variant->revision == 3);
+   160	
+   161		ctx->fifo_idx = 0;
+   162		for (i = 0; i < sub->codec; i++)
+   163			vp += avd->variant->vp_slots[i];
+   164	
+   165		schedule_delayed_work(&ctx->watchdog_work, msecs_to_jiffies(2000));
+   166		avd->variant->configure_stream(avd, ctx->inst.addr, ctx->fifo_idx, vp);
+   167		reg = avd->ctrl + avd->variant->vp_slot_offset + vp * 4;
+   168	
+   169		/* the first segment is always the header (needs special handling) */
+   170	
+   171		writel(AVD_OP_EXEC | exec_mask | exec_rev_flag |
+   172			       AVD_OP_EXEC_FIFO_IDX(ctx->fifo_idx),
+   173		       reg);
+   174		seg = &sub->segments[idx++];
+   175		for (i = 0; i < seg->num; i++)
+   176			writel(seg->instructions[i], reg);
+   177		for (; idx <= sub->num; idx++) {
+   178			seg = &sub->segments[idx];
+   179			for (i = 0; i < seg->num; i++)
+   180				writel(seg->instructions[i], reg);
+   181			if (avd_wait_submission_queue(ctx, vp))
+   182				break;
+   183			writel(AVD_OP_EXEC | exec_mask |
+   184				       AVD_OP_EXEC_FLAG_END(idx == sub->num),
+   185			       reg);
+   186		}
+   187	
+   188		kfree(sub->segments);
+   189		sub->segments = NULL;
+   190		return 0;
+   191	}
+   192	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
