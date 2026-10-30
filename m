@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793393493;
-	b=PLRL32MiIhtvTCpDEDByG4PKjOtDIMDCuOJ19opTyASm50ODd/zQHCMV8cymowCEnl1B
-	 p1J2Vayg282Y4IZp/HFxVTx4AZJWR8SCP4PwR7rC1eXUnhBMKiqBoIItFURsGD2HuHGPo
-	 cehJjPZsCKHZvysA9ZU6oo48aZefj54SZdMhUzisHSqjz/pLOPju75uOXVWyVjhP5PSN7
-	 /cTw236IiAFHtqMFeQPeBZWMO3CpMXXXYQkvF9oN0tu7qd1pqvSIvOQnabq+vW4fzuS6h
-	 BmAU0EfKE5AOZ1yXetQOFV0pbJjEw3RxbiQPmFJ/zKy6YJagm78YZmx5DNshMUxxREw==
+	t=1793394159;
+	b=VNLTODLXXcB7Cu7f+V/0kCsnYVJ+9t8WoXEmdwVJTHu8jd/wSi1zTk72V6EDefZhxZRV
+	 VvLxJRSWrSWCVVNqbanfC1eDiVnTup2iCdHRDZtBQj7R2UfT7JKrJHOGyc9i6r3KlGGgk
+	 vAXfekMy+jaVAzlmmD+uqFa5HxqYhH9jmfqJBa2nJ6i8bQ61Ii7RsWIfoGFWb6bpjouJn
+	 meBTJwQNZ8YXAi7lmAgvlCC4dataoJO+0DSbW9MPdj8UzxkGkCwHXrbn7pf5e2VTK9Qk0
+	 tGcAdLPnVcTzvAdXJ3qIo9ydcJtRtwpcI6mr3USeQRcn1MS7BUTTMBfu5OmfM4IxZdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793393493;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793394159;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=8MmheY1J0fnFvfCkklte/0VJF1pjsR4jXH0DgNE0uqs=;
-	b=I4IWEPZh7naTTW50iULJlmhpIdYOS1Bc93iWhubKlfE0ImDW8oa1YX+lfWgyPa7+zsNx
-	 O3YesfYnKBdbdMVmOmpHWkUkhgMpN2DwcbesZiEypjdNpOSRGAbsgfO6nCJNdXiEbPlKi
-	 OE3BCsbbS/k4ipy5MSRdWUlgoAcXSqzlDBHEk2tIcwstMkfM9VZfA5dZmsZn2EWH2vyo8
-	 g2oZcHpqduMnb3as2UGHvLdnmRe6tAOZRLbydkVt0Pny940FemSbdbk3aBKHT3rfsWVvv
-	 wuKpTASg7D+YGhi3LeiJxYw3zZ2rQu6McfdCNZOeeycM8+N9O1PYG7VBGyLQcMTn3Vw==
+	bh=pPencj9T1jUvcD3mLFcVY2NzvJ01P445Mh1teZmUlcQ=;
+	b=naPbznH6qHQx+ky6eHpK+UBWIgjKgjuPJNXkXkERQqcnIcSX/L0xbvk9tq/f2Z+8vHGl
+	 TDDO/puNaCanOf0DoJ/RetTAYIG19IkTfrcEo7A5lua6ZFoTpmsYqkbl57hWiT/6iLs81
+	 nm/hqHvZ8bVrN6uY3qK1SKcUnZXejU0YgDUbmJs5cFKf7JqW4YIgGH9FUzowq+bnfatMK
+	 zbtmwR12QR2KCobucflKLqyAQkQKiW0vZSVOPl7HXuXyarQjWq+WnNkzDoLOHcxVzOdIE
+	 3nkCuBVHgDnGx3i+uRjo2XW/BX8Ao02uE8upzqt+V7WK5118HxvmXXJwDWzBf9sN0vw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AgMOoXN3;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="XILQFy/Q";
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9447606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 20:51:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9447606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931D5606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 21:02:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 931D5606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AgMOoXN3
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XILQFy/Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793393491; x=1824929491;
+  t=1793394158; x=1824930158;
   h=date:from:to:cc:subject:message-id;
-  bh=TeXaw3ek4xQghaW/Br3D2GmWQiG9KHm5SXCWKbElxtg=;
-  b=AgMOoXN3FC1c+QbXnWESc61C8nxWJs+IyBbzGYM/G0TqBlLXGSsI9/Aw
-   tgQ944SyPX3rZw6Q9OxF5xlfcR3bAzNQUIJwxPjiEE1YRIDfgCoodYJD1
-   Zr1ol/W61TQ1eImnolbXRgwTH0HObwE5uJNZhseJWj+O0lDMkA+zCQe36
-   xLCzEyzlu1YxYSINTB/U+ESPwc7fJFyFiOWJLtLNVaMK1QByCOAE5338i
-   rx6IpEQsr1Yw2aSxyOSZHl0mHEqcszGgkCq28wbf3iyCCl8rqHbxNSvsZ
-   mil/gQ6f/NsbqUOOqFe86bJmSd3qVjl1+n6+o+v8vBP3I0CZu2CcN6MdF
+  bh=qGtuYytAk3rru4CA6rE3dACS6JD7QZTrhi4HAR8b8+A=;
+  b=XILQFy/QWC//7Q9fBmrYpnI8sixzsbyHW9DPCIe5+NFHin6eyMpTl4FD
+   UoVRP0sjRPtAa/lhzKOi+fAdSOat1RKoPn/k1RQ3BxfejBelFgHY5dlWs
+   mIFxIk0T4qfqn2qm8vNsgUI+lfAnt0DUXbuxQ6aAF4VGsp5gnsPTdBV+0
+   9N0Ed5JtTaFpEjsPwdHu3xiwaWvK0EmXqARYK23Wq2H1H5XYpXVORtt0o
+   NRm4BbCctqGYS8tHFQGrTtgI4w47VFKLxw8/jmxKpv06GTF4QL8BgwZsB
+   7QRCHhOAy83EQ8apuBNkuKwN9M2nQm49CDeIEexh9rQ0TQRZVEY16OMO/
    Q==;
-X-CSE-ConnectionGUID: QQZ/scN6RGqHl+G8G5xeww==
-X-CSE-MsgGUID: Fe8YtcuJSiqkYdMZqA6SLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2191205"
+X-CSE-ConnectionGUID: GSgz79bMSxSS/6ejx4oP3Q==
+X-CSE-MsgGUID: ceChQPM4QdKYx5f0h8dHsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2269753"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2191205"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 13:51:30 -0700
-X-CSE-ConnectionGUID: fNcWbgGLR4GVLsGIdDOScQ==
-X-CSE-MsgGUID: QnqyfUU6TNCK1VBmkanruQ==
+   d="scan'208";a="2269753"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 14:02:37 -0700
+X-CSE-ConnectionGUID: ashngINcQ2mMK7h8O6Ea0Q==
+X-CSE-MsgGUID: qX6cC5nZSPuCqsoeZA0hgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5675395"
+   d="scan'208";a="5548151"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2026 13:51:29 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 30 Oct 2026 14:02:36 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMtZO-000000005h1-46Ak;
-	Fri, 30 Oct 2026 20:51:26 +0000
-Date: Fri, 30 Oct 2026 21:51:09 +0100
+	id 1xMtk8-000000005hv-2cEx;
+	Fri, 30 Oct 2026 21:02:32 +0000
+Date: Fri, 30 Oct 2026 22:01:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@svenpeter.dev>
+To: Janne Grunau <j@jannau.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/200-dcp 38/215] checkpatch:
+Subject: [asahilinux:bits/200-dcp 105/215] checkpatch:
  WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-Message-ID: <202610302147.qjeOzXxi-lkp@intel.com>
+Message-ID: <202610302159.Big0jL6f-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,15 +82,15 @@ Precedence: list
 
 tree:   https://github.com/AsahiLinux/linux bits/200-dcp
 head:   67065b51dbefd899d6f23f460bf8f7153c0015c0
-commit: b289486b2187a4fb0d676dc96e66a08f7ea17253 [38/215] drm: apple: DCP AFK/EPIC support
-reproduce: (https://download.01.org/0day-ci/archive/20261030/202610302147.qjeOzXxi-lkp@intel.com/reproduce)
+commit: 81aee0a3ef02dd7f1dcea496cbf15f60f8f97c87 [105/215] drm: apple: Override drm_vblank's page flip event handling [HACK]
+reproduce: (https://download.01.org/0day-ci/archive/20261030/202610302159.Big0jL6f-lkp@intel.com/reproduce)
 
 # many are suggestions rather than must-fix
 
 WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
-#599: FILE: drivers/gpu/drm/apple/afk.c:554:
-+	 * which will contain the real data.
-+	*/
+#69: FILE: drivers/gpu/drm/apple/dcp.c:66:
++	/*
++		* e->event is a user space structure, with hardcoded unsigned
 
 --
 0-DAY CI Kernel Test Service
