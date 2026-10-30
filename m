@@ -1,79 +1,82 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793397667;
-	b=vx2D/tWTN+7ph/aQ6EdANqCbMUr6cumqrF6PfnGQHMw7TpgBSt8V9XAxsgjqP9fLmFUC
-	 irWic5bxTDQp6p6eGBpulLS+ji6ZWLZZdLS4TGzV5bYM+D0DmvzOAvMFR/JQ9t7ZWbSpS
-	 zYn9Sm2WCPhFJCT9S4KBemLwVuBENWawaP8+9kep4lQdZZJPVErisEYAa6muCrIWyz3Ob
-	 4nyaY5Y9wZV0C8I7/AOjxXItJgBdyoo0hBHQ30pPRwT+EWBfzmuDwXs1lyhYtkTNWBHAE
-	 H0V7GTxD1MquiqFNVdHWA4ZmViQteDmwowfV3RX7oi1GFFgGPDqqyh0LXxa3soCCIsQ==
+	t=1793397669;
+	b=mieZQXxbpywB+gYe+pPfKrYUoc+OkdVyI1n2LBSqaa7nX9PEnK1xEdpud+ok8ZAFYsV3
+	 0V1gfM+2vHexj1ov3NNkjb2RhapGB8G5voNiFNuoS3/JmCibg3VmXryX93Dioz/kWYnrv
+	 h8fooTWLn1MgVSDxCQzrIfYkJd8Hvl4zo11/6d4C5LGF6STzum9r5s2CizFx5pDPnwLDS
+	 684o5h+vP+wVjX2rYMWUo+WCvIxEjIJHQnzLf56r9AhVQ49BsKBTQg+3e5CUNV+md4IS3
+	 KKufyYWrB+zhp3iAkqiKqjoPezMD7sVuHnJq6WUYggy1gCFNJ50w43qui6geJApSgzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793397667;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793397669;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=eC5A6pHAnZ0aE2KsQp0iN/0xlnhAOejQmwk5XYY9Wwg=;
-	b=PIoiNlYUKTH34zxJu5/aw1sSQ7REtqlYP2l25tIF5N6hl3LzZ8vxJ7CM7BptBp5wpRyo
-	 VlAlzosdjIIJ1d+NpxMsv/DVbCrhtK2+NK7XGP22vU3f0CVOK1MAGj6VikDzfclyXLCdl
-	 OTqxJJHTVNu5BdF5fqZksdpDIkZyfPQmSXvBjtEe7EzRY0ecUEQDxOc2zCW1Xl4TstfiJ
-	 TEkBHIhucaEGc6u9sEmJTA3VyHwL+aByOf+CwVqu9pYtGiRJa8vxv9LoIrE4eGQBx0NRj
-	 wETFr9VZA4haHIANW6PSuAEs1vnUvFEHe4S7NSGEgJSHMgeeg71NpvjM3DcECsGCg+w==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=octqyFYimOsatIHMz4CJTAXuYhPX39l2GOWexDc6e+U=;
+	b=GPDNu+6U0OzHp2pKO2eiv+/oyWW95lf/lKYk4lXtjj6bPLltTDDmnbDh5s1oey0uXfS0
+	 XPQXBoyTcenY9IqWo95sMpd1hBHb44rsCyxUSkg5LCR0myMEfkeqwQEm+GuXueIJlYN+d
+	 2Ya6Whv+InBhtgz4GUAyWsR/8C0w5b+SAxT6873e/tWR4xFIEMuI70eo2ESyio7i7kZ/T
+	 JtJqkNQ6xqXBWTV3c2LDjWGizovGtO9favMEzhVhCW0nwMBBsfqMJilop4rqYj8a2msCT
+	 hTdP8+VuKPqYetGjYhfvFrGHhOqaE4fL/DtgRyqHI0DqJvBOhrA1zk9nkH6jm7LksHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DV0d0HjL;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PPtnVlXC;
 	arc=none smtp.remote-ip=192.198.163.14
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C851B606A31F;
-	Fri, 30 Oct 2026 22:01:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C851B606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12776606A32D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 22:01:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12776606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DV0d0HjL
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PPtnVlXC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793397667; x=1824933667;
+  t=1793397669; x=1824933669;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w31wXGRTOhUvzCl07DAy2h+Ynmh/ZR5jn1N9SMn3Isg=;
-  b=DV0d0HjLTtU4VGcEXHQgrC/kyHM4p77W0c+dqKjPwdg0DYery+6yaJyc
-   pxndYhSILCbjaGL04vNup9NUSfPMX9/0kMiJQ+ewYFNgCM3H7xvcyOq7u
-   m/OZz1nmYF0KfADOFP/1M/vrMmMIxbG/oP+eRJXKxIF6QL3hQZGKhUHLB
-   VumbuJNhKw6xdjJcnpD/2rYFKHL5iujC6turfsqzTcwZD6KtU6ptV1kNq
-   utLFYswusSSb4vdYYuycO91a+qsdf9OutgchfYJJz+Op5EPS1BKIHcGXw
-   osbRwoZ3Pc/UFU04WJd9ooUKfqGiw6xtQjuZaAnilYACQpG2SPxk0slti
-   Q==;
-X-CSE-ConnectionGUID: TahJkAmkTJm+QR1C7tW1Ig==
-X-CSE-MsgGUID: te1zm9cySKSHFyTwv63G6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2203063"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=uAAszUf04DL6b+ORx9R554o6d9Wb1c7w4v3eBbP/D8A=;
+  b=PPtnVlXCuMj0e2uGguL5uJr32n+I7DVZpMkgcOnHBEimNB09OYNpHJr1
+   0aP6ZceOhguXRB7yKbdDdGbviZbrajK9Sdl3CC1U7qnkuDIMa7/ods+L7
+   XdGsCZXSQiQ0iRGh0vp8SCvpEaHULzMrS+yme9rsXO6BoGjf449kVTbAi
+   XsPfN2fLq3ZObzdoTmcQ/xCCjjkeNJrsloXnJv+BLeTx9L8s4EbZ0udC0
+   Zz7Jx5WGSfQxvJSpGa9cRFDHlrA87X5pYgRpRR3m+kxeYuGz1lkmGnlfB
+   3OfIpoGCDL0qnZciid/NdvVKGhw52OdpXq/cKqV694BzpuenmdiHacsNk
+   A==;
+X-CSE-ConnectionGUID: A2teUc1hS1GS7RrMgUdP2w==
+X-CSE-MsgGUID: jeki5tqnQTO3QKscLzw6/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2203065"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2203063"
+   d="scan'208";a="2203065"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 15:01:07 -0700
-X-CSE-ConnectionGUID: OXSaNlHyS1arWzlEY+TGQA==
-X-CSE-MsgGUID: kW0MS3YuSjaBb215Zgq1vQ==
+X-CSE-ConnectionGUID: XbVTQnfaREalV18kkXZuRQ==
+X-CSE-MsgGUID: MuuUBk92Q3ChAV3JGaexbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5426391"
+   d="scan'208";a="5426383"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Oct 2026 15:01:04 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Oct 2026 15:01:05 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMuek-00000000cHM-1Mbk;
+	id 1xMuek-00000000cHO-1VkO;
 	Fri, 30 Oct 2026 22:01:02 +0000
-Date: Sat, 31 Oct 2026 06:00:37 +0800
+Date: Sat, 31 Oct 2026 06:00:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saranya Gopal <saranya.gopal@intel.com>, linux-acpi@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rafael.j.wysocki@intel.com
-Subject: Re: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
-Message-ID: <202610310520.ZvkDiItr-lkp@intel.com>
-References: <20261030030515.3127310-1-saranya.gopal@intel.com>
+To: =?iso-8859-1?Q?=D6mer?= Mete Kaya <omermetekaya0@gmail.com>,
+	marek.lindner@mailbox.org, sw@simonwunderlich.de,
+	antonio@mandelbit.com, sven@narfation.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net,
+	b.a.t.m.a.n@lists.open-mesh.org, linux-kernel@vger.kernel.org,
+	syzbot+61b202fdc410840f0198@syzkaller.appspotmail.com,
+	=?iso-8859-1?Q?=D6mer?= Mete Kaya <omermetekaya0@gmail.com>
+Subject: Re: [PATCH net] batman-adv: reduce softirq drain in tt_purge loops
+Message-ID: <202610310549.bbi0IqHw-lkp@intel.com>
+References: <20261030000222.286935-1-omermetekaya0@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -83,52 +86,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261030030515.3127310-1-saranya.gopal@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261030000222.286935-1-omermetekaya0@gmail.com>
 
-Hi Saranya,
+Hi Ömer,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master next-20261029]
-[cannot apply to v7.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Saranya-Gopal/ACPI-s2idle-Handle-shared-_Ixx-GPEs-without-an-EC/20261030-083515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20261030030515.3127310-1-saranya.gopal%40intel.com
-patch subject: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20261031/202610310520.ZvkDiItr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310520.ZvkDiItr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/mer-Mete-Kaya/batman-adv-reduce-softirq-drain-in-tt_purge-loops/20261030-025951
+base:   net/main
+patch link:    https://lore.kernel.org/r/20261030000222.286935-1-omermetekaya0%40gmail.com
+patch subject: [PATCH net] batman-adv: reduce softirq drain in tt_purge loops
+config: csky-randconfig-1001-20261031 (https://download.01.org/0day-ci/archive/20261031/202610310549.bbi0IqHw-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310549.bbi0IqHw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610310520.ZvkDiItr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610310549.bbi0IqHw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/acpi/tables.c:26:
->> drivers/acpi/internal.h:262:10: error: use of undeclared identifier 'ENOTSUP'
-     262 |         return -ENOTSUP;
-         |                 ^
-   1 error generated.
-
-
-vim +/ENOTSUP +262 drivers/acpi/internal.h
-
-   258	
-   259	static inline void acpi_ec_flush_work(void) {}
-   260	static inline int acpi_ec_dispatch_gpe(void)
-   261	{
- > 262		return -ENOTSUP;
-   263	}
-   264	
+>> Warning: net/batman-adv/translation-table.c:1785 function parameter 'may_sleep' not described in 'batadv_tt_local_purge'
+>> Warning: net/batman-adv/translation-table.c:1785 function parameter 'may_sleep' not described in 'batadv_tt_local_purge'
 
 --
 0-DAY CI Kernel Test Service
