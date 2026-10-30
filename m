@@ -1,86 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793362988;
-	b=xhdhVszoO2kX9wtHD/aBlhimY0jag5I22EiE07sste+6/FAvmK1BzGO5nljRc+QNDZ76
-	 Bt1rMVvH4dyW0FahSqX5rTRMz5TWDrkOHfeBgzbKn0vWGpgdPBWGKy2pNQ7Yk4ko/S9jr
-	 PgVQrQduScV1FOZRWWiVLrQzxRpscHmNj8++Yx7gcAvgczYfwjC6ej3QdNLMgJUzTNV7r
-	 g6yV9qHSSnFzNKbT8jnlzWNFrmBQjCoMhDfOSysCyi8bvzQIpHO//IAJTHYY/xKGD3Le0
-	 RWIIL/5pCaAXQSw0Fep/5wGOttoWCRKWSLEHzURnp6ICQz6foXGnL8qWc+dbVP3u1Jw==
+	t=1793368769;
+	b=FtwaBnUrJab58x2C5G69FMEWDCYoF+InSO9sCaINOiF6BUe4wK0ryuWNvvTWpF2CnLvy
+	 MvgeUQUWIaBUDYW+3CqJC0NZbYe1SnBmm/mVk4c3MoMIRv8w0dmsunVdmIhdZKeBT7T8L
+	 MfSq70ihkHVvXPsxtWws6BPenksB7JNVDbZ+m65pYXGmpeHoM1eJY+/kOVRk0xhpdSlvE
+	 HPLf2d69BHM40EXCwDTU/3CyDTl1KM6EC1v59zm0b9NyKlmv7oKjLAEhYT3t6OtqyIqdy
+	 aHsZQQe0FGpRpREMuEofBMNlPe7wqa8Dr0BQ4/Dzxsq6dDVHgtCvZG1rmLX+F+4i9iw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793362988;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793368769;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=SrsqvXlC23t2i5m9ChfHqk9o6LLSXHvLDjxr/6Kvutc=;
-	b=VoWMC0z48b4Y6byjrNhp4+IixsxcX2Zxcg4cWRLTIOS1pfMbRTfXRm/teEwmYjPYqK+j
-	 jJ/yJ9D1FyIMzZS0GTSOXBw5elH8Rf+VrSTclm3pqZcIejqHJ/AOzNASoEddMZpYsH0Qm
-	 6x7xia9WMPKru+hLEWrflneh4aQKX15J78QpyB16396co/aS7/Ee9FEdT949h+8zMIKV8
-	 eWEExs6Nyk8nnVGz3TGDwnBlihPCQCd+A5+iE9wFN5gXU3sI5PGaDP7wec2s1J6IDm6y9
-	 qmu0wSRxrxL/c1qdHrH9UYxQFyeRRx94YkXVGUdyJWEFYMyjVRY+UF69CuTIYP8OMvw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=KYmy3sRt/faOsbCv/Pv2gEQsPwyqQf5kSJCsjXwcJ14=;
+	b=ngCvrdnLbdnnWIdSeBkXknpN3O514m8nau0lpkWQ7HL8SdtNtHyxQgRC5n96H6pOXQk+
+	 fTzDNhVbmhPg6tCo7hbv9Oky50iEc3wcunc7IzdIB/I/AGhHRqG2tlUqX3/yy3xWP7jbm
+	 zo3ZyxlvDjpAGGIccz9xup/taHHiaCe8S8Ab24zSa7VNCJNTZaanNLJ5lCKROIf1Unq9W
+	 JfLTWB8Zy2Fd+tBpmvehaKhTJKkVGBe0iObfOEizsOY8IbsJYlZOsBb4wA8mIzTcMzj2l
+	 2qING6g9uObl61fhq49mVCVYAadbNRdMgWcY9wfEd9oUibHouWY9Pi8uA3xJtfAv83w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HTsisof6;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZSXQblqV;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36786606A31A;
-	Fri, 30 Oct 2026 12:23:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36786606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09F4606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 13:59:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B09F4606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HTsisof6
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZSXQblqV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793362987; x=1824898987;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ID9kIcML3QOIWye5853SxH/ukl9r+Nhlp63hh+Bsm5I=;
-  b=HTsisof6j8MrzbljoC6Szyj3dlDV/rH+zHtqMloV/3ifqRiQmjsMtxCf
-   xO/ZbO2bDXA3Qm0shiHYruEXGLhs6dtqkahQQoNsVyqPkVPnPyeIaORXw
-   wQfqb8z2tTXu9xhpLiHBAhLs1FWcB5QvveaVTA64AlMTFiihp1FWZVeLC
-   HEFhBGoykyLkRLBY2e20cXHsIPybpoVPnf4RZaahMxxfJTEt+xrRvp7qG
-   n+3IfmyVEjVrowhmzhQdytoiEzRT4rVhYKc2ADDlCV/ekU7siZw8EgbMw
-   eYZES5sae4W2QxUYbAlwrMeOmT6tJCiNYhKtPA6R2OlqBpZbJJtujANW1
-   Q==;
-X-CSE-ConnectionGUID: 4xMO790vS/GD1TAB8H+F7Q==
-X-CSE-MsgGUID: GsmSG6AlRU2oEUyFj24CIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2037396"
+  t=1793368768; x=1824904768;
+  h=date:from:to:cc:subject:message-id;
+  bh=rdCJgTSrci0gACAC2YDiLQxJYLQKEdF1lEVzBwfIChg=;
+  b=ZSXQblqVO8HfpLJuhjt6zrwbo6DLh46xXR1nMrdSf5ZMELwIun+9aL6Z
+   X3Khr9i/LY8BGJt1nZabsrTVOzkYZEigNS/722LRiBNz6HX5NIcL8d1lR
+   S9QRkV7PxUKQzcI9/4+mLaIrI4iUnyj8vz0p82J+X+MMcrVlTBWq7ikwN
+   Ex8+eC2JZiGbCz//01p/DbWerjVlhCRBicrj1udHJ9X2BLQ351l8zz5PF
+   1MIEa5i8kiZFY+mUtBYLmBRSNwVWzPcz0/cH4+wLbmSzNlChHYIo4OPIF
+   dY8Q2Ywr9Ny/4+qfk+msCLkHWrgHSkl0iYxA5S1SQuMKS6fI2YBkrw3zJ
+   g==;
+X-CSE-ConnectionGUID: i3hBZ5ScRPiKcY6EWPyMZQ==
+X-CSE-MsgGUID: deXzYFWgThOb/IGGq45afQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2224463"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2037396"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 05:23:06 -0700
-X-CSE-ConnectionGUID: bP5UZm82QSG9AZNkt3Q4ow==
-X-CSE-MsgGUID: CpMiLXDgTmK3iwlFMHO/kQ==
+   d="scan'208";a="2224463"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 06:59:27 -0700
+X-CSE-ConnectionGUID: pVgpvH5MRc+BkUsSvgvN+w==
+X-CSE-MsgGUID: DJAdOBjhRA2ZQVr71xGrOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5748123"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Oct 2026 05:23:04 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7273580"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa011.fm.intel.com with ESMTP; 30 Oct 2026 06:59:25 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMldM-00000000biW-3P3d;
-	Fri, 30 Oct 2026 12:23:00 +0000
-Date: Fri, 30 Oct 2026 20:22:10 +0800
+	id 1xMn8c-000000005b1-1RfG;
+	Fri, 30 Oct 2026 13:59:22 +0000
+Date: Fri, 30 Oct 2026 14:58:29 +0100
 From: kernel test robot <lkp@intel.com>
-To: Michal Camacho Romero <michal.camacho.romero@linux.intel.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ning Sun <ning.sun@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Michal Camacho Romero <michal.camacho.romero@intel.com>,
-	x86@kernel.org, iommu@lists.linux.dev,
-	tboot-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-	Mateusz Mowka <mateusz.mowka@intel.com>,
-	Adam Pawlicki <adamx.pawlicki@intel.com>,
-	Pawel Randzio <pawel.randzio@intel.com>
-Subject: Re: [PATCH v7 1/2] x86/tboot: Add support for parsing DTPR table and
- disabling TPRs
-Message-ID: <202610302057.2LOBfy3p-lkp@intel.com>
-References: <8549af9ea60b73e120be377877c26d929f1ad25e.1793273244.git.michal.camacho.romero@linux.intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>
+Subject: drivers/phy/mediatek/phy-mtk-pcie-sphy.c:483:2-3: Unneeded
+ semicolon
+Message-ID: <202610301438.XGYx3jyK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -89,153 +80,154 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8549af9ea60b73e120be377877c26d929f1ad25e.1793273244.git.michal.camacho.romero@linux.intel.com>
 
-Hi Michal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/master]
-[also build test WARNING on tip/x86/core linus/master v7.3 next-20261029]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Camacho-Romero/x86-tboot-Add-support-for-parsing-DTPR-table-and-disabling-TPRs/20261029-125726
-base:   tip/master
-patch link:    https://lore.kernel.org/r/8549af9ea60b73e120be377877c26d929f1ad25e.1793273244.git.michal.camacho.romero%40linux.intel.com
-patch subject: [PATCH v7 1/2] x86/tboot: Add support for parsing DTPR table and disabling TPRs
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20261030/202610302057.2LOBfy3p-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610302057.2LOBfy3p-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d89e1d186ec9271bf78e62771779e9fc03bf0fc3
+commit: e9434ed4effaf46351fce729380d3c8d7d918f20 phy: mediatek: Add support for PCI-Express Gen4 S-PHY
+date:   4 weeks ago
+config: hexagon-randconfig-r2110-20261030 (https://download.01.org/0day-ci/archive/20261030/202610301438.XGYx3jyK-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e9434ed4effa ("phy: mediatek: Add support for PCI-Express Gen4 S-PHY")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610302057.2LOBfy3p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610301438.XGYx3jyK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/phy/mediatek/phy-mtk-pcie-sphy.c:483:2-3: Unneeded semicolon
 
-   arch/x86/kernel/tboot.c: In function 'tboot_check_txt_heap_section_bounds':
->> arch/x86/kernel/tboot.c:253:13: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     253 |         if ((u64)heap_section > heap_end || heap_end - (u64)heap_section < 8) {
-         |             ^
-   arch/x86/kernel/tboot.c:253:56: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     253 |         if ((u64)heap_section > heap_end || heap_end - (u64)heap_section < 8) {
-         |                                                        ^
-   arch/x86/kernel/tboot.c:266:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     266 |         if (*heap_section_size > heap_end - (u64)heap_section) {
-         |                                             ^
-   arch/x86/kernel/tboot.c: In function 'tboot_get_dtpr_table':
-   arch/x86/kernel/tboot.c:699:31: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     699 |         if (heap_size == 0 || (u64)txt_heap + heap_size < (u64)txt_heap) {
-         |                               ^
-   arch/x86/kernel/tboot.c:699:59: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     699 |         if (heap_size == 0 || (u64)txt_heap + heap_size < (u64)txt_heap) {
-         |                                                           ^
-   arch/x86/kernel/tboot.c:704:22: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     704 |         heap_end   = (u64)txt_heap + heap_size;
-         |                      ^
-   arch/x86/kernel/tboot.c: In function 'tboot_check_tprs':
-   arch/x86/kernel/tboot.c:862:40: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Wimplicit-function-declaration]
-     862 |                         tpr_base_val = readq(base);
-         |                                        ^~~~~
-         |                                        readl
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:195,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/atomic.h:7,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/init_task.h:5,
-                    from arch/x86/kernel/tboot.c:9:
->> include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
-         |                         ^~~~~~~~
-   include/linux/printk.h:584:16: note: in expansion of macro 'KERN_INFO'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   arch/x86/kernel/tboot.c:863:25: note: in expansion of macro 'pr_info'
-     863 |                         pr_info("TPR instance %u, TPR %u:base 0x%llx, limit 0x%llx\n", i, j,
-         |                         ^~~~~~~
-   arch/x86/kernel/tboot.c: In function 'tboot_disable_tprs':
->> include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:483:25: note: in definition of macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:584:9: note: in expansion of macro 'printk'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
-      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
-         |                         ^~~~~~~~
-   include/linux/printk.h:584:16: note: in expansion of macro 'KERN_INFO'
-     584 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~~
-   arch/x86/kernel/tboot.c:936:25: note: in expansion of macro 'pr_info'
-     936 |                         pr_info("TPR instance %u, TPR %u:base 0x%llx, limit 0x%llx\n", i, j,
-         |                         ^~~~~~~
-   arch/x86/kernel/tboot.c:941:33: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Wimplicit-function-declaration]
-     941 |                                 writeq(tpr_base_val | TPR_BASE_DISABLE_BIT, base);
-         |                                 ^~~~~~
-         |                                 writel
+vim +483 drivers/phy/mediatek/phy-mtk-pcie-sphy.c
 
-
-vim +253 arch/x86/kernel/tboot.c
-
-   235	
-   236	static bool tboot_check_txt_heap_section_bounds(const u64 heap_end,
-   237							void *heap_section,
-   238							u64 *heap_section_size,
-   239							const char *section_name)
-   240	{
-   241		if (!heap_section) {
-   242			pr_err("%s section is NULL\n", section_name);
-   243			return false;
-   244		}
-   245	
-   246		if (!heap_section_size) {
-   247			pr_err("%s section size pointer is NULL\n", section_name);
-   248			return false;
-   249		}
-   250	
-   251		*heap_section_size = 0;
-   252	
- > 253		if ((u64)heap_section > heap_end || heap_end - (u64)heap_section < 8) {
-   254			pr_err("%s size field exceeds heap boundary\n", section_name);
-   255			return false;
-   256		}
-   257	
-   258		/* Read the size of the current TXT Heap section */
-   259		*heap_section_size = *(u64 __force *)heap_section;
-   260	
-   261		if (*heap_section_size < 8) {
-   262			pr_err("%s size is too small\n", section_name);
-   263			return false;
-   264		}
-   265	
-   266		if (*heap_section_size > heap_end - (u64)heap_section) {
-   267			pr_err("%s exceeds heap boundary\n", section_name);
-   268			return false;
-   269		}
-   270	
-   271		return true;
-   272	}
-   273	
+   360	
+   361	static int mtk_pcie_sphy_get_calibration_data(struct mtk_pcie_sphy *pcie_sphy)
+   362	{
+   363		struct mtk_pcie_sphy_efuse *cal = &pcie_sphy->calibration;
+   364		struct device *dev = pcie_sphy->dev;
+   365		u8 version;
+   366		int ret;
+   367	
+   368		if (pcie_sphy->num_lanes > MTK_PCIE_SPHY_CALIBRATION_MAX_DATA_LANES) {
+   369			dev_info(dev, "Skipping PHY calibration for more than %u lanes.\n",
+   370				 MTK_PCIE_SPHY_CALIBRATION_MAX_DATA_LANES);
+   371			ret = -EOPNOTSUPP;
+   372			goto end;
+   373		}
+   374	
+   375		ret = mtk_pcie_sphy_get_one_cal_para(dev, "int-r",
+   376						     FIELD_MAX(RG_XTP_GLB_BIAS_INTR_CTRL));
+   377		if (ret < 0)
+   378			goto end;
+   379		cal->int_r_ctrl = ret;
+   380	
+   381		ret = mtk_pcie_sphy_get_one_cal_para(dev, "xtp-vtrim",
+   382						     FIELD_MAX(RG_XTP_GLB_BIAS_V2V_VTRIM));
+   383		if (ret < 0)
+   384			goto end;
+   385		cal->xtp_vtrim = ret;
+   386	
+   387		ret = mtk_pcie_sphy_get_one_cal_para(dev, "cktx-pmos",
+   388						     FIELD_MAX(RG_CKM_CKTX_IMPSEL_PMOS));
+   389		if (ret < 0)
+   390			goto end;
+   391		cal->cktx_impsel.pmos = ret;
+   392	
+   393		ret = mtk_pcie_sphy_get_one_cal_para(dev, "cktx-nmos",
+   394						     FIELD_MAX(RG_CKM_CKTX_IMPSEL_NMOS));
+   395		if (ret < 0)
+   396			goto end;
+   397		cal->cktx_impsel.nmos = ret;
+   398	
+   399		ret = mtk_pcie_sphy_get_one_cal_para(dev, "cktx-r-mid",
+   400						     FIELD_MAX(RG_CKM_CKTX_IMPSEL_SW));
+   401		if (ret < 0)
+   402			goto end;
+   403		cal->cktx_r_mid = ret;
+   404	
+   405		ret = mtk_pcie_sphy_get_one_cal_para(dev, "rxfe-lanes-rl-ctle",
+   406						     FIELD_MAX(RG_XTP_LN_RX_LEQ_RL_CTLE_CAL));
+   407		if (ret < 0)
+   408			goto end;
+   409		cal->rx_leq_rl_ctle = ret;
+   410	
+   411		ret = mtk_pcie_sphy_get_one_cal_para(dev, "rxfe-lanes-rl-vga",
+   412						     FIELD_MAX(RG_XTP_LN_RX_LEQ_RL_VGA_CAL));
+   413		if (ret < 0)
+   414			goto end;
+   415		cal->rx_leq_rl_vga = ret;
+   416	
+   417		ret = mtk_pcie_sphy_get_one_cal_para(dev, "rxfe-lanes-rl-dfe",
+   418						     FIELD_MAX(RG_XTP_LN_RX_LEQ_RL_DFE_CAL));
+   419		if (ret < 0)
+   420			goto end;
+   421		cal->rx_leq_rl_dfe = ret;
+   422	
+   423		ret = mtk_pcie_sphy_get_one_cal_para(dev, "rx-lanes-imp",
+   424						     FIELD_MAX(RG_XTP_LN_RX_IMPSEL));
+   425		if (ret < 0)
+   426			goto end;
+   427		cal->rx_impsel = ret;
+   428	
+   429		ret = mtk_pcie_sphy_get_one_cal_para(dev, "tx-lanes-pmos",
+   430						     FIELD_MAX(RG_XTP_LN_TX_IMPSEL_PMOS));
+   431		if (ret < 0)
+   432			goto end;
+   433		cal->tx_impsel.pmos = ret;
+   434	
+   435		ret = mtk_pcie_sphy_get_one_cal_para(dev, "tx-lanes-nmos",
+   436						     FIELD_MAX(RG_XTP_LN_TX_IMPSEL_NMOS));
+   437		if (ret < 0)
+   438			goto end;
+   439		cal->tx_impsel.nmos = ret;
+   440	
+   441		ret = mtk_pcie_sphy_get_one_cal_para(dev, "tx-ln0-rswn",
+   442						     FIELD_MAX(RG_XTP_LN_TX_RSWN_IMPSEL));
+   443		if (ret < 0)
+   444			goto end;
+   445		cal->tx_rswn_impsel[0] = ret;
+   446	
+   447		if (pcie_sphy->num_lanes == 2) {
+   448			ret = mtk_pcie_sphy_get_one_cal_para(dev, "tx-ln1-rswn",
+   449							     FIELD_MAX(RG_XTP_LN_TX_RSWN_IMPSEL));
+   450			if (ret < 0)
+   451				goto end;
+   452			cal->tx_rswn_impsel[1] = ret;
+   453		}
+   454	
+   455		ret = mtk_pcie_sphy_get_one_cal_para(dev, "cal-version", 15);
+   456		if (ret < 0)
+   457			goto end;
+   458		version = ret;
+   459	
+   460		/* Quirk for eFuse calibration table versions 0 to 4 */
+   461		if ((version <= MTK_PCIE_SPHY_CALIBRATION_LAST_QUIRK_VER) &&
+   462		    cal->rx_leq_rl_ctle == 10) {
+   463			cal->rx_leq_rl_vga = cal->rx_leq_rl_ctle;
+   464			cal->rx_leq_rl_dfe = cal->rx_leq_rl_ctle;
+   465		}
+   466	
+   467	end:
+   468		if (ret < 0) {
+   469			/*
+   470			 * If any of the calibration values is missing, or if there is
+   471			 * no calibration at all in the eFuses, this is not a problem,
+   472			 * as the PHY doesn't require one to actually work.
+   473			 *
+   474			 * Note that if even just one of the calibration values is
+   475			 * missing it would not be safe to trust the correctness of
+   476			 * the others as this may be a different eFuse layout.
+   477			 */
+   478			if (ret == -ENOENT || ret == -EOPNOTSUPP) {
+   479				cal->supported = false;
+   480				return 0;
+   481			}
+   482			return ret;
+ > 483		};
+   484		cal->supported = true;
+   485	
+   486		return 0;
+   487	}
+   488	
 
 --
 0-DAY CI Kernel Test Service
