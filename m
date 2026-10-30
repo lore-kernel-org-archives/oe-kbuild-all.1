@@ -1,82 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793397669;
-	b=mieZQXxbpywB+gYe+pPfKrYUoc+OkdVyI1n2LBSqaa7nX9PEnK1xEdpud+ok8ZAFYsV3
-	 0V1gfM+2vHexj1ov3NNkjb2RhapGB8G5voNiFNuoS3/JmCibg3VmXryX93Dioz/kWYnrv
-	 h8fooTWLn1MgVSDxCQzrIfYkJd8Hvl4zo11/6d4C5LGF6STzum9r5s2CizFx5pDPnwLDS
-	 684o5h+vP+wVjX2rYMWUo+WCvIxEjIJHQnzLf56r9AhVQ49BsKBTQg+3e5CUNV+md4IS3
-	 KKufyYWrB+zhp3iAkqiKqjoPezMD7sVuHnJq6WUYggy1gCFNJ50w43qui6geJApSgzg==
+	t=1793399083;
+	b=CucD1v2n6NXgj0A8v9rL+JzLHmwdbZtJgOWK2pAqd44Yq6vzmuPwit9MyJMxeoS+hzkw
+	 mcsaHNJLCa1KFaTlyIQSDJDhekb+Rq9AYCZaY8G89mPMOD1utEA8dnjKAkOtXUertG+Lg
+	 ZrMyjnBdmkRqTVGZPQVZWpJjV4tspHGpXa2adUaE8GCIngYq7mYfpEz3CJ+ERXZk3M/uD
+	 AgrGaWlVN95T2ytCmaJBtqcXaemi0naI+5PZtjieDGAAcHhR4a3Ajr1OEJYud7imXDwMb
+	 vY77UJGodpdVSKrroaj+wfrZBuQ84RaQji+tbPWk8ojf5/C1SzLzPDlMbscUth8lmwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793397669;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793399083;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=octqyFYimOsatIHMz4CJTAXuYhPX39l2GOWexDc6e+U=;
-	b=GPDNu+6U0OzHp2pKO2eiv+/oyWW95lf/lKYk4lXtjj6bPLltTDDmnbDh5s1oey0uXfS0
-	 XPQXBoyTcenY9IqWo95sMpd1hBHb44rsCyxUSkg5LCR0myMEfkeqwQEm+GuXueIJlYN+d
-	 2Ya6Whv+InBhtgz4GUAyWsR/8C0w5b+SAxT6873e/tWR4xFIEMuI70eo2ESyio7i7kZ/T
-	 JtJqkNQ6xqXBWTV3c2LDjWGizovGtO9favMEzhVhCW0nwMBBsfqMJilop4rqYj8a2msCT
-	 hTdP8+VuKPqYetGjYhfvFrGHhOqaE4fL/DtgRyqHI0DqJvBOhrA1zk9nkH6jm7LksHw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=dSZdAKRabd6XVJjbDaWWnVcGzpWIKlPSDnWrxhwKu1c=;
+	b=BlJRPkMTH5my8wP7xzlJ5aHQTmwaTd6b56j+B7vKwuW14dBIGnejQI1rA85SZb3grC62
+	 erLKj6y26Zo9TvfpUPqy6/Y41a2kYx67aqSjPDQ5kh2qu1HXh8EbtEdra6dCusIophbUU
+	 kbhecCLgipxVOGYvoYAEaS2pEuXOVOa7fpiAUbN0giEQ5Od7hWte1llfTGxl1NgVr/BAE
+	 8ONlf6/3LuQ+OGH8vozghUHn0hwP5rYKbAS9VwhwvdhEF/sB3GyTjM2hHe9Kke6T0I6o3
+	 GSI/VFc79WkNhknXKhJuy6FqSvJo1E8//+Q2+zIUbWPHsVMuNf2OyZlI7sXfmBTGd1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PPtnVlXC;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MTwM8Bu1;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12776606A32D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 22:01:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12776606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1934606A31C;
+	Fri, 30 Oct 2026 22:24:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1934606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PPtnVlXC
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MTwM8Bu1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793397669; x=1824933669;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=uAAszUf04DL6b+ORx9R554o6d9Wb1c7w4v3eBbP/D8A=;
-  b=PPtnVlXCuMj0e2uGguL5uJr32n+I7DVZpMkgcOnHBEimNB09OYNpHJr1
-   0aP6ZceOhguXRB7yKbdDdGbviZbrajK9Sdl3CC1U7qnkuDIMa7/ods+L7
-   XdGsCZXSQiQ0iRGh0vp8SCvpEaHULzMrS+yme9rsXO6BoGjf449kVTbAi
-   XsPfN2fLq3ZObzdoTmcQ/xCCjjkeNJrsloXnJv+BLeTx9L8s4EbZ0udC0
-   Zz7Jx5WGSfQxvJSpGa9cRFDHlrA87X5pYgRpRR3m+kxeYuGz1lkmGnlfB
-   3OfIpoGCDL0qnZciid/NdvVKGhw52OdpXq/cKqV694BzpuenmdiHacsNk
+  t=1793399081; x=1824935081;
+  h=date:from:to:cc:subject:message-id;
+  bh=TpIj0q7QxKBqyM5c8wYXeROoucyqaq4Kq3b4ZDn4l8A=;
+  b=MTwM8Bu1eAQbbbq4ixZgcpa5nyw1+ZQbpL6PaXHcv345H1YJgqIYjkiw
+   OFPVwZXtL92d37U9x2NqjLBP5nBYFBfUBT6yJYT0X4ht2dHU2gLs7Kgba
+   m3DUeqzz+YA7HrnT1bc3oJFfPPYBik51Z1A7S+LYeGesxgJlOGBFverE7
+   PAt5DlWuK8yt3l+9DwZX3qksSA5HFV5K07vbP0Klk1FdlpraFY9/aBk6S
+   ALPkkpRi+ApWSxbpJRY+C4qvlLsW7FDT9ywym0dW05FMF3rc6pDTmY0Md
+   ZYhlCIlloBFELx3oLOeARfhCgxOVcFnDY/+UYp3RJT8TBdjjzkjZs45Uc
    A==;
-X-CSE-ConnectionGUID: A2teUc1hS1GS7RrMgUdP2w==
-X-CSE-MsgGUID: jeki5tqnQTO3QKscLzw6/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2203065"
+X-CSE-ConnectionGUID: pSNoahToRtGJ8JdLAhnr9A==
+X-CSE-MsgGUID: vfvqRxjpR3iCjtrDdj4L8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2204384"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2203065"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 15:01:07 -0700
-X-CSE-ConnectionGUID: XbVTQnfaREalV18kkXZuRQ==
-X-CSE-MsgGUID: MuuUBk92Q3ChAV3JGaexbA==
+   d="scan'208";a="2204384"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 15:24:41 -0700
+X-CSE-ConnectionGUID: tuWsMn3qR/uJsHCI5mgsRg==
+X-CSE-MsgGUID: lORM5tshTPWd6hy3GHItrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5426383"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Oct 2026 15:01:05 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5519533"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 30 Oct 2026 15:24:39 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMuek-00000000cHO-1VkO;
-	Fri, 30 Oct 2026 22:01:02 +0000
-Date: Sat, 31 Oct 2026 06:00:36 +0800
+	id 1xMv1Y-000000005jP-2AT4;
+	Fri, 30 Oct 2026 22:24:36 +0000
+Date: Fri, 30 Oct 2026 23:24:15 +0100
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?=D6mer?= Mete Kaya <omermetekaya0@gmail.com>,
-	marek.lindner@mailbox.org, sw@simonwunderlich.de,
-	antonio@mandelbit.com, sven@narfation.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net,
-	b.a.t.m.a.n@lists.open-mesh.org, linux-kernel@vger.kernel.org,
-	syzbot+61b202fdc410840f0198@syzkaller.appspotmail.com,
-	=?iso-8859-1?Q?=D6mer?= Mete Kaya <omermetekaya0@gmail.com>
-Subject: Re: [PATCH net] batman-adv: reduce softirq drain in tt_purge loops
-Message-ID: <202610310549.bbi0IqHw-lkp@intel.com>
-References: <20261030000222.286935-1-omermetekaya0@gmail.com>
+To: "Chen-Yu Tsai" <wens@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [wens:sunxi-wip 36/36]
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1930:1: warning: unused label 'pm_put'
+Message-ID: <202610302318.7gGiv7zc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,35 +79,61 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261030000222.286935-1-omermetekaya0@gmail.com>
 
-Hi Ömer,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mer-Mete-Kaya/batman-adv-reduce-softirq-drain-in-tt_purge-loops/20261030-025951
-base:   net/main
-patch link:    https://lore.kernel.org/r/20261030000222.286935-1-omermetekaya0%40gmail.com
-patch subject: [PATCH net] batman-adv: reduce softirq drain in tt_purge loops
-config: csky-randconfig-1001-20261031 (https://download.01.org/0day-ci/archive/20261031/202610310549.bbi0IqHw-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310549.bbi0IqHw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
+head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
+commit: e8e10ee67982c55fd3900953641c680a2fbef1c6 [36/36] HACK: drm/etnaviv: check if GPU is actually there
+config: hexagon-randconfig-2001-20261030 (https://download.01.org/0day-ci/archive/20261030/202610302318.7gGiv7zc-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261030/202610302318.7gGiv7zc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610310549.bbi0IqHw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610302318.7gGiv7zc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: net/batman-adv/translation-table.c:1785 function parameter 'may_sleep' not described in 'batadv_tt_local_purge'
->> Warning: net/batman-adv/translation-table.c:1785 function parameter 'may_sleep' not described in 'batadv_tt_local_purge'
+>> drivers/gpu/drm/etnaviv/etnaviv_gpu.c:1930:1: warning: unused label 'pm_put' [-Wunused-label]
+    1930 | pm_put:
+         | ^~~~~~~
+   1 warning generated.
+
+
+vim +/pm_put +1930 drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+
+  1904	
+  1905	static int etnaviv_gpu_detect(struct etnaviv_gpu *gpu)
+  1906	{
+  1907		int ret;
+  1908	
+  1909		ret = pm_runtime_resume_and_get(gpu->dev);
+  1910		if (ret < 0)
+  1911			return dev_err_probe(gpu->dev, ret,
+  1912					     "Failed to enable GPU power domain\n");
+  1913	
+  1914		ret = etnaviv_gpu_reset_deassert(gpu);
+  1915		if (ret) {
+  1916			dev_err_probe(gpu->dev, ret,
+  1917				      "GPU reset deassert failed\n");
+  1918			goto fail;
+  1919		}
+  1920	
+  1921		etnaviv_hw_identify(gpu);
+  1922	
+  1923		if (gpu->identity.model == 0) {
+  1924			ret = -ENODEV;
+  1925			dev_err_probe(gpu->dev, ret, "Unknown GPU model\n");
+  1926		}
+  1927	
+  1928	fail:
+  1929		pm_runtime_mark_last_busy(gpu->dev);
+> 1930	pm_put:
+  1931		pm_runtime_put_autosuspend(gpu->dev);
+  1932	
+  1933		return ret;
+  1934	}
+  1935	
 
 --
 0-DAY CI Kernel Test Service
