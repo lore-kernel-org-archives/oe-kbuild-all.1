@@ -1,79 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.146
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793394481;
-	b=UHl7p0fwwpqERp5dkxGWRyo2aQUrn4I7CC1o75vO7j/DHUbUHJCioAuHLnjbnuBMuQSB
-	 ZIlTg/ccOLYIzlZJGgeOcpJqjsPSbOcyU8isafloIAhhrviFykJLr8rbBgZWuyiLeC0sX
-	 aYhCIPJ246EiYde582Q6yGFRoH1Ybn/0364S25kr0nHDI1c2zYmqBUaXj7/RPOj8sF911
-	 /k3kUZl/KMK6Ffdznd1xam++mdC9kkx4jIwPeD91TzTFprwycGAeM/2gQ8hhXTp4l+Gd7
-	 Xe9F2oHPhCUsL8T1ZceOGEhvc8y9Qwfy3BSgbHcYcmT1qJBwcr9zPqO9U1NyLw78Zaw==
+	t=1793395185;
+	b=3J8sAEGb0d3yH3+0wG/ARC9dd+cMLBwMZiXspf7/asdB0JPMS0V2l7YKAFPfYHnIgVHU
+	 mxD73v5B+LsWg2rbaFVSQ+06eAnh2C+d2FH5oZCS+U9deaCrwtB6nSFTZmoRd79NraJ2e
+	 4Q97om0u6c8PaZRoIdojbmDNM0LMWOYDLcqsrWKwAjG1erkfiJsTirO8+ph7DoujpHaVJ
+	 h8XoEg8BVMTXN3+tp1nzW5sygXkSS/GCqkJ5/EQe5U6yPzLs12nBe0kQ2jYJYIN6RSd/V
+	 1a+g+27itFm52bUmj0pzVpj9FaOvFpNtBNbBIzdJf0kUys8YeQ/7rOtAijymZ4zBGGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793394481;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=IZKe7cuC0MDYIi5/jI0F1g1F3O39CX9+Itd1K5q/4Jk=;
-	b=pQi2IdUBwpNLHzkyWAqxTcqFybGzNcWh3RRL5rABOUFXmbKT399KdxBCkUcyHwLHTrrL
-	 uvPkB7weW/VizX5JFnI/lIDjuGj4NF2rYRSzkoxhNdIwmNuFEa046gQRV5MnF49mRalo6
-	 KnUV802VpC1pKrTbQlI6vAk/WHQcpMNFwyygM3w9uoDd3qm1yPjZsRMUVQYarxu+MQ4tp
-	 DlH9OOPIOa90ZCZnFRh+wchNUOOBMXwm99OCL4aMYuly0duccwXcxKU8Y8oc5OuUsE1sp
-	 zteK10EV+d+OltU+BWX2Bz3Xe7CDaVWan7rFXP2YJK7OELfwmp+xj/MGyOJvDKoY4Hg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793395185;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=Dl1LG0Y6RzLXrRfxv+91NkboHhB++1KT+VI/hXOnas8=;
+	b=MvLTxm9VeMK6IhUUwIoPCr1o8aFXqLLNc2RwVeODAk1LnubuvZXg44svD2Lj93jjEtY9
+	 D2VEcQP5nHUQX6yvd04qEwJAvDh4uFd4Xl0hy5mw37g8DGG5Ii/s9She30ynCb2KuPFaq
+	 BJs+ayeJ1SDRr3bt58NFY3KcauLu+M2RMef+wklzenVXypyjbYjJbZd+yHL1b17CNMK91
+	 XdUTyMDPd6sQaVIyBvKKlF18ZtTr7OVolPRXfGslroaLRCVKAQCDeysvZKEWuL9LfolbZ
+	 eSqOUue3MMRteOfANUz6S+oQ7OiDNmu6WTUNoKPL66vpmJk6quyPVIlC929LMgLtecA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RvRH0F3a;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=R0EhaWD0;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Z5yTrlF1;
+	arc=none smtp.remote-ip=103.168.172.146
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DE1606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 21:07:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28DE1606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F8860A2614
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 21:19:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76F8860A2614
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RvRH0F3a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793394481; x=1824930481;
-  h=date:from:to:cc:subject:message-id;
-  bh=YvWGlFegbhtROW+U0Cy/rU9cBGkxi9itGntZD3cVYAI=;
-  b=RvRH0F3asXtF2EgdFx7Gx1oHAds0MN8Y8NKRb8fGYqtAaUvBXMBRO9Q4
-   nKlXueRNlTWZVQ2uwhHZuyAm5824u8aJifUkaEandI1x/yl2Tpot6EWwm
-   yobztPJk83kV+kHLfNZWDWR+tA54t5lUSuOSEM98Eib8v2q0Fcrd6vGG9
-   QZhHRIRjeLNN7Iw+YErCxpZOEHQ0lXqBO636B2hHxyZ1OQjyEFNI8Feto
-   En5nDzOn7EiPOPSOWfAppga+gv4Dwmx8SaVrVfHcnhCelQu2VaTLbuNEN
-   u9v8ysEs2OnuhGv11xvmOCh2QYBCQqjflziakb7FKkrU8DMXfz8xUj9lV
-   A==;
-X-CSE-ConnectionGUID: XGKvT5siSv+63hghXZsecA==
-X-CSE-MsgGUID: j0vGXhGPRymm3rQn39L/jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2183083"
-X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2183083"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 14:08:00 -0700
-X-CSE-ConnectionGUID: RqzZp9XgTcy6kRblvXXkLg==
-X-CSE-MsgGUID: F9xgDDn+R1exxR3Ykd5pYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5944765"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 30 Oct 2026 14:07:58 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xMtpL-00000000cEk-2MTO;
-	Fri, 30 Oct 2026 21:07:55 +0000
-Date: Sat, 31 Oct 2026 05:07:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Flynn <jonathan.flynn@hammerspace.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>
-Subject: [snitzer:kernel-7.3/main 308/382]
- include/linux/build_bug.h:80:41: error: static assertion failed:
- "!IS_ENABLED(CONFIG_SMP) || offsetof(struct nfs4_ff_layout_segment,
- mirror_array) + sizeof(struct nfs4_ff_layout_mirror *) <= offsetof(struct
- nfs4_ff_layout_segment, stripe_unit) + SMP_CACHE...
-Message-ID: <202610310459.Q3bswxmc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=R0EhaWD0;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Z5yTrlF1
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.phl.internal (Postfix) with ESMTP id 5F52BEC016D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Oct 2026 17:19:43 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Fri, 30 Oct 2026 17:19:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793395181;
+	 x=1793481581; bh=Dl1LG0Y6RzLXrRfxv+91NkboHhB++1KT+VI/hXOnas8=; b=
+	R0EhaWD0glqlAYetqHP9Ja6C96jrEhWB3wSZI6VzNiuoTCCVXc1UHwaebnK1IyEg
+	79WvABcWEArSQxpu6b78zF255M6ugNXSMqVdDxL/SILxJ6jwe9FbgBcyY1vorJGm
+	5oRT/BVLLesLLVLgD9du0OBIrTb/kjEd3Gr5UtKkfwqabnIbtvuz9F7tR5hIoj1u
+	MHm3wY/bt/EgDwlSO28yrxPQP9dFCrbgKkwqOXcGeLGvmWzWMROzJL9dJGoFHSwZ
+	OXDhiSXj5QLS6Z5a65lqQh3aQ54erwwOdkCuvqghX0ropV3HQcy9Rg5/4UAKkSuS
+	ABtER50GX5LBpOnGEYZO1w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793395181; x=
+	1793481581; bh=Dl1LG0Y6RzLXrRfxv+91NkboHhB++1KT+VI/hXOnas8=; b=Z
+	5yTrlF1K8Bx+GGJh3vT+CRDs98zizzfvz2L2qpP4P4nHhsoQJ1BOfwEm35tmpYSx
+	Ci6K6fNr8CwdmPcAIJG7c4ir1XYUFTRHtznTw8NH4K6ExPS3LFEVzO8t8R+L/kvH
+	m860SMVAoEJkL3AbZmiBO1VjMKr4R6t3AoWY5LS4ZcinjMqLU0sZzrzfhIAm7wBL
+	GZk0utE15f9crwZKGGAD1B8kG5QPS7Qfo1gzIR4dlfF878jR/2dDwRKXHvRgfa21
+	LvhnjME+dWxCDgmPXggltKFVQskZ0mlF/9Ck2Ouh7uIqqCnwEKM02I5qXegA8JJF
+	uKPx/ihSS5JWMEGd6nLzw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793395181; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PG9lLWtidWlsZC1hbGxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm2:rsa-sha256:l6kGGbJj81cT0UnomHQrbY0U/wdnFsUZYvBykOEtLf0/YAP
+	8lgiAIqgxviYsTcOf8LM78N4wR6z0kHM/ju30qfCtSW132OCZ+7DxIi6HGZDSnQT
+	kS3In6BJ0MFUP+ucoMkPtTQeXaPwBK4BZ0176iudVU5tcU155vHKWqcSuA2sreb3
+	dgw3ZTEEHpfWqwJDPlWgftqLR4P6HLTOgbXx8sTVKWzNApXNkT2U9S2m8Gyeiaf0
+	aKNaiU7kfKgz0jccEfWKHVOE9if6Y6aJ/SLLuKmEfQKXtcXznC6j4HOTMH3yEBDx
+	xN3Jtzh85s+6PPshxom08ClBKp9XuQEo6kB1xWA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:GhglIsL3uu6nEtiuA3MobcUZlxx1huwAF0Pf5N1Xnl8=:kTM8AS4UB0+gUZDZkMLnPfvC5c9V7l9e1Y/veHALxpU=;
+X-ME-Sender: <xms:6QnlameD8brMS30tx9lsvkhYNLC2YvuPbr6p33PgT2O-WgaomGgoIQ>
+    <xme:6QnlarBQZuWSubC8k7Fuk93X0Yb2KHi9_Ar3ffCzN0ehd_zd--xgLqbeundl5UM_O
+    lBYVMwvcG2bFRPCmP0_g_foJq7yNRMPkz-ImjxxOcwQ0NXrSyUr5Yn4>
+X-ME-Proxy-Cause: dmFkZTEHE8Apd9U84xVPbS3T5EaOX9zQ6tn1ko49jsbH1txIARGoXweFutRVrEw7AYzJ08
+    KdP+z1OcfT+37axmqkfNpq90uZK7KBIHNXyKuXnVEpI/zNRq+NdpIkFfd6ouHVC3oJybgo
+    HSsgLKAgakHTS4fQXyu4kJYYt5nJMx7B75q2L3BD4QyYDI5VUqlvTZZnXCWIR6HPg0K7tt
+    hbHy72G3HYu21HXWR3iVtVPPuzK/mL3U1MTkdN7stwm8O0vqCYepocQQ3J1qbzoVxD4iAp
+    +6FsoDjfuspqqJ6g9dmRYP7Ez+gzmlC8UzVcTfMtpAimvCIA/aKUrLQ2INAlrZWMk9xIM5
+    WqI7L07jNXSpaXvsE78C9IkoM05pGRsnTS/ULlWLQ8jHXhOA2hNkvVzQbzbH2EKDcEELXy
+    q/U7QIFb5fy1XblL0BOwkX+Xz0c2xi+SuDBbW92kx9D8RC7eoDXIe8L75JvSN3ymIGYhb0
+    GdceRtvRTgUyDOLCpBJLN4aHWRx9bzHkizPpb8UUwAHxnQDbscbSpewGvx2UHQdkGz/71f
+    GkbnoyFBtmc9KdZ1poqniQJMS4qnV8vZ1RkhJfA8xguCnrQ98bzFgdKkY2b/T7CSTvE+UJ
+    4dfCv97bEE2dAj58Teh+PyPLVN3lvjaIceYZhoyMq5kW2xEHQazLvUigf/8w
+X-ME-Proxy: <xmx:6gnlajPxCt9_R_bYbqEWis8dwI2RpBG7say7iZSKuSHVwGl8hRpS6g>
+    <xmx:6gnlaghlFJTerTIz5k4_U3gSOtn1sFHVchvK134QSnQvbsJRKbCqLQ>
+    <xmx:6gnlal4J8vknUa5xET2pCJIvMrmdUyNgkm4l2HQFi6_EIvkGKYYySw>
+    <xmx:6gnlan0mrRQK5xaWWO9Fv_C-VM5D0QrBEHdSq8ZYgLEJRae4vrOZ1A>
+    <xmx:7Qnlavni9x1lDrdOtW-fq4JXnf7anM6j79YhzEloMB_8bEim6AGel6lU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 3280032A0093; Fri, 30 Oct 2026 17:19:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,89 +114,48 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-ThreadId: AA4M8BakChSJ
+Date: Fri, 30 Oct 2026 22:16:18 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Huth" <thuth@redhat.com>, "kernel test robot" <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
+ shuah <shuah@kernel.org>, linux-kselftest@vger.kernel.org,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Message-Id: <33492528-ecd8-444b-a42d-d084857a57cd@app.fastmail.com>
+In-Reply-To: <5f898f0f-915c-4aef-a3f9-0118f4539951@app.fastmail.com>
+References: <202610291918.kHO0GTDB-lkp@intel.com>
+ <9e294bfd-4704-42a5-a704-f301f4afe042@app.fastmail.com>
+ <cdf09fa3-e251-4d8d-9f0a-316998df036b@redhat.com>
+ <5f898f0f-915c-4aef-a3f9-0118f4539951@app.fastmail.com>
+Subject: Re: [arnd-asm-generic:asm-generic 15/15]
+ /usr/aarch64-linux-gnu/include/linux/types.h:12: Error: unknown mnemonic
+ `typedef' -- `typedef __signed__ __int128 __s128
+ __attribute__((aligned(16)))'
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/main
-head:   c96933548628d84436aff2640c68fb4dfd47ea4a
-commit: 3f46013bc402c9c99e8eeca7f7fb53055153d26a [308/382] pNFS/flexfiles: give the read-mostly layout segment fields their own cacheline
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20261031/202610310459.Q3bswxmc-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310459.Q3bswxmc-lkp@intel.com/reproduce)
+On Fri, Oct 30, 2026, at 19:23, Arnd Bergmann wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610310459.Q3bswxmc-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:22,
-                    from include/linux/uio.h:8,
-                    from include/linux/socket.h:8,
-                    from include/uapi/linux/in.h:25,
-                    from include/linux/in.h:19,
-                    from include/linux/nfs_fs.h:22,
-                    from fs/nfs/flexfilelayout/flexfilelayout.c:10:
->> include/linux/build_bug.h:80:41: error: static assertion failed: "!IS_ENABLED(CONFIG_SMP) || offsetof(struct nfs4_ff_layout_segment, mirror_array) + sizeof(struct nfs4_ff_layout_mirror *) <= offsetof(struct nfs4_ff_layout_segment, stripe_unit) + SMP_CACHE_BYTES"
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:79:34: note: in expansion of macro '__static_assert'
-      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/nfs/flexfilelayout/flexfilelayout.c:1092:1: note: in expansion of macro 'static_assert'
-    1092 | static_assert(!IS_ENABLED(CONFIG_SMP) ||
-         | ^~~~~~~~~~~~~
---
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:22,
-                    from include/linux/uio.h:8,
-                    from include/linux/socket.h:8,
-                    from include/uapi/linux/in.h:25,
-                    from include/linux/in.h:19,
-                    from include/linux/nfs_fs.h:22,
-                    from flexfilelayout.c:10:
->> include/linux/build_bug.h:80:41: error: static assertion failed: "!IS_ENABLED(CONFIG_SMP) || offsetof(struct nfs4_ff_layout_segment, mirror_array) + sizeof(struct nfs4_ff_layout_mirror *) <= offsetof(struct nfs4_ff_layout_segment, stripe_unit) + SMP_CACHE_BYTES"
-      80 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:79:34: note: in expansion of macro '__static_assert'
-      79 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   flexfilelayout.c:1092:1: note: in expansion of macro 'static_assert'
-    1092 | static_assert(!IS_ENABLED(CONFIG_SMP) ||
-         | ^~~~~~~~~~~~~
+> The idea sounds right, but it doesn't appear to do anything for me,
+> I still get the same output:
+>
+> arnd@studio:~/arm-soc/asm-generic$ make O=../build/tmp/ ARCH=arm64 -C 
+> tools/testing/selftests/vDSO/ V=1
+...
+>
+> It looks like tools/testing/selftests/ is built in the source directory,
+> while the 'make headers_install' installed the headers to the object
+> directory in '../build/tmp/usr/include/'.
+>
+> I have never been able to figure out how kselftest actually wants
+> to handle this.
 
 
-vim +80 include/linux/build_bug.h
+Nevermind, I figured out that your fix works when doing
+'make -C tools/testing/selftests', since tools/testing/selftests/Makefile
+is what sets KHDR_INCLUDES. When I tried to use 'make -C tools/testing/selftests/vDSO'
+the assignment gets skipped, so I got the same error as before.
 
-bc6245e5efd70c Ian Abbott       2017-07-10  61  
-6bab69c65013be Rasmus Villemoes 2019-03-07  62  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   * static_assert - check integer constant expression at build time
-6ffd853b0b10e1 Randy Dunlap     2026-03-01  64   * @expr: expression to be checked
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  77   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  78   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @80  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  81  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  82  
-
-:::::: The code at line 80 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      Arnd
