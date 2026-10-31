@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793431620;
-	b=ZhXLGxxWg8zSu+HZF3ntfL5jezz+pk+7Xkc90nLDiJbuWPW5LdJhpRr7G19jvhQX6Qen
-	 ju0GjuGF4SPwDRBaB8P42h+J3+QacdQErvtiYc9rqOQVb1P6SHvs/uE+m91EQ5ne02L+S
-	 UuL4zvlPJnpfY3eZgELURMZBkRk6N5V9n022qLBH61/hbDNulIBbSl2NCDe3UQknCZ8e7
-	 fZaCdE32isiycldXdW1Zi9kYE5ojA8DV4Z4bUcB6w0n4zkOhmbR4slQkNmM6roY8KVcLW
-	 qa9gkXYV84OaJ2I8w8+1suKeG29qbYbQGtx5hRvr06tPgBimei/OmnN+79r1cIS0v8A==
+	t=1793432279;
+	b=tVrIWidvCw9XwCRwm2Md/a6jgBPXsmB+4biRTmOoZClmJR4cZys6npYRye12KhiHxco9
+	 bxq7r7U/Rhsy69cG2My96QLSuUX+ZXWgXFeUGz/SKkwCWqketKv0wB43ao1YytWLn/ZRp
+	 HFVJfOVcSjVvK++2kVrzfJ92M6s/oNZic/uUMD8Dk5D0vDruiCvW4jegk8lbS5WZk8bNa
+	 3Vm/zCx3Fw/BlaVjZZNYGK2UQz4uKLeBK4PfFTcyNEQSQjFFjEfKwHa8n8ej8DD/Ma/ej
+	 T71qkbbQKBAgaEMvpqC0iFts42VpwRv8t2W5TLume3X8UvkuSQpWIMaXQTnQNeyEknw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793431620;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793432279;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=RiPlvIclKIHkb++bxVQkKuYeuOpiB3GRN0lNMPqxshc=;
-	b=CjdjxB0Ef3zeo7nv7VWysUY3ByQciPUEaJdCS6gvVH2iAPGTGjBoEUkHFbWS6HiJdGgD
-	 Ve6YSGdzOnQM1FVpmGJF6g508/+mHaDIUl2fclZzyWWBay+BYtASUJSs0sl2JVMSVc6C4
-	 QHBXrTmuhZ6h1JVYYfl3e0WdYx/6Exj267bmwqHB5eX2ZLIEtbT/gcrdg4lSPfVJhL1Tn
-	 KV5jRS8gsdpSdTH78kbGeDfio8YZqT75GyL73o3cp9e2DBBBLWGtdkCGagJfMb2qd06pV
-	 hrV5OsvlvXZGop60x+9w1t+5lTqbjQ5DxE7d2NZ+ll19QtNrXh2vHsU/Arja2t0+81A==
+	bh=2/K1n3bQYxMsxXuoGrZ8rSuoFhPCJVLQ+FIMHckHtqA=;
+	b=DIFEbGT3jxtPanXiuhNHlOdcu+XYysF0KXsUthP9CLfuRxQ1KbnSGC7WIDQEWEYWHFnS
+	 HfGZZC9kaQOJHJK2z7s61Qlugmd9GmB+h5EYUPGu7jY++yp3JeT5r0U1tdTi+So61BSXl
+	 OL2TNpzpjUQEqAgKg6AqVrx9s4Ck8Z78xCD4CY5JOec1xRKKX8eTvjHxqKjV5jm1kmhV3
+	 GYh2zA/Z6zzpZmNuIZArusiVrJgNIhHHUX8b8t862aCKgMZovuomJmev77yhpym1QZDkl
+	 7P21fhBQw+ELEijvGyaNRUryWpcrQ2LFjFWfB6WrnBHcpXTSUPplBhIzs5gjD0teoUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Evmqkfkt;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jrSIFxTo;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20174606A31F;
-	Sat, 31 Oct 2026 07:26:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20174606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D205F606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 07:37:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D205F606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Evmqkfkt
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jrSIFxTo
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793431619; x=1824967619;
+  t=1793432278; x=1824968278;
   h=date:from:to:cc:subject:message-id;
-  bh=lXof648fFRP7CSIpdU/T6NkRhRo2R+XsR1Dv4fB84kM=;
-  b=EvmqkfktB/ppe70ONVOkIKQ/pnx7RLy7YeoCUlAOn8wjVsHP2YB1XAi5
-   3CNcbwqLP5naNueZq7J1hUGrycOKCKMbcBejMjQ7IXLdM8Ia4OGZHxeP3
-   3XnUA3V254VmQPKhhN74WoTqvdrvBWFKp9AjMvhif/vLfQxfNMw9ss1iG
-   qJEho2uDWxgEjYhXpIvrExGdCr8du32APIb9UFRJqFhZoo+0X7SAfUXb3
-   dPgQKtR8dNSkjetrM0LFHkhwtM0/u3PbbHCO1HsF+lgmMsgoGKMrA4J4T
-   vvHeH8QREmIUpfLaKPBdPubwxYR29LisLhZU+hN3B9a6qUKj+wPEBXGS+
-   Q==;
-X-CSE-ConnectionGUID: 8nmmR5AGTqqdORv04/sE/A==
-X-CSE-MsgGUID: 3KCJBpHiS6upkAlULu0u7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2219473"
+  bh=/k5JZc2yCRV/hHMaDUnk9g6pEP7lm69/V/1OaMe7vHM=;
+  b=jrSIFxToBec4ybUJMHoMKmNK6zDw/y3GqxkaQj/Ge2LBB//FdCaPjwHB
+   XeAVf+tx0DmQ95rttE9qT9GJa0/yz5CeCtaHy7mbuHhJ7vNkSSdjwUZg5
+   /RECgNEBlxo5qC8mq2TfqOMz+t6EKqlWyPpUbHIU70MF2hiZgEFaBRD+P
+   XHGkDdnLQ1kzaxjY3ItB5SlOVV90frRba2GQFzgTurjPZSIvSoQmxwkSg
+   AukM+f9WLmwWRNF9VjwPfTqAhsvrPgq57KBFv7+/8pRYAjlZwTUaoXasg
+   /PVpsusb7ECe/1FN6EUdiPxKgJX6xGhVlLPcwitUzWey8RnesN3pxnVsX
+   g==;
+X-CSE-ConnectionGUID: w5Sk6HcCSYura+tbB3oi1A==
+X-CSE-MsgGUID: o2EnfHNjT9m12Wc37N4MFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2089682"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2219473"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 00:26:58 -0700
-X-CSE-ConnectionGUID: +p/aY0abTKOlkLyeh+6nyQ==
-X-CSE-MsgGUID: JWKTPYC1RJCGSxWi2goovQ==
+   d="scan'208";a="2089682"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 00:37:57 -0700
+X-CSE-ConnectionGUID: VLq5Uiu9RE2kqkoLhFdHRw==
+X-CSE-MsgGUID: kgqKVt8bRn++hMEa/P1FNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5960961"
+   d="scan'208";a="6038699"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 31 Oct 2026 00:26:56 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 Oct 2026 00:37:57 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xN3UL-000000005uh-38l1;
-	Sat, 31 Oct 2026 07:26:53 +0000
-Date: Sat, 31 Oct 2026 08:26:15 +0100
+	id 1xN3f0-000000005ut-0GYm;
+	Sat, 31 Oct 2026 07:37:54 +0000
+Date: Sat, 31 Oct 2026 08:37:14 +0100
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-10-30 327/343]
- sound/soc/soc-card.c:1505:3: error: cannot jump from this goto statement to
- its label
-Message-ID: <202610310844.IFdxKyNR-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-p3s 11/11]
+ fs/crypto/bio.c:67:17: sparse: sparse: cast to restricted blk_status_t
+Message-ID: <202610310804.uqBaixA6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,110 +80,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-10-30
-head:   09f1a103b1f1ef745ade1826d62438261db56245
-commit: cf30bd670849d570767b65301fe6042a78f71e71 [327/343] ASoC: soc-card: use missing soc_card_ret()
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261031/202610310844.IFdxKyNR-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310844.IFdxKyNR-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-p3s
+head:   c463a42cc7dafcb80758c1540a47e0f390373b6b
+commit: adcf6597b9c87ccb9fbcab9607e89e64f2b6a468 [11/11] UPSTREAM: fscrypt: keep multiple bios in flight in fscrypt_zeroout_range_inline_crypt
+config: arm64-randconfig-r2304-20261031 (https://download.01.org/0day-ci/archive/20261031/202610310804.uqBaixA6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310804.uqBaixA6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610310844.IFdxKyNR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610310804.uqBaixA6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/crypto/bio.c:67:17: sparse: sparse: cast from restricted blk_status_t
+>> fs/crypto/bio.c:67:17: sparse: sparse: cast to restricted blk_status_t
 
->> sound/soc/soc-card.c:1505:3: error: cannot jump from this goto statement to its label
-    1505 |                 goto err;
-         |                 ^
-   sound/soc/soc-card.c:1523:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1523 |         guard(mutex)(&client_mutex);
-         |         ^
-   include/linux/cleanup.h:416:2: note: expanded from macro 'guard'
-     416 |         CLASS(_name, __UNIQUE_ID(guard))
-         |         ^
-   include/linux/cleanup.h:299:3: note: expanded from macro 'CLASS'
-     299 |                 class_##_name##_constructor
-         |                 ^
-   <scratch space>:29:1: note: expanded from here
-      29 | class_mutex_constructor
-         | ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:35:1: note: expanded from here
-      35 | __UNIQUE_ID_unlock_415
-         | ^
-   sound/soc/soc-card.c:1523:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-   include/linux/cleanup.h:416:15: note: expanded from macro 'guard'
-     416 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
-     165 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:23:1: note: expanded from here
-      23 | __UNIQUE_ID_guard_414
-         | ^
-   1 error generated.
+vim +67 fs/crypto/bio.c
 
-
-vim +1505 sound/soc/soc-card.c
-
-  1488	
-  1489	int snd_soc_card_register(struct snd_soc_card *card, struct snd_soc_card_driver *driver)
-  1490	{
-  1491		int ret;
-  1492	
-  1493		if (!card->name)
-  1494			snd_soc_card_set_name(card, driver->default_name);
-  1495		if (!card->long_name)
-  1496			snd_soc_card_set_long_name(card, driver->default_long_name);
-  1497		if (!card->components)
-  1498			snd_soc_card_set_components(card, driver->default_components);
-  1499	
-  1500		card->driver		= driver;
-  1501		card->instantiated	= 0;
-  1502		card->dapm		= snd_soc_dapm_alloc(card->dev);
-  1503		if (!card->dapm) {
-  1504			ret = -ENOMEM;
-> 1505			goto err;
-  1506		}
-  1507	
-  1508		dev_set_drvdata(card->dev, card);
-  1509	
-  1510		INIT_LIST_HEAD(&card->widget_list_head);
-  1511		INIT_LIST_HEAD(&card->path_list_head);
-  1512		INIT_LIST_HEAD(&card->dapm_list_head);
-  1513		INIT_LIST_HEAD(&card->dapm_dirty_list_head);
-  1514		INIT_LIST_HEAD(&card->aux_list_head);
-  1515		INIT_LIST_HEAD(&card->component_list_head);
-  1516		INIT_LIST_HEAD(&card->unbind_list);
-  1517		INIT_LIST_HEAD(&card->rtd_list_head);
-  1518	
-  1519		mutex_init(&card->mutex);
-  1520		mutex_init(&card->dapm_mutex);
-  1521		mutex_init(&card->pcm_mutex);
-  1522	
-  1523		guard(mutex)(&client_mutex);
-  1524	
-  1525		ret = snd_soc_card_bind_call(card);
-  1526	err:
-  1527		return soc_card_ret(card, ret);
-  1528	}
-  1529	EXPORT_SYMBOL_GPL(snd_soc_card_register);
-  1530	
+    61	
+    62	static void fscrypt_zeroout_range_end_io(struct bio *bio)
+    63	{
+    64		struct fscrypt_zero_done *done = bio->bi_private;
+    65	
+    66		if (bio->bi_status)
+  > 67			cmpxchg(&done->status, 0, bio->bi_status);
+    68		fscrypt_zeroout_range_done(done);
+    69		bio_put(bio);
+    70	}
+    71	
 
 --
 0-DAY CI Kernel Test Service
