@@ -1,78 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793422233;
-	b=lxdMR5mFezFNDI/OYMRLj7TKiaVckvB3bReCKsSh+bVmH0c/CrCPJAKTQyf/G56rSHEW
-	 fSNhEMPm+l7LuelVOPKi2RzdUX9YV4iCgg7Al8O06CkbamOkHQWfEdqfGpmbcwluQuTCu
-	 lQIYQUlwulldyO0gnSNNloMSxwhcHY9pfUjnqnB6plzTwmM5XCZWgklLCl2l/0fGBUI88
-	 4Ic1G8kVv/P774OgY8rzqL4STxdZX61tht93qEVYH4dbEJcQ0TEZt0m/SekivJH4EMXOV
-	 O/VDpWyxAesObDj1BIoKJrPj5EepMFoXvJ2Jq1LHwUgKahu/Z9WNKHhS7coHye76ooA==
+	t=1793427330;
+	b=z0c/Ec8Lfx0zZV2OxOkRQ4h4OG0lsHTWPLEAePYTwiqdkty78hfrC13IPEeT5vs5+VXF
+	 UzeeDYcxkBR59Sft5xBNHHUnHiQHl55BeyAtHKTPrBVnlC1pxoZs0nqmDChvqpNo34U/R
+	 pbQX6PEXIMGT1ygJUqMR7w6r0cC/L0L17/jm4crKzrxfwXUSdYUVfcp6PkKjzbb/GX+BI
+	 SOSZkJCGvoLtHUA/rV4VyB4DOcRmwrh8qY8/VaITIIjkA8XflrBLFaq22uZh8YrdyxFwV
+	 kRHW/K32blUZmruQD2RIm3AlVvZUzynIVHLWaWjSQoA67gijzkI8+JevLxuYigHfTSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793422233;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793427330;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=U0ah+/mdXfppCcH+FdTlHAr5Y6FK4dmXjWDNtY24zT8=;
-	b=D7KInK3a6K6pyMsE141nsRsVHCZSHKuzp3PVF9ytLfutHbzeaWS98utJPoF7tcZk2/5u
-	 lSOGssmVOQhmCB7whffBOrvex4pYmuxEyw+evzCRzLbFIjB1N5pmyAj9MFlVt+YRNFZ1R
-	 P76XNss6uqxGCl13k4cZ+lUIhM2orglvgH2z1cf0PUwzIzLTnnV1P9sFl8lLPOA4BHRsF
-	 tunIHg7JHCU754sr5d/dxkwpd75XRagj9E206MAyvnh1X64IO9/LsyIcMmUBkEkVmCZJP
-	 PqfN+Per5RE+O12cwuFumA0rehwf0vFh3TlqpArGYhebSFoI3QGNxK5Xy/SP4vLbquw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=HuGUo0v+R9av9/MPhsxSkYxao4B6X/dKacIweSE1NvI=;
+	b=kTLwrYaJQGmaF3ZoS3oQ1PaTGSwqvyWFwnqMiCu3ogOuvBpyitytpFqCQEtIOCEPBXSH
+	 ZGBQ7FgEhKy0qjWGdyHlWBl7wkHKPeJmSbh0j/7sgoOnL5oboTjI0W2N5Z+SYEF6HIt8x
+	 vfH9/O4bZuz9IgBM6//JEPNmYKR26Io9u/lDuTq559KC6Eht6Tb55yzyh2qbE/f853KBH
+	 pwM+5Tu4mhoSQFsuTRzBrc7zDIXAUu2l+lqlR7WbL9/iD2aV++BhjwMcm5zX/rKmeXMj3
+	 RQwaOC72bi0l9l6Z4woUDVKGZeGebAWiaWlMqAWBMFTeAk7+zlHyq1C3pxIQu79Ge3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RVVpX0zH;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FlUzJJbt;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD53606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 04:50:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBD53606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7888A606A31D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 06:15:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7888A606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RVVpX0zH
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FlUzJJbt
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793422232; x=1824958232;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VQIxThp1B2mpWnsX0MaSqLPhRU+ui0ShDgvVHR25dYQ=;
-  b=RVVpX0zHVF2NYfL9h4VgwAQN0n0qBEKkVQgcKRBSKd0N/QoOKfDW9XaB
-   oHXNmo0uMBpqgYJxY1CfhaMFDwFT0nihK5cP5YsCOeANuygFs47TMS2Yu
-   B6CKGpAd+2FMi+6pa0xrNfLhy5Kg3rxkxujV/wn0SZ4aYbLb5jnsu0lm+
-   boZDMBZAkqADlKqbTt1tSMWul0b/f9D0uvGbqK8WIEz0KK208FeBti/Qv
-   V6nCDm4g0HFpczY0tjEJYdQ8UuTW6MHdLpuoyS7JBOzKI70dWIlrNM6j4
-   SZMdrZTj2zT0+omgZQxXVVaY2HttGBFP0SlIf6/837tTrYOgmoltgYwWj
+  t=1793427329; x=1824963329;
+  h=date:from:to:cc:subject:message-id;
+  bh=vWcV4k3CKrpu0RXSR1JUj3KTs6CCAB1EnUXXgEEr9UY=;
+  b=FlUzJJbtvd3mDFpvDamulOd7S9XF05S3CHAVfszQSlXJF/ASJeXX7yzh
+   h/m+4GQ0CEGUXQKoJEI8jSRktcXmtfgHvGEO7VX96NlsDftwu0W2zjnMN
+   UKIWQ6UgTJIzos3piDA/pMQBJGlhju0ekLwxVMtsiTvqx7OXkONUkNH8f
+   EpPNDsHj8P7KoAHmS8CppPNaJzKhYiG8XnbsgfLeqeF06Z6PLEvczgmTZ
+   3OQB3EPwvk3fpACUwAkgSk+s29PfmJV0HtXocfgUF2nKYs1lEWMicxlCc
+   Y3Y+YQH+aQVYC86iSmbmGJr5gNMBCN5QuX8EfYVp1dDd+Xd90CgDHnVxv
    g==;
-X-CSE-ConnectionGUID: gDI60pdgRGCxv8fZiiU6xg==
-X-CSE-MsgGUID: dSrucJWoSIKSq9kR5o+XRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2199118"
+X-CSE-ConnectionGUID: q1te+jMcRomqeZ4fXre/4w==
+X-CSE-MsgGUID: veZckeq7ReynxWifxDNbTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2080868"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2199118"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 21:50:31 -0700
-X-CSE-ConnectionGUID: jh76AprFT1i2+5WyacK76w==
-X-CSE-MsgGUID: aWxndDEHTM6RBXMZz9Yrew==
+   d="scan'208";a="2080868"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 23:15:28 -0700
+X-CSE-ConnectionGUID: Nc64eSwwReeISxRtBCQIpw==
+X-CSE-MsgGUID: MxsqBaK3R26oTxW3C2vu6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5481267"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 Oct 2026 21:50:30 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="6028674"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Oct 2026 23:15:26 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xN12x-00000000cXk-2XEz;
-	Sat, 31 Oct 2026 04:50:27 +0000
-Date: Sat, 31 Oct 2026 12:49:32 +0800
+	id 1xN2N9-000000005tF-1tue;
+	Sat, 31 Oct 2026 06:15:23 +0000
+Date: Sat, 31 Oct 2026 07:14:37 +0100
 From: kernel test robot <lkp@intel.com>
-To: Saranya Gopal <saranya.gopal@intel.com>, linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, rafael.j.wysocki@intel.com
-Subject: Re: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
-Message-ID: <202610311242.kB7pRXhy-lkp@intel.com>
-References: <20261030030515.3127310-1-saranya.gopal@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: fs/ecryptfs/miscdev.c:285:13: sparse: sparse: restricted
+ __be32 degrades to integer
+Message-ID: <202610310715.jnQiuxAF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,64 +80,152 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261030030515.3127310-1-saranya.gopal@intel.com>
 
-Hi Saranya,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master next-20261030]
-[cannot apply to v7.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Saranya-Gopal/ACPI-s2idle-Handle-shared-_Ixx-GPEs-without-an-EC/20261030-083515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20261030030515.3127310-1-saranya.gopal%40intel.com
-patch subject: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
-config: x86_64-buildonly-randconfig-1000-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311242.kB7pRXhy-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311242.kB7pRXhy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   36aad21d50d1af3f6954bb0c988257a908202477
+commit: 3d9aba6618d115750729bba2d1f8af180bd7d3bd LoongArch: Adjust build infrastructure for 32BIT/64BIT
+date:   6 months ago
+config: loongarch-randconfig-r2300-20261031 (https://download.01.org/0day-ci/archive/20261031/202610310715.jnQiuxAF-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310715.jnQiuxAF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 3d9aba6618d1 ("LoongArch: Adjust build infrastructure for 32BIT/64BIT")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610311242.kB7pRXhy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610310715.jnQiuxAF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ecryptfs/miscdev.c:285:13: sparse: sparse: restricted __be32 degrades to integer
+>> fs/ecryptfs/miscdev.c:285:13: sparse: sparse: restricted __be32 degrades to integer
+>> fs/ecryptfs/miscdev.c:285:13: sparse: sparse: cast from restricted __be32
 
-   In file included from drivers/acpi/sleep.c:26:
-   drivers/acpi/internal.h: In function 'acpi_ec_dispatch_gpe':
-   drivers/acpi/internal.h:262:17: error: 'ENOTSUP' undeclared (first use in this function); did you mean 'ENOTSUPP'?
-     262 |         return -ENOTSUP;
-         |                 ^~~~~~~
-         |                 ENOTSUPP
-   drivers/acpi/internal.h:262:17: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/acpi/internal.h:263:1: warning: control reaches end of non-void function [-Wreturn-type]
-     263 | }
-         | ^
+vim +285 fs/ecryptfs/miscdev.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS_OF
-   Depends on [n]: PM_GENERIC_DOMAINS [=y] && OF [=n]
-   Selected by [y]:
-   - COMMON_CLK_MT8173_MFGTOP [=y] && COMMON_CLK [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y]) && COMMON_CLK_MT8173 [=y] && PM [=y]
+48399c0b0e6172 Tyler Hicks     2012-01-14  196  
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  197  /**
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  198   * ecryptfs_miscdev_read - format and send message from queue
+2ecaf55db6dcf4 Tyler Hicks     2012-06-11  199   * @file: miscdevfs handle
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  200   * @buf: User buffer into which to copy the next message on the daemon queue
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  201   * @count: Amount of space available in @buf
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  202   * @ppos: Offset in file (ignored)
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  203   *
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  204   * Pulls the most recent message from the daemon queue, formats it for
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  205   * being sent via a miscdevfs handle, and copies it into @buf
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  206   *
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  207   * Returns the number of bytes copied into the user buffer
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  208   */
+f66e883eb6186b Michael Halcrow 2008-04-29  209  static ssize_t
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  210  ecryptfs_miscdev_read(struct file *file, char __user *buf, size_t count,
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  211  		      loff_t *ppos)
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  212  {
+2ecaf55db6dcf4 Tyler Hicks     2012-06-11  213  	struct ecryptfs_daemon *daemon = file->private_data;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  214  	struct ecryptfs_msg_ctx *msg_ctx;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  215  	size_t packet_length_size;
+48399c0b0e6172 Tyler Hicks     2012-01-14  216  	char packet_length[ECRYPTFS_MAX_PKT_LEN_SIZE];
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  217  	size_t i;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  218  	size_t total_length;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  219  	int rc;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  220  
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  221  	mutex_lock(&daemon->mux);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  222  	if (daemon->flags & ECRYPTFS_DAEMON_ZOMBIE) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  223  		rc = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  224  		printk(KERN_WARNING "%s: Attempt to read from zombified "
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  225  		       "daemon\n", __func__);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  226  		goto out_unlock_daemon;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  227  	}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  228  	if (daemon->flags & ECRYPTFS_DAEMON_IN_READ) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  229  		rc = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  230  		goto out_unlock_daemon;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  231  	}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  232  	/* This daemon will not go away so long as this flag is set */
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  233  	daemon->flags |= ECRYPTFS_DAEMON_IN_READ;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  234  check_list:
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  235  	if (list_empty(&daemon->msg_ctx_out_queue)) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  236  		mutex_unlock(&daemon->mux);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  237  		rc = wait_event_interruptible(
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  238  			daemon->wait, !list_empty(&daemon->msg_ctx_out_queue));
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  239  		mutex_lock(&daemon->mux);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  240  		if (rc < 0) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  241  			rc = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  242  			goto out_unlock_daemon;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  243  		}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  244  	}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  245  	if (daemon->flags & ECRYPTFS_DAEMON_ZOMBIE) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  246  		rc = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  247  		goto out_unlock_daemon;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  248  	}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  249  	if (list_empty(&daemon->msg_ctx_out_queue)) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  250  		/* Something else jumped in since the
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  251  		 * wait_event_interruptable() and removed the
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  252  		 * message from the queue; try again */
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  253  		goto check_list;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  254  	}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  255  	msg_ctx = list_first_entry(&daemon->msg_ctx_out_queue,
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  256  				   struct ecryptfs_msg_ctx, daemon_out_list);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  257  	BUG_ON(!msg_ctx);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  258  	mutex_lock(&msg_ctx->mux);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  259  	if (msg_ctx->msg) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  260  		rc = ecryptfs_write_packet_length(packet_length,
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  261  						  msg_ctx->msg_size,
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  262  						  &packet_length_size);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  263  		if (rc) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  264  			rc = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  265  			printk(KERN_WARNING "%s: Error writing packet length; "
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  266  			       "rc = [%d]\n", __func__, rc);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  267  			goto out_unlock_msg_ctx;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  268  		}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  269  	} else {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  270  		packet_length_size = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  271  		msg_ctx->msg_size = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  272  	}
+48399c0b0e6172 Tyler Hicks     2012-01-14  273  	total_length = (PKT_TYPE_SIZE + PKT_CTR_SIZE + packet_length_size
+48399c0b0e6172 Tyler Hicks     2012-01-14  274  			+ msg_ctx->msg_size);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  275  	if (count < total_length) {
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  276  		rc = 0;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  277  		printk(KERN_WARNING "%s: Only given user buffer of "
+df261c52abdef1 Michael Halcrow 2009-01-06  278  		       "size [%zd], but we need [%zd] to read the "
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  279  		       "pending message\n", __func__, count, total_length);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  280  		goto out_unlock_msg_ctx;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  281  	}
+79bc12a0a09c2e Al Viro         2008-05-21  282  	rc = -EFAULT;
+79bc12a0a09c2e Al Viro         2008-05-21  283  	if (put_user(msg_ctx->type, buf))
+79bc12a0a09c2e Al Viro         2008-05-21  284  		goto out_unlock_msg_ctx;
+48399c0b0e6172 Tyler Hicks     2012-01-14 @285  	if (put_user(cpu_to_be32(msg_ctx->counter),
+48399c0b0e6172 Tyler Hicks     2012-01-14  286  		     (__be32 __user *)(&buf[PKT_CTR_OFFSET])))
+79bc12a0a09c2e Al Viro         2008-05-21  287  		goto out_unlock_msg_ctx;
+48399c0b0e6172 Tyler Hicks     2012-01-14  288  	i = PKT_TYPE_SIZE + PKT_CTR_SIZE;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  289  	if (msg_ctx->msg) {
+79bc12a0a09c2e Al Viro         2008-05-21  290  		if (copy_to_user(&buf[i], packet_length, packet_length_size))
+79bc12a0a09c2e Al Viro         2008-05-21  291  			goto out_unlock_msg_ctx;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  292  		i += packet_length_size;
+79bc12a0a09c2e Al Viro         2008-05-21  293  		if (copy_to_user(&buf[i], msg_ctx->msg, msg_ctx->msg_size))
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  294  			goto out_unlock_msg_ctx;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  295  		i += msg_ctx->msg_size;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  296  	}
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  297  	rc = i;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  298  	list_del(&msg_ctx->daemon_out_list);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  299  	kfree(msg_ctx->msg);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  300  	msg_ctx->msg = NULL;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  301  	/* We do not expect a reply from the userspace daemon for any
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  302  	 * message type other than ECRYPTFS_MSG_REQUEST */
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  303  	if (msg_ctx->type != ECRYPTFS_MSG_REQUEST)
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  304  		ecryptfs_msg_ctx_alloc_to_free(msg_ctx);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  305  out_unlock_msg_ctx:
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  306  	mutex_unlock(&msg_ctx->mux);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  307  out_unlock_daemon:
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  308  	daemon->flags &= ~ECRYPTFS_DAEMON_IN_READ;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  309  	mutex_unlock(&daemon->mux);
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  310  	return rc;
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  311  }
+8bf2debd5f7bf1 Michael Halcrow 2008-04-29  312  
 
+:::::: The code at line 285 was first introduced by commit
+:::::: 48399c0b0e6172888a2e2e36df1595ab1e049ba8 eCryptfs: Replace miscdev read/write magic numbers
 
-vim +263 drivers/acpi/internal.h
-
-a6021aa24f64174 Arnd Bergmann 2024-10-11  258  
-a6021aa24f64174 Arnd Bergmann 2024-10-11  259  static inline void acpi_ec_flush_work(void) {}
-c644e4b14c9cb08 Saranya Gopal 2026-10-30  260  static inline int acpi_ec_dispatch_gpe(void)
-a6021aa24f64174 Arnd Bergmann 2024-10-11  261  {
-c644e4b14c9cb08 Saranya Gopal 2026-10-30  262  	return -ENOTSUP;
-a6021aa24f64174 Arnd Bergmann 2024-10-11 @263  }
-a6021aa24f64174 Arnd Bergmann 2024-10-11  264  
+:::::: TO: Tyler Hicks <tyhicks@canonical.com>
+:::::: CC: Tyler Hicks <tyhicks@canonical.com>
 
 --
 0-DAY CI Kernel Test Service
