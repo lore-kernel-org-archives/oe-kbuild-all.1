@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793463390;
-	b=QyfKQWGPV9FUOCPRsaRaMn7s0eyw3LaXA9DEsaGNHwyTOoa3vfNfs3LlJPefY48oVni/
-	 Mn+iR2RXa6vgkndW7g5MYhvq65Mxvo+X+MuaT4d3pY6IfOTso0lQSfCPrJ5eJDH/p9bev
-	 ePSGRXOLD1zTc9JdfHfjPxX0R1vvYK2U/IKyEpnzKgafkPl3onWTX5CbJuK90SdD1XRw7
-	 zuqldk1iCo8H4oXfBX9b+Pj+UnA7XRxCmTAMMjPJYlFixvqcVaBvUD22QxWNC/rGAPbve
-	 gdUOKsLO1kL7Qc0xcLyrlezflC1p1mawO18EyFbzy0N8Nyil5LNlFuiwTut4RtiHMBA==
+	t=1793467713;
+	b=BvYQD5DpOHyi5SNddDpdHXtIEzitIj0Fra6oCejgCEViSBZ4dHlsOMJsp4UBQG1m1XnE
+	 6MN3LFcGeUFp2Q4MuKrMR5fR7YfUvxf7Dx8xyEHl6HSvLKwBYkl1X9vd3/Dl/hrvX6hXk
+	 ebwA6kJpGquFsP5wphQGTNd18NCUCiLHIRc9FF4fUnxHSFzqUgzobtob1bONMn1ybuIu6
+	 5lMSkJ+hkAP/EC7n4iTstR6dyPSyGEt7vBs8tx+6MEbAGy5fsBBVDgeFHbQhARIz6H5y6
+	 dpWxIOKGLqGyNK6vbBrAgjllDSamVSvappNRtYGvWGjTvQny4upF4WslvTodZ8qFhMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793463390;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793467713;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=HK9Xn0Rgqjzkply4FGDu4Bq8iqZzIA4WsPYXwbnQBMo=;
-	b=4i7Y4FRc+GF/34Wy/2jJs5mpxwzwhc8MsIVCFjV2fBQkJc70Afq8sMwQJ1v5hpK4sNO0
-	 VHQq7hEgOQHNxCaktXIiIy7E+/P+8A53T2ByMLFR3qRKzow4Swi+STtrLY1Uf0SNiTRTa
-	 X9hSZzAnXWjv04n6WWehDlEwPWzzVU3vxMfqj8Tq8q4QWCROukug7c+yWL2Rv9Q0VDlSy
-	 NZGhiNZLspG3ybyQby3AumEOBxiNZXXMiPRRiH+NneyiPAQBGFIcR4wvpPCWE1LypCWun
-	 Ki1joigma4Bl3j+PY4PBT9c8wscED/S07o/IaraPc4lbAsBVnUqK3zZg0/UM+wqvJCA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=XqBo2eq/og0Wm1CgiY+gzEJFqNOnGBH4IDZsk3Jnuxo=;
+	b=Dq9QPJYzQZKMojWDB+fYjJBcpGb5efFRCMJ5IkwQ+N5B4zMGHxqthBqouu1/YlBDhsB8
+	 khg7JIGOs+G24AlA0VOJbQcU6eXoWAjotEzWRCxJgf5wwNaSFFBEBqx3gT+es4gsGjQuB
+	 8QywnW/U4Pny5gAKNiz4JKe12/9aHBAG98Nq9bMf+kA+N4NVzUGgW6RV3fHm/N1TwtmM4
+	 4iISc5j1ayNOwD9l+T4b3sZPXJq38VvyHWvyqOtCbgxFhzcEl5i4fIED6aNSchW5N3ERv
+	 TOYDalALyekYQ0rAuYcoTeApf+V0pC04nHzUXaeY0wvccbGLf9e8oZPqeLdMjSQXUOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZdwvUxdy;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZZqizgmE;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF245606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 16:16:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF245606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6977606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 17:28:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6977606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZdwvUxdy
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZZqizgmE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793463388; x=1824999388;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mJmRjkBqyTwSUrTE3m6DW9MRMvcEzJZ1oBuRaaJ/G5E=;
-  b=ZdwvUxdyANbYbSO2WgNISDOmGpk38oUxv/5EhE+1C8fzTxeYedsAlTVg
-   nP5BYqIPFXTBcL6VWKciFzaSh44lffGRFSt7/DPxi3iE8+R5Ws1UbqLlQ
-   1IdBnvosqyaofNIXAPxyT+5KBM2B0BpzMtc3TX8jvv8Ld5ULxkCNI8CbC
-   qhfj9CqybRngw8ATqWDsnim+6Va0bGZZKMMAxvE+OxatxTnulX6p6T6Vd
-   fqYkKpv5WPW5OGD3amSwr6SflsyknqfnkpCZPL+AcU0pMmBPDAqZo7Owz
-   E3oeoScB7BqyFnMSmX3IheqLoV8vuOd9tUrCvxGJvvLC6KWDUW5ojnBW6
-   Q==;
-X-CSE-ConnectionGUID: ZleSRNG6TTKddt4Fr+euow==
-X-CSE-MsgGUID: RF2zWr3jRM6eJM8jPLwctA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2231732"
+  t=1793467712; x=1825003712;
+  h=date:from:to:cc:subject:message-id;
+  bh=tPZyejknDUQkhTxVH/KWYp4VCGi/JS5/18MZ7Q97D8I=;
+  b=ZZqizgmEO8olKsIcWrQTJFRuzLxqkhWTYPw8yg2E0Nwt7b2g+F002Yw1
+   QSwFVJBRU2Td8eZ72pyy+NWvtmHWbIHyfLSwWXT7TE1RuuxqpwWmdUgdH
+   KJS2FOm4qeRJq7HchMYvoIv/NBEnasQhZm2gS0AKnIBkfPvx/aDA16gBE
+   j4ijNszOThWPRhWqmXQVIk34gt8q1B4HGJ1rei1V4GchvCr4bctMrUEwL
+   xJ9bg/7PNaW7ROA3kCxiTvrx7fBzj/TbzpycKdkEwLrwi/Pxr41ipHkDs
+   VacfJS6bwqsr99MuXEMmqdMRIzLmstOOKuOnO4nNv91BNYgX0OQ7bqZsm
+   w==;
+X-CSE-ConnectionGUID: RL50/ER3R8enX+MYWvcBMQ==
+X-CSE-MsgGUID: vs4VjtttREGK4jrwiTJjEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2090419"
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2231732"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 09:16:27 -0700
-X-CSE-ConnectionGUID: 95aQbypgR8Gxls8dM2ZtTg==
-X-CSE-MsgGUID: 3waIpoHbTOC+7QDY9c4waw==
+   d="scan'208";a="2090419"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 10:28:32 -0700
+X-CSE-ConnectionGUID: 4BcSJeD1RvCJMSvr46NoQw==
+X-CSE-MsgGUID: AdA2SceuRZeWD7Uns/Gitw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="5561187"
+   d="scan'208";a="6032442"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 31 Oct 2026 09:16:26 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 31 Oct 2026 10:28:29 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNBkm-0000000063H-00rK;
-	Sat, 31 Oct 2026 16:16:24 +0000
-Date: Sat, 31 Oct 2026 17:16:06 +0100
+	id 1xNCsU-00000000647-4Bzu;
+	Sat, 31 Oct 2026 17:28:27 +0000
+Date: Sat, 31 Oct 2026 18:27:59 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/kunit-kselftests 21/25]
- lib/kunit/kunit-test.c:923: undefined reference to `kunit_uapi_run_kselftest'
-Message-ID: <202610311735.5IJZCVYR-lkp@intel.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
+ Ilya Dryomov <idryomov@gmail.com>, Xiubo Li <xiubo.li@clyso.com>
+Subject: [ceph-client:testing 30/47] fs/ceph/mds_client.c:532:17:
+ sparse: sparse: non size-preserving integer to pointer cast
+Message-ID: <202610311803.q7TZGqgw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,43 +80,263 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
-head:   08d947e58a57885e518ef1b6ab3c81f199eac864
-commit: 2b26a679c2fe1852afbbe25c9916d43c3136d0c8 [21/25] kunit: uapi: Validate the usability of /proc
-config: mips-randconfig-r2309-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311735.5IJZCVYR-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1-1-gc4640450
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311735.5IJZCVYR-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   3f007b9f327745c94aec312a28973b28f6a51fc4
+commit: 29beb7a6b57d1d73993611fd5baa817d3008fc7e [30/47] ceph: switch MDS request plumbing to struct ceph_journal_info
+config: powerpc64-randconfig-r2306-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311803.q7TZGqgw-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311803.q7TZGqgw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610311735.5IJZCVYR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610311803.q7TZGqgw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/ceph/mds_client.c:532:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:684:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1132:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1145:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1189:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1455:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1513:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1513:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1513:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1530:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1530:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1530:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1530:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1545:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1545:33: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1570:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1583:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1823:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1872:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1893:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1893:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1916:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1940:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:1982:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2158:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2185:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2190:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2206:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2244:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2261:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2409:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2430:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2430:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2430:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2430:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2436:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2436:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2436:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2436:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2640:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:2660:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3013:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3112:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3112:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3197:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3209:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3631:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3806:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3903:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3903:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3931:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:3972:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4031:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4076:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4091:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4131:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4242:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4259:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4423:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4449:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4569:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4644:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4644:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4644:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4644:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4681:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:4854:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:5971:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:5971:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:5987:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6108:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6128:25: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6167:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6185:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6274:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6361:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6585:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6728:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6728:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6728:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6756:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6765:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6765:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6769:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6769:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6769:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:6769:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:7093:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:7169:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:7169:9: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:7174:17: sparse: sparse: non size-preserving integer to pointer cast
+   fs/ceph/mds_client.c:7174:17: sparse: sparse: non size-preserving integer to pointer cast
 
-   mips64-linux-ld: lib/kunit/kunit-test.o: in function `kunit_uapi_test':
->> lib/kunit/kunit-test.c:923: undefined reference to `kunit_uapi_run_kselftest'
-   mips64-linux-ld: lib/kunit/kunit-example-test.o: in function `example_uapi_test':
-   lib/kunit/kunit-example-test.c:501: undefined reference to `kunit_uapi_run_kselftest'
+vim +532 fs/ceph/mds_client.c
 
-
-vim +923 lib/kunit/kunit-test.c
-
-   917	
-   918	static void kunit_uapi_test(struct kunit *test)
-   919	{
-   920		KUNIT_UAPI_EMBED_BLOB(kunit_test_uapi, "kunit-test-uapi");
-   921	
-   922		if (IS_ENABLED(CONFIG_KUNIT_UAPI))
- > 923			kunit_uapi_run_kselftest(test, &kunit_test_uapi);
-   924		else
-   925			kunit_skip(test, "CONFIG_KUNIT_UAPI is not enabled");
-   926	}
-   927	
+   480	
+   481	/*
+   482	 * parse readdir results
+   483	 */
+   484	static int parse_reply_info_readdir(void **p, void *end,
+   485					    struct ceph_mds_request *req,
+   486					    u64 features,
+   487					    struct ceph_mds_client *mdsc)
+   488	{
+   489		struct ceph_mds_reply_info_parsed *info = &req->r_reply_info;
+   490		struct ceph_client *cl = req->r_mdsc->fsc->client;
+   491		u32 num, i = 0;
+   492		int err;
+   493	
+   494		err = parse_reply_info_dir(p, end, &info->dir_dir, features);
+   495		if (err < 0)
+   496			goto out_bad;
+   497	
+   498		ceph_decode_need(p, end, sizeof(num) + 2, bad);
+   499		num = ceph_decode_32(p);
+   500		{
+   501			u16 flags = ceph_decode_16(p);
+   502			info->dir_end = !!(flags & CEPH_READDIR_FRAG_END);
+   503			info->dir_complete = !!(flags & CEPH_READDIR_FRAG_COMPLETE);
+   504			info->hash_order = !!(flags & CEPH_READDIR_HASH_ORDER);
+   505			info->offset_hash = !!(flags & CEPH_READDIR_OFFSET_HASH);
+   506		}
+   507		if (num == 0)
+   508			goto done;
+   509	
+   510		BUG_ON(!info->dir_entries);
+   511		if (num > info->dir_buf_size / sizeof(*info->dir_entries)) {
+   512			pr_err_client(cl, "dir contents are larger than expected\n");
+   513			goto bad;
+   514		}
+   515	
+   516		info->dir_nr = num;
+   517		while (num) {
+   518			struct inode *inode = d_inode(req->r_dentry);
+   519			struct ceph_inode_info *ci = ceph_inode(inode);
+   520			struct ceph_mds_reply_dir_entry *rde = info->dir_entries + i;
+   521			struct fscrypt_str oname = FSTR_INIT(NULL, 0);
+   522			struct ceph_fname fname;
+   523			u32 altname_len, _name_len;
+   524			u8 *altname, *_name;
+   525			u8 *tname = NULL;
+   526	
+   527			/* dentry */
+   528			ceph_decode_32_safe(p, end, _name_len, bad);
+   529			ceph_decode_need(p, end, _name_len, bad);
+   530			_name = *p;
+   531			*p += _name_len;
+ > 532			boutc_bounded(cl, "parsed dir dname '%.*s'\n",
+   533				      (_name_len, BLOG_STR(_name, _name_len)),
+   534				      (_name_len, (const char *)_name));
+   535	
+   536			if (info->hash_order)
+   537				rde->raw_hash = ceph_str_hash(ci->i_dir_layout.dl_dir_hash,
+   538							      _name, _name_len);
+   539	
+   540			/* dentry lease */
+   541			err = parse_reply_info_lease(p, end, &rde->lease, features,
+   542						     &altname_len, &altname);
+   543			if (err)
+   544				goto out_bad;
+   545	
+   546			/*
+   547			 * Try to dencrypt the dentry names and update them
+   548			 * in the ceph_mds_reply_dir_entry struct.
+   549			 */
+   550			fname.dir = inode;
+   551			fname.name = _name;
+   552			fname.name_len = _name_len;
+   553			fname.ctext = altname;
+   554			fname.ctext_len = altname_len;
+   555			/*
+   556			 * The _name_len maybe larger than altname_len, such as
+   557			 * when the human readable name length is in range of
+   558			 * (CEPH_NOHASH_NAME_MAX, CEPH_NOHASH_NAME_MAX + SHA256_DIGEST_SIZE),
+   559			 * then the copy in ceph_fname_to_usr will corrupt the
+   560			 * data if there has no encryption key.
+   561			 *
+   562			 * Just set the no_copy flag and then if there has no
+   563			 * encryption key the oname.name will be assigned to
+   564			 * _name always.
+   565			 */
+   566			fname.no_copy = true;
+   567			if (altname_len == 0) {
+   568				/*
+   569				 * Set tname to _name, and this will be used
+   570				 * to do the base64_decode in-place. It's
+   571				 * safe because the decoded string should
+   572				 * always be shorter, which is 3/4 of origin
+   573				 * string. If this message was allocated with
+   574				 * vmalloc() (happens, but rarely), leave it
+   575				 * NULL and let ceph_fname_to_usr() allocate
+   576				 * suitable temporary working space instead.
+   577				 */
+   578				if (likely(!is_vmalloc_addr(_name)))
+   579					tname = _name;
+   580	
+   581				/*
+   582				 * Set oname to _name too, and this will be
+   583				 * used to do the dencryption in-place.
+   584				 */
+   585				oname.name = _name;
+   586				oname.len = _name_len;
+   587			} else {
+   588				/*
+   589				 * This will do the decryption only in-place
+   590				 * from altname cryptext directly.
+   591				 */
+   592				oname.name = altname;
+   593				oname.len = altname_len;
+   594			}
+   595			rde->is_nokey = false;
+   596			err = ceph_fname_to_usr(&fname, tname, &oname, &rde->is_nokey);
+   597			if (err) {
+   598				pr_err_client(cl, "unable to decode %.*s, got %d\n",
+   599					      _name_len, _name, err);
+   600				goto out_bad;
+   601			}
+   602			rde->name = oname.name;
+   603			rde->name_len = oname.len;
+   604	
+   605			/* inode */
+   606			err = parse_reply_info_in(p, end, &rde->inode, features, mdsc);
+   607			if (err < 0)
+   608				goto out_bad;
+   609			/* ceph_readdir_prepopulate() will update it */
+   610			rde->offset = 0;
+   611			i++;
+   612			num--;
+   613		}
+   614	
+   615	done:
+   616		/* Skip over any unrecognized fields */
+   617		*p = end;
+   618		return 0;
+   619	
+   620	bad:
+   621		err = -EIO;
+   622	out_bad:
+   623		pr_err_client(cl, "problem parsing dir contents %d\n", err);
+   624		return err;
+   625	}
+   626	
 
 --
 0-DAY CI Kernel Test Service
