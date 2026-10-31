@@ -1,77 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793472110;
-	b=aSIaS+z/KMdXqCEgI4lTCiYQOLA7ZlH5ZwIbt1HMSeJnmn4JBTFShjJOlGP7A9QyyFmc
-	 JkCnD0Vs+J2h9NqDjS884PmK502qTvyArUS3h8+iLawZgy5+NBXr71x6NXG41T61ATN8U
-	 KBO9qx74hzbz920xutBrQEMCqqwqZeLbk6qcE2eQ8dArBc0flhFD0d0dHENwQ8mWN2bWZ
-	 DNd9wx7D4VQe2NwOEvwYZdiG/2jPyede71M/OTH6UNukFR1xfqSpIO+URL/tB3cJ+4OuG
-	 PCTqHWVeSom7gThITUw/h40MGsxtJaSHkgvBZYGLAgQl5K1ILiON9VWHZP3mSlbOrLA==
+	t=1793473693;
+	b=JGGqYk4Sv6hgFIhuZerYgNdAA+IdtvpKWmygTC+xWFcWNEfivwbQJvEPMyCxr0948CNO
+	 7qDrE1Q/Jk4C8D4P+09Qiu7wq/rxvRcW+L5IMHJCA8bCmVQJj2L6IpgSuBj7Y0r+98rQ4
+	 8c4yV56SlBJb7C7qVx4cruKNQbaMfEWNG9jhgNGTwtfnDscXkGxbouosVl/Nq60hXKc8M
+	 RC4pm2VHYG3lT0TrTj6E3Uo3MJU3BAu+Uk05MDUU1l4ElYF9KxfQF7Qhdkrid7jjuRlf/
+	 MTSeKp94xkPCPEjEiHR8BAQe4JM06E4zQfYDwKSrRkZq+jkiXdbOuOwKUla6CCrS9fA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793472110;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793473693;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=7mdOVq5iOgAaTvoMVbT/vqPlLq4xs3L9/HXuKKUMxnY=;
-	b=2/Bs5YdykBe0SH+v6jmjKzJNkyBGXhRK1WaW/Rj5n8cykO+MMcntXRkIuLOcCEfOmBFO
-	 GRU7USt92SbuH5xiJzqDJvfXUlsk7wP84Eb63g/BYVNsQArEZR3N5qKdU52hoWFG9M3YZ
-	 DvXUYNxMjiAk7WrRlwcw7bqhN0gLF1H+4q/N9ujV3xZW7iSRTa1DBoesPCoXp5/5lcXnJ
-	 cnJSVjjEba6bazYIh5qy/ZhNLpzxClfQom4hWyv/+lVlHQKNNj3day9Tj3H4Pt8izbEyv
-	 gfZ+AMSlrb7sRn3wuOSu/B7LFJtjtjramS4wjw4+ypAIT31GG1czckjBjJyUfpGc5rQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=/LscOLn41OKpLbVnPd4xE9dms+FzlvehR8MBG5Utoss=;
+	b=M69WGZMshl86NteNGH9GIbFSzFd6DiTXN934OGAvNlCjprCIr54SuGo50PfC5IZF4UX8
+	 ftWhWEvdF7UF9L9k5vNAJeG2oDszEwqUB/BZjvf5FNO77gNybz/bmc4AB3R366ILKgku+
+	 ZAHaGWbFNYQ/R2KJ4b0JgRNhyvITYHkXopVe0EWAOBUeJ1ad7aui3Ov2zUKQ68AUrAPbk
+	 jwlUlyC8zrlnxjQs8K3FI2x63yK6aR1rjvykPeEdlY0Iw3FcG0Ifnit1yEVmofQsJb5gS
+	 ZvwqqoC629fx31089FPTg1jXOwjCHz+g9Da+jgW2GJ0bK9Bdo+nw/MQPJ7eGNka8FIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ob7nCgNZ;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PpAcvhxg;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CA3606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 18:41:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64CA3606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46CE606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 19:08:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E46CE606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ob7nCgNZ
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PpAcvhxg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793472103; x=1825008103;
-  h=date:from:to:cc:subject:message-id;
-  bh=p/y3e9T42dufLMYaIPvULB+zvCZ34nSx7z97h/F/QUI=;
-  b=Ob7nCgNZ/a0GwGkXRprWXn9lVpJC0ZgU/pMb7PS1Jyw2kkgEPvVZqA4a
-   sI8TwWO1huTnxM4M1bhbTSko2Uk9IBT0YMzwe6cc3K3flujxTSgl7MOUb
-   CZvJNBbwa6JpZzvpKvQSVkmDis6Qb6aRpHge3fF83qgVYAkcHYNRITzop
-   KWlKz33nGKBjR2bbM27f/BAe61wUnXdnOmZk0eh8njv1kaEqZ8V7T5Ix3
-   8X0nzcvCKT8d2Rr8SrtwYbt9IuUygu+qHWjf1+GSVtnv2u2OBS1fs7kEm
-   FDxW7uF2uQMQVFIWzV9BHhlH7wGjyQ1/vc/CCK3vHJZxyI4VVmul+LhQg
+  t=1793473692; x=1825009692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c29btWuVr0fvimsA9IMS8mmau5ofOCQF01O8gAxcQhg=;
+  b=PpAcvhxgvwn+hvLmIud3tNdaJdTe2NoMYhCCd7vKzns1/Kh1X2ZCsfmN
+   lZF5Kg6lINbfxM2MlRn0wY19TVj7gyoNh6lNYmK9QMqNw0T0Jb3CmNLhO
+   9qOVBgXmc9rDsr9GJGJAwBy4JVPlqEOYQOnQCR9nkqyKiq0lWRBrlvg/L
+   xQ7Xrnwrvt5+E4EBqfs1Zofjk8HOxXLpUzc+j3SzNvda48WqHaYP3LVG7
+   6iOJUb+rbU83PpJS++PKg7DuXEZ5IiLzkUvjlAvhMEOkES/9gFIoEzi7w
+   amK7r/h4pjKtSXg24OovfEV3TORN+L4kV8GRgAoO/6Ncr3qZ5ubafQgMD
    A==;
-X-CSE-ConnectionGUID: 8SN7/69ESei+6bcBQTpk1g==
-X-CSE-MsgGUID: 1sRnfvGLSo+KznfHgxJcGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2092585"
+X-CSE-ConnectionGUID: 5omwKJ4YRZ2MEMUaM3a6zA==
+X-CSE-MsgGUID: jRTz99iGR8KXf3lt2/2E/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2214135"
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2092585"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 11:41:42 -0700
-X-CSE-ConnectionGUID: POwwPQbpSx6DnzfyTU77Gw==
-X-CSE-MsgGUID: qAqblqBDRGyGYNQmBfHU0g==
+   d="scan'208";a="2214135"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 12:08:11 -0700
+X-CSE-ConnectionGUID: z0oV6JnFSHymNAR8O0W/Fw==
+X-CSE-MsgGUID: xDOKj0fAQDSeoLb0Nh5wsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="7539740"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 31 Oct 2026 11:41:40 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6096436"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 31 Oct 2026 12:08:06 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNE1J-0000000065D-2BVO;
-	Sat, 31 Oct 2026 18:41:37 +0000
-Date: Sat, 31 Oct 2026 19:40:56 +0100
+	id 1xNEQt-00000000d5Q-2MJy;
+	Sat, 31 Oct 2026 19:08:03 +0000
+Date: Sun, 1 Nov 2026 03:07:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
- Ilya Dryomov <idryomov@gmail.com>, Xiubo Li <xiubo.li@clyso.com>
-Subject: [ceph-client:testing 35/47] fs/ceph/crypto.c:281:9: sparse:
- sparse: non size-preserving integer to pointer cast
-Message-ID: <202610311938.WUDLdyhy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v5 11/11] drm/tegra: Add support for 8-bit CPU interface
+Message-ID: <202611010236.HbsmlTpw-lkp@intel.com>
+References: <20261029152909.234584-12-clamor95@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,137 +94,39 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029152909.234584-12-clamor95@gmail.com>
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   3f007b9f327745c94aec312a28973b28f6a51fc4
-commit: 88d679bc66688124f73a2e30617c12a14bb5aeff [35/47] ceph: convert remaining helper paths to BLOG logging
-config: x86_64-randconfig-2300-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311938.WUDLdyhy-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311938.WUDLdyhy-lkp@intel.com/reproduce)
+Hi Svyatoslav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next linus/master v7.3 next-20261030]
+[cannot apply to tegra/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/drm-Add-MIPI-DBI-bus-support/20261029-172859
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20261029152909.234584-12-clamor95%40gmail.com
+patch subject: [PATCH v5 11/11] drm/tegra: Add support for 8-bit CPU interface
+config: arm-randconfig-1001-20261031 (https://download.01.org/0day-ci/archive/20261101/202611010236.HbsmlTpw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611010236.HbsmlTpw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610311938.WUDLdyhy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611010236.HbsmlTpw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/ceph/crypto.c:281:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:498:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:498:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:509:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:509:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:610:17: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:610:17: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:619:9: sparse: sparse: non size-preserving integer to pointer cast
+All errors (new ones prefixed by >>):
 
-vim +281 fs/ceph/crypto.c
-
-   214	
-   215	int ceph_encode_encrypted_dname(struct inode *parent, char *buf, int elen)
-   216	{
-   217		struct ceph_client *cl = ceph_inode_to_client(parent);
-   218		struct inode *dir = parent;
-   219		char *p = buf;
-   220		u32 len;
-   221		int prefix_len = 0;
-   222		int name_len = elen;
-   223		int ret;
-   224		u8 *cryptbuf = NULL;
-   225	
-   226		/* Handle the special case of snapshot names that start with '_' */
-   227		if (ceph_snap(dir) == CEPH_SNAPDIR && *p == '_') {
-   228			dir = parse_longname(parent, p, &name_len);
-   229			if (IS_ERR(dir))
-   230				return PTR_ERR(dir);
-   231			p++; /* skip initial '_' */
-   232			prefix_len = 1;
-   233		}
-   234	
-   235		if (!fscrypt_has_encryption_key(dir))
-   236			goto out;
-   237	
-   238		/*
-   239		 * Convert cleartext d_name to ciphertext. If result is longer than
-   240		 * CEPH_NOHASH_NAME_MAX, sha256 the remaining bytes
-   241		 *
-   242		 * See: fscrypt_setup_filename
-   243		 */
-   244		if (!fscrypt_fname_encrypted_size(dir, name_len, NAME_MAX, &len)) {
-   245			elen = -ENAMETOOLONG;
-   246			goto out;
-   247		}
-   248	
-   249		/* Allocate a buffer appropriate to hold the result */
-   250		cryptbuf = kmalloc(len > CEPH_NOHASH_NAME_MAX ? NAME_MAX : len,
-   251				   GFP_KERNEL);
-   252		if (!cryptbuf) {
-   253			elen = -ENOMEM;
-   254			goto out;
-   255		}
-   256	
-   257		ret = fscrypt_fname_encrypt(dir,
-   258					    &(struct qstr)QSTR_INIT(p, name_len),
-   259					    cryptbuf, len);
-   260		if (ret) {
-   261			elen = ret;
-   262			goto out;
-   263		}
-   264	
-   265		/* hash the end if the name is long enough */
-   266		if (len > CEPH_NOHASH_NAME_MAX) {
-   267			u8 hash[SHA256_DIGEST_SIZE];
-   268			u8 *extra = cryptbuf + CEPH_NOHASH_NAME_MAX;
-   269	
-   270			/*
-   271			 * hash the extra bytes and overwrite crypttext beyond that
-   272			 * point with it
-   273			 */
-   274			sha256(extra, len - CEPH_NOHASH_NAME_MAX, hash);
-   275			memcpy(extra, hash, SHA256_DIGEST_SIZE);
-   276			len = CEPH_NOHASH_NAME_MAX + SHA256_DIGEST_SIZE;
-   277		}
-   278	
-   279		/* base64 encode the encrypted name */
-   280		elen = base64_encode(cryptbuf, len, p, false, BASE64_IMAP);
- > 281		boutc_bounded(cl, "base64-encoded ciphertext name = %.*s\n",
-   282			      (elen, BLOG_STR(p, elen)), (elen, (const char *)p));
-   283	
-   284		/* To understand the 240 limit, see CEPH_NOHASH_NAME_MAX comments */
-   285		WARN_ON(elen > 240);
-   286		if (elen > 240) {
-   287			elen = -ENAMETOOLONG;
-   288			goto out;
-   289		}
-   290	
-   291		if (dir != parent) {
-   292			int total_len;
-   293			/* leading '_' is already there; append _<inum> */
-   294			char suffix[CEPH_ENCRYPTED_SNAP_INO_SUFFIX_MAX];
-   295	
-   296			ret = snprintf(suffix, sizeof(suffix), "_%llu", dir->i_ino);
-   297			total_len = prefix_len + elen + ret;
-   298			if (total_len > NAME_MAX) {
-   299				elen = -ENAMETOOLONG;
-   300				goto out;
-   301			}
-   302	
-   303			memcpy(p + elen, suffix, ret);
-   304			/* Include the leading '_' skipped by p. */
-   305			elen = total_len;
-   306		}
-   307	
-   308	out:
-   309		kfree(cryptbuf);
-   310		if (dir != parent) {
-   311			if ((inode_state_read_once(dir) & I_NEW))
-   312				discard_new_inode(dir);
-   313			else
-   314				iput(dir);
-   315		}
-   316		return elen;
-   317	}
-   318	
+   arm-linux-gnueabi-ld: drivers/gpu/drm/tegra/dbi.o: in function `tegra_dbi_probe':
+>> dbi.c:(.text+0x874): undefined reference to `devm_mipi_dbi_device_register'
 
 --
 0-DAY CI Kernel Test Service
