@@ -1,86 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793448435;
-	b=WrMgm4885GRA1qtIdOIBJfQ+inkqeB24OPb5otxdsGsYBow34sRyxyLbM1ikCuwHYGh/
-	 yYXfLYI/b0xd+g/doJWF1YDUKRL6Zm9+BNfJp3z2YaMJfsBrbDC1+8sOH4IYnTsi1V8dM
-	 aWF/HBuLN7n/qDHhkezsOXOoedP7GY9dH3qD0arxWILbxRwQ9VUMkwnRlVckgE+Ljgzzk
-	 eSqWFOJ7XJkhSE5p4ygGFM+PBjGr9wmqQV6HjQT6akkCHhM3wIPoN7Sh2GXu5hVqKlByE
-	 nZSVNxZG9c3GWOISQVZWJwNQUWoPLGFO3SWA3WYefirIttyqTuitHT7hQmHKcPG5MuA==
+	t=1793449211;
+	b=FXlqsWKJdsf8+T90nfZVEDsBsoH/GN69xV+yRV6a1CO09c9PgYtzWXgBrjZSt0+SQm0V
+	 sVJLwvVG2Bl/4Ow691pIpXq7NBl19h0cxOkzNZuNIny4zigfGf2td4kTFhh4Dnka2QHue
+	 gxhDU0XA92Zy5UEiNsqR0xZEFwhnnCGK9958FxMaq3uVu1t/r7RusdMLlxCBDOHrBY6Yn
+	 pqMfk9wzwiIsyGhQKUkUn4f+UXf3Pz2zmbbb6ppk08i/WpDTR3Sus8YcnYI6QqZxdlu1g
+	 8XOJznAzb+nY6Ks7Bx5Wdymc0vSagpzvltvSHqvjMqxKND2XjniZ/iKtdg6PvPJaToA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793448435;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793449211;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=+l1RRgq+C9AayOmwqqNeY+nzGv5HKvLpPKk8tw/PkoQ=;
-	b=nLp34cnyTL0ulKRA0VT/YSkdv1o+7cqZsx42PUahUKUDR94b7id9LGxBX3POc06tlxpd
-	 77F8Q9DDjYYv3J5/eu41n/49CEMmDa6mOOmYlMWb9u4G9AC08MMMLJslL0TlHDQAmZoqS
-	 g5VLeWD1KMQ/FVGNEVmFX7sgDQyox7G2K3Hu7CtWsKu3NkYxhaF1x4mNTxczN5m9XW3iG
-	 YokTpOaNLo8sQt3r1vwOeImE1xWwUbwKQi4LBoxsG+EuaO770j5qosG1JTEclQfbMMUW2
-	 J9zXWBrL9O8b37ajkLeTvZ3A062DFB/cU5NkisFkKgH3HA5e7icRKM4sSKTrpNFB/Ug==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=B4U0JqAqjLI2Yu670Ze0vs2di29aPcPEVerkf4RxpRc=;
+	b=j0J8ZHG14Rli4/KisrUaYb/fTF0qFZ4mvsA/W2E9UoyI8eMJZFXODRwaNrvo/IyPz83r
+	 b+MwV/yW7fnooFWBpe4E73A8tqPWXQHoLMqgwNpZBLTEjBwJeT77V1hKK7p3l+GcT5CyQ
+	 PhbgmQYBa89MU0D0OTyM9CpjGvA//WbMpMNmCwY5/eUHswHpJa3O6qUflxrCcAk3Q/fOQ
+	 SgvJCeDKHeBcGt3e76Bx8SMPSAYyM+JE4ip8Is9Ry1SNO5/4JdQGtz4iUOrSNiU5fJZv4
+	 /XvbXZjBv57XROCeSlESF9mGe0tq93vXocOI/Co9MzoSCSNu5qaZJbkTy18f2flezDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k5pQxOSG;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SZLG7XYo;
 	arc=none smtp.remote-ip=192.198.163.11
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D53606A31D;
-	Sat, 31 Oct 2026 12:07:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74D53606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCA9606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 12:20:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FCA9606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k5pQxOSG
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SZLG7XYo
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793448434; x=1824984434;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2NOLA5XLr0F+d2rcxhw0zW65IDgq0qHt9PrC2igHtR4=;
-  b=k5pQxOSG7azQND/AcZuzs3XsntWJI61kUbDswhhMOGyutMUU6dciBlII
-   MkCVebYpkno1KGjFYuJVi2mFUgHC9UdkRbTMIiFsvXVxCsCLffkCD2rjW
-   ljkYQE2SXqNxbncc0HEWXT/DgKEbBAK1ERzMdBweU3HStxTd3KrXEDLeJ
-   fXZMb5vwRji6EMsjS1LgwuNaxxmI4UvPxIV9wlU32SOILkn+rQTa2mMRy
-   fCRcXGXmbj0o4MB+rtlcStzheZAqHw4Pe8ehaoiA3c1YlPRTEsL58qkly
-   GXqX8lKlp2rGQQCtkr2EAiF/i6coMoPJqpIAoWn6lKhNPWY7Urx0NPgzu
-   w==;
-X-CSE-ConnectionGUID: 4b5p85oKR/6E16lXjWkluA==
-X-CSE-MsgGUID: innpXHaySayPPcCMsOVeyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2111056"
+  t=1793449210; x=1824985210;
+  h=date:from:to:cc:subject:message-id;
+  bh=yHiCe2BLiJnvIzO0tjd/YeLXs/ORDH5vhbGeVaL1+2A=;
+  b=SZLG7XYo+dBuwBzA+WjAWHJYmppN88vUjqGFr1myJs41qTCdJCCo6MPA
+   mPE1GrsXZxwIW+zekBgiIcatEUZ9ra670jpoFGkg3R0gXwvB5IUH2z3TO
+   nxIqvbVbHgCh4jRfjL6tbHR/kRFyLBsZLZDjE/aZX2lDGKPWo2BujUJ/n
+   N5aXUPeip3MoBM5JmqPVCTj4QrBiuDaSCZRshm11UndEUPt+q4B1XocvE
+   CSCadF/RyfVqq/7dO89mwRrTzznKMwVglZZ7mZG10AbB3sWSiEJtTo5r1
+   xOfO+oUD8/wGwsj0v7U3zf2GTfSbo+Jm84bvSUO4RCkgJeDbZVZe1pfOQ
+   Q==;
+X-CSE-ConnectionGUID: VtDyZAX7RS2SW3uit+0Z1w==
+X-CSE-MsgGUID: Bf6ka2LjT+SSU5XAILG6lA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2111370"
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2111056"
+   d="scan'208";a="2111370"
 Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 05:07:13 -0700
-X-CSE-ConnectionGUID: aRmGSsk1R1ugqt8b3FW5xQ==
-X-CSE-MsgGUID: IYxRFdnZT1CpmNC+dmjNEg==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 05:20:10 -0700
+X-CSE-ConnectionGUID: UWrCo/uBRba1r4vmlEy1qg==
+X-CSE-MsgGUID: XEhz82uGS1qxM0z/rd1W3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="7493584"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 31 Oct 2026 05:07:09 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7495209"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa011.fm.intel.com with ESMTP; 31 Oct 2026 05:20:09 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xN7rV-00000000coK-1izy;
-	Sat, 31 Oct 2026 12:07:05 +0000
-Date: Sat, 31 Oct 2026 20:07:03 +0800
+	id 1xN846-000000005zr-2yTq;
+	Sat, 31 Oct 2026 12:20:06 +0000
+Date: Sat, 31 Oct 2026 13:19:48 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>, jgg@ziepe.ca,
-	alex@shazbot.org, pbonzini@redhat.com, seanjc@google.com,
-	bhelgaas@google.com, jjohnson@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	johannes@sipsolutions.net, mani@kernel.org, lpieralisi@kernel.org,
-	kwilczynski@kernel.org, robh@kernel.org, vkuznets@redhat.com,
-	kevin.tian@intel.com, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ath11k@lists.infradead.org, ath12k@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Subject: Re: [PATCH v3 2/8] KVM: add PCI MSI hypercall for VFIO passthrough
-Message-ID: <202610311919.NWIUCtPb-lkp@intel.com>
-References: <20261029163713.1366077-3-jtornosm@redhat.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ceph-client:testing 23/47] checkpatch:
+ WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+Message-ID: <202610311337.Fya0qiQi-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -89,40 +79,23 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029163713.1366077-3-jtornosm@redhat.com>
 
-Hi Jose,
+tree:   https://github.com/ceph/ceph-client.git testing
+head:   3f007b9f327745c94aec312a28973b28f6a51fc4
+commit: 3751f4b9fcc39f484c10486ce7ae8ac541712d02 [23/47] ceph: add BLOG deserialization support
+reproduce: (https://download.01.org/0day-ci/archive/20261031/202610311337.Fya0qiQi-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
+# many are suggestions rather than must-fix
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master next-20261030]
-[cannot apply to kvm/queue kvm/next ath/ath-next kvm/linux-next v7.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#320: FILE: fs/ceph/blog_des.c:297:
++			 * Skip kernel %p sub-specifiers (U, I, d, D, etc.).
++				 * boutc does not support %p extensions; call sites
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jose-Ignacio-Tornos-Martinez/vfio-add-helper-to-find-PCI-device-by-vendor-device-ID/20261029-173706
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20261029163713.1366077-3-jtornosm%40redhat.com
-patch subject: [PATCH v3 2/8] KVM: add PCI MSI hypercall for VFIO passthrough
-config: x86_64-randconfig-1011-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311919.NWIUCtPb-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311919.NWIUCtPb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610311919.NWIUCtPb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: vfio_file_find_pci_device
-   >>> referenced by vfio.c:405 (arch/x86/kvm/../../../virt/kvm/vfio.c:405)
-   >>>               vmlinux.o:(kvm_vfio_pci_msi_alloc)
+WARNING:BLOCK_COMMENT_STYLE: Block comments should align the * on each line
+#321: FILE: fs/ceph/blog_des.c:298:
++				 * boutc does not support %p extensions; call sites
++			 * must pre-format them with snprintf and pass %s.
 
 --
 0-DAY CI Kernel Test Service
