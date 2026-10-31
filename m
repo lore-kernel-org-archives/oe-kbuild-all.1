@@ -1,86 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793451919;
-	b=fh3mZdy9uTgcYBFFx8b1jrPIQE0k6RXbzI0HjbSMCnwnaR7ju0pgg4AzYFWBwdBXlZXW
-	 0PM6oiOtjQr6Qg+NKElqTOLYvRjPJnN6Aur4YwJeV+++wlAegDS7eoD/pE3VKVvtzE+eb
-	 vce4BVbIIMuQjJ6FY+fRn+tmB80TLJjzxD7CxJ/AgaLmokfiBoRzUZH1GIdVpBbW6XU1n
-	 T0egvkGODMTaTIAlG8XbWBZci839z+DKsH+rxxZPMD198t5ie7KnHdULPoPsxyxN7jNYw
-	 NfQw3z1NBY1m1GGO4RM6g73IWRIwf8aGla/J3yTacKe7jSeBwpMo9+kROZFEmwQhQVA==
+	t=1793454539;
+	b=roO2EieKxpHCrO6+ZYdGHWt3F0X5+zlaWX921stN0SQ3yrPk2AhMNVrI4+8NKuUs6Gef
+	 iOW3NoBNDM5QOtRWLK1423zEvzxXdQ86o1BEPQH4Sxq4ICvTBW9ZGt/LMcfEhjdRGrmU4
+	 UX+9l16rsIHlQyIdorw9rO7UvLrPCg5G0cHAotvysD67yoTd9Wj5U2DRKuntV7QyTLqZS
+	 B52knuveqEVlikDNlMyLXnNnME1ELYb/eJPDmTlHdjtw0LqVsnidG8zl5S9+S6lWdNzaU
+	 YR+418cK81L28eA03b0fFq14mvpqbdDT8Oh3d9P8Vt0+XgUNBMmrE0y3ikgMe6sL6QQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793451919;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=f5ws4P5aodtLHIxZUb1kvo3ZrIOXihNTOzmKBiRiaiM=;
-	b=libXaeHqFu27cdX9ByxgRMQrg1zdXAPfjsygbqdpabVWUkqO3WgBMXRxz++xtdac+ml6
-	 oC22kdmB2OfwkqQxmQUC3ujvJC0L2OVI0g8cYm8V3/AJqCW1iUbYpBxzj7qYR4dujUeii
-	 gQPqarLbVfGB2k0nDtn3dPEqLkvRbGyfMyksfLwpEk9XFkS0aBE2H+TreScYJ3ttq7uDu
-	 2Ob1WlEn82RtzY8hkNiArsCYU64CVyrnsOrMIbMq9TyURE0ALpEMJQydA+VP7qFNRj/IG
-	 hvNQsQQpKJXjvkg5jm64eriVjq2rB0clxy/VEBAZeDpBdvxmagpJFKMYa6ch9O8+cZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793454539;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition;
+	bh=Xx9SCThQoWYYGzLXN5QVW157HMKSdqxGmw557uxzfq0=;
+	b=DUxtWLNJFHLhe9Hfn6iWMMCAYMCMcw4czka3zWoSoPPXkzdrdHSiiptmMeqn5iP5+c1L
+	 P4B2Gw4tUPwwrR9NtZJD1BTlNtTQJRNfVxS4nJAYAmXsO5r2axsmWK45f7ulzaXScxKdG
+	 D/mR76KBSXaHa7c2saNp82298ViJqq7r2CRUZAt/xTLn2XI4u3cRma7pGXYSYQ1uPjUFV
+	 aw5eAwFkNgiqWirXRh2hjCCveNh/Dx9BLMvPaYZHnbi+87PWiuyMXLHW6ZJspZZCIMwQH
+	 QYNtH2OBgo0GVYXkHcKAEjoeJy4yLvcOjzKU7jUw1dMA7tZeTWhdMQw5sALAJwcPJkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="H9HdWJ/j";
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jVTFYAmj;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1B9606A31A;
-	Sat, 31 Oct 2026 13:05:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE1B9606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A50B606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 13:48:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A50B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=H9HdWJ/j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793451918; x=1824987918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X048RFPL6FBAYFdYPQEF+MltE6ZmFJe8Xrj4opzqCsQ=;
-  b=H9HdWJ/jy1WFT1ponmJ27ExiOxLiv04X3h0XoPW+aVDQnP7LfmvdC10X
-   su6CibkNsjb5gkop9yzNLL5cxRf5ZSroVxwTHI6D9wierORsCBIPgyDWV
-   j4/sEH47P+SjiqOKYK5blAylFM1c/18fnpjI6xkoBDXTwHnTM39DEMb8f
-   AQNtKLno+Y8VFB1AieKIixWMs1t5oXAC1KUQMG+YIV3DOpvWH2bHQeVhB
-   5bK8x1KLdinOG1Y8NbgPLxwyMK3gq00GYvxUf67dllVR8PX8CvB3ntCLL
-   EsM2JZe6VdnrWeZwdM8RRBMty6Z32JpZDvK2Kyp+Krdo0tH3MUP8Mg3+L
-   Q==;
-X-CSE-ConnectionGUID: C/YqyctlQxu6YQMputFEKw==
-X-CSE-MsgGUID: wnpMjROaTfqfKxIH+yODJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2231347"
-X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2231347"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 06:05:17 -0700
-X-CSE-ConnectionGUID: jA2056AJRn+XlAMKTsIClA==
-X-CSE-MsgGUID: 9p1YMogzTweMiRmjFcGZiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="6049157"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 31 Oct 2026 06:05:13 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xN8li-00000000cqG-3vSm;
-	Sat, 31 Oct 2026 13:05:10 +0000
-Date: Sat, 31 Oct 2026 21:04:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Joey Lu <a0987203069@gmail.com>, Han Gao <gaohan@iscas.ac.cn>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH RESEND 3/3] drm/verisilicon: stop to reuse atomic_disable
- for invisible planes
-Message-ID: <202610312040.VpGybfak-lkp@intel.com>
-References: <20261030133233.197189-4-zhengxingda@iscas.ac.cn>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jVTFYAmj
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a5720b0a57so14670675e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 06:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793454538; x=1794059338; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Xx9SCThQoWYYGzLXN5QVW157HMKSdqxGmw557uxzfq0=;
+        b=jVTFYAmjwFVkRZk+LX+sJxkGCgKiU4pFrXfEO31yWxIXXigQ1CFxSs6bje1ddSxZIY
+         Z2nC1WnPrZ79K/MI1w5N+fDTINAGCrAlra5Aj3G48b/5+a7SpmGSGZAGOPN9XroYoDcz
+         fyl2KhAMm8gyykTR7k226lMDY9md66WScoankr8O7EpA1MDuF+piDj+9HInFsxT1t/vC
+         wUtF2gYomLSIteJJU0GXnrXCcXsx4lIgT3kCwtyR/8m1pYFjCBDH9SpclUh+wvITEL49
+         SWsTv9KXIhsmhjF/Y9pHkUFNEKQyr10S+Krrl4CKDOZ3wZ+1yhX8gOts10L7SvI9q018
+         JAIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793454538; x=1794059338;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Xx9SCThQoWYYGzLXN5QVW157HMKSdqxGmw557uxzfq0=;
+        b=ND8/cvO3cYuuvdV/DkHL5Pa69TUSSmLEvaokNlVhc5KqzaUNSI9XjdvMG9ZaISjW+k
+         oK5L3SVVZ5x+iuaTORnVqILoaWO6FMZmNOdgY+aEqWpDgAkxs0xHJRTG/ijqwlJgrFub
+         5KNU/NCtQQdeD30gGxqNomiy9YVrJXd6OtOcFxiWge63qdM8y8v5i9ZdfTQ1NEwa4YFS
+         WbXyVxbK5a5ZAcjv8+CVnEo1GOc8YCotBKXPEikLxLuxjjw1iQk7r9vwag/hXXzOKgZs
+         sxIVCq3xmZz9m5cCoJ4LO/16VbEWJl8h14UitDZeLWuZX8J764st+zd7IoA+8XVQCrC9
+         8Cag==
+X-Forwarded-Encrypted: i=1; AKwUvBxWGxvEDhHeWlQykyw28XxgS3MLFfIqXGPu86O2RB+lcOrLYZrwK4Eq2kRToIISMY/Srxo9atnHZNb5myb3@lists.linux.dev
+X-Gm-Message-State: AFq9FYKab2mM7tiQz2w6WMOfl9X17xzR8UlaVLUPuPIJ/wGo6gPplD7P
+	/P0VbEfku9OzQorGpXRZ+zx0Ui/ciLe65T0BHsRgTP2CQsWqRczqajJN
+X-Gm-Gg: AYBFou2hKK4x8lXXRxwoRv7iJfTB0gKA3nNEzIQhlIYCvMZk3wA/goi0WSgy73TxP5B
+	AXQ5Z0UzMVifv2asmZyqS4/lFZJ3Lxm3Y02nc2uFKFSG1g1/qCXZgB3KUOhBuHbKeoi/tHVCq4I
+	TzJCTAzoZREoRVpj0VMySCkAyzAoe2ACSaM/FczWHktDIFmPLryoxjNERy7oLdjFccoCAISBuHq
+	3Nzxg+mot61/e6CWqgDfoY8KqAAbuvqCBofzg/oSKvhgLv0dTeUEo+XqHjVfTEuR89OBYC+k0Ww
+	tHV18IpakQfkek3NmxhzKzoECDqTFryzIyj/GJlmZO873T72yMSrZCXsSXbRwv63Vds4Ypsl9Jk
+	FgxGOQL0YcwygUt+QoE6+CCWwtDu3WVCW9vTzVGAteeOVKdCacETOa3/r+i8T6erLOFrFAH+nd4
+	SaNcKxBDVgjGN4UibQplQcTkzKVu7x+8EnU0/y3PiMxdZBmFCD3XQeSKpcTz4uCrkqDgfG8O2ha
+	Df7h46n7KhAwgZ7j8ZQ9WSon7Nq/RNZdl2Wtr2Xy0kbvOFWwS3fudsiGR/wPjW0taRBRaGk3fa+
+	9dvtt9Euj6qJk+P1n/PImTyk2FRagkWt0eImuFDFajhRQK1pa5Xcw74fpsOXNK1AqMfQYMyOkEz
+	6q/jwRMl0vy4tgaR7Td7pe7xRPa8akhpX0du3hgXoLdG3E8A4/1s56+CCmWhOD8IRr+d/SiJgO+
+	lLHJ0FsG9WmZ3F
+X-Received: by 2002:a05:600c:4e08:b0:4a1:9c71:9f17 with SMTP id 5b1f17b1804b1-4ac17287d04mr128220335e9.9.1793454537710;
+        Sat, 31 Oct 2026 06:48:57 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa8213ead6sm207013265e9.14.2026.10.31.06.48.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2026 06:48:56 -0700 (PDT)
+Date: Sat, 31 Oct 2026 16:48:52 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-10-30 221/343]
+ sound/soc/codecs/sn624x-sdca-sdw.c:884 sn624x_jack_rpm_put() warn: variable
+ dereferenced before check 'sn624x' (see line 882)
+Message-ID: <202610311423.8OfajSb6-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -92,127 +100,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261030133233.197189-4-zhengxingda@iscas.ac.cn>
 
-Hi Icenowy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v7.3 next-20261030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Icenowy-Zheng/drm-verisilicon-fix-DC8200-primary-plane-disable-clearing-FB_EN/20261030-213231
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20261030133233.197189-4-zhengxingda%40iscas.ac.cn
-patch subject: [PATCH RESEND 3/3] drm/verisilicon: stop to reuse atomic_disable for invisible planes
-config: arm64-randconfig-1001-20261031 (https://download.01.org/0day-ci/archive/20261031/202610312040.VpGybfak-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c2ea4440d4b64c148de4fdfca1fc2c437a0701e4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610312040.VpGybfak-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-10-30
+head:   09f1a103b1f1ef745ade1826d62438261db56245
+commit: 29e4cb0a2a9fbfe750da9e9f826e5273b2795f96 [221/343] dai
+config: csky-randconfig-r2201-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311423.8OfajSb6-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.5.0
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610312040.VpGybfak-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202610311423.8OfajSb6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+sound/soc/codecs/sn624x-sdca-sdw.c:884 sn624x_jack_rpm_put() warn: variable dereferenced before check 'sn624x' (see line 882)
 
->> drivers/gpu/drm/verisilicon/vs_primary_plane.c:117:28: warning: variable 'dc' is uninitialized when used here [-Wuninitialized]
-     117 |                 vs_primary_plane_disable(dc, output);
-         |                                          ^~
-   drivers/gpu/drm/verisilicon/vs_primary_plane.c:111:18: note: initialize the variable 'dc' to silence this warning
-     111 |         struct vs_dc *dc;
-         |                         ^
-         |                          = NULL
->> drivers/gpu/drm/verisilicon/vs_primary_plane.c:117:32: warning: variable 'output' is uninitialized when used here [-Wuninitialized]
-     117 |                 vs_primary_plane_disable(dc, output);
-         |                                              ^~~~~~
-   drivers/gpu/drm/verisilicon/vs_primary_plane.c:113:21: note: initialize the variable 'output' to silence this warning
-     113 |         unsigned int output;
-         |                            ^
-         |                             = 0
-   2 warnings generated.
---
->> drivers/gpu/drm/verisilicon/vs_cursor_plane.c:154:27: warning: variable 'dc' is uninitialized when used here [-Wuninitialized]
-     154 |                 vs_cursor_plane_disable(dc, output);
-         |                                         ^~
-   drivers/gpu/drm/verisilicon/vs_cursor_plane.c:148:18: note: initialize the variable 'dc' to silence this warning
-     148 |         struct vs_dc *dc;
-         |                         ^
-         |                          = NULL
->> drivers/gpu/drm/verisilicon/vs_cursor_plane.c:154:31: warning: variable 'output' is uninitialized when used here [-Wuninitialized]
-     154 |                 vs_cursor_plane_disable(dc, output);
-         |                                             ^~~~~~
-   drivers/gpu/drm/verisilicon/vs_cursor_plane.c:150:21: note: initialize the variable 'output' to silence this warning
-     150 |         unsigned int output;
-         |                            ^
-         |                             = 0
-   2 warnings generated.
+vim +/sn624x +884 sound/soc/codecs/sn624x-sdca-sdw.c
 
+12d9c9f8679c56 Qianghua Wang     2026-09-01  880  static void sn624x_jack_rpm_put(struct sn624x_sdca_priv *sn624x)
+12d9c9f8679c56 Qianghua Wang     2026-09-01  881  {
+29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27 @882  	struct device *dev = snd_soc_component_to_dev(sn624x->component);
+                                                                                                      ^^^^^^^^^^^^^^^^^
+New dereference
 
-vim +/dc +117 drivers/gpu/drm/verisilicon/vs_primary_plane.c
+29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27  883  
+12d9c9f8679c56 Qianghua Wang     2026-09-01 @884  	if (!sn624x || !sn624x->jack_rpm || !sn624x->component)
+                                                             ^^^^^^
+Old code had a check for NULL.
 
-   102	
-   103	static void vs_primary_plane_atomic_update(struct drm_plane *plane,
-   104						   struct drm_atomic_commit *atomic_state)
-   105	{
-   106		struct drm_plane_state *state = drm_atomic_get_new_plane_state(atomic_state,
-   107									       plane);
-   108		struct vs_plane_state *vs_state = to_vs_plane_state(state);
-   109		struct drm_framebuffer *fb = state->fb;
-   110		struct drm_crtc *crtc = state->crtc;
-   111		struct vs_dc *dc;
-   112		struct vs_crtc *vcrtc;
-   113		unsigned int output;
-   114		dma_addr_t dma_addr;
-   115	
-   116		if (!state->visible) {
- > 117			vs_primary_plane_disable(dc, output);
-   118			return;
-   119		}
-   120	
-   121		vcrtc = drm_crtc_to_vs_crtc(crtc);
-   122		output = vcrtc->id;
-   123		dc = vcrtc->dc;
-   124	
-   125		regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
-   126				   VSDC_FB_CONFIG_FMT_MASK,
-   127				   VSDC_FB_CONFIG_FMT(vs_state->format.color));
-   128		regmap_update_bits(dc->regs, VSDC_FB_CONFIG(output),
-   129				   VSDC_FB_CONFIG_SWIZZLE_MASK,
-   130				   VSDC_FB_CONFIG_SWIZZLE(vs_state->format.swizzle));
-   131		regmap_assign_bits(dc->regs, VSDC_FB_CONFIG(output),
-   132				   VSDC_FB_CONFIG_UV_SWIZZLE_EN,
-   133				   vs_state->format.uv_swizzle);
-   134	
-   135		/*
-   136		 * Primary plane cannot be moved, no clipping is involved,
-   137		 * so the non-clipped framebuffer address can be used.
-   138		 */
-   139		dma_addr = drm_fb_dma_get_gem_addr(fb, state, 0);
-   140	
-   141		regmap_write(dc->regs, VSDC_FB_ADDRESS(output),
-   142			     lower_32_bits(dma_addr));
-   143		regmap_write(dc->regs, VSDC_FB_STRIDE(output),
-   144			     fb->pitches[0]);
-   145	
-   146		regmap_write(dc->regs, VSDC_FB_TOP_LEFT(output),
-   147			     VSDC_MAKE_PLANE_POS(state->crtc_x, state->crtc_y));
-   148		regmap_write(dc->regs, VSDC_FB_BOTTOM_RIGHT(output),
-   149			     VSDC_MAKE_PLANE_POS(state->crtc_x + state->crtc_w,
-   150						 state->crtc_y + state->crtc_h));
-   151		regmap_write(dc->regs, VSDC_FB_SIZE(output),
-   152			     VSDC_MAKE_PLANE_SIZE(state->crtc_w, state->crtc_h));
-   153	
-   154		regmap_write(dc->regs, VSDC_FB_BLEND_CONFIG(output),
-   155			     VSDC_FB_BLEND_CONFIG_BLEND_DISABLE);
-   156	
-   157		vs_primary_plane_commit(dc, output);
-   158	}
-   159	
+12d9c9f8679c56 Qianghua Wang     2026-09-01  885  		return;
+12d9c9f8679c56 Qianghua Wang     2026-09-01  886  
+29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27  887  	pm_runtime_mark_last_busy(dev);
+29e4cb0a2a9fbf Kuninori Morimoto 2026-10-27  888  	pm_runtime_put_autosuspend(dev);
+12d9c9f8679c56 Qianghua Wang     2026-09-01  889  	sn624x->jack_rpm = false;
+12d9c9f8679c56 Qianghua Wang     2026-09-01  890  }
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
