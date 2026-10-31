@@ -1,77 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793485639;
-	b=oEPkILFYRqPugJK5noW8LLPT/4ShChoz9xCioTRKvFk+fMIinLh4O2cW4b2ls28UHaoB
-	 GUdEb4RLVCt5VvoV8qFsgEZyd3LwnB9/g83lTPR5RUS/OSl43chJCe3Zo3lO39pT+Luau
-	 gvGiLKW95YmizFodkB6GYIBe8S2KyCbQHi6l+121v0m5IoBGgFEK6+A/wg4wQqxT4QhC7
-	 91mZ2CjbwGCy3D3q7MRd8MNhnaXfNtYALgRE6XZgl6B6u3gWm93mwebLhFFxyB3iXq75k
-	 49n0KUvsYIcVak2YB9Xnov3cuMvYeYlQhd2GfQl464UuSB43eegmvFh/2nXgf6jfzJQ==
+	t=1793490873;
+	b=4wW44lyJzw4jwi68lBcZdG0lRK8KbziobzfyoEP/y8RUwnw1Q9riFWCHqpoAtQD02CDS
+	 iYr42MxOoV4IbDgju6CRyUn/xVERMkhZfanbNkElrq35mkFSL1ALS7Z6dk9b+9vdYDraY
+	 Fmjj1hoVhBUXpxKfzjMbSefUiH1C1c4VQozrxIZMEcf/rZqGeEwCNK24IR8rTE41S5tGG
+	 Kto7tiKlBr8xGGHUY07ldkLooWAJdyddvMhn4l7z0v0n1BpnVggzIZHmhI0UYk4fxs/Hi
+	 i2/EOi8WoNnekqAqvohjZdveWQCxnyZBU5VCbyiKbmoyeOQ7Ik6XKCgrpv2Dhs9viBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793485639;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793490873;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=VENq0Iix7b95GPB+Wr72ioiMmn1QsBy1MmnsAYRr8OE=;
-	b=gwcRyMzKgfnqMphqZ0Yg7rTv+Lx7RWGkaRl4ay1bn69tGKL5++Gd50jhYB1HB+2xsD6v
-	 UW5lQOsNGOG0PsMwtMP+A9Gb6YgFcJbmp7LHd0XsvxZeR+j1MO86JeugA6s+aKi4kkJJM
-	 eEsPCDBduLelrbZiQYTnLK19MMYc478ysDYEEf2MBV5dW+J0PtMz+WI8bcKBZDMIR8e/I
-	 5/grYrvjkNwBwbT9/UngHz5Evbjg3nFiZzYD+txhZ7ZquOOk75ToDnAQ/lCTCkg43M4FX
-	 UxTcK9kX/K/G4tlRll0kHW+cMg2drrfYM9Pwo8F/97aHjZtLTVenN4v6kTvNcV01+8g==
+	bh=dQc1WGQxETTRNnj+14JhKmeJXUyXeJIqJMj8yrchhss=;
+	b=jRUCFFifelrYHsfYG8/zzvXCm3iAtSAH9oUM5gHVi5XyI1b3qg9iyU6qBMiURhPevoqR
+	 +u2Fm1QuFIO4s7jsFzWjQ/LKom9yl7REcyUc7aZ3MJwVFWUHvBhSxvovapNp2F1ZiViN1
+	 M3JrMvbGZFS3bbuBqkhRGQ9WyDl4oA0SkkQrNtSrEGzO+fKbmO0Sogk9EWmn4P/tALJQm
+	 cufjxlc+RCLza2biNtNYuLBuyHWx3lybbHDuuoNPEL/dGdQP/tUeSWieUgdsbi7gV3ivq
+	 ge3rJlml36ZmOpBMXkCgJJy0WLUH/nCBXsg+YuqWtlUKlfepwrUPq7TcCfBfUDy4Geg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hLxyLEVI;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q+JQm8Yl;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D09606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 22:27:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46D09606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED399606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 23:54:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED399606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hLxyLEVI
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q+JQm8Yl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793485637; x=1825021637;
+  t=1793490871; x=1825026871;
   h=date:from:to:cc:subject:message-id;
-  bh=P9uxY+lHxSaZp2CpLBsiCd5w2JQMWOALK63Q4WYupyQ=;
-  b=hLxyLEVI6jBxbRFZ/OTKqN8hVxL8WI2uFu+kw1zup8w1eIz0Lkj+wgJz
-   pVt4f5OzTIKH7jg7olIAf/O4j/VrZRgCYVEP4DeJHeLYpDHw/I7VJ9QX6
-   0m2A+tFMgQ4AWjZo7mTUgUgjzdHtj50nouAy0i7dv2F/VnRaW8VLFn2by
-   IeWIZimIwyOAsU788VnO9ex1yT5Ksi2CRh3FRe1rMqBfAhw4lWbUXPDn6
-   GA4mdVi8PgGvlV/2LaQhn0XYFfbf8QDO5WcYbP6nw4QYRnaYNcL10jzNW
-   PIihqE1HxFvz6JLOPukSUxYdT1sCu9VrTyB5JDHjqe3qnBRXms02g2dOS
-   Q==;
-X-CSE-ConnectionGUID: ubIm0r0PTeGOfEjSIITNxQ==
-X-CSE-MsgGUID: tbS7ZcIKQB+ayYAVAjMwXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2219141"
+  bh=yhH4wyzfNJpyvxfvcP+9mDT6GU3W6uHhCmdoxjvwDNw=;
+  b=Q+JQm8YlgA22+UNoDiy5PwCSNyCcj68sl7Foq2TzLi3XLVA2FLgD7HSl
+   l52XNze44z1eoMgKHd6GLvEWqZpF+YqIia+9I5G+0SvKxV/wdq4jxBxzL
+   rl70yEKvm52jcPakA8ND+W2gXV80ejKUNXv0CYVui9a63ze6oLbMhsGl5
+   sGtylendkkR0aVQ1KD2d80rLJal4f0OZ/6BVTEK62Jj+9YKupgXh4uFxQ
+   an0Z+xOojPkX/xm40cEP8j2m+XT6zA3ZoRo8pQwuzJLNkXqE16naclwpA
+   oBOjh3URGVI+jIwP95pxu7+/2JlrMLLcSjrlSmECduOW2FpijFKWmKnG+
+   A==;
+X-CSE-ConnectionGUID: 0CAkabrqQ0m2KUHRP5C/iw==
+X-CSE-MsgGUID: O/Yyxs0mSACXs+YZDues6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2129062"
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2219141"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 15:27:16 -0700
-X-CSE-ConnectionGUID: Zij44SW3T+q3J1Qlje/tZA==
-X-CSE-MsgGUID: tvGJfVqrTXiwWL4gBiXGJQ==
+   d="scan'208";a="2129062"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 16:54:30 -0700
+X-CSE-ConnectionGUID: qHH8P78oTI6BNdLxIGm6Aw==
+X-CSE-MsgGUID: LEK+jQojRq65dY3biEC7Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="7563678"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 31 Oct 2026 15:27:15 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6090804"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 31 Oct 2026 16:54:30 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNHXc-0000000069X-1iw8;
-	Sat, 31 Oct 2026 22:27:12 +0000
-Date: Sat, 31 Oct 2026 23:26:14 +0100
+	id 1xNIu2-00000000dH8-3DrY;
+	Sat, 31 Oct 2026 23:54:26 +0000
+Date: Sun, 01 Nov 2026 07:53:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Joerg Roedel <joerg.roedel@amd.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>
-Subject: include/linux/bitops.h:273:19: sparse: sparse: cast
- truncates bits from constant value (fffffffffff000 becomes fffff000)
-Message-ID: <202610312330.qcAdRikr-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android18-7.3 0/1] mm/shmem.c:5234:undefined
+ reference to `ashmem_memfd_ioctl'
+Message-ID: <202611010733.gjXKAh3T-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,57 +80,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e9954f3fbddd25e1a01b7e5a0b72fb8b564204e0
-commit: e71e00127110dedc6a9e746178282b4dac97ed96 iommupt: Add the RISC-V page table format
-date:   8 months ago
-config: um-randconfig-r2310-20261031 (https://download.01.org/0day-ci/archive/20261031/202610312330.qcAdRikr-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610312330.qcAdRikr-lkp@intel.com/reproduce)
+Hi Alice,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android18-7.3
+head:   c3c384d4d5fd887a90e4061229522d9547a54ea4
+commit: 3f06e745a13c92ac95fda0fde0266cda407f73ae [0/1] ANDROID: ashmem: ensure that tmpfs file is memfd in ioctl
+config: i386-randconfig-1001-20261101 (https://download.01.org/0day-ci/archive/20261101/202611010733.gjXKAh3T-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611010733.gjXKAh3T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: e71e00127110 ("iommupt: Add the RISC-V page table format")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610312330.qcAdRikr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611010733.gjXKAh3T-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/iommu/generic_pt/fmt/iommu_riscv64.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
->> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
-   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
->> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
-   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+All errors (new ones prefixed by >>):
 
-vim +273 include/linux/bitops.h
+   ld: mm/shmem.o: in function `shmem_ashmem_ioctl':
+>> mm/shmem.c:5234:(.text+0xb36): undefined reference to `ashmem_memfd_ioctl'
 
-c320592f3f2a1e Wolfram Sang       2025-01-07  261  
-952043ac12a117 Steven Whitehouse  2009-04-23  262  /**
-952043ac12a117 Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
-952043ac12a117 Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
-952043ac12a117 Steven Whitehouse  2009-04-23  265   *
-4945cca232ce8b Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
-952043ac12a117 Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
-952043ac12a117 Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
-952043ac12a117 Steven Whitehouse  2009-04-23  269   */
-6606c8c7e81886 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
-952043ac12a117 Steven Whitehouse  2009-04-23  271  {
-952043ac12a117 Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
-952043ac12a117 Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
-952043ac12a117 Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
-952043ac12a117 Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
-952043ac12a117 Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
-952043ac12a117 Steven Whitehouse  2009-04-23  277  #endif
-952043ac12a117 Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
-952043ac12a117 Steven Whitehouse  2009-04-23  279  }
-952043ac12a117 Steven Whitehouse  2009-04-23  280  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_SCU
+   Depends on [n]: X86_PLATFORM_DEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_SVA
+   Depends on [n]: IOMMU_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_IOMMU_CONFIGS [=y] && (ARM64 || X86 [=y])
+   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
 
-:::::: The code at line 273 was first introduced by commit
-:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
 
-:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
-:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
+vim +5234 mm/shmem.c
+
+  5228	
+  5229	#ifdef CONFIG_ASHMEM
+  5230	static long shmem_ashmem_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+  5231	{
+  5232		if (!(SHMEM_I(file_inode(file))->flags & SHMEM_FL_MEMFD))
+  5233			return -ENOTTY;
+> 5234		return ashmem_memfd_ioctl(file, cmd, arg);
+  5235	}
+  5236	#endif
+  5237	
 
 --
 0-DAY CI Kernel Test Service
