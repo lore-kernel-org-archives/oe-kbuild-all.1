@@ -1,80 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793413814;
-	b=xx84fDe7MiTkcgK4OestEgARgUL8Oh+tgMvF0WipUDHTUOPs4OFUVsOpvjfeyd8dd7f2
-	 /SVv8WMM0Yy8QeLocqbN8pfA+Nt11bQaQi9F2MgaAX91CGrjEyG0EBTeKXB/2TOfWt4Vx
-	 j4oYqtLpJ3nkE3NsVj35Q7YFEeSXKFKwWK48waGYzXKYG2efvxGekcwcdJ8mnFPQnh+/E
-	 0j0HE34UdIIZr7JAMwMuPMhB8xcoRj33doIDFVxj81noIxeVEOwC148PxRNeaztXKfN1E
-	 JIChxrIYNEZxAUcuJ3I8p/8gm7KEJ6j97lAQIkRJdWD/3ujupcicwm4gm/iUsTSj4xQ==
+	t=1793415681;
+	b=bng9UR5qCDUPUAoYBers6cmho3rp0iLvcsvKBDBRgZF3G/vE8PEl/trV/KYywbdp/xfd
+	 I0TveNsLYbFHb8d44QYrXgDOMReV39W6G0VBMZIT+CE0/L1dvV3WdxoiTDZHT8HL6qci3
+	 +uiqFiwHHq0EPLKtdHi/vamcuht/gqnt9epExfHCEQqbiZHBJjQDMACWBPBgFVIMO1LBa
+	 1FKC7lzZuifrVDwPc1QVN8Pdscv5ZNEdAuwxouSLFkFSEsz8WIkLek6B3M6C55VKuwMee
+	 W7IgVYkd81Wa4IWa0LUP0iRw1mTE9ZKoWdHI/slezjtfMzY5P6IHq6wkR6LHRhI3tPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793413814;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793415681;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=iXEfWoEoCIsoSXFk+YAPuSVr2iL1r/DA8iHiRGeTNng=;
-	b=HM1PWK7NZNqpwHSGNgN17zDNW9Q/Ww8p+9xTDmJ61cgeht2Jqugja5cHFA+uhWMYhph5
-	 bB0u/KFyTwg3EqKBUOknmnGSpwDAnxM9DtwziCJFv2nFb6gQJA4RrpdDgkluz7QNa9NLj
-	 79+xFziGwCHaJept+qUicvnla0d8Q3vUCdv6PWbMefBnPzNPMvXUADOs49iFkdqrDhOsz
-	 4Qyk5L2QB4W3YI9ffnvux41I5W9BH1C8tQn/OqjpyGtNTvSrLPObqK1VLmsUL3f9fmrZ5
-	 6neByXFBjt9SPluUwUzPrQMNwDiHl2jknPN7Q1M3aFsfibwKGNfdPYqHtP0NqIlc2iw==
+	bh=ScO8O/upqFlWc9ms/cDV7A+06pHYa0mgXEy5Xe3VLRM=;
+	b=NtXjkA+5a5/cHUMXqBC0W2BmfNNpdgJXzCzVJ2a6pPnU1C7LOSyJ3l53ZI19oScVIeex
+	 9E6LRNBkFZTKfDz13jjmypQNVZRdwBr/r5xDmTn2G2kxhi0d31s9crxalNCZj6pw6AE6T
+	 o6UcbqTjrIwX0G90Ws+IoB6pXJGdQVnOCuGaneNxCO7pUOXMT8fYCRN5wvBNdEj7NBkMJ
+	 YlfsE4Z1nxRIzJMMDgxqMyjQ4RUnt7jpPs9HQB1gpCmPPijYdy3SBe48ercXZIV+crKUA
+	 bRhd5ykunPCNf+7OiKzMarSPiSnuvDQDCCxoL68xBv0kxRpy+8yuDw3m49FLvCtH81A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HfWhxp1z;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b1kRt6px;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0F4606A323
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 02:30:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F0F4606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859A0606A31E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 03:01:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 859A0606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HfWhxp1z
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b1kRt6px
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793413813; x=1824949813;
+  t=1793415680; x=1824951680;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=h8PaQbBDKI0jqP5gTeMuq/q/Fqlc1DTYURIQU8hM5M4=;
-  b=HfWhxp1zyAFnHh3W4bzEINkO/PdJgschA+XUlksv8AhlhweMhg4JvKDw
-   hMY6IIqbTtQa8d13U2JNhAPAGOome3LVMeLaNMC85N0D+MeV0HGqfq9lw
-   Hz0WLZqfFj3hoiEgVxYjjF707bJBF5aAJDOL+n6OFjc2S6RN23KPPQ9/L
-   9VbdUk+Kr54w3R6EbDo6j/6yUD9FIh9B5qzqEIvZpOyQxx84n12uDvV9J
-   vhgvnoX5MPerwvDIOuhGCHyYiruusgr3ZAaBh2GozNTykzOpmbhisom6M
-   7Gjx3B7DVQnTElHEl1vVr28WkP5FiJZg6nfbVUnWbmaijuRiPu6PlusFh
-   w==;
-X-CSE-ConnectionGUID: GNnm2oLXQrScInRPrD72Ww==
-X-CSE-MsgGUID: /KBzozT7ToeS6yVvtnbWrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2092826"
+  bh=414eLYxu+WXKrALlVPM8NuQyq6xSQJkQYhiLsXdq/iw=;
+  b=b1kRt6pxMzmHsqbcKpPc3+IQAdonYiTflXT/uEfUfAIIAvcUq/cs/MD9
+   4TA158QlHotP1s/3zRqc7NiebQBORZ175HZaT1NWSnMT+OY7q2kgwNDSE
+   GB2uTOKugDbNPxNIdx0J/53HTLtcyOTaSRQiUygm4+Z9ELmIdnBbESwxB
+   eFW/X1N8SbXer+jZg12ZxkVEq+JwYMX9x5qUrUKS4nPn525K3u4BAT0IW
+   Yr2/w4bdJm07jfxB6y6dvwGnXlJnzIk1hku1z7vHiUMpE/GkSDl3KEDyp
+   BPBGtRUY1RNNpSpAYf7S3/4/3SMyXL0TIimBwrDvrE4qq4nJf20dacftP
+   Q==;
+X-CSE-ConnectionGUID: hq8X3hxcR56JXx629esJZA==
+X-CSE-MsgGUID: 3HmSWsfJT/ueogOah0QMmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2195885"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2092826"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 19:30:12 -0700
-X-CSE-ConnectionGUID: +oZpC2cgSoiPM9sOCppUbg==
-X-CSE-MsgGUID: 1+FMKCFgS7KiG4pSqZalyA==
+   d="scan'208";a="2195885"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 20:01:19 -0700
+X-CSE-ConnectionGUID: +7yY5swGQQ2kKbO+RDjs8g==
+X-CSE-MsgGUID: 2kuP9pWuTUmhbE14Qkfh/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5667170"
+   d="scan'208";a="5738979"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Oct 2026 19:30:11 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2026 20:01:17 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMyrA-00000000cSu-38RG;
-	Sat, 31 Oct 2026 02:30:08 +0000
-Date: Sat, 31 Oct 2026 10:29:09 +0800
+	id 1xMzLG-00000000cUC-3q17;
+	Sat, 31 Oct 2026 03:01:14 +0000
+Date: Sat, 31 Oct 2026 11:01:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: ahmad baghereslami <ahmad.b1995@gmail.com>, dmitry.torokhov@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ahmad baghereslami <ahmad.b1995@gmail.com>
-Subject: Re: [PATCH] Input: synaptics - support the touchpad LED on RMI
- function $30
-Message-ID: <202610311023.UR64jYrp-lkp@intel.com>
-References: <20261030070821.1716595-1-ahmad.b1995@gmail.com>
+To: Saranya Gopal <saranya.gopal@intel.com>, linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rafael.j.wysocki@intel.com
+Subject: Re: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
+Message-ID: <202610311004.dFYbEqgo-lkp@intel.com>
+References: <20261030030515.3127310-1-saranya.gopal@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,70 +84,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261030070821.1716595-1-ahmad.b1995@gmail.com>
+In-Reply-To: <20261030030515.3127310-1-saranya.gopal@intel.com>
 
-Hi ahmad,
+Hi Saranya,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v7.3 next-20261030]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master next-20261030]
+[cannot apply to v7.3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ahmad-baghereslami/Input-synaptics-support-the-touchpad-LED-on-RMI-function-30/20261030-103821
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20261030070821.1716595-1-ahmad.b1995%40gmail.com
-patch subject: [PATCH] Input: synaptics - support the touchpad LED on RMI function $30
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20261031/202610311023.UR64jYrp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311023.UR64jYrp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Saranya-Gopal/ACPI-s2idle-Handle-shared-_Ixx-GPEs-without-an-EC/20261030-083515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20261030030515.3127310-1-saranya.gopal%40intel.com
+patch subject: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
+config: i386-randconfig-1000-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311004.dFYbEqgo-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311004.dFYbEqgo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610311023.UR64jYrp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610311004.dFYbEqgo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   /usr/bin/ld: drivers/input/mouse/synaptics.o: in function `synaptics_disconnect':
->> drivers/input/mouse/synaptics.c:1678:(.text+0x3ec): undefined reference to `led_classdev_unregister'
-   /usr/bin/ld: drivers/input/mouse/synaptics.o: in function `led_classdev_register':
->> include/linux/leds.h:274:(.text+0x12c9): undefined reference to `led_classdev_register_ext'
-   collect2: error: ld returned 1 exit status
+   In file included from drivers/acpi/processor_driver.c:25:
+   drivers/acpi/internal.h: In function 'acpi_ec_dispatch_gpe':
+>> drivers/acpi/internal.h:262:17: error: 'ENOTSUP' undeclared (first use in this function); did you mean 'ENOTSUPP'?
+     262 |         return -ENOTSUP;
+         |                 ^~~~~~~
+         |                 ENOTSUPP
+   drivers/acpi/internal.h:262:17: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from drivers/acpi/x86/utils.c:19:
+   drivers/acpi/x86/../internal.h: In function 'acpi_ec_dispatch_gpe':
+>> drivers/acpi/x86/../internal.h:262:17: error: 'ENOTSUP' undeclared (first use in this function); did you mean 'ENOTSUPP'?
+     262 |         return -ENOTSUP;
+         |                 ^~~~~~~
+         |                 ENOTSUPP
+   drivers/acpi/x86/../internal.h:262:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +1678 drivers/input/mouse/synaptics.c
+vim +262 drivers/acpi/internal.h
 
-  1668	
-  1669	PSMOUSE_DEFINE_ATTR(disable_gesture, S_IWUSR | S_IRUGO, NULL,
-  1670			    synaptics_show_disable_gesture,
-  1671			    synaptics_set_disable_gesture);
-  1672	
-  1673	static void synaptics_disconnect(struct psmouse *psmouse)
-  1674	{
-  1675		struct synaptics_data *priv = psmouse->private;
-  1676	
-  1677		if (priv->has_rmi_led)
-> 1678			led_classdev_unregister(&priv->rmi_led);
-  1679	
-  1680		/*
-  1681		 * We might have left a breadcrumb when trying to
-  1682		 * set up SMbus companion.
-  1683		 */
-  1684		psmouse_smbus_cleanup(psmouse);
-  1685	
-  1686		if (!priv->absolute_mode &&
-  1687				SYN_ID_DISGEST_SUPPORTED(priv->info.identity))
-  1688			device_remove_file(&psmouse->ps2dev.serio->dev,
-  1689					   &psmouse_attr_disable_gesture.dattr);
-  1690	
-  1691		synaptics_reset(psmouse);
-  1692		kfree(priv);
-  1693		psmouse->private = NULL;
-  1694	}
-  1695	
+   258	
+   259	static inline void acpi_ec_flush_work(void) {}
+   260	static inline int acpi_ec_dispatch_gpe(void)
+   261	{
+ > 262		return -ENOTSUP;
+   263	}
+   264	
 
 --
 0-DAY CI Kernel Test Service
