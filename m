@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793407497;
-	b=DVbTGT7twOc8LMjKpK9sUHYaDJFZj6a5Lx9Kyn8DSi9IUQJ1zmtnvw8wbfqvNLdCz14C
-	 iedwJW36f7eJgmmihbM7Jt4DAYFaSfIyj1vSurfP4/cOV6BXI6uMRh/uowUnXWOZYqVFJ
-	 t3/2gmgoMFTc6QWkoKeSBHSYfJmdTEdk6W13YPI5z2DUOn+yNActmgIQQi1DJrZgbLvCr
-	 t9a/i5fh0l2U9WebWXJlDHVfYEYwm50Ew8H/3qeWD3W+U2Sy2PIYIkTiC1HzqfRn1j7+z
-	 30ONfz6XkMQsqJ/xSMVGyiyvF3ceQzhwjcxfICktV7nIxctrA4x0PBsyeNhfWgDUdtg==
+	t=1793408279;
+	b=VROHjrepDKH9+XvexPvBqcYPJBUPmukaiJrsveWefcQx5epzTZ6YN6PdvUVWgxB8NiCz
+	 dBh1+Ll5Eb6oFjmfR9WSW9YOhBhJSx30MFRwjVKBzB/m38wLhW30dR6rP01hQbPEWC835
+	 FAuu1u12kknHpNhjLW0lgQT75hJrSUHsOeII7Eymo5Q1tB6XDPQ5LCflbOi+GJxm3anCk
+	 TQsZz6MPvwiOBkZYs6IaBSZHoQ8j05oACR5gTkojSJuLxU+Fvf1qd+nowm9uOGQY+XOAL
+	 Q7SvfGVSXTmA1wyorkOaptRDbiyGtw+QzwpxWKM7J7PocrNGdohSyRl6v9BLNFhR6Zw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793407497;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793408279;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=SHfH1vImLuM5lMbfU0PujALlcSPUAopfScAtFVgxaPY=;
-	b=MaBtEkduxbd9uArZKq7XbJ4aE5OFjUjPMWOLsyYAyXDqiCLlc6KEBmAi1fd+Dx6KHNtu
-	 rqn9F4HIlCtw11xYnN4pU8F/16xGDNkZnGbwIEvQ6F5ZDnzbp+4AO4/1Tycq481DhHXM1
-	 F9+PLHt39oIwRmz5TsFIBtaLZilIi+ZAO71rjcz/ExGCqxwN8mMfbBp2YeDdUsFUurkKJ
-	 XTmN5GCXKBKW6nhD6bsx7eVxN14ChEt20Lz+JK0Uyaht5oJDGYHROG5OA4PK64T0N6/4a
-	 aoTjCiukR9ocLcZTDJFZrHyqfC5cF+16+zkUcrXxhHye3Dq/tcnV4HieXV3pTih2M+A==
+	bh=gWdTUNokPIMfd+SATKlnBkpR03+f6IbraqzUYbDOFAM=;
+	b=eVrSEMYjBFpR0Tr81w9+G9CUUy2KKbaJUwIxSYvnU5g5Krk9RO+diWONOVj6XyJ0beEB
+	 983j6fZB5IfyJLkP5SGbkADSAW57Ka5Q0VJdqJpatSWSmpGhERmy5nosOGryzYokzp+b7
+	 FJKW+HfPxMLPkoBEB1cNkbWabYkUU6GpxFBBfb4DU4EIThPPAnEOUuj5BunV/k1tipyAu
+	 QqRkJfrKR/lfzw16f964Iel2QC+mKP42Bum+ADvomZ6VPWV7R1/s62rzqsNd87ZIZFn9d
+	 eMsQK4s0JDbtyS+DPbca6ph+oSmLe35qIkJANQckqy6qlVdCJP8g3VUz4oB9ee7P6Eg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nbuMJhCn;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WcWeHiT6;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2560606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 00:44:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2560606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE4D606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 00:57:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EE4D606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nbuMJhCn
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WcWeHiT6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793407494; x=1824943494;
+  t=1793408278; x=1824944278;
   h=date:from:to:cc:subject:message-id;
-  bh=V4yhReoCIM7hYIQuYyqTL8Llfkty2+6RypDLHGjPK+o=;
-  b=nbuMJhCnukiYyro2YgCnmA9+sEnumWQ0FRV1tXwRkfyYaxMVndOXxzrM
-   JAt8PKg5gwyv7HqpQDjPLyKOh3COmaOCSZk7xww9mnoD+/R04xSKchaW+
-   a+U4d2Aq5kkbbuAeh5mc8YS0bml15YLVRTKU7qg7/GIkzOUz5ZMYxMWxJ
-   dEzlRghPNveZG8/lTSr+cwZ5endRSawxvvTHfjy37ejSOjFwsrKq0jw4T
-   EX6fQS7N5IkFGhIdO8Ka+b/yr7ofx7UuACFrqNMtVnyybp7/wx3MkH0D5
-   8SkgRwek4cTen+F1TJzSsnCYexHESsLc5G6YTZZSGHoDF9IBGEGyjwBr4
+  bh=XAcKw6XPaJyM2uW3eW4hohEG4YNCYs0hQgdKJF5KFsA=;
+  b=WcWeHiT65NdqfVO0L+TRuEybiyd1yzj9epeDxZY+x3px/NZhBEDJsIrm
+   38BQI1IA+Xf08cgFcv+HqQK92Brieti5b1iovHdPshhb/gPyEYwQRoFYa
+   H8rulXGurJRoWz3Ge4YzrD5yIdDF9LwzBtZZRm3FmOllY0H751lvKENwY
+   rSEFJpTbEjPoetgpvsjseQ7cRyXpd1xX8gfF7C2lAiTtPHU4Kl6Q02zjB
+   HVSrBUsQX9eF/3nMuM7TDtym2ua7iwQgbFGnCU9LzRpajZq+5VSO8S8A+
+   1fsAGkEIRStA9yke46wWPOudsW6cTgkTqGWXN4FeH9CGx8NVxtLLFv6Gw
    g==;
-X-CSE-ConnectionGUID: USJfWwlzRCmLhyiaA9pUeQ==
-X-CSE-MsgGUID: TkrAOeUlTIO7k2VJllSuLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2182573"
+X-CSE-ConnectionGUID: d3Xmw7wEQaq6CPhHFXnRqQ==
+X-CSE-MsgGUID: WkOdsYjVSyGMlmXm079a+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2054339"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2182573"
+   d="scan'208";a="2054339"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 17:44:53 -0700
-X-CSE-ConnectionGUID: S+eS9uMkQnaqTAVVOesCdw==
-X-CSE-MsgGUID: ITx8ifolSmaK+FaHNrsqOw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 17:57:58 -0700
+X-CSE-ConnectionGUID: 8quNZkT8T6+/URY7aSL+hw==
+X-CSE-MsgGUID: uQRrCFenRameC4ScxHn18w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5910488"
+   d="scan'208";a="5912489"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Oct 2026 17:44:52 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 30 Oct 2026 17:57:55 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMxDF-00000000cOW-3f6P;
-	Sat, 31 Oct 2026 00:44:49 +0000
-Date: Sat, 31 Oct 2026 08:44:30 +0800
+	id 1xMxPr-00000000cPc-49sb;
+	Sat, 31 Oct 2026 00:57:51 +0000
+Date: Sat, 31 Oct 2026 08:56:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
+To: Jarkko Sakkinen <jarkko@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe:tty-nowait 15/21]
- fs/notify/inotify/inotify_user.c:698:16: error: 'fdf' is a pointer; did you
- mean to use '->'?
-Message-ID: <202610310718.lgNYcWMP-lkp@intel.com>
+Subject: [jarkko-tpmdd:master 12/12]
+ drivers/char/tpm/tpm_tis_i2c.c:243:12: error: use of undeclared identifier
+ 'TPM_I2C_BUFSIZE'
+Message-ID: <202610310850.l6o9LNb6-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,63 +81,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git tty-nowait
-head:   6ce7bd6c31981898360c3e36c9c270b0215cd020
-commit: 6b374784aaf96cc671d327e748e7b9df7d88a84f [15/21] inotify: convert read to read_iter
-config: arm-randconfig-1003-20261031 (https://download.01.org/0day-ci/archive/20261031/202610310718.lgNYcWMP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310718.lgNYcWMP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git master
+head:   7e8d0278a462f604dd884db39b76d0ac3c1ad652
+commit: 7e8d0278a462f604dd884db39b76d0ac3c1ad652 [12/12] tpm: tis_i2c: Add reset delays for ST33KTPM2XI2C
+config: um-randconfig-1001-20261031 (https://download.01.org/0day-ci/archive/20261031/202610310850.l6o9LNb6-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c2ea4440d4b64c148de4fdfca1fc2c437a0701e4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310850.l6o9LNb6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610310718.lgNYcWMP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610310850.l6o9LNb6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/notify/inotify/inotify_user.c: In function 'do_inotify_init':
->> fs/notify/inotify/inotify_user.c:698:16: error: 'fdf' is a pointer; did you mean to use '->'?
-     698 |         if (fdf.err) {
-         |                ^
-         |                ->
-   fs/notify/inotify/inotify_user.c:700:27: error: 'fdf' is a pointer; did you mean to use '->'?
-     700 |                 return fdf.err;
-         |                           ^
-         |                           ->
+   In file included from drivers/char/tpm/tpm_tis_i2c.c:13:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:27:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/char/tpm/tpm_tis_i2c.c:243:12: error: use of undeclared identifier 'TPM_I2C_BUFSIZE'
+     243 |         if (len > TPM_I2C_BUFSIZE - 1)
+         |                   ^~~~~~~~~~~~~~~
+   drivers/char/tpm/tpm_tis_i2c.c:352:40: error: use of undeclared identifier 'TPM_I2C_BUFSIZE'
+     352 |         phy->io_buf = devm_kzalloc(&dev->dev, TPM_I2C_BUFSIZE, GFP_KERNEL);
+         |                                               ^~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
 
-vim +698 fs/notify/inotify/inotify_user.c
+vim +/TPM_I2C_BUFSIZE +243 drivers/char/tpm/tpm_tis_i2c.c
 
-   676	
-   677	
-   678	/* inotify syscalls */
-   679	static int do_inotify_init(int flags)
-   680	{
-   681		struct fsnotify_group *group;
-   682	
-   683		/* Check the IN_* constants for consistency.  */
-   684		BUILD_BUG_ON(IN_CLOEXEC != O_CLOEXEC);
-   685		BUILD_BUG_ON(IN_NONBLOCK != O_NONBLOCK);
-   686	
-   687		if (flags & ~(IN_CLOEXEC | IN_NONBLOCK))
-   688			return -EINVAL;
-   689	
-   690		/* fsnotify_obtain_group took a reference to group, we put this when we kill the file in the end */
-   691		group = inotify_new_group(inotify_max_queued_events);
-   692		if (IS_ERR(group))
-   693			return PTR_ERR(group);
-   694	
-   695		FD_PREPARE(fdf, O_RDONLY | flags,
-   696			   anon_inode_getfile_fmode("inotify", &inotify_fops, group,
-   697						    O_RDONLY | flags, FMODE_NOWAIT));
- > 698		if (fdf.err) {
-   699			fsnotify_destroy_group(group);
-   700			return fdf.err;
-   701		}
-   702	
-   703		return fd_publish(fdf);
-   704	}
-   705	
+bbc23a07b0728c Alexander Steffen  2022-06-08  232  
+bbc23a07b0728c Alexander Steffen  2022-06-08  233  static int tpm_tis_i2c_write_bytes(struct tpm_tis_data *data, u32 addr, u16 len,
+bbc23a07b0728c Alexander Steffen  2022-06-08  234  				   const u8 *value,
+bbc23a07b0728c Alexander Steffen  2022-06-08  235  				   enum tpm_tis_io_mode io_mode)
+bbc23a07b0728c Alexander Steffen  2022-06-08  236  {
+bbc23a07b0728c Alexander Steffen  2022-06-08  237  	struct tpm_tis_i2c_phy *phy = to_tpm_tis_i2c_phy(data);
+bbc23a07b0728c Alexander Steffen  2022-06-08  238  	struct i2c_msg msg = { .addr = phy->i2c_client->addr };
+bbc23a07b0728c Alexander Steffen  2022-06-08  239  	u8 reg = tpm_tis_i2c_address_to_register(addr);
+bbc23a07b0728c Alexander Steffen  2022-06-08  240  	int ret;
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  241  	u16 wrote = 0;
+bbc23a07b0728c Alexander Steffen  2022-06-08  242  
+4d6830bf773cec Arun Menon         2026-10-29 @243  	if (len > TPM_I2C_BUFSIZE - 1)
+bbc23a07b0728c Alexander Steffen  2022-06-08  244  		return -EIO;
+bbc23a07b0728c Alexander Steffen  2022-06-08  245  
+bbc23a07b0728c Alexander Steffen  2022-06-08  246  	phy->io_buf[0] = reg;
+bbc23a07b0728c Alexander Steffen  2022-06-08  247  	msg.buf = phy->io_buf;
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  248  	while (wrote < len) {
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  249  		/* write register and data in one go */
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  250  		msg.len = sizeof(reg) + len - wrote;
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  251  		if (msg.len > I2C_SMBUS_BLOCK_MAX)
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  252  			msg.len = I2C_SMBUS_BLOCK_MAX;
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  253  
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  254  		memcpy(phy->io_buf + sizeof(reg), value + wrote,
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  255  		       msg.len - sizeof(reg));
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  256  
+bbc23a07b0728c Alexander Steffen  2022-06-08  257  		ret = tpm_tis_i2c_retry_transfer_until_ack(data, &msg);
+bbc23a07b0728c Alexander Steffen  2022-06-08  258  		if (ret < 0)
+bbc23a07b0728c Alexander Steffen  2022-06-08  259  			return ret;
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  260  		wrote += msg.len - sizeof(reg);
+83e7e5d89f04d1 Alexander Sverdlin 2023-05-24  261  	}
+bbc23a07b0728c Alexander Steffen  2022-06-08  262  
+bbc23a07b0728c Alexander Steffen  2022-06-08  263  	return 0;
+bbc23a07b0728c Alexander Steffen  2022-06-08  264  }
+bbc23a07b0728c Alexander Steffen  2022-06-08  265  
+
+:::::: The code at line 243 was first introduced by commit
+:::::: 4d6830bf773cec0a8d18d54fc5d1f58eb3846d6f tpm: tis_i2c: Use local 4KB buffer to limit memory usage
+
+:::::: TO: Arun Menon <armenon@redhat.com>
+:::::: CC: Jarkko Sakkinen <jarkko@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
