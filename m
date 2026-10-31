@@ -1,85 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793418150;
-	b=4I9g6mZQlgZRQ+idgr8w0YUN6J2K1G7AaxpeG/jQNxuV5yLu0EXniJP4IqBcOnqk4eeX
-	 Npu09/Z91T4lplujvf/MJMZy9xCIwDonAQnc2Su/4rkyBFIYhzXMeGawmeVLH4PpW3387
-	 SV4p0RFbgZeU6wbDjtNg6yU7c4uaESDmUWF9zB3Xz7XM97QGWc3pnAtHgw14413wtdC6a
-	 FEqFZKJERG4lAQqKAJgtS+p3GyAqUUCgWPTMt00EMpwVpbmW5EA7+jsR922M6FHTe+HWs
-	 6IpkjWMGiutTNSRJeIU1PN1fd9XPp4zBY0S5UetPm6GocaaO3lLXbwSPB6jYaThYnfQ==
+	t=1793422233;
+	b=lxdMR5mFezFNDI/OYMRLj7TKiaVckvB3bReCKsSh+bVmH0c/CrCPJAKTQyf/G56rSHEW
+	 fSNhEMPm+l7LuelVOPKi2RzdUX9YV4iCgg7Al8O06CkbamOkHQWfEdqfGpmbcwluQuTCu
+	 lQIYQUlwulldyO0gnSNNloMSxwhcHY9pfUjnqnB6plzTwmM5XCZWgklLCl2l/0fGBUI88
+	 4Ic1G8kVv/P774OgY8rzqL4STxdZX61tht93qEVYH4dbEJcQ0TEZt0m/SekivJH4EMXOV
+	 O/VDpWyxAesObDj1BIoKJrPj5EepMFoXvJ2Jq1LHwUgKahu/Z9WNKHhS7coHye76ooA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793418150;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793422233;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=Ot9ndK0ejKVXddWQEZ2xSPgFjOHt7YNnn7ck0sFqpGc=;
-	b=XBGeNxQcSY72ii+8oi13aWFdxziXmyprq2svtGnOVAe9VivruDAtn3zSOQKwQjc7l/fZ
-	 0CL2cMnJLYhM1H2aDtKH49spICJ6dKxu4EcPyf+ePX4h8sVEoAA0VPCbgGfB2kNlmhUR5
-	 vprjUaHpveCzYZ1OR3BdCNUVwS0TmdgLoZjsW4GLpMqSLlGH/G+BZ0GN6LlUsEEfGzdxV
-	 3juLutWkF1HBFYK7GjiVqthjS6N+SUDmJL6Qf46tYJQP/rhVt0QRgdriLM8fVm7nuhQHL
-	 82bwNeCjQAL3uNrV85bpQQ3Vd4h8i+vUkj8uVNzLh4S2+M7KZqnOUD7XADV0/TfZ4WQ==
+	bh=U0ah+/mdXfppCcH+FdTlHAr5Y6FK4dmXjWDNtY24zT8=;
+	b=D7KInK3a6K6pyMsE141nsRsVHCZSHKuzp3PVF9ytLfutHbzeaWS98utJPoF7tcZk2/5u
+	 lSOGssmVOQhmCB7whffBOrvex4pYmuxEyw+evzCRzLbFIjB1N5pmyAj9MFlVt+YRNFZ1R
+	 P76XNss6uqxGCl13k4cZ+lUIhM2orglvgH2z1cf0PUwzIzLTnnV1P9sFl8lLPOA4BHRsF
+	 tunIHg7JHCU754sr5d/dxkwpd75XRagj9E206MAyvnh1X64IO9/LsyIcMmUBkEkVmCZJP
+	 PqfN+Per5RE+O12cwuFumA0rehwf0vFh3TlqpArGYhebSFoI3QGNxK5Xy/SP4vLbquw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iZj+Gxle;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RVVpX0zH;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957B7606A322
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 03:42:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 957B7606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD53606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 04:50:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBD53606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iZj+Gxle
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RVVpX0zH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793418149; x=1824954149;
+  t=1793422232; x=1824958232;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aGlr3qfr6AZBSiPKZMalF/26FFfN/4Og7QmWbsUKYaY=;
-  b=iZj+GxleJQ/t80kZlt4Py+Sv9WKRZgrBIQZTZvQp368KbHLta9HgaBUY
-   j2S1aCYYYlOmjY4luHoZZR6M86rcbJw1g+a5ySg6MdhaI2gB1FcTZmYV+
-   iJdGLitSqKYm5c7BGKHvvuez7VOrtLKsmHW9Q8KAVaJklfiALgJdYZxB2
-   YfmFc159/+mlUb18WU/hnTzuPJATQy7+K0/atGWwa+b6YsHuDKF+ORzkb
-   LDUYnCN7+VmHhcUPs/A0TCe/uF89IZD2IRCGnkWGhw0HyPdjT30rD9fmQ
-   c0ldRKRzlS4Pma2eccemsWgylHSViKViE8Gqi1KWmUdwsBSFROCHTZk4e
-   w==;
-X-CSE-ConnectionGUID: qPG02VkOTvGDfCWmRFyeVA==
-X-CSE-MsgGUID: oyPyiF+lRsKwTXyNqGsm7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2188812"
+  bh=VQIxThp1B2mpWnsX0MaSqLPhRU+ui0ShDgvVHR25dYQ=;
+  b=RVVpX0zHVF2NYfL9h4VgwAQN0n0qBEKkVQgcKRBSKd0N/QoOKfDW9XaB
+   oHXNmo0uMBpqgYJxY1CfhaMFDwFT0nihK5cP5YsCOeANuygFs47TMS2Yu
+   B6CKGpAd+2FMi+6pa0xrNfLhy5Kg3rxkxujV/wn0SZ4aYbLb5jnsu0lm+
+   boZDMBZAkqADlKqbTt1tSMWul0b/f9D0uvGbqK8WIEz0KK208FeBti/Qv
+   V6nCDm4g0HFpczY0tjEJYdQ8UuTW6MHdLpuoyS7JBOzKI70dWIlrNM6j4
+   SZMdrZTj2zT0+omgZQxXVVaY2HttGBFP0SlIf6/837tTrYOgmoltgYwWj
+   g==;
+X-CSE-ConnectionGUID: gDI60pdgRGCxv8fZiiU6xg==
+X-CSE-MsgGUID: dSrucJWoSIKSq9kR5o+XRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2199118"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2188812"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 20:42:29 -0700
-X-CSE-ConnectionGUID: 1aS14UP0T/aO54Frxa2Eug==
-X-CSE-MsgGUID: GHsu/r0hSAa7KZcwxpde2Q==
+   d="scan'208";a="2199118"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 21:50:31 -0700
+X-CSE-ConnectionGUID: jh76AprFT1i2+5WyacK76w==
+X-CSE-MsgGUID: aWxndDEHTM6RBXMZz9Yrew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5568194"
+   d="scan'208";a="5481267"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Oct 2026 20:42:25 -0700
+  by orviesa005.jf.intel.com with ESMTP; 30 Oct 2026 21:50:30 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMzz3-00000000cVO-2SRY;
-	Sat, 31 Oct 2026 03:42:21 +0000
-Date: Sat, 31 Oct 2026 11:41:43 +0800
+	id 1xN12x-00000000cXk-2XEz;
+	Sat, 31 Oct 2026 04:50:27 +0000
+Date: Sat, 31 Oct 2026 12:49:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>, jgg@ziepe.ca,
-	alex@shazbot.org, pbonzini@redhat.com, seanjc@google.com,
-	bhelgaas@google.com, jjohnson@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, johannes@sipsolutions.net,
-	mani@kernel.org, lpieralisi@kernel.org, kwilczynski@kernel.org,
-	robh@kernel.org, vkuznets@redhat.com, kevin.tian@intel.com,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Subject: Re: [PATCH v3 2/8] KVM: add PCI MSI hypercall for VFIO passthrough
-Message-ID: <202610311038.ydvb3F1w-lkp@intel.com>
-References: <20261029163713.1366077-3-jtornosm@redhat.com>
+To: Saranya Gopal <saranya.gopal@intel.com>, linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rafael.j.wysocki@intel.com
+Subject: Re: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
+Message-ID: <202610311242.kB7pRXhy-lkp@intel.com>
+References: <20261030030515.3127310-1-saranya.gopal@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -91,139 +84,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029163713.1366077-3-jtornosm@redhat.com>
+In-Reply-To: <20261030030515.3127310-1-saranya.gopal@intel.com>
 
-Hi Jose,
+Hi Saranya,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master next-20261030]
-[cannot apply to kvm/queue kvm/next ath/ath-next kvm/linux-next v7.3]
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge amd-pstate/linux-next amd-pstate/bleeding-edge linus/master next-20261030]
+[cannot apply to v7.3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jose-Ignacio-Tornos-Martinez/vfio-add-helper-to-find-PCI-device-by-vendor-device-ID/20261029-173706
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20261029163713.1366077-3-jtornosm%40redhat.com
-patch subject: [PATCH v3 2/8] KVM: add PCI MSI hypercall for VFIO passthrough
-config: s390-randconfig-1000-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311038.ydvb3F1w-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311038.ydvb3F1w-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Saranya-Gopal/ACPI-s2idle-Handle-shared-_Ixx-GPEs-without-an-EC/20261030-083515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20261030030515.3127310-1-saranya.gopal%40intel.com
+patch subject: [PATCH] ACPI: s2idle: Handle shared _Ixx GPEs without an EC
+config: x86_64-buildonly-randconfig-1000-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311242.kB7pRXhy-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311242.kB7pRXhy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610311038.ydvb3F1w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610311242.kB7pRXhy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/s390/kvm/arm64/../../../../virt/kvm/vfio.c: In function 'kvm_vfio_pci_msi_alloc':
->> arch/s390/kvm/arm64/../../../../virt/kvm/vfio.c:438:48: error: 'struct irq_data' has no member named 'parent_data'
-     438 |                 for (pos = irqd; pos; pos = pos->parent_data) {
-         |                                                ^~
---
-   arch/s390/kvm/s390/../../../../virt/kvm/vfio.c: In function 'kvm_vfio_pci_msi_alloc':
->> arch/s390/kvm/s390/../../../../virt/kvm/vfio.c:438:48: error: 'struct irq_data' has no member named 'parent_data'
-     438 |                 for (pos = irqd; pos; pos = pos->parent_data) {
-         |                                                ^~
+   In file included from drivers/acpi/sleep.c:26:
+   drivers/acpi/internal.h: In function 'acpi_ec_dispatch_gpe':
+   drivers/acpi/internal.h:262:17: error: 'ENOTSUP' undeclared (first use in this function); did you mean 'ENOTSUPP'?
+     262 |         return -ENOTSUP;
+         |                 ^~~~~~~
+         |                 ENOTSUPP
+   drivers/acpi/internal.h:262:17: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/acpi/internal.h:263:1: warning: control reaches end of non-void function [-Wreturn-type]
+     263 | }
+         | ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PM_GENERIC_DOMAINS_OF
+   Depends on [n]: PM_GENERIC_DOMAINS [=y] && OF [=n]
+   Selected by [y]:
+   - COMMON_CLK_MT8173_MFGTOP [=y] && COMMON_CLK [=y] && (ARCH_MEDIATEK || COMPILE_TEST [=y]) && COMMON_CLK_MT8173 [=y] && PM [=y]
 
 
-vim +438 arch/s390/kvm/arm64/../../../../virt/kvm/vfio.c
+vim +263 drivers/acpi/internal.h
 
-   361	
-   362	/**
-   363	 * kvm_vfio_pci_msi_alloc - Get physical MSI address/data for a VFIO device
-   364	 * @kvm: the VM instance
-   365	 * @devid: PCI vendor:device packed as (vendor << 16 | device)
-   366	 * @vector: MSI vector index
-   367	 * @msg: output MSI message (address + data)
-   368	 *
-   369	 * Walks VFIO files attached to this VM, uses vfio_file_find_pci_device()
-   370	 * to find the PCI device matching the given vendor:device ID, and returns
-   371	 * the host's physical MSI address/data for the requested vector.
-   372	 *
-   373	 * Returns 0 on success, negative errno on failure.
-   374	 */
-   375	int kvm_vfio_pci_msi_alloc(struct kvm *kvm, u32 devid,
-   376				     unsigned int vector, struct msi_msg *msg)
-   377	{
-   378		struct kvm_vfio_file *kvf;
-   379		struct kvm_vfio *kv = NULL;
-   380		struct vfio_device *vdev;
-   381		struct kvm_device *dev;
-   382		struct msi_desc *desc;
-   383		struct irq_data *irqd;
-   384		struct pci_dev *pdev;
-   385		u16 vendor = devid >> 16;
-   386		u16 device = devid & 0xffff;
-   387		int irq;
-   388	
-   389		scoped_guard(mutex, &kvm->lock) {
-   390			list_for_each_entry(dev, &kvm->devices, vm_node) {
-   391				if (dev->ops == &kvm_vfio_ops) {
-   392					kv = dev->private;
-   393					break;
-   394				}
-   395			}
-   396		}
-   397	
-   398		if (!kv)
-   399			return -ENODEV;
-   400	
-   401		guard(mutex)(&kv->lock);
-   402	
-   403		vdev = NULL;
-   404		list_for_each_entry(kvf, &kv->file_list, node) {
-   405			vdev = vfio_file_find_pci_device(kvf->file, vendor, device);
-   406			if (vdev)
-   407				break;
-   408		}
-   409	
-   410		if (!vdev)
-   411			return -ENODEV;
-   412	
-   413		pdev = to_pci_dev(vdev->dev);
-   414	
-   415		if (!pdev->msi_enabled && !pdev->msix_enabled) {
-   416			memset(msg, 0, sizeof(*msg));
-   417			return 0;
-   418		}
-   419	
-   420		irq = pci_irq_vector(pdev, vector);
-   421		if (irq <= 0) {
-   422			memset(msg, 0, sizeof(*msg));
-   423			return 0;
-   424		}
-   425	
-   426		irqd = irq_get_irq_data(irq);
-   427		if (!irqd) {
-   428			memset(msg, 0, sizeof(*msg));
-   429			return 0;
-   430		}
-   431	
-   432		desc = irq_get_msi_desc(irq);
-   433		if (desc) {
-   434			*msg = desc->msg;
-   435		} else {
-   436			struct irq_data *pos;
-   437	
- > 438			for (pos = irqd; pos; pos = pos->parent_data) {
-   439				if (pos->chip && pos->chip->irq_compose_msi_msg) {
-   440					pos->chip->irq_compose_msi_msg(pos, msg);
-   441					break;
-   442				}
-   443			}
-   444			if (!pos) {
-   445				memset(msg, 0, sizeof(*msg));
-   446				return 0;
-   447			}
-   448		}
-   449	
-   450		return 0;
-   451	}
-   452	
+a6021aa24f64174 Arnd Bergmann 2024-10-11  258  
+a6021aa24f64174 Arnd Bergmann 2024-10-11  259  static inline void acpi_ec_flush_work(void) {}
+c644e4b14c9cb08 Saranya Gopal 2026-10-30  260  static inline int acpi_ec_dispatch_gpe(void)
+a6021aa24f64174 Arnd Bergmann 2024-10-11  261  {
+c644e4b14c9cb08 Saranya Gopal 2026-10-30  262  	return -ENOTSUP;
+a6021aa24f64174 Arnd Bergmann 2024-10-11 @263  }
+a6021aa24f64174 Arnd Bergmann 2024-10-11  264  
 
 --
 0-DAY CI Kernel Test Service
