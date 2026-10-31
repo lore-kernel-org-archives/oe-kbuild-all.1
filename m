@@ -1,78 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793416329;
-	b=nULejxufovRpq0XA2YbCHK+Cex8oaNDqFF7lwd2ILDcUtvb8FCoAryXM+qGBjqRfHyqy
-	 Jzz/wB7YhoM5b8MoqcW624UsmZ/rgSlMj2uY06CZU5nYLMHibt+Yd6PaZgOeXhMt7us0t
-	 dE18iSdOntWHa/6UFx4MILoGupuJq6r5x4ovU5+hds3zE1+3SuaA96lA/jpzHtwPHkMIa
-	 EXoWUm5+CY1SX+JNZMS2q7ATF1KXSqamHyGLv3mDfY9ShUyHl0aaB6MABfdTY2nzRFcer
-	 NHSDgpSm8BgFhlij6X1zM6ZCTNZuzmC1aV/r3/99Zskx0UOsFFNr+UfP8w2ZC8xESCw==
+	t=1793418149;
+	b=g6SoN+aM5O+QUhascNRM4LYvxF3suodhdz+1LaNY9zuMiaSaptblMy1XDh57tjGtb7EM
+	 R9oFZxqKRMTjMNjKOPFIHQ6JrYB+Rpm5mRVzAfhBdRKSdkznDQvgo2/fybwOpZYAUuEMn
+	 D92p1z8bO9LnfyQVoGCOiNrQ58ReLfH0eNREXS9pDEYNl7m6Qs5jJGfxGl4fGkPXBATr5
+	 JBpdQOW6NzULsrdoIjNlXy0ZQusXUDNx7taUc0qCOcpu2DxeXFkrIuNcfGJg7ICp7cJMF
+	 D+kORNG6+nDDGh26fG0HA5pzl72/EQh28HnMd5pgMFtIZ6DZ3sZVr3jePc+Mrw9d5tA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793416329;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793418149;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=J0HrcKF1CdRwEzwcAUL1nNteds2mu3FA+nNKdV/v4Aw=;
-	b=c4P4sWemcQhQQVQ2ejDWfGQeu3uuoaVmPvlLP3z5kJYR47pzd5TMtHBcDx/H9FYZRkHf
-	 xnSpoLyzDq7YoJhfhZNQVjh0kEHDQPeHCzFOIj8qaKgthrtnkauMLfap05QB1grjDvroJ
-	 GOaPbX7qDh4pKxS1t+1seemXEQWYKkWNS1CeihgVV0VBdLgYPcFLqtxp/eto/RZWfvM4B
-	 4Dl7k/XQmu3E3cpzh37CmZNIJwrfXC/ACr+wlpS+KFvq+2X+k5m06d5G8k079zm37msmH
-	 LjaGBkzsWrDyrLNSfLDUoM6Whf4ksFpo+UjTLzlhyOFhcPf3jc5bhoX8i6jkEO6q/1g==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=8Uj9OZsbv88tlXQeC3giO92nHVmp5niI8PEJKn2vPKI=;
+	b=wcXtWHC0dydfgOPnPI3CNZtStryr02oRA04+lBmf4XQnjBFa+p/Tck80YLMrxRBIx0a6
+	 aNsfDZA8VxBuHoEk/cMkizw9cEcJPZwhXDJZ9VlIXME/cCGG5fAb+aJfDLLgbnOiQ/2E2
+	 su66MCZbUwtSCACq20Fnu0WzCcG7RTlA1YdYpthUFW8DRG5+lfzc1AoTq2HjZU5JvczYi
+	 VaORoZezniBaAHO5zYgSRbDZ54UWO7gfFchzJH/wkLWVfcN6aohC9kc7w5KFaGDdHwpuD
+	 pigikDZtDXSKZPr3jsbPSS8ZApjYO2UpXpH0UmomxLy1WzP89nYNmU7STFP8nVIbBWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BFoPA0kF;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TXWCymuv;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E1A606A31A;
-	Sat, 31 Oct 2026 03:12:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0E1A606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94735606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 03:42:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94735606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BFoPA0kF
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TXWCymuv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793416328; x=1824952328;
-  h=date:from:to:cc:subject:message-id;
-  bh=q03yGqdzMvcjvgUO2ynhorXgjsw+J6MitN1rl9MDqcQ=;
-  b=BFoPA0kFWGQ8jK5gQrvAAYFzf4gKw+84FkGnjemFOGYsLsS9mFVvQ1Fz
-   GfmbVuhoOv/rDqkps9gq2//gICkDxaRUf2hOGYugdH/9D9RXcbs3o/qB1
-   37jIPvgYeml26o+kVddvxIbu454CmeMq7TNC4TqT1NtLZFsIeuRCxg7FX
-   EBKCLd3tt2jOJ/2dZiPrDwI3NahAxWZLwMbmi7ZukfbRY1v11rtKKhN7K
-   LZKm4kQUI7dKpc5dehzm0mHLpZQ496XGxkWfVr9NrOrgJd+tUz3Evg37N
-   1oONvQ4ZT22Q52+LAPCDnJyZbvMWnC3ECEf5BJYugUtEsfhbIehcHCiC7
-   Q==;
-X-CSE-ConnectionGUID: 8oNCMqySTdKiBTSS8q2C9g==
-X-CSE-MsgGUID: n1FuRCK9TkuSgdSS0ztc5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2187888"
+  t=1793418147; x=1824954147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pLDMaA9u2DIya46UgXd1Q3O/zpB0FhmIJRX1KN0DRWI=;
+  b=TXWCymuvedz5RioXASBMSDAXJx+dFiybQWlCW9JYMVNz3K5QtZWZZ/LA
+   eZUFKYDnond2HFcQZd0Z5glVkti6Pfn1DT90lccG+T2ZLWRpK+/96eoWm
+   N6S5hZvYykhIhZOgrh27sFx+43wXyXVZyK/Mz2cPCh+ubQBFqs8bHJCxS
+   7iPboqjIVgEvAsVumy9Eo/rJBZb9zWBcBJZgpbtZvKJpqIAB7VFkYJN/t
+   +h3c+pwU2PUoFYTbYsdq946N2zL1/KKMBYGzMDE4G+7kHJxHNskW4eZ7U
+   q3wIAFk6FzHPaWWFkq55gnS7lS44PvG+9rV8ojwlrZVqaRwHXk4HRrIUf
+   w==;
+X-CSE-ConnectionGUID: 0Z3GUpmcTCG3gj3rRWquuQ==
+X-CSE-MsgGUID: zZazo9QyTrqCXFPdZL4tqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2188804"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2187888"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 20:12:08 -0700
-X-CSE-ConnectionGUID: iuIkoq4LQ1WxKxO/j48WsQ==
-X-CSE-MsgGUID: GY9wuKzySSybMCROwILijQ==
+   d="scan'208";a="2188804"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 20:42:27 -0700
+X-CSE-ConnectionGUID: DlbAhomOT9OdKtm3J6iyBQ==
+X-CSE-MsgGUID: tV3OVMKbQOieESNB2zVCiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5975906"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Oct 2026 20:12:06 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="5568179"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 30 Oct 2026 20:42:24 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMzVj-000000005qZ-3ykj;
-	Sat, 31 Oct 2026 03:12:03 +0000
-Date: Sat, 31 Oct 2026 04:11:45 +0100
+	id 1xMzz3-00000000cVM-2DbZ;
+	Sat, 31 Oct 2026 03:42:21 +0000
+Date: Sat, 31 Oct 2026 11:41:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [kuba:dma 2/11] drivers/xen/swiotlb-xen.c:435:11: error:
- incompatible function pointer types initializing 'void *(*)(struct device *,
- size_t, dma_addr_t *, gfp_t, unsigned long)' (aka 'void *(*)(struct device *,
- unsigned long, unsigned long long *, unsigned int, unsigned...
-Message-ID: <202610310459.Y3UJp0xu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Mika Westerberg <westeri@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Chunfeng Yun <chunfeng.yun@mediatek.com>
+Subject: Re: [PATCH 1/4] thunderbolt: add platform nhi driver
+Message-ID: <202610311159.EWCMURna-lkp@intel.com>
+References: <20261030082539.1208733-2-chunfeng.yun@mediatek.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,46 +90,86 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261030082539.1208733-2-chunfeng.yun@mediatek.com>
 
-Hi Jakub,
+Hi Chunfeng,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kuba/linux.git dma
-head:   cd9029ebe3033a797c066b493e4cfcf5337cf829
-commit: 40f9c52cdcf8713402ec7a31c47511d06bdcf5d2 [2/11] dma-direct: pass the NUMA node to dma_direct_alloc()
-config: arm64-randconfig-2000-20261031 (https://download.01.org/0day-ci/archive/20261031/202610310459.Y3UJp0xu-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310459.Y3UJp0xu-lkp@intel.com/reproduce)
+[auto build test ERROR on westeri-thunderbolt/next]
+[also build test ERROR on linus/master v7.3 next-20261030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chunfeng-Yun/thunderbolt-add-platform-nhi-driver/20261030-162536
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+patch link:    https://lore.kernel.org/r/20261030082539.1208733-2-chunfeng.yun%40mediatek.com
+patch subject: [PATCH 1/4] thunderbolt: add platform nhi driver
+config: arm64-randconfig-1003-20261031 (https://download.01.org/0day-ci/archive/20261031/202610311159.EWCMURna-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311159.EWCMURna-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610310459.Y3UJp0xu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610311159.EWCMURna-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/xen/swiotlb-xen.c:435:11: error: incompatible function pointer types initializing 'void *(*)(struct device *, size_t, dma_addr_t *, gfp_t, unsigned long)' (aka 'void *(*)(struct device *, unsigned long, unsigned long long *, unsigned int, unsigned long)') with an expression of type 'void *(struct device *, size_t, dma_addr_t *, gfp_t, unsigned long, int)' (aka 'void *(struct device *, unsigned long, unsigned long long *, unsigned int, unsigned long, int)') [-Wincompatible-function-pointer-types]
-     435 |         .alloc = dma_direct_alloc,
-         |                  ^~~~~~~~~~~~~~~~
-   1 error generated.
+   aarch64-linux-ld: drivers/thunderbolt/domain.o: in function `tb_domain_init':
+>> drivers/thunderbolt/domain.c:909: multiple definition of `init_module'; drivers/thunderbolt/pci.o:drivers/thunderbolt/pci.c:753: first defined here
+   aarch64-linux-ld: drivers/thunderbolt/domain.o: in function `tb_domain_exit':
+>> drivers/thunderbolt/domain.c:935: multiple definition of `cleanup_module'; drivers/thunderbolt/pci.o:drivers/thunderbolt/pci.c:753: first defined here
+   aarch64-linux-ld: drivers/thunderbolt/plat.o: in function `nhi_plat_driver_init':
+   drivers/thunderbolt/plat.c:152: multiple definition of `init_module'; drivers/thunderbolt/pci.o:drivers/thunderbolt/pci.c:753: first defined here
+   aarch64-linux-ld: drivers/thunderbolt/plat.o: in function `nhi_plat_driver_exit':
+   drivers/thunderbolt/plat.c:152: multiple definition of `cleanup_module'; drivers/thunderbolt/pci.o:drivers/thunderbolt/pci.c:753: first defined here
 
 
-vim +435 drivers/xen/swiotlb-xen.c
+vim +909 drivers/thunderbolt/domain.c
 
-eb1ddc00b81cb8 Stefano Stabellini 2013-10-09  429  
-dceb1a6819ab2c Christoph Hellwig  2017-05-21  430  const struct dma_map_ops xen_swiotlb_dma_ops = {
-566fb90e050dfa Christoph Hellwig  2022-04-22  431  #ifdef CONFIG_X86
-dceb1a6819ab2c Christoph Hellwig  2017-05-21  432  	.alloc = xen_swiotlb_alloc_coherent,
-dceb1a6819ab2c Christoph Hellwig  2017-05-21  433  	.free = xen_swiotlb_free_coherent,
-566fb90e050dfa Christoph Hellwig  2022-04-22  434  #else
-566fb90e050dfa Christoph Hellwig  2022-04-22 @435  	.alloc = dma_direct_alloc,
-
-:::::: The code at line 435 was first introduced by commit
-:::::: 566fb90e050dfa2132340bbdab9533b727dda6f1 swiotlb-xen: fix DMA_ATTR_NO_KERNEL_MAPPING on arm
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Christoph Hellwig <hch@lst.de>
+a8937f35cf39c3 Mika Westerberg 2025-11-06  907  
+4bef343876ebc1 Chunfeng Yun    2026-10-30  908  static int __init tb_domain_init(void)
+9d3cce0b613689 Mika Westerberg 2017-06-06 @909  {
+d1ff70241a2751 Mika Westerberg 2017-10-02  910  	int ret;
+d1ff70241a2751 Mika Westerberg 2017-10-02  911  
+cba57ed6f1e752 Mika Westerberg 2025-08-12  912  	tb_configfs_init();
+54e418106c765c Gil Fine        2020-06-29  913  	tb_debugfs_init();
+ccc5cb8ad5d18e Rajmohan Mani   2021-04-01  914  	tb_acpi_init();
+ccc5cb8ad5d18e Rajmohan Mani   2021-04-01  915  
+d1ff70241a2751 Mika Westerberg 2017-10-02  916  	ret = tb_xdomain_init();
+d1ff70241a2751 Mika Westerberg 2017-10-02  917  	if (ret)
+ccc5cb8ad5d18e Rajmohan Mani   2021-04-01  918  		goto err_acpi;
+d1ff70241a2751 Mika Westerberg 2017-10-02  919  	ret = bus_register(&tb_bus_type);
+d1ff70241a2751 Mika Westerberg 2017-10-02  920  	if (ret)
+54e418106c765c Gil Fine        2020-06-29  921  		goto err_xdomain;
+54e418106c765c Gil Fine        2020-06-29  922  
+54e418106c765c Gil Fine        2020-06-29  923  	return 0;
+54e418106c765c Gil Fine        2020-06-29  924  
+54e418106c765c Gil Fine        2020-06-29  925  err_xdomain:
+d1ff70241a2751 Mika Westerberg 2017-10-02  926  	tb_xdomain_exit();
+ccc5cb8ad5d18e Rajmohan Mani   2021-04-01  927  err_acpi:
+ccc5cb8ad5d18e Rajmohan Mani   2021-04-01  928  	tb_acpi_exit();
+54e418106c765c Gil Fine        2020-06-29  929  	tb_debugfs_exit();
+d1ff70241a2751 Mika Westerberg 2017-10-02  930  
+d1ff70241a2751 Mika Westerberg 2017-10-02  931  	return ret;
+9d3cce0b613689 Mika Westerberg 2017-06-06  932  }
+9d3cce0b613689 Mika Westerberg 2017-06-06  933  
+4bef343876ebc1 Chunfeng Yun    2026-10-30  934  static void __exit tb_domain_exit(void)
+9d3cce0b613689 Mika Westerberg 2017-06-06 @935  {
+9d3cce0b613689 Mika Westerberg 2017-06-06  936  	bus_unregister(&tb_bus_type);
+9d3cce0b613689 Mika Westerberg 2017-06-06  937  	ida_destroy(&tb_domain_ida);
+719a5fe87ecd71 Mika Westerberg 2020-03-05  938  	tb_nvm_exit();
+d1ff70241a2751 Mika Westerberg 2017-10-02  939  	tb_xdomain_exit();
+ccc5cb8ad5d18e Rajmohan Mani   2021-04-01  940  	tb_acpi_exit();
+54e418106c765c Gil Fine        2020-06-29  941  	tb_debugfs_exit();
+cba57ed6f1e752 Mika Westerberg 2025-08-12  942  	tb_configfs_exit();
+9d3cce0b613689 Mika Westerberg 2017-06-06  943  }
+4bef343876ebc1 Chunfeng Yun    2026-10-30  944  
 
 --
 0-DAY CI Kernel Test Service
