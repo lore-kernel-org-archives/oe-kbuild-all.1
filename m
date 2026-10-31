@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793483178;
-	b=e5zC7vO9she8vrf2OlMNgb36icP/8pusKkjv9S6Dbfur7TBO0iB5eSqfGqow9qvX3Zaw
-	 vU65Vugu/RsMtstqUiK7S025nnehWteuMkrxON+dvo4KgUTpum10SvB0ZaxmrHEASR8Og
-	 Vq3HxrCjkPZigtwqNk5arH0JuiipcVpqKsT/ywRAE7VL38eKgX5AHVnpnytWFRyVEq1cL
-	 +CDPHd3s5zVCI+KeS533ldWYpjriFHU0rmLZioDjt60Trq+ODKa7D7IR1N/Ipcj1m98vG
-	 Izm1iC0TD1YgTAMeAPi0n9vpENCqwwqkfB/SY87lu7yOCITtxwnoe9zkPMoHHMM5TVQ==
+	t=1793485639;
+	b=oEPkILFYRqPugJK5noW8LLPT/4ShChoz9xCioTRKvFk+fMIinLh4O2cW4b2ls28UHaoB
+	 GUdEb4RLVCt5VvoV8qFsgEZyd3LwnB9/g83lTPR5RUS/OSl43chJCe3Zo3lO39pT+Luau
+	 gvGiLKW95YmizFodkB6GYIBe8S2KyCbQHi6l+121v0m5IoBGgFEK6+A/wg4wQqxT4QhC7
+	 91mZ2CjbwGCy3D3q7MRd8MNhnaXfNtYALgRE6XZgl6B6u3gWm93mwebLhFFxyB3iXq75k
+	 49n0KUvsYIcVak2YB9Xnov3cuMvYeYlQhd2GfQl464UuSB43eegmvFh/2nXgf6jfzJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793483178;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793485639;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=T1aA9hFI6XNlmM+TrrUkdz4DgrxLwArXZeQ16ac2gFY=;
-	b=s/EYLCC7v7J/U1+MgEa7Zr9Z/VIximikDbY7l1ZhaKaG1GXg7LYGGenem2TqEcJONPW4
-	 aClqOAdnmB18It75xxV4Xph2Ik4CNyUf4ASa6K1kPLVl+DIiIgfLE6e9JwNiNh6YzHR1o
-	 7EfZjPfsjQZovWUIXbavw3LF6HhvBjiWvbFCemByiKev/rl6UJ6nqudJ0sEvAcZCHH+y2
-	 TuvUjAPgVW6dksBMHj3R3781nMGyYzibcfGr1c+Q36Q5MwiIdmeL5/0Wslulm/eAoQGnS
-	 paqPpjyZk68LY+shuYb30FmE9Bd5Gh09dVzroUQw+lXao3EkDBAbfboaYN1IM8oddww==
+	bh=VENq0Iix7b95GPB+Wr72ioiMmn1QsBy1MmnsAYRr8OE=;
+	b=gwcRyMzKgfnqMphqZ0Yg7rTv+Lx7RWGkaRl4ay1bn69tGKL5++Gd50jhYB1HB+2xsD6v
+	 UW5lQOsNGOG0PsMwtMP+A9Gb6YgFcJbmp7LHd0XsvxZeR+j1MO86JeugA6s+aKi4kkJJM
+	 eEsPCDBduLelrbZiQYTnLK19MMYc478ysDYEEf2MBV5dW+J0PtMz+WI8bcKBZDMIR8e/I
+	 5/grYrvjkNwBwbT9/UngHz5Evbjg3nFiZzYD+txhZ7ZquOOk75ToDnAQ/lCTCkg43M4FX
+	 UxTcK9kX/K/G4tlRll0kHW+cMg2drrfYM9Pwo8F/97aHjZtLTVenN4v6kTvNcV01+8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PLUBLwX0;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hLxyLEVI;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77BB606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 21:46:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A77BB606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D09606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 22:27:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46D09606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PLUBLwX0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hLxyLEVI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793483177; x=1825019177;
+  t=1793485637; x=1825021637;
   h=date:from:to:cc:subject:message-id;
-  bh=7XDD5ih5UlgAlFaTf1+NQGWyhy374T26hG0ZRijg3pg=;
-  b=PLUBLwX0oA8L96k699Skfs0/+sHYj9/uHCcr6KgPcVj2UDrv+FDFApnk
-   8Ukt/Jlh51uzPbd07H2PAC66AfFx6V4KM7gO1rSa/OB4Jovm+garCsfp+
-   WnlnW/dohPlM+OBoHQvFqN2U1tPu8hoCgeIuf6IFbr8WSZGBUe7u14VpW
-   pM3HbcSTz8XTCrkKSGea1xN3SESXB1z95Jkuf0AV8reLdQQKGIcdmxS3r
-   pNTiN8H6LJMLY7bckFiPLD/p5rr1d+tv45oL+LazyZ+o9138kxaFzAblS
-   KDaewtIGNbLoGZFTZ09/BB/Kj6LgcOSMCcUXVnr5sEE7vgY2fsYgcGQiM
-   w==;
-X-CSE-ConnectionGUID: 9++INrh/S+OiTnkecI17jw==
-X-CSE-MsgGUID: GHDOY+BvRVm3Xi1lo8tuBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2319844"
+  bh=P9uxY+lHxSaZp2CpLBsiCd5w2JQMWOALK63Q4WYupyQ=;
+  b=hLxyLEVI6jBxbRFZ/OTKqN8hVxL8WI2uFu+kw1zup8w1eIz0Lkj+wgJz
+   pVt4f5OzTIKH7jg7olIAf/O4j/VrZRgCYVEP4DeJHeLYpDHw/I7VJ9QX6
+   0m2A+tFMgQ4AWjZo7mTUgUgjzdHtj50nouAy0i7dv2F/VnRaW8VLFn2by
+   IeWIZimIwyOAsU788VnO9ex1yT5Ksi2CRh3FRe1rMqBfAhw4lWbUXPDn6
+   GA4mdVi8PgGvlV/2LaQhn0XYFfbf8QDO5WcYbP6nw4QYRnaYNcL10jzNW
+   PIihqE1HxFvz6JLOPukSUxYdT1sCu9VrTyB5JDHjqe3qnBRXms02g2dOS
+   Q==;
+X-CSE-ConnectionGUID: ubIm0r0PTeGOfEjSIITNxQ==
+X-CSE-MsgGUID: tbS7ZcIKQB+ayYAVAjMwXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2219141"
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2319844"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 14:46:16 -0700
-X-CSE-ConnectionGUID: 4oFq/moHSBuk2zfD+uAX3A==
-X-CSE-MsgGUID: PtYbZcuSTZWH2KkwVsIX2w==
+   d="scan'208";a="2219141"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 15:27:16 -0700
+X-CSE-ConnectionGUID: Zij44SW3T+q3J1Qlje/tZA==
+X-CSE-MsgGUID: tvGJfVqrTXiwWL4gBiXGJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="5849846"
+   d="scan'208";a="7563678"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 31 Oct 2026 14:46:13 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 31 Oct 2026 15:27:15 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNGtt-0000000068d-1T8e;
-	Sat, 31 Oct 2026 21:46:09 +0000
-Date: Sat, 31 Oct 2026 22:45:27 +0100
+	id 1xNHXc-0000000069X-1iw8;
+	Sat, 31 Oct 2026 22:27:12 +0000
+Date: Sat, 31 Oct 2026 23:26:14 +0100
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
- Ilya Dryomov <idryomov@gmail.com>, Xiubo Li <xiubo.li@clyso.com>
-Subject: [ceph-client:testing 35/47] fs/ceph/crypto.c:187:17: sparse:
- sparse: non size-preserving pointer to integer cast
-Message-ID: <202610312244.cykVgFEJ-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Joerg Roedel <joerg.roedel@amd.com>,
+ Tomasz Jeznach <tjeznach@rivosinc.com>
+Subject: include/linux/bitops.h:273:19: sparse: sparse: cast
+ truncates bits from constant value (fffffffffff000 becomes fffff000)
+Message-ID: <202610312330.qcAdRikr-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,105 +82,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   3f007b9f327745c94aec312a28973b28f6a51fc4
-commit: 88d679bc66688124f73a2e30617c12a14bb5aeff [35/47] ceph: convert remaining helper paths to BLOG logging
-config: m68k-randconfig-r2300-20261031 (https://download.01.org/0day-ci/archive/20261031/202610312244.cykVgFEJ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e9954f3fbddd25e1a01b7e5a0b72fb8b564204e0
+commit: e71e00127110dedc6a9e746178282b4dac97ed96 iommupt: Add the RISC-V page table format
+date:   8 months ago
+config: um-randconfig-r2310-20261031 (https://download.01.org/0day-ci/archive/20261031/202610312330.qcAdRikr-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
 sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610312244.cykVgFEJ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610312330.qcAdRikr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: e71e00127110 ("iommupt: Add the RISC-V page table format")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610312244.cykVgFEJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610312330.qcAdRikr-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> fs/ceph/crypto.c:187:17: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:200:17: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:210:25: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:210:25: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:281:9: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:498:9: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:498:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:498:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:498:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:509:9: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:509:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:509:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:509:9: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:586:17: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:586:17: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:586:17: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:610:17: sparse: sparse: non size-preserving pointer to integer cast
-   fs/ceph/crypto.c:610:17: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:610:17: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:610:17: sparse: sparse: non size-preserving integer to pointer cast
-   fs/ceph/crypto.c:610:17: sparse: sparse: non size-preserving integer to pointer cast
+   drivers/iommu/generic_pt/fmt/iommu_riscv64.c: note: in included file (through drivers/iommu/generic_pt/fmt/../pt_log2.h, drivers/iommu/generic_pt/fmt/../pt_defs.h, drivers/iommu/generic_pt/fmt/iommu_template.h):
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+>> include/linux/bitops.h:273:19: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
+   include/linux/bitops.h:278:16: sparse: sparse: cast truncates bits from constant value (fffffffffff000 becomes fffff000)
 
-vim +187 fs/ceph/crypto.c
+vim +273 include/linux/bitops.h
 
-   154	
-   155	/*
-   156	 * User-created snapshots can't start with '_'.  Snapshots that start with this
-   157	 * character are special (hint: there aren't real snapshots) and use the
-   158	 * following format:
-   159	 *
-   160	 *   _<SNAPSHOT-NAME>_<INODE-NUMBER>
-   161	 *
-   162	 * where:
-   163	 *  - <SNAPSHOT-NAME> - the real snapshot name that may need to be decrypted,
-   164	 *  - <INODE-NUMBER> - the inode number (in decimal) for the actual snapshot
-   165	 *
-   166	 * This function parses these snapshot names and returns the inode
-   167	 * <INODE-NUMBER>.  'name_len' will also bet set with the <SNAPSHOT-NAME>
-   168	 * length.
-   169	 */
-   170	static struct inode *parse_longname(const struct inode *parent,
-   171					    const char *name, int *name_len)
-   172	{
-   173		struct ceph_client *cl = ceph_inode_to_client(parent);
-   174		struct inode *dir = NULL;
-   175		struct ceph_vino vino = { .snap = CEPH_NOSNAP };
-   176		char *name_end, *inode_number;
-   177		int ret = -EIO;
-   178		/* Snapshot name must start with an underscore */
-   179		if (*name_len <= 0 || name[0] != '_')
-   180			return ERR_PTR(-EIO);
-   181		/* Skip initial '_' and NUL-terminate */
-   182		char *str __free(kfree) = kmemdup_nul(name + 1, *name_len - 1, GFP_KERNEL);
-   183		if (!str)
-   184			return ERR_PTR(-ENOMEM);
-   185		name_end = strrchr(str, '_');
-   186		if (!name_end) {
- > 187			boutc(cl, "failed to parse long snapshot name: %s\n", str);
-   188			return ERR_PTR(-EIO);
-   189		}
-   190		*name_len = (name_end - str);
-   191		if (*name_len <= 0) {
-   192			pr_err_client(cl, "failed to parse long snapshot name\n");
-   193			return ERR_PTR(-EIO);
-   194		}
-   195	
-   196		/* Get the inode number */
-   197		inode_number = name_end + 1;
-   198		ret = kstrtou64(inode_number, 10, &vino.ino);
-   199		if (ret) {
-   200			boutc(cl, "failed to parse inode number: %s\n", str);
-   201			return ERR_PTR(ret);
-   202		}
-   203	
-   204		/* And finally the inode */
-   205		dir = ceph_find_inode(parent->i_sb, vino);
-   206		if (!dir) {
-   207			/* This can happen if we're not mounting cephfs on the root */
-   208			dir = ceph_get_inode(parent->i_sb, vino, NULL);
-   209			if (IS_ERR(dir))
-   210				boutc(cl, "can't find inode %s (_%s)\n", inode_number, str);
-   211		}
-   212		return dir;
-   213	}
-   214	
+c320592f3f2a1e Wolfram Sang       2025-01-07  261  
+952043ac12a117 Steven Whitehouse  2009-04-23  262  /**
+952043ac12a117 Steven Whitehouse  2009-04-23  263   * __ffs64 - find first set bit in a 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  264   * @word: The 64 bit word
+952043ac12a117 Steven Whitehouse  2009-04-23  265   *
+4945cca232ce8b Geert Uytterhoeven 2021-02-25  266   * On 64 bit arches this is a synonym for __ffs
+952043ac12a117 Steven Whitehouse  2009-04-23  267   * The result is not defined if no bits are set, so check that @word
+952043ac12a117 Steven Whitehouse  2009-04-23  268   * is non-zero before calling this.
+952043ac12a117 Steven Whitehouse  2009-04-23  269   */
+6606c8c7e81886 Kees Cook          2025-08-04  270  static inline __attribute_const__ unsigned int __ffs64(u64 word)
+952043ac12a117 Steven Whitehouse  2009-04-23  271  {
+952043ac12a117 Steven Whitehouse  2009-04-23  272  #if BITS_PER_LONG == 32
+952043ac12a117 Steven Whitehouse  2009-04-23 @273  	if (((u32)word) == 0UL)
+952043ac12a117 Steven Whitehouse  2009-04-23  274  		return __ffs((u32)(word >> 32)) + 32;
+952043ac12a117 Steven Whitehouse  2009-04-23  275  #elif BITS_PER_LONG != 64
+952043ac12a117 Steven Whitehouse  2009-04-23  276  #error BITS_PER_LONG not 32 or 64
+952043ac12a117 Steven Whitehouse  2009-04-23  277  #endif
+952043ac12a117 Steven Whitehouse  2009-04-23  278  	return __ffs((unsigned long)word);
+952043ac12a117 Steven Whitehouse  2009-04-23  279  }
+952043ac12a117 Steven Whitehouse  2009-04-23  280  
+
+:::::: The code at line 273 was first introduced by commit
+:::::: 952043ac12a117d8e94bddd9088338d7ad20ca7d bitops: Add __ffs64 bitop
+
+:::::: TO: Steven Whitehouse <swhiteho@redhat.com>
+:::::: CC: Steven Whitehouse <swhiteho@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
