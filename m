@@ -1,77 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793413267;
-	b=XXz5T0c+/5Ysp69prm52lhYPG3HeLIflPspbH6J54ZnSR1pZ0RvJCUBooQWOJWLPUkZa
-	 1maNSnZpBq0yB4J+tVlwEBoufOTggWCQkLVOCE46todAwk9XuCklO3qIJSMYxNbTW4DRe
-	 72TmTo2rQ9RI7Qg42cTxBI8DZR9VgefMF8s72VKDX4exv1m/ETX8pDMYwIGxKwybR/TnE
-	 ZcIPX7Zt0tJ/ErSqfDQO76/DgeEVEJ/Mnc4/e2qjaBS3PZlXZpvmu8ApDIORUpFo/5fWP
-	 BXs+TnDwVx4FPx9zLmxHZwOnSy2iX4paAxwDVrWLuDn7wif7p/Iuaw6Ov0DhNanzm1g==
+	t=1793413814;
+	b=xx84fDe7MiTkcgK4OestEgARgUL8Oh+tgMvF0WipUDHTUOPs4OFUVsOpvjfeyd8dd7f2
+	 /SVv8WMM0Yy8QeLocqbN8pfA+Nt11bQaQi9F2MgaAX91CGrjEyG0EBTeKXB/2TOfWt4Vx
+	 j4oYqtLpJ3nkE3NsVj35Q7YFEeSXKFKwWK48waGYzXKYG2efvxGekcwcdJ8mnFPQnh+/E
+	 0j0HE34UdIIZr7JAMwMuPMhB8xcoRj33doIDFVxj81noIxeVEOwC148PxRNeaztXKfN1E
+	 JIChxrIYNEZxAUcuJ3I8p/8gm7KEJ6j97lAQIkRJdWD/3ujupcicwm4gm/iUsTSj4xQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793413267;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793413814;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=PogWjP4Qs7F5L9v1joZNRjVjJFwbBx79he+QMq0yhqU=;
-	b=CA3XueNqCLATgA6505YTS5Sox/6IXZF083VwpRCWse8m8sMqOJu2JLs7h98LROH5GWa5
-	 XDN1BPe+ueEyXBadsqFKeqQ1rZ15F20UJ+IlRuPuvqdb+FwgWvyf+wCI61+PR9QE6gXXX
-	 nz/aKkLEPXJeejGwb9BSGXI2w/H8KEuanfhp3qPZ7VKZ3cOUvnUIF/AbJYrStOJ0y372s
-	 YbuyWLM1zAsVZx3OY4WDQSAkfuCgk8G9gdwxSAidGwy6+Zkp2HHKSpLMohLgJrgFeic7z
-	 Oo7qRaSjU3bIrPQUPCudRfwQ1mloIPqWDkcR11bd/rHpjv08EIYH4I8dydb1qqreuVg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=iXEfWoEoCIsoSXFk+YAPuSVr2iL1r/DA8iHiRGeTNng=;
+	b=HM1PWK7NZNqpwHSGNgN17zDNW9Q/Ww8p+9xTDmJ61cgeht2Jqugja5cHFA+uhWMYhph5
+	 bB0u/KFyTwg3EqKBUOknmnGSpwDAnxM9DtwziCJFv2nFb6gQJA4RrpdDgkluz7QNa9NLj
+	 79+xFziGwCHaJept+qUicvnla0d8Q3vUCdv6PWbMefBnPzNPMvXUADOs49iFkdqrDhOsz
+	 4Qyk5L2QB4W3YI9ffnvux41I5W9BH1C8tQn/OqjpyGtNTvSrLPObqK1VLmsUL3f9fmrZ5
+	 6neByXFBjt9SPluUwUzPrQMNwDiHl2jknPN7Q1M3aFsfibwKGNfdPYqHtP0NqIlc2iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="SAT/2T7w";
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HfWhxp1z;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6E9606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 02:21:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B6E9606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0F4606A323
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 02:30:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F0F4606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SAT/2T7w
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HfWhxp1z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793413266; x=1824949266;
-  h=date:from:to:cc:subject:message-id;
-  bh=IYxiGPJ21FfwJRT11p1xwzXG+P0wQRUWxhtnkn5kPsY=;
-  b=SAT/2T7wY8LTPXutHBZugTtZQqT2ol0dC3LmEXh1jA4Gy5XXmpRCbDDU
-   WyF4Zyxi1K732g+nXnn8xRkWXO3vKasZHIc16KZWxnMuiW6fzsS90AQs9
-   czdR8CFgvW9iaHaNWIAbf/pxw9mJL2RRnOAcEuiTWUix67ZyudMWXAngu
-   kpYvH9SQWuIFvFW1ewCGgMPgsfIBTnNEue7OCdAcTGVk2dJFgYjLQmNR8
-   3tR7OeXeT8W9w1aUXWL5wFRRTVqNYzOAyn38U6++031Sm7zbEDZ17t0FA
-   +KdCAKYlZ2B0MjgPNfRrLDZHDeyVBItKKBval4UePaMYyNSaE3ldAJMbX
-   g==;
-X-CSE-ConnectionGUID: Dianssb8Taa6JA1JHpE4vw==
-X-CSE-MsgGUID: D3ZKSqkOTgWgr00idq/sPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2064055"
+  t=1793413813; x=1824949813;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h8PaQbBDKI0jqP5gTeMuq/q/Fqlc1DTYURIQU8hM5M4=;
+  b=HfWhxp1zyAFnHh3W4bzEINkO/PdJgschA+XUlksv8AhlhweMhg4JvKDw
+   hMY6IIqbTtQa8d13U2JNhAPAGOome3LVMeLaNMC85N0D+MeV0HGqfq9lw
+   Hz0WLZqfFj3hoiEgVxYjjF707bJBF5aAJDOL+n6OFjc2S6RN23KPPQ9/L
+   9VbdUk+Kr54w3R6EbDo6j/6yUD9FIh9B5qzqEIvZpOyQxx84n12uDvV9J
+   vhgvnoX5MPerwvDIOuhGCHyYiruusgr3ZAaBh2GozNTykzOpmbhisom6M
+   7Gjx3B7DVQnTElHEl1vVr28WkP5FiJZg6nfbVUnWbmaijuRiPu6PlusFh
+   w==;
+X-CSE-ConnectionGUID: GNnm2oLXQrScInRPrD72Ww==
+X-CSE-MsgGUID: /KBzozT7ToeS6yVvtnbWrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11951"; a="2092826"
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2064055"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 19:21:05 -0700
-X-CSE-ConnectionGUID: ZVa7wNWARXeNvwnSWUXyeA==
-X-CSE-MsgGUID: ArEazRwxRguVU1BLeRwJIA==
+   d="scan'208";a="2092826"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 19:30:12 -0700
+X-CSE-ConnectionGUID: +oZpC2cgSoiPM9sOCppUbg==
+X-CSE-MsgGUID: 1+FMKCFgS7KiG4pSqZalyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5922782"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Oct 2026 19:21:03 -0700
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="5667170"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 30 Oct 2026 19:30:11 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xMyiK-000000005pn-2smY;
-	Sat, 31 Oct 2026 02:21:00 +0000
-Date: Sat, 31 Oct 2026 03:20:49 +0100
+	id 1xMyrA-00000000cSu-38RG;
+	Sat, 31 Oct 2026 02:30:08 +0000
+Date: Sat, 31 Oct 2026 10:29:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Chen-Yu Tsai" <wens@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [wens:sunxi-wip 22/36]
- sound/soc/sunxi/sun4i-codec.c:2129:35: warning: 'sun55i_codec_ch_vol_scale'
- defined but not used
-Message-ID: <202610310340.T4hfSMiG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: ahmad baghereslami <ahmad.b1995@gmail.com>, dmitry.torokhov@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	ahmad baghereslami <ahmad.b1995@gmail.com>
+Subject: Re: [PATCH] Input: synaptics - support the touchpad LED on RMI
+ function $30
+Message-ID: <202610311023.UR64jYrp-lkp@intel.com>
+References: <20261030070821.1716595-1-ahmad.b1995@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,52 +83,73 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261030070821.1716595-1-ahmad.b1995@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wens/linux.git sunxi-wip
-head:   e8e10ee67982c55fd3900953641c680a2fbef1c6
-commit: 26aaaa5549cb3eb3943ab92ffdfbe36a8eacda2e [22/36] ASoC: sun4i-codec: Support playback for A523 SoC family's audio codec
-config: csky-randconfig-2000-20261030 (https://download.01.org/0day-ci/archive/20261031/202610310340.T4hfSMiG-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610310340.T4hfSMiG-lkp@intel.com/reproduce)
+Hi ahmad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v7.3 next-20261030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ahmad-baghereslami/Input-synaptics-support-the-touchpad-LED-on-RMI-function-30/20261030-103821
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20261030070821.1716595-1-ahmad.b1995%40gmail.com
+patch subject: [PATCH] Input: synaptics - support the touchpad LED on RMI function $30
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20261031/202610311023.UR64jYrp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261031/202610311023.UR64jYrp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610310340.T4hfSMiG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610311023.UR64jYrp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/sound/tlv.h:10,
-                    from sound/soc/sunxi/sun4i-codec.c:31:
->> sound/soc/sunxi/sun4i-codec.c:2129:35: warning: 'sun55i_codec_ch_vol_scale' defined but not used [-Wunused-const-variable=]
-    2129 | static const DECLARE_TLV_DB_SCALE(sun55i_codec_ch_vol_scale, -11925, 75, 1);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/uapi/sound/tlv.h:55:22: note: in definition of macro 'SNDRV_CTL_TLVD_DECLARE_DB_SCALE'
-      55 |         unsigned int name[] = { \
-         |                      ^~~~
-   sound/soc/sunxi/sun4i-codec.c:2129:14: note: in expansion of macro 'DECLARE_TLV_DB_SCALE'
-    2129 | static const DECLARE_TLV_DB_SCALE(sun55i_codec_ch_vol_scale, -11925, 75, 1);
-         |              ^~~~~~~~~~~~~~~~~~~~
+   /usr/bin/ld: drivers/input/mouse/synaptics.o: in function `synaptics_disconnect':
+>> drivers/input/mouse/synaptics.c:1678:(.text+0x3ec): undefined reference to `led_classdev_unregister'
+   /usr/bin/ld: drivers/input/mouse/synaptics.o: in function `led_classdev_register':
+>> include/linux/leds.h:274:(.text+0x12c9): undefined reference to `led_classdev_register_ext'
+   collect2: error: ld returned 1 exit status
 
 
-vim +/sun55i_codec_ch_vol_scale +2129 sound/soc/sunxi/sun4i-codec.c
+vim +1678 drivers/input/mouse/synaptics.c
 
-  2126	
-  2127	/* volume / mute controls */
-  2128	static const DECLARE_TLV_DB_SCALE(sun55i_codec_dvol_scale, -7308, 116, 0);
-> 2129	static const DECLARE_TLV_DB_SCALE(sun55i_codec_ch_vol_scale, -11925, 75, 1);
-  2130	static const DECLARE_TLV_DB_SCALE(sun55i_codec_hp_vol_scale, -4200, 600, 0);
-  2131	static const DECLARE_TLV_DB_RANGE(sun55i_codec_lineout_vol_scale,
-  2132		0, 1, TLV_DB_SCALE_ITEM(TLV_DB_GAIN_MUTE, 0, 1),
-  2133		2, 31, TLV_DB_SCALE_ITEM(-4350, 150, 0),
-  2134	);
-  2135	static const char * const sun55i_codec_cpldo_volt_enum_text[] = {
-  2136		"0.9V", "1.0V", "1.1V", "1.2V"
-  2137	};
-  2138	static SOC_ENUM_SINGLE_DECL(sun55i_codec_cpldo_volt_enum, SUN55I_CODEC_DAC,
-  2139				    SUN55I_CODEC_DAC_CPLDO_VOLT,
-  2140				    sun55i_codec_cpldo_volt_enum_text);
-  2141	
+  1668	
+  1669	PSMOUSE_DEFINE_ATTR(disable_gesture, S_IWUSR | S_IRUGO, NULL,
+  1670			    synaptics_show_disable_gesture,
+  1671			    synaptics_set_disable_gesture);
+  1672	
+  1673	static void synaptics_disconnect(struct psmouse *psmouse)
+  1674	{
+  1675		struct synaptics_data *priv = psmouse->private;
+  1676	
+  1677		if (priv->has_rmi_led)
+> 1678			led_classdev_unregister(&priv->rmi_led);
+  1679	
+  1680		/*
+  1681		 * We might have left a breadcrumb when trying to
+  1682		 * set up SMbus companion.
+  1683		 */
+  1684		psmouse_smbus_cleanup(psmouse);
+  1685	
+  1686		if (!priv->absolute_mode &&
+  1687				SYN_ID_DISGEST_SUPPORTED(priv->info.identity))
+  1688			device_remove_file(&psmouse->ps2dev.serio->dev,
+  1689					   &psmouse_attr_disable_gesture.dattr);
+  1690	
+  1691		synaptics_reset(psmouse);
+  1692		kfree(priv);
+  1693		psmouse->private = NULL;
+  1694	}
+  1695	
 
 --
 0-DAY CI Kernel Test Service
