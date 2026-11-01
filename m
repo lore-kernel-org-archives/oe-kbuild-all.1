@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793501445;
-	b=glvjvnsz1JrRuE/pHVDxtX++E77Hb7stV3rBvn/IHwAVcXux5mRdFKYmXyk36Krr9cRt
-	 +Hncp5bpQ0pWK01kZ1+MDlbFBm9WIH0W7i10OG0Q0PYloogMCIrGjrkKH3Af/hC6YWcXr
-	 zxDyqqhY2i86dq8FCu0lMPyapkzm3tcMfNoI0Q7nBSBpq31mI27/MvfyBvBy7ZWOwgbIe
-	 ONar61IQ42z37uG0HGEys3hubNeqKt2NJJSyfLnDPdPn5XY5pg3zXq2bkCd6hDgQSvFi7
-	 6cBzSSZ4cGirFkfbXnIJSC3VEKo/J6KN4IVWFIRgQWTWLjpPySCHzpANfeAv5D7Y5+A==
+	t=1793502045;
+	b=2r/6n4N1AfL4kW76pS+OEQZ0IZ8oJl7Jv4ZUO1VaeQAiQ8VmqADwa73fcM08/AUVIeli
+	 BWlssIg3eFv7Wd9mZXnRVA/ZI0pYR6WffYDtZ168V4iBg85+dCIElW9aNaGLFrlkP5xWY
+	 4NJUyLnjD/0V1aXP8c4PS7x6w2fW4BHpz/LryFK4sLVy6NrEF3L3nuhTd7XY0/X3zRCh2
+	 n9VXysOm4NqaJQMKNfwDCJDoGRFeOhCEscYbNoQkVVFIVarz4gf0bUKazBQDmll4dZq8Z
+	 KORj9XUHZ+8vHViwKNrwPEJ1prBdb4sRyYgF7EoNXjhUGbpvuC3mrZqP82eXQr8F+aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793501445;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793502045;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=VxoqU5n3EQgH19uGlnKJn7PaUw0NoT6Vd1peODCR+Ss=;
-	b=SwA9VEkwrF9EQltThopEnjZZhsP9WcrN5SY6kPbDOIh9TUHqxKkowJoNpskR87jag4B8
-	 rYE9JiC4iCkWKiAoaa0kGOGcXPx6WweW8IDb64xdmZCjN1+iULLlPLVlsb8kNov07lz+3
-	 Z8thtRGvPSj9PlXHFYdKsc/BdwP6y4nwLsl/1P3JSnOkPzqyM+Wv7SkD5vg9p79ZWyxhX
-	 SBKzG5221wuMPgF4MrP/3f8mjPDUotZB1yQYT4WAFCwGBlVHYow9Hm8HlTOaLoCH36ui2
-	 tIEo+RkwqUe2YdrSMx/oPek8PjFb99Voh+e1rb6hzCm4SCJv0RGO/40OfmZeAC3UpXg==
+	bh=PhiY8NhERregr6MzloTgfj+M9YHeyQyJRotmPudSFS0=;
+	b=Vx7ujqok640U5/v1qojrdzaSxrmo5Mztd65426RvVe0QCMfAv5AvaXtVxk+HkZjwh9Dj
+	 w2/13wI76chUPcsO5l/c/BS5g5YteiEudu3qkHt12VghMoxco7B7gURjTSIgUy6LQ/XOx
+	 tzV7L4kz2fjHq/8MyI01DUX9h6aZfXwRP7Y/I3mj6TJLRZLZ9h9Bn3NUbVqhKEkD9dfmP
+	 m554kuvWVG+t04TBbJHXfq7t6x8E+GXo/Y0NlnAN/EqnG4oMpxqHU2kgLW+Eib7BcLEBb
+	 eW0qVNwoACC0Keqle83ourwHgVDWpawtQGxKQ8h7dqW4yAkjp8yuA7O7zKVHVVRWgIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PkfQ3HlE;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KhHWqHGw;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7F4606A324
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Nov 2026 02:50:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C7F4606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE206606A324
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Nov 2026 03:00:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE206606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PkfQ3HlE
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KhHWqHGw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793501443; x=1825037443;
+  t=1793502044; x=1825038044;
   h=date:from:to:cc:subject:message-id;
-  bh=GY47p+7skq7P8WycVmuJLQMFuugMg/Hj2/701k2T5RI=;
-  b=PkfQ3HlEPCaQtCJFrs2AlwgHc5PIEgH69JeQYKyvQgTUakuUxLQ9cgdk
-   zAvzpxScyCWRocpUWpSER7MO8bHfPttefhWTKFGaMyZ6u3CllfDw70NNG
-   RxJ1n0E73c6bk0Ve0sGNDpsvyjeICLyX+ABPZ9g8WfdeYkUxruwfWmFo3
-   x5Xg21J7MZcwjWuQr4inuw5B4UtVU+x5OaIXHA/EFMMZb2XyPW3BAlAul
-   zRoWmw19bItbe1cE5ZAcz3f9GkhxfXiHYKFHjIYIIavV/YzeUg1FGuEY5
-   SlGGx6f/WA4Y9EJhgLWZpSv6yjUyrUwuPKD7osTTES22exKTshD23gntS
-   g==;
-X-CSE-ConnectionGUID: 6xgq8Qk6QkaPji+s/jyywg==
-X-CSE-MsgGUID: 5jAbdHZtTK+lAt179HAq/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2104146"
+  bh=j4nF+j6n9uc2VnOt5Lms6Dkqi1AVbVGJihN8Nx4xO2o=;
+  b=KhHWqHGw4jTlnmA9+MvQiPsYK/Pr4nGn5NbpUUFlR0sG2bOefVK8dXu/
+   CcP2olgPWWuCnwzkX0m2JDjJbGEy4pSGiKxV1riWNXb6z0Tox1VFIfkCG
+   COnAncaqTMCNHnCFYV0NM7A9LZRDYivEf+uxPw5ttg8kLZC+1f+LLrG8c
+   ICgCYnnoKU2r7JQ8V0do+1oDZ7OkP/U/I9rgMoI0/1gqDi9oH+6o/R24T
+   Ne2p0b3eDQeoU8S10AlxAZjanoS2SYvPbVvRaA1MBfH+qSuBDaHEvGgkR
+   S1xuHdOPEb9dhqzqRz+TVDpw3eCKHdhGhbiAe+2I2SpuNh4MdRS4Qp8BN
+   A==;
+X-CSE-ConnectionGUID: hmqV/JpQQaiwqtwCtsZKaw==
+X-CSE-MsgGUID: rVkjH7iLQ3iTOHHg+fR2UQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2215597"
 X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
-   d="scan'208";a="2104146"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 19:50:42 -0700
-X-CSE-ConnectionGUID: w20I1pH5SXa9Aqfknjnvyw==
-X-CSE-MsgGUID: iiio5ptJQoiq/OOl1Dr53A==
+   d="scan'208";a="2215597"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 20:00:44 -0700
+X-CSE-ConnectionGUID: PYxEVAF/QSu3943DS79L1A==
+X-CSE-MsgGUID: HNO0s915R0qz/UdHKwO9TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
-   d="scan'208";a="5881328"
+   d="scan'208";a="6097328"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 31 Oct 2026 19:50:42 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 31 Oct 2026 20:00:42 -0700
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNLeZ-000000006JH-1KV0;
-	Sun, 01 Nov 2026 02:50:39 +0000
-Date: Sun, 01 Nov 2026 03:49:52 +0100
+	id 1xNLoG-000000006Jg-1351;
+	Sun, 01 Nov 2026 03:00:40 +0000
+Date: Sun, 01 Nov 2026 04:00:38 +0100
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: SJ Park <sj@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 842/842] kismet: WARNING:
- unmet direct dependencies detected for PTP_1588_CLOCK when selected by SXE
-Message-ID: <202611010337.llgrMpPd-lkp@intel.com>
+Subject: [sj:damon/next 41/139] mm/damon/vaddr.c:891:21: error: too
+ few arguments to function 'damos_va_invalid_folio'; expected 2, have 1
+Message-ID: <202611010354.GdEQgO22-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,24 +80,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   72211702f642336d084c9cb7a986b6c351449c6f
-commit: 2ce56273e0cf23f5fc1b079bf9a8e574ba6bc36d [842/842] anolis: net: supports linkdata ethernet controllers
-config: x86_64-kismet-CONFIG_PTP_1588_CLOCK-CONFIG_SXE-0-0 (https://download.01.org/0day-ci/archive/20261101/202611010337.llgrMpPd-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20261101/202611010337.llgrMpPd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   7004d750fdd0fe580091136ef098fba296e51863
+commit: 046c68e46b042453c4cdbd909eb4dc448dde6325 [41/139] mm/damon/vaddr: use damos->last_applied for migrate action
+config: csky-randconfig-2000-20261101 (https://download.01.org/0day-ci/archive/20261101/202611010354.GdEQgO22-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611010354.GdEQgO22-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611010337.llgrMpPd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611010354.GdEQgO22-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK when selected by SXE
-   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
-     Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
-     Selected by [y]:
-     - SXE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
-     - SXE_VF [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+All errors (new ones prefixed by >>):
+
+   mm/damon/vaddr.c: In function 'damos_va_migrate_pmd_entry':
+>> mm/damon/vaddr.c:891:21: error: too few arguments to function 'damos_va_invalid_folio'; expected 2, have 1
+     891 |                 if (damos_va_invalid_folio(folio))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/vaddr.c:840:20: note: declared here
+     840 | static inline bool damos_va_invalid_folio(struct folio *folio,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/damos_va_invalid_folio +891 mm/damon/vaddr.c
+
+   877	
+   878		start_pte = pte = pte_offset_map_lock(walk->mm, pmd, addr, &ptl);
+   879		if (!pte)
+   880			return 0;
+   881	
+   882		for (; addr < next; pte += nr, addr += nr * PAGE_SIZE) {
+   883			unsigned long page_idx;
+   884	
+   885			nr = 1;
+   886			ptent = ptep_get(pte);
+   887	
+   888			if (pte_none(ptent) || !pte_present(ptent))
+   889				continue;
+   890			folio = vm_normal_folio(walk->vma, addr, ptent);
+ > 891			if (damos_va_invalid_folio(folio))
+   892				continue;
+   893			page_idx = folio_page_idx(folio, pte_page(ptent));
+   894			nr = folio_nr_pages(folio) - page_idx;
+   895			if (damos_va_filter_out(s, folio, walk->vma, addr, pte, NULL))
+   896				continue;
+   897			s->last_applied = folio;
+   898			damos_va_migrate_dests_add(folio, walk->vma, addr, s,
+   899					migration_lists);
+   900		}
+   901		pte_unmap_unlock(start_pte, ptl);
+   902		return 0;
+   903	}
+   904	
 
 --
 0-DAY CI Kernel Test Service
