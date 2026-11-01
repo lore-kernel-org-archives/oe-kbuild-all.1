@@ -1,79 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793509563;
-	b=Noxi2EuPWVZ2XnVuqq90dd8b7RshCjqI9KgEsrDd8p3L887NBBlxFuMaYYyjN7x5+A3+
-	 SB3Uron8xeiLJ/YkJ/DKGUtZ/PtT7sUL95P3PlTvOMTOYv5x865Ypr7GzVEGar7AmL/8W
-	 hT3qwPyLYqmX2n2MnYPia+Sr6BT58U96gV9Qc3PiArQJDJvIHFeNXP9glPL2kJoKJA7IL
-	 7UHXwExNRYHk1u28gpR8vGDpguVy3La2eQPItKJ+OhExghtskxjCCRQB2LKrbF9hTWLJr
-	 +2jUR4D4Ung9v1GMw+1QqVUqJ0ufqQ4XltbrauDAjpJRtCWC176gS1OL8CgFCQYJH2Q==
+	t=1793512008;
+	b=2GJ161gbS5tZsTpCe4M7Peoq+NUcafNAXvc+uz0RyW8MGDe+/YNeW7TAkrI//fTkKEpk
+	 7uS6Gf03zzYKBVsGsFCadZrrT5M4o0Hc+IG9jrCFuKJj4aB6RfqcaMbgI97KuPWv/ppEt
+	 8kHRdkH6typIagu67Klpk35QMnsq5XpGx41w62GHTHGyZcwtC/6gvx7EvAQD5AeyDPCb5
+	 Uc8rcmsy27fslO9iG5vz56Hpi6Tm1rBxDUzTFNqT4Ju7ri+WyuEuZU+cvpnRBwz0WfKZ8
+	 0pAV25+lcI2OSoZpSOaBnsKhSV0VV0U5I0B/5omd7VQD2fvn0Vt22zqyp4KTtooN6Ng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793509563;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793512008;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=oKt03IBoj025m7//QTcbRHFKe7Z2qoFZaKWmpUpZm2s=;
-	b=o3irXiO6gdbXGncJ7YnHgEbMXAmZ6bPz6jP6zGzsbvTIuHfiEZqn/Kqab6csTITJaA4X
-	 zGAMEgZR6/aWKB3miYMu6J0YYuSu8ABZP6mSmVElfsrvpnWgrjUMMfW9rLhcke81x852e
-	 T17WrHFmaSJs9uBrXnpanzxsC5qJzQxZIU6PaJNdqoqNznQbAS7Aalun2PSoUUhna5BWL
-	 q6XG16yWsOwADmXyDGj5JtyNotBMBJuxyjmqTkYVgKAHN0oE2vBQr0snxpcNE2/Alnr7T
-	 Sa/5clX+LezMBcSXz21fqBf6q/GH2OhUBC3aX82g6f5SNpsxX5UyGf3fUwYx3W7THpQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=ZbWk5taZTqKic7rjStevY8VnrV5OyhCPzjqcOS0n/x8=;
+	b=Catz5/q2pGxvoGs/jVuYovC2zHkLQ2C7NnKazC96vI+kHr7ipybqYmHpzTo8HMGTfy0+
+	 gXb/aRgDuvrd8a7DnBGhWJLqJ5IX3O9EFHpxQeAbffO7sTYy/ADpeoaxs32G7yn49MGzO
+	 qfw8pBg7FGOAiNAhQyYcaATcS9r1hQKTMPPOsduS1NXQQueXJ+Pzw/LJ0JUjwwLaGMy2w
+	 yDW4H5BTxTLlAR/dAxe6y/y077NpHtQvScUjwghcWzoWHz/qiW2VFfB2N/1oYTq4YkMI0
+	 WZAx+xado8AObq1N7JP0MMBm1Kj9XwumJH8wzt6SZ2Wb/YVFyOa8xtD4avPsUJV5jGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Wi6VUG/e";
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UFKoJFbc;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD13606A325
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Nov 2026 05:06:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FD13606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556FA606A324
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Nov 2026 05:46:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 556FA606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Wi6VUG/e
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UFKoJFbc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793509561; x=1825045561;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6HCXN7YioSzOzhr/4EO5NIRQku4j7L9Jr8wKtgoLglA=;
-  b=Wi6VUG/ermI4EqM+edbv1oTfrCn9Qn2SkxWbjPB9HVnAmJFVbAD9Pem+
-   XIMEVPfdGjoimHIgS42rexw93kGdfg3r5CzfQY89tY2QYMZUb9Y0Mm/tz
-   A6H60MorjQjen0s/ZLX+cYbXFg2Pzi4gbWEtixP4e3moNPqJbC/EnpdGf
-   /Uydv8JI/jUWjAstMeAsQCKT2GVsniUd8SHmX8Uxuz5ZDV/rgkDi81WXq
-   6rCme1vu45xE0gesUvm5EXLyTO2g0INsKVNHxgWNn2uZPDCwI5/BXUWB2
-   bHdk5zcZqgPkkl3TbY7V5UPOq2ME844hcV72Y1dqAlpHY975IGTF1hF2D
-   Q==;
-X-CSE-ConnectionGUID: yeimIgaJQXezQ8MG/azxCw==
-X-CSE-MsgGUID: juYhYhU0RiCiMd9LNIo7hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2103803"
+  t=1793512007; x=1825048007;
+  h=date:from:to:cc:subject:message-id;
+  bh=SXC252qXtMeCoFRuqHuCVK/7qyce8RvO6JqwYT4Dw24=;
+  b=UFKoJFbcMVsaXb7R+K2hxKyf3815CCCykQ50bFt52uE1lgDMt6FJjtnX
+   cpeAkbj1YAx50cOGzpJ520az+SVYcIrqdDYlB+A5MfjnIHm62+DJRofR6
+   pR4OVwAYKicxch+mBuFj4ACNDDUwn/2FLizq012sRr9QYI8fMuQyezfDS
+   G4Q7xAWvn+79lgmY6hdhwlbQhHVdNQ/33+bL1URX2eMiMvtHMuT+OnNye
+   71LgEscGy30fajjrUtbfFaoubr0ym7uQRZ2uzUNoX/Nu4UprO5moaa+9p
+   8U0aWrxMQqwkBYv+3GG4+nwKM6Adq9gITAe6Q0/yKoSdwWhPiSwrueQ+a
+   w==;
+X-CSE-ConnectionGUID: CgA1W4hrRguyeeqPcoNuyQ==
+X-CSE-MsgGUID: uqp/2LpLRBmayGFIa4qIuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2131474"
 X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
-   d="scan'208";a="2103803"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 22:06:01 -0700
-X-CSE-ConnectionGUID: dKH/iTkPRkKQyZlw/QZq3Q==
-X-CSE-MsgGUID: w8aILaraR9iujBxEWgLFag==
+   d="scan'208";a="2131474"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 22:46:46 -0700
+X-CSE-ConnectionGUID: wdlqkpeXQg+B9IVg5Iw6IQ==
+X-CSE-MsgGUID: gyXajfbSSqeNv0limLBUlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,189,1787036400"; 
-   d="scan'208";a="6114101"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Oct 2026 22:05:58 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="5757825"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 31 Oct 2026 22:46:43 -0700
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNNlT-00000000dRc-3bGh;
-	Sun, 01 Nov 2026 05:05:55 +0000
-Date: Sun, 1 Nov 2026 13:05:20 +0800
+	id 1xNOOv-000000006N1-0oTG;
+	Sun, 01 Nov 2026 05:46:41 +0000
+Date: Sun, 01 Nov 2026 06:46:36 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jenhao Chen <jenhaochen@google.com>, Nick Terrell <terrelln@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Minchan Kim <minchan@kernel.org>, Martin Liu <liumartin@google.com>,
-	Ben Wei <benwei@google.com>, Jenhao Chen <jenhaochen@google.com>
-Subject: Re: [PATCH] zstd: Build with -O3 and use shift mask on arm64
-Message-ID: <202611011223.PoKyD37Y-lkp@intel.com>
-References: <20261030121633.258612-1-jenhaochen@google.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 842/842] kismet: WARNING:
+ unmet direct dependencies detected for PTP_1588_CLOCK when selected by
+ SXE2_VF
+Message-ID: <202611010624.rTG05PS9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,37 +80,28 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261030121633.258612-1-jenhaochen@google.com>
 
-Hi Jenhao,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on linus/master v7.3 next-20261030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jenhao-Chen/zstd-Build-with-O3-and-use-shift-mask-on-arm64/20261030-121633
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20261030121633.258612-1-jenhaochen%40google.com
-patch subject: [PATCH] zstd: Build with -O3 and use shift mask on arm64
-config: nios2-randconfig-1000-20261101 (https://download.01.org/0day-ci/archive/20261101/202611011223.PoKyD37Y-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611011223.PoKyD37Y-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   72211702f642336d084c9cb7a986b6c351449c6f
+commit: e0244015478adde7baee3a127e43091668d91289 [842/842] anolis: net: update linkdata ethernet driver features.
+config: x86_64-kismet-CONFIG_PTP_1588_CLOCK-CONFIG_SXE2_VF-0-0 (https://download.01.org/0day-ci/archive/20261101/202611010624.rTG05PS9-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20261101/202611010624.rTG05PS9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611011223.PoKyD37Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611010624.rTG05PS9-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: lib/zstd/zstd_compress.ko: symbol '__divsi3_table' undefined!
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PTP_1588_CLOCK when selected by SXE2_VF
+   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
+     Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
+     Selected by [y]:
+     - SXE2_VF [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && X86 [=y] && PCI [=y]
+     Selected by [m]:
+     - SXE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+     - SXE_VF [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+     - SXE2 [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && X86 [=y] && PCI [=y]
 
 --
 0-DAY CI Kernel Test Service
