@@ -1,96 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793490875;
-	b=qg0zskIJsXFy7B9g9M0VXCn3R0SgeiaKz+Uk4sP+l518yQlHNGA49u6L0Qaxv3OCdOTo
-	 vLJgYMsVKBe7fFs6fLRuLU1M1mJS7Uqd04Bx6p79I3Q52C0atPIHAUhIUre1l6EQntdCX
-	 enynFh8IpqvF2p5kWqvkRxwmb4y7hdJKcqrDU5FwT6D0zPuJXmCycsfuKNk0c4hQ3N9zL
-	 kqmX794TMqI9CI1Du2W/84Basb9X+JakmwNk+6u0dRDA07IL6UrJ6VUieipChLoUzYLkx
-	 lnCqVaru/BHwclLh5rOdLTtkx5NEZQ/0+LYEuPPifWLgF+kgHNjZS9xfwHbn65QGgsg==
+	t=1793491899;
+	b=twsFa+jEFZ0odsvE7AJFQC+P3j6vS9Pg3wB7OGuVhFpPRY9rSiH4DtMwelox1/gulzVt
+	 J60dhu4M51rSnuo/BUSTF73At0lHOEj/aPZifxWt0ixuA2SEyiV2L/ZT9MJucTSpWngie
+	 WR/psC4ItK4W2O+u90gwNomkOzSBr1Q5v3+4lPqhvCA6Xulkw1KU71lKPYoe7hpvbhlN5
+	 Koxl4hTVYBwk9Ymkg2nvwb8nNZGaExlpsl4J4pqme2XtaCglHFTG0gXCUT9hQSxRabSR4
+	 mNt2+T70BvQPOjQJJQH98mJdF33L9Z7sobWNJMfb/wF7iNk9ItNeg/rzXahXV/UN8vQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793490875;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793491899;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=/O1QuS7+tRKjJCe36mLJ5Gs9QsE8OnsKMAzsZ8ju5JA=;
-	b=DZRXQVEIitdINrkS7nwIfsjgHOsY8pwo302TgtZh/dUL3ivDNRWOoXFyJYcfIt2DTNF5
-	 92jVw6+fplxc+wMQGwJWOnvCiLDunKug30GPfTspcXHYp9nJ2L7InRN4eL39dqdHUvaG4
-	 B0KLrxnySLPYd/FXQG8nubGZKIMJ/ti4YY+BcffJa2qQYfc236UafEbfZqeKNhp9yYO6e
-	 0nG0aFrdMsi1mHYzTpNZp1wKF0cy+ByGTn2oIBp/e+2Xc/uHVQwQoaBkPSSNKQ9MaOW7b
-	 Hygbk+HW3bCFw3PzGqNnXCDJOg0KXutDknycIf9pxMKjiFv9FLhNoFOgBOsaYIa0fzw==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=2EzAq3F/oZImqHNtfFN7yucFQTKmJ98J6mbsgnQaAnk=;
+	b=JG4fseDKf9FG2HFiVMhHv3jnpHHzs2TFc4Z6bf62GXeDmcZQVAkoyTMbCRW+dk64sl+Z
+	 iX0QG4mfBGtKBS17j+ycr4OHHSgp9wFcdu6Ito4tsRtezxtv2Vcx+HpQOdPcI3hGVv8zR
+	 4pUu2tRkH+3t4UB3zDBOmVQWVCKM9Zl1ubwDbcATqFApak21NfXUmVLc9IfO32eoKvx1e
+	 /m1RToTfjqNKMOa9Hf1OhGBC4VJGl/liHUTupUdHSN7n68q+4S8fPeuGlGP9eHefdPQ1y
+	 +D82R2q6ialr2N8ZszXs/CJzOA21evf6A+uD+6aNzVqTRTieSN7Q6/3W3RuxisKVmqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eTom9iFn;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="ku4gpgB/";
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F024606A31D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 Oct 2026 23:54:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F024606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FBC606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Nov 2026 00:11:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65FBC606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eTom9iFn
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ku4gpgB/
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793490875; x=1825026875;
+  t=1793491897; x=1825027897;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=onCPx45jawKu9ge3zeP6P/yMp8qkq874YfzuNRUh1dE=;
-  b=eTom9iFnz2ns+8WlvHLW97FS3h32Kz49d3YGXAlmGS10WvlgOm3fphZi
-   y2R6umxjS3aL0j4Yfcr+4FVTzr5lXJ8EFpo/FyJzDvWuq5UMib48KZ2TR
-   M0vC2PkdBdmAaZMWaZOQ/xana45ieNsk55rWElMDsY1pcOpnFbP0OPPXv
-   h3uTug49/4CnqucSph33IWWaX6zH6B+cTH88suQxzJEH6tXlJeW9+tXFc
-   OPCDlD42Fn/I+hpBdr3+COVFeBHvrCzwsCUMcSRT+T0OdywaT6d/+ZZmj
-   Srd1Ek1tJ/AfTWYbqNgrlYd/GfmFW6jX3yyDY1Uj5Z3aFhT6jr66832P0
-   g==;
-X-CSE-ConnectionGUID: 32wIHCciT3SVNO2lVVK6kw==
-X-CSE-MsgGUID: bXBMzf3xQkeYI5p/+SL8Bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2220651"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=JxWINGtEXiE/19oIrBdKjOvxqg4jRzLQd0nxSgU6mLQ=;
+  b=ku4gpgB/VHRLnWzSTwIfjQgUwAM0tU4WuXlNU3kEcpHXBtKTiNg78VJ5
+   MTP8vTSZXuiK3RCABU1HT0RV4fC1h07TDe658sVIEz3Rf/UbYQnOcM1gI
+   qvRhDbhkcg4xc9CEFs8RUh3BFyo47mn4kJ/H12cdnsR5J/teqK7Z2zgs/
+   +NsgV1nNfT8dUBLKWbLMBNZhtft3slgiH0YoM4Qxc7/ia5gvtY7gUtOgc
+   WaWps2WpDqfUL1rpewdpWLWMImuB/frwq/XZXIHEWBEDyFWNbuw5BIdmi
+   zwZvhDzwYenLvGtg0u5TUP8AEjE41F7F3e3QgMeb0kqpCMO9r8X0lQCUg
+   Q==;
+X-CSE-ConnectionGUID: CnLs2NOpQWCuxzn+7iOxYw==
+X-CSE-MsgGUID: CPEq9n0bT42yUKvEo9/W6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2108912"
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2220651"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 16:54:34 -0700
-X-CSE-ConnectionGUID: V2rALCjrSseDfEOys8L50Q==
-X-CSE-MsgGUID: OZonhpcURWKtmmbCBaLWUQ==
+   d="scan'208";a="2108912"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 17:11:36 -0700
+X-CSE-ConnectionGUID: hWVuwracTrCN1bMAbJ7VaQ==
+X-CSE-MsgGUID: 9l+96SLnSdSfe1kZ1buVAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="6079165"
+   d="scan'208";a="5762544"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2026 16:54:29 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Oct 2026 17:11:32 -0700
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNIu2-00000000dH6-35cm;
-	Sat, 31 Oct 2026 23:54:26 +0000
-Date: Sun, 1 Nov 2026 07:53:27 +0800
+	id 1xNJAW-00000000dIq-1U6v;
+	Sun, 01 Nov 2026 00:11:28 +0000
+Date: Sun, 1 Nov 2026 08:10:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taniya Das <taniya.das@oss.qualcomm.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Abel Vesa <abelvesa@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ajit Pandey <ajit.pandey@oss.qualcomm.com>,
-	Imran Shaik <imran.shaik@oss.qualcomm.com>,
-	Jagadeesh Kona <jagadeesh.kona@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
-	Taniya Das <taniya.das@oss.qualcomm.com>
-Subject: Re: [PATCH v2 03/12] clk: qcom: Add a driver for PDM GP_MN
- fractional clock divider
-Message-ID: <202611010752.aU8NDTD1-lkp@intel.com>
-References: <20261026-b4-pdm_clk_gp_mnd_v2-v2-3-ff8e4bc8d567@oss.qualcomm.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Christian Brauner <brauner@kernel.org>, Kees Cook <kees@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>, willy@infradead.org,
+	mathieu.desnoyers@efficios.com,
+	David Laight <david.laight.linux@gmail.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	akpm@linux-foundation.org, Yafang Shao <laoar.shao@gmail.com>,
+	andrii.nakryiko@gmail.com, arnaldo.melo@gmail.com,
+	Petr Mladek <pmladek@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	kernel-dev@igalia.com, linux-mm@kvack.org,
+	linux-api@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v8 4/6] sched: Extend task command name with
+ TASK_COMM_EXT_LEN
+Message-ID: <202611010746.Qs8jUny8-lkp@intel.com>
+References: <20261030-tonyk-long_name-v8-4-c9b030332254@igalia.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -100,32 +97,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261026-b4-pdm_clk_gp_mnd_v2-v2-3-ff8e4bc8d567@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261030-tonyk-long_name-v8-4-c9b030332254@igalia.com>
 
-Hi Taniya,
+Hi André,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 4eb2586bd40db27d77cc5b724ca9386ed0c71d53]
+[auto build test WARNING on 4dd16e31135ea8437a720222df34e8745f385d6d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/dt-bindings-clock-qcom-Add-bindings-for-PDM-GP_MN-clock-divider/20261026-165927
-base:   4eb2586bd40db27d77cc5b724ca9386ed0c71d53
-patch link:    https://lore.kernel.org/r/20261026-b4-pdm_clk_gp_mnd_v2-v2-3-ff8e4bc8d567%40oss.qualcomm.com
-patch subject: [PATCH v2 03/12] clk: qcom: Add a driver for PDM GP_MN fractional clock divider
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20261101/202611010752.aU8NDTD1-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/treewide-Get-rid-of-get_task_comm/20261030-183832
+base:   4dd16e31135ea8437a720222df34e8745f385d6d
+patch link:    https://lore.kernel.org/r/20261030-tonyk-long_name-v8-4-c9b030332254%40igalia.com
+patch subject: [PATCH v8 4/6] sched: Extend task command name with TASK_COMM_EXT_LEN
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261101/202611010746.Qs8jUny8-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611010752.aU8NDTD1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611010746.Qs8jUny8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611010752.aU8NDTD1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611010746.Qs8jUny8-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: drivers/clk/qcom/clk-gp-mnd.ko: symbol '__udivdi3' undefined!
+   drivers/gpu/drm/nouveau/nouveau_chan.c: In function 'nouveau_channel_ctor':
+>> drivers/gpu/drm/nouveau/nouveau_chan.c:343:58: warning: '%s' directive output may be truncated writing up to 63 bytes into a region of size 32 [-Wformat-truncation=]
+     343 |         snprintf(args->name, __member_size(args->name), "%s[%d]",
+         |                                                          ^~
+   drivers/gpu/drm/nouveau/nouveau_chan.c:343:9: note: 'snprintf' output between 4 and 77 bytes into a destination of size 32
+     343 |         snprintf(args->name, __member_size(args->name), "%s[%d]",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     344 |                  current->comm, task_pid_nr(current));
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +343 drivers/gpu/drm/nouveau/nouveau_chan.c
+
+ebb945a94bba2ce Ben Skeggs          2012-07-20  253  
+5b8a43aeb9cbf6b Marcin Slusarz      2012-08-19  254  static int
+5cca41ac70e5877 Ben Skeggs          2024-07-26  255  nouveau_channel_ctor(struct nouveau_cli *cli, bool priv, u64 runm,
+06db7fded6dec88 Ben Skeggs          2022-06-01  256  		     struct nouveau_channel **pchan)
+ebb945a94bba2ce Ben Skeggs          2012-07-20  257  {
+152be54224de182 Danilo Krummrich    2023-10-02  258  	const struct nvif_mclass hosts[] = {
+284ad706ad2f509 Ben Skeggs          2025-02-04  259  		{ BLACKWELL_CHANNEL_GPFIFO_B, 0 },
+32cb1cc358ffed2 Ben Skeggs          2024-11-25  260  		{ BLACKWELL_CHANNEL_GPFIFO_A, 0 },
+44f93b209e2afde Ben Skeggs          2024-11-25  261  		{    HOPPER_CHANNEL_GPFIFO_A, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  262  		{    AMPERE_CHANNEL_GPFIFO_B, 0 },
+7f4f35ea5b080e6 Ben Skeggs          2022-06-01  263  		{    AMPERE_CHANNEL_GPFIFO_A, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  264  		{    TURING_CHANNEL_GPFIFO_A, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  265  		{     VOLTA_CHANNEL_GPFIFO_A, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  266  		{    PASCAL_CHANNEL_GPFIFO_A, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  267  		{   MAXWELL_CHANNEL_GPFIFO_A, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  268  		{    KEPLER_CHANNEL_GPFIFO_B, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  269  		{    KEPLER_CHANNEL_GPFIFO_A, 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  270  		{     FERMI_CHANNEL_GPFIFO  , 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  271  		{       G82_CHANNEL_GPFIFO  , 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  272  		{      NV50_CHANNEL_GPFIFO  , 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  273  		{      NV40_CHANNEL_DMA     , 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  274  		{      NV17_CHANNEL_DMA     , 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  275  		{      NV10_CHANNEL_DMA     , 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  276  		{      NV03_CHANNEL_DMA     , 0 },
+06db7fded6dec88 Ben Skeggs          2022-06-01  277  		{}
+06db7fded6dec88 Ben Skeggs          2022-06-01  278  	};
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  279  	DEFINE_RAW_FLEX(struct nvif_chan_v0, args, name, TASK_COMM_LEN + 16);
+5cca41ac70e5877 Ben Skeggs          2024-07-26  280  	struct nvif_device *device = &cli->device;
+ebb945a94bba2ce Ben Skeggs          2012-07-20  281  	struct nouveau_channel *chan;
+06db7fded6dec88 Ben Skeggs          2022-06-01  282  	const u64 plength = 0x10000;
+06db7fded6dec88 Ben Skeggs          2022-06-01  283  	const u64 ioffset = plength;
+06db7fded6dec88 Ben Skeggs          2022-06-01  284  	const u64 ilength = 0x02000;
+06db7fded6dec88 Ben Skeggs          2022-06-01  285  	int cid, ret;
+06db7fded6dec88 Ben Skeggs          2022-06-01  286  	u64 size;
+06db7fded6dec88 Ben Skeggs          2022-06-01  287  
+06db7fded6dec88 Ben Skeggs          2022-06-01  288  	cid = nvif_mclass(&device->object, hosts);
+06db7fded6dec88 Ben Skeggs          2022-06-01  289  	if (cid < 0)
+06db7fded6dec88 Ben Skeggs          2022-06-01  290  		return cid;
+06db7fded6dec88 Ben Skeggs          2022-06-01  291  
+06db7fded6dec88 Ben Skeggs          2022-06-01  292  	if (hosts[cid].oclass < NV50_CHANNEL_GPFIFO)
+06db7fded6dec88 Ben Skeggs          2022-06-01  293  		size = plength;
+06db7fded6dec88 Ben Skeggs          2022-06-01  294  	else
+06db7fded6dec88 Ben Skeggs          2022-06-01  295  		size = ioffset + ilength;
+ebb945a94bba2ce Ben Skeggs          2012-07-20  296  
+ebb945a94bba2ce Ben Skeggs          2012-07-20  297  	/* allocate dma push buffer */
+5cca41ac70e5877 Ben Skeggs          2024-07-26  298  	ret = nouveau_channel_prep(cli, size, &chan);
+ebb945a94bba2ce Ben Skeggs          2012-07-20  299  	*pchan = chan;
+ebb945a94bba2ce Ben Skeggs          2012-07-20  300  	if (ret)
+ebb945a94bba2ce Ben Skeggs          2012-07-20  301  		return ret;
+ebb945a94bba2ce Ben Skeggs          2012-07-20  302  
+ebb945a94bba2ce Ben Skeggs          2012-07-20  303  	/* create channel object */
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  304  	args->version = 0;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  305  	args->namelen = __member_size(args->name);
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  306  	args->runlist = __ffs64(runm);
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  307  	args->runq = 0;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  308  	args->priv = priv;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  309  	args->devm = BIT(0);
+06db7fded6dec88 Ben Skeggs          2022-06-01  310  	if (hosts[cid].oclass < NV50_CHANNEL_GPFIFO) {
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  311  		args->vmm = 0;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  312  		args->ctxdma = nvif_handle(&chan->push.ctxdma);
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  313  		args->offset = chan->push.addr;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  314  		args->length = 0;
+bbf8906b2cad17c Ben Skeggs          2014-08-10  315  	} else {
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  316  		args->vmm = nvif_handle(&chan->vmm->vmm.object);
+06db7fded6dec88 Ben Skeggs          2022-06-01  317  		if (hosts[cid].oclass < FERMI_CHANNEL_GPFIFO)
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  318  			args->ctxdma = nvif_handle(&chan->push.ctxdma);
+06db7fded6dec88 Ben Skeggs          2022-06-01  319  		else
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  320  			args->ctxdma = 0;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  321  		args->offset = ioffset + chan->push.addr;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  322  		args->length = ilength;
+06db7fded6dec88 Ben Skeggs          2022-06-01  323  	}
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  324  	args->huserd = 0;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  325  	args->ouserd = 0;
+06db7fded6dec88 Ben Skeggs          2022-06-01  326  
+06db7fded6dec88 Ben Skeggs          2022-06-01  327  	/* allocate userd */
+06db7fded6dec88 Ben Skeggs          2022-06-01  328  	if (hosts[cid].oclass >= VOLTA_CHANNEL_GPFIFO_A) {
+06db7fded6dec88 Ben Skeggs          2022-06-01  329  		ret = nvif_mem_ctor(&cli->mmu, "abi16ChanUSERD", NVIF_CLASS_MEM_GF100,
+06db7fded6dec88 Ben Skeggs          2022-06-01  330  				    NVIF_MEM_VRAM | NVIF_MEM_COHERENT | NVIF_MEM_MAPPABLE,
+06db7fded6dec88 Ben Skeggs          2022-06-01  331  				    0, PAGE_SIZE, NULL, 0, &chan->mem_userd);
+06db7fded6dec88 Ben Skeggs          2022-06-01  332  		if (ret)
+ebb945a94bba2ce Ben Skeggs          2012-07-20  333  			return ret;
+ebb945a94bba2ce Ben Skeggs          2012-07-20  334  
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  335  		args->huserd = nvif_handle(&chan->mem_userd.object);
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  336  		args->ouserd = 0;
+ebb945a94bba2ce Ben Skeggs          2012-07-20  337  
+06db7fded6dec88 Ben Skeggs          2022-06-01  338  		chan->userd = &chan->mem_userd.object;
+06db7fded6dec88 Ben Skeggs          2022-06-01  339  	} else {
+06db7fded6dec88 Ben Skeggs          2022-06-01  340  		chan->userd = &chan->user;
+06db7fded6dec88 Ben Skeggs          2022-06-01  341  	}
+ebb945a94bba2ce Ben Skeggs          2012-07-20  342  
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16 @343  	snprintf(args->name, __member_size(args->name), "%s[%d]",
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  344  		 current->comm, task_pid_nr(current));
+ebb945a94bba2ce Ben Skeggs          2012-07-20  345  
+06db7fded6dec88 Ben Skeggs          2022-06-01  346  	ret = nvif_object_ctor(&device->object, "abi16ChanUser", 0, hosts[cid].oclass,
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  347  			       args, __struct_size(args), &chan->user);
+06db7fded6dec88 Ben Skeggs          2022-06-01  348  	if (ret) {
+06db7fded6dec88 Ben Skeggs          2022-06-01  349  		nouveau_channel_del(pchan);
+ebb945a94bba2ce Ben Skeggs          2012-07-20  350  		return ret;
+bbf8906b2cad17c Ben Skeggs          2014-08-10  351  	}
+ebb945a94bba2ce Ben Skeggs          2012-07-20  352  
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  353  	chan->runlist = args->runlist;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  354  	chan->chid = args->chid;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  355  	chan->inst = args->inst;
+e270b3665f8321c Gustavo A. R. Silva 2025-04-16  356  	chan->token = args->token;
+06db7fded6dec88 Ben Skeggs          2022-06-01  357  	return 0;
+ebb945a94bba2ce Ben Skeggs          2012-07-20  358  }
+ebb945a94bba2ce Ben Skeggs          2012-07-20  359  
 
 --
 0-DAY CI Kernel Test Service
