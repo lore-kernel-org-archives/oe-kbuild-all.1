@@ -1,88 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793538832;
-	b=AfrQMEsB6ltMrAmgam7Ei1rzpdfHOTYMdR3znBwrKfl8tbKBR0+xkJkZBHM4kdO+t/4o
-	 K7jZlMQVMgfSi3LGH7WzEvyblbr4EyGM2dasJ1woQrOBfdgbkL+31Ilny5R2w1NcKHMj5
-	 xTgZHMBzh13wWHZGIlEAn5yYRDKIT1udKaWloFBf43BoPJ20it9cFjZ+dcUMB8lzFZSUC
-	 w4ustRacNiLkkak15HRK56WIKjCVtwSNkqgKhkiZt+K59B4D9YffJ2CytUPvU5mKuNwon
-	 XkACymaYnps+WTGMkxCMISpFwNI023LnXRcZZIkXW4jJsxhEGo3bq3qTFHEM9T6KPqA==
+	t=1793539033;
+	b=PXSV6i18Ch8NHcRFy2nZsYKcWlluHDtJsgp0eEjTkJpNrpCzbZLn8MKQqDW0yAMijEic
+	 HgLE1vSwUL9jU82/MAKxV0LJ+joaepSkrNXzeaLzjSOsYMZsCqUVrSmNT1sIwIPRoIPz8
+	 G7Pqy+JIdlJ9t3nIN8F5VIZkAkNQ42AMBwawwVYILfsQGESsB9Nd8P7m/AKt1yrN0QTnx
+	 ygOvtpbS2clO+Q+PCGgpN6b/7391td/RDo2OJvCcJMsXtJ7+I0MShnnheEzmiL6LYcIes
+	 zWjURV4GCuqSGSRcZtk88kNhnsLOPQMNXBWT50jt5pSnstin9fWo/ChN5tps8hesmYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793538832;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793539033;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=U4XwdO3ioN7zF96MHtVPEifYah+1qgSKXNsOPERCZC0=;
-	b=38wtmjyJwdLfO5JW2CPa4DzMa+TBfN5qHGQpnasT14T+qe3ZT1MIOX0YnG6eiCOF74Yu
-	 wVBsJ9BefKAAAUyIWcLBKwWOP4itTeIOkIYlipOX2qcKf52romlgw+fG9lcysoqg5IO2U
-	 njqvROOd4Jp5mvRLKlHe0iSJv7Y5ofxuqsRMaQfr8OOEcHnWt6kTLNhpa0AJyhZA7QUvQ
-	 n6ht5sOLC3JUHOUdlACUVNq75gtxH3/TIosg8/0GjIu18N/85QUWSnxf2wDu/4suvSNLI
-	 CLYTk+ZlAHPBeuBsuS5cZ9bDqsVgF7UXTYuIu8v6DEhQ6qdGYOeSRPu4V5C00aMTXew==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=w4bq/0g8RhsZpG5ZMgi9uMz4OgpyNoh3lwfQvLSG4kA=;
+	b=HaqqLZbtqZZKQcggclsIbUcQ+1iEowEavYMj03McpKbbNGG7N+zPK8hifN7nt1NEcQxB
+	 fKgh8axXtnvtKbfOWYEeF1U7q+SloTqMH3koE5Mkshk+ro6bT3xN83MDpWEXH/aOjwCee
+	 sLCgKrvHJe7t7WCz+S9ZfgWQr/Tp3aqNJbXBkR48SwPJP9cnBX6SJbzXF6z/nCAesrCAF
+	 Dq2GZR4RE87mbtna69MzzWxY95yy46UQeWyZyuNSEY0p9AF98gLWSJmGzGxBtp6bx4k+P
+	 U3iiMQDpW35ouIRgS7vRkmxRS9NcLS8GO9HKlxgSxt37Oljt/dyYHcWd/7MHcz78nYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gSj6FQkN;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FXnku0FF;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552AD606A324
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Nov 2026 13:13:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 552AD606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA97606A325;
+	Sun,  1 Nov 2026 13:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EA97606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gSj6FQkN
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FXnku0FF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793538830; x=1825074830;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K6kLYmti8wg3pfbET3mVpB4JgXQcMHSLvUUexHDGUlM=;
-  b=gSj6FQkNsUOqUczpESyZD8xTKWNWIys+m4K7rYIIMmKzuaLAeaD0+xth
-   kAH/hig6PENcp93aS6VQhkVL5dSIe8IEAKHb4zmQBdhn7P67SCbRa0YF1
-   xU1V8NQ+42AyoZt4I54WA/m0o3HVWkQr0mCKCWlnuPPVwzn9xqG6Yyfuz
-   jEMBEvkVmzgalANMFzeMcFhppChuJj9uuQ3mAooMwRb2aHvc9lAhvTfGx
-   ujv/fHdBpG97nQ1fgOicbSEMReCLGu97ONaywB3sUNEWsjtpScqXwHIJa
-   zg+SuzHCmxcAz2fB5fw7TAaJXlQx06ddh4ilL1HRWM4gg8EyvLcXFZdaf
-   w==;
-X-CSE-ConnectionGUID: WSqUSM8LRD2sErYi8nZ++g==
-X-CSE-MsgGUID: hPHp/88DTWKdyuWgo4HHpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2265563"
+  t=1793539032; x=1825075032;
+  h=date:from:to:cc:subject:message-id;
+  bh=JAbPOH2A8VFIzFQrMfM3PNOHGoeHF4IVMnIPcL5oetg=;
+  b=FXnku0FFjBqV0zlVz8cexOkmChr6DXW9l9bV6BKgLy5fMjo76HGTgCLq
+   XjrLqXvqMPZarXNlT3P8CahAsRUdQsKCk3PyccTJHNipobDcFPCNApC6c
+   Qztp/yfwoMu/VgyRcQFNjBwcnZj+ShFxp1cVpqslSNCJJjJlvH4kz2PSp
+   0zglI+OmWNbvBhjg57gdWWmjPOyuwjfX4uqqVYP+OCzTRGOFL7ikwk4Kh
+   MEBuiRpByVVXMymky0GI7x5CIclNeP9totY8W/XwGnYJPpSgS/0T2zZzV
+   455G4WmBxs2SaPI0OOkcLmA7BsIjUISKmlPm/ZIJitCsit7c3N+7WkLra
+   g==;
+X-CSE-ConnectionGUID: vrK7XTi1RZWt+bVKYceRzw==
+X-CSE-MsgGUID: PR6YXv6mQouXLRiiAyRRlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2152764"
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="2265563"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 05:13:49 -0800
-X-CSE-ConnectionGUID: Nr0WMYIvSCG77sMZzHl8XQ==
-X-CSE-MsgGUID: vierZFT9RjqYFa5vnVTf5A==
+   d="scan'208";a="2152764"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 05:17:11 -0800
+X-CSE-ConnectionGUID: aLojhxKPShK+3iypFH1W9g==
+X-CSE-MsgGUID: SJQhPmI3QuuiQN50erUsIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
-   d="scan'208";a="5973720"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Nov 2026 05:13:43 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="6268820"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 01 Nov 2026 05:17:10 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNVNT-00000000dmq-32VV;
-	Sun, 01 Nov 2026 13:13:39 +0000
-Date: Sun, 1 Nov 2026 21:13:03 +0800
+	id 1xNVQq-000000006i3-0PDb;
+	Sun, 01 Nov 2026 13:17:08 +0000
+Date: Sun, 01 Nov 2026 14:17:03 +0100
 From: kernel test robot <lkp@intel.com>
-To: Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
-	gnoack@google.com, paul@paul-moore.com, jmorris@namei.org,
-	serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org,
-	utilityemal77@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
-	jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev,
-	rdunlap@infradead.org, gregkh@linuxfoundation.org,
-	rafael@kernel.org, dakr@kernel.org, johan@kernel.org,
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
-	viro@zeniv.linux.org.uk, brauner@kernel.org
-Subject: Re: [PATCH v3 -next 06/18] LSM: pass struct path and struct file to
- the inode xattr hooks
-Message-ID: <202611012039.vHfMcyAk-lkp@intel.com>
-References: <20261027121151.1887650-7-caixinchen1@huawei.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>
+Subject: [brauner-github:work.procfs.cleanup 22/115]
+ net/l2tp/l2tp_ppp.c:1602:28: warning: unused variable 'pd'
+Message-ID: <202611011406.rTUd4cX8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -91,34 +80,40 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027121151.1887650-7-caixinchen1@huawei.com>
 
-Hi Cai,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20261026]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Xinchen/fs-pass-struct-path-to-notify_change/20261027-201134
-base:   next-20261026
-patch link:    https://lore.kernel.org/r/20261027121151.1887650-7-caixinchen1%40huawei.com
-patch subject: [PATCH v3 -next 06/18] LSM: pass struct path and struct file to the inode xattr hooks
-config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20261101/202611012039.vHfMcyAk-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611012039.vHfMcyAk-lkp@intel.com/reproduce)
+tree:   https://github.com/brauner/linux.git work.procfs.cleanup
+head:   149defb030fc6398856817bad7186556426e0845
+commit: 16905bac11a0bd08362a07a222b1650db0bff1ec [22/115] l2tp: let procfs own the seq_file of /proc/net/pppol2tp
+config: s390-randconfig-2001-20261101 (https://download.01.org/0day-ci/archive/20261101/202611011406.rTUd4cX8-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611011406.rTUd4cX8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611012039.vHfMcyAk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611011406.rTUd4cX8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: security/commoncap.c:1063 function parameter 'idmap' not described in 'cap_inode_removexattr'
->> Warning: security/commoncap.c:1063 function parameter 'idmap' not described in 'cap_inode_removexattr'
+>> net/l2tp/l2tp_ppp.c:1602:28: warning: unused variable 'pd' [-Wunused-variable]
+    1602 |         struct pppol2tp_seq_data *pd = ((struct seq_file *)file->private_data)->private;
+         |                                   ^~
+   1 warning generated.
+
+
+vim +/pd +1602 net/l2tp/l2tp_ppp.c
+
+  1598	
+  1599	/* procfs opened the seq_file and allocated @pd */
+  1600	static int pppol2tp_proc_open(struct inode *inode, struct file *file)
+  1601	{
+> 1602		struct pppol2tp_seq_data *pd = ((struct seq_file *)file->private_data)->private;
+  1603		struct net *net;
+  1604	
+  1605		net = maybe_get_net(pde_data(inode));
+  1606		if (!net)
+  1607			return -ENXIO;
+  1608	
 
 --
 0-DAY CI Kernel Test Service
