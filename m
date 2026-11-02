@@ -1,81 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793635172;
-	b=ysgJeaBu+T+OeW61VuFokW2TYG7IKRQ6qRvozP8VAr+/VexrmImJGGXPx5U1FeHRzdum
-	 kvFt/pvO2zUI55LZOJKIkTRh7rEL5t7kP3HNNQTFw9RYdbQ01l86MCpf8JF3P8xNbhjl1
-	 Fvygx+eFQum5bbS+zaHSulm7AKP9UBwCyAsh7syoMvqL8WKm1t8rE9o/8MiZzNobW5B+u
-	 VewB4pddoAtaN5YhTaiUKJr+hRWo2s0A6j9jDuuXFCHFKu/Ot1ViTzLX3TRpLif/6BntT
-	 5ZDSMko1wdw0/BoVqN6/A7yVwH6hf69vJf0xiMpBsuHeGAQXotV1kgukDgXBhV/vu8g==
+	t=1793636963;
+	b=N6f7UBMyDET6hEOofsyZxq/UgkueCYOEOqjmCPW3FCUuwo1LdHI7fhQS8R31JFLGggnM
+	 PjWKVBS39blXsz0Xyu7Odir/C8wAH37vxAaFOwkqV/IF9NOPpQycZJNtyXyeWZ/jXKTtn
+	 nfCj/N6KiBNrAKmfQlfWE6FDBSzFaIUaqQaKHhjbrYIznpdJznqdjygCjztX7DSiqtDrP
+	 eLePPWwdUYLMwP9MrIzaVJVHechDr72qTwszMrWfl5znqutgZ39Bn5E3q8qu5Hq4z6IfN
+	 GxaElvKpSr1KmL9kty+KekyRI+/DJSfplkfl+uDeqU6lkWk5m6f9pm/1N8Svb846a2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793635172;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636963;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=WtmXxxia8xpyKa3DV0JfoN3uO40TGArVU7Dm9wG3Bro=;
-	b=hTjYMHr6NgR7dIX86TFe8Wv36hmI3d1eGzN7WzbqsR708lHNCEAYrmXc7R/fbQs1KxJl
-	 5CV0QkWJCNCIY6mmlTmRcB34d6IL5Ct69/sY9+s1WDcBdyknKlTHHo5/ySo09dskscxVF
-	 3O7/R5T3kAvHbVvQJpfucWBrFJxOgQbFdsPXGvi7U29xNyJeHAa+68JM4cGE306cgpcFe
-	 pe1AgXJRsSPt7KqyoIVbELnrjczDKaCfCyh3BejoU3eKtu50djCLYEI/nCvF1gK1RKay8
-	 lH1nHHX7S2gB8pUJsnjMXYNTbhszlyirj7RtIra0hmb0ZOZ1bGy7lmb90uUgzHm4Amw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=uT34MOCsaA8ymMBfIzgau2f3TUdogo96BwwKNnuhkLA=;
+	b=gqwsqqvIyO7yGYSGRO4M4LwPrrfThNDOmWCpG7F4G5J0dE7kcJVimBd7VDVojArwTHux
+	 Dg/Un+7d+eX3iWPMqh5bhEoxBjadiSNoWsMeVkslhPXhv56bnNo2WetKgB/ta0ji4CQWm
+	 /MDdC4VHyzPsaECet21/rFIMrrrsPAvdbUislUMIHAZx017r+EXoDYkTiRfBqQ8J4paLj
+	 TMjs5ylLEkhYHTDtYYAE0CbpXJyouyrE9cC1slBtkD8Orn7WTJhEXoWwVAYHTpbN9Aj9+
+	 HsMWmg6pdO10KmYTvZifW1Whx+EUNC/5/GhU7nog9y1Fk5y0l5eWvFs2pmPhe84oUmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="CH4/Z7pf";
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J3ot69dV;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CA2606A5B9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 15:59:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92CA2606A5B9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B966072290
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 16:29:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31B966072290
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CH4/Z7pf
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J3ot69dV
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793635171; x=1825171171;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HR4VM24AxwgtGcs3yOHNCQwdUVq3XuJywZ1ZdX6p5vs=;
-  b=CH4/Z7pf8aaa7YxDaImqDQvyFFVqL+2giafPtD9zsmHhcYuSEW4CL50a
-   Hsw5VjB6crhI1rFbPxppRQXz9MWACkA9NNZNzmac4RvViTW5DBAEGyssW
-   U3bTUN/T2ZWmpJ2R33UG60HXsjrYOD7vV6M2U3670jM6+HaEk5Owjb3WR
-   3D+ROpxfrbC6QUSIJy97sC6UH6Ny/FYzB3H+XeIZrEjgzq3Ky0CRzIz8f
-   TBsz9LeDj6eITqqUYG7e4pWiPOemV3cggoS/6SmKSWVA5/plSDVv8EDT3
-   1SpAyt2fW6fuCFHf/lQ02LXR+QbWc/ijqZD2gQjq1SXpaQW+uiG3fHsXG
-   w==;
-X-CSE-ConnectionGUID: XyXxpH3yRAWmlET2I5beUg==
-X-CSE-MsgGUID: EfzQPwadQICvbAmHFqzQUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2209943"
+  t=1793636963; x=1825172963;
+  h=date:from:to:cc:subject:message-id;
+  bh=4eOoTWXZvFTv+Qg/NyybHCoG7xOMfYIiMB1F/kAZASI=;
+  b=J3ot69dVgp/1LT9rFER4GabTXOsfA7DpVGasDADxLRUXm+767Aw1jooe
+   F+3x0/hJWS0WmDm9qhr8XgzAQCRoiXwObPIzUcq737XIz9iwjZ10HHUKC
+   QmucXtYr7P1WMjLjeFVWqLaJkyqVVkcy/yIpzF094L1vTXpmC+YS2xeJE
+   7ylE8NN/tUNYrfbQRr/uVpIN3e64qh+pPcDq4+CN98q4omEi3fJA96ZKU
+   UBJ5g1YBugEpiN4woiTQdr9KsFZjfkZquYtJW/bHCbwShVdW80oBDt0Qa
+   gDpzn6XgmT5uY3ULe83RpFa700OGEAqN7oQj2t8wI4e3Eo5hVz3zuIPFC
+   Q==;
+X-CSE-ConnectionGUID: 196QDDuLSlqSspxjquFvxA==
+X-CSE-MsgGUID: huRodEUNSRaZY1OU1rYDAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2346070"
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2209943"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 07:59:30 -0800
-X-CSE-ConnectionGUID: 06maB2lYQdy8vUnGAOEd3A==
-X-CSE-MsgGUID: LtJkTRM4QECyoQZnCHta9A==
+   d="scan'208";a="2346070"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 08:29:14 -0800
+X-CSE-ConnectionGUID: oOd9ElL2QJ6pUO555f3pWw==
+X-CSE-MsgGUID: 1nk193tyTOuKNUduoXWr8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6010178"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Nov 2026 07:59:27 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="6494966"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 02 Nov 2026 08:29:12 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNuRQ-00000000hFS-3szD;
-	Mon, 02 Nov 2026 15:59:24 +0000
-Date: Mon, 2 Nov 2026 23:59:12 +0800
+	id 1xNuuE-000000008et-0IZp;
+	Mon, 02 Nov 2026 16:29:10 +0000
+Date: Mon, 02 Nov 2026 17:29:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: Binbin Deng <18983559317@163.com>, dsahern@kernel.org,
-	idosch@nvidia.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Binbin Deng <18983559317@163.com>
-Subject: Re: [PATCH net v1] igmp: use copy-on-write RCU updates in
- ip_mc_source()
-Message-ID: <202611022340.iFWNzlRb-lkp@intel.com>
-References: <20261102095312.47767-1-18983559317@163.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 20/20]
+ kernel/sched/test_ksched_football.c:55:10: sparse: sparse: symbol
+ 'players_ready' was not declared. Should it be static?
+Message-ID: <202611021729.Pbzc1MVo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,183 +80,195 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102095312.47767-1-18983559317@163.com>
 
-Hi Binbin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Deng/igmp-use-copy-on-write-RCU-updates-in-ip_mc_source/20261102-175312
-base:   net/main
-patch link:    https://lore.kernel.org/r/20261102095312.47767-1-18983559317%40163.com
-patch subject: [PATCH net v1] igmp: use copy-on-write RCU updates in ip_mc_source()
-config: nios2-defconfig (https://download.01.org/0day-ci/archive/20261102/202611022340.iFWNzlRb-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611022340.iFWNzlRb-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   e92b73070f9a9cf42236e34fdc16537c05349f91
+commit: 84f4417638e9588ebcb43c4ed0280d097c46abf9 [20/20] ANDROID: sched: Initial ksched_football test implementation
+config: i386-randconfig-r2309-20261102 (https://download.01.org/0day-ci/archive/20261102/202611021729.Pbzc1MVo-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611021729.Pbzc1MVo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611022340.iFWNzlRb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611021729.Pbzc1MVo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sched/test_ksched_football.c:55:10: sparse: sparse: symbol 'players_ready' was not declared. Should it be static?
+>> kernel/sched/test_ksched_football.c:56:10: sparse: sparse: symbol 'ball_pos' was not declared. Should it be static?
+>> kernel/sched/test_ksched_football.c:57:15: sparse: sparse: symbol 'players_per_team' was not declared. Should it be static?
+>> kernel/sched/test_ksched_football.c:58:6: sparse: sparse: symbol 'game_over' was not declared. Should it be static?
+>> kernel/sched/test_ksched_football.c:71:14: sparse: sparse: symbol 'mutex_low_list' was not declared. Should it be static?
+>> kernel/sched/test_ksched_football.c:72:14: sparse: sparse: symbol 'mutex_mid_list' was not declared. Should it be static?
+>> kernel/sched/test_ksched_football.c:216:19: sparse: sparse: symbol 'referee_done' was not declared. Should it be static?
 
-   net/ipv4/igmp.c: In function 'ip_mc_source':
-   net/ipv4/igmp.c:2976:34: error: invalid storage class for function 'igmp_mc_get_first'
-    2976 | static inline struct ip_mc_list *igmp_mc_get_first(struct seq_file *seq)
-         |                                  ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:2998:27: error: invalid storage class for function 'igmp_mc_get_next'
-    2998 | static struct ip_mc_list *igmp_mc_get_next(struct seq_file *seq, struct ip_mc_list *im)
-         |                           ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3017:27: error: invalid storage class for function 'igmp_mc_get_idx'
-    3017 | static struct ip_mc_list *igmp_mc_get_idx(struct seq_file *seq, loff_t pos)
-         |                           ^~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3026:14: error: invalid storage class for function 'igmp_mc_seq_start'
-    3026 | static void *igmp_mc_seq_start(struct seq_file *seq, loff_t *pos)
-         |              ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3033:14: error: invalid storage class for function 'igmp_mc_seq_next'
-    3033 | static void *igmp_mc_seq_next(struct seq_file *seq, void *v, loff_t *pos)
-         |              ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3044:13: error: invalid storage class for function 'igmp_mc_seq_stop'
-    3044 | static void igmp_mc_seq_stop(struct seq_file *seq, void *v)
-         |             ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3054:12: error: invalid storage class for function 'igmp_mc_seq_show'
-    3054 | static int igmp_mc_seq_show(struct seq_file *seq, void *v)
-         |            ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3094:25: error: initializer element is not constant
-    3094 |         .start  =       igmp_mc_seq_start,
-         |                         ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3094:25: note: (near initialization for 'igmp_mc_seq_ops.start')
-   net/ipv4/igmp.c:3095:25: error: initializer element is not constant
-    3095 |         .next   =       igmp_mc_seq_next,
-         |                         ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3095:25: note: (near initialization for 'igmp_mc_seq_ops.next')
-   net/ipv4/igmp.c:3096:25: error: initializer element is not constant
-    3096 |         .stop   =       igmp_mc_seq_stop,
-         |                         ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3096:25: note: (near initialization for 'igmp_mc_seq_ops.stop')
-   net/ipv4/igmp.c:3097:25: error: initializer element is not constant
-    3097 |         .show   =       igmp_mc_seq_show,
-         |                         ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3097:25: note: (near initialization for 'igmp_mc_seq_ops.show')
-   net/ipv4/igmp.c:3109:34: error: invalid storage class for function 'igmp_mcf_get_first'
-    3109 | static inline struct ip_sf_list *igmp_mcf_get_first(struct seq_file *seq)
-         |                                  ^~~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3138:27: error: invalid storage class for function 'igmp_mcf_get_next'
-    3138 | static struct ip_sf_list *igmp_mcf_get_next(struct seq_file *seq, struct ip_sf_list *psf)
-         |                           ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3164:27: error: invalid storage class for function 'igmp_mcf_get_idx'
-    3164 | static struct ip_sf_list *igmp_mcf_get_idx(struct seq_file *seq, loff_t pos)
-         |                           ^~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3173:14: error: invalid storage class for function 'igmp_mcf_seq_start'
-    3173 | static void *igmp_mcf_seq_start(struct seq_file *seq, loff_t *pos)
-         |              ^~~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3180:14: error: invalid storage class for function 'igmp_mcf_seq_next'
-    3180 | static void *igmp_mcf_seq_next(struct seq_file *seq, void *v, loff_t *pos)
-         |              ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3191:13: error: invalid storage class for function 'igmp_mcf_seq_stop'
-    3191 | static void igmp_mcf_seq_stop(struct seq_file *seq, void *v)
-         |             ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3204:12: error: invalid storage class for function 'igmp_mcf_seq_show'
-    3204 | static int igmp_mcf_seq_show(struct seq_file *seq, void *v)
-         |            ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3225:25: error: initializer element is not constant
-    3225 |         .start  =       igmp_mcf_seq_start,
-         |                         ^~~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3225:25: note: (near initialization for 'igmp_mcf_seq_ops.start')
-   net/ipv4/igmp.c:3226:25: error: initializer element is not constant
-    3226 |         .next   =       igmp_mcf_seq_next,
-         |                         ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3226:25: note: (near initialization for 'igmp_mcf_seq_ops.next')
-   net/ipv4/igmp.c:3227:25: error: initializer element is not constant
-    3227 |         .stop   =       igmp_mcf_seq_stop,
-         |                         ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3227:25: note: (near initialization for 'igmp_mcf_seq_ops.stop')
-   net/ipv4/igmp.c:3228:25: error: initializer element is not constant
-    3228 |         .show   =       igmp_mcf_seq_show,
-         |                         ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3228:25: note: (near initialization for 'igmp_mcf_seq_ops.show')
-   net/ipv4/igmp.c:3231:23: error: invalid storage class for function 'igmp_net_init'
-    3231 | static int __net_init igmp_net_init(struct net *net)
-         |                       ^~~~~~~~~~~~~
-   net/ipv4/igmp.c:3262:24: error: invalid storage class for function 'igmp_net_exit'
-    3262 | static void __net_exit igmp_net_exit(struct net *net)
-         |                        ^~~~~~~~~~~~~
-   net/ipv4/igmp.c:3270:17: error: initializer element is not constant
-    3270 |         .init = igmp_net_init,
-         |                 ^~~~~~~~~~~~~
-   net/ipv4/igmp.c:3270:17: note: (near initialization for 'igmp_net_ops.init')
-   net/ipv4/igmp.c:3271:17: error: initializer element is not constant
-    3271 |         .exit = igmp_net_exit,
-         |                 ^~~~~~~~~~~~~
-   net/ipv4/igmp.c:3271:17: note: (near initialization for 'igmp_net_ops.exit')
-   net/ipv4/igmp.c:3275:12: error: invalid storage class for function 'igmp_netdev_event'
-    3275 | static int igmp_netdev_event(struct notifier_block *this,
-         |            ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3294:26: error: initializer element is not constant
-    3294 |         .notifier_call = igmp_netdev_event,
-         |                          ^~~~~~~~~~~~~~~~~
-   net/ipv4/igmp.c:3294:26: note: (near initialization for 'igmp_notifier.notifier_call')
-   net/ipv4/igmp.c:3316:1: error: expected declaration or statement at end of input
-    3316 | }
-         | ^
->> net/ipv4/igmp.c:3317: warning: control reaches end of non-void function [-Wreturn-type]
-   At top level:
->> net/ipv4/igmp.c:3297:12: warning: 'igmp_mc_init' defined but not used [-Wunused-function]
-    3297 | int __init igmp_mc_init(void)
-         |            ^~~~~~~~~~~~
->> net/ipv4/igmp.c:2923:5: warning: 'ip_check_mc_rcu' defined but not used [-Wunused-function]
-    2923 | int ip_check_mc_rcu(struct in_device *in_dev, __be32 mc_addr, __be32 src_addr, u8 proto)
-         |     ^~~~~~~~~~~~~~~
->> net/ipv4/igmp.c:2897:6: warning: 'ip_mc_drop_socket' defined but not used [-Wunused-function]
-    2897 | void ip_mc_drop_socket(struct sock *sk)
-         |      ^~~~~~~~~~~~~~~~~
->> net/ipv4/igmp.c:2849:5: warning: 'ip_mc_sf_allow' defined but not used [-Wunused-function]
-    2849 | int ip_mc_sf_allow(const struct sock *sk, __be32 loc_addr, __be32 rmt_addr,
-         |     ^~~~~~~~~~~~~~
->> net/ipv4/igmp.c:2800:5: warning: 'ip_mc_gsfget' defined but not used [-Wunused-function]
-    2800 | int ip_mc_gsfget(struct sock *sk, struct group_filter *gsf,
-         |     ^~~~~~~~~~~~
->> net/ipv4/igmp.c:2736:5: warning: 'ip_mc_msfget' defined but not used [-Wunused-function]
-    2736 | int ip_mc_msfget(struct sock *sk, struct ip_msfilter *msf, sockopt_t *opt)
-         |     ^~~~~~~~~~~~
->> net/ipv4/igmp.c:2645:5: warning: 'ip_mc_msfilter' defined but not used [-Wunused-function]
-    2645 | int ip_mc_msfilter(struct sock *sk, struct ip_msfilter *msf, int ifindex)
-         |     ^~~~~~~~~~~~~~
+vim +/players_ready +55 kernel/sched/test_ksched_football.c
 
-
-vim +3317 net/ipv4/igmp.c
-
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3292  
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3293  static struct notifier_block igmp_notifier = {
-4aa5dee4d99978 Jiri Pirko      2013-07-20 @3294  	.notifier_call = igmp_netdev_event,
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3295  };
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3296  
-72c1d3bdd5bf10 WANG Cong       2014-01-10 @3297  int __init igmp_mc_init(void)
-7091e728c57015 Alexey Dobriyan 2008-12-25  3298  {
-72c1d3bdd5bf10 WANG Cong       2014-01-10  3299  #if defined(CONFIG_PROC_FS)
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3300  	int err;
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3301  
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3302  	err = register_pernet_subsys(&igmp_net_ops);
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3303  	if (err)
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3304  		return err;
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3305  	err = register_netdevice_notifier(&igmp_notifier);
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3306  	if (err)
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3307  		goto reg_notif_fail;
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3308  	return 0;
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3309  
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3310  reg_notif_fail:
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3311  	unregister_pernet_subsys(&igmp_net_ops);
-4aa5dee4d99978 Jiri Pirko      2013-07-20  3312  	return err;
-72c1d3bdd5bf10 WANG Cong       2014-01-10  3313  #else
-72c1d3bdd5bf10 WANG Cong       2014-01-10  3314  	return register_netdevice_notifier(&igmp_notifier);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  3315  #endif
-72c1d3bdd5bf10 WANG Cong       2014-01-10  3316  }
+    54	
+  > 55	atomic_t players_ready;
+  > 56	atomic_t ball_pos;
+  > 57	unsigned long players_per_team;
+  > 58	bool game_over;
+    59	
+    60	#define DEF_GAME_TIME		10
+    61	#define CHECKIN_TIMEOUT		30
+    62	
+    63	#define REF_PRIO		20
+    64	#define FAN_PRIO		15
+    65	#define DEF_HI_PRIO		10
+    66	#define OFF_PRIO		5
+    67	#define DEF_MID_PRIO		3
+    68	#define DEF_LOW_PRIO		2
+    69	
+    70	#ifdef CONFIG_SCHED_PROXY_EXEC
+  > 71	struct mutex *mutex_low_list;
+  > 72	struct mutex *mutex_mid_list;
+    73	#define test_lock_init(x)	mutex_init(x)
+    74	#define TEST_LOCK_SIZE		sizeof(struct mutex)
+    75	#define test_lock(x)		mutex_lock(x)
+    76	#define test_unlock(x)		mutex_unlock(x)
+    77	#else
+    78	struct rt_mutex *mutex_low_list;
+    79	struct rt_mutex *mutex_mid_list;
+    80	#define test_lock_init(x)	rt_mutex_init(x)
+    81	#define TEST_LOCK_SIZE		sizeof(struct rt_mutex)
+    82	#define test_lock(x)		rt_mutex_lock(x)
+    83	#define test_unlock(x)		rt_mutex_unlock(x)
+    84	#endif
+    85	
+    86	static struct task_struct *create_fifo_thread(int (*threadfn)(void *data),
+    87						      void *data, char *name, int prio)
+    88	{
+    89		struct task_struct *kth;
+    90		struct sched_attr attr = {
+    91			.size		= sizeof(struct sched_attr),
+    92			.sched_policy	= SCHED_FIFO,
+    93			.sched_nice	= 0,
+    94			.sched_priority	= prio,
+    95		};
+    96		int ret;
+    97	
+    98		kth = kthread_create(threadfn, data, name);
+    99		if (IS_ERR(kth)) {
+   100			pr_warn("%s: Error, kthread_create %s failed\n", __func__,
+   101				name);
+   102			return kth;
+   103		}
+   104		ret = sched_setattr_nocheck(kth, &attr);
+   105		if (ret) {
+   106			kthread_stop(kth);
+   107			pr_warn("%s: Error, failed to set SCHED_FIFO for %s\n",
+   108				__func__, name);
+   109			return ERR_PTR(ret);
+   110		}
+   111	
+   112		wake_up_process(kth);
+   113		return kth;
+   114	}
+   115	
+   116	static int spawn_players(int (*threadfn)(void *data), char *name, int prio)
+   117	{
+   118		unsigned long current_players, start, i;
+   119		struct task_struct *kth;
+   120	
+   121		current_players = atomic_read(&players_ready);
+   122		/* Create players_per_team threads */
+   123		for (i = 0; i < players_per_team; i++) {
+   124			kth = create_fifo_thread(threadfn, (void *)i, name, prio);
+   125			if (IS_ERR(kth))
+   126				return -1;
+   127		}
+   128	
+   129		start = jiffies;
+   130		/* Wait for players_per_team threads to check in */
+   131		while (atomic_read(&players_ready) < current_players + players_per_team) {
+   132			msleep(1);
+   133			if (jiffies - start > CHECKIN_TIMEOUT * HZ) {
+   134				pr_err("%s: Error, %s players took too long to checkin "
+   135				       "(only %ld of %ld checked in)\n", __func__, name,
+   136				       (long)atomic_read(&players_ready),
+   137				       current_players + players_per_team);
+   138				return -1;
+   139			}
+   140		}
+   141		return 0;
+   142	}
+   143	
+   144	static int defense_low_thread(void *arg)
+   145	{
+   146		long tnum = (long)arg;
+   147	
+   148		atomic_inc(&players_ready);
+   149		test_lock(&mutex_low_list[tnum]);
+   150		while (!READ_ONCE(game_over)) {
+   151			if (kthread_should_stop())
+   152				break;
+   153			schedule();
+   154		}
+   155		test_unlock(&mutex_low_list[tnum]);
+   156		return 0;
+   157	}
+   158	
+   159	static int defense_mid_thread(void *arg)
+   160	{
+   161		long tnum = (long)arg;
+   162	
+   163		atomic_inc(&players_ready);
+   164		test_lock(&mutex_mid_list[tnum]);
+   165		test_lock(&mutex_low_list[tnum]);
+   166		while (!READ_ONCE(game_over)) {
+   167			if (kthread_should_stop())
+   168				break;
+   169			schedule();
+   170		}
+   171		test_unlock(&mutex_low_list[tnum]);
+   172		test_unlock(&mutex_mid_list[tnum]);
+   173		return 0;
+   174	}
+   175	
+   176	static int offense_thread(void *arg)
+   177	{
+   178		atomic_inc(&players_ready);
+   179		while (!READ_ONCE(game_over)) {
+   180			if (kthread_should_stop())
+   181				break;
+   182			schedule();
+   183			atomic_inc(&ball_pos);
+   184		}
+   185		return 0;
+   186	}
+   187	
+   188	static int defense_hi_thread(void *arg)
+   189	{
+   190		long tnum = (long)arg;
+   191	
+   192		atomic_inc(&players_ready);
+   193		test_lock(&mutex_mid_list[tnum]);
+   194		while (!READ_ONCE(game_over)) {
+   195			if (kthread_should_stop())
+   196				break;
+   197			schedule();
+   198		}
+   199		test_unlock(&mutex_mid_list[tnum]);
+   200		return 0;
+   201	}
+   202	
+   203	static int crazy_fan_thread(void *arg)
+   204	{
+   205		atomic_inc(&players_ready);
+   206		while (!READ_ONCE(game_over)) {
+   207			if (kthread_should_stop())
+   208				break;
+   209			schedule();
+   210			udelay(1000);
+   211			msleep(2);
+   212		}
+   213		return 0;
+   214	}
+   215	
+ > 216	struct completion referee_done;
+   217	
 
 --
 0-DAY CI Kernel Test Service
