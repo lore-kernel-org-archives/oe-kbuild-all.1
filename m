@@ -1,77 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793611595;
-	b=k9bc2t3iN1lUnzExZ/69oYOUzgjllp2yi9z8tHLD1baAg/CeTAMDw+BHp7HPMYJ6gvm3
-	 ARQhMzUTLtVGHkgAkbAg8D0vPPlvX1LPYiRf/P1ekNCq7qvrieWg8oYDIZo5/0S+sf0p5
-	 rEQVJi7F2X0+dGvVC3kmegWw2o6mKWgGQGgQnvuxseH14V28Tc3G1RcQakbZUKahL/g4z
-	 UscvVIIkOiDcccbWJRo0hl+U2HS/BrmHM2UFeylCpYGMG+FRCn4etT5FrDp6Zeyx4MZiN
-	 G67NSZpP7iVuMxQR6t7RG1JML3eiSdlfj1GXEFDtg0P6C14v89p/LM7A3aA1tV6YmkQ==
+	t=1793617935;
+	b=cXBkMydb9I/uC16FpMAQ/yOwglYU2YIdidvs35lVJ08OCQUBcJJvw2SCkEH5ShkMd0Yv
+	 /vp47/OfiWI2WtBa8LE3Ow30PdgNsOEavrUEdGNKkSRQeN9uujQKlivN+mwd3sRgqqMt/
+	 PQsQttRDreSc/UW8tZjzgr11gWja4MFm1cmYNM42YGMBqaW6xY0p62A7a7GGwMaxYaTTN
+	 yekf8hkjWmHtqD1RdWfZ/o98Z11OV7cg4cw38BChsOTTR2QH/x+NQSeH88400qZRhq74b
+	 HlTiGbZGVFG47DLqLWv5fs3Dc9B9yHit8WvhBbrtDuvFxHqd5Lz6+UlpkXCToFGAtqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793611595;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=bm/WSKtShP+ocxLjAR1Nj5n9a04rdyUEaxBW9KgKWpw=;
-	b=dZ9gp6+i3cqA/Wm1Oq60ybYWeasZ60b5LD7z4L2sYY2oo51C6zh6AMe25QBrOoustvuV
-	 itjlBl3dzIu7OPhoMBUNaoBxxdvAU7S8k8uxCIdkh5QqpfPOsQWyemj6r/kd4ODC7yddE
-	 KkQkYZU/G1Q/5cRrxGO/wH6nKTBLGU1OPbdlKIVpMVK4GkwsXv7WGZp3GVKqWNNM8/Dvl
-	 NSOoYf/ESrfdEruFe8dS6ttYSgsQt2Gq5fETImqfYWI1HNxRF+0+shM5KE9QhH1Lnr4Px
-	 KO1OtwSyJdhhbg0GKPR6mH0H/ZdPF4lvd9/ymZCSYoJ5YlSZZj+aWm4qixRNm28h9aQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793617935;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=p3QW/w/iY0YD/fqxj57gSpeQygMNXvAXA/WJlwwf7AY=;
+	b=oCUN1Rn9UGqXkuDswvVlaoiKUFWuv9lK/rEKj+eY6N82SVTgpzTlSiPZFiynACCTisk1
+	 NPZf6bA6c+IMliAt3pT+/7u0cfwhkKPdz4IsNOiedwzVO965E3dfLRWGJCw7HdpTn9voh
+	 7zvAylOblSqG2abeYb9NNiH+ggWsUDd3oheeUQSzbeG3w7dy3zipLhHc9OgyE81rmM2Xy
+	 AUZCAukFrWeZpnx6Fdtc6NAXmnPh/eZ66kLZb98+2uNEuZ/u1Dq5+ZD5x0CGFIxIJT2On
+	 e6N4JkI93SM0XgDSNiu2PF6mj0lfJEEr6HppP9cxS5DCqKa4KoVoRZs2PPfMboGsq4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aekUzZEr;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KDXpE5ZH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE24606A330
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 09:26:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FE24606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF722606A32E;
+	Mon,  2 Nov 2026 11:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aekUzZEr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793611594; x=1825147594;
-  h=date:from:to:cc:subject:message-id;
-  bh=5ikLfu42tH2RjBwpIy6IB6jFJ6XFXcG+gTMlfvSQlWk=;
-  b=aekUzZEr4v1VHL54IttYFVDHxpBQIWWDfwurySt6FxUS0aEFA9GA/Oum
-   yMASN+m4261IRyghCQPIx5xZilxvPueF76eU72IaknksTaI2PlqrWb/+B
-   rdWsyVMb0O0NIwgDN6VtQy5Ev4S3B5Hkopiwgv0bgjQSm8UUb5+MfSkBn
-   RFz5N8dDmwibM2XKH2YVPwWPiwzV4R2d9UJEJ0yqucRBO3orZgjvGTYXe
-   OjSGgdx6/TghTHY6fMatVMlpmY+1wGGd+jGayOoLULrjRY3A5sLus2PzL
-   FxiQlpzD1j5kf+1fbHZlrYmE6DJ4HdkbQbBK9xS4UUSpRdnkXCu6c/NUh
-   g==;
-X-CSE-ConnectionGUID: fUCS9Dj6QZ6Vq8oHWDBtFA==
-X-CSE-MsgGUID: OeY8eDD9R8yRgFvF57Z1TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2311547"
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2311547"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 01:26:33 -0800
-X-CSE-ConnectionGUID: JWaoWkKZQVOiCbH1WaV1xw==
-X-CSE-MsgGUID: nkRgCv0aQmmagY7M2iOLnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6202925"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Nov 2026 01:26:30 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xNoJA-000000008RX-3hfO;
-	Mon, 02 Nov 2026 09:26:28 +0000
-Date: Mon, 02 Nov 2026 10:25:37 +0100
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>
-Subject: [superm1:superm1/backlight-property-v10 16/16] ld.lld:
- error: undefined symbol: devm_backlight_device_register
-Message-ID: <202611021030.sdgrqZco-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KDXpE5ZH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A531D1F00A18;
+	Mon,  2 Nov 2026 11:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793617934;
+	bh=p3QW/w/iY0YD/fqxj57gSpeQygMNXvAXA/WJlwwf7AY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KDXpE5ZHAugBzRh7LbV3zOAVu3BfNLWIqbN74KktzmBSjq9HPggqNlTTtHPzs8ZyV
+	 8A9nwc7c9ipCGjvlBYVOZAs36kcyoSkX/RroQquXlpQmAXJ2jfOu+BsmSxscRGo6pd
+	 JY5ypURvzCSbsrqtqfiZqnmBMDWhF20DP+jadUb0fM9lwyrkY6Pe/fgwki/YgC62P3
+	 ZBqmxMyitVHBe5wS9g5/C/CrsSQ2Mz2l/ojGbPstB7KJS2Lv5EjS8zb3VAnC7clLeg
+	 D40LtjIH8e618txqVm10LPMDkZBIHm3/iNBPqEp+wxppfwmDIOirCGmrbcxnsbarXb
+	 5D5BBbKCETxYg==
+Date: Mon, 2 Nov 2026 11:12:10 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Suren Baghdasaryan <surenb@google.com>, 
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Subject: Re: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops:
+ .write() has stream semantic; safe to change nonseekable_open ->
+ stream_open. (fwd)
+Message-ID: <auhvGNG1fJBFFM-q@gremlin>
+References: <f887f7b3-b72c-99d2-8dbf-96cbd83774bf@inria.fr>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,28 +59,107 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f887f7b3-b72c-99d2-8dbf-96cbd83774bf@inria.fr>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/backlight-property-v10
-head:   1c0ba049e8d6177bdc78a5c0f53656d747c0eb6a
-commit: badf7e43956b19ce60ad755613daf91db658270d [16/16] drm/solomon: add SSD130x connector luminance support
-config: hexagon-randconfig-r2303-20261102 (https://download.01.org/0day-ci/archive/20261102/202611021030.sdgrqZco-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3e5b45eed6c3ec25f4f1cc81ce0be10106a8f31f)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611021030.sdgrqZco-lkp@intel.com/reproduce)
++cc Alex
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611021030.sdgrqZco-lkp@intel.com/
+On Mon, Nov 02, 2026 at 12:54:31AM +0100, Julia Lawall wrote:
+> just forwarding.  I don't know anything about this issue.
+>
+> julia
 
-All errors (new ones prefixed by >>):
+Thanks. This is unrelated to my change, looks like a cosmetic report that
+predates it. Cc'd Alex, but not sure if any action is required.
 
->> ld.lld: error: undefined symbol: devm_backlight_device_register
-   >>> referenced by ssd130x.c:2315 (drivers/gpu/drm/solomon/ssd130x.c:2315)
-   >>>               drivers/gpu/drm/solomon/ssd130x.o:(ssd130x_probe) in archive vmlinux.a
-   >>> referenced by ssd130x.c:2315 (drivers/gpu/drm/solomon/ssd130x.c:2315)
-   >>>               drivers/gpu/drm/solomon/ssd130x.o:(ssd130x_probe) in archive vmlinux.a
+Cheers, Lorenzo
+
+>
+> ---------- Forwarded message ----------
+> Date: Mon, 02 Nov 2026 00:48:49 +0100
+> From: kernel test robot <lkp@intel.com>
+> To: oe-kbuild@lists.linux.dev
+> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+> Subject: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has
+>     stream semantic; safe to change nonseekable_open -> stream_open.
+>
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> CC: linux-kernel@vger.kernel.org
+> TO: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+> CC: Andrew Morton <akpm@linux-foundation.org>
+> CC: Linux Memory Management List <linux-mm@kvack.org>
+> CC: Suren Baghdasaryan <surenb@google.com>
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> commit: b0085cb94d2477787f4197a3000e33aabf3d48fc stm: replace deprecated mmap hook with mmap_prepare
+> date:   7 months ago
+> :::::: branch date: 2 hours ago
+> :::::: commit date: 7 months ago
+> config: mips-randconfig-r2106-20261101 (https://download.01.org/0day-ci/archive/20261102/202611020009.xkUfJUpm-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Fixes: b0085cb94d24 ("stm: replace deprecated mmap hook with mmap_prepare")
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
+> | Closes: https://lore.kernel.org/r/202611020009.xkUfJUpm-lkp@intel.com/
+>
+> cocci warnings: (new ones prefixed by >>)
+> >> drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
+>
+> vim +509 drivers/hwtracing/stm/core.c
+>
+> c7fd62bc69d022 Alexander Shishkin 2018-10-05  484
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  485  static int stm_char_open(struct inode *inode, struct file *file)
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  486  {
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  487  	struct stm_file *stmf;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  488  	struct device *dev;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  489  	unsigned int major = imajor(inode);
+> a0ebf519b8a266 Johan Hovold       2016-11-18  490  	int err = -ENOMEM;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  491
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  492  	dev = class_find_device(&stm_class, NULL, &major, major_match);
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  493  	if (!dev)
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  494  		return -ENODEV;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  495
+> bf4afc53b77aea Linus Torvalds     2026-02-21  496  	stmf = kzalloc_obj(*stmf);
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  497  	if (!stmf)
+> a0ebf519b8a266 Johan Hovold       2016-11-18  498  		goto err_put_device;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  499
+> a0ebf519b8a266 Johan Hovold       2016-11-18  500  	err = -ENODEV;
+> cde4ad8368840e Alexander Shishkin 2016-02-15  501  	stm_output_init(&stmf->output);
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  502  	stmf->stm = to_stm_device(dev);
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  503
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  504  	if (!try_module_get(stmf->stm->owner))
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  505  		goto err_free;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  506
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  507  	file->private_data = stmf;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  508
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22 @509  	return nonseekable_open(inode, file);
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  510
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  511  err_free:
+> a0ebf519b8a266 Johan Hovold       2016-11-18  512  	kfree(stmf);
+> a0ebf519b8a266 Johan Hovold       2016-11-18  513  err_put_device:
+> f7c81c7176c72c Alexander Shishkin 2016-02-15  514  	/* matches class_find_device() above */
+> f7c81c7176c72c Alexander Shishkin 2016-02-15  515  	put_device(dev);
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  516
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  517  	return err;
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  518  }
+> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  519
+>
+> :::::: The code at line 509 was first introduced by commit
+> :::::: 7bd1d4093c2fa37d1ecab05da3c9d48ea2af2264 stm class: Introduce an abstraction for System Trace Module devices
+>
+> :::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 --
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers, Lorenzo
