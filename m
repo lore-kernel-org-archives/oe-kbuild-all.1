@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793636963;
-	b=N6f7UBMyDET6hEOofsyZxq/UgkueCYOEOqjmCPW3FCUuwo1LdHI7fhQS8R31JFLGggnM
-	 PjWKVBS39blXsz0Xyu7Odir/C8wAH37vxAaFOwkqV/IF9NOPpQycZJNtyXyeWZ/jXKTtn
-	 nfCj/N6KiBNrAKmfQlfWE6FDBSzFaIUaqQaKHhjbrYIznpdJznqdjygCjztX7DSiqtDrP
-	 eLePPWwdUYLMwP9MrIzaVJVHechDr72qTwszMrWfl5znqutgZ39Bn5E3q8qu5Hq4z6IfN
-	 GxaElvKpSr1KmL9kty+KekyRI+/DJSfplkfl+uDeqU6lkWk5m6f9pm/1N8Svb846a2g==
+	t=1793637938;
+	b=GTRHq6sCzB6MzrmyXDcEGgNRYw+mrV8eZf3wLFD2KJGbPrOxxCXY8vIST55gfp0wHkuK
+	 ItISbQoBNK66KtgFbnHX9495VyMII2E12TlwzvIPezVNIn8dGd+jeOEg76OYIrVzMLwZr
+	 tvRmbetncwxPBiFZMEZRtlQ1tOFz238iGGoSDOj6hnvfvwPMIAf/wCiPA6b4TBGk9SPkh
+	 kAh/WNCQrUQuTA/4iUoiY+n9XmboKzifjg+ZaoGCpYDiWrvOMr5QiUcpMe1FY48EbT52a
+	 ddian8EBYdjs6STrg93vT+4xuX9iatA2V3KGXnrB5fngSb/m3oaG8dx41bRAvrgG/ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793636963;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793637938;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=uT34MOCsaA8ymMBfIzgau2f3TUdogo96BwwKNnuhkLA=;
-	b=gqwsqqvIyO7yGYSGRO4M4LwPrrfThNDOmWCpG7F4G5J0dE7kcJVimBd7VDVojArwTHux
-	 Dg/Un+7d+eX3iWPMqh5bhEoxBjadiSNoWsMeVkslhPXhv56bnNo2WetKgB/ta0ji4CQWm
-	 /MDdC4VHyzPsaECet21/rFIMrrrsPAvdbUislUMIHAZx017r+EXoDYkTiRfBqQ8J4paLj
-	 TMjs5ylLEkhYHTDtYYAE0CbpXJyouyrE9cC1slBtkD8Orn7WTJhEXoWwVAYHTpbN9Aj9+
-	 HsMWmg6pdO10KmYTvZifW1Whx+EUNC/5/GhU7nog9y1Fk5y0l5eWvFs2pmPhe84oUmQ==
+	bh=PEpwT2QM5icp9uTZTtpjpAFOgvNE2SJNmr4ccohK1T0=;
+	b=lIVkpIgVeAzh4cGGppwpMNytzmYoxBtLHPAq7mWn7mOmRtayKsW62SGCMnzZQoXNy+IH
+	 iRvNIEAJqAuvYt/8WJAxQReeXG4bJUDDk2PKTD6OhfXXNOilyQViOGJOiKqAVl2v3+1Rj
+	 pX65E4RKg/1Gca/DifbHpsEDZRYqIBumG8VcUhOyTXXh/2z6rDPhdqRmsPvGqNcRW99Ga
+	 J4jYs6rOiIhO+zAIWlDE3kN5bbtgqCs1gtTaJQ+6L1NlKZp5ClwXYiwa51kGCjMEszTUO
+	 D7rxLCI2sFxwR38j6Er0LJQiePO4xpFmVyR4pHIlOSS3l7css3H9E1SSFq9rxracTvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J3ot69dV;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ALz3l4hp;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B966072290
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 16:29:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31B966072290
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D4D606BA7A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 16:45:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53D4D606BA7A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J3ot69dV
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ALz3l4hp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793636963; x=1825172963;
+  t=1793637937; x=1825173937;
   h=date:from:to:cc:subject:message-id;
-  bh=4eOoTWXZvFTv+Qg/NyybHCoG7xOMfYIiMB1F/kAZASI=;
-  b=J3ot69dVgp/1LT9rFER4GabTXOsfA7DpVGasDADxLRUXm+767Aw1jooe
-   F+3x0/hJWS0WmDm9qhr8XgzAQCRoiXwObPIzUcq737XIz9iwjZ10HHUKC
-   QmucXtYr7P1WMjLjeFVWqLaJkyqVVkcy/yIpzF094L1vTXpmC+YS2xeJE
-   7ylE8NN/tUNYrfbQRr/uVpIN3e64qh+pPcDq4+CN98q4omEi3fJA96ZKU
-   UBJ5g1YBugEpiN4woiTQdr9KsFZjfkZquYtJW/bHCbwShVdW80oBDt0Qa
-   gDpzn6XgmT5uY3ULe83RpFa700OGEAqN7oQj2t8wI4e3Eo5hVz3zuIPFC
-   Q==;
-X-CSE-ConnectionGUID: 196QDDuLSlqSspxjquFvxA==
-X-CSE-MsgGUID: huRodEUNSRaZY1OU1rYDAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2346070"
+  bh=CBiN8pbljrIbZ+FMjLyjd3/pQE0AjpWhh74n8DBwc+U=;
+  b=ALz3l4hpVjTg47HaYbek8DIVonz/vWe3JDl1vGgqzIhOxipc1sbQS6Vo
+   uydgvB/Vb18ThZNjdNp1IJ4qJ8mbVOJM2jybD4CvujmbD7RojfAIXtKvi
+   nJb7FMwjgdz4TwBAA/nJicYB6thRthXNoLGYOcy3LZ/kXhuPO0JCPdvci
+   4vT1MnEKkCvKpeCEtN8WyW+MgZtaBpfNefiV4cDg9vS8jz2gX5842+EZX
+   oC7Cv4WctVmc/RU9D7a7tB3QRrznh8BBer6Gs+ytEJy/u8iCwEa+Tq05K
+   nvCbjbIjtTkU6rQVtVriPPTPnI9qmc/cY6rMKs3o5xI1lUWSDeZ6JD4QJ
+   A==;
+X-CSE-ConnectionGUID: 3JKcRihPT1CpNjP1uVMraQ==
+X-CSE-MsgGUID: Fxj94+juQV62Z/3YGouaXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2343260"
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2346070"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 08:29:14 -0800
-X-CSE-ConnectionGUID: oOd9ElL2QJ6pUO555f3pWw==
-X-CSE-MsgGUID: 1nk193tyTOuKNUduoXWr8A==
+   d="scan'208";a="2343260"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 08:45:36 -0800
+X-CSE-ConnectionGUID: MFWwQvS1Rdm53SswvyKvDg==
+X-CSE-MsgGUID: y4ozS+zvQ1SY/2vVHHilLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6494966"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Nov 2026 08:29:12 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6084984"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 02 Nov 2026 08:45:35 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNuuE-000000008et-0IZp;
-	Mon, 02 Nov 2026 16:29:10 +0000
-Date: Mon, 02 Nov 2026 17:29:04 +0100
+	id 1xNvA5-00000000hOG-1aCW;
+	Mon, 02 Nov 2026 16:45:33 +0000
+Date: Tue, 03 Nov 2026 00:44:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Chao Yu <chao@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 20/20]
- kernel/sched/test_ksched_football.c:55:10: sparse: sparse: symbol
- 'players_ready' was not declared. Should it be static?
-Message-ID: <202611021729.Pbzc1MVo-lkp@intel.com>
+Subject: [chao:feature/large_folio_v7+ 16/22] fs/f2fs/f2fs.h:38:4:
+ error: implicit declaration of function 'set_sbi_flag'
+Message-ID: <202611030026.IrATzcvn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,194 +80,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   e92b73070f9a9cf42236e34fdc16537c05349f91
-commit: 84f4417638e9588ebcb43c4ed0280d097c46abf9 [20/20] ANDROID: sched: Initial ksched_football test implementation
-config: i386-randconfig-r2309-20261102 (https://download.01.org/0day-ci/archive/20261102/202611021729.Pbzc1MVo-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611021729.Pbzc1MVo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/large_folio_v7+
+head:   5b72086892ee05798082621df69a27afeff2b233
+commit: 70ebe88955b4db7e829c8a27938bcce16c5a2686 [16/22] diff: fix patch 1
+config: nios2-randconfig-1001-20261102 (https://download.01.org/0day-ci/archive/20261103/202611030026.IrATzcvn-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611030026.IrATzcvn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611021729.Pbzc1MVo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611030026.IrATzcvn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/test_ksched_football.c:55:10: sparse: sparse: symbol 'players_ready' was not declared. Should it be static?
->> kernel/sched/test_ksched_football.c:56:10: sparse: sparse: symbol 'ball_pos' was not declared. Should it be static?
->> kernel/sched/test_ksched_football.c:57:15: sparse: sparse: symbol 'players_per_team' was not declared. Should it be static?
->> kernel/sched/test_ksched_football.c:58:6: sparse: sparse: symbol 'game_over' was not declared. Should it be static?
->> kernel/sched/test_ksched_football.c:71:14: sparse: sparse: symbol 'mutex_low_list' was not declared. Should it be static?
->> kernel/sched/test_ksched_football.c:72:14: sparse: sparse: symbol 'mutex_mid_list' was not declared. Should it be static?
->> kernel/sched/test_ksched_football.c:216:19: sparse: sparse: symbol 'referee_done' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/players_ready +55 kernel/sched/test_ksched_football.c
+   In file included from fs/f2fs/inode.c:17:
+   fs/f2fs/f2fs.h: In function 'f2fs_folio_has_ffs':
+>> fs/f2fs/f2fs.h:38:4: error: implicit declaration of function 'set_sbi_flag' [-Werror=implicit-function-declaration]
+      38 |    set_sbi_flag(sbi, SBI_NEED_FSCK);  \
+         |    ^~~~~~~~~~~~
+   fs/f2fs/f2fs.h:2303:3: note: in expansion of macro 'f2fs_bug_on'
+    2303 |   f2fs_bug_on(F2FS_F_SB(folio), 1);
+         |   ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-    54	
-  > 55	atomic_t players_ready;
-  > 56	atomic_t ball_pos;
-  > 57	unsigned long players_per_team;
-  > 58	bool game_over;
-    59	
-    60	#define DEF_GAME_TIME		10
-    61	#define CHECKIN_TIMEOUT		30
-    62	
-    63	#define REF_PRIO		20
-    64	#define FAN_PRIO		15
-    65	#define DEF_HI_PRIO		10
-    66	#define OFF_PRIO		5
-    67	#define DEF_MID_PRIO		3
-    68	#define DEF_LOW_PRIO		2
-    69	
-    70	#ifdef CONFIG_SCHED_PROXY_EXEC
-  > 71	struct mutex *mutex_low_list;
-  > 72	struct mutex *mutex_mid_list;
-    73	#define test_lock_init(x)	mutex_init(x)
-    74	#define TEST_LOCK_SIZE		sizeof(struct mutex)
-    75	#define test_lock(x)		mutex_lock(x)
-    76	#define test_unlock(x)		mutex_unlock(x)
-    77	#else
-    78	struct rt_mutex *mutex_low_list;
-    79	struct rt_mutex *mutex_mid_list;
-    80	#define test_lock_init(x)	rt_mutex_init(x)
-    81	#define TEST_LOCK_SIZE		sizeof(struct rt_mutex)
-    82	#define test_lock(x)		rt_mutex_lock(x)
-    83	#define test_unlock(x)		rt_mutex_unlock(x)
-    84	#endif
-    85	
-    86	static struct task_struct *create_fifo_thread(int (*threadfn)(void *data),
-    87						      void *data, char *name, int prio)
-    88	{
-    89		struct task_struct *kth;
-    90		struct sched_attr attr = {
-    91			.size		= sizeof(struct sched_attr),
-    92			.sched_policy	= SCHED_FIFO,
-    93			.sched_nice	= 0,
-    94			.sched_priority	= prio,
-    95		};
-    96		int ret;
-    97	
-    98		kth = kthread_create(threadfn, data, name);
-    99		if (IS_ERR(kth)) {
-   100			pr_warn("%s: Error, kthread_create %s failed\n", __func__,
-   101				name);
-   102			return kth;
-   103		}
-   104		ret = sched_setattr_nocheck(kth, &attr);
-   105		if (ret) {
-   106			kthread_stop(kth);
-   107			pr_warn("%s: Error, failed to set SCHED_FIFO for %s\n",
-   108				__func__, name);
-   109			return ERR_PTR(ret);
-   110		}
-   111	
-   112		wake_up_process(kth);
-   113		return kth;
-   114	}
-   115	
-   116	static int spawn_players(int (*threadfn)(void *data), char *name, int prio)
-   117	{
-   118		unsigned long current_players, start, i;
-   119		struct task_struct *kth;
-   120	
-   121		current_players = atomic_read(&players_ready);
-   122		/* Create players_per_team threads */
-   123		for (i = 0; i < players_per_team; i++) {
-   124			kth = create_fifo_thread(threadfn, (void *)i, name, prio);
-   125			if (IS_ERR(kth))
-   126				return -1;
-   127		}
-   128	
-   129		start = jiffies;
-   130		/* Wait for players_per_team threads to check in */
-   131		while (atomic_read(&players_ready) < current_players + players_per_team) {
-   132			msleep(1);
-   133			if (jiffies - start > CHECKIN_TIMEOUT * HZ) {
-   134				pr_err("%s: Error, %s players took too long to checkin "
-   135				       "(only %ld of %ld checked in)\n", __func__, name,
-   136				       (long)atomic_read(&players_ready),
-   137				       current_players + players_per_team);
-   138				return -1;
-   139			}
-   140		}
-   141		return 0;
-   142	}
-   143	
-   144	static int defense_low_thread(void *arg)
-   145	{
-   146		long tnum = (long)arg;
-   147	
-   148		atomic_inc(&players_ready);
-   149		test_lock(&mutex_low_list[tnum]);
-   150		while (!READ_ONCE(game_over)) {
-   151			if (kthread_should_stop())
-   152				break;
-   153			schedule();
-   154		}
-   155		test_unlock(&mutex_low_list[tnum]);
-   156		return 0;
-   157	}
-   158	
-   159	static int defense_mid_thread(void *arg)
-   160	{
-   161		long tnum = (long)arg;
-   162	
-   163		atomic_inc(&players_ready);
-   164		test_lock(&mutex_mid_list[tnum]);
-   165		test_lock(&mutex_low_list[tnum]);
-   166		while (!READ_ONCE(game_over)) {
-   167			if (kthread_should_stop())
-   168				break;
-   169			schedule();
-   170		}
-   171		test_unlock(&mutex_low_list[tnum]);
-   172		test_unlock(&mutex_mid_list[tnum]);
-   173		return 0;
-   174	}
-   175	
-   176	static int offense_thread(void *arg)
-   177	{
-   178		atomic_inc(&players_ready);
-   179		while (!READ_ONCE(game_over)) {
-   180			if (kthread_should_stop())
-   181				break;
-   182			schedule();
-   183			atomic_inc(&ball_pos);
-   184		}
-   185		return 0;
-   186	}
-   187	
-   188	static int defense_hi_thread(void *arg)
-   189	{
-   190		long tnum = (long)arg;
-   191	
-   192		atomic_inc(&players_ready);
-   193		test_lock(&mutex_mid_list[tnum]);
-   194		while (!READ_ONCE(game_over)) {
-   195			if (kthread_should_stop())
-   196				break;
-   197			schedule();
-   198		}
-   199		test_unlock(&mutex_mid_list[tnum]);
-   200		return 0;
-   201	}
-   202	
-   203	static int crazy_fan_thread(void *arg)
-   204	{
-   205		atomic_inc(&players_ready);
-   206		while (!READ_ONCE(game_over)) {
-   207			if (kthread_should_stop())
-   208				break;
-   209			schedule();
-   210			udelay(1000);
-   211			msleep(2);
-   212		}
-   213		return 0;
-   214	}
-   215	
- > 216	struct completion referee_done;
-   217	
+
+vim +/set_sbi_flag +38 fs/f2fs/f2fs.h
+
+734f0d241d2b4e4 Dave Chinner 2017-10-09  31  
+5d56b6718a0f4e5 Jaegeuk Kim  2013-10-29  32  #ifdef CONFIG_F2FS_CHECK_FS
+9850cf4a8908886 Jaegeuk Kim  2014-09-02  33  #define f2fs_bug_on(sbi, condition)	BUG_ON(condition)
+5d56b6718a0f4e5 Jaegeuk Kim  2013-10-29  34  #else
+9850cf4a8908886 Jaegeuk Kim  2014-09-02  35  #define f2fs_bug_on(sbi, condition)					\
+9850cf4a8908886 Jaegeuk Kim  2014-09-02  36  	do {								\
+db48965264110dd Yangtao Li   2020-12-01  37  		if (WARN_ON(condition))					\
+caf0047e7e1e60a Chao Yu      2015-01-28 @38  			set_sbi_flag(sbi, SBI_NEED_FSCK);		\
+9850cf4a8908886 Jaegeuk Kim  2014-09-02  39  	} while (0)
+5d56b6718a0f4e5 Jaegeuk Kim  2013-10-29  40  #endif
+5d56b6718a0f4e5 Jaegeuk Kim  2013-10-29  41  
+
+:::::: The code at line 38 was first introduced by commit
+:::::: caf0047e7e1e60a7ad1d655d3b81b32e2dfb6095 f2fs: merge flags in struct f2fs_sb_info
+
+:::::: TO: Chao Yu <chao2.yu@samsung.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
