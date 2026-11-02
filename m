@@ -1,56 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793617935;
-	b=cXBkMydb9I/uC16FpMAQ/yOwglYU2YIdidvs35lVJ08OCQUBcJJvw2SCkEH5ShkMd0Yv
-	 /vp47/OfiWI2WtBa8LE3Ow30PdgNsOEavrUEdGNKkSRQeN9uujQKlivN+mwd3sRgqqMt/
-	 PQsQttRDreSc/UW8tZjzgr11gWja4MFm1cmYNM42YGMBqaW6xY0p62A7a7GGwMaxYaTTN
-	 yekf8hkjWmHtqD1RdWfZ/o98Z11OV7cg4cw38BChsOTTR2QH/x+NQSeH88400qZRhq74b
-	 HlTiGbZGVFG47DLqLWv5fs3Dc9B9yHit8WvhBbrtDuvFxHqd5Lz6+UlpkXCToFGAtqQ==
+	t=1793620368;
+	b=mRFdKp7h1buRNvZLAdupO2RAeNON6fHWH9nQoD8UdyeoDdbHMeUjel0Ps03Uu6EWQHTS
+	 YRSxT+kDTLs2qqG9i+W7OgiGmpU1rFJamnSg2Jz3lsI0xWmTL5ZOdNclvECHeUxfNs9lR
+	 ji9wydZNfQl5DIF/tN8WHImybXsPGpAIxmz3bdx5+uiNxRkYvCRd6EMlyEt31kNCDicyy
+	 Bo/qy58bmbAeanlUCaXIvWZxIXmjVg0TxnXLYBBj02sVJp25FQ0Apg5f6kN5Ik/LJxo74
+	 sWw65S/abkkiMjGKfq1LiKGyDkiMwaUfr+aAMBy4J9zdveqPFh4eGGN9aakBRU4mt2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793617935;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=p3QW/w/iY0YD/fqxj57gSpeQygMNXvAXA/WJlwwf7AY=;
-	b=oCUN1Rn9UGqXkuDswvVlaoiKUFWuv9lK/rEKj+eY6N82SVTgpzTlSiPZFiynACCTisk1
-	 NPZf6bA6c+IMliAt3pT+/7u0cfwhkKPdz4IsNOiedwzVO965E3dfLRWGJCw7HdpTn9voh
-	 7zvAylOblSqG2abeYb9NNiH+ggWsUDd3oheeUQSzbeG3w7dy3zipLhHc9OgyE81rmM2Xy
-	 AUZCAukFrWeZpnx6Fdtc6NAXmnPh/eZ66kLZb98+2uNEuZ/u1Dq5+ZD5x0CGFIxIJT2On
-	 e6N4JkI93SM0XgDSNiu2PF6mj0lfJEEr6HppP9cxS5DCqKa4KoVoRZs2PPfMboGsq4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793620368;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=B4TWMT31f/lhSF0WZOCkUp8azX4lSUxZCkskOlZFhzE=;
+	b=h5VziQwQBSLaoKH1ut78wTJv2+ENTEXaUw4tQlWOL0UdFx2uiis5fyiHtRHlLo8pwym4
+	 E/eVAGXpgAnVENCE8fBbJ14M8SGHgaUzwlbXZf+5ouMjx/zo7dhirzhTMgftGs21+VGc+
+	 Fkzb35RKrISCdfjlgNjg5Fy1OLUcVHuzz8nafYANpwAOdk8cUrCtMVm5RMR5ZXOFtdaTe
+	 Wl6m+LnOFOr91zGziAX72EjipCHqu6ndZkFza7R2v6V7FNDe/oL00+mj50MjLs6SHGrRJ
+	 NzN3BuF+UdXtzTb4tGIpOTZ73+ZDqus28lwNBZAWBXDLk1lTVWmjzMTLxFwQb3HchHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KDXpE5ZH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ZK8uRJta;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XFw65kuD;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF722606A32E;
-	Mon,  2 Nov 2026 11:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8167B606A337
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 11:52:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8167B606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KDXpE5ZH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A531D1F00A18;
-	Mon,  2 Nov 2026 11:12:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793617934;
-	bh=p3QW/w/iY0YD/fqxj57gSpeQygMNXvAXA/WJlwwf7AY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KDXpE5ZHAugBzRh7LbV3zOAVu3BfNLWIqbN74KktzmBSjq9HPggqNlTTtHPzs8ZyV
-	 8A9nwc7c9ipCGjvlBYVOZAs36kcyoSkX/RroQquXlpQmAXJ2jfOu+BsmSxscRGo6pd
-	 JY5ypURvzCSbsrqtqfiZqnmBMDWhF20DP+jadUb0fM9lwyrkY6Pe/fgwki/YgC62P3
-	 ZBqmxMyitVHBe5wS9g5/C/CrsSQ2Mz2l/ojGbPstB7KJS2Lv5EjS8zb3VAnC7clLeg
-	 D40LtjIH8e618txqVm10LPMDkZBIHm3/iNBPqEp+wxppfwmDIOirCGmrbcxnsbarXb
-	 5D5BBbKCETxYg==
-Date: Mon, 2 Nov 2026 11:12:10 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Suren Baghdasaryan <surenb@google.com>, 
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Subject: Re: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops:
- .write() has stream semantic; safe to change nonseekable_open ->
- stream_open. (fwd)
-Message-ID: <auhvGNG1fJBFFM-q@gremlin>
-References: <f887f7b3-b72c-99d2-8dbf-96cbd83774bf@inria.fr>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ZK8uRJta;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XFw65kuD
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2BYnH73762996
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 2 Nov 2026 11:52:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	B4TWMT31f/lhSF0WZOCkUp8azX4lSUxZCkskOlZFhzE=; b=ZK8uRJtah+ubMnvj
+	orvcU7wwTQKwfVht408Kwkf3kDGd5XxojLTa3Bvs2SeMGciAjtT77smbZM8fNNSp
+	cwIn6/Qi89iHaffUh8EXJArcDIO6+pngczv7Oz71xEe0ThyiATeIrGRT9blXeTcn
+	b8MhroVQx1gaqwibC6tCq1grkPKBprx6cGel+dDW8c4CE1UaUc3a0Yl0vBeBaj/U
+	GyOkv8y3Pmz4k2w17HDHQOPAOxt+6GCANZ1elT/8tf3Q9zXv3YJjzM7M16T1ssjI
+	0xMrDoPB7vOlWDh44KhtPdcF+PFjyyF3XUoqrWsYGqAY+FZ55kuQcC/CqS082Y2W
+	AThmWA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpss5g1sm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Nov 2026 11:52:46 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93f2bdebfc5so54898985a.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 02 Nov 2026 03:52:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793620366; x=1794225166; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B4TWMT31f/lhSF0WZOCkUp8azX4lSUxZCkskOlZFhzE=;
+        b=XFw65kuDMos72+MCvdfma2S+InS2A9lEG79Y1y1Q460DCMV5pqK8PEQoVbmW0BDpZc
+         VyCJa8pkxP2YGlExiJZGS+nk1iJt/e0JJS22/L11RjDcUhv61B5CQuyH6AD4kymDxnHU
+         VR7HQUsjIEGmeUcuhV1ixHKJyjYCr7xCpQPVBc+hAAZEKJLa4Li3r6hvaY4M/oRBkx2L
+         kdw7vgrxIy35BM0yE54Ims782gNQ4bN3cnfCHHE9AE8wZTTcfn/CAgBCVXXAeB+s0w3x
+         djxRziSzkk8W+v5pdM4NlyYaVVWImGJIfgb7b+yCRHbnYtB5uEJcnH1ALw6lJAUX1neG
+         vZAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793620366; x=1794225166;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B4TWMT31f/lhSF0WZOCkUp8azX4lSUxZCkskOlZFhzE=;
+        b=CvAB1SWPw7GONYxmLTB6h8tNEMO50M9GgtWcOV9wyith/Po4bsNHkVaYvk/XgY6K2/
+         SQ3QnAkKmaMrRSTsmfM9wBlSWrqFEC0ZqFPoA2c6RHbdOSXOs6v7WOvZkim7Fu0/7B8F
+         6EnbyoRhIlsasiwyqMk3kMoZD/RsU23zvt+Fn2DFnr/Rhu2vvRf8+wk6xXCoSuJ+lJmt
+         bJzP1AqmeVdQR+iTEpD7ZRx+EapHfb19Fg7gsktECKro9F2zIkhO/41uB/cVg6/xlsGG
+         jmBBLfa/0LxqdqDaEQnWAyEuSw+G4rkQleEB2r9FqzOJUchaOMLwdyCWuY/CG4DzkkwL
+         VvPA==
+X-Forwarded-Encrypted: i=1; AKwUvBwR7OXA6gZLvR7gKR7BqhCTPZxk5XvYgRsNQG+CiIqjvLXQbT2+LVyv47deEQkRSjlo639maNCDzeDtvqUP@lists.linux.dev
+X-Gm-Message-State: AFq9FYKZIWOarE5tM6A7yJ7QlfLJKgQOxpSVGjxd6rVl85kNWLT0o/q0
+	6zFKrtnVvDOuChHm5RpAdLwnSQ98X7krqj7Y3zts4WfQSUT1NmJqTLasf5aY9fwj4MXlwr376jg
+	Q3Lsmoj0RutZM8HvptqqtTClkAGl+Z0S+/KnKRaMbTLpngP5JJMlpBC/6lYRs/p6za/5Q
+X-Gm-Gg: AYBFou1ddl36ImD/gwrDhIhSbmFmmOd0B01/z3yxhrVlUVeHQ/SMJC85MV6sBXKcbXl
+	ncB8/klyNQT+dDunPsaaa7AbiOsUBlJxRV4KhmqbwBXF/Z5H5NuPsXrJ3i+zpgMnnzmAFNzjIub
+	76a91as62WLuRpXZWq+yr8lL79QyoZQjEHONwnofKrWEI+4FlVRhdwL+vS0BOCxygUQVf23ihO7
+	yQQkxMQmnIqehIU+qq9nbUHxz2mBwQadc0mQbPkF+V8wsx6raXzKqoTXo6+7H785rjndTmCtOWN
+	NPCto9CUm24ehBmt9BXue4HCt8vbxr+ekEpm+V5PY7N8VgMK2p/fU2kessczyAaWDl7WbovsFgM
+	K70xQrXh0aCi+TbIkABWTFs2/vJllQorE6lGj/P8l+csPKbTYIbLnOvouN/lwQaAkM+RouyE=
+X-Received: by 2002:a05:620a:124c:b0:93e:571e:94f0 with SMTP id af79cd13be357-94421734130mr1759799785a.3.1793620365678;
+        Mon, 02 Nov 2026 03:52:45 -0800 (PST)
+X-Received: by 2002:a05:620a:124c:b0:93e:571e:94f0 with SMTP id af79cd13be357-94421734130mr1759796085a.3.1793620365012;
+        Mon, 02 Nov 2026 03:52:45 -0800 (PST)
+Received: from [192.168.226.248] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cabe8f9bbsm380330766b.67.2026.11.02.03.52.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2026 03:52:43 -0800 (PST)
+Message-ID: <4a145c2f-24d3-48d2-8e84-3098604bcac4@oss.qualcomm.com>
+Date: Mon, 2 Nov 2026 12:52:41 +0100
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -60,106 +115,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f887f7b3-b72c-99d2-8dbf-96cbd83774bf@inria.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] irqchip/qcom-pdc: Handle ESPIs in qcom,pdc-ranges
+To: kernel test robot <lkp@intel.com>, Konrad Dybcio
+ <konradybcio@kernel.org>,
+        Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+        Stephen Boyd <swboyd@chromium.org>, Marc Zyngier <maz@kernel.org>,
+        Lina Iyer <ilina@codeaurora.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Abel Vesa <abel.vesa@oss.qualcomm.com>
+References: <20261022-topic-pdc_map_espi-v1-1-7c481a42bac5@oss.qualcomm.com>
+ <202610270827.7SxHabHO-lkp@intel.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <202610270827.7SxHabHO-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=VORIDNPX c=1 sm=1 tr=0 ts=6ae8798e cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8
+ a=QyXUC8HyAAAA:8 a=bDLz5rJQdqquShatwagA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-ORIG-GUID: TAQWivewMzeJFsIizeXvtIXJ1apsQ5kN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA0NyBTYWx0ZWRfX+fu0qGAUx0yb
+ JQLHGn7A02OvOHGZok09y6LRmUHAepTVvNkRQuhSv6FU6r1CTevHx88IwkCv21ntRJ6F1ctqns3
+ S0fjtU9q15x1XXuuA1UyTobH+4td8iOuOSo6ukzFzib5BvY7fawmCWaZRNCMinzbg81yGj4ozTL
+ swqk4qLzcIEW0zcMZFQeXE/4cuSO16vW5fgEv0nzdWOXN9PZOwJR09ZnzCsSZL8AvN+ClU2321z
+ jGM1dgogsLZCfEDeRMFHNvMXPQLpmx1j+NtQbm7uHnFfbVMruhn+qTAaB0dQbIOi6Z9t+603tB/
+ AG9M9c1x5SMaUYyjV+inu5n6rjX9cp2GVuJ2n7EL8+Ozdthw/tKFV0Wrod4Ellf0u3N+nbu942a
+ 5Pjd+XMCvdwqbU++CvG+w2vdMfGFFt9x6B0QIMREODhIvJ8roVtTP/tRPRNmcVC6Ch+FlIEUEtJ
+ inSI4BqGEtWxBDq/prg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA0NyBTYWx0ZWRfX9LBJal/HJAaV
+ niVD7w7s7GbyS4mfBNDg2iB+MyBU1K/iID0c+mUKZwUK+wXJsD4cwGp4jeipBW2JcjvrBGMNS7n
+ ltTLQcbk8fFTCvjiSt8/RZwOoVZGL90=
+X-Proofpoint-GUID: TAQWivewMzeJFsIizeXvtIXJ1apsQ5kN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-02_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ phishscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020047
 
-+cc Alex
-
-On Mon, Nov 02, 2026 at 12:54:31AM +0100, Julia Lawall wrote:
-> just forwarding.  I don't know anything about this issue.
->
-> julia
-
-Thanks. This is unrelated to my change, looks like a cosmetic report that
-predates it. Cc'd Alex, but not sure if any action is required.
-
-Cheers, Lorenzo
-
->
-> ---------- Forwarded message ----------
-> Date: Mon, 02 Nov 2026 00:48:49 +0100
-> From: kernel test robot <lkp@intel.com>
-> To: oe-kbuild@lists.linux.dev
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> Subject: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has
->     stream semantic; safe to change nonseekable_open -> stream_open.
->
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> CC: linux-kernel@vger.kernel.org
-> TO: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-> CC: Andrew Morton <akpm@linux-foundation.org>
-> CC: Linux Memory Management List <linux-mm@kvack.org>
-> CC: Suren Baghdasaryan <surenb@google.com>
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> commit: b0085cb94d2477787f4197a3000e33aabf3d48fc stm: replace deprecated mmap hook with mmap_prepare
-> date:   7 months ago
-> :::::: branch date: 2 hours ago
-> :::::: commit date: 7 months ago
-> config: mips-randconfig-r2106-20261101 (https://download.01.org/0day-ci/archive/20261102/202611020009.xkUfJUpm-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
->
+On 10/27/26 2:08 AM, kernel test robot wrote:
+> Hi Konrad,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/irqchip-qcom-pdc-Handle-ESPIs-in-qcom-pdc-ranges/20261022-104402
+> base:   2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64
+> patch link:    https://lore.kernel.org/r/20261022-topic-pdc_map_espi-v1-1-7c481a42bac5%40oss.qualcomm.com
+> patch subject: [PATCH] irqchip/qcom-pdc: Handle ESPIs in qcom,pdc-ranges
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261027/202610270827.7SxHabHO-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261027/202610270827.7SxHabHO-lkp@intel.com/reproduce)
+> 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
-> | Fixes: b0085cb94d24 ("stm: replace deprecated mmap hook with mmap_prepare")
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> | Closes: https://lore.kernel.org/r/202611020009.xkUfJUpm-lkp@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
->
-> vim +509 drivers/hwtracing/stm/core.c
->
-> c7fd62bc69d022 Alexander Shishkin 2018-10-05  484
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  485  static int stm_char_open(struct inode *inode, struct file *file)
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  486  {
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  487  	struct stm_file *stmf;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  488  	struct device *dev;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  489  	unsigned int major = imajor(inode);
-> a0ebf519b8a266 Johan Hovold       2016-11-18  490  	int err = -ENOMEM;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  491
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  492  	dev = class_find_device(&stm_class, NULL, &major, major_match);
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  493  	if (!dev)
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  494  		return -ENODEV;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  495
-> bf4afc53b77aea Linus Torvalds     2026-02-21  496  	stmf = kzalloc_obj(*stmf);
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  497  	if (!stmf)
-> a0ebf519b8a266 Johan Hovold       2016-11-18  498  		goto err_put_device;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  499
-> a0ebf519b8a266 Johan Hovold       2016-11-18  500  	err = -ENODEV;
-> cde4ad8368840e Alexander Shishkin 2016-02-15  501  	stm_output_init(&stmf->output);
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  502  	stmf->stm = to_stm_device(dev);
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  503
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  504  	if (!try_module_get(stmf->stm->owner))
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  505  		goto err_free;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  506
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  507  	file->private_data = stmf;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  508
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22 @509  	return nonseekable_open(inode, file);
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  510
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  511  err_free:
-> a0ebf519b8a266 Johan Hovold       2016-11-18  512  	kfree(stmf);
-> a0ebf519b8a266 Johan Hovold       2016-11-18  513  err_put_device:
-> f7c81c7176c72c Alexander Shishkin 2016-02-15  514  	/* matches class_find_device() above */
-> f7c81c7176c72c Alexander Shishkin 2016-02-15  515  	put_device(dev);
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  516
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  517  	return err;
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  518  }
-> 7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  519
->
-> :::::: The code at line 509 was first introduced by commit
-> :::::: 7bd1d4093c2fa37d1ecab05da3c9d48ea2af2264 stm class: Introduce an abstraction for System Trace Module devices
->
-> :::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202610270827.7SxHabHO-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from drivers/irqchip/qcom-pdc.c:12:
+>>> include/linux/irqchip/arm-gic-v3.h:605:10: fatal error: 'asm/arch_gicv3.h' file not found
+>      605 | #include <asm/arch_gicv3.h>
+>          |          ^~~~~~~~~~~~~~~~~~
 
---
-Cheers, Lorenzo
+Marc, would you prefer that this is resolved by:
+
+* redefining the number in this driver
+* using the raw number, perhaps with a comment
+* making this only buildable and COMPILE_TEST-able on arm/64?
+
+I think 2 is reasonable
+
+Konrad
