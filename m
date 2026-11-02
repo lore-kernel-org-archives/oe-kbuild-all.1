@@ -1,77 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793641880;
-	b=vIPJ/KKmFgZGeKozsUN9wdTNXGz9Z4vvJBvfOM6xO5IGUnRhYsDMNIIFWjAxkhkItqZK
-	 aaya/SAxiBd2dst/pGSTsn15Jb2K/xZNEmSuxIShcYuH3oBUnfOd402TQcjN06JU9TPsu
-	 Tdzm261tir4kono9dl0UVMBJTFSiDx12w13VQFSs9fMDgA0tJ01pOClyfqa5NDasb2gDd
-	 bXu/Wy2mIAiyhrzoaEvl2G/epLtdYw+VCNdSOyDMV6TCu0r2eHUdqdcrkTToOGHYvqVR1
-	 koLoexwj0+QtbjQaUVd6CQq0I8dzPVI45qmc2axLj6IaDE4M1myo/RNd/mP9sNCQ5Rg==
+	t=1793643064;
+	b=BKL2uNXxzN8NcBZtjLjn1qU7DnVga48ZiB5mBuhWzWrthKcRZlkGvdcOmxOifYN1BIZo
+	 cQVQfM9Pdt+yjWWlmEQlnQPVKNz2sItsfzgAIGg0UMUHnam5C1Uhyi0z9bJrcVO38PFLS
+	 fHMg1lOIhqqFzotTYlS2uXcCtgRnOD0cpEqWCiySCWHZJUPiEtIDFpoUth7iGQBs0g5Jg
+	 PFq9yIU31bNbP+/nGKY/IJjSiba0QoONc0Ae35RM1rKCQ8xw8kyKU7C6AgPkhfLuPh1NH
+	 UWBUOIrKNgOS9/ahvK5LoyIArLkXoQRsLZX6cvz3UqPx0Ii9P0msA7Ye2A3gSyodWXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793641880;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793643064;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=xAj7jpiEyoy7Xq1F4KpD+VMjNYtyQcBnCaT7UmuxD7Y=;
-	b=jMRzV1fzjMm9C/YH4UIie0TkEW/x2MNMKCUN46xWMxX9fMPWWL/uedTY6sf1EyAhGusK
-	 El8e509pJ812xiKEOq+wC3uT0Uhkcn1w/dhFc7lDvBcA8LxxBJ8U1Nic7a3cV/CKX3iWw
-	 zCvQhR9B47xYO7Yyj24Dl5GG3JaKHFooylUk5NtHxkJzJ7DZ9bxzPKAUjxVZshpKkuMug
-	 H8+QLV9YBycajF8ND5qrjFAsD4zd0V/zJDwu7js5hmKqTrnqsTToE0w09NBrHir8G3TIT
-	 DxrEp/ae6kAaTSZ1UtS0swnhBrS/OvFKmaOOCICE6Hkb236E28x0zLM3s+Tsuxieepg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=bjvJoJc/GTpSMbKiG3k1l8fW3FUFv6sMHWG+G/+EbEY=;
+	b=KSwwNOnftsT55BzTWYnA0EIVJkK12dh2RqESrColi0QGy/MMa6jWTbsK97PxaDA/He3/
+	 GydusmM5ncAOfiZv5yuZix2wKw3cLVKar9Iner2J9OTgrlwNe/h/dmKTlmIvAFLTR+b4O
+	 DLvl4GQLttbHwTCeY4H+AxhKqBsomCJ06i3EnxnZwOAov2c+YuQzEjDUrNVByztteOr9V
+	 iVAyXtMyEy3zBNL8hSBNfF94tbsFT+1jVTzCAsgU3frXl7BfJpM85ozOarl+Veab1B4fP
+	 56lJW/m3jX73/Oi9jFQnikPnDdGsbNaYKz5EPSmCcBYtd95faZq7MeE7LhfwpLsgz9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BCMZSN3n;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kBfzWQNH;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C57E606A337
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 17:51:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C57E606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F600606A326;
+	Mon,  2 Nov 2026 18:11:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F600606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BCMZSN3n
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kBfzWQNH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793641880; x=1825177880;
-  h=date:from:to:cc:subject:message-id;
-  bh=O/FoZfbNSwEwM5qKq0NgzbhbBhBk12X04EVAdvMZPqE=;
-  b=BCMZSN3n0/kDj/4OaHBMSSgHZlPL4MZ6lj809j2rZ0p3Lj4rKeVWe9tm
-   BZrBpKhezoFLwwP1Dc1cBTirEKLmqPGiy5aHm/uPxJy8kiBy3v95t/Vco
-   Rqj+kJE1xxG5cu/9mnmTt5KKo6vaRWL3GbIvtwpDlLo+pjfjymMqEVT+k
-   JzJUp3AbbzP9o/rIgs0j4yJvLSNkE95kk0bPUG/SbScp2LFy0dcGsH6k5
-   +8BH/WOh6H+9+YYIHUnhVNIraLYD71CkkyeFaz4ol6n/A1B525Lu2FgV7
-   zFmJxg0aOPl+EglMJCXVw6RN9rSQ4zq2rtjzsCuGisBFySBbvRSVEgs4x
-   A==;
-X-CSE-ConnectionGUID: CQYQcLAQSTqf89+7JaWfMQ==
-X-CSE-MsgGUID: 2NwqsxyTQgWkG6KIamK7RQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2357887"
+  t=1793643064; x=1825179064;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ARYRBjuRpiAfnJqS9ZxGEd/Hf5DQbR9n3T1V6+4Bh2I=;
+  b=kBfzWQNHFHNp/x+QXK58joP8xlzwETbGvgzYMn/AlFmYP86GGZeepOFa
+   d/LWvwTo+okdjwkouI36pCzKr7YmoLTLgjpSlKi7W1IoICPbhdMkJJaxE
+   t4gEU0W7nVMgl54NftFSCFXpCedalSIUcmsu2EGZc+2TiY9hLGiL8p3F9
+   qtPy9ywsdQulxCK0n6Nh572LoIM7DFlfLuyUtHGSTeF/7qL33gI6YQ0u8
+   iQD3BwFqra1hpA432mcSvl9FS0Nw6jA5rtbESudPLFlnfIn0E6TKjaycT
+   gqVDqqKbAH2hQWywEetL2GYlIMt4//oIT6w5JxGmhvFyjpLR7AYpX1Y3G
+   w==;
+X-CSE-ConnectionGUID: kbeieVZzT86dXHYKyZ8gRA==
+X-CSE-MsgGUID: VGDTrRftSCysNM+8IZTZZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2364939"
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2357887"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 09:51:19 -0800
-X-CSE-ConnectionGUID: M80WmDdCQ52oChSm6JdD6w==
-X-CSE-MsgGUID: bpIe2jflTfiP0C0juoivWg==
+   d="scan'208";a="2364939"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 10:11:04 -0800
+X-CSE-ConnectionGUID: NwbxsqZBTwWoiRPuuqyvpg==
+X-CSE-MsgGUID: pqzIkRSeSW6iLT9RKtxPaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6296973"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Nov 2026 09:51:18 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6184129"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 02 Nov 2026 10:11:01 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNwBf-000000008gh-12cI;
-	Mon, 02 Nov 2026 17:51:15 +0000
-Date: Mon, 02 Nov 2026 18:50:38 +0100
+	id 1xNwUk-00000000hcC-0SV1;
+	Mon, 02 Nov 2026 18:10:58 +0000
+Date: Tue, 3 Nov 2026 02:10:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 20/20]
- drivers/usb/gadget/function/android_f_accessory.c:353:23: sparse: sparse:
- Using plain integer as NULL pointer
-Message-ID: <202611021830.yYnGiO5Z-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Binbin Deng <18983559317@163.com>, dsahern@kernel.org,
+	idosch@nvidia.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Binbin Deng <18983559317@163.com>
+Subject: Re: [PATCH net v1] igmp: use copy-on-write RCU updates in
+ ip_mc_source()
+Message-ID: <202611030211.aklzSdgm-lkp@intel.com>
+References: <20261102095312.47767-1-18983559317@163.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,47 +85,102 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102095312.47767-1-18983559317@163.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   e92b73070f9a9cf42236e34fdc16537c05349f91
-commit: d718cad4b605a726d93e9d6fc032fed768a7fcdb [20/20] ANDROID: usb: gadget: Add Android Accessory Function
-config: i386-randconfig-r2309-20261102 (https://download.01.org/0day-ci/archive/20261102/202611021830.yYnGiO5Z-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611021830.yYnGiO5Z-lkp@intel.com/reproduce)
+Hi Binbin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Deng/igmp-use-copy-on-write-RCU-updates-in-ip_mc_source/20261102-175312
+base:   net/main
+patch link:    https://lore.kernel.org/r/20261102095312.47767-1-18983559317%40163.com
+patch subject: [PATCH net v1] igmp: use copy-on-write RCU updates in ip_mc_source()
+config: sparc64-randconfig-1001-20261102 (https://download.01.org/0day-ci/archive/20261103/202611030211.aklzSdgm-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611030211.aklzSdgm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611021830.yYnGiO5Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611030211.aklzSdgm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/function/android_f_accessory.c:353:23: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:786:35: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:798:23: sparse: sparse: Using plain integer as NULL pointer
-   drivers/usb/gadget/function/android_f_accessory.c:840:23: sparse: sparse: Using plain integer as NULL pointer
->> drivers/usb/gadget/function/android_f_accessory.c:1392:6: sparse: sparse: symbol '__acc_req_match' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +353 drivers/usb/gadget/function/android_f_accessory.c
+   net/ipv4/igmp.c:2646:1: error: function definition is not allowed here
+    2646 | {
+         | ^
+   net/ipv4/igmp.c:2737:1: error: function definition is not allowed here
+    2737 | {
+         | ^
+   net/ipv4/igmp.c:2802:1: error: function definition is not allowed here
+    2802 | {
+         | ^
+   net/ipv4/igmp.c:2851:1: error: function definition is not allowed here
+    2851 | {
+         | ^
+   net/ipv4/igmp.c:2898:1: error: function definition is not allowed here
+    2898 | {
+         | ^
+   net/ipv4/igmp.c:2924:1: error: function definition is not allowed here
+    2924 | {
+         | ^
+   net/ipv4/igmp.c:3277:1: error: function definition is not allowed here
+    3277 | {
+         | ^
+>> net/ipv4/igmp.c:3294:19: error: use of undeclared identifier 'igmp_netdev_event'; did you mean 'igmp_ifc_event'?
+    3294 |         .notifier_call = igmp_netdev_event,
+         |                          ^~~~~~~~~~~~~~~~~
+         |                          igmp_ifc_event
+   net/ipv4/igmp.c:884:13: note: 'igmp_ifc_event' declared here
+     884 | static void igmp_ifc_event(struct in_device *in_dev)
+         |             ^
+>> net/ipv4/igmp.c:3294:19: error: incompatible function pointer types initializing 'notifier_fn_t' (aka 'int (*)(struct notifier_block *, unsigned long, void *)') with an expression of type 'void (struct in_device *)' [-Wincompatible-function-pointer-types]
+    3294 |         .notifier_call = igmp_netdev_event,
+         |                          ^~~~~~~~~~~~~~~~~
+   net/ipv4/igmp.c:3298:1: error: function definition is not allowed here
+    3298 | {
+         | ^
+>> net/ipv4/igmp.c:3316:2: error: expected '}'
+    3316 | }
+         |  ^
+   net/ipv4/igmp.c:2485:1: note: to match this '{'
+    2485 | {
+         | ^
+   11 errors generated.
 
-   344	
-   345	/* remove a request from the head of a list */
-   346	static struct usb_request *req_get(struct acc_dev *dev, struct list_head *head)
-   347	{
-   348		unsigned long flags;
-   349		struct usb_request *req;
-   350	
-   351		spin_lock_irqsave(&dev->lock, flags);
-   352		if (list_empty(head)) {
- > 353			req = 0;
-   354		} else {
-   355			req = list_first_entry(head, struct usb_request, list);
-   356			list_del(&req->list);
-   357		}
-   358		spin_unlock_irqrestore(&dev->lock, flags);
-   359		return req;
-   360	}
-   361	
+
+vim +3294 net/ipv4/igmp.c
+
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3292  
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3293  static struct notifier_block igmp_notifier = {
+4aa5dee4d99978 Jiri Pirko      2013-07-20 @3294  	.notifier_call = igmp_netdev_event,
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3295  };
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3296  
+72c1d3bdd5bf10 WANG Cong       2014-01-10  3297  int __init igmp_mc_init(void)
+7091e728c57015 Alexey Dobriyan 2008-12-25  3298  {
+72c1d3bdd5bf10 WANG Cong       2014-01-10  3299  #if defined(CONFIG_PROC_FS)
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3300  	int err;
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3301  
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3302  	err = register_pernet_subsys(&igmp_net_ops);
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3303  	if (err)
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3304  		return err;
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3305  	err = register_netdevice_notifier(&igmp_notifier);
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3306  	if (err)
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3307  		goto reg_notif_fail;
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3308  	return 0;
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3309  
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3310  reg_notif_fail:
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3311  	unregister_pernet_subsys(&igmp_net_ops);
+4aa5dee4d99978 Jiri Pirko      2013-07-20  3312  	return err;
+72c1d3bdd5bf10 WANG Cong       2014-01-10  3313  #else
+72c1d3bdd5bf10 WANG Cong       2014-01-10  3314  	return register_netdevice_notifier(&igmp_notifier);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  3315  #endif
+72c1d3bdd5bf10 WANG Cong       2014-01-10 @3316  }
 
 --
 0-DAY CI Kernel Test Service
