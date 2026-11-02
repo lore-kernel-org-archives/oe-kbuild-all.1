@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793654691;
-	b=4ciZSCjiQlOul134oBoTjj7ZgRCztHA6huWS9qe6BRBonhVGjdnBmRkUQaXPVgvpWq9K
-	 GshVxN3ZiMEsvOSfqWR5dxuTlHfzwS/vAa3N7a2wVhE839ra0k5wrKcWX8nJUQN5KhufR
-	 jWADP9wDUNESruxSa16fO/hY174x4/jtq/BG1vfLvUWHQ62OlklksfeZixahHeuAHBq0g
-	 L3JGfBpBF9Z9z/9Ve3/b9Ayrj0G0aMmnn+gs3js2doaq+DW+5mKBkdCA5ehzkXlxBQCD5
-	 9OgawEKBTOgNiAIR+qvT0Dsnn1PyQ89asnwHETHxCWalc5tbzATwk6pmUSTCy4qpagw==
+	t=1793655349;
+	b=mLYqUt7eesNq2D2HrOilysstaVviNkmvWNS3fMwSQVjKkJ4zE6raKb3Fm7amZOnBetpb
+	 yCfV/PszDm3J/lG7GAo3AGLdZ8FyLDJ4yCf8zSLAXRYBcVcOp16Nbqs78HrGny/AOxyft
+	 4zncyM7PNHL1tCNWTPwsYZkeb6Zl5lWJ6hNAeLCMr3zHmKAS1ypVCL0UJSDbxk199SLOw
+	 meSgkg+0KzgiZ2+MrV26TddU5bosVyTXJiW/WCBej8MaHy15SZ6D6ejxpw0W0qWxSbhBA
+	 EUpUzW7pZlTPFapAbtNeRc55mnvZJyXaF8Mww5pxTtKu60R3mfV+WpzORVWQlvGtpCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793654691;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793655349;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=6liDdo9lKlY5CEYvOKAP9FQ0WU8H1YhxctRQK+aoc7I=;
-	b=QB0YbEldopYBYJznodKK+Mdph4TywCWu0UDQJ4MwcbZyP7pAZnHs9dhwra52BabpZzan
-	 HkhpL8CJInFho4JzvxzGcwxtiMrLb6XVT9gWmlnC7TmDs73cR6OmAvtP3l9bTQ/cRfasM
-	 /gFk/aM/tangbZAcEiWAfv+HrhK6TNcGRSqiPzU8QL03CzZBhhN8kMR9JPrmsdh4RwEuJ
-	 aWS/oG9gpJOMX+zQKUG2C2N0oV5KunvA2fED1x8zgUtSNxSA6f/LpQsYTs+pdVyP0OoBW
-	 UPK9RF5VVCALZ94CIHoJx17SbfYadqtaU+pNxb73KgE2Lfo7M5iwjKC2wzylU7pRQfg==
+	bh=wI7ZkBGCbS9vqqxdu0Ga6JGXTdfhQw1I/4gHZx0J1cI=;
+	b=yRLmmRwefO6Aw7ldbV1OFCqR20sKSCtkzeOXgH6DBC0Jl3EzFN7KFE559See9ekojDGN
+	 WPrSACJ5KhB2f8aS++nSWv9nLUfFNdJGSuiUMn/qFSDiMlXeDZ9oCXsydqymW4WgegzL4
+	 pB16yGdcxu+ZXaMy+lApS+NO2hY4sZXkL49iVelUswqclsQiCvQ3afnKU4jjUvFo+n4RH
+	 ulITayVPKNkkie50tJLB6XRhRZaRgMrYApY/aZXY4AKDLceVJMD02i3Gj1u3Xb4uimQB2
+	 Kxr0cX8RiqpYGNTA7WGaEk1637v6UActyAp4pQN1hHumwkoaqouJNSaJQmRUnBwPzsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nWRFdiFj;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eNeb2vme;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E920606A330
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 21:24:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E920606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B21A606A33D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 21:35:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B21A606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nWRFdiFj
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eNeb2vme
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793654689; x=1825190689;
+  t=1793655348; x=1825191348;
   h=date:from:to:cc:subject:message-id;
-  bh=Y2qt5OWQXllkA3hhmo1qOoIPKV0UbXdc5L1XJEF8Y2w=;
-  b=nWRFdiFj9qKFF8bsOdus5twd/3KB4sk3Za0gf+TfbkJ/8Z4ONOaJzKZT
-   CbSiN3aTPc4Te7IT+V2f70eg+07gOHnHFwAbIbe5yACfN8khmDVwd63A4
-   g7URDPKAJbzgER4W1gK1mjwBcB8bFvMBCeNMdWXnESCVBwZvnOqRvOhFo
-   G+J+wp80NHv2dVID1kz4AtvoY09PQT0B+vkHbSCuOTesxRWRspvHMitlZ
-   W9ayEoV+ITvZWOoYMRkMJS2O7Qdp0wVWPUSscAt3tEHJzJxoJMXTdg+4G
-   wxlSb/6Fted3neUyWTHfpPqBacREa9oXy+Vhx/ag/qlCoZNgK66jOuISe
-   Q==;
-X-CSE-ConnectionGUID: p36O0Ca8RKSVlS7UCgjvEg==
-X-CSE-MsgGUID: FjIHlrnjTfOphi2HVp0BAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2377795"
+  bh=+I/pEaPNypJKun4Lo0as8QIW05lzMZVYxQVtHVCjWMM=;
+  b=eNeb2vmehgUm5lmWZ3Q+r3wybuIrLLQmbjTtR4nXjnapMxc/JGEexsRl
+   dPEgamKQGrFUx2WQzz71FYp4gHWCWy6+K0609d7piH3usBNbGCFtebC2d
+   D7gv6xbvmeb32hBmC7ITF/gbUZjs7f4xCXjGC10SsEEiaQPszwW5B1HzI
+   rXB+NYO7uHSs6kC5BzBa5nfPItpXJv+IM+VcSnLICsRNiNj6snMlr/IG2
+   lOtOeYVnlgbLuUIOb7J668luTdpgG4wrsJTd3j9AIWbA2gn7xMEl2avKO
+   Yp5AzAc80TJzbwpQprUdnAmTB07Z4i/ZwRHUyNsw9ny0vpXmH1x/daflF
+   A==;
+X-CSE-ConnectionGUID: ahIGj78aT+ecOLwhFJj19A==
+X-CSE-MsgGUID: bH1GhMbNRlOm6gAt1EFOmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2245133"
 X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="2377795"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 13:24:48 -0800
-X-CSE-ConnectionGUID: Bs/t01W5QsKjbZmVXTUoNQ==
-X-CSE-MsgGUID: EuHhmKuAR66lFC+VuRYpcA==
+   d="scan'208";a="2245133"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 13:35:47 -0800
+X-CSE-ConnectionGUID: Lahzjcb5TtGjZZulhgQvVA==
+X-CSE-MsgGUID: 2OL2yAhsTsun18ezYoYw2w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
-   d="scan'208";a="6092124"
+X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
+   d="scan'208";a="6390503"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 02 Nov 2026 13:24:47 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 02 Nov 2026 13:35:47 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xNzWG-000000008ip-09iq;
-	Mon, 02 Nov 2026 21:24:44 +0000
-Date: Mon, 02 Nov 2026 22:23:50 +0100
+	id 1xNzgu-000000008it-1MN1;
+	Mon, 02 Nov 2026 21:35:44 +0000
+Date: Mon, 02 Nov 2026 22:34:53 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 20/20]
- fs/fuse/backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202611022212.XB6ehdoC-lkp@intel.com>
+Subject: [android-common:android16-6.12 20/20] ERROR: modpost: module
+ guest_dma_proxy uses symbol dma_buf_export from namespace DMA_BUF, but does
+ not import it.
+Message-ID: <202611022254.ZInXMkFA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,54 +83,115 @@ Precedence: list
 
 tree:   https://android.googlesource.com/kernel/common android16-6.12
 head:   e92b73070f9a9cf42236e34fdc16537c05349f91
-commit: 8be90ef631b70dedc3c43b247aeae296a633dcb2 [20/20] ANDROID: fuse-bpf: fuse-bpf v1.2
-config: arm64-randconfig-r2302-20261102 (https://download.01.org/0day-ci/archive/20261102/202611022212.XB6ehdoC-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 3e5b45eed6c3ec25f4f1cc81ce0be10106a8f31f)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611022212.XB6ehdoC-lkp@intel.com/reproduce)
+commit: 5169763275538844ab830145369bb81f14d261d3 [20/20] ANDROID: guest_dma_proxy: Driver for zero-copy DMA-BUF sharing in guest VMs
+config: i386-randconfig-r2104-20261102 (https://download.01.org/0day-ci/archive/20261102/202611022254.ZInXMkFA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611022254.ZInXMkFA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611022212.XB6ehdoC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611022254.ZInXMkFA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/fuse/backing.c:156:16: sparse: sparse: Using plain integer as NULL pointer
-   fs/fuse/backing.c:314:16: sparse: sparse: Using plain integer as NULL pointer
->> fs/fuse/backing.c:861:48: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/backing.c:861:48: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/backing.c:861:48: sparse:     got int
-   fs/fuse/backing.c:949:59: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __kernel_rwf_t [usertype] flags @@     got int @@
-   fs/fuse/backing.c:949:59: sparse:     expected restricted __kernel_rwf_t [usertype] flags
-   fs/fuse/backing.c:949:59: sparse:     got int
-   fs/fuse/backing.c: note: in included file (through include/linux/alloc_tag.h, include/linux/percpu.h, arch/arm64/include/asm/arch_timer.h, arch/arm64/include/asm/timex.h, ...):
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
->> fs/fuse/backing.c:2097:18: sparse: sparse: Initializer entry defined twice
-   fs/fuse/backing.c:2098:18: sparse:   also defined here
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +156 fs/fuse/backing.c
+WARNING: modpost: vmlinux: memblock_end_of_DRAM: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/ucs2_string.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/md/dm-bow.o
+ERROR: modpost: module nfsv4 uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module nfsv4 uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module nfsv4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module nfsv4 uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module nfsv4 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module binfmt_misc uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module binfmt_misc uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module binfmt_misc uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ext4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ext4 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module coda uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module exfat uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module exfat uses symbol d_rehash from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module autofs4 uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module autofs4 uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module autofs4 uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module fuse uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module fuse uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module fuse uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module fuse uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol __break_lease from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol lock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol unlock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module incrementalfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module gfs2 uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module f2fs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module guest_dma_proxy uses symbol dma_buf_export from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: module guest_dma_proxy uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+ERROR: modpost: module target_core_mod uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module target_core_mod uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
 
-   145	
-   146	void *fuse_open_finalize(struct fuse_bpf_args *fa,
-   147			       struct inode *inode, struct file *file, bool isdir)
-   148	{
-   149		struct fuse_file *ff = file->private_data;
-   150		struct fuse_open_out *foo = fa->out_args[0].value;
-   151	
-   152		if (ff) {
-   153			ff->fh = foo->fh;
-   154			ff->nodeid = get_fuse_inode(inode)->nodeid;
-   155		}
- > 156		return 0;
-   157	}
-   158	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=m] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DP_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_HDA_ALIGNED_MMIO
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDMI_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_HDCP_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n] && (DRM_DISPLAY_HELPER [=n] || GKI_HIDDEN_DRM_CONFIGS [=y])
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 --
 0-DAY CI Kernel Test Service
