@@ -1,98 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.20
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793626197;
-	b=sM1jJz2al8IZzLFTTVhq51M9zo7ZErQi/hHq5osP8lnh0xFbG4n701Fz4wm9MkCFzCKH
-	 KC66InDheT7u2HMVoTkgBqWdF+6RrzWz/APVxLxlFwE3rkqHlv1T8qXZjCyIEq1oC2ybC
-	 fovefp0Sy30/8ZLCWcFsyyzt2jo6PaIyiTLYzcleKN2N8pwDK9JkJK7pT1XVUPWUIZQ85
-	 ruMJY81366IvwWbG4PyvKX8I+3lEG6FTLAq3Ts8Z+A7ULdGqol0aHbwJDOIAxeIQPmDlf
-	 wLDR92HY7zG1XRNiLX8Q6gJyNGxhFjpVZcenla5SAKX2RnEIjo3BCuhCRx4Ci9ZRemw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793626197;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
-	 X-Microsoft-Original-Message-ID:MIME-Version:
-	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=mVGkEPXgW7TveilOTUuRiT+FhAzVYBEkYgifM3slqKQ=;
-	b=My+Gcd++qw8kKnvfBl6jiG24BpfOXHHkrdKk/SZ2gdZducbGS2LF4VwZf7x/VNSFH2H7
-	 GbScC68ht84rPzyibE0HmB7bpxr4TvoQnpVPz1tuCDVN505KPp1xofNDjyAoNtH48jCzj
-	 p4aDcwb9ZB5ByVZHwYhctU9dr74jU1z1uCxafeijYw+MzCHMtHP2ZL53sZcIyqQAypZUk
-	 ZgTtsSbkYjhNvIgrLy6j/Q7/M2nTErSiMZTwF1Y7VKfYb4yctrXrP4mJPAAQw27r+fThQ
-	 l2qIy1B9uBcr33Mp2hNJPGxKc53thOU8AqbgY0eQ6qvDCUXgImmi0NI0rF8NwlfPvTw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.com;
-	spf=pass smtp.mailfrom=outlook.com;
-	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=RMlcfZMH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.20
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azolkn19010020.outbound.protection.outlook.com [52.103.12.20])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793633605;
+	b=s5A5VZTKye+QjxcsjkuX9lI4kW3aQkllEdsWyMIDW6R3SlIyxUXaBvyAb0W2HNiIewJc
+	 +EI66tiLkZpCXmzC5eRt+p7NvKCYrS5axYki6FoThaxvDoBMtLtksAqNLBnedoEmYohKX
+	 brAbJU1s7WxrnweXOUHigeStXeajernrJg/iNueh0qvzaGmHAHZTd94T/ZCgccmEd495t
+	 Fijt5DT0/FsTTOYU8AyM+jRrImcB4ckMgM52nRv3gHwl5h+Y4878rdpQqbwXqxiMlJeao
+	 MGDgTFziZVSCk7wXOQVOK094mmlVGyXQw4vQwGNQVYzEyOxIAOhiAPMYTSwApCOHRrA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793633605;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=lJHoj9lM3k/CRUYNMR+EIgjIhAXFSpH7YrbBAELRZig=;
+	b=qVFHGG+c73NZabKJODB01eD9kS5U/jkp94lc8z5wfWhUSQWR8eX9tX56QNNpssq4wOaM
+	 b4OhXlYTcXEaEV1v7OMgDqKUwlary5dWSJKosOsP9MUIw3kkNi5+mdYYO1XeH3qvRL45e
+	 rC0SkzxNb6rzvVcQYZP3b+etL90G2ESqxOdg7wpul7CBVBsyWOWgV923VUwINLUc3LhcR
+	 YKEYs7dBQVcpQdYYFjXO22DVNUa2UKWbHsRyDaJfynZJ5pgRtQZGp57XmFnsM6uicQLOR
+	 At4PYim2VZkSm61BZHb5sdnZYe2kQLDHGCgJ46tmbRj+YsFY2Y6X4KFa/u2sAQj79hQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZDQKZEOO;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF21606A32F
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 13:29:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AF21606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866B4608A372;
+	Mon,  2 Nov 2026 15:33:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 866B4608A372
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=RMlcfZMH
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WVi7Al+5nEevQbpuktmLhDQoAI/HFForq3oFHD9Dy76sDT1hm4+w/0w6HGcugeOBxRTCmZ5I/wQ0XbptbMIAJFQirPMqCC86HYYJ432o66y9x6BhOnpIQPC+/yvlpC64mIP/IeEiL39sfaI8+ZcAMoxJzuGyWvypfsFU4HN89LGH++3EESPa4BRfMC+9dOfM8ZJbcF0iS8k9BpVNkKphQ82gwSCyJM7vWTu6Q/DXPI5U+MT5ru5cQriZ4bFY0MSQQQ/E5KJszaNq2BKDVal2ONQtO1bhzeIPELvJx/ALUE/ODS48VkA6NxhZTiAahFPrs5Qxx1hxHHLpO4pFYuNeBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mVGkEPXgW7TveilOTUuRiT+FhAzVYBEkYgifM3slqKQ=;
- b=cFgjxz0hIQgRnl7q8m1lw4rnG2c5pBGsSIfkl7CA9rtv0fP634PAbB3eILPfoSbX9uA2EUqG6/HrTm3tOHhyk9EVR65U8MNpiMMabm8YgXCSs1/ZrlNoPhpDuvorhdrbC4nfekDpkE9ovRLAHPhQZbLdWSc8Pb2pz0JRI/jJvxW7fozjT8oTC4iwtm76/0vvm+L5zVM6hhqVAkpf+80MDEunUnAAy74chI5L2UtH8VIjFvzlaxDDKDJMW8Kw6TjAn+G1pnm93aPtlQW3pNa1wK9PKVKRxLXqrcaxwC3KeujMv0HLusDN6A5PlwESVyMdT+2xiHVasFQPKsc80pcUsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mVGkEPXgW7TveilOTUuRiT+FhAzVYBEkYgifM3slqKQ=;
- b=RMlcfZMH4+8+7rA+4YKZo5mzvnfidAbYa6/qice7M78LwLT+26/3O7CnwkP4rP8T9TFSx3qqnHxIiuW3S5CzxidyW+DviBe8rzsoKb3ckL1GjCATu20NLOtFqMKF1RhIdUNK+BBDbbt36JdOKfRBwnDw9B/oGXr4shUorsON9jSR6ACTfbUp6jUsQhdkpaWUt5AyTxk+kWT2CXRCWlM3+XczAwmM51cybteZLgIfgtQXKBnFvsea4xDQOkcNjoEsGFn1yNVtC29SakDPeuOnHrNnZr83h/o5S129gYi/dJnYpexI96cw0gJY56B92CIG6I5b6hCl80OOisDm1w0vSA==
-Received: from SN1PR12MB2528.namprd12.prod.outlook.com (2603:10b6:802:28::33)
- by PH7PR12MB8013.namprd12.prod.outlook.com (2603:10b6:510:27c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Mon, 2 Nov
- 2026 13:29:50 +0000
-Received: from SN1PR12MB2528.namprd12.prod.outlook.com
- ([fe80::9875:58c0:928e:cf0a]) by SN1PR12MB2528.namprd12.prod.outlook.com
- ([fe80::9875:58c0:928e:cf0a%6]) with mapi id 15.21.0569.011; Mon, 2 Nov 2026
- 13:29:50 +0000
-From: Victor Chernyakin <chernyakin.victor.j@outlook.com>
-To: lkp@intel.com
-Cc: andy@kernel.org,
-	chernyakin.victor.j@outlook.com,
-	dlechner@baylibre.com,
-	jic23@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nuno.sa@analog.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 4/4] iio: cdc: add Texas Instruments FDC1004 driver
-Date: Mon,  2 Nov 2026 07:29:38 -0600
-Message-ID:
- <SN1PR12MB2528E19FDEA32D72F1070D75A56A2@SN1PR12MB2528.namprd12.prod.outlook.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <202611021049.CWQj3jvL-lkp@intel.com>
-References: <202611021049.CWQj3jvL-lkp@intel.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH2PR19CA0008.namprd19.prod.outlook.com
- (2603:10b6:610:4d::18) To SN1PR12MB2528.namprd12.prod.outlook.com
- (2603:10b6:802:28::33)
-X-Microsoft-Original-Message-ID:
- <20261102132938.221533-1-chernyakin.victor.j@outlook.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZDQKZEOO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793633604; x=1825169604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/VrAM8d+OBUPZ1t1z41VtwaZT+cQHgFWWxsqB2NaHcw=;
+  b=ZDQKZEOOA7ujE8GmsW+Xrgqy6Cg6kApqoXjcs2FcT1ViQ5Zdge+/3Wf/
+   Z5RjHrGcutWw/QzNhSdWwDL2z73qupDql53BfhUpH/RtnBGYwXMW5wCrk
+   zfu5TFNlGflbKMfMcNx0NbTmzwkyqrw+9qubsWL2TKGbh9b4T3oZdn6or
+   +4QQ2FuCJLTblDbT77FzVfbIPjsABoWOTHNZ/+KbwyKBTwodJvfhA5v0N
+   nunsfKPEAe2RWLSJ1sM8ukkfz/dk2Hm0G/ED+ZoiUO911A2DjQ0CzHU8h
+   psbNaCF0EXMN66WT73ZupWx1YqbXiBicsoQushBJ66BgBvYL9OBetE6ZT
+   Q==;
+X-CSE-ConnectionGUID: oL3YTsLWQom/YtBV+Al9Bw==
+X-CSE-MsgGUID: cgRMFLQGSPGeAYeWrUCgHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2359995"
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="2359995"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 07:33:23 -0800
+X-CSE-ConnectionGUID: 3QG/0HqgRrSehrutwxc9VA==
+X-CSE-MsgGUID: W8dxiBUPSMGsfV3iKeM07w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,191,1787036400"; 
+   d="scan'208";a="7920912"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 02 Nov 2026 07:33:20 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xNu29-00000000hDI-1eW4;
+	Mon, 02 Nov 2026 15:33:17 +0000
+Date: Mon, 2 Nov 2026 23:32:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tung Nguyen <tung.quang.nguyen@est.tech>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, kuba@kernel.org, edumazet@kernel.org,
+	pabeni@redhat.com, jmaloy@redhat.com, horms@kernel.org,
+	tipc-discussion@lists.sourceforge.net,
+	Tung Nguyen <tung.quang.nguyen@est.tech>,
+	syzbot+64197f7577a09686ffdb@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v2 6/6] tipc: fix NULL pointer dereference in
+ named_distribute()
+Message-ID: <202611022356.UddfVq4D-lkp@intel.com>
+References: <20261102034207.10639-7-tung.quang.nguyen@est.tech>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -102,71 +87,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2528:EE_|PH7PR12MB8013:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3b91a13-5d71-4fbf-f505-08df38e55cf1
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|5072599009|23021999003|15080799012|24121999003|24021099003|22091999003|16041099003|8060799015|19110799012|4140399003|25010399006|260925184616899003|3412199025|440099028|26121999007|53005399003|40105399003|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LntuOgoDQ7oF9FPrWgK2CIG5Bi43hlcAYbOoOJZlkbpdbfEK1xwT4DySCCxs?=
- =?us-ascii?Q?PbcNl/gQXR6KsHFrbWL2ovtyRlvJtNqgaPbJEC60+sXPC/o1lUAOxEGdCCA1?=
- =?us-ascii?Q?LgRlZs9To5z9Kp3+Kcq2S2z25nbSXd9l4+kp/Bq8Kp105BK/1bHLjaxMzUYU?=
- =?us-ascii?Q?ubLIP+tWzZAc/UrMlx6gKPZa+UCsXl3+BHZvctXogIYxIbfu4PyAtEminWRy?=
- =?us-ascii?Q?f1TdqqcE7eOIpqg35BpVh76dkOvzhvYoLldcL1zv0xGBxX5STK3tY0dG8Y4W?=
- =?us-ascii?Q?IWTMhu/7RuS0KIXG4/FIG1r4gn/FL+rz8UosyBKXgpi29JULjpMOe0qZt8ux?=
- =?us-ascii?Q?BiOCjvDbRhLs9VflqXK6A6u7FwmUDuaQ2C0hHCZuuaStcXAa/4i0AUzFEXYP?=
- =?us-ascii?Q?i6SVi2hOzrq39MhUus6IR1xk4L9TEsQ6eND+KyhVFAiSwIGoU2yRZTnShcEO?=
- =?us-ascii?Q?2cp9kZ9ANh10erLYCvu3UzXvkPjkwd8wEbofTQ6KBaw33vHApxsVQ4KYy8lQ?=
- =?us-ascii?Q?Q7c+2xepUsNb6sItXL0RNn7LuVqIkiQYeBiBN/GDHZo2dDRQFSwuYhKwC14/?=
- =?us-ascii?Q?SNh28WaMDhCNX1PV8wGAfcCCFS5uAcTo86RGDAipE7NsDxigOVE3DmJGGY2k?=
- =?us-ascii?Q?PNrjK1EnORJqNlejWI+XRQ2pXkFGB1jncD3HE0Xm/IH5/19D+MIwana7BmJH?=
- =?us-ascii?Q?DkodrDzxZdi1+YbOW1m7RpHTOkL1Uzw3Ny7OGHttORKBuzqlADsFEBglX5Bb?=
- =?us-ascii?Q?D+l8ZRULJiNySG+s2utdGdkIVEufmvO3+1mPp+bFwvMIHchINgritLhnibzb?=
- =?us-ascii?Q?qoIYsrlyIXKsPrrPCAUdfZqd5WxD3liTIzp9p69YDBWZi1KqqXlW6XeuUV1B?=
- =?us-ascii?Q?OFLnlZTYrwqrkfc+8GY4EdIAPFCxDWRGRVLXpK0cy6DnSz7sdYy55Y4nwQAf?=
- =?us-ascii?Q?o6ZbW38fBzEp9Ajtw8Ugzarow0iUqlY2G+L5UZ8IRdZo+8ZzF7Ykq2CQgKYO?=
- =?us-ascii?Q?3htO2x4E+7xFxegqysOQxfibJcpOXrNq65Kop8K0ddgc2KjZFXC2g0naoJ+N?=
- =?us-ascii?Q?cuXIDsL8FVdf55vIlqZQBNoYUxLmUXeQR6Tlr1PkQuH4A1SXWes=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+3ZMRyav3GYggzpcC5FQKO660U+DjiK7ZgFn3xBOOF/9ccsjXhM+lBLixS2m?=
- =?us-ascii?Q?XVmjPENXLgRl8DlvsxCu1fMbAu8RCkVObqz1Yd+W8evi/y/IurNarHUXNy/U?=
- =?us-ascii?Q?2YWXfPykZryiizAPI+SLwuUYHRW6FJPARlnuqliBxlUpZQnaZ0DJ2Qj+O+/e?=
- =?us-ascii?Q?S2ZtHbi6oosIqUCTWf4F2XJYOa/EJ08SH8gA7kxuy1HM6kmQ4qxnVMEWoJ3m?=
- =?us-ascii?Q?lGAf0UPKqs0g4vXtWqyXHT7rnuPhet17eFo7+PX6etyRWH24G0ECpPHKDwXo?=
- =?us-ascii?Q?9p+n0TjBwr1FwKnZxcODw09ee/KemoT/TgWsjc4JAJkouhigCvRoO2pfCvXn?=
- =?us-ascii?Q?s3cKG9mk6gRlI0BKvxZ+DLzB3EVce5j2qH7rPYsmhbxdFPHP1/1lRngPbxcL?=
- =?us-ascii?Q?N+HZRiIDW1TS5k/aO6EeewJssZufCorCCh+jJO4x3vB4kZ34CktSIZ1vxdzz?=
- =?us-ascii?Q?krUG+nLW+FhJrA086pICZu0urWUWbQ/WhTKMEQKiGfhQ18WBHY54zMK31OXm?=
- =?us-ascii?Q?1Gts18dwAlI+BCsYAl18uBhJfipRdTplt2rJdM/HDniHdO+p4wJWjskwNy3C?=
- =?us-ascii?Q?hhOQmvhImo2OXbuKuX94RaJ/Bi3NNcuI6YnDy/S6VWCrfEnr1r5U/qrf1Jj5?=
- =?us-ascii?Q?ChoK+dKv2ZXxGCRomsdbWSwRJXzr/R8cqMg6gTOKdHEXX25R6Jyoi74IdoAS?=
- =?us-ascii?Q?ATg3YbzFBEEj6dfJt4/iCm6tTQdemzvLMti53pBjQRrBnqNRkYSQEH7QWeMf?=
- =?us-ascii?Q?m2DIN2VpjrVpG0Zg3SxznqPS9MkHOgMo7FDbDgSFw67KBI2q71poxmyKAH+x?=
- =?us-ascii?Q?yQ23ENPG7p8S/V5ZfTtioxJF2EtIaE+52fk/shsGb3EW+fzQSsLi2ULQkVTm?=
- =?us-ascii?Q?ms1QILYOR9XWuaLsdQ6RXUFQfUS1kZ9AA+pO3GZZqVfik+lYCpWUzetNTagW?=
- =?us-ascii?Q?50V72PPmbilOSI8roVk2blkV83wxTPGPyZQ+paOphf7fu8O369hqtUOWsNsA?=
- =?us-ascii?Q?V7HZ/9gxux3Qy1M3IKP7bA2zJks8B3QKx3TONClX+lttj2TLAw1yn+2G+GM/?=
- =?us-ascii?Q?Nj7N4XUp16H0geeNL2G/3fbVcvszFa2z5E1UnF83FlftN/5ZYfID0jBpG05S?=
- =?us-ascii?Q?woWqYwzfkyEqh1BoVJmkmJNeNb4COuBErNrmAKc6ogKjQ+cvZW/ce42Xahyg?=
- =?us-ascii?Q?w2JSjJ8g4b2O5BUJ/TENAMJVH5XHTxiLG9bFUe/WhBaMHQphsjeJ2PimG4B5?=
- =?us-ascii?Q?hTIIlwkDA4VjpCwSk91qmh5BSwAicEhWJJ8OnZNF/ZePBUDP3aBIZ+FT4fbu?=
- =?us-ascii?Q?tum/eBAPQZWWipUwML00Vu7b+jI5GjpjH4q/MPP24zCrwL5mXJbD4WllryIs?=
- =?us-ascii?Q?aUB0XUor6yz/BIHmOQwplVkgrMMwpuZcsa60Jf4dhd2Y/RXEaA=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3b91a13-5d71-4fbf-f505-08df38e55cf1
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2528.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2026 13:29:50.0978
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8013
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102034207.10639-7-tung.quang.nguyen@est.tech>
 
-> >> ERROR: modpost: drivers/iio/cdc/fdc1004.ko: symbol '__udivdi3' undefined!
-> >> ERROR: modpost: drivers/iio/cdc/fdc1004.ko: symbol '__divdi3' undefined!
+Hi Tung,
 
-math64.h to the rescue...
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tung-Nguyen/tipc-fix-memory-leak-in-tipc_node_xmit/20261102-104027
+base:   net/main
+patch link:    https://lore.kernel.org/r/20261102034207.10639-7-tung.quang.nguyen%40est.tech
+patch subject: [PATCH net v2 6/6] tipc: fix NULL pointer dereference in named_distribute()
+config: sparc64-randconfig-1001-20261102 (https://download.01.org/0day-ci/archive/20261102/202611022356.UddfVq4D-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611022356.UddfVq4D-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611022356.UddfVq4D-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> net/tipc/net.c:147:6: warning: variable 'p' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     147 |         if (!tn->nt_self_node_exist)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   net/tipc/net.c:150:6: note: uninitialized use occurs here
+     150 |         if (p || err == -EEXIST)
+         |             ^
+   net/tipc/net.c:147:2: note: remove the 'if' if its condition is always true
+     147 |         if (!tn->nt_self_node_exist)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     148 |                 p = tipc_nametbl_insert(net, &ua, &sk, addr, &skb, &err);
+   net/tipc/net.c:132:23: note: initialize the variable 'p' to silence this warning
+     132 |         struct publication *p;
+         |                              ^
+         |                               = NULL
+   1 warning generated.
+
+
+vim +147 net/tipc/net.c
+
+   125	
+   126	static void tipc_net_finalize(struct net *net, u32 addr)
+   127	{
+   128		struct name_table *nt = tipc_name_table(net);
+   129		struct tipc_socket_addr sk = {0, addr};
+   130		struct tipc_net *tn = tipc_net(net);
+   131		struct sk_buff *skb = NULL;
+   132		struct publication *p;
+   133		struct tipc_uaddr ua;
+   134		u32 rc_dests;
+   135		int err = 0;
+   136	
+   137		tipc_uaddr(&ua, TIPC_SERVICE_RANGE, TIPC_CLUSTER_SCOPE,
+   138			   TIPC_NODE_STATE, addr, addr);
+   139	
+   140		if (cmpxchg(&tn->node_addr, 0, addr))
+   141			return;
+   142		tipc_set_node_addr(net, addr);
+   143		tipc_named_reinit(net);
+   144		tipc_sk_reinit(net);
+   145		tipc_mon_reinit_self(net);
+   146		spin_lock_bh(&tn->nametbl_lock);
+ > 147		if (!tn->nt_self_node_exist)
+   148			p = tipc_nametbl_insert(net, &ua, &sk, addr, &skb, &err);
+   149	
+   150		if (p || err == -EEXIST)
+   151			tn->nt_self_node_exist = true;
+   152		rc_dests = nt->rc_dests;
+   153		spin_unlock_bh(&tn->nametbl_lock);
+   154	
+   155		if (skb)
+   156			tipc_node_broadcast(net, skb, rc_dests);
+   157	}
+   158	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
