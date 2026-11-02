@@ -1,62 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793577275;
-	b=snUDxDzlkuFcu8YF0nWr4zv3heT80ZqZfjWGv3/lBfzu8XTRIB5g0O+9tEJTk69o3uID
-	 0P6Np9S2BNMqnIhJkdoeC06gnrNOturETPGgpp9NLCWQsrGcAsp33jZX7NR1gG94DPJcu
-	 A9rjng4QpQIvEARfxKNysSDhLfDfVQjnYWOgq1eVI+VkztadaEmr8vMSe1Yazeatdy3d6
-	 CaG5e2oLtJDSjW0QwVl9Us1vXoLJt0p9wR7L6+bhQwx2F4KhDrJxJa65nEz20NHAPg0wC
-	 Sex8FXSmuXaCDVZVmvQjuixLFX/4AGBRKvZm0Z9A+FeAKrYFG4esFMiGC5Kb6U38ZeQ==
+	t=1793578685;
+	b=2hQIBF8dirzGiEHxUv3uxtseRRiJJMTUmG4sqglFw3VHQs4P2xiv/VMx6mdK9ddudil9
+	 sFp4qRJl6kjCb0PMufR/qa2tTat0qDK314IYfCV0xGwn1WakEVVF+1eTY53/bOFLGhveM
+	 hh7t0cy5kfuWoM/jy5rCPFzzvStGP5D+7EEyG2LU1mVnyZQg9ooHsVfizhKjVi82R3EVz
+	 9ae1uwqInzWZVa7bUpN/L7Bz9Anatg8Kqs3/xcq2Zvu/rD5m6CGhgt2VmZJ4Eroa2s1Jt
+	 qdEMx9t87lCLrz2C7ex6Ne4Y6Ig7NVhrrMXltYRYjA6ibfIOTRhSZSRyeaEDySBIqDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793577275;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793578685;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Date:From:To:cc:Subject:Message-ID:
-	 MIME-Version:Content-Type;
-	bh=BlqBpaBiBIH3lx9LCXT9bYsm6eEmk51QgXtyvSdnxRE=;
-	b=DAcA3xEiXfUu4lJnHzk8AR5DqmfKhmLP1c8Ca3YL3huGksVxJJwXpzw9UX0+ZU9Y4s6D
-	 YOX3jtvr3WutKlQtW03fBJ4LKBTcw/sHtubCEPoiNaS0JEvHGhlDjLUyYKKg0S39yoZWa
-	 Ey9e8/ucZvbfNHKwY/YbDgjq4/JbMIIP9ipKEKvj/7ZAxFXOnJw7KDDPrU8yvvxw1+p2b
-	 pQWrfptbZsSh9QBqebs1tAMXjMKNoPQlpLGSsWgSF7Vbt2mqcHDz0YQCT2hV+nybMYSGR
-	 SGEPxzX9w1L6qGlSFMNPe265oPrHM6FDgO4nEeiOVXJPxg1hCMUcIjdgfV64tCz2Pxw==
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=62l5yXEU/hSWQcMxM+Q94ToA/D3bbiEgCPLf2ItklzY=;
+	b=wgVAFDn86ifWKsKpIsvIzhmDPgBUbGArZqo6o3f/rW0772gZ5E7yr3SzC3DweOiFITlM
+	 4e1ijj1iHxm9WlpIlv1zCrl6bKAZnGEkSyhv/8uEsGzu1g5jlpw+Rllesz0OxhNKuHkYo
+	 Uio0mkHMHk4Ue6v+mSaZC1lOXTmTaD+d2l6ex7MGY93FlJ3i6JAFoy344xE3062qGsadL
+	 E3Yz2MZHdo2e0rwx8YNuRcZeLV4Xi4VxCx9ZQaT3Hb+WYDbxk4nsXDy529OpfZ9tA8rWP
+	 Ox261h7ajhaQ363iIkgKxJEpX3lCo8+4rrYBVx5lmW+offBI1iI8u8e+x1AQpWTt2ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=inria.fr;
-	spf=pass smtp.mailfrom=inria.fr;
-	dkim=pass header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b="hXM26/to";
-	arc=none smtp.remote-ip=192.134.164.83
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XqFXBlOS;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7AC606A324
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Nov 2026 23:54:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF7AC606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F9E606A324
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 00:18:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46F9E606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=inria.fr header.i=@inria.fr header.a=rsa-sha256 header.s=dc header.b=hXM26/to
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BlqBpaBiBIH3lx9LCXT9bYsm6eEmk51QgXtyvSdnxRE=;
-  b=hXM26/toW/dGBf8YdPcVB8v1CmTt3tQYL4Nk9ZIAB+Wd1KIRUgXXbIDR
-   Q9NVch7ziYUX8zSunSDAB6W1Ua9j+0DtBRbG6QTmfYxNqx8z/5IUU+cAB
-   VFttaM4t7h0nCnn23XD6dymTUMC4rxVY3iG1TX9n7wU0vGhfi0Q4cSFnf
-   4=;
-X-CSE-ConnectionGUID: 7Vm0An2ETui3fCCnKWyczw==
-X-CSE-MsgGUID: E/l8+JRzSWC0WBlBdEXO9g==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.27,190,1787004000"; 
-   d="scan'208";a="303236812"
-Received: from 88-188-149-159.subs.proxad.net (HELO hadrien.home) ([88.188.149.159])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 00:54:32 +0100
-Date: Mon, 2 Nov 2026 00:54:31 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-cc: Andrew Morton <akpm@linux-foundation.org>, 
-    Linux Memory Management List <linux-mm@kvack.org>, 
-    Suren Baghdasaryan <surenb@google.com>, linux-kernel@vger.kernel.org, 
-    oe-kbuild-all@lists.linux.dev
-Subject: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write()
- has stream semantic; safe to change nonseekable_open -> stream_open. (fwd)
-Message-ID: <f887f7b3-b72c-99d2-8dbf-96cbd83774bf@inria.fr>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XqFXBlOS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793578683; x=1825114683;
+  h=date:from:to:cc:subject:message-id;
+  bh=L5T9gk8VC7BmOW+gj5JsYA6WhOgXDEfKOBw92sScgH0=;
+  b=XqFXBlOSZQ02AuNoK9jopQU2DsQ8HK8VsuBOl9WTBFf0VlOjBZeAEldv
+   RTFSOrf5skclIOt77t6nb3BbyNfdpdPj8StKRf4+l02MZj0WWQpfp6A1I
+   wNVsi7uvgdxRyBsHaUz6EZQ4ykuM/Ds73pDD261YEgPMGvnQiy+gYPHwC
+   gm959apqQV6/dTZyA8mOe44Azh0jjmkgyH0IlFOtsD7EnbDnoZxLtaosC
+   A+3v7L55rVL2maglGN848Pfff1TTKumJlzpkD85wm64g9ICHKOGgO2ooK
+   An+JqAVJnUda81jS5jfGkLg3uOR+U3/uArWM+1eHWQZHW5L+eq7Xevo13
+   Q==;
+X-CSE-ConnectionGUID: S2APTiWCQDKab7yQrDkXWQ==
+X-CSE-MsgGUID: 6E/f03CMQkC5lr6wpqMTig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11953"; a="2258055"
+X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
+   d="scan'208";a="2258055"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2026 16:18:02 -0800
+X-CSE-ConnectionGUID: lpPxy2GORziKK01di5t1lA==
+X-CSE-MsgGUID: oWwyQX8ySDmZXqCBUTlNoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,190,1787036400"; 
+   d="scan'208";a="5958285"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 01 Nov 2026 16:18:01 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xNfkM-00000000g7Q-2eOX;
+	Mon, 02 Nov 2026 00:17:58 +0000
+Date: Mon, 02 Nov 2026 08:17:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-2026-04 0/5]
+ fs/fuse/dir.c:365:13: warning: 'fuse_dentry_release' defined but not used
+Message-ID: <202611020848.miLSJWLD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -65,92 +79,104 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-just forwarding.  I don't know anything about this issue.
-
-julia
-
----------- Forwarded message ----------
-Date: Mon, 02 Nov 2026 00:48:49 +0100
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has
-    stream semantic; safe to change nonseekable_open -> stream_open.
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Suren Baghdasaryan <surenb@google.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-commit: b0085cb94d2477787f4197a3000e33aabf3d48fc stm: replace deprecated mmap hook with mmap_prepare
-date:   7 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 7 months ago
-config: mips-randconfig-r2106-20261101 (https://download.01.org/0day-ci/archive/20261102/202611020009.xkUfJUpm-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8f6b51ca8bab1d49006ddaa042bc7e4e7306975d)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-04
+head:   ec466d24ad7b3c4a3d9875354a48e8cd2b4e1ed4
+commit: be926e6761d28d105ba672242e81e911e0d7e5e0 [0/5] ANDROID: fuse-bpf: fuse-bpf v1.3
+config: i386-randconfig-1009-20261102 (https://download.01.org/0day-ci/archive/20261102/202611020848.miLSJWLD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261102/202611020848.miLSJWLD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: b0085cb94d24 ("stm: replace deprecated mmap hook with mmap_prepare")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202611020009.xkUfJUpm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611020848.miLSJWLD-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/hwtracing/stm/core.c:509:8-24: WARNING: stm_fops: .write() has stream semantic; safe to change nonseekable_open -> stream_open.
+All warnings (new ones prefixed by >>):
 
-vim +509 drivers/hwtracing/stm/core.c
+>> fs/fuse/dir.c:365:13: warning: 'fuse_dentry_release' defined but not used [-Wunused-function]
+     365 | static void fuse_dentry_release(struct dentry *dentry)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> fs/fuse/dir.c:358:12: warning: 'fuse_dentry_init' defined but not used [-Wunused-function]
+     358 | static int fuse_dentry_init(struct dentry *dentry)
+         |            ^~~~~~~~~~~~~~~~
 
-c7fd62bc69d022 Alexander Shishkin 2018-10-05  484
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  485  static int stm_char_open(struct inode *inode, struct file *file)
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  486  {
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  487  	struct stm_file *stmf;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  488  	struct device *dev;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  489  	unsigned int major = imajor(inode);
-a0ebf519b8a266 Johan Hovold       2016-11-18  490  	int err = -ENOMEM;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  491
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  492  	dev = class_find_device(&stm_class, NULL, &major, major_match);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  493  	if (!dev)
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  494  		return -ENODEV;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  495
-bf4afc53b77aea Linus Torvalds     2026-02-21  496  	stmf = kzalloc_obj(*stmf);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  497  	if (!stmf)
-a0ebf519b8a266 Johan Hovold       2016-11-18  498  		goto err_put_device;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  499
-a0ebf519b8a266 Johan Hovold       2016-11-18  500  	err = -ENODEV;
-cde4ad8368840e Alexander Shishkin 2016-02-15  501  	stm_output_init(&stmf->output);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  502  	stmf->stm = to_stm_device(dev);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  503
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  504  	if (!try_module_get(stmf->stm->owner))
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  505  		goto err_free;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  506
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  507  	file->private_data = stmf;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  508
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22 @509  	return nonseekable_open(inode, file);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  510
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  511  err_free:
-a0ebf519b8a266 Johan Hovold       2016-11-18  512  	kfree(stmf);
-a0ebf519b8a266 Johan Hovold       2016-11-18  513  err_put_device:
-f7c81c7176c72c Alexander Shishkin 2016-02-15  514  	/* matches class_find_device() above */
-f7c81c7176c72c Alexander Shishkin 2016-02-15  515  	put_device(dev);
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  516
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  517  	return err;
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  518  }
-7bd1d4093c2fa3 Alexander Shishkin 2015-09-22  519
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for INTEL_SCU
+   Depends on [n]: X86_PLATFORM_DEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
-:::::: The code at line 509 was first introduced by commit
-:::::: 7bd1d4093c2fa37d1ecab05da3c9d48ea2af2264 stm class: Introduce an abstraction for System Trace Module devices
 
-:::::: TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+vim +/fuse_dentry_release +365 fs/fuse/dir.c
+
+e5e5558e923f35 Miklos Szeredi     2005-09-09  356  
+be926e6761d28d Paul Lawrence      2021-12-02  357  #if BITS_PER_LONG < 64 || defined(CONFIG_FUSE_BPF)
+f75fdf22b0a847 Miklos Szeredi     2016-10-01 @358  static int fuse_dentry_init(struct dentry *dentry)
+f75fdf22b0a847 Miklos Szeredi     2016-10-01  359  {
+be926e6761d28d Paul Lawrence      2021-12-02  360  	dentry->d_fsdata = kzalloc(sizeof(struct fuse_dentry),
+dc69e98c241e14 Khazhismel Kumykov 2019-09-17  361  				   GFP_KERNEL_ACCOUNT | __GFP_RECLAIMABLE);
+f75fdf22b0a847 Miklos Szeredi     2016-10-01  362  
+f75fdf22b0a847 Miklos Szeredi     2016-10-01  363  	return dentry->d_fsdata ? 0 : -ENOMEM;
+f75fdf22b0a847 Miklos Szeredi     2016-10-01  364  }
+f75fdf22b0a847 Miklos Szeredi     2016-10-01 @365  static void fuse_dentry_release(struct dentry *dentry)
+f75fdf22b0a847 Miklos Szeredi     2016-10-01  366  {
+be926e6761d28d Paul Lawrence      2021-12-02  367  	struct fuse_dentry *fd = dentry->d_fsdata;
+be926e6761d28d Paul Lawrence      2021-12-02  368  
+
+:::::: The code at line 365 was first introduced by commit
+:::::: f75fdf22b0a84702d1b72fc1ccd53dcdde121c16 fuse: don't use ->d_time
+
+:::::: TO: Miklos Szeredi <mszeredi@redhat.com>
+:::::: CC: Miklos Szeredi <mszeredi@redhat.com>
 
 --
 0-DAY CI Kernel Test Service
