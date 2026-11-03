@@ -1,81 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793683352;
-	b=DOIA9WOzfnfKkjCdKUVDyV9dmIi1i6y9BRodEypKWKomAShmu6ID4DlKd4rbYreoWHJK
-	 2p1IREvFYv3P3HsLOorYPP2s65pagks4+O3GmLdZoM0jhdOyzkdiZTbrdvVKZjr8yHCMU
-	 65AxkNGIyxhlYTWk3+UVKX/QzKYXvUBwtvjSkWQZ3inhGM/d2VfuLPCjQdoLn6ynkLWBt
-	 b34jpvCRoBk3dfQm6s1erpCcDX349EPSWSYSgnPnrKnCFeOoJCbyfj5iHQUtiuzbH/2Zh
-	 IwwswzIxAaLc8uD41G5By/3Po/zkJaBe/p3DNLPzIPVk5LIaoMKeDM5wIBzJCtDw/fg==
+	t=1793684011;
+	b=tERKeZ1D5fsMevMgDAQoQO0Mbn2GRYy/4WBzdcncLWkExKTEMIB3AbKHqAQFqdNKES+6
+	 LNojpsZarcrmTJ36DcyoE5J0h64LtTmmzxRdMWX2o9pJT5dyuiMnjr6LuYPWZw2ups/DX
+	 qh2DQjyuvIERVnSAk9OWQaZ1RtKQ78MkTjrtP+B5WZ4LBhOVUGftCs/a7xQUVW3R8gVl8
+	 mIs34jrwYmtTz2BQcY25zoG8wvSod1ls4ayU5X69Q42GNlSvH+UHaDC4S5mc77zXOx7nF
+	 8Bvu7ojFsET6MwqLQYaDmV9xP3tsr9SRlF6jUVvMb6f/Kh7jKsytDoWeASNQ1Yasqmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793683352;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793684011;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=cXrwTRaFh730XU9FBjkOIkE8uahxHCf45WfqpSbWrTY=;
-	b=Hq9FvhXsnuVtUiGXy6XlCgRvW3BipEji/kYxhvzRNdugqRIvXeSzprW6eCcZm/hmVA27
-	 O3/1csc2RVh8h6iVKP7dysJHdrc+7aNtN0rBwDOq4TN1OB2XiDEVd+sXt6zyHv4D8OmqB
-	 I5RB663OmjKC81SZM6Reo8QXQRkSB+QvZijj0xYQD1Fc+Yct3fs+quvm1FkSGyG+iyh3r
-	 Vyeqa/rB6pgzClUg6kRw09WEtLS6UZrxMjhJAeg0ynhSau8SAAabnpufEpwDZio0a3bTz
-	 iIgc5phSZqv3HhA1dtro4fIITIksxa05mWQephmg5oksiPo12wGk5M6/gFl+H5Dr8eg==
+	bh=GPQv9d4v2+DdHMJf2niE+bCjVsbkqCbMKPqMpXkrQas=;
+	b=ntSIyQ2NtrT5HIPqpQkaLTmWl96ne1gdqSsOg4nhBhM4pvsGfhwVj1Jf12PHioI8wpFO
+	 mdNtFHtgdLZeUAJfBJjQYsEUYz6ZknwPVpWD3mksI4OZWNZhl4gl4BFU5hfjqAFBSX6RI
+	 6i2b52R0weH1ed+C4gBWRbVIX0SywWlsKCF4nUvZziGkiJvdbHfzAe3iDqCLJKp30Wp4X
+	 7pQXlxw8nchEhaCUG3VnaEwDe14NUeUGhP/9jmInwTcv7KYh2iuT24WjGLYEKFS5jBOqN
+	 7xF/Ix5hGQVvbjin9+I//3fsJrwKPUVi035d7JZGyUu/Y2aa5BvLNVVZJIuGDirK8tA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b+OLuOjC;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OBZxnId0;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF482606A324;
-	Tue,  3 Nov 2026 05:22:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF482606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4099606A324
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 05:33:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4099606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b+OLuOjC
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OBZxnId0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793683350; x=1825219350;
+  t=1793684011; x=1825220011;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bMatKSt4uMBT5J2fCIlLezQmGdMHSyDkTfNuNe6/7NE=;
-  b=b+OLuOjCHEXnCtpFxZ6xV+8I9IcVrudOsS561jxeWMrbyS+VJhb7Su2Y
-   bDJmF2Dk8yz4IQPQnM9WBQASNoy5D8nyucE5E87WHAziVrJt9Nk1xvR2F
-   CBCGK4FlOOExGjsjZUUVpTzZyRfM+OHO+7336Ve5UhuQFGgt68HxbtVjk
-   sBrT1SZwlnGgSOsk88VJN2giUzcdiBWVBMDQOHShYabFFHucRpvG6IamM
-   AuAToaaJQKXR+ggi94bdEmxic4IZDwr4t7Z1AEOWs7DJkA3BRSokk0hwS
-   RyeN6fg0b+P/kFCbnLrhioebLK286vC5laSM9BH1OYj/cr/BrZR27YcHD
-   g==;
-X-CSE-ConnectionGUID: O+j5DFIZT3KUh8vDm0pLxg==
-X-CSE-MsgGUID: rQCAR35QTVC+5wR0A2qpnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2283395"
+  bh=5i6V1+LWXFZr8vQ57G38KargIf4puyKxikcg170D+V0=;
+  b=OBZxnId0lCLg2dDS4nLGDmQnK31QfIAI+GHFvNqfhIuu/hH9I/ZSFWtV
+   7uJgdIgKh0WW0h8DX2iJ8rq3Fft0qdMgYmfc1SYYlK1pruCHspuXafBAj
+   9EpAhLloFWcMip+hyMqZHsFYekl7oa9gxfjxpeIAxFmE40Fp0aC3rHvO7
+   kl7HDfIEO4XWgASLe7v0X/jM6A0fXyPgkpOL/nu3NP+fouVFn8/9OX3dr
+   2mls4rMM9cct4YmVt7vschPhB1BDe7mevrwvIIA7ANTeChnbUReZUsOHZ
+   va1cW1jV8khjoR99lVW+fx5He38OVzdW5K4YrVAotVdh7nuJeg0RW8vEu
+   w==;
+X-CSE-ConnectionGUID: h0DdOt9JRPKq3+2tOE+t0g==
+X-CSE-MsgGUID: OVzXYr+tTAaziZziAHBjKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2285397"
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2283395"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 21:22:30 -0800
-X-CSE-ConnectionGUID: ZmmZyUYuR8GtXBR9RhPIBw==
-X-CSE-MsgGUID: nPEiGOL7TayBCbJ9Tfahvw==
+   d="scan'208";a="2285397"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 21:33:30 -0800
+X-CSE-ConnectionGUID: KC1wjFZERwq9d/LEymTmBA==
+X-CSE-MsgGUID: z43wWJryQpaY1orOGZ+1aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6180891"
+   d="scan'208";a="6647964"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 Nov 2026 21:22:27 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Nov 2026 21:33:28 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xO6yW-00000000iKO-2rOm;
-	Tue, 03 Nov 2026 05:22:24 +0000
-Date: Tue, 3 Nov 2026 13:22:01 +0800
+	id 1xO79B-00000000iKu-2JuI;
+	Tue, 03 Nov 2026 05:33:25 +0000
+Date: Tue, 3 Nov 2026 13:32:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oxana Kharitonova <webprosto@gmail.com>, mic@digikod.net,
-	brauner@kernel.org, viro@zeniv.linux.org.uk, gnoack@google.com,
-	utilityemal77@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-security-module@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, webprosto@gmail.com,
-	landlock@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] Landlock: Add POSIX message queue scoping
-Message-ID: <202611031330.RRP6ch5h-lkp@intel.com>
-References: <20261102144708.920232-4-webprosto@gmail.com>
+To: Nehuen Lian Bova <nehuenlian.kernel@gmail.com>, jikos@kernel.org,
+	bentiss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nehuen Lian Bova <nehuenlian.kernel@gmail.com>
+Subject: Re: [PATCH v2] HID: wacom: replace sprintf calls with safer
+ alternatives
+Message-ID: <202611031325.X7t40TAw-lkp@intel.com>
+References: <20261101054830.291749-1-nehuenlian.kernel@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,108 +87,113 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102144708.920232-4-webprosto@gmail.com>
+In-Reply-To: <20261101054830.291749-1-nehuenlian.kernel@gmail.com>
 
-Hi Oxana,
+Hi Nehuen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on shuah-kselftest/next]
-[also build test ERROR on linus/master next-20261030]
-[cannot apply to shuah-kselftest/fixes trace/for-next brauner-vfs/vfs.all v7.3]
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v7.3 next-20261030]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Oxana-Kharitonova/ipc-Move-MQUEUE_MAGIC-to-a-shared-header/20261102-144557
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20261102144708.920232-4-webprosto%40gmail.com
-patch subject: [PATCH v2 3/4] Landlock: Add POSIX message queue scoping
-config: nios2-randconfig-1000-20261103 (https://download.01.org/0day-ci/archive/20261103/202611031330.RRP6ch5h-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031330.RRP6ch5h-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nehuen-Lian-Bova/HID-wacom-replace-sprintf-calls-with-safer-alternatives/20261101-024830
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20261101054830.291749-1-nehuenlian.kernel%40gmail.com
+patch subject: [PATCH v2] HID: wacom: replace sprintf calls with safer alternatives
+config: parisc-randconfig-1001-20261103 (https://download.01.org/0day-ci/archive/20261103/202611031325.X7t40TAw-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031325.X7t40TAw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611031330.RRP6ch5h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611031325.X7t40TAw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   security/landlock/task.c: In function 'landlock_check_posix_mqueue_open':
-   security/landlock/task.c:579:18: error: 'struct landlock_request' has no member named 'other_domain_id'
-     579 |                 .other_domain_id = creator_domain ? creator_domain->hierarchy->id : 0,
-         |                  ^~~~~~~~~~~~~~~
->> security/landlock/task.c:579:78: error: 'struct landlock_hierarchy' has no member named 'id'
-     579 |                 .other_domain_id = creator_domain ? creator_domain->hierarchy->id : 0,
-         |                                                                              ^~
+   drivers/hid/wacom_sys.c: In function '__wacom_initialize_battery':
+>> drivers/hid/wacom_sys.c:1842:37: error: passing argument 2 of 'snprintf' makes integer from pointer without a cast [-Wint-conversion]
+    1842 |         snprintf(battery->bat_name, "wacom_battery_%ld", n);
+         |                                     ^~~~~~~~~~~~~~~~~~~
+         |                                     |
+         |                                     char *
+   In file included from include/linux/kernel.h:32,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/interrupt_rc.h:18,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:17,
+                    from include/linux/hid.h:19,
+                    from drivers/hid/wacom_wac.h:7,
+                    from drivers/hid/wacom_sys.c:6:
+   include/linux/sprintf.h:13:47: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'char *'
+      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+         |                                        ~~~~~~~^~~~
+>> drivers/hid/wacom_sys.c:1842:58: error: passing argument 3 of 'snprintf' makes pointer from integer without a cast [-Wint-conversion]
+    1842 |         snprintf(battery->bat_name, "wacom_battery_%ld", n);
+         |                                                          ^
+         |                                                          |
+         |                                                          long unsigned int
+   include/linux/sprintf.h:13:65: note: expected 'const char *' but argument is of type 'long unsigned int'
+      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+         |                                                     ~~~~~~~~~~~~^~~
 
 
-vim +579 security/landlock/task.c
+vim +/snprintf +1842 drivers/hid/wacom_sys.c
 
-   528	
-   529	/**
-   530	 * landlock_check_posix_mqueue_open - Deny opening a POSIX message queue
-   531	 * created by a task from a different (non-ancestor) domain
-   532	 *
-   533	 * @file: The mqueuefs file being opened.
-   534	 *
-   535	 * Return: -EPERM if the open must be denied, 0 otherwise.
-   536	 */
-   537	int landlock_check_posix_mqueue_open(struct file *const file)
-   538	{
-   539		const struct inode *const inode = file_inode(file);
-   540		const struct landlock_cred_security *subject;
-   541		struct landlock_object *object;
-   542		struct landlock_domain *creator_domain = NULL;
-   543		bool is_scoped;
-   544		size_t handle_layer;
-   545	
-   546		if (!landlock_is_posix_mqueue_inode(inode))
-   547			return 0;
-   548	
-   549		subject = landlock_get_applicable_subject(
-   550			file->f_cred, posix_mqueue_scope, &handle_layer);
-   551		if (!subject)
-   552			return 0;
-   553	
-   554		rcu_read_lock();
-   555		object = rcu_dereference(landlock_inode(inode)->object);
-   556		/* The temporary reference protects against concurrent object release. */
-   557		if (object && !refcount_inc_not_zero(&object->usage))
-   558			object = NULL;
-   559		rcu_read_unlock();
-   560	
-   561		if (object) {
-   562			spin_lock(&object->lock);
-   563			creator_domain = object->domain;
-   564			landlock_get_domain(creator_domain);
-   565			spin_unlock(&object->lock);
-   566		}
-   567	
-   568		/* Untagged queues were created outside any Landlock domain. */
-   569		is_scoped = domain_is_scoped(subject->domain, creator_domain,
-   570					     LANDLOCK_SCOPE_POSIX_MSG_QUEUE);
-   571		if (!is_scoped) {
-   572			landlock_put_domain_deferred(creator_domain);
-   573			landlock_put_object(object);
-   574			return 0;
-   575		}
-   576	
-   577		landlock_log_denial(subject, &(struct landlock_request) {
-   578			.type = LANDLOCK_REQUEST_SCOPE_POSIX_MSG_QUEUE,
- > 579			.other_domain_id = creator_domain ? creator_domain->hierarchy->id : 0,
-   580			.audit = {
-   581				.type = LSM_AUDIT_DATA_FILE,
-   582				.u.file = file,
-   583			},
-   584			.layer_plus_one = handle_layer + 1,
-   585		});
-   586		landlock_put_domain_deferred(creator_domain);
-   587		landlock_put_object(object);
-   588		return -EPERM;
-   589	}
-   590	
+  1820	
+  1821	static int __wacom_initialize_battery(struct wacom *wacom,
+  1822					      struct wacom_battery *battery)
+  1823	{
+  1824		static atomic_t battery_no = ATOMIC_INIT(0);
+  1825		struct device *dev = &wacom->hdev->dev;
+  1826		struct power_supply_config psy_cfg = { .drv_data = battery, };
+  1827		struct power_supply *ps_bat;
+  1828		struct power_supply_desc *bat_desc = &battery->bat_desc;
+  1829		unsigned long n;
+  1830		int error;
+  1831	
+  1832		if (!devres_open_group(dev, bat_desc, GFP_KERNEL))
+  1833			return -ENOMEM;
+  1834	
+  1835		battery->wacom = wacom;
+  1836	
+  1837		n = atomic_inc_return(&battery_no) - 1;
+  1838	
+  1839		bat_desc->properties = wacom_battery_props;
+  1840		bat_desc->num_properties = ARRAY_SIZE(wacom_battery_props);
+  1841		bat_desc->get_property = wacom_battery_get_property;
+> 1842		snprintf(battery->bat_name, "wacom_battery_%ld", n);
+  1843		bat_desc->name = battery->bat_name;
+  1844		bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
+  1845		bat_desc->use_for_apm = 0;
+  1846	
+  1847		ps_bat = devm_power_supply_register(dev, bat_desc, &psy_cfg);
+  1848		if (IS_ERR(ps_bat)) {
+  1849			error = PTR_ERR(ps_bat);
+  1850			goto err;
+  1851		}
+  1852	
+  1853		power_supply_powers(ps_bat, &wacom->hdev->dev);
+  1854	
+  1855		battery->battery = ps_bat;
+  1856	
+  1857		devres_close_group(dev, bat_desc);
+  1858		return 0;
+  1859	
+  1860	err:
+  1861		devres_release_group(dev, bat_desc);
+  1862		return error;
+  1863	}
+  1864	
 
 --
 0-DAY CI Kernel Test Service
