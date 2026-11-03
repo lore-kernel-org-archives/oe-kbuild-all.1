@@ -1,79 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793672399;
-	b=ir2HRz+we9NqFl1FgY+L0FPmP4rw607hD2HVwuMynl4n+4g85763XpQRoC0lWq71EzFt
-	 uBJAtbgxoP4+fQe29HiLzaW7F8z4BipuGLPJxtinALTAEsk0E9GkB43DKufEPy8Sbjrot
-	 5BWuZWJ2WL2OS5rg4hGTxWgoxitIUglJjwc4WzeABT9Zj4AMKGRldPNM5yLspBvxXYcOH
-	 0rZoNgmvJLULWFh74d1WRizUbWd0JTdkC9SSIqS8dHtXw2NpD3LUR1IiOlIHvDDD5X0g2
-	 u7WyUYCaDi4t48KDvd0lJvGvZnnSEUFAmQgwcZ16GeqPHLNpFKpxw1QJlqH48bmxg/w==
+	t=1793673784;
+	b=uN3m1coRjTnrC5PJ2c37/kH4Gf67xn4xMnqd7Z6J8gxf9I/BWLMBx+pigMqJhkNWi5Hw
+	 4v9677Xs+pOA88GzbpdANpO/O9rL2yJbrnQnnqvbKg8Fx3yWftzEGMn4RecD4VBd/4vEl
+	 88FRe128CWTRmn85KqbR5ovDyFeMLmu+OBnUyPoQXCg23j7Il9yeF7or9ulvA02QPMHak
+	 VoskZnrfvP4e6P4vjEEXT5jN6Ynwl/IS06OWLZAcar177R326c7BhSPo0xtZ7V93U1Bff
+	 4DMeV5OkV9xEKkhutaDD3EJhVwY2ZQ6QcFsZDylFePC7G1VdnIoeqfYQNm9+cWFpFBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793672399;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793673784;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=6OfzYIP1bXExBnvc/K1qwnkf3+tq7zkwz1Js0K4ygeI=;
-	b=zk7gQxwUlGQKPg+amv9DtHNZIGlUIIZ8FHxu8yXbfZ9kL8Ox4qRBhWkXgaMzhJPPEXio
-	 R2UCWdBtsbqIVPuWCBbL5eFz1MYCHjNcrIaR009EY1g+g0gg4OIWNNgn14+naI1wdx3VD
-	 tXxvDFzXvH5Xzf32UAo+AUNY6m4YgqEVpLRTdtS3Lx9U+4iI1EIoRN3LD+3Ky6WHNBloh
-	 dug7ksUftqqIi3y6gDwFVzcPn+iwHxon7+cr/USaN+Sgwjw6FWMyHN+KYxbvLgOf5pJ5A
-	 fznSmyK+ZxnjYS8PXjX32nrCGOjJpsnefPZH8zKg8EadS5LOygEwzoL/+66bThO3+ng==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=GHRb85n1Foh7KgznphB1XwN4hpwluA6wCCK9oDJFt+0=;
+	b=R7zo4z6oMjqk8Z6xYN65a1SK/KUv/6fX45329kM56YZPTR2QnnA5lhGOoa8ZixfKcpUT
+	 LoLwYNX5R6xy/pSbpZlYHW6N89JSyaPx+iY4j/OfTUbRTv9s4SkMJN83dnXKtz1wybUTy
+	 JmPNsK5glfbcKLcr0OS4G54aekFRXZ474Z7lZFc0cp6eBephK7ZaeJxTls2JSuYUwpfBG
+	 0AIf3tZtGl1MqJ7QBwu6LR8uA4BaZurwQ+cjyE5WzeAkLNXcr8vBYSFKIMXstExjjO2kC
+	 K6Lj7orN7OXM+7y8aKGCBzwLpo+a92UYOGgdbGh05ae7MLY3RGMl/N2FlI5QWsFmtZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="a/OKE1vr";
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Hhn1ZKeT;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7F8606A324
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 02:19:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E7F8606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9213B606A324;
+	Tue,  3 Nov 2026 02:43:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9213B606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a/OKE1vr
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Hhn1ZKeT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793672397; x=1825208397;
-  h=date:from:to:cc:subject:message-id;
-  bh=rJJ5NJ+myaFf56S49k8Z+VH+GXdpVVQvCQashy+coWM=;
-  b=a/OKE1vrcltwA6K/VdwKPyJ54sfeQkR48aJ3xe+WA7FYTUqNg6BIY6Go
-   U0iAFTPw2BIKy8xYNh1H7PAWWfg5ihNteZK9oFDlXTalXt2wCxfpuxeu8
-   00IFgKEGZpjKX6IT7A7D3LNIQ70yncbBG/GTWY4/mTKH33anmZj4aW8qN
-   ONOdjBp/IMxQuT5rDjq4qbQVs2FiPQmxH/HFNLEAXn1X1UINtgUx+tWIZ
-   K//HvkffmQu22c0tqYqp9OYp2dcTsi/6vy2FmsACjHbVAHV8EK4t8PfP+
-   BQoixg4UhMidylQGCF8p3An41j3qwbYIQ3s4gDG6QWbOamm73UNM5xZ+g
-   g==;
-X-CSE-ConnectionGUID: ge03AKebQCWouJ4Me7KTbA==
-X-CSE-MsgGUID: WU5Fai/sQKuQZiibgzpQ9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2396770"
+  t=1793673783; x=1825209783;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iESoaevwqTMSuhIUPaAMKfLpXgQKRSiqlSV8Jn8HSos=;
+  b=Hhn1ZKeTm189WkThts+MO5iKAtLd7YssKxrMA9soBKkGYg4A5XbtENoE
+   nuyhy/UHSlonKGT/X5CXK+aY30Y3HjFY+WHjlxWAFC3W5gNTY8YiAz4rJ
+   1P20Q2z/DpSG+LpYIJNuA0kTRz3MgvtWv9dcZh+GLkEvmVO7GJdO0IurM
+   NmIE5Vbtp9+LX3MFA6VbthFUSyus+VFKS7+m5YHe30kCLUauzvD+0lve/
+   jNt2bfMRmW2LEdDWcpz4eExj+JowrT2Rm6j7M4x14PkBPMbwhNWF9mmdX
+   CyNmw3txlHrU5y2c7k4/2PUN+LleKiMj1fHfkAKdxKTAf7TDmtb5qiHI6
+   Q==;
+X-CSE-ConnectionGUID: ag+rJl7fRBm2aRoF1QKlow==
+X-CSE-MsgGUID: A/8suxzeQH6QsPqmn/I2mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2264643"
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2396770"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 18:19:56 -0800
-X-CSE-ConnectionGUID: UCvned1ARz6oU4bRNnFt6w==
-X-CSE-MsgGUID: IB5bKjUkSZmvT7Zrv1WTJw==
+   d="scan'208";a="2264643"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 18:43:03 -0800
+X-CSE-ConnectionGUID: GY5dtudzRe+l1yJICGtbMg==
+X-CSE-MsgGUID: M0Qwd2mOQqi1UUrelqyqBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6451119"
+   d="scan'208";a="6619852"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Nov 2026 18:19:55 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Nov 2026 18:43:00 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xO47s-00000000iC0-0Sau;
-	Tue, 03 Nov 2026 02:19:52 +0000
-Date: Tue, 03 Nov 2026 10:19:43 +0800
+	id 1xO4UD-00000000iCu-19Sb;
+	Tue, 03 Nov 2026 02:42:57 +0000
+Date: Tue, 3 Nov 2026 10:42:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
- Tony Nguyen <anthony.l.nguyen@intel.com>
-Subject: [tnguy-net-queue:100GbE 5/11]
- drivers/net/ethernet/intel/ice/ice_ptp.c:1253:29: error: 'struct ice_ptp_tx'
- has no member named 'calibrating'
-Message-ID: <202611031042.vATH1Rxg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Oxana Kharitonova <webprosto@gmail.com>, mic@digikod.net,
+	brauner@kernel.org, viro@zeniv.linux.org.uk, gnoack@google.com,
+	utilityemal77@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-security-module@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, webprosto@gmail.com,
+	landlock@lists.linux.dev
+Subject: Re: [PATCH v2 2/4] Landlock: Enforce MAKE_REG for POSIX message
+ queue creation
+Message-ID: <202611031036.3r5EL9TN-lkp@intel.com>
+References: <20261102144708.920232-3-webprosto@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,84 +86,81 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102144708.920232-3-webprosto@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git 100GbE
-head:   3c73d34ba643c4e24ff549f3f083372a36b09952
-commit: 64639b94e14663a7f80953ac0d075edac626ee96 [5/11] ice: E825: stop clearing PHY_REG_TX_OFFSET_READY
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261103/202611031042.vATH1Rxg-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031042.vATH1Rxg-lkp@intel.com/reproduce)
+Hi Oxana,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on linus/master next-20261030]
+[cannot apply to shuah-kselftest/fixes trace/for-next brauner-vfs/vfs.all v7.3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oxana-Kharitonova/ipc-Move-MQUEUE_MAGIC-to-a-shared-header/20261102-144557
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20261102144708.920232-3-webprosto%40gmail.com
+patch subject: [PATCH v2 2/4] Landlock: Enforce MAKE_REG for POSIX message queue creation
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20261103/202611031036.3r5EL9TN-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031036.3r5EL9TN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611031042.vATH1Rxg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611031036.3r5EL9TN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_port_phy_stop':
->> drivers/net/ethernet/intel/ice/ice_ptp.c:1253:29: error: 'struct ice_ptp_tx' has no member named 'calibrating'
-    1253 |                 ptp_port->tx.calibrating = true;
-         |                             ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_port_phy_restart':
-   drivers/net/ethernet/intel/ice/ice_ptp.c:1328:29: error: 'struct ice_ptp_tx' has no member named 'calibrating'
-    1328 |                 ptp_port->tx.calibrating = true;
-         |                             ^
-   drivers/net/ethernet/intel/ice/ice_ptp.c:1338:29: error: 'struct ice_ptp_tx' has no member named 'calibrating'
-    1338 |                 ptp_port->tx.calibrating = false;
-         |                             ^
+>> security/landlock/fs.c:1686:51: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+    1686 |                              struct dentry *const dentry, const umode_t)
+         |                                                                        ^
+   security/landlock/fs.c:2117:30: error: incompatible function pointer types initializing 'int (*)(const struct mnt_idmap *, struct inode *, struct dentry *, umode_t)' (aka 'int (*)(const struct mnt_idmap *, struct inode *, struct dentry *, unsigned short)') with an expression of type 'int (struct inode *const, struct dentry *const, const umode_t)' (aka 'int (struct inode *const, struct dentry *const, const unsigned short)') [-Wincompatible-function-pointer-types]
+    2117 |         LSM_HOOK_INIT(inode_create, hook_inode_create),
+         |                                     ^~~~~~~~~~~~~~~~~
+   include/linux/lsm_hooks.h:141:21: note: expanded from macro 'LSM_HOOK_INIT'
+     141 |                 .hook = { .NAME = HOOK }                \
+         |                                   ^~~~
+   1 warning and 1 error generated.
 
 
-vim +1253 drivers/net/ethernet/intel/ice/ice_ptp.c
+vim +1686 security/landlock/fs.c
 
-  1222	
-  1223	/**
-  1224	 * ice_ptp_port_phy_stop - Stop timestamping for a PHY port
-  1225	 * @ptp_port: PTP port to stop
-  1226	 *
-  1227	 * Context: must hold the adapter ps_lock.
-  1228	 */
-  1229	static int
-  1230	ice_ptp_port_phy_stop(struct ice_ptp_port *ptp_port)
-  1231	{
-  1232		struct ice_pf *pf = ptp_port_to_pf(ptp_port);
-  1233		u8 port = ptp_port->port_num;
-  1234		struct ice_hw *hw = &pf->hw;
-  1235		unsigned long flags;
-  1236		int err;
-  1237	
-  1238		lockdep_assert_held(&pf->adapter->ps_lock);
-  1239	
-  1240		switch (hw->mac_type) {
-  1241		case ICE_MAC_E810:
-  1242		case ICE_MAC_E830:
-  1243			err = 0;
-  1244			break;
-  1245		case ICE_MAC_GENERIC:
-  1246			kthread_cancel_delayed_work_sync(&ptp_port->ov_work);
-  1247	
-  1248			err = ice_stop_phy_timer_e82x(hw, port, true);
-  1249			break;
-  1250		case ICE_MAC_GENERIC_3K_E825:
-  1251			/* Disable new Tx timestamp requests */
-  1252			spin_lock_irqsave(&ptp_port->tx.lock, flags);
-> 1253			ptp_port->tx.calibrating = true;
-  1254			spin_unlock_irqrestore(&ptp_port->tx.lock, flags);
-  1255	
-  1256			ice_ptp_mark_tx_tracker_stale(&ptp_port->tx);
-  1257	
-  1258			err = ice_stop_phy_timer_eth56g(hw, port);
-  1259			break;
-  1260		default:
-  1261			err = -ENODEV;
-  1262		}
-  1263		if (err && err != -EBUSY)
-  1264			dev_err(ice_pf_to_dev(pf), "PTP failed to set PHY port %d down, err %d\n",
-  1265				port, err);
-  1266	
-  1267		return err;
-  1268	}
-  1269	
+  1679	
+  1680	/*
+  1681	 * Unlike regular file creation, mq_open(2) calls vfs_mkobj() directly and
+  1682	 * therefore does not trigger the path_mknod hook.  Use the mqueuefs mount
+  1683	 * associated with the current IPC namespace to recover the parent path.
+  1684	 */
+  1685	static int hook_inode_create(struct inode *const dir,
+> 1686				     struct dentry *const dentry, const umode_t)
+  1687	{
+  1688		struct ipc_namespace *ipc_ns;
+  1689		struct vfsmount *mnt;
+  1690		struct path parent;
+  1691	
+  1692		if (!landlock_is_posix_mqueue_fs(dir))
+  1693			return 0;
+  1694	
+  1695		if (!current->nsproxy)
+  1696			return 0;
+  1697		ipc_ns = current->nsproxy->ipc_ns;
+  1698		if (!ipc_ns)
+  1699			return 0;
+  1700		mnt = ipc_ns->mq_mnt;
+  1701		if (WARN_ON_ONCE(!mnt || mnt->mnt_sb != dir->i_sb))
+  1702			return 0;
+  1703	
+  1704		parent.mnt = mnt;
+  1705		parent.dentry = dentry->d_parent;
+  1706		return current_check_access_path(&parent, LANDLOCK_ACCESS_FS_MAKE_REG);
+  1707	}
+  1708	
 
 --
 0-DAY CI Kernel Test Service
