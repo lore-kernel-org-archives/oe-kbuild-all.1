@@ -1,88 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793679686;
-	b=TNuwaRxuAcTTm3KsmKrRxcD6F4+CvSzBYOFVAOMQAv8SdqPfTtoWYJSrZ+VEyP1M4Tif
-	 OIB7AxxcQnqPUeBlfcD8VoRb2gPHkDT8XHxeTeLlQxOxNDjWk8ZhtOoN/igkA3AKd4ow5
-	 IdjrXfNduHf2HoPkvUBofY6iWMyWntDjBNUnlStAqRY1Dx4g3I34+/quT5X5jAypFlFVt
-	 fAEp9gfo3xcKuLfcU3RxZOOwLbdUm7clwsrB7Bv4wkkRlA+kN2ZbhJ63bPURbpfNv6n8B
-	 XxbZjUeriIruknxuUBEpct4gdr+X/5eQ2Kg6jqzZvd8yPw/zm9tnOHyVqWUKC/3wTDA==
+	t=1793681556;
+	b=lA46GnIpSEBwspvjnWTUjjX+VS0vQ0duw1tC4t0UQnCCWya3DbKynCJpqC9lim3c8fdy
+	 N4SbaOVNQsod39ObAxL5SS9U8wSQbRV0alPNx9gnodVg7tq3PBEbSU74pt7i0CZorl+25
+	 6a2rkD3rvH1BvXnqi5Ue5EY+tVy1Zu6xr4gbmoXpXigqsvza8QF2oCj6y2nCrIvOF1ZzY
+	 7aCzmg/+Lrnjkx0IHQM5I6KIEBkDuWTPzaPTTzewNNjVo95jHjhgtMKWx3+D6dbgGOsqE
+	 0NdaSjYUE5W9VvKMVf3afUdp1bOK/xQz9rgQ7jvUeyDkubtgYdOGd3VO7aXusvnslrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793679686;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793681556;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=7hpI2iCSGoz71vPjJKjpaH2lhKVzdhV0IEDs+PYjGYI=;
-	b=fWb/aQBQZufKomhR988+D3LjF7wI9K5kFtGmyaCuzL4YWg6N8p/RVDp+03uZLenz8lYI
-	 VC4BQFi+HbhQw6l+YGnaj1fqm3w43ZMOwWXocEENO1B15IbXVeefFAAf/HAmaT+QJ22n5
-	 cl5b+kHpHOmTvrsCDW9CK9VWXVa2YP6j62+ac+u0Ho0HZU9f5fbtsn/Z4ASyhseErCcqL
-	 a8iqgMGhVEcZucwuMbtzJYS3MjgMjYJea9NqjeeJeZEJmQAcqNiTyCRZlSqIJHistA0PL
-	 yvuwCTQMgojuc1/QizjIK3EAhETSe31rXmyaMDBtoKI7yi8T2Fx8KL5HodVesFJKRZw==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=34p6/q4mUiohDUq3YP/o+RtLUNRMezD/7unT8fjXWqs=;
+	b=M8lw5zwsbEPtsdkmN3hSjqygZckOlgMlD/aQU4v8xs4xyFWzGjqXJwz36gOhBm/gnie1
+	 t3QCM1+qbnPhpvzJh4oaq/HcXkvz3lXU6bshA0Z5wfow0YuHtx5DIbUMgYujeYE1J20Dw
+	 uoZUFIyXRollMAHfdQaiWujn9vPtZr9EjD1tfjIkZShWZ/hrgul2lxgmSo72f+2823NHB
+	 XViqfY9KU5RoE58SLZcagwVU9ioX+Dfv2yQZyp/VUunsRXtt2fPucjfZM5a2u/BSiprbo
+	 huldnmh/Y81LPSTzNcM04KYEZyJbavaUEqnF3EWQh2erlhIJ+XkR9dBNOtqZeO2rsKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bOykYUWF;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Mh0L3Skv;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35536606A327
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 04:21:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35536606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B413D606A327;
+	Tue,  3 Nov 2026 04:52:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B413D606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bOykYUWF
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Mh0L3Skv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793679684; x=1825215684;
+  t=1793681554; x=1825217554;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e/FUd/e/mAYT7IeYzGgwu4zSfKt4EcJEQsjr//9wYN8=;
-  b=bOykYUWFUwpgjQzzyCElyiY3wnujUeznqtjBEqbgEDWPU2tPv+lfYlHA
-   k4KKcr9n2JfxnSXfFiwZZ+yr6mw0fj+9RikZJjV3C1MYwo7ZUOSTH4e5P
-   l3hdvbT0nZE0AWDJvwTOaOu8JW0B8hDQ/6TsCxqqv108o2JQXnurPsq6A
-   /k8sOXt+aovbtXMIXir5oe8xiQpPQ+vhAcsbB+bn4KerItALqsX1MFWpU
-   Znzt9+P370Hq3pedVK77lYgpcRwMP7sdYDwJR+C67qfvMTNvchSYFQEsR
-   qxiT0mj+aU00KemEnCfBTGom6W0t7U56om+OmbsGcVTtmEnN6gkrAJfn8
-   w==;
-X-CSE-ConnectionGUID: UkEvdxkFSQSFXA2eJC+7GA==
-X-CSE-MsgGUID: 7NC63QqXRiifdk526/RAIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2495161"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=r+WZUoyk2WCPAmB29GrTF3vpV/Ii9qAichtjByshkXk=;
+  b=Mh0L3SkvF+rk4XrXm7l0FahMCKcxURLLbRk5RlkoQX81txrRo0Q7sPKv
+   loIJR9LRyOf7wDxTnIVq+nBDpnKFIA8WrjkSOdnTShHQpH81iZY6vHkcv
+   09fKza2gyEyb/hlkXj1V6LyQFww+tWDu3c04zrwajQ0ZEjdAUhkaQIpei
+   iqFtUPq+kGNGJaTEZcueXKqv/jm2h8mf2mFV3LSvsyUtv/DWAIYJQzfTT
+   qQgA+S0CYY5A8K4OqDd0CfMMzQRfUnre4dzrJCYuXYg3QOv/snRv0Blsd
+   MZqyYWWCWzLw2yL/FheDxauVuK51+wSCbGxqaF7Ri4hTeOFCPD6JliImm
+   g==;
+X-CSE-ConnectionGUID: A6IXQa55Tb+tr+QmqbBSeA==
+X-CSE-MsgGUID: F+q6kCN5RTmGrGIbfl92nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2269713"
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2495161"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 20:21:23 -0800
-X-CSE-ConnectionGUID: JaDX/0xDSXe4TwWItdmlvQ==
-X-CSE-MsgGUID: C6+kcDqrTNGoQJ5+2a7VTw==
+   d="scan'208";a="2269713"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 20:52:33 -0800
+X-CSE-ConnectionGUID: b/1gL201RsWw53qtt2NzoA==
+X-CSE-MsgGUID: ua1yMAqYQf6kZ1IShzMipg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6633917"
+   d="scan'208";a="6852594"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Nov 2026 20:21:19 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Nov 2026 20:52:25 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xO61L-00000000iI4-2oC3;
-	Tue, 03 Nov 2026 04:21:15 +0000
-Date: Tue, 3 Nov 2026 12:20:52 +0800
+	id 1xO6VS-00000000iJU-0Zcp;
+	Tue, 03 Nov 2026 04:52:22 +0000
+Date: Tue, 3 Nov 2026 12:51:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andre Przywara <andre.przywara@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Salman Nabi <salman.nabi@arm.com>,
-	Vedashree Vidwans <vvidwans@nvidia.com>,
-	Trilok Soni <trilokkumar.soni@oss.qualcomm.com>,
-	Nirmoy Das <nirmoyd@nvidia.com>, vsethi@nvidia.com,
-	Varun Wadekar <vwadekar@nvidia.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 RESEND 5/6] firmware: smccc: lfa: Register DT interrupt
-Message-ID: <202611031233.vQxtNp7l-lkp@intel.com>
-References: <20261102165421.3651202-6-andre.przywara@arm.com>
+To: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Michael Roth <michael.roth@amd.com>,
+	Liam Merwick <liam.merwick@oracle.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Ninad Naik <ninadnaik07@gmail.com>,
+	Joerg Roedel <joerg.roedel@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	coconut-svsm@lists.linux.dev, joro@8bytes.org
+Subject: Re: [PATCH v3 4/8] KVM: SEV: Add direct VMSA capability
+Message-ID: <202611031239.b4rFO1dx-lkp@intel.com>
+References: <20261102114137.1198982-5-joro@8bytes.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -92,78 +93,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261102165421.3651202-6-andre.przywara@arm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261102114137.1198982-5-joro@8bytes.org>
 
-Hi Andre,
+Hi Jörg,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on arm64/for-next/core linus/master next-20261030]
-[cannot apply to arm/for-next arm/fixes clk/clk-next kvmarm/next rockchip/for-next soc/for-next nferre-at91/at91-next shawnguo/for-next v7.3]
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next linus/master next-20261030]
+[cannot apply to tip/x86/core mst-vhost/linux-next kvm/linux-next v7.3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Przywara/dt-bindings-arm-Add-Live-Firmware-Activation/20261102-175415
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20261102165421.3651202-6-andre.przywara%40arm.com
-patch subject: [PATCH v5 RESEND 5/6] firmware: smccc: lfa: Register DT interrupt
-config: arm64-randconfig-1000-20261103 (https://download.01.org/0day-ci/archive/20261103/202611031233.vQxtNp7l-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031233.vQxtNp7l-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/J-rg-R-del/KVM-SEV-Document-SNP-direct-VMSA-userspace-ABI/20261102-124130
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20261102114137.1198982-5-joro%408bytes.org
+patch subject: [PATCH v3 4/8] KVM: SEV: Add direct VMSA capability
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261103/202611031239.b4rFO1dx-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031239.b4rFO1dx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611031233.vQxtNp7l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611031239.b4rFO1dx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/firmware/smccc/lfa_fw.c: In function 'lfa_register_dt':
-   drivers/firmware/smccc/lfa_fw.c:939:16: error: implicit declaration of function 'devm_request_threaded_irq'; did you mean 'devm_request_region'? [-Werror=implicit-function-declaration]
-     939 |         return devm_request_threaded_irq(dev, lfa_irq, NULL,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                devm_request_region
-   drivers/firmware/smccc/lfa_fw.c:940:66: error: 'IRQF_COND_ONESHOT' undeclared (first use in this function)
-     940 |                                          lfa_irq_handler_thread, IRQF_COND_ONESHOT,
-         |                                                                  ^~~~~~~~~~~~~~~~~
-   drivers/firmware/smccc/lfa_fw.c:940:66: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/firmware/smccc/lfa_fw.c: In function 'lfa_smccc_remove':
-   drivers/firmware/smccc/lfa_fw.c:1034:9: error: implicit declaration of function 'devm_free_irq'; did you mean 'devm_free_pages'? [-Werror=implicit-function-declaration]
-    1034 |         devm_free_irq(&sdev->dev, lfa_irq, NULL);
-         |         ^~~~~~~~~~~~~
-         |         devm_free_pages
-   drivers/firmware/smccc/lfa_fw.c: In function 'lfa_register_dt':
->> drivers/firmware/smccc/lfa_fw.c:942:1: warning: control reaches end of non-void function [-Wreturn-type]
-     942 | }
+>> arch/x86/kvm/svm/svm.c:5473:2: error: cannot jump from switch statement to this case label
+    5473 |         default:
+         |         ^
+   arch/x86/kvm/svm/svm.c:5466:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    5466 |                 guard(mutex)(&kvm->lock);
+         |                 ^
+   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
+     303 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:80:1: note: expanded from here
+      80 | class_mutex_constructor
          | ^
-   cc1: some warnings being treated as errors
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:86:1: note: expanded from here
+      86 | __UNIQUE_ID_unlock_1239
+         | ^
+   arch/x86/kvm/svm/svm.c:5466:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:423:15: note: expanded from macro 'guard'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
+     165 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:74:1: note: expanded from here
+      74 | __UNIQUE_ID_guard_1238
+         | ^
+   1 error generated.
 
 
-vim +942 drivers/firmware/smccc/lfa_fw.c
+vim +5473 arch/x86/kvm/svm/svm.c
 
-   925	
-   926	static int lfa_register_dt(struct device *dev)
-   927	{
-   928		struct device_node *np;
-   929	
-   930		np = of_find_compatible_node(NULL, NULL, "arm,lfa");
-   931		if (!np)
-   932			return -ENODEV;
-   933	
-   934		lfa_irq = irq_of_parse_and_map(np, 0);
-   935		of_node_put(np);
-   936		if (!lfa_irq)
-   937			return -ENODEV;
-   938	
-   939		return devm_request_threaded_irq(dev, lfa_irq, NULL,
-   940						 lfa_irq_handler_thread, IRQF_COND_ONESHOT,
-   941						 NULL, NULL);
- > 942	}
-   943	
+  5456	
+  5457	static int svm_enable_vm_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
+  5458	{
+  5459		switch (cap->cap) {
+  5460	#ifdef CONFIG_KVM_AMD_SEV
+  5461		case KVM_CAP_SNP_DIRECT_VMSA:
+  5462			if (memchr_inv(cap->args, 0, sizeof(cap->args)) ||
+  5463			    kvm->arch.vm_type != KVM_X86_SNP_VM)
+  5464				return -EINVAL;
+  5465	
+  5466			guard(mutex)(&kvm->lock);
+  5467			if (kvm->created_vcpus)
+  5468				return -EINVAL;
+  5469	
+  5470			to_kvm_sev_info(kvm)->snp_direct_vmsa = true;
+  5471			return 0;
+  5472	#endif
+> 5473		default:
+  5474			return -EINVAL;
+  5475		}
+  5476	}
+  5477	
 
 --
 0-DAY CI Kernel Test Service
