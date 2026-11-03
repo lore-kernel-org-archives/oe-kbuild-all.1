@@ -1,83 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793660727;
-	b=ZbjDRCEA50oVK/Tnn7nFUw7KHiof7CxxNI5vLIDBp+xE+umJ+OmHTNcF9aUaY6Acbiqe
-	 HOb1FqiLHipMYOG2eArmFd1dRgrfL7w6BE8ETKdYSiV3n8UaG9Ww3AZtkPk8UUrPh9Gz7
-	 nReyo1nbzt5XV8uJBGd0OnWEKMWobFsapKRiJEF3za78X+lz+fErF2v3oKc5DOMeKYfLJ
-	 AIvq1H2ySurzfQxbHutHvx+Rq8YIBa5FAFASLe1CuWohgeg76Uy6N3mHYH9xG7S2gRjCl
-	 4VMdbD/tiIX7gOP8yBg7+4yNqhJAIJUITKWv/l4L9SOTH6ykRB9dUtVcMP01rmRw4Tw==
+	t=1793664681;
+	b=GT4TKBNqiT6sGERPDoXRg5SQqCVlTMDqxWc1oOcV1z7iSre8imLhxmGSAd4CVt/bR859
+	 hmPtvutZapKSuJAAv5c9Ajt4+5GrNt5vCjuTsMm+dxbSFvem+P6N28PgXKJL6hPnX5+CI
+	 entyVWqY4ml3nnzEb9/l3fsssm+ib+oqDvfgYxKW1ZIUF9bx0C4kFJniW2YUqKEFZfSSq
+	 JO4bje+M8Mh6aiNqLOFM0ApFqGkWxQV/ZFiVy1mz7JKW4N8dWRLHH8kDxcJ9uIumNoB95
+	 lwnzIx5dCzLTwM/0O2+au/zw+7F7GYybeLr/FgXnF9pcxhzHA+u5/9gOdUncFgkUvog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793660727;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793664681;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=6z9b9mSX5em+eYVwEbza/UZrKzP5uQ54ri96jis88Vw=;
-	b=HRYp8G1Q2/kWTt9ehHFNrK8T1vmqKTU/BJ+n2ZWywnTi6O8T4oICMPg+aAc0l3JaL4ki
-	 K9kgAmT7noal7VC0oqMu4zPXn5Ca129EQ5uPhgHxO7h6eXXbsA9A2x1T42IQMvF0bWWsK
-	 hgF1RDGhjiLzO2/BVXgPv5kgOkYgcws8GzTfYf1SfizsWJkbX0kC6LKbMQkfqfFyME33d
-	 TCSglWu8cCk7J3ub8sy/rj4BdC/0RBIFdZ3BRazVLy+tMP1A/cIqCTEdPC0RA5/CIEuHX
-	 L/GX4mtImmW++2eBzbY2xLkIO9wYCrg9liXwVDJgSdWwTnSGpMtgCut9fOYCqyYxR0A==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=+J33MejvzPeu10OjppsxcsQ9dwmr+e4MlaFR6deRaNI=;
+	b=WYu7UmUgNrTG5sfFvL28GredRRD2FVYTPO22OwKgs77WfjV6HOberrZYcqLxQ/cq+qHD
+	 qfOG7pSswchakv+GKhO+PKbHcPvLA/qnERMckTj42yV9mj0Nf2xbHiq2hhWhTaw5DxLtS
+	 2xfl9N+J/6qFmlU7roA+rL8UTCK0rLwQ4lwN3dqWFqRrt/oBrarb54LdpJYHs4lTlj40t
+	 2T2cuAZy5AQD8D6UM+BeUxzTvQ6bu6Tzy1nJHO4Ds/EkBQ9IWKbldSXowbGD7wANupLxN
+	 5eqmhzHRagmY4w/MNH+sHfJmtxWm8iy4Xr1rVKRewl8LLeZDms2GuXwnS+4CqGei+rA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C07lSpdt;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YkKmI0K5;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E3F606A334
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Nov 2026 23:05:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88E3F606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF770606A324
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 00:11:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF770606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=C07lSpdt
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YkKmI0K5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793660720; x=1825196720;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=40EvMptE/g4ClcTExHfMheoYbDNv1t9uw0oFBOgt0sQ=;
-  b=C07lSpdtSuFSuo8UgHMrFwOzuuIvdtfx54dAnRp5KIdPRhanp13phgnU
-   /AiOqEQ4v5vBXwpTbYqsgMQvviGUVi+74T57ZSU4kVFKBeJC2y4MVAhkN
-   IO6hp/e1+2Rh39L4jaRSjtobZR1IPWGipHCt69VgirH6Y7lSznRmXhjfs
-   HXpC8SxbX+fxLE2mQmh3Rf28BJmvucX7xcLX/ezUqL45mhEOkozFOxVy4
-   C/W0b1Ge8uvS+iU1UJtkRaeZFTYlFkiiwfNRnJx5EDWen7G1e1oNQRnWG
-   6U286TXqSuoGz3zLUxO2wynqwTtyZpIgrFsVj3DMSF5gDESc0drkT4dwK
-   A==;
-X-CSE-ConnectionGUID: 5uq4XCd0S3+UmXT2WVtgsQ==
-X-CSE-MsgGUID: QwOiixBfQKaYTV81KAkGcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2402226"
+  t=1793664680; x=1825200680;
+  h=date:from:to:cc:subject:message-id;
+  bh=+tmcLmudEcqXomkMy1bN91BP62V7gVDwKsT4eZ0Uof0=;
+  b=YkKmI0K5Qa2GDPI3xNnXLywpfhLpGTn+5oIVLQx9dgeL84qTKQTtjSDj
+   Nk6ij5tUADSI3uXXTKgMLM4FCux+2dZeGJy3RvKhC7rvXQYaUtX4RlAQl
+   e0N7i/AtEESCoUJRgb4Q5+u66XnwBjwW25yR04ULJw/51YGOSKyFjl76i
+   uHU+mZ7oDx8/Pj+KOHuP51cYhxb7Xn5qTOH3+EUjYLklNyVqAEVdjKSFo
+   TayqIZSyfvhiVDDYgC5XOF+PjPKZajAJuTqjf5qYBl9oQLcVexnyJ66U0
+   4p0e4OocK9GJwq5L4eqApgkHBT+46aOMhg6nkSzl0BqOABN4GBNctzrZe
+   Q==;
+X-CSE-ConnectionGUID: ImJyWoXQTRS4SNBvHeBpnA==
+X-CSE-MsgGUID: 9KxnJuCVTrGipO6nATXpVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2255734"
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2402226"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 15:05:11 -0800
-X-CSE-ConnectionGUID: 7L8gtDHPS4GOCFjXYRZf3g==
-X-CSE-MsgGUID: G7MIiBXLQ5GpE8999zhnjg==
+   d="scan'208";a="2255734"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 16:11:20 -0800
+X-CSE-ConnectionGUID: 43p0/6YiSPuNWXcR8kWghA==
+X-CSE-MsgGUID: C7uG5cK8Qfev+lCHgqY23g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6583141"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 02 Nov 2026 15:05:09 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="6105117"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 02 Nov 2026 16:11:17 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xO15O-00000000hyq-25uT;
-	Mon, 02 Nov 2026 23:05:06 +0000
-Date: Tue, 3 Nov 2026 07:04:57 +0800
+	id 1xO27O-000000008m7-3twY;
+	Tue, 03 Nov 2026 00:11:14 +0000
+Date: Tue, 03 Nov 2026 01:10:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: Viktor Korsnes <viktor.korsnes@remarkable.no>,
-	Jeff Chen <jeff.chen_1@nxp.com>,
-	Johannes Berg <johannes@sipsolutions.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Viktor Korsnes <viktor.korsnes@remarkable.no>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH wireless 1/2] wifi: nxpwifi: fix hex parsing in
- nxpwifi_parse_cal_cfg()
-Message-ID: <202611030637.0PbWNnLh-lkp@intel.com>
-References: <20261102121856.1011263-1-viktor.korsnes@remarkable.no>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: 
+ sound/soc/intel/common/soc-acpi-intel-sdca-quirks.c:32:undefined reference to
+ `sdca_device_quirk_match'
+Message-ID: <202611030010.WaPDRv2X-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,64 +81,63 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102121856.1011263-1-viktor.korsnes@remarkable.no>
 
-Hi Viktor,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Viktor-Korsnes/wifi-nxpwifi-add-missing-header-to-HOST_CMD_CFG_DATA/20261102-131800
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
-patch link:    https://lore.kernel.org/r/20261102121856.1011263-1-viktor.korsnes%40remarkable.no
-patch subject: [PATCH wireless 1/2] wifi: nxpwifi: fix hex parsing in nxpwifi_parse_cal_cfg()
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20261103/202611030637.0PbWNnLh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611030637.0PbWNnLh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+commit: 677507a5303a6716d9e0bbf3a8ba8c0f27391ab2 ASoC: SDCA: allow building without ACPI
+date:   5 weeks ago
+config: s390-randconfig-r2300-20261102 (https://download.01.org/0day-ci/archive/20261103/202611030010.WaPDRv2X-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611030010.WaPDRv2X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 677507a5303a ("ASoC: SDCA: allow building without ACPI")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611030637.0PbWNnLh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611030010.WaPDRv2X-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/nxp/nxpwifi/sta_cmd.c: In function 'nxpwifi_parse_cal_cfg':
->> drivers/net/wireless/nxp/nxpwifi/sta_cmd.c:1405:29: error: implicit declaration of function 'hex2bin' [-Wimplicit-function-declaration]
-    1405 |                             hex2bin(d, s, 1))
-         |                             ^~~~~~~
+   s390-linux-ld: sound/soc/intel/common/soc-acpi-intel-sdca-quirks.o: in function `snd_soc_acpi_intel_sdca_is_device_rt712_vb':
+>> sound/soc/intel/common/soc-acpi-intel-sdca-quirks.c:32:(.text+0xa6): undefined reference to `sdca_device_quirk_match'
 
 
-vim +/hex2bin +1405 drivers/net/wireless/nxp/nxpwifi/sta_cmd.c
+vim +32 sound/soc/intel/common/soc-acpi-intel-sdca-quirks.c
 
-  1393	
-  1394	static u32 nxpwifi_parse_cal_cfg(u8 *src, size_t len, u8 *dst, size_t dst_size)
-  1395	{
-  1396		u8 *s = src, *d = dst;
-  1397	
-  1398		while (s - src < len) {
-  1399			if (*s && (isspace(*s) || *s == '\t')) {
-  1400				s++;
-  1401				continue;
-  1402			}
-  1403			if (isxdigit(*s)) {
-  1404				if (d - dst >= dst_size || src + len - s < 2 ||
-> 1405				    hex2bin(d, s, 1))
-  1406					return 0;
-  1407				d++;
-  1408				s += 2;
-  1409			} else {
-  1410				s++;
-  1411			}
-  1412		}
-  1413	
-  1414		return d - dst;
-  1415	}
-  1416	
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  14  
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  15  /*
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  16   * Pretend machine quirk. The argument type is not the traditional
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  17   * 'struct snd_soc_acpi_mach' pointer but instead the sdw_intel_ctx
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  18   * which contains the peripheral information required for the
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  19   * SoundWire/SDCA filter on the SMART_MIC setup and interface
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  20   * revision. When the return value is false, the entry in the
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  21   * 'snd_soc_acpi_mach' table needs to be skipped.
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  22   */
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  23  bool snd_soc_acpi_intel_sdca_is_device_rt712_vb(void *arg)
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  24  {
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  25  	struct sdw_intel_ctx *ctx = arg;
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  26  	int i;
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  27  
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  28  	if (!ctx)
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  29  		return false;
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  30  
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  31  	for (i = 0; i < ctx->peripherals->num_peripherals; i++) {
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16 @32  		if (sdca_device_quirk_match(ctx->peripherals->array[i],
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  33  					    SDCA_QUIRKS_RT712_VB))
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  34  			return true;
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  35  	}
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  36  
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  37  	return false;
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  38  }
+cdd30ebb1b9f36 Peter Zijlstra       2024-12-02  39  EXPORT_SYMBOL_NS(snd_soc_acpi_intel_sdca_is_device_rt712_vb, "SND_SOC_ACPI_INTEL_SDCA_QUIRKS");
+5703ab86ff7bf0 Pierre-Louis Bossart 2024-10-16  40  
+
+:::::: The code at line 32 was first introduced by commit
+:::::: 5703ab86ff7bf079aa1ddf7a65b9727d0249383a ASoC: Intel: soc-acpi: add is_device_rt712_vb() helper
+
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
