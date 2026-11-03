@@ -1,71 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793710456;
-	b=OO/OYIOpy7cycdVXZ6C7QWJwmFfauBkPLlZPAHbl8lxTY61fKNfeIeng4mXtjEPsESzL
-	 CEhcjtv6YG53FAYOst+fyhwGaslspEzIbat7jS1BTzWHfSFCF0e63rvsIavyHcNc1ADGc
-	 BEbjxUICG2JmlcIpuAvPdMf7T7Zrqfv5n+Ldv+8v6uLjof8/SSdpA7amVnnTuG5mV3qG1
-	 OnXNLdXmRy5OZtWhPn6I+WgUJgMKHkate2uertiJP5EzX7IG29XHefSsaod13YKEjd67Z
-	 rDp3Vil41u0ey4yL2OATmuWRBCJNEq9P/Evn/idS85AvKoDRWeVJ6btEQbjo11jzXng==
+	t=1793712680;
+	b=rw9XDgEnRjtlZFsQQLLjBNPIs08I6CDn8JxcFLJlBXi7qNEpndBtrc/Y6rwT8+gcRmtC
+	 KHm6gqnnvEgFdc6HgKl3OlBE/3MRC0CYrTKvEenj9vS2m+RjQKcQ+wFgqNTgQhLct8dTo
+	 ra2OMEhnkjUa+oDGRKOB/Ni4/kdZE+loO9e3HV6nUIE7UjbM9LRXqstRKQlLS56hGVhto
+	 oCvDuORAlxqPKy9Oq97ACsglyniNCMyVqM7MBkJKcN0TMKLGnjAM54wcCiim5GVeWiwLu
+	 iEki1lXjze+EtH9kbrZseRpNhXy+867wrtNc4yUf5auhw4O9wmWBKUDji82ew9Xl8Xw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793710456;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793712680;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=T84aiAJqcr9eIc+RMHEdRg8f3K7zIQJ4MBqlwh+rBPc=;
-	b=apDihe8ean6hAC4x7G6+ECnzb3oE00aw4h4NAYQFTaZJkwpNuNf1pm93qRw9J98Uj4Ra
-	 acpUzT+WdqS10EaDuR5zm/WfPiHliPbNWrGuu5vSerUjIoIijvRBZ5DxmcGNIavbs7rUG
-	 lhSFY0ag8l7ei1yhhtbQC3sQhJ0l9bOPMCqYsd8jI9fqtexhFPesrXomskTVVaJ/cUe1B
-	 xN0aFFAQXuQZTdtKGj1Gfp1GX1FpxEB3f1+BzKgWjpuW8b2gqpTpOrcU1U8aZGp1Cfhnb
-	 qK/OipkUC9TrdEZ0i2V4fOZej24yWqdfrIK4Gr1f1a67J7Ju8hTbPJheF7g2unJsu8A==
+	bh=bqSSouDoyJf0YGFehgWYnnk2xGKwMtREqQQCF8wiudg=;
+	b=hv2A0IjAgI/I5Pfk6mf/3fRhc6OY6zDse1IjoGW09A/YYUAR13MtyQGgBPMP6FjKglc0
+	 BPEViZ6/tcn2UxM11Hw2cyUD9WuTTHSD1rh0Mh1nYx2k1vvYlLsVAcE2tOvEH0deHhq1U
+	 cOAbDpXiW4Rjd+kNAuwyMd2P8Al/gC59l4Tf2ltCenfaN0YA8Wc9rKy9vr8W5K4AIwy5n
+	 LY3yyfa7q98crjYtdWQuwZQ//jaOViWMRHPrEyf3+Mx81fdQ0Bj2czeHTW9BS8jD3h0Gr
+	 aSQhlnS9HbSI4USv++MKFhbSMq/Zh+PKdhjqT1N+azO/T0T+UZLlXfMrPzj20XEewFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mMsegJ5d;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SBMs4pMo;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE916606A332;
-	Tue,  3 Nov 2026 12:54:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE916606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6DE606A324
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 13:31:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A6DE606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mMsegJ5d
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SBMs4pMo
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793710454; x=1825246454;
+  t=1793712680; x=1825248680;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IhRkmlNFW8wvqh1/ycRf3KZ3oTStQ6uioF6qvXYIdxs=;
-  b=mMsegJ5dKg6nPnD0khk1DwMuw8ekVkHkKZAm3a9AvqaqWnMn8udLFEdq
-   CW51kiwgk0aMyd9r1rpBJqHaOdQKD5ddqDJhAjOLIA+3+1UrBzjqI+5K0
-   iKfPbmsoaUALpZQaV6EPs2+1mhRDbY6C5Cj+kokYkXsqrWEms5RSBeNvk
-   2f0PGyYWQnzq1Oh4obBpGkrp4IYogNTD75pSyTSVLrOjO0t7wVXpNRxoA
-   iJgt7zubVj0zJd9asR7v4EQ8jeopApDqDw3ngtsxoHVOlBsJ268ATqvNM
-   WIwrUZc0zIobaw+jLsfKAWtEmS1dQ1bvHJsov7ENVnwM73hwoih9E7BUf
-   w==;
-X-CSE-ConnectionGUID: N3+nM2vkRk+giiZI6qPypg==
-X-CSE-MsgGUID: ZSLf+i1tTBWC+Mf4IzVXsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2323240"
+  bh=hkR8M4AVECxKSn4GYebF87vUMQPK1tTyUqELFgxgqRs=;
+  b=SBMs4pMoauBtpedelBcC49z4kvO8AMo7TtACgeFMjLOfl4DXt66bxMHJ
+   XEh4U4rRY32DpnOKeliENg5B02GQ3JiJidpJS/9izMPO9ZCO31XGYrmTr
+   lOL4EqqPCT3BibNcwOU2x3jB0Eclj2BAzdtY3JdaneuY+iqALFKtIIGiC
+   RlR3fb2d8C9XO5L19+mJ+6k8ZrQvpJfNgso30NmiltPSZCIxEwN7oLilw
+   YyAD/2OecJOyqSqFxAeTbofirdkfkLEGBjdJehOaV3POiwrOLbu9ofEgi
+   Qqaptfs0Xqz7Lparr2lXq3+yIlGaqQXBWnRleNmGO6sxsWWIxLNi5PeB4
+   Q==;
+X-CSE-ConnectionGUID: u/ElXckGTu27Eqxyu8uqGg==
+X-CSE-MsgGUID: oOMsSVVmQZ2Y9OkLCHCiUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2429902"
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="2323240"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 04:54:13 -0800
-X-CSE-ConnectionGUID: bIrfVphKRsiEpMbkrvetPA==
-X-CSE-MsgGUID: 3fvg2CqPSWirao/zO/h4zw==
+   d="scan'208";a="2429902"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 05:31:19 -0800
+X-CSE-ConnectionGUID: lTrs3dgKTlWdj0SfnJ8l6A==
+X-CSE-MsgGUID: kcSFKz+DTo2hkMUZE0wIXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="8203943"
+   d="scan'208";a="6542067"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 03 Nov 2026 04:54:07 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 03 Nov 2026 05:31:12 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOE1a-00000000ik4-3PiJ;
-	Tue, 03 Nov 2026 12:54:02 +0000
-Date: Tue, 3 Nov 2026 20:53:34 +0800
+	id 1xOEbU-00000000ilw-1efr;
+	Tue, 03 Nov 2026 13:31:08 +0000
+Date: Tue, 3 Nov 2026 21:30:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Ruffell <matthew.ruffell@canonical.com>,
 	Waiman Long <longman@redhat.com>,
@@ -74,7 +74,7 @@ To: Matthew Ruffell <matthew.ruffell@canonical.com>,
 	Ingo Molnar <mingo@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	David Hildenbrand <david@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Caron Wills <caron.wills@pulsar.com>,
 	Ridong Chen <ridong.chen@linux.dev>,
@@ -97,7 +97,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	cgroups@vger.kernel.org
 Subject: Re: [PATCH 3/6] mm/folio, mm/mlock: Don't batch folios in per-CPU
  LRU caches on isolated CPUs
-Message-ID: <202611032053.I3Ud8d11-lkp@intel.com>
+Message-ID: <202611032138.4bxGcYLC-lkp@intel.com>
 References: <20261103075940.110308-4-matthew.ruffell@canonical.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -122,21 +122,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Ruffell/sched-iso
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20261103075940.110308-4-matthew.ruffell%40canonical.com
 patch subject: [PATCH 3/6] mm/folio, mm/mlock: Don't batch folios in per-CPU LRU caches on isolated CPUs
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20261103/202611032053.I3Ud8d11-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611032053.I3Ud8d11-lkp@intel.com/reproduce)
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20261103/202611032138.4bxGcYLC-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611032138.4bxGcYLC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611032053.I3Ud8d11-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611032138.4bxGcYLC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/folio.c:293:6: error: call to undeclared function 'lru_batching_bypassed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   mm/folio.c: In function '__folio_batch_add_and_move':
+>> mm/folio.c:293:13: error: implicit declaration of function 'lru_batching_bypassed' [-Wimplicit-function-declaration]
      293 |         if (lru_batching_bypassed())
-         |             ^
-   1 error generated.
+         |             ^~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/lru_batching_bypassed +293 mm/folio.c
