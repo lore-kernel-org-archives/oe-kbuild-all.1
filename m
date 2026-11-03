@@ -1,81 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793703470;
-	b=UdLzBWCOuN3k+rV/zQ6VDh85mZ8MnShudreH5b4PIcMT2YaduhXKFG1bbpdhnYh5+tk3
-	 V5N8hDBGJv1UZBoOpPh/X2EOX6x4vL04/ti7tm/CNdGu9AHGD+dUNa6AkRjKKqlU4GZI9
-	 hFjR25LfNrs04NoWneph6rXbWGKM3N1iNrjADUK4v6OEDWA1u6a55CBihknH6IYj6TaGM
-	 eruQ+jx0ooQN22m3RuFowLlu7mA2f1PPb5dFAfC99Xq9L7HsE3KNJOmY9vbEURRpBWo41
-	 EHUcD8vXj9UF7NoDYiuwW+C7DPx6shSXCmzOddOm6Z47joCWOLlHMtcwzqbvkM4zucw==
+	t=1793710456;
+	b=OO/OYIOpy7cycdVXZ6C7QWJwmFfauBkPLlZPAHbl8lxTY61fKNfeIeng4mXtjEPsESzL
+	 CEhcjtv6YG53FAYOst+fyhwGaslspEzIbat7jS1BTzWHfSFCF0e63rvsIavyHcNc1ADGc
+	 BEbjxUICG2JmlcIpuAvPdMf7T7Zrqfv5n+Ldv+8v6uLjof8/SSdpA7amVnnTuG5mV3qG1
+	 OnXNLdXmRy5OZtWhPn6I+WgUJgMKHkate2uertiJP5EzX7IG29XHefSsaod13YKEjd67Z
+	 rDp3Vil41u0ey4yL2OATmuWRBCJNEq9P/Evn/idS85AvKoDRWeVJ6btEQbjo11jzXng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793703470;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793710456;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=DDfICRyidzH2Xd0djapzVszHzRWjlx8ddWZ00UYB6Ac=;
-	b=u8ZNPe9xGaaVSKw6hpWjD5/E69unPcqL9grzthzbr98k7KtyuxuJG+JDOjpRfelGv8aF
-	 DfA3i8V3IPMY+bN/IJWZ3VUCX0muXlH18Y97rygdbV6uPSO+oWeMSWPth365UTvNGzlx/
-	 q17jXSlcif1iKGNcZcjApGST0qaN2AtQ+/fmoRfZ7HUK00oIQpvfpmw0Q9MhPE9N5H7ZU
-	 c5yVKboa2g2xo54w7lzjoBXDPl8iNukOMWdn2in0VhGHbOOyyHJcNmwLPdD6MS60gFLw1
-	 MIFO8m1+aUUKo972bI86QOwY7IgNnKODUlTcauNREu4RzFhe/94oXDdddYhQ7maC+kg==
+	bh=T84aiAJqcr9eIc+RMHEdRg8f3K7zIQJ4MBqlwh+rBPc=;
+	b=apDihe8ean6hAC4x7G6+ECnzb3oE00aw4h4NAYQFTaZJkwpNuNf1pm93qRw9J98Uj4Ra
+	 acpUzT+WdqS10EaDuR5zm/WfPiHliPbNWrGuu5vSerUjIoIijvRBZ5DxmcGNIavbs7rUG
+	 lhSFY0ag8l7ei1yhhtbQC3sQhJ0l9bOPMCqYsd8jI9fqtexhFPesrXomskTVVaJ/cUe1B
+	 xN0aFFAQXuQZTdtKGj1Gfp1GX1FpxEB3f1+BzKgWjpuW8b2gqpTpOrcU1U8aZGp1Cfhnb
+	 qK/OipkUC9TrdEZ0i2V4fOZej24yWqdfrIK4Gr1f1a67J7Ju8hTbPJheF7g2unJsu8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AwykSUyB;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mMsegJ5d;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E83606BF9D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 10:57:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97E83606BF9D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE916606A332;
+	Tue,  3 Nov 2026 12:54:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE916606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AwykSUyB
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mMsegJ5d
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793703469; x=1825239469;
+  t=1793710454; x=1825246454;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tVqPDu+U/KkDYeLuXRepbX+YYLrWZCTzJZvgZd55h8w=;
-  b=AwykSUyB0WmhNagLmxWxocxAYHapilLHrt9YjIkLfU4MnAqEfZ6e4Qkh
-   bkJjbBbSz9vfyljiXQxDti8JNt5JwUXusBP3ukIer6lfNmuCmvv4p7kI0
-   ahW+G1QlGD1vygWhPUKyImQKEWvy2mce7KLxbfENn1CueUFAEjVZBDlqL
-   hWgAIod5yToaJ2Nxd5J7M8bfcoxoaqV3m/7r55JRhTECN+vt2+aaAgQyz
-   l9hp6ZdEri268bwowHWNqzaTM3BRLdy74ftcjX1NEBWeN4rpbU3xbBnFy
-   7LUGFP6/aKJRCOKQT0oJxXfuhD/gpY3u9DKc768Qf4Q3k9rJ4RVxn/xX2
-   A==;
-X-CSE-ConnectionGUID: i4MKmgX8SA6VOpExZqIv2w==
-X-CSE-MsgGUID: jVz/wQKlR2yKLT17XAEDYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2302078"
+  bh=IhRkmlNFW8wvqh1/ycRf3KZ3oTStQ6uioF6qvXYIdxs=;
+  b=mMsegJ5dKg6nPnD0khk1DwMuw8ekVkHkKZAm3a9AvqaqWnMn8udLFEdq
+   CW51kiwgk0aMyd9r1rpBJqHaOdQKD5ddqDJhAjOLIA+3+1UrBzjqI+5K0
+   iKfPbmsoaUALpZQaV6EPs2+1mhRDbY6C5Cj+kokYkXsqrWEms5RSBeNvk
+   2f0PGyYWQnzq1Oh4obBpGkrp4IYogNTD75pSyTSVLrOjO0t7wVXpNRxoA
+   iJgt7zubVj0zJd9asR7v4EQ8jeopApDqDw3ngtsxoHVOlBsJ268ATqvNM
+   WIwrUZc0zIobaw+jLsfKAWtEmS1dQ1bvHJsov7ENVnwM73hwoih9E7BUf
+   w==;
+X-CSE-ConnectionGUID: N3+nM2vkRk+giiZI6qPypg==
+X-CSE-MsgGUID: ZSLf+i1tTBWC+Mf4IzVXsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2323240"
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="2302078"
+   d="scan'208";a="2323240"
 Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 02:57:48 -0800
-X-CSE-ConnectionGUID: 43AHykudSHympGxlpG29+w==
-X-CSE-MsgGUID: Fjb47Nx4QzCgkr4Wz5LA+g==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 04:54:13 -0800
+X-CSE-ConnectionGUID: bIrfVphKRsiEpMbkrvetPA==
+X-CSE-MsgGUID: 3fvg2CqPSWirao/zO/h4zw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="8181103"
+   d="scan'208";a="8203943"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 03 Nov 2026 02:57:46 -0800
+  by fmviesa011.fm.intel.com with ESMTP; 03 Nov 2026 04:54:07 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOCD1-00000000ie0-2XzN;
-	Tue, 03 Nov 2026 10:57:43 +0000
-Date: Tue, 3 Nov 2026 18:56:53 +0800
+	id 1xOE1a-00000000ik4-3PiJ;
+	Tue, 03 Nov 2026 12:54:02 +0000
+Date: Tue, 3 Nov 2026 20:53:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nehuen Lian Bova <nehuenlian.kernel@gmail.com>, jikos@kernel.org,
-	bentiss@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nehuen Lian Bova <nehuenlian.kernel@gmail.com>
-Subject: Re: [PATCH v2] HID: wacom: replace sprintf calls with safer
- alternatives
-Message-ID: <202611031828.iUFgzaYo-lkp@intel.com>
-References: <20261101054830.291749-1-nehuenlian.kernel@gmail.com>
+To: Matthew Ruffell <matthew.ruffell@canonical.com>,
+	Waiman Long <longman@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Tejun Heo <tj@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Caron Wills <caron.wills@pulsar.com>,
+	Ridong Chen <ridong.chen@linux.dev>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH 3/6] mm/folio, mm/mlock: Don't batch folios in per-CPU
+ LRU caches on isolated CPUs
+Message-ID: <202611032053.I3Ud8d11-lkp@intel.com>
+References: <20261103075940.110308-4-matthew.ruffell@canonical.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,127 +110,62 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261101054830.291749-1-nehuenlian.kernel@gmail.com>
+In-Reply-To: <20261103075940.110308-4-matthew.ruffell@canonical.com>
 
-Hi Nehuen,
+Hi Matthew,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v7.3 next-20261030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nehuen-Lian-Bova/HID-wacom-replace-sprintf-calls-with-safer-alternatives/20261101-024830
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20261101054830.291749-1-nehuenlian.kernel%40gmail.com
-patch subject: [PATCH v2] HID: wacom: replace sprintf calls with safer alternatives
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261103/202611031828.iUFgzaYo-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031828.iUFgzaYo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Ruffell/sched-isolation-Consider-nohz_full-CPUs-isolated-in-cpu_is_isolated-again/20261103-205935
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20261103075940.110308-4-matthew.ruffell%40canonical.com
+patch subject: [PATCH 3/6] mm/folio, mm/mlock: Don't batch folios in per-CPU LRU caches on isolated CPUs
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20261103/202611032053.I3Ud8d11-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611032053.I3Ud8d11-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611031828.iUFgzaYo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611032053.I3Ud8d11-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hid/wacom_sys.c: In function '__wacom_initialize_battery':
->> drivers/hid/wacom_sys.c:1842:37: warning: passing argument 2 of 'snprintf' makes integer from pointer without a cast [-Wint-conversion]
-    1842 |         snprintf(battery->bat_name, "wacom_battery_%ld", n);
-         |                                     ^~~~~~~~~~~~~~~~~~~
-         |                                     |
-         |                                     char *
-   In file included from include/linux/kernel.h:32,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/interrupt_rc.h:18,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:17,
-                    from include/linux/hid.h:19,
-                    from drivers/hid/wacom_wac.h:7,
-                    from drivers/hid/wacom_sys.c:6:
-   include/linux/sprintf.h:13:47: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'char *'
-      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
-         |                                        ~~~~~~~^~~~
->> drivers/hid/wacom_sys.c:1842:58: warning: passing argument 3 of 'snprintf' makes pointer from integer without a cast [-Wint-conversion]
-    1842 |         snprintf(battery->bat_name, "wacom_battery_%ld", n);
-         |                                                          ^
-         |                                                          |
-         |                                                          long unsigned int
-   In file included from include/linux/kernel.h:32,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/interrupt_rc.h:18,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:17,
-                    from include/linux/hid.h:19,
-                    from drivers/hid/wacom_wac.h:7,
-                    from drivers/hid/wacom_sys.c:6:
-   include/linux/sprintf.h:13:65: note: expected 'const char *' but argument is of type 'long unsigned int'
-      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
-         |                                                     ~~~~~~~~~~~~^~~
+>> mm/folio.c:293:6: error: call to undeclared function 'lru_batching_bypassed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     293 |         if (lru_batching_bypassed())
+         |             ^
+   1 error generated.
 
 
-vim +/snprintf +1842 drivers/hid/wacom_sys.c
+vim +/lru_batching_bypassed +293 mm/folio.c
 
-  1820	
-  1821	static int __wacom_initialize_battery(struct wacom *wacom,
-  1822					      struct wacom_battery *battery)
-  1823	{
-  1824		static atomic_t battery_no = ATOMIC_INIT(0);
-  1825		struct device *dev = &wacom->hdev->dev;
-  1826		struct power_supply_config psy_cfg = { .drv_data = battery, };
-  1827		struct power_supply *ps_bat;
-  1828		struct power_supply_desc *bat_desc = &battery->bat_desc;
-  1829		unsigned long n;
-  1830		int error;
-  1831	
-  1832		if (!devres_open_group(dev, bat_desc, GFP_KERNEL))
-  1833			return -ENOMEM;
-  1834	
-  1835		battery->wacom = wacom;
-  1836	
-  1837		n = atomic_inc_return(&battery_no) - 1;
-  1838	
-  1839		bat_desc->properties = wacom_battery_props;
-  1840		bat_desc->num_properties = ARRAY_SIZE(wacom_battery_props);
-  1841		bat_desc->get_property = wacom_battery_get_property;
-> 1842		snprintf(battery->bat_name, "wacom_battery_%ld", n);
-  1843		bat_desc->name = battery->bat_name;
-  1844		bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
-  1845		bat_desc->use_for_apm = 0;
-  1846	
-  1847		ps_bat = devm_power_supply_register(dev, bat_desc, &psy_cfg);
-  1848		if (IS_ERR(ps_bat)) {
-  1849			error = PTR_ERR(ps_bat);
-  1850			goto err;
-  1851		}
-  1852	
-  1853		power_supply_powers(ps_bat, &wacom->hdev->dev);
-  1854	
-  1855		battery->battery = ps_bat;
-  1856	
-  1857		devres_close_group(dev, bat_desc);
-  1858		return 0;
-  1859	
-  1860	err:
-  1861		devres_release_group(dev, bat_desc);
-  1862		return error;
-  1863	}
-  1864	
+   280	
+   281	static void __folio_batch_add_and_move(struct folio_batch __percpu *fbatch,
+   282			struct folio *folio, move_fn_t move_fn, bool disable_irq)
+   283	{
+   284		unsigned long flags;
+   285	
+   286		folio_get(folio);
+   287	
+   288		if (disable_irq)
+   289			local_lock_irqsave(&cpu_fbatches.lock_irq, flags);
+   290		else
+   291			local_lock(&cpu_fbatches.lock);
+   292	
+ > 293		if (lru_batching_bypassed())
+   294			folio_move_lru_now(folio, move_fn);
+   295		else if (!folio_batch_add(this_cpu_ptr(fbatch), folio) ||
+   296				!folio_may_be_lru_cached(folio) || lru_cache_disabled())
+   297			folio_batch_move_lru(this_cpu_ptr(fbatch), move_fn);
+   298	
+   299		if (disable_irq)
+   300			local_unlock_irqrestore(&cpu_fbatches.lock_irq, flags);
+   301		else
+   302			local_unlock(&cpu_fbatches.lock);
+   303	}
+   304	
 
 --
 0-DAY CI Kernel Test Service
