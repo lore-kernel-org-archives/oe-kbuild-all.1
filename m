@@ -1,83 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793665350;
-	b=2rZ8dFl+2k8Ezbhdu+OZKeXofUgK0TFhb2VgCa0wzRrQOgSNp9gY5FtEhNSqDX4L232P
-	 vL46QEs9iTiysLwwScU01iWUYCwrlk2yFbN9Jk1UfzMCdENBigSC2/kvCR5PR0HTO7YXR
-	 JV7StKj+KmI8GpXgdzFlzLPNe18Ywv3iPTKoaKIB/bDAke/P5vFBZ3asLdiWtVt/nv76k
-	 wrL0s2YTGNBz4i3g5rg/GfGoNpVdHhL6xgmzmio5NQ3LmZ25e1dlUkWCGjCGyUxIEMcZN
-	 odKXsTwFSael1+fyYaB1vf+TVJWEQ6mzwOZO726U8jiNtpQWY2kgFsNLay7SKWHspmg==
+	t=1793672399;
+	b=ir2HRz+we9NqFl1FgY+L0FPmP4rw607hD2HVwuMynl4n+4g85763XpQRoC0lWq71EzFt
+	 uBJAtbgxoP4+fQe29HiLzaW7F8z4BipuGLPJxtinALTAEsk0E9GkB43DKufEPy8Sbjrot
+	 5BWuZWJ2WL2OS5rg4hGTxWgoxitIUglJjwc4WzeABT9Zj4AMKGRldPNM5yLspBvxXYcOH
+	 0rZoNgmvJLULWFh74d1WRizUbWd0JTdkC9SSIqS8dHtXw2NpD3LUR1IiOlIHvDDD5X0g2
+	 u7WyUYCaDi4t48KDvd0lJvGvZnnSEUFAmQgwcZ16GeqPHLNpFKpxw1QJlqH48bmxg/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793665350;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793672399;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=Xo23pX0LkqDaqeUDm7pphUOpOZD0A0t29LsZLUd6y+w=;
-	b=StIIVO+6zCQRxRUmC56FnmItyB/iQzl2U830aoVABPqR9TFF8RGMupGUhOGEI0K7VW/y
-	 GltAV7AQnz/M2NcgppLQ0ndxPtkzVP8o+MxfS2D4epTyQnt8gi3vBTTQJXIMQc+syg2+2
-	 aFCIgqFBBHZ0sPBAWVOh0+9gP7EnRt8h0QCt7VOYYO5FXItHO8ebc6CPnzclZ17oU1ejr
-	 77Gn3JQoVAexMCIKx8mRV3HxZS5QnOPoCxQG4WtXUHdOfh7pY2heaG5ElsfYUtcgATh2V
-	 UBYqWhel5tBNM79OvdXe6dcaYlWKXsis3BWQb8VPRC4i8t4eQebNNymkdNft5bybnDQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=6OfzYIP1bXExBnvc/K1qwnkf3+tq7zkwz1Js0K4ygeI=;
+	b=zk7gQxwUlGQKPg+amv9DtHNZIGlUIIZ8FHxu8yXbfZ9kL8Ox4qRBhWkXgaMzhJPPEXio
+	 R2UCWdBtsbqIVPuWCBbL5eFz1MYCHjNcrIaR009EY1g+g0gg4OIWNNgn14+naI1wdx3VD
+	 tXxvDFzXvH5Xzf32UAo+AUNY6m4YgqEVpLRTdtS3Lx9U+4iI1EIoRN3LD+3Ky6WHNBloh
+	 dug7ksUftqqIi3y6gDwFVzcPn+iwHxon7+cr/USaN+Sgwjw6FWMyHN+KYxbvLgOf5pJ5A
+	 fznSmyK+ZxnjYS8PXjX32nrCGOjJpsnefPZH8zKg8EadS5LOygEwzoL/+66bThO3+ng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Qq+FAJfy;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="a/OKE1vr";
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DDB606A33A;
-	Tue,  3 Nov 2026 00:22:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07DDB606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7F8606A324
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 02:19:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E7F8606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Qq+FAJfy
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a/OKE1vr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793665349; x=1825201349;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xBQkxZD2qmYmXTlHQrUaab8BxBJ6qbBDJIm+K6hAggk=;
-  b=Qq+FAJfy/Bk26zwisD69o+//daW27vznDV/Xuwap3LjOFUM/DuDsXl5p
-   qqikcI4Z2MQ5MvUho+qbPveOVBZyom5/ABi+Hs6N9OH4xBTG01WH7pGuo
-   idViaTJGixGa8rFI/AKK4rUJtgBkvK7CpeTlGmh3R0Q61tRqJydWQtSPV
-   EOzLycHhkjxXFW3vpkRdw69DpqmxWWfcm7RitDvOgnlTYZdhUD1z52I8Y
-   xjPJc6ZXi5Tfv6C3uWuimWGM3fJoPreamp9BqKyn0b+7PhfRFhvtz0tyb
-   m+WrTMgWm/3NufKZs2q9UM6LSllnSF5EATA+9MYpwP/vmVlUL4A78umLv
-   w==;
-X-CSE-ConnectionGUID: o5K1G+1VRtGdaQGwB0J38w==
-X-CSE-MsgGUID: VFOWpEnySW6UeWyEq1dyCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2255651"
+  t=1793672397; x=1825208397;
+  h=date:from:to:cc:subject:message-id;
+  bh=rJJ5NJ+myaFf56S49k8Z+VH+GXdpVVQvCQashy+coWM=;
+  b=a/OKE1vrcltwA6K/VdwKPyJ54sfeQkR48aJ3xe+WA7FYTUqNg6BIY6Go
+   U0iAFTPw2BIKy8xYNh1H7PAWWfg5ihNteZK9oFDlXTalXt2wCxfpuxeu8
+   00IFgKEGZpjKX6IT7A7D3LNIQ70yncbBG/GTWY4/mTKH33anmZj4aW8qN
+   ONOdjBp/IMxQuT5rDjq4qbQVs2FiPQmxH/HFNLEAXn1X1UINtgUx+tWIZ
+   K//HvkffmQu22c0tqYqp9OYp2dcTsi/6vy2FmsACjHbVAHV8EK4t8PfP+
+   BQoixg4UhMidylQGCF8p3An41j3qwbYIQ3s4gDG6QWbOamm73UNM5xZ+g
+   g==;
+X-CSE-ConnectionGUID: ge03AKebQCWouJ4Me7KTbA==
+X-CSE-MsgGUID: WU5Fai/sQKuQZiibgzpQ9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2396770"
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2255651"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 16:22:28 -0800
-X-CSE-ConnectionGUID: TepHzMvJQ8SEPar/wdwHVA==
-X-CSE-MsgGUID: Yb20lfD8Rt6X3iiUOVSHRQ==
+   d="scan'208";a="2396770"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 18:19:56 -0800
+X-CSE-ConnectionGUID: UCvned1ARz6oU4bRNnFt6w==
+X-CSE-MsgGUID: IB5bKjUkSZmvT7Zrv1WTJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6607032"
+   d="scan'208";a="6451119"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Nov 2026 16:22:27 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 02 Nov 2026 18:19:55 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xO2IC-00000000i5I-0ILN;
-	Tue, 03 Nov 2026 00:22:24 +0000
-Date: Tue, 3 Nov 2026 08:21:25 +0800
+	id 1xO47s-00000000iC0-0Sau;
+	Tue, 03 Nov 2026 02:19:52 +0000
+Date: Tue, 03 Nov 2026 10:19:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viktor Korsnes <viktor.korsnes@remarkable.no>,
-	Jeff Chen <jeff.chen_1@nxp.com>,
-	Johannes Berg <johannes@sipsolutions.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Viktor Korsnes <viktor.korsnes@remarkable.no>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH wireless 1/2] wifi: nxpwifi: fix hex parsing in
- nxpwifi_parse_cal_cfg()
-Message-ID: <202611030826.7OV08JJo-lkp@intel.com>
-References: <20261102121856.1011263-1-viktor.korsnes@remarkable.no>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>
+Subject: [tnguy-net-queue:100GbE 5/11]
+ drivers/net/ethernet/intel/ice/ice_ptp.c:1253:29: error: 'struct ice_ptp_tx'
+ has no member named 'calibrating'
+Message-ID: <202611031042.vATH1Rxg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,64 +82,84 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102121856.1011263-1-viktor.korsnes@remarkable.no>
 
-Hi Viktor,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Viktor-Korsnes/wifi-nxpwifi-add-missing-header-to-HOST_CMD_CFG_DATA/20261102-131800
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
-patch link:    https://lore.kernel.org/r/20261102121856.1011263-1-viktor.korsnes%40remarkable.no
-patch subject: [PATCH wireless 1/2] wifi: nxpwifi: fix hex parsing in nxpwifi_parse_cal_cfg()
-config: i386-buildonly-randconfig-1002-20261103 (https://download.01.org/0day-ci/archive/20261103/202611030826.7OV08JJo-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611030826.7OV08JJo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git 100GbE
+head:   3c73d34ba643c4e24ff549f3f083372a36b09952
+commit: 64639b94e14663a7f80953ac0d075edac626ee96 [5/11] ice: E825: stop clearing PHY_REG_TX_OFFSET_READY
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261103/202611031042.vATH1Rxg-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031042.vATH1Rxg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611030826.7OV08JJo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611031042.vATH1Rxg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/wireless/nxp/nxpwifi/sta_cmd.c:1405:8: error: call to undeclared function 'hex2bin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1405 |                             hex2bin(d, s, 1))
+   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_port_phy_stop':
+>> drivers/net/ethernet/intel/ice/ice_ptp.c:1253:29: error: 'struct ice_ptp_tx' has no member named 'calibrating'
+    1253 |                 ptp_port->tx.calibrating = true;
          |                             ^
-   1 error generated.
+   drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_port_phy_restart':
+   drivers/net/ethernet/intel/ice/ice_ptp.c:1328:29: error: 'struct ice_ptp_tx' has no member named 'calibrating'
+    1328 |                 ptp_port->tx.calibrating = true;
+         |                             ^
+   drivers/net/ethernet/intel/ice/ice_ptp.c:1338:29: error: 'struct ice_ptp_tx' has no member named 'calibrating'
+    1338 |                 ptp_port->tx.calibrating = false;
+         |                             ^
 
 
-vim +/hex2bin +1405 drivers/net/wireless/nxp/nxpwifi/sta_cmd.c
+vim +1253 drivers/net/ethernet/intel/ice/ice_ptp.c
 
-  1393	
-  1394	static u32 nxpwifi_parse_cal_cfg(u8 *src, size_t len, u8 *dst, size_t dst_size)
-  1395	{
-  1396		u8 *s = src, *d = dst;
-  1397	
-  1398		while (s - src < len) {
-  1399			if (*s && (isspace(*s) || *s == '\t')) {
-  1400				s++;
-  1401				continue;
-  1402			}
-  1403			if (isxdigit(*s)) {
-  1404				if (d - dst >= dst_size || src + len - s < 2 ||
-> 1405				    hex2bin(d, s, 1))
-  1406					return 0;
-  1407				d++;
-  1408				s += 2;
-  1409			} else {
-  1410				s++;
-  1411			}
-  1412		}
-  1413	
-  1414		return d - dst;
-  1415	}
-  1416	
+  1222	
+  1223	/**
+  1224	 * ice_ptp_port_phy_stop - Stop timestamping for a PHY port
+  1225	 * @ptp_port: PTP port to stop
+  1226	 *
+  1227	 * Context: must hold the adapter ps_lock.
+  1228	 */
+  1229	static int
+  1230	ice_ptp_port_phy_stop(struct ice_ptp_port *ptp_port)
+  1231	{
+  1232		struct ice_pf *pf = ptp_port_to_pf(ptp_port);
+  1233		u8 port = ptp_port->port_num;
+  1234		struct ice_hw *hw = &pf->hw;
+  1235		unsigned long flags;
+  1236		int err;
+  1237	
+  1238		lockdep_assert_held(&pf->adapter->ps_lock);
+  1239	
+  1240		switch (hw->mac_type) {
+  1241		case ICE_MAC_E810:
+  1242		case ICE_MAC_E830:
+  1243			err = 0;
+  1244			break;
+  1245		case ICE_MAC_GENERIC:
+  1246			kthread_cancel_delayed_work_sync(&ptp_port->ov_work);
+  1247	
+  1248			err = ice_stop_phy_timer_e82x(hw, port, true);
+  1249			break;
+  1250		case ICE_MAC_GENERIC_3K_E825:
+  1251			/* Disable new Tx timestamp requests */
+  1252			spin_lock_irqsave(&ptp_port->tx.lock, flags);
+> 1253			ptp_port->tx.calibrating = true;
+  1254			spin_unlock_irqrestore(&ptp_port->tx.lock, flags);
+  1255	
+  1256			ice_ptp_mark_tx_tracker_stale(&ptp_port->tx);
+  1257	
+  1258			err = ice_stop_phy_timer_eth56g(hw, port);
+  1259			break;
+  1260		default:
+  1261			err = -ENODEV;
+  1262		}
+  1263		if (err && err != -EBUSY)
+  1264			dev_err(ice_pf_to_dev(pf), "PTP failed to set PHY port %d down, err %d\n",
+  1265				port, err);
+  1266	
+  1267		return err;
+  1268	}
+  1269	
 
 --
 0-DAY CI Kernel Test Service
