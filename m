@@ -1,104 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793712680;
-	b=rw9XDgEnRjtlZFsQQLLjBNPIs08I6CDn8JxcFLJlBXi7qNEpndBtrc/Y6rwT8+gcRmtC
-	 KHm6gqnnvEgFdc6HgKl3OlBE/3MRC0CYrTKvEenj9vS2m+RjQKcQ+wFgqNTgQhLct8dTo
-	 ra2OMEhnkjUa+oDGRKOB/Ni4/kdZE+loO9e3HV6nUIE7UjbM9LRXqstRKQlLS56hGVhto
-	 oCvDuORAlxqPKy9Oq97ACsglyniNCMyVqM7MBkJKcN0TMKLGnjAM54wcCiim5GVeWiwLu
-	 iEki1lXjze+EtH9kbrZseRpNhXy+867wrtNc4yUf5auhw4O9wmWBKUDji82ew9Xl8Xw==
+	t=1793714550;
+	b=iJbKsFpaj/GdH5JLCNAK0KPScJobKhxDc2Jv+BY3uLzct3HCjvON4oeqpJM6oCsPB8Vn
+	 t/rlfKvqDpc06TFTQzK7vQsS9ovOLBy9q8yHtIpZ/fOFl9D2uOc96C+8qck9cJBsHkyem
+	 PfreRIosVE4X9dN19pFw+RfheB5WDTM4dTZirO8xz1dsgn3G+AtTe+9MzmzFb1SSkOFF8
+	 +tEbAxLkFPdULWRzr08wRmlXv5036guEoJ+69DUHPViUmnNBfctQHn+/Te4eaBUle2ssc
+	 W43zv68rwdkyZLT4OPpOSi1TqF71AUvqS4DDZ187vDS7eHb5gKBtq6aCslclCDCHxsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793712680;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793714550;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=bqSSouDoyJf0YGFehgWYnnk2xGKwMtREqQQCF8wiudg=;
-	b=hv2A0IjAgI/I5Pfk6mf/3fRhc6OY6zDse1IjoGW09A/YYUAR13MtyQGgBPMP6FjKglc0
-	 BPEViZ6/tcn2UxM11Hw2cyUD9WuTTHSD1rh0Mh1nYx2k1vvYlLsVAcE2tOvEH0deHhq1U
-	 cOAbDpXiW4Rjd+kNAuwyMd2P8Al/gC59l4Tf2ltCenfaN0YA8Wc9rKy9vr8W5K4AIwy5n
-	 LY3yyfa7q98crjYtdWQuwZQ//jaOViWMRHPrEyf3+Mx81fdQ0Bj2czeHTW9BS8jD3h0Gr
-	 aSQhlnS9HbSI4USv++MKFhbSMq/Zh+PKdhjqT1N+azO/T0T+UZLlXfMrPzj20XEewFQ==
+	bh=U2kSEVRi2hxXG2GFOz4rcCNrV0dltOZ+Pl3QkTNM8Pc=;
+	b=XQ++BGVEj8Zn12NIQghkGTA/73c5aAeRLxbaAPXWf2nxZBS3Kl0k6y47Uww/IKw8w/Bf
+	 7y9AKhgCFKh1w71QNeI1p8ICEj8fFHXFbwyUcDpJAM3EUWkmW7UmrvcSUkrzaNrzCG4C/
+	 h076geQQeqLBEK9Su+63uystyzdaS7DDx+zUgmJx5I9Cip9AUXLHjImu21+RkaAHShuoa
+	 naFQUQ/gIp4X+7gGyVug90bqSClIV6MppBR52FdmDnjT/6SyeQcQ2SGRMAXAkxpaXMXdu
+	 4sDs4Bpf2tXzGpH79E31ImgThLEyxfYLi9SqNRy36ZGWt/YZTGf6A5Jq68aNLZ0oeQQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SBMs4pMo;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dIF4YyTT;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6DE606A324
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 13:31:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A6DE606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E103860A2603;
+	Tue,  3 Nov 2026 14:02:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E103860A2603
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SBMs4pMo
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dIF4YyTT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793712680; x=1825248680;
+  t=1793714550; x=1825250550;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hkR8M4AVECxKSn4GYebF87vUMQPK1tTyUqELFgxgqRs=;
-  b=SBMs4pMoauBtpedelBcC49z4kvO8AMo7TtACgeFMjLOfl4DXt66bxMHJ
-   XEh4U4rRY32DpnOKeliENg5B02GQ3JiJidpJS/9izMPO9ZCO31XGYrmTr
-   lOL4EqqPCT3BibNcwOU2x3jB0Eclj2BAzdtY3JdaneuY+iqALFKtIIGiC
-   RlR3fb2d8C9XO5L19+mJ+6k8ZrQvpJfNgso30NmiltPSZCIxEwN7oLilw
-   YyAD/2OecJOyqSqFxAeTbofirdkfkLEGBjdJehOaV3POiwrOLbu9ofEgi
-   Qqaptfs0Xqz7Lparr2lXq3+yIlGaqQXBWnRleNmGO6sxsWWIxLNi5PeB4
-   Q==;
-X-CSE-ConnectionGUID: u/ElXckGTu27Eqxyu8uqGg==
-X-CSE-MsgGUID: oOMsSVVmQZ2Y9OkLCHCiUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2429902"
+  bh=21/dBFytCw06WfTSnztehqTIWH3fJ3UemgDQsPHVjOg=;
+  b=dIF4YyTTboUQu6daqPnfWosES/Wzgd0ka1i2WrKovstKerg+u4FtzG4W
+   ttQS8E85prPFCELWsKszsgi09I5X3USCSH0r4zMDZSHXynHAQZEFwibTy
+   EpHSa8vFjcnNJKR1I/Soj2WxKNs6XilV1IIWKgxlNIfcgHLFpac7mnggK
+   TR+eTILL25+7ql4HtU9DCZzYKL7YAzD15JC/ya1qxfLYgbsi/8d0biyRR
+   iz/l4jYyi826GrAiGW0zCimDhckuksSKdXGcQlUJN//d+Y9BiWkgUaQgV
+   zaIafSor9ZznlTRH8+w/7F4J/B65TDKNZpffhxYETYir1R88hxnywispV
+   A==;
+X-CSE-ConnectionGUID: FaIns5gURJiZZVOAuKOp0A==
+X-CSE-MsgGUID: GYIq29CHS+OlHoCKYoTlnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2329161"
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="2429902"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 05:31:19 -0800
-X-CSE-ConnectionGUID: lTrs3dgKTlWdj0SfnJ8l6A==
-X-CSE-MsgGUID: kcSFKz+DTo2hkMUZE0wIXQ==
+   d="scan'208";a="2329161"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 06:02:29 -0800
+X-CSE-ConnectionGUID: Y42j3A5eTQ6QKttsrzyCkA==
+X-CSE-MsgGUID: 5M+a3Yp+QLeE0Ajy1Oi1EA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="6542067"
+   d="scan'208";a="6755557"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Nov 2026 05:31:12 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 03 Nov 2026 06:02:23 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOEbU-00000000ilw-1efr;
-	Tue, 03 Nov 2026 13:31:08 +0000
-Date: Tue, 3 Nov 2026 21:30:46 +0800
+	id 1xOF5g-00000000ioO-0URQ;
+	Tue, 03 Nov 2026 14:02:20 +0000
+Date: Tue, 3 Nov 2026 22:01:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Ruffell <matthew.ruffell@canonical.com>,
-	Waiman Long <longman@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Frank Li <Frank.Li@nxp.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Caron Wills <caron.wills@pulsar.com>,
-	Ridong Chen <ridong.chen@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH 3/6] mm/folio, mm/mlock: Don't batch folios in per-CPU
- LRU caches on isolated CPUs
-Message-ID: <202611032138.4bxGcYLC-lkp@intel.com>
-References: <20261103075940.110308-4-matthew.ruffell@canonical.com>
+	Larisa IIeana Grigore <larisa.grigore@nxp.com>, imx@lists.linux.dev,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-tegra@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH v3 6/7] dmaengine: fsl-edma: support per-channel DT child
+ nodes
+Message-ID: <202611032138.hVbEmkem-lkp@intel.com>
+References: <20261102-edma-iommu-v3-v3-6-9d0e62a954eb@Example.Com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -110,62 +101,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261103075940.110308-4-matthew.ruffell@canonical.com>
+In-Reply-To: <20261102-edma-iommu-v3-v3-6-9d0e62a954eb@Example.Com>
 
-Hi Matthew,
+Hi Peng,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Ruffell/sched-isolation-Consider-nohz_full-CPUs-isolated-in-cpu_is_isolated-again/20261103-205935
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20261103075940.110308-4-matthew.ruffell%40canonical.com
-patch subject: [PATCH 3/6] mm/folio, mm/mlock: Don't batch folios in per-CPU LRU caches on isolated CPUs
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20261103/202611032138.4bxGcYLC-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611032138.4bxGcYLC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/dmaengine-fsl-edma-unregister-channels-before-vchan-cleanup/20261102-144955
+base:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+patch link:    https://lore.kernel.org/r/20261102-edma-iommu-v3-v3-6-9d0e62a954eb%40Example.Com
+patch subject: [PATCH v3 6/7] dmaengine: fsl-edma: support per-channel DT child nodes
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20261103/202611032138.hVbEmkem-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611032138.hVbEmkem-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611032138.4bxGcYLC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611032138.hVbEmkem-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/folio.c: In function '__folio_batch_add_and_move':
->> mm/folio.c:293:13: error: implicit declaration of function 'lru_batching_bypassed' [-Wimplicit-function-declaration]
-     293 |         if (lru_batching_bypassed())
-         |             ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/lru_batching_bypassed +293 mm/folio.c
-
-   280	
-   281	static void __folio_batch_add_and_move(struct folio_batch __percpu *fbatch,
-   282			struct folio *folio, move_fn_t move_fn, bool disable_irq)
-   283	{
-   284		unsigned long flags;
-   285	
-   286		folio_get(folio);
-   287	
-   288		if (disable_irq)
-   289			local_lock_irqsave(&cpu_fbatches.lock_irq, flags);
-   290		else
-   291			local_lock(&cpu_fbatches.lock);
-   292	
- > 293		if (lru_batching_bypassed())
-   294			folio_move_lru_now(folio, move_fn);
-   295		else if (!folio_batch_add(this_cpu_ptr(fbatch), folio) ||
-   296				!folio_may_be_lru_cached(folio) || lru_cache_disabled())
-   297			folio_batch_move_lru(this_cpu_ptr(fbatch), move_fn);
-   298	
-   299		if (disable_irq)
-   300			local_unlock_irqrestore(&cpu_fbatches.lock_irq, flags);
-   301		else
-   302			local_unlock(&cpu_fbatches.lock);
-   303	}
-   304	
+   ld: drivers/dma/fsl-edma-main.o: in function `fsl_edma_child_to_chan_id.isra.0':
+>> fsl-edma-main.c:(.text+0xa99): undefined reference to `__udivdi3'
 
 --
 0-DAY CI Kernel Test Service
