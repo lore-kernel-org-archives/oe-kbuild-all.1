@@ -1,79 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793685573;
-	b=4Y5qOrlGCEiByt7UC8/Rq6+cT0P6JtpO7keKhM3Zaq05Ti5qGVDWk6ERJ8Yy0tqnSuFK
-	 Zjd2bQFLgiu9qZpkFqsroipKYJKmFrathchrrHY8Vot7OgRg4BxzT+VPIm7sIqsbKikcg
-	 Y4dHbWXh5jvR18y3Uv7KDh8O5GCocVnz82cjAb25/RDFLSvhOHXuHmHSmyYDlyV1XFT8f
-	 q/asfrmtvTy/wFjfze4TmvDEXzyx0/lezWMWEwYgH7D382XnEbEVYYqunfVK6s5kvcROK
-	 /vdE6j5LlxU25uGjPwymzInzPjpqzbamP5A0w+5PreOd9X5jWr5tQtZh/H5tBv14DvQ==
+	t=1793690527;
+	b=rav1EYjBENiNyqgRZ3BkNSJInL/bKUrEVQoNBFFlq3Jcl0tMQ/FINFTjr8RJwSc/Q9ZP
+	 GgUvA39H0jyNM+x2qj5eMxWVa4NNm2t+qoQezBYs5YHG1KILDur1eDn24rD8Q6nNxsZ1y
+	 KgfWb7ApBgIIorTGKGSKBvPWoWNleQOLHnLxcTrxRjGOUKVmdbKW+CPNelld/f0I29u9o
+	 Q7klMicT/sU74/2qmAEMWVqi4puZgI3n9bdp22iZlwclaer0Dq+cYpZkO7vw0vqIfPiRc
+	 fz9BS1OAVRBncdAVI0rn9e36p+E0sGYwnxhUP9iTf20+cdqFdtYYXyIUW+lOFHmPvtA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793685573;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793690527;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=A8bddEBIbBnrhCkJvUD76tfHihR90VydcaXvriNMGT4=;
-	b=DSl9MUdHGjRWmHRSOvucmOmkzfjLko2VqYzSOA3tUqMousgYUJ1JwHeOkTvnUEAlxOxB
-	 5uscGfclxoaanl3MkqM5LR26Wc+qP70yv4E/TWP477Y4j4Kg90XalfHqJgw4L1E+R+Eh0
-	 uREbh//mFIec7oRZUZFxIgedF+iglDOxvBjxpGUo29vTt7O4lq+Kq9++jOhiGcIb38Vua
-	 ceRu560dKUahIP9XxvoBTLcunGhhLNPehR+wQCcciOCQacTjLnDNrYBzB/gYb+EtZX9NB
-	 wWl3V91DQTWnt9t3Y3LYQ59uQqrr/CQN71rtj9zX7OV4ax88dNZUOGE2lAShomhfnsg==
+	bh=VcKZbxGxnDf670MYv2ZlU3vquEwQHCxZSuyzdaUzO9w=;
+	b=rg0WsZTlZ1ncRWHqWXtb96gNRA8aGh9uWCppw/N798R0Rmd2gnQM9qKkCYUtnd4mwTgD
+	 3YyWhs1DyxMCoWVFI0mjglM6GBtIz+DmscgmBJQodB5tGK46UOtP+E48Vxf4ggqjRsNA4
+	 Qpa1+pEaBydfssmjP81m2ro2DovTzhcfEuREKFhnHYA/2e4J5+vUnHkzibaIBz/CbKfU8
+	 oumXXn7tfQeptgGKNjoGembLCrHGiO6fl1qWkL10RmO5cZl3v0BBGJ8a/B13pzvKwMRSz
+	 mAUSZg4esHllfNWxXZODKRtK0O1MGvChpFAnloQudegyZKO2vyMbKAhocQg1M2aumSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=drR3Heoy;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QdcGGBv4;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82903606A329;
-	Tue,  3 Nov 2026 05:59:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82903606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9395C606A335
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 07:22:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9395C606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=drR3Heoy
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QdcGGBv4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793685572; x=1825221572;
+  t=1793690525; x=1825226525;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gS7oDy6q6yF2JzSAfNg+xd9jPSrR+iIht6F312MyITc=;
-  b=drR3HeoyUYGO/bfbS9Ul0HcxrlHgPVLN+O6TDg6AnO/ObAhzsL1G1k+y
-   3QfKMnNWBApCgOx5D2Fjpox6YOfUi1LS9NHEnus6DlxaNuvu67N6YMDaG
-   GekZfI65QQZ/zysFfj+wd/x5o5Lkrw8G29SJSLyjpd2oxxjU7Ifq72KfC
-   M+CxEehIcQyldxn4C62Oa/9AhE0YO1ZldsjEH8pIGWvPXdELwHZM7yDEM
-   CevLC1Tjp1zVzLu20d3XOse6QCy5ZU4yhOZBIdLimGtWWX6jffqniK5vy
-   ixBLdRxhGY2aI3nkTOxvkCsg0td3nSjhO2chEbUb55PSs/KKTdbfs0w1N
-   w==;
-X-CSE-ConnectionGUID: fGpQUpg5S3aTno+Csl64HQ==
-X-CSE-MsgGUID: wk1RUJd7RrmEyLDSKF2zUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2285600"
+  bh=1SKnSg+pIqDZFtJD7tZ7/aN8fjQWTk+cyVhupecIP38=;
+  b=QdcGGBv4eMLYoIw8BGF0Em5TCTnvGsnHLN/eYYduFf0bUotMCD06QIwD
+   C7ZKFEwKKX8qrDrlflnZQll76C8byuFJ3XgV3+mY/32ijAkvbapU6kmm7
+   EH4G2CJSh0WRjG3s+fdvnR2YhvrZ7cIGrdjyJYGKVNwJWbtOM/8EmB3V9
+   NIvtN0Xi2HnI3+/BrRG5Te0gxxNMlUrqlB4at4Gnnwgee784e+ZaQwS2a
+   Apm5uCXtySrIwsAIZY1EyrHNbjRovGof74C9VSDxv6QULbrgJUbKRejdK
+   ToVB7EgaK5siw5XS2Vy9yW4oeaLj8j0OlGWUzITqJVsYMFI9wYovupw+B
+   A==;
+X-CSE-ConnectionGUID: GRrVPAICSgC6BVSypZFQPw==
+X-CSE-MsgGUID: BnG45hd6QG+WHiKIekq5UA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2282330"
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2285600"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 21:59:31 -0800
-X-CSE-ConnectionGUID: KE+OZC1YS/aEKNdDrVVCRQ==
-X-CSE-MsgGUID: y85TrGMQRvKoEDO5x6CJUA==
+   d="scan'208";a="2282330"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2026 23:22:04 -0800
+X-CSE-ConnectionGUID: Y5aH+inaTRSJkZns7vkdtw==
+X-CSE-MsgGUID: hwU7rUVZTreq/3Z7sRjMEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6490027"
+   d="scan'208";a="6455411"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Nov 2026 21:59:29 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 02 Nov 2026 23:22:01 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xO7YM-00000000iLU-0vQR;
-	Tue, 03 Nov 2026 05:59:26 +0000
-Date: Tue, 3 Nov 2026 13:59:06 +0800
+	id 1xO8qF-00000000iR2-13Xb;
+	Tue, 03 Nov 2026 07:21:59 +0000
+Date: Tue, 3 Nov 2026 15:21:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: Johannes Berg <johannes@sipsolutions.net>,
 	linux-wireless@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes.berg@intel.com>,
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>,
 	Miriam Rachel Korenblit <miriam.rachel.korenblit@intel.com>
 Subject: Re: [PATCH wireless-next] wifi: cfg80211: add APIs for SMD transition
-Message-ID: <202611031315.T7kEmqOi-lkp@intel.com>
+Message-ID: <202611031530.dNReBXlc-lkp@intel.com>
 References: <20261102231220.5b52ad631258.Id451626c78a925e85aaf2598ab471120940a91c7@changeid>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -98,236 +97,473 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-cfg802
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
 patch link:    https://lore.kernel.org/r/20261102231220.5b52ad631258.Id451626c78a925e85aaf2598ab471120940a91c7%40changeid
 patch subject: [PATCH wireless-next] wifi: cfg80211: add APIs for SMD transition
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20261103/202611031315.T7kEmqOi-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031315.T7kEmqOi-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261103/202611031530.dNReBXlc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031530.dNReBXlc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611031315.T7kEmqOi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611031530.dNReBXlc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from net/wireless/trace.c:6:
-   In file included from net/wireless/trace.h:4711:
-   In file included from include/trace/define_trace.h:134:
-   In file included from include/trace/bpf_probe.h:129:
->> net/wireless/trace.h:4556:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
-    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
-         | ^
-   include/trace/trace_events.h:41:2: note: expanded from macro 'TRACE_EVENT'
-      41 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^
-   include/trace/bpf_probe.h:54:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/trace/bpf_probe.h:49:55: note: expanded from macro '__BPF_DECLARE_TRACE'
-      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
-         |                                                              ^
-   note: (skipping 7 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/bpf_probe.h:31:42: note: expanded from macro '__CAST2'
-      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
-         |                                          ^
-   include/trace/bpf_probe.h:30:24: note: expanded from macro '__CAST1'
-      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
-         |                        ^
-   include/trace/bpf_probe.h:26:17: note: expanded from macro '__CAST_TO_U64'
+   In file included from include/trace/define_trace.h:134,
+                    from net/wireless/trace.h:4711,
+                    from net/wireless/trace.c:6:
+   net/wireless/./trace.h: In function '__bpf_trace_cfg80211_rx_st_preparation_response':
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
       26 |         UINTTYPE(sizeof(x)) __dst; \
          |                        ^
-   net/wireless/trace.h:4559:25: note: declared here
-    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-         |                                       ^
->> net/wireless/trace.h:4556:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
-    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
-         | ^
-   include/trace/trace_events.h:41:2: note: expanded from macro 'TRACE_EVENT'
-      41 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^
-   include/trace/bpf_probe.h:54:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/trace/bpf_probe.h:49:55: note: expanded from macro '__BPF_DECLARE_TRACE'
-      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
-         |                                                              ^
-   note: (skipping 7 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/bpf_probe.h:31:42: note: expanded from macro '__CAST2'
-      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
-         |                                          ^
-   include/trace/bpf_probe.h:30:24: note: expanded from macro '__CAST1'
+   include/trace/bpf_probe.h:19:42: note: in definition of macro 'UINTTYPE'
+      19 |         __typeof__(__builtin_choose_expr(size == 1,  (u8)1, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
       30 | #define __CAST1(a,...) __CAST_TO_U64(a)
-         |                        ^
-   include/trace/bpf_probe.h:26:17: note: expanded from macro '__CAST_TO_U64'
-      26 |         UINTTYPE(sizeof(x)) __dst; \
-         |                        ^
-   net/wireless/trace.h:4559:25: note: declared here
-    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-         |                                       ^
->> net/wireless/trace.h:4556:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
-    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
-         | ^
-   include/trace/trace_events.h:41:2: note: expanded from macro 'TRACE_EVENT'
-      41 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^
-   include/trace/bpf_probe.h:54:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/trace/bpf_probe.h:49:55: note: expanded from macro '__BPF_DECLARE_TRACE'
-      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
-         |                                                              ^
-   note: (skipping 7 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/bpf_probe.h:31:42: note: expanded from macro '__CAST2'
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
       31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
-         |                                          ^
-   include/trace/bpf_probe.h:30:24: note: expanded from macro '__CAST1'
-      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:32:42: note: in expansion of macro '__CAST2'
+      32 | #define __CAST3(a,...) __CAST_TO_U64(a), __CAST2(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:33:42: note: in expansion of macro '__CAST3'
+      33 | #define __CAST4(a,...) __CAST_TO_U64(a), __CAST3(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:34:42: note: in expansion of macro '__CAST4'
+      34 | #define __CAST5(a,...) __CAST_TO_U64(a), __CAST4(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST5'
+      25 | #define __CONCAT(a, b) a ## b
          |                        ^
-   include/trace/bpf_probe.h:26:17: note: expanded from macro '__CAST_TO_U64'
-      26 |         UINTTYPE(sizeof(x)) __dst; \
-         |                        ^
-   net/wireless/trace.h:4559:25: note: declared here
-    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-         |                                       ^
->> net/wireless/trace.h:4556:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
-    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
-         | ^
-   include/trace/trace_events.h:41:2: note: expanded from macro 'TRACE_EVENT'
-      41 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^
-   include/trace/bpf_probe.h:54:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/trace/bpf_probe.h:49:55: note: expanded from macro '__BPF_DECLARE_TRACE'
-      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
-         |                                                              ^
-   note: (skipping 7 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/bpf_probe.h:31:42: note: expanded from macro '__CAST2'
-      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
-         |                                          ^
-   include/trace/bpf_probe.h:30:24: note: expanded from macro '__CAST1'
-      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
-         |                        ^
-   include/trace/bpf_probe.h:26:17: note: expanded from macro '__CAST_TO_U64'
-      26 |         UINTTYPE(sizeof(x)) __dst; \
-         |                        ^
-   net/wireless/trace.h:4559:25: note: declared here
-    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-         |                                       ^
-   net/wireless/trace.h:4627:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
-    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
-         | ^
-   include/trace/bpf_probe.h:54:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/trace/bpf_probe.h:49:55: note: expanded from macro '__BPF_DECLARE_TRACE'
-      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
-         |                                                              ^
-   include/trace/bpf_probe.h:43:26: note: expanded from macro 'CAST_TO_U64'
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
       43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
-         |                          ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/bpf_probe.h:31:42: note: expanded from macro '__CAST2'
-      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
-         |                                          ^
-   include/trace/bpf_probe.h:30:24: note: expanded from macro '__CAST1'
-      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
-         |                        ^
-   include/trace/bpf_probe.h:26:17: note: expanded from macro '__CAST_TO_U64'
-      26 |         UINTTYPE(sizeof(x)) __dst; \
-         |                        ^
-   net/wireless/trace.h:4629:25: note: declared here
-    4629 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-         |                                       ^
-   net/wireless/trace.h:4627:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
-    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
-         | ^
-   include/trace/bpf_probe.h:54:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
-      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/trace/bpf_probe.h:49:55: note: expanded from macro '__BPF_DECLARE_TRACE'
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
       49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
-         |                                                              ^
-   include/trace/bpf_probe.h:43:26: note: expanded from macro 'CAST_TO_U64'
-      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
-         |                          ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/bpf_probe.h:31:42: note: expanded from macro '__CAST2'
-      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
-         |                                          ^
-   include/trace/bpf_probe.h:30:24: note: expanded from macro '__CAST1'
-      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
-         |                        ^
-   include/trace/bpf_probe.h:26:17: note: expanded from macro '__CAST_TO_U64'
-      26 |         UINTTYPE(sizeof(x)) __dst; \
-         |                        ^
-   net/wireless/trace.h:4629:25: note: declared here
-    4629 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-         |                                       ^
-   net/wireless/trace.h:4627:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
-    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
-         | ^
-   include/trace/bpf_probe.h:54:2: note: expanded from macro 'DECLARE_EVENT_CLASS'
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
       54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
-         |         ^
-   include/trace/bpf_probe.h:49:55: note: expanded from macro '__BPF_DECLARE_TRACE'
-      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
-         |                                                              ^
-   include/trace/bpf_probe.h:43:26: note: expanded from macro 'CAST_TO_U64'
-      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
-         |                          ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/bpf_probe.h:31:42: note: expanded from macro '__CAST2'
-      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
-         |                                          ^
-   include/trace/bpf_probe.h:30:24: note: expanded from macro '__CAST1'
-      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
-         |                        ^
-   include/trace/bpf_probe.h:26:17: note: expanded from macro '__CAST_TO_U64'
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4559:39: note: declared here
+    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:42:30: note: in expansion of macro 'PARAMS'
+      42 |                              PARAMS(proto),                    \
+         |                              ^~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4557:9: note: in expansion of macro 'TP_PROTO'
+    4557 |         TP_PROTO(struct net_device *netdev, const u8 *ap_mld_addr,
+         |         ^~~~~~~~
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
       26 |         UINTTYPE(sizeof(x)) __dst; \
          |                        ^
-   net/wireless/trace.h:4629:25: note: declared here
+   include/trace/bpf_probe.h:20:42: note: in definition of macro 'UINTTYPE'
+      20 |                    __builtin_choose_expr(size == 2, (u16)2, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
+      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
+      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:32:42: note: in expansion of macro '__CAST2'
+      32 | #define __CAST3(a,...) __CAST_TO_U64(a), __CAST2(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:33:42: note: in expansion of macro '__CAST3'
+      33 | #define __CAST4(a,...) __CAST_TO_U64(a), __CAST3(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:34:42: note: in expansion of macro '__CAST4'
+      34 | #define __CAST5(a,...) __CAST_TO_U64(a), __CAST4(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST5'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
+      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
+      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4559:39: note: declared here
+    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:42:30: note: in expansion of macro 'PARAMS'
+      42 |                              PARAMS(proto),                    \
+         |                              ^~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4557:9: note: in expansion of macro 'TP_PROTO'
+    4557 |         TP_PROTO(struct net_device *netdev, const u8 *ap_mld_addr,
+         |         ^~~~~~~~
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
+      26 |         UINTTYPE(sizeof(x)) __dst; \
+         |                        ^
+   include/trace/bpf_probe.h:21:42: note: in definition of macro 'UINTTYPE'
+      21 |                    __builtin_choose_expr(size == 4, (u32)3, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
+      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
+      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:32:42: note: in expansion of macro '__CAST2'
+      32 | #define __CAST3(a,...) __CAST_TO_U64(a), __CAST2(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:33:42: note: in expansion of macro '__CAST3'
+      33 | #define __CAST4(a,...) __CAST_TO_U64(a), __CAST3(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:34:42: note: in expansion of macro '__CAST4'
+      34 | #define __CAST5(a,...) __CAST_TO_U64(a), __CAST4(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST5'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
+      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
+      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4559:39: note: declared here
+    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:42:30: note: in expansion of macro 'PARAMS'
+      42 |                              PARAMS(proto),                    \
+         |                              ^~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4557:9: note: in expansion of macro 'TP_PROTO'
+    4557 |         TP_PROTO(struct net_device *netdev, const u8 *ap_mld_addr,
+         |         ^~~~~~~~
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
+      26 |         UINTTYPE(sizeof(x)) __dst; \
+         |                        ^
+   include/trace/bpf_probe.h:22:42: note: in definition of macro 'UINTTYPE'
+      22 |                    __builtin_choose_expr(size == 8, (u64)4, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
+      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
+      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:32:42: note: in expansion of macro '__CAST2'
+      32 | #define __CAST3(a,...) __CAST_TO_U64(a), __CAST2(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:33:42: note: in expansion of macro '__CAST3'
+      33 | #define __CAST4(a,...) __CAST_TO_U64(a), __CAST3(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/trace/bpf_probe.h:34:42: note: in expansion of macro '__CAST4'
+      34 | #define __CAST5(a,...) __CAST_TO_U64(a), __CAST4(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST5'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
+      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
+      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4559:39: note: declared here
+    4559 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   include/trace/trace_events.h:41:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+      41 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:42:30: note: in expansion of macro 'PARAMS'
+      42 |                              PARAMS(proto),                    \
+         |                              ^~~~~~
+   net/wireless/./trace.h:4556:1: note: in expansion of macro 'TRACE_EVENT'
+    4556 | TRACE_EVENT(cfg80211_rx_st_preparation_response,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:4557:9: note: in expansion of macro 'TP_PROTO'
+    4557 |         TP_PROTO(struct net_device *netdev, const u8 *ap_mld_addr,
+         |         ^~~~~~~~
+   net/wireless/./trace.h: In function '__bpf_trace_cfg80211_st_evt':
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
+      26 |         UINTTYPE(sizeof(x)) __dst; \
+         |                        ^
+   include/trace/bpf_probe.h:19:42: note: in definition of macro 'UINTTYPE'
+      19 |         __typeof__(__builtin_choose_expr(size == 1,  (u8)1, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
+      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
+      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST2'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
+      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
+      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4629:39: note: declared here
     4629 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-         |                                       ^
-   net/wireless/trace.h:4627:1: warning: sizeof on array function parameter will return size of 'struct cfg80211_bss **' instead of 'struct cfg80211_bss *[15]' [-Wsizeof-array-argument]
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4628:9: note: in expansion of macro 'TP_PROTO'
+    4628 |         TP_PROTO(struct net_device *netdev,
+         |         ^~~~~~~~
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
+      26 |         UINTTYPE(sizeof(x)) __dst; \
+         |                        ^
+   include/trace/bpf_probe.h:20:42: note: in definition of macro 'UINTTYPE'
+      20 |                    __builtin_choose_expr(size == 2, (u16)2, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
+      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
+      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST2'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
+      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
+      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4629:39: note: declared here
+    4629 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4628:9: note: in expansion of macro 'TP_PROTO'
+    4628 |         TP_PROTO(struct net_device *netdev,
+         |         ^~~~~~~~
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
+      26 |         UINTTYPE(sizeof(x)) __dst; \
+         |                        ^
+   include/trace/bpf_probe.h:21:42: note: in definition of macro 'UINTTYPE'
+      21 |                    __builtin_choose_expr(size == 4, (u32)3, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
+      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
+      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST2'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
+      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
+      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4629:39: note: declared here
+    4629 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4628:9: note: in expansion of macro 'TP_PROTO'
+    4628 |         TP_PROTO(struct net_device *netdev,
+         |         ^~~~~~~~
+>> include/trace/bpf_probe.h:26:24: warning: 'sizeof' on array function parameter 'links' will return size of 'struct cfg80211_bss **' [-Wsizeof-array-argument]
+      26 |         UINTTYPE(sizeof(x)) __dst; \
+         |                        ^
+   include/trace/bpf_probe.h:22:42: note: in definition of macro 'UINTTYPE'
+      22 |                    __builtin_choose_expr(size == 8, (u64)4, \
+         |                                          ^~~~
+   include/trace/bpf_probe.h:30:24: note: in expansion of macro '__CAST_TO_U64'
+      30 | #define __CAST1(a,...) __CAST_TO_U64(a)
+         |                        ^~~~~~~~~~~~~
+   include/trace/bpf_probe.h:31:42: note: in expansion of macro '__CAST1'
+      31 | #define __CAST2(a,...) __CAST_TO_U64(a), __CAST1(__VA_ARGS__)
+         |                                          ^~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__CAST2'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/trace/bpf_probe.h:43:26: note: in expansion of macro 'CONCATENATE'
+      43 | #define CAST_TO_U64(...) CONCATENATE(__CAST, COUNT_ARGS(__VA_ARGS__))(__VA_ARGS__)
+         |                          ^~~~~~~~~~~
+   include/trace/bpf_probe.h:49:62: note: in expansion of macro 'CAST_TO_U64'
+      49 |         CONCATENATE(bpf_trace_run, COUNT_ARGS(args))(__data, CAST_TO_U64(args));        \
+         |                                                              ^~~~~~~~~~~
+   include/trace/bpf_probe.h:54:9: note: in expansion of macro '__BPF_DECLARE_TRACE'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4629:39: note: declared here
+    4629 |                  struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
+         |                  ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/bpf_probe.h:47:34: note: in definition of macro '__BPF_DECLARE_TRACE'
+      47 | __bpf_trace_##call(void *__data, proto)                                 \
+         |                                  ^~~~~
+   include/trace/bpf_probe.h:54:35: note: in expansion of macro 'PARAMS'
+      54 |         __BPF_DECLARE_TRACE(call, PARAMS(proto), PARAMS(args))
+         |                                   ^~~~~~
+   net/wireless/./trace.h:4627:1: note: in expansion of macro 'DECLARE_EVENT_CLASS'
+    4627 | DECLARE_EVENT_CLASS(cfg80211_st_evt,
+         | ^~~~~~~~~~~~~~~~~~~
+   net/wireless/./trace.h:4628:9: note: in expansion of macro 'TP_PROTO'
+    4628 |         TP_PROTO(struct net_device *netdev,
+         |         ^~~~~~~~
+..
 
 
-vim +4556 net/wireless/trace.h
+vim +26 include/trace/bpf_probe.h
 
-  4555	
-> 4556	TRACE_EVENT(cfg80211_rx_st_preparation_response,
-  4557		TP_PROTO(struct net_device *netdev, const u8 *ap_mld_addr,
-  4558			 const u8 *buf, size_t len,
-  4559			 struct cfg80211_bss *links[IEEE80211_MLD_MAX_NUM_LINKS]),
-  4560		TP_ARGS(netdev, ap_mld_addr, buf, len, links),
-  4561		TP_STRUCT__entry(
-  4562			NETDEV_ENTRY
-  4563			MAC_ENTRY(ap_mld_addr)
-  4564			__dynamic_array(u8, frame, len)
-  4565			__field(u16, rejected_links)
-  4566			__array(u8, bssids, IEEE80211_MLD_MAX_NUM_LINKS * ETH_ALEN)
-  4567		),
-  4568		TP_fast_assign(
-  4569			NETDEV_ASSIGN;
-  4570			MAC_ASSIGN(ap_mld_addr, ap_mld_addr);
-  4571			if (buf)
-  4572				memcpy(__get_dynamic_array(frame), buf, len);
-  4573	
-  4574			__entry->rejected_links = 0;
-  4575	
-  4576			memset(__entry->bssids, 0, sizeof(__entry->bssids));
-  4577			for (int i = 0; i < IEEE80211_MLD_MAX_NUM_LINKS; i++) {
-  4578				if (!links[i])
-  4579					continue;
-  4580				__entry->rejected_links |= BIT(i);
-  4581				memcpy(__entry->bssids + i * ETH_ALEN,
-  4582				       links[i]->bssid, ETH_ALEN);
-  4583			}
-  4584		),
-  4585		TP_printk(NETDEV_PR_FMT ", ap_mld_addr: %pM, frame_len: %u, rejected_links: 0x%x",
-  4586			  NETDEV_PR_ARG, __entry->ap_mld_addr,
-  4587			  __get_dynamic_array_len(frame), __entry->rejected_links)
-  4588	);
-  4589	
+b229baa374dbb1 Andy Shevchenko    2023-07-19  16  
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  17  /* cast any integer, pointer, or small struct to u64 */
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  18  #define UINTTYPE(size) \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  19  	__typeof__(__builtin_choose_expr(size == 1,  (u8)1, \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  20  		   __builtin_choose_expr(size == 2, (u16)2, \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  21  		   __builtin_choose_expr(size == 4, (u32)3, \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  22  		   __builtin_choose_expr(size == 8, (u64)4, \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  23  					 (void)5)))))
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  24  #define __CAST_TO_U64(x) ({ \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  25  	typeof(x) __src = (x); \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28 @26  	UINTTYPE(sizeof(x)) __dst; \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  27  	memcpy(&__dst, &__src, sizeof(__dst)); \
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  28  	(u64)__dst; })
+c4f6699dfcb855 Alexei Starovoitov 2018-03-28  29  
 
 --
 0-DAY CI Kernel Test Service
