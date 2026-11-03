@@ -1,82 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793696727;
-	b=ieZlcD0041iWoWpOFT/2rxTkeirA2GOgM/OVqD3W0qkejn5U74ko1ZbZIZL3rDoPr+UR
-	 BnvZfZOg5Q47WgHOZSTsBmGjb+AIscBvvVezrrBJSRgvMi/L7JOYYtkA2hIEFfJH9etRh
-	 iW5/Eq185dmL5mBo32h6inU0mDP4ywndnB6Pdb5OpOCTZIF8Yd1IHETzKWjAOIlLzKrhx
-	 w+vFf0HvAXp3Kicb82GRy1fx0jKGaUps7twFrZxIBH+FQRu/aZtZPwTM8eGHEqkmQz5o5
-	 MJTD7RRT3tkhzpvSGpmh9xqe41BBpem/oC5h/IC8GakM7qzkddaWMfm74YMTMILOhEg==
+	t=1793697929;
+	b=PQ+N8MzsCn9cUmjQIeKV803i8v4laMiJ2W7rNwv+t2g6PQ8cwSvKffQ1v1N+Ale/T4ZQ
+	 +E5jtf0YjX925NZEnIqwx5+dMghIihI1YrjNoEkCl/PG0lYSLyyLxBNewWi+iUzv8Jyf8
+	 rsxjmgIUu4kl8BkZ4RAV4w1I4qXv7ceG3xdoagF899mBVAZRvPMru3zd/txLmkxCrY/uK
+	 2boFWP0fZPTFHYFnQHJdu3VGzKTsm0WLjXApajSDz+hkfRrxl1XFwFK8FJEp++4lr/veG
+	 4f0WqjztrT7DLFEsyqItIWK522F1bR2sPnaKOZPpfmcfmhY32Nk4OiEFSdZjh+Qu+Og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793696727;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793697929;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=SNt5jVDoloT6S+1L8WM/wooWYPjtY2QT2yGTLf38yws=;
-	b=1IBbnDBCQSNgQGDQ+Dr716KtTbou5609F42grCZzFKluMKgGGvUO8ENaaWdeaXypf4q8
-	 cbtRqHzsRzOiqSyVWLUNryZBtyXnj5uIYIIHbBRLoDSi56qN6WSBRKfkQ5oY5Hq54Wtcx
-	 xZmifW0RcaPKnlEnMvVAf6NyanM2HxTctGfymRwCRDBqwsNonfUp+i5w81FEPxQ6iprew
-	 UB0kJDr5r2CpjU9HwrancoNKwUc/8coRkF68wm8F+ykIQuzoi1O/PVFHrplCznfafT2KD
-	 EaG8jQZK9ZVUv8v9Pu/8UVLz0qY9Zy/yPNt7DKqwcPP9grpDAJ3XQ9nH34fb53gVOLg==
+	bh=VzjsOwpA7+tDGhVV1gOZnFASbF1Yw3cdRY+PIzifsHM=;
+	b=bA+VI48Rja0EOReMw9tIh8f2wCV4SwTXEEPejNs8Jngw+TLJpgjlNuKKzB+7pbcDnLie
+	 p6HK4kVPpaG/ASEIf4MguzZnRcaLak5fxWY5eDQdZi/XqvVZZQONPZEsaemUTC/ElgSuq
+	 nUZkhJUSOIV+0h9swdhH/QxhIxzszBvLkI9iAxQ95g/Bh/0zipValAasEfSAUpiA2Kxq5
+	 0qgojlRxv9TCCDfJl+gLZzUnIqgw3hIsYJp3D2O1FyEogJWPEhQD868mof5vVH9o+8CWO
+	 X8sQEOyHuuKt7xPKkhdNa7x3v3FUWwrG09pEKA2rm8QS18zdCNTIVw+RoERPvSDLtLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="J/npBvQq";
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eAHuIoQt;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D161606A329
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 09:05:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D161606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8F0606A324
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 09:25:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A8F0606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J/npBvQq
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eAHuIoQt
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793696725; x=1825232725;
+  t=1793697927; x=1825233927;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S/I52vOt0Nmtf1C9ytaONT53Lc9TMYu+QUcuReQGEEM=;
-  b=J/npBvQq7JWl6/ExXodRFU7f/00/qgbPRso22MUoLwmaepLLQSuuDl3m
-   Lebd2UApZWF7JEV/cmqSUA8bDht+t0ygtQoW1yF7Ncc4UROz3q2e4i7AU
-   yytruMqP/abrmZ+VzXILEBl9en5Pa3oLjRv2u1nD4i7VMwlHnMNbV9PKS
-   k/UjKNuzyNL8uyHc5+IpwH9z9gNpfuCq7+hhPKmool+5aR87qLXcVohK2
-   BBdN+LR5kJ/0PtmXZP4T1a4Z+3V3QSmwT4+JKt7OJYYIvFQSV4Wi9/6m4
-   LJxwVyaIK0+SlzQJkj7A6xGdEpHLnwyFDca3BlYmVYiptwWOpxr8VKCOG
-   A==;
-X-CSE-ConnectionGUID: wNG4PrKEQg25D3piBYJRSA==
-X-CSE-MsgGUID: 3t2Y6XEETluPK2d/z/JDVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2424640"
-X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="2424640"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 01:05:25 -0800
-X-CSE-ConnectionGUID: nAdBXIixQ5WpGI2iZytl4Q==
-X-CSE-MsgGUID: w3nhhq5WTO6LlWf2/191OA==
+  bh=axBssC8auNsg/gQjNzUNBr0llMklPS1mEy+A5Zk0qHM=;
+  b=eAHuIoQtLPsChkAFLGK2sAQ5RCXbR5EG0BopHzkFh8trwEPAo4wIG9T2
+   pX+CKUL+ByFfQhlIZeBi5XXtaqpvowcuTR54FY+O44360Vd5MbTCPDsOs
+   juUdeKyaZS4AnNoQGQWTPILiL1VRgZccvFEhw2JD9HBUrwzcUQHDucSR8
+   7Iv6kVKgQOWisQqKiS1A8ccC+jDveJwVjnwbE4WIf32flcWPPPM0klmNE
+   Jic4n89r5pNo9C+IjnqdufD5VxZITv9ncMe2z37XaSXU5lAwxRGsHBpWV
+   ME4JSV/uDHkW3r0SxJuQuFYKaDit7wQHGgCzD2YofJoajC2aQZVcAv+IK
+   w==;
+X-CSE-ConnectionGUID: L9TcbC5gSOOjFrjQVTiieQ==
+X-CSE-MsgGUID: 8EMo6e/aRvijxjHTz0Qn+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2442661"
+X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
+   d="scan'208";a="2442661"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 01:25:27 -0800
+X-CSE-ConnectionGUID: 6uSocVP+RB6asO/i3BzVvg==
+X-CSE-MsgGUID: S1uYRFcLR9m/wi3L8sVdmQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,192,1787036400"; 
-   d="scan'208";a="6216725"
+X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
+   d="scan'208";a="6375782"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 Nov 2026 01:05:22 -0800
+  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2026 01:25:25 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOASF-00000000iWe-1tKA;
-	Tue, 03 Nov 2026 09:05:19 +0000
-Date: Tue, 3 Nov 2026 17:04:27 +0800
+	id 1xOAle-00000000iYK-3nYc;
+	Tue, 03 Nov 2026 09:25:22 +0000
+Date: Tue, 3 Nov 2026 17:25:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	linux-sound@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, broonie@kernel.org, tiwai@suse.com,
-	perex@perex.cz, amade@asmblr.net, linux-kernel@vger.kernel.org,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-	vkoul@kernel.org, Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: Re: [PATCH 2/7] soundwire: intel: Allow for dynamic assignment of
- PDIs
-Message-ID: <202611031645.nTKIP8TA-lkp@intel.com>
-References: <20261102181042.1922005-3-cezary.rojewski@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Nicolas Saenz Julienne <nsaenz@amazon.com>
+Subject: Re: [PATCH 17/45] KVM: Introduce NR/NW/NX memory attributes
+Message-ID: <202611031642.2wbBv9l5-lkp@intel.com>
+References: <20261102174512.8903-1-pbonzini@redhat.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -88,35 +85,75 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102181042.1922005-3-cezary.rojewski@intel.com>
+In-Reply-To: <20261102174512.8903-1-pbonzini@redhat.com>
 
-Hi Cezary,
+Hi Paolo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on tiwai-sound/for-next tiwai-sound/for-linus linus/master v7.3 next-20261030]
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next linus/master next-20261030]
+[cannot apply to mst-vhost/linux-next kvm/linux-next v7.3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cezary-Rojewski/soundwire-intel-Define-stubs-when-library-is-disabled/20261102-191036
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261102181042.1922005-3-cezary.rojewski%40intel.com
-patch subject: [PATCH 2/7] soundwire: intel: Allow for dynamic assignment of PDIs
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261103/202611031645.nTKIP8TA-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Bonzini/KVM-nVMX-nSVM-check-unconditionally-whether-CR3-is-valid/20261102-124045
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20261102174512.8903-1-pbonzini%40redhat.com
+patch subject: [PATCH 17/45] KVM: Introduce NR/NW/NX memory attributes
+config: i386-randconfig-1010-20261103 (https://download.01.org/0day-ci/archive/20261103/202611031642.2wbBv9l5-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031645.nTKIP8TA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031642.2wbBv9l5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611031645.nTKIP8TA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611031642.2wbBv9l5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/soundwire/cadence_master.c:2049 function parameter 'bus' not described in 'sdw_cdns_release_pdi'
->> Warning: drivers/soundwire/cadence_master.c:2049 function parameter 'bus' not described in 'sdw_cdns_release_pdi'
+   In file included from <command-line>:
+   In function 'kvm_vm_ioctl_set_mem_attributes',
+       inlined from 'kvm_vm_ioctl' at arch/x86/kvm/../../../virt/kvm/kvm_main.c:5483:7:
+>> include/linux/compiler_types.h:702:45: error: call to '__compiletime_assert_799' declared with attribute error: BUILD_BUG_ON failed: sizeof(attrs->attributes) != sizeof(unsigned long)
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:683:25: note: in definition of macro '__compiletime_assert'
+     683 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:702:9: note: in expansion of macro '_compiletime_assert'
+     702 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:40:37: note: in expansion of macro 'compiletime_assert'
+      40 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:51:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      51 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/kvm_main.c:2736:9: note: in expansion of macro 'BUILD_BUG_ON'
+    2736 |         BUILD_BUG_ON(sizeof(attrs->attributes) != sizeof(unsigned long));
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_799 +702 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  688  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  689  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  690  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  691  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  692  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  693   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  694   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  695   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  696   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  697   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  698   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  699   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  700   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  701  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @702  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  703  
 
 --
 0-DAY CI Kernel Test Service
