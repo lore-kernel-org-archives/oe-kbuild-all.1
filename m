@@ -1,89 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793697931;
-	b=FpXBO/o4pR11iA0JWcygEuPabQ1NNP7Elti9/5VklyxqSjTKCqhOx8rkZ4D9WMTLHh7Z
-	 JUE1QZqEs6J8QJTxNgcju323VfPvPS+rGvhciOtDBOvtlG3Dal68Xz6yRH/TAHYChInmC
-	 7Fp/VI5HanV6Aqp118Zz3VgSd9nu/FjycqS0XkcZRSqKMSYqAFQ0RCi+uYHI6Aa/ozU7h
-	 ryZCHmQfYY61uFHQdZ+B8NiJrDPkcWzdbOfnhoby1iwecIXyk4ImKD38hVjiKN3MW73/1
-	 4pOMumR57pESOXIdA0RrUxrVbixD6t4uLWAsVRqKIzY80TrPzKh1Lpey2THHsbW2Jag==
+	t=1793703470;
+	b=UdLzBWCOuN3k+rV/zQ6VDh85mZ8MnShudreH5b4PIcMT2YaduhXKFG1bbpdhnYh5+tk3
+	 V5N8hDBGJv1UZBoOpPh/X2EOX6x4vL04/ti7tm/CNdGu9AHGD+dUNa6AkRjKKqlU4GZI9
+	 hFjR25LfNrs04NoWneph6rXbWGKM3N1iNrjADUK4v6OEDWA1u6a55CBihknH6IYj6TaGM
+	 eruQ+jx0ooQN22m3RuFowLlu7mA2f1PPb5dFAfC99Xq9L7HsE3KNJOmY9vbEURRpBWo41
+	 EHUcD8vXj9UF7NoDYiuwW+C7DPx6shSXCmzOddOm6Z47joCWOLlHMtcwzqbvkM4zucw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793697931;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793703470;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=wCXIvTJDviXaIyBlg8YJ2uKGaDz3qJHjVl9e8YtiegA=;
-	b=SDXy9aLOSBtQ2m5XoeBHUKF1FmPhiLdSGsipMeuuU0L8Hot/TvYlOKH7hUQdcTJli/F0
-	 4YsXJPA/dtc79IgxG1il8vTY+D+HWxTS2/QCshR+7In+2Ybmhj2xDpKPuTqftsCzQ6+xG
-	 1L04WNpwuVaPDoNhdgiyI1pLJWhgwcKZCRQvsE9x1y1KYuEye0dHetF3MhBQbKD9mclQT
-	 EPc2ag+iHJtPwyJBiBVNX6ZywBbRzIj0KNxA/Tp1d6MwxEZoWpnrqWJemf8XBjI2WTXJx
-	 u9Nv6jdiYTvaeNniACtylNInog5XJ6i07X/tgMcIxJOANZveMGqz4pER9IqcUhdTzAQ==
+	bh=DDfICRyidzH2Xd0djapzVszHzRWjlx8ddWZ00UYB6Ac=;
+	b=u8ZNPe9xGaaVSKw6hpWjD5/E69unPcqL9grzthzbr98k7KtyuxuJG+JDOjpRfelGv8aF
+	 DfA3i8V3IPMY+bN/IJWZ3VUCX0muXlH18Y97rygdbV6uPSO+oWeMSWPth365UTvNGzlx/
+	 q17jXSlcif1iKGNcZcjApGST0qaN2AtQ+/fmoRfZ7HUK00oIQpvfpmw0Q9MhPE9N5H7ZU
+	 c5yVKboa2g2xo54w7lzjoBXDPl8iNukOMWdn2in0VhGHbOOyyHJcNmwLPdD6MS60gFLw1
+	 MIFO8m1+aUUKo972bI86QOwY7IgNnKODUlTcauNREu4RzFhe/94oXDdddYhQ7maC+kg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g1P5AOO9;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AwykSUyB;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DA7606A33D;
-	Tue,  3 Nov 2026 09:25:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14DA7606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E83606BF9D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Nov 2026 10:57:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97E83606BF9D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g1P5AOO9
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AwykSUyB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793697930; x=1825233930;
+  t=1793703469; x=1825239469;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UjYipQ22SSy8llzXWv1UrX2ibJ4uJ7pf4+eKPxCgWGU=;
-  b=g1P5AOO9NkWCKNJv0UJ1dZOWvfefQSwjTf49NA6rjGbKrLMjvF7v4g6D
-   JSciabmIjpSTHVcgUFxYpPqkm927iZOtc0wXNwiRHUX+MB37la08ukoco
-   3E4S7wfoJo24yV5F+VureP5G+VqiNEDgIKrrH0JkV9fjNkAS1udSPWExq
-   nmUilrOWAMjmaOjXOHGaq/X7qmML/MfPATUm03SwC8vdMIW3QAJiP2Zvz
-   4tlny9rwledMH/qPUpcfPFp6IRILkkhq7HVJVSDQPnoj+TJ8UAax5Hfyh
-   RjxC12v+UEqk+ZtqOGKO026zH9ff+LAWNTvwAcmMNfBM8RShcTpQJfGL6
-   Q==;
-X-CSE-ConnectionGUID: +TIS1LEIRu6zwZMz1+K9xQ==
-X-CSE-MsgGUID: QAv4e4AsT3qNabmdL7/+dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2442669"
+  bh=tVqPDu+U/KkDYeLuXRepbX+YYLrWZCTzJZvgZd55h8w=;
+  b=AwykSUyB0WmhNagLmxWxocxAYHapilLHrt9YjIkLfU4MnAqEfZ6e4Qkh
+   bkJjbBbSz9vfyljiXQxDti8JNt5JwUXusBP3ukIer6lfNmuCmvv4p7kI0
+   ahW+G1QlGD1vygWhPUKyImQKEWvy2mce7KLxbfENn1CueUFAEjVZBDlqL
+   hWgAIod5yToaJ2Nxd5J7M8bfcoxoaqV3m/7r55JRhTECN+vt2+aaAgQyz
+   l9hp6ZdEri268bwowHWNqzaTM3BRLdy74ftcjX1NEBWeN4rpbU3xbBnFy
+   7LUGFP6/aKJRCOKQT0oJxXfuhD/gpY3u9DKc768Qf4Q3k9rJ4RVxn/xX2
+   A==;
+X-CSE-ConnectionGUID: i4MKmgX8SA6VOpExZqIv2w==
+X-CSE-MsgGUID: jVz/wQKlR2yKLT17XAEDYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11954"; a="2302078"
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="2442669"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 01:25:30 -0800
-X-CSE-ConnectionGUID: cA0SZw5GToqwTxtgKpQfKw==
-X-CSE-MsgGUID: NEfjHHXWQ7uygJH1xl3Ciw==
+   d="scan'208";a="2302078"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 02:57:48 -0800
+X-CSE-ConnectionGUID: 43AHykudSHympGxlpG29+w==
+X-CSE-MsgGUID: Fjb47Nx4QzCgkr4Wz5LA+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,193,1787036400"; 
-   d="scan'208";a="6375785"
+   d="scan'208";a="8181103"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2026 01:25:25 -0800
+  by fmviesa011.fm.intel.com with ESMTP; 03 Nov 2026 02:57:46 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOAlf-00000000iYO-0O2W;
-	Tue, 03 Nov 2026 09:25:23 +0000
-Date: Tue, 3 Nov 2026 17:25:11 +0800
+	id 1xOCD1-00000000ie0-2XzN;
+	Tue, 03 Nov 2026 10:57:43 +0000
+Date: Tue, 3 Nov 2026 18:56:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andre Przywara <andre.przywara@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Salman Nabi <salman.nabi@arm.com>,
-	Vedashree Vidwans <vvidwans@nvidia.com>,
-	Trilok Soni <trilokkumar.soni@oss.qualcomm.com>,
-	Nirmoy Das <nirmoyd@nvidia.com>, vsethi@nvidia.com,
-	Varun Wadekar <vwadekar@nvidia.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 RESEND 5/6] firmware: smccc: lfa: Register DT interrupt
-Message-ID: <202611031726.J5nXvG8V-lkp@intel.com>
-References: <20261102165421.3651202-6-andre.przywara@arm.com>
+To: Nehuen Lian Bova <nehuenlian.kernel@gmail.com>, jikos@kernel.org,
+	bentiss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nehuen Lian Bova <nehuenlian.kernel@gmail.com>
+Subject: Re: [PATCH v2] HID: wacom: replace sprintf calls with safer
+ alternatives
+Message-ID: <202611031828.iUFgzaYo-lkp@intel.com>
+References: <20261101054830.291749-1-nehuenlian.kernel@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -95,164 +87,127 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102165421.3651202-6-andre.przywara@arm.com>
+In-Reply-To: <20261101054830.291749-1-nehuenlian.kernel@gmail.com>
 
-Hi Andre,
+Hi Nehuen,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on arm64/for-next/core linus/master next-20261030]
-[cannot apply to arm/for-next arm/fixes clk/clk-next kvmarm/next rockchip/for-next soc/for-next v7.3]
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v7.3 next-20261030]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Przywara/dt-bindings-arm-Add-Live-Firmware-Activation/20261102-175415
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20261102165421.3651202-6-andre.przywara%40arm.com
-patch subject: [PATCH v5 RESEND 5/6] firmware: smccc: lfa: Register DT interrupt
-config: arm64-randconfig-1001-20261103 (https://download.01.org/0day-ci/archive/20261103/202611031726.J5nXvG8V-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031726.J5nXvG8V-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nehuen-Lian-Bova/HID-wacom-replace-sprintf-calls-with-safer-alternatives/20261101-024830
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20261101054830.291749-1-nehuenlian.kernel%40gmail.com
+patch subject: [PATCH v2] HID: wacom: replace sprintf calls with safer alternatives
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261103/202611031828.iUFgzaYo-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261103/202611031828.iUFgzaYo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611031726.J5nXvG8V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611031828.iUFgzaYo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/firmware/smccc/lfa_fw.c:939:9: error: call to undeclared function 'devm_request_threaded_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     939 |         return devm_request_threaded_irq(dev, lfa_irq, NULL,
-         |                ^
->> drivers/firmware/smccc/lfa_fw.c:940:31: error: use of undeclared identifier 'IRQF_COND_ONESHOT'
-     940 |                                          lfa_irq_handler_thread, IRQF_COND_ONESHOT,
-         |                                                                  ^
->> drivers/firmware/smccc/lfa_fw.c:1034:2: error: call to undeclared function 'devm_free_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1034 |         devm_free_irq(&sdev->dev, lfa_irq, NULL);
-         |         ^
-   3 errors generated.
+   drivers/hid/wacom_sys.c: In function '__wacom_initialize_battery':
+>> drivers/hid/wacom_sys.c:1842:37: warning: passing argument 2 of 'snprintf' makes integer from pointer without a cast [-Wint-conversion]
+    1842 |         snprintf(battery->bat_name, "wacom_battery_%ld", n);
+         |                                     ^~~~~~~~~~~~~~~~~~~
+         |                                     |
+         |                                     char *
+   In file included from include/linux/kernel.h:32,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/interrupt_rc.h:18,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:17,
+                    from include/linux/hid.h:19,
+                    from drivers/hid/wacom_wac.h:7,
+                    from drivers/hid/wacom_sys.c:6:
+   include/linux/sprintf.h:13:47: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'char *'
+      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+         |                                        ~~~~~~~^~~~
+>> drivers/hid/wacom_sys.c:1842:58: warning: passing argument 3 of 'snprintf' makes pointer from integer without a cast [-Wint-conversion]
+    1842 |         snprintf(battery->bat_name, "wacom_battery_%ld", n);
+         |                                                          ^
+         |                                                          |
+         |                                                          long unsigned int
+   In file included from include/linux/kernel.h:32,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/interrupt_rc.h:18,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:17,
+                    from include/linux/hid.h:19,
+                    from drivers/hid/wacom_wac.h:7,
+                    from drivers/hid/wacom_sys.c:6:
+   include/linux/sprintf.h:13:65: note: expected 'const char *' but argument is of type 'long unsigned int'
+      13 | __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+         |                                                     ~~~~~~~~~~~~^~~
 
 
-vim +/devm_request_threaded_irq +939 drivers/firmware/smccc/lfa_fw.c
+vim +/snprintf +1842 drivers/hid/wacom_sys.c
 
-   925	
-   926	static int lfa_register_dt(struct device *dev)
-   927	{
-   928		struct device_node *np;
-   929	
-   930		np = of_find_compatible_node(NULL, NULL, "arm,lfa");
-   931		if (!np)
-   932			return -ENODEV;
-   933	
-   934		lfa_irq = irq_of_parse_and_map(np, 0);
-   935		of_node_put(np);
-   936		if (!lfa_irq)
-   937			return -ENODEV;
-   938	
- > 939		return devm_request_threaded_irq(dev, lfa_irq, NULL,
- > 940						 lfa_irq_handler_thread, IRQF_COND_ONESHOT,
-   941						 NULL, NULL);
-   942	}
-   943	
-   944	static bool lfa_smccc_has_all_functions(void)
-   945	{
-   946		struct arm_smccc_1_2_regs regs = { 0 }, res;
-   947		u32 fn_id;
-   948	
-   949		regs.a0 = ARM_SMCCC_LFA_FEATURES;
-   950	
-   951		for (fn_id = ARM_SMCCC_LFA_GET_INFO;
-   952		     fn_id <= ARM_SMCCC_LFA_CANCEL;
-   953		     fn_id++) {
-   954			regs.a1 = fn_id;
-   955			arm_smccc_1_2_invoke(&regs, &res);
-   956			if (res.a0)
-   957				return false;
-   958		}
-   959	
-   960		return true;
-   961	}
-   962	
-   963	static int lfa_smccc_probe(struct arm_smccc_device *sdev)
-   964	{
-   965		struct arm_smccc_1_2_regs regs = { 0 };
-   966		int err;
-   967	
-   968		/* The LFA spec requires SMCCC v1.2 or higher. */
-   969		if (arm_smccc_get_version() < ARM_SMCCC_VERSION_1_2)
-   970			return -EOPNOTSUPP;
-   971	
-   972		regs.a0 = ARM_SMCCC_LFA_VERSION;
-   973		arm_smccc_1_2_invoke(&regs, &regs);
-   974		if ((s32)regs.a0 == LFA_NOT_SUPPORTED)
-   975			return -ENODEV;
-   976	
-   977		if (!lfa_smccc_has_all_functions())
-   978			return -EOPNOTSUPP;
-   979	
-   980		pr_info("Live Firmware Activation: detected v%d.%d\n",
-   981			upper_16_bits(regs.a0), lower_16_bits(regs.a0));
-   982	
-   983		fw_comps_update_wq = alloc_workqueue("fw_comps_update_wq",
-   984						     WQ_UNBOUND | WQ_MEM_RECLAIM, 1);
-   985		if (!fw_comps_update_wq) {
-   986			pr_err("Live Firmware Activation: Failed to allocate workqueue.\n");
-   987			return -ENOMEM;
-   988		}
-   989		INIT_WORK(&fw_comps_update_work, remove_invalid_fw_components);
-   990	
-   991		init_component_default_attrs();
-   992		lfa_kset = kset_create_and_add("lfa", NULL, firmware_kobj);
-   993		if (!lfa_kset) {
-   994			destroy_workqueue(fw_comps_update_wq);
-   995			return -ENOMEM;
-   996		}
-   997	
-   998		init_rwsem(&smc_lock);
-   999	
-  1000		err = update_fw_components_tree();
-  1001		if (err != 0) {
-  1002			kset_unregister(lfa_kset);
-  1003			destroy_workqueue(fw_comps_update_wq);
-  1004			return err;
-  1005		}
-  1006	
-  1007		if (!acpi_disabled) {
-  1008			err = lfa_register_acpi(&sdev->dev);
-  1009			if (!err)
-  1010				pr_info("registered LFA ACPI notification\n");
-  1011		} else {
-  1012			err = lfa_register_dt(&sdev->dev);
-  1013			if (!err)
-  1014				pr_info("registered LFA DT notification interrupt\n");
-  1015		}
-  1016	
-  1017		/*
-  1018		 * An ACPI notification or an interrupt are optional, but we must
-  1019		 * handle errors that occurred during their setup.
-  1020		 */
-  1021		if (err != -ENODEV) {
-  1022			kset_unregister(lfa_kset);
-  1023			destroy_workqueue(fw_comps_update_wq);
-  1024			return err;
-  1025		}
-  1026	
-  1027		return 0;
-  1028	}
-  1029	
-  1030	static void lfa_smccc_remove(struct arm_smccc_device *sdev)
-  1031	{
-  1032		if (!acpi_disabled)
-  1033			lfa_remove_acpi(&sdev->dev);
-> 1034		devm_free_irq(&sdev->dev, lfa_irq, NULL);
-  1035		clean_fw_components_tree();
-  1036		flush_workqueue(fw_comps_update_wq);
-  1037		destroy_workqueue(fw_comps_update_wq);
-  1038		kset_unregister(lfa_kset);
-  1039	}
-  1040	
+  1820	
+  1821	static int __wacom_initialize_battery(struct wacom *wacom,
+  1822					      struct wacom_battery *battery)
+  1823	{
+  1824		static atomic_t battery_no = ATOMIC_INIT(0);
+  1825		struct device *dev = &wacom->hdev->dev;
+  1826		struct power_supply_config psy_cfg = { .drv_data = battery, };
+  1827		struct power_supply *ps_bat;
+  1828		struct power_supply_desc *bat_desc = &battery->bat_desc;
+  1829		unsigned long n;
+  1830		int error;
+  1831	
+  1832		if (!devres_open_group(dev, bat_desc, GFP_KERNEL))
+  1833			return -ENOMEM;
+  1834	
+  1835		battery->wacom = wacom;
+  1836	
+  1837		n = atomic_inc_return(&battery_no) - 1;
+  1838	
+  1839		bat_desc->properties = wacom_battery_props;
+  1840		bat_desc->num_properties = ARRAY_SIZE(wacom_battery_props);
+  1841		bat_desc->get_property = wacom_battery_get_property;
+> 1842		snprintf(battery->bat_name, "wacom_battery_%ld", n);
+  1843		bat_desc->name = battery->bat_name;
+  1844		bat_desc->type = POWER_SUPPLY_TYPE_BATTERY;
+  1845		bat_desc->use_for_apm = 0;
+  1846	
+  1847		ps_bat = devm_power_supply_register(dev, bat_desc, &psy_cfg);
+  1848		if (IS_ERR(ps_bat)) {
+  1849			error = PTR_ERR(ps_bat);
+  1850			goto err;
+  1851		}
+  1852	
+  1853		power_supply_powers(ps_bat, &wacom->hdev->dev);
+  1854	
+  1855		battery->battery = ps_bat;
+  1856	
+  1857		devres_close_group(dev, bat_desc);
+  1858		return 0;
+  1859	
+  1860	err:
+  1861		devres_release_group(dev, bat_desc);
+  1862		return error;
+  1863	}
+  1864	
 
 --
 0-DAY CI Kernel Test Service
