@@ -1,11 +1,11 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793786401;
-	b=VB8DGwrpQIlTlTK+6Ohp4pYdb3C7JQe1rb0aR57zTG6nvCnfybc2j+ynsaPZLKWL9YUm
-	 QuyVJPpBnfjFvVKus4dM6HrfK0dDrw2EVW7ib2UOV84ifb7X1f+IiZ67iu8NBH35+gPtu
-	 calTpAB5CMhPkggoV57smBhpIa3yO9crVLwV59dpPJuERxBojiYolj2Fw85mrlTXvSDmC
-	 iauiN2ydEkqTN+B3SYySauv+z2OMjFjDtk4D6OD8A1avi3FOk1WGx31MhEo1ueNZ5zrbb
-	 i9FUp8w1KXv6XXFfiWf0It8jFlpn0utqxUxb0wRV+rYynLZyIbUErqyE1ZwEdr7b+YA==
+	b=fOJP57eVdnpUQ4O3xiVryPBN6WZU8IB1IIpEG7POeGVbUC8a5/vPOcWBjoZJB/ibpqR2
+	 P0MxE/gWF+J1dJSpwwyoM74zxktqP6vOEteJkDJroAovEEZRwtzJvXS9uxPsHor49vGh9
+	 hGeBU8dbM8dvU/ISyfvBQRXci90orwSqoMkrmVdeHahCMRKBJKuGRArs7lu/qOMe4LkIy
+	 ZMg8nf2hKkzYaZm+z8/52UxwF47kClNOriu8Y1C1/J3pqQpxbNB+hqa0Q5D6IzkoLK2LY
+	 MKYoHIBAAfN+fNWHFGQ0tgd3cOYHy7V6n4DMgyMVoUuivUqYuT7NCMTRdGK8IoKcS8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793786401;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
@@ -13,65 +13,65 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=uYd0geXH7+7vad92Nfa07NehHhEbMgjOwqrTJyRJ1Ss=;
-	b=cFuSUzasXC06sxgfDEIF55FIQgVs4rT56ciIFci7oAoIWumj3XJF9rJsAGd2KHKhjlVb
-	 ctKLCFw00g76AeZt6cjAYq8ghodpL8MQhxNQaCHcoixp/OuZ5PKb5fD/Ia4HiccxDdScr
-	 QCfqTrWgu0Z39/5XICEvm9lWnIDkfENdBG8HMGpemMA4kaYT+rC+quYkMTl/gRZMwFQVg
-	 Kohxvsph7C4z+rUQDZk4LSQfBcOljsnVMoVN/HJjtIRA4ohH+eSHrGKTBKth+qZqQSAIG
-	 nNkRtmVV+XR17vUSUr9srQRllpDzzGoMGsZOzOpYFfN0EQtBBl9eIFpxDhc2eo2Mbdw==
+	bh=w3MkGMCq97+h2HFeKSsMiB0gxkCNew6z649DKE+NXAQ=;
+	b=mwaboQoc0HwPNphDxkj+SDf5vqJ85zujMZjD+xN7KNV6wq++DupuddBOlF4vHSfOZ7f6
+	 DohZQas9YIxCjKwtlbt8oBqiLZUHSDwa6OojgeSEvAUJensemQl5OHzC8In3xecy0TjC4
+	 MnGIqQYz1Gb8fkbO1/i5lFNyqmV1GkBqJy5sGMjgHi4JkQpMYWOcr9ReTarCjxychHpGq
+	 zDJdvZ12q0VDPiPAFWOD6N6H0Eyx2O573Stc5iRjxRN8vxErjF48pXde0gXVFDp1F9yIv
+	 +3V/TOkEqn2HiLkjn8r/WOU6Jt1mQzCf/z+5akDbZQo/qXkCsDqfQk9JnMdoNW6PZMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kIAqU3lm;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XOMsDyFQ;
 	arc=none smtp.remote-ip=192.198.163.14
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50160606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Nov 2026 10:00:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50160606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4619E606A339;
+	Wed,  4 Nov 2026 10:00:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4619E606A339
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kIAqU3lm
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XOMsDyFQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793786401; x=1825322401;
+  t=1793786402; x=1825322402;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=v8rnYeavypSHx9rXyGxkktAWwxit2FoV/RbgwfVay8A=;
-  b=kIAqU3lmzbFs91Jf4ewO3hFK8ACdW5a3WxxIlJTSRW+lOlcBSSSARjtx
-   mZoJeMGwdXfSGtNSvGCVI1HpH7mX4TkZmrhE/ZofvsFdf8VKFLvLy1Bf8
-   duJU2JJizNap2fmFh6VQFFXjS1WwQ2eR8VbZ0omy7XuGChi88NoAWIuQL
-   L6g3zkIN2QPeqG6Vow/h+IRt2DHbDewxHIu+HY/h4a5kTI40S0p+uek9O
-   3fMiLFxV08EFir0FMNSUMLGULfK0NQjVKyyG7xbgsU2823Y0dVcs5OW4B
-   fmBXMcMSpWKCxIsWhTF2AOCAsYeuYrEM4Mf13AB/DNdJOVVNTuA8AtHX4
-   A==;
-X-CSE-ConnectionGUID: 4Seuj9DqTdWGOjr+lshPPA==
-X-CSE-MsgGUID: Lage58HpSPy/KLGJFFRimA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2562832"
+  bh=leAJIaY4346vFpQwajKB2muSu186GkdAL/rL+TODcEc=;
+  b=XOMsDyFQAbR/Z/y8j0SDn+lhzdyZq3W76sw5ksffUn4JWhYoEj4jXN5B
+   blJwWqk2o72xrG4r4b9J497KCcpQGuKt4QKhDIvpeOPrIexh3o+fS0Wzp
+   rJaLsXN35gCEL1m9zIwfRtpVxZnzy8MNLdxRB1T3oJKV/3HXQKbex896H
+   5CefzcwtMXhJC9mkFkR6Z0YmRZ/Z+WSPhUfDVujuXbvdp3fhDGXBCNwqc
+   aCtVGz7RfEtgNgfwTWeMxWTTR0Eo2W5tpdbjX8yvdWakIIexi+5TfWtes
+   6+jkct1KTWUEPbyIk25qhloW5NfhHi+0n53P9PD8cL5AmgfRJ0ONn2dY4
+   w==;
+X-CSE-ConnectionGUID: Anvk75hnT9K6eREFxBPcbA==
+X-CSE-MsgGUID: eeiRBUTeREutSlxCM3P6mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2562833"
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2562832"
+   d="scan'208";a="2562833"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:00:00 -0800
-X-CSE-ConnectionGUID: hE5qdq68SPCBaoPpi+hJHw==
-X-CSE-MsgGUID: fn1V+KIHRNuzu9SdmqVa/A==
+X-CSE-ConnectionGUID: OdbCFmKUSo6Z7U3QKUMMbw==
+X-CSE-MsgGUID: Vrw3ldT/QVSUe0JzVcvdGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="7071102"
+   d="scan'208";a="7071104"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 04 Nov 2026 01:59:58 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOXme-00000000kCH-2jSQ;
+	id 1xOXme-00000000kCJ-2tYk;
 	Wed, 04 Nov 2026 09:59:56 +0000
-Date: Wed, 4 Nov 2026 17:59:05 +0800
+Date: Wed, 4 Nov 2026 17:59:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Alan Stead <alan.stead@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC v1 2/3] drm/i915/dip: Send the HDMI 2.1 VTEM when VRR is
  enabled
-Message-ID: <202611041749.7Na4IlGX-lkp@intel.com>
+Message-ID: <202611041728.cwJwN22c-lkp@intel.com>
 References: <20261030203314.1085262-3-alan.stead@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -102,34 +102,30 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Alan-Stead/drm-i915-dip-S
 base:   next-20261029
 patch link:    https://lore.kernel.org/r/20261030203314.1085262-3-alan.stead%40intel.com
 patch subject: [RFC v1 2/3] drm/i915/dip: Send the HDMI 2.1 VTEM when VRR is enabled
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20261104/202611041749.7Na4IlGX-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261104/202611041749.7Na4IlGX-lkp@intel.com/reproduce)
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20261104/202611041728.cwJwN22c-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261104/202611041728.cwJwN22c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611041749.7Na4IlGX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611041728.cwJwN22c-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/display/intel_dip.c: In function 'intel_dip_write_hdmi_vtem':
->> drivers/gpu/drm/i915/display/intel_dip.c:141:41: error: implicit declaration of function 'HDMI_EMP_DATA'; did you mean 'HDMI_EMP_CTL'? [-Wimplicit-function-declaration]
+>> drivers/gpu/drm/i915/display/intel_dip.c:141:27: error: call to undeclared function 'HDMI_EMP_DATA'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      141 |                 intel_de_write(display, HDMI_EMP_DATA(display, cpu_transcoder),
-         |                                         ^~~~~~~~~~~~~
-         |                                         HDMI_EMP_CTL
->> drivers/gpu/drm/i915/display/intel_dip.c:141:41: error: incompatible type for argument 2 of 'intel_de_write'
+         |                                         ^
+>> drivers/gpu/drm/i915/display/intel_dip.c:141:27: error: passing 'int' to parameter of incompatible type 'intel_reg_t' (aka 'i915_reg_t')
      141 |                 intel_de_write(display, HDMI_EMP_DATA(display, cpu_transcoder),
          |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         |
-         |                                         int
-   In file included from drivers/gpu/drm/i915/display/intel_dip.c:11:
-   drivers/gpu/drm/i915/display/intel_de.h:79:59: note: expected 'intel_reg_t' {aka 'i915_reg_t'} but argument is of type 'int'
+   drivers/gpu/drm/i915/display/intel_de.h:79:59: note: passing argument to parameter 'reg' here
       79 | intel_de_write(struct intel_display *display, intel_reg_t reg, u32 val)
-         |                                               ~~~~~~~~~~~~^~~
+         |                                                           ^
+   2 errors generated.
 
 
-vim +141 drivers/gpu/drm/i915/display/intel_dip.c
+vim +/HDMI_EMP_DATA +141 drivers/gpu/drm/i915/display/intel_dip.c
 
     85	
     86	/*
