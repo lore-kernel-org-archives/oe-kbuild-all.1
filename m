@@ -1,80 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793809140;
-	b=ZNZ/p8LmYsl9GmNOqrahrmBLNlvr33OXiaRqg4rI7lJtscTPEt3uff8xlPvV8z9dLW1s
-	 lpJjA4u/IWTwAcrZ4RTTyRm/+by0YGQ6Spd70SnNHNEvWfjExt3S3iQw7dB+Fl4YmQL+w
-	 wrJFsePvqgGfIJHjqmTbgSVIktQpFGnMQTAfG5uEMXqX4Jew4vTXiavyX6Tt4Jcd9oE6p
-	 rlj7H7Jh9vBI2+9M74d6qgb99oz9AYDvFIqAkZh/F6+0Me5ejZQxsdP0eeWH1QPXoh1OH
-	 kOZinShB35IwlluSKBNmfbEU8Bj1PWmcGPMLA03wkAGQaMH+MhOytL93wD+kLi/lzKw==
+	t=1793809380;
+	b=MLUVjMKfiVbZwMcjF7CGQJ/Ex1V/g8wrhr3Q3m5f+Cf5bpzuYWwjtHnhvvbZMArDSt87
+	 YOceLf8/YJW0BiyQz2G3julOkmDt8JB5y2/CFB7tC+AIl7HYWmliefraGZBp3kQkV/DZu
+	 hsg0nEZiT4Sg4nfm+72Lyu7lOFqeUCsK5R1WXwn574If5YqfeDyYor6KKGMzj5bbTggE0
+	 Ia8Lp1d3ebTFjGydsNFvitDXwsDdbiddEOHVK94aURZcO6u8WuuBKL9itMWuDaP9QjwzM
+	 GwMFo12Aylblq1g174mi5QyWMiT4ix2mkaghSnz7zMEnU536/MQBCOxAT5MUU7h7vAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793809140;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793809380;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=hWt8Nh5aa/NAaAQcdUS3NCzDpZ9vbHpEVRswZNG5YNg=;
-	b=OgD+ZkiarYxHwv47EgIO6vKdW6QORb+GVJqrlHJyIThqtEbWGLrQjqTpS8nLrzUdBmcc
-	 /ycqmsmwhdC7jJ8MBSCHgLKEJ4z2dYw5XB1EEi8fgOFqCaan8blTSFciZaWct3M+j7JPf
-	 rb7okpL9MFEfvOETal1QqTrQGrgO1skcjcCsgvCMrrFql9exAOEiQ+4B0fk2zdOiEl7cK
-	 cRH2UdElEU5tcaqTWzW1oSGEFAbRWO4mAK/2y25XugZGAnYRfW0q7ed6QaRLDwUk0KoTA
-	 FEJk3aV1PmeuLp4JBZ/XUjirmGyr22ILYT3kK9052QPY+YMtaV0MyHBgTeU1FajqOOw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=/UTFFBtcvF6fBQlxwPj4B25zkedomIPEoEabA8WmJ1E=;
+	b=duZ0qppL4ZowFthIkIYk5W2OOhhUfXB1XTaqVsIcWCmXwX9UgzU87cOpZkIxR4Ty1D+w
+	 /kJDerE5unOKjD5ODVQ2bv0ZqN4bq0SlmkG6smAU6jU3r5W64jt0dResPcJJ9NX/swBCH
+	 06KwqEVLHkhmSNdD8ZqJcLOkSYS/sAYkWPeyq+vlgquoflY87BZL8nHLlpl+DzIokCriz
+	 zlh77z+QS6+gFniio7MDStK46N55vog6UbCEiA659EK3KUDu1/XGFVYpF6CCOKGJPt9bW
+	 R6prrCfLUjCngyFjADuztfPGgnO1pZIzLv6OPpdIwX5WsMq46hopDAeDeA2lKsVlgcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZKVwi9iN;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BBy1uR9f;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC53C606AAD8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Nov 2026 16:18:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC53C606AAD8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79A6606B8EB;
+	Wed,  4 Nov 2026 16:22:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B79A6606B8EB
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZKVwi9iN
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BBy1uR9f
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793809139; x=1825345139;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sYiOQuBYqid09I+mMVkZpI/PoAwNsfLnhRc6uGZfzTU=;
-  b=ZKVwi9iNWJK4F0oC4m3JzpRE53vryChTBqSXw7WSTzr4apv32lW7D/FT
-   fFrMjR+/fpovgdLV964RQGzkgXlz11Bj5nmq4vhLbCb5Itnxd1caWlkWJ
-   Sc3EIHbuTXAN2iXonZ+xHBkVCWT7JnGuy7PmwrQIrA5pFjLFAyTu6Rhxg
-   cJ4I6tEPcJjeV2srk/W+CrJn2yRdnbgSin5dJt4zCs1pq89jNejetATNi
-   JrM5Iwj5/PIL86du1DbcOlyqQiT9wFrcB21eUToAMo6S4M5mtAkhVgKwv
-   5X6zbYGtZu+xLGsBntc8LBmxVKGdKlHryRM/Gn0TZ4FZ4eMF8HVsh6tiP
+  t=1793809379; x=1825345379;
+  h=date:from:to:cc:subject:message-id;
+  bh=jwdov69quC0URzQ9ghIuKnIeV2RA/1IlvzCEWqoZS2w=;
+  b=BBy1uR9f8Hv4aSen5UhFdAlpmfwNgwwRubAXdmnhycu2MOSwDa6T+Lua
+   KZZEsReltfoh6257OcVHVCNLGZn/CYdwuCSQuW6FyeYKym8KX+a+u+sII
+   uKysYHpHjH2Prd7PzXXos3jUEaEZXFPto9Jdv1h7M2ipH7gkJRzRZUEwR
+   NC8SHm0GqElAtdTUEyl58w88t6U8Stf7b3kB+ZSO5Hd0V1b3EkVjX8lX6
+   nfmyMxb3r6AwEyFd9g8WdY+PHDBi5CFGbqvRBYJyCOKGFLTJ3czFJ9tIs
+   bTfWN/n8IdCPgMOchrhhcLQGyo4q/MY6Awa5jQdv5j/61JU46I4rSm4u1
    w==;
-X-CSE-ConnectionGUID: L4zVpPZyTmCGmjo+7fNAYg==
-X-CSE-MsgGUID: 8e1DnpX2TXiVlS7lDp+PRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2448590"
+X-CSE-ConnectionGUID: ZeQ/qQc4RUmJgubi1u2ofg==
+X-CSE-MsgGUID: x3ccgnF9ShG4HAbDKFWdCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2445803"
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2448590"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 08:18:59 -0800
-X-CSE-ConnectionGUID: +1oYTMjAQwCDn4EDRbS2uA==
-X-CSE-MsgGUID: PGkM6NguSFaT5yeXHJhF9g==
+   d="scan'208";a="2445803"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 08:22:59 -0800
+X-CSE-ConnectionGUID: K+3r3PUxRt2njYOmdZm0Rg==
+X-CSE-MsgGUID: sOo/4p5oSBCzEwbEy7smUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="6639445"
+   d="scan'208";a="6862274"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Nov 2026 08:18:57 -0800
+  by orviesa009.jf.intel.com with ESMTP; 04 Nov 2026 08:22:57 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOdhO-00000000keZ-27lq;
-	Wed, 04 Nov 2026 16:18:54 +0000
-Date: Thu, 5 Nov 2026 00:18:00 +0800
+	id 1xOdlG-00000000ket-3l9U;
+	Wed, 04 Nov 2026 16:22:54 +0000
+Date: Thu, 05 Nov 2026 00:22:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes@sipsolutions.net>,
-	linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>,
-	Miriam Rachel Korenblit <miriam.rachel.korenblit@intel.com>
-Subject: Re: [PATCH wireless-next 7/7] wifi: mac80211: use sta->active_links
- in for_each_sta_active_link()
-Message-ID: <202611042348.ZiFAbrdl-lkp@intel.com>
-References: <20261102224349.e1d1ed2eef37.I0f5c26e0f6a05feaf5c578fa048ca5586530f0ba@changeid>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:dmabuf_map_type 33/34]
+ drivers/dma-buf/st-dma-mapping.c:14:44: warning: variable
+ 'mock_match_exp_arg' set but not used
+Message-ID: <202611050047.orzjpfuU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -83,74 +80,39 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102224349.e1d1ed2eef37.I0f5c26e0f6a05feaf5c578fa048ca5586530f0ba@changeid>
 
-Hi Johannes,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-mac80211-rename-ieee80211_sta_activate_link/20261102-224237
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20261102224349.e1d1ed2eef37.I0f5c26e0f6a05feaf5c578fa048ca5586530f0ba%40changeid
-patch subject: [PATCH wireless-next 7/7] wifi: mac80211: use sta->active_links in for_each_sta_active_link()
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20261104/202611042348.ZiFAbrdl-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261104/202611042348.ZiFAbrdl-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux dmabuf_map_type
+head:   c37cf2824740d833b21eb816e21f94836100291f
+commit: 3256cae07d96cc9fc9c997dec6bd1195289217c6 [33/34] dma-buf: Add kunit tests for mapping type
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261105/202611050047.orzjpfuU-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 186e70f4e6a1521991d2340d3d49b23b1beff11f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050047.orzjpfuU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611042348.ZiFAbrdl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611050047.orzjpfuU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/net/wireless/intel/iwlwifi/mld/sta.c: In function 'iwl_mld_remove_sta':
->> drivers/net/wireless/intel/iwlwifi/mld/sta.c:913:21: error: 'vif' undeclared (first use in this function)
-     913 |                 if (vif->type == NL80211_IFTYPE_STATION && !sta->tdls)
-         |                     ^~~
-   drivers/net/wireless/intel/iwlwifi/mld/sta.c:913:21: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/dma-buf/st-dma-mapping.c:14:44: warning: variable 'mock_match_exp_arg' set but not used [-Wunused-but-set-global]
+      14 | static const struct dma_buf_mapping_match *mock_match_exp_arg;
+         |                                            ^
+>> drivers/dma-buf/st-dma-mapping.c:15:44: warning: variable 'mock_match_imp_arg' set but not used [-Wunused-but-set-global]
+      15 | static const struct dma_buf_mapping_match *mock_match_imp_arg;
+         |                                            ^
+   2 warnings generated.
 
 
-vim +/vif +913 drivers/net/wireless/intel/iwlwifi/mld/sta.c
+vim +/mock_match_exp_arg +14 drivers/dma-buf/st-dma-mapping.c
 
-d1e879ec600f9b Miri Korenblit 2025-02-16  890  
-d1e879ec600f9b Miri Korenblit 2025-02-16  891  void iwl_mld_remove_sta(struct iwl_mld *mld, struct ieee80211_sta *sta)
-d1e879ec600f9b Miri Korenblit 2025-02-16  892  {
-d1e879ec600f9b Miri Korenblit 2025-02-16  893  	struct ieee80211_link_sta *link_sta;
-d1e879ec600f9b Miri Korenblit 2025-02-16  894  	u8 link_id;
-d1e879ec600f9b Miri Korenblit 2025-02-16  895  
-d1e879ec600f9b Miri Korenblit 2025-02-16  896  	lockdep_assert_wiphy(mld->wiphy);
-d1e879ec600f9b Miri Korenblit 2025-02-16  897  
-d1e879ec600f9b Miri Korenblit 2025-02-16  898  	/* Tell the HW to flush the queues */
-d1e879ec600f9b Miri Korenblit 2025-02-16  899  	iwl_mld_flush_sta_txqs(mld, sta);
-d1e879ec600f9b Miri Korenblit 2025-02-16  900  
-d1e879ec600f9b Miri Korenblit 2025-02-16  901  	/* Wait for trans to empty its queues */
-d1e879ec600f9b Miri Korenblit 2025-02-16  902  	iwl_mld_wait_sta_txqs_empty(mld, sta);
-d1e879ec600f9b Miri Korenblit 2025-02-16  903  
-d1e879ec600f9b Miri Korenblit 2025-02-16  904  	/* Now we can remove the queues */
-d1e879ec600f9b Miri Korenblit 2025-02-16  905  	for (int i = 0; i < ARRAY_SIZE(sta->txq); i++)
-d1e879ec600f9b Miri Korenblit 2025-02-16  906  		iwl_mld_remove_txq(mld, sta->txq[i]);
-d1e879ec600f9b Miri Korenblit 2025-02-16  907  
-4fa80ba223dd72 Johannes Berg  2026-11-02  908  	for_each_sta_active_link(sta, link_sta, link_id) {
-d1e879ec600f9b Miri Korenblit 2025-02-16  909  		/* Mac8011 will remove the groupwise keys after the sta is
-d1e879ec600f9b Miri Korenblit 2025-02-16  910  		 * removed, but FW expects all the keys to be removed before
-d1e879ec600f9b Miri Korenblit 2025-02-16  911  		 * the STA is, so remove them all here.
-d1e879ec600f9b Miri Korenblit 2025-02-16  912  		 */
-67128af05c6419 Johannes Berg  2025-03-09 @913  		if (vif->type == NL80211_IFTYPE_STATION && !sta->tdls)
-d1e879ec600f9b Miri Korenblit 2025-02-16  914  			iwl_mld_remove_ap_keys(mld, vif, sta, link_id);
-d1e879ec600f9b Miri Korenblit 2025-02-16  915  
-d1e879ec600f9b Miri Korenblit 2025-02-16  916  		/* Remove the link_sta */
-d1e879ec600f9b Miri Korenblit 2025-02-16  917  		iwl_mld_remove_link_sta(mld, link_sta);
-d1e879ec600f9b Miri Korenblit 2025-02-16  918  	}
-d1e879ec600f9b Miri Korenblit 2025-02-16  919  
-d1e879ec600f9b Miri Korenblit 2025-02-16  920  	iwl_mld_destroy_sta(sta);
-d1e879ec600f9b Miri Korenblit 2025-02-16  921  }
-d1e879ec600f9b Miri Korenblit 2025-02-16  922  
+    11	
+    12	/* Mock tracking state -- reset before each test */
+    13	static bool mock_match_called;
+  > 14	static const struct dma_buf_mapping_match *mock_match_exp_arg;
+  > 15	static const struct dma_buf_mapping_match *mock_match_imp_arg;
+    16	static int mock_match_ret;
+    17	
 
 --
 0-DAY CI Kernel Test Service
