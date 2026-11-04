@@ -1,78 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793771193;
-	b=qlG8k/SuaTWZjVt6PWSWzaLim4Jo+IhIoQ9BVWnAChmalyA+y7dl0sSSV2TpjVr9WFmk
-	 sy1gomwFzAVXPXFY8hk2QkFkIyKKtdhi68AyCxzIR6aOr6iWfTb6ACnL8UfBZAMLZFUCG
-	 8k0KYd3uOh0kN1ZxmpLc1S05p1wSf2xgncFJeIGaPIP+YdYSu/xDEr6JLUC8MSAyGSZHk
-	 MAurqR5K4vB7drmjTIqFbx+vXLpyHF1YoewFOShstrsYkYP0QS+AP60HKq7XPlAMVR460
-	 I3wbjkIG8CI1OcO4Virf3Tcg3KGO7n6GW88fkigpid47u+whJLlHotfsoQhbAIF2Ohw==
+	t=1793771194;
+	b=sIEuU9BJ8yTfjdmrHw9pCMosSrdCMxzOjavucTp9EZ9sQdl9LJkBbYxfMqH7m+QGJevy
+	 S9RgrMQGzHTop+T8ubj1fdSwQ9WLFQhAVYJY0Z2WC0AkEfJ3Ze/i8zcrSWG5X0sR8x4HU
+	 y4QDNwTz07e9AbZYk/A0fpIT93CC7u1VtBnhgJjbM0vQmts+hCuHhRQ3P7VNZQaB7o/Qx
+	 LE4mEveaty8TT8GOH6sMqhk0DQcs6I161tt1PbErGKqVqN5I94NajcXeqBTxWe9L9V5sc
+	 d5TylLPE+9HjL4wtYvn8Z/usrT6TIOGqIPhuse1L3SMCXd1twVfci8PyAniv9QbzrQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793771193;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793771194;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=lL48N6lm9KlLmKPeJlOym1AMfeabMaIdEJjt/DEXSVA=;
-	b=PS+97J2IwTGqKvIMOG9gAY0ROagc6zRrT+E+cmmY6UDNx5g6vnseJ6px1GRcLN+1j3Ix
-	 WXL/hoJtjHE9Q+yksAp6WNDAxYpcRYdiHRP6pCojw5ufvmWgjNrgx7uj2/Evtgbq2+yBv
-	 B8PRBaCLBVBtZHkSrt2aV1P4u6VmJC5SkvjDZju6kYq4hmZSBDLgldp7uENB31VfnARHg
-	 Yw3uOaeNKbHhfs/CsySnuqyFUupEmLaNyOYp24cnJ98JCg7Tg1G2YOQHJ/eiCCVijyKoV
-	 XzpDugzdx5TaERCDhwO8yVUqUF6tSFROas9rBrW5QkiYa5rCEfO7ip5mpNkzqUFuELQ==
+	bh=/XElJ/vuq1SwLGtyX+F17co0pIB8RbfDNZq585Gfwe8=;
+	b=UOkuExX47l1aWyCUUHi94vc7ZhQc7Nif8kOannGgIHkpOwqy/rRT6ihGlJ84h/CZI37q
+	 QAGzJCbSWmPuSNsV4CqXjEdj47gZvVMsrHLPe5nFEJX1vWTqq2tskCSXy0VTH7MfENj8r
+	 81de9XPhywwtx5SHdwxUo4aUbWp3K2bxxj9QT/ZPKcaKeHeGLSRvVzPIBmpyJF/oqZela
+	 MqJSRGyGtbMmslz5OFxdtUydaJ7Y1YxHrNmpGuPD2IO8CHPQD6JTnFopm0zOaOBgnVwW8
+	 f5t5pGQ6A3h8mwq/atHGz4JNTePCbSzAnvkEwmWrBn9+bS27EI537CbT7f7QUcMeUGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MNXcwDsc;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q0Uvf17o;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244C6606D819
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Nov 2026 05:46:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 244C6606D819
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A52606D817;
+	Wed,  4 Nov 2026 05:46:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13A52606D817
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MNXcwDsc
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Q0Uvf17o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793771193; x=1825307193;
+  t=1793771192; x=1825307192;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2caz6pZrdsl/w7c7xKphyNInhe+GoD8Vhtu/f5yp0sk=;
-  b=MNXcwDscFqdkDtB5/UZQzmg5hwvONtAZJ1jZlK7tvqUG3RK8p2ggOReQ
-   +AQjRtT8doN8BIon76tTOSx62L3dVqDSg1lEaQrdawJ4sNcfnNQCmhkfy
-   rZh5+8cNpAEJ6EeGDEIb1GLL9V5pGstXvmroYn8VeHZvUSUU4xb8J+46y
-   UE8GBShN5rrz5SeMV+JNjMyzsGz6SBLDYNFYaqxMUNqQIseqAWZtmGxBU
-   S/oMTQeoMDR1DUtZPyS92UiBpCyAG/ixOkXU2SVUCJH/zKczxrj7+R51V
-   t0wk8Sgpx5x+6VdZ6VFwqGQv+n7Rcl1Cg+DGddOTWc1RHktl8fLmXKxry
+  bh=qO95KoHbh8hDYGZZwY+ruFe95BLqg616buZ+rn93unc=;
+  b=Q0Uvf17o1KWLzL0SMkbz81yQ82xLTSD/QE9x1sZdO1AFyAAWWY0LlzTX
+   6nhvf7tDRIXNpvXr+hDJnaI76AL71rzSwyncNDopNv9y1FrKkDf4XljRO
+   me8+8S7yWEhOwN5YXgm1z13hkS6uiAzIH7RIVsoOjMluW/7R4AlDG9kQr
+   FN5ltE9gWHF0gluhA69+kZKkEgGlRS7++KySZNZxzGDQXBlvfhZ9VTlHQ
+   ai8vzaz+Z5pJ0TGvuxYdymcqTiqwqUEc9Ki0009Dr7ngMPn/qPRopsYtw
+   YjAxNd7hOyC7HHK+ieS8A5RNnFZyCOsxV99fNiTQfS6krp/9dJ4wvXh9i
    Q==;
-X-CSE-ConnectionGUID: DYxOeKHhSzyDO4T5OhWV9g==
-X-CSE-MsgGUID: wfMEzXPHTiadjAacOYobLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2403409"
+X-CSE-ConnectionGUID: wR8O2UowRpG7Xip21KWyug==
+X-CSE-MsgGUID: GynOOjVTQH6dR6KWq54Nlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2608627"
 X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="2403409"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 21:46:32 -0800
-X-CSE-ConnectionGUID: 4JDXFGiwR16PRhXzhrlPqw==
-X-CSE-MsgGUID: K55v2g+CT4OnexggWvY1kg==
+   d="scan'208";a="2608627"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 21:46:31 -0800
+X-CSE-ConnectionGUID: sgDZ13A9QUuiUIO6fvhxHg==
+X-CSE-MsgGUID: 4T1pDiC4TsSgcxuL8me7Kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="6729633"
+   d="scan'208";a="6448713"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Nov 2026 21:46:30 -0800
+  by orviesa007.jf.intel.com with ESMTP; 03 Nov 2026 21:46:30 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOTpL-00000000jpn-1To1;
+	id 1xOTpL-00000000jpr-1kzf;
 	Wed, 04 Nov 2026 05:46:27 +0000
-Date: Wed, 4 Nov 2026 13:46:19 +0800
+Date: Wed, 4 Nov 2026 13:46:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: wen.yang@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 03/39] sysctl: add KUnit coverage for numeric bounds
- and handlers
-Message-ID: <202611041325.NFweGflV-lkp@intel.com>
-References: <3f6be87a6685418f170b6713c1759a9c16573871.1793204511.git.wen.yang@linux.dev>
+To: Ketan Bhardwaj <ketan@armoriq.io>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 4/6] security: kap: add the securityfs control
+ plane
+Message-ID: <202611041314.Q11k5Ls1-lkp@intel.com>
+References: <20261028133335.75899-5-ketan@armoriq.io>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -84,35 +84,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3f6be87a6685418f170b6713c1759a9c16573871.1793204511.git.wen.yang@linux.dev>
+In-Reply-To: <20261028133335.75899-5-ketan@armoriq.io>
 
-Hi,
+Hi Ketan,
 
 [This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[cannot apply to sysctl/sysctl-next brauner-vfs/vfs.all linus/master mcgrof/sysctl-next v7.3 next-20261030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wen-yang-linux-dev/sysctl-replace-overloaded-extra-pointers-with-typed-bounds-and-context/20261029-003440
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/3f6be87a6685418f170b6713c1759a9c16573871.1793204511.git.wen.yang%40linux.dev
-patch subject: [RFC PATCH 03/39] sysctl: add KUnit coverage for numeric bounds and handlers
-config: sparc64-randconfig-1001-20261104 (https://download.01.org/0day-ci/archive/20261104/202611041325.NFweGflV-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261104/202611041325.NFweGflV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ketan-Bhardwaj/docs-security-Describe-the-Kernel-Assurance-Plane-design/20261028-093330
+base:   24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+patch link:    https://lore.kernel.org/r/20261028133335.75899-5-ketan%40armoriq.io
+patch subject: [RFC PATCH v2 4/6] security: kap: add the securityfs control plane
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261104/202611041314.Q11k5Ls1-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 65303e81f481bbfe386b8596423f94c43198ba94)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261104/202611041314.Q11k5Ls1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611041325.NFweGflV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611041314.Q11k5Ls1-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: kernel/sysctl-test.ko: symbol 'proc_dou8vec_minmax' undefined!
+>> security/kap/kapfs.c:53:23: warning: variable 'kap_sfs_igroups' set but not used [-Wunused-but-set-global]
+      53 | static struct dentry *kap_sfs_igroups;
+         |                       ^
+   1 warning generated.
+
+
+vim +/kap_sfs_igroups +53 security/kap/kapfs.c
+
+    49	
+    50	static struct vfsmount *kapfs_mnt;
+    51	static struct dentry *kap_sfs_dir;
+    52	static struct dentry *kap_sfs_default;
+  > 53	static struct dentry *kap_sfs_igroups;
+    54	static struct kap_file_ctx kap_default_ctx = { .kind = KAP_FILE_DEFAULT };
+    55	
 
 --
 0-DAY CI Kernel Test Service
