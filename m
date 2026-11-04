@@ -1,77 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793828096;
-	b=eNlp//zwfXPwqF+iyvUUfq5yncDqN/GJfjKo23a9VTgcSynnThVwRNRjk1a/VOKH4UCc
-	 5Nkifd5cYRiMaQE+7VKqAjh3ry/3w1qgRk0UV6IyP41qKPyGcy7Wi6Mmv0ATttTfmWkeE
-	 n5E20+i3l5j3NQqSox0cXBYHsOfHGuXOOlme0+qFcLCUwNF2YhxaigVAPJco46Lcjtlbn
-	 ovH6BSv6ipnL18wipe72rnxEdXaNUpct5aSOoXC1kQ1gsaeBV/Sn/UrqDoT6alO7L/NA2
-	 cjCPO7w3qkOzbzB5D6pnCL5+9/Atv1JzhxOgvvGKJfiF8M6013YVasDsmD3mRyAuYCw==
+	t=1793830081;
+	b=IiNknmNn/0pYxujM6iTJ+jRnU9Tqsb/Ic1VzEoJPT0AizEOlsEy8VaqjqhisZz+j7PX4
+	 6IrwOi/DjV7hlmTZizr4VcUpwkA7iSpB7CCNHYKIhwVGpnfwRnwGuGhMiDo+dENDhXR2X
+	 4KOoKyv9ibQHvPzVj3Zz1XF4qGg9bycjQkMMCh7/W0ua8LDy+yb9ZivKe+9jhLc+dauqz
+	 /F8MhIDf8Kc2t0LUYaAk4+ousTswACQCiiLon1ascfERNZPv6j+l6hiYGvX/6nVi+Fwil
+	 Za/Z1pou1SbcUPhMjjTtE7YkmZfiEjzMDmO+aC36RZ2d3PPbRTWD/xEc5O8KsBl7atw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793828096;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793830081;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=mnwyhcl3LcO3h16UbcNcfaNPuKsomGOnsxeqrsXo5Bs=;
-	b=jfRnPcEn3Rl4A6mQNXf+KYq2ONFASl2lZhnLrmJ4PbwGa1f4ncsF1Jn80AIeO2SNKHGO
-	 dQPMhik8UUh/lPTgWwrqLohj/FeI2re2vLq3ucGnOj8wVR8Uxvo6/N1+BHBmnAjKaRbix
-	 Mxf80jE+Y2obmigdtoEo+QVG3qL/ix5SmM2fTwqvve/dh+HWXk2R48KNM5QPTP4SLFQVT
-	 8edcxJ5htlk7vpVjEPgONpJf8lpfO/e5diuy4/QM/+QZJuUXc4ULRbqRvB6GIU1irf96r
-	 1PD2ZE1SsIDBlyzZBUAuXNG/2eoQjk0/NULaxII3B1lXeeMXTN+7I2Lscnw3EP1XzBw==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=ch4i8rcmr52ToiTal7gsuDla1/irt5A5W9RJhoAVMU0=;
+	b=jNoWq93qayWs7jdDQzTotSjaPeKhi4Hi6FVTFMwQfudDh+ON61g8WXmnjOx2L1qSD09W
+	 E4nglHq7rUck4SNsIpzDWBqhOfip8Vxc9/oK+W+MdK4+At0AF1ouWG/n/MyGoIqgsUZmX
+	 Nnhgs2gGYgguk8f8tA0NYhz98fFJ2TtqcXMenk2QMUvHIKYQF3hF66ZIJInpbLbAoqeWP
+	 A7r8KvrtgC2HWKjccSp2RXd/4yWYjtiuW2oLea4pCnaDoncznf1VJHBreuUIH7t4umQjt
+	 sAuyiy9ell4hW1KnOXAnXoH5owKEzNykwpSc54kJuareA9Ims288jiRdWgV/GlBTfGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kuwwAb2I;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jG0Fjm2+;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C139606D16C
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Nov 2026 21:34:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C139606D16C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B388E606E829
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Nov 2026 22:07:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B388E606E829
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kuwwAb2I
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jG0Fjm2+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793828095; x=1825364095;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VGi1cMKOWJjHeSk80FF41hRufP53WNIxVj9SuZTL92s=;
-  b=kuwwAb2Id2WlHPn9T/NQVvLEWsktPg5Li/kcuJ9V6bFzx4chv2bN8Wpw
-   qxJbIPGDL+8GlsmvVIgf9CPxsp/0yIVTNl07e56ygf9Hu8jfOIbqzytDe
-   6bJkAevMu23jIJgl+7TWzgeZZeDsvrPwNhIFrB++YvODPB4BgCMonXM7Y
-   Gn10D1Gbiu2Y5CCewfiNk8v7Ln7Ev2oLO0Ak1GsbCf3QLwaC84rxp8b+Y
-   6zgF9i8tVpr1b5y902kJyOAKdWxfVifKZwnKHa9tp59N+oD1joH7SsxQy
-   H3eM2qdgl/SFgTp+E6dbeGqx8hdjNiddSqNQS3zoFgmK7DHyHbpLc15ao
-   Q==;
-X-CSE-ConnectionGUID: 8x6rCmjYQQeoc1tVJF3L1w==
-X-CSE-MsgGUID: CHJve0VlTvKRqnISgVe3aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2498611"
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2498611"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 13:34:53 -0800
-X-CSE-ConnectionGUID: Xq38MBSZTHyIvrklYIxRQQ==
-X-CSE-MsgGUID: fLogzIRnRtqWB8SM5i8frg==
+  t=1793830079; x=1825366079;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JIXwA3GrJryFu5iVWC5GXJDlxet6QdSNlubbSHDxBI0=;
+  b=jG0Fjm2+dqbOJ5MfjBbWzLCAWBSu1rzfkUzi1C2Ciqnzz5JBTHY+Xg4D
+   zECed2hMzDqjQn+5wKXsO7o4QVKwtasU9r/musZ3lZM1Ttuo1oCh/RoqB
+   WQDMX2SECGEcusjcY9r7rutQt5gakiXGucUXGZsGKhut8YvjgyKhRZYv0
+   W3nGfRuLc+DYNlawumJr51gfHMLjAPYNhqwSzklM2PNUpz3b5REwKraQ3
+   We4pUtR8QjhyL2v9QY/eyBZ1mGYi4T8LZc6r7UT+HPWgdW8NM5IiWx1X1
+   TN++bzOc5F7rTIyozlpw/MOZeeX77mJPipxGads/7E+BhoWAXTex/8Vuk
+   A==;
+X-CSE-ConnectionGUID: qMnoOf14RrmmzupIZLb2Kw==
+X-CSE-MsgGUID: I8OtqhGySwCSomBdXkH3yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2481477"
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="2481477"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 14:07:59 -0800
+X-CSE-ConnectionGUID: uFOizrOiT4mB4oDV+xU8Xw==
+X-CSE-MsgGUID: YQnB3ZrXSduHdN2RxTWxkw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="7140866"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Nov 2026 13:34:52 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="7376169"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 04 Nov 2026 14:07:58 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOid7-00000000l4d-0LBU;
-	Wed, 04 Nov 2026 21:34:49 +0000
-Date: Thu, 5 Nov 2026 05:34:45 +0800
+	id 1xOj99-000000009H1-2v3x;
+	Wed, 04 Nov 2026 22:07:55 +0000
+Date: Wed, 04 Nov 2026 23:07:54 +0100
 From: kernel test robot <lkp@intel.com>
-To: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+To: Bart Van Assche <bvanassche@acm.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2 10/14] drm/msm: Add LPAC submitqueue
-Message-ID: <202611050552.1Ciiyf9b-lkp@intel.com>
-References: <20261029-descriptive-name-lpac-upstream-v2-10-a21a5c850961@gmail.com>
+Subject: [bvanassche:locking 5/23] include/linux/ww_mutex.h:327:1:
+ warning: expecting ww_mutex 'lock' to be held at the end of function
+Message-ID: <202611042229.Ty6Q2wNq-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,210 +82,234 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029-descriptive-name-lpac-upstream-v2-10-a21a5c850961@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Anna,
+tree:   https://github.com/bvanassche/linux locking
+head:   7ad17b1ab9fef72f82442c00168277c0891d84f7
+commit: a5557006c9d6e359692c0be1d99470adaa1f4853 [5/23] locking/ww_mutex: M=
+ake context analysis track the embedded mutex
+config: mips-randconfig-2200-20261104 (https://download.01.org/0day-ci/arch=
+ive/20261104/202611042229.Ty6Q2wNq-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e2e=
+3d6c39cfebec9eace23629a5a103df2c79ba6)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261104/202611042229.Ty6Q2wNq-lkp@intel.com/reproduce)
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9a967125427e03c7ebc24d7ad26e9307e8403d4e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Maniscalco/iommu-arm-smmu-qcom-Configure-lpac-device-with-split-address-space/20261029-145238
-base:   9a967125427e03c7ebc24d7ad26e9307e8403d4e
-patch link:    https://lore.kernel.org/r/20261029-descriptive-name-lpac-upstream-v2-10-a21a5c850961%40gmail.com
-patch subject: [PATCH RFC v2 10/14] drm/msm: Add LPAC submitqueue
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20261105/202611050552.1Ciiyf9b-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050552.1Ciiyf9b-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611050552.1Ciiyf9b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611042229.Ty6Q2wNq-lkp@i=
+ntel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c: In function 'a7xx_submit':
->> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:504:13: warning: unused variable 'timestamp_iova' [-Wunused-variable]
-     504 |         u64 timestamp_iova;
-         |             ^~~~~~~~~~~~~~
+   In file included from kernel/locking/rtmutex_api.c:9:
+   In file included from kernel/locking/rtmutex.c:25:
+>> include/linux/ww_mutex.h:327:1: warning: expecting ww_mutex 'lock' to be=
+ held at the end of function [-Wthread-safety-analysis]
+     327 | }
+         | ^
+   include/linux/ww_mutex.h:318:1: note: ww_mutex acquired here
+     318 | ww_mutex_lock_slow(struct ww_mutex *lock, struct ww_acquire_ctx =
+*ctx)
+         | ^
+>> include/linux/ww_mutex.h:327:1: warning: expecting mutex 'lock->base' to=
+ be held at the end of function [-Wthread-safety-analysis]
+     327 | }
+         | ^
+   include/linux/ww_mutex.h:318:1: note: mutex acquired here
+     318 | ww_mutex_lock_slow(struct ww_mutex *lock, struct ww_acquire_ctx =
+*ctx)
+         | ^
+   2 warnings generated.
 
 
-vim +/timestamp_iova +504 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+vim +/lock +327 include/linux/ww_mutex.h
 
-   494	
-   495	static void a7xx_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
-   496	{
-   497		unsigned int index = submit->seqno % MSM_GPU_SUBMIT_STATS_COUNT;
-   498		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-   499		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-   500		struct msm_ringbuffer *ring = submit->ring;
-   501		u32 rbbm_perfctr_cp0, cp_always_on_context,
-   502		    cp_always_on_counter;
-   503		bool is_lpac = ring == gpu->lpac_rb;
- > 504		u64 timestamp_iova;
-   505		unsigned int i, ibs = 0;
-   506	
-   507		adreno_check_and_reenable_stall(adreno_gpu);
-   508	
-   509		/*
-   510		 * Toggle concurrent binning for pagetable switch and set the thread to
-   511		 * BR since only it can execute the pagetable switch packets.
-   512		 */
-   513		OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-   514		OUT_RING(ring, CP_THREAD_CONTROL_0_SYNC_THREADS | CP_SET_THREAD_BR);
-   515	
-   516		a6xx_set_pagetable(a6xx_gpu, ring, submit);
-   517	
-   518		/*
-   519		 * If preemption is enabled, then set the pseudo register for the save
-   520		 * sequence
-   521		 */
-   522		if (gpu->nr_rings > 1 && !is_lpac)
-   523			a6xx_emit_set_pseudo_reg(ring, a6xx_gpu, submit->queue);
-   524	
-   525		if (adreno_is_a8xx(adreno_gpu)) {
-   526			rbbm_perfctr_cp0 = REG_A8XX_RBBM_PERFCTR_CP(0);
-   527			cp_always_on_context = REG_A8XX_CP_ALWAYS_ON_CONTEXT;
-   528			cp_always_on_counter = REG_A8XX_CP_ALWAYS_ON_COUNTER;
-   529		} else {
-   530			rbbm_perfctr_cp0 = REG_A7XX_RBBM_PERFCTR_CP(0);
-   531			cp_always_on_context = REG_A6XX_CP_ALWAYS_ON_CONTEXT;
-   532			cp_always_on_counter = REG_A6XX_CP_ALWAYS_ON_COUNTER;
-   533		}
-   534	
-   535		get_stats_counter(ring, rbbm_perfctr_cp0, rbmemptr_stats(ring, index, cpcycles_start));
-   536		if (is_lpac)
-   537			get_stats_counter(ring, cp_always_on_counter, rbmemptr_stats(ring, index, alwayson_start));
-   538		else
-   539			get_stats_counter(ring, cp_always_on_context, rbmemptr_stats(ring, index, alwayson_start));
-   540	
-   541		OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-   542		OUT_RING(ring, CP_SET_THREAD_BOTH);
-   543	
-   544		OUT_PKT7(ring, CP_SET_MARKER, 1);
-   545		OUT_RING(ring, 0x101); /* IFPC disable */
-   546	
-   547		if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
-   548			OUT_PKT7(ring, CP_SET_MARKER, 1);
-   549			OUT_RING(ring, 0x00d); /* IB1LIST start */
-   550		}
-   551	
-   552		/* Submit the commands */
-   553		for (i = 0; i < submit->nr_cmds; i++) {
-   554			switch (submit->cmd[i].type) {
-   555			case MSM_SUBMIT_CMD_IB_TARGET_BUF:
-   556				break;
-   557			case MSM_SUBMIT_CMD_CTX_RESTORE_BUF:
-   558				if (ring->cur_ctx_seqno == submit->queue->ctx->seqno)
-   559					break;
-   560				fallthrough;
-   561			case MSM_SUBMIT_CMD_BUF:
-   562				OUT_PKT7(ring, CP_INDIRECT_BUFFER, 3);
-   563				OUT_RING(ring, lower_32_bits(submit->cmd[i].iova));
-   564				OUT_RING(ring, upper_32_bits(submit->cmd[i].iova));
-   565				OUT_RING(ring, A5XX_CP_INDIRECT_BUFFER_2_IB_SIZE(submit->cmd[i].size));
-   566				ibs++;
-   567				break;
-   568			}
-   569	
-   570			/*
-   571			 * Periodically update shadow-wptr if needed, so that we
-   572			 * can see partial progress of submits with large # of
-   573			 * cmds.. otherwise we could needlessly stall waiting for
-   574			 * ringbuffer state, simply due to looking at a shadow
-   575			 * rptr value that has not been updated
-   576			 */
-   577			if ((ibs % 32) == 0)
-   578				update_shadow_rptr(gpu, ring);
-   579		}
-   580	
-   581		if (submit->queue->flags & MSM_SUBMITQUEUE_ALLOW_PREEMPT) {
-   582			OUT_PKT7(ring, CP_SET_MARKER, 1);
-   583			OUT_RING(ring, 0x00e); /* IB1LIST end */
-   584		}
-   585	
-   586		get_stats_counter(ring, rbbm_perfctr_cp0, rbmemptr_stats(ring, index, cpcycles_end));
-   587		get_stats_counter(ring, cp_always_on_context, rbmemptr_stats(ring, index, alwayson_end));
-   588	
-   589		/* Write the fence to the scratch register */
-   590		if (adreno_is_a8xx(adreno_gpu)) {
-   591			OUT_PKT4(ring, REG_A8XX_CP_SCRATCH_GLOBAL(2), 1);
-   592			OUT_RING(ring, submit->seqno);
-   593		} else {
-   594			OUT_PKT4(ring, REG_A6XX_CP_SCRATCH(2), 1);
-   595			OUT_RING(ring, submit->seqno);
-   596		}
-   597	
-   598		if (!is_lpac) {
-   599			OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-   600			OUT_RING(ring, CP_SET_THREAD_BR);
-   601	
-   602			OUT_PKT7(ring, CP_EVENT_WRITE, 1);
-   603			OUT_RING(ring, CCU_INVALIDATE_DEPTH);
-   604	
-   605			OUT_PKT7(ring, CP_EVENT_WRITE, 1);
-   606			OUT_RING(ring, CCU_INVALIDATE_COLOR);
-   607	
-   608			OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-   609			OUT_RING(ring, CP_SET_THREAD_BV);
-   610		}
-   611	
-   612		/*
-   613		 * Make sure the timestamp is committed once BV pipe is
-   614		 * completely done with this submission.
-   615		 */
-   616		OUT_PKT7(ring, CP_EVENT_WRITE, 4);
-   617		OUT_RING(ring, CACHE_CLEAN | BIT(27));
-   618		OUT_RING(ring, lower_32_bits(rbmemptr(ring, bv_fence)));
-   619		OUT_RING(ring, upper_32_bits(rbmemptr(ring, bv_fence)));
-   620		OUT_RING(ring, submit->seqno);
-   621	
-   622		OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-   623		OUT_RING(ring, CP_SET_THREAD_BR);
-   624	
-   625		/*
-   626		 * This makes sure that BR doesn't race ahead and commit
-   627		 * timestamp to memstore while BV is still processing
-   628		 * this submission.
-   629		 */
-   630		OUT_PKT7(ring, CP_WAIT_TIMESTAMP, 4);
-   631		OUT_RING(ring, 0);
-   632		OUT_RING(ring, lower_32_bits(rbmemptr(ring, bv_fence)));
-   633		OUT_RING(ring, upper_32_bits(rbmemptr(ring, bv_fence)));
-   634		OUT_RING(ring, submit->seqno);
-   635	
-   636		a6xx_gpu->last_seqno[ring->id] = submit->seqno;
-   637	
-   638		/* write the ringbuffer timestamp */
-   639		OUT_PKT7(ring, CP_EVENT_WRITE, 4);
-   640		OUT_RING(ring, CACHE_CLEAN | CP_EVENT_WRITE_0_IRQ | BIT(27));
-   641		OUT_RING(ring, lower_32_bits(rbmemptr(ring, fence)));
-   642		OUT_RING(ring, upper_32_bits(rbmemptr(ring, fence)));
-   643		OUT_RING(ring, submit->seqno);
-   644	
-   645		OUT_PKT7(ring, CP_THREAD_CONTROL, 1);
-   646		OUT_RING(ring, CP_SET_THREAD_BOTH);
-   647	
-   648		OUT_PKT7(ring, CP_SET_MARKER, 1);
-   649		OUT_RING(ring, 0x100); /* IFPC enable */
-   650	
-   651		trace_msm_gpu_submit_flush(submit, adreno_gpu->funcs->get_timestamp(gpu));
-   652	
-   653		a6xx_flush_yield(gpu, ring);
-   654	
-   655		/* Check to see if we need to start preemption */
-   656		if (!is_lpac) {
-   657			if (adreno_is_a8xx(adreno_gpu))
-   658				a8xx_preempt_trigger(gpu);
-   659			else
-   660				a6xx_preempt_trigger(gpu);
-   661		}
-   662	}
-   663	
+1b375dc3071018 Maarten Lankhorst 2013-07-05  223 =20
+1b375dc3071018 Maarten Lankhorst 2013-07-05  224  /**
+1b375dc3071018 Maarten Lankhorst 2013-07-05  225   * ww_mutex_lock - acquir=
+e the w/w mutex
+1b375dc3071018 Maarten Lankhorst 2013-07-05  226   * @lock: the mutex to be=
+ acquired
+1b375dc3071018 Maarten Lankhorst 2013-07-05  227   * @ctx: w/w acquire cont=
+ext, or NULL to acquire only a single lock.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  228   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  229   * Lock the w/w mutex exc=
+lusively for this task.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  230   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  231   * Deadlocks within a giv=
+en w/w class of locks are detected and handled with the
+55f036ca7e74b8 Peter Ziljstra    2018-06-15  232   * wait/die algorithm. If=
+ the lock isn't immediately available this function
+1b375dc3071018 Maarten Lankhorst 2013-07-05  233   * will either sleep unti=
+l it is (wait case). Or it selects the current context
+55f036ca7e74b8 Peter Ziljstra    2018-06-15  234   * for backing off by ret=
+urning -EDEADLK (die case). Trying to acquire the
+1b375dc3071018 Maarten Lankhorst 2013-07-05  235   * same lock with the sam=
+e context twice is also detected and signalled by
+1b375dc3071018 Maarten Lankhorst 2013-07-05  236   * returning -EALREADY. R=
+eturns 0 if the mutex was successfully acquired.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  237   *
+55f036ca7e74b8 Peter Ziljstra    2018-06-15  238   * In the die case the ca=
+ller must release all currently held w/w mutexes for
+1b375dc3071018 Maarten Lankhorst 2013-07-05  239   * the given context and =
+then wait for this contending lock to be available by
+1b375dc3071018 Maarten Lankhorst 2013-07-05  240   * calling ww_mutex_lock_=
+slow. Alternatively callers can opt to not acquire this
+1b375dc3071018 Maarten Lankhorst 2013-07-05  241   * lock and proceed with =
+trying to acquire further w/w mutexes (e.g. when
+1b375dc3071018 Maarten Lankhorst 2013-07-05  242   * scanning through lru l=
+ists trying to free resources).
+1b375dc3071018 Maarten Lankhorst 2013-07-05  243   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  244   * The mutex must later o=
+n be released by the same task that
+1b375dc3071018 Maarten Lankhorst 2013-07-05  245   * acquired it. The task =
+may not exit without first unlocking the mutex. Also,
+1b375dc3071018 Maarten Lankhorst 2013-07-05  246   * kernel memory where th=
+e mutex resides must not be freed with the mutex still
+1b375dc3071018 Maarten Lankhorst 2013-07-05  247   * locked. The mutex must=
+ first be initialized (or statically defined) before it
+1b375dc3071018 Maarten Lankhorst 2013-07-05  248   * can be locked. memset(=
+)-ing the mutex to 0 is not allowed. The mutex must be
+1b375dc3071018 Maarten Lankhorst 2013-07-05  249   * of the same w/w lock c=
+lass as was used to initialize the acquire context.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  250   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  251   * A mutex acquired with =
+this function must be released with ww_mutex_unlock.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  252   */
+47907461e4f6fc Marco Elver       2025-12-19  253  extern int /* __must_chec=
+k */ ww_mutex_lock(struct ww_mutex *lock, struct ww_acquire_ctx *ctx)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  254  	__cond_acquires(0, lock)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  255  	__cond_acquires(0, &lock=
+->base)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  256  	__must_hold(ctx);
+1b375dc3071018 Maarten Lankhorst 2013-07-05  257 =20
+1b375dc3071018 Maarten Lankhorst 2013-07-05  258  /**
+1b375dc3071018 Maarten Lankhorst 2013-07-05  259   * ww_mutex_lock_interrup=
+tible - acquire the w/w mutex, interruptible
+1b375dc3071018 Maarten Lankhorst 2013-07-05  260   * @lock: the mutex to be=
+ acquired
+1b375dc3071018 Maarten Lankhorst 2013-07-05  261   * @ctx: w/w acquire cont=
+ext
+1b375dc3071018 Maarten Lankhorst 2013-07-05  262   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  263   * Lock the w/w mutex exc=
+lusively for this task.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  264   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  265   * Deadlocks within a giv=
+en w/w class of locks are detected and handled with the
+55f036ca7e74b8 Peter Ziljstra    2018-06-15  266   * wait/die algorithm. If=
+ the lock isn't immediately available this function
+1b375dc3071018 Maarten Lankhorst 2013-07-05  267   * will either sleep unti=
+l it is (wait case). Or it selects the current context
+55f036ca7e74b8 Peter Ziljstra    2018-06-15  268   * for backing off by ret=
+urning -EDEADLK (die case). Trying to acquire the
+1b375dc3071018 Maarten Lankhorst 2013-07-05  269   * same lock with the sam=
+e context twice is also detected and signalled by
+1b375dc3071018 Maarten Lankhorst 2013-07-05  270   * returning -EALREADY. R=
+eturns 0 if the mutex was successfully acquired. If a
+1b375dc3071018 Maarten Lankhorst 2013-07-05  271   * signal arrives while w=
+aiting for the lock then this function returns -EINTR.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  272   *
+55f036ca7e74b8 Peter Ziljstra    2018-06-15  273   * In the die case the ca=
+ller must release all currently held w/w mutexes for
+1b375dc3071018 Maarten Lankhorst 2013-07-05  274   * the given context and =
+then wait for this contending lock to be available by
+1b375dc3071018 Maarten Lankhorst 2013-07-05  275   * calling ww_mutex_lock_=
+slow_interruptible. Alternatively callers can opt to
+1b375dc3071018 Maarten Lankhorst 2013-07-05  276   * not acquire this lock =
+and proceed with trying to acquire further w/w mutexes
+1b375dc3071018 Maarten Lankhorst 2013-07-05  277   * (e.g. when scanning th=
+rough lru lists trying to free resources).
+1b375dc3071018 Maarten Lankhorst 2013-07-05  278   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  279   * The mutex must later o=
+n be released by the same task that
+1b375dc3071018 Maarten Lankhorst 2013-07-05  280   * acquired it. The task =
+may not exit without first unlocking the mutex. Also,
+1b375dc3071018 Maarten Lankhorst 2013-07-05  281   * kernel memory where th=
+e mutex resides must not be freed with the mutex still
+1b375dc3071018 Maarten Lankhorst 2013-07-05  282   * locked. The mutex must=
+ first be initialized (or statically defined) before it
+1b375dc3071018 Maarten Lankhorst 2013-07-05  283   * can be locked. memset(=
+)-ing the mutex to 0 is not allowed. The mutex must be
+1b375dc3071018 Maarten Lankhorst 2013-07-05  284   * of the same w/w lock c=
+lass as was used to initialize the acquire context.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  285   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  286   * A mutex acquired with =
+this function must be released with ww_mutex_unlock.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  287   */
+c5470b22d18332 Nicolai H=C3=A4hnle    2016-12-21  288  extern int __must_ch=
+eck ww_mutex_lock_interruptible(struct ww_mutex *lock,
+47907461e4f6fc Marco Elver       2025-12-19  289  						    struct ww_acqui=
+re_ctx *ctx)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  290  	__cond_acquires(0, lock)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  291  	__cond_acquires(0, &lock=
+->base)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  292  	__must_hold(ctx);
+1b375dc3071018 Maarten Lankhorst 2013-07-05  293 =20
+1b375dc3071018 Maarten Lankhorst 2013-07-05  294  /**
+1b375dc3071018 Maarten Lankhorst 2013-07-05  295   * ww_mutex_lock_slow - s=
+lowpath acquiring of the w/w mutex
+1b375dc3071018 Maarten Lankhorst 2013-07-05  296   * @lock: the mutex to be=
+ acquired
+1b375dc3071018 Maarten Lankhorst 2013-07-05  297   * @ctx: w/w acquire cont=
+ext
+1b375dc3071018 Maarten Lankhorst 2013-07-05  298   *
+55f036ca7e74b8 Peter Ziljstra    2018-06-15  299   * Acquires a w/w mutex w=
+ith the given context after a die case. This function
+1b375dc3071018 Maarten Lankhorst 2013-07-05  300   * will sleep until the l=
+ock becomes available.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  301   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  302   * The caller must have r=
+eleased all w/w mutexes already acquired with the
+1b375dc3071018 Maarten Lankhorst 2013-07-05  303   * context and then call =
+this function on the contended lock.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  304   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  305   * Afterwards the caller =
+may continue to (re)acquire the other w/w mutexes it
+1b375dc3071018 Maarten Lankhorst 2013-07-05  306   * needs with ww_mutex_lo=
+ck. Note that the -EALREADY return code from
+1b375dc3071018 Maarten Lankhorst 2013-07-05  307   * ww_mutex_lock can be u=
+sed to avoid locking this contended mutex twice.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  308   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  309   * It is forbidden to cal=
+l this function with any other w/w mutexes associated
+1b375dc3071018 Maarten Lankhorst 2013-07-05  310   * with the context held.=
+ It is forbidden to call this on anything else than the
+1b375dc3071018 Maarten Lankhorst 2013-07-05  311   * contending mutex.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  312   *
+1b375dc3071018 Maarten Lankhorst 2013-07-05  313   * Note that the slowpath=
+ lock acquiring can also be done by calling
+1b375dc3071018 Maarten Lankhorst 2013-07-05  314   * ww_mutex_lock directly=
+. This function here is simply to help w/w mutex
+1b375dc3071018 Maarten Lankhorst 2013-07-05  315   * locking code readabili=
+ty by clearly denoting the slowpath.
+1b375dc3071018 Maarten Lankhorst 2013-07-05  316   */
+1b375dc3071018 Maarten Lankhorst 2013-07-05  317  static inline void
+1b375dc3071018 Maarten Lankhorst 2013-07-05  318  ww_mutex_lock_slow(struct=
+ ww_mutex *lock, struct ww_acquire_ctx *ctx)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  319  	__acquires(lock)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  320  	__acquires(&lock->base)
+a5557006c9d6e3 Bart Van Assche   2026-11-02  321  	__must_hold(ctx)
+1b375dc3071018 Maarten Lankhorst 2013-07-05  322  {
+2408f7a3782a6b Peter Zijlstra    2021-08-15  323  #ifdef DEBUG_WW_MUTEXES
+1b375dc3071018 Maarten Lankhorst 2013-07-05  324  	DEBUG_LOCKS_WARN_ON(!ctx=
+->contending_lock);
+1b375dc3071018 Maarten Lankhorst 2013-07-05  325  #endif
+a5557006c9d6e3 Bart Van Assche   2026-11-02  326  	BUG_ON(ww_mutex_lock(loc=
+k, ctx) !=3D 0);
+1b375dc3071018 Maarten Lankhorst 2013-07-05 @327  }
+1b375dc3071018 Maarten Lankhorst 2013-07-05  328 =20
+
+:::::: The code at line 327 was first introduced by commit
+:::::: 1b375dc30710180c4b88cc59caba6e3481ec5c8b mutex: Move ww_mutex defini=
+tions to ww_mutex.h
+
+:::::: TO: Maarten Lankhorst <maarten.lankhorst@canonical.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
