@@ -1,77 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793868004;
-	b=sDXKy44eH8X2eq+7tqXYEF6IMijII9XpFPIBkltiTTSX7cNAyPOBRbbRFEUYtkxEq2a3
-	 0CLZq80vE19d+JuJuIKXrMRs/fCLlj170gBb4AmQdQT1QZZmwcMzm/Edn9N2dXdAKPQfP
-	 UHLfX1UTL5XQXsw44JjXmVgf0FT5pnB3/VN1OgW+lHRFXOKFlt5rGmQajVLvSj1o6HLBx
-	 tpQLe5A+t9URZuJIHyGSOM2uSzLljhXCWp5Vy6+BjxL68aWZniWtT/sUKoSC3mmXHbfuM
-	 bXKhkkT5YD9aBOSPEHlSVfD1uJK7sTnUv+hy8RKDpwsxnj4mRh3e/wTAIoROYt/w/vg==
+	t=1793869881;
+	b=2uTkvESi7P8dZJI+bK8Hj+gSVx3rdwEBoiV9H5/GqFeafJf+Sz6hrvp/qk5hL60jFZYN
+	 5J+MFNRcNVd1Sd25UbBXU1rHsyUw4x+lmq0acvSdS9DewrVJBP68hKGnsk47Jb/6POou+
+	 TA6GZ3fqaW/MG5x89ZsoNetS2fLw7mlOW9sKSRQ7griSrJDIqGscZ547KT8lVdU01qSVL
+	 3jUr9/ptHLI/88m3QWbHbg84s50zcMyCi9ermPGvpNz40CKfawAlJQsVqtT5baAoQtKKN
+	 nK4Bimf2pFZH9JcBQ7lks6bAdhRRpXzORAkYSge5w28KvWwyZd1j3feIKFd1QIk7d4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793868004;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793869881;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=Z//MJnEdU7UB22vVHJkihsXo6EOhZM/TlYmeCDy9Hyw=;
-	b=VtDfIxm2Eszp1veRmJaQYeoh+OtiYKAyjpGAmh6essSHZLyTf2orgr4rkXUdKpkV/57X
-	 aguZvck+fp8Hw4/g2k2hutAC2Xh/6h8ARSZvJ5wfGonxIuIWdyepjMkKQFUsMWJhiA7ZR
-	 0Q3rBL54MmQa6IIpWLIiFp7gF2MRyZ4xRPm1okYwzSShPxGmSHzElkLLytW3czsC9znXR
-	 QsAuecQN5hARoNpIvBqYYp3VT5LWVhqjL4rr+UqKNjXHAyA2kri/NeMCmYFoc0wh3qSvN
-	 bNCxIzca4KaY53WPDe8yVInkuyEu9P2Y6DxlTDv24/NOx24OD7mTY9FlHztUvw1Pjrw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=oUTkOjhpSta2G99V+EvRj5jWYOqvSjQ/adQtpHhKIwA=;
+	b=NqUupB++cvLA+idhie3w8aK/L9RLeSxi7u8iITFHmQl0ZXVlTaYy7xIg4lJaaxo9vHZO
+	 e5kSY+OqdhbPAZC6Zs4g/i4CJ/0+kTvUaSAe7IX+v0jg6ybV+oXjX3x28W07BlZZRrmsn
+	 b8tHVhGQFgr8e09lVNbdJ9FSKpW4gGrQA9R9n7kiXIXbh8KStaeXRAWLaR6MQyoTCnMVE
+	 spZ9Y/hgZFCet+E2BStCRuaeFye9zqD1RK78HbOEoAeCWzzKoyP+RDpGyY4ym7cnwaPPZ
+	 /JmwS5nrwrTGhzWh76zkY2lsEW/Uz0t97Hgp/Fyceg68Ne8nXTw5WqGmtjWT5/kYXfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IkzEBsmj;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OOkERDIk;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB5D606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 08:40:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FB5D606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCDD606A32C;
+	Thu,  5 Nov 2026 09:11:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FCDD606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IkzEBsmj
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OOkERDIk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793868002; x=1825404002;
-  h=date:from:to:cc:subject:message-id;
-  bh=vH76W1zmO8W5b8sW0FsxnXJtfSMz3Hnha/vguDMWIsc=;
-  b=IkzEBsmjMuJ3ozxhwpMj8sdU6Eg8lHh+HFUDbcfMh6SqUCQe/4ETjutP
-   xV3dtZ7DHc4vtjk+EpMUkec3cxYNaehRCaJj9AUckJjpbBo0fZH6i6ccy
-   OJMP9+gmyfILK1dsHOSBnpam7jkZaMJjH/RTaDBixF2uIuMvhtFSmaNbw
-   s/jWCjA5XGP0RqaBUsc3UOd9p2OZf9mgCtqqAss7i11VFt4e4z640wrP4
-   ilzbCJTUqN8+Vs8oNpJ4ssHbwIXPZyxO49rynJQWg2L9eT4L5XP9U4uO/
-   BrauK6EA5kwPBRzHf6PW/0lcReuEVCNan6BdA9u9zHngODw2cr6f+h5fr
-   Q==;
-X-CSE-ConnectionGUID: J1i8GuowRe+pV+TV4ZDIXQ==
-X-CSE-MsgGUID: IYoxgiUlR3yrF4gTAYS+tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2739765"
-X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="2739765"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 00:40:02 -0800
-X-CSE-ConnectionGUID: J4UacmZ1T/+rmoDczbHBQw==
-X-CSE-MsgGUID: WvKq8fH3SMqC4k1gNkckCA==
+  t=1793869881; x=1825405881;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RlhKt0yBUlimxXsYRHNpAnCiVlMNcaFnOQtcMg7QbUY=;
+  b=OOkERDIkUoRQ+Un8CLHvkU2ND/FrFZ1TdaYIU4aqsx/6VmipbhQ9je1Q
+   tenwDvD04gLrfcGcnfXqOBdul7jzfCQutKidsEEPFDCS8ZeRT0jzNRMgz
+   ozBDEaVOM+ldOdD54MSJVBJy/G5t4OpwgNx/zE2Rh3+2xCaoL1x/CjppI
+   VxP2x4JYISTHZ5RrTG6J1FjBLKeWev86kgqyoFBbfpqeZQsI+5yahLQnq
+   vpA5042LHvyNcJKKHyQ08g6MuqZeHRept/LMq2m6frJcLSn7QQuTy8vYM
+   bAyEud3i8479kpFRNwITa4wzwVC8d708843whY1ir0JJ856+BbYgOi8dT
+   A==;
+X-CSE-ConnectionGUID: N4CV4s6jRoCKVnTSwoqTtA==
+X-CSE-MsgGUID: 00NOtKD6SCiLZOINBw6zvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2655236"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2655236"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 01:11:20 -0800
+X-CSE-ConnectionGUID: C1Le9xQ2Sh6VQxIkMkQ3Nw==
+X-CSE-MsgGUID: wFUwFvH9SZmi8pDGQQmKCg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="6827355"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2026 00:40:01 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="8819549"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa013.fm.intel.com with ESMTP; 05 Nov 2026 01:11:16 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOt0o-000000009bH-1rrV;
-	Thu, 05 Nov 2026 08:39:58 +0000
-Date: Thu, 05 Nov 2026 09:39:38 +0100
+	id 1xOtV3-00000000lzL-1HII;
+	Thu, 05 Nov 2026 09:11:13 +0000
+Date: Thu, 5 Nov 2026 17:10:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 303/303]
- kernel/cpu.c:1098:5: sparse: sparse: symbol '__pause_drain_rq' was not
- declared. Should it be static?
-Message-ID: <202611050914.le3P7s3D-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andre Eikmeyer <dev@deq.rocks>, marcel@holtmann.org,
+	luiz.dentz@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org, sven@kernel.org, j@jannau.net,
+	neal@gompa.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, 66ton99@gmail.com,
+	josemiguelo.ochoa@gmail.com, aditya.garg@linux.dev,
+	Andre Eikmeyer <dev@deq.rocks>,
+	Yossef Osman <Yossef.Osman@proton.me>
+Subject: Re: [PATCH 2/4] Bluetooth: btbcm: clear vendor bits in LE
+ advertising report types
+Message-ID: <202611051954.fni86ioX-lkp@intel.com>
+References: <20261104151601.70493-3-dev@deq.rocks>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,56 +88,36 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104151601.70493-3-dev@deq.rocks>
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   f012a641c30644ec5bf95cf64d8835854b997f86
-commit: e19b8ce907a4ccc2f9dbeba218c50d1ff07fd321 [303/303] ANDROID: cpu/hotplug: add migration to paused_cpus
-config: i386-randconfig-2301-20261105 (https://download.01.org/0day-ci/archive/20261105/202611050914.le3P7s3D-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050914.le3P7s3D-lkp@intel.com/reproduce)
+Hi Andre,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3f425f95ba3923d605f6a8b382e8fcdc59d479db]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andre-Eikmeyer/Bluetooth-btbcm-raise-ACL-priority-on-Apple-Broadcom-controllers/20261104-161558
+base:   3f425f95ba3923d605f6a8b382e8fcdc59d479db
+patch link:    https://lore.kernel.org/r/20261104151601.70493-3-dev%40deq.rocks
+patch subject: [PATCH 2/4] Bluetooth: btbcm: clear vendor bits in LE advertising report types
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20261105/202611051954.fni86ioX-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051954.fni86ioX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611050914.le3P7s3D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611051954.fni86ioX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/cpu.c:1098:5: sparse: sparse: symbol '__pause_drain_rq' was not declared. Should it be static?
->> kernel/cpu.c:1118:6: sparse: sparse: symbol '__wait_drain_rq' was not declared. Should it be static?
-   kernel/cpu.c:844:9: sparse: sparse: context imbalance in 'clear_tasks_mm_cpumask' - different lock contexts for basic block
+All warnings (new ones prefixed by >>):
 
-vim +/__pause_drain_rq +1098 kernel/cpu.c
-
-  1097	
-> 1098	int __pause_drain_rq(struct cpumask *cpus)
-  1099	{
-  1100		unsigned int cpu;
-  1101		int err = 0;
-  1102	
-  1103		/*
-  1104		 * Disabling preemption avoids that one of the stopper, started from
-  1105		 * sched_cpu_drain_rq(), blocks firing draining for the whole cpumask.
-  1106		 */
-  1107		preempt_disable();
-  1108		for_each_cpu(cpu, cpus) {
-  1109			err = sched_cpu_drain_rq(cpu);
-  1110			if (err)
-  1111				break;
-  1112		}
-  1113		preempt_enable();
-  1114	
-  1115		return err;
-  1116	}
-  1117	
-> 1118	void __wait_drain_rq(struct cpumask *cpus)
-  1119	{
-  1120		unsigned int cpu;
-  1121	
-  1122		for_each_cpu(cpu, cpus)
-  1123			sched_cpu_drain_rq_wait(cpu);
-  1124	}
-  1125	
+   Warning: drivers/bluetooth/hci_bcm.c:153 struct member 'acl_priority' not described in 'bcm_device'
+>> Warning: drivers/bluetooth/hci_bcm.c:153 struct member 'adv_type_fixup' not described in 'bcm_device'
+   Warning: drivers/bluetooth/hci_bcm.c:153 struct member 'acl_priority' not described in 'bcm_device'
+>> Warning: drivers/bluetooth/hci_bcm.c:153 struct member 'adv_type_fixup' not described in 'bcm_device'
 
 --
 0-DAY CI Kernel Test Service
