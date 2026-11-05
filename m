@@ -1,83 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891782;
-	b=VmDzIpx/8iep54/WE7XvZXezMbJMAS9ue8gTqN9gJ7rWLkbNP1iOdAtnQwguupAgubUB
-	 CNfX7CWXj3S9BKktmPkpZ9gFtDI7CXpdhMbJJ8A8+Frfa1EWeHwVPLA9uiR6bDwLwx0Df
-	 ZJM4dQG3EGxaTYbje4jRgSGz4mQB0vnpvcQse/Dc5q8CupYwc7dn2OeR0bhzQ2/Zns1QV
-	 LyZTv5mCP+uunQ33ZCB+EaiG2YzZYhSrrInyk/iUGI/ILA1gujZ26YnaspgpL22K1h42R
-	 Ju7jpW7iBEB2Hg/X2yxp2mf+2x2/bkv10eS61W6oJz4B54b7SGiyObCIL5T6fM/hcdA==
+	t=1793891905;
+	b=EhC2+q+Zp4yBGv5yQVkzrbojDjpVvj7yfByg7/4CGdNEqjKQeloPb85B0Y3RNffLYi47
+	 N2mE3HkMN/ASybRVMhDQaB1taSXE3GenrYmRH+8Y3YP0LBg51aRaRIPHzbbvf24QTu5WF
+	 Znw+j4m6EJhovMvVNfjdqywtgMYc4B98VzEOFZVm3n5Lda1mZuoL4ubABmvaIQ1sTd9QX
+	 lUIW5I910aoB0C7aWck6We4ttRKnkAt1FiA5p/PcngEetZh+04FSEihMskCa1qX7oBaFQ
+	 omvUI2TLRKEMvI4Ur5Z16k7POXBKB8Ak/gt3aWg4cBtmzpm4vGckhsZa7Al2HYIpuDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891782;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891905;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=fMjn8XjiAzeUPvVw/+o83TJlFUPnqRfLNFAmNRdAxMk=;
-	b=bBB94tNFmjhr1M7V60sDosSYzdQh81GSHtqSp+N8GF1SU2E1xnFH+ONNMtjQmqSEfkkx
-	 T7SLUr1S6/BOHl0HXmcRUvk4vYEOMM06IWU/CO1jbzlswMRDcTwRFL1/j393kMYPn9Leg
-	 vw6VqSPs3mk9T7A+TbmO9OeNmXmGd7LJfDXTb4UD76QAw541ZexfDLTdN0hPQwKdFtjae
-	 aUUJs1rprCrLKH6tHwc0L3v6g3jslDTHkv6pxAMLq9x5/nS+Z4a8VV5urqMXlyAIhNLM+
-	 ruB4LhsTxGfyZbRFKgYmG+z/33q53WWhA0743ni4Vo2MXaIhmRQtU6CnGSynj1kj4tA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=eScw/QMwk/DH9XwpV7wMxNexoTJvnWrPKCEp+SvkiII=;
+	b=BhscuXewroOFadLeuRIIniDO/pApaHmb/E+/BEpfkITi3ik91AVNmiUFHLHFelbbTTLE
+	 p+rq2+9e7yy2ixc75XqqRrU1PX26PhinisZ/eMgptooyUU0fDRxKZsyWGejCpACFCDH0Q
+	 jqTYsuZLTcy9zWsb0giV0qNAGE/A/9GjYqDimvalAEomFyhjCmjGeXfvBgdGOl7a3NM97
+	 uBbhNxCmp6hO6BgmLmiDbO6CxV8u/2qOhSdEt55lz4qmogBir+WFm9ExhC9ijf1xhfPhT
+	 eN41xj1B3vCaWr3q9ZB+SmQD2/o9x+E255ApAuyIg0ukBZYqvsXPCSMUOjN6xCkJ1IA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UcsOA5SI;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SSO7rVxX;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFAE606A334
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 15:16:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECFAE606A334
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C602C606EE84
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 15:18:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C602C606EE84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UcsOA5SI
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SSO7rVxX
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793891781; x=1825427781;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rU8SrDDryY+CYHj9KsFi4pCuuYIXMwEz4SCd8TjDdnI=;
-  b=UcsOA5SIJead27+Zc4oqTT5SFlOp4Q9D7damZpJjDpQxtlfILNcdg2Jd
-   BwKF4rGrWjM9lV55ELYbKX2k4xU7lYXfCqcBRWZcac3CIOaePf7UCggt+
-   c5uk/2RLuySGresZDfSZY/IUBtg/mlNAp8GHCqFLKGfZYj9FFEdUT5KZk
-   dOEo+fk1Taf6Ol6+uaO/AWgdiZdc1aexEsUz70UUTfD/aF8P3VhaAKU1k
-   zu+CoX7mYK7hWG/tYSRtv/To+iO85yVmFOYnCccQ29Nso5Gvaolz+/PCT
-   zYPMPJ9Oass9FcPVEzQPZqGtdX22+2Hwu1y5HcP81eRSnS0QbIhVSbeHz
-   Q==;
-X-CSE-ConnectionGUID: N0uC0TP1TSikzagpkOiZVg==
-X-CSE-MsgGUID: v71KYuPISMWxTNsp3nQHdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2593748"
+  t=1793891904; x=1825427904;
+  h=date:from:to:cc:subject:message-id;
+  bh=/SMjuTkUqgIMDWm9TEEBLtms/3Bsq4CsGJZio7BHoGI=;
+  b=SSO7rVxXaNJH/QIJCd9KkjgR1iUQ/+Cj8sGAfdm2LVEx6dW3XYsblcZh
+   hb0rUxo7IQEyEAfAvz7A96qcD3L5azizne23Ha2NOaIm42gEkVrvlyzlf
+   f8/WoEImpRHgL7iJ3HpJ0TWsjmx+1hfSlLzw1l2n7MSlR0CXpFpJ5Ws+J
+   3DvwV8UiXTsCvy+wypOiHlEK/WSbm+G0Ubx4ur+pLFvZ5PySF06ZqGhG0
+   Lg9BoXn6O9WpyVbSp/MtpKUo6Kd//Mo02kf59buVL7TW1b6AFBDKfT18T
+   kT4g4AhFr7FLlxnepLaHCt2FBrmbRJVfyOc/ds/2oD7tOhhp+0mxqwS4H
+   A==;
+X-CSE-ConnectionGUID: PpfxVy5KRHqOr1U2+DibAQ==
+X-CSE-MsgGUID: 3J1BwYD0TVqFrCynbgNbSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2701112"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2593748"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 07:16:21 -0800
-X-CSE-ConnectionGUID: bm+wbRSvRO2M5N2cjZGNDQ==
-X-CSE-MsgGUID: UJYW7TIAQwe2gmUnKJ9jBA==
+   d="scan'208";a="2701112"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 07:18:24 -0800
+X-CSE-ConnectionGUID: kfjaD/4+QwSJMy/MRhdTrA==
+X-CSE-MsgGUID: gUmL6+jURdGy41Fb5rM/gA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7193564"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2026 07:16:19 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="8790287"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 05 Nov 2026 07:18:22 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOzCJ-00000000mOh-3sHN;
-	Thu, 05 Nov 2026 15:16:15 +0000
-Date: Thu, 5 Nov 2026 23:15:33 +0800
+	id 1xOzEI-000000009gB-4Bj7;
+	Thu, 05 Nov 2026 15:18:19 +0000
+Date: Thu, 05 Nov 2026 16:17:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: Abhishek Bapat <abhishekbapat@google.com>,
-	Suren Baghdasaryan <surenb@google.com>, Hao Ge <hao.ge@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Abhishek Bapat <abhishekbapat@google.com>
-Subject: Re: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation
- tracepoints
-Message-ID: <202611052344.mDV2DB89-lkp@intel.com>
-References: <37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat@google.com>
+To: Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next 18/34]
+ drivers/leds/leds-pca955x.c:544:37: error: use of undeclared identifier
+ 'client'
+Message-ID: <202611051650.vcD7uJMK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,33 +80,80 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat@google.com>
 
-Hi Abhishek,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bcc036cfa1670a64500f6d857eaa71908b79e3fb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Bapat/alloc_tag-Add-trace-events-for-tracing-allocations/20261104-190336
-base:   bcc036cfa1670a64500f6d857eaa71908b79e3fb
-patch link:    https://lore.kernel.org/r/37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat%40google.com
-patch subject: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation tracepoints
-config: xtensa-randconfig-1001-20261105 (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   a379f4e0adf2de7b11aa3ef87eeb7d9c838069b3
+commit: abeb74220fefe28ab68789659f554f49e3b4a51e [18/34] leds: pca955x: Take a reference on the child firmware node
+config: hexagon-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261105/202611051650.vcD7uJMK-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051650.vcD7uJMK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611052344.mDV2DB89-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611051650.vcD7uJMK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: alloc_tag_trace_enabled+0x2c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+>> drivers/leds/leds-pca955x.c:544:37: error: use of undeclared identifier 'client'
+     544 |         device_for_each_child_node_scoped(&client->dev, child) {
+         |                                            ^
+>> drivers/leds/leds-pca955x.c:544:37: error: use of undeclared identifier 'client'
+   drivers/leds/leds-pca955x.c:554:25: error: use of undeclared identifier 'client'
+     554 |                         devm_release_action(&client->dev, pca955x_fwnode_put,
+         |                                              ^
+   drivers/leds/leds-pca955x.c:559:35: error: use of undeclared identifier 'client'
+     559 |                 res = devm_add_action_or_reset(&client->dev,
+         |                                                 ^
+>> drivers/leds/leds-pca955x.c:562:11: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
+     562 |                         return ERR_PTR(res);
+         |                                ^~~~~~~~~~~~
+   5 errors generated.
+
+
+vim +/client +544 drivers/leds/leds-pca955x.c
+
+   532	
+   533	static int pca955x_parse_fwnode(struct pca955x *pca955x)
+   534	{
+   535		struct device *dev = &pca955x->client->dev;
+   536		u8 bits = pca955x->chipdef->bits;
+   537		struct pca955x_led *led;
+   538		int count;
+   539	
+   540		count = device_get_child_node_count(dev);
+   541		if (count > bits)
+   542			return -ENODEV;
+   543	
+ > 544		device_for_each_child_node_scoped(&client->dev, child) {
+   545			u32 reg;
+   546			int res;
+   547	
+   548			res = fwnode_property_read_u32(child, "reg", &reg);
+   549			if ((res != 0) || (reg >= bits))
+   550				continue;
+   551	
+   552			led = &pca955x->leds[reg];
+   553			if (led->fwnode)
+   554				devm_release_action(&client->dev, pca955x_fwnode_put,
+   555						    led->fwnode);
+   556			led->type = PCA955X_TYPE_LED;
+   557			led->fwnode = fwnode_handle_get(child);
+   558	
+   559			res = devm_add_action_or_reset(&client->dev,
+   560						       pca955x_fwnode_put, led->fwnode);
+   561			if (res)
+ > 562				return ERR_PTR(res);
+   563	
+   564			led->default_state = led_init_default_state_get(child);
+   565	
+   566			fwnode_property_read_u32(child, "type", &led->type);
+   567		}
+   568	
+   569		return 0;
+   570	}
+   571	
 
 --
 0-DAY CI Kernel Test Service
