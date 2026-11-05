@@ -1,79 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890094;
-	b=0mkilMpocRuN62+bGPE0AxtCRIDH061Bo+QF6UysLWWGFsacYLth5WnZxRM19OlCquww
-	 ss6pPQLcD3Xv00yv1gNNTswB/11zYMl1CvF8hbUmaJ+UjX6la9FLlwLUMHbNKQb3Tvzi1
-	 0rk0IGfNfluNA9XT4tKGHccD0SldSvF3uMg2/qljwdJ94U2/hkAiGyIoH4Np11jZA388A
-	 +1kqop3tvgGz5PiaEDR76k+qNcguiyVZCy4bwHkBu72u5Vz1QQIUKq81w6t/X8gpDUssB
-	 Cs013r+7h6Rbt1IrvopLEuozYAwRl0t+/+4/4GpFCENBXxEiClC+4HEiv9yQgLtPfQA==
+	t=1793890096;
+	b=F8D1wADrMKbgkxYqV6SoYtRJTO8jfHsdE4o9mXLtDpThr8f1yl0/FQe8QuzNcZIVwXKA
+	 bXxo2SPgQhQURp9l8FO8teJQxLJtrVo/nz0cqO8OSUk42w5HOCiS+xPscPD/MX5Iry5jg
+	 /oW8BE75z359UvZmf7+ad+Nua2HnwSJluR+OI5ZwhPuZPTMJWQm717jMFiNEksDN/F3bS
+	 0NIxlvaMR5mrEuwbKHXngKMUE8uHVjglxzK7Lwm0C5CjnvTDfyNCqQcTLltqeY4Wg1Io5
+	 Tv2eDXQNNCHQFCZHoJK6wzfOiWQoD3khP0y26IbE7K4xgcfaYKvhG9MVjm7YKTtYTew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890094;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890096;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=+KEO8mCidqSQviZa7+VsKyZl/2osmPqVxDkGw1K3410=;
-	b=Ks/AIlk5qUyTzUXSTs+wSHeBOCjvfmOmjjsK9kJpCsonbyiY0HExtCBvjcsTdi9wskmn
-	 ccK9ptujtzXAwz6XdUEZ9SBa47sus9kr5nVG7uT6NC1EeunO7KK/D7/g8ywvtM0ELoNZn
-	 CX10U9Lw/kXrqDIt9eDFx1tyLiCgjT8FDCgbRVFm9/U4l2KYXlyCMV0/sswvNGR7/qEQ/
-	 NKuUxyDRU72sEA8Dlxan4pebBe6V2eEvmrTn4xH9CY23kPjox6j/BCmdqWheTNFv1IyrW
-	 ICv+DTwqHyZqqgJ539G1xxZgP7pSsrNGRlGjuj368RL54d/6sEpyCOob5LRPUtov2tg==
+	bh=9+WarTFPjrorTOPOCDuAawVTRdpULfBt//vr3xzA/14=;
+	b=1htIsKeEfoy24NANuHL8UVC6QHxZcpJQzttn+5lEcfKVs4kZolu7on2D0zaMqLhtIk0v
+	 mQ2nDjrgcMtsGr9X7arkJM0ijtvRTOVEoe1v4QkWJj5cMWFXcXfNqMNH6pC1zVFrlUtpl
+	 NfE9WaqRcBlR/r5me1rL452ZE6yA4d6OEV1D+MjV+wnjJBPwxmirZXWskr/C0kxfgb9kd
+	 vWalISC17a1P8E6yUrI24Mreu7t3GdnFG696eaIhLlLDfR3M7cq27fDodT9fRTQc8NXkk
+	 uerlPLkkxmsn3uy2O3JIVZ3qELEhkpnB0iEbAIlEJErU+TF3TtbvY9OfAtTg6dBT4mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LZW6tDxs;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W6sIWNqz;
 	arc=none smtp.remote-ip=192.198.163.13
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98974606A328;
-	Thu,  5 Nov 2026 14:48:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98974606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF30E606A332
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 14:48:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF30E606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LZW6tDxs
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W6sIWNqz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793890094; x=1825426094;
+  t=1793890095; x=1825426095;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LcqnTFFjXD7S999oBGGwZsDLxCeSNRsnNa/cTmTmO2w=;
-  b=LZW6tDxsZvV2oFvfh1eubyYgXK5Iy7deCVVBqN5Qt+9PUjRr+qrxWkG/
-   YuD0ubFqkKF9ifiXlSkuuVJ/7KG5m9hOFZvEx7bJjMn8b8cktrzp34K61
-   KPZRCC/kh49189DYMHF+MV9xIcakk+AD3QiciuJE/7XrRvtFw0CHfLBaB
-   Dfdn1ltOA+GjuQ1KyxJUBe8ttZ8j4UDxHuOxMabpp/0zzU+gteL8+asE9
-   EQP7VgU2r0vF9NdTNVEw6MzK2OjB5yprinxoBumN9tn1HKINYj3fAnsgg
-   rYvIv1/adoiyKEnMlHdp1SKkb39OtqEBs6yZnO52GfxxuLC8r19K283B1
-   g==;
-X-CSE-ConnectionGUID: D2J0W6mzTL+apr8l98BLiA==
-X-CSE-MsgGUID: mM+cSXDDT7+Osl7BJdVnTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2674336"
+  bh=KyCZcbnpHT5hVUzl2D1R3B/DaLFXMFs3G4PqJWlxB7s=;
+  b=W6sIWNqzLVXHLbjtRIZIwc/cWK722YP7HU6SdNeTRWDo+fqBP8qxCjJ6
+   98A+IivbAe0CdoDbR9T7j9ht+KuswncaFpyXdKUlAHc3DU1omAlv4j4D1
+   6IqmRVjtWDUWXbidgan1MmoWUGOP7eV5rH52Ac2+adra8j4KBX4csh9LW
+   yTDEC3AVUMcC2pCnZ19VV2LBt5yurZObPgNs0fEoFjPWk1gNiKNUrqfNp
+   tofOQ1Qa5sH3IMa62X1pqAgMIjvYKCpSwLDZ91Y8SD2Q5q7ZB16Jkk1lF
+   qFaU/YyetKk7j8wBWk5loWFhhtYIqeyX6HS5tF0UVw79YvGhefR9py83W
+   Q==;
+X-CSE-ConnectionGUID: exOJBYjfRmydKZhL0BUFgQ==
+X-CSE-MsgGUID: Xn6/zA6mRU+9M4JWiDDekQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2674339"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2674336"
+   d="scan'208";a="2674339"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:48:13 -0800
-X-CSE-ConnectionGUID: r9Olhf3/Re6x1iMuA+Petg==
-X-CSE-MsgGUID: sznsQMtNSRayjim39ZIgFw==
+X-CSE-ConnectionGUID: oQ7me3/wR2ut42hsd5NzCg==
+X-CSE-MsgGUID: WfK767yvS0qLGuv4cfWXfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7033010"
+   d="scan'208";a="7033009"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 05 Nov 2026 06:48:11 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOyl7-00000000mL7-1mJF;
+	id 1xOyl7-00000000mL5-1e5I;
 	Thu, 05 Nov 2026 14:48:09 +0000
-Date: Thu, 5 Nov 2026 22:47:14 +0800
+Date: Thu, 5 Nov 2026 22:47:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 6/6] Bluetooth: Add EKS Opportunistic Encryption
- support
-Message-ID: <202611052210.pgQkfWp2-lkp@intel.com>
-References: <20261104221321.1200529-7-luiz.dentz@gmail.com>
+To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>,
+	dmitry.torokhov@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+Subject: Re: [PATCH] Input: synaptics - make InterTouch quirks table driven
+Message-ID: <202611052201.kQxXuVQk-lkp@intel.com>
+References: <20261105042614.688312-1-lovekeshsolanki00@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,104 +86,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104221321.1200529-7-luiz.dentz@gmail.com>
+In-Reply-To: <20261105042614.688312-1-lovekeshsolanki00@gmail.com>
 
-Hi Luiz,
+Hi Lovekesh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on bluetooth/master]
-[cannot apply to linus/master v7.3 next-20261030]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v7.4-rc1 next-20261030]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-Add-initial-support-for-HDT-PHY/20261104-171316
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20261104221321.1200529-7-luiz.dentz%40gmail.com
-patch subject: [PATCH v3 6/6] Bluetooth: Add EKS Opportunistic Encryption support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20261105/202611052210.pgQkfWp2-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 812626a41399a1d464a0d69627ab45c83b8ebfb9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052210.pgQkfWp2-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lovekesh-Solanki/Input-synaptics-make-InterTouch-quirks-table-driven/20261105-095614
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20261105042614.688312-1-lovekeshsolanki00%40gmail.com
+patch subject: [PATCH] Input: synaptics - make InterTouch quirks table driven
+config: csky-defconfig (https://download.01.org/0day-ci/archive/20261105/202611052201.kQxXuVQk-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052201.kQxXuVQk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611052210.pgQkfWp2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611052201.kQxXuVQk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/bluetooth/hci_sync.c:8779:6: warning: calling function 'smp_pairing_in_progress' requires holding mutex 'hci_conn_hash_lookup_handle(hdev, data->handle)->hdev->lock' exclusively [-Wthread-safety-precise]
-    8779 |         if (smp_pairing_in_progress(conn)) {
-         |             ^
-   net/bluetooth/hci_sync.c:8779:6: note: found near match 'hdev->lock'
-   1 warning generated.
+>> drivers/input/mouse/synaptics.c:226:1: warning: 'synaptics_intertouch_blocklist' defined but not used [-Wunused-const-variable=]
+     226 | synaptics_intertouch_blocklist[] = {
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/input.h:19,
+                    from include/linux/input/mt.h:11,
+                    from drivers/input/mouse/synaptics.c:26:
+   drivers/input/mouse/synaptics.c: In function 'synaptics_init_ps2':
+   <command-line>: warning: '%s' directive argument is null [-Wformat-overflow=]
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:160:58: note: in expansion of macro 'dev_fmt'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                          ^~~~~~~
+   drivers/input/mouse/psmouse.h:202:9: note: in expansion of macro 'dev_info'
+     202 |         dev_info(&(psmouse)->ps2dev.serio->dev,         \
+         |         ^~~~~~~~
+   drivers/input/mouse/psmouse.h:195:33: note: in expansion of macro 'KBUILD_BASENAME'
+     195 | #define psmouse_fmt(fmt)        KBUILD_BASENAME ": " fmt
+         |                                 ^~~~~~~~~~~~~~~
+   drivers/input/mouse/psmouse.h:203:18: note: in expansion of macro 'psmouse_fmt'
+     203 |                  psmouse_fmt(format), ##__VA_ARGS__)
+         |                  ^~~~~~~~~~~
+   drivers/input/mouse/synaptics.c:1696:17: note: in expansion of macro 'psmouse_info'
+    1696 |                 psmouse_info(psmouse,
+         |                 ^~~~~~~~~~~~
 
 
-vim +8779 net/bluetooth/hci_sync.c
+vim +/synaptics_intertouch_blocklist +226 drivers/input/mouse/synaptics.c
 
-  8754	
-  8755	/* The opportunistic encryption is queued when the connection is set up, so
-  8756	 * by the time it runs the connection may be gone, already encrypted, have
-  8757	 * SMP encryption pending or SMP pairing in progress, so check again right
-  8758	 * before sending the command and leave the link to SMP in those cases.
-  8759	 *
-  8760	 * HCI_CONN_OPP_ENCRYPT, without HCI_CONN_ENCRYPT, marks the request in
-  8761	 * flight. HCI_CONN_ENCRYPT_PEND is not used for it, so SMP is not blocked
-  8762	 * by it: SMP pairing over a link being encrypted works, and the encryption
-  8763	 * started by SMP afterwards replaces the opportunistic key.
-  8764	 */
-  8765	static int hci_le_eks_oppt_encrypt_sync(struct hci_dev *hdev, void *data)
-  8766	{
-  8767		struct hci_cp_le_enable_encrypt_v2 *cp = data;
-  8768		struct hci_conn *conn;
-  8769		int err;
-  8770	
-  8771		hci_dev_lock(hdev);
-  8772	
-  8773		conn = hci_conn_hash_lookup_handle(hdev, le16_to_cpu(cp->handle));
-  8774		if (!conn || conn->state != BT_CONNECTED ||
-  8775		    test_bit(HCI_CONN_ENCRYPT, conn->flags) ||
-  8776		    test_bit(HCI_CONN_ENCRYPT_PEND, conn->flags))
-  8777			goto unlock;
-  8778	
-> 8779		if (smp_pairing_in_progress(conn)) {
-  8780			bt_dev_dbg(hdev, "SMP in progress, skipping hcon %p", conn);
-  8781			goto unlock;
-  8782		}
-  8783	
-  8784		if (test_and_set_bit(HCI_CONN_OPP_ENCRYPT, conn->flags))
-  8785			goto unlock;
-  8786	
-  8787		/* Use the MIC length requested by now, or the default one if unset */
-  8788		cp->mic_len = conn->req_mic_len ? conn->req_mic_len :
-  8789						  hdev->hdt_def_mic_len;
-  8790	
-  8791		bt_dev_dbg(hdev, "starting EKS opportunistic encryption hcon %p", conn);
-  8792	
-  8793		hci_dev_unlock(hdev);
-  8794	
-  8795		err = hci_le_enable_encrypt_v2_sync(hdev, data);
-  8796		if (!err)
-  8797			return 0;
-  8798	
-  8799		/* No result will come for a command that was not sent or failed */
-  8800		hci_dev_lock(hdev);
-  8801	
-  8802		conn = hci_conn_hash_lookup_handle(hdev, le16_to_cpu(cp->handle));
-  8803		if (conn && !test_bit(HCI_CONN_ENCRYPT, conn->flags))
-  8804			clear_bit(HCI_CONN_OPP_ENCRYPT, conn->flags);
-  8805	
-  8806		hci_dev_unlock(hdev);
-  8807	
-  8808		return err;
-  8809	
-  8810	unlock:
-  8811		hci_dev_unlock(hdev);
-  8812		return 0;
-  8813	}
-  8814	
+   221	
+   222	/*
+   223	 * List of devices with broken board revisions.
+   224	 */
+   225	static const struct synaptics_intertouch_quirk
+ > 226	synaptics_intertouch_blocklist[] = {
+   227		{
+   228			/* ThinkPad T440p */
+   229			.board_id = 2722,
+   230			.pnp_id = "LEN0036",
+   231		},
+   232	};
+   233	
 
 --
 0-DAY CI Kernel Test Service
