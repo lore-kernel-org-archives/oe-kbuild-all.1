@@ -1,80 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793903083;
-	b=wt4ZHsnEBfiQJpDlbj3TrML88IuXvIffp7nOoDacgc9piOMOeHORQ2ZgfydcPOIQbmrm
-	 f9kZN1nk9qMvKj7aDLhnUZzpp7CZeA/XxI6290S7+Tcaa2eyQeSSmW1cVy/gV9Gdh214d
-	 Mu8zo/IMFJfEFw2+dmz+FrBSZd0tEAysYai8grim4IuE8QpqwTpF/qKpOQdmb3OLmZKzp
-	 RDL+RDadhQkMQnNRH7q7tzFQP218yOQgZW0Iff2IqV4WVMNiSEMcvXEHQHUeXEJMPIuGR
-	 BhBppRgvEUpYD7ynL3g9vKPA4TYCgi5DwpHbHHHyEzb58tGN36aLtWGo/Kj+zshqpXQ==
+	t=1793905948;
+	b=zS1FKoehTj2pKFZZoFy/WsgKdxj7hy/5XEbqXz9QQ1x9sioVWWe5PgmJElAZldAuR84c
+	 ugVnwAuvIhdNMOl3iycAzsS5FR1WsI1kCwqRTI4/Buyd7kvCXcPYiWmPz54qejy4G/xBe
+	 CgxTM13zWYefrsTa9qHLbrYqJgBy7Cj+ETenccezM6q8OciIX30RnWpNTZTWbyBZTjano
+	 rB/giUkSio8M8EyUsGqUb323CDBznoVNuHgrS2RbBbmQtWYm/15gyt3zwJ7Vlk7z5Fx1R
+	 QtO9ihRETRHQdBgcRZnC+HPTa/1urBp4KQLopBcshG3/VFWqaraHERkYqYhRkzWTYhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793903083;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793905948;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=E6Q8P1340lhjpphLE4vGSu5qYC4hlfkJAY0J5FgHtHo=;
-	b=N9KZjOmqXBjZrGMoNhC1kNaNFvtT1xhkM0GeCKx7cNDWTi4vp32DlKdnP9OK3cQN9l3g
-	 4Fath9yk4OvE/ZzjteQ9qTSfjBWYm4jsc0yN4MWxFeBWF6K7wSWdL1Ftyuy/7Pa0mgZwe
-	 lnPChgET++TVGupy6HX9U5OkMrwxbM3EHsP5h58ceKYItUgykUQdU9oz24N1x/Q+XVLaE
-	 VdNGI8/qk93acGQQLfuTCZRSztirlBP8on2xjT5bzs/9v0kRCfmkvDhePIa0dLV8RCtm0
-	 NVe9j2ifh9Xzm1AHx+EfAPnOALQnadsySbk0koITaT4qeTLF3EXM9cdvYi0G30zfBvw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=hy7JJ0SbH/t6xDwsEtvd8ua6DrU4regn4+FcmoZwt38=;
+	b=bpP7vkUPBxEluPTyQ3OGtDEB3Z9lLO5DviUszYWZ0xfEWNdBc6PU5hS5b0ea97VCwtkm
+	 234EPKpMx2Svv1IRxnHpGlxxKLaT/q9cdCKoFvEJjUYuVOrTheYFVJELvqFwagvGsn/Wp
+	 J0yT3vJ0E0d8AoVHqHWmIgW6kQNadBA4/0+1uZgMmxi3OPnkRDSgU0OKVhJWfL/Og8KpY
+	 u8hf1Hycp6TzApZ3vI2+6LgLj2TdP02kEOEg71du3uOVaLq/KpOocG9P1RLPbsCGny4hB
+	 8ue4bjdPpFjmInnErq3ha0k8kiLFz+RQTXM1Kv5FPwCy7on5QiPwnnfPcpLD1W3Z+Cg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E05Tioe+;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JffNlRIc;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F99606A326
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 18:24:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70F99606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CB1606D807
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 19:12:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9CB1606D807
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E05Tioe+
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JffNlRIc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793903083; x=1825439083;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GRIUUO0N0cBOPlANN2KKDeJN/d7vjvFPsFxRvjTj6Vo=;
-  b=E05Tioe+uLEdhEDatIhTEDqd0ycMRnJdWcEnaIabETxRbGSbCh4dXUaz
-   uCa4Sv/5kgTew+ilW8YMjOnnRxmk3N+9WPtOa6IYfmEzoMfjGD/7Bfb0O
-   /7hL1vOin/K6Q2DFumd9gIn89GhnvtvD/r4Thc4aYoVrxMmQu5LICSTG5
-   CbjYN1vT1Ox75K83qeApeowuQ1AeRJNHBtn9TKCcr3ZEgx70KfUVNdBZI
-   JijPz00kwyZJOaFL2E0xLYu3wsbnSEd4r00u0/yWu52UgDSAvtSgokNVi
-   xhJ/7tqRO6DgLNXMZLzmvQUuHcDumkn9enAbTlcGN0gngMaA/NzsE8x5X
-   Q==;
-X-CSE-ConnectionGUID: Lmir0K8CRcqgRyFzQHcOcA==
-X-CSE-MsgGUID: lndfBxLwSyqkgcF1XjADQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2576619"
+  t=1793905947; x=1825441947;
+  h=date:from:to:cc:subject:message-id;
+  bh=yqDyX0ailfesNEPizEahD6jvAuhHLn6xQb0GKRFhgdg=;
+  b=JffNlRIcNj6uPRQdSx1o2r9ieJw7kz9vi5+/n5+znZKBY2/ohXpJPVrJ
+   8IQM8OtP/Gjrvh8Msr5QxUnbZqcaV+5SVbu3NBr+PvE3MlAr+6dLKbHLH
+   EM2s+mWak/k8Rd5A0r0HNGC2R1CATV4M2vn2K4S41uYqtXzYVQPyBVF7h
+   WMoKxNnqc+wbjhqQ8x+PDS1QtYAKzflIDg3ioEFGD6rLomknt7a1AIRC8
+   r4/NQ/iVTaWucVu8pPhSOVL1PdP2kW2ia/IL+KQVovNi/a262cGgIHREt
+   ndgpN1aAiW/HNMFKeAM+nH/lTJVAy55vcvMK5+uWaGtRwGM8+ERsdKlo6
+   w==;
+X-CSE-ConnectionGUID: sTana4oSS5ytPNYRlWr5ug==
+X-CSE-MsgGUID: i/WdKIjGS/WBCulisGAuiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2598124"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2576619"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:24:42 -0800
-X-CSE-ConnectionGUID: z4SZqRXTRa2RGIHBG7N8Cw==
-X-CSE-MsgGUID: WnIR7PMzQgymMHOCEdnnXQ==
+   d="scan'208";a="2598124"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 11:12:27 -0800
+X-CSE-ConnectionGUID: bz7jVO1JTHmEQh2xtb0p6Q==
+X-CSE-MsgGUID: hlvE3R7ISmyxl8dsPHVpaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7395680"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2026 10:24:39 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="6919331"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 05 Nov 2026 11:12:25 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xP28a-00000000mfb-3EkY;
-	Thu, 05 Nov 2026 18:24:36 +0000
-Date: Fri, 6 Nov 2026 02:23:39 +0800
+	id 1xP2sn-000000009lP-1EgU;
+	Thu, 05 Nov 2026 19:12:21 +0000
+Date: Thu, 05 Nov 2026 20:12:01 +0100
 From: kernel test robot <lkp@intel.com>
-To: Nikhil Gautam <nikhilgtr@gmail.com>, linux-iio@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, Nikhil Gautam <nikhilgtr@gmail.com>
-Subject: Re: [PATCH v5] iio: chemical: ccs811: Make sampling frequency
- configurable
-Message-ID: <202611060115.RlOXqnls-lkp@intel.com>
-References: <20261104151138.9968-1-nikhilgtr@gmail.com>
+To: Yixun Lan <dlan@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [spacemit-com:wip/k3-ufs 2/4] Warning:
+ drivers/ufs/host/ufs-spacemit.c:611 static const struct ufs_hba_variant_ops
+ ufs_hba_spacemit_vops = { .name = "ufshcd-spacemit", .init =
+ ufs_spacemit_init, .link_startup_notify = ufs_spacemit_link_startup_notify,
+ .negotiate_pwr_mode = ufs_spacemi...
+Message-ID: <202611052010.5TwdeAL7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -83,62 +82,22 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104151138.9968-1-nikhilgtr@gmail.com>
 
-Hi Nikhil,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v7.3 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikhil-Gautam/iio-chemical-ccs811-Make-sampling-frequency-configurable/20261104-204138
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20261104151138.9968-1-nikhilgtr%40gmail.com
-patch subject: [PATCH v5] iio: chemical: ccs811: Make sampling frequency configurable
-config: arc-randconfig-1000-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060115.RlOXqnls-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060115.RlOXqnls-lkp@intel.com/reproduce)
+tree:   https://github.com/spacemit-com/linux wip/k3-ufs
+head:   e1882b3856480b6a204f21fd16742fce6cbe2ca6
+commit: 1c5046aacbfe053aa225f17069c8a410d2a97181 [2/4] scsi: ufs: spacemit: k3: Add UFS Host Controller driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261105/202611052010.5TwdeAL7-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052010.5TwdeAL7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060115.RlOXqnls-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611052010.5TwdeAL7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iio/chemical/ccs811.c:18:
-   drivers/iio/chemical/ccs811.c: In function 'ccs811_write_raw':
->> include/linux/cleanup.h:298:2: error: a label can only be part of a statement and a declaration is not a statement
-     class_##_name##_t var __cleanup(class_##_name##_destructor) = \
-     ^~~~~~
-   include/linux/cleanup.h:422:34: note: in expansion of macro 'CLASS'
-    #define ACQUIRE(_name, _var)     CLASS(_name, _var)
-                                     ^~~~~
-   include/linux/iio/iio.h:817:2: note: in expansion of macro 'ACQUIRE'
-     ACQUIRE(__priv__iio_dev_mode_lock_try_direct, claim)(dev)
-     ^~~~~~~
-   drivers/iio/chemical/ccs811.c:354:3: note: in expansion of macro 'IIO_DEV_ACQUIRE_DIRECT_MODE'
-      IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +298 include/linux/cleanup.h
-
-54da6a0924311c7 Peter Zijlstra 2023-05-26  293  
-2deccd5c862a033 Peter Zijlstra 2026-03-09  294  #define EXTEND_CLASS(_name, ext, _init, _init_args...)			\
-2deccd5c862a033 Peter Zijlstra 2026-03-09  295  	EXTEND_CLASS_COND(_name, ext, 0, _init, _init_args)
-2deccd5c862a033 Peter Zijlstra 2026-03-09  296  
-54da6a0924311c7 Peter Zijlstra 2023-05-26  297  #define CLASS(_name, var)						\
-54da6a0924311c7 Peter Zijlstra 2023-05-26 @298  	class_##_name##_t var __cleanup(class_##_name##_destructor) =	\
-54da6a0924311c7 Peter Zijlstra 2023-05-26  299  		class_##_name##_constructor
-54da6a0924311c7 Peter Zijlstra 2023-05-26  300  
+>> Warning: drivers/ufs/host/ufs-spacemit.c:611 static const struct ufs_hba_variant_ops ufs_hba_spacemit_vops = { .name = "ufshcd-spacemit", .init = ufs_spacemit_init, .link_startup_notify = ufs_spacemit_link_startup_notify, .negotiate_pwr_mode = ufs_spacemit_negotiate_pwr_mode, .pwr_change_notify = ufs_spacemit_pwr_change_notify, .device_reset = ufs_spacemit_device_reset, .event_notify = ufs_spacemit_event_notify, .apply_dev_quirks = ufs_spacemit_apply_dev_quirks, .hibern8_notify = ufs_spacemit_hibern8_notify, }; error: Cannot parse struct or union!
 
 --
 0-DAY CI Kernel Test Service
