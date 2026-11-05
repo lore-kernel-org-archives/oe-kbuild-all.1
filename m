@@ -1,77 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891905;
-	b=EhC2+q+Zp4yBGv5yQVkzrbojDjpVvj7yfByg7/4CGdNEqjKQeloPb85B0Y3RNffLYi47
-	 N2mE3HkMN/ASybRVMhDQaB1taSXE3GenrYmRH+8Y3YP0LBg51aRaRIPHzbbvf24QTu5WF
-	 Znw+j4m6EJhovMvVNfjdqywtgMYc4B98VzEOFZVm3n5Lda1mZuoL4ubABmvaIQ1sTd9QX
-	 lUIW5I910aoB0C7aWck6We4ttRKnkAt1FiA5p/PcngEetZh+04FSEihMskCa1qX7oBaFQ
-	 omvUI2TLRKEMvI4Ur5Z16k7POXBKB8Ak/gt3aWg4cBtmzpm4vGckhsZa7Al2HYIpuDg==
+	t=1793902545;
+	b=ivfNo7R2FjkHkbBOSV2ae9s+WxxZCIM0fiPqzJLWNv14bxxmnYT2TdvvsRpwhPZP6adw
+	 GFzpXXpUEwU1N17SyhgsdBAUdts9W7ErpdXv1K95SmCtyOix6J8nn42wwy5PC1Ff2O4uJ
+	 yv7sgz3gEaBE4Ijvf1Pnctsi8HnQJjWrow1PR/+G4mcMfg9kPJuLg2cLV53H2D2m211YY
+	 TUKH4WAwCsi685h6N6oK3sIFMXbLVlue3OUxjAKAsp9pOm0vdkZV2vC1jnLdaGVZSCk/D
+	 8R90AIwPpSVNfhAM77KEbyOJLLq9mIKlEVUJco2nuLwKCcBK7Z2ksdbuf5v509JGTog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891905;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793902545;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=eScw/QMwk/DH9XwpV7wMxNexoTJvnWrPKCEp+SvkiII=;
-	b=BhscuXewroOFadLeuRIIniDO/pApaHmb/E+/BEpfkITi3ik91AVNmiUFHLHFelbbTTLE
-	 p+rq2+9e7yy2ixc75XqqRrU1PX26PhinisZ/eMgptooyUU0fDRxKZsyWGejCpACFCDH0Q
-	 jqTYsuZLTcy9zWsb0giV0qNAGE/A/9GjYqDimvalAEomFyhjCmjGeXfvBgdGOl7a3NM97
-	 uBbhNxCmp6hO6BgmLmiDbO6CxV8u/2qOhSdEt55lz4qmogBir+WFm9ExhC9ijf1xhfPhT
-	 eN41xj1B3vCaWr3q9ZB+SmQD2/o9x+E255ApAuyIg0ukBZYqvsXPCSMUOjN6xCkJ1IA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=5xkqUJpXd/77EmurUpWsFnYKGC4PkT/oseXIVCHooLM=;
+	b=NA7u2HZmgtZn2tGgJ8ZvXeveIdOpRYleHkcA5Zvy3jDkxEIQ9I58YaIkBSQEeHPxLanm
+	 1lhUQgspTAaKfBsl4qIgz9yKHzof6sU73DtaXib+SyR8KHjr5l6/TIgTvaNB8T69o3VgJ
+	 uvNVLFsrON5XbKlNpaNBpiJn5OiowpK6EWPfS8FMbjFlUIVVAxtVFm1r1HymKxAs/X1M8
+	 vIt0BcuZ4KTf2aj6J6jYPsuwcR35DFfXMq9aXZF+XikS9IRucxt5yHxkKspb82iqJtMLm
+	 7f8hs50ptaVlqFQqKsc0ZBVNt0bcavKd5bRPjE3ZH2VR+d44j5X9Xvb8cEcRmLx7Fbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SSO7rVxX;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mlmN9vuN;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C602C606EE84
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 15:18:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C602C606EE84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BDF606A328
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 18:15:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33BDF606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SSO7rVxX
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mlmN9vuN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793891904; x=1825427904;
-  h=date:from:to:cc:subject:message-id;
-  bh=/SMjuTkUqgIMDWm9TEEBLtms/3Bsq4CsGJZio7BHoGI=;
-  b=SSO7rVxXaNJH/QIJCd9KkjgR1iUQ/+Cj8sGAfdm2LVEx6dW3XYsblcZh
-   hb0rUxo7IQEyEAfAvz7A96qcD3L5azizne23Ha2NOaIm42gEkVrvlyzlf
-   f8/WoEImpRHgL7iJ3HpJ0TWsjmx+1hfSlLzw1l2n7MSlR0CXpFpJ5Ws+J
-   3DvwV8UiXTsCvy+wypOiHlEK/WSbm+G0Ubx4ur+pLFvZ5PySF06ZqGhG0
-   Lg9BoXn6O9WpyVbSp/MtpKUo6Kd//Mo02kf59buVL7TW1b6AFBDKfT18T
-   kT4g4AhFr7FLlxnepLaHCt2FBrmbRJVfyOc/ds/2oD7tOhhp+0mxqwS4H
-   A==;
-X-CSE-ConnectionGUID: PpfxVy5KRHqOr1U2+DibAQ==
-X-CSE-MsgGUID: 3J1BwYD0TVqFrCynbgNbSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2701112"
+  t=1793902542; x=1825438542;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O1wKu0Wovol8j2e+n6XsWCpw4qH50zSj4siy9b/s3qI=;
+  b=mlmN9vuNnJTHni0fmJRa84HF4VMpYnwWOEYQSPoOdpcg3XMJkic6A/hA
+   SfM7itFC2KxeKZryRgjt2OvEKjtE204W8llV24rFL4Tc5q/IATxS/uAX3
+   FTB/Cqu2PpdmX4YXo4foAebdYNL+6pZjUuw15dyirvlbjTb6BCBcl0v3S
+   SfsEjXfvBROPietgu7k1wFdpGBDZ+pfyijVTa6jTmVMmd/vRGA5UXD/ZZ
+   rAOKdsY9+dTR6Wvy4zTmUvMKFnJoIEqpUUM8YGRELxLNDR4eZyHeQmh3j
+   dNAIs/VCUDVZHOIbencEZdRvQx3Ie0ofdS2UEibmVHtIiOfSWllV+p7+l
+   w==;
+X-CSE-ConnectionGUID: ZwOa0oveSxyoDzCJjVOPEA==
+X-CSE-MsgGUID: zxq+u/6hSs2LV3PzL87m6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2603251"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2701112"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 07:18:24 -0800
-X-CSE-ConnectionGUID: kfjaD/4+QwSJMy/MRhdTrA==
-X-CSE-MsgGUID: gUmL6+jURdGy41Fb5rM/gA==
+   d="scan'208";a="2603251"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:15:42 -0800
+X-CSE-ConnectionGUID: ijpR7fjcTuqXWividS6vTQ==
+X-CSE-MsgGUID: 7J+s165sQ6KFNd+rdDoIcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="8790287"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 05 Nov 2026 07:18:22 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6907461"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 05 Nov 2026 10:15:38 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOzEI-000000009gB-4Bj7;
-	Thu, 05 Nov 2026 15:18:19 +0000
-Date: Thu, 05 Nov 2026 16:17:57 +0100
+	id 1xP1zr-00000000meJ-36Mb;
+	Thu, 05 Nov 2026 18:15:35 +0000
+Date: Fri, 6 Nov 2026 02:14:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org
-Subject: [lee-leds:for-leds-next 18/34]
- drivers/leds/leds-pca955x.c:544:37: error: use of undeclared identifier
- 'client'
-Message-ID: <202611051650.vcD7uJMK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org,
+	Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+Subject: Re: [PATCH v3 2/3] media: i2c: dw9719: Update DW9800K driver
+Message-ID: <202611060251.DGnOao2F-lkp@intel.com>
+References: <20261105-b4-dw9800k_cleanup-v3-2-6850ee6a5a5a@fairphone.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,80 +94,192 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105-b4-dw9800k_cleanup-v3-2-6850ee6a5a5a@fairphone.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-head:   a379f4e0adf2de7b11aa3ef87eeb7d9c838069b3
-commit: abeb74220fefe28ab68789659f554f49e3b4a51e [18/34] leds: pca955x: Take a reference on the child firmware node
-config: hexagon-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261105/202611051650.vcD7uJMK-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051650.vcD7uJMK-lkp@intel.com/reproduce)
+Hi Griffin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bc71431221f5ba8bb33918399552636e059c2c45]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Griffin-Kroah-Hartman/dt-bindings-media-i2c-dw9800-Redocument-DW9800K/20261105-112900
+base:   bc71431221f5ba8bb33918399552636e059c2c45
+patch link:    https://lore.kernel.org/r/20261105-b4-dw9800k_cleanup-v3-2-6850ee6a5a5a%40fairphone.com
+patch subject: [PATCH v3 2/3] media: i2c: dw9719: Update DW9800K driver
+config: nios2-randconfig-1001-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060251.DGnOao2F-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060251.DGnOao2F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611051650.vcD7uJMK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060251.DGnOao2F-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/leds/leds-pca955x.c:544:37: error: use of undeclared identifier 'client'
-     544 |         device_for_each_child_node_scoped(&client->dev, child) {
-         |                                            ^
->> drivers/leds/leds-pca955x.c:544:37: error: use of undeclared identifier 'client'
-   drivers/leds/leds-pca955x.c:554:25: error: use of undeclared identifier 'client'
-     554 |                         devm_release_action(&client->dev, pca955x_fwnode_put,
-         |                                              ^
-   drivers/leds/leds-pca955x.c:559:35: error: use of undeclared identifier 'client'
-     559 |                 res = devm_add_action_or_reset(&client->dev,
-         |                                                 ^
->> drivers/leds/leds-pca955x.c:562:11: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
-     562 |                         return ERR_PTR(res);
-         |                                ^~~~~~~~~~~~
-   5 errors generated.
+   drivers/media/i2c/dw9719.c: In function 'dw9719_power_up':
+>> drivers/media/i2c/dw9719.c:207:3: error: a label can only be part of a statement and a declaration is not a statement
+     207 |   int ring, sac;
+         |   ^~~
 
 
-vim +/client +544 drivers/leds/leds-pca955x.c
+vim +207 drivers/media/i2c/dw9719.c
 
-   532	
-   533	static int pca955x_parse_fwnode(struct pca955x *pca955x)
-   534	{
-   535		struct device *dev = &pca955x->client->dev;
-   536		u8 bits = pca955x->chipdef->bits;
-   537		struct pca955x_led *led;
-   538		int count;
-   539	
-   540		count = device_get_child_node_count(dev);
-   541		if (count > bits)
-   542			return -ENODEV;
-   543	
- > 544		device_for_each_child_node_scoped(&client->dev, child) {
-   545			u32 reg;
-   546			int res;
-   547	
-   548			res = fwnode_property_read_u32(child, "reg", &reg);
-   549			if ((res != 0) || (reg >= bits))
-   550				continue;
-   551	
-   552			led = &pca955x->leds[reg];
-   553			if (led->fwnode)
-   554				devm_release_action(&client->dev, pca955x_fwnode_put,
-   555						    led->fwnode);
-   556			led->type = PCA955X_TYPE_LED;
-   557			led->fwnode = fwnode_handle_get(child);
-   558	
-   559			res = devm_add_action_or_reset(&client->dev,
-   560						       pca955x_fwnode_put, led->fwnode);
-   561			if (res)
- > 562				return ERR_PTR(res);
-   563	
-   564			led->default_state = led_init_default_state_get(child);
-   565	
-   566			fwnode_property_read_u32(child, "type", &led->type);
-   567		}
-   568	
-   569		return 0;
-   570	}
-   571	
+   122	
+   123	static int dw9719_power_up(struct dw9719_device *dw9719, bool detect)
+   124	{
+   125		u32 reg_pwr = dw9719->model == DW9718S ? DW9718S_PD : DW9719_CONTROL;
+   126		u64 val;
+   127		int ret;
+   128		int err;
+   129	
+   130		ret = regulator_enable(dw9719->regulator);
+   131		if (ret)
+   132			return ret;
+   133	
+   134		/*
+   135		 * Need 100us to transition from SHUTDOWN to STANDBY.
+   136		 * Jiggle the SCL pin to wake up the device (even when the regulator is
+   137		 * shared) and wait double the time to be sure, as 100us is not enough
+   138		 * at least on the DW9718S as found on the motorola-nora smartphone,
+   139		 * then retry the write.
+   140		 */
+   141		cci_write(dw9719->regmap, reg_pwr, DW9719_STANDBY, NULL);
+   142		/* the jiggle is expected to fail, don't even log that as error */
+   143		fsleep(200);
+   144		cci_write(dw9719->regmap, reg_pwr, DW9719_STANDBY, &ret);
+   145	
+   146		if (detect) {
+   147			/* These models do not have an INFO register */
+   148			switch (dw9719->model) {
+   149			case DW9718S:
+   150				dw9719->sac_mode = DW9718S_DEFAULT_SAC;
+   151				dw9719->vcm_freq = DW9718S_DEFAULT_VCM_FREQ;
+   152				goto props;
+   153			default:
+   154				break;
+   155			}
+   156	
+   157			ret = cci_read(dw9719->regmap, DW9719_INFO, &val, NULL);
+   158			if (ret < 0)
+   159				return ret;
+   160	
+   161			switch (val) {
+   162			case DW9719_ID:
+   163				dw9719->model = DW9719;
+   164				dw9719->mode_low_bits = 0x00;
+   165				dw9719->sac_mode = DW9719_DEFAULT_SAC;
+   166				dw9719->vcm_freq = DW9719_DEFAULT_VCM_FREQ;
+   167				break;
+   168			case DW9761_ID:
+   169				dw9719->model = DW9761;
+   170				dw9719->mode_low_bits = 0x01;
+   171				dw9719->sac_mode = DW9761_DEFAULT_SAC;
+   172				dw9719->vcm_freq = DW9761_DEFAULT_VCM_FREQ;
+   173				break;
+   174			case DW9800K_ID:
+   175				dw9719->sac_mode = DW9800K_DEFAULT_SAC;
+   176				dw9719->vcm_freq = DW9800K_DEFAULT_DIV;
+   177				dw9719->sac_time = DW9800K_DEFAULT_SACT;
+   178				break;
+   179			default:
+   180				dev_err(dw9719->dev,
+   181					"Error unknown device id 0x%02llx\n", val);
+   182				return -ENXIO;
+   183			}
+   184	
+   185	props:
+   186			/* Optional indication of SAC mode select */
+   187			device_property_read_u32(dw9719->dev, "dongwoon,sac-mode",
+   188						 &dw9719->sac_mode);
+   189	
+   190			/* Optional indication of VCM frequency */
+   191			err = device_property_read_u32(dw9719->dev, "dongwoon,vcm-freq",
+   192						       &dw9719->vcm_freq);
+   193			if (err == 0)
+   194				dev_warn(dw9719->dev, "dongwoon,vcm-freq property is deprecated, please use dongwoon,vcm-prescale\n");
+   195	
+   196			/* Optional indication of VCM prescale */
+   197			device_property_read_u32(dw9719->dev, "dongwoon,vcm-prescale",
+   198						 &dw9719->vcm_freq);
+   199	
+   200			/* Optional indication of SAC timing */
+   201			device_property_read_u32(dw9719->dev, "dongwoon,timing-control",
+   202						 &dw9719->sac_time);
+   203		}
+   204	
+   205		switch (dw9719->model) {
+   206		case DW9800K:
+ > 207			int ring, sac;
+   208	
+   209			/*
+   210			 * Enable ringing for SAC3-SAC5
+   211			 *
+   212			 * sac_mode	reg	Mode
+   213			 * ===========================
+   214			 *	0	0X	Direct
+   215			 *	1	1X	LSC
+   216			 *	2	00	SAC2
+   217			 *	3	01	SAC3
+   218			 *	4	10	SAC4
+   219			 *	5	11	SAC5
+   220			 */
+   221			switch (dw9719->sac_mode) {
+   222			case 0:
+   223				ring = 0;
+   224				sac = 0;
+   225				break;
+   226			case 1:
+   227				ring = 0;
+   228				sac = 2;
+   229				break;
+   230			default:
+   231				ring = DW9719_ENABLE_RINGING;
+   232				sac = dw9719->sac_mode - 2;
+   233				break;
+   234			}
+   235			cci_write(dw9719->regmap, DW9719_CONTROL, ring, &ret);
+   236			/* DIV is 3 bits split over the bottom bit in reg 6 and the top 2 bits in reg 7 */
+   237			cci_write(dw9719->regmap, DW9719_MODE,
+   238				  (sac << DW9800K_MODE_SAC_SHIFT) |
+   239				  (dw9719->vcm_freq >> DW9800K_DIV_LOW_SHIFT), &ret);
+   240			cci_write(dw9719->regmap, DW9800K_RESONANCE,
+   241				  (dw9719->vcm_freq << DW9800K_DIV_SHIFT) |
+   242				  dw9719->sac_time, &ret);
+   243			break;
+   244		case DW9718S:
+   245			/* Datasheet says [OCP/UVLO] should be disabled below 2.5V */
+   246			dw9719->sac_mode &= DW9718S_CONTROL_SAC_MASK;
+   247			cci_write(dw9719->regmap, DW9718S_CONTROL,
+   248				  DW9718S_CONTROL_SW_LINEAR |
+   249				  (dw9719->sac_mode << DW9718S_CONTROL_SAC_SHIFT) |
+   250				  DW9718S_CONTROL_OCP_DISABLE |
+   251				  DW9718S_CONTROL_UVLO_DISABLE, &ret);
+   252			cci_write(dw9719->regmap, DW9718S_SACT,
+   253				  DW9718S_SACT_PERIOD_8_8MS, &ret);
+   254			cci_write(dw9719->regmap, DW9718S_SW,
+   255				  dw9719->vcm_freq & DW9718S_SW_VCM_FREQ_MASK, &ret);
+   256			break;
+   257		case DW9761:
+   258			cci_write(dw9719->regmap, DW9761_VCM_PRELOAD,
+   259				  DW9761_DEFAULT_VCM_PRELOAD, &ret);
+   260			fallthrough;
+   261		case DW9719:
+   262			cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_ENABLE_RINGING, &ret);
+   263			cci_write(dw9719->regmap, DW9719_MODE, dw9719->mode_low_bits |
+   264					  (dw9719->sac_mode << DW9719_MODE_SAC_SHIFT), &ret);
+   265			cci_write(dw9719->regmap, DW9719_VCM_FREQ, dw9719->vcm_freq, &ret);
+   266		}
+   267	
+   268		if (ret)
+   269			dw9719_power_down(dw9719);
+   270	
+   271		return ret;
+   272	}
+   273	
 
 --
 0-DAY CI Kernel Test Service
