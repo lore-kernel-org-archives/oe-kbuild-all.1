@@ -1,76 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793889803;
-	b=ktfdDrCab7PCba/qIIn4SAGb7wHYVdGSLFtAoXOUtbEuYFC0dcUTcwvmLKBWAli/MYPS
-	 TCPO2NXR8GQB5UVbJ3AeaVG6uKDmWE9BqmHrURi3MYQ9lgE1V6qW90a5wGk+TU2dOFPMc
-	 QFKX629cExSRkGpJf3/L+Kz+IzMmjX2k5/5gQJROEM/7xEVMHU2BeYJiRdkcKrTMuGXhC
-	 m6b2R90iikzFq/J+h2ZWoomQLjvWOAUl+GBTlnzyAHbbFTgR2ROdNnsDKyU+iRXF7hUA7
-	 z6k1YRWcldauXeA9xrMkfe9Vf0nGBjqeZUpiCv+5O949foN0NAtCjxaAF1Uy4AhaB9A==
+	t=1793890094;
+	b=0mkilMpocRuN62+bGPE0AxtCRIDH061Bo+QF6UysLWWGFsacYLth5WnZxRM19OlCquww
+	 ss6pPQLcD3Xv00yv1gNNTswB/11zYMl1CvF8hbUmaJ+UjX6la9FLlwLUMHbNKQb3Tvzi1
+	 0rk0IGfNfluNA9XT4tKGHccD0SldSvF3uMg2/qljwdJ94U2/hkAiGyIoH4Np11jZA388A
+	 +1kqop3tvgGz5PiaEDR76k+qNcguiyVZCy4bwHkBu72u5Vz1QQIUKq81w6t/X8gpDUssB
+	 Cs013r+7h6Rbt1IrvopLEuozYAwRl0t+/+4/4GpFCENBXxEiClC+4HEiv9yQgLtPfQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793889803;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890094;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=bYkKOco1iXTQZdV4WdfU/+KgO85J9FOhky3VLTfGmCs=;
-	b=juVBy/ims/lE8T7NvqN5tX7v0n79ETXwVxvN1SiW1HPKVA6aXqasf1YF4eChWST3qppt
-	 17JK71yDTbol+eaEmjK1STJzk45jsKSYeFkrFJz7Ie/f20NaofBoD/rJLJs1CfpQgHlvd
-	 Uc2WAHQn8rP4FeVmCWJHoO9rVv/1BO5VQgilIsQlibOW1gsN7JEuPJ45pLQltaHUaNlJM
-	 tfvF9efAMjAfImYyhW6W7LbjUHr54rmzPnLLQJldOP1Ta6vOXi0RPL6VhnJ9WXDmYmVpW
-	 GAR3/ovadUSVDvEidDbYx/9xiWCGMlnHoLgjpeiJJS8OyJ1LzPZ7UhoJtzlz7f2MjiQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=+KEO8mCidqSQviZa7+VsKyZl/2osmPqVxDkGw1K3410=;
+	b=Ks/AIlk5qUyTzUXSTs+wSHeBOCjvfmOmjjsK9kJpCsonbyiY0HExtCBvjcsTdi9wskmn
+	 ccK9ptujtzXAwz6XdUEZ9SBa47sus9kr5nVG7uT6NC1EeunO7KK/D7/g8ywvtM0ELoNZn
+	 CX10U9Lw/kXrqDIt9eDFx1tyLiCgjT8FDCgbRVFm9/U4l2KYXlyCMV0/sswvNGR7/qEQ/
+	 NKuUxyDRU72sEA8Dlxan4pebBe6V2eEvmrTn4xH9CY23kPjox6j/BCmdqWheTNFv1IyrW
+	 ICv+DTwqHyZqqgJ539G1xxZgP7pSsrNGRlGjuj368RL54d/6sEpyCOob5LRPUtov2tg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g7U2eZgk;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LZW6tDxs;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC66606A330
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 14:43:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DC66606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98974606A328;
+	Thu,  5 Nov 2026 14:48:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98974606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g7U2eZgk
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LZW6tDxs
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793889797; x=1825425797;
-  h=date:from:to:cc:subject:message-id;
-  bh=F+W/7yYsQYsnl+7OrtquBl3kKjFxqeQ4HGmpT+18XDA=;
-  b=g7U2eZgkdxblBrjq8L/cWYF6/U3AQth8RK+qmO2RLO4usA0qjO/RGnMR
-   0D3FGB/IAVbo4K0UFum6aqMtRYUi/Eytd5wQw2Uku3Gg5JBN00gyuz1rz
-   9mSxOo9VNR620VbXoRg9d+fo5LEK8urSnvzQh3YN1p1sWxu+A4QQwaECO
-   GId3oIraHrC7seXheqy0tjpY0sayj+ys7FcSxRPcvhCWNMQu5nM0MxbLI
-   u0i7VoNsRa3tRGH7PqvXxrooPuRcU2tKPHaUdylT5mXuc5qo7UI6otigb
-   BsSKkmuLzx53dhBNPtVEgmHimSfMBHFzUd1ZDbC7pHomGw3GCfDWN7AOE
-   w==;
-X-CSE-ConnectionGUID: +QzuC1mVSHCJ1to3xspD5A==
-X-CSE-MsgGUID: DJ8RBrBhT9G/zAcqnpO6wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2581567"
+  t=1793890094; x=1825426094;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LcqnTFFjXD7S999oBGGwZsDLxCeSNRsnNa/cTmTmO2w=;
+  b=LZW6tDxsZvV2oFvfh1eubyYgXK5Iy7deCVVBqN5Qt+9PUjRr+qrxWkG/
+   YuD0ubFqkKF9ifiXlSkuuVJ/7KG5m9hOFZvEx7bJjMn8b8cktrzp34K61
+   KPZRCC/kh49189DYMHF+MV9xIcakk+AD3QiciuJE/7XrRvtFw0CHfLBaB
+   Dfdn1ltOA+GjuQ1KyxJUBe8ttZ8j4UDxHuOxMabpp/0zzU+gteL8+asE9
+   EQP7VgU2r0vF9NdTNVEw6MzK2OjB5yprinxoBumN9tn1HKINYj3fAnsgg
+   rYvIv1/adoiyKEnMlHdp1SKkb39OtqEBs6yZnO52GfxxuLC8r19K283B1
+   g==;
+X-CSE-ConnectionGUID: D2J0W6mzTL+apr8l98BLiA==
+X-CSE-MsgGUID: mM+cSXDDT7+Osl7BJdVnTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2674336"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2581567"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:43:15 -0800
-X-CSE-ConnectionGUID: GtSHgq17ScSsxXENmRLwTg==
-X-CSE-MsgGUID: vELUmrXBSp+F5qjpMXgNrw==
+   d="scan'208";a="2674336"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:48:13 -0800
+X-CSE-ConnectionGUID: r9Olhf3/Re6x1iMuA+Petg==
+X-CSE-MsgGUID: sznsQMtNSRayjim39ZIgFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="8891871"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 05 Nov 2026 06:43:13 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="7033010"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2026 06:48:11 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOygG-000000009ff-2pKP;
-	Thu, 05 Nov 2026 14:43:08 +0000
-Date: Thu, 05 Nov 2026 15:42:36 +0100
+	id 1xOyl7-00000000mL7-1mJF;
+	Thu, 05 Nov 2026 14:48:09 +0000
+Date: Thu, 5 Nov 2026 22:47:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bpf-next:master 88/105] kernel/bpf/arena.c:1082:13: sparse:
- sparse: cast removes address space '__percpu' of expression
-Message-ID: <202611051501.wKTaL6VH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 6/6] Bluetooth: Add EKS Opportunistic Encryption
+ support
+Message-ID: <202611052210.pgQkfWp2-lkp@intel.com>
+References: <20261104221321.1200529-7-luiz.dentz@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,45 +82,107 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104221321.1200529-7-luiz.dentz@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-head:   a3c8813409f13779fec225468aba7d4067a66468
-commit: df664dbd6e98bac9f39f33ef622291dedb32bf58 [88/105] bpf: Add stacks for programs to arena
-config: riscv-randconfig-r2304-20261105 (https://download.01.org/0day-ci/archive/20261105/202611051501.wKTaL6VH-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7303edbc6496e00558bf44850d63a99fc376c92)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051501.wKTaL6VH-lkp@intel.com/reproduce)
+Hi Luiz,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on bluetooth/master]
+[cannot apply to linus/master v7.3 next-20261030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Augusto-von-Dentz/Bluetooth-Add-initial-support-for-HDT-PHY/20261104-171316
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20261104221321.1200529-7-luiz.dentz%40gmail.com
+patch subject: [PATCH v3 6/6] Bluetooth: Add EKS Opportunistic Encryption support
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20261105/202611052210.pgQkfWp2-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 812626a41399a1d464a0d69627ab45c83b8ebfb9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052210.pgQkfWp2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611051501.wKTaL6VH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611052210.pgQkfWp2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/arena.c:1082:13: sparse: sparse: cast removes address space '__percpu' of expression
-   kernel/bpf/arena.c:1251:18: sparse: sparse: symbol 'bpf_arena_alloc_pages' was not declared. Should it be static?
-   kernel/bpf/arena.c:1287:18: sparse: sparse: symbol 'bpf_arena_free_pages' was not declared. Should it be static?
-   kernel/bpf/arena.c:1307:17: sparse: sparse: symbol 'bpf_arena_reserve_pages' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__percpu +1082 kernel/bpf/arena.c
+>> net/bluetooth/hci_sync.c:8779:6: warning: calling function 'smp_pairing_in_progress' requires holding mutex 'hci_conn_hash_lookup_handle(hdev, data->handle)->hdev->lock' exclusively [-Wthread-safety-precise]
+    8779 |         if (smp_pairing_in_progress(conn)) {
+         |             ^
+   net/bluetooth/hci_sync.c:8779:6: note: found near match 'hdev->lock'
+   1 warning generated.
 
-  1070	
-  1071	/* Called when a program that uses BPF_REG_ARENA_SP is loaded */
-  1072	int bpf_arena_stack_init(struct bpf_arena *arena)
-  1073	{
-  1074		struct arena_stacks __percpu *stacks;
-  1075	
-  1076		if (READ_ONCE(arena->stacks))
-  1077			return 0;
-  1078		stacks = bpf_map_alloc_percpu(&arena->map, sizeof(*stacks), __alignof__(*stacks),
-  1079					      GFP_USER | __GFP_NOWARN);
-  1080		if (!stacks)
-  1081			return -ENOMEM;
-> 1082		if (cmpxchg(&arena->stacks, NULL, stacks))
-  1083			free_percpu(stacks);
-  1084		return 0;
-  1085	}
-  1086	
+
+vim +8779 net/bluetooth/hci_sync.c
+
+  8754	
+  8755	/* The opportunistic encryption is queued when the connection is set up, so
+  8756	 * by the time it runs the connection may be gone, already encrypted, have
+  8757	 * SMP encryption pending or SMP pairing in progress, so check again right
+  8758	 * before sending the command and leave the link to SMP in those cases.
+  8759	 *
+  8760	 * HCI_CONN_OPP_ENCRYPT, without HCI_CONN_ENCRYPT, marks the request in
+  8761	 * flight. HCI_CONN_ENCRYPT_PEND is not used for it, so SMP is not blocked
+  8762	 * by it: SMP pairing over a link being encrypted works, and the encryption
+  8763	 * started by SMP afterwards replaces the opportunistic key.
+  8764	 */
+  8765	static int hci_le_eks_oppt_encrypt_sync(struct hci_dev *hdev, void *data)
+  8766	{
+  8767		struct hci_cp_le_enable_encrypt_v2 *cp = data;
+  8768		struct hci_conn *conn;
+  8769		int err;
+  8770	
+  8771		hci_dev_lock(hdev);
+  8772	
+  8773		conn = hci_conn_hash_lookup_handle(hdev, le16_to_cpu(cp->handle));
+  8774		if (!conn || conn->state != BT_CONNECTED ||
+  8775		    test_bit(HCI_CONN_ENCRYPT, conn->flags) ||
+  8776		    test_bit(HCI_CONN_ENCRYPT_PEND, conn->flags))
+  8777			goto unlock;
+  8778	
+> 8779		if (smp_pairing_in_progress(conn)) {
+  8780			bt_dev_dbg(hdev, "SMP in progress, skipping hcon %p", conn);
+  8781			goto unlock;
+  8782		}
+  8783	
+  8784		if (test_and_set_bit(HCI_CONN_OPP_ENCRYPT, conn->flags))
+  8785			goto unlock;
+  8786	
+  8787		/* Use the MIC length requested by now, or the default one if unset */
+  8788		cp->mic_len = conn->req_mic_len ? conn->req_mic_len :
+  8789						  hdev->hdt_def_mic_len;
+  8790	
+  8791		bt_dev_dbg(hdev, "starting EKS opportunistic encryption hcon %p", conn);
+  8792	
+  8793		hci_dev_unlock(hdev);
+  8794	
+  8795		err = hci_le_enable_encrypt_v2_sync(hdev, data);
+  8796		if (!err)
+  8797			return 0;
+  8798	
+  8799		/* No result will come for a command that was not sent or failed */
+  8800		hci_dev_lock(hdev);
+  8801	
+  8802		conn = hci_conn_hash_lookup_handle(hdev, le16_to_cpu(cp->handle));
+  8803		if (conn && !test_bit(HCI_CONN_ENCRYPT, conn->flags))
+  8804			clear_bit(HCI_CONN_OPP_ENCRYPT, conn->flags);
+  8805	
+  8806		hci_dev_unlock(hdev);
+  8807	
+  8808		return err;
+  8809	
+  8810	unlock:
+  8811		hci_dev_unlock(hdev);
+  8812		return 0;
+  8813	}
+  8814	
 
 --
 0-DAY CI Kernel Test Service
