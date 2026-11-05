@@ -1,102 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890221;
-	b=ZXHm4Vdum6lcEAB0Xojqws2inELEQBDrjnqRCPWkHMRhfjbqFt+Mdb69BTd2GCFWsH5F
-	 N41uxeazQrzrZ9P9HxeiVRcEV+Z1BQjGjKn9ptyHgL8wKnE1KNU9rJmiCHDHUiMqCid5P
-	 5dAWRMuvr4uawT4mRyFj/eL0hHe03GefXAuSnIxgJUVUNCjYwm/WoRGutwH5SIWGLAWDu
-	 ulT9SSd+iFMHTK1atsQGXXHWILIsmr/lSG3XAhH2a5hTnbAWdOORDB4frEi4SoQfSvWMl
-	 KhZb74sBIl7LoJvlE4RuoB0nqI8fgvSOmt24yOt7I8ZJ/bFC18TvtspjVxj/kO+CWHw==
+	t=1793891304;
+	b=q+n2EyfUG2EttH/t5SMoitTjmDl4vaRmMWIWZ1+OsFAHVhGdvWajOZl8XfICFftwCIvd
+	 /VAMiojXyr1iONEhtmkm7SF+eUyXj6Hh5df8J0jdnVH99wfne7Vbsq40+AR3wrevtC6WW
+	 xq0wwBH8lExYwl2QkEHQaSazKNkfmjpF97/wiImlmRWCh3fAxYnMZPXLgIpFvr28SQY0J
+	 64ILwTjuGD7vUkIWTETq7JxXyGGWKol/QGiSZ8TAeke7iUWezDlPkt2eAk8qyr8OwJ+xk
+	 HpZru3TvQI0S6u214tPO0iPsjm9YtJzC8n9YYnyoyyWAGt72PRlmNlTCc5kD8l/IESg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890221;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891304;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=zngDh/hn+d+IfbRxuQD9941zh0dh76DUZmGv37oN1yw=;
-	b=xDyJJtbIue4LpXZ4ZZB2ImKqOSAdb43E9WTUzjol2UIGEwUy9tpL+ownRbaPkGnEjzje
-	 s7PbbTuFSFtneN5mkFS2cj/Ej5BJ4JiWj34e3OlVY5pATjnxkwzhWTQPFIdx8A4wOZqZ0
-	 wNAfwyaP/UGziJE12SSG9VdGZaIP/U4UItjjX71VsZmcenIeyPhe1KcjHeOBYcQjZLWsN
-	 iWwKDIwO0SLCW5jsdfwIy5iI5IESyrlBSuvBRb/fyVgKSTcbb6/kPwpNehjZ+XcERnu11
-	 fUYHeMGI8B3CwVdwriiqq9e7SO1HjJkWUHmct9wDBE3y/H0fI5fh/IaKcJIO4YEdydg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=qNs5ftSnrfaP5HnuIkjYZypmIZsAXIp6VGke4UVjfPk=;
+	b=a4VUjSNxumLA0UYgiiBDR4R7207PWImtqwyq6gs3XO4hjVNUbz4kL8jsM8nQHFxAgnQW
+	 vZLQOdlRvwUHn7aYSMn5KVXW7uiKjU+d6nfWRG0xpjShABZVjkZo9YwqP0HOy6Vux+YFp
+	 RzJb4xTJa+wzpQXeL/2hfhttYjDahoL0puOg7u9zpn4vwL2nBtu5yc4KFxA3ph/t630cv
+	 PlkfkbDBeum3rejyg67I649U4IddTdCSOlC5zh/BQGVYfdX97iFOsu8MJyKZy/yH84PUX
+	 C9opHtpJTzOolKCp5qbuQz19TLPN6NbRZGiW+fQ9sBHz4wf973XekFJ0oo+xccgtOWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CaH54igg;
-	arc=none smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nb+qmX2s;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A559606A32C;
-	Thu,  5 Nov 2026 14:50:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A559606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF280606A326
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 15:08:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF280606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CaH54igg
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nb+qmX2s
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793890220; x=1825426220;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pR76mBghhXMOKm2t2fE0Nbyxh5lA9YdTCI2eN6g0oNY=;
-  b=CaH54iggLRDvQu+fJy5qc9rHlSnF6nsEVdBBbu3Ar6gIvJuB8AHBpkPM
-   kCA7K7QuaiBsHFbRWy9TTYTaWKa3D7Zt92JuZ/ksDLmMqCKsttD1DpZom
-   pkVIgwhUNfwLRm54cVXI0rSfvLC036msgNFCu8F4xD0jLJU64AJ8/51Qu
-   6BabFNr6P1nwSVwlm3ZlksDHdPa8gS8Nm3pLNYVRLO9CytwaN93oP88zt
-   CMOm2lBojG4H/vZuJGRvjmXoCkdBqh1xbiG8vEPM9udN0dDqdjQTboPRM
-   QleP0cr+b4qYN72v4nHfL9cyupgrhozEzja8wYoOC23dG7xOG85PP0/Ux
+  t=1793891304; x=1825427304;
+  h=date:from:to:cc:subject:message-id;
+  bh=ULK1M2aw1B/OpO0xfTgP7YlYygS+M1HQ8i8qH6ts4Ds=;
+  b=nb+qmX2sdqwKKLrRIVKzgB4iBhPbdAvS7uFgA6bF1ccVsmxrpe8zDHR+
+   US5P2PlyuTE6AYNBqlmusb+fjq0+n9/Dc+RDsvjoV+s8Edp7hIgpbgKsx
+   VrwNomk1/us8ILkeaSylAHxHP9pfrmaLHGhaq7Ana0h4Qs17JrP8hnQd7
+   4eOI0rZ4QqMDlPv2GB+tGZrKlJ1KI6mDL7lt9pLxwb2YNgwS6vtT86g+U
+   A841dBztqQMMXRc3DPW7ldiw/3Iv4E+ly6atyizEh3BB5SvwMqBlC31D9
+   B9SnIRWETxrxytKu1qWf8uADr8fx7Xcjk9a67883LsXSAPZKac5/h/cKj
    g==;
-X-CSE-ConnectionGUID: 8nFN23+4ToK1NBAfvUWTRg==
-X-CSE-MsgGUID: k24zrZWCRV6iiH0/lgrymQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2551310"
+X-CSE-ConnectionGUID: H+7nvH4oTeGPWXNZSfx+kg==
+X-CSE-MsgGUID: x72nPVIwQOKb7aN38Pzvdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2676387"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2551310"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:50:19 -0800
-X-CSE-ConnectionGUID: /dk8MTNSRPGYLMVUiJXO/Q==
-X-CSE-MsgGUID: pVjBF9RvTTCjveglukFKDg==
+   d="scan'208";a="2676387"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 07:08:23 -0800
+X-CSE-ConnectionGUID: qgLsN2LjTcCFfHoq2ABIYA==
+X-CSE-MsgGUID: 6xIbKFK5RDq60+827OTfDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7151193"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Nov 2026 06:50:13 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7205733"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 05 Nov 2026 07:08:20 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOyn4-00000000mLb-00W9;
-	Thu, 05 Nov 2026 14:50:10 +0000
-Date: Thu, 5 Nov 2026 22:49:53 +0800
+	id 1xOz4c-000000009fz-2rrl;
+	Thu, 05 Nov 2026 15:08:18 +0000
+Date: Thu, 05 Nov 2026 16:07:26 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	iommu@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	Alex Williamson <alex@shazbot.org>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Steven Price <steven.price@arm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v8 11/15] iommufd/viommu: Select vIOMMU operations before
- allocation
-Message-ID: <202611052227.TxHIjde3-lkp@intel.com>
-References: <20261104161632.3547423-12-aneesh.kumar@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org
+Subject: [lee-leds:for-leds-next 18/34]
+ drivers/leds/leds-pca955x.c:544:37: error: 'client' undeclared; did you mean
+ 'count'?
+Message-ID: <202611051619.MBISEO1w-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -105,47 +80,86 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104161632.3547423-12-aneesh.kumar@kernel.org>
 
-Hi Aneesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aneesh-Kumar-K-V-Arm/PCI-TSM-Move-core-code-into-its-own-directory/20261104-214618
-base:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-patch link:    https://lore.kernel.org/r/20261104161632.3547423-12-aneesh.kumar%40kernel.org
-patch subject: [PATCH v8 11/15] iommufd/viommu: Select vIOMMU operations before allocation
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20261105/202611052227.TxHIjde3-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052227.TxHIjde3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   a379f4e0adf2de7b11aa3ef87eeb7d9c838069b3
+commit: abeb74220fefe28ab68789659f554f49e3b4a51e [18/34] leds: pca955x: Take a reference on the child firmware node
+config: sparc64-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261105/202611051619.MBISEO1w-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051619.MBISEO1w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611052227.TxHIjde3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611051619.MBISEO1w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/iommu/amd/iommufd.c:81:40: warning: unused variable 'amd_viommu_ops' [-Wunused-const-variable]
-      81 | static const struct iommufd_viommu_ops amd_viommu_ops = {
-         |                                        ^~~~~~~~~~~~~~
-   1 warning generated.
+   In file included from include/linux/of.h:20,
+                    from include/linux/irqdomain.h:14,
+                    from include/linux/gpio/driver.h:9,
+                    from drivers/leds/leds-pca955x.c:44:
+   drivers/leds/leds-pca955x.c: In function 'pca955x_parse_fwnode':
+>> drivers/leds/leds-pca955x.c:544:37: error: 'client' undeclared (first use in this function); did you mean 'count'?
+     device_for_each_child_node_scoped(&client->dev, child) {
+                                        ^~~~~~
+   include/linux/property.h:202:30: note: in definition of macro 'device_for_each_child_node_scoped'
+      device_get_next_child_node(dev, NULL);   \
+                                 ^~~
+   drivers/leds/leds-pca955x.c:544:37: note: each undeclared identifier is reported only once for each function it appears in
+     device_for_each_child_node_scoped(&client->dev, child) {
+                                        ^~~~~~
+   include/linux/property.h:202:30: note: in definition of macro 'device_for_each_child_node_scoped'
+      device_get_next_child_node(dev, NULL);   \
+                                 ^~~
+>> drivers/leds/leds-pca955x.c:562:11: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+       return ERR_PTR(res);
+              ^~~~~~~~~~~~
 
 
-vim +/amd_viommu_ops +81 drivers/iommu/amd/iommufd.c
+vim +544 drivers/leds/leds-pca955x.c
 
-757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  76  
-757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  77  /*
-757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  78   * See include/linux/iommufd.h
-757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  79   * struct iommufd_viommu_ops - vIOMMU specific operations
-757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  80   */
-757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15 @81  static const struct iommufd_viommu_ops amd_viommu_ops = {
+   532	
+   533	static int pca955x_parse_fwnode(struct pca955x *pca955x)
+   534	{
+   535		struct device *dev = &pca955x->client->dev;
+   536		u8 bits = pca955x->chipdef->bits;
+   537		struct pca955x_led *led;
+   538		int count;
+   539	
+   540		count = device_get_child_node_count(dev);
+   541		if (count > bits)
+   542			return -ENODEV;
+   543	
+ > 544		device_for_each_child_node_scoped(&client->dev, child) {
+   545			u32 reg;
+   546			int res;
+   547	
+   548			res = fwnode_property_read_u32(child, "reg", &reg);
+   549			if ((res != 0) || (reg >= bits))
+   550				continue;
+   551	
+   552			led = &pca955x->leds[reg];
+   553			if (led->fwnode)
+   554				devm_release_action(&client->dev, pca955x_fwnode_put,
+   555						    led->fwnode);
+   556			led->type = PCA955X_TYPE_LED;
+   557			led->fwnode = fwnode_handle_get(child);
+   558	
+   559			res = devm_add_action_or_reset(&client->dev,
+   560						       pca955x_fwnode_put, led->fwnode);
+   561			if (res)
+ > 562				return ERR_PTR(res);
+   563	
+   564			led->default_state = led_init_default_state_get(child);
+   565	
+   566			fwnode_property_read_u32(child, "type", &led->type);
+   567		}
+   568	
+   569		return 0;
+   570	}
+   571	
 
 --
 0-DAY CI Kernel Test Service
