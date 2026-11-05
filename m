@@ -1,94 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793864115;
-	b=sgQWyfug2w4oBPCyjB7yJFmTNJZjRs3SSGhAtrDZrbHU+KM7r15h9kk0/GGPML4en4+f
-	 8I0li6+LyqAdco2zHwhCIubPlUoX2YcQmq+PpoNEF4rM5Wz+DoNttAQttxED2hEhkOcRf
-	 ghhQikbkOJMpxIlC6gHJLFu5VIouFaehypGoVX0Ed+LhxvCdt1/EIPBNxxIhxxmY47C8/
-	 DnR183ds0RUoSUrJfugiIpqY9ldNjVOVNvKdYbugtC11t3sSQOK70MA7ogp1Ne+A3DQdq
-	 MjFyv6WBEy+0zPcQ0J3+/I0mIVCLqqMI4qllAnia+mfVz8iukUpQLn3YkUgWqHW+fIg==
+	t=1793868004;
+	b=sDXKy44eH8X2eq+7tqXYEF6IMijII9XpFPIBkltiTTSX7cNAyPOBRbbRFEUYtkxEq2a3
+	 0CLZq80vE19d+JuJuIKXrMRs/fCLlj170gBb4AmQdQT1QZZmwcMzm/Edn9N2dXdAKPQfP
+	 UHLfX1UTL5XQXsw44JjXmVgf0FT5pnB3/VN1OgW+lHRFXOKFlt5rGmQajVLvSj1o6HLBx
+	 tpQLe5A+t9URZuJIHyGSOM2uSzLljhXCWp5Vy6+BjxL68aWZniWtT/sUKoSC3mmXHbfuM
+	 bXKhkkT5YD9aBOSPEHlSVfD1uJK7sTnUv+hy8RKDpwsxnj4mRh3e/wTAIoROYt/w/vg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793864115;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793868004;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=fJrSMcznO+jXm0R/Gb4sVutzbYoC421vKFMchCji1M8=;
-	b=Wvpu2cj9zB9SMezU1dljyNpEesj7JsoNEKyMESCaImQnumUXM29qArr71KL2z6/WnzKb
-	 1nIXRVog6C5AfcgMY8v5BXsuyHcR4YGDidNe/KMg7Fz1F6ADviQ8TBY1YAr+6xSV1oaj4
-	 HCKYW9gidjTtwOHwsxW2hb7W41nWqp8OixfZ50M62v69GcE1/jQHudYaZaEh2RQUK9vBL
-	 pVu3UAtlO3ub4I9hbmXoO0XY08XiUv6iMlcXdBY3MZZqHEYfEJyNK/fSDODrejS/c+65+
-	 gvn5uigicGw4a7jjIqZ6OBfZT3TWe1jexNHZjI4KZdRlrr++UuCwiduGTdTOgQS348w==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=Z//MJnEdU7UB22vVHJkihsXo6EOhZM/TlYmeCDy9Hyw=;
+	b=VtDfIxm2Eszp1veRmJaQYeoh+OtiYKAyjpGAmh6essSHZLyTf2orgr4rkXUdKpkV/57X
+	 aguZvck+fp8Hw4/g2k2hutAC2Xh/6h8ARSZvJ5wfGonxIuIWdyepjMkKQFUsMWJhiA7ZR
+	 0Q3rBL54MmQa6IIpWLIiFp7gF2MRyZ4xRPm1okYwzSShPxGmSHzElkLLytW3czsC9znXR
+	 QsAuecQN5hARoNpIvBqYYp3VT5LWVhqjL4rr+UqKNjXHAyA2kri/NeMCmYFoc0wh3qSvN
+	 bNCxIzca4KaY53WPDe8yVInkuyEu9P2Y6DxlTDv24/NOx24OD7mTY9FlHztUvw1Pjrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mMdqqgJ1;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IkzEBsmj;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5F7606A326;
-	Thu,  5 Nov 2026 07:35:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C5F7606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB5D606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 08:40:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FB5D606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mMdqqgJ1
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IkzEBsmj
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793864114; x=1825400114;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/FfPBMUOPLe/QDkESDBHjFZFt+ydwEnQtH3CnagBhAQ=;
-  b=mMdqqgJ17Hm4OBGhcDS3oX0BE+t49VRKfRoSoxzEcrCj2+ipynCXUZP3
-   RqAvVn/RGtMCEd8PqEY3k0DsqJECn1V1XBKAStUiqgOLPHxVLEIfgnIaq
-   NQILUriG4m6tvyORDaLf4VLirbUV97TZqLgWsAYH9vxqkjDSV1r23fouW
-   rIhwSTptTaryYC/pOQ/r+NSQq0koQLYdl0VsswLAz1b5iu74V9aY6+wSN
-   tZ6XqEfN3CYBQZMDAZYhgnO+77WRl1kSuiXVZwo5UaldqWiRthERRzs/m
-   gQb9BEZa9D6EERHXB1ikRvmMGd74QdRMD/ud8jJlao7NduurDoPAKIRm1
-   g==;
-X-CSE-ConnectionGUID: grjPzFmJR1ip9AWLXF/71Q==
-X-CSE-MsgGUID: l8lpab/GRIKEZ1KJzZKKJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2676548"
+  t=1793868002; x=1825404002;
+  h=date:from:to:cc:subject:message-id;
+  bh=vH76W1zmO8W5b8sW0FsxnXJtfSMz3Hnha/vguDMWIsc=;
+  b=IkzEBsmjMuJ3ozxhwpMj8sdU6Eg8lHh+HFUDbcfMh6SqUCQe/4ETjutP
+   xV3dtZ7DHc4vtjk+EpMUkec3cxYNaehRCaJj9AUckJjpbBo0fZH6i6ccy
+   OJMP9+gmyfILK1dsHOSBnpam7jkZaMJjH/RTaDBixF2uIuMvhtFSmaNbw
+   s/jWCjA5XGP0RqaBUsc3UOd9p2OZf9mgCtqqAss7i11VFt4e4z640wrP4
+   ilzbCJTUqN8+Vs8oNpJ4ssHbwIXPZyxO49rynJQWg2L9eT4L5XP9U4uO/
+   BrauK6EA5kwPBRzHf6PW/0lcReuEVCNan6BdA9u9zHngODw2cr6f+h5fr
+   Q==;
+X-CSE-ConnectionGUID: J1i8GuowRe+pV+TV4ZDIXQ==
+X-CSE-MsgGUID: IYoxgiUlR3yrF4gTAYS+tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2739765"
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="2676548"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 23:35:13 -0800
-X-CSE-ConnectionGUID: tLiMaRPcTziaRantES99tA==
-X-CSE-MsgGUID: o10u2ZxSSZmlxdEUbRPtDg==
+   d="scan'208";a="2739765"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 00:40:02 -0800
+X-CSE-ConnectionGUID: J4UacmZ1T/+rmoDczbHBQw==
+X-CSE-MsgGUID: WvKq8fH3SMqC4k1gNkckCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="7099548"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Nov 2026 23:35:06 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="6827355"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2026 00:40:01 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOs00-00000000lrT-0h1L;
-	Thu, 05 Nov 2026 07:35:04 +0000
-Date: Thu, 5 Nov 2026 15:34:13 +0800
+	id 1xOt0o-000000009bH-1rrV;
+	Thu, 05 Nov 2026 08:39:58 +0000
+Date: Thu, 05 Nov 2026 09:39:38 +0100
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kees Cook <kees@kernel.org>, Len Brown <lenb@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 9/9] gpio: shared: generalize most code to firmware nodes
-Message-ID: <202611051523.HtiYeAbK-lkp@intel.com>
-References: <20261104-fwnode-for-each-prop-v1-9-6e28fe1c72c4@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 303/303]
+ kernel/cpu.c:1098:5: sparse: sparse: symbol '__pause_drain_rq' was not
+ declared. Should it be static?
+Message-ID: <202611050914.le3P7s3D-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -97,63 +80,56 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104-fwnode-for-each-prop-v1-9-6e28fe1c72c4@oss.qualcomm.com>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/device-property-fix-fwnode_name_eq-for-empty-node-names/20261104-150343
-base:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-patch link:    https://lore.kernel.org/r/20261104-fwnode-for-each-prop-v1-9-6e28fe1c72c4%40oss.qualcomm.com
-patch subject: [PATCH 9/9] gpio: shared: generalize most code to firmware nodes
-config: sh-randconfig-1001-20261105 (https://download.01.org/0day-ci/archive/20261105/202611051523.HtiYeAbK-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051523.HtiYeAbK-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   f012a641c30644ec5bf95cf64d8835854b997f86
+commit: e19b8ce907a4ccc2f9dbeba218c50d1ff07fd321 [303/303] ANDROID: cpu/hotplug: add migration to paused_cpus
+config: i386-randconfig-2301-20261105 (https://download.01.org/0day-ci/archive/20261105/202611050914.le3P7s3D-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050914.le3P7s3D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611051523.HtiYeAbK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611050914.le3P7s3D-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/cpu.c:1098:5: sparse: sparse: symbol '__pause_drain_rq' was not declared. Should it be static?
+>> kernel/cpu.c:1118:6: sparse: sparse: symbol '__wait_drain_rq' was not declared. Should it be static?
+   kernel/cpu.c:844:9: sparse: sparse: context imbalance in 'clear_tasks_mm_cpumask' - different lock contexts for basic block
 
->> drivers/gpio/gpiolib-shared.c:300:12: warning: 'gpio_shared_fwnode_traverse' defined but not used [-Wunused-function]
-     300 | static int gpio_shared_fwnode_traverse(struct fwnode_handle *curr)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Assembler messages:
-   {standard input}:165: Error: offset to unaligned destination
-   {standard input}:477: Error: offset to unaligned destination
+vim +/__pause_drain_rq +1098 kernel/cpu.c
 
-
-vim +/gpio_shared_fwnode_traverse +300 drivers/gpio/gpiolib-shared.c
-
-   299	
- > 300	static int gpio_shared_fwnode_traverse(struct fwnode_handle *curr)
-   301	{
-   302		int ret;
-   303	
-   304		if (gpio_shared_fwnode_ignore(curr))
-   305			return 0;
-   306	
-   307		ret = gpio_shared_fwnode_scan_properties(curr);
-   308		if (ret)
-   309			return ret;
-   310	
-   311		fwnode_for_each_child_node_scoped(curr, child) {
-   312			ret = gpio_shared_fwnode_traverse(child);
-   313			if (ret)
-   314				return ret;
-   315		}
-   316	
-   317		return 0;
-   318	}
-   319	
+  1097	
+> 1098	int __pause_drain_rq(struct cpumask *cpus)
+  1099	{
+  1100		unsigned int cpu;
+  1101		int err = 0;
+  1102	
+  1103		/*
+  1104		 * Disabling preemption avoids that one of the stopper, started from
+  1105		 * sched_cpu_drain_rq(), blocks firing draining for the whole cpumask.
+  1106		 */
+  1107		preempt_disable();
+  1108		for_each_cpu(cpu, cpus) {
+  1109			err = sched_cpu_drain_rq(cpu);
+  1110			if (err)
+  1111				break;
+  1112		}
+  1113		preempt_enable();
+  1114	
+  1115		return err;
+  1116	}
+  1117	
+> 1118	void __wait_drain_rq(struct cpumask *cpus)
+  1119	{
+  1120		unsigned int cpu;
+  1121	
+  1122		for_each_cpu(cpu, cpus)
+  1123			sched_cpu_drain_rq_wait(cpu);
+  1124	}
+  1125	
 
 --
 0-DAY CI Kernel Test Service
