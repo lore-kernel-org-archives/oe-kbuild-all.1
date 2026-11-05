@@ -1,84 +1,81 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793853594;
-	b=QiTaZb5gs8lghtnOsVmZ5C6p7yWnYbRhcZFkApcJy/dfcYJQkgtvx3HQ+8ZOV6wipDA6
-	 4qJum94XqkFKRRq84R2kS8PvtjWZ6PX718sPyRtsAEGhk8VdF+0ZAFSWwtBW+FLnUOYgw
-	 fylyHxTr/9AsoytyZhsq45V2GVj4TNsOBFssOamajWOeHf0EOtHKepsAL3oOWjClOkiPL
-	 O4z8rhAXNF3fzx8bSDdM9u0LAQ+Q1BX5DpE6xJ8b18bNYOaXywv4GB1l1rOMtIMw11SHe
-	 1VJ9i9rTl4k8IcBWPg0SnimDZYhtLK/OcYFa2DoDOmpzG1O5uS1CY+I2CRybU1uGIwA==
+	t=1793853669;
+	b=P+9GzgljhV/S6OgZZb+98oiOcFQsFhRgQOLiOJzDHx4zXEQilDh2XFD5qQj16hX2AJcj
+	 udt0T7RrzZrMYl9fdZ7cBVWFkhis7wsoqobutjXXEkY/aCULcRR8MRw+S0PzAcgiJowoC
+	 TTMeaeIXEbgzu9ZlZ7fDpg3iOy0q1bjDK0WfDcUIuWWPVW227I8Rw71PpfLICll+gFzgi
+	 EQbeB1YpwJZSpJyyC0usmrytli50/0iQ80WAgbbXsZor4F1N/GfeQuBu2MKMjoy5SORZi
+	 FA/qE2GGJQ6EDZFQjXT8YtWAOg3YzD/gqpVy3SE9yInVqp0Eo4G7NGpdpcC2DZNAlJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793853594;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793853669;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=YKqgrFiBbbWTC3iydlJ8VTujCnEtWpNuTsiR0Bmg0Pc=;
-	b=PwsJYv8P9bpFIEqt0gliRP+KYW3bPAJjflPgqvQdti8/n54I9q/R+Bk74e01jHbSIdZ2
-	 T+qkH7UHK6SQp+t6mzcWxUAURKzT7aAb2YbYJUcQjbn46ew6OtCKxSUCAc3WApAwN8G3T
-	 eApIoJbPSEPbfS8ge42j9XzNIzb70TWVRRNdAZucypVdqqXfmcCock/HFGY8OxYT9TYbd
-	 srWOCm2lCliqVl/nHTq+uL776yMt+AFy20BKQ0rXg5CVF/L5T+V02DdmrKfV/VedF5w9O
-	 qkcUfIGWCM0+CJIYoaQ/yxYKMyPmgq4ck/anwtuNMHYDOvfDO6BgCEjSvdyemjltocw==
+	bh=+1z1jl80S8glHcdv0ktjwdzA9HN/8y19ZMNtYgwb7/c=;
+	b=nKpF3hXQh59gOu9HNdGDNvLgJ/x4hTGPIddESlaLhH4X/GqVKEEZB64jsTbhPUvzo+DY
+	 VBefr/i6ibBdSlOG7s1NSz9L/xxlDh67Ceu5zZdFNJzxXXb3Wt8FFtPyOsbXDXobUy6uO
+	 X067HVeSgFGNcLveawqOEcOsibbEmfmHg44ybWyaSCTNl8Nol8vW46FYexInBCueD6H1j
+	 J+RumGQVGEWSwMJwNEbjlMG7WFiEP7gmnKDPuxPVZL1NZYpKOlg64F2PuQ7IF/E2MUZiM
+	 PM8hEiNY4A0EH6jIDqllpu0/Ee2/1TPs1YAEI3m5ndCK4pQE4GIxAwgD1868yHTAbMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XcPPuqyK;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gz2m0ZWY;
 	arc=none smtp.remote-ip=198.175.65.21
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F126B606A32C;
-	Thu,  5 Nov 2026 04:39:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F126B606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCE4606A31B;
+	Thu,  5 Nov 2026 04:41:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCCE4606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XcPPuqyK
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Gz2m0ZWY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793853593; x=1825389593;
+  t=1793853668; x=1825389668;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EZ6zco1K1tAz8v13jDM/MgKfVILftAbDKiAEr4ycyCc=;
-  b=XcPPuqyKWz7Xcmua5uyh4cQscLLveNvD7Car2g2tbSwFeRLP8WwBcCRX
-   AZypicQqiJvnARYUnZ2KiH96QEQkoR/ELkWLBBABt4O0RKyI69lkicvyc
-   q9PbAuH6QZOWIh3fmpyZ6uPJVopb08SaVFTt+WBhDZgPhveOw/Od+9b8g
-   MgkcCKLxuf5/jlgCPZEstbUOlXd0jvjw3uESHzyxkozGTaQ3wEiLQZWSU
-   VDAjnFkvT9mHP1wtr9Zp6eksqHI7sAc00Gmj2spBR8d1SAvEBj6rUh9lL
-   jHK7eaolAVe8VV87EV1FEbIEyJVE2tXtqOa5aFomfA7WnFXpmGD615KZX
-   w==;
-X-CSE-ConnectionGUID: A+t5I2LhSpWArwwW/I8Diw==
-X-CSE-MsgGUID: FWz0BGCpRKm/X4fpTHcJag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2721206"
+  bh=NgMGLhx47NQh2mjCkIp/Ij/G0ICuGhK+dixWqndtdDA=;
+  b=Gz2m0ZWYH2kNdIpUEL5PYTvfzuhogi4595ssEJH7CkaqK/n1GQ4eoUzf
+   ajWo1H7l7WMR4of1xAdRcqT5rssXa4JNPonzTTgBDLR4f/W8OQ9VOaFtY
+   sStXQGPZhZGCpi51oogfbGLBNzMihIIpGBZz5Xs7LYyEx///okvFiPwV2
+   MC3+jYMYbDAOeVqCSRK3FbwUuWXctWcvpKLKo0Jh5SYgmz+OG96nWitN8
+   llI5KgCecRT/vKMyPlPSAu+gy40WH+sqNk7Vs3R5muFYttaPgOcYZ99Lh
+   kTSyUAFXE9HOoh80moHg6c4x01EW1lGziugJwV4r1BysE4eIdiLQXCBQX
+   Q==;
+X-CSE-ConnectionGUID: ujjYJnZVTq21iPvzHkPdZg==
+X-CSE-MsgGUID: eZCWpmnlRFWyRSps8HU3hA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2721494"
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="2721206"
+   d="scan'208";a="2721494"
 Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 20:39:53 -0800
-X-CSE-ConnectionGUID: azbN95y1Tj+RCA6RxL/jEw==
-X-CSE-MsgGUID: brRElNI+Sn2mvd0OtqX5Bg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 20:40:52 -0800
+X-CSE-ConnectionGUID: 6dZqlJRuSHi0nAMgB+eckw==
+X-CSE-MsgGUID: XtY4Ma9ZQ2i8a1be1nrUyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="8669849"
+   d="scan'208";a="8670508"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 04 Nov 2026 20:39:50 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 04 Nov 2026 20:40:50 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOpGM-00000000leF-3eaK;
-	Thu, 05 Nov 2026 04:39:46 +0000
-Date: Thu, 5 Nov 2026 12:39:45 +0800
+	id 1xOpHK-00000000leN-3q2k;
+	Thu, 05 Nov 2026 04:40:46 +0000
+Date: Thu, 5 Nov 2026 12:39:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Felix Kuehling <Felix.Kuehling@amd.com>
+To: Johannes Berg <johannes@sipsolutions.net>,
+	linux-wireless@vger.kernel.org
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] drm/amdgpu: add wedge event implementation
-Message-ID: <202611051237.oXlTZ7GB-lkp@intel.com>
-References: <20261029152000.22001-4-pierre-eric.pelloux-prayer@amd.com>
+	Johannes Berg <johannes.berg@intel.com>,
+	Miriam Rachel Korenblit <miriam.rachel.korenblit@intel.com>
+Subject: Re: [PATCH wireless-next 7/7] wifi: mac80211: use sta->active_links
+ in for_each_sta_active_link()
+Message-ID: <202611051257.yN72uAKg-lkp@intel.com>
+References: <20261102224349.e1d1ed2eef37.I0f5c26e0f6a05feaf5c578fa048ca5586530f0ba@changeid>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -90,252 +87,92 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261029152000.22001-4-pierre-eric.pelloux-prayer@amd.com>
+In-Reply-To: <20261102224349.e1d1ed2eef37.I0f5c26e0f6a05feaf5c578fa048ca5586530f0ba@changeid>
 
-Hi Pierre-Eric,
+Hi Johannes,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20261028]
-[cannot apply to drm-misc/drm-misc-next linus/master v7.3 v7.3-rc7 v7.3-rc6 v7.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on wireless-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-amdgpu-add-gpu_recovery_enabled-flag-to-amdgpu_device/20261029-161949
-base:   next-20261028
-patch link:    https://lore.kernel.org/r/20261029152000.22001-4-pierre-eric.pelloux-prayer%40amd.com
-patch subject: [PATCH v3 4/5] drm/amdgpu: add wedge event implementation
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20261105/202611051237.oXlTZ7GB-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051237.oXlTZ7GB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/wifi-mac80211-rename-ieee80211_sta_activate_link/20261102-224237
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20261102224349.e1d1ed2eef37.I0f5c26e0f6a05feaf5c578fa048ca5586530f0ba%40changeid
+patch subject: [PATCH wireless-next 7/7] wifi: mac80211: use sta->active_links in for_each_sta_active_link()
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20261105/202611051257.yN72uAKg-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051257.yN72uAKg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611051237.oXlTZ7GB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611051257.yN72uAKg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:956:3: error: cannot jump from this goto statement to its label
-     956 |                 goto error_put_gobj;
-         |                 ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:959:54: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     959 |         PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(dev->dev, lock);
-         |                                                             ^
-   1 error generated.
+   In file included from drivers/net/wireless/intel/iwlwifi/mld/sta.c:6:
+   In file included from include/linux/ieee80211.h:19:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/net/wireless/intel/iwlwifi/mld/sta.c:913:7: error: use of undeclared identifier 'vif'; did you mean 'if'?
+     913 |                 if (vif->type == NL80211_IFTYPE_STATION && !sta->tdls)
+         |                     ^~~
+         |                     if
+>> drivers/net/wireless/intel/iwlwifi/mld/sta.c:913:7: error: expected expression
+   drivers/net/wireless/intel/iwlwifi/mld/sta.c:914:32: error: use of undeclared identifier 'vif'; did you mean 'if'?
+     914 |                         iwl_mld_remove_ap_keys(mld, vif, sta, link_id);
+         |                                                     ^~~
+         |                                                     if
+   drivers/net/wireless/intel/iwlwifi/mld/sta.c:914:32: error: expected expression
+   1 warning and 4 errors generated.
 
 
-vim +956 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+vim +913 drivers/net/wireless/intel/iwlwifi/mld/sta.c
 
-   869	
-   870	int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
-   871				  struct drm_file *filp)
-   872	{
-   873		const uint32_t valid_flags = AMDGPU_VM_DELAY_UPDATE |
-   874			AMDGPU_VM_PAGE_READABLE | AMDGPU_VM_PAGE_WRITEABLE |
-   875			AMDGPU_VM_PAGE_EXECUTABLE | AMDGPU_VM_MTYPE_MASK |
-   876			AMDGPU_VM_PAGE_NOALLOC;
-   877		const uint32_t prt_flags = AMDGPU_VM_DELAY_UPDATE |
-   878			AMDGPU_VM_PAGE_PRT;
-   879	
-   880		struct drm_amdgpu_gem_va *args = data;
-   881		struct drm_gem_object *gobj;
-   882		struct amdgpu_device *adev = drm_to_adev(dev);
-   883		struct amdgpu_fpriv *fpriv = filp->driver_priv;
-   884		struct amdgpu_bo *abo;
-   885		struct amdgpu_bo_va *bo_va;
-   886		struct drm_syncobj *timeline_syncobj = NULL;
-   887		struct dma_fence_chain *timeline_chain = NULL;
-   888		struct drm_exec exec;
-   889		uint64_t vm_size, tmp;
-   890		int r = 0;
-   891	
-   892		/* Validate virtual address range against reserved regions. */
-   893		if (args->va_address < AMDGPU_VA_RESERVED_BOTTOM) {
-   894			dev_dbg(dev->dev,
-   895				"va_address 0x%llx is in reserved area 0x%llx\n",
-   896				args->va_address, AMDGPU_VA_RESERVED_BOTTOM);
-   897			return -EINVAL;
-   898		}
-   899	
-   900		if (args->va_address >= AMDGPU_GMC_HOLE_START &&
-   901		    args->va_address < AMDGPU_GMC_HOLE_END) {
-   902			dev_dbg(dev->dev,
-   903				"va_address 0x%llx is in VA hole 0x%llx-0x%llx\n",
-   904				args->va_address, AMDGPU_GMC_HOLE_START,
-   905				AMDGPU_GMC_HOLE_END);
-   906			return -EINVAL;
-   907		}
-   908	
-   909		args->va_address &= AMDGPU_GMC_HOLE_MASK;
-   910	
-   911		vm_size = adev->vm_manager.max_pfn * AMDGPU_GPU_PAGE_SIZE;
-   912		vm_size -= AMDGPU_VA_RESERVED_TOP;
-   913		if (check_add_overflow(args->va_address, args->map_size, &tmp) || tmp > vm_size) {
-   914			dev_dbg(dev->dev,
-   915				"va_address 0x%llx is in top reserved area 0x%llx\n",
-   916				args->va_address + args->map_size, vm_size);
-   917			return -EINVAL;
-   918		}
-   919	
-   920		if ((args->flags & ~valid_flags) && (args->flags & ~prt_flags)) {
-   921			dev_dbg(dev->dev, "invalid flags combination 0x%08X\n",
-   922				args->flags);
-   923			return -EINVAL;
-   924		}
-   925	
-   926		/* Validate operation type. */
-   927		switch (args->operation) {
-   928		case AMDGPU_VA_OP_MAP:
-   929		case AMDGPU_VA_OP_UNMAP:
-   930		case AMDGPU_VA_OP_CLEAR:
-   931		case AMDGPU_VA_OP_REPLACE:
-   932			break;
-   933		default:
-   934			dev_dbg(dev->dev, "unsupported operation %d\n",
-   935				args->operation);
-   936			return -EINVAL;
-   937		}
-   938	
-   939		if (args->flags & AMDGPU_VM_DELAY_UPDATE &&
-   940		    args->vm_timeline_syncobj_out)
-   941			return -EINVAL;
-   942	
-   943		if ((args->operation != AMDGPU_VA_OP_CLEAR) &&
-   944		    !(args->flags & AMDGPU_VM_PAGE_PRT)) {
-   945			gobj = drm_gem_object_lookup(filp, args->handle);
-   946			if (gobj == NULL)
-   947				return -ENOENT;
-   948			abo = gem_to_amdgpu_bo(gobj);
-   949		} else {
-   950			gobj = NULL;
-   951			abo = NULL;
-   952		}
-   953	
-   954		if (amdgpu_device_is_wedged(adev)) {
-   955			r = -ENODEV;
- > 956			goto error_put_gobj;
-   957		}
-   958	
-   959		PM_RUNTIME_ACQUIRE_IF_ENABLED_AUTOSUSPEND(dev->dev, lock);
-   960	
-   961		r = PM_RUNTIME_ACQUIRE_ERR(&lock);
-   962		if (r)
-   963			goto error_put_gobj;
-   964	
-   965		/* Add input syncobj fences (if any) for synchronization. */
-   966		r = amdgpu_gem_add_input_fence(filp,
-   967					       args->input_fence_syncobj_handles,
-   968					       args->num_syncobj_handles);
-   969		if (r)
-   970			goto error_put_gobj;
-   971	
-   972		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT |
-   973			      DRM_EXEC_IGNORE_DUPLICATES, 0);
-   974		drm_exec_until_all_locked(&exec) {
-   975			if (gobj) {
-   976				r = drm_exec_lock_obj(&exec, gobj);
-   977				drm_exec_retry_on_contention(&exec);
-   978				if (unlikely(r))
-   979					goto error;
-   980			}
-   981	
-   982			r = amdgpu_vm_lock_pd(&fpriv->vm, &exec, 2);
-   983			drm_exec_retry_on_contention(&exec);
-   984			if (unlikely(r))
-   985				goto error;
-   986		}
-   987	
-   988		/* Resolve the BO-VA mapping for this VM/BO combination. */
-   989		if (abo) {
-   990			bo_va = amdgpu_vm_bo_find(&fpriv->vm, abo);
-   991			if (!bo_va) {
-   992				r = -ENOENT;
-   993				goto error;
-   994			}
-   995		} else if (args->operation != AMDGPU_VA_OP_CLEAR) {
-   996			bo_va = fpriv->prt_va;
-   997		} else {
-   998			bo_va = NULL;
-   999		}
-  1000	
-  1001		/*
-  1002		 * Prepare the timeline syncobj node if the user requested a VM
-  1003		 * timeline update. This only allocates/looks up the syncobj and
-  1004		 * chain node; the actual fence is attached later.
-  1005		 */
-  1006		r = amdgpu_gem_update_timeline_node(filp,
-  1007						    args->vm_timeline_syncobj_out,
-  1008						    args->vm_timeline_point,
-  1009						    &timeline_syncobj,
-  1010						    &timeline_chain);
-  1011		if (r)
-  1012			goto error;
-  1013	
-  1014		switch (args->operation) {
-  1015		case AMDGPU_VA_OP_MAP:
-  1016			r = amdgpu_vm_bo_map(adev, bo_va, args->va_address,
-  1017					     args->offset_in_bo, args->map_size,
-  1018					     args->flags);
-  1019			break;
-  1020		case AMDGPU_VA_OP_UNMAP:
-  1021			r = amdgpu_vm_bo_unmap(adev, bo_va, args->va_address);
-  1022			break;
-  1023	
-  1024		case AMDGPU_VA_OP_CLEAR:
-  1025			r = amdgpu_vm_bo_clear_mappings(adev, &fpriv->vm,
-  1026							args->va_address,
-  1027							args->map_size);
-  1028			break;
-  1029		case AMDGPU_VA_OP_REPLACE:
-  1030			r = amdgpu_vm_bo_replace_map(adev, bo_va, args->va_address,
-  1031						     args->offset_in_bo, args->map_size,
-  1032						     args->flags);
-  1033			break;
-  1034		default:
-  1035			break;
-  1036		}
-  1037	
-  1038		/*
-  1039		 * Once the VA operation is done, update the VM and obtain the fence
-  1040		 * that represents the last relevant update for this mapping. This
-  1041		 * fence can then be exported to the user-visible VM timeline.
-  1042		 */
-  1043		if (!r && !(args->flags & AMDGPU_VM_DELAY_UPDATE) &&
-  1044		    (!adev->debug_vm || timeline_syncobj)) {
-  1045			struct dma_fence *fence;
-  1046	
-  1047			fence = amdgpu_gem_va_update_vm(adev, &fpriv->vm, bo_va,
-  1048							args->operation);
-  1049			if (timeline_syncobj) {
-  1050				if (!args->vm_timeline_point) {
-  1051					/* Replace the existing fence when no point is given. */
-  1052					drm_syncobj_replace_fence(timeline_syncobj,
-  1053								  fence);
-  1054				} else {
-  1055					/* Attach the last-update fence at a specific point. */
-  1056					drm_syncobj_add_point(timeline_syncobj,
-  1057							      timeline_chain,
-  1058							      fence,
-  1059							      args->vm_timeline_point);
-  1060					timeline_chain = NULL;
-  1061				}
-  1062			}
-  1063			dma_fence_put(fence);
-  1064	
-  1065		}
-  1066	
-  1067	error:
-  1068		dma_fence_chain_free(timeline_chain);
-  1069		if (timeline_syncobj)
-  1070			drm_syncobj_put(timeline_syncobj);
-  1071		drm_exec_fini(&exec);
-  1072	error_put_gobj:
-  1073		drm_gem_object_put(gobj);
-  1074		return r;
-  1075	}
-  1076	
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  890  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  891  void iwl_mld_remove_sta(struct iwl_mld *mld, struct ieee80211_sta *sta)
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  892  {
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  893  	struct ieee80211_link_sta *link_sta;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  894  	u8 link_id;
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  895  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  896  	lockdep_assert_wiphy(mld->wiphy);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  897  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  898  	/* Tell the HW to flush the queues */
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  899  	iwl_mld_flush_sta_txqs(mld, sta);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  900  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  901  	/* Wait for trans to empty its queues */
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  902  	iwl_mld_wait_sta_txqs_empty(mld, sta);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  903  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  904  	/* Now we can remove the queues */
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  905  	for (int i = 0; i < ARRAY_SIZE(sta->txq); i++)
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  906  		iwl_mld_remove_txq(mld, sta->txq[i]);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  907  
+4fa80ba223dd728 Johannes Berg  2026-11-02  908  	for_each_sta_active_link(sta, link_sta, link_id) {
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  909  		/* Mac8011 will remove the groupwise keys after the sta is
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  910  		 * removed, but FW expects all the keys to be removed before
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  911  		 * the STA is, so remove them all here.
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  912  		 */
+67128af05c6419e Johannes Berg  2025-03-09 @913  		if (vif->type == NL80211_IFTYPE_STATION && !sta->tdls)
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  914  			iwl_mld_remove_ap_keys(mld, vif, sta, link_id);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  915  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  916  		/* Remove the link_sta */
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  917  		iwl_mld_remove_link_sta(mld, link_sta);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  918  	}
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  919  
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  920  	iwl_mld_destroy_sta(sta);
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  921  }
+d1e879ec600f9b3 Miri Korenblit 2025-02-16  922  
 
 --
 0-DAY CI Kernel Test Service
