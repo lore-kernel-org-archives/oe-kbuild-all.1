@@ -1,87 +1,102 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890219;
-	b=FHT9SBVyMy+R0G+ezYyFlVJHl85yCsMq2mbN4Z+3UsdMfIYzbYqXUQEDsyU55jNY5Tls
-	 3WmXzFAJ3x7nkGghymIKJ9qGhf+b1jXQugsQDMrU62hMhAKUX5h26kk2iUYAzkj9iuY+n
-	 M2nKi7h8yR0nchcmnLnWPcMTQGGTJFupcj0k8a+dcJ1WF0mjIAJ56D2P5yidd8hXoqZI9
-	 fsOU03aELKytiSDlAwNAMWkNy7DtpMh7t7glWQrPH8wPaz7fgQB3R1wwGNfA1iDRAYtpJ
-	 0tziTKGAAcJORpo7ssjipFMXtpvA67zRUhI+CKL2GudkVq8K7ogtSgATd/KquntNGiQ==
+	t=1793890221;
+	b=ZXHm4Vdum6lcEAB0Xojqws2inELEQBDrjnqRCPWkHMRhfjbqFt+Mdb69BTd2GCFWsH5F
+	 N41uxeazQrzrZ9P9HxeiVRcEV+Z1BQjGjKn9ptyHgL8wKnE1KNU9rJmiCHDHUiMqCid5P
+	 5dAWRMuvr4uawT4mRyFj/eL0hHe03GefXAuSnIxgJUVUNCjYwm/WoRGutwH5SIWGLAWDu
+	 ulT9SSd+iFMHTK1atsQGXXHWILIsmr/lSG3XAhH2a5hTnbAWdOORDB4frEi4SoQfSvWMl
+	 KhZb74sBIl7LoJvlE4RuoB0nqI8fgvSOmt24yOt7I8ZJ/bFC18TvtspjVxj/kO+CWHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890219;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890221;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=GwTFC76gcVt6WPWxDY7a3hzw2d7MaZ4yXVqNz/wjyA4=;
-	b=p8WF+M7f002jvGijsNJuF4RDMD1sSAdO0b4xpnIUzWIoQEvF1K0ijua+Uz23d3IWg4b+
-	 qL8Kc7ji1Voy5zsyrdYWuGj3mL5BC4dbZ8EZVPp4iRHy13DGpGv98NYbZOJGvE9SHJ7NR
-	 8spmiRbgcwuBihzW9SkF02uNuuwe9DdQ4SDgG6LMyCmGSMd5SSeN8sU0qyH1K8u9CYiFL
-	 LaCYFck2mnCzbjnUGQ+0y2XqoLnQxvH1cROdGE2UQHuwIGjnir1kWuBJBDGtnSe7dgkE0
-	 KQhy5Sp/Y/iheQ2pFqqBOTB4jqU3TQ5lFELHlReT+JsnXJTM6ScVg1Xgl9O21w97blw==
+	bh=zngDh/hn+d+IfbRxuQD9941zh0dh76DUZmGv37oN1yw=;
+	b=xDyJJtbIue4LpXZ4ZZB2ImKqOSAdb43E9WTUzjol2UIGEwUy9tpL+ownRbaPkGnEjzje
+	 s7PbbTuFSFtneN5mkFS2cj/Ej5BJ4JiWj34e3OlVY5pATjnxkwzhWTQPFIdx8A4wOZqZ0
+	 wNAfwyaP/UGziJE12SSG9VdGZaIP/U4UItjjX71VsZmcenIeyPhe1KcjHeOBYcQjZLWsN
+	 iWwKDIwO0SLCW5jsdfwIy5iI5IESyrlBSuvBRb/fyVgKSTcbb6/kPwpNehjZ+XcERnu11
+	 fUYHeMGI8B3CwVdwriiqq9e7SO1HjJkWUHmct9wDBE3y/H0fI5fh/IaKcJIO4YEdydg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e7tgmK9k;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CaH54igg;
 	arc=none smtp.remote-ip=192.198.163.7
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B14606D803
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 14:50:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6B14606D803
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A559606A32C;
+	Thu,  5 Nov 2026 14:50:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A559606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e7tgmK9k
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CaH54igg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793890218; x=1825426218;
+  t=1793890220; x=1825426220;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SEacydVAocOoM2UCf6wrFxtqPAImR/F2TO+ME5G6D8s=;
-  b=e7tgmK9kFATUWtIoIGkUJ7wNxpitInSs4XMdgDf2nOWqD7tTAuhQhBRk
-   RquqEi4kW3Rh5al7Fjgq6UzJVm5/cAiB/wWZw2Z60Om7o3Is9NZIWTrIQ
-   tZ2x4XRCUKyW6dGWaIL34pBUTAePMxi3+rDYHlQQWyPAU1JGXaI9jAK5E
-   lqBpOEDG9DZdmQHjtKoOyiDyKVhXp1aJwqmJlXtWGJCqGFHC0oVB7y0Qu
-   +P9YqkeE461FFV9GCeyiSelVZ04c+GDaTsGMVHJXNfua+oOXjCCX9Qbp6
-   qRRAVAJgpDLegm59ZQhZ71F6dXBtZj9jGwRWaIPZVVEYMzmKuHwZ33FVW
-   w==;
-X-CSE-ConnectionGUID: fuuDcAIhT+6Fj/U5UrHEcQ==
-X-CSE-MsgGUID: HW2cQ9uSRsCNYJDYmpgxAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2551298"
+  bh=pR76mBghhXMOKm2t2fE0Nbyxh5lA9YdTCI2eN6g0oNY=;
+  b=CaH54iggLRDvQu+fJy5qc9rHlSnF6nsEVdBBbu3Ar6gIvJuB8AHBpkPM
+   kCA7K7QuaiBsHFbRWy9TTYTaWKa3D7Zt92JuZ/ksDLmMqCKsttD1DpZom
+   pkVIgwhUNfwLRm54cVXI0rSfvLC036msgNFCu8F4xD0jLJU64AJ8/51Qu
+   6BabFNr6P1nwSVwlm3ZlksDHdPa8gS8Nm3pLNYVRLO9CytwaN93oP88zt
+   CMOm2lBojG4H/vZuJGRvjmXoCkdBqh1xbiG8vEPM9udN0dDqdjQTboPRM
+   QleP0cr+b4qYN72v4nHfL9cyupgrhozEzja8wYoOC23dG7xOG85PP0/Ux
+   g==;
+X-CSE-ConnectionGUID: 8nFN23+4ToK1NBAfvUWTRg==
+X-CSE-MsgGUID: k24zrZWCRV6iiH0/lgrymQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2551310"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2551298"
+   d="scan'208";a="2551310"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:50:17 -0800
-X-CSE-ConnectionGUID: VCsj7JxxQo6Ld5HGrJ2f3Q==
-X-CSE-MsgGUID: DXMJKH2VR4iY8okcCBmtKQ==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 06:50:19 -0800
+X-CSE-ConnectionGUID: /dk8MTNSRPGYLMVUiJXO/Q==
+X-CSE-MsgGUID: pVjBF9RvTTCjveglukFKDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7151188"
+   d="scan'208";a="7151193"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 05 Nov 2026 06:50:13 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOyn3-00000000mLZ-3tNZ;
-	Thu, 05 Nov 2026 14:50:09 +0000
-Date: Thu, 5 Nov 2026 22:49:36 +0800
+	id 1xOyn4-00000000mLb-00W9;
+	Thu, 05 Nov 2026 14:50:10 +0000
+Date: Thu, 5 Nov 2026 22:49:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-	alexandre.belloni@bootlin.com, Frank.Li@nxp.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, shubhrajyoti.datta@amd.com,
-	shubhamsanjay.patil@amd.com, adrian.hunter@intel.com,
-	manikanta.guntupalli@amd.com, linux-i3c@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jarkko.nikula@linux.intel.com,
-	wsa+renesas@sang-engineering.com, alok.a.tiwari@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, konrad.dybcio@oss.qualcomm.com,
-	andersson@kernel.org, jyothi.seerapu@oss.qualcomm.com,
-	viken.dadhaniya@oss.qualcomm.com, aniket.randive@oss.qualcomm.com,
-	praveen.talari@oss.qualcomm.com
-Subject: Re: [PATCH v7 2/3] i3c: master: Add Qualcomm I3C controller driver
-Message-ID: <202611060055.y4Q35SU8-lkp@intel.com>
-References: <20261104111610.3739095-2-mukesh.savaliya@oss.qualcomm.com>
+To: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	iommu@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+	Alex Williamson <alex@shazbot.org>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Krishna Reddy <vdumpa@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Samuel Ortiz <sameo@rivosinc.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Steven Price <steven.price@arm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v8 11/15] iommufd/viommu: Select vIOMMU operations before
+ allocation
+Message-ID: <202611052227.TxHIjde3-lkp@intel.com>
+References: <20261104161632.3547423-12-aneesh.kumar@kernel.org>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -93,127 +108,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104111610.3739095-2-mukesh.savaliya@oss.qualcomm.com>
+In-Reply-To: <20261104161632.3547423-12-aneesh.kumar@kernel.org>
 
-Hi Mukesh,
+Hi Aneesh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on i3c/i3c/next]
-[also build test WARNING on linus/master v7.3 next-20261030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Savaliya/i3c-master-Add-Qualcomm-I3C-controller-driver/20261104-164609
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
-patch link:    https://lore.kernel.org/r/20261104111610.3739095-2-mukesh.savaliya%40oss.qualcomm.com
-patch subject: [PATCH v7 2/3] i3c: master: Add Qualcomm I3C controller driver
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20261106/202611060055.y4Q35SU8-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060055.y4Q35SU8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aneesh-Kumar-K-V-Arm/PCI-TSM-Move-core-code-into-its-own-directory/20261104-214618
+base:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+patch link:    https://lore.kernel.org/r/20261104161632.3547423-12-aneesh.kumar%40kernel.org
+patch subject: [PATCH v8 11/15] iommufd/viommu: Select vIOMMU operations before allocation
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20261105/202611052227.TxHIjde3-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052227.TxHIjde3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060055.y4Q35SU8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611052227.TxHIjde3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/i3c/master/i3c-qcom-geni.c: In function 'qcom_geni_i3c_conf':
-   drivers/i3c/master/i3c-qcom-geni.c:284:15: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     284 |         val = FIELD_PREP(CLK_DIV_VALUE_MASK, clk_idx->clk_div);
-         |               ^~~~~~~~~~
-   drivers/i3c/master/i3c-qcom-geni.c: In function 'geni_i3c_irq':
->> drivers/i3c/master/i3c-qcom-geni.c:363:13: warning: variable 'm_stat_mask' set but not used [-Wunused-but-set-variable=]
-     363 |         u32 m_stat_mask, dm_tx_st, dm_rx_st;
-         |             ^~~~~~~~~~~
-   drivers/i3c/master/i3c-qcom-geni.c: In function 'i3c_geni_resources_init':
-   drivers/i3c/master/i3c-qcom-geni.c:977:15: error: too few arguments to function 'geni_icc_get'; expected 2, have 1
-     977 |         ret = geni_icc_get(&gi3c->se);
-         |               ^~~~~~~~~~~~
-   In file included from drivers/i3c/master/i3c-qcom-geni.c:19:
-   include/linux/soc/qcom/geni-se.h:576:5: note: declared here
-     576 | int geni_icc_get(struct geni_se *se, const char *icc_ddr);
-         |     ^~~~~~~~~~~~
+>> drivers/iommu/amd/iommufd.c:81:40: warning: unused variable 'amd_viommu_ops' [-Wunused-const-variable]
+      81 | static const struct iommufd_viommu_ops amd_viommu_ops = {
+         |                                        ^~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/m_stat_mask +363 drivers/i3c/master/i3c-qcom-geni.c
+vim +/amd_viommu_ops +81 drivers/iommu/amd/iommufd.c
 
-   359	
-   360	static irqreturn_t geni_i3c_irq(int irq, void *dev)
-   361	{
-   362		struct geni_i3c_dev *gi3c = dev;
- > 363		u32 m_stat_mask, dm_tx_st, dm_rx_st;
-   364		u32 m_stat, rx_st, dma_mode;
-   365	
-   366		m_stat = readl_relaxed(gi3c->se.base + SE_GENI_M_IRQ_STATUS);
-   367		m_stat_mask = readl_relaxed(gi3c->se.base + SE_GENI_M_IRQ_EN);
-   368		rx_st = readl_relaxed(gi3c->se.base + SE_GENI_RX_FIFO_STATUS);
-   369		dm_tx_st = readl_relaxed(gi3c->se.base + SE_DMA_TX_IRQ_STAT);
-   370		dm_rx_st = readl_relaxed(gi3c->se.base + SE_DMA_RX_IRQ_STAT);
-   371		dma_mode = readl_relaxed(gi3c->se.base + SE_GENI_DMA_MODE_EN);
-   372	
-   373		scoped_guard(spinlock, &gi3c->irq_lock) {
-   374			if (m_stat & SE_I3C_ERR || dm_rx_st & DM_I3C_CB_ERR) {
-   375				geni_i3c_handle_err(gi3c, m_stat);
-   376				/* Disable the TX Watermark interrupt to stop TX */
-   377				if (!dma_mode)
-   378					writel_relaxed(0, gi3c->se.base + SE_GENI_TX_WATERMARK_REG);
-   379			} else if (dma_mode) {
-   380				dev_dbg(gi3c->se.dev, "i3c dma tx:0x%x, dma rx:0x%x\n", dm_tx_st, dm_rx_st);
-   381			} else if ((m_stat & (M_RX_FIFO_WATERMARK_EN | M_RX_FIFO_LAST_EN)) &&
-   382				    !gi3c->cur_is_write && gi3c->cur_buf) {
-   383				/* FIFO RX handling */
-   384				u32 rxcnt = rx_st & RX_FIFO_WC_MSK;
-   385				int avail = rxcnt * 4;
-   386				int need  = gi3c->cur_len - gi3c->cur_idx;
-   387				int n     = min(need, avail);
-   388	
-   389				if (n > 0) {
-   390					i3c_readl_fifo(gi3c->se.base + SE_GENI_RX_FIFOn,
-   391						       gi3c->cur_buf + gi3c->cur_idx, n);
-   392					gi3c->cur_idx += n;
-   393				}
-   394			} else if ((m_stat & M_TX_FIFO_WATERMARK_EN) &&
-   395				   gi3c->cur_is_write && gi3c->cur_buf) {
-   396				/* FIFO TX handling */
-   397				int avail = gi3c->tx_wm * 4;
-   398				int need  = gi3c->cur_len - gi3c->cur_idx;
-   399				int n     = min(need, avail);
-   400	
-   401				if (n > 0) {
-   402					i3c_writel_fifo(gi3c->se.base + SE_GENI_TX_FIFOn,
-   403							(void *)(gi3c->cur_buf + gi3c->cur_idx), n);
-   404					gi3c->cur_idx += n;
-   405				}
-   406			}
-   407	
-   408			if (!dma_mode && gi3c->cur_idx == gi3c->cur_len)
-   409				writel_relaxed(0, gi3c->se.base + SE_GENI_TX_WATERMARK_REG);
-   410		}
-   411	
-   412		if (m_stat)
-   413			writel_relaxed(m_stat, gi3c->se.base + SE_GENI_M_IRQ_CLEAR);
-   414	
-   415		if (dma_mode) {
-   416			if (dm_tx_st)
-   417				writel_relaxed(dm_tx_st, gi3c->se.base + SE_DMA_TX_IRQ_CLR);
-   418			if (dm_rx_st)
-   419				writel_relaxed(dm_rx_st, gi3c->se.base + SE_DMA_RX_IRQ_CLR);
-   420		}
-   421	
-   422		/* if this is err with done-bit not set, handle that through timeout. */
-   423		if (m_stat & (M_CMD_DONE_EN | M_CMD_ABORT_EN)) {
-   424			writel_relaxed(0, gi3c->se.base + SE_GENI_TX_WATERMARK_REG);
-   425			complete(&gi3c->done);
-   426		} else if ((dm_tx_st & TX_DMA_DONE) || (dm_rx_st & (RX_DMA_DONE | RX_RESET_DONE))) {
-   427			complete(&gi3c->done);
-   428		}
-   429	
-   430		return IRQ_HANDLED;
-   431	}
-   432	
+757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  76  
+757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  77  /*
+757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  78   * See include/linux/iommufd.h
+757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  79   * struct iommufd_viommu_ops - vIOMMU specific operations
+757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15  80   */
+757d2b1fdf5b7d6 Suravee Suthikulpanit 2026-01-15 @81  static const struct iommufd_viommu_ops amd_viommu_ops = {
 
 --
 0-DAY CI Kernel Test Service
