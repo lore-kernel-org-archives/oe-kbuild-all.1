@@ -1,91 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793902545;
-	b=ivfNo7R2FjkHkbBOSV2ae9s+WxxZCIM0fiPqzJLWNv14bxxmnYT2TdvvsRpwhPZP6adw
-	 GFzpXXpUEwU1N17SyhgsdBAUdts9W7ErpdXv1K95SmCtyOix6J8nn42wwy5PC1Ff2O4uJ
-	 yv7sgz3gEaBE4Ijvf1Pnctsi8HnQJjWrow1PR/+G4mcMfg9kPJuLg2cLV53H2D2m211YY
-	 TUKH4WAwCsi685h6N6oK3sIFMXbLVlue3OUxjAKAsp9pOm0vdkZV2vC1jnLdaGVZSCk/D
-	 8R90AIwPpSVNfhAM77KEbyOJLLq9mIKlEVUJco2nuLwKCcBK7Z2ksdbuf5v509JGTog==
+	t=1793903083;
+	b=wt4ZHsnEBfiQJpDlbj3TrML88IuXvIffp7nOoDacgc9piOMOeHORQ2ZgfydcPOIQbmrm
+	 f9kZN1nk9qMvKj7aDLhnUZzpp7CZeA/XxI6290S7+Tcaa2eyQeSSmW1cVy/gV9Gdh214d
+	 Mu8zo/IMFJfEFw2+dmz+FrBSZd0tEAysYai8grim4IuE8QpqwTpF/qKpOQdmb3OLmZKzp
+	 RDL+RDadhQkMQnNRH7q7tzFQP218yOQgZW0Iff2IqV4WVMNiSEMcvXEHQHUeXEJMPIuGR
+	 BhBppRgvEUpYD7ynL3g9vKPA4TYCgi5DwpHbHHHyEzb58tGN36aLtWGo/Kj+zshqpXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793902545;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793903083;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=5xkqUJpXd/77EmurUpWsFnYKGC4PkT/oseXIVCHooLM=;
-	b=NA7u2HZmgtZn2tGgJ8ZvXeveIdOpRYleHkcA5Zvy3jDkxEIQ9I58YaIkBSQEeHPxLanm
-	 1lhUQgspTAaKfBsl4qIgz9yKHzof6sU73DtaXib+SyR8KHjr5l6/TIgTvaNB8T69o3VgJ
-	 uvNVLFsrON5XbKlNpaNBpiJn5OiowpK6EWPfS8FMbjFlUIVVAxtVFm1r1HymKxAs/X1M8
-	 vIt0BcuZ4KTf2aj6J6jYPsuwcR35DFfXMq9aXZF+XikS9IRucxt5yHxkKspb82iqJtMLm
-	 7f8hs50ptaVlqFQqKsc0ZBVNt0bcavKd5bRPjE3ZH2VR+d44j5X9Xvb8cEcRmLx7Fbg==
+	bh=E6Q8P1340lhjpphLE4vGSu5qYC4hlfkJAY0J5FgHtHo=;
+	b=N9KZjOmqXBjZrGMoNhC1kNaNFvtT1xhkM0GeCKx7cNDWTi4vp32DlKdnP9OK3cQN9l3g
+	 4Fath9yk4OvE/ZzjteQ9qTSfjBWYm4jsc0yN4MWxFeBWF6K7wSWdL1Ftyuy/7Pa0mgZwe
+	 lnPChgET++TVGupy6HX9U5OkMrwxbM3EHsP5h58ceKYItUgykUQdU9oz24N1x/Q+XVLaE
+	 VdNGI8/qk93acGQQLfuTCZRSztirlBP8on2xjT5bzs/9v0kRCfmkvDhePIa0dLV8RCtm0
+	 NVe9j2ifh9Xzm1AHx+EfAPnOALQnadsySbk0koITaT4qeTLF3EXM9cdvYi0G30zfBvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mlmN9vuN;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E05Tioe+;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BDF606A328
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 18:15:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33BDF606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F99606A326
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 18:24:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70F99606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mlmN9vuN
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E05Tioe+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793902542; x=1825438542;
+  t=1793903083; x=1825439083;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=O1wKu0Wovol8j2e+n6XsWCpw4qH50zSj4siy9b/s3qI=;
-  b=mlmN9vuNnJTHni0fmJRa84HF4VMpYnwWOEYQSPoOdpcg3XMJkic6A/hA
-   SfM7itFC2KxeKZryRgjt2OvEKjtE204W8llV24rFL4Tc5q/IATxS/uAX3
-   FTB/Cqu2PpdmX4YXo4foAebdYNL+6pZjUuw15dyirvlbjTb6BCBcl0v3S
-   SfsEjXfvBROPietgu7k1wFdpGBDZ+pfyijVTa6jTmVMmd/vRGA5UXD/ZZ
-   rAOKdsY9+dTR6Wvy4zTmUvMKFnJoIEqpUUM8YGRELxLNDR4eZyHeQmh3j
-   dNAIs/VCUDVZHOIbencEZdRvQx3Ie0ofdS2UEibmVHtIiOfSWllV+p7+l
-   w==;
-X-CSE-ConnectionGUID: ZwOa0oveSxyoDzCJjVOPEA==
-X-CSE-MsgGUID: zxq+u/6hSs2LV3PzL87m6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2603251"
+  bh=GRIUUO0N0cBOPlANN2KKDeJN/d7vjvFPsFxRvjTj6Vo=;
+  b=E05Tioe+uLEdhEDatIhTEDqd0ycMRnJdWcEnaIabETxRbGSbCh4dXUaz
+   uCa4Sv/5kgTew+ilW8YMjOnnRxmk3N+9WPtOa6IYfmEzoMfjGD/7Bfb0O
+   /7hL1vOin/K6Q2DFumd9gIn89GhnvtvD/r4Thc4aYoVrxMmQu5LICSTG5
+   CbjYN1vT1Ox75K83qeApeowuQ1AeRJNHBtn9TKCcr3ZEgx70KfUVNdBZI
+   JijPz00kwyZJOaFL2E0xLYu3wsbnSEd4r00u0/yWu52UgDSAvtSgokNVi
+   xhJ/7tqRO6DgLNXMZLzmvQUuHcDumkn9enAbTlcGN0gngMaA/NzsE8x5X
+   Q==;
+X-CSE-ConnectionGUID: Lmir0K8CRcqgRyFzQHcOcA==
+X-CSE-MsgGUID: lndfBxLwSyqkgcF1XjADQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2576619"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2603251"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:15:42 -0800
-X-CSE-ConnectionGUID: ijpR7fjcTuqXWividS6vTQ==
-X-CSE-MsgGUID: 7J+s165sQ6KFNd+rdDoIcA==
+   d="scan'208";a="2576619"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 10:24:42 -0800
+X-CSE-ConnectionGUID: z4SZqRXTRa2RGIHBG7N8Cw==
+X-CSE-MsgGUID: WnIR7PMzQgymMHOCEdnnXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="6907461"
+   d="scan'208";a="7395680"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 05 Nov 2026 10:15:38 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2026 10:24:39 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xP1zr-00000000meJ-36Mb;
-	Thu, 05 Nov 2026 18:15:35 +0000
-Date: Fri, 6 Nov 2026 02:14:55 +0800
+	id 1xP28a-00000000mfb-3EkY;
+	Thu, 05 Nov 2026 18:24:36 +0000
+Date: Fri, 6 Nov 2026 02:23:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org,
-	Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
-Subject: Re: [PATCH v3 2/3] media: i2c: dw9719: Update DW9800K driver
-Message-ID: <202611060251.DGnOao2F-lkp@intel.com>
-References: <20261105-b4-dw9800k_cleanup-v3-2-6850ee6a5a5a@fairphone.com>
+To: Nikhil Gautam <nikhilgtr@gmail.com>, linux-iio@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+	andy@kernel.org, Nikhil Gautam <nikhilgtr@gmail.com>
+Subject: Re: [PATCH v5] iio: chemical: ccs811: Make sampling frequency
+ configurable
+Message-ID: <202611060115.RlOXqnls-lkp@intel.com>
+References: <20261104151138.9968-1-nikhilgtr@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -97,189 +86,59 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261105-b4-dw9800k_cleanup-v3-2-6850ee6a5a5a@fairphone.com>
+In-Reply-To: <20261104151138.9968-1-nikhilgtr@gmail.com>
 
-Hi Griffin,
+Hi Nikhil,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bc71431221f5ba8bb33918399552636e059c2c45]
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v7.3 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Griffin-Kroah-Hartman/dt-bindings-media-i2c-dw9800-Redocument-DW9800K/20261105-112900
-base:   bc71431221f5ba8bb33918399552636e059c2c45
-patch link:    https://lore.kernel.org/r/20261105-b4-dw9800k_cleanup-v3-2-6850ee6a5a5a%40fairphone.com
-patch subject: [PATCH v3 2/3] media: i2c: dw9719: Update DW9800K driver
-config: nios2-randconfig-1001-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060251.DGnOao2F-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060251.DGnOao2F-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikhil-Gautam/iio-chemical-ccs811-Make-sampling-frequency-configurable/20261104-204138
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20261104151138.9968-1-nikhilgtr%40gmail.com
+patch subject: [PATCH v5] iio: chemical: ccs811: Make sampling frequency configurable
+config: arc-randconfig-1000-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060115.RlOXqnls-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060115.RlOXqnls-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060251.DGnOao2F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060115.RlOXqnls-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/dw9719.c: In function 'dw9719_power_up':
->> drivers/media/i2c/dw9719.c:207:3: error: a label can only be part of a statement and a declaration is not a statement
-     207 |   int ring, sac;
-         |   ^~~
+   In file included from drivers/iio/chemical/ccs811.c:18:
+   drivers/iio/chemical/ccs811.c: In function 'ccs811_write_raw':
+>> include/linux/cleanup.h:298:2: error: a label can only be part of a statement and a declaration is not a statement
+     class_##_name##_t var __cleanup(class_##_name##_destructor) = \
+     ^~~~~~
+   include/linux/cleanup.h:422:34: note: in expansion of macro 'CLASS'
+    #define ACQUIRE(_name, _var)     CLASS(_name, _var)
+                                     ^~~~~
+   include/linux/iio/iio.h:817:2: note: in expansion of macro 'ACQUIRE'
+     ACQUIRE(__priv__iio_dev_mode_lock_try_direct, claim)(dev)
+     ^~~~~~~
+   drivers/iio/chemical/ccs811.c:354:3: note: in expansion of macro 'IIO_DEV_ACQUIRE_DIRECT_MODE'
+      IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +207 drivers/media/i2c/dw9719.c
+vim +298 include/linux/cleanup.h
 
-   122	
-   123	static int dw9719_power_up(struct dw9719_device *dw9719, bool detect)
-   124	{
-   125		u32 reg_pwr = dw9719->model == DW9718S ? DW9718S_PD : DW9719_CONTROL;
-   126		u64 val;
-   127		int ret;
-   128		int err;
-   129	
-   130		ret = regulator_enable(dw9719->regulator);
-   131		if (ret)
-   132			return ret;
-   133	
-   134		/*
-   135		 * Need 100us to transition from SHUTDOWN to STANDBY.
-   136		 * Jiggle the SCL pin to wake up the device (even when the regulator is
-   137		 * shared) and wait double the time to be sure, as 100us is not enough
-   138		 * at least on the DW9718S as found on the motorola-nora smartphone,
-   139		 * then retry the write.
-   140		 */
-   141		cci_write(dw9719->regmap, reg_pwr, DW9719_STANDBY, NULL);
-   142		/* the jiggle is expected to fail, don't even log that as error */
-   143		fsleep(200);
-   144		cci_write(dw9719->regmap, reg_pwr, DW9719_STANDBY, &ret);
-   145	
-   146		if (detect) {
-   147			/* These models do not have an INFO register */
-   148			switch (dw9719->model) {
-   149			case DW9718S:
-   150				dw9719->sac_mode = DW9718S_DEFAULT_SAC;
-   151				dw9719->vcm_freq = DW9718S_DEFAULT_VCM_FREQ;
-   152				goto props;
-   153			default:
-   154				break;
-   155			}
-   156	
-   157			ret = cci_read(dw9719->regmap, DW9719_INFO, &val, NULL);
-   158			if (ret < 0)
-   159				return ret;
-   160	
-   161			switch (val) {
-   162			case DW9719_ID:
-   163				dw9719->model = DW9719;
-   164				dw9719->mode_low_bits = 0x00;
-   165				dw9719->sac_mode = DW9719_DEFAULT_SAC;
-   166				dw9719->vcm_freq = DW9719_DEFAULT_VCM_FREQ;
-   167				break;
-   168			case DW9761_ID:
-   169				dw9719->model = DW9761;
-   170				dw9719->mode_low_bits = 0x01;
-   171				dw9719->sac_mode = DW9761_DEFAULT_SAC;
-   172				dw9719->vcm_freq = DW9761_DEFAULT_VCM_FREQ;
-   173				break;
-   174			case DW9800K_ID:
-   175				dw9719->sac_mode = DW9800K_DEFAULT_SAC;
-   176				dw9719->vcm_freq = DW9800K_DEFAULT_DIV;
-   177				dw9719->sac_time = DW9800K_DEFAULT_SACT;
-   178				break;
-   179			default:
-   180				dev_err(dw9719->dev,
-   181					"Error unknown device id 0x%02llx\n", val);
-   182				return -ENXIO;
-   183			}
-   184	
-   185	props:
-   186			/* Optional indication of SAC mode select */
-   187			device_property_read_u32(dw9719->dev, "dongwoon,sac-mode",
-   188						 &dw9719->sac_mode);
-   189	
-   190			/* Optional indication of VCM frequency */
-   191			err = device_property_read_u32(dw9719->dev, "dongwoon,vcm-freq",
-   192						       &dw9719->vcm_freq);
-   193			if (err == 0)
-   194				dev_warn(dw9719->dev, "dongwoon,vcm-freq property is deprecated, please use dongwoon,vcm-prescale\n");
-   195	
-   196			/* Optional indication of VCM prescale */
-   197			device_property_read_u32(dw9719->dev, "dongwoon,vcm-prescale",
-   198						 &dw9719->vcm_freq);
-   199	
-   200			/* Optional indication of SAC timing */
-   201			device_property_read_u32(dw9719->dev, "dongwoon,timing-control",
-   202						 &dw9719->sac_time);
-   203		}
-   204	
-   205		switch (dw9719->model) {
-   206		case DW9800K:
- > 207			int ring, sac;
-   208	
-   209			/*
-   210			 * Enable ringing for SAC3-SAC5
-   211			 *
-   212			 * sac_mode	reg	Mode
-   213			 * ===========================
-   214			 *	0	0X	Direct
-   215			 *	1	1X	LSC
-   216			 *	2	00	SAC2
-   217			 *	3	01	SAC3
-   218			 *	4	10	SAC4
-   219			 *	5	11	SAC5
-   220			 */
-   221			switch (dw9719->sac_mode) {
-   222			case 0:
-   223				ring = 0;
-   224				sac = 0;
-   225				break;
-   226			case 1:
-   227				ring = 0;
-   228				sac = 2;
-   229				break;
-   230			default:
-   231				ring = DW9719_ENABLE_RINGING;
-   232				sac = dw9719->sac_mode - 2;
-   233				break;
-   234			}
-   235			cci_write(dw9719->regmap, DW9719_CONTROL, ring, &ret);
-   236			/* DIV is 3 bits split over the bottom bit in reg 6 and the top 2 bits in reg 7 */
-   237			cci_write(dw9719->regmap, DW9719_MODE,
-   238				  (sac << DW9800K_MODE_SAC_SHIFT) |
-   239				  (dw9719->vcm_freq >> DW9800K_DIV_LOW_SHIFT), &ret);
-   240			cci_write(dw9719->regmap, DW9800K_RESONANCE,
-   241				  (dw9719->vcm_freq << DW9800K_DIV_SHIFT) |
-   242				  dw9719->sac_time, &ret);
-   243			break;
-   244		case DW9718S:
-   245			/* Datasheet says [OCP/UVLO] should be disabled below 2.5V */
-   246			dw9719->sac_mode &= DW9718S_CONTROL_SAC_MASK;
-   247			cci_write(dw9719->regmap, DW9718S_CONTROL,
-   248				  DW9718S_CONTROL_SW_LINEAR |
-   249				  (dw9719->sac_mode << DW9718S_CONTROL_SAC_SHIFT) |
-   250				  DW9718S_CONTROL_OCP_DISABLE |
-   251				  DW9718S_CONTROL_UVLO_DISABLE, &ret);
-   252			cci_write(dw9719->regmap, DW9718S_SACT,
-   253				  DW9718S_SACT_PERIOD_8_8MS, &ret);
-   254			cci_write(dw9719->regmap, DW9718S_SW,
-   255				  dw9719->vcm_freq & DW9718S_SW_VCM_FREQ_MASK, &ret);
-   256			break;
-   257		case DW9761:
-   258			cci_write(dw9719->regmap, DW9761_VCM_PRELOAD,
-   259				  DW9761_DEFAULT_VCM_PRELOAD, &ret);
-   260			fallthrough;
-   261		case DW9719:
-   262			cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_ENABLE_RINGING, &ret);
-   263			cci_write(dw9719->regmap, DW9719_MODE, dw9719->mode_low_bits |
-   264					  (dw9719->sac_mode << DW9719_MODE_SAC_SHIFT), &ret);
-   265			cci_write(dw9719->regmap, DW9719_VCM_FREQ, dw9719->vcm_freq, &ret);
-   266		}
-   267	
-   268		if (ret)
-   269			dw9719_power_down(dw9719);
-   270	
-   271		return ret;
-   272	}
-   273	
+54da6a0924311c7 Peter Zijlstra 2023-05-26  293  
+2deccd5c862a033 Peter Zijlstra 2026-03-09  294  #define EXTEND_CLASS(_name, ext, _init, _init_args...)			\
+2deccd5c862a033 Peter Zijlstra 2026-03-09  295  	EXTEND_CLASS_COND(_name, ext, 0, _init, _init_args)
+2deccd5c862a033 Peter Zijlstra 2026-03-09  296  
+54da6a0924311c7 Peter Zijlstra 2023-05-26  297  #define CLASS(_name, var)						\
+54da6a0924311c7 Peter Zijlstra 2023-05-26 @298  	class_##_name##_t var __cleanup(class_##_name##_destructor) =	\
+54da6a0924311c7 Peter Zijlstra 2023-05-26  299  		class_##_name##_constructor
+54da6a0924311c7 Peter Zijlstra 2023-05-26  300  
 
 --
 0-DAY CI Kernel Test Service
