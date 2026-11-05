@@ -1,77 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793839292;
-	b=MI6u7qHngjUQ88sOPRcEhpGWUwFYjjcL0kTHFQgfBL2YIBHW/z67AsvePt+C+FeLcXNF
-	 S4gUQ9/8xkgLNtdFO9f5Q9aoIPV5BBxtW8x50z+pk5elkRM/onfHgeR380iCFNVf2YB+p
-	 bnN9NrgISp9U3IvrmKiFhh7Mvc7pDJEaXIzJ3stUnqIxGhJOAvsfceW9kBQBaIh+dFbXz
-	 d7nwNZ6hkcyWtlUBt3yFu47USKVY+uCqa/ZK8MZfWAQu9itv8x49lfmVJTg2tUmPirfUH
-	 vvTgYYyJk+M/6Q5qNdFWq8KmbSpsFyFhddriAGm9hOEpVApA8fMd3BE9ZpMVm1L8OcQ==
+	t=1793839355;
+	b=f0U/z+wLGMtWntZwyH95OWBH5IuU7UNmTNmMlEzGXr8+O8fYNnJOvEnvolSXmtacFdXp
+	 Y7zBkggwgM8CQ90FFdUNZPVyyvXFOUacnZupimPGKdh52B1A9FOOk2Xeozr0uCPO0Ug7o
+	 OtlUAm5NfQxQg9h8Dx3eraBC9BKb+u6rxhKCG6EVUTTnm6as2TC0iz/f6TOCRt5VylcNW
+	 s1ramjh5aCNb/nPXBxDYiIk9f7A4Q+a17mYIM/VgJbjYukRzXVehpvZimPWsY+oGVvZWg
+	 kn3i4cw4kRSD4OlRf+hyQ4K77KdfH6ltJ8x2eRpxH1OmZ7MXI/BUovegpaWEywOnFzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793839292;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793839355;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=l6T4Rh1hHMth2PWZ0gODFzau/s3sh59SIjwdFPDSoj0=;
-	b=nFu2WI58C3OwCAvSTplcmaVX2+AhpA9cQjeHS45+UqJeUrjySon72z+UathvhGP98U3s
-	 v4SLhDjyeWrwvrXqGwyXJhlR5ONQij82lQWwk7KN8l2NWI9AI0oBt9HYLC2DQasB2E+EQ
-	 22o414LN/eZEPpFmW/mfimZl6B92E6//DPdStWXicGqLl9EpI4oH3NQfwM/u0G3nI4+uW
-	 xfLLzY9roacAXqunsUnwPHw45ha8D9/s2cIFLY+mGDIXa6n4rX2MiA8Ts6StdyqAsn9JK
-	 nrGFlYO+FbRUmRr1/vBYgCPg9WQSckKADFxis3HS7ywq/urIBR/J5r5AhGkokiWcUhA==
+	bh=r3zgLIpUWMJ2+WHQph3F4ViA1LF3ChoHkwJlbzmT41Y=;
+	b=qA2W7fXZq2iK62LsBZ8110/g02nycgcbcVbXxrJY3hkvcLWYVqmX1TrvIeilJ/Q9C5O+
+	 GPLtHuFjRBgIBmZ5orY3i7yG8OA50zkrxF32GeLE1Bkspzv7NVU7TTjZDV36/9yUqH1pJ
+	 LNICJ1REQ2tSUBO6T558JBG5+9chMO2jAm2bLT7DL20bLy260wL3+plLVjRRfR0qFL0Lt
+	 frfk6smbcFMxtRHi+xQrr7klWmrA16P0/UaAjBu0AubsaHIag9jbJ7pMLnZgSwmvsfM2c
+	 EMaTEx/suo1jynmRBBdQjsA9VXn1KsnDYGSXY4wK15r1hiLuYsHGoSw9rleVMP+KYPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ewUuK6ts;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R0NIeGrr;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043DF606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 00:41:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 043DF606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7109606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 00:42:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7109606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ewUuK6ts
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R0NIeGrr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793839291; x=1825375291;
+  t=1793839355; x=1825375355;
   h=date:from:to:cc:subject:message-id;
-  bh=68nEDSsY9Oq2u2u4W0Phsnw9S+r4rGSN7Ucaa8rkVn4=;
-  b=ewUuK6tsA8ZxHTW8nymCtkC8JN1zbRYpgaBoC5KmlNSe7NWhMK7F0VkX
-   rPv/0mqQnUzfLQdKQNjhOrSwvuOO/FJNmO8V0zlax7Jq/F83M2f335Se3
-   oC+mqaPQObq4uAPXhhRhVPY8pLP8717syVEasmGlO7r1xbw7m4kW9DRYU
-   a4KoLMdypi/vb05Gcor9g9WeNqHrnuiAprsTNXwJ5pBJx7fPn+s/SwfuV
-   yXfSTIhQLWMryTcOwXYXpr1PbpXd3WtqqqO0BqRrr1F5HLKcvxFgtrS1j
-   I9LNoIOKVaxKtXzOUPmvu825bYw80QoQhW5Tt2Iw5P+kz9MCaRsqV1TM9
-   A==;
-X-CSE-ConnectionGUID: wl6ucdRVR+W0Sh+GXeWqpg==
-X-CSE-MsgGUID: fuTI9fpJR4WpP6FMScaJrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2512668"
+  bh=0uBpTP5Dps/79hfyzKUc0lAFQpD1rxNfe12QLLmVz7Q=;
+  b=R0NIeGrrHl0rXU1MhzHuB8Ubbl6yYu2dr+q/yw5Hn4w20veKg/iQ04gL
+   7iJuytyxrUf2bbhz+X8Hr3sfLGYDn9WA9ZR/V2qmEOLsetcoW+IyAOT/M
+   QjdQxuy5+YlQSTo4NI3PpBtkjVqbROoQ74kpXkHeDck1jU8Zs0JzP9TZm
+   XehIMLDULa0YxZLkTbB/y+kYT3b5I+cege/9h4vAxajQJK3oGgRyj68GR
+   4/aBoAtIH0rHNdMD0xKK4u4HVmzSntTV67Ax8xVedJI+yoTwxpToxIujn
+   sFnvKxrCCkixSSwdu+9y2ixDSqfj998Pr8KfnAKiWeASwJnHcQi3yMzRz
+   g==;
+X-CSE-ConnectionGUID: i1HIIbSaQNqTt3OHaQZnXA==
+X-CSE-MsgGUID: bEUOq0BpQZye/6lYDzTwMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2494520"
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="2512668"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 16:41:30 -0800
-X-CSE-ConnectionGUID: nQ95HATsT/WSRE4IC2GNHA==
-X-CSE-MsgGUID: vts0H//vRlCcnEgdwfUntA==
+   d="scan'208";a="2494520"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 16:42:34 -0800
+X-CSE-ConnectionGUID: CQ++3C60QRKVuXv5OQZBqQ==
+X-CSE-MsgGUID: 6KsMS6CsTZ2hDbQJ9YxxoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="7192738"
+   d="scan'208";a="6735986"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Nov 2026 16:41:29 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2026 16:42:32 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOlXi-000000009Pf-45GM;
-	Thu, 05 Nov 2026 00:41:26 +0000
-Date: Thu, 05 Nov 2026 01:41:22 +0100
+	id 1xOlYh-000000009Pn-2pry;
+	Thu, 05 Nov 2026 00:42:27 +0000
+Date: Thu, 05 Nov 2026 01:41:48 +0100
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
+To: Daeho Jeong <daehojeong@google.com>
 Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:work.procfs.cleanup 59/159] Warning:
- fs/proc/proc_net.c:241 function parameter 'key' not described in
- '__proc_create_net_single_write'
-Message-ID: <202611050116.5h49OFgP-lkp@intel.com>
+ linux-f2fs-devel@lists.sourceforge.net,
+ Jaegeuk Kim <jaegeuk@kernel.org>
+Subject: [jaegeuk-f2fs:dev-test 25/42] fs/f2fs/data.c:5196:34:
+ warning: variable 'ffs' set but not used
+Message-ID: <202611050144.47BOVak5-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,22 +82,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.procfs.cleanup
-head:   f445e4492022fee8fcf28abe412e5011f62fa08a
-commit: c6553fbd9d8fee3e5d07dc6596e02f7289dbfbf6 [59/159] proc: let lockdep check the pin
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261105/202611050116.5h49OFgP-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050116.5h49OFgP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+head:   648bdfa9bae3850908df31617e5922e0683d5fff
+commit: 00f5f06b33d389a9c82286286412243795d31ed3 [25/42] f2fs: extend f2fs_folio_state for subpage blocks
+config: openrisc-randconfig-2200-20261104 (https://download.01.org/0day-ci/archive/20261105/202611050144.47BOVak5-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 16.2.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050144.47BOVak5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611050116.5h49OFgP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611050144.47BOVak5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: fs/proc/proc_net.c:241 function parameter 'key' not described in '__proc_create_net_single_write'
->> Warning: fs/proc/proc_net.c:241 expecting prototype for proc_create_net_single_write(). Prototype was for __proc_create_net_single_write() instead
+   fs/f2fs/data.c: In function 'prepare_large_folio_write_begin':
+>> fs/f2fs/data.c:5196:34: warning: variable 'ffs' set but not used [-Wunused-but-set-variable=]
+    5196 |         struct f2fs_folio_state *ffs;
+         |                                  ^~~
+
+
+vim +/ffs +5196 fs/f2fs/data.c
+
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5190  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5191  static int prepare_large_folio_write_begin(struct inode *inode,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5192  					  struct folio *folio, loff_t pos,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5193  					  unsigned int len)
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5194  {
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5195  	struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28 @5196  	struct f2fs_folio_state *ffs;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5197  	size_t ori_off = offset_in_folio(folio, pos);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5198  	size_t need_off = ori_off;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5199  	int err = 0;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5200  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5201  	/*
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5202  	 * when the write did not come through f2fs_write_iter, we preallocate all
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5203  	 * blocks in the write range here.
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5204  	 */
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5205  	if (!is_inode_flag_set(inode, FI_PREALLOCATED_ALL) &&
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5206  	    !IS_DEVICE_ALIASING(inode)) {
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5207  		pgoff_t first = F2FS_BYTES_TO_BLK(sbi, pos);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5208  		pgoff_t last = F2FS_BLK_ALIGN(sbi, pos + len);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5209  		pgoff_t idx;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5210  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5211  		for (idx = first; idx < last; idx++) {
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5212  			block_t blkaddr = NULL_ADDR;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5213  			bool node_changed = false;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5214  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5215  			err = __reserve_data_block(inode, idx, &blkaddr,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5216  						   &node_changed);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5217  			if (err)
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5218  				return err;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5219  			if (f2fs_balance_fs_folio_locked(folio, folio->mapping,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5220  						   node_changed))
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5221  				return -EAGAIN;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5222  		}
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5223  	}
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5224  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5225  	ffs = f2fs_ffs_find_or_alloc(folio);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5226  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5227  	/* Skip read if the folio is already fully uptodate or the write
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5228  	 * covers the entire folio.
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5229  	 */
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5230  	if (folio_test_uptodate(folio) || len == folio_size(folio))
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5231  		return 0;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5232  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5233  	if (!f2fs_verity_in_progress(inode) &&
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5234  	    !(pos & (PAGE_SIZE - 1)) && (pos + len) >= i_size_read(inode)) {
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5235  		size_t zoff = ori_off + len;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5236  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5237  		if (zoff < folio_size(folio))
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5238  			folio_zero_segment(folio, zoff, folio_size(folio));
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5239  		return 0;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5240  	}
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5241  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5242  	/* Inline data must have been converted before reaching here. */
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5243  	f2fs_bug_on(sbi, f2fs_has_inline_data(inode));
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5244  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5245  	while (find_next_valid_block(folio, ori_off,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5246  				     &need_off, len)) {
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5247  		struct dnode_of_data dn;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5248  		pgoff_t index = folio->index + (need_off >> PAGE_SHIFT);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5249  		block_t blkaddr;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5250  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5251  		if (!f2fs_lookup_read_extent_cache_block(inode, index,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5252  							&blkaddr)) {
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5253  			if (IS_DEVICE_ALIASING(inode))
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5254  				return -ENODATA;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5255  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5256  			set_new_dnode(&dn, inode, NULL, NULL, 0);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5257  			err = f2fs_get_dnode_of_data(&dn, index, LOOKUP_NODE);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5258  			if (err)
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5259  				return err;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5260  			blkaddr = dn.data_blkaddr;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5261  			f2fs_put_dnode(&dn);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5262  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5263  			if (blkaddr == NEW_ADDR) {
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5264  				size_t off = offset_in_folio(folio,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5265  							     (loff_t)index << PAGE_SHIFT);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5266  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5267  				folio_zero_segment(folio, off, off + PAGE_SIZE);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5268  				f2fs_ffs_mark_subrange_uptodate(folio, off,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5269  							       PAGE_SIZE);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5270  				continue;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5271  			}
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5272  		}
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5273  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5274  		/*
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5275  		 * The read extent cache only validates the first and last
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5276  		 * block of i_ext, so check both the cached and dnode paths.
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5277  		 */
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5278  		if (!f2fs_is_valid_blkaddr(sbi, blkaddr,
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5279  					  DATA_GENERIC_ENHANCE_READ))
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5280  			return -EFSCORRUPTED;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5281  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5282  		err = f2fs_submit_page_read_sync(inode, folio, index, blkaddr);
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5283  		if (err)
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5284  			return err;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5285  	}
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5286  
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5287  	return 0;
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5288  }
+97c64ba5ddb76f7 Nanzhe Zhao 2026-10-28  5289  
+
+:::::: The code at line 5196 was first introduced by commit
+:::::: 97c64ba5ddb76f7b7b1db4860310b6227278c6b3 f2fs: support regular file buffered writes on large folios
+
+:::::: TO: Nanzhe Zhao <zhaonanzhe@xiaomi.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 --
 0-DAY CI Kernel Test Service
