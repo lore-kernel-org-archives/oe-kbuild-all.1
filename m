@@ -1,92 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793907181;
-	b=WX5fo7FW7n0ps41aC4Y4GsD/aGvuZMpD0bPoB/MlrYafHZoLk5FE9vHbrUMzMzXPybuO
-	 78fWxRxJcciJRaNdG/VD7Bpj/6bU9qPfl30uxSovtzDdGCJGqRq60jw0MfhQzzCudDtf+
-	 8Mf7RSHO/ecfA3mNDg07FtX8fOH9pSDFV0b8mS9TyECTekNd5q/yOXQ03eGBFKoXHKjvg
-	 daXGKlz/HvMU9x+6n/CqrnpxUEjXW2CS91EuJvc0aY3uf2HSRxgH6s/PdDD/0skA3Z2h4
-	 ETnDujaMMkbu8SsrpOkV0Rexpkeabsj3Ux2E2tQXA8uHbQjWXcxPIXONchtVFQRLpJg==
+	t=1793909621;
+	b=F65TVXihlDmU5A5g0LfujDisIUluNEUDPbJpCnbjoI1HUVxQ3AA9+nvl3F7qC868vcCs
+	 tRxzf6GgAVFf9uSKLZCHYP2ObbCfqmi17zzE9OF2aC4sTdv1e8hkjaaKMd+n6qncrBPni
+	 ELwmx5GejPwNZjQpLIdezVGU56MjJXvnty3RcqQpiboHl23ysCQ6X9xWtNMKh7Q9fZfai
+	 9vZ9E0I8BL/pYrNjoCwL1l7N+qDh6ptfiifa9TELt2n9ag3pKM3jIpbp8M3aZTL0A2fJ6
+	 5Fi+YcmkX17k0szsya/gdLIv8urYzi3P3bodIOVPWx6OfosW6J9pjuJkQbNMxcyYRxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793907181;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793909621;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=KxYRMKoqQ5TnAo9ahTf6HCh0udvu+2ZmgUNQu1zf6ms=;
-	b=lnCBRe2y4gq1x+PnQbw+0+GXJq6G9eR/mFGUZOy5emGlYciaF9taPIKh0wKdQp0UZLDi
-	 Zg3WqKl1JPKbWYUZEsYxcr60KJ+3G0c75tjknUHHZhER5IrI2IP0y3VQgI35MqCCCQm/L
-	 g4/FfV1hDt9WGxknUnDs5NyOEs5P5dkM4MRLfQZY9UHf+jYSy7OAhckTF9cbFLUNm36ku
-	 78708PFBFceJrVpDtEsdkR6KY+xGXbka/Oq98Ndm8v6+604ayDt2tVkfqMaiGZ3FthPqJ
-	 Fa6IywZ8l/uslTeA2C90reAqeK9Rt9vguDYZtXGkduzF6u6L8DTv+eNmsDkyqVIK2iQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=z1wIoKi810WFl4MR2ILoIrHRtZS3GLy9REPDLUoeweU=;
+	b=2J6R5eyCchePdcRbQOeowphv/aLSa1pXYNZWN5dNW0Rr/O1QfIktWNy/ATOi64KFtW9l
+	 aCrT+k6cKQE9YKDBm52+QzRv3so+tx9nr97B/hKQ8JtE4zgxosZRxjM5an34lK88aZwev
+	 gYBtOcyKjVbwRIAY729m7e6KuyddhGWkC3FjHlLjTZ4Yj0EvQRWKf0eUrbwwBIodIRdRt
+	 soAeHd1fUOdOh9s4vGAlNaVXdp8GGA+Nu7u5J/74wqhop20c04E1gaE0q+5rlLPJbT1bJ
+	 FIqdJf+4w1In5bRfXREt0PhGqVz0RzTqOoukEEjBGbeBw2vrPSDpZYUVKM2dUzcTzpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jOfpmpLY;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VEwIdFRd;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51A1606A6D4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 19:33:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A51A1606A6D4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6484606A331
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 20:13:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6484606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jOfpmpLY
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VEwIdFRd
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793907181; x=1825443181;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U2hJrtx423sVNdvYtSAVrbMHTJILFCRiIFLpGmwhIKM=;
-  b=jOfpmpLYYZtpthv0VTaFjtFt1hdu7pV3MIZvIvV0CsgsTeA1SMSrncnU
-   G2nRfRU+wHLrDW33z0gletbIA7AhM91tT1ACCux/bFU51yDtty9VU9FF4
-   Wb8ozw4kGzWJCNFmaZjPLaAV6+eSZCc/Gh0CSBr563oe+3YniJS9XvXTX
-   7gwSjmvw//5/aJAmaC6ji47sXxFuaxeuzBBOgHNj8239Frxk6ms2UbRi8
-   feDCUEJiIzXSVtBSVaz9fQlRoHHdk5fNlivOk+yTVRnEOYlsoZHV57S/d
-   nIf4YdoBs62DdYkyz5Tf88XCkaNAmLFXnwbd+upEtkOfDyeuVqZ0kbgi+
+  t=1793909620; x=1825445620;
+  h=date:from:to:cc:subject:message-id;
+  bh=0z++K7EFByBu2htfgx671oiMl5Rb9T6wO61BPNWMO2I=;
+  b=VEwIdFRdSu1L4FIOPSF16rkkqhIWyUs522CiTva4F561GZO9m6Ule2sS
+   B7FKDdJTRpWc2UQOVqM8hNdCrKJLbWcdGIH0SwWNPvySxLeWsxXtUoUeF
+   uAShQNf6W7jGwP2+3K9XskJNkzJgYC0PPSoaXB+AidBMKQLgKB+xmFoTJ
+   K133/QzUVJH3FvVKXumRdf6zYTYe2TE8TkwsEBZPC02y4kK58WjRGHUAv
+   +XQcrDNXXOuLVpyEzGJu2Pz8lI7iwp7bd6YgdyfsvauQT6vpMKzPSmsSI
+   tqz+Xyxj3njh1NCiFgy9tH+tIZrxQ/CdzmOkoxUjLBtNAcnnGbAsCjkxe
    w==;
-X-CSE-ConnectionGUID: ZMlXpQQVShS3jJ+AtlQedA==
-X-CSE-MsgGUID: N5fmJguYSSmDRH3in0yscw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2612775"
+X-CSE-ConnectionGUID: 4lCCX6FlQ8GCgsJa/yfcnQ==
+X-CSE-MsgGUID: eKBtJh1QT8WFSAIOrb6hCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2630894"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2612775"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 11:33:01 -0800
-X-CSE-ConnectionGUID: GZhcWmofSJua3QNT4LoHNg==
-X-CSE-MsgGUID: ndfzCq+qR/y14KywqvrBUw==
+   d="scan'208";a="2630894"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 12:13:40 -0800
+X-CSE-ConnectionGUID: GJE1j10RTnuL+XXw+TnYUA==
+X-CSE-MsgGUID: JU3/3YVVT8yhzUxPGkT/Xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="8854806"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa011.fm.intel.com with ESMTP; 05 Nov 2026 11:32:56 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7247541"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2026 12:13:38 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xP3Ce-00000000ml8-3B51;
-	Thu, 05 Nov 2026 19:32:52 +0000
-Date: Fri, 6 Nov 2026 03:32:11 +0800
+	id 1xP3q1-000000009n1-2JnT;
+	Thu, 05 Nov 2026 20:13:33 +0000
+Date: Thu, 05 Nov 2026 21:13:28 +0100
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Qingfang Deng <dqfext@gmail.com>,
-	SkyLake Huang <SkyLake.Huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Joris Vaisvila <joey@tinyisr.com>,
-	Ahmed Naseef <naseefkm@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v5 3/6] net: phy: add additional helper for PHY
- package
-Message-ID: <202611060219.OYeac0uG-lkp@intel.com>
-References: <20261105105504.1024-4-ansuelsmth@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/sound-rust-v7.3 5/56] warning: reference
+ as raw pointer
+Message-ID: <202611052152.RyP1WBkt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -95,33 +79,30 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105105504.1024-4-ansuelsmth@gmail.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-phy-mediatek-export-__mtk_tr_write/20261105-115457
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20261105105504.1024-4-ansuelsmth%40gmail.com
-patch subject: [PATCH net-next v5 3/6] net: phy: add additional helper for PHY package
-config: sh-randconfig-1000-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060219.OYeac0uG-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060219.OYeac0uG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
+head:   070444a8abf14da700680a5331d0a95cd11e578b
+commit: 79a5b63f9f837d360951e298544c4f69e9051078 [5/56] rust: module: add support for string parameter type
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261105/202611052152.RyP1WBkt-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052152.RyP1WBkt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060219.OYeac0uG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611052152.RyP1WBkt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/net/phy/phy_package.c:82 expecting prototype for phy_package_unlock(). Prototype was for phy_package_offset() instead
+>> warning: reference as raw pointer
+   --> rust/kernel/module_param.rs:118:37
+   |
+   118 |         let arg_static = unsafe { &*(arg as *const BStr) };
+   |                                     ^^^^^^^^^^^^^^^^^^^^ help: try: `core::ptr::from_ref::<BStr>(arg)`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#ref_as_ptr
+   = note: requested on the command line with `-W clippy::ref-as-ptr`
 
 --
 0-DAY CI Kernel Test Service
