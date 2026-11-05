@@ -1,78 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793859517;
-	b=Ig7eIZFpUmHXBUjpRYuVwqmVFeqJHhThLSX1oF0VUSA1MhRKiZlrIfIl8udAm27X2nsj
-	 D0Jb5w03ZqZwymyGTnm3Ixw62yzVJgM42XGZ1bqntvB+R/4m7R+a7fWPzIvVZNFQbrkKL
-	 U8PVOgNDMB+4o5L1Evq+eFtoAjEf85R6Dl4h0u4dGLK9425SYLEz5hAEHjfyPfViTlJJw
-	 BxZpyBoASVetxNmVkUet+cBRXWW/0QizVMQj/dgQBRwwgVlnjM+MzOfZBO8vIGPmhDoHM
-	 OyP41Vp0meWQDgZGXw2ob/Uebr6k3Pl7Q3DxHl6ZyGtDRkUQPezavDXfFii3Oursbnw==
+	t=1793860151;
+	b=AzTOxVnrl+atal6nI8q7ZNv6jyGqtE4Cg+ZlaPiME5UAF30Ltet6h82J4QcyEvJfeuMy
+	 VOq0D+YKky3Ix+/wm9zOLFt0K4PqLD0w+cvpiJSqPrKFEz39BmCE252ZF3TUrHj7sCB9u
+	 jtq5jCgP8b0Z2Rl1CwP4Kqy9IvoNYwWO1gL87zhonbhzcxXRQ8tMGSrhPDxlp72ZGb+Eg
+	 TwWjnJ280O8qhho6arshY7/15AbgwcVKWSAiL2IXGwM/MZ2iOQjC0J5HhVBqPvwFyC5ju
+	 DpcfbuB6knKyNzT8g6QqhGePKuxb3mZBY4ZMmp9vYvANHKdhJV0cqwkTBvKANCMFv+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793859517;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793860151;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=dNsmF23/McPvTLU1dv7XTz0ooIKp0P39EAIUB7LSTB8=;
-	b=3emElRe84zThmCEbS73Kit6vOB8JbYTte5o1MwVJ4Be16gYT3GFr8CG5fU8IdsHDYSmI
-	 sgue0K+X9wuV4NCA+8Pd1Za4Gy2gaj7+QXA0eXfq9J9BI+xjOHAbePmDHhhQZfBsJoEz2
-	 nxL2ZUEZ3MIl2Yu91iQCzfiF1YeAlX6iSt8knm9uGVC7r7+LfgEQE59U51Jd6RQPXDoHo
-	 RUdkWFqWpehD4qEZClnIG+0QErqu9tDVLBQABBb1M3EWWYRPgg1+hKwgcRW0c2Mf8wS58
-	 uoM0uFzNzq5wj4koOFR/doloay+GUtB8WLyuZncNNJzgkK0kDh9iFyGcQ4zk1kGb0XQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=ymerU3qs+IE5SarRlTt1VKtK551vjj0c9kwV9TnzqGE=;
+	b=sCAlSpBtYckZFY8e+zq6lcG5vqD4+3ploDm0qhVZUGqCFYManfWf743BV917vwr9UYTj
+	 FeGqcLIAuouWkcp7jPwEZcEA49s9e7IvI4m/+KSQCzsnVOgMEW2epiJHR4AmBn4XMEFxz
+	 6nQdTdNpHf6M1ZzEDHHsfGqd702DSMgtArQeaezYLqwOcaddSbZlfqnB3lNf8pDMfCANM
+	 kmMXOuo+uC3k7uIORU5VYacdl1HCgvxl62KFapenwf599I/Pc8DmHT3jxT/W65dnKjVlX
+	 TJ0+d+9E9anor+2Xh4cisWjZZCqn2CSJ6qgt9rbOTpRE0WHGZ5euAOOcBCO8V7edIWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kZk6HMxF;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DRwCC90U;
 	arc=none smtp.remote-ip=192.198.163.13
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415D1606A326
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 06:18:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 415D1606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428DD606A328;
+	Thu,  5 Nov 2026 06:29:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 428DD606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kZk6HMxF
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DRwCC90U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793859516; x=1825395516;
-  h=date:from:to:cc:subject:message-id;
-  bh=3JyO6HdlJqJG0JWzTo6neb+9udcFeGlvkA8g2nifCv4=;
-  b=kZk6HMxF6E4uOG0dgyDeZZ2dGrrkK7cyb2sWazIVYdMYIT8kSJRd5LOO
-   fHovCp6/Dm2r/dkBubrj1eTgUQQv7YFMxkizsG/M3G20+KijVIqZfxcGK
-   86zPjL5Utz4disTFY9DBjOkkQyW1GiPT8ND7NFnfS1TdXpUiz2S2tkUWA
-   6REzlNmlhKCas+YgoVYpyXwgMmq2uvdS5KRxdCvGp/QwklNxQKa3mclLr
-   M1Yroovv18DOZc8HxoiOD+bUEWb5auHMTLSC4lcuNzBOI/RHtBgaWVH3a
-   E6janLCYgZeEDfRvIyur/ei7yIjldbY+hYsU1O7OXvxMKocv59FZJtdRn
-   g==;
-X-CSE-ConnectionGUID: BHNLGCdcQ92sGT2n51lvGA==
-X-CSE-MsgGUID: eKUDpatSSpOER3HxWYtLyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2629586"
+  t=1793860150; x=1825396150;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t5hBDD13+lQVTKr4HGQoZraqtI76Sha+S89tCwE0n90=;
+  b=DRwCC90UNTDO268sIHg6yoqQsP2EWvx2vR/ZJYPV1SfkafMBBwg+8cPo
+   vYlpGOziR6SLA0j25MiSPPUJrXCIHpWNC0W04lhMZmVQcES4OS+gY1Drv
+   gy4NQy53WbXqGsP6Rzt9zTRlexAHY2+YlNkVSc9aYHr6MsBiAZJhsHVyv
+   Tqd/8jC9b+5idS0xfuFA6FTTA+BHxUiagrBecebR10P7u1lun96gBCLqN
+   Cn0IFtAzxRVLi0K2Wi9nFBQwS9JA3iOw50F8s5xLE3TVAGZsnYZUjWYOk
+   IgUYPHbNzEbl22boakqECvt4gUCQFNkfS116rgYjA/J2BNpxSogruPUDw
+   w==;
+X-CSE-ConnectionGUID: q0O+dUlfQ8WO9/ax0yLgrA==
+X-CSE-MsgGUID: C9Ez0Hz2RWWT/tFIUq5lIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2630128"
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="2629586"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 22:18:35 -0800
-X-CSE-ConnectionGUID: u9yXi/MfQj67I/ZIuwBqEA==
-X-CSE-MsgGUID: fKC76WdeR826VTdAwmSQ8Q==
+   d="scan'208";a="2630128"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 22:29:09 -0800
+X-CSE-ConnectionGUID: 51cbibPgTa+oa4yEGFhgvw==
+X-CSE-MsgGUID: ZCdruSxMSvuEUaYY291XpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="6921773"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Nov 2026 22:18:34 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="6763797"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 04 Nov 2026 22:29:03 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOqnv-000000009Yz-2wFo;
-	Thu, 05 Nov 2026 06:18:31 +0000
-Date: Thu, 05 Nov 2026 07:17:52 +0100
+	id 1xOqy2-00000000lnN-303Z;
+	Thu, 05 Nov 2026 06:28:58 +0000
+Date: Thu, 5 Nov 2026 14:28:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:work.procfs.cleanup 1/172]
- mm/alloc_tag.c:620:13: warning: 'shutdown_mem_profiling_async' defined but
- not used
-Message-ID: <202611050729.27M8JGpq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yureka Lilian <yureka@cyberchaos.dev>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>, Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, Yureka Lilian <yureka@cyberchaos.dev>
+Subject: Re: [PATCH v2 1/3] PCI/pwrctrl: Export per-device APIs
+Message-ID: <202611051425.vj4FPfnn-lkp@intel.com>
+References: <20261104-apple-pcie-pwren-v2-1-216a4066965f@cyberchaos.dev>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,43 +92,50 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-apple-pcie-pwren-v2-1-216a4066965f@cyberchaos.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.procfs.cleanup
-head:   f445e4492022fee8fcf28abe412e5011f62fa08a
-commit: 29c0244f3e0154917d89e4390a61b46b8b181ffc [1/172] alloc_tag: don't remove /proc/allocinfo under the codetag module lock
-config: mips-randconfig-2000-20261105 (https://download.01.org/0day-ci/archive/20261105/202611050729.27M8JGpq-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611050729.27M8JGpq-lkp@intel.com/reproduce)
+Hi Yureka,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yureka-Lilian/PCI-pwrctrl-Export-per-device-APIs/20261104-124029
+base:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+patch link:    https://lore.kernel.org/r/20261104-apple-pcie-pwren-v2-1-216a4066965f%40cyberchaos.dev
+patch subject: [PATCH v2 1/3] PCI/pwrctrl: Export per-device APIs
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20261105/202611051425.vj4FPfnn-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 812626a41399a1d464a0d69627ab45c83b8ebfb9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051425.vj4FPfnn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611050729.27M8JGpq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611051425.vj4FPfnn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/alloc_tag.c:620:13: warning: 'shutdown_mem_profiling_async' defined but not used [-Wunused-function]
-     620 | static void shutdown_mem_profiling_async(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/shutdown_mem_profiling_async +620 mm/alloc_tag.c
-
-   613	
-   614	/*
-   615	 * A module's tags are reserved with the codetag module lock held for
-   616	 * writing, and a reader of /proc/allocinfo takes that lock with the entry
-   617	 * pinned. Removing the entry there would wait for that reader for good, so
-   618	 * let a work item do it.
-   619	 */
- > 620	static void shutdown_mem_profiling_async(void)
-   621	{
-   622		if (!mem_profiling_support)
-   623			return;
-   624		shutdown_mem_profiling(false);
-   625		schedule_work(&remove_allocinfo_work);
-   626	}
-   627	
+>> Warning: drivers/pci/pwrctrl/core.c:203 function parameter 'np' not described in 'pci_pwrctrl_power_off_device'
+>> Warning: drivers/pci/pwrctrl/core.c:203 Excess function parameter 'device_node' description in 'pci_pwrctrl_power_off_device'
+>> Warning: drivers/pci/pwrctrl/core.c:272 function parameter 'np' not described in 'pci_pwrctrl_power_on_device'
+>> Warning: drivers/pci/pwrctrl/core.c:272 Excess function parameter 'device_node' description in 'pci_pwrctrl_power_on_device'
+>> Warning: drivers/pci/pwrctrl/core.c:370 function parameter 'np' not described in 'pci_pwrctrl_create_device'
+>> Warning: drivers/pci/pwrctrl/core.c:370 function parameter 'parent' not described in 'pci_pwrctrl_create_device'
+>> Warning: drivers/pci/pwrctrl/core.c:370 Excess function parameter 'device_node' description in 'pci_pwrctrl_create_device'
+>> Warning: drivers/pci/pwrctrl/core.c:439 function parameter 'np' not described in 'pci_pwrctrl_destroy_device'
+>> Warning: drivers/pci/pwrctrl/core.c:439 Excess function parameter 'device_node' description in 'pci_pwrctrl_destroy_device'
+>> Warning: drivers/pci/pwrctrl/core.c:203 function parameter 'np' not described in 'pci_pwrctrl_power_off_device'
+>> Warning: drivers/pci/pwrctrl/core.c:203 Excess function parameter 'device_node' description in 'pci_pwrctrl_power_off_device'
+>> Warning: drivers/pci/pwrctrl/core.c:272 function parameter 'np' not described in 'pci_pwrctrl_power_on_device'
+>> Warning: drivers/pci/pwrctrl/core.c:272 Excess function parameter 'device_node' description in 'pci_pwrctrl_power_on_device'
+>> Warning: drivers/pci/pwrctrl/core.c:370 function parameter 'np' not described in 'pci_pwrctrl_create_device'
+>> Warning: drivers/pci/pwrctrl/core.c:370 function parameter 'parent' not described in 'pci_pwrctrl_create_device'
+>> Warning: drivers/pci/pwrctrl/core.c:370 Excess function parameter 'device_node' description in 'pci_pwrctrl_create_device'
+>> Warning: drivers/pci/pwrctrl/core.c:439 function parameter 'np' not described in 'pci_pwrctrl_destroy_device'
+>> Warning: drivers/pci/pwrctrl/core.c:439 Excess function parameter 'device_node' description in 'pci_pwrctrl_destroy_device'
 
 --
 0-DAY CI Kernel Test Service
