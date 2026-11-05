@@ -1,101 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793881543;
-	b=eN86/4TY0AvyieL15K8ewiEj2Y9+2j5OuqWBPbUsXbvC0iKthCDmnOLNIPFkLifxrWta
-	 nKALDWAvHovwmUbWVjcFHpzK2nIdmhWaE+xUOVZlJZcQ38frbqgfqR7T+rwg2eOSLr4WE
-	 j+fDzVHxPFBcs9B8bURV0FhmVaMJULOq6sObgeTyKvjmZzIwbsCawozU0cbGsa1ugdD8p
-	 y9rzwFwrmOABKp2Zo1WV3TilNbfq65qQU3F6Eqy3zXsUgnUtuzIf+rwhXYiY55nWcNRol
-	 dE+Mw5bN7KXYHVeXlzTaXCNtKoKs2fgGDFgBF5TCn5VkbzMvfVrbLnE1RtcScKiWMPw==
+	t=1793883863;
+	b=OiMrEGHxcWwPLJXFXjJO/cE6+wb6sO//dHinaVI+pkYS01n8B80O56fBWuLrINymqVqm
+	 aDaZqky6wAgsxLaNjus9zNe7gVmy5kxVSQqQOmN7zIFqaKXRQnncL2679p+Cq7CczEhmC
+	 l1j7s9DLz97p24EZyu2kcD/W49xxE6dRSJpLSlVL6iFokNOjBU3WUfEpGEonYCTFZbyCD
+	 IoHGI9scF9FdjeSWmEwUHHoHx+o1ZC7gOY9K0wpCdCJ4/nd3UCvpq1/3f7ZwsIIFQBFP2
+	 jXqlGf4oDNp8QNblouXkYGeHQZNYCjIKjtGSncBp8lsUuiC14YjZ8zu/TXCtWTs5YOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793881543;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793883863;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=ZSqGuWJBbHfF/m30cj+yySLDnLihqLhP2KpRjJlvDzk=;
-	b=GAI4dJz3A0DtRYu0R5+qiMAAtKnCcKmNT1UDaTqG58+h6AM99+z4FisCXhyu7MN8i0f/
-	 9DbKrVIO3ymfOzJp17Pd+91Rz0HiZ2CqbP/2CDjuWsSKIiySvgJ+mdMDD7iOsnmF+Lrlx
-	 A8gP2gNyjkNJkqzn60EzKE1EScTsJOYQjhqEYzdZnQgQEqsyCsLXoUItIKIu0enPsNVN+
-	 twWCAkGNXcqt0HLl7Qi7ppHFvgxBb9jzYHum/jxR3Rb/iG/uD+KYWu1dB98gRzHw4gLp2
-	 DND+GZdqHjPmUflJTBy6YeciWAcMw3Igopq16DFdOi5o8ET9kw9Hjnm0zxuoWzrwf1A==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=zyVsM4XH7VxGfoO6gO/jDJ6wr8IToaWJt+gvLVx5b2I=;
+	b=w2150eThPYrvehd6etdlEawCaCNQgwVFGFcYRu7msW6Me4OQV8un/h0fKZI+2g7B/Edp
+	 nRdT1Qgve8nprs74cJ5oxreeQZTMS9AN4lC3H6zzUEHG6n38Ga+4HzKjTRXpLJoVsKZVx
+	 /hoCM+hdM17O+gD3PNSOUbVVkElkAEiRZQwsW7AkrNr2DvcAdYPL/6ohpWkPTAqMVjFgj
+	 7EEPTNhwc+8pjzRwoCWhdglB8e6m2zM8EzkXor75Q0rpdg5DO9+fVpGsE2i+53v1CAmtN
+	 8852MLZ5xjsmX1k3rmAKC1lNYnZ57xnOxhP9gAclkal/CEt4SnunnFJjY4gbi8O0Dtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kfxrwzy5;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TfLa5nXl;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EBF606D815;
-	Thu,  5 Nov 2026 12:25:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64EBF606D815
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886BA606A33C
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Nov 2026 13:04:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 886BA606A33C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kfxrwzy5
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TfLa5nXl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793881542; x=1825417542;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hULj/pENj1t0ZvVqG5iuX9V9t0+YHM1767U5NdVTqL8=;
-  b=kfxrwzy5V7y5TV1PzWdqrxuI+TxSG64UhMazkPQPEtTFcXJTlDEOYPmM
-   tm6SqraMNgl4X0TJ5Kmwcu8m1rBhXv/AOzLjQ4PGdrjG9utGE4o1E6Wrh
-   mJv2EZuuLOnd7Re7iokMkMDFptMoIJeKgnDEhn2iWwlzU9iogXwwKByqH
-   1RgtUL5VwWOuxWW4xQ1ywsWG94Ap9UXugM1BA9D3HUf7G51YjOEtMKior
-   y/uP64pjKbl+DR6qSterZnfa+pJWN+Hd4MHJiq+g12bQQGlrJfMG/uMfM
-   hqWXxPTQcLvilTPR7kylvNGTAp1FNJGT7Y1niCpJVDHvTfZEw2oVKZnIy
+  t=1793883862; x=1825419862;
+  h=date:from:to:cc:subject:message-id;
+  bh=Zk6CF01KnHueTv2jKY2LqtvsqO8K55GfYA7bINpVCqg=;
+  b=TfLa5nXlxCm9Da6r3vn8oe+KG2zxHNgGgIFC2rAqhkaUSuF159uNLut4
+   +9WcGVNEixyAPEWTeadlJH5BPJ/a9nzdtbBBqv6k5GhGM6EedVfd1swkA
+   ET0xnxb4VmvfIXVygvr4djMujB+tb5Tn0f1Bgh0xnnSqvqyE+1N4hcTkM
+   xxXz1iXYVXiTg7QcAaomdPsyhSL4vTuaHcrcy+c8zLNlZuc02/Qf5azbE
+   8CTVaSpfaTqEO0evZxowznJc8n5HgeX6qdO27HSGgACCWVydatvagt0Zd
+   HXaOaEKN0mRCfEeqJeyxH4ZHf1etgR/ztnWzTh5V/e7NnT53o8VKvXAlZ
    Q==;
-X-CSE-ConnectionGUID: iPfnISy+SNGusP3prGntlw==
-X-CSE-MsgGUID: 42o5OzZJSFytVheX6ffwGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2551246"
+X-CSE-ConnectionGUID: GB24EQehT2qmT2qC0ghJyQ==
+X-CSE-MsgGUID: jSYwSIsjQvyqjxsLcJaRdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2546487"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2551246"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 04:25:41 -0800
-X-CSE-ConnectionGUID: oFa3uUGWSeuMY0Gq5/nLlg==
-X-CSE-MsgGUID: WKcOzA8qSq+TnJol5dU2yQ==
+   d="scan'208";a="2546487"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 05:04:21 -0800
+X-CSE-ConnectionGUID: OUk1yxQwSeK3WL5cnOdWiQ==
+X-CSE-MsgGUID: 5hd6Pmo6Q5qSyQtONtsOzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="8760659"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 05 Nov 2026 04:25:34 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7124254"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 05 Nov 2026 05:04:19 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xOwX4-00000000mBP-1ah2;
-	Thu, 05 Nov 2026 12:25:30 +0000
-Date: Thu, 5 Nov 2026 20:24:42 +0800
+	id 1xOx8b-000000009eN-1BWv;
+	Thu, 05 Nov 2026 13:04:17 +0000
+Date: Thu, 05 Nov 2026 14:04:14 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	iommu@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
-	Alex Williamson <alex@shazbot.org>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Samuel Ortiz <sameo@rivosinc.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Steven Price <steven.price@arm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v8 01/15] PCI/TSM: Move core code into its own directory
-Message-ID: <202611052018.S2OsLHjD-lkp@intel.com>
-References: <20261104161632.3547423-2-aneesh.kumar@kernel.org>
+To: David Flynn <david.flynn@hammerspace.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>
+Subject: [snitzer:kernel-7.3/jflynn-io500-canary 399/1462] Warning:
+ fs/nfs/direct.c:1319 function parameter 'inode' not described in
+ 'nfs_direct_write_nowait_refused'
+Message-ID: <202611051424.qN0uyJ2S-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -104,48 +80,24 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104161632.3547423-2-aneesh.kumar@kernel.org>
 
-Hi Aneesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aneesh-Kumar-K-V-Arm/PCI-TSM-Move-core-code-into-its-own-directory/20261104-214618
-base:   6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-patch link:    https://lore.kernel.org/r/20261104161632.3547423-2-aneesh.kumar%40kernel.org
-patch subject: [PATCH v8 01/15] PCI/TSM: Move core code into its own directory
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261105/202611052018.S2OsLHjD-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 812626a41399a1d464a0d69627ab45c83b8ebfb9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052018.S2OsLHjD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/jflynn-io500-canary
+head:   a0f5f04a3920835767e24c944e54a676d5aa32b8
+commit: 36cc57b7ec1f44a8408122e4aceeb5bec064547a [399/1462] NFS: io_uring NOWAIT admission for NFSv3 O_DIRECT I/O
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20261105/202611051424.qN0uyJ2S-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611051424.qN0uyJ2S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611052018.S2OsLHjD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611051424.qN0uyJ2S-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/tsm/core.c:31:12: warning: variable 'pci_tsm_devsec_count' set but not used [-Wunused-but-set-global]
-      31 | static int pci_tsm_devsec_count;
-         |            ^
-   1 warning generated.
-
-
-vim +/pci_tsm_devsec_count +31 drivers/pci/tsm/core.c
-
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31  25  
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31  26  /*
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31  27   * Count of TSMs registered that support physical link operations vs device
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31  28   * security state management.
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31  29   */
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31  30  static int pci_tsm_link_count;
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31 @31  static int pci_tsm_devsec_count;
-3225f52cde56f4 drivers/pci/tsm.c Dan Williams 2025-10-31  32  
+>> Warning: fs/nfs/direct.c:1319 function parameter 'inode' not described in 'nfs_direct_write_nowait_refused'
+>> Warning: fs/nfs/direct.c:1319 function parameter 'count' not described in 'nfs_direct_write_nowait_refused'
+>> Warning: fs/nfs/direct.c:1319 expecting prototype for nfs_file_direct_write(). Prototype was for nfs_direct_write_nowait_refused() instead
 
 --
 0-DAY CI Kernel Test Service
