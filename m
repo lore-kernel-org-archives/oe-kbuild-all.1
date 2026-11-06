@@ -1,76 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793926419;
-	b=mLMUD/CzH5+kNKEwzOwsvolRwyRXn1vOVOh3Vb0FSblUxGcPqvmiIYhGi3NxPVQuWGFc
-	 Q8RNzjlIY4P2+t8VLCHiV2bqROrJtIp4EXgBOsRuZCD4it2JOkIQI0HSnQqrU3whF29OV
-	 cdOdfNCW5eH0bcrFcomeXN5MMpjHjuAjh11Rax+oOchReUdqWYnMq330kwqIpizSub1bi
-	 nIjgB9wAKZi7FuDDY761bXs3LJ2xXrG1DozIsolsvBDK/zdnREHUsV/2lCxnILbBKw3ZR
-	 hpW2AK/dLsH6hKLKZiUaZ8rjT2UfqxQ75I+bJ2Q7Fn+Ff42MAE2RVPuGHsSJ1CLs1Sg==
+	t=1793926423;
+	b=UsflHgoURCr3alm1u/KYQxTT+0h1o2PIFwAyrM4UaHmXDKIuzrBRCsnv2zoPFNVCRlwP
+	 b7N7OdTablQSzysGPVO23OGQBUg8+WBuUe4rsGVW2o50/vo+fceejoNKCYIDu6RKG7wIQ
+	 YNhHSCIzK4i5e6uWziVdzyoUCc/P3epS1PwpxIWzjs4oU8xm8LaCkfNGDsh0wOjzyzR3f
+	 L3cuJy1/urWbmKaB8nF2yHufjG16OElsFtHcV5+TmrhsB+XUeBhmKdxkXvu71KryFbDeT
+	 3QsVghsZRhta+6j6l/LKgvGjxVOip++1BP86ts1ud5J0TyGmlaYKjeHSjjYE/MZkdzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793926419;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793926423;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=BkSnT5qlMx0h//3GiU8C8yT9COChpZYYac1AiJy6u0I=;
-	b=Q7zmQVm9CJE6XhXI8ainquYi59wKnNNSaOdGoXFVABCaBUYqIP5aRAIiTv562vZ2KlwI
-	 8EDdrKjo+hQBQM5oCKnJlpaXBX2uUou5EUqJdlDd+HFND3HoTwSsJI+eCM9cz9KKxfeNW
-	 WhCILKTc9FGiDrL84F0yUrUKIsTI+RJcJJ2yLSxuoHXa6yCLYIQo6u6s2A8B3J8eRZgmq
-	 XKq87+WGmJzo5rXe7tfSPG/mGWDAKgivYjoptrQN9OEuKfRv5DDXObILFOpJ93rvFmfIX
-	 HnkdtbWgIOmhVlCkcVEGznbvaR5xh3L8D5yjqY/BtYQ0u2xjVz4apBEW9D5bKwbtJbw==
+	bh=FERj9I68XNEL812ikuGHsxbYcdAzYFZIak32XKwYj/E=;
+	b=fVlCjtFQ5pT7jr6Cub9X5vGWHrBcqLYisH8T2jk6o4BQ9IHirJOXqefBtgck9uSTx1Cf
+	 NMLajDI7jBr950TjCrzmmo3XqmOOTFLJD39W5fyT/fpGcjsi5pxdZNpMJIy19Pi+9cx0h
+	 tWTZCucMx2St3kV6v5jGurO/cdRGwN/LKOnl1XbSTrhPP1GUqzZ0nXeecrvESLAxP8pqn
+	 KlOjbjCCOyjWr3eZQNaYP8wKUlVbBlbt4zRRCR9AXT8ODaiArPXMhLZB00m+m1wNJEYT+
+	 XIBH7As/lGGa0MOrwefveDMnFQchC38UU8nWAdyH6+ernzT4q1LHm3zMoO3b8z05hyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bv6kejAR;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=loL6KKjy;
 	arc=none smtp.remote-ip=192.198.163.17
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BD1606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 00:53:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48BD1606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEB9606A329
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 00:53:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EEB9606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bv6kejAR
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=loL6KKjy
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793926417; x=1825462417;
+  t=1793926423; x=1825462423;
   h=date:from:to:cc:subject:message-id;
-  bh=VJaPSpnkzj4haazsoD1bOyIeJkSCJA00sEPd2hRE7nw=;
-  b=bv6kejARxoG4dNq2SxJrnbuRZKJ0iaA5rhxYxV1Eraun4NOhCym1dEff
-   KuYY69TsjyPjBAj3BAMwkrXHMAav80uFabC8/j1gC6no1pJGzmGur01/L
-   0gvimAVRF5QbXdrBBD/A3iiloK0Fo8TScRz+1FdP+dQYiD6wQic/AUHL0
-   2GkYLeEqxtwZ9pVKULrEPT4sTFhrR7cTJnti16QOc6FbxeTSXVyOA7e04
-   LOT/smJ4ECdHJKGNVnl2hazyoGG6XKr+PtUNvhQr9SgfisSrSS1NheUrL
-   T8GmZtn9oiDy8zVxdQBI1QmqdF71rG1WxU+Jn9B3GoVNCaRFDie1LbhcL
+  bh=ZwciZFt7S0xReHHbErecsLoVH2veCrPQob1fYs/5U7g=;
+  b=loL6KKjy3uouyW1dMrLFvn5qaizup2ooli9gmZRtLLRSMcx+Tyo390RJ
+   CGfYSIjiYGHnR4G7pP7X/HBeix2s3K2xuFjFZ+TxF6IodwtXUiYBXZTKl
+   5pyteFviYUcmT5a91mme/BHBmHOCBoKVBipzSCcEtncqo8Ipg8aD3iNW/
+   WJv/8axhN2+D6ca4qn7b3xemsyEfPBoluneFrWyXUg/sv6d3zf1eKzs7c
+   eSFrDKxjvBw5SqzkHtJi5PLKuHe1fSwPotuF5hW3rAOnAxgMGjJDAG4v5
+   JQsz4VtLlxff4JDgLWYYELXYomSYGsCYqAMxiWc40aVxBIjNFNImVZj3F
    Q==;
-X-CSE-ConnectionGUID: A31DPRY3TNulifiQcgiOyw==
-X-CSE-MsgGUID: z5SyYIhoTM2GQLhMOgLWgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2742510"
+X-CSE-ConnectionGUID: sClBsyIRSietysl6e3m07Q==
+X-CSE-MsgGUID: FpI84SFyQ0uTxFAfLuH68g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2742512"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2742510"
+   d="scan'208";a="2742512"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 16:53:37 -0800
-X-CSE-ConnectionGUID: UQ1vNj6pSWKzGFKJNFkE6Q==
-X-CSE-MsgGUID: /n7gADUGToqVmmu3uRQqZA==
+X-CSE-ConnectionGUID: +5/FRX+6SJStqkTUs6FSXg==
+X-CSE-MsgGUID: +U/FOr9cSXuWS5hTvqigSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7479501"
+   d="scan'208";a="7479503"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
   by fmviesa009.fm.intel.com with ESMTP; 05 Nov 2026 16:53:35 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xP8Cy-000000009wR-0nHD;
+	id 1xP8Cy-000000009wV-17te;
 	Fri, 06 Nov 2026 00:53:32 +0000
-Date: Fri, 06 Nov 2026 01:53:26 +0100
+Date: Fri, 06 Nov 2026 01:53:24 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- net/xfrm/xfrm_state.c:3320:17: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202611060135.rBwOKZE6-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/sound-rust-v7.3 11/56] Diff in
+ rust/kernel/sound/card.rs:4:
+Message-ID: <202611060149.jsR21Ibx-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,212 +80,274 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   dad0be76b21b4f1af9d7ab0462158eec6bfee075
-commit: f2bc8231fd43a02f9d97252b3435869727054d60 [1/1] xfrm: check all hash buckets for leftover states during netns deletion
-config: arm64-randconfig-r2302-20261104 (https://download.01.org/0day-ci/archive/20261106/202611060135.rBwOKZE6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060135.rBwOKZE6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
+head:   070444a8abf14da700680a5331d0a95cd11e578b
+commit: 8c3e8dd553f3af45e664df85daa4a3e065d274c1 [11/56] ALSA: rust: add sound card abstraction (kernel::sound::card)
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261106/202611060149.jsR21Ibx-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060149.jsR21Ibx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Fixes: f2bc8231fd43 ("xfrm: check all hash buckets for leftover states during netns deletion")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060135.rBwOKZE6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060149.jsR21Ibx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/xfrm/xfrm_state.c:1737:9: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1744:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1744:17: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1744:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1751:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1751:17: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1751:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1871:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1871:17: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1871:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:1874:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:1874:17: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:1874:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2506:9: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: cast removes address space '__rcu' of expression
-   net/xfrm/xfrm_state.c:2605:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct hlist_head *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:2605:25: sparse:     expected struct hlist_head *h
-   net/xfrm/xfrm_state.c:2605:25: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:3270:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_bydst @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:3270:31: sparse:     expected struct hlist_head [noderef] __rcu *state_bydst
-   net/xfrm/xfrm_state.c:3270:31: sparse:     got struct hlist_head *
-   net/xfrm/xfrm_state.c:3273:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_bysrc @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:3273:31: sparse:     expected struct hlist_head [noderef] __rcu *state_bysrc
-   net/xfrm/xfrm_state.c:3273:31: sparse:     got struct hlist_head *
-   net/xfrm/xfrm_state.c:3276:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_byspi @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:3276:31: sparse:     expected struct hlist_head [noderef] __rcu *state_byspi
-   net/xfrm/xfrm_state.c:3276:31: sparse:     got struct hlist_head *
-   net/xfrm/xfrm_state.c:3279:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hlist_head [noderef] __rcu *state_byseq @@     got struct hlist_head * @@
-   net/xfrm/xfrm_state.c:3279:31: sparse:     expected struct hlist_head [noderef] __rcu *state_byseq
-   net/xfrm/xfrm_state.c:3279:31: sparse:     got struct hlist_head *
-   net/xfrm/xfrm_state.c:3297:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byseq @@
-   net/xfrm/xfrm_state.c:3297:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3297:33: sparse:     got struct hlist_head [noderef] __rcu *state_byseq
-   net/xfrm/xfrm_state.c:3299:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byspi @@
-   net/xfrm/xfrm_state.c:3299:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3299:33: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
-   net/xfrm/xfrm_state.c:3301:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
-   net/xfrm/xfrm_state.c:3301:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3301:33: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
-   net/xfrm/xfrm_state.c:3303:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bydst @@
-   net/xfrm/xfrm_state.c:3303:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3303:33: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
->> net/xfrm/xfrm_state.c:3320:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:3320:17: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:3320:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:3321:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:3321:17: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:3321:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:3322:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:3322:17: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:3322:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:3323:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head const *h @@     got struct hlist_head [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:3323:17: sparse:     expected struct hlist_head const *h
-   net/xfrm/xfrm_state.c:3323:17: sparse:     got struct hlist_head [noderef] __rcu *
-   net/xfrm/xfrm_state.c:3327:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byseq @@
-   net/xfrm/xfrm_state.c:3327:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3327:33: sparse:     got struct hlist_head [noderef] __rcu *state_byseq
-   net/xfrm/xfrm_state.c:3328:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_byspi @@
-   net/xfrm/xfrm_state.c:3328:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3328:33: sparse:     got struct hlist_head [noderef] __rcu *state_byspi
-   net/xfrm/xfrm_state.c:3329:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bysrc @@
-   net/xfrm/xfrm_state.c:3329:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3329:33: sparse:     got struct hlist_head [noderef] __rcu *state_bysrc
-   net/xfrm/xfrm_state.c:3330:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct hlist_head *n @@     got struct hlist_head [noderef] __rcu *state_bydst @@
-   net/xfrm/xfrm_state.c:3330:33: sparse:     expected struct hlist_head *n
-   net/xfrm/xfrm_state.c:3330:33: sparse:     got struct hlist_head [noderef] __rcu *state_bydst
-   net/xfrm/xfrm_state.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/uio.h, include/linux/socket.h, ...):
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'xfrm_register_type' - unexpected unlock
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'xfrm_unregister_type' - unexpected unlock
-   net/xfrm/xfrm_state.c:362:13: sparse: sparse: context imbalance in 'xfrm_get_type' - unexpected unlock
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'xfrm_register_type_offload' - unexpected unlock
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'xfrm_unregister_type_offload' - unexpected unlock
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'xfrm_set_type_offload' - unexpected unlock
-   net/xfrm/xfrm_state.c:934:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:976:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:58:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:58:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:58:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:58:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:58:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:58:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:58:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:58:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:58:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:58:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:58:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:58:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:58:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:58:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:58:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1655:9: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:58:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct refcount_struct [usertype] *r @@     got struct refcount_struct [noderef] __rcu * @@
-   net/xfrm/xfrm_state.c:58:39: sparse:     expected struct refcount_struct [usertype] *r
-   net/xfrm/xfrm_state.c:58:39: sparse:     got struct refcount_struct [noderef] __rcu *
-   net/xfrm/xfrm_state.c:1778:9: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:1814:9: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:2094:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:2113:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c:2315:17: sparse: sparse: dereference of noderef expression
-   net/xfrm/xfrm_state.c: note: in included file:
-   include/net/xfrm.h:1971:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/net/xfrm.h:1971:16: sparse:    struct sock [noderef] __rcu *
-   include/net/xfrm.h:1971:16: sparse:    struct sock *
+All errors (new ones prefixed by >>):
 
-vim +3320 net/xfrm/xfrm_state.c
-
-  3307	
-  3308	void xfrm_state_fini(struct net *net)
-  3309	{
-  3310		unsigned int sz;
-  3311		int i;
-  3312	
-  3313		flush_work(&net->xfrm.state_hash_work);
-  3314		xfrm_state_flush(net, 0, false);
-  3315		flush_work(&xfrm_state_gc_work);
-  3316	
-  3317		WARN_ON(!list_empty(&net->xfrm.state_all));
-  3318	
-  3319		for (i = 0; i <= net->xfrm.state_hmask; i++) {
-> 3320			WARN_ON(!hlist_empty(net->xfrm.state_byseq + i));
-  3321			WARN_ON(!hlist_empty(net->xfrm.state_byspi + i));
-  3322			WARN_ON(!hlist_empty(net->xfrm.state_bysrc + i));
-  3323			WARN_ON(!hlist_empty(net->xfrm.state_bydst + i));
-  3324		}
-  3325	
-  3326		sz = (net->xfrm.state_hmask + 1) * sizeof(struct hlist_head);
-  3327		xfrm_hash_free(net->xfrm.state_byseq, sz);
-  3328		xfrm_hash_free(net->xfrm.state_byspi, sz);
-  3329		xfrm_hash_free(net->xfrm.state_bysrc, sz);
-  3330		xfrm_hash_free(net->xfrm.state_bydst, sz);
-  3331		free_percpu(net->xfrm.state_cache_input);
-  3332	}
-  3333	
+   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/sound/card.rs:4:
+    //!
+    //! C header: [`include/sound/core.h`](srctree/include/sound/core.h)
+    
+   -use crate::{
+   -    bindings,
+   -    device,
+   -    error::to_result,
+   -    prelude::*,
+   -    types::Opaque,
+   -    ThisModule,
+   -};
+   +use crate::{bindings, device, error::to_result, prelude::*, types::Opaque, ThisModule};
+    
+    /// A sound card.
+    ///
+   Diff in rust/kernel/sound/card.rs:67:
+        pub fn set_driver(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `driver` is a fixed-size array of 16 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).driver.as_mut_ptr() as *mut u8,
+   -                16,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).driver.as_mut_ptr() as *mut u8, 16);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:78:
+        pub fn set_short_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `shortname` is a fixed-size array of 32 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).shortname.as_mut_ptr() as *mut u8,
+   -                32,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).shortname.as_mut_ptr() as *mut u8, 32);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:89:
+        pub fn set_long_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `longname` is a fixed-size array of 80 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).longname.as_mut_ptr() as *mut u8,
+   -                80,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).longname.as_mut_ptr() as *mut u8, 80);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:100:
+        pub fn set_mixer_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `mixername` is a fixed-size array of 80 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).mixername.as_mut_ptr() as *mut u8,
+   -                80,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).mixername.as_mut_ptr() as *mut u8, 80);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:116:
+        pub fn as_raw(&self) -> *mut bindings::snd_card {
+            self.0.get()
+        }
+   -
+    }
+    
+    // SAFETY: `Card` holds only an `Opaque<snd_card>`, whose thread-safety is
+>> Diff in rust/kernel/sound/card.rs:4:
+    //!
+    //! C header: [`include/sound/core.h`](srctree/include/sound/core.h)
+    
+   -use crate::{
+   -    bindings,
+   -    device,
+   -    error::to_result,
+   -    prelude::*,
+   -    types::Opaque,
+   -    ThisModule,
+   -};
+   +use crate::{bindings, device, error::to_result, prelude::*, types::Opaque, ThisModule};
+    
+    /// A sound card.
+    ///
+   Diff in rust/kernel/sound/card.rs:67:
+        pub fn set_driver(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `driver` is a fixed-size array of 16 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).driver.as_mut_ptr() as *mut u8,
+   -                16,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).driver.as_mut_ptr() as *mut u8, 16);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:78:
+        pub fn set_short_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `shortname` is a fixed-size array of 32 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).shortname.as_mut_ptr() as *mut u8,
+   -                32,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).shortname.as_mut_ptr() as *mut u8, 32);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:89:
+        pub fn set_long_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `longname` is a fixed-size array of 80 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).longname.as_mut_ptr() as *mut u8,
+   -                80,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).longname.as_mut_ptr() as *mut u8, 80);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:100:
+        pub fn set_mixer_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `mixername` is a fixed-size array of 80 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).mixername.as_mut_ptr() as *mut u8,
+   -                80,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).mixername.as_mut_ptr() as *mut u8, 80);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:116:
+        pub fn as_raw(&self) -> *mut bindings::snd_card {
+            self.0.get()
+        }
+   -
+    }
+    
+    // SAFETY: `Card` holds only an `Opaque<snd_card>`, whose thread-safety is
+   Diff in rust/kernel/pm.rs:24:
+        types::ForeignOwnable, //
+    };
+    
+   -use core::{
+   -    cell::UnsafeCell,
+   -    marker::PhantomData
+   -};
+   +use core::{cell::UnsafeCell, marker::PhantomData};
+    
+    /// Runtime Power Management modes that determine how a particular PM
+    /// transition is to be carried out.
+>> Diff in rust/kernel/sound/card.rs:4:
+    //!
+    //! C header: [`include/sound/core.h`](srctree/include/sound/core.h)
+    
+   -use crate::{
+   -    bindings,
+   -    device,
+   -    error::to_result,
+   -    prelude::*,
+   -    types::Opaque,
+   -    ThisModule,
+   -};
+   +use crate::{bindings, device, error::to_result, prelude::*, types::Opaque, ThisModule};
+    
+    /// A sound card.
+    ///
+   Diff in rust/kernel/sound/card.rs:67:
+        pub fn set_driver(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `driver` is a fixed-size array of 16 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).driver.as_mut_ptr() as *mut u8,
+   -                16,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).driver.as_mut_ptr() as *mut u8, 16);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:78:
+        pub fn set_short_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `shortname` is a fixed-size array of 32 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).shortname.as_mut_ptr() as *mut u8,
+   -                32,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).shortname.as_mut_ptr() as *mut u8, 32);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:89:
+        pub fn set_long_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `longname` is a fixed-size array of 80 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).longname.as_mut_ptr() as *mut u8,
+   -                80,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).longname.as_mut_ptr() as *mut u8, 80);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:100:
+        pub fn set_mixer_name(&self, s: &CStr) {
+            // SAFETY: `self.as_raw()` is valid; `mixername` is a fixed-size array of 80 bytes.
+            unsafe {
+   -            s.copy_to_raw(
+   -                (*self.as_raw()).mixername.as_mut_ptr() as *mut u8,
+   -                80,
+   -            );
+   +            s.copy_to_raw((*self.as_raw()).mixername.as_mut_ptr() as *mut u8, 80);
+            }
+        }
+    
+   Diff in rust/kernel/sound/card.rs:116:
+        pub fn as_raw(&self) -> *mut bindings::snd_card {
+            self.0.get()
+        }
+   -
+    }
+    
+    // SAFETY: `Card` holds only an `Opaque<snd_card>`, whose thread-safety is
+   Diff in rust/kernel/pm.rs:24:
+        types::ForeignOwnable, //
+    };
+    
+   -use core::{
+   -    cell::UnsafeCell,
+   -    marker::PhantomData
+   -};
+   +use core::{cell::UnsafeCell, marker::PhantomData};
+    
+    /// Runtime Power Management modes that determine how a particular PM
+    /// transition is to be carried out.
+   make[2]: *** [Makefile:2038: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src'
 
 --
 0-DAY CI Kernel Test Service
