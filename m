@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793926423;
-	b=UsflHgoURCr3alm1u/KYQxTT+0h1o2PIFwAyrM4UaHmXDKIuzrBRCsnv2zoPFNVCRlwP
-	 b7N7OdTablQSzysGPVO23OGQBUg8+WBuUe4rsGVW2o50/vo+fceejoNKCYIDu6RKG7wIQ
-	 YNhHSCIzK4i5e6uWziVdzyoUCc/P3epS1PwpxIWzjs4oU8xm8LaCkfNGDsh0wOjzyzR3f
-	 L3cuJy1/urWbmKaB8nF2yHufjG16OElsFtHcV5+TmrhsB+XUeBhmKdxkXvu71KryFbDeT
-	 3QsVghsZRhta+6j6l/LKgvGjxVOip++1BP86ts1ud5J0TyGmlaYKjeHSjjYE/MZkdzA==
+	t=1793927078;
+	b=zC/n3B/AX1yACSsWwhuUXzp31249VopqZDbT4MhOuJY86l0fCzUx2c1MCJDOag1/1l7y
+	 DVfePTU3A9Bi8mh3FObrq/LGVubMqjLcxfv+7uwrbd8I4xnJTkcrckJL/5ueBziY53wk1
+	 GfnobRZI0x9hTTKh3A/Z4iFQ9IndzRelf1ZVutvxdINuAL0nAko3N/9gW/Lx+XLtBQIoX
+	 reGeTcay005gAbP7VTZOx4gjsW2zD0v//kv5vPoSbLLiWuvAvR8R4JXR8Eu6hmSy98ctY
+	 2BMXnwkr6uyYn7Rq4d+rr/6yqbDGrlioaToT2BuUf0gNBsISXbldzWCGoM+juPyI9fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793926423;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793927078;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=FERj9I68XNEL812ikuGHsxbYcdAzYFZIak32XKwYj/E=;
-	b=fVlCjtFQ5pT7jr6Cub9X5vGWHrBcqLYisH8T2jk6o4BQ9IHirJOXqefBtgck9uSTx1Cf
-	 NMLajDI7jBr950TjCrzmmo3XqmOOTFLJD39W5fyT/fpGcjsi5pxdZNpMJIy19Pi+9cx0h
-	 tWTZCucMx2St3kV6v5jGurO/cdRGwN/LKOnl1XbSTrhPP1GUqzZ0nXeecrvESLAxP8pqn
-	 KlOjbjCCOyjWr3eZQNaYP8wKUlVbBlbt4zRRCR9AXT8ODaiArPXMhLZB00m+m1wNJEYT+
-	 XIBH7As/lGGa0MOrwefveDMnFQchC38UU8nWAdyH6+ernzT4q1LHm3zMoO3b8z05hyg==
+	bh=IfDa6xDNEDn/S3kSnR3XKJ514M/Rd+MUqrITylxx/rY=;
+	b=UfYqxZayPP2SRzrCDal/QubSsVKtT+kTvpgQt9RlXCx8SnARFvXeDZaqngdXCT9mOVib
+	 oSQkhZoI7qV8I1G60crvksKhe7xHFCf78ugJNqeCGMiQsZc+fPGzLWoQMkvZ61cgh1JcU
+	 pY7tuoDNylpJzCPG/D/za6nfHhTmXBomvFKOtlJ2gMv7+qDLZqTDWJAwO1ok8J41zU/pO
+	 A1SHuidtuOAY9D0hSoKR5Yna6WKDCXp6RmboRUtf6XoOCXTIATdFCsHdrpQ8oKkMwfplJ
+	 Aux0epq3itxIcYGsnTSMFxFbAwLEczmQFOVEuEyq2Qfsj/4nfeJ9Pe6Tqge4ssxvvTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=loL6KKjy;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EaZeB2Sw;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEB9606A329
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 00:53:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EEB9606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329DB606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 01:04:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 329DB606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=loL6KKjy
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EaZeB2Sw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793926423; x=1825462423;
+  t=1793927078; x=1825463078;
   h=date:from:to:cc:subject:message-id;
-  bh=ZwciZFt7S0xReHHbErecsLoVH2veCrPQob1fYs/5U7g=;
-  b=loL6KKjy3uouyW1dMrLFvn5qaizup2ooli9gmZRtLLRSMcx+Tyo390RJ
-   CGfYSIjiYGHnR4G7pP7X/HBeix2s3K2xuFjFZ+TxF6IodwtXUiYBXZTKl
-   5pyteFviYUcmT5a91mme/BHBmHOCBoKVBipzSCcEtncqo8Ipg8aD3iNW/
-   WJv/8axhN2+D6ca4qn7b3xemsyEfPBoluneFrWyXUg/sv6d3zf1eKzs7c
-   eSFrDKxjvBw5SqzkHtJi5PLKuHe1fSwPotuF5hW3rAOnAxgMGjJDAG4v5
-   JQsz4VtLlxff4JDgLWYYELXYomSYGsCYqAMxiWc40aVxBIjNFNImVZj3F
-   Q==;
-X-CSE-ConnectionGUID: sClBsyIRSietysl6e3m07Q==
-X-CSE-MsgGUID: FpI84SFyQ0uTxFAfLuH68g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2742512"
+  bh=9U8mtyE2mZsuxq8iMvGteEQb5fO9aMTrzHn+Phdf0Rk=;
+  b=EaZeB2SwOW8qZ1lNDrRilZyR7YEXSMuAhukeHlScrWMeUYxLkam0XJdO
+   Twb7c0h/OabeIhYUTfjRzt/GRlVn4yBq8SfjWco+R2oSIHcQOXodKRRJq
+   1nV987gTnXEssJJf1Kw/LW4BHsF2/7p2ebng3q4MM0wHUVrh4mbLiT8UF
+   n4oArc+OATGKD5f/lI8cDA9H4ElTHMLWzu4bj7oFSwirGbxQixlOOfU/u
+   +i0ZiJjA0QB1Ae3mddSu6BCBT+ID2d9C7XYJ9sgmtgWA3ff7Jv+jKGdfE
+   aYoFWufdT58vZGmQRCOK4ISQw9Ouo2eYLL6lTiNzH5uRayIxd6axRFcIo
+   A==;
+X-CSE-ConnectionGUID: vB0fE8HwTHGTxJUEX+h71g==
+X-CSE-MsgGUID: mwpPi3FISCWEM/rHM8c89A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2640807"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2742512"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 16:53:37 -0800
-X-CSE-ConnectionGUID: +5/FRX+6SJStqkTUs6FSXg==
-X-CSE-MsgGUID: +U/FOr9cSXuWS5hTvqigSQ==
+   d="scan'208";a="2640807"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 17:04:37 -0800
+X-CSE-ConnectionGUID: J6/TAJXzRrSCteII0z4n6Q==
+X-CSE-MsgGUID: 5vE/XQ+mRL2pze5Rewi44w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7479503"
+   d="scan'208";a="9030632"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Nov 2026 16:53:35 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 05 Nov 2026 17:04:35 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xP8Cy-000000009wV-17te;
-	Fri, 06 Nov 2026 00:53:32 +0000
-Date: Fri, 06 Nov 2026 01:53:24 +0100
+	id 1xP8Nc-000000009wp-3sq5;
+	Fri, 06 Nov 2026 01:04:32 +0000
+Date: Fri, 06 Nov 2026 02:04:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/sound-rust-v7.3 11/56] Diff in
- rust/kernel/sound/card.rs:4:
-Message-ID: <202611060149.jsR21Ibx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18-kminext 0/1]
+ mm/readahead.c:158:51: sparse: sparse: incorrect type in argument 1
+ (different base types)
+Message-ID: <202611060117.noSVuh6k-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,274 +81,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
-head:   070444a8abf14da700680a5331d0a95cd11e578b
-commit: 8c3e8dd553f3af45e664df85daa4a3e065d274c1 [11/56] ALSA: rust: add sound card abstraction (kernel::sound::card)
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261106/202611060149.jsR21Ibx-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060149.jsR21Ibx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18-kminext
+head:   a9580b7485bbf58d7b44b7d51e15c8ebe1cea327
+commit: aa2fcdf35fade78eec17bdfae208b652f11ab9a1 [0/1] ANDROID: mm: Create hooks for ZONE_MOVABLE allocs
+config: i386-randconfig-2301-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060117.noSVuh6k-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060117.noSVuh6k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060149.jsR21Ibx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060117.noSVuh6k-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/readahead.c:158:51: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int *flags @@     got restricted gfp_t * @@
+   mm/readahead.c:158:51: sparse:     expected unsigned int *flags
+   mm/readahead.c:158:51: sparse:     got restricted gfp_t *
+   mm/readahead.c: note: in included file (through include/linux/mm_inline.h):
+   include/trace/hooks/mm.h:65:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:65:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:65:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+--
+>> mm/mmzone.c:118:47: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int *flags @@     got restricted gfp_t * @@
+   mm/mmzone.c:118:47: sparse:     expected unsigned int *flags
+   mm/mmzone.c:118:47: sparse:     got restricted gfp_t *
+   mm/mmzone.c: note: in included file:
+   include/trace/hooks/mm.h:62:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:62:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:62:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
-   make: Entering directory '/kbuild/src'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/sound/card.rs:4:
-    //!
-    //! C header: [`include/sound/core.h`](srctree/include/sound/core.h)
-    
-   -use crate::{
-   -    bindings,
-   -    device,
-   -    error::to_result,
-   -    prelude::*,
-   -    types::Opaque,
-   -    ThisModule,
-   -};
-   +use crate::{bindings, device, error::to_result, prelude::*, types::Opaque, ThisModule};
-    
-    /// A sound card.
-    ///
-   Diff in rust/kernel/sound/card.rs:67:
-        pub fn set_driver(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `driver` is a fixed-size array of 16 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).driver.as_mut_ptr() as *mut u8,
-   -                16,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).driver.as_mut_ptr() as *mut u8, 16);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:78:
-        pub fn set_short_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `shortname` is a fixed-size array of 32 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).shortname.as_mut_ptr() as *mut u8,
-   -                32,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).shortname.as_mut_ptr() as *mut u8, 32);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:89:
-        pub fn set_long_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `longname` is a fixed-size array of 80 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).longname.as_mut_ptr() as *mut u8,
-   -                80,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).longname.as_mut_ptr() as *mut u8, 80);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:100:
-        pub fn set_mixer_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `mixername` is a fixed-size array of 80 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).mixername.as_mut_ptr() as *mut u8,
-   -                80,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).mixername.as_mut_ptr() as *mut u8, 80);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:116:
-        pub fn as_raw(&self) -> *mut bindings::snd_card {
-            self.0.get()
-        }
-   -
-    }
-    
-    // SAFETY: `Card` holds only an `Opaque<snd_card>`, whose thread-safety is
->> Diff in rust/kernel/sound/card.rs:4:
-    //!
-    //! C header: [`include/sound/core.h`](srctree/include/sound/core.h)
-    
-   -use crate::{
-   -    bindings,
-   -    device,
-   -    error::to_result,
-   -    prelude::*,
-   -    types::Opaque,
-   -    ThisModule,
-   -};
-   +use crate::{bindings, device, error::to_result, prelude::*, types::Opaque, ThisModule};
-    
-    /// A sound card.
-    ///
-   Diff in rust/kernel/sound/card.rs:67:
-        pub fn set_driver(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `driver` is a fixed-size array of 16 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).driver.as_mut_ptr() as *mut u8,
-   -                16,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).driver.as_mut_ptr() as *mut u8, 16);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:78:
-        pub fn set_short_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `shortname` is a fixed-size array of 32 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).shortname.as_mut_ptr() as *mut u8,
-   -                32,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).shortname.as_mut_ptr() as *mut u8, 32);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:89:
-        pub fn set_long_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `longname` is a fixed-size array of 80 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).longname.as_mut_ptr() as *mut u8,
-   -                80,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).longname.as_mut_ptr() as *mut u8, 80);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:100:
-        pub fn set_mixer_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `mixername` is a fixed-size array of 80 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).mixername.as_mut_ptr() as *mut u8,
-   -                80,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).mixername.as_mut_ptr() as *mut u8, 80);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:116:
-        pub fn as_raw(&self) -> *mut bindings::snd_card {
-            self.0.get()
-        }
-   -
-    }
-    
-    // SAFETY: `Card` holds only an `Opaque<snd_card>`, whose thread-safety is
-   Diff in rust/kernel/pm.rs:24:
-        types::ForeignOwnable, //
-    };
-    
-   -use core::{
-   -    cell::UnsafeCell,
-   -    marker::PhantomData
-   -};
-   +use core::{cell::UnsafeCell, marker::PhantomData};
-    
-    /// Runtime Power Management modes that determine how a particular PM
-    /// transition is to be carried out.
->> Diff in rust/kernel/sound/card.rs:4:
-    //!
-    //! C header: [`include/sound/core.h`](srctree/include/sound/core.h)
-    
-   -use crate::{
-   -    bindings,
-   -    device,
-   -    error::to_result,
-   -    prelude::*,
-   -    types::Opaque,
-   -    ThisModule,
-   -};
-   +use crate::{bindings, device, error::to_result, prelude::*, types::Opaque, ThisModule};
-    
-    /// A sound card.
-    ///
-   Diff in rust/kernel/sound/card.rs:67:
-        pub fn set_driver(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `driver` is a fixed-size array of 16 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).driver.as_mut_ptr() as *mut u8,
-   -                16,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).driver.as_mut_ptr() as *mut u8, 16);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:78:
-        pub fn set_short_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `shortname` is a fixed-size array of 32 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).shortname.as_mut_ptr() as *mut u8,
-   -                32,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).shortname.as_mut_ptr() as *mut u8, 32);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:89:
-        pub fn set_long_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `longname` is a fixed-size array of 80 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).longname.as_mut_ptr() as *mut u8,
-   -                80,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).longname.as_mut_ptr() as *mut u8, 80);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:100:
-        pub fn set_mixer_name(&self, s: &CStr) {
-            // SAFETY: `self.as_raw()` is valid; `mixername` is a fixed-size array of 80 bytes.
-            unsafe {
-   -            s.copy_to_raw(
-   -                (*self.as_raw()).mixername.as_mut_ptr() as *mut u8,
-   -                80,
-   -            );
-   +            s.copy_to_raw((*self.as_raw()).mixername.as_mut_ptr() as *mut u8, 80);
-            }
-        }
-    
-   Diff in rust/kernel/sound/card.rs:116:
-        pub fn as_raw(&self) -> *mut bindings::snd_card {
-            self.0.get()
-        }
-   -
-    }
-    
-    // SAFETY: `Card` holds only an `Opaque<snd_card>`, whose thread-safety is
-   Diff in rust/kernel/pm.rs:24:
-        types::ForeignOwnable, //
-    };
-    
-   -use core::{
-   -    cell::UnsafeCell,
-   -    marker::PhantomData
-   -};
-   +use core::{cell::UnsafeCell, marker::PhantomData};
-    
-    /// Runtime Power Management modes that determine how a particular PM
-    /// transition is to be carried out.
-   make[2]: *** [Makefile:2038: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src'
+vim +158 mm/readahead.c
+
+   153	
+   154	gfp_t readahead_gfp_mask(struct address_space *x)
+   155	{
+   156		gfp_t mask = __readahead_gfp_mask(x);
+   157	
+ > 158		trace_android_rvh_set_readahead_gfp_mask(&mask);
+   159		return mask;
+   160	}
+   161	EXPORT_SYMBOL_GPL(readahead_gfp_mask);
+   162	
 
 --
 0-DAY CI Kernel Test Service
