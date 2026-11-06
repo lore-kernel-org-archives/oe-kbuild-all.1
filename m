@@ -1,79 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793998007;
-	b=El9WDGQBya8znJ7nIYbFclRbXje3NbbedUXbqRnmI4t1qvXfMuY8uJiCY4HrB8fp6wjZ
-	 xS13LArKY3fc8529XiGsL19HFN50in7/XL9KcnJQDkVxgATjRb8aSSvagC3TfktJLirnc
-	 Eif7Cn815RGxbdecefh+5rkGuT2/pReSXydzMyLIxuRbdeWOPjv/GScf0z30zAkwp4njL
-	 XhqlHb9qkHfHKWXHa8rLB99b5NNOlJ0tx9PN8b5wVmuiIzKT+db0ZhkGyBDC4nuH91U6J
-	 5jPmGseoqHQUpZMXKU3FqbtVj+A6Kh+CmOK+xGmQnkI2a8IlYx41QLdrvn5IngyoBaQ==
+	t=1793999116;
+	b=x5yGl7XylVBCilpaaxJIY5fir17AT4kT2Jh+fNPJ+tilVrRZA9HStG1s56AJU3AoC6Ct
+	 RxqWAKlp1wRuu7NRiujeJuRfw/aSq83PRN8AIzTrYEYRpZTtIKzQoAWXmqHBA7TiFdJwO
+	 dmfDlRwWrxNUPfrCTFtqux5R3m9OZW6q429HKOptN2mBIgeOIWOgjGruX1m0icz3nS2KD
+	 o4JNst42bAfv/PiZWmTn1LVeR/y3nDNl6PSWrt33ZToqV9OYv4X9nJqHfaB0MjsROr4ke
+	 CbMulLxzrx5Y+/owhRyz3FiPNSAjhFWY8fztLtmWqtX5YEU1iSilCkm1jvK1512rcvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793998007;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=jIADSJVPuQfL5gsl75hN5umXlpPdcC0mAOe4mGJ7x+I=;
-	b=nxXkGBKOkELqY9iRzWA5FOLq9Jb7H4UbXevlT5w7IC9abn9HZ2b0szS0dUNWZXv33AAQ
-	 p/Wy78UjmJlxUyx8W5BEo76YR2CoIf9yaymKfwLkslGZyK7nC0WdOqpddo99KSOygg2lG
-	 xzyrDdcMJLo7ZiFb9nu29uoSWvkg1uUg0IGRZ/N6TDPauGdIPURNDX8ZHliafARD6gqsx
-	 WLg3iGSfoRu2mVypnqd2YdKXlbGUrl4dN6p2afqWVlV1TRBgeWutcsiN3i7xW//pLxhJx
-	 N8uVlZxT8q34humCS5NccIPRXXMCWQgliYIBX+DaZdJBHxRLGx+ho10aJRT0zTbkFkw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793999116;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:Autocrypt:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=BgrNDCfl/SsrxMRmYKjeSVWOsuxznwiJaBqgWxOgZOI=;
+	b=rFyDRSs0c1AKr255lAdcWzLmTxgLOnPz8yCtsGcC9mFV1LobTpAhA8l0hMgxMpTh9L+g
+	 hb2HNC2iXlEYH7MqKiuHZtqVs1HdsTrZ0VRabCEqQSZcfeCa+e/XOIIR/3slVjCQZ1EvI
+	 AuwDgBHQiLUIVzwhxwXaoy51xWYGVZnOrFoCDG9CKFz3BjoD/Cj2697yH5vlVqPlFV0Bw
+	 PK3RXrR4XnjWJ0FWU9xBEW9xXKa+vkU49rxeM9KlSlcRTYr3BhQVLVAc7ACYUDxT7fgx7
+	 hMVillqdKQ91tSNWdbd7QswO08ce7dDjJghc3BI4/r6kW3gqFxA3MuRUZbZiY4toswA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TlwOujbp;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=Lkr5wjCw;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260BB606A32D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 20:46:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 260BB606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB43606A326
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 21:05:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DB43606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TlwOujbp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793998005; x=1825534005;
-  h=date:from:to:cc:subject:message-id;
-  bh=Sn7im5GOD3/X9wwaDEsBsmyh+uQ16veT7IBG7auDrGY=;
-  b=TlwOujbp+d5hR5nziJFpovgE8YD+5VkzBwg25Qvah7d+d5cwlzVV4xcr
-   4eY1Aoe1x7bk8ni4B2h851pw9TngITh7MdR2+TR43cTRDKgy0xRo3sgO9
-   6i8Jb6Xxp744TZTjyEzHrw82Gbwyovu/U47z9yXQbTkJREjP35ANBe+I0
-   FnjDKTlre9a9zgSwGLh87XdkjuKN/p2I9GI3SP+alk/e6pHhHJyxViA1S
-   4TUXLLcGLeA4EumqxwyAptgfrCo439I5Tgu/7TBSC39NuiM0YMsKGDdzm
-   xPXN4bJ/zEAH3TvmYbkoxKem3gBd6bj1Ov4OVtiKxd9Debt+yjhWLJ3a1
-   w==;
-X-CSE-ConnectionGUID: bYfkUJK2T4aFyThnz97owg==
-X-CSE-MsgGUID: Dz0ZNS3RREKKbD2IpXbStw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2814870"
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2814870"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 12:46:44 -0800
-X-CSE-ConnectionGUID: RmYHFKgPTAK/HmYv62iIjA==
-X-CSE-MsgGUID: K015T0MIQVeqNBldG5g6hQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="7259002"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 06 Nov 2026 12:46:42 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xPQpb-00000000AM7-2c1b;
-	Fri, 06 Nov 2026 20:46:39 +0000
-Date: Fri, 06 Nov 2026 21:46:08 +0100
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org, Abhishek Bapat <abhishekbapat@google.com>
-Subject: [akpm-mm:mm-unstable 225/232]
- include/linux/alloc_tag.h:159:24: error: duplicate 'inline' declaration
- specifier
-Message-ID: <202611062117.gKtstiMc-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=Lkr5wjCw
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so10782375e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 06 Nov 2026 13:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793999114; x=1794603914; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BgrNDCfl/SsrxMRmYKjeSVWOsuxznwiJaBqgWxOgZOI=;
+        b=Lkr5wjCwVyrbfsaeAaecODAhZYQA6vZU9dISgz0CsH4xkm0x+85s9lAoM6KyekGc8u
+         hW43GWslBlWBHYGOPQZQ20kUvRklyslrSLg4gfDzIipnyLs6J/0dzQd20uV+NI+BaJzE
+         0FUSkEY9MZMmT+0h6MWZC3iaER7JVQkQuUu0p8A9ABisYkFuYDoYasvLypPDjtok9dVD
+         wtv8YkzrBNeqV83uDIrD5oCTeoXpe1D9IIWESGg3vR7MCKhadLeKTOVIT7Xr/18JYuUl
+         rjxV1BViKGDjPBGhlf5XZNOcj9ea347292E2Nb7QPo/MDbP7apWKNyQFIq1vaO6bY/M5
+         DoBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793999114; x=1794603914;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BgrNDCfl/SsrxMRmYKjeSVWOsuxznwiJaBqgWxOgZOI=;
+        b=bTnn2D+VYcDzWoOFHIZOENn8+cUG8aeQndVz6zvizPoLCflYPvCj2PRYl4/FtNTVgL
+         gVcPlXg6s9UfxO8BSwYlwrkxWmoMs+n4LW/HjxWgrNZ7NkDz0xAcC5+RTvvrj+oDSXEy
+         PqOfY/+QgrCjkXCBary3kYB1w7VWwmsR2C+dtvT4YTRL4FrLTacpry6prKoremAx7eFK
+         j0QKaSwyN+RK5ACCh3C6Zrfy3Fu9VE+P3xSWGoCKYRera4ikXUe/HqjbFDmrot+YoDP8
+         lefVPSwtgLPYCL/Gg+psHfGfLPsHpyF1ZVV9gzzG5rCmXfswWgoxDqUZ10Gr8w/R5Q5A
+         +fAw==
+X-Gm-Message-State: APuU4Z+KukNG1VvMOXt3g3fv//n+X5j8hp7dMuljMQzj78MQNorP2WPF
+	lfjHkf3HRIOHsgo5qG3FzomXdhI4vY4tj7XPoDGzN1+nkhKCzJgN2sjc59EOSQ/jp8U=
+X-Gm-Gg: AYBFou3ujW80nHpBSVByyrWaHwcNNxDPPao2SX1lin+jfZntRlRsQCWh1Szc3kVnTKv
+	FKUMwZImHivOaCeLQM1TKf0JqUFHE7YV9TESXyLO/eWEDcXQ3Qf/A5yFdBSvHe0N1UT6iBwo3YB
+	oJ3XGbzCU1cXZZznC/hOOFLAaXn7oZHBgIvlwh29IWfCslatiFW32Ba6DAterD09u1CziqAK9Hp
+	g8tgYi57k6WtOwH++vR3ewhlGBHGfh5MtrzR3f+B5YEeoCcii1fiKeNfZE4iiOzN1VNlHdB6Zil
+	Rs23BdtxjXXZksP/h+FiAFAbwoBKCihyt9kBug38gEKGsRxRp5owO4z7JfkBycfylWm//wCtWXL
+	Z4HOmNVIKt0kNu09uoxX4QKb5Nxq4J6OJgJAVSVK1bCvOE6B9uEk7SNdH7Fyldvj44JkjLdkPZb
+	MSZtK8WBn5yQXnuyC0gp2X5hnBgtsMPPln7CIL5uBtYKWITOb8QS/j5DQIaL1lz2dvNCuvSxh9M
+	AxKoeV/YgRA6/oVA1GFLul1v/KECTyDa6L3YR/r8BDVdBxfFJVBKSr9j6nr8RaHCIxmIFEPul8I
+	dmo0WIxDwHHuMu7/Em/l
+X-Received: by 2002:a05:600c:3541:b0:4a2:167a:c946 with SMTP id 5b1f17b1804b1-4b6df029074mr64705635e9.13.1793999114383;
+        Fri, 06 Nov 2026 13:05:14 -0800 (PST)
+Received: from [172.16.0.229] ([159.196.52.54])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4c1df6sm8239720c88.14.2026.11.06.13.05.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Nov 2026 13:05:13 -0800 (PST)
+Message-ID: <8523ef0e-426e-4be4-8061-27f69c65f589@suse.com>
+Date: Sat, 7 Nov 2026 07:35:09 +1030
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,378 +89,80 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   a3d27154a205f6b32000e7e2734b2a6a4d22c65b
-commit: cb335644ac2611749ab17d3eb6f29c8f77450fa6 [225/232] alloc_tag-introduce-ioctls-to-toggle-allocation-tracepoints-fix-fix
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20261106/202611062117.gKtstiMc-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611062117.gKtstiMc-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611062117.gKtstiMc-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:22:
-   In file included from include/linux/mm_types.h:16:
-   In file included from include/linux/uprobes.h:18:
-   In file included from include/linux/timer.h:6:
-   In file included from include/linux/ktime.h:25:
-   In file included from include/linux/jiffies.h:10:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:6:
-   In file included from arch/x86/include/asm/tsc.h:11:
-   In file included from arch/x86/include/asm/msr.h:16:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   1 warning generated.
---
->> clang diag: include/linux/compiler_types.h:235:16: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
---
-   In file included from lib/test_bitops.c:10:
-   In file included from include/linux/module.h:13:
-   In file included from include/linux/stat.h:19:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:6:
-   In file included from arch/x86/include/asm/tsc.h:11:
-   In file included from arch/x86/include/asm/msr.h:16:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: error: duplicate 'inline' declaration specifier [-Werror,-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   1 error generated.
---
-   In file included from lib/tests/stackinit_kunit.c:14:
-   In file included from include/kunit/test.h:24:
-   In file included from include/linux/module.h:13:
-   In file included from include/linux/stat.h:19:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:6:
-   In file included from arch/x86/include/asm/tsc.h:11:
-   In file included from arch/x86/include/asm/msr.h:16:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   lib/tests/stackinit_kunit.c:448:1: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   <scratch space>:189:1: note: expanded from here
-     189 | INIT_STRUCT_static_all
-         | ^
-   lib/tests/stackinit_kunit.c:137:8: note: expanded from macro 'INIT_STRUCT_static_all'
-     137 |                                         = __static_all
-         |                                           ^~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:118:8: note: expanded from macro '__static_all'
-     118 |                                           .two = 0,                     \
-         |                                           ^~~~~~~~
-   lib/tests/stackinit_kunit.c:448:1: note: previous initialization is here
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   <scratch space>:189:1: note: expanded from here
-     189 | INIT_STRUCT_static_all
-         | ^
-   lib/tests/stackinit_kunit.c:137:8: note: expanded from macro 'INIT_STRUCT_static_all'
-     137 |                                         = __static_all
-         |                                           ^~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:117:33: note: expanded from macro '__static_all'
-     117 | #define __static_all                    { .one = 0,                     \
-         |                                                  ^
-   lib/tests/stackinit_kunit.c:448:1: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   <scratch space>:189:1: note: expanded from here
-     189 | INIT_STRUCT_static_all
-         | ^
-   lib/tests/stackinit_kunit.c:137:8: note: expanded from macro 'INIT_STRUCT_static_all'
-     137 |                                         = __static_all
-         |                                           ^~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:119:8: note: expanded from macro '__static_all'
-     119 |                                           .three = 0,                   \
-         |                                           ^~~~~~~~~~
-   lib/tests/stackinit_kunit.c:448:1: note: previous initialization is here
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
---
-   In file included from tests/stackinit_kunit.c:14:
-   In file included from include/kunit/test.h:24:
-   In file included from include/linux/module.h:13:
-   In file included from include/linux/stat.h:19:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:6:
-   In file included from arch/x86/include/asm/tsc.h:11:
-   In file included from arch/x86/include/asm/msr.h:16:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   tests/stackinit_kunit.c:448:1: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   <scratch space>:65:1: note: expanded from here
-      65 | INIT_STRUCT_static_all
-         | ^
-   tests/stackinit_kunit.c:137:8: note: expanded from macro 'INIT_STRUCT_static_all'
-     137 |                                         = __static_all
-         |                                           ^~~~~~~~~~~~
-   tests/stackinit_kunit.c:118:8: note: expanded from macro '__static_all'
-     118 |                                           .two = 0,                     \
-         |                                           ^~~~~~~~
-   tests/stackinit_kunit.c:448:1: note: previous initialization is here
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   <scratch space>:65:1: note: expanded from here
-      65 | INIT_STRUCT_static_all
-         | ^
-   tests/stackinit_kunit.c:137:8: note: expanded from macro 'INIT_STRUCT_static_all'
-     137 |                                         = __static_all
-         |                                           ^~~~~~~~~~~~
-   tests/stackinit_kunit.c:117:33: note: expanded from macro '__static_all'
-     117 | #define __static_all                    { .one = 0,                     \
-         |                                                  ^
-   tests/stackinit_kunit.c:448:1: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   <scratch space>:65:1: note: expanded from here
-      65 | INIT_STRUCT_static_all
-         | ^
-   tests/stackinit_kunit.c:137:8: note: expanded from macro 'INIT_STRUCT_static_all'
-     137 |                                         = __static_all
-         |                                           ^~~~~~~~~~~~
-   tests/stackinit_kunit.c:119:8: note: expanded from macro '__static_all'
-     119 |                                           .three = 0,                   \
-         |                                           ^~~~~~~~~~
-   tests/stackinit_kunit.c:448:1: note: previous initialization is here
-     448 | DEFINE_UNION_INITIALIZER_TESTS(static, INSTRUMENTED_PASS);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:428:3: note: expanded from macro 'DEFINE_UNION_INITIALIZER_TESTS'
-     428 |                 DEFINE_UNION_TESTS(base ## _ ## all, xfail)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:431:3: note: expanded from macro 'DEFINE_UNION_TESTS'
-     431 |                 DEFINE_UNION_TEST(same_sizes, init, xfail);     \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/stackinit_kunit.c:410:3: note: expanded from macro 'DEFINE_UNION_TEST'
-     410 |                 DEFINE_TEST(name ## _ ## init,                  \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     411 |                             union test_ ## name, STRUCT, init,  \
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                             xfail)
-         |                             ~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
---
-   In file included from arch/x86/kernel/asm-offsets.c:9:
-   In file included from include/linux/crypto.h:18:
-   In file included from include/linux/slab.h:17:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:22:
-   In file included from include/linux/mm_types.h:16:
-   In file included from include/linux/uprobes.h:18:
-   In file included from include/linux/timer.h:6:
-   In file included from include/linux/ktime.h:25:
-   In file included from include/linux/jiffies.h:10:
-   In file included from include/linux/time.h:60:
-   In file included from include/linux/time32.h:13:
-   In file included from include/linux/timex.h:67:
-   In file included from arch/x86/include/asm/timex.h:6:
-   In file included from arch/x86/include/asm/tsc.h:11:
-   In file included from arch/x86/include/asm/msr.h:16:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   1 warning generated.
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:8:
-   In file included from include/linux/prandom.h:13:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   1 warning generated.
-   In file included from rust/helpers/helpers.c:43:
-   In file included from rust/helpers/auxiliary.c:3:
-   In file included from include/linux/auxiliary_bus.h:11:
-   In file included from include/linux/device.h:16:
-   In file included from include/linux/energy_model.h:7:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:16:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
-   In file included from rust/helpers/helpers.c:43:
-   In file included from rust/helpers/auxiliary.c:3:
-   In file included from include/linux/auxiliary_bus.h:11:
-   In file included from include/linux/device.h:16:
-   In file included from include/linux/energy_model.h:7:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:16:
-   In file included from include/linux/percpu.h:5:
->> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-     159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-         |                        ^
-   include/linux/compiler_types.h:235:16: note: expanded from macro 'inline'
-     235 | #define inline inline __gnu_inline __inline_maybe_unused notrace
-         |                ^
->> clang diag: include/linux/compiler_types.h:235:16: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
->> clang diag: include/linux/compiler_types.h:235:16: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
->> clang diag: include/linux/compiler_types.h:235:16: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
-   1 warning generated.
-   1 warning generated.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 1261/4145] {standard input}:61662: Error:
+ operand out of range (0xffffffff not between 0 and 0x3f) `l.slli r27,r28,-1'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>,
+ Johannes Thumshirn <johannes.thumshirn@wdc.com>
+References: <202611061612.twOQJVLd-lkp@intel.com>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ujyBQkUpLw5AAoJEMI9kfOh
+ Jf6o8OIH/0mqW+TQM4m2x3hCsnK+oB4yJH1qnGvIhFF/Lhs48wI02sGh6/4aA0hkCDfd9LHQ
+ +ci4FUepZ9y4VS01+oIExbg/8ytzGYTzLtb44jK2GBOBVSJkMiha6jp22XFt7WUkT/tvbreu
+ WWdGsaJIRQaZChy7xsMI8lqQ2WdmluZJ4LT0wD3l/l6QU1ZseMGySebdY9sVOQEOJNV7Qj92
+ /KOAFNmeZshV/qDI8Iw1RTs6TvLqCcqmlZLCmJkYSVhT1RonWRren8xIRcFEgMe004IDnt7V
+ qdQhk/nhTS9x9MBAhMRl0TTE1VKDLvVALsud3iZLrmmtYvwPApzGJk052f0m28vOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJq3ukKBQkUzDspAAoJEMI9kfOhJf6o
+ SNsH/1ysUWOKmzY0rGS3ZdS61QgqMGhSWD/EJ4UiPw+xO4l4+GtX0fOAqxqsmBKqje3vyhBa
+ Z5o/1Y+gNiN+E6RBcSz4b1TAd78sQ2bvT5DWOvBjeeVxHdiuQMIn4S8xk5ZpySBw5ifjoiuL
+ 0M33UVtJOzM8yfAeL+d/Rp4leJw72SutjkLyZTG/gJIp4pJGD/kFHn24OLL0IxEcO0gOekNZ
+ os5e1R6jAJ2ILk7+MDnvU8wXHcCiVzuDhJLI1tih1uUIE50muHQJWbYuVBbdJeu8WlIDDssx
+ UOCxLylNG3gDXV5MhLubPTOpp9OiFc/XC37nvkgEcrlmlOFBv4/NJCbECpo=
+In-Reply-To: <202611061612.twOQJVLd-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-vim +/inline +159 include/linux/alloc_tag.h
 
-   158	
- > 159	static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-   160	{
-   161		return !!(atomic_read(&tag->ct.flags) & CODETAG_FLAG_TRACE_ON);
-   162	}
-   163	
+在 2026/11/7 01:43, kernel test robot 写道:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
+> commit: 8a13fc366acd07c58a72b0eaee2c1e38f9280cee [1261/4145] btrfs: convert volumes.c and block-group.c to use map->stripe_len
+> config: openrisc-randconfig-r2109-20261106 (https://download.01.org/0day-ci/archive/20261106/202611061612.twOQJVLd-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 9.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611061612.twOQJVLd-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202611061612.twOQJVLd-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     {standard input}: Assembler messages:
+>>> {standard input}:61662: Error: operand out of range (0xffffffff not between 0 and 0x3f) `l.slli r27,r28,-1'
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Not an expert on compiler nor openrisc, but it looks like it's some 
+special path on ilog2(), which is mostly fls() - 1.
+Most architectures has dedicated fls() instructions, but for openrisc it 
+can falls back to generic_fls(), and it can return 0 if the parameter is 0.
+
+This fallback path results -1, leading to the above warning.
+
+But the problem is, the stripe_len parameter is already verified by 
+tree-checker at read time, any value not 64KiB is already rejected.
+
+So the fallback path should never be reached.
+
+To me, this looks like a false alert.
+
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
