@@ -1,79 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793980617;
-	b=DhgHKfdTcG0mm+gMD9/FtHdw3TvnDaDIUrDOzAEkwt3CH0sS/Qy/Jry65XZfydbivea1
-	 ZiyHq50LeASzvxo19wfQv1clGrflkJKG6gAG9WpoCvzH0vp9CZkrSe0BP07Z2YpMi915i
-	 ZHlG8XEvlol5wbuKHCunwmnwFnIFu4rpsO629PSZFwojOuVCd902+T4Zvd3/5WwocXGRo
-	 DjrTFZrY60euRRH52XHr4mvXw6VvsJVJ6Pffl6EUgRaY2fC7UIoFC8YdBELKlfu9Jlivy
-	 5walQ5b2UKULw2ORkg6aQcK4KKCfVFxt0HJrFfRhxFPsA1hdtU1WjFNHW/S8cvqabVQ==
+	t=1793982723;
+	b=VmwU67A2JynuA0HxT//C5wH1LELu5Bg2n5PxoArfRQfaFVrgWuwrYoRu9sjKChlDbY8f
+	 8ezHhEFw5KeLKsOJqyvC1jzC8KjSODILEGERWQUE2LeW56i2KShGK/4EXgh9zJ6La6dkY
+	 gEPmsLsD2mLRm2dx8gapqKdExPuccqTPMlwTnbQ38UaubZNa8Y1xeYcGbNhIGsMCcY2ko
+	 wrsWEZwK0vyHKvrk5C1BxP5kbe29rDMJ6N2wbFNWQWlnCznxEL/E6qweONq8/b920/m2q
+	 zp3QPXku/ApM/BmYlqvM/E5ajSTZvVTj3BEEYfg5Y8cM3XyBzPnMNf/OZAOLt4p4bOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793980617;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793982723;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=avbA/FGOKdwvskc2UA8yTZJwUAS5mgtOwGeeKk8EOZI=;
-	b=olMh4feyqL/LcukWLPQkV3129yNhEYnBAGqqDtyiZ4O5wEQRtlSI4lGQL3jRGd83+qlD
-	 NZtFjEy5qE0CRecUGnA/MuV9UBclUNpVci3dKJxhieuj9irIkxNqfnd8w9xBLzeAY4lAr
-	 AtcX5AchWSmq2+U53Qhbq3MReYF0E1fE9TfcXEMLRX2xViThylTqIiw8WTZQuTXXFDmxz
-	 nBhF+vrJoWWbGrPq7oXY4T2w/x20hYhsxT23cv2TvxqoWlmkwZG9mwQ80+IQQNjZxIReM
-	 2lSO6Hev1B9lujMOBve0oNc4bT/8MEnTTfUNawrSSm8BZmzu5ovzBI0NFyOXf2F75IQ==
+	bh=u2SCrHOVUXEGOU6PzpfyALRh4zq5mAoi1mG4dsi6uJY=;
+	b=LfeqtnDIbqcR12okmpvF+r7pywo20z0TPmnDokAUdy3YNQqkNQAu/9IXdxsIt2TkkfOO
+	 71G5Xc7PUOfBe/jhlxDn7k7RQXdtuJzgjLMNN0/tQHAbJNaq0sWJ7JeL68+WiSNj8xFzI
+	 OupPtbXh4lCFVn7chE2TlAeAqHRWKGFpp1wGZTNti2TRWyx+XnOSAMTbIOoSGJdZUDxGM
+	 jev/8DXGU7UbGncLSwsl5s77RJQdXPJRiGzGNMNKUCkhJZELN6lf1qw/w7paA3C9qRXHW
+	 S0veW8cxic3DKMRRsiCVd1zwlaGLDCsRToivAzkp0Q9P+U76Qshems+X26+D3DP0dHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RvHsUYaJ;
-	arc=none smtp.remote-ip=192.198.163.19
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UdYrXMTO;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F5C606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 15:56:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4F5C606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81572606A329;
+	Fri,  6 Nov 2026 16:32:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81572606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RvHsUYaJ
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UdYrXMTO
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793980616; x=1825516616;
+  t=1793982721; x=1825518721;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Zo0dl6bDFeSqtNSEh0fXIQg8Cz84Zo6FM2qDtEfbCQ4=;
-  b=RvHsUYaJgN9u5BUPbkAvh+qchC7wf22KKI2iwYh5nVrr1SC6xNcFS7x3
-   J5+BBXDjhihsl59D+ISjdy6EBChvJxERq98OkU72ec64QcdfAzCIZeBLY
-   G2CmuExL7JK2Lf0Wt8TZ4z0ddrr1G+EVZkfNcuW759SfQLyXj8Quo55g3
-   iYytnsdppVxMcepHUowlbsF0Bm8tVVseoqVxfJrr27ItkjbQKuUkaB82f
-   cYvVwPlsQHoJZJ2IOmJmYyV384hhnun8T1zn5dirbQ7sghOfat4Mdksdx
-   a2hHHluZIy7NBiA3iJjHDBezyQbTvktwcG8M0po+4tqf1yhzhx12c3rib
+  bh=aOOkyogIN8a4vOErcW4xzAmp9hDHePD6T4i5oTwBmvo=;
+  b=UdYrXMTOBJZLXgpnLEP64phLmYMDouvohn6qmjIuqLoZlV2Xwl3UlmPe
+   WawVn+t3sJlJfWW5Y5KM1vzFdCGSdRhrl5emyXxGKBL63UVyuR8Xt4IFr
+   1kqqOxebMzq/DXPs6kuBLFaWWmCp1CwlD9rPBwFtELgoOEfAAIqCUEEcF
+   Wa8nhayPBrEFcZzKDOJ5RYUHZRR0LgpPxbXs11OtTkNEzQgGgYUc+GO6s
+   1DMxxMveN4BGMLCMS2QIFslQnstFghOc3zZk7L2NdFNUYooXxT7lvct4m
+   3tv4OZW15wBJ2J/A3J05EOCH7HUdxuHVaoD6/e5PubHMQZGwSqfa+qoQr
    g==;
-X-CSE-ConnectionGUID: 2GUJ3g0ySd2zT6EDON8RGQ==
-X-CSE-MsgGUID: WXPradIUSHyz5NMtZrW6qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2896177"
+X-CSE-ConnectionGUID: QlLDIhIHQBGDbc8UYtIdWg==
+X-CSE-MsgGUID: AmJr1UiJS9KZtgr1+Y790g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2841123"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2896177"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 07:56:55 -0800
-X-CSE-ConnectionGUID: 1XxeQ7MtSMef0cLVrnFgwA==
-X-CSE-MsgGUID: FZwEEPXERoqN0QgFuNM8lg==
+   d="scan'208";a="2841123"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 08:32:00 -0800
+X-CSE-ConnectionGUID: QkItusjTQiyb9564qtZRRw==
+X-CSE-MsgGUID: d8a+nk9rQtSLvDGxXHfqHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7426578"
+   d="scan'208";a="7152479"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2026 07:56:53 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2026 08:31:58 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPMJ8-00000000pTv-2zIu;
-	Fri, 06 Nov 2026 15:56:50 +0000
-Date: Fri, 6 Nov 2026 23:56:05 +0800
+	id 1xPMr5-00000000pYJ-1pmH;
+	Fri, 06 Nov 2026 16:31:55 +0000
+Date: Sat, 7 Nov 2026 00:31:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Laurijssen <lauserve@gmail.com>, linux-kernel@vger.kernel.org,
 	pjw@kernel.org, akpm@linux-foundation.org, jannh@google.com,
 	brauner@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Laurijssen <laurijssen@protonmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Laurijssen <laurijssen@protonmail.com>
 Subject: Re: [PATCH] add utsname_set_field to reuse code in setdomainname and
  sethostname
-Message-ID: <202611062313.QD6BbpXI-lkp@intel.com>
+Message-ID: <202611070006.O8jXXb72-lkp@intel.com>
 References: <20261105120751.920311-1-laurijssen@protonmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -102,31 +103,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Laurijssen/add-utsname_se
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20261105120751.920311-1-laurijssen%40protonmail.com
 patch subject: [PATCH] add utsname_set_field to reuse code in setdomainname and sethostname
-config: sh-randconfig-1000-20261106 (https://download.01.org/0day-ci/archive/20261106/202611062313.QD6BbpXI-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611062313.QD6BbpXI-lkp@intel.com/reproduce)
+config: riscv-randconfig-1001-20261106 (https://download.01.org/0day-ci/archive/20261107/202611070006.O8jXXb72-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611070006.O8jXXb72-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611062313.QD6BbpXI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611070006.O8jXXb72-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sh4-linux-ld: kernel/sys.o: in function `__se_sys_sethostname':
->> kernel/sys.c:1422:(.text+0x3d5c): undefined reference to `utsname_set_field'
-   sh4-linux-ld: kernel/sys.o: in function `__se_sys_setdomainname':
-   kernel/sys.c:1455:(.text+0x3edc): undefined reference to `utsname_set_field'
-
-
-vim +1422 kernel/sys.c
-
-5cacdb4add1b1e5 Christoph Hellwig 2010-03-10  1421  
-5a8a82b1d306a32 Heiko Carstens    2009-01-14 @1422  SYSCALL_DEFINE2(sethostname, char __user *, name, int, len)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1423  {
-58c79d6f0053050 Laurijssen        2026-11-05  1424  	return utsname_set_field(name, len, UTS_PROC_HOSTNAME);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1425  }
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1426  
+>> ld.lld: error: undefined symbol: utsname_set_field
+   >>> referenced by sys.c:1424 (kernel/sys.c:1424)
+   >>>               vmlinux.o:(___se_sys_sethostname)
+   >>> referenced by sys.c:1457 (kernel/sys.c:1457)
+   >>>               vmlinux.o:(___se_sys_setdomainname)
 
 --
 0-DAY CI Kernel Test Service
