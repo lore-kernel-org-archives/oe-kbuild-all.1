@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793940853;
-	b=uAS0BnKua530OY/BWyEwUAifSB+E0Vac0E7iaD8OGeHWZUwk/Y5kA3adTzaDGd55C4ZY
-	 oulGjtw+H+Bi2172fTarDIZj24HIRezLk8R+6ZHOVfOEycCX+5cnZ6jtcCR3WbGo0c76f
-	 ZaIZKGdWwGc9F47SuVX61YrYB23EJ1+l1U+4JSOK5X/mGw/UW+Yc03EcLDg5hqulGdsQw
-	 aPJHl1ze7JU0h/og3sbvAaDnTFsYntxhbNNF7eNJgDL/JtF3sbN5y0Ynhx4FYOC4404Jg
-	 1c2iBYqVHsmCBwu/MKZHpu1B9LD3FLmYwPTaFG1DQ7lGrf6WFBlVtvnQ6tCU7rhESOw==
+	t=1793941456;
+	b=cn4Kie0zzEyKV2hMgr/c3PVwWwkEw6pR4DZzb+LndKOhEwcX5v2CBVkUPfciMIFsYBXe
+	 A2rHNqpB2DQHhgbMS0ytGryt2ynTXdGRLrzyzFm7Sgp7l5ikmHsXqDCraJ8CYNzLBYlsE
+	 JFDeu1q/pU1hujQowl4NPyRBnT5+uxa+TWSc1exnZrxeMLo8rWF+A1wpLKRja1k9wielG
+	 cbFW+cvXe0EfNzFfgtdKx5exRJ46PVRMM2vNfwyPOcGqOgOJt2kf1LgFhuUPi6bF5vW0g
+	 NRb7diO+mW3xP98FywjVNyO0W3a4/lEkK5kqGrazPN01X3h9gdofp6DRxTSMB73O/CQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793940853;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793941456;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=rK6tjlSL2JI5uNMtnUlD1zP///OrAq2bnotPzRP/5z8=;
-	b=glSBmGl4MgiM2iAwKEpN/0MieZsYjsxycsrColxPhTuFtIP25jMC5809+/0Vtiu0mtMj
-	 u8H2TzyaX7TUocKTQ5oyfHcSZUBkK7JYyXANarjePlI0vMJQxF3vRCcgcTKD6onMbqSO5
-	 tuX3xBh6/94569RV0qYUfcYUgLcLl9R8LrHBMazjNgkH/WppiQWM4soB7It50fmqjjnAW
-	 ndcKacQVkxiCWoMNCf214B101Q2yB2xJ7zkvGbPMPAbtjaYso69fD5SJnSb5BDF0QkWMc
-	 tlI8x2xZeacuEtJmbVkc1OrVR2AQbt76bXe3Zk/3BFJSiyfU8P69pjNlpz4F12hR9Eg==
+	bh=0+lOSJQ7L/jxxNGGL5HBPy/n3R/hBiOwxbdbogZkQnU=;
+	b=m2Ee2U9s14NY4x7k+f5H7zOzAfdqnMfkhXMaZSXB2ie1fy4nahg0UpWU6RZU7U927rLz
+	 DShu6lMvfO6p+OtfmQjx42nB4+z8bdqjnKcjETxO46F60sLbUvpO9xYOi1ntWWneGRSZP
+	 2MpoiZO/tRdCs9l+akROIMGiIIZU/+askddE8kjQlN35eQIdZNEqiN1ofxVuXwmNg4KvC
+	 AWewf+0cuE+9AwF2+009J8w6QB2Tj4yeiPO61C8KYYh0c4BH6f76GjfH8B6kO4u+n0rfj
+	 gU9lf/m2AQGYQiAjN+tOhkgsGs8oZssT/NRit6L4yuyKg33c44/ECNCSjMZGtQKQSaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bv08YMrz;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JUEz8F7J;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905A6606A32D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 04:54:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 905A6606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9546E606A31B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 05:04:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9546E606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bv08YMrz
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JUEz8F7J
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793940851; x=1825476851;
+  t=1793941455; x=1825477455;
   h=date:from:to:cc:subject:message-id;
-  bh=h+1iGc5RGYFC6SAx/vnGEtxq1esfFyF10ja1lWzV49g=;
-  b=bv08YMrzoRNw18flLj994Rr3VC0NT1niPoun9X9PO/mqogPRFdDaU2BO
-   YZyuopTv8QQgym3PLRNOh5m9+Jg9jHfO5fvntxX+phgoORfhr1bsiC/cs
-   hV8o6MfhWOyWVNGkAjqyDfapJzpzWYJUdtMRW0J+6ZkiIbgSqu6+uHSl7
-   d4RWnUG3epWmnSCYV2wZLsrAgeQCFUjyXo7joeXIPAsomio/TKvKvPdvQ
-   doDnuHFUAY0ZvqmKjD4q+ZswXTvlZvbIrA0/edm21p2YN5iJQP7AA1hUk
-   ys14ntk+6wI4XM/GYnGhlknSVaQLby6i6rJtkZVpqLikj/NMnJD0bAmOD
+  bh=8+c9BejSlFYwsTbU0r7zVtVe1crOLsZ/TcfmeInYP7w=;
+  b=JUEz8F7JS1EaJHWYRRrorthbaAmRMiZSwS7UP1ZIgMgNSz4sJ5Ac8zaN
+   jV0Zx+5Kyar1vWVWg0Aci0g0Q1rRtNA+OS/HKVBt6fzcA0JP1EFsY91qb
+   rkxpdpT8a81bfY1h4ufCVaYaltUK71gfEqQDDdvs3KZjmI7d/HjQNSIH8
+   9LcN6ACrAaG3HIMReJtdUCdCh+nTxOqS+dQNLgpwNld/4fn1GYEKuS+QA
+   q3qnL6dECHqjtGkRA1D8hkviNpT+EC5wLXb+jUL6DgolMaXuAkpKrDAM4
+   xyWo6Xwibd+X+zfk8CfrBODwkdW4EGj5NtNJBp7HoIjCr6skfRDjFnIzC
    A==;
-X-CSE-ConnectionGUID: w7xoJYuqRwqb7uXExpA4Dg==
-X-CSE-MsgGUID: O0u/ykzaRMahGXAEinuyIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2788714"
+X-CSE-ConnectionGUID: qfPLk6B6QbW3CcrTwG2Rgg==
+X-CSE-MsgGUID: 0qIEW4W/Q7eB4K2ipAcP+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2653321"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2788714"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 20:54:11 -0800
-X-CSE-ConnectionGUID: zD2ajM+lSmKfNUg4APS85Q==
-X-CSE-MsgGUID: ySQwU3LfRKqq61TMT3C0JA==
+   d="scan'208";a="2653321"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 21:04:14 -0800
+X-CSE-ConnectionGUID: 9qWMVEa4RbuQIfvV5AgKKg==
+X-CSE-MsgGUID: bbOHu3aSTmaS20vBtVRciA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="8941820"
+   d="scan'208";a="7093221"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 05 Nov 2026 20:54:10 -0800
+  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2026 21:04:12 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPBxn-00000000A23-1SNW;
-	Fri, 06 Nov 2026 04:54:07 +0000
-Date: Fri, 06 Nov 2026 05:53:18 +0100
+	id 1xPC7V-00000000A2J-2UBV;
+	Fri, 06 Nov 2026 05:04:09 +0000
+Date: Fri, 06 Nov 2026 06:03:50 +0100
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paulo Alcantara <pc@manguebit.org>
-Subject: [dhowells-fs:netfs-next-3 3/12] fs/netfs/bvecq.c:74:8:
- error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202611060545.VS2yQDN1-lkp@intel.com>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
+ Oliver Bestmann <oliver.bestmann@googlemail.com>
+Subject: [asahilinux:bits/200-dcp 207/221]
+ drivers/gpu/drm/apple/plane.c:357:4: error: a label can only be part of a
+ statement and a declaration is not a statement
+Message-ID: <202611060638.87B8z8pv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,278 +82,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next-3
-head:   79a2d44fadd22d5c8b7cabe33bbb2c1f2afab99f
-commit: cfdbc54a9af55a6a95a731f973444672f50b4ada [3/12] netfs: Add some tools for managing bvecq chains
-config: i386-randconfig-2105-20261106 (https://download.01.org/0day-ci/archive/20261106/202611060545.VS2yQDN1-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060545.VS2yQDN1-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/200-dcp
+head:   7ede143c0f094c8c52f1439b73a4cb8109ea9051
+commit: e323190553b10d2a8ff68365ddb8c1dfd3c74b0b [207/221] drm: apple: Add support for Apple Interchange framebuffers
+config: arm64-randconfig-r2100-20261106 (https://download.01.org/0day-ci/archive/20261106/202611060638.87B8z8pv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060638.87B8z8pv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060545.VS2yQDN1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060638.87B8z8pv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/netfs/bvecq.c:74:8: error: call to undeclared function 'mempool_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      74 |                 bq = mempool_alloc(&netfs_bvecq_pool, gfp);
-         |                      ^
->> fs/netfs/bvecq.c:74:6: error: incompatible integer to pointer conversion assigning to 'struct bvecq *' from 'int' [-Wint-conversion]
-      74 |                 bq = mempool_alloc(&netfs_bvecq_pool, gfp);
-         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/netfs/bvecq.c:270:4: error: call to undeclared function 'mempool_free'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     270 |                         mempool_free(bq, &netfs_bvecq_pool);
-         |                         ^
-   3 errors generated.
+   drivers/gpu/drm/apple/plane.c: In function 'apple_plane_atomic_update':
+>> drivers/gpu/drm/apple/plane.c:357:4: error: a label can only be part of a statement and a declaration is not a statement
+       struct dcp_image_layout layout;
+       ^~~~~~
 
 
-vim +/mempool_alloc +74 fs/netfs/bvecq.c
+vim +357 drivers/gpu/drm/apple/plane.c
 
-    33	
-    34	/**
-    35	 * bvecq_alloc_one - Allocate a single bvecq node with unpopulated slots
-    36	 * @nr_slots: Number of slots to allocate
-    37	 * @gfp: The allocation constraints.
-    38	 * @for_writeback: True if allocating for writeback
-    39	 *
-    40	 * Allocate a single bvecq node and initialise the header.  The allocation is
-    41	 * rounded up to the size of the smallest slab granule that will accommodate it
-    42	 * and all the remaining space is set as an inline slot array with max_slots
-    43	 * set to the number of slots.  The slot array is not initialised.
-    44	 *
-    45	 * If @for_writeback is set, then the emergency mempool may be used for
-    46	 * allocation.  If it does allocate from that pool, the maximum number of slots
-    47	 * available will be BVECQ_POOL_SLOTS which may be less than requested.  Also,
-    48	 * if @for_writeback is set, the function will not fail - though it may have to
-    49	 * wait.
-    50	 *
-    51	 * Return: The node pointer or NULL on allocation failure.
-    52	 */
-    53	struct bvecq *bvecq_alloc_one(size_t nr_slots, gfp_t gfp, bool for_writeback)
-    54	{
-    55		struct bvecq *bq;
-    56		const size_t pool_size = struct_size_t(struct bvecq, __bv, BVECQ_POOL_SLOTS);
-    57		size_t size;
-    58		bool from_pool = false;
-    59	
-    60		size = kmalloc_size_roundup(struct_size(bq, __bv, nr_slots));
-    61		gfp &= ~(GFP_ZONEMASK | __GFP_THISNODE);
-    62	
-    63		if (for_writeback) {
-    64			if (size != pool_size) {
-    65				gfp_t gfp_temp = gfp;
-    66	
-    67				gfp_temp |= __GFP_NOMEMALLOC | __GFP_NORETRY | __GFP_NOWARN;
-    68				gfp_temp &= ~(__GFP_DIRECT_RECLAIM | __GFP_IO);
-    69				bq = kmalloc(size, gfp_temp);
-    70				if (bq)
-    71					goto success;
-    72			}
-    73	
-  > 74			bq = mempool_alloc(&netfs_bvecq_pool, gfp);
-    75			if (!bq)
-    76				return bq;
-    77			from_pool = true;
-    78			size = pool_size;
-    79		} else {
-    80			bq = kmalloc(size, gfp);
-    81			if (!bq)
-    82				return bq;
-    83		}
-    84	
-    85	success:
-    86		*bq = (struct bvecq) {
-    87			.ref		= REFCOUNT_INIT(1),
-    88			.bv		= bq->__bv,
-    89			.inline_bv	= true,
-    90			.max_slots	= (size - sizeof(*bq)) / sizeof(bq->__bv[0]),
-    91			.from_pool	= from_pool,
-    92		};
-    93		netfs_stat(&netfs_n_bvecq);
-    94		return bq;
-    95	}
-    96	EXPORT_SYMBOL(bvecq_alloc_one);
-    97	
-    98	/**
-    99	 * bvecq_alloc_chain - Allocate an unpopulated bvecq chain
-   100	 * @nr_slots: Number of slots to allocate
-   101	 * @gfp: The allocation constraints.
-   102	 * @for_writeback: True if allocating for writeback
-   103	 *
-   104	 * Allocate a chain of bvecq nodes providing at least the requested cumulative
-   105	 * number of slots.  Each node is a maximum of 4KiB in size.
-   106	 *
-   107	 * Return: The first node pointer or NULL on allocation failure.
-   108	 */
-   109	struct bvecq *bvecq_alloc_chain(size_t nr_slots, gfp_t gfp, bool for_writeback)
-   110	{
-   111		struct bvecq *head = NULL, *tail = NULL;
-   112	
-   113		_enter("%zu", nr_slots);
-   114	
-   115		for (;;) {
-   116			struct bvecq *bq;
-   117	
-   118			bq = bvecq_alloc_one(min(nr_slots, BVECQ_4KB_SLOTS), gfp, for_writeback);
-   119			if (!bq)
-   120				goto oom;
-   121	
-   122			if (tail)
-   123				bvecq_append(tail, bq);
-   124			else
-   125				head = bq;
-   126			tail = bq;
-   127			if (tail->max_slots >= nr_slots)
-   128				break;
-   129			nr_slots -= tail->max_slots;
-   130		}
-   131	
-   132		return head;
-   133	oom:
-   134		bvecq_put(head);
-   135		return NULL;
-   136	}
-   137	EXPORT_SYMBOL(bvecq_alloc_chain);
-   138	
-   139	/**
-   140	 * bvecq_alloc_buffer2 - Allocate a bvecq chain and populate with buffers
-   141	 * @size: Target size of the buffer (can be 0 for an empty buffer)
-   142	 * @pre_slots: Number of preamble slots to set aside
-   143	 * @gfp: The allocation constraints.
-   144	 * @for_writeback: True if allocating for writeback
-   145	 *
-   146	 * Allocate a chain of bvecq nodes and populate the slots with sufficient pages
-   147	 * to provide at least the requested amount of space, leaving the first
-   148	 * @pre_slots slots unset.  The pre-slots must all fit into the the first
-   149	 * bvecq.
-   150	 *
-   151	 * The pages allocated may be compound pages larger than PAGE_SIZE and thus
-   152	 * occupy fewer slots.  The pages have their refcounts set to 1 and can be
-   153	 * passed to MSG_SPLICE_PAGES.
-   154	 *
-   155	 * Return: The first node pointer or NULL on allocation failure.
-   156	 */
-   157	struct bvecq *bvecq_alloc_buffer2(size_t size, unsigned int pre_slots, gfp_t gfp,
-   158					  bool for_writeback)
-   159	{
-   160		struct bvecq *head = NULL, *p = NULL;
-   161		size_t nr_per_bq = BVECQ_POOL_SLOTS;
-   162		size_t count = pre_slots + DIV_ROUND_UP(size, PAGE_SIZE);
-   163	
-   164		_enter("%zx,%zx,%u", size, count, pre_slots);
-   165	
-   166		if (WARN_ON_ONCE(pre_slots > nr_per_bq))
-   167			return NULL;
-   168	
-   169		head = bvecq_alloc_chain(count, gfp, for_writeback);
-   170		if (!head)
-   171			return NULL;
-   172	
-   173		p = head;
-   174		do {
-   175			struct page **pages;
-   176			size_t unused, want, got, slot;
-   177	
-   178			if (!count)
-   179				break;
-   180			if (WARN_ON_ONCE(!p))
-   181				goto oom;
-   182	
-   183			if (p->nr_slots == 0) {
-   184				/* Need to clear pre slots and pages[], so just clear all. */
-   185				memset(p->bv, 0, p->max_slots * sizeof(p->bv[0]));
-   186				p->mem_type = BVECQ_MEM_ALLOCED;
-   187				p->nr_slots = pre_slots;
-   188				count -= pre_slots;
-   189				pre_slots = 0;
-   190				if (!count)
-   191					break;
-   192			}
-   193	
-   194			if (p->nr_slots >= p->max_slots) {
-   195				p = p->next;
-   196				continue;
-   197			}
-   198			unused = p->max_slots - p->nr_slots;
-   199	
-   200			pages = (struct page **)&p->bv[p->max_slots];
-   201			pages -= unused;
-   202	
-   203			want = min(count, unused);
-   204			got = alloc_pages_bulk(gfp, want, pages);
-   205			if (!got)
-   206				goto oom;
-   207	
-   208			slot = p->nr_slots;
-   209			for (int i = 0; i < got; i++)
-   210				bvec_set_page(&p->bv[slot++], pages[i], PAGE_SIZE, 0);
-   211	
-   212			bvecq_filled_to(p, slot);
-   213			count -= got;
-   214		} while (count > 0);
-   215	
-   216		return head;
-   217	oom:
-   218		bvecq_put(head);
-   219		return NULL;
-   220	}
-   221	EXPORT_SYMBOL(bvecq_alloc_buffer2);
-   222	
-   223	/*
-   224	 * Free the page pointed to by a slot as necessary.
-   225	 */
-   226	static void bvecq_free_slot(struct bvecq *bq, unsigned int slot)
-   227	{
-   228		struct page *page = bq->bv[slot].bv_page;
-   229	
-   230		if (!page)
-   231			return;
-   232	
-   233		switch (bq->mem_type) {
-   234		case BVECQ_MEM_EXTERNAL:
-   235			break;
-   236		case BVECQ_MEM_PAGECACHE:
-   237			put_page(page);
-   238			break;
-   239		case BVECQ_MEM_GUP:
-   240			unpin_user_page(page);
-   241			break;
-   242		case BVECQ_MEM_ALLOCED:
-   243			__free_pages(page, compound_order(page));
-   244			break;
-   245		default:
-   246			WARN_ON_ONCE(1);
-   247			break;
-   248		}
-   249	}
-   250	
-   251	/**
-   252	 * bvecq_put - Put a ref on a bvec queue
-   253	 * @bq: The start of the folio queue to free
-   254	 *
-   255	 * Put the ref(s) on the nodes in a bvec queue, freeing up the node and the
-   256	 * page fragments it points to as the refcounts become zero.
-   257	 */
-   258	void bvecq_put(struct bvecq *bq)
-   259	{
-   260		struct bvecq *next;
-   261	
-   262		for (; bq; bq = next) {
-   263			if (!refcount_dec_and_test(&bq->ref))
-   264				break;
-   265			for (int slot = 0; slot < bq->nr_slots; slot++)
-   266				bvecq_free_slot(bq, slot);
-   267			next = bq->next;
-   268			netfs_stat_d(&netfs_n_bvecq);
-   269			if (bq->from_pool)
- > 270				mempool_free(bq, &netfs_bvecq_pool);
-   271			else
-   272				kfree(bq);
-   273		}
-   274	}
-   275	EXPORT_SYMBOL(bvecq_put);
-   276	
+   284	
+   285	static void apple_plane_atomic_update(struct drm_plane *plane,
+   286					      struct drm_atomic_commit *commit)
+   287	{
+   288		struct drm_plane_state *base = drm_atomic_get_new_plane_state(commit, plane);
+   289		struct apple_plane_state *new_state;
+   290		struct drm_gem_dma_object *obj;
+   291		bool is_premultiplied = false;
+   292	
+   293		if (!base)
+   294			return;
+   295	
+   296		new_state = to_apple_plane_state(base);
+   297	
+   298		if (!base->fb) {
+   299			memset(&new_state->surf, 0, sizeof(new_state->surf));
+   300			return;
+   301		}
+   302	
+   303		struct drm_framebuffer *fb = base->fb;
+   304		const struct drm_format_info *fmt = fb->format;
+   305		/*
+   306		 * DCP doesn't support XBGR8 / XRGB8 / XBGR2101010 natively. Blending as
+   307		 * pre-multiplied alpha with a black background can be used as
+   308		 * workaround for the bottommost plane.
+   309		 */
+   310		if (fmt->format == DRM_FORMAT_XRGB8888 ||
+   311		    fmt->format == DRM_FORMAT_XBGR8888 ||
+   312		    fmt->format == DRM_FORMAT_XBGR2101010)
+   313			is_premultiplied = true;
+   314	
+   315		new_state->src_rect = drm_to_dcp_rect_fp(&base->src);
+   316		new_state->dst_rect = drm_to_dcp_rect(&base->dst);
+   317	
+   318		new_state->surf = (struct dcp_surface){
+   319			.is_premultiplied = is_premultiplied,
+   320			.plane_cnt = fb->format->num_planes,
+   321			.plane_cnt2 = fb->format->num_planes,
+   322			.format = drm_format_to_dcp(fmt->format, base->color_range),
+   323			.xfer_func = get_xfer_func(fmt->is_yuv, base->color_encoding),
+   324			.colorspace = get_colorspace(fmt->is_yuv, base->color_encoding),
+   325			.stride = fb->pitches[0],
+   326			.width = fb->width,
+   327			.height = fb->height,
+   328			.surface_id = plane->base.id,
+   329	
+   330			/* Only used for compressed or multiplanar surfaces */
+   331			.pix_size = 1,
+   332			.pel_w = 1,
+   333			.pel_h = 1,
+   334			.has_comp = 1,
+   335			.has_planes = 1,
+   336			.has_compr_info = 1,
+   337		};
+   338	
+   339		/* Populate plane information for planar formats */
+   340		struct dcp_surface *surf = &new_state->surf;
+   341		for (int i = 0; fb->format->num_planes && i < fb->format->num_planes; i++) {
+   342			u32 width = drm_format_info_plane_width(fb->format, fb->width, i);
+   343			u32 height = drm_format_info_plane_height(fb->format, fb->height, i);
+   344			u32 bpp;
+   345			u32 bw;
+   346			u32 bh;
+   347	
+   348			surf->planes[i] = (struct dcp_plane_info){
+   349				.width = width,
+   350				.height = height,
+   351				.base = fb->offsets[i] - fb->offsets[0],
+   352				.offset = fb->offsets[i] - fb->offsets[0],
+   353			};
+   354	
+   355			switch (fb->modifier) {
+   356			case DRM_FORMAT_MOD_APPLE_INTERCHANGE:
+ > 357				struct dcp_image_layout layout;
+   358	
+   359				bpp = drm_format_info_bpp(fmt, i);
+   360				layout = apple_get_ix_layout(width, height, bpp, i, fmt->is_yuv);
+   361	
+   362				surf->planes[i].tile_w = layout.tile_w;
+   363				surf->planes[i].tile_h = layout.tile_h;
+   364				surf->planes[i].stride = layout.width_tiles * layout.tile_bytes;
+   365				surf->planes[i].size = layout.meta_offset + layout.meta_size;
+   366				surf->planes[i].tile_size = layout.tile_bytes;
+   367				surf->planes[i].address_fmt = DCP_ADDR_FMT_INTERCHANGE_TILED;
+   368	
+   369				surf->compression_info[i] = (struct dcp_compression_info) {
+   370					.tile_w = layout.tile_w,
+   371					.tile_h = layout.tile_h,
+   372					.data_offset = surf->planes[i].offset,
+   373					.metadata_offset = surf->planes[i].offset + layout.meta_offset,
+   374					.meta_bytes = layout.meta_tile_bytes,
+   375					.tiles_w = layout.width_tiles,
+   376					.tiles_h = layout.height_tiles,
+   377					.tile_bytes = layout.tile_bytes,
+   378					.row_stride = layout.width_tiles * layout.tile_bytes,
+   379					.compression_type = DCP_COMPRESSION_INTERCHANGE,
+   380				};
+   381				break;
+   382			case DRM_FORMAT_MOD_INVALID:
+   383			case DRM_FORMAT_MOD_LINEAR:
+   384				bh = drm_format_info_block_height(fb->format, i);
+   385				bw = drm_format_info_block_width(fb->format, i);
+   386				surf->planes[i].tile_w = bw;
+   387				surf->planes[i].tile_h = bh;
+   388				surf->planes[i].stride = fb->pitches[i];
+   389				surf->planes[i].size = height * fb->pitches[i];
+   390				surf->planes[i].tile_size = bw * bh;
+   391				surf->planes[i].address_fmt = DCP_ADDR_FMT_LINEAR;
+   392				break;
+   393			default:
+   394				break;
+   395			}
+   396	
+   397			surf->buf_size += surf->planes[i].size;
+   398		}
+   399	
+   400		/* the obvious helper call drm_fb_dma_get_gem_addr() adjusts
+   401		 * the address for source x/y offsets. Since IOMFB has a direct
+   402		 * support source position prefer that.
+   403		 */
+   404		obj = drm_fb_dma_get_gem_obj(base->fb, 0);
+   405		if (obj)
+   406			new_state->iova = obj->dma_addr + base->fb->offsets[0];
+   407	}
+   408	
 
 --
 0-DAY CI Kernel Test Service
