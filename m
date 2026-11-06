@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793989810;
-	b=nZm0StXbKu5ylejQJtxvzCPJlV+qz0FBw9U61/+t4MwqvupDbnBCN7d2Em9w/wuNdoqD
-	 cTuQDW6ByuckFhPGqD7sPdb9/jNYW57E4B33tZ6w8Y8E968o+4oS6HogWR+XVPuhWhDd2
-	 vVSfPMNjOnRYvbnPEkQoWrPtyyknGMnRe8F1UWbCqngXQEHkyTZzYdUS8/Uv8iwGSMiHl
-	 smVzEDyWpckHoJD/wQ+IjaCfR5JYSeoMm4iRPGf0gRO5F5L+dAR6JHxc1jp9aIL6dyVfb
-	 HM7zJJ8IB3YODS/4yEL4uoiFQ5/B1BAP2/ReLFMK6Kva0mrXdaCJa1pV1L3xnILu7wQ==
+	t=1793991022;
+	b=VJYd7bHkvEh7aNIWdX3YqmVMy7QsSNfLOeIDTqL5AdOJ16guaRiRItiTJSK+TrpQ0baT
+	 nQXitD8wlw+tUqqn+n7EIS1mJXDhaCHP2sttQuLgx24KcpcGSVcp8udN6AC8Q1nXuG2S9
+	 /CCoZZP6F+/R2DLwqIfcGrzHx46RjOe+vhPJPifbr1sZRxTKloYidxM+g1aXsIRr3Ft71
+	 uPQNj3QZUkMRbT8kgRdqXPkQ87cVOetUliW0/Cm7K/RTrwEYHThl271IyhWSyJJSa5BDY
+	 7lKpmvx+3tUUyLzcZHdIn+uQzyLiq7nV0FVbIPwI15MMSCHlri+cODUSrAH7qpmtEAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793989810;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793991022;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=99KcijNA3EjJ07wRg720ApD+kZFoHD0I4IIHuWXdZOI=;
-	b=jo59SAiSoBrWr6xUISZccvBYGsO7wILMWkjK38gLl4BgYihgc35hXrjnJe1CXLT20YC8
-	 HSWZnRcCeTAoFdN13S/SwaRj7/5eYY6N15UGt09zCqYp9Id+yr4d0yMrkPE4jq45YUWDr
-	 65VRX/yL1yBmmuXYWWoeiTfZLprwF3b+SSpg2ADziL0WasAvetqja9JP4hNVB3NfreCw3
-	 A/rGF0+2HRutOsejIDQ5hwZmiT6dU0xJa39poMSdWHLuSNxnu077NR2cra1tKjxuf6fBz
-	 /0RhbzybDhTftFjoF/azFCa+8cA9L/sCV9XJA6s0SUaDczejCAsfP/Yv1y/MNEUULFw==
+	bh=qzehR+mAXD7hqA3PkbJSkIi/YhFouFiAGPXWub87H1U=;
+	b=C/LvTr0jmCP0hxJWhwACqU+eqkwf8+uP6W+5chjvMoR+v/11My11ERgTZ8RfS0JRgJER
+	 HeKlWd3EcxBBQQ22IWjzNLZWgc9ydEqa6D7sH/1xTMAyAIPEsiwxcIDbihbnP30dLmB6q
+	 dXydXrq/y+8mv7Yj7QOYn4ZtEWaBIIVykginWyzRszkd6C8k1LV2Yn051wRCeKC3PPAjQ
+	 wZ1FNLmDwYAe/ofDpdzN6b5701gSMLpjgDGtMrwHTot5h6CNAP1dfhjmcLxywmvnleLnj
+	 WGahSDzDL9wbyPUZ7bdF0d44cjGYJxRe5OWfHbb51LpuyRaXEPLwHh/DKfFXhX6bNhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lrvMhR5+;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TRf6gyYB;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD8C606A32E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 18:30:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DD8C606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF369606A326
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 18:50:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF369606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lrvMhR5+
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TRf6gyYB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793989809; x=1825525809;
+  t=1793991021; x=1825527021;
   h=date:from:to:cc:subject:message-id;
-  bh=niduVHgOwCARHhCv8zIGF9VsLXhfTyz/hG12dmON+r4=;
-  b=lrvMhR5+MSlkSzsm5Hj6wF1/K6AHowxQbqFs6efulCYLzhfTgv5Rqk8f
-   Uki4mDrRdhMq5iVdaVP5QP6VPBqV++DkRbVMfb0Duy82QBOug2mkZ4HIb
-   LnLkiSk3giNyxZfOvPKltSb8JxjKJNTcf+HIFxG6JWHcuUKa6BYgIevMg
-   5uYFiaqEWAhR7v0/QsAMOfxrDtxX1+z1ZHfkOAziOeE1530jIiHEwuPEw
-   xuRIqFvE7LpyCOlMsh/eRgktZq98t1vwN+ZHy0VU2KKYpPuj7SYkg5jfd
-   6no6T+7DIKylsBTooLIgt81GY50HFBwfxvKCB858Il3Tyc902zSG5YWjf
-   w==;
-X-CSE-ConnectionGUID: lPUI0KxvRVKJ5Hv7IYmNJg==
-X-CSE-MsgGUID: gc5kuSgcShuFjbQbFn627g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2709041"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2709041"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 10:30:08 -0800
-X-CSE-ConnectionGUID: 8IQKHsVxT1GM2dd4rwspqA==
-X-CSE-MsgGUID: 5xU6t8OhTr21CsWaCD4zIg==
+  bh=5QRGVGiouzmD2JRcq9wyOM4BO+p5hlm6Nq1MvMyYvck=;
+  b=TRf6gyYBAme+1L92+bWG7tawJ3lmUFjVK+FlrhAfkSWln+eP/zgfRqeV
+   BkzrfVQX+E86d9Qku1fNovhAajEtfoz3gYG5b8AimftpdyIIXEfnrLGNP
+   bqZoX/VLLjUyUbAnTTSNX+wximbLHL+V/m4RMKaHJ8Qxeq7MFeQNYhzpo
+   GxubW0DooxyZ8tgXiLQjwidiBJM1XBg0lJB+lG5F6SwU22zD59ej0hjTL
+   NjBXSoKLYQ018jLMUqxUIRdJRmUuArxLjr+d+u2kx8AjPyI32mSHYn0UV
+   xV2lvAYI/nR7QEW4/Fub6Psl2evN9oODyrAieQUSXi0Q/ed3M97X6bqGU
+   g==;
+X-CSE-ConnectionGUID: GUDDXPg4QRuId+7W1Y+4Qw==
+X-CSE-MsgGUID: gETFMqGdRpWb62iJ77nBVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2710869"
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="2710869"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 10:50:20 -0800
+X-CSE-ConnectionGUID: t2tiqV3CQ36YxecGld6d5w==
+X-CSE-MsgGUID: gVBKvs7AQnymPend81y9hw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7320987"
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="7210176"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2026 10:30:07 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2026 10:50:19 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPOhQ-00000000AKd-3fCI;
-	Fri, 06 Nov 2026 18:30:04 +0000
-Date: Fri, 06 Nov 2026 19:29:08 +0100
+	id 1xPP0y-00000000AKp-2k57;
+	Fri, 06 Nov 2026 18:50:16 +0000
+Date: Fri, 06 Nov 2026 19:49:56 +0100
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/sound-rust-v7.3 38/56] warning: casts from
- `u8` to `u32` can be expressed infallibly using `From`
-Message-ID: <202611061930.kJUSXVkl-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:efi-image-info 4/5]
+ drivers/firmware/efi/libstub/arm64.c:143:43: sparse: sparse: restricted
+ __le32 degrades to integer
+Message-ID: <202611061921.kd5SOdmJ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,35 +81,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
-head:   070444a8abf14da700680a5331d0a95cd11e578b
-commit: a95673578a867ad8c65f4c68a929107b718f9c5d [38/56] rust: usb: Add safe accessors for Device, IAD, and interface descriptors
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261106/202611061930.kJUSXVkl-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611061930.kJUSXVkl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-image-info
+head:   8c7de009299435f0fd9d77e1b31c7b25db4727f3
+commit: d0bb1aa57517bc3e96a3f8cce8bef4f42aa3b9a4 [4/5] efi/arm64: Expose struct efi_image_info via the image header
+config: arm64-randconfig-r2310-20261106 (https://download.01.org/0day-ci/archive/20261106/202611061921.kd5SOdmJ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611061921.kd5SOdmJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611061930.kJUSXVkl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611061921.kd5SOdmJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/firmware/efi/libstub/arm64.c:91:12: sparse: sparse: symbol 'code_size' was not declared. Should it be static?
+>> drivers/firmware/efi/libstub/arm64.c:143:43: sparse: sparse: restricted __le32 degrades to integer
 
->> warning: casts from `u8` to `u32` can be expressed infallibly using `From`
-   --> rust/kernel/usb.rs:362:9
-   |
-   362 |         self.cur_altsetting().number() as u32
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: an `as` cast can become silently lossy if the types change in the future
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#cast_lossless
-   = note: requested on the command line with `-W clippy::cast-lossless`
-   help: use `u32::from` instead
-   |
-   362 -         self.cur_altsetting().number() as u32
-   362 +         u32::from(self.cur_altsetting().number())
-   |
+vim +143 drivers/firmware/efi/libstub/arm64.c
+
+    90	
+  > 91	u32 __weak code_size;
+    92	
+    93	void efi_cache_sync_image(unsigned long image_base,
+    94				  unsigned long alloc_size)
+    95	{
+    96		u32 ctr = read_cpuid_effective_cachetype();
+    97		u64 lsize = 4 << cpuid_feature_extract_unsigned_field(ctr,
+    98							CTR_EL0_DminLine_SHIFT);
+    99	
+   100		/* only perform the cache maintenance if needed for I/D coherency */
+   101		if (!(ctr & BIT(CTR_EL0_IDC_SHIFT))) {
+   102			unsigned long base = image_base;
+   103			unsigned long size = code_size;
+   104	
+   105			do {
+   106				asm("dc " DCTYPE ", %0" :: "r"(base));
+   107				base += lsize;
+   108				size -= lsize;
+   109			} while (size >= lsize);
+   110		}
+   111	
+   112		asm("ic ialluis");
+   113		dsb(ish);
+   114		isb();
+   115	}
+   116	
+   117	unsigned long __weak primary_entry_offset(void)
+   118	{
+   119		/*
+   120		 * By default, we can invoke the kernel via the branch instruction in
+   121		 * the image header, so offset #0. This will be overridden by the EFI
+   122		 * stub build that is linked into the core kernel, as in that case, the
+   123		 * image header may not have been loaded into memory, or may be mapped
+   124		 * with non-executable permissions.
+   125		 */
+   126	       return 0;
+   127	}
+   128	
+   129	void __noreturn efi_enter_kernel(unsigned long entrypoint,
+   130					 unsigned long fdt_addr,
+   131					 unsigned long fdt_size)
+   132	{
+   133		void (* __noreturn enter_kernel)(u64, u64, u64, u64);
+   134	
+   135		enter_kernel = (void *)entrypoint + primary_entry_offset();
+   136		enter_kernel(fdt_addr, 0, 0, 0);
+   137	}
+   138	
+   139	const struct efi_image_info *zboot_get_image_info(unsigned long image_base)
+   140	{
+   141		auto header = (const struct arm64_image_header *)image_base;
+   142	
+ > 143		return (void *)image_base + header->efi_image_info_offset;
 
 --
 0-DAY CI Kernel Test Service
