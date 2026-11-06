@@ -1,82 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794001707;
-	b=d/UYzDmpFVjehrJtNwJShWgYTBEAkeoDGCk0VIjeW40hmsKpcwJCm8w2BIxRGNtZ7qT5
-	 L7th9AVhgwJewAZ+v13kXfk8GvKG3QkQrcvaUkspHaxi3p+16dn8RdgeL0pprytfIjgOX
-	 dNnVzRWQfBO0tZU21KclSCGN5KSFLdS3c8Om9lJVwIXWLxNtDR+KmwQHvXiSkSn0Btd66
-	 zghqJGIsQs27PYeGsohhEgDE7sqe7uEATE6CRUzlfm34nz3Y9GRpJ2xbrZkchW54haBP+
-	 mOih05KCtUKW146nmpt1yV2KQ8mLZayun4OjPOXjwfFo2KGh0CHs6JDPFYeurBNak7Q==
+	t=1794001852;
+	b=1+2aCqImsFXZCyyMBIMYiM2gt13pjVz671HeTOfBnPweLnqqVk0wzdaQ0w2mkuSdMTXc
+	 GkVp+DWDinuIczNRkLLD8g4od7vsuwZLuSZviQT9IvCrv4qMcwd8BLmbemj1kc7ASkDPe
+	 AHcb1fXA3URd5KBvDYuAhr7RolqG1ZwVhbmao/2NKQZJ4sMGGoiNyFDdri5MeGxWZhkk3
+	 HuHNqNp5uI4JedD3JwSSVeiY3exBtOZ1wcleZumuz4v7A6R+dYfmwt2lAnMUguk6xtXKP
+	 c7b7tHYf8w3eADG52VWyRSrZzUQ48JFdAkCtQLHwi4Vo6ZQ96pwHYYHTJxJBuvYTm2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794001707;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794001852;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=2HoSPxi/LKdkm47Df3tPYzsKHjifKjuEh/WGLdhSzqQ=;
-	b=NMLVLz4yG/QFvTWy/xlfZ1rKKtDNoDHAip6PzIcZTF7eTQQDw0+EB/XQ7ayPdB8SVZCX
-	 XDAqaTSyn6qeDJi2Rbc5i2ayktB+HEU9sjcqXhR1PcU7wHG08IdEAArR2091AbmOnBXoj
-	 Jmpu7lurZZ9d3qgUrsnsccOLFxC7O1iCvLdcE+nZ1/7pP+k/qkR93HRXfubgzP32Ulgj8
-	 fbrjdk8/5qHzK/2D3tFXN6ZvouKzw8bPs3crE5dPSLDn2v+234JoIUQAal1xxPYfvHiNI
-	 XXEYtYL8hu86AE0f202gUVvXaXRJgn2kauzjWSYzjemDl2dasYycEZ4eAo04YAzRtcQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=gRZ49BvYYfZ4AMhcglC24CYAsSNbyZJp0UDdK0JZjUY=;
+	b=uT5sCmRA0EMeuaqBmNbgMWiQQvtKXevIchorqnIHjdWTQ38mZXdfi0TES9/qAy3sq1eM
+	 mV+Vh9lfv3MDDCiW/AVT2UGs4ZkuES44qzdHpHnOUfvQvgOkbKjpbJ2fZ9ZngLxS82t+g
+	 MvNTD2bB0MPQtpJGpFtOat7WYexQqBv43sXU6Y+TMiyf/kOe+G0otDrteSiI0tb2yVEeL
+	 +c1RiEl+qqUTFgglOjfbO6ufRf03/kJi0ek9oPV7kezaGqZu+tBTdqOeVanR0OD3b2PLO
+	 +afbpqGADAVFIG49q6M6BLBC+cr4+mymJq9a5qF2Ld34LKVKyWnVksFbSmNUZDGpZeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QBrb4ZoX;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FCJvuWku;
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BA5606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 21:48:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47BA5606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDB3606A32D;
+	Fri,  6 Nov 2026 21:50:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CDB3606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QBrb4ZoX
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FCJvuWku
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794001706; x=1825537706;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GSs1l8nhYrpwzkpHVGWh8LOwtOJ0/LXns2Bi/tCifvw=;
-  b=QBrb4ZoXN+q5l7oFKFFD2meW03Od90pOPcjZQFmeELSLG5aEpgdRYihP
-   mN0NLbnMY4GRnfg83Hu2r8PYv8kulatra16kF/YMx8EPhbG19Zy7aVwI+
-   Qj6lT+NGIdo5U1UQKH85dH2kU7Da/Kmfb96eQCANIH9Mu/feQM+xOOxFK
-   dgxuOkPV2Mw3JMmtQIkOp+Cfjx4YLcgsClqsO/ovZiY9S6hSfHtT8pABh
-   XSMFYu2YXOSpZpvyUN1wkFId2AZieJOUhGV9O/RBD2dPAqvttix68JzN9
-   6vR+HfUf/tQFkL01Htg7M6bkMcCnlZ0bB+7fm08AL/lgTwCSsIXKvj9vA
+  t=1794001852; x=1825537852;
+  h=date:from:to:cc:subject:message-id;
+  bh=qEEmQhmj+7KR3dNFE5CCMP0xfX7ojFy8CoZ0ONV5Xcw=;
+  b=FCJvuWkuBdDmM8oivE1je94y7ENFBSPgOFLs66/qCk40SfNPxtwMy5il
+   zMKqVDMz31Q9nD/3nATbkDcTDDhhjtbs9DsSObRFzZNWJArHIvGj4627z
+   nMXgsIVRuz/XdFqJkOndaWHSD9aA+i7hnjJgNk8tgWN8pOv90cyrx/dCx
+   QeMrK79IkwMGy7+ZVPZ0OsrY+TGnSwRZ22xd4t4FgCl7vmujRteMQXyT0
+   fY7rd/WFWtTSNYzv3AdWfRf2zJCVAWTCqzbu00IuNDsMAETkUvt+LYTvq
+   wPCGD1JE4L+lrGedImCLejrXntzB40yybILEEFxf2LXkRGI9C10DI/LTh
    A==;
-X-CSE-ConnectionGUID: rcd1Da8ZS4emxB076bGwOA==
-X-CSE-MsgGUID: hF1IwjatQL2bTxse9GCrRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2844965"
+X-CSE-ConnectionGUID: QcpjA5xHRYO02OKSUpUHSg==
+X-CSE-MsgGUID: Jew0Nyk4TiuLIWf87ipbkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2690975"
 X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2844965"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:48:25 -0800
-X-CSE-ConnectionGUID: BE2AOsrZS7K6OrFTOVvLVw==
-X-CSE-MsgGUID: i6pRJuJ3Rw6w+3hwoPPrFg==
+   d="scan'208";a="2690975"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:50:51 -0800
+X-CSE-ConnectionGUID: /1lPOmyNSIO2FEtUAj2rZA==
+X-CSE-MsgGUID: 2EcAFScARLyGxUECLzw6lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="7401217"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Nov 2026 13:48:23 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7532072"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2026 13:50:48 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPRnI-00000000pyV-1QGT;
-	Fri, 06 Nov 2026 21:48:20 +0000
-Date: Sat, 7 Nov 2026 05:47:38 +0800
+	id 1xPRpe-00000000AN0-1nf5;
+	Fri, 06 Nov 2026 21:50:46 +0000
+Date: Fri, 06 Nov 2026 22:50:02 +0100
 From: kernel test robot <lkp@intel.com>
-To: Victor Chernyakin <chernyakin.victor.j@outlook.com>,
-	Jonathan Cameron <jic23@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Victor Chernyakin <chernyakin.victor.j@outlook.com>
-Subject: Re: [PATCH v5 4/4] iio: cdc: add Texas Instruments FDC1004 driver
-Message-ID: <202611070503.6fdgeWCZ-lkp@intel.com>
-References: <SN1PR12MB2528BA7C696815089DCAD02FA5762@SN1PR12MB2528.namprd12.prod.outlook.com>
+To: Steffen Eiden <seiden@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-s390@vger.kernel.org, Andreas Grapentin <gra@linux.ibm.com>
+Subject: [kvms390:sae 10/28] arch/arm64/include/asm/cache.h:11:5:
+ warning: 'ARM64_S390_COMMON' is not defined, evaluates to 0
+Message-ID: <202611062223.0W9zRex6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,59 +80,48 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SN1PR12MB2528BA7C696815089DCAD02FA5762@SN1PR12MB2528.namprd12.prod.outlook.com>
 
-Hi Victor,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v7.4-rc1 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Victor-Chernyakin/iio-prepare-iio_format_value-to-handle-higher-precision-IIO_VAL_DECIMAL64_-formats/20261106-094026
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/SN1PR12MB2528BA7C696815089DCAD02FA5762%40SN1PR12MB2528.namprd12.prod.outlook.com
-patch subject: [PATCH v5 4/4] iio: cdc: add Texas Instruments FDC1004 driver
-config: nios2-randconfig-1000-20261107 (https://download.01.org/0day-ci/archive/20261107/202611070503.6fdgeWCZ-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611070503.6fdgeWCZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git sae
+head:   2abfa741008fd96c3684c316a2f5f37d3bb7bd8b
+commit: e8b6c7dc6f90bdd331d7747f381082943815fe6a [10/28] arm64: Share system register related headers and functions with s390
+config: arm64-randconfig-2000-20261106 (https://download.01.org/0day-ci/archive/20261106/202611062223.0W9zRex6-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611062223.0W9zRex6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611070503.6fdgeWCZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611062223.0W9zRex6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/cdc/fdc1004.c:67:10: warning: integer overflow in expression of type 'long int' results in '-1246822400' [-Woverflow]
-     -0x8000 * 488281250L, /* min */
-             ^
-   drivers/iio/cdc/fdc1004.c:69:10: warning: integer overflow in expression of type 'long int' results in '758541150' [-Woverflow]
-     +0x7FFF * 488281250L, /* max */
-             ^
+   In file included from <built-in>:3:
+   In file included from lib/vdso/gettimeofday.c:7:
+   In file included from include/vdso/datapage.h:14:
+   In file included from include/vdso/cache.h:5:
+>> arch/arm64/include/asm/cache.h:11:5: warning: 'ARM64_S390_COMMON' is not defined, evaluates to 0 [-Wundef]
+      11 | #if ARM64_S390_COMMON == 1
+         |     ^
+   1 warning generated.
+--
+   In file included from <built-in>:3:
+   In file included from lib/vdso/gettimeofday.c:7:
+   In file included from include/vdso/datapage.h:14:
+   In file included from include/vdso/cache.h:5:
+>> arch/arm64/include/asm/cache.h:11:5: warning: 'ARM64_S390_COMMON' is not defined, evaluates to 0 [-Wundef]
+      11 | #if ARM64_S390_COMMON == 1
+         |     ^
+   1 warning generated.
 
 
-vim +67 drivers/iio/cdc/fdc1004.c
+vim +/ARM64_S390_COMMON +11 arch/arm64/include/asm/cache.h
 
-    59	
-    60	/*
-    61	 * OFFSET_CAL_CINn: 16 bits, signed. Format: IIO_VAL_DECIMAL64_FEMTO.
-    62	 * 1 step = 1/(2^11) pF = 1/(1000 * 2^11) nF = 0.000000488281250 nF.
-    63	 * Negative values are used to cancel out any parasitic capacitance
-    64	 * of the sensor's external circuitry.
-    65	 */
-    66	static const s64 fdc1004_calibbias[] = {
-  > 67		-0x8000 * 488281250L, /* min */
-    68		+0x0001 * 488281250L, /* step */
-    69		+0x7FFF * 488281250L, /* max */
-    70	};
-    71	
+    10	
+  > 11	#if ARM64_S390_COMMON == 1
+    12	#define CLIDR_LOUU_SHIFT	27
+    13	#define CLIDR_LOC_SHIFT		24
+    14	#define CLIDR_LOUIS_SHIFT	21
+    15	
 
 --
 0-DAY CI Kernel Test Service
