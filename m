@@ -1,54 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793963779;
-	b=QidbH8N8JYMTL2EXuI5DWF3xXPD2gvg8wydJPxbxVWrCZia0kaK6fW02wzoA41GVoLbr
-	 zp5LfSyJBDYPInbLn/ZdPCpOCJlwXBCqW4B6TkYYUUyaXN4mmlK/0aJ0Ncj7cq7F/NbNt
-	 mngABevSMpKTTAKPyQcc8zBmfjSwsS8ADYxOkvUZgc9oBq2Pa5DEY0wf7ww18mkQM0T36
-	 8SUVF+kHP+gr1V73ZW4xPQkelD/UtX5Vk9+XB1wGCN+YxU2Z/uN2J8C4qAFL9/Bn2oCrW
-	 MMCP/lfXK+ZL3pwcFOrckbXKIxIjZ2u+iaP48nN8qBGiO9P3l6jYwKJDYmRNMwe0aLQ==
+	t=1793963840;
+	b=aZFbI3OtHM5+x2/KKKsim/DlYRxWjqCUQVH2TdUxXw4FbwzJlEKgEJ8vbWAyvHmQ/INl
+	 F8HWjzD9DdqyjS0HoxJdv6KghtbTR4VkDVIod1920MhPlF8JOgYRwUaQ9wNasmuKTSbHT
+	 QdD3x17S3Re7J1RjV/+dFqXX7TRgi1fms+nbFUFHB7EDwcZ26aEVWyCPq12Nz6ytykze3
+	 Tf6tW1KoBE+3IcTQdwNqMf6cwinbu9XpvXt00Ner5LRJF1zsaeDdFIWiYV6zDQLqZfkOq
+	 zKQzjRK1qTuRvkJOCTOjJXkr6MM3yLog9LE+3CZA3iETZajgq19jHrLGxtSHfnc5l0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793963779;
-	h=Received:DKIM-Signature:Received:X-Gm-Message-State:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:
-	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=SYzdm638AtOqbdMEy6crc/7BV8WOy+IdAY5f9s4lF7k=;
-	b=OF/hMXnovysqayCTXt8U3GKC6j9ZIcsrvTyfK4064sepOWdyyCwst6TJeO6koY0ZwvjG
-	 LWQAymtFPlK3VUeQOo1uXrOfRkVWH5TOhTuiSETyFk2Pzjhs6rdnOyG+vjDYRXcsakAB6
-	 XJiSDHTg5eT7gt6R+uWoI9mDuartzUymqFbfoI60I9l04Kt8YKwOdW06hFyu4QZ3w0Xw+
-	 fjYtP0qTEqqeqjt8+p2gQByuxbbq/TqTF6ar8n1BIMQlZQUI4PN343MyuyVhxBf8VwPPv
-	 Usw31D4Gc6auKEgGkgEyEB0RcmCwL5895TSYNXDMZwwEomEVElcGC9+xjsuva7xekqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793963840;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=hxL1iVBaG6hwUVKEhgHaKHpDUD8qfac1W5n0kFQw2s4=;
+	b=W8/+j+PYbbyepB183jtHNeWZrrwkugRWRbKyru3BivWAXeWTCZREmBGd3lBZ5kKS4tOV
+	 MT0KIvv5YPNVpP3q7/5W+HZTPLWAfek4XFH756rkeqCYXxaCYv1M8in9V0+JIaOHutd9d
+	 CQfk0sx+T1dAJCvLZ5yhie7Fh+iBKhUfo4/OWyf35jpK4w4Uqir4xu8JybhcOtxRmCXvh
+	 DCXp5bjJNNjeQRC4kv6rXvwlFTI0TqIdtaOUp57lhxM7k0enrAF+QlRzWYoqeaK7Ei+CC
+	 4gcJdqrF6K65jIrk+0JzIa403Do0oM8pHLLVVNEXTWFHvTLm7S9Se0N3fnhOuahv3cA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LcxlFS+0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="D//efSgl";
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A820D606D82C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 11:16:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6983A606A330
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 11:17:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6983A606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LcxlFS+0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B8E61F008A4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 11:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793963778;
-	bh=SYzdm638AtOqbdMEy6crc/7BV8WOy+IdAY5f9s4lF7k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=LcxlFS+0lTpQ96OWyxV0WJ3eJjS7xPVwpgmkw+U/n+lCHUb1RQAQhCPYIVEPRvOn/
-	 vc7y4t+gC40p3Aa3BZcSgGjb9pMYHwbFiVEMg9JwhmeiID/RlK+jhYMuZRz0vzAhew
-	 aGR97JO2p7zqcjU4q+8Jl9Cus9yZ3eMt9Z+/JsltGlS0bf/IUKNUxhyzIqZfgDzER3
-	 U+c0bcAvjO77n19rC+asUzNJZp/s15nAi3Wg2vNC4Si4iwl1e38OPyeIktqXFm6l9P
-	 ko/+9qmxln/+3R7LulzM8DUzNKCI2xuh2y2hlIaXq1FY82MM947V0UjaOoRa00+ut0
-	 F+gBWYn+780RQ==
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c40e02b2ebaso83234966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 06 Nov 2026 03:16:18 -0800 (PST)
-X-Gm-Message-State: APuU4Z9Xl4vU3OcD9KmoBkudMvJEUrf0AOr+2dv0UdmItDvs1TU79qh2
-	sRXYxI/VILcqek2lEUBZk43hPrwbk8iPKUWhhjauHRizU6E80invoFTgk3xRuFwdHPa8df6WMtC
-	alVz1AhByRUohMdfNV32zN3qJVNsRfjk=
-X-Received: by 2002:a17:907:97cb:b0:c46:87f9:f5f7 with SMTP id
- a640c23a62f3a-c4d35485cb6mr179552966b.17.1793963776714; Fri, 06 Nov 2026
- 03:16:16 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D//efSgl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793963839; x=1825499839;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Q/WtCSS+AL6IhXq70hvx/58YjcENJi6qF9Lu+biaK9c=;
+  b=D//efSglZ+ArdBf9cIjYbRMmJVAVuMntqd60eCpR6YnK1XZ++ujfJgnN
+   C5glfp9VpqfhSSHxFcrp//o3f8CfW3ev9Of6R1xhlxe2UvLtMMvnGZg9Y
+   9Afj36zy2FkxFeuFtVjNNYggz25Ou1nPD4NS/vFOSWqVIEgQWRd0eOPok
+   9JGeMDILDLhX0+5LJ1Ywbc48W+veyU2xcWZrHAx2gYqkksdzss2pil8nt
+   3gCzgofLRxJadnS5SjqH6Cja4buIJiBy4b4bFaVqH6qtE7/toBDll4DL+
+   JBBr99JYEfhtUEsZbNKRvzGXYszBnNotpPGF+q/jkNxCOaRwbGdhcPYym
+   g==;
+X-CSE-ConnectionGUID: GFEjIysFQbaSZVTns/MnIw==
+X-CSE-MsgGUID: sR306et2TiWkvLOTayeg2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2675698"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2675698"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 03:17:18 -0800
+X-CSE-ConnectionGUID: xHfFkK4kQaipfD1Cuf2xaA==
+X-CSE-MsgGUID: Z8foR4A6TBKV4yw7SKGIOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7575563"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 06 Nov 2026 03:17:15 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPHwX-00000000p75-19MG;
+	Fri, 06 Nov 2026 11:17:13 +0000
+Date: Fri, 6 Nov 2026 19:16:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
+	linux-scsi@vger.kernel.org, martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, sathya.prakash@broadcom.com,
+	ranjan.kumar@broadcom.com, chandrakanth.patil@broadcom.com,
+	sweeti.vandure@broadcom.com,
+	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>
+Subject: Re: [PATCH 14/37] scsi: mpt3sas: Fix buffer overflow in
+ _scsih_scsi_ioc_info
+Message-ID: <202611061833.3AceeVtV-lkp@intel.com>
+References: <1793925772-1303-15-git-send-email-shivasharan.srikanteshwara@broadcom.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -58,376 +86,284 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <598c2f18-21f3-d252-98da-e9288356c480@inria.fr>
-In-Reply-To: <598c2f18-21f3-d252-98da-e9288356c480@inria.fr>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Fri, 6 Nov 2026 20:16:03 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd90TcYaXg9vsrOyDnqMMyEmkJTQgOC_YV6Car5pj83H1A@mail.gmail.com>
-X-Gm-Features: AclHuK8ACdTCnzeMfWQvOFJ0e_u7Fvi2v5eOZI4i1_FDDKBy2MHsxA2w5sE8xKQ
-Message-ID: <CAKYAXd90TcYaXg9vsrOyDnqMMyEmkJTQgOC_YV6Car5pj83H1A@mail.gmail.com>
-Subject: Re: fs/ntfs/iomap.c:481:14-15: WARNING kmalloc is used to allocate
- this memory at line 460 (fwd)
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1793925772-1303-15-git-send-email-shivasharan.srikanteshwara@broadcom.com>
 
-I will check it.
-Thanks for forwarding this to me!
+Hi Shivasharan,
 
-On Fri, Nov 6, 2026 at 7:23=E2=80=AFPM Julia Lawall <julia.lawall@inria.fr>=
- wrote:
->
-> ---------- Forwarded message ----------
-> Date: Fri, 06 Nov 2026 07:59:12 +0100
-> From: kernel test robot <lkp@intel.com>
-> To: oe-kbuild@lists.linux.dev
-> Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-> Subject: fs/ntfs/iomap.c:481:14-15: WARNING kmalloc is used to allocate t=
-his
->     memory at line 460
->
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> CC: linux-kernel@vger.kernel.org
-> TO: Namjae Jeon <linkinjeon@kernel.org>
-> CC: Amir Goldstein <amir73il@gmail.com>
-> CC: Christoph Hellwig <hch@lst.de>
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   f66469d9905b39d2c260a15d7d6db450f4db67c1
-> commit: 47503f989736d6c4c9f8bfca1c28d267473ccd4b ntfs: add Kconfig and Ma=
-kefile
-> date:   9 months ago
-> :::::: branch date: 5 hours ago
-> :::::: commit date: 9 months ago
-> config: loongarch-randconfig-r2105-20261104 (https://download.01.org/0day=
--ci/archive/20261106/202611060717.0Na5FqQR-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e=
-2e3d6c39cfebec9eace23629a5a103df2c79ba6)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Fixes: 47503f989736 ("ntfs: add Kconfig and Makefile")
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> | Closes: https://lore.kernel.org/r/202611060717.0Na5FqQR-lkp@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
-> >> fs/ntfs/iomap.c:481:14-15: WARNING kmalloc is used to allocate this me=
-mory at line 460
->
-> vim +481 fs/ntfs/iomap.c
->
-> b041ca562526b3c Namjae Jeon 2026-02-13  378
-> b041ca562526b3c Namjae Jeon 2026-02-13  379  static int ntfs_write_simple=
-_iomap_begin_non_resident(struct inode *inode, loff_t offset,
-> b041ca562526b3c Namjae Jeon 2026-02-13  380                              =
-                     loff_t length, struct iomap *iomap)
-> b041ca562526b3c Namjae Jeon 2026-02-13  381  {
-> b041ca562526b3c Namjae Jeon 2026-02-13  382     struct ntfs_inode *ni =3D=
- NTFS_I(inode);
-> b041ca562526b3c Namjae Jeon 2026-02-13  383     struct ntfs_volume *vol =
-=3D ni->vol;
-> b041ca562526b3c Namjae Jeon 2026-02-13  384     loff_t vcn_ofs, rl_length=
-;
-> b041ca562526b3c Namjae Jeon 2026-02-13  385     struct runlist_element *r=
-l, *rlc;
-> b041ca562526b3c Namjae Jeon 2026-02-13  386     bool is_retry =3D false;
-> b041ca562526b3c Namjae Jeon 2026-02-13  387     int err;
-> b041ca562526b3c Namjae Jeon 2026-02-13  388     s64 vcn, lcn;
-> b041ca562526b3c Namjae Jeon 2026-02-13  389     s64 max_clu_count =3D
-> b041ca562526b3c Namjae Jeon 2026-02-13  390             ntfs_bytes_to_clu=
-ster(vol, round_up(length, vol->cluster_size));
-> b041ca562526b3c Namjae Jeon 2026-02-13  391
-> b041ca562526b3c Namjae Jeon 2026-02-13  392     vcn =3D ntfs_bytes_to_clu=
-ster(vol, offset);
-> b041ca562526b3c Namjae Jeon 2026-02-13  393     vcn_ofs =3D ntfs_bytes_to=
-_cluster_off(vol, offset);
-> b041ca562526b3c Namjae Jeon 2026-02-13  394
-> b041ca562526b3c Namjae Jeon 2026-02-13  395     down_read(&ni->runlist.lo=
-ck);
-> b041ca562526b3c Namjae Jeon 2026-02-13  396     rl =3D ni->runlist.rl;
-> b041ca562526b3c Namjae Jeon 2026-02-13  397     if (!rl) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  398             up_read(&ni->runl=
-ist.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  399             err =3D ntfs_map_=
-runlist(ni, vcn);
-> b041ca562526b3c Namjae Jeon 2026-02-13  400             if (err) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  401                     mutex_unl=
-ock(&ni->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  402                     return -E=
-NOENT;
-> b041ca562526b3c Namjae Jeon 2026-02-13  403             }
-> b041ca562526b3c Namjae Jeon 2026-02-13  404             down_read(&ni->ru=
-nlist.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  405             rl =3D ni->runlis=
-t.rl;
-> b041ca562526b3c Namjae Jeon 2026-02-13  406     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  407     up_read(&ni->runlist.lock=
-);
-> b041ca562526b3c Namjae Jeon 2026-02-13  408
-> b041ca562526b3c Namjae Jeon 2026-02-13  409     down_write(&ni->runlist.l=
-ock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  410  remap_rl:
-> b041ca562526b3c Namjae Jeon 2026-02-13  411     /* Seek to element contai=
-ning target vcn. */
-> b041ca562526b3c Namjae Jeon 2026-02-13  412     rl =3D __ntfs_attr_find_v=
-cn_nolock(&ni->runlist, vcn);
-> b041ca562526b3c Namjae Jeon 2026-02-13  413     if (IS_ERR(rl)) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  414             up_write(&ni->run=
-list.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  415             mutex_unlock(&ni-=
->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  416             return -EIO;
-> b041ca562526b3c Namjae Jeon 2026-02-13  417     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  418     lcn =3D ntfs_rl_vcn_to_lc=
-n(rl, vcn);
-> b041ca562526b3c Namjae Jeon 2026-02-13  419
-> b041ca562526b3c Namjae Jeon 2026-02-13  420     if (lcn <=3D LCN_RL_NOT_M=
-APPED && is_retry =3D=3D false) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  421             is_retry =3D true=
-;
-> b041ca562526b3c Namjae Jeon 2026-02-13  422             if (!ntfs_map_run=
-list_nolock(ni, vcn, NULL)) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  423                     rl =3D ni=
-->runlist.rl;
-> b041ca562526b3c Namjae Jeon 2026-02-13  424                     goto rema=
-p_rl;
-> b041ca562526b3c Namjae Jeon 2026-02-13  425             }
-> b041ca562526b3c Namjae Jeon 2026-02-13  426     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  427
-> b041ca562526b3c Namjae Jeon 2026-02-13  428     max_clu_count =3D min(max=
-_clu_count, rl->length - (vcn - rl->vcn));
-> b041ca562526b3c Namjae Jeon 2026-02-13  429     if (max_clu_count =3D=3D =
-0) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  430             ntfs_error(inode-=
->i_sb,
-> b041ca562526b3c Namjae Jeon 2026-02-13  431                             "=
-runlist(vcn : %lld, length : %lld) is corrupted\n",
-> b041ca562526b3c Namjae Jeon 2026-02-13  432                             r=
-l->vcn, rl->length);
-> b041ca562526b3c Namjae Jeon 2026-02-13  433             up_write(&ni->run=
-list.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  434             mutex_unlock(&ni-=
->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  435             return -EIO;
-> b041ca562526b3c Namjae Jeon 2026-02-13  436     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  437
-> b041ca562526b3c Namjae Jeon 2026-02-13  438     iomap->bdev =3D inode->i_=
-sb->s_bdev;
-> b041ca562526b3c Namjae Jeon 2026-02-13  439     iomap->offset =3D offset;
-> b041ca562526b3c Namjae Jeon 2026-02-13  440
-> b041ca562526b3c Namjae Jeon 2026-02-13  441     if (lcn <=3D LCN_DELALLOC=
-) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  442             if (lcn < LCN_DEL=
-ALLOC) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  443                     max_clu_c=
-ount =3D
-> b041ca562526b3c Namjae Jeon 2026-02-13  444                             n=
-tfs_available_clusters_count(vol, max_clu_count);
-> b041ca562526b3c Namjae Jeon 2026-02-13  445                     if (max_c=
-lu_count < 0) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  446                             e=
-rr =3D max_clu_count;
-> b041ca562526b3c Namjae Jeon 2026-02-13  447                             u=
-p_write(&ni->runlist.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  448                             m=
-utex_unlock(&ni->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  449                             r=
-eturn err;
-> b041ca562526b3c Namjae Jeon 2026-02-13  450                     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  451             }
-> b041ca562526b3c Namjae Jeon 2026-02-13  452
-> b041ca562526b3c Namjae Jeon 2026-02-13  453             iomap->type =3D I=
-OMAP_DELALLOC;
-> b041ca562526b3c Namjae Jeon 2026-02-13  454             iomap->addr =3D I=
-OMAP_NULL_ADDR;
-> b041ca562526b3c Namjae Jeon 2026-02-13  455
-> b041ca562526b3c Namjae Jeon 2026-02-13  456             if (lcn <=3D LCN_=
-HOLE) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  457                     size_t ne=
-w_rl_count;
-> b041ca562526b3c Namjae Jeon 2026-02-13  458
-> b041ca562526b3c Namjae Jeon 2026-02-13  459                     rlc =3D k=
-malloc(sizeof(struct runlist_element) * 2,
-> b041ca562526b3c Namjae Jeon 2026-02-13 @460                              =
-       GFP_NOFS);
-> b041ca562526b3c Namjae Jeon 2026-02-13  461                     if (!rlc)=
- {
-> b041ca562526b3c Namjae Jeon 2026-02-13  462                             u=
-p_write(&ni->runlist.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  463                             m=
-utex_unlock(&ni->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  464                             r=
-eturn -ENOMEM;
-> b041ca562526b3c Namjae Jeon 2026-02-13  465                     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  466
-> b041ca562526b3c Namjae Jeon 2026-02-13  467                     rlc->vcn =
-=3D vcn;
-> b041ca562526b3c Namjae Jeon 2026-02-13  468                     rlc->lcn =
-=3D LCN_DELALLOC;
-> b041ca562526b3c Namjae Jeon 2026-02-13  469                     rlc->leng=
-th =3D max_clu_count;
-> b041ca562526b3c Namjae Jeon 2026-02-13  470
-> b041ca562526b3c Namjae Jeon 2026-02-13  471                     rlc[1].vc=
-n =3D vcn + max_clu_count;
-> b041ca562526b3c Namjae Jeon 2026-02-13  472                     rlc[1].lc=
-n =3D LCN_RL_NOT_MAPPED;
-> b041ca562526b3c Namjae Jeon 2026-02-13  473                     rlc[1].le=
-ngth =3D 0;
-> b041ca562526b3c Namjae Jeon 2026-02-13  474
-> b041ca562526b3c Namjae Jeon 2026-02-13  475                     rl =3D nt=
-fs_runlists_merge(&ni->runlist, rlc, 0,
-> b041ca562526b3c Namjae Jeon 2026-02-13  476                              =
-       &new_rl_count);
-> b041ca562526b3c Namjae Jeon 2026-02-13  477                     if (IS_ER=
-R(rl)) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  478                             n=
-tfs_error(vol->sb, "Failed to merge runlists");
-> b041ca562526b3c Namjae Jeon 2026-02-13  479                             u=
-p_write(&ni->runlist.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  480                             m=
-utex_unlock(&ni->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13 @481                             k=
-vfree(rlc);
-> b041ca562526b3c Namjae Jeon 2026-02-13  482                             r=
-eturn PTR_ERR(rl);
-> b041ca562526b3c Namjae Jeon 2026-02-13  483                     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  484
-> b041ca562526b3c Namjae Jeon 2026-02-13  485                     ni->runli=
-st.rl =3D rl;
-> b041ca562526b3c Namjae Jeon 2026-02-13  486                     ni->runli=
-st.count =3D new_rl_count;
-> b041ca562526b3c Namjae Jeon 2026-02-13  487                     ni->i_dea=
-lloc_clusters +=3D max_clu_count;
-> b041ca562526b3c Namjae Jeon 2026-02-13  488             }
-> b041ca562526b3c Namjae Jeon 2026-02-13  489             up_write(&ni->run=
-list.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  490             mutex_unlock(&ni-=
->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  491
-> b041ca562526b3c Namjae Jeon 2026-02-13  492             if (lcn < LCN_DEL=
-ALLOC)
-> b041ca562526b3c Namjae Jeon 2026-02-13  493                     ntfs_hold=
-_dirty_clusters(vol, max_clu_count);
-> b041ca562526b3c Namjae Jeon 2026-02-13  494
-> b041ca562526b3c Namjae Jeon 2026-02-13  495             rl_length =3D ntf=
-s_cluster_to_bytes(vol, max_clu_count);
-> b041ca562526b3c Namjae Jeon 2026-02-13  496             if (length > rl_l=
-ength - vcn_ofs)
-> b041ca562526b3c Namjae Jeon 2026-02-13  497                     iomap->le=
-ngth =3D rl_length - vcn_ofs;
-> b041ca562526b3c Namjae Jeon 2026-02-13  498             else
-> b041ca562526b3c Namjae Jeon 2026-02-13  499                     iomap->le=
-ngth =3D length;
-> b041ca562526b3c Namjae Jeon 2026-02-13  500
-> b041ca562526b3c Namjae Jeon 2026-02-13  501             iomap->flags =3D =
-IOMAP_F_NEW;
-> b041ca562526b3c Namjae Jeon 2026-02-13  502             if (lcn <=3D LCN_=
-HOLE) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  503                     loff_t en=
-d =3D offset + length;
-> b041ca562526b3c Namjae Jeon 2026-02-13  504
-> b041ca562526b3c Namjae Jeon 2026-02-13  505                     if (vcn_o=
-fs || ((vol->cluster_size > iomap->length) &&
-> b041ca562526b3c Namjae Jeon 2026-02-13  506                              =
-       end < ni->initialized_size)) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  507                             l=
-off_t z_start, z_end;
-> b041ca562526b3c Namjae Jeon 2026-02-13  508
-> b041ca562526b3c Namjae Jeon 2026-02-13  509                             z=
-_start =3D vcn << vol->cluster_size_bits;
-> b041ca562526b3c Namjae Jeon 2026-02-13  510                             z=
-_end =3D min_t(loff_t, z_start + vol->cluster_size,
-> b041ca562526b3c Namjae Jeon 2026-02-13  511                              =
-             i_size_read(inode));
-> b041ca562526b3c Namjae Jeon 2026-02-13  512                             i=
-f (z_end > z_start)
-> b041ca562526b3c Namjae Jeon 2026-02-13  513                              =
-       err =3D ntfs_zero_range(inode,
-> b041ca562526b3c Namjae Jeon 2026-02-13  514                              =
-                             z_start,
-> b041ca562526b3c Namjae Jeon 2026-02-13  515                              =
-                             z_end - z_start);
-> b041ca562526b3c Namjae Jeon 2026-02-13  516                     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  517                     if ((!err=
- || err =3D=3D -EPERM) &&
-> b041ca562526b3c Namjae Jeon 2026-02-13  518                         max_c=
-lu_count > 1 &&
-> b041ca562526b3c Namjae Jeon 2026-02-13  519                         (ioma=
-p->length & vol->cluster_size_mask &&
-> b041ca562526b3c Namjae Jeon 2026-02-13  520                          end =
-< ni->initialized_size)) {
-> b041ca562526b3c Namjae Jeon 2026-02-13  521                             l=
-off_t z_start, z_end;
-> b041ca562526b3c Namjae Jeon 2026-02-13  522
-> b041ca562526b3c Namjae Jeon 2026-02-13  523                             z=
-_start =3D (vcn + max_clu_count - 1) <<
-> b041ca562526b3c Namjae Jeon 2026-02-13  524                              =
-       vol->cluster_size_bits;
-> b041ca562526b3c Namjae Jeon 2026-02-13  525                             z=
-_end =3D min_t(loff_t, z_start + vol->cluster_size,
-> b041ca562526b3c Namjae Jeon 2026-02-13  526                              =
-             i_size_read(inode));
-> b041ca562526b3c Namjae Jeon 2026-02-13  527                             i=
-f (z_end > z_start)
-> b041ca562526b3c Namjae Jeon 2026-02-13  528                              =
-       err =3D ntfs_zero_range(inode,
-> b041ca562526b3c Namjae Jeon 2026-02-13  529                              =
-                             z_start,
-> b041ca562526b3c Namjae Jeon 2026-02-13  530                              =
-                             z_end - z_start);
-> b041ca562526b3c Namjae Jeon 2026-02-13  531                     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  532
-> b041ca562526b3c Namjae Jeon 2026-02-13  533                     if (err =
-=3D=3D -EPERM)
-> b041ca562526b3c Namjae Jeon 2026-02-13  534                             e=
-rr =3D 0;
-> b041ca562526b3c Namjae Jeon 2026-02-13  535                     if (err) =
-{
-> b041ca562526b3c Namjae Jeon 2026-02-13  536                             n=
-tfs_release_dirty_clusters(vol, max_clu_count);
-> b041ca562526b3c Namjae Jeon 2026-02-13  537                             r=
-eturn err;
-> b041ca562526b3c Namjae Jeon 2026-02-13  538                     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  539             }
-> b041ca562526b3c Namjae Jeon 2026-02-13  540     } else {
-> b041ca562526b3c Namjae Jeon 2026-02-13  541             up_write(&ni->run=
-list.lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  542             mutex_unlock(&ni-=
->mrec_lock);
-> b041ca562526b3c Namjae Jeon 2026-02-13  543
-> b041ca562526b3c Namjae Jeon 2026-02-13  544             iomap->type =3D I=
-OMAP_MAPPED;
-> b041ca562526b3c Namjae Jeon 2026-02-13  545             iomap->addr =3D n=
-tfs_cluster_to_bytes(vol, lcn) + vcn_ofs;
-> b041ca562526b3c Namjae Jeon 2026-02-13  546
-> b041ca562526b3c Namjae Jeon 2026-02-13  547             rl_length =3D ntf=
-s_cluster_to_bytes(vol, max_clu_count);
-> b041ca562526b3c Namjae Jeon 2026-02-13  548             if (length > rl_l=
-ength - vcn_ofs)
-> b041ca562526b3c Namjae Jeon 2026-02-13  549                     iomap->le=
-ngth =3D rl_length - vcn_ofs;
-> b041ca562526b3c Namjae Jeon 2026-02-13  550             else
-> b041ca562526b3c Namjae Jeon 2026-02-13  551                     iomap->le=
-ngth =3D length;
-> b041ca562526b3c Namjae Jeon 2026-02-13  552     }
-> b041ca562526b3c Namjae Jeon 2026-02-13  553
-> b041ca562526b3c Namjae Jeon 2026-02-13  554     return 0;
-> b041ca562526b3c Namjae Jeon 2026-02-13  555  }
-> b041ca562526b3c Namjae Jeon 2026-02-13  556
->
-> :::::: The code at line 481 was first introduced by commit
-> :::::: b041ca562526b3c4a71b41b80ba5e520eac636ad ntfs: update iomap and ad=
-dress space operations
->
-> :::::: TO: Namjae Jeon <linkinjeon@kernel.org>
-> :::::: CC: Namjae Jeon <linkinjeon@kernel.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shivasharan-S/scsi-mpt3sas-Validate-firmware-reported-IOCRequestFrameSize/20261105-164216
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/1793925772-1303-15-git-send-email-shivasharan.srikanteshwara%40broadcom.com
+patch subject: [PATCH 14/37] scsi: mpt3sas: Fix buffer overflow in _scsih_scsi_ioc_info
+config: arm-randconfig-1000-20261106 (https://download.01.org/0day-ci/archive/20261106/202611061833.3AceeVtV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611061833.3AceeVtV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611061833.3AceeVtV-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/scsi/mpt3sas/mpt3sas_scsih.c: In function '_scsih_scsi_ioc_info.constprop':
+>> drivers/scsi/mpt3sas/mpt3sas_scsih.c:5783:57: warning: '%s' directive output may be truncated writing 16 bytes into a region of size between 6 and 64 [-Wformat-truncation=]
+    5783 |   snprintf(desc_scsi_state, MPT_STRING_LENGTH, "%s%s%s%s%s",
+         |                                                         ^~
+   ......
+    5793 |     "autosense valid " : "");
+         |     ~~~~~~~~~~~~~~~~~~                                   
+   drivers/scsi/mpt3sas/mpt3sas_scsih.c:5783:3: note: 'snprintf' output between 17 and 75 bytes into a destination of size 64
+    5783 |   snprintf(desc_scsi_state, MPT_STRING_LENGTH, "%s%s%s%s%s",
+         |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5784 |     (scsi_state & MPI2_SCSI_STATE_RESPONSE_INFO_VALID) ?
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5785 |     "response info " : "",
+         |     ~~~~~~~~~~~~~~~~~~~~~~
+    5786 |     (scsi_state & MPI2_SCSI_STATE_TERMINATED) ?
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5787 |     "state terminated " : "",
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~~
+    5788 |     (scsi_state & MPI2_SCSI_STATE_NO_SCSI_STATUS) ?
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5789 |     "no status " : "",
+         |     ~~~~~~~~~~~~~~~~~~
+    5790 |     (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_FAILED) ?
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5791 |     "autosense failed " : "",
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~~
+    5792 |     (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_VALID) ?
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5793 |     "autosense valid " : "");
+         |     ~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +5783 drivers/scsi/mpt3sas/mpt3sas_scsih.c
+
+  5639	
+  5640	/**
+  5641	 * _scsih_scsi_ioc_info - translated non-successful SCSI_IO request
+  5642	 * @ioc: per adapter object
+  5643	 * @scmd: pointer to scsi command object
+  5644	 * @mpi_reply: reply mf payload returned from firmware
+  5645	 * @smid: ?
+  5646	 *
+  5647	 * scsi_status - SCSI Status code returned from target device
+  5648	 * scsi_state - state info associated with SCSI_IO determined by ioc
+  5649	 * ioc_status - ioc supplied status info
+  5650	 */
+  5651	static void
+  5652	_scsih_scsi_ioc_info(struct MPT3SAS_ADAPTER *ioc, struct scsi_cmnd *scmd,
+  5653		Mpi2SCSIIOReply_t *mpi_reply, u16 smid)
+  5654	{
+  5655		u32 response_info;
+  5656		u8 *response_bytes;
+  5657		u16 ioc_status = le16_to_cpu(mpi_reply->IOCStatus) &
+  5658		    MPI2_IOCSTATUS_MASK;
+  5659		u8 scsi_state = mpi_reply->SCSIState;
+  5660		u8 scsi_status = mpi_reply->SCSIStatus;
+  5661		char *desc_ioc_state = NULL;
+  5662		char *desc_scsi_status = NULL;
+  5663		char *desc_scsi_state = ioc->tmp_string;
+  5664		u32 log_info = le32_to_cpu(mpi_reply->IOCLogInfo);
+  5665		struct _sas_device *sas_device = NULL;
+  5666		struct _pcie_device *pcie_device = NULL;
+  5667		struct scsi_target *starget = scmd->device->sdev_target;
+  5668		struct MPT3SAS_TARGET *priv_target = starget->hostdata;
+  5669		char *device_str = NULL;
+  5670	
+  5671		if (!priv_target)
+  5672			return;
+  5673		if (ioc->hide_ir_msg)
+  5674			device_str = "WarpDrive";
+  5675		else
+  5676			device_str = "volume";
+  5677	
+  5678		if (log_info == 0x31170000)
+  5679			return;
+  5680	
+  5681		switch (ioc_status) {
+  5682		case MPI2_IOCSTATUS_SUCCESS:
+  5683			desc_ioc_state = "success";
+  5684			break;
+  5685		case MPI2_IOCSTATUS_INVALID_FUNCTION:
+  5686			desc_ioc_state = "invalid function";
+  5687			break;
+  5688		case MPI2_IOCSTATUS_SCSI_RECOVERED_ERROR:
+  5689			desc_ioc_state = "scsi recovered error";
+  5690			break;
+  5691		case MPI2_IOCSTATUS_SCSI_INVALID_DEVHANDLE:
+  5692			desc_ioc_state = "scsi invalid dev handle";
+  5693			break;
+  5694		case MPI2_IOCSTATUS_SCSI_DEVICE_NOT_THERE:
+  5695			desc_ioc_state = "scsi device not there";
+  5696			break;
+  5697		case MPI2_IOCSTATUS_SCSI_DATA_OVERRUN:
+  5698			desc_ioc_state = "scsi data overrun";
+  5699			break;
+  5700		case MPI2_IOCSTATUS_SCSI_DATA_UNDERRUN:
+  5701			desc_ioc_state = "scsi data underrun";
+  5702			break;
+  5703		case MPI2_IOCSTATUS_SCSI_IO_DATA_ERROR:
+  5704			desc_ioc_state = "scsi io data error";
+  5705			break;
+  5706		case MPI2_IOCSTATUS_SCSI_PROTOCOL_ERROR:
+  5707			desc_ioc_state = "scsi protocol error";
+  5708			break;
+  5709		case MPI2_IOCSTATUS_SCSI_TASK_TERMINATED:
+  5710			desc_ioc_state = "scsi task terminated";
+  5711			break;
+  5712		case MPI2_IOCSTATUS_SCSI_RESIDUAL_MISMATCH:
+  5713			desc_ioc_state = "scsi residual mismatch";
+  5714			break;
+  5715		case MPI2_IOCSTATUS_SCSI_TASK_MGMT_FAILED:
+  5716			desc_ioc_state = "scsi task mgmt failed";
+  5717			break;
+  5718		case MPI2_IOCSTATUS_SCSI_IOC_TERMINATED:
+  5719			desc_ioc_state = "scsi ioc terminated";
+  5720			break;
+  5721		case MPI2_IOCSTATUS_SCSI_EXT_TERMINATED:
+  5722			desc_ioc_state = "scsi ext terminated";
+  5723			break;
+  5724		case MPI2_IOCSTATUS_EEDP_GUARD_ERROR:
+  5725			desc_ioc_state = "eedp guard error";
+  5726			break;
+  5727		case MPI2_IOCSTATUS_EEDP_REF_TAG_ERROR:
+  5728			desc_ioc_state = "eedp ref tag error";
+  5729			break;
+  5730		case MPI2_IOCSTATUS_EEDP_APP_TAG_ERROR:
+  5731			desc_ioc_state = "eedp app tag error";
+  5732			break;
+  5733		case MPI2_IOCSTATUS_INSUFFICIENT_POWER:
+  5734			desc_ioc_state = "insufficient power";
+  5735			break;
+  5736		default:
+  5737			desc_ioc_state = "unknown";
+  5738			break;
+  5739		}
+  5740	
+  5741		switch (scsi_status) {
+  5742		case MPI2_SCSI_STATUS_GOOD:
+  5743			desc_scsi_status = "good";
+  5744			break;
+  5745		case MPI2_SCSI_STATUS_CHECK_CONDITION:
+  5746			desc_scsi_status = "check condition";
+  5747			break;
+  5748		case MPI2_SCSI_STATUS_CONDITION_MET:
+  5749			desc_scsi_status = "condition met";
+  5750			break;
+  5751		case MPI2_SCSI_STATUS_BUSY:
+  5752			desc_scsi_status = "busy";
+  5753			break;
+  5754		case MPI2_SCSI_STATUS_INTERMEDIATE:
+  5755			desc_scsi_status = "intermediate";
+  5756			break;
+  5757		case MPI2_SCSI_STATUS_INTERMEDIATE_CONDMET:
+  5758			desc_scsi_status = "intermediate condmet";
+  5759			break;
+  5760		case MPI2_SCSI_STATUS_RESERVATION_CONFLICT:
+  5761			desc_scsi_status = "reservation conflict";
+  5762			break;
+  5763		case MPI2_SCSI_STATUS_COMMAND_TERMINATED:
+  5764			desc_scsi_status = "command terminated";
+  5765			break;
+  5766		case MPI2_SCSI_STATUS_TASK_SET_FULL:
+  5767			desc_scsi_status = "task set full";
+  5768			break;
+  5769		case MPI2_SCSI_STATUS_ACA_ACTIVE:
+  5770			desc_scsi_status = "aca active";
+  5771			break;
+  5772		case MPI2_SCSI_STATUS_TASK_ABORTED:
+  5773			desc_scsi_status = "task aborted";
+  5774			break;
+  5775		default:
+  5776			desc_scsi_status = "unknown";
+  5777			break;
+  5778		}
+  5779	
+  5780		if (!scsi_state)
+  5781			desc_scsi_state = " ";
+  5782		else
+> 5783			snprintf(desc_scsi_state, MPT_STRING_LENGTH, "%s%s%s%s%s",
+  5784				 (scsi_state & MPI2_SCSI_STATE_RESPONSE_INFO_VALID) ?
+  5785				 "response info " : "",
+  5786				 (scsi_state & MPI2_SCSI_STATE_TERMINATED) ?
+  5787				 "state terminated " : "",
+  5788				 (scsi_state & MPI2_SCSI_STATE_NO_SCSI_STATUS) ?
+  5789				 "no status " : "",
+  5790				 (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_FAILED) ?
+  5791				 "autosense failed " : "",
+  5792				 (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_VALID) ?
+  5793				 "autosense valid " : "");
+  5794	
+  5795		scsi_print_command(scmd);
+  5796	
+  5797		if (priv_target->flags & MPT_TARGET_FLAGS_VOLUME) {
+  5798			ioc_warn(ioc, "\t%s wwid(0x%016llx)\n",
+  5799				 device_str, (u64)priv_target->sas_address);
+  5800		} else if (priv_target->flags & MPT_TARGET_FLAGS_PCIE_DEVICE) {
+  5801			pcie_device = mpt3sas_get_pdev_from_target(ioc, priv_target);
+  5802			if (pcie_device) {
+  5803				ioc_info(ioc, "\twwid(0x%016llx), port(%d)\n",
+  5804					 (u64)pcie_device->wwid, pcie_device->port_num);
+  5805				if (pcie_device->enclosure_handle != 0)
+  5806					ioc_info(ioc, "\tenclosure logical id(0x%016llx), slot(%d)\n",
+  5807						 (u64)pcie_device->enclosure_logical_id,
+  5808						 pcie_device->slot);
+  5809				if (pcie_device->connector_name[0])
+  5810					ioc_info(ioc, "\tenclosure level(0x%04x), connector name( %s)\n",
+  5811						 pcie_device->enclosure_level,
+  5812						 pcie_device->connector_name);
+  5813				pcie_device_put(pcie_device);
+  5814			}
+  5815		} else {
+  5816			sas_device = mpt3sas_get_sdev_from_target(ioc, priv_target);
+  5817			if (sas_device) {
+  5818				ioc_warn(ioc, "\tsas_address(0x%016llx), phy(%d)\n",
+  5819					 (u64)sas_device->sas_address, sas_device->phy);
+  5820	
+  5821				_scsih_display_enclosure_chassis_info(ioc, sas_device,
+  5822				    NULL, NULL);
+  5823	
+  5824				sas_device_put(sas_device);
+  5825			}
+  5826		}
+  5827	
+  5828		ioc_warn(ioc, "\thandle(0x%04x), ioc_status(%s)(0x%04x), smid(%d)\n",
+  5829			 le16_to_cpu(mpi_reply->DevHandle),
+  5830			 desc_ioc_state, ioc_status, smid);
+  5831		ioc_warn(ioc, "\trequest_len(%d), underflow(%d), resid(%d)\n",
+  5832			 scsi_bufflen(scmd), scmd->underflow, scsi_get_resid(scmd));
+  5833		ioc_warn(ioc, "\ttag(%d), transfer_count(%d), sc->result(0x%08x)\n",
+  5834			 le16_to_cpu(mpi_reply->TaskTag),
+  5835			 le32_to_cpu(mpi_reply->TransferCount), scmd->result);
+  5836		ioc_warn(ioc, "\tscsi_status(%s)(0x%02x), scsi_state(%s)(0x%02x)\n",
+  5837			 desc_scsi_status, scsi_status, desc_scsi_state, scsi_state);
+  5838	
+  5839		if (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_VALID) {
+  5840			struct sense_info data;
+  5841			_scsih_normalize_sense(scmd->sense_buffer, &data);
+  5842			ioc_warn(ioc, "\t[sense_key,asc,ascq]: [0x%02x,0x%02x,0x%02x], count(%d)\n",
+  5843				 data.skey, data.asc, data.ascq,
+  5844				 le32_to_cpu(mpi_reply->SenseCount));
+  5845		}
+  5846		if (scsi_state & MPI2_SCSI_STATE_RESPONSE_INFO_VALID) {
+  5847			response_info = le32_to_cpu(mpi_reply->ResponseInfo);
+  5848			response_bytes = (u8 *)&response_info;
+  5849			_scsih_response_code(ioc, response_bytes[0]);
+  5850		}
+  5851	}
+  5852	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
