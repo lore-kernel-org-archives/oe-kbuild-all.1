@@ -1,77 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793946469;
-	b=OK1mBxFVSMXKmNO3YBDfzWbo4dRm9zXiwfyfArXpfWdDGPhTxRgil956DAtREeidD97G
-	 YVhxR1SP9viCEFjNCbixOTQUZd27XXAv2LTdw+2756z3fjv9DA8DWru6PiUZXGpRzYAFs
-	 0IgjoHsCRkChewYd31XAAZXrlzkliO0pCVtqdO/bHWCXaBr18wAcCCRyjg39hBCGtcquK
-	 cSBCIVNXkoZ8JsBQxB1jeb/qy2gTOaxa9LHvKGnDuxTrbQQImsE6VdxXVqblmrNvHd9KR
-	 vKxFGOZlK33/l+yIMH55fvQy7Golhq32I7uWXW6xAyVi4/9yqL3mNxiunqB6imdaW7w==
+	t=1793950265;
+	b=HE1CcfmU4pRf445XxwtXbLcAw7nWiJ9BYSUHV3M/uwEg6JcjUsu5xerIyDrngxtQHRoX
+	 uthsJZ+kJYggJPFIcwRt1cN+wuoZR9QfU+80hMCCNdVglH4fM2MnBd7yA4Dzbhqh3RJ0v
+	 MSLyk+jig7VIBlFbx+HPLV5wPiApjWnHySpnB0wc4iY+0Z/pRH0uI5o34IA+yaLPEklHf
+	 zr1Lm70ALbGWDCBMeGizU080xC20/XI8r02n9k24ZxXJvTuMLaWH/Tb8N4J5V9wVN5uMg
+	 RFXi3xwDRTTGFwPikPHeFYaEebf8qwu1CYoQHbKsJTvNvcgU+AUTVS9SvqyDb/+FE2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793946469;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793950265;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-Ironport-Invalid-End-Of-Message:X-ExtLoop1:
-	 X-IronPort-AV:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 User-Agent;
-	bh=c7cKBzMrfO+Ho2rDPiu3Ci8km0Phzx4M3z+CA2UXDRM=;
-	b=uBcQAKO41sVS3NSmt26U/WuUtvVRLyRtCXmvT87hSno5ahhP4yTFwILwXIe1IDLhqcB3
-	 lmpeCJ9BAbkzTDo4GXj/03OB+Tay3HwWksPAWAH+qW5k8SAdjQyuwfJSgSdBKCvnmbEQN
-	 QsBI3li4ajWWXkrrJlWOBCZHvNNfxbeI/1Zuh/X2I95xp6eiOUCx0ytTAG2VL97ptIKyb
-	 h25ZvTbHYp3I03AhL0MvMHMGgsm3oXE+aAinlU3Hib2j0csDmPE2iUaotcTEw5PnAPKsO
-	 xhidgwOlDgDIyPhgarvNLkfyo1oO1q52lPduIPwUXP9wfSZWr/HDGHZnzqSC1l9v6nA==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=AQmB073PqCtmbCNZaM5um1Q8HDtPP4LUEACr4kxR2JY=;
+	b=mBuOa9DLj2qhH7CO9dHxeNH+YK4RrZCRTixLKzHMTq7loMICVnHXM20Sg+RAbAbK69W0
+	 C2bNpK79vsCcaqAo+uKiw75QP2OBBPFDZIh2rUjV6cLV4jTaHh1bnV+vxpWwQVZmS08Wb
+	 9UJONTeZuO92si6ek7CF8fxymUD9G0oao1QJIl21tVbDvywna5c5Tr7KfGSK25c7zX0ti
+	 pYFLqwNKN2u5T4pqlWraw+dZ5R6a/C+65rwW3aUFRblUqwFGtPi5g2Pri0EODUO05p3/V
+	 eIaNIsMG57GF/rvbEIQN16NUzM5tryiwxFdpflXsbQKCPXFNLLkcLPflSfJ1OFDP4Nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mB8s1Zd5;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="D1Q/nH4o";
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C60606A329
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 06:27:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04C60606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B515A606A32E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 07:31:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B515A606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mB8s1Zd5
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D1Q/nH4o
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793946469; x=1825482469;
+  t=1793950265; x=1825486265;
   h=date:from:to:cc:subject:message-id;
-  bh=u4VyCXh04nHHAkq8vsXByQTZgSDGSlZC+a1IU/y82mg=;
-  b=mB8s1Zd5rTY7l5+2JXdeDWkQ+iUl5y76fev7cueJQoRIQ7Mlr14eRSie
-   GalvQJkguMgTTqXLOcw6pkEv29osFvjUtmewDbg5/EXYeoeev/OcoCiE6
-   Pl7ZJD3D9nAUBPiF9bAXLOARoQl+NtvtQo1xWaRV+7c1PIq+Brkzg78Vv
-   FUd3XNh3Q5HxRMfNVoBNWOXZEL8XhH/sNci/aJ4gRoVoMED6Hi1DKawuy
-   pO/MM4e2dbKZ/bGj1TdHR+EeUL30JlX9dpidlNM9kO2ZunqoRKz0ij8v9
-   VjzxpdSDpYMN0wgiecs0oKnuAKOA/bsprCplhQQMxR+15JXtdoVn27PtU
-   Q==;
-X-CSE-ConnectionGUID: ogqBGVGFSke53ro72W/WGg==
-X-CSE-MsgGUID: wznJWyV9RSesxCiw1Y4bTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2642509"
+  bh=gLsbIKaMeV52vEF3mJFFGEM9QjGvlInPZM1xlsYFMRg=;
+  b=D1Q/nH4o4C+tKcsNONT5k4FpxpZg0edvUOLd2Xi2Zel+rf8UIFRN3932
+   C1OcDpJdOtGQ/UU3HRl9tF+57F+0pEv8UV/AGO7rU7ID9/e0i/t3ro1GO
+   0fLTT2+kGqnxOvh0ZXPAdjl7mclXVbnaheh7DdLgJTtehJVx2c4HJAIuv
+   CQ6UR8URDShgYc3ndeLGgoSIzCUO8IMtGZEu1SPZGq9tPe0laOnsQnWAr
+   AOI/41NDSR2MV1tYuoRC4sfGHrCWyn9mRjdw3QO10PgWtdpVeLDMW+gQ+
+   tUJ1boZGyaUQrV/2wuyehOwbVDclDt99ynj2ixg7psHVK9jbj5c/o4ypF
+   g==;
+X-CSE-ConnectionGUID: 4O2QZB3EQRqvjyMJVktXDg==
+X-CSE-MsgGUID: KLbTN2lvTz+kawMF8eB6/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2847370"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2642509"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 22:27:45 -0800
-X-CSE-ConnectionGUID: efqCn+9OSZCBrxBEtHhzCg==
-X-CSE-MsgGUID: gfMVeZEiR4qpBdOZjdwHNw==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="2847370"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 23:31:04 -0800
+X-CSE-ConnectionGUID: w0t+eUU7QQqZOkm+jts1Iw==
+X-CSE-MsgGUID: xZ4OEfnQRKe7ghdisrk6dQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7106083"
+   d="scan'208";a="7090976"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2026 22:27:43 -0800
+  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2026 23:31:03 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPDQL-00000000A6P-0qtq;
-	Fri, 06 Nov 2026 06:27:41 +0000
-Date: Fri, 06 Nov 2026 07:27:11 +0100
+	id 1xPEPc-00000000A83-0Nq8;
+	Fri, 06 Nov 2026 07:31:00 +0000
+Date: Fri, 06 Nov 2026 08:30:18 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 1/1]
- arch/arm64/kvm/handle_exit.c:495:48: sparse: sparse: cast to restricted gfp_t
-Message-ID: <202611060732.6HzXdmOW-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/sound-rust-v7.3 24/56] +    pub fn
+ hw_constraint_minmax(&self, var: i32, min: u32, max: u32) ->
+ crate::error::Result {
+Message-ID: <202611060844.oYnGWPdW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,64 +81,378 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   b835509d43ba8175031f800f12347f8e8206a471
-commit: d0c5a9934e73da6103c39838c3d03b849731962d [1/1] ANDROID: KVM: arm64: Generalize kvm_hyp_req ser/des to smccc
-config: arm64-randconfig-r2302-20261104 (https://download.01.org/0day-ci/archive/20261106/202611060732.6HzXdmOW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060732.6HzXdmOW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
+head:   070444a8abf14da700680a5331d0a95cd11e578b
+commit: 6a450838191295e224845ae206d9594315682abc [24/56] ALSA: rust: pcm: Add hw_rule_add and hw_constraint_minmax abstractions
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261106/202611060844.oYnGWPdW-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060844.oYnGWPdW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060732.6HzXdmOW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060844.oYnGWPdW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/handle_exit.c:495:48: sparse: sparse: cast to restricted gfp_t
+All errors (new ones prefixed by >>):
+
+   PATH=/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.96.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-22/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS=\ -fno-crash-diagnostics\ -Wno-error=return-type\ -Wreturn-type\ -funsigned-char\ -Wundef\ -falign-functions=64 W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck 
+   make: Entering directory '/kbuild/src'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   Diff in rust/kernel/sound/pcm.rs:4:
+    //!
+    //! C header: [`include/sound/pcm.h`](srctree/include/sound/pcm.h)
+    
+   +use super::card::Card;
+    use crate::{
+        bindings,
+        error::to_result,
+   Diff in rust/kernel/sound/pcm.rs:10:
+        prelude::*,
+        str::CStr,
+   -    sync::{atomic::{ordering, Atomic}, Arc, ArcBorrow},
+   +    sync::{
+   +        atomic::{ordering, Atomic},
+   +        Arc, ArcBorrow,
+   +    },
+        types::Opaque,
+    };
+    use core::ffi::c_void;
+   Diff in rust/kernel/sound/pcm.rs:16:
+   -use super::card::Card;
+    
+    use core::marker::PhantomData;
+    
+   Diff in rust/kernel/sound/pcm.rs:193:
+        ///
+        /// Returns 8 for 8-bit formats, 16 for 16-bit formats, etc.
+        pub fn format_width(&self) -> i32 {
+   -        unsafe {
+   -            bindings::snd_pcm_format_width((*self.as_raw()).format)
+   -        }
+   +        unsafe { bindings::snd_pcm_format_width((*self.as_raw()).format) }
+        }
+    
+        /// Returns the raw `*mut snd_pcm_runtime` pointer.
+   Diff in rust/kernel/sound/pcm.rs:266:
+        /// Constrains a runtime parameter to the range \[`min`, `max`\].
+        ///
+        /// Mirrors `snd_pcm_hw_constraint_minmax()`.
+   -    pub fn hw_constraint_minmax(
+   -        &self,
+   -        var: i32,
+   -        min: u32,
+   -        max: u32,
+>> -    ) -> crate::error::Result {
+>> +    pub fn hw_constraint_minmax(&self, var: i32, min: u32, max: u32) -> crate::error::Result {
+>>          crate::error::to_result(unsafe {
+                bindings::snd_pcm_hw_constraint_minmax(self.as_raw(), var as _, min, max)
+            })
+   Diff in rust/kernel/sound/pcm.rs:446:
+        }
+    
+        /// Called to set hardware parameters.
+   -    fn hw_params(
+   -        &self,
+   -        substream: &Substream,
+   -        params: &HwParams,
+   -    ) -> Result {
+   +    fn hw_params(&self, substream: &Substream, params: &HwParams) -> Result {
+            let _ = (substream, params);
+            Ok(())
+        }
+   Diff in rust/kernel/sound/pcm.rs:706:
+            max: usize,
+        ) -> Result {
+            to_result(unsafe {
+   -            bindings::snd_pcm_set_managed_buffer_all(
+   -                self.as_raw(),
+   -                dma_type as i32,
+   -                dev,
+   -                size,
+   -                max,
+   -            )
+   +            bindings::snd_pcm_set_managed_buffer_all(self.as_raw(), dma_type as i32, dev, size, max)
+            })
+        }
+    
+   Diff in rust/kernel/sound/pcm.rs:741:
+    pub fn format_name(fmt: i32) -> &'static CStr {
+        // SAFETY: `snd_pcm_format_name` always returns a valid, statically-allocated,
+        // NUL-terminated C string for any format value, including unknown ones.
+   -    unsafe { CStr::from_char_ptr(bindings::snd_pcm_format_name(fmt as bindings::snd_pcm_format_t)) }
+   +    unsafe {
+   +        CStr::from_char_ptr(bindings::snd_pcm_format_name(
+   +            fmt as bindings::snd_pcm_format_t,
+   +        ))
+   +    }
+    }
+    
+    /// Non-owning handle to a PCM substream, for spinlock-guarded interrupt context.
+   Diff in rust/kernel/sound/pcm.rs:1064:
+        /// error paths that unwind through the PCM core), so rule pointers obtained
+        /// from the returned handle are guaranteed to remain valid for the runtime's
+        /// lifetime.
+   -    pub fn store_hw_rules<U: Send + 'static>(&self, rules: crate::alloc::KBox<U>) -> HwRuleHandle<U> {
+   +    pub fn store_hw_rules<U: Send + 'static>(
+   +        &self,
+   +        rules: crate::alloc::KBox<U>,
+   +    ) -> HwRuleHandle<U> {
+            unsafe extern "C" fn free_cb<U>(rt: *mut bindings::snd_pcm_runtime) {
+                let ptr = unsafe { (*rt).private_data as *mut U };
+                // SAFETY: ptr was set from KBox::into_raw in store_hw_rules.
+   Diff in rust/kernel/sound/pcm.rs:1071:
+   -            unsafe { drop(crate::alloc::KBox::from_raw(ptr)); }
+   -            unsafe { (*rt).private_data = core::ptr::null_mut(); }
+   +            unsafe {
+   +                drop(crate::alloc::KBox::from_raw(ptr));
+   +            }
+   +            unsafe {
+   +                (*rt).private_data = core::ptr::null_mut();
+   +            }
+            }
+            let raw = crate::alloc::KBox::into_raw(rules);
+            // SAFETY: raw is a fresh heap pointer from KBox::into_raw; set_private
+   Diff in rust/kernel/sound/pcm.rs:1076:
+            // is called exactly once per runtime.
+   -        unsafe { self.set_private(raw as *mut c_void, free_cb::<U>); }
+   +        unsafe {
+   +            self.set_private(raw as *mut c_void, free_cb::<U>);
+   +        }
+            HwRuleHandle(raw)
+        }
+    }
+   Diff in rust/kernel/sound/pcm.rs:1105:
+            let rule_ptr = rule_ref as *const R as *mut c_void;
+            to_result(unsafe {
+                bindings::snd_pcm_hw_rule_add(
+   -                runtime.as_raw(), cond, var,
+   +                runtime.as_raw(),
+   +                cond,
+   +                var,
+                    Some(hw_rule_trampoline::<R>),
+                    rule_ptr,
+   -                dep0, dep1, dep2, dep3,
+   +                dep0,
+   +                dep1,
+   +                dep2,
+   +                dep3,
+                )
+            })
+        }
+   Diff in rust/kernel/sound/pcm.rs:1194:
+        ) -> crate::error::Result<Self> {
+            // SAFETY: dev is a valid kernel device; snd_devm_alloc_pages manages
+            // its own lifetime via devres.
+   -        let ptr = unsafe {
+   -            bindings::snd_devm_alloc_pages(dev.as_raw(), dma_type as i32, size)
 --
->> arch/arm64/kvm/iommu.c:178:16: sparse: sparse: cast from restricted gfp_t
-   arch/arm64/kvm/iommu.c:187:16: sparse: sparse: cast from restricted gfp_t
-   arch/arm64/kvm/iommu.c:203:16: sparse: sparse: cast from restricted gfp_t
-   arch/arm64/kvm/iommu.c:224:26: sparse: sparse: cast from restricted gfp_t
-   arch/arm64/kvm/iommu.c:252:28: sparse: sparse: cast from restricted gfp_t
-   arch/arm64/kvm/iommu.c:310:16: sparse: sparse: cast from restricted gfp_t
-   arch/arm64/kvm/iommu.c:358:26: sparse: sparse: cast from restricted gfp_t
-
-vim +495 arch/arm64/kvm/handle_exit.c
-
-   486	
-   487	int handle_hyp_req(struct kvm_vcpu *vcpu, struct kvm_hyp_req *req, void *arg)
-   488	{
-   489		switch (req->type) {
-   490		case KVM_HYP_REQ_TYPE_HYP_ALLOC:
-   491			return __pkvm_topup_hyp_alloc(req->mem.nr_pages);
-   492	
-   493		case KVM_HYP_REQ_TYPE_MEM_IOMMU:
-   494			return __pkvm_topup_hyp_iommu(1, req->mem.nr_pages << PAGE_SHIFT,
- > 495						      (gfp_t)(uintptr_t)arg);
-   496	
-   497		case KVM_HYP_REQ_TYPE_MEM:
-   498			return handle_hyp_req_mem(vcpu, req);
-   499	
-   500		case KVM_HYP_REQ_TYPE_MAP:
-   501			if (!vcpu)
-   502				return -EINVAL;
-   503			return pkvm_mem_abort_range(vcpu, req->map.guest_ipa, req->map.size);
-   504	
-   505		case KVM_HYP_REQ_TYPE_SPLIT:
-   506			if (!vcpu)
-   507				return -EINVAL;
-   508			return __pkvm_pgtable_stage2_split(vcpu, req->split.guest_ipa, req->split.size);
-   509	
-   510		case KVM_HYP_LAST_REQ:
-   511			return 0;
-   512		}
-   513	
-   514		pr_warn("Unknown kvm_hyp_req type: %d\n", req->type);
-   515		return -EINVAL;
-   516	}
-   517	
+        /// Registers a control with custom settings.
+   -    pub fn add_control(&self, iface: ElemIface, name: &CStr, ops: impl KControlOps) -> Result<Handle> {
+   +    pub fn add_control(
+   +        &self,
+   +        iface: ElemIface,
+   +        name: &CStr,
+   +        ops: impl KControlOps,
+   +    ) -> Result<Handle> {
+            self.add_kcontrol(KControlConfig::new(iface, name), ops)
+        }
+    
+   Diff in rust/kernel/sound/control.rs:304:
+        /// Low-level entry point for fully custom controls.
+   -    pub fn add_kcontrol(&self, config: KControlConfig<'_>, ops: impl KControlOps) -> Result<Handle> {
+   +    pub fn add_kcontrol(
+   +        &self,
+   +        config: KControlConfig<'_>,
+   +        ops: impl KControlOps,
+   +    ) -> Result<Handle> {
+            let data = KBox::new(
+                KControlData(KBox::new(ops, GFP_KERNEL)? as KBox<dyn KControlOps>),
+                GFP_KERNEL,
+   Diff in rust/kernel/sound/control.rs:327:
+            };
+    
+            // SAFETY: template is a valid snd_kcontrol_new on the stack.
+   -        let kctl = unsafe {
+   -            bindings::snd_ctl_new1(&template, data_ptr as *mut core::ffi::c_void)
+   -        };
+   +        let kctl = unsafe { bindings::snd_ctl_new1(&template, data_ptr as *mut core::ffi::c_void) };
+    
+            if kctl.is_null() {
+                // snd_ctl_new1 failed; free data ourselves.
+   Diff in rust/kernel/sound/control.rs:339:
+    
+            if config.bump_on_collision {
+                while !unsafe { bindings::snd_ctl_find_id(self.as_raw(), &(*kctl).id) }.is_null() {
+   -                unsafe { (*kctl).id.index += 1; }
+   +                unsafe {
+   +                    (*kctl).id.index += 1;
+   +                }
+                }
+            }
+    
+   Diff in rust/kernel/sound/mod.rs:14:
+    pub mod control;
+    pub mod pcm;
+    
+   +pub use crate::{new_owned_sound_card, new_sound_card};
+    pub use card::{Card, OwnedCard};
+   -pub use control::{KControlConfig, KControlOps, ElemIface, ElemType};
+   -pub use pcm::{Pcm};
+   -pub use crate::{new_sound_card, new_owned_sound_card};
+   +pub use control::{ElemIface, ElemType, KControlConfig, KControlOps};
+   +pub use pcm::Pcm;
+    
+   Diff in rust/kernel/sound/pcm.rs:4:
+    //!
+    //! C header: [`include/sound/pcm.h`](srctree/include/sound/pcm.h)
+    
+   +use super::card::Card;
+    use crate::{
+        bindings,
+        error::to_result,
+   Diff in rust/kernel/sound/pcm.rs:10:
+        prelude::*,
+        str::CStr,
+   -    sync::{atomic::{ordering, Atomic}, Arc, ArcBorrow},
+   +    sync::{
+   +        atomic::{ordering, Atomic},
+   +        Arc, ArcBorrow,
+   +    },
+        types::Opaque,
+    };
+    use core::ffi::c_void;
+   Diff in rust/kernel/sound/pcm.rs:16:
+   -use super::card::Card;
+    
+    use core::marker::PhantomData;
+    
+   Diff in rust/kernel/sound/pcm.rs:193:
+        ///
+        /// Returns 8 for 8-bit formats, 16 for 16-bit formats, etc.
+        pub fn format_width(&self) -> i32 {
+   -        unsafe {
+   -            bindings::snd_pcm_format_width((*self.as_raw()).format)
+   -        }
+   +        unsafe { bindings::snd_pcm_format_width((*self.as_raw()).format) }
+        }
+    
+        /// Returns the raw `*mut snd_pcm_runtime` pointer.
+   Diff in rust/kernel/sound/pcm.rs:266:
+        /// Constrains a runtime parameter to the range \[`min`, `max`\].
+        ///
+        /// Mirrors `snd_pcm_hw_constraint_minmax()`.
+   -    pub fn hw_constraint_minmax(
+   -        &self,
+   -        var: i32,
+   -        min: u32,
+   -        max: u32,
+>> -    ) -> crate::error::Result {
+>> +    pub fn hw_constraint_minmax(&self, var: i32, min: u32, max: u32) -> crate::error::Result {
+>>          crate::error::to_result(unsafe {
+                bindings::snd_pcm_hw_constraint_minmax(self.as_raw(), var as _, min, max)
+            })
+   Diff in rust/kernel/sound/pcm.rs:446:
+        }
+    
+        /// Called to set hardware parameters.
+   -    fn hw_params(
+   -        &self,
+   -        substream: &Substream,
+   -        params: &HwParams,
+   -    ) -> Result {
+   +    fn hw_params(&self, substream: &Substream, params: &HwParams) -> Result {
+            let _ = (substream, params);
+            Ok(())
+        }
+   Diff in rust/kernel/sound/pcm.rs:706:
+            max: usize,
+        ) -> Result {
+            to_result(unsafe {
+   -            bindings::snd_pcm_set_managed_buffer_all(
+   -                self.as_raw(),
+   -                dma_type as i32,
+   -                dev,
+   -                size,
+   -                max,
+   -            )
+   +            bindings::snd_pcm_set_managed_buffer_all(self.as_raw(), dma_type as i32, dev, size, max)
+            })
+        }
+    
+   Diff in rust/kernel/sound/pcm.rs:741:
+    pub fn format_name(fmt: i32) -> &'static CStr {
+        // SAFETY: `snd_pcm_format_name` always returns a valid, statically-allocated,
+        // NUL-terminated C string for any format value, including unknown ones.
+   -    unsafe { CStr::from_char_ptr(bindings::snd_pcm_format_name(fmt as bindings::snd_pcm_format_t)) }
+   +    unsafe {
+   +        CStr::from_char_ptr(bindings::snd_pcm_format_name(
+   +            fmt as bindings::snd_pcm_format_t,
+   +        ))
+   +    }
+    }
+    
+    /// Non-owning handle to a PCM substream, for spinlock-guarded interrupt context.
+   Diff in rust/kernel/sound/pcm.rs:1064:
+        /// error paths that unwind through the PCM core), so rule pointers obtained
+        /// from the returned handle are guaranteed to remain valid for the runtime's
+        /// lifetime.
+   -    pub fn store_hw_rules<U: Send + 'static>(&self, rules: crate::alloc::KBox<U>) -> HwRuleHandle<U> {
+   +    pub fn store_hw_rules<U: Send + 'static>(
+   +        &self,
+   +        rules: crate::alloc::KBox<U>,
+   +    ) -> HwRuleHandle<U> {
+            unsafe extern "C" fn free_cb<U>(rt: *mut bindings::snd_pcm_runtime) {
+                let ptr = unsafe { (*rt).private_data as *mut U };
+                // SAFETY: ptr was set from KBox::into_raw in store_hw_rules.
+   Diff in rust/kernel/sound/pcm.rs:1071:
+   -            unsafe { drop(crate::alloc::KBox::from_raw(ptr)); }
+   -            unsafe { (*rt).private_data = core::ptr::null_mut(); }
+   +            unsafe {
+   +                drop(crate::alloc::KBox::from_raw(ptr));
+   +            }
+   +            unsafe {
+   +                (*rt).private_data = core::ptr::null_mut();
+   +            }
+            }
+            let raw = crate::alloc::KBox::into_raw(rules);
+            // SAFETY: raw is a fresh heap pointer from KBox::into_raw; set_private
+   Diff in rust/kernel/sound/pcm.rs:1076:
+            // is called exactly once per runtime.
+   -        unsafe { self.set_private(raw as *mut c_void, free_cb::<U>); }
+   +        unsafe {
+   +            self.set_private(raw as *mut c_void, free_cb::<U>);
+   +        }
+            HwRuleHandle(raw)
+        }
+    }
+   Diff in rust/kernel/sound/pcm.rs:1105:
+            let rule_ptr = rule_ref as *const R as *mut c_void;
+            to_result(unsafe {
+                bindings::snd_pcm_hw_rule_add(
+   -                runtime.as_raw(), cond, var,
+   +                runtime.as_raw(),
+   +                cond,
+   +                var,
+                    Some(hw_rule_trampoline::<R>),
+                    rule_ptr,
+   -                dep0, dep1, dep2, dep3,
+   +                dep0,
+   +                dep1,
+   +                dep2,
+   +                dep3,
+                )
+            })
+        }
+   Diff in rust/kernel/sound/pcm.rs:1194:
+        ) -> crate::error::Result<Self> {
+            // SAFETY: dev is a valid kernel device; snd_devm_alloc_pages manages
+            // its own lifetime via devres.
+   -        let ptr = unsafe {
+   -            bindings::snd_devm_alloc_pages(dev.as_raw(), dma_type as i32, size)
+..
 
 --
 0-DAY CI Kernel Test Service
