@@ -1,82 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964681;
-	b=w1xRbrD0ZSg8H4BZe7GkJ+dD6mVM/QARIdT7tPr2ZZ0Kn0cKTPB96AUvApOVuCm+CwaK
-	 x5OpFNNG6lga9MIfOa1sNIboTsdQMzeQ2kYM8zB9EaWBqqKUv7l/kATNuydQZjb2Qy5sM
-	 DRBCwy2+JZR4L4/Kx39WyzghPwr+16RI7W9/srn6UNTD2DmAk+vHhCkH4vCsUe05b7t+q
-	 0zfq9ckWSbJgdjSI7kvC73xSUgI6hKtbuQ3oYpcTfceL9w3qvwA9B6CpyOFbMwPT/orBn
-	 4crjsHEiZg5F3TYYYAP2h6ho26nQr8wyw3SVdKJuZOkddv9Xpv8h9c6I3lvI3AcroKg==
+	t=1793965126;
+	b=Vs8QvptRH68JntjTVnhEYX4jbZWSB6eEc2spsQHUqMB5LiBaouZ3zO27MUImiQlOKnoy
+	 FydJEAdQnMcdDCEIKTZ9mNDCu5HGmP3Ujt0us+xuQiF74+kdrMjX6AWacDOlpA+BNTqaw
+	 V/BrKoZz6lIEdOg9S2QQakSvNLWnN5MFmI4j1A5OXUVzBcMUSKbw62gYQVCB/D5MA4DJW
+	 PXTGA57kg9IX6jd7PVlEiPMfbtFg9hzIp2M8Sp5UbW3LyXmAou0aMemqz7O3VEZqYgeG0
+	 Plat6i/VOjbIiiG7jGHPhhfF0Asy6nHQEMUXH0USUuJ9s0kVE1yl8I5gCr3rGxkoXsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964681;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793965126;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=bIhVi7DqLa2KqhdxEJjUtsluGlm+9jNdA8ypyX5JrRg=;
-	b=JdVKwOGscGzD5PKEZZzi/xOsLEe2gmNBcexOXtQLIsklEnaR3K5olsKuxBea4a5bfIou
-	 v28ORMj7svpc5aaat+kk0c9/+kAuf964wyocN8EOJMT7qI2vIqGhmuMZ/YGrzA5j27YpY
-	 Z07qC+ayJUaUb9A9rJE5Q+un1WK/YfmdMqEt4V8DMlqOMZfrJEwy/92fZWug0jpddziP4
-	 Amzuhyvn0amD5e7mnVOO76vT2poGD/YLNgQAwiusVLNuxehowAjLc7QmAIZvKxxgHnS1Z
-	 oDZGnT99cEu5e/wPqBd1p2/O+9G+IBHXeyxdE5WTYetpnPosgZX1Ij4hN+gkw6GS22g==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=A145vFTZjLo7trSfILj75SLk8mEcBjz8Hl73LJnp/+U=;
+	b=I+ciPZ3Ae+OYSFFRwBn3+YOtmLMhTZiY7OSxJQ7ZqvWsZD5ACQzZTJT5zsbg9fEFGtr2
+	 2CMilaP2JytmlozTfY5PWHwVOqlnKGwnNcJ3z5vsaSgPtNxQrSxJJ4QhGLPyc8eGrwZ2l
+	 cuFWhcdND+lhidBXMu4KN2oTre1v+U0Bmw8PNMlDaJgzqDrsaPKLWNjsjq4NXyWxmHPo9
+	 PUMXJzSEOpRA7JCXaklacb8jlQMPEbMf1Ufd3gg3j7uiVvVxyECrHoKTAljOe2yl93Z4v
+	 AH8IkDQ6Qzr9QGRe94VfH2n63bat1xssAoRf3l3Hrxo+cJKc8TGrrOXrgSRznRrt9jA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RhqGVpM6;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="hX91CU/x";
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BEA606D81B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 11:31:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91BEA606D81B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2647606A326
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 11:38:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2647606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RhqGVpM6
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hX91CU/x
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793964681; x=1825500681;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yjMSt5jgTuR/kLdo96ZTXNuUTiM+hXQL8bHFGBygnxg=;
-  b=RhqGVpM6fZg+xpIzG9pGbd+pa8GNoIcNB3zD49FdLZCZO5KpK3/+iXl0
-   jFp45A1BhOd97F0V+cYC5vDx1lLCId0/jHa1sfFbtRkvBWip71vG5UcRj
-   /IWRfbz+Wk3AW+paqK/eVVO9yh8zEa5JKPUSEXbD+85LMphHS24k3UP5X
-   NkWypdtsxKiN/V38vweCyUHSgfThbmIP6GO1P+Mt+RY/X1GP1pYiu1tZE
-   xthgfsCfCYolkml4gM1fHT5b3PtxrrapfLDV9/GY6BKfYsMVFqkjsZrwM
-   Tt/kORrJ/gBfLI8vr8I0AdLFUj/cZoPJPxJTIYfERP3JNu4q5acxanHeh
-   A==;
-X-CSE-ConnectionGUID: 748Fei4TTVaWhsSNzwgocw==
-X-CSE-MsgGUID: uZFgxEkIQISxp3Z8tBK9jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2676592"
+  t=1793965125; x=1825501125;
+  h=date:from:to:cc:subject:message-id;
+  bh=TNO9m6clvrnN+voRcoHM/vxroL7ETP03B02V0popTEM=;
+  b=hX91CU/xc+9eaOxbOglZheJa2PZIFevCsdMapgmTD8ZoVgCKSAbaPmA2
+   OZZDl49uJEHBSHIwtDMuif94YDUiIQAPh5xvzUYgSDRxe1Cf2FcK7QEUb
+   TIaSGlY4apiK5X++KQAAZ5Lsd2RofCYAIoJZWs+y9RY8YmKksUzP5QzLD
+   Hr6RIzR/twsFcduVQNTP9xOQcJ3r77qOio1ed5Pvg6+mk9bLQ2mlZuAlH
+   l5Zui3oByzBFntpKr8/hqc0Tt4uFTKvVZcph0T5mbamG1QNXYg1DY+7UR
+   5NKVJM6f7dg1y/S4sq5JMNbpNGAtQTm9eAPQQxUeb3lXToRtD1h6HTUCt
+   g==;
+X-CSE-ConnectionGUID: 13MeHfJzS7+RlQJ3DdBnOg==
+X-CSE-MsgGUID: ScuId78RS5WBjZne3tAmTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2674770"
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2676592"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 03:31:21 -0800
-X-CSE-ConnectionGUID: bgkCM0fZRwqbcApYRo4TUQ==
-X-CSE-MsgGUID: Nj00MerhRPuZWjE0IX/TzQ==
+   d="scan'208";a="2674770"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 03:38:44 -0800
+X-CSE-ConnectionGUID: iy/9MSoqQ7ecLVkS0vOXoA==
+X-CSE-MsgGUID: sxeN6i3jTka/XSnhAGSVwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7577342"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Nov 2026 03:31:18 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7141985"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2026 03:38:43 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPIA7-00000000p7z-1ojC;
-	Fri, 06 Nov 2026 11:31:15 +0000
-Date: Fri, 6 Nov 2026 19:30:48 +0800
+	id 1xPIHI-00000000AEX-1UyB;
+	Fri, 06 Nov 2026 11:38:40 +0000
+Date: Fri, 06 Nov 2026 12:37:50 +0100
 From: kernel test robot <lkp@intel.com>
-To: Shivasharan S <shivasharan.srikanteshwara@broadcom.com>,
-	linux-scsi@vger.kernel.org, martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, sathya.prakash@broadcom.com,
-	ranjan.kumar@broadcom.com, chandrakanth.patil@broadcom.com,
-	sweeti.vandure@broadcom.com,
-	Shivasharan S <shivasharan.srikanteshwara@broadcom.com>
-Subject: Re: [PATCH 14/37] scsi: mpt3sas: Fix buffer overflow in
- _scsih_scsi_ioc_info
-Message-ID: <202611061924.PaXwZZ0x-lkp@intel.com>
-References: <1793925772-1303-15-git-send-email-shivasharan.srikanteshwara@broadcom.com>
+To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_sbi_sse_v12 42/46]
+ arch/riscv/kernel/perf_callchain.c:125:22: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202611061208.jUDQsZ0A-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,281 +80,78 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1793925772-1303-15-git-send-email-shivasharan.srikanteshwara@broadcom.com>
 
-Hi Shivasharan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on mkp-scsi/for-next linus/master v7.4-rc1 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivasharan-S/scsi-mpt3sas-Validate-firmware-reported-IOCRequestFrameSize/20261105-164216
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/1793925772-1303-15-git-send-email-shivasharan.srikanteshwara%40broadcom.com
-patch subject: [PATCH 14/37] scsi: mpt3sas: Fix buffer overflow in _scsih_scsi_ioc_info
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20261106/202611061924.PaXwZZ0x-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611061924.PaXwZZ0x-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_sbi_sse_v12
+head:   6edb42266d180e7a96cbf7c0f790f5170e1c5c5a
+commit: d009198e6da0ab7b7dd2958bf4d6974cd99cc36b [42/46] perf: RISC-V: support callchains with SSE delivery
+config: riscv-randconfig-r2309-20261106 (https://download.01.org/0day-ci/archive/20261106/202611061208.jUDQsZ0A-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.3.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611061208.jUDQsZ0A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611061924.PaXwZZ0x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611061208.jUDQsZ0A-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/perf_callchain.c:125:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got void const * @@
+   arch/riscv/kernel/perf_callchain.c:125:22: sparse:     expected void const [noderef] __user *ptr
+   arch/riscv/kernel/perf_callchain.c:125:22: sparse:     got void const *
+   arch/riscv/kernel/perf_callchain.c:133:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *src @@
+   arch/riscv/kernel/perf_callchain.c:133:46: sparse:     expected void const [noderef] __user *from
+   arch/riscv/kernel/perf_callchain.c:133:46: sparse:     got void const *src
 
-   drivers/scsi/mpt3sas/mpt3sas_scsih.c: In function '_scsih_scsi_ioc_info':
->> drivers/scsi/mpt3sas/mpt3sas_scsih.c:5783:71: warning: '%s' directive output may be truncated writing up to 16 bytes into a region of size between 6 and 64 [-Wformat-truncation=]
-    5783 |                 snprintf(desc_scsi_state, MPT_STRING_LENGTH, "%s%s%s%s%s",
-         |                                                                       ^~
-   drivers/scsi/mpt3sas/mpt3sas_scsih.c:5783:17: note: 'snprintf' output between 1 and 75 bytes into a destination of size 64
-    5783 |                 snprintf(desc_scsi_state, MPT_STRING_LENGTH, "%s%s%s%s%s",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    5784 |                          (scsi_state & MPI2_SCSI_STATE_RESPONSE_INFO_VALID) ?
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    5785 |                          "response info " : "",
-         |                          ~~~~~~~~~~~~~~~~~~~~~~
-    5786 |                          (scsi_state & MPI2_SCSI_STATE_TERMINATED) ?
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    5787 |                          "state terminated " : "",
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~
-    5788 |                          (scsi_state & MPI2_SCSI_STATE_NO_SCSI_STATUS) ?
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    5789 |                          "no status " : "",
-         |                          ~~~~~~~~~~~~~~~~~~
-    5790 |                          (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_FAILED) ?
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    5791 |                          "autosense failed " : "",
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~
-    5792 |                          (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_VALID) ?
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    5793 |                          "autosense valid " : "");
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~
+vim +125 arch/riscv/kernel/perf_callchain.c
 
-
-vim +5783 drivers/scsi/mpt3sas/mpt3sas_scsih.c
-
-  5639	
-  5640	/**
-  5641	 * _scsih_scsi_ioc_info - translated non-successful SCSI_IO request
-  5642	 * @ioc: per adapter object
-  5643	 * @scmd: pointer to scsi command object
-  5644	 * @mpi_reply: reply mf payload returned from firmware
-  5645	 * @smid: ?
-  5646	 *
-  5647	 * scsi_status - SCSI Status code returned from target device
-  5648	 * scsi_state - state info associated with SCSI_IO determined by ioc
-  5649	 * ioc_status - ioc supplied status info
-  5650	 */
-  5651	static void
-  5652	_scsih_scsi_ioc_info(struct MPT3SAS_ADAPTER *ioc, struct scsi_cmnd *scmd,
-  5653		Mpi2SCSIIOReply_t *mpi_reply, u16 smid)
-  5654	{
-  5655		u32 response_info;
-  5656		u8 *response_bytes;
-  5657		u16 ioc_status = le16_to_cpu(mpi_reply->IOCStatus) &
-  5658		    MPI2_IOCSTATUS_MASK;
-  5659		u8 scsi_state = mpi_reply->SCSIState;
-  5660		u8 scsi_status = mpi_reply->SCSIStatus;
-  5661		char *desc_ioc_state = NULL;
-  5662		char *desc_scsi_status = NULL;
-  5663		char *desc_scsi_state = ioc->tmp_string;
-  5664		u32 log_info = le32_to_cpu(mpi_reply->IOCLogInfo);
-  5665		struct _sas_device *sas_device = NULL;
-  5666		struct _pcie_device *pcie_device = NULL;
-  5667		struct scsi_target *starget = scmd->device->sdev_target;
-  5668		struct MPT3SAS_TARGET *priv_target = starget->hostdata;
-  5669		char *device_str = NULL;
-  5670	
-  5671		if (!priv_target)
-  5672			return;
-  5673		if (ioc->hide_ir_msg)
-  5674			device_str = "WarpDrive";
-  5675		else
-  5676			device_str = "volume";
-  5677	
-  5678		if (log_info == 0x31170000)
-  5679			return;
-  5680	
-  5681		switch (ioc_status) {
-  5682		case MPI2_IOCSTATUS_SUCCESS:
-  5683			desc_ioc_state = "success";
-  5684			break;
-  5685		case MPI2_IOCSTATUS_INVALID_FUNCTION:
-  5686			desc_ioc_state = "invalid function";
-  5687			break;
-  5688		case MPI2_IOCSTATUS_SCSI_RECOVERED_ERROR:
-  5689			desc_ioc_state = "scsi recovered error";
-  5690			break;
-  5691		case MPI2_IOCSTATUS_SCSI_INVALID_DEVHANDLE:
-  5692			desc_ioc_state = "scsi invalid dev handle";
-  5693			break;
-  5694		case MPI2_IOCSTATUS_SCSI_DEVICE_NOT_THERE:
-  5695			desc_ioc_state = "scsi device not there";
-  5696			break;
-  5697		case MPI2_IOCSTATUS_SCSI_DATA_OVERRUN:
-  5698			desc_ioc_state = "scsi data overrun";
-  5699			break;
-  5700		case MPI2_IOCSTATUS_SCSI_DATA_UNDERRUN:
-  5701			desc_ioc_state = "scsi data underrun";
-  5702			break;
-  5703		case MPI2_IOCSTATUS_SCSI_IO_DATA_ERROR:
-  5704			desc_ioc_state = "scsi io data error";
-  5705			break;
-  5706		case MPI2_IOCSTATUS_SCSI_PROTOCOL_ERROR:
-  5707			desc_ioc_state = "scsi protocol error";
-  5708			break;
-  5709		case MPI2_IOCSTATUS_SCSI_TASK_TERMINATED:
-  5710			desc_ioc_state = "scsi task terminated";
-  5711			break;
-  5712		case MPI2_IOCSTATUS_SCSI_RESIDUAL_MISMATCH:
-  5713			desc_ioc_state = "scsi residual mismatch";
-  5714			break;
-  5715		case MPI2_IOCSTATUS_SCSI_TASK_MGMT_FAILED:
-  5716			desc_ioc_state = "scsi task mgmt failed";
-  5717			break;
-  5718		case MPI2_IOCSTATUS_SCSI_IOC_TERMINATED:
-  5719			desc_ioc_state = "scsi ioc terminated";
-  5720			break;
-  5721		case MPI2_IOCSTATUS_SCSI_EXT_TERMINATED:
-  5722			desc_ioc_state = "scsi ext terminated";
-  5723			break;
-  5724		case MPI2_IOCSTATUS_EEDP_GUARD_ERROR:
-  5725			desc_ioc_state = "eedp guard error";
-  5726			break;
-  5727		case MPI2_IOCSTATUS_EEDP_REF_TAG_ERROR:
-  5728			desc_ioc_state = "eedp ref tag error";
-  5729			break;
-  5730		case MPI2_IOCSTATUS_EEDP_APP_TAG_ERROR:
-  5731			desc_ioc_state = "eedp app tag error";
-  5732			break;
-  5733		case MPI2_IOCSTATUS_INSUFFICIENT_POWER:
-  5734			desc_ioc_state = "insufficient power";
-  5735			break;
-  5736		default:
-  5737			desc_ioc_state = "unknown";
-  5738			break;
-  5739		}
-  5740	
-  5741		switch (scsi_status) {
-  5742		case MPI2_SCSI_STATUS_GOOD:
-  5743			desc_scsi_status = "good";
-  5744			break;
-  5745		case MPI2_SCSI_STATUS_CHECK_CONDITION:
-  5746			desc_scsi_status = "check condition";
-  5747			break;
-  5748		case MPI2_SCSI_STATUS_CONDITION_MET:
-  5749			desc_scsi_status = "condition met";
-  5750			break;
-  5751		case MPI2_SCSI_STATUS_BUSY:
-  5752			desc_scsi_status = "busy";
-  5753			break;
-  5754		case MPI2_SCSI_STATUS_INTERMEDIATE:
-  5755			desc_scsi_status = "intermediate";
-  5756			break;
-  5757		case MPI2_SCSI_STATUS_INTERMEDIATE_CONDMET:
-  5758			desc_scsi_status = "intermediate condmet";
-  5759			break;
-  5760		case MPI2_SCSI_STATUS_RESERVATION_CONFLICT:
-  5761			desc_scsi_status = "reservation conflict";
-  5762			break;
-  5763		case MPI2_SCSI_STATUS_COMMAND_TERMINATED:
-  5764			desc_scsi_status = "command terminated";
-  5765			break;
-  5766		case MPI2_SCSI_STATUS_TASK_SET_FULL:
-  5767			desc_scsi_status = "task set full";
-  5768			break;
-  5769		case MPI2_SCSI_STATUS_ACA_ACTIVE:
-  5770			desc_scsi_status = "aca active";
-  5771			break;
-  5772		case MPI2_SCSI_STATUS_TASK_ABORTED:
-  5773			desc_scsi_status = "task aborted";
-  5774			break;
-  5775		default:
-  5776			desc_scsi_status = "unknown";
-  5777			break;
-  5778		}
-  5779	
-  5780		if (!scsi_state)
-  5781			desc_scsi_state = " ";
-  5782		else
-> 5783			snprintf(desc_scsi_state, MPT_STRING_LENGTH, "%s%s%s%s%s",
-  5784				 (scsi_state & MPI2_SCSI_STATE_RESPONSE_INFO_VALID) ?
-  5785				 "response info " : "",
-  5786				 (scsi_state & MPI2_SCSI_STATE_TERMINATED) ?
-  5787				 "state terminated " : "",
-  5788				 (scsi_state & MPI2_SCSI_STATE_NO_SCSI_STATUS) ?
-  5789				 "no status " : "",
-  5790				 (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_FAILED) ?
-  5791				 "autosense failed " : "",
-  5792				 (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_VALID) ?
-  5793				 "autosense valid " : "");
-  5794	
-  5795		scsi_print_command(scmd);
-  5796	
-  5797		if (priv_target->flags & MPT_TARGET_FLAGS_VOLUME) {
-  5798			ioc_warn(ioc, "\t%s wwid(0x%016llx)\n",
-  5799				 device_str, (u64)priv_target->sas_address);
-  5800		} else if (priv_target->flags & MPT_TARGET_FLAGS_PCIE_DEVICE) {
-  5801			pcie_device = mpt3sas_get_pdev_from_target(ioc, priv_target);
-  5802			if (pcie_device) {
-  5803				ioc_info(ioc, "\twwid(0x%016llx), port(%d)\n",
-  5804					 (u64)pcie_device->wwid, pcie_device->port_num);
-  5805				if (pcie_device->enclosure_handle != 0)
-  5806					ioc_info(ioc, "\tenclosure logical id(0x%016llx), slot(%d)\n",
-  5807						 (u64)pcie_device->enclosure_logical_id,
-  5808						 pcie_device->slot);
-  5809				if (pcie_device->connector_name[0])
-  5810					ioc_info(ioc, "\tenclosure level(0x%04x), connector name( %s)\n",
-  5811						 pcie_device->enclosure_level,
-  5812						 pcie_device->connector_name);
-  5813				pcie_device_put(pcie_device);
-  5814			}
-  5815		} else {
-  5816			sas_device = mpt3sas_get_sdev_from_target(ioc, priv_target);
-  5817			if (sas_device) {
-  5818				ioc_warn(ioc, "\tsas_address(0x%016llx), phy(%d)\n",
-  5819					 (u64)sas_device->sas_address, sas_device->phy);
-  5820	
-  5821				_scsih_display_enclosure_chassis_info(ioc, sas_device,
-  5822				    NULL, NULL);
-  5823	
-  5824				sas_device_put(sas_device);
-  5825			}
-  5826		}
-  5827	
-  5828		ioc_warn(ioc, "\thandle(0x%04x), ioc_status(%s)(0x%04x), smid(%d)\n",
-  5829			 le16_to_cpu(mpi_reply->DevHandle),
-  5830			 desc_ioc_state, ioc_status, smid);
-  5831		ioc_warn(ioc, "\trequest_len(%d), underflow(%d), resid(%d)\n",
-  5832			 scsi_bufflen(scmd), scmd->underflow, scsi_get_resid(scmd));
-  5833		ioc_warn(ioc, "\ttag(%d), transfer_count(%d), sc->result(0x%08x)\n",
-  5834			 le16_to_cpu(mpi_reply->TaskTag),
-  5835			 le32_to_cpu(mpi_reply->TransferCount), scmd->result);
-  5836		ioc_warn(ioc, "\tscsi_status(%s)(0x%02x), scsi_state(%s)(0x%02x)\n",
-  5837			 desc_scsi_status, scsi_status, desc_scsi_state, scsi_state);
-  5838	
-  5839		if (scsi_state & MPI2_SCSI_STATE_AUTOSENSE_VALID) {
-  5840			struct sense_info data;
-  5841			_scsih_normalize_sense(scmd->sense_buffer, &data);
-  5842			ioc_warn(ioc, "\t[sense_key,asc,ascq]: [0x%02x,0x%02x,0x%02x], count(%d)\n",
-  5843				 data.skey, data.asc, data.ascq,
-  5844				 le32_to_cpu(mpi_reply->SenseCount));
-  5845		}
-  5846		if (scsi_state & MPI2_SCSI_STATE_RESPONSE_INFO_VALID) {
-  5847			response_info = le32_to_cpu(mpi_reply->ResponseInfo);
-  5848			response_bytes = (u8 *)&response_info;
-  5849			_scsih_response_code(ioc, response_bytes[0]);
-  5850		}
-  5851	}
-  5852	
+    92	
+    93	unsigned long riscv_perf_out_copy_user(void *dst, const void *src,
+    94					       unsigned long n)
+    95	{
+    96		unsigned long ret;
+    97	
+    98		/*
+    99		 * Raw user-stack sampling can run in the NMI-like SSE context. Mirror
+   100		 * x86's copy_from_user_nmi(): the copy may take a page fault, but it
+   101		 * must not fault a non-resident page in. pagefault_disable() keeps the
+   102		 * RISC-V fault handler on the nofault exception-table fixup (no
+   103		 * handle_mm_fault(), no interrupt window), and the SSE entry saves and
+   104		 * restores the interrupted task's stack metadata across that nested
+   105		 * trap. A fault therefore returns the number of bytes not copied, and
+   106		 * perf truncates the user-stack dump accordingly.
+   107		 *
+   108		 * In SSE context also approximate x86's nmi_uaccess_okay(): only sample
+   109		 * when the active page table root still matches current->mm, so we do
+   110		 * not walk an unrelated address space after interrupting a KVM guest, a
+   111		 * kernel thread, or a task whose mm is being swapped. This root check
+   112		 * does not close the window inside switch_mm() between writing satp and
+   113		 * flushing the local TLB (RISC-V has no LOADED_MM_SWITCHING marker like
+   114		 * x86); that is a window between instructions, not within one. In that
+   115		 * window a stale TLB entry may still resolve to the outgoing mapping, and
+   116		 * with ASID reuse the residue can even belong to an unrelated address
+   117		 * space. The nofault fixup only bounds faulting accesses; it cannot
+   118		 * detect a successful hit on a stale translation. This is therefore a
+   119		 * bounded sample-quality gap (a mis-attributed or truncated user-stack
+   120		 * dump), not a memory-safety hazard: the copy target is the perf ring
+   121		 * buffer and the length is bounded, so a stale read cannot corrupt an
+   122		 * unrelated kernel object.
+   123		 */
+   124		if (riscv_sse_get_interrupted_context()) {
+ > 125			if (!access_ok(src, n))
+   126				return n;
+   127			if (!current->mm ||
+   128			    (csr_read(CSR_SATP) & SATP_PPN) != virt_to_pfn(current->mm->pgd))
+   129				return n;
+   130		}
+   131	
+   132		pagefault_disable();
+   133		ret = __copy_from_user_inatomic(dst, src, n);
+   134		pagefault_enable();
+   135	
+   136		return ret;
+   137	}
+   138	#endif
+   139	
 
 --
 0-DAY CI Kernel Test Service
