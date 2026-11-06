@@ -1,78 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.87
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793950870;
-	b=SWUjIIvrUzwdsjr+3mBOgSxrIS2NXSWWmMeTqUjMy0KXxpBCYxhfpMkCVDmWD7gsiagU
-	 +l7W+wdsKrIhzwCxgkUAGhDb/ZCGgenePb1lYLAfjCr4IdJ2pCjIfTw6/Y5SB0gKgBx5k
-	 MKzTDnfqHcwmFq2s4zNNKuB7+nwx+CspFhmjyceoLvYXe5JSQU6IjZpX1VRqFip46sANh
-	 TvXgTzWDoZdyLQeeKX51PxLTns1vixHBu0v2/R5l+Ha1lkq+CivajNpiDifG8jrWAqrtr
-	 tIJp6VPdMciLmcwk+q4GroMV8xiPNDW+3ORFU2hhioJPKWlAix9FVpdL/poiV5c77sQ==
+	t=1793951598;
+	b=xM4cIITLrRICSAcMnPtCCoEHZKJD4JnHPId0DG9iC6uxZSGrJSwemmX3eGxXZmHKzzS8
+	 qIdTGTfNNsSlk2BCDTRH58DhHHKW0AuGAKLZ4PE6iYEcYF3qscA6CdU4ZuJYrq8ncIMsy
+	 LtuFgj3o3LloNIL/5d2AI/AI6PuoOLcUVUK64k9ZQchzmlwGQkGvsATbFkjGEJEbQWzqn
+	 2yti+wfWCkztYdknrJauzQD1glxM0rFOT661JnMiZN+3p7DwL3sJgHm7Eku68zOp66Fm/
+	 Sj5cUHlYcQHkOR4Ca1jem2UXJxBi2iGLY9EgTb6Vl/trZ7xlu+p1mh64eVtZ2EtI46A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793950870;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=FGPpsl1xdFig7klgL59RRYwr4+vvLnylm9EtpeX0g+o=;
-	b=qqoT/qohJyWcjLUd12kCQbz8ryrD9J3++DjaeSASdayRfQi0vI66VFZy7BtVAQ+cQkaK
-	 Gtz8gxpjNBZalUsVo7i6k4cu7bAgKc2yVBVE0OsEx7jmH4lVMj5Ry6KGOa3FYLws3bRb5
-	 DaOY2zTyNaMuijMkcchxo1bwNcbFBRjIr1u4xWvH7sfId2G4+QmyfdbmPZicDeseIEbEv
-	 m8/3M7tgKy+gr/Zy4WlAoaPnHxG8TiMCWBBqSXCEzJYR8EMSjhyqV5KBakI/pLyExSp7B
-	 RfhWa/kjSQEQbjiCLHJFuYA5Z0QP6+RI7lDKlfdDl1jLEWV3h7lHCgOtlsTEHLjA4nQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793951598;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=nfNxFDQT6Xg6nXD5htivaWJyrQFYadRTu+IGG2oGCYk=;
+	b=Z4e9/gyq3NtgKnCjOV6WT0h0jYgrlzYdwFperz7iX0Zeq5Xznl70dFO6hizGZTNGhCoJ
+	 S4KVA65K4sxP30DoIRMjJLZ6H5Ewn2TIW3dx8euNgDDt9YUVV1/NTUgF61UpwWtjCICVC
+	 3zJc/zWhwkc7UbTbkCAPb25FAaNVx42tWAnGnbf91+XtRoJiuhEpbimAxi3q/rImD4SI4
+	 MH8vuq7EkB5mX66pR7bEp0fTZde+elsgNLPW4aOSfHvzszvnsKbpGem3DPT2oV+rLVJxj
+	 oN9CEpil1KdqIj+ml0U7klTpGO7qu/mKIdedYmCKDIPVWLqVxOz7b2LPYxvrKXQt6jw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kAFNrWmb;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Vrz8qWT1;
+	arc=none smtp.remote-ip=91.218.175.87
+Received: from mta0.migadu.com (out-87.mta0.migadu.com [91.218.175.87])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88139606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 07:41:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88139606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDAD606A330
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 07:53:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BDAD606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kAFNrWmb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793950869; x=1825486869;
-  h=date:from:to:cc:subject:message-id;
-  bh=CFcVrs6bs1eLMBgvSSHi+fqAiGUDfxi78pedb6ylEIQ=;
-  b=kAFNrWmbRhb2Hkvbx6AZZDcWxvgDLOdcQyhoI/JjxMa0832sDdJd5hBR
-   IiacITP5+1NVEsLd99imLnu2sTNViHJqTGMmkjIz6dm1vx3pXmojTjd/E
-   JtrlKuCwXjTm5nnMzfHAn5kfPYMbT4SG8qGCNf7v03TIThBEG043v8p0y
-   NrT5E9EbJ7qpeo80oZ5tP9nT30HI37VnNLCJLt1jw1hSL+ZOdgLR9wOlG
-   VEbUhgssUQcwemVWYSGfG90H+3C47z2iNL7Zei2Ca6kOX4vLZHLN0N+R7
-   ID2YBxJpAS7p1jDjRl4YUoccPdTagHwhl2ZZotQuZ2rwPf+nvbhnKJeEM
-   A==;
-X-CSE-ConnectionGUID: t6yvVXY8TBel4KZQMSuBkA==
-X-CSE-MsgGUID: X5QW64J6Rw+Uk6/Lpc/grQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2848370"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2848370"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 23:41:07 -0800
-X-CSE-ConnectionGUID: wXN/ebMZT8WRxP+4mWM8Vg==
-X-CSE-MsgGUID: aaHK3UbOS36xFpeQixRaGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7091720"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2026 23:41:06 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xPEZL-00000000A8V-1v6M;
-	Fri, 06 Nov 2026 07:41:03 +0000
-Date: Fri, 06 Nov 2026 08:40:58 +0100
-From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/sound-rust-v7.3 2/56] error[E0599]: the
- associated function or constant `new_zeroed_slice` exists for struct
- `rust_doctest_kernel_alloc_allocator_rs_0::kernel::alloc::Box<[u8],
- Kmalloc>`, but its trait bounds were not satisfied
-Message-ID: <202611060812.fRcN8aWV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Vrz8qWT1
+X-Envelope-To: oe-kbuild-all@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=n7/NfrBJOVijHE2gqo7g667Jx3EWyuJGPjofeyvSjCA=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793951594; v=1; x=1794556394;
+ b=Vrz8qWT1P4W9M1nqC7wjtd2uGW5JAlG9erVpQzw06B9GbkT6XnYaHIpRQcPtbd4IOmUWqM4H
+ DVyTGInze+DPWjDsu8AJ43BejySZ2F3e/ej9Kc9jOPYkgMN29gUnE8PKXIsR4EeJl0O0LyCjyek
+ 7yhi2bihAA0XiJytIXTUi6ws=
+X-Envelope-To: oe-kbuild-all@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id e8ec85b10918d5e0;
+	Fri, 06 Nov 2026 07:53:14 +0000
+X-Mizu-Trace-ID: e8ec85b10918d5e0
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <9a4323e1-a966-41fe-8268-9d6621346fea@linux.dev>
+Date: Fri, 6 Nov 2026 15:54:33 +0800
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,37 +57,102 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation
+ tracepoints
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Abhishek Bapat <abhishekbapat@google.com>,
+ Suren Baghdasaryan <surenb@google.com>, oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+References: <37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat@google.com>
+ <202611052344.mDV2DB89-lkp@intel.com>
+ <20261105172104.339c6f598a65056ed46e56fc@linux-foundation.org>
+Content-Language: en-US
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <20261105172104.339c6f598a65056ed46e56fc@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
-head:   070444a8abf14da700680a5331d0a95cd11e578b
-commit: 9985fb1d439627f74610170aeabe7b590f6b5145 [2/56] rust: alloc: add Box::new_zeroed_slice()
-config: x86_64-randconfig-2302-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060812.fRcN8aWV-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060812.fRcN8aWV-lkp@intel.com/reproduce)
+Hi Andrew
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060812.fRcN8aWV-lkp@intel.com/
+On 2026/11/6 09:21, Andrew Morton wrote:
+> On Thu, 5 Nov 2026 23:15:33 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+>> Hi Abhishek,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on bcc036cfa1670a64500f6d857eaa71908b79e3fb]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Bapat/alloc_tag-Add-trace-events-for-tracing-allocations/20261104-190336
+>> base:   bcc036cfa1670a64500f6d857eaa71908b79e3fb
+>> patch link:    https://lore.kernel.org/r/37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat%40google.com
+>> patch subject: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation tracepoints
+>> config: xtensa-randconfig-1001-20261105 (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/config)
+>> compiler: xtensa-linux-gcc (GCC) 8.5.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202611052344.mDV2DB89-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+>>
+>>>> WARNING: modpost: vmlinux: section mismatch in reference: alloc_tag_trace_enabled+0x2c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+> 
+> Thanks.
+> 
+> #syz test
+> 
+> From: Andrew Morton <akpm@linux-foundation.org>
+> Subject: alloc_tag: force inline the allocation tracing check
+> Date: Thu, 05 Nov 2026 17:18:09 -0800
+> 
+> alloc_tag_trace_enabled() is declared inline, but the compiler can
+> still emit an out-of-line copy. Force it inline,
+> 
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202611052344.mDV2DB89-lkp@intel.com/
+> Cc: Abhishek Bapat <abhishekbapat@google.com>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Hao Ge <hao.ge@linux.dev>
+> ---
+> 
+>  include/linux/alloc_tag.h |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- a/include/linux/alloc_tag.h~alloc_tag-introduce-ioctls-to-toggle-allocation-tracepoints-fix
+> +++ a/include/linux/alloc_tag.h
+> @@ -161,7 +161,7 @@ static inline bool alloc_tag_is_traced(c
+>  	return !!(atomic_read(&tag->ct.flags) & CODETAG_FLAG_TRACE_ON);
+>  }
+>  
+> -static inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
+> +static __always_inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
+>  {
+>  	if (static_branch_unlikely(&alloc_tag_trace_key))
+>  		return tag && alloc_tag_is_traced(tag);
+> _
+> 
 
-All errors (new ones prefixed by >>):
 
->> error[E0599]: the associated function or constant `new_zeroed_slice` exists for struct `rust_doctest_kernel_alloc_allocator_rs_0::kernel::alloc::Box<[u8], Kmalloc>`, but its trait bounds were not satisfied
-   --> rust/doctests_kernel_generated.rs:469:23
-   |
-   469 | let b = KBox::<[u8]>::new_zeroed_slice(10, GFP_KERNEL)?;
-   |                       ^^^^^^^^^^^^^^^^ associated function or constant cannot be called due to unsatisfied trait bounds
-   |
-   note: if you're trying to build a new `rust_doctest_kernel_alloc_allocator_rs_0::kernel::alloc::Box<[u8], Kmalloc>`, consider using `rust_doctest_kernel_alloc_allocator_rs_0::kernel::alloc::Box::<T, A>::from_raw` which returns `rust_doctest_kernel_alloc_allocator_rs_0::kernel::alloc::Box<_, _>`
-   --> rust/kernel/alloc/kbox.rs:177:5
-   |
-   177 |     pub const unsafe fn from_raw(raw: *mut T) -> Self {
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   = note: the following trait bounds were not satisfied:
-   `[u8]: Sized`
+Thanks a lot for looking at this - and for putting together a fix at all.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Perhaps alloc_tag_is_traced needs the same treatment as well?
+
+Even with your patch applied, I still hit the warning, just attributed to a different symbol:
+
+WARNING: modpost: vmlinux: section mismatch in reference:
+alloc_tag_is_traced+0x10 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+
+Marking both helpers __always_inline clears the warning in my build, and it would fit what the series
+intends for the fast path anyway.
+
+Thanks
+Best Regards
+Hao
