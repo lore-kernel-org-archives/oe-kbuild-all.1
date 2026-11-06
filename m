@@ -1,55 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793978803;
-	b=3x6x39o9ZrxyWlW29uoU75hARy5cqr/It9TKWaTLW5X+XxL9b65DzlDrlvGF7aQ8/9J/
-	 6BxlRQWBm/g/uFMNI8l6an/CLLTWSYZgaFlIr3V3HFy8sjLCy2RhzXSTY5/XAmOGIBbHr
-	 5VRvDOLqUYizlCS0F7PSFR7v2TMvESYf2P9GMuUgDlRxQITiYYFH+fBOH2yzY8OpakauT
-	 JglGem1LdT0sWuWTbNsB79AwEKVJqcGPpmN2BHk1jLsNBcuFOqQIWF4kLBHzBdV0PIOIU
-	 pfwh1V7oIaXG7HX7upnH80DaYn9TOwjLr3CTjKeV2DdrXHTPH2ur4dMMne/s6isjgxg==
+	t=1793980617;
+	b=DhgHKfdTcG0mm+gMD9/FtHdw3TvnDaDIUrDOzAEkwt3CH0sS/Qy/Jry65XZfydbivea1
+	 ZiyHq50LeASzvxo19wfQv1clGrflkJKG6gAG9WpoCvzH0vp9CZkrSe0BP07Z2YpMi915i
+	 ZHlG8XEvlol5wbuKHCunwmnwFnIFu4rpsO629PSZFwojOuVCd902+T4Zvd3/5WwocXGRo
+	 DjrTFZrY60euRRH52XHr4mvXw6VvsJVJ6Pffl6EUgRaY2fC7UIoFC8YdBELKlfu9Jlivy
+	 5walQ5b2UKULw2ORkg6aQcK4KKCfVFxt0HJrFfRhxFPsA1hdtU1WjFNHW/S8cvqabVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793978803;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=NFRk93kVwDnKUZB/pcB0eF0UozOQGGbpKAYRpLOWGWw=;
-	b=es+0Ennyjx2h1r5bxFe+DnX8VyGrdNwM+TN9jqdZBOgxB1X8HKDhZ6hxCkblbH5PK2JZ
-	 lPIaU18qdGVEeAK6yIx/H2ld1ew8sa+7QYoTUBEBqdHgIO60ZqvwcF7Cqk6zjYoaWZ4VZ
-	 iI4d3n/DF5fxFeJbaNnO3YpVtIPY7Qx+AN70xy6Z5PK6vfE/LLRSzYj8hrGWJaXGug8i0
-	 PXoGA+AhOuuC0qf173Y7UlIrZ6NqxBWJpFbKTialhzOWrsrB26PZtJIwV1B1vWy4M6MqO
-	 fMexWItXMYWDddqFyfSm5B+YZLi4Qhsl5AH/DvIC0yzA5w3yCjNqRixAQ+uII62FixA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793980617;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=avbA/FGOKdwvskc2UA8yTZJwUAS5mgtOwGeeKk8EOZI=;
+	b=olMh4feyqL/LcukWLPQkV3129yNhEYnBAGqqDtyiZ4O5wEQRtlSI4lGQL3jRGd83+qlD
+	 NZtFjEy5qE0CRecUGnA/MuV9UBclUNpVci3dKJxhieuj9irIkxNqfnd8w9xBLzeAY4lAr
+	 AtcX5AchWSmq2+U53Qhbq3MReYF0E1fE9TfcXEMLRX2xViThylTqIiw8WTZQuTXXFDmxz
+	 nBhF+vrJoWWbGrPq7oXY4T2w/x20hYhsxT23cv2TvxqoWlmkwZG9mwQ80+IQQNjZxIReM
+	 2lSO6Hev1B9lujMOBve0oNc4bT/8MEnTTfUNawrSSm8BZmzu5ovzBI0NFyOXf2F75IQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RvHsUYaJ;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC25E606D808;
-	Fri,  6 Nov 2026 15:26:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C3EA1F008A4;
-	Fri,  6 Nov 2026 15:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1793978797;
-	bh=NFRk93kVwDnKUZB/pcB0eF0UozOQGGbpKAYRpLOWGWw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=hNmDLPIPCIvMSZn0FOQJtTkkZXYaqyFnlZNSYPuCKTcNHe51SqoKWL3VMdVHTVsM7
-	 K9HIuP0ELk+KrsbSxnuHYQ2Ka8ZGcjchQ6Uxijf+zNY+KstKz0upt/iNNUPs6A4lbN
-	 cpGjgUjU6ke1JlbVlOQ8kyyZm4LV2/eGZZyLR2rs=
-Date: Fri, 6 Nov 2026 07:26:36 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Hao Ge <hao.ge@linux.dev>
-Cc: Abhishek Bapat <abhishekbapat@google.com>, Suren Baghdasaryan
- <surenb@google.com>, oe-kbuild-all@lists.linux.dev, Linux Memory Management
- List <linux-mm@kvack.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation
- tracepoints
-Message-Id: <20261106072636.524e8f0a6a618e7b28988273@linux-foundation.org>
-In-Reply-To: <9a4323e1-a966-41fe-8268-9d6621346fea@linux.dev>
-References: <37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat@google.com>
-	<202611052344.mDV2DB89-lkp@intel.com>
-	<20261105172104.339c6f598a65056ed46e56fc@linux-foundation.org>
-	<9a4323e1-a966-41fe-8268-9d6621346fea@linux.dev>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F5C606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 15:56:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4F5C606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RvHsUYaJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793980616; x=1825516616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zo0dl6bDFeSqtNSEh0fXIQg8Cz84Zo6FM2qDtEfbCQ4=;
+  b=RvHsUYaJgN9u5BUPbkAvh+qchC7wf22KKI2iwYh5nVrr1SC6xNcFS7x3
+   J5+BBXDjhihsl59D+ISjdy6EBChvJxERq98OkU72ec64QcdfAzCIZeBLY
+   G2CmuExL7JK2Lf0Wt8TZ4z0ddrr1G+EVZkfNcuW759SfQLyXj8Quo55g3
+   iYytnsdppVxMcepHUowlbsF0Bm8tVVseoqVxfJrr27ItkjbQKuUkaB82f
+   cYvVwPlsQHoJZJ2IOmJmYyV384hhnun8T1zn5dirbQ7sghOfat4Mdksdx
+   a2hHHluZIy7NBiA3iJjHDBezyQbTvktwcG8M0po+4tqf1yhzhx12c3rib
+   g==;
+X-CSE-ConnectionGUID: 2GUJ3g0ySd2zT6EDON8RGQ==
+X-CSE-MsgGUID: WXPradIUSHyz5NMtZrW6qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2896177"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2896177"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 07:56:55 -0800
+X-CSE-ConnectionGUID: 1XxeQ7MtSMef0cLVrnFgwA==
+X-CSE-MsgGUID: FZwEEPXERoqN0QgFuNM8lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7426578"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2026 07:56:53 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPMJ8-00000000pTv-2zIu;
+	Fri, 06 Nov 2026 15:56:50 +0000
+Date: Fri, 6 Nov 2026 23:56:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Laurijssen <lauserve@gmail.com>, linux-kernel@vger.kernel.org,
+	pjw@kernel.org, akpm@linux-foundation.org, jannh@google.com,
+	brauner@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Laurijssen <laurijssen@protonmail.com>
+Subject: Re: [PATCH] add utsname_set_field to reuse code in setdomainname and
+ sethostname
+Message-ID: <202611062313.QD6BbpXI-lkp@intel.com>
+References: <20261105120751.920311-1-laurijssen@protonmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -58,46 +83,51 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105120751.920311-1-laurijssen@protonmail.com>
 
-On Fri, 6 Nov 2026 15:54:33 +0800 Hao Ge <hao.ge@linux.dev> wrote:
+Hi Laurijssen,
 
-> >  
-> > -static inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
-> > +static __always_inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
-> >  {
-> >  	if (static_branch_unlikely(&alloc_tag_trace_key))
-> >  		return tag && alloc_tag_is_traced(tag);
-> > _
-> > 
-> 
-> 
-> Thanks a lot for looking at this - and for putting together a fix at all.
-> 
-> Perhaps alloc_tag_is_traced needs the same treatment as well?
-> 
-> Even with your patch applied, I still hit the warning, just attributed to a different symbol:
-> 
-> WARNING: modpost: vmlinux: section mismatch in reference:
-> alloc_tag_is_traced+0x10 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-> 
-> Marking both helpers __always_inline clears the warning in my build, and it would fit what the series
-> intends for the fast path anyway.
+kernel test robot noticed the following build errors:
 
-Great, thanks, I added another -fix on top:
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---- a/include/linux/alloc_tag.h~alloc_tag-introduce-ioctls-to-toggle-allocation-tracepoints-fix-fix
-+++ a/include/linux/alloc_tag.h
-@@ -156,7 +156,7 @@ static inline void alloc_tag_clear_trace
- 	atomic_andnot(CODETAG_FLAG_TRACE_ON, &tag->ct.flags);
- }
- 
--static inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
-+static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
- {
- 	return !!(atomic_read(&tag->ct.flags) & CODETAG_FLAG_TRACE_ON);
- }
-_
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurijssen/add-utsname_set_field-to-reuse-code-in-setdomainname-and-sethostname/20261105-130751
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20261105120751.920311-1-laurijssen%40protonmail.com
+patch subject: [PATCH] add utsname_set_field to reuse code in setdomainname and sethostname
+config: sh-randconfig-1000-20261106 (https://download.01.org/0day-ci/archive/20261106/202611062313.QD6BbpXI-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611062313.QD6BbpXI-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611062313.QD6BbpXI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   sh4-linux-ld: kernel/sys.o: in function `__se_sys_sethostname':
+>> kernel/sys.c:1422:(.text+0x3d5c): undefined reference to `utsname_set_field'
+   sh4-linux-ld: kernel/sys.o: in function `__se_sys_setdomainname':
+   kernel/sys.c:1455:(.text+0x3edc): undefined reference to `utsname_set_field'
+
+
+vim +1422 kernel/sys.c
+
+5cacdb4add1b1e5 Christoph Hellwig 2010-03-10  1421  
+5a8a82b1d306a32 Heiko Carstens    2009-01-14 @1422  SYSCALL_DEFINE2(sethostname, char __user *, name, int, len)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1423  {
+58c79d6f0053050 Laurijssen        2026-11-05  1424  	return utsname_set_field(name, len, UTS_PROC_HOSTNAME);
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1425  }
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1426  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
