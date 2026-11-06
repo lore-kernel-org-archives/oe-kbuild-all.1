@@ -1,78 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794003717;
-	b=LZ+OhYHZ7uZ0Wp8EokYVSsnXdYVFBerJ4iFWbFFtMJNUy9893WbWc0D8BTNnS+OHEg7H
-	 37ygy3bZBX24fQwsyymQXEXkWKeiUorpEROFggFSwo6UulZDOm54Ywmb1K0+aCIQ0kUP0
-	 sIsAwxJW/pPTb5tLx8Q1PjfWfprVtFjox7oLpRjRXaDaeXQcSifen/XnHZZ4XFpCLuKlm
-	 /tVr8anwHTRJsp1ScVzOzLLF7ERzd/FFGFMCmw0BHmwigTnY1ldxxqTOvEUIolHl/6kQ2
-	 0jCq4rLCzw+kniCyKnUy3HdExDgJRmvS1ri/Jk7HDzthHLj1RVhjVJVvgW02lxGvlJQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794003717;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=/XE7SGFS+oJhhLKhRRRgAWCVZVf7SHO1W9Zk4UrHWW4=;
-	b=G6FMscDiqxPAUi9r3v/suaErp137QgV+6ueGJCf92bo3sRh4oXGcm+EBZmjOxKf219zZ
-	 PoGt0SYYuREchvHK7/FWpjJSDlf1KtJ9LVLgOTft9XnIsmmEwwVB0MjEbmMZidoE/Z3q3
-	 7uCaznc6XPFfKxWPbhyBd/wAcHxgcMY8yCwrrJKbsuM/EVB2tH5RDx8/+SX68RliXNQ81
-	 eRLB+WMz23qiSLXikcTzIbG/G427IUficoDR/7jEI7CYi7MEICKJ526WV78oqp4tXREAg
-	 H2qWNlkyb816LCGNKmGCeVC0G0wU9zMB5mVT1aCi077IXQHRiL9XXWCoVf/iMK3EFLw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y3CnJklo;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.71
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794003938;
+	b=l2+d586BppuAuo3vPJqQkjmOkr+X5sVXLWpwUgK6A3kww3weGQIxIxzZKW17RnN01+zz
+	 dt1ikCgD35szlE7o4TloMOFzKqAgJe7nAMPQ7AFlseWe6JzNAwcXRHAFMT89QSMxgUFJr
+	 c66mbh6ndmB8q7mMCNHMfN/5X3/r+SkNQv9C6GFftCsdgtJ4RN3mGv1reaJ59vLfe51FD
+	 2O3H/uxaLcRcT/9mAPLPc+Bnxrd+dM4d4S7yJVNzB43E9NL/kSy6NPMH6OmRW3gA4pVgX
+	 pDTTFz4BGlmWU1wPomrWfQQKjNuImF0juAJ0ycmzN1xBXnvL3LCQEh0ApiJIWOjl68Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794003938;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
+	 X-Microsoft-Original-Message-ID:MIME-Version:
+	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=U34laXFy1ddLBiik6yOhiPqXltDopEhd2ewSrYeRGBI=;
+	b=huzYh4TaiqiupOhLFJk0hKz7KTHTDuX8KbONY6igPKSAsLBgXan73kwSQ1ouG6dIJP6o
+	 R2OWs3yn3VEoQ5VujjuPgBNpIfcAS+27KTjG7+4zCHQEIA2/jY6lfFcvmb9gfoP9KStC9
+	 JkiAXvx3qmqA0BCWLDvUQwerENQhMbqkw5I0Pk69MmzWTlQclr2JnR+AQwd+NQyXF9CtI
+	 /s86X8i7yRQBFAn8L3gRBbHHie6fXleMNvaUg/b3dHFmv6NPWvHJaI6IwxzzmP4KgQpDB
+	 IGtupViQaFyTqAZaDrLGhJrr/K0wr/DfcZZr8d22LZ21VLQRO237deWUf9MFi5YlqXw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=outlook.com;
+	spf=pass smtp.mailfrom=outlook.com;
+	dkim=pass header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=fu0Fqi0N;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.23.71
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19011071.outbound.protection.outlook.com [52.103.23.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E05606A32D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 22:21:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06E05606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5BE606A32F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 22:25:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C5BE606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Y3CnJklo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794003715; x=1825539715;
-  h=date:from:to:cc:subject:message-id;
-  bh=/DXTJqku2+8iagT2nvCehuXeuFaKowS3mHIXmX6be5o=;
-  b=Y3CnJkloA1NEqJlwL3QtrKzSsRYi75uRpaQcyQZxuqJ3JGrXRENwnkv/
-   A3h7eIwJwMKzdgNAYwQUYkryy5hXNEN3rlRu5+mjv4oIZQiIye9LWDUbL
-   0zotw5Aq2wRyPSlNoy1kC1L9vruHaaAz2VMYERrMGksmwpBk+5/JNHx/y
-   kRcBW5NVeA0pa+AqQv0PyxH1VXrEI5OsN/YZWuxWdHv9fChHkSHqVijVG
-   NAX7Xdt41jbdhfBbsxQE7NvXu413BPOxCbSVDwBS29rAjyO33UB7L9uVh
-   PHCdnaUCl0Qk55tvWxAVCDZjTcrFGgyn77KRxFYhhqjCr6JadtOuoG9K+
-   g==;
-X-CSE-ConnectionGUID: s5mCGaUmTTyXW62dHyEoUg==
-X-CSE-MsgGUID: Q2rNxUaKQtCXSpOyHHuw5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2866799"
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2866799"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 14:21:54 -0800
-X-CSE-ConnectionGUID: XN96boqBSjOdjteuRaQYGg==
-X-CSE-MsgGUID: obqJQZI0RBmqtL4e7eFFlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="7260506"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 06 Nov 2026 14:21:53 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xPSJi-00000000ANX-2POG;
-	Fri, 06 Nov 2026 22:21:50 +0000
-Date: Fri, 06 Nov 2026 23:21:13 +0100
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [superna9999:topic/sm8650/deckard-el2 1/1]
- sound/soc/qcom/lpass-platform.c:641:29: warning: format '%x' expects argument
- of type 'unsigned int', but argument 3 has type 'dma_addr_t' {aka 'long long
- unsigned int'}
-Message-ID: <202611062333.wbFHlQ9e-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=fu0Fqi0N
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sA5gWC3Zf56wGnqmYNmSRM4LByCWjkxkuJRsjsJoNPAnKBHqA5epHelkaLc3ZaRV7Umv1UYZsO1H9GmIXoni1kw+uWcKONpclfjEtkl9qaXO0pkbLxSqxwtofn76uJcnSReXDsJwYE3TmXd1sl9cAhlTaqQzlTQ6igkKv/XP1MPlCu0Y4mHrdLOl15/y779rWFUjTGsw14xJZaKozYwCWoIrkJLWuepantHkqGAnrJC0cgCyXN/FQeFD9rbD/Q5Gs8DORgh3DD2fQ6htOHvsH4ZciF9ubUEfVNqmbuul8YQx7FVY4jRFjtqM2dSHhRaC6etnG7NIkuhVHudxaHX7Cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U34laXFy1ddLBiik6yOhiPqXltDopEhd2ewSrYeRGBI=;
+ b=rXtPWTq/hZJj1AXP1y6GYnzejJ4DUvW8s9SGSkiMdmRNQBdeUzJdOOeehWEXUkoOXx/ZzorL1E5QoLNlX83mqCjaR4AIkUitw3x5qDtxWoKnKDLvqpZJRy7V6pHLQ3WchCG3mgfiTkiblvbIiNdSsHiKivqds88jOVLitALSzhewaiUfyTKmLDhIODwOKmKSZZ9qxabObQ6bDnFGWQYfDwJ1fyFogtAH71wejaiD03U+8ijy6JruSHNEGesZnwYD7LFcXHC9pykNyJSYDq2FqJf3QJVwCaFXy9giBBKW0C5s1goz7ZLxdTKcQg5nUtH7QuRNmMYTGSxKBwgIWzHqsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U34laXFy1ddLBiik6yOhiPqXltDopEhd2ewSrYeRGBI=;
+ b=fu0Fqi0NRdwjlilFb6fXA20C6EwWJYXsAONIefw5Q/h+gyQK2xykoYtY0XUJK0sXFf+PV4YeFKJHMZDhYPdVozLnr9iaEst5wgIP8DYUwBenyYAME6nZ8Yszf/33vwvJOUM6Qy7+JibtN8K8yONpc6lq3u7xXqO2r6cQ7vCIQwbqOFINdjKcJT61dTHNbZ3+mDHu5973yFsrN5GKcMDq3zGlLwwpmW/gGJFjqyt9/W/QfaHX4JJSKta/RrN9pWr8Wv2q/7Hz0yr/i3Q5R1s/jcMCJN4LrplQQ57TmCOevJ97w3iNEouzzbMKgvnp2gMGi7jAckLrEHdARGhAyln/dw==
+Received: from SN1PR12MB2528.namprd12.prod.outlook.com (2603:10b6:802:28::33)
+ by CY5PR12MB6430.namprd12.prod.outlook.com (2603:10b6:930:3a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 6 Nov
+ 2026 22:25:33 +0000
+Received: from SN1PR12MB2528.namprd12.prod.outlook.com
+ ([fe80::9875:58c0:928e:cf0a]) by SN1PR12MB2528.namprd12.prod.outlook.com
+ ([fe80::9875:58c0:928e:cf0a%6]) with mapi id 15.21.0592.009; Fri, 6 Nov 2026
+ 22:25:33 +0000
+From: Victor Chernyakin <chernyakin.victor.j@outlook.com>
+To: lkp@intel.com
+Cc: andy@kernel.org,
+	chernyakin.victor.j@outlook.com,
+	dlechner@baylibre.com,
+	jic23@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nuno.sa@analog.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 4/4] iio: cdc: add Texas Instruments FDC1004 driver
+Date: Fri,  6 Nov 2026 16:25:22 -0600
+Message-ID:
+ <SN1PR12MB252803226E23A0F6A7CB0384A5762@SN1PR12MB2528.namprd12.prod.outlook.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <202611070503.6fdgeWCZ-lkp@intel.com>
+References: <202611070503.6fdgeWCZ-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CH0PR03CA0079.namprd03.prod.outlook.com
+ (2603:10b6:610:cc::24) To SN1PR12MB2528.namprd12.prod.outlook.com
+ (2603:10b6:802:28::33)
+X-Microsoft-Original-Message-ID:
+ <20261106222523.900754-1-chernyakin.victor.j@outlook.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,132 +101,75 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2528:EE_|CY5PR12MB6430:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f2485fc-9ce1-4d28-7870-08df3c54dea9
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|19110799012|15080799012|260925184616899003|8060799015|24121999003|22091999003|23021999003|24021099003|25010399006|5072599009|4140399003|40105399003|52005399003|440099028|3412199025|26121999007|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?tG4kA9FkcJvRomPNAHviiBli8uCgDR39UM2c/CbqwwtpzutCafhcuTWeBVAJ?=
+ =?us-ascii?Q?pLcb4zUvPTyHlkfswpytNZCUxxkcCggdWmtwXBinKmsMFM7y4bskL44Wpgcm?=
+ =?us-ascii?Q?HX4gs0T9lVBr6Z0FSKxg77g6MX+SwXthQbNACPJ9BTdsJa89BfOK2KGCAty/?=
+ =?us-ascii?Q?jLqHQ3YRMH/TxDk/btj3/2r5ufDtSCca2qO3xpi+bXK9CxVKyfZwgVZL38w7?=
+ =?us-ascii?Q?kpYmKdihdGGEEqJEPH42n4nJ1YHVqLc7wiJ66h4mpGoj1obLyFNgFn9QRe0i?=
+ =?us-ascii?Q?0bIL+WMHBWsH/NWfYxXuw/kQXtpDjYV15hcyrhzPjj5PVWQbm2ByPE1Yz2uH?=
+ =?us-ascii?Q?7eLlA5o9BvhKqQlxcUKNb6y1kTbe8L1v3T/dBNiBeeS8e2QTQpcHsrlmsOnI?=
+ =?us-ascii?Q?pKJYBrtqBydatFQX7cU/14L31xxQVGcMHxUR4yT2P7g1PLCX2inIuqZ1Gvrn?=
+ =?us-ascii?Q?sABYAuKRKqAqL+3/xwZVa0WRCyLljTNITH7sTKsw8spfzJGXubNbFBhF16x/?=
+ =?us-ascii?Q?onbm5QbBRE8CamzYOUncjLxpvVWo2ewdOZk8uvTKQMSXobFFqX09KvJM5RKB?=
+ =?us-ascii?Q?NcgAhqITXOpI55+mCbSp7j4tIHolFQ69IHAZWmF7we3HvFbDueDcW9y2ipex?=
+ =?us-ascii?Q?bPsF6l16/FqXLywWzqvEEmBfT25DjfE4uxFZsVs4FqoBHxHPWqRDqXlvw9Cp?=
+ =?us-ascii?Q?h6Ao50mX/GmTRv897ww8omCpheLKZBg82WSL7IBxoRljpBuuxX1IfWY4jLa8?=
+ =?us-ascii?Q?S9qDiucloDytXgzDSBJWaFUFpvTJOI5OELcF2Ffw/pCdovBIYjtG2ht46rOy?=
+ =?us-ascii?Q?S0tXKov1Iv5G8cXT0nbBu0jUPRXgP/vxVyzZVByFe4PoI7EVf8xt6LlHzKpx?=
+ =?us-ascii?Q?3LHfBiFnqX8M0Sb9PsDoFgvyLUf3If9w0/h8KLjnnDIeFJLVZwdjULlmwEcc?=
+ =?us-ascii?Q?K0YYOygjXTfR4KOSo1FCMnLLi1Ry0Uq6i02pUfUTSrqBRYQ03qVbT4yFJD2m?=
+ =?us-ascii?Q?pJ8CupvxcCbGyFVVDMwOo6qYGJdFUim2359FX3yFKnQBYccjrADtc7uQFEg4?=
+ =?us-ascii?Q?jV+stkbh?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Z+ZTpr/1/EEuu/bIwZm8uQlOFsKO5VbhSxNpRAlEneQWNZP6H9Olprn7SmJC?=
+ =?us-ascii?Q?y14G9PpnF6ua7pgPboxCrY+wwGe9i/GyIMh+3C9dNZtIJGYzGrTglLqduCXF?=
+ =?us-ascii?Q?aaHPWypN2mw73e60NTsLWTJF0GNBoshmOdiy5PpSR2WcvVReWn+wb1Z5AR40?=
+ =?us-ascii?Q?2PtlQxaVV9qih3kCvqw1WQcF3ffaJgW+mhMkB1epcWoVJwLfMotjdG+H2SMC?=
+ =?us-ascii?Q?CRe+cEuGm4qiygYqT1N2WK/MkI3db/SrlHYBejFl2YoTH3pAc8GeR2gTF7NL?=
+ =?us-ascii?Q?jPnBIPMH119mVZOAravuu2wRmp6oU7hZWubmecFyTfxshy/PWHk0Uy0SqCp2?=
+ =?us-ascii?Q?uTnz/0m15WdgNGwG9m4rM/96tvMKuyj5a7qWt3HnEnbbTUiKC6Gtgd/anOPN?=
+ =?us-ascii?Q?LV1VDNiYWatU+N+hUOixAXwmw6M9An5UldXO96n10w6d23WtKuS2LMjBD5YW?=
+ =?us-ascii?Q?wDbtS23tEzNUzkf/AL673hcYyQ5DSo3fzMb+WaQMsS9DDKXtk+EhTGI8kfiB?=
+ =?us-ascii?Q?rYNiL81EaVDY4eCDbqLz7Ne47mwkTOKbThNUwC5ekcYoaGqgk5JSlbVW63Ji?=
+ =?us-ascii?Q?J8/DC0HwdFI9B9wreZW1b0qbbJs4uKA4jz/oj2XjrBoO6aLOKZmtY9hGMZFB?=
+ =?us-ascii?Q?xFNn6foRmJ2SQ30VswCjDpzJNUulOH6yfUzmEx7Co5mLwrMEeVgoxlXJd+oB?=
+ =?us-ascii?Q?NTut4mJHeOTkKMZ39htv3cIoFoO66ZZyYoXxiqScHDM/AsmsSFlZKrDQkFwq?=
+ =?us-ascii?Q?dqk0Px7Wd9lmX2TtpxThvxJe0iqqLRHGObulGy9COeqRdoE9bLQWh4YOPxVQ?=
+ =?us-ascii?Q?5shMHhnkH8OHpJDRnxjuhIYW/gnDOQ7DC0gNGCrcC55VmnSXMLigbLHQIR9Z?=
+ =?us-ascii?Q?Qszpa5ZlsCY+kslaPnPtW3/hRnwhvBfk9zkq1XTqFTnbsWD3ExSiUf7075Ec?=
+ =?us-ascii?Q?LxmiGTWubNPy0ZuaqQ/Ha6jAAOGiqeCjjv02H0y5wwHMbqzz/AxWFclsJCXi?=
+ =?us-ascii?Q?fcRN2avxn/og+jq0dg+/AMBN+MJVmFCdx3AJ6Z6z3cDT0ATzU8C4HVEUhprE?=
+ =?us-ascii?Q?W3KcxcfmRD4SspxwymlzIKxwUe/NGOdeP0b7s+gzZ4G8j6Fzlm+5cL9J8u4w?=
+ =?us-ascii?Q?gJnMFvB4486FXTPlhPMHvC5HesXmNxbe3KKa1Npvd+Mvzm3x3i2TDthGyOR/?=
+ =?us-ascii?Q?fmc79r4mMGIJdzaJQ7vp7gr0AshALrJwqko/d+AshWSM+DUASnj8ZmKVgKcw?=
+ =?us-ascii?Q?RyhNXH2fb/nYzryy2xrMMJXUuQmmwrlUZGKoY1ln9QvGD4ZxoHnaxMjJSJcP?=
+ =?us-ascii?Q?LqTKVpQazGlLiMoz0QSgiKNFmiW5yz+/YYh2P8f6heVsQ2KVDrU/nPKbcH+m?=
+ =?us-ascii?Q?enyiuElGenCIyittYo8z1cod0YyhDvEJPkesxeIl83ViAsmYXQ=3D=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f2485fc-9ce1-4d28-7870-08df3c54dea9
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2528.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 22:25:33.2718
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6430
 
-tree:   https://github.com/superna9999/linux topic/sm8650/deckard-el2
-head:   4eb3bf9a5093f47916b0d4fc5fd45c97dd0b2c65
-commit: 4eb3bf9a5093f47916b0d4fc5fd45c97dd0b2c65 [1/1] WiP
-config: sparc64-randconfig-2000-20261106 (https://download.01.org/0day-ci/archive/20261106/202611062333.wbFHlQ9e-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611062333.wbFHlQ9e-lkp@intel.com/reproduce)
+> >> drivers/iio/cdc/fdc1004.c:67:10: warning: integer overflow in expression of type 'long int' results in '-1246822400' [-Woverflow]
+>      -0x8000 * 488281250L, /* min */
+>              ^
+>    drivers/iio/cdc/fdc1004.c:69:10: warning: integer overflow in expression of type 'long int' results in '758541150' [-Woverflow]
+>      +0x7FFF * 488281250L, /* max */
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611062333.wbFHlQ9e-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/dma-mapping.h:5,
-                    from sound/soc/qcom/lpass-platform.c:9:
-   sound/soc/qcom/lpass-platform.c: In function 'lpass_platform_pcmops_prepare':
->> sound/soc/qcom/lpass-platform.c:641:29: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'dma_addr_t' {aka 'long long unsigned int'} [-Wformat=]
-     dev_info(soc_runtime->dev, "dma base %x buff %d per %d\n", runtime->dma_addr, (snd_pcm_lib_buffer_bytes(substream) >> 2) - 1, (snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
-      _p_func(dev, fmt, ##__VA_ARGS__);   \
-                   ^~~
-   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
-     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                      ^~~~~~~
-   sound/soc/qcom/lpass-platform.c:641:2: note: in expansion of macro 'dev_info'
-     dev_info(soc_runtime->dev, "dma base %x buff %d per %d\n", runtime->dma_addr, (snd_pcm_lib_buffer_bytes(substream) >> 2) - 1, (snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-     ^~~~~~~~
->> sound/soc/qcom/lpass-platform.c:641:29: warning: format '%d' expects argument of type 'int', but argument 4 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-     dev_info(soc_runtime->dev, "dma base %x buff %d per %d\n", runtime->dma_addr, (snd_pcm_lib_buffer_bytes(substream) >> 2) - 1, (snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
-      _p_func(dev, fmt, ##__VA_ARGS__);   \
-                   ^~~
-   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
-     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                      ^~~~~~~
-   sound/soc/qcom/lpass-platform.c:641:2: note: in expansion of macro 'dev_info'
-     dev_info(soc_runtime->dev, "dma base %x buff %d per %d\n", runtime->dma_addr, (snd_pcm_lib_buffer_bytes(substream) >> 2) - 1, (snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-     ^~~~~~~~
-   sound/soc/qcom/lpass-platform.c:641:29: warning: format '%d' expects argument of type 'int', but argument 5 has type 'size_t' {aka 'long unsigned int'} [-Wformat=]
-     dev_info(soc_runtime->dev, "dma base %x buff %d per %d\n", runtime->dma_addr, (snd_pcm_lib_buffer_bytes(substream) >> 2) - 1, (snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
-      _p_func(dev, fmt, ##__VA_ARGS__);   \
-                   ^~~
-   include/linux/dev_printk.h:160:51: note: in expansion of macro 'dev_fmt'
-     dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                      ^~~~~~~
-   sound/soc/qcom/lpass-platform.c:641:2: note: in expansion of macro 'dev_info'
-     dev_info(soc_runtime->dev, "dma base %x buff %d per %d\n", runtime->dma_addr, (snd_pcm_lib_buffer_bytes(substream) >> 2) - 1, (snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-     ^~~~~~~~
-
-
-vim +641 sound/soc/qcom/lpass-platform.c
-
-   595	
-   596	static int lpass_platform_pcmops_prepare(struct snd_soc_component *component,
-   597						 struct snd_pcm_substream *substream)
-   598	{
-   599		struct snd_pcm_runtime *runtime = substream->runtime;
-   600		struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-   601		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-   602		struct lpass_data *drvdata = snd_soc_component_get_drvdata(component);
-   603		struct snd_pcm_runtime *rt = substream->runtime;
-   604		struct lpass_pcm_data *pcm_data = rt->private_data;
-   605		const struct lpass_variant *v = drvdata->variant;
-   606		struct lpaif_dmactl *dmactl;
-   607		struct regmap *map;
-   608		int ret, id, ch, dir = substream->stream;
-   609		unsigned int dai_id = cpu_dai->driver->id;
-   610	
-   611		ch = pcm_data->dma_ch;
-   612	
-   613		dmactl = __lpass_get_dmactl_handle(substream, component);
-   614		id = __lpass_get_id(substream, component);
-   615		map = __lpass_get_regmap_handle(substream, component);
-   616	
-   617		ret = regmap_write(map, LPAIF_DMABASE_REG(v, ch, dir, dai_id),
-   618					runtime->dma_addr);
-   619		if (ret) {
-   620			dev_err(soc_runtime->dev, "error writing to rdmabase reg: %d\n",
-   621				ret);
-   622			return ret;
-   623		}
-   624	
-   625		ret = regmap_write(map, LPAIF_DMABUFF_REG(v, ch, dir, dai_id),
-   626				(snd_pcm_lib_buffer_bytes(substream) >> 2) - 1);
-   627		if (ret) {
-   628			dev_err(soc_runtime->dev, "error writing to rdmabuff reg: %d\n",
-   629				ret);
-   630			return ret;
-   631		}
-   632	
-   633		ret = regmap_write(map, LPAIF_DMAPER_REG(v, ch, dir, dai_id),
-   634				(snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-   635		if (ret) {
-   636			dev_err(soc_runtime->dev, "error writing to rdmaper reg: %d\n",
-   637				ret);
-   638			return ret;
-   639		}
-   640		
- > 641		dev_info(soc_runtime->dev, "dma base %x buff %d per %d\n", runtime->dma_addr, (snd_pcm_lib_buffer_bytes(substream) >> 2) - 1, (snd_pcm_lib_period_bytes(substream) >> 2) - 1);
-   642	
-   643		if (is_cdc_dma_port(dai_id)) {
-   644			ret = regmap_fields_write(dmactl->fifowm, id, LPAIF_DMACTL_FIFOWM_8);
-   645			if (ret) {
-   646				dev_err(soc_runtime->dev, "error writing fifowm field to dmactl reg: %d, id: %d\n",
-   647					ret, id);
-   648				return ret;
-   649			}
-   650		}
-   651		ret = regmap_fields_write(dmactl->enable, id, LPAIF_DMACTL_ENABLE_ON);
-   652		if (ret) {
-   653			dev_err(soc_runtime->dev, "error writing to rdmactl reg: %d\n",
-   654				ret);
-   655			return ret;
-   656		}
-   657	
-   658		return 0;
-   659	}
-   660	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Switched suffixes to LL for v6.
