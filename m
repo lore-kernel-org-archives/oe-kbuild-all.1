@@ -1,91 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793944601;
-	b=U3LTNaXlgJWf7fWdjVJU1Z9GmgTJ+7vyO2DWgypj/vugTB2D2MFeGF4YYG4gajxD9SHd
-	 OTVsbgwSzI1ZZAawcfnAEoI/FvEuujB+BmYxjqhPAHhEklW/Gcnbk3ZaLk7whsb0v+HjE
-	 AIl1+dgVKTDOD67a3GGnDeGE5Lta6zE556YZT/ZcrGwAZZJFf+a2kjWYd+LdA0PXv4vfe
-	 BcOHxHrtBdrX/3zSbxlMLouCA/V8Y5Y9tsv1i9Mi8MWB4TYyR+z/8KTTtdnE3KCSi5brY
-	 V5pGxeb+jxOcI+U9uBeoRzbbcYKk8hhdcAFYOlMSYXmlOJD2aiEiwzvHzWtR6cGtBDg==
+	t=1793945146;
+	b=Zf7KccTqiN6arx3+F3mZw+cEWDTYN2gWYXxBCwzXHmkEqeGUg4iiJcd5qGjeCSq9vCpA
+	 gf7rtiY8iTfwM4YDpMi5v5DjOkzhjzTxyGlAk1IYV/yFK3Svk9tFk/nag2bIeJyKHgk41
+	 lxhipFStXAzDx5zckGq5BqSoZnjq53rSMCFZdE/gTYHt6jXpG5/wuwAQgjklKPkmKvwCW
+	 /RbQwewWFL7DwXpNfO4cWJTT8J/bGJeCHCMIX/acTrfN/AfaJZdB7duV6B6eaWqqWQNFM
+	 szfmIwGD6E3VMF02Svbe15INj2viZF9SVTtauLKgmyC7STKCwNZt944SHG2YZ1Xruvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793944601;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition;
-	bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
-	b=ieV96QnWNNtOOORNCQuf3ap1bQwnHVFO8IfOccrd8DNiWfys64gwkwDIgP/SBgNiK1JU
-	 k8djyxVcN+m6+K4TgBkgoM1shX3+qFqMyr115G2GFH2jjKSviTH45ZiMELGBRQTVtpHlb
-	 Ju3vXvAQHqZ1lBq42aNEVzms7cLpZlQ+a75d7z8XVpA3jqAA88zgXuL0SVfpXkT+Ef8rk
-	 FkhbMf2+FeeR7jkWhKJHZHWzovKy+F6FKfBOo/hY1fzIWrCmygQDNt5qLEE91RNMBwrLy
-	 y3AwTgM274CUZ1TseAreCWBTkxNoKbczHkwPodXwrqLr8bHi7c0rJQ7IhJ7cOD2Qt/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793945146;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=SxYgFFhuexEnZKHnbi7IHk3R0sqaQuOONJDtM4BmLEI=;
+	b=JojxLN6JumWIqesw9HpdKwzJ+amnsCLYlCVX2Yn0pPh+WMn9oEkETZdPO5eYfve8FDNU
+	 +XuEDGp9NrILFwNsvEtAKxi3Th6Y0/2TqnHstr+wSJNzZj7Dk5txPOJKluzi8dAoW3Spk
+	 SXTse6duVqt1mqWHGTLNsbvBt4VdOo0+ApPbnJ959lJP1H7OZmgU7DLB5TLH2/N371r8h
+	 i26i1USkzlnbiXxQJlTtsTQ3ytXaZrmIslGxwh37Pl2IFwLo/j2u9kMaiSa2JMvKdYkLi
+	 H/zKlIBtGHaVftnWttsX07MXg+fOBrnvofWytq+R4yKr+6A57hHfeaHysTpiE/AyBJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mIkAzZ+1;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E264F606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 05:56:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E264F606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD9B606A326
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 06:05:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8DD9B606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a20a37703bso1241495e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Nov 2026 21:56:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793944599; x=1794549399; darn=lists.linux.dev;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
-        b=DjSN9+HtvK64QcXfzr3UBBgfpA1kJDs8ZDO3ZiJ/f4b62x2lPukGA4O0BI+DS1b5ZE
-         vdj5q3CD6WeoAjS+bgqAQM8wko5Qsf3Td2Wz8RhZXAG+ELrzchOoM/jGfmlDvRbG2srN
-         JAFTG1+xRcwri+zgnSGgzHsVSguVymLvcBeCg0L6vn61PjxKAwILYcNR+Zx1eggN75a2
-         +CO3fwrc+tlj4SeJQaD2349eY9KdqjJXkQhIToNYcnIBRBrssbCubDLm45iFOwRmMcS9
-         VW9igv7vda49wPHnlvQsuAN2kRNfBXSh9rsVA/bVvyqLmrJMC6oeZak51UEtdgV6hM87
-         Crag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793944599; x=1794549399;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
-        b=WDYoJlpRz0TADkKrLdsO4mzlXKNsq+iMll8X1MM4uQ1SUggFnpJJNlmv8lgvPrUeyc
-         0jl3l8ufzuWZLE8zrSl2IHP7DTyEWvmGVhNB+XGcPbFzQuq0EBTkACd7dDOFzbT2r0Az
-         MUNjq8hNdsPZ5KPw37b9V2orzAnLZRkzJCo530zyRYPiZX7iW3tTKyb8ygVOLK14AktW
-         HNkaX9L2mRMPhp6WRbbtp1pO/nwmq7KcE17kbKPnFH4iLORyXp0XJL3gTMH3jckkCXsl
-         GGT6Shs8XOgt/24G10e8NURJCY+X1Kfmty5+I3q3T8M7l3m0Iuh4Kg5dJvKRBqrWyfJ0
-         WdbA==
-X-Forwarded-Encrypted: i=1; AKwUvByA6Znggq5N288MCVs0SsVooRFv8mBKRvg+A98iTb8J2vatDaaLPpO4+JxFC1HcB5CbAyuP91D/czEyV7wD@lists.linux.dev
-X-Gm-Message-State: APuU4Z8yLqNZIKKOmWmOMnxQjlB++vfYoqUA7XlhmRndcFag09h4UUzn
-	MpSV/0VMMiF4nVVTgOgHQQ+wySALHD9Z9+y69fPgNFkoCRjyXfzprwQ1
-X-Gm-Gg: AYBFou2U2PoFAxjL9hl8QVvFCjs/Sru3aslVM2yopQgruJLp/ULlRs1qWQe6U7axJIA
-	3PeQPGQlwu9RkMWPdX5BR8CigM+68J9ihx+ocClMzOojYyQy646tr7/ZH6THlHwxJVaAgzpVH1i
-	y5ghZAJCq2xKfwitI3tSu8zOv4zA60YqqF9yrwSoRAHbC9hGMBRx/XMe2cgito8apt69XLkufzn
-	/mALkipCh3nGvnRFbBoEJGaGuyJpdpSqLFuluatLgYYeJrFivwSQV7nHJKQZPCI6yp7J8utMzTn
-	C11jUy4arQy4HuHjNVURPYilvvXN0CdnzgZ70MnLmOeJDhyGFkBeX2xM/mFcGaUsCgAEXDt/pS4
-	FjZaOF8gG1/TP+d4qNMlG6cI1JBZ0aLSTPjOmWnQ2oZ3MK4gMj3U9Tt3Ev61kYDMoNlICFGd6gS
-	n2drtg2ccFVn0SMSC5txEZl6rzuzuqA+dVHWqyNTb/fBpMUqoRkN3HPougYe19hzCOS34XhI6YO
-	uN4oyNb7JOmD82hPVtrmbHP0Xxwau7xwBO+XkZh+sIM/R/nbQHGryKVdzloB7rfDXd8Z2e1vav1
-	g3oq8CQjf7/3vbs4/nHPczUf5OJXSX9b2U1DBoGFJ6DA+8xOrg9VDsvUfgMW0gkfmnc6qzi9ueF
-	lt9BJ0K0Qz15qhcjVnuFUy8OMf+nBjiCOzVWukc9Wm/EjbzisC8DTz54iw7YzOKtWvg==
-X-Received: by 2002:a05:600c:8b28:b0:4a1:a2c0:7b73 with SMTP id 5b1f17b1804b1-4b6dfba8628mr16268215e9.30.1793944598951;
-        Thu, 05 Nov 2026 21:56:38 -0800 (PST)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b6ed5b8159sm27279965e9.2.2026.11.05.21.56.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 21:56:37 -0800 (PST)
-Date: Fri, 6 Nov 2026 08:56:33 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 390/390]
- drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
-Message-ID: <202611060606.xbU3zu11-lkp@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mIkAzZ+1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793945145; x=1825481145;
+  h=date:from:to:cc:subject:message-id;
+  bh=loA3cmZ90MEuYpmjrmQmcTX3WPpiCrJ8D+1WIkfmMGQ=;
+  b=mIkAzZ+1RR5ColB1yw7k1NG8BcrFzIhmwmgkGrI2WvOAiSbudQOVKwr3
+   2VPr1BQ4gQONlku+vt4K4AVMVrbpGaX2Ryo/p4TXuOaya4nO9y3oJGvwn
+   63n1EA8mL1C5vlGmlS20oC90drVItRU9w6pKlndlzkdghoh/as/ovVcLJ
+   6spaC0pcHltvZC0KLHylSU36LLrYB8itNMojev7k6sKuLQCUW7o26yryc
+   MuRODnd5NVIu7HIlwDVGChsAz32DTIjEngeaK4v1831GSdBiPTajC7rc0
+   uk9q7yTfFa7nNAP1uvpZQLnKEhM0bXQCrH3a0Jc5yqIySAHpO2wGBgo11
+   Q==;
+X-CSE-ConnectionGUID: z5Kro7ECTNCos6axaOgWNg==
+X-CSE-MsgGUID: 8cy8LzrIT0u7mqy6Yx5Idg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2747586"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2747586"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 22:05:44 -0800
+X-CSE-ConnectionGUID: 60TY2lBmST+Y57taGCAANw==
+X-CSE-MsgGUID: NXVd7PvEScKv5JQpF8xHmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7313798"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 05 Nov 2026 22:05:43 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPD52-00000000A5n-0CIE;
+	Fri, 06 Nov 2026 06:05:40 +0000
+Date: Fri, 06 Nov 2026 07:05:17 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 1/1]
+ kernel/sched/core.c:3981:2: error: implicit declaration of function
+ '__do_migrate_task_rq'; did you mean '__migrate_task'?
+Message-ID: <202611060725.SQ0aNff9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -94,84 +80,75 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   900d46d1c904d34d7c3eeb0ef2119cffc5a8ab3d
-commit: 534fd7770b6ddedc6c6ef6fa724987d3397f9b3b [390/390] mtd: core: Report error if first mtd_otp_size() call fails in mtd_otp_nvmem_add()
-config: arm-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060606.xbU3zu11-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
-smatch: v0.5.0-9187-g5189e3fb
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   b835509d43ba8175031f800f12347f8e8206a471
+commit: b835509d43ba8175031f800f12347f8e8206a471 [1/1] ANDROID: sched/proxy_exec: Invoke migrate_task_rq() on proxy-migration
+config: arm-randconfig-r2109-20261106 (https://download.01.org/0day-ci/archive/20261106/202611060725.SQ0aNff9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060725.SQ0aNff9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611060606.xbU3zu11-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060725.SQ0aNff9-lkp@intel.com/
 
-smatch warnings:
-drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
+All errors (new ones prefixed by >>):
 
-vim +955 drivers/mtd/mtdcore.c
+   kernel/sched/core.c: In function 'proxy_set_task_cpu':
+>> kernel/sched/core.c:3981:2: error: implicit declaration of function '__do_migrate_task_rq'; did you mean '__migrate_task'? [-Werror=implicit-function-declaration]
+    3981 |  __do_migrate_task_rq(p, cpu);
+         |  ^~~~~~~~~~~~~~~~~~~~
+         |  __migrate_task
+   cc1: some warnings being treated as errors
 
-4b361cfa862479 Michael Walle 2021-04-24  936  static int mtd_otp_nvmem_add(struct mtd_info *mtd)
-4b361cfa862479 Michael Walle 2021-04-24  937  {
-26358f330405af Michael Walle 2023-03-08  938  	struct device *dev = mtd->dev.parent;
-4b361cfa862479 Michael Walle 2021-04-24  939  	struct nvmem_device *nvmem;
-4b361cfa862479 Michael Walle 2021-04-24  940  	ssize_t size;
-4b361cfa862479 Michael Walle 2021-04-24  941  	int err;
-4b361cfa862479 Michael Walle 2021-04-24  942  
-4b361cfa862479 Michael Walle 2021-04-24  943  	if (mtd->_get_user_prot_info && mtd->_read_user_prot_reg) {
-4b361cfa862479 Michael Walle 2021-04-24  944  		size = mtd_otp_size(mtd, true);
-534fd7770b6dde Aapo Vienamo  2024-03-13  945  		if (size < 0) {
-534fd7770b6dde Aapo Vienamo  2024-03-13  946  			err = size;
-534fd7770b6dde Aapo Vienamo  2024-03-13  947  			goto err;
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
-This goto err is wrong.  We haven't done the register so it should
-return directly.
 
-534fd7770b6dde Aapo Vienamo  2024-03-13  948  		}
-4b361cfa862479 Michael Walle 2021-04-24  949  
-4b361cfa862479 Michael Walle 2021-04-24  950  		if (size > 0) {
-4b361cfa862479 Michael Walle 2021-04-24  951  			nvmem = mtd_otp_nvmem_register(mtd, "user-otp", size,
-4b361cfa862479 Michael Walle 2021-04-24  952  						       mtd_nvmem_user_otp_reg_read);
-4b361cfa862479 Michael Walle 2021-04-24  953  			if (IS_ERR(nvmem)) {
-26358f330405af Michael Walle 2023-03-08  954  				dev_err(dev, "Failed to register OTP NVMEM device\n");
-4b361cfa862479 Michael Walle 2021-04-24 @955  				return PTR_ERR(nvmem);
-4b361cfa862479 Michael Walle 2021-04-24  956  			}
-4b361cfa862479 Michael Walle 2021-04-24  957  			mtd->otp_user_nvmem = nvmem;
-4b361cfa862479 Michael Walle 2021-04-24  958  		}
-4b361cfa862479 Michael Walle 2021-04-24  959  	}
-4b361cfa862479 Michael Walle 2021-04-24  960  
-4b361cfa862479 Michael Walle 2021-04-24  961  	if (mtd->_get_fact_prot_info && mtd->_read_fact_prot_reg) {
-4b361cfa862479 Michael Walle 2021-04-24  962  		size = mtd_otp_size(mtd, false);
-4b361cfa862479 Michael Walle 2021-04-24  963  		if (size < 0) {
-4b361cfa862479 Michael Walle 2021-04-24  964  			err = size;
-4b361cfa862479 Michael Walle 2021-04-24  965  			goto err;
-4b361cfa862479 Michael Walle 2021-04-24  966  		}
-4b361cfa862479 Michael Walle 2021-04-24  967  
-4b361cfa862479 Michael Walle 2021-04-24  968  		if (size > 0) {
-4b361cfa862479 Michael Walle 2021-04-24  969  			nvmem = mtd_otp_nvmem_register(mtd, "factory-otp", size,
-4b361cfa862479 Michael Walle 2021-04-24  970  						       mtd_nvmem_fact_otp_reg_read);
-4b361cfa862479 Michael Walle 2021-04-24  971  			if (IS_ERR(nvmem)) {
-26358f330405af Michael Walle 2023-03-08  972  				dev_err(dev, "Failed to register OTP NVMEM device\n");
-4b361cfa862479 Michael Walle 2021-04-24  973  				err = PTR_ERR(nvmem);
-4b361cfa862479 Michael Walle 2021-04-24  974  				goto err;
-4b361cfa862479 Michael Walle 2021-04-24  975  			}
-4b361cfa862479 Michael Walle 2021-04-24  976  			mtd->otp_factory_nvmem = nvmem;
-4b361cfa862479 Michael Walle 2021-04-24  977  		}
-4b361cfa862479 Michael Walle 2021-04-24  978  	}
-4b361cfa862479 Michael Walle 2021-04-24  979  
-4b361cfa862479 Michael Walle 2021-04-24  980  	return 0;
-4b361cfa862479 Michael Walle 2021-04-24  981  
-4b361cfa862479 Michael Walle 2021-04-24  982  err:
-4b361cfa862479 Michael Walle 2021-04-24  983  	nvmem_unregister(mtd->otp_user_nvmem);
-4b361cfa862479 Michael Walle 2021-04-24  984  	return err;
-4b361cfa862479 Michael Walle 2021-04-24  985  }
+vim +3981 kernel/sched/core.c
+
+  3969	
+  3970	static inline void proxy_set_task_cpu(struct task_struct *p, int cpu)
+  3971	{
+  3972		unsigned int wake_cpu;
+  3973	
+  3974		/*
+  3975		 * Since we are enqueuing a blocked task on a cpu it may
+  3976		 * not be able to run on, preserve wake_cpu when we
+  3977		 * __set_task_cpu so we can return the task to where it
+  3978		 * was previously runnable.
+  3979		 */
+  3980		wake_cpu = p->wake_cpu;
+> 3981		__do_migrate_task_rq(p, cpu);
+  3982		__set_task_cpu(p, cpu);
+  3983		p->wake_cpu = wake_cpu;
+  3984	}
+  3985	
 
 --
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
