@@ -1,76 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793999269;
-	b=jmRkN03ZO4doFBlJOF2eV3JHvADtD9m8ZfG5K+En/57xoG6I3jGPwxhVKk9m2GB3Ma0l
-	 D/HOGxfxBtqii7VY/EOmudf5Sxm1s9OUfq33FnEV5DzgEVr2hMG7wIEVixg6fcnVLmBdI
-	 vSMHXvVFt4zRgrmi0y0xo3dIij2OGrURml59qrUMCTD1qXoTkf99rHB2SPeV2sAcB7E+f
-	 uiL3uwOzmYYYp2zQEdDHf3qU9YxuuAnCYoyF8ggx4ILM1LJQ1enYmCMjuRloyJxR0E040
-	 jEn7XyD3VT0uhoUgZfkLY20y4aCAqsUgLnoVrQJLXkwihIbn1ayIurcF4qUwM2qB03w==
+	t=1794001707;
+	b=d/UYzDmpFVjehrJtNwJShWgYTBEAkeoDGCk0VIjeW40hmsKpcwJCm8w2BIxRGNtZ7qT5
+	 L7th9AVhgwJewAZ+v13kXfk8GvKG3QkQrcvaUkspHaxi3p+16dn8RdgeL0pprytfIjgOX
+	 dNnVzRWQfBO0tZU21KclSCGN5KSFLdS3c8Om9lJVwIXWLxNtDR+KmwQHvXiSkSn0Btd66
+	 zghqJGIsQs27PYeGsohhEgDE7sqe7uEATE6CRUzlfm34nz3Y9GRpJ2xbrZkchW54haBP+
+	 mOih05KCtUKW146nmpt1yV2KQ8mLZayun4OjPOXjwfFo2KGh0CHs6JDPFYeurBNak7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793999269;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794001707;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=/QgMqsXdrD5pQBjw+QmxeYsM3qVWGrGugb5ktgLWmnM=;
-	b=h+FG1/NU75NjMJ/84xJiQHOF1YeaY749F9/X7R0ZIlWH2+JEoYLl7uWxHQk1dkFf6y8Z
-	 mC7pRbxc/g0tvSBfI4EVbqyy5L4rb5vq7UVRzIiSBduSbzzG8Gon3350eONut7S5Sq0Uy
-	 Si2PgADhCZdAI1ah2de4WmHwWs8ZpyNeZYvXxd8NyBygR/U4aiIX66p/hkCRtiqY4kdxe
-	 5zy0bnWFUD6lHDtzoLtuviJzm1yAIF89pLlmEW/tnNJ74zw5luB0A+3vYRWcuVFUM3M+A
-	 evKhbt8SKYZCli73yrBhV/2UWX+eW5ibBvXFMJMe1vu59l+dJdPUAjkVUi2e8rKSN8A==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=2HoSPxi/LKdkm47Df3tPYzsKHjifKjuEh/WGLdhSzqQ=;
+	b=NMLVLz4yG/QFvTWy/xlfZ1rKKtDNoDHAip6PzIcZTF7eTQQDw0+EB/XQ7ayPdB8SVZCX
+	 XDAqaTSyn6qeDJi2Rbc5i2ayktB+HEU9sjcqXhR1PcU7wHG08IdEAArR2091AbmOnBXoj
+	 Jmpu7lurZZ9d3qgUrsnsccOLFxC7O1iCvLdcE+nZ1/7pP+k/qkR93HRXfubgzP32Ulgj8
+	 fbrjdk8/5qHzK/2D3tFXN6ZvouKzw8bPs3crE5dPSLDn2v+234JoIUQAal1xxPYfvHiNI
+	 XXEYtYL8hu86AE0f202gUVvXaXRJgn2kauzjWSYzjemDl2dasYycEZ4eAo04YAzRtcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KT04e51X;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QBrb4ZoX;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC607606A32C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 21:07:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC607606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BA5606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 21:48:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47BA5606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=KT04e51X
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QBrb4ZoX
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793999268; x=1825535268;
-  h=date:from:to:cc:subject:message-id;
-  bh=mNWXcQyMHSHmYjjF+ErQ3qO51LSnxf+/Umo4VPw+vMw=;
-  b=KT04e51XQo3AL9gKnhe5zhP3p4fUm+gSy6QYZUEY0fK8pH63jBRt9kGM
-   8G2he0bs5m++uJ+PNbwFRFaentVXcHdZAoT+7QIR8H4Q0JaQnwUiL7O+8
-   1qs7NEUEdekb3rWkRRjchjQClu3Edq+XwP3FOq1JyNKpokS2B5FHJJCTf
-   63mLZEbvTo79jaNuSdNGO97hjj8aQDng4zfRUJ/sKrXBYeb9CIzxi9UkV
-   UQi6r2NFVw8t87iWXf7ieFLIL8HqczUaREzzp2KVsSwhZYLTR6MBadbLz
-   qPS+3vmAk+iTS+dJjcv4GviuzQujzKBFy61rk9xL5Z/vKB3FEuae489yU
-   w==;
-X-CSE-ConnectionGUID: ihFg6glbQOSDJ1C9YWPt6g==
-X-CSE-MsgGUID: pvNiLMe2TByGa4Jd9YH7dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2719718"
+  t=1794001706; x=1825537706;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GSs1l8nhYrpwzkpHVGWh8LOwtOJ0/LXns2Bi/tCifvw=;
+  b=QBrb4ZoXN+q5l7oFKFFD2meW03Od90pOPcjZQFmeELSLG5aEpgdRYihP
+   mN0NLbnMY4GRnfg83Hu2r8PYv8kulatra16kF/YMx8EPhbG19Zy7aVwI+
+   Qj6lT+NGIdo5U1UQKH85dH2kU7Da/Kmfb96eQCANIH9Mu/feQM+xOOxFK
+   dgxuOkPV2Mw3JMmtQIkOp+Cfjx4YLcgsClqsO/ovZiY9S6hSfHtT8pABh
+   XSMFYu2YXOSpZpvyUN1wkFId2AZieJOUhGV9O/RBD2dPAqvttix68JzN9
+   6vR+HfUf/tQFkL01Htg7M6bkMcCnlZ0bB+7fm08AL/lgTwCSsIXKvj9vA
+   A==;
+X-CSE-ConnectionGUID: rcd1Da8ZS4emxB076bGwOA==
+X-CSE-MsgGUID: hF1IwjatQL2bTxse9GCrRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2844965"
 X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2719718"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:07:45 -0800
-X-CSE-ConnectionGUID: rK9lnQn2Sr+Jb19rR5bmmw==
-X-CSE-MsgGUID: rk7JVfquQmuss6a8ocNDpQ==
+   d="scan'208";a="2844965"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:48:25 -0800
+X-CSE-ConnectionGUID: BE2AOsrZS7K6OrFTOVvLVw==
+X-CSE-MsgGUID: i6pRJuJ3Rw6w+3hwoPPrFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="7355638"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2026 13:07:43 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="7401217"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 06 Nov 2026 13:48:23 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPR9x-00000000AMj-0CNf;
-	Fri, 06 Nov 2026 21:07:41 +0000
-Date: Fri, 06 Nov 2026 22:06:54 +0100
+	id 1xPRnI-00000000pyV-1QGT;
+	Fri, 06 Nov 2026 21:48:20 +0000
+Date: Sat, 7 Nov 2026 05:47:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/sound-rust-v7.3 42/56] warning: `as`
- casting between raw pointers without changing their constness
-Message-ID: <202611062249.snPBEWys-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Victor Chernyakin <chernyakin.victor.j@outlook.com>,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Victor Chernyakin <chernyakin.victor.j@outlook.com>
+Subject: Re: [PATCH v5 4/4] iio: cdc: add Texas Instruments FDC1004 driver
+Message-ID: <202611070503.6fdgeWCZ-lkp@intel.com>
+References: <SN1PR12MB2528BA7C696815089DCAD02FA5762@SN1PR12MB2528.namprd12.prod.outlook.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,46 +85,59 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN1PR12MB2528BA7C696815089DCAD02FA5762@SN1PR12MB2528.namprd12.prod.outlook.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
-head:   070444a8abf14da700680a5331d0a95cd11e578b
-commit: b172ad8bf456b4d29c21afeebf24dba090c8a62e [42/56] rust: usb: Add safe mutable isochronous methods to Urb and UrbData
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261106/202611062249.snPBEWys-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611062249.snPBEWys-lkp@intel.com/reproduce)
+Hi Victor,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v7.4-rc1 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Victor-Chernyakin/iio-prepare-iio_format_value-to-handle-higher-precision-IIO_VAL_DECIMAL64_-formats/20261106-094026
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/SN1PR12MB2528BA7C696815089DCAD02FA5762%40SN1PR12MB2528.namprd12.prod.outlook.com
+patch subject: [PATCH v5 4/4] iio: cdc: add Texas Instruments FDC1004 driver
+config: nios2-randconfig-1000-20261107 (https://download.01.org/0day-ci/archive/20261107/202611070503.6fdgeWCZ-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611070503.6fdgeWCZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611062249.snPBEWys-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611070503.6fdgeWCZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/usb.rs:883:21
-   |
-   883 |                     urb.transfer_buffer as *mut u8,
-   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `urb.transfer_buffer.cast::<u8>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#ptr_as_ptr
-   = note: requested on the command line with `-W clippy::ptr-as-ptr`
---
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/usb.rs:913:21
-   |
-   913 |                     urb.transfer_buffer as *mut u8,
-   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `urb.transfer_buffer.cast::<u8>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#ptr_as_ptr
---
->> warning: `as` casting between raw pointers without changing their constness
-   --> rust/kernel/usb.rs:982:24
-   |
-   982 |         unsafe { &mut *(self.urb.as_ptr() as *mut Urb<T>) }
-   |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try `pointer::cast`, a safer alternative: `self.urb.as_ptr().cast::<Urb<T>>()`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.96.0/index.html#ptr_as_ptr
+>> drivers/iio/cdc/fdc1004.c:67:10: warning: integer overflow in expression of type 'long int' results in '-1246822400' [-Woverflow]
+     -0x8000 * 488281250L, /* min */
+             ^
+   drivers/iio/cdc/fdc1004.c:69:10: warning: integer overflow in expression of type 'long int' results in '758541150' [-Woverflow]
+     +0x7FFF * 488281250L, /* max */
+             ^
+
+
+vim +67 drivers/iio/cdc/fdc1004.c
+
+    59	
+    60	/*
+    61	 * OFFSET_CAL_CINn: 16 bits, signed. Format: IIO_VAL_DECIMAL64_FEMTO.
+    62	 * 1 step = 1/(2^11) pF = 1/(1000 * 2^11) nF = 0.000000488281250 nF.
+    63	 * Negative values are used to cancel out any parasitic capacitance
+    64	 * of the sensor's external circuitry.
+    65	 */
+    66	static const s64 fdc1004_calibbias[] = {
+  > 67		-0x8000 * 488281250L, /* min */
+    68		+0x0001 * 488281250L, /* step */
+    69		+0x7FFF * 488281250L, /* max */
+    70	};
+    71	
 
 --
 0-DAY CI Kernel Test Service
