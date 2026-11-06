@@ -1,95 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793941608;
-	b=2Ky/7Mj0GoxZ+OCoL9i8t5W3mHp410pSQ7RCCGjmdnDln/ujoiXgwKH85XlTaBaLA2qr
-	 K1pFEqjrHzs1ggVXkikUV0r/qhk2Zqx+OIO3Cjp+/re0C6WcnROsmwB0A8Xmr/ldzeLoE
-	 liHX51p9I0dy5eSJ3GLTQ6vAB0sCVYJlKWWO/KBbviMd8SEVRJWuR31npxaouNbDcCET9
-	 Mq9NO51m4rfEcDPb82lE0kKE4iutXwxt1OaUr29aGBJ01SSbhOsrMAK8rv6270pbfrYOY
-	 PFowaL938F7pTW2gz2QF+oRg+lv4mSTLrKbWnrsw736H8CiZpWGJ+sSHTlGLD/Y3zxA==
+	t=1793944601;
+	b=U3LTNaXlgJWf7fWdjVJU1Z9GmgTJ+7vyO2DWgypj/vugTB2D2MFeGF4YYG4gajxD9SHd
+	 OTVsbgwSzI1ZZAawcfnAEoI/FvEuujB+BmYxjqhPAHhEklW/Gcnbk3ZaLk7whsb0v+HjE
+	 AIl1+dgVKTDOD67a3GGnDeGE5Lta6zE556YZT/ZcrGwAZZJFf+a2kjWYd+LdA0PXv4vfe
+	 BcOHxHrtBdrX/3zSbxlMLouCA/V8Y5Y9tsv1i9Mi8MWB4TYyR+z/8KTTtdnE3KCSi5brY
+	 V5pGxeb+jxOcI+U9uBeoRzbbcYKk8hhdcAFYOlMSYXmlOJD2aiEiwzvHzWtR6cGtBDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793941608;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793944601;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
 	 Content-Disposition;
-	bh=L+nkk/Z6dYHahYLqYnz/str0XrICAT9C2M+7AZPoEHw=;
-	b=u1QO3cf50Ws7BZDzYHCAvxQO0Opo/0vDGzHb+OqBydXOaI6SHjBdhsUT6+npu31U9F5j
-	 LCsQJsKtMXNNo0gWeTj0gKM/08apCEY49oYMcSrTaTMxyH/eJgqb5imTfXRqXTYYvT2Nu
-	 Z3qlUGhGrtf6so9fm//TbbwdU4qeRj8Z0BiS+QCBa891KOYn63HmA7BqRba0XfZOcd46Z
-	 6l3UVoezh7ePZeSXN2SWPMPSmYHc6RKdfEXzoq9UTkTxJikJyndnOaKOrFPqP/8JFMrjI
-	 liWBTKiqFP9kTItyfzqAMi623mXXC+Bikv7DC0gd3VIM1r8k1jcHysz3jzRJ3sVntZg==
+	bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
+	b=ieV96QnWNNtOOORNCQuf3ap1bQwnHVFO8IfOccrd8DNiWfys64gwkwDIgP/SBgNiK1JU
+	 k8djyxVcN+m6+K4TgBkgoM1shX3+qFqMyr115G2GFH2jjKSviTH45ZiMELGBRQTVtpHlb
+	 Ju3vXvAQHqZ1lBq42aNEVzms7cLpZlQ+a75d7z8XVpA3jqAA88zgXuL0SVfpXkT+Ef8rk
+	 FkhbMf2+FeeR7jkWhKJHZHWzovKy+F6FKfBOo/hY1fzIWrCmygQDNt5qLEE91RNMBwrLy
+	 y3AwTgM274CUZ1TseAreCWBTkxNoKbczHkwPodXwrqLr8bHi7c0rJQ7IhJ7cOD2Qt/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VjEhndmI;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37C8606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 05:06:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E37C8606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E264F606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 05:56:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E264F606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VjEhndmI
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so1569995e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Nov 2026 21:06:47 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DjSN9+Ht
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a20a37703bso1241495e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 05 Nov 2026 21:56:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793941606; x=1794546406; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793944599; x=1794549399; darn=lists.linux.dev;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=L+nkk/Z6dYHahYLqYnz/str0XrICAT9C2M+7AZPoEHw=;
-        b=VjEhndmIl98DvE5jxf+yStlIwT7qSbTlpVpPLBDM7pd/8Xu9Ru4T7KowNaWPloLnJP
-         H2hLZu12geHYvG0f4DbV9dE3gMKCnfC7rIjVEpbBnFbyl+hmFaJfkbLNpFMaOVa3YffW
-         /hzRrV3MvBr3VwkVOwQ9NJwtjt0rLmyXu1SKcZ9LDudWJkqS78jkBtG9IEJV9Z8Juaix
-         WiVpbs1ce6/zD8H4ohVZZF437pR2u5jFIAMiyCxMSvJ245FcpBxSLrm4jbEAPNsDUl2Q
-         K9Krfr2C+vUZgv1jUCcm88nmkANw5LEQXbRt9dMQpDhygQ/Q6klB8uDZvKehlNhnoIie
-         OtUA==
+        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
+        b=DjSN9+HtvK64QcXfzr3UBBgfpA1kJDs8ZDO3ZiJ/f4b62x2lPukGA4O0BI+DS1b5ZE
+         vdj5q3CD6WeoAjS+bgqAQM8wko5Qsf3Td2Wz8RhZXAG+ELrzchOoM/jGfmlDvRbG2srN
+         JAFTG1+xRcwri+zgnSGgzHsVSguVymLvcBeCg0L6vn61PjxKAwILYcNR+Zx1eggN75a2
+         +CO3fwrc+tlj4SeJQaD2349eY9KdqjJXkQhIToNYcnIBRBrssbCubDLm45iFOwRmMcS9
+         VW9igv7vda49wPHnlvQsuAN2kRNfBXSh9rsVA/bVvyqLmrJMC6oeZak51UEtdgV6hM87
+         Crag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793941606; x=1794546406;
+        d=1e100.net; s=20260707; t=1793944599; x=1794549399;
         h=content-disposition:content-type:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=L+nkk/Z6dYHahYLqYnz/str0XrICAT9C2M+7AZPoEHw=;
-        b=yAVYQTLFRbs+y/zN98/21dLLJxvrOB1hyvj5AdwqsHhNmaJa+Vojyobx303KhIkjzt
-         Od0DAtZXHp1eN9vjN1hfWNl6N6OM6GdJv0t7whrQnAHNvdYALcryX+R4yO2I37DgYu18
-         JwsrOh9CWXwVi4qcwuRCqmmJIdXHzl4xfvlCpLkbYi6L78StfzZi+Z6trGhEmt2o9dD6
-         nLaJwR8x2/XUWq3UMMvDS74yy5hHhycCmsitqJjg/pGfT/mSmkpWbUyp0HKL2UZ8XrNM
-         yC5Uy7obZ1i7+DfAgjTmrc5qiPPgDmTD7PENof48PqFfsVeQzPKfTi0QosYQg5O0UYXB
-         LjZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzac7jDv6yQUBFQWfXT4+rG6ElimvfwgqxkNzzSNqw1XkP6mhSJViYKjq4/mqlgsMzyw7B4DuX6eEcpdNzI@lists.linux.dev
-X-Gm-Message-State: APuU4Z8Z4ytvGfaeAwrCTTIqvfVaUhR159Il2jSjDU8btBSlDKDXGJgX
-	Kw6FKuwjsFjnuqOsBlI8KUO3lT+Kje9eVN7l5QR7Cyi445la09tUAS9v
-X-Gm-Gg: AYBFou3KaE/7u2MZxOYcOcpyW5D0Ck4mEevmKnFukQPCyqrLu66+j9vQlR9/hHkzuhP
-	wokWVMSbyJZQ2Pqm8DgGqEL9mh2ZB3DIY5tWcjr6yVMz27hmbPC+XX4v/f501ORNfs+az5DFdBb
-	sh5DcLsgsCyw7TY2cYsaCBNl5g7+78rBeDzz/FPgv/88gGFbaAnVdpf1f7UsmRZl1LOZB1X8YjU
-	VBoPw9ERle03ecPgp1t3ZrlDjdru9OA8j27k42hma+eqc0eZM/IkteWxuoJ09yZ7/pr/Dn7LDXp
-	3FEs3kqjNgL+QsltEYt7Y9qBFOp7qgPZz3oW41tevUgki9Hfq8xZjqxbjVL1L8wtlB1f8ED8tBZ
-	9vJBQkbepn3TZrIaKI3iqFLj/DIjWh/dzixR/0r/zvYuoUlDsprYD1TRXXBFqH91PH6UqjcJfOa
-	RnT3lRM4cmSw9bxuH+FAWGPeyXq7de7h5LjeiW0E8OddDJwZsiSkIY7a4/Cm34v+KeanqDYV8dU
-	eZTkSZpIKN/ik0hOu4jwWRsUgfO2Ou7GWMIW4ESRLELdMv5Gp6490T5UPXlM7YxNORjirCFIi80
-	9UPwO871lQ40N3B3H6mC0rqyyTqhaYeAqoQPH/Se0VOOBydy5DiWzBZTRcA45gH0p/e1In3ziNE
-	a+moBHZA86Eo3/QtS+ajV7AovKQbrVVR6PqVo7HZHsHU30MANGTpZ/RPaaVJ6DnlYgAepVqh9y7
-	0pAxwy3HjRwyA=
-X-Received: by 2002:a05:600c:4f13:b0:4a1:d8fc:8165 with SMTP id 5b1f17b1804b1-4b6de1c645dmr18639845e9.20.1793941606054;
-        Thu, 05 Nov 2026 21:06:46 -0800 (PST)
+        bh=BGGRk7lDKsEk+C3tLTVM8Qk9LJJPZRiWXHhogF4BcsM=;
+        b=WDYoJlpRz0TADkKrLdsO4mzlXKNsq+iMll8X1MM4uQ1SUggFnpJJNlmv8lgvPrUeyc
+         0jl3l8ufzuWZLE8zrSl2IHP7DTyEWvmGVhNB+XGcPbFzQuq0EBTkACd7dDOFzbT2r0Az
+         MUNjq8hNdsPZ5KPw37b9V2orzAnLZRkzJCo530zyRYPiZX7iW3tTKyb8ygVOLK14AktW
+         HNkaX9L2mRMPhp6WRbbtp1pO/nwmq7KcE17kbKPnFH4iLORyXp0XJL3gTMH3jckkCXsl
+         GGT6Shs8XOgt/24G10e8NURJCY+X1Kfmty5+I3q3T8M7l3m0Iuh4Kg5dJvKRBqrWyfJ0
+         WdbA==
+X-Forwarded-Encrypted: i=1; AKwUvByA6Znggq5N288MCVs0SsVooRFv8mBKRvg+A98iTb8J2vatDaaLPpO4+JxFC1HcB5CbAyuP91D/czEyV7wD@lists.linux.dev
+X-Gm-Message-State: APuU4Z8yLqNZIKKOmWmOMnxQjlB++vfYoqUA7XlhmRndcFag09h4UUzn
+	MpSV/0VMMiF4nVVTgOgHQQ+wySALHD9Z9+y69fPgNFkoCRjyXfzprwQ1
+X-Gm-Gg: AYBFou2U2PoFAxjL9hl8QVvFCjs/Sru3aslVM2yopQgruJLp/ULlRs1qWQe6U7axJIA
+	3PeQPGQlwu9RkMWPdX5BR8CigM+68J9ihx+ocClMzOojYyQy646tr7/ZH6THlHwxJVaAgzpVH1i
+	y5ghZAJCq2xKfwitI3tSu8zOv4zA60YqqF9yrwSoRAHbC9hGMBRx/XMe2cgito8apt69XLkufzn
+	/mALkipCh3nGvnRFbBoEJGaGuyJpdpSqLFuluatLgYYeJrFivwSQV7nHJKQZPCI6yp7J8utMzTn
+	C11jUy4arQy4HuHjNVURPYilvvXN0CdnzgZ70MnLmOeJDhyGFkBeX2xM/mFcGaUsCgAEXDt/pS4
+	FjZaOF8gG1/TP+d4qNMlG6cI1JBZ0aLSTPjOmWnQ2oZ3MK4gMj3U9Tt3Ev61kYDMoNlICFGd6gS
+	n2drtg2ccFVn0SMSC5txEZl6rzuzuqA+dVHWqyNTb/fBpMUqoRkN3HPougYe19hzCOS34XhI6YO
+	uN4oyNb7JOmD82hPVtrmbHP0Xxwau7xwBO+XkZh+sIM/R/nbQHGryKVdzloB7rfDXd8Z2e1vav1
+	g3oq8CQjf7/3vbs4/nHPczUf5OJXSX9b2U1DBoGFJ6DA+8xOrg9VDsvUfgMW0gkfmnc6qzi9ueF
+	lt9BJ0K0Qz15qhcjVnuFUy8OMf+nBjiCOzVWukc9Wm/EjbzisC8DTz54iw7YzOKtWvg==
+X-Received: by 2002:a05:600c:8b28:b0:4a1:a2c0:7b73 with SMTP id 5b1f17b1804b1-4b6dfba8628mr16268215e9.30.1793944598951;
+        Thu, 05 Nov 2026 21:56:38 -0800 (PST)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b75ff3a19esm4223885e9.0.2026.11.05.21.06.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b6ed5b8159sm27279965e9.2.2026.11.05.21.56.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 21:06:45 -0800 (PST)
-Date: Fri, 6 Nov 2026 08:06:42 +0300
+        Thu, 05 Nov 2026 21:56:37 -0800 (PST)
+Date: Fri, 6 Nov 2026 08:56:33 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: oe-kbuild@lists.linux.dev,
-	Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_acpi_apei_v5 51/55]
- drivers/firmware/riscv/riscv_sbi_sse.c:1253 sse_ghes_handler() error: we
- previously assumed 'cb' could be null (see line 1254)
-Message-ID: <202611060143.FmE9sikJ-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 390/390]
+ drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
+Message-ID: <202611060606.xbU3zu11-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -102,39 +98,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_acpi_apei_v5
-head:   14cf6b25f78f759a54f0f4b4c2a62b8de4d67549
-commit: 08384c64ea14c3dc8f269ae07c9ac14f339b5d7c [51/55] riscv: Add functions to register ghes having SSE notification
-config: riscv-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060143.FmE9sikJ-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project d7303edbc6496e00558bf44850d63a99fc376c92)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   900d46d1c904d34d7c3eeb0ef2119cffc5a8ab3d
+commit: 534fd7770b6ddedc6c6ef6fa724987d3397f9b3b [390/390] mtd: core: Report error if first mtd_otp_size() call fails in mtd_otp_nvmem_add()
+config: arm-randconfig-2200-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060606.xbU3zu11-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.3.0
 smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202611060143.FmE9sikJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202611060606.xbU3zu11-lkp@intel.com/
 
 smatch warnings:
-drivers/firmware/riscv/riscv_sbi_sse.c:1253 sse_ghes_handler() error: we previously assumed 'cb' could be null (see line 1254)
+drivers/mtd/mtdcore.c:955 mtd_otp_nvmem_add() warn: missing unwind goto?
 
-vim +/cb +1253 drivers/firmware/riscv/riscv_sbi_sse.c
+vim +955 drivers/mtd/mtdcore.c
 
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1248  static int sse_ghes_handler(u32 event_num, void *arg, struct pt_regs *regs)
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1249  {
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1250  	struct sse_ghes_event_data *ev_data = arg;
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1251  	struct sse_ghes_callback *cb = NULL;
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1252  
-08384c64ea14c3 Himanshu Chauhan 2026-09-24 @1253  	list_for_each_entry(cb, &ev_data->callback_list, head) {
-08384c64ea14c3 Himanshu Chauhan 2026-09-24 @1254  		if (cb && cb->ghes && cb->callback)
-                                                                    ^^
-Delete this unnecessary NULL check
+4b361cfa862479 Michael Walle 2021-04-24  936  static int mtd_otp_nvmem_add(struct mtd_info *mtd)
+4b361cfa862479 Michael Walle 2021-04-24  937  {
+26358f330405af Michael Walle 2023-03-08  938  	struct device *dev = mtd->dev.parent;
+4b361cfa862479 Michael Walle 2021-04-24  939  	struct nvmem_device *nvmem;
+4b361cfa862479 Michael Walle 2021-04-24  940  	ssize_t size;
+4b361cfa862479 Michael Walle 2021-04-24  941  	int err;
+4b361cfa862479 Michael Walle 2021-04-24  942  
+4b361cfa862479 Michael Walle 2021-04-24  943  	if (mtd->_get_user_prot_info && mtd->_read_user_prot_reg) {
+4b361cfa862479 Michael Walle 2021-04-24  944  		size = mtd_otp_size(mtd, true);
+534fd7770b6dde Aapo Vienamo  2024-03-13  945  		if (size < 0) {
+534fd7770b6dde Aapo Vienamo  2024-03-13  946  			err = size;
+534fd7770b6dde Aapo Vienamo  2024-03-13  947  			goto err;
 
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1255  			cb->callback(ev_data->event_num, cb->ghes, regs);
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1256  	}
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1257  
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1258  	return 0;
-08384c64ea14c3 Himanshu Chauhan 2026-09-24  1259  }
+This goto err is wrong.  We haven't done the register so it should
+return directly.
+
+534fd7770b6dde Aapo Vienamo  2024-03-13  948  		}
+4b361cfa862479 Michael Walle 2021-04-24  949  
+4b361cfa862479 Michael Walle 2021-04-24  950  		if (size > 0) {
+4b361cfa862479 Michael Walle 2021-04-24  951  			nvmem = mtd_otp_nvmem_register(mtd, "user-otp", size,
+4b361cfa862479 Michael Walle 2021-04-24  952  						       mtd_nvmem_user_otp_reg_read);
+4b361cfa862479 Michael Walle 2021-04-24  953  			if (IS_ERR(nvmem)) {
+26358f330405af Michael Walle 2023-03-08  954  				dev_err(dev, "Failed to register OTP NVMEM device\n");
+4b361cfa862479 Michael Walle 2021-04-24 @955  				return PTR_ERR(nvmem);
+4b361cfa862479 Michael Walle 2021-04-24  956  			}
+4b361cfa862479 Michael Walle 2021-04-24  957  			mtd->otp_user_nvmem = nvmem;
+4b361cfa862479 Michael Walle 2021-04-24  958  		}
+4b361cfa862479 Michael Walle 2021-04-24  959  	}
+4b361cfa862479 Michael Walle 2021-04-24  960  
+4b361cfa862479 Michael Walle 2021-04-24  961  	if (mtd->_get_fact_prot_info && mtd->_read_fact_prot_reg) {
+4b361cfa862479 Michael Walle 2021-04-24  962  		size = mtd_otp_size(mtd, false);
+4b361cfa862479 Michael Walle 2021-04-24  963  		if (size < 0) {
+4b361cfa862479 Michael Walle 2021-04-24  964  			err = size;
+4b361cfa862479 Michael Walle 2021-04-24  965  			goto err;
+4b361cfa862479 Michael Walle 2021-04-24  966  		}
+4b361cfa862479 Michael Walle 2021-04-24  967  
+4b361cfa862479 Michael Walle 2021-04-24  968  		if (size > 0) {
+4b361cfa862479 Michael Walle 2021-04-24  969  			nvmem = mtd_otp_nvmem_register(mtd, "factory-otp", size,
+4b361cfa862479 Michael Walle 2021-04-24  970  						       mtd_nvmem_fact_otp_reg_read);
+4b361cfa862479 Michael Walle 2021-04-24  971  			if (IS_ERR(nvmem)) {
+26358f330405af Michael Walle 2023-03-08  972  				dev_err(dev, "Failed to register OTP NVMEM device\n");
+4b361cfa862479 Michael Walle 2021-04-24  973  				err = PTR_ERR(nvmem);
+4b361cfa862479 Michael Walle 2021-04-24  974  				goto err;
+4b361cfa862479 Michael Walle 2021-04-24  975  			}
+4b361cfa862479 Michael Walle 2021-04-24  976  			mtd->otp_factory_nvmem = nvmem;
+4b361cfa862479 Michael Walle 2021-04-24  977  		}
+4b361cfa862479 Michael Walle 2021-04-24  978  	}
+4b361cfa862479 Michael Walle 2021-04-24  979  
+4b361cfa862479 Michael Walle 2021-04-24  980  	return 0;
+4b361cfa862479 Michael Walle 2021-04-24  981  
+4b361cfa862479 Michael Walle 2021-04-24  982  err:
+4b361cfa862479 Michael Walle 2021-04-24  983  	nvmem_unregister(mtd->otp_user_nvmem);
+4b361cfa862479 Michael Walle 2021-04-24  984  	return err;
+4b361cfa862479 Michael Walle 2021-04-24  985  }
 
 --
 0-DAY CI Kernel Test Service
