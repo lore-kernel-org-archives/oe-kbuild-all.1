@@ -1,77 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793927078;
-	b=zC/n3B/AX1yACSsWwhuUXzp31249VopqZDbT4MhOuJY86l0fCzUx2c1MCJDOag1/1l7y
-	 DVfePTU3A9Bi8mh3FObrq/LGVubMqjLcxfv+7uwrbd8I4xnJTkcrckJL/5ueBziY53wk1
-	 GfnobRZI0x9hTTKh3A/Z4iFQ9IndzRelf1ZVutvxdINuAL0nAko3N/9gW/Lx+XLtBQIoX
-	 reGeTcay005gAbP7VTZOx4gjsW2zD0v//kv5vPoSbLLiWuvAvR8R4JXR8Eu6hmSy98ctY
-	 2BMXnwkr6uyYn7Rq4d+rr/6yqbDGrlioaToT2BuUf0gNBsISXbldzWCGoM+juPyI9fw==
+	t=1793928065;
+	b=0kTVj+eEdF/Mu4TwMuhFxfzIxBY+H/QBAt0i2BhQe+AA73iAwhZJymoAiMyRN8RzT8lr
+	 aY8q657c7z1A1oBZOcNxYxW4ePuZjBxabChbHPlBOWowplAHn+F8E9nALpXXlREgqY7sb
+	 tKDyCYU9oRjY6HiSSoHBFC+Lx0qUqHQqoA+nWa/JOShqjch/Xom5TP3oMMWusrUzKZc4a
+	 y7S/8LQRYGwp+jQxnm6N1IT89C9nc12mgHUTDjYELO3RmvH2gcg9N2Jtv0zjeOMJaeXif
+	 NDEIxfScS/JqVuRt96Vgw4j9wVA52s7BVwXtwD9Zsvz3B6NSmrnq8Xcg+KXafH6epkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793927078;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=IfDa6xDNEDn/S3kSnR3XKJ514M/Rd+MUqrITylxx/rY=;
-	b=UfYqxZayPP2SRzrCDal/QubSsVKtT+kTvpgQt9RlXCx8SnARFvXeDZaqngdXCT9mOVib
-	 oSQkhZoI7qV8I1G60crvksKhe7xHFCf78ugJNqeCGMiQsZc+fPGzLWoQMkvZ61cgh1JcU
-	 pY7tuoDNylpJzCPG/D/za6nfHhTmXBomvFKOtlJ2gMv7+qDLZqTDWJAwO1ok8J41zU/pO
-	 A1SHuidtuOAY9D0hSoKR5Yna6WKDCXp6RmboRUtf6XoOCXTIATdFCsHdrpQ8oKkMwfplJ
-	 Aux0epq3itxIcYGsnTSMFxFbAwLEczmQFOVEuEyq2Qfsj/4nfeJ9Pe6Tqge4ssxvvTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793928065;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=7Unoc9ykJp/GThx0lrtdBnOWr0Hmq9Ix53iTlmBSWd4=;
+	b=xfX3k9nFTBoPRQq5F6nUNmF1mjbpXXAi3Ta4C1RVmLn6RDSPqfF00kz8c7EPX1cXjmyO
+	 72KV3B+jv1GLFQTvb+1ogpFnGHDPhit+XiphdkmLceEdFjoOYHDnNVnN1loUGSLCwT3BO
+	 xcTnIpSZ9B+jUrmetS66DknLA1PKm13l5Z8H4OKZmf0G7tWbgSCkPo/g7dY4WbGOV7shh
+	 AzIzicpV0pjvV0zeDLHQ9V4x33xCc69ZkCsoEND75OfzRQkmICWarcWEN+UZv+LS+Qk5v
+	 F170PFLCG1Zc2+ygx83GsHJe1XJMszcbkp7UTCiKBa77S4wVl/gt11fTOoyR/hXt3cg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EaZeB2Sw;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=KMes1A9s;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329DB606A31B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Nov 2026 01:04:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 329DB606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB7A606A31B;
+	Fri,  6 Nov 2026 01:21:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EaZeB2Sw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793927078; x=1825463078;
-  h=date:from:to:cc:subject:message-id;
-  bh=9U8mtyE2mZsuxq8iMvGteEQb5fO9aMTrzHn+Phdf0Rk=;
-  b=EaZeB2SwOW8qZ1lNDrRilZyR7YEXSMuAhukeHlScrWMeUYxLkam0XJdO
-   Twb7c0h/OabeIhYUTfjRzt/GRlVn4yBq8SfjWco+R2oSIHcQOXodKRRJq
-   1nV987gTnXEssJJf1Kw/LW4BHsF2/7p2ebng3q4MM0wHUVrh4mbLiT8UF
-   n4oArc+OATGKD5f/lI8cDA9H4ElTHMLWzu4bj7oFSwirGbxQixlOOfU/u
-   +i0ZiJjA0QB1Ae3mddSu6BCBT+ID2d9C7XYJ9sgmtgWA3ff7Jv+jKGdfE
-   aYoFWufdT58vZGmQRCOK4ISQw9Ouo2eYLL6lTiNzH5uRayIxd6axRFcIo
-   A==;
-X-CSE-ConnectionGUID: vB0fE8HwTHGTxJUEX+h71g==
-X-CSE-MsgGUID: mwpPi3FISCWEM/rHM8c89A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2640807"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2640807"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 17:04:37 -0800
-X-CSE-ConnectionGUID: J6/TAJXzRrSCteII0z4n6Q==
-X-CSE-MsgGUID: 5vE/XQ+mRL2pze5Rewi44w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="9030632"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 05 Nov 2026 17:04:35 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xP8Nc-000000009wp-3sq5;
-	Fri, 06 Nov 2026 01:04:32 +0000
-Date: Fri, 06 Nov 2026 02:04:10 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-kminext 0/1]
- mm/readahead.c:158:51: sparse: sparse: incorrect type in argument 1
- (different base types)
-Message-ID: <202611060117.noSVuh6k-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=KMes1A9s
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7618B1F0089F;
+	Fri,  6 Nov 2026 01:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1793928064;
+	bh=7Unoc9ykJp/GThx0lrtdBnOWr0Hmq9Ix53iTlmBSWd4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=KMes1A9sA4g9PG6XPVvWwq4m8NUsIhBXxh5nU/wyof25j5ItRx98EzpODxaK5nLon
+	 yTx8RPDbOgpEagV+rxz0usgLwYAgIjV6kpO9b7yJ/ecSHddtQSEjRCllr+UsPOd7EL
+	 LLtDmGNP26YX8RWu0HaDtDnY9emISukuJDELCSzE=
+Date: Thu, 5 Nov 2026 17:21:04 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Abhishek Bapat <abhishekbapat@google.com>, Suren Baghdasaryan
+ <surenb@google.com>, Hao Ge <hao.ge@linux.dev>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation
+ tracepoints
+Message-Id: <20261105172104.339c6f598a65056ed46e56fc@linux-foundation.org>
+In-Reply-To: <202611052344.mDV2DB89-lkp@intel.com>
+References: <37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat@google.com>
+	<202611052344.mDV2DB89-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,50 +60,67 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18-kminext
-head:   a9580b7485bbf58d7b44b7d51e15c8ebe1cea327
-commit: aa2fcdf35fade78eec17bdfae208b652f11ab9a1 [0/1] ANDROID: mm: Create hooks for ZONE_MOVABLE allocs
-config: i386-randconfig-2301-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060117.noSVuh6k-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060117.noSVuh6k-lkp@intel.com/reproduce)
+On Thu, 5 Nov 2026 23:15:33 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611060117.noSVuh6k-lkp@intel.com/
+> Hi Abhishek,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on bcc036cfa1670a64500f6d857eaa71908b79e3fb]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Bapat/alloc_tag-Add-trace-events-for-tracing-allocations/20261104-190336
+> base:   bcc036cfa1670a64500f6d857eaa71908b79e3fb
+> patch link:    https://lore.kernel.org/r/37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat%40google.com
+> patch subject: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation tracepoints
+> config: xtensa-randconfig-1001-20261105 (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202611052344.mDV2DB89-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> >> WARNING: modpost: vmlinux: section mismatch in reference: alloc_tag_trace_enabled+0x2c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
 
-sparse warnings: (new ones prefixed by >>)
->> mm/readahead.c:158:51: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int *flags @@     got restricted gfp_t * @@
-   mm/readahead.c:158:51: sparse:     expected unsigned int *flags
-   mm/readahead.c:158:51: sparse:     got restricted gfp_t *
-   mm/readahead.c: note: in included file (through include/linux/mm_inline.h):
-   include/trace/hooks/mm.h:65:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/mm.h:65:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/mm.h:65:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
---
->> mm/mmzone.c:118:47: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int *flags @@     got restricted gfp_t * @@
-   mm/mmzone.c:118:47: sparse:     expected unsigned int *flags
-   mm/mmzone.c:118:47: sparse:     got restricted gfp_t *
-   mm/mmzone.c: note: in included file:
-   include/trace/hooks/mm.h:62:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/mm.h:62:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/mm.h:62:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+Thanks.
 
-vim +158 mm/readahead.c
+#syz test
 
-   153	
-   154	gfp_t readahead_gfp_mask(struct address_space *x)
-   155	{
-   156		gfp_t mask = __readahead_gfp_mask(x);
-   157	
- > 158		trace_android_rvh_set_readahead_gfp_mask(&mask);
-   159		return mask;
-   160	}
-   161	EXPORT_SYMBOL_GPL(readahead_gfp_mask);
-   162	
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: alloc_tag: force inline the allocation tracing check
+Date: Thu, 05 Nov 2026 17:18:09 -0800
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+alloc_tag_trace_enabled() is declared inline, but the compiler can
+still emit an out-of-line copy. Force it inline,
+
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202611052344.mDV2DB89-lkp@intel.com/
+Cc: Abhishek Bapat <abhishekbapat@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Hao Ge <hao.ge@linux.dev>
+---
+
+ include/linux/alloc_tag.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/include/linux/alloc_tag.h~alloc_tag-introduce-ioctls-to-toggle-allocation-tracepoints-fix
++++ a/include/linux/alloc_tag.h
+@@ -161,7 +161,7 @@ static inline bool alloc_tag_is_traced(c
+ 	return !!(atomic_read(&tag->ct.flags) & CODETAG_FLAG_TRACE_ON);
+ }
+ 
+-static inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
++static __always_inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
+ {
+ 	if (static_branch_unlikely(&alloc_tag_trace_key))
+ 		return tag && alloc_tag_is_traced(tag);
+_
+
