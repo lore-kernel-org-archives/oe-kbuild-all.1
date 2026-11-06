@@ -1,57 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793928065;
-	b=0kTVj+eEdF/Mu4TwMuhFxfzIxBY+H/QBAt0i2BhQe+AA73iAwhZJymoAiMyRN8RzT8lr
-	 aY8q657c7z1A1oBZOcNxYxW4ePuZjBxabChbHPlBOWowplAHn+F8E9nALpXXlREgqY7sb
-	 tKDyCYU9oRjY6HiSSoHBFC+Lx0qUqHQqoA+nWa/JOShqjch/Xom5TP3oMMWusrUzKZc4a
-	 y7S/8LQRYGwp+jQxnm6N1IT89C9nc12mgHUTDjYELO3RmvH2gcg9N2Jtv0zjeOMJaeXif
-	 NDEIxfScS/JqVuRt96Vgw4j9wVA52s7BVwXtwD9Zsvz3B6NSmrnq8Xcg+KXafH6epkg==
+	t=1793930202;
+	b=oMBli2nyhKX7J4V9Tbk0Pa7Wv34Bmcvo6yl02y1ufU6i9ISiSmhkfEoI/U/jaX8Gpn1/
+	 9V363IkY7hilSBTiQPEGu5bPj9hTpNSmGoRnH4wZqoaFdwZG/YGhhSK6h92YGbVyKS+1E
+	 jVf1nXnwupxZ0J0shf2NHY88w5pHCc4mprImy5u7tWQY4FRvIhFPMjW7s0xt3uOEvBMNg
+	 mLmB3CccwLF9feG7HeYBqiqXWVRwuw+uKWwsvDG6IxKaH/YG3QabIG0/g2UEeFCbye2w/
+	 zroDY6SQE3UyY/nRXHFSYRfaaJ6zAiSOzqZVvhZQc1CJjJWyZ0eVgWWSqtLDoBZ8zOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793928065;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=7Unoc9ykJp/GThx0lrtdBnOWr0Hmq9Ix53iTlmBSWd4=;
-	b=xfX3k9nFTBoPRQq5F6nUNmF1mjbpXXAi3Ta4C1RVmLn6RDSPqfF00kz8c7EPX1cXjmyO
-	 72KV3B+jv1GLFQTvb+1ogpFnGHDPhit+XiphdkmLceEdFjoOYHDnNVnN1loUGSLCwT3BO
-	 xcTnIpSZ9B+jUrmetS66DknLA1PKm13l5Z8H4OKZmf0G7tWbgSCkPo/g7dY4WbGOV7shh
-	 AzIzicpV0pjvV0zeDLHQ9V4x33xCc69ZkCsoEND75OfzRQkmICWarcWEN+UZv+LS+Qk5v
-	 F170PFLCG1Zc2+ygx83GsHJe1XJMszcbkp7UTCiKBa77S4wVl/gt11fTOoyR/hXt3cg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793930202;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=9uSER3KHp7evnz5IrQsPFl6gBun0+2+KKWfdV49F5ss=;
+	b=1KgBfUwYkCY9aF1+YzsoeJMK74g2aggaKgGyRBcMAk9hAkZDoGB682R26bsOFife6cdC
+	 kmz49c50KTB/AE765bQ28cbOt39vLupuiodPms6LF580HUx9bRaklPeU8S8YAahhdN631
+	 QMpYkpLI1kB3v2CFs6twkJewfa5A4Rd/Wx5z9ljmc8TjoExzXPtKpBgI2TXBbOfYaqO5+
+	 GhUgCLg2FxrWD7yOdfUjmyvBQ4qtgzPECDGZH7cWM4YTk1sIGA4yWfefGxgnCI9Pje53R
+	 rJV+NBJ8JiciQO3MrU0zTZLfIBv09OVjNqf72bY1W8mgxyCEiuv/0aZn2tKpiYwvPgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=KMes1A9s;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PwMtJm0x;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB7A606A31B;
-	Fri,  6 Nov 2026 01:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5FA606A328;
+	Fri,  6 Nov 2026 01:56:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F5FA606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=KMes1A9s
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7618B1F0089F;
-	Fri,  6 Nov 2026 01:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1793928064;
-	bh=7Unoc9ykJp/GThx0lrtdBnOWr0Hmq9Ix53iTlmBSWd4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=KMes1A9sA4g9PG6XPVvWwq4m8NUsIhBXxh5nU/wyof25j5ItRx98EzpODxaK5nLon
-	 yTx8RPDbOgpEagV+rxz0usgLwYAgIjV6kpO9b7yJ/ecSHddtQSEjRCllr+UsPOd7EL
-	 LLtDmGNP26YX8RWu0HaDtDnY9emISukuJDELCSzE=
-Date: Thu, 5 Nov 2026 17:21:04 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Abhishek Bapat <abhishekbapat@google.com>, Suren Baghdasaryan
- <surenb@google.com>, Hao Ge <hao.ge@linux.dev>,
- oe-kbuild-all@lists.linux.dev, Linux Memory Management List
- <linux-mm@kvack.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation
- tracepoints
-Message-Id: <20261105172104.339c6f598a65056ed46e56fc@linux-foundation.org>
-In-Reply-To: <202611052344.mDV2DB89-lkp@intel.com>
-References: <37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat@google.com>
-	<202611052344.mDV2DB89-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PwMtJm0x
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793930202; x=1825466202;
+  h=date:from:to:cc:subject:message-id;
+  bh=dbQeZFEndgkCrTQbe1Pp2dQY0hHVPftsiz/wri0Ui3A=;
+  b=PwMtJm0x4ahgNy8jKU3PWv1pQ9jKWcQGNcxAe/Z/s4vU1kIayr59p3N1
+   n6rpQMrd3yHP1rIYmUZ9XXRfeUruHARaVmHh4cdDPaHFfdz8bOU0Nc/Px
+   I+M58cfezq+gGLmuvnCDbcqSiWGvDLFTqOAIACvzYuQZy4/lpdILbmciY
+   VHK04RsuQYLo1XfTMZaZm8xq6/WUbX+Sxgnnm+bNjQcRFFlIp+8ELGM8G
+   Fh43YAzyAAkl0Vtwe2FUluhSJNopSCIKC2Pzj+Uhlx3LODE3URj0nHXJ2
+   xUvieB7iC/bv5CHb5fhcu98upt2pnrRt0kf/dq9PMw3N3Md1anfVuKWRY
+   g==;
+X-CSE-ConnectionGUID: tqy3iTt+QCO7NANJ1/RcRw==
+X-CSE-MsgGUID: NZaDEeLpTv6itSOuR+6YGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11957"; a="2740553"
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="2740553"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 17:56:42 -0800
+X-CSE-ConnectionGUID: 7SWns9zdTZGhnyS9dejAJg==
+X-CSE-MsgGUID: vCGrFNzGTxyFt4Ddai0BrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
+   d="scan'208";a="7068398"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2026 17:56:40 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xP9C1-000000009xh-0N3P;
+	Fri, 06 Nov 2026 01:56:37 +0000
+Date: Fri, 06 Nov 2026 02:55:46 +0100
+From: kernel test robot <lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/sound-rust-v7.3 32/56] error[E0425]:
+ cannot find function `snd_ac97_suspend` in crate `bindings`
+Message-ID: <202611060233.tMHVzepz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -60,67 +80,67 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Thu, 5 Nov 2026 23:15:33 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust-v7.3
+head:   070444a8abf14da700680a5331d0a95cd11e578b
+commit: 213e33e4c0ede930090f9d3988c53fc5fc6bdeb6 [32/56] ALSA: rust: add AC97 codec abstraction
+config: s390-randconfig-2000-20261105 (https://download.01.org/0day-ci/archive/20261106/202611060233.tMHVzepz-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 0fa861dbbf46e5a75f621406fd91cb015d8754bf)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261106/202611060233.tMHVzepz-lkp@intel.com/reproduce)
 
-> Hi Abhishek,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on bcc036cfa1670a64500f6d857eaa71908b79e3fb]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Bapat/alloc_tag-Add-trace-events-for-tracing-allocations/20261104-190336
-> base:   bcc036cfa1670a64500f6d857eaa71908b79e3fb
-> patch link:    https://lore.kernel.org/r/37ae7dca766994d3872fcc65b623a80d5d506369.1793818636.git.abhishekbapat%40google.com
-> patch subject: [PATCH v5 2/5] alloc_tag: Introduce IOCTLs to toggle allocation tracepoints
-> config: xtensa-randconfig-1001-20261105 (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261105/202611052344.mDV2DB89-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611052344.mDV2DB89-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> >> WARNING: modpost: vmlinux: section mismatch in reference: alloc_tag_trace_enabled+0x2c (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611060233.tMHVzepz-lkp@intel.com/
 
-Thanks.
+All errors (new ones prefixed by >>):
 
-#syz test
+>> error[E0425]: cannot find function `snd_ac97_suspend` in crate `bindings`
+   --> rust/kernel/sound/ac97.rs:223:28
+   |
+   223 |           unsafe { bindings::snd_ac97_suspend(self.0) };
+   |                              ^^^^^^^^^^^^^^^^
+   |
+   ::: rust/bindings/bindings_generated.rs:147923:5
+   |
+   147923 | /     pub fn snd_ac97_bus(
+   147924 | |         card: *mut snd_card,
+   147925 | |         num: ffi::c_int,
+   147926 | |         ops: *const snd_ac97_bus_ops,
+   147927 | |         private_data: *mut ffi::c_void,
+   147928 | |         rbus: *mut *mut snd_ac97_bus,
+   147929 | |     ) -> ffi::c_int;
+   | |____________________- similarly named function `snd_ac97_bus` defined here
+   |
+   help: a function with a similar name exists
+   |
+   223 -         unsafe { bindings::snd_ac97_suspend(self.0) };
+   223 +         unsafe { bindings::snd_ac97_bus(self.0) };
+   |
+--
+>> error[E0425]: cannot find function `snd_ac97_resume` in crate `bindings`
+   --> rust/kernel/sound/ac97.rs:229:28
+   |
+   229 |           unsafe { bindings::snd_ac97_resume(self.0) };
+   |                              ^^^^^^^^^^^^^^^
+   |
+   ::: rust/bindings/bindings_generated.rs:147973:5
+   |
+   147973 | /     pub fn snd_ac97_reset(
+   147974 | |         ac97: *mut snd_ac97,
+   147975 | |         try_warm: bool_,
+   147976 | |         id: ffi::c_uint,
+   147977 | |         id_mask: ffi::c_uint,
+   147978 | |     ) -> ffi::c_int;
+   | |____________________- similarly named function `snd_ac97_reset` defined here
+   |
+   help: a function with a similar name exists
+   |
+   229 -         unsafe { bindings::snd_ac97_resume(self.0) };
+   229 +         unsafe { bindings::snd_ac97_reset(self.0) };
+   |
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: alloc_tag: force inline the allocation tracing check
-Date: Thu, 05 Nov 2026 17:18:09 -0800
-
-alloc_tag_trace_enabled() is declared inline, but the compiler can
-still emit an out-of-line copy. Force it inline,
-
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202611052344.mDV2DB89-lkp@intel.com/
-Cc: Abhishek Bapat <abhishekbapat@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Hao Ge <hao.ge@linux.dev>
----
-
- include/linux/alloc_tag.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/include/linux/alloc_tag.h~alloc_tag-introduce-ioctls-to-toggle-allocation-tracepoints-fix
-+++ a/include/linux/alloc_tag.h
-@@ -161,7 +161,7 @@ static inline bool alloc_tag_is_traced(c
- 	return !!(atomic_read(&tag->ct.flags) & CODETAG_FLAG_TRACE_ON);
- }
- 
--static inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
-+static __always_inline bool alloc_tag_trace_enabled(const struct alloc_tag *tag)
- {
- 	if (static_branch_unlikely(&alloc_tag_trace_key))
- 		return tag && alloc_tag_is_traced(tag);
-_
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
