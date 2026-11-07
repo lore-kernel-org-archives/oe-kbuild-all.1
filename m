@@ -1,54 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794032493;
-	b=A6iDd2h4qDhJRKxD/VPsTbETAFcCSmlB/bNhp2jXnlVSWEin/992kOF0MIpwk7RthHqo
-	 5/330SIbWqvBQqFLKgCL/vgaYUsMIjWiqBjmQndXOBIaEWHIgfW3ifTc+ZnKX9DTs80Kk
-	 nhuHkpP0HCzb3rtQXglIjxV+cvXpyuNjajet6zmnB/cFOhnEhTdC6q7qaL0zxc23CIgk0
-	 9BZcVaGTnA/ige5eIPfsmnEiYVCaFn/3iS9EU7Z4yqhrFxTmG8Jo16c34G6vfbvrT6eKK
-	 JZ9I30o8RNttPEqYDpfyg4mZaghyliehqQQHaCHBnrSGSrGJ5A23YJO2WO4ptmMD4mw==
+	t=1794035124;
+	b=mec3yr95c4mqUtLWrT0eTtvA6FIePtQbMW2z+a5CxuR01xMNkGqEtHRqb6oxOUcGxMRG
+	 EiJ529/0xAEBSUuSyboJfRpR2tugsBNpNLrJFf7nOYquTMccPDwHqbh+iwEcztn/7FFSK
+	 AYLwEisFejQkIIJQPlp1g8GcF5uchsZhdYlpBHWbZHftfw9InXmc+uMYmlwO6kml+7Q5k
+	 S5ZG7L1oZQkv82BhCMWQxsBouIJZNH69H+KgjPwwcDRF2NJi7aw7oHFS8SlGlUA9pz/T+
+	 BmL1m62lv1gh4S7Wh6xoqgwYXfmUe3tkROL3ojdXJWFAWT2rctFsDy2HCiNFD9T4buw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794032493;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Rue7DrFJizzJaq9mJMBOWdT76HmG+xTQGYkTLJeaIcw=;
-	b=UEZIOwh+toHG/FvIfTPeIW3jo0coDbVFz4UBe4/jeqWi3y8dXnUKS+DH1rriLxt33ic6
-	 vQcDK11Sgs/G0qb7mxrM+ZMUar42964neaZ8HFxmuCO0op6rsyg4WDQ//XevVw257L2QN
-	 QbxAEbDKuPLINyJpEcNeKq7q2Cj4gq4pp8ix1DhcHQBtHdcKu/1e8jdbayQ0Ils3WxxBb
-	 0tmK1bhkGcRlhSccRT+qflbxQN5PgfYdzyx3n4POoZBeAInPto8DSehmbdBAOfvgkjwKf
-	 CRuGZce6fOptbb3loGeoMsTkSOWwGMmZp6e29/O7vSPEwBMehoUScmQOOhJn0gbBVQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794035124;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=lAwYNWjlqw18PRKfs0wfc6QMvEJ/l8q6K3xULLq/RJc=;
+	b=TO6kA6iIttFmkJ0aAt2tNvjT5QuX25Gvd99x7OqoW4oFKum+5HMb3h3r9DM04ru6mMvq
+	 T3k7W4Zd1+e9JfE4z0OCPwEB1CLxLvRz9qpIWwF86F9R/KjzMXCNR2IhFalJeLsMHInIV
+	 LSx5MJoIJpqTzNFw2ZIBWSb9MAdXAhoxNNvz9CoUvOH/X+o6NsTFqtHvydYWBgxXASAiG
+	 5BvujtYlRW7gq5maAqxbyQRRnUE/Frk7PY5jWglWFYb2OAb9f0xiphYUCxL2E3MLl7BZk
+	 ObdmaQUvv2P/gH7XYf6vKuv+dkpoip6oQBf2G/pBezi3sSxoGFF5sbiVWhVtRwk7TAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=f3kI8JMu;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NaFJfyfF;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92D6606A326;
-	Sat,  7 Nov 2026 06:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C229E606A326
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 07:05:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C229E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=f3kI8JMu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02801F0089F;
-	Sat,  7 Nov 2026 06:21:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1794032492;
-	bh=Rue7DrFJizzJaq9mJMBOWdT76HmG+xTQGYkTLJeaIcw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=f3kI8JMuI2gAX6UrdrGzy9z6n4NuTB0jebBgdw93BDOJewkqBm84gwaRIeWmJ18hn
-	 50WNn42R0DMvWJVVi2AZq4qwJGfr2oX+ajjqf+xsmkg6kJz23gcQYXe/ySEC9qpW3R
-	 0l6mS0KpLjx6LhNIaYE8b+zghg132qOtdni6G/D4=
-Date: Fri, 6 Nov 2026 22:21:31 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, David Hildenbrand
- <david@kernel.org>, Linux Memory Management List <linux-mm@kvack.org>,
- mm-commits@vger.kernel.org, Abhishek Bapat <abhishekbapat@google.com>
-Subject: Re: [akpm-mm:mm-unstable 225/232] include/linux/alloc_tag.h:159:24:
- error: duplicate 'inline' declaration specifier
-Message-Id: <20261106222131.6fdd74ac14178fbe4470e33d@linux-foundation.org>
-In-Reply-To: <202611071330.7rHbLZ6C-lkp@intel.com>
-References: <202611071330.7rHbLZ6C-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NaFJfyfF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794035123; x=1825571123;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MlHqtS8cT8ajIw/2dp1+/XcpibT8MY0x6er6vc3ClcU=;
+  b=NaFJfyfFLQ8fVFchaFpMq8uorPi0StZdUbRASrKZTD2PdM5eV9dkoA0H
+   wSkfjPZsd3eZkyKH9ZKXlj9/vif8MPkdGs6eHsyxQqAnpnanpQdHuWN4M
+   31uM8GfgRs//Z4R3fqg7i+CxFbqDQ3gkvSDmI/BNbr4lW3Qm2BHfbKnDx
+   h+JL4M46FbIjkNZS6/oTFPobBrDnNVqnchhrRAf2KUi7ATcRVi/aBXtif
+   KKr8fisKzKKHScRVCPblJ7KNcYtGPaoWNbg3SxU/hTPPtSr1XgywpVAh8
+   j/Q15Y5pX49vZjamqxkyetqcAVKYrFIvhNtix3pQRzOYsteCyrpnBqQe2
+   A==;
+X-CSE-ConnectionGUID: oSjwJkSRS5qdbcjAy7881A==
+X-CSE-MsgGUID: ifBdEXN4TmmHIeVZSYtBZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2734857"
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="2734857"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 23:05:22 -0800
+X-CSE-ConnectionGUID: 9+2ftNMKQAqc50tJyR7fxg==
+X-CSE-MsgGUID: pNt5NwnMSVqZrahXN4gQYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="7444739"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2026 23:05:16 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPaUC-00000000qZf-2cVD;
+	Sat, 07 Nov 2026 07:05:12 +0000
+Date: Sat, 7 Nov 2026 15:04:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexandre Ghiti <alex@ghiti.fr>,
+	Jesse Taube <jtaubepe@redhat.com>, Oleg Nesterov <oleg@redhat.com>,
+	Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	James Clark <james.clark@linaro.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Subject: Re: [PATCH v8 3/8] riscv: add ptrace requests for hardware
+ breakpoints
+Message-ID: <202611071408.gyIRvq10-lkp@intel.com>
+References: <20261107023917.40606-4-himanshu.chauhan@oss.qualcomm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -57,33 +97,66 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107023917.40606-4-himanshu.chauhan@oss.qualcomm.com>
 
-On Sat, 07 Nov 2026 14:10:12 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi Himanshu,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   a3d27154a205f6b32000e7e2734b2a6a4d22c65b
-> commit: cb335644ac2611749ab17d3eb6f29c8f77450fa6 [225/232] alloc_tag-introduce-ioctls-to-toggle-allocation-tracepoints-fix-fix
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261107/202611071330.7rHbLZ6C-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071330.7rHbLZ6C-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611071330.7rHbLZ6C-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->    In file included from arch/hexagon/kernel/asm-offsets.c:13:
->    In file included from include/linux/compat.h:14:
->    In file included from include/linux/sem.h:5:
->    In file included from include/uapi/linux/sem.h:5:
->    In file included from include/linux/ipc.h:7:
->    In file included from include/linux/rhashtable-types.h:12:
-> >> include/linux/alloc_tag.h:159:24: warning: duplicate 'inline' declaration specifier [-Wduplicate-decl-specifier]
->      159 | static __always_inline inline bool alloc_tag_is_traced(const struct alloc_tag *tag)
+kernel test robot noticed the following build errors:
 
-bah, thanks, fixed and pushed.
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes perf-tools-next/perf-tools-next linus/master v7.4-rc1 next-20261105]
+[cannot apply to kees/for-next/execve tip/perf/core perf-tools/perf-tools acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Himanshu-Chauhan/riscv-Introduce-support-for-hardware-break-watchpoints/20261107-080910
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20261107023917.40606-4-himanshu.chauhan%40oss.qualcomm.com
+patch subject: [PATCH v8 3/8] riscv: add ptrace requests for hardware breakpoints
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20261107/202611071408.gyIRvq10-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071408.gyIRvq10-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611071408.gyIRvq10-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/exit.c:57:
+>> include/linux/hw_breakpoint.h:137:20: error: redefinition of 'flush_ptrace_hw_breakpoint'
+     137 | static inline void flush_ptrace_hw_breakpoint(struct task_struct *tsk)  { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/riscv/include/asm/processor.h:18,
+                    from arch/riscv/include/asm/cmpxchg.h:16,
+                    from arch/riscv/include/asm/barrier.h:14,
+                    from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:107,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:8,
+                    from kernel/exit.c:8:
+   arch/riscv/include/asm/hw_breakpoint.h:58:20: note: previous definition of 'flush_ptrace_hw_breakpoint' with type 'void(struct task_struct *)'
+      58 | static inline void flush_ptrace_hw_breakpoint(struct task_struct *task) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/flush_ptrace_hw_breakpoint +137 include/linux/hw_breakpoint.h
+
+24f1e32c60c45c include/linux/hw_breakpoint.h       Frederic Weisbecker 2009-09-09  136  
+24f1e32c60c45c include/linux/hw_breakpoint.h       Frederic Weisbecker 2009-09-09 @137  static inline void flush_ptrace_hw_breakpoint(struct task_struct *tsk)	{ }
+b332828c39326b include/asm-generic/hw_breakpoint.h K.Prasad            2009-06-01  138  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
