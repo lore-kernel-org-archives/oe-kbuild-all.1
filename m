@@ -1,78 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794065335;
-	b=vd+bm2ykEJ9ieQKuJAxlNlYRGIdXLH1IdXr5SP0ajI8tovdwkiqnyYqP8+Ta0I9Y/HS3
-	 Q9ABxJ2EjJK91UT7VEU0O9daNJUpmE/ONCv/EA6JnCnR904iZ0JZa8fHwGkquh4Vpiz1/
-	 3ZlSpiH1IqfxLusqTtsmeN4z52kG4y3K9yI/ubIQCFiHHQL/BXV7KNq+RboZnm0jy6/Y3
-	 uO2IOX6LQ26G3GyZImf/wpVAD+zwDvEuYeYhgtpICuJWb4eRrJ1xG/xlfZL7kwMHU3tDW
-	 F+64EOo+ECVn5UfVM+AdxZphykURZWN5Dtk6ZYgt49ybmsGir4d+6C5jTZmyLYAeqdA==
+	t=1794071105;
+	b=mNWcTYcjqJmb9hxprGypaezOhWLIY/mNWS+fw+dqQUZi6bC56891LyCLcc90OJvFmxgu
+	 ck3JBs05PC9d7ThwdZDKxnq62f2bTC0wovKOwlu/ovlb06WgOhU+NdtbTAO0Dxz1aUjYA
+	 rTXjxE2dvoN2JczrJopNvEXstlSitX4GB7kZLvE6sY+n/CK8EsjNCB2z2628TpSSNPBGe
+	 Pb4ib51XOqlzW2X/pIr0ekheLlN14FQbd55U4SH8R60rk0qeWbLQbZLq9W30OrCMRkRJW
+	 Cy09MToGCbYcG97gjECjpv0FyZVqewS+zRRe6rJJ3m4t0+8n81Z0tFCojoxauAf3M7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794065335;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794071105;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=eXlnNi26eOgmyS8RD5b1M48GZVxrkV0LCfid5fBl+d4=;
-	b=VxDoUd6vuLVZuPy5ETpx30XW3H0gwWGZIJsj20bHcJ0CifIspSgursu+9vrxYoopREK0
-	 LVOS1AZ9L6Rjn/GQpLnX8HFEd6iQghpVOsM4vurNp5X+68TYY8eS2k/e2WJnp7BIExgW5
-	 lFwYD9hgvCVLpz9OUWnTq/WvVsePUaWHMyLs+obkYCpV5ZzM1BKDZJZpsDYOoQlpEjy8q
-	 P78HdwAqE6N9Pbq1ncnVAA2X4UKHeOCcxOcepGiVgiAImGmLz3us4rgxz43BpFgMUOFjX
-	 a4Vh4a7/VJZW1zjOsjQo6qp8wJvxWm0s6X9dB57UWSLxN+7KnGnmCknaEY9VzUrH2Uw==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=tuZXBvaXhxTtaSu3IjU8Dvke4HyGXfYy7awdmJVrM+Y=;
+	b=MFkfXroaMrbvK6NJdg2zW1LxgLEgSmYlTwErYZ56J38K5OsbGnoszgHCMIPIMti32sF/
+	 SiFEVdStp2jIy2XRcjtNt/SOLxNQk8KkPbnGOVQum77pyzmw1AolS8tW0Lu4crSpnX4gf
+	 cwrYmLa2AKJqAu7oUEWXbzESM3+mIF1z3ivAiyYPydRpBDEM5p6/LC8viMxjwzAKD4x/I
+	 pCcphc0PHILVe45fz6fwGfzU16kpzmqXy22JubNymQyhyWiDCU7mzpgYeKjpKy+Aui4Kb
+	 fj7VRlf9dae9egFMHOaujzDvhmCzACBN/0ji93h8vQFPBwQ2Uzy4jMT8DBU1LdlhbMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kL+gI01l;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JeFplFM+;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89C2606A32F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 15:28:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B89C2606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73825606A32C;
+	Sat,  7 Nov 2026 17:05:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73825606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kL+gI01l
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JeFplFM+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794065334; x=1825601334;
-  h=date:from:to:cc:subject:message-id;
-  bh=H+RI7f3Zbx9Oe3qGZ9nct/Nyaf/mBn4ucvf9ipJHNh0=;
-  b=kL+gI01lq6f9sxzqFBrpbG9c91KmxWPWAt2cNSOm+CY5aFsbyyOvUONv
-   PumykFdFyAo7JTvcsN24jrzB8pfMIZYHgt6jXbWwQwyCi7QF3nS26R/t+
-   2dCeOeB3/D10MQB+PHhO5zR2s7u3+RqjuUVrpfEvi1BbwNPGudr/hwVrV
-   r093fhcK9B7PVG/COnrRFArwSMtqCFVB3CEa0AxclxjNrONX6V4yxupaw
-   ZgIqBfFpaADNsPB9beEl7mhcJ+8oQ0z6Q4kC6XlKlZRuGtVZjqt1Rnaen
-   Q9TRivc37TgbTAbmTj2uQuwFgzRou0Xs1E67u45VQ7dAu0hWx1gX47kqu
-   A==;
-X-CSE-ConnectionGUID: xw716k31TcyLhVquYSp6BQ==
-X-CSE-MsgGUID: e4nA4BdqQwuZ5fKUaJucTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2858332"
+  t=1794071102; x=1825607102;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3ldDp/F7niAr7c2d1iKtQlPq97mEON7EG9ro+Ts+D+0=;
+  b=JeFplFM+oVhGMyVV2P0snVZ2shAkIz8WKIU/qRfD+v1CkBcGs5/O1qcD
+   CM4KKyGnknyGtsgvTXqkkcekFVHpToTM+VPiC/h4DFrTYIkQ3S977elq2
+   mlJxejG54g7PhWRSgHXQxnjhf9yyZ9F1pburiJq+d9nbyMJZUTpSs50bw
+   2Gk4hh8yBuk8iVEY15yJUW/6wuV/tBwUCByFVF+BfX57KxJUvHisFcdnf
+   wqb2s/FbNSLmMrJNrCUrTvOuwIkFC4QYCPZUEDvDbMowgFmGd9c5XXCCb
+   Jo0WMmqGSzE6LwoGM2v2I6JYsL73ly/dUFz+PoQPewPBKIXSBO1eIzFQx
+   g==;
+X-CSE-ConnectionGUID: ORcHhlpyTFyb6XVmhHCTaQ==
+X-CSE-MsgGUID: yrpexgB7SvWmAf8IijKMbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2750726"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2858332"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 07:28:53 -0800
-X-CSE-ConnectionGUID: p+bsvaXbRYapqVGIM3uEVg==
-X-CSE-MsgGUID: hIczwddbQJ6OyAgc4uLzaA==
+   d="scan'208";a="2750726"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 09:05:01 -0800
+X-CSE-ConnectionGUID: K/UOg2l8Q6+kd/0RS4elCw==
+X-CSE-MsgGUID: jZeENGn8Q2eBzd7eswqb/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7397576"
+   d="scan'208";a="7652623"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2026 07:28:52 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 07 Nov 2026 09:04:59 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPiLZ-00000000r6B-0wuF;
-	Sat, 07 Nov 2026 15:28:49 +0000
-Date: Sat, 07 Nov 2026 23:28:32 +0800
+	id 1xPjqb-00000000rFw-0M4o;
+	Sat, 07 Nov 2026 17:04:57 +0000
+Date: Sun, 08 Nov 2026 01:04:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gregory Price (Meta)" <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Subject: [mm-page-alloc:page_alloc/for-next-fixes 5/18] WARNING:
- modpost: lib/test_bitmap.ko: section mismatch in reference: strncmp+0x24
- (section: .text.unlikely) -> __UNIQUE_ID_addressable_init_module_206
- (section: .init.data)
-Message-ID: <202611072346.LgjhdXj7-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/configfs-const 32/34]
+ samples/configfs/configfs_sample.c:378:14: error: initializing 'const struct
+ configfs_attribute *const *' with an expression of type 'struct
+ configfs_attribute *[2]' discards qualifiers in nested pointer types
+Message-ID: <202611080030.LFp3K9aU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,23 +81,54 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mm/page_alloc.git page_alloc/for-next-fixes
-head:   2c4bc0176b275c4af9b1b1e8f2386ee8dd428d5e
-commit: 9c52ebe9c89d41c56fcb5d94efe9e539414175a9 [5/18] mm/mmzone: read the zoneref slot once in zonelist_zone()
-config: xtensa-randconfig-1000-20261107 (https://download.01.org/0day-ci/archive/20261107/202611072346.LgjhdXj7-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611072346.LgjhdXj7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/configfs-const
+head:   0e68ea5975531faee86ef390018b5d08916b17db
+commit: 4762ca57ffcb5fe7b2fddd96882daba9fe3ce303 [32/34] const ct_attrs
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20261108/202611080030.LFp3K9aU-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080030.LFp3K9aU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611072346.LgjhdXj7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611080030.LFp3K9aU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: section mismatch in reference: strcpy.isra.0+0x10 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
->> WARNING: modpost: lib/test_bitmap.ko: section mismatch in reference: strncmp+0x24 (section: .text.unlikely) -> __UNIQUE_ID_addressable_init_module_206 (section: .init.data)
+   samples/configfs/configfs_sample.c:343:2: error: initializing 'struct configfs_attribute *' with an expression of type 'const struct configfs_attribute *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     343 |         &symlink_child_attr_nlinks,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> samples/configfs/configfs_sample.c:378:14: error: initializing 'const struct configfs_attribute *const *' with an expression of type 'struct configfs_attribute *[2]' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     378 |         .ct_attrs       = symlink_child_attrs,
+         |                           ^~~~~~~~~~~~~~~~~~~
+   samples/configfs/configfs_sample.c:411:2: error: initializing 'struct configfs_attribute *' with an expression of type 'const struct configfs_attribute *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     411 |         &symlink_children_attr_description,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/configfs/configfs_sample.c:421:14: error: initializing 'const struct configfs_attribute *const *' with an expression of type 'struct configfs_attribute *[2]' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     421 |         .ct_attrs       = symlink_children_attrs,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
+
+
+vim +378 samples/configfs/configfs_sample.c
+
+0a51cf54232ecd Breno Leitao 2026-08-26  375  
+0a51cf54232ecd Breno Leitao 2026-08-26  376  static const struct config_item_type symlink_child_type = {
+0a51cf54232ecd Breno Leitao 2026-08-26  377  	.ct_item_ops	= &symlink_child_item_ops,
+0a51cf54232ecd Breno Leitao 2026-08-26 @378  	.ct_attrs	= symlink_child_attrs,
+0a51cf54232ecd Breno Leitao 2026-08-26  379  	.ct_owner	= THIS_MODULE,
+0a51cf54232ecd Breno Leitao 2026-08-26  380  };
+0a51cf54232ecd Breno Leitao 2026-08-26  381  
+
+:::::: The code at line 378 was first introduced by commit
+:::::: 0a51cf54232ecdfb8172ad7943e04e67e401538a samples/configfs: add a subsystem that accepts symlinks
+
+:::::: TO: Breno Leitao <leitao@debian.org>
+:::::: CC: Breno Leitao <leitao@debian.org>
 
 --
 0-DAY CI Kernel Test Service
