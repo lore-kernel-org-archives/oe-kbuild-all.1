@@ -1,77 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794090922;
-	b=anQnx1qGJAG19O/lNREwAws0ujqQmjSIPkiGs11hd1bwU86AsWr6XFxOQngW4rbStz03
-	 APru1ob0TlBUI9pYYQblVyjRKbsNai3fd+U7TaaIMXF5NsZW/nG1dbsMl7DTv218a2pc6
-	 gBi56rMbHfO+ovAA5dBB91og7AhGecRJm0j1N2yblvAB5GoA+vMSaaaFS3efveSy0qlsp
-	 96EUG/8j1R3XaYE93v7uJaSnIDSW/WNrcSzaxE9rPQ6ADpA3Tcch2YkJgWsgQ1ZKjK8ua
-	 UYomtnTCcL7LwoPaCNMq9jY9RGaXKlvVAjgAXjdHo9ST7pJ8IuUBfvU9ssHNfU2EY1Q==
+	t=1794090924;
+	b=CZE3JHVawLV0JSfiF8bwV1Itmzgp65wkVO0b5rzh9RAgFCuUmThOWm1LUAfy2ufe/fol
+	 PaP7k29xwj4HFmfuBJBvrR4UptcocGTqlmZqEdofTZWu/w0xFM1spdashu0FI8YWnR7re
+	 7tldTAMzhFNjZ/TaQYDO+7cRDt227wj+mqhOz+/TKmUJzQhA3ytaT4+An+mzzbhVEW6Sb
+	 rgKWw3jWWm5ullJ/091eoYm+B5VfewoBiV5JzcOTuS3mj4DODJyzAL6qqu2AdHHl75kLF
+	 4mxu1x/8tJs0zkp43qOsGhpr48nPBj8b8mlEgcaz2ogLu+AF2k1lYAHZnDA7raV6N1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794090922;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794090924;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=o2rGLLt3CeViUAgN1JgqqDxsam38sOcDS9txTZL0qxc=;
-	b=Xb4xy76ZL7udcR249m6B4P/zwo5K5R9yatpNy/0nXfcKpLp0r6lkM0Ad9gF4AFeONJXx
-	 v5fWx165zOE8Ohupmebw6U3kX619dSFan6om8m9GruISAkNfZZTyt2q949GtxB8TXU2n/
-	 q5w1BSKxmt/9dznuKri3nkUa/tHnDPACOsQAGGIkImJc1LN7JuSzeugNPjKYlSsy8rDjC
-	 4YJFgDTpczIFEoGgHbdRxAGrnx/FmmPItuMKrbHa5Y6A6zrN5x6auooSAb0fESjB0wZX7
-	 EsGtPDnzc/g9JNVQGDwP/XjZ5YAndMQtsgVKWTIxOKaAyWiVQrrpkdRZ/HJiDtpnceQ==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=fCU+AnXPgEumMAh4YcQYLrSJUtCBY0mNsJe/Mw2nKg4=;
+	b=NeNKwf2eodm8WAM0ukbrPGKfEVO/ZoY8m9+qGIpTYLRbBTQ7fIHssu6me0NIivwFysLV
+	 4fMYDa94Nd6iv/qAFNU+bGGEHS9zqUAnYMm1wrz+DbZDO4OkNK+ygIU74NW7+EzCyQ+NR
+	 29K3W7fxYEcvLuVtt1aRMjjQpi3iASsHY7RynDKEmtD1nhcKOJYklodjpt8YTo5K5aBLW
+	 prHCqfIAowSYbCA5dV9YdQ1W9zQ1pEhZtTNAiCHB+BOVtD/CgJfdJcKwpLvktF4hCDDyw
+	 ci69zAGS4KdQTdPgP5dG9BbnD9uj/doHlooQfkY1ELz4x9+3SMbi336yaD5rvBc8rvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="cDHdEd/l";
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="e3MJ/f0L";
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63D3606A326
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 22:35:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A63D3606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C374606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 22:35:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C374606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cDHdEd/l
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e3MJ/f0L
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794090920; x=1825626920;
-  h=date:from:to:cc:subject:message-id;
-  bh=Jgc4ujNhYu1rkyQ1d35pnQYt6KK+FXd8xdSs1rH7Bhk=;
-  b=cDHdEd/lfZR0S/sQgtnd8Ub86wSKT6MELjzcHaS8SE28pjRfrQbWF6xz
-   9qj2EdginH4YlN2Z4Iqz+WcfcPsDK68KW7vDhUCncONTeh6U42k0XHilg
-   RmDXGg9ENfgPqdkLAEwNecVkZCSbpckbOs5ni9bAh/jRN/hW2CnL2EKir
-   //yb92hP+l5KWe9Oa/etDczPVsIvOBg78mkpILskWVy6hZn3hpfZFXEOh
-   92II/tU2MB/egz5EGtfpCLizMO6Ouq8IK6pJtW81QI/eOLYOXa4ORgAde
-   ELt2thKULB8RB0hnuZTx7C/YzW8bHjN0FFj4eJi2tISt3zjI5qtQNWwcI
-   A==;
-X-CSE-ConnectionGUID: /p1/i0UoRGq+t2P+m+wFNA==
-X-CSE-MsgGUID: gPgNF7etTfGT7x8kmbALOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2883585"
+  t=1794090923; x=1825626923;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XKPddSDGRmFTP15jF36GhiF3Ao2V9Pc70VbIn1MNsig=;
+  b=e3MJ/f0LA5EWkswm9yUNDq8odrbeZqadOcfnd8Bufu6kL/kHEty9Vax8
+   wITBl2ezE1fnzOB3dwWjR8ZHEuGp7nMzLzocVBEFBbk0PMYFchlrQOoey
+   NjawVPFM4aoUctna3TVnwNy30QHsHuH/wpfH8VQHkNr7BkgFXVx/BJHJ/
+   BA8hodK+xTOHoxAM92OIgOjEaYfckqSkiiWA062WuveJoPDbE/tk0qloD
+   WzXAmH38X3EqEHdAYEQMnR8iDoO4TQHFM6nrIvnurTHnAYS9MlydJELim
+   Gqxg2us1p4BwqjkVhaBqUZc2onIld0eHLvOPEsTA4Bee8UGUdDlts9ZJO
+   Q==;
+X-CSE-ConnectionGUID: 63sIIvJBQAa5JH65jlgW9A==
+X-CSE-MsgGUID: UjS2FGjBQciGXFl64pcoRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2753749"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2883585"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 14:35:19 -0800
-X-CSE-ConnectionGUID: BYjePlF9T0WBoCt/y7IG8w==
-X-CSE-MsgGUID: LXIqob6KQ9Smf/kR/7UEeg==
+   d="scan'208";a="2753749"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 14:35:22 -0800
+X-CSE-ConnectionGUID: DnPjUlIZRoGuk9BZS7accg==
+X-CSE-MsgGUID: D/3AICiJQqaSxkwaUn/bUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7606083"
+   d="scan'208";a="7425429"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Nov 2026 14:35:18 -0800
+  by orviesa007.jf.intel.com with ESMTP; 07 Nov 2026 14:35:19 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPp0F-00000000rfV-2x1W;
+	id 1xPp0F-00000000rfT-2sqR;
 	Sat, 07 Nov 2026 22:35:15 +0000
-Date: Sun, 08 Nov 2026 06:35:02 +0800
+Date: Sun, 8 Nov 2026 06:35:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.4-rc 37/154]
- drivers/net/pcs/pcs-mtk-lynxi.c:548:13: warning: variable 'flags' set but not
- used
-Message-ID: <202611080644.BNoAGULv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Li Pengfei <ljdlns1987@gmail.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	mark.rutland@arm.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	zhangbo56@xiaomi.com, lipengfei28@xiaomi.com, lkp@intel.com
+Subject: Re: [PATCH v8 2/5] tracing: Use the stackmap from the ftrace stack
+ recording path
+Message-ID: <202611080654.sqFxIlwl-lkp@intel.com>
+References: <20261107055139.3138633-3-lipengfei28@xiaomi.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,100 +86,85 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107055139.3138633-3-lipengfei28@xiaomi.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
-head:   674a64f97be4d25967f31216ffe7eaefdabf827f
-commit: 51267acf54375bc00d77b438e7557a1fc0f0017e [37/154] net: pcs: mtk-lynxi: add phya tx rx clock path
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261108/202611080644.BNoAGULv-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080644.BNoAGULv-lkp@intel.com/reproduce)
+Hi Li,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4539944e515183668109bdf4d0c3d7d228383d88]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Pengfei/tracing-Add-lock-free-stackmap-for-stack-trace-deduplication/20261107-135135
+base:   4539944e515183668109bdf4d0c3d7d228383d88
+patch link:    https://lore.kernel.org/r/20261107055139.3138633-3-lipengfei28%40xiaomi.com
+patch subject: [PATCH v8 2/5] tracing: Use the stackmap from the ftrace stack recording path
+config: powerpc-randconfig-1001-20261108 (https://download.01.org/0day-ci/archive/20261108/202611080654.sqFxIlwl-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080654.sqFxIlwl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611080644.BNoAGULv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611080654.sqFxIlwl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/pcs/pcs-mtk-lynxi.c: In function 'mtk_pcs_lynxi_probe':
->> drivers/net/pcs/pcs-mtk-lynxi.c:548:13: warning: variable 'flags' set but not used [-Wunused-but-set-variable=]
-     548 |         u32 flags = 0;
-         |             ^~~~~
---
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: In function 'mtk_sgmii_init':
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:5524:13: warning: variable 'flags' set but not used [-Wunused-but-set-variable=]
-    5524 |         u32 flags = 0;
-         |             ^~~~~
+   In file included from include/linux/rbtree.h:24,
+                    from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:8,
+                    from include/linux/ring_buffer.h:5,
+                    from kernel/trace/trace.c:15:
+   kernel/trace/trace.c: In function 'record_stackmap':
+>> include/linux/rcupdate.h:502:9: error: dereferencing pointer to incomplete type 'struct ftrace_stackmap'
+     typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+            ^
+   include/linux/rcupdate.h:684:2: note: in expansion of macro '__rcu_dereference_check'
+     __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+     ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:758:34: note: in expansion of macro 'rcu_dereference_sched_check'
+    #define rcu_dereference_sched(p) rcu_dereference_sched_check(p, 0)
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace.c:2154:9: note: in expansion of macro 'rcu_dereference_sched'
+     smap = rcu_dereference_sched(tr->stackmap);
+            ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/flags +548 drivers/net/pcs/pcs-mtk-lynxi.c
+vim +502 include/linux/rcupdate.h
 
-   538	
-   539	#if IS_ENABLED(CONFIG_FWNODE_PCS)
-   540	static int mtk_pcs_lynxi_probe(struct platform_device *pdev)
-   541	{
-   542		struct device *dev = &pdev->dev;
-   543		struct fwnode_pcs_provider *pcs_provider;
-   544		struct device_node *np = dev->of_node;
-   545		struct mtk_pcs_lynxi *mpcs;
-   546		struct phylink_pcs *pcs;
-   547		struct regmap *regmap;
- > 548		u32 flags = 0;
-   549	
-   550		mpcs = devm_kzalloc(dev, sizeof(*mpcs), GFP_KERNEL);
-   551		if (!mpcs)
-   552			return -ENOMEM;
-   553	
-   554		mpcs->dev = dev;
-   555		regmap = syscon_node_to_regmap(np->parent);
-   556		if (IS_ERR(regmap))
-   557			return PTR_ERR(regmap);
-   558	
-   559		if (of_property_read_bool(np->parent, "mediatek,phya_trx_ck"))
-   560			flags |= MTK_SGMII_FLAG_PHYA_TRX_CK;
-   561	
-   562		if (of_parse_phandle(np->parent, "resets", 0)) {
-   563			mpcs->rstc = of_reset_control_get_shared(np->parent, NULL);
-   564			if (IS_ERR(mpcs->rstc))
-   565				return PTR_ERR(mpcs->rstc);
-   566		} else
-   567			mpcs->rstc = NULL;
-   568	
-   569		reset_control_deassert(mpcs->rstc);
-   570		mpcs->sgmii_sel = devm_clk_get_enabled(dev, "sgmii_sel");
-   571		if (IS_ERR(mpcs->sgmii_sel))
-   572			return PTR_ERR(mpcs->sgmii_sel);
-   573	
-   574		mpcs->sgmii_rx = devm_clk_get(dev, "sgmii_rx");
-   575		if (IS_ERR(mpcs->sgmii_rx))
-   576			return PTR_ERR(mpcs->sgmii_rx);
-   577	
-   578		mpcs->sgmii_tx = devm_clk_get(dev, "sgmii_tx");
-   579		if (IS_ERR(mpcs->sgmii_tx))
-   580			return PTR_ERR(mpcs->sgmii_tx);
-   581	
-   582		mpcs->xfi_tphy = devm_of_phy_optional_get(mpcs->dev, np, NULL);
-   583		if (IS_ERR(mpcs->xfi_tphy))
-   584			return PTR_ERR(mpcs->xfi_tphy);
-   585	
-   586		pcs = mtk_pcs_lynxi_init(dev, of_fwnode_handle(np), regmap,
-   587					 (uintptr_t)of_device_get_match_data(dev),
-   588					 mpcs);
-   589		if (IS_ERR(pcs))
-   590			return PTR_ERR(pcs);
-   591	
-   592		regmap_set_bits(mpcs->regmap, SGMSYS_QPHY_PWR_STATE_CTRL, SGMII_PHYA_PWD);
-   593	
-   594		platform_set_drvdata(pdev, mpcs);
-   595	
-   596		pcs_provider = devm_fwnode_pcs_add_provider(dev, dev_fwnode(dev),
-   597							    fwnode_pcs_simple_xlate, &mpcs->pcs);
-   598		if (IS_ERR(pcs_provider))
-   599			return PTR_ERR(pcs_provider);
-   600	
-   601		return 0;
-   602	}
-   603	
+76c8eaafe4f061f Paul E. McKenney        2021-04-21  492  
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  493  #define __rcu_access_pointer(p, local, space) \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  494  ({ \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  495  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+423a86a610cad12 Joel Fernandes (Google  2018-12-12  496) 	rcu_check_sparse(p, space); \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  497  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  498  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  499  #define __rcu_dereference_check(p, local, c, space) \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  500  ({ \
+ac59853c06993a4 Pranith Kumar           2014-11-13  501  	/* Dependency order vs. p above. */ \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15 @502  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+f78f5b90c4ffa55 Paul E. McKenney        2015-06-18  503  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
+423a86a610cad12 Joel Fernandes (Google  2018-12-12  504) 	rcu_check_sparse(p, space); \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  505  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  506  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  507  #define __rcu_dereference_protected(p, local, c, space) \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  508  ({ \
+f78f5b90c4ffa55 Paul E. McKenney        2015-06-18  509  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+423a86a610cad12 Joel Fernandes (Google  2018-12-12  510) 	rcu_check_sparse(p, space); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  511  	((typeof(*p) __force __kernel *)(p)); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  512  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  513  #define __rcu_dereference_raw(p, local) \
+995f1405610bd84 Paul E. McKenney        2016-07-01  514  ({ \
+995f1405610bd84 Paul E. McKenney        2016-07-01  515  	/* Dependency order vs. p above. */ \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  516  	typeof(p) local = READ_ONCE(p); \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  517  	((typeof(*p) __force __kernel *)(local)); \
+995f1405610bd84 Paul E. McKenney        2016-07-01  518  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  519  #define rcu_dereference_raw(p) __rcu_dereference_raw(p, __UNIQUE_ID(rcu))
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  520  
 
 --
 0-DAY CI Kernel Test Service
