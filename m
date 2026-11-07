@@ -1,77 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794081015;
-	b=p9KDpm35HwJdqquugXcL0my4aiFAJjOJ61sfFJgO4aalDSA8FTY2FU4QtyJ1E3gHrUPB
-	 adxchfifiiBdxULanK5HHP6KwB3QFH3H4pORFam3BNc+Nk7BYtVY60AWTFpsvxOtO8rFk
-	 8xGZhDKS7zL6CfgoL0A3iLVFPJBi+RXCpuzUwG19qjvZCm7NPAXDadqh8V4sdLglXKrDd
-	 pZFwFCcdza8VD9pN7lz1WWaiM/PzmVjqEyECmqAhCrZwwQ9CueTgNxzJCLTxX+t9Aldr6
-	 koJ0LwsJk4OSYezBe55P3hOBTQcj43EzSz3mM5LUq7OBnsmoCeRlg2/yKPhnRrTupIA==
+	t=1794083481;
+	b=YMzHno8ff2YrDgVCgiwwomHcGiXGOvAAWzOxeDG/q7nSlr4LbaM23HOKbuZbrz7P/bnc
+	 TaXv0Grn9WP7C7QFq+JNxd9+hFZcrzjNfsX0wM//ec862pSlw1RAW7ZOvHA9oQIZjprdA
+	 l0LbXQZGV7kKdIB7WtAdkhqapDJZ9l+uVTrDV70N93bx1jmFwoR28jXU1SBDEU+9JxgVY
+	 OYUEbnC9y6aG6yEzqpEdk+bB+MmUjjGqUcd9cf77Th+5EcrctzWZhJyuIQYKdcBtj9utG
+	 U7j+SeuUlny4CMakme76rRfFcxFERZ7MCLOQ+9I5wnMbK2k6k9ScXJC7tiY+qlAJolg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794081015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794083481;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=9k+/x7XgJIYjqOsfWQWLtgfj8hijQPhxO+T4ZRxScYM=;
-	b=I+h8QMUqfkoGQphEB0TFTLBH2QomLJwFnzeOSPjv+9SoCH+pDDmVM4jw4Wus7PbrmFwt
-	 Mc8AJp1c275vsqPyPaLw8GrmJi2qoLPrPWkyOVeqZgssVBLbuP9urh3mduboThQDiP8z5
-	 swssi2XrzJ9priIWW67S4QgkzZYIwKscN5ZGK88JXVmd5cFIkkA1KM9w49WfTF+FQECIq
-	 /XrE1j9q7HybCwFbNXVsWdB21KGOjWppQMf4/unjg+7+zCvbW+DxDgdOzJtxkYLex9ETX
-	 N0b+t7TN4yMJ19kK2ZVRir0y3X9DkQ2ap+H8i65bfXd+jbZ6TkMU0zRiWboMqXvNWkw==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=v6bUcassHdLO/GXw3zM5VIE7wDA3ZUXzoBbv/LJY2ZY=;
+	b=2gyDzc6ZUn4C+R0cbdLs4LcgzGQ6sux07+0OiR4+ls++qT+uQOpWbyVtbyCXqD6Sml8s
+	 SIsZ3e3XMcNMw6alt6293yrHTQuRKRoPX5x2PLtTq9V0dqiVn2W4b6jr/2gsl7nwRtleN
+	 qzNsAvITbgzKqIGsb+PiyuLfrSxFXW+KiEodao6zLTzFeLWpjm3QnYNuY3acw7RuH25rk
+	 cui4HWpn6W4Sc5Kz7GKW9Aa6LaGD8DrvCybDbYI4D0Gd7LjM1qyrKRVdWv7dTVdaHRjfw
+	 Ub+9sw2PcG3Kjco+YcML3Fwyx99W6hON7CvmF89JiwYCRdUSOHmtX83akXqjqO8rHKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bFLzFaa8;
-	arc=none smtp.remote-ip=198.175.65.16
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QVEjE+63;
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C83E606A333
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 19:50:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C83E606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7D0606A326
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 20:31:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B7D0606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bFLzFaa8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QVEjE+63
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794081013; x=1825617013;
-  h=date:from:to:cc:subject:message-id;
-  bh=q9nHrEihixxRe5AhmBw6C9gvzLHd9g2ZqGF51Xiyu+0=;
-  b=bFLzFaa8+X5miY6Ijw17Xx6KpmlPYPOWmGA8nnQbguvsn93b0DYcitnr
-   n978vfvcjpoH3ollt2TXqBTx6u7YGD4LWTaYqwgMpZ8c2Jp7xPCj46FcV
-   jJHyGicl3xjn+Rh5Bn3aNWmIC/6eoluFzr5TuswfJlTVnUjSDcF9UfE99
-   lEPkgUChsFfzw9k9lRJX1DB8y0lJO5IuSAm/DzaZ7Xd9Rww0ncR0UbojN
-   nA2RKivuINGJi+Gw664vNLwdg+VDbFXG7EFcWqdY3GoAWdqlHSCSXSIRJ
-   0lakAdk2eucd73AgAkQ4DvAZUsza3tDUav3272IYGduyg30SgOmEYEJ0K
+  t=1794083479; x=1825619479;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OahVgGzTA/BbKK0ba5EuajCKzsBQJEMIYUqKxYPZyv0=;
+  b=QVEjE+63IMJ57BjjxDteVkY/7eyoIsrHLdA4f01nWQtVTVAcbZ1JEIF4
+   5cYgoELqtq2kwfyD7IpvvSvPZYygzr0V4J6ttq510/V4mfgD7Md3I636A
+   uwxXbmX/xE73K2I8+/VFR1OD8F5XgGAUVOghjF05aOFNpeSIn/cnGvcZ/
+   g6zxX83Hb6eNwO6irCVnr4KmCfyzN6hq6VDp/eU2WIlylhIQ46M2QT95t
+   swS28f0z2d+ERVyAzIl9xs4I+rfxcGKrHR9bRIZBxL8RmqEYAM6Dm31K0
+   sfxi9hCyWWg+YMFy+Ni/iJuySzTqDJPQKAHem45wsJN/fmtdTwM0EBXYG
    A==;
-X-CSE-ConnectionGUID: HVJeOSOPTKqP6MzhPuznXw==
-X-CSE-MsgGUID: dXGsfEWfQL+B1k1KWdMF5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2856778"
+X-CSE-ConnectionGUID: qwwWg5ynSTqKZ+eRsGYO1g==
+X-CSE-MsgGUID: 1N2PQBfJTZ21+iPpPhqTVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2751095"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2856778"
+   d="scan'208";a="2751095"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 11:50:10 -0800
-X-CSE-ConnectionGUID: DpE5w5/9QFKWv4DK5OkVGA==
-X-CSE-MsgGUID: qeBGYWZmSJm3bl/ik9ufXA==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 12:31:18 -0800
+X-CSE-ConnectionGUID: o7l63MtfQnShQRRzlIJVWg==
+X-CSE-MsgGUID: Lctc+yuNQwKIuKfWJsyFdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7869349"
+   d="scan'208";a="7876352"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Nov 2026 11:50:08 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 07 Nov 2026 12:31:12 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPmQQ-00000000rUT-0tbH;
-	Sat, 07 Nov 2026 19:50:06 +0000
-Date: Sun, 08 Nov 2026 03:49:32 +0800
+	id 1xPn47-00000000rX5-3vnH;
+	Sat, 07 Nov 2026 20:31:07 +0000
+Date: Sun, 8 Nov 2026 04:30:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_trace_support_v6 77/80]
- include/linux/perf_event.h:25:11: fatal error: asm/perf_event.h: No such file
- or directory
-Message-ID: <202611080334.MAwbhO6i-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Xaver Hugl <xaver.hugl@gmail.com>, Vidith Madhu <vmadhu@nvidia.com>,
+	"Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Fangzhi Zuo <Jerry.Zuo@amd.com>,
+	Daniel Stone <daniels@collabora.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andyshrk@163.com>,
+	Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 20/27] drm/connector: hdmi: Add QMS state validation
+ and computation
+Message-ID: <202611080413.OlzAJilt-lkp@intel.com>
+References: <20261105-vrr-limiter-uapi-v2-20-55f4215be2c2@collabora.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,65 +106,34 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105-vrr-limiter-uapi-v2-20-55f4215be2c2@collabora.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
-head:   f98be19c4d4f657fa0ed2a17aa8ef5ece29fe8dc
-commit: f30a55d9ffb2d57252016d70c8fcd8672764c2b7 [77/80] gtrace: Add perf driver for tracing using perf tool
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20261108/202611080334.MAwbhO6i-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080334.MAwbhO6i-lkp@intel.com/reproduce)
+Hi Nicolas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0e8b43b5a5ef2dd52c454158e7fd8a927d796eb4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Frattaroli/drm-Add-VRR-state/20261105-165152
+base:   0e8b43b5a5ef2dd52c454158e7fd8a927d796eb4
+patch link:    https://lore.kernel.org/r/20261105-vrr-limiter-uapi-v2-20-55f4215be2c2%40collabora.com
+patch subject: [PATCH v2 20/27] drm/connector: hdmi: Add QMS state validation and computation
+config: loongarch-randconfig-1001-20261108 (https://download.01.org/0day-ci/archive/20261108/202611080413.OlzAJilt-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080413.OlzAJilt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611080334.MAwbhO6i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611080413.OlzAJilt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:96,
-                    from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:64,
-                    from kernel/sched/rq-offsets.c:5:
->> include/linux/perf_event.h:25:11: fatal error: asm/perf_event.h: No such file or directory
-      25 | # include <asm/perf_event.h>
-         |           ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
-   make[3]: *** [scripts/Makefile.build:185: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1417: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PERF_EVENTS
-   Depends on [n]: HAVE_PERF_EVENTS [=n]
-   Selected by [y]:
-   - GTRACE [=y] && OF [=y]
-
-
-vim +25 include/linux/perf_event.h
-
-0793a61d4df8da include/linux/perf_counter.h Thomas Gleixner 2008-12-04  19  
-9f66a3810fe0d4 include/linux/perf_counter.h Ingo Molnar     2008-12-10  20  /*
-f3dfd2656deb81 include/linux/perf_counter.h Paul Mackerras  2009-02-26  21   * Kernel-internal data types and definitions:
-9f66a3810fe0d4 include/linux/perf_counter.h Ingo Molnar     2008-12-10  22   */
-9f66a3810fe0d4 include/linux/perf_counter.h Ingo Molnar     2008-12-10  23  
-cdd6c482c9ff9c include/linux/perf_event.h   Ingo Molnar     2009-09-21  24  #ifdef CONFIG_PERF_EVENTS
-cdd6c482c9ff9c include/linux/perf_event.h   Ingo Molnar     2009-09-21 @25  # include <asm/perf_event.h>
-7be7923633a142 include/linux/perf_event.h   Peter Zijlstra  2010-06-09  26  # include <asm/local64.h>
-f3dfd2656deb81 include/linux/perf_counter.h Paul Mackerras  2009-02-26  27  #endif
-f3dfd2656deb81 include/linux/perf_counter.h Paul Mackerras  2009-02-26  28  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: cdd6c482c9ff9c55475ee7392ec8f672eddb7be6 perf: Do the big rename: Performance Counters -> Performance Events
-
-:::::: TO: Ingo Molnar <mingo@elte.hu>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+>> Warning: drivers/gpu/drm/display/drm_hdmi_state_helper.c:1031 function parameter 'conn_state' not described in 'hdmi_validate_qms'
+>> Warning: drivers/gpu/drm/display/drm_hdmi_state_helper.c:1031 function parameter 'conn_state' not described in 'hdmi_validate_qms'
 
 --
 0-DAY CI Kernel Test Service
