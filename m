@@ -1,76 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794051333;
-	b=4M8X/YKNh/JoPVIpJVvQRwCYSU+04RusFCkvYmb/gpWTOnlFwOcCNXC6E0v7n7R+33hy
-	 F/HWuIYOLOrwtigsFHs5B/Gi8iw+zNe88BqhebU2G3wcVqqkItKWp/13JY8Ncdyv4DfgT
-	 jXLtzGYPG6EnGKNnF9oJMhF4+IOegPPxKheH11RhBkM0mr2kjlVpiFZ221F5+BljL2++2
-	 KW+h0QPpa5f3FXQN4uslE0I/WMgNeeAfVzjxveMNz+tLxq1aW6R1jPOdTmsRic4UD2gxJ
-	 CUGduH3XjbRyKrg4GKW0YZMKPbWiYH7E5+xHGs12v1ojIf3kvZ2NzOOieobsj/8/H9Q==
+	t=1794051995;
+	b=S7+3jLFdoOi1IHaSz9XrXhjLXf70vb4ewxub4SmL0QdMQ7mxgYblDD0nE+hyFUFYGjre
+	 xFkXd5EvthyoSO53dDLObcJiKMUkofw4L5mwI9QdiISxluyuvAIyaNKbcdwrDh3iLr2KH
+	 NkWE7/3irEiZQ6Ck+ts2VdV038tnLFEFUn1QpNIdpomecCZkL4ELw76JNsuoZL/5jHFFX
+	 +SxEbx9CoFwXN5kCcqYC72mXPSsD7QLzNVehTLc3rS7fgKmA/ZEAdu9AoxFeFUx6YBbAC
+	 Tu2neTcs+SQakITsfD7XUcKnE0b4U5E0FeHJ8Nq4By3SRFs+2FI0j50MuPJcXTa4slw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794051333;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794051995;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=PgKSDG+WEG+/1hqPL+lHWBm2hoHY50/wMHzkE3miLBc=;
-	b=Ss6ylWsKzvAdSN0zTZpRJM2fD6wC/nC3i+zZC1SvgO3Dj+SH4zB7Q2h89yh+gEff10RF
-	 VTrj0MRLUw0zR+K90+ug89zlm5v1dvW+1fRCZ/1EoK3Z/8MOQdHgP4MxPOukhY6xAzV6p
-	 XquH5HkBYERy7hPHlYN2fQ6fFkaY3R2NZQdb4oH1fAwamBaWHcJ84i0PCU2UEj796VbNh
-	 93tuBSaNnaoLCiTkng576NUUbwgELA9HSvSYPNmkZ2dMDiVE/zAcNbv3ovfUNRXGAozUo
-	 rt4+t9OlzHJuKBwcGNTMRuT6ZtuLawTAmCfxLRe4a/IbF6g/kXbao+RGWEc+JYXpwxg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=zM1/P2ctOrBwtv+YMeVyZT6n0J5gTkq5mrSckM4inFc=;
+	b=tb75su5LSrStHlLb+XTdx6zzb64XM9+rG7i1YF1A3p6UtpqPHNBfurj+btTg+2rZnuqF
+	 CpOjvW5z1SwN+E0wJ4APaMMt/AqL1RykNjkItVC/SEcJ3JfMG59jwdAF6AvPpjHFSCX+I
+	 iYItgQcqMMA7+p0IHSPwyIqAW9tmXyZpXDbymCpUTN01bpRwzEK2vlgChDPsKmbSkiwbv
+	 5MX5+i8RMXGZkhzEhYTLPUzM9V1vXKf2hIQpiL7aF1BMymriiiokgVUwpwC7bwMklQPiQ
+	 BmweMnObZsZBU7QwEfhPFVtVQkBcPNB2SGKys2AqhZ6s1wAObNZjbH2DTJF/33QtGqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hvHjtAXZ;
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PqhC+CSN;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA8F606A326
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 11:35:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFA8F606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B934606A334;
+	Sat,  7 Nov 2026 11:46:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B934606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hvHjtAXZ
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PqhC+CSN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794051331; x=1825587331;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0rYoSE6T1+/5PECxC1woLObCEZBLYsc5KN5Rtk3+Plc=;
-  b=hvHjtAXZG3iGUa/0ARmZKrZmkCblNwdhnTIjLIeBCsyWOEms9vvnMHuK
-   hsDggBZQD/86FOHgQWgZSWRorUEUHF6VRDV+2hywUKiJ9QO7Z6fg7fxmt
-   hZ9MIoTWcQTWVUHElIgAgrm1E4NiJ6TiecZl2OWeHKOxtiv1etkmNqstG
-   bxaFY9g31HeRjQxip56qWrpN9IKC+cZpWo3kWQ4WMcnISWfNfOlwDT9ql
-   Lt5MSQyxdlcbeCGUu2ZKioObZ9/LTJCk4K7CYkY53TlHGAuDkPYJnhePL
-   kgXHnab6OkjFz7DpRgxKycDNaC7e/9doCGfcbdOLUt3xw+YCQStmJg+AX
-   Q==;
-X-CSE-ConnectionGUID: yLftd1XsSoexJ2Jy7sGRVw==
-X-CSE-MsgGUID: JlVciGJ3Q2GGp8o5YWFqfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2767679"
+  t=1794051995; x=1825587995;
+  h=date:from:to:cc:subject:message-id;
+  bh=j+jS94c1YiejLYng66Mf7QxbZbymVWA3jh9x9DO2sgk=;
+  b=PqhC+CSNnlvCICVHbfXGto4DPluyc20M+MAlgGGdrZwnC7wJA4Gqos67
+   +BLCmSwTHDqy61NIr4DnFwJqXvITL6oBmXA41R2gJQgyocBiHi/0NGMk+
+   VXYCd/DyQaeC2zi0xpHa/x9kV70BT5XSNR4+gd8qiC4xZ9INim0ncim6s
+   tnKV8zs2F4ThDbDo3Dj1HHs0pcs+Oh5dP02bvEqDLidjkMawgTQjqhDwx
+   PR3Au1C/FW3p6zqrD+chWrUc8T6NFpmx134h563dMCf+DURXA70aIc2UE
+   fN9IfUB4RI+LVPGinB2sC9P25qP2CpoUolQtIcPEdySfzX/YykFNdrLwP
+   g==;
+X-CSE-ConnectionGUID: oo9P+dCmRka3ppKAOWJflw==
+X-CSE-MsgGUID: jgII4XLFSl2QoB2OL48abw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2894823"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2767679"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 03:35:31 -0800
-X-CSE-ConnectionGUID: 3jaVOPPIT1e4lv2yOJz4jA==
-X-CSE-MsgGUID: LXZNFWEFTceMCNNJQjQWxw==
+   d="scan'208";a="2894823"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 03:46:34 -0800
+X-CSE-ConnectionGUID: 0TN2zplJSye1UOzb/1TK/g==
+X-CSE-MsgGUID: pG/rMiwlQEq2guKOfReSIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7311919"
+   d="scan'208";a="7374162"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 07 Nov 2026 03:35:31 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2026 03:46:30 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPehj-00000000qlj-41ig;
-	Sat, 07 Nov 2026 11:35:27 +0000
-Date: Sat, 07 Nov 2026 19:35:26 +0800
+	id 1xPesO-00000000qmJ-1NOq;
+	Sat, 07 Nov 2026 11:46:28 +0000
+Date: Sat, 07 Nov 2026 19:45:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/configfs-const 31/34]
- samples/configfs/configfs_sample.c:343:9: warning: initialization discards
- 'const' qualifier from pointer target type
-Message-ID: <202611071933.6wRnAmF6-lkp@intel.com>
+To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ mm-commits@vger.kernel.org, Phillip Lougher <phillip@squashfs.org.uk>
+Subject: [akpm-mm:mm-nonmm-unstable 111/117]
+ fs/squashfs/file_direct.c:121:1: warning: unused label 'out'
+Message-ID: <202611071907.Jdbx14bw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,45 +83,137 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/configfs-const
-head:   0e68ea5975531faee86ef390018b5d08916b17db
-commit: bd1e491ccf3cb7d868d2f06405e7419328a27a7d [31/34] macro
-config: x86_64-buildonly-randconfig-1001-20261107 (https://download.01.org/0day-ci/archive/20261107/202611071933.6wRnAmF6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071933.6wRnAmF6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   09658a93dbdf3596b7c0edec1292ae09e58da333
+commit: 024c3b9753561e3ad2d6cdd47b405126709633e0 [111/117] squashfs: fix leaked page locks when page actor allocation fails
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20261107/202611071907.Jdbx14bw-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071907.Jdbx14bw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611071933.6wRnAmF6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611071907.Jdbx14bw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> samples/configfs/configfs_sample.c:343:9: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     343 |         &symlink_child_attr_nlinks,
-         |         ^
-   samples/configfs/configfs_sample.c:411:9: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     411 |         &symlink_children_attr_description,
-         |         ^
+>> fs/squashfs/file_direct.c:121:1: warning: unused label 'out' [-Wunused-label]
+     121 | out:
+         | ^~~~
+   1 warning generated.
 
 
-vim +/const +343 samples/configfs/configfs_sample.c
+vim +/out +121 fs/squashfs/file_direct.c
 
-0a51cf54232ecd Breno Leitao 2026-08-26  341  
-0a51cf54232ecd Breno Leitao 2026-08-26  342  static struct configfs_attribute *symlink_child_attrs[] = {
-0a51cf54232ecd Breno Leitao 2026-08-26 @343  	&symlink_child_attr_nlinks,
-0a51cf54232ecd Breno Leitao 2026-08-26  344  	NULL,
-0a51cf54232ecd Breno Leitao 2026-08-26  345  };
-0a51cf54232ecd Breno Leitao 2026-08-26  346  
+0d455c12c64286 Phillip Lougher         2013-11-13   20  
+0d455c12c64286 Phillip Lougher         2013-11-13   21  /* Read separately compressed datablock directly into page cache */
+2a7aea59cf4dd4 Matthew Wilcox (Oracle  2024-12-20   22) int squashfs_readpage_block(struct folio *folio, u64 block, int bsize,
+a3f94cb99a854f Phillip Lougher         2018-08-02   23  		int expected)
+0d455c12c64286 Phillip Lougher         2013-11-13   24  {
+2a7aea59cf4dd4 Matthew Wilcox (Oracle  2024-12-20   25) 	struct page *target_page = &folio->page;
+2a7aea59cf4dd4 Matthew Wilcox (Oracle  2024-12-20   26) 	struct inode *inode = folio->mapping->host;
+0d455c12c64286 Phillip Lougher         2013-11-13   27  	struct squashfs_sb_info *msblk = inode->i_sb->s_fs_info;
+12427de9439d68 Phillip Lougher         2023-11-13   28  	loff_t file_end = (i_size_read(inode) - 1) >> PAGE_SHIFT;
+09cbfeaf1a5a67 Kiryl Shutsemau         2016-04-01   29  	int mask = (1 << (msblk->block_log - PAGE_SHIFT)) - 1;
+7f73fcde4d9307 Phillip Lougher         2024-08-19   30  	loff_t start_index = folio->index & ~mask;
+12427de9439d68 Phillip Lougher         2023-11-13   31  	loff_t end_index = start_index | mask;
+d31638ff6c5437 Phillip Lougher         2024-10-21   32  	loff_t index;
+d31638ff6c5437 Phillip Lougher         2024-10-21   33  	int i, pages, bytes, res = -ENOMEM;
+7f73fcde4d9307 Phillip Lougher         2024-08-19   34  	struct page **page, *last_page;
+0d455c12c64286 Phillip Lougher         2013-11-13   35  	struct squashfs_page_actor *actor;
+0d455c12c64286 Phillip Lougher         2013-11-13   36  	void *pageaddr;
+0d455c12c64286 Phillip Lougher         2013-11-13   37  
+0d455c12c64286 Phillip Lougher         2013-11-13   38  	if (end_index > file_end)
+0d455c12c64286 Phillip Lougher         2013-11-13   39  		end_index = file_end;
+0d455c12c64286 Phillip Lougher         2013-11-13   40  
+0d455c12c64286 Phillip Lougher         2013-11-13   41  	pages = end_index - start_index + 1;
+0d455c12c64286 Phillip Lougher         2013-11-13   42  
+14694888db2c1f Fabian Frederick        2014-08-06   43  	page = kmalloc_array(pages, sizeof(void *), GFP_KERNEL);
+0d455c12c64286 Phillip Lougher         2013-11-13   44  	if (page == NULL)
+0d455c12c64286 Phillip Lougher         2013-11-13   45  		return res;
+0d455c12c64286 Phillip Lougher         2013-11-13   46  
+0d455c12c64286 Phillip Lougher         2013-11-13   47  	/* Try to grab all the pages covered by the Squashfs block */
+d31638ff6c5437 Phillip Lougher         2024-10-21   48  	for (i = 0, index = start_index; index <= end_index; index++) {
+d31638ff6c5437 Phillip Lougher         2024-10-21   49  		page[i] = (index == folio->index) ? target_page :
+2a7aea59cf4dd4 Matthew Wilcox (Oracle  2024-12-20   50) 			grab_cache_page_nowait(folio->mapping, index);
+0d455c12c64286 Phillip Lougher         2013-11-13   51  
+1bb1a07afad973 Phillip Lougher         2022-06-11   52  		if (page[i] == NULL)
+0d455c12c64286 Phillip Lougher         2013-11-13   53  			continue;
+0d455c12c64286 Phillip Lougher         2013-11-13   54  
+0d455c12c64286 Phillip Lougher         2013-11-13   55  		if (PageUptodate(page[i])) {
+0d455c12c64286 Phillip Lougher         2013-11-13   56  			unlock_page(page[i]);
+09cbfeaf1a5a67 Kiryl Shutsemau         2016-04-01   57  			put_page(page[i]);
+1bb1a07afad973 Phillip Lougher         2022-06-11   58  			continue;
+0d455c12c64286 Phillip Lougher         2013-11-13   59  		}
+0d455c12c64286 Phillip Lougher         2013-11-13   60  
+1bb1a07afad973 Phillip Lougher         2022-06-11   61  		i++;
+0d455c12c64286 Phillip Lougher         2013-11-13   62  	}
+0d455c12c64286 Phillip Lougher         2013-11-13   63  
+1bb1a07afad973 Phillip Lougher         2022-06-11   64  	pages = i;
+1bb1a07afad973 Phillip Lougher         2022-06-11   65  
+f268eedddf3595 Phillip Lougher         2022-06-11   66  	/*
+f268eedddf3595 Phillip Lougher         2022-06-11   67  	 * Create a "page actor" which will kmap and kunmap the
+f268eedddf3595 Phillip Lougher         2022-06-11   68  	 * page cache pages appropriately within the decompressor
+f268eedddf3595 Phillip Lougher         2022-06-11   69  	 */
+2258e22f05aff5 Phillip Lougher         2024-08-19   70  	actor = squashfs_page_actor_init_special(msblk, page, pages, expected,
+2258e22f05aff5 Phillip Lougher         2024-08-19   71  						start_index << PAGE_SHIFT);
+f268eedddf3595 Phillip Lougher         2022-06-11   72  	if (actor == NULL)
+024c3b9753561e Nguyen Ngoc Thang       2026-09-27   73  		goto mark_errored;
+f268eedddf3595 Phillip Lougher         2022-06-11   74  
+0d455c12c64286 Phillip Lougher         2013-11-13   75  	/* Decompress directly into the page cache buffers */
+0d455c12c64286 Phillip Lougher         2013-11-13   76  	res = squashfs_read_data(inode->i_sb, block, bsize, NULL, actor);
+f268eedddf3595 Phillip Lougher         2022-06-11   77  
+7f73fcde4d9307 Phillip Lougher         2024-08-19   78  	last_page = squashfs_page_actor_free(actor);
+f268eedddf3595 Phillip Lougher         2022-06-11   79  
+0d455c12c64286 Phillip Lougher         2013-11-13   80  	if (res < 0)
+0d455c12c64286 Phillip Lougher         2013-11-13   81  		goto mark_errored;
+0d455c12c64286 Phillip Lougher         2013-11-13   82  
+84e0e03b308816 Phillip Lougher         2024-08-23   83  	if (res != expected || IS_ERR(last_page)) {
+a3f94cb99a854f Phillip Lougher         2018-08-02   84  		res = -EIO;
+a3f94cb99a854f Phillip Lougher         2018-08-02   85  		goto mark_errored;
+a3f94cb99a854f Phillip Lougher         2018-08-02   86  	}
+a3f94cb99a854f Phillip Lougher         2018-08-02   87  
+1bb1a07afad973 Phillip Lougher         2022-06-11   88  	/* Last page (if present) may have trailing bytes not filled */
+09cbfeaf1a5a67 Kiryl Shutsemau         2016-04-01   89  	bytes = res % PAGE_SIZE;
+7f73fcde4d9307 Phillip Lougher         2024-08-19   90  	if (end_index == file_end && last_page && bytes) {
+7f73fcde4d9307 Phillip Lougher         2024-08-19   91  		pageaddr = kmap_local_page(last_page);
+09cbfeaf1a5a67 Kiryl Shutsemau         2016-04-01   92  		memset(pageaddr + bytes, 0, PAGE_SIZE - bytes);
+1bb1a07afad973 Phillip Lougher         2022-06-11   93  		kunmap_local(pageaddr);
+0d455c12c64286 Phillip Lougher         2013-11-13   94  	}
+0d455c12c64286 Phillip Lougher         2013-11-13   95  
+0d455c12c64286 Phillip Lougher         2013-11-13   96  	/* Mark pages as uptodate, unlock and release */
+0d455c12c64286 Phillip Lougher         2013-11-13   97  	for (i = 0; i < pages; i++) {
+0d455c12c64286 Phillip Lougher         2013-11-13   98  		flush_dcache_page(page[i]);
+0d455c12c64286 Phillip Lougher         2013-11-13   99  		SetPageUptodate(page[i]);
+0d455c12c64286 Phillip Lougher         2013-11-13  100  		unlock_page(page[i]);
+0d455c12c64286 Phillip Lougher         2013-11-13  101  		if (page[i] != target_page)
+09cbfeaf1a5a67 Kiryl Shutsemau         2016-04-01  102  			put_page(page[i]);
+0d455c12c64286 Phillip Lougher         2013-11-13  103  	}
+0d455c12c64286 Phillip Lougher         2013-11-13  104  
+0d455c12c64286 Phillip Lougher         2013-11-13  105  	kfree(page);
+0d455c12c64286 Phillip Lougher         2013-11-13  106  
+0d455c12c64286 Phillip Lougher         2013-11-13  107  	return 0;
+0d455c12c64286 Phillip Lougher         2013-11-13  108  
+0d455c12c64286 Phillip Lougher         2013-11-13  109  mark_errored:
+bbf45b7e685555 Matthew Wilcox (Oracle  2024-04-20  110) 	/* Decompression failed.  Target_page is
+0d455c12c64286 Phillip Lougher         2013-11-13  111  	 * dealt with by the caller
+0d455c12c64286 Phillip Lougher         2013-11-13  112  	 */
+0d455c12c64286 Phillip Lougher         2013-11-13  113  	for (i = 0; i < pages; i++) {
+6d565409503f4e Phillip Lougher         2013-11-24  114  		if (page[i] == NULL || page[i] == target_page)
+0d455c12c64286 Phillip Lougher         2013-11-13  115  			continue;
+0d455c12c64286 Phillip Lougher         2013-11-13  116  		flush_dcache_page(page[i]);
+0d455c12c64286 Phillip Lougher         2013-11-13  117  		unlock_page(page[i]);
+09cbfeaf1a5a67 Kiryl Shutsemau         2016-04-01  118  		put_page(page[i]);
+0d455c12c64286 Phillip Lougher         2013-11-13  119  	}
+0d455c12c64286 Phillip Lougher         2013-11-13  120  
+0d455c12c64286 Phillip Lougher         2013-11-13 @121  out:
 
-:::::: The code at line 343 was first introduced by commit
-:::::: 0a51cf54232ecdfb8172ad7943e04e67e401538a samples/configfs: add a subsystem that accepts symlinks
+:::::: The code at line 121 was first introduced by commit
+:::::: 0d455c12c6428647547bacccaaced3cae0f35570 Squashfs: Directly decompress into the page cache for file data
 
-:::::: TO: Breno Leitao <leitao@debian.org>
-:::::: CC: Breno Leitao <leitao@debian.org>
+:::::: TO: Phillip Lougher <phillip@squashfs.org.uk>
+:::::: CC: Phillip Lougher <phillip@squashfs.org.uk>
 
 --
 0-DAY CI Kernel Test Service
