@@ -1,86 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794025952;
-	b=pPDXgCwxLel+dAyqIoTUWlJAgRE9wA3p/SirJS0kj9rHSDqRGAsd7prghEIUSIP27cGV
-	 Liesj1tVJ3W0JKvstz1l1nz2f24Zu0kUBPsTsQ4fBjVUaQuDP1JhmUcSFHgBE7mSM5O3T
-	 2Q3TfinvVjSu55+Oo22m6wg780I+bNHydu+Y5+eRK5QLZ7E1986b5zfZArcc9irKt0r/K
-	 aeZrKFL6zRSM6DsyJUz91sJBAuR4YHAhTlBoShlMQWQhcfkQo2qQeAu3/WgkuC4J1yF+i
-	 y9rBwg+F7EQqGwTkHh4ZJBYLFXu93R5RzTfMvx8aBbt06bwlfIIZen6KdxZfcaJ/fdg==
+	t=1794026330;
+	b=2Ze8vQTZ+D5FTlP4p2UV+HSzLzeVpn2qU3Omy7LNQWpHl2R6nKwiSMTNxoNhCEHY9dNF
+	 6aSDPEairrUaOCkwJnlfEtXV7N5iXqRpojabKkmELLjp4sg9PzUuDwLusCzM3ti0Qw8mg
+	 yPhC8KM59QaJ4ODlVJHtZH1FxLkDjb43EYS1S8zqyP+986yDKAGy36mmHZbKLgDwIoKvb
+	 8/N7PIzdNtm7sb2WoE/IEkOXP7O4JvZcd8reaN+MqABecv0bJmkrAueeBb2G/I8Lc2N/K
+	 e43kwUrxaX7kxK9alxX7pNLn48JR6Godm7Gy+QkKjMMLFuSRr1fJFTqS695QqqAlxKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794025952;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794026330;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=gRSKV6mkRNXym/QuyJGkrsvxD/gyct8zVn3i0QXwaGo=;
-	b=2agWd8kaWP6POo+WMZLoBTLDnV3XSFoYHBOcKh8RUSNugT2RXLzQEM1titAsouMf6d9e
-	 +F6EjE4WIwZIz1P7Vo/h9CEZuZ4FLXQF+/+O3dtpLlDt6mMTOAk0ohWk3YBnEeqWJ1QwO
-	 LWwMbTK4sFZvA2Ysf8XYdT4YHs6CGnUH5Lio94axLgNh44L3xXuOhd5whEJ7RvlTEm7/y
-	 nmjMWTVf+aD6MqnKGFGMyJKuOs2k/QI+XvrnUK53a7w9o2TG9NDdzxl2KH0RvqVYjRWaV
-	 Yaia0bCjrU9FpUJKNjLWtEuKfmjyQcvl9mv7Au1RiIQai3k7gMSnfkvDxHd1WDIzCuA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=DFX3OTPsYRuMyyjrbY8vYdk8CZ7EXSmrdu0gx3RqTrY=;
+	b=LmAFAGfF4cCW+g5rD0O+3bszg8V1QEXtk/7i2tJTdvhZs3B59Grm42KBGaBWw6ueArTp
+	 EaBUzZYmTf2d9Xkw0LlfLjRDvA687+2J3V19kKhDPDPvs76dbi7Qe1Ajt1HFvYWCJu89S
+	 LgdFB2AgrFyUkUa9FIXQSokWGeBdWAxBg2Pv0o2erFH5ikNQuUiuV2DQt6WoQ0tqWbMSL
+	 1n1acJCG3QzN8dNIWxSt3YCrurXQ1NGAsp2RqHCUwu/gsRQ0oBHS75eCAavr0CrgxSplk
+	 Ai+Mj1RZ2NLMGC5vTSZ1agxYGxNu0fj+IOifbp6pgrYUOHb7Vh+L5aj/KriuMb28z0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SQNaR3XX;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DkAxTaf5;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6128F606A326
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 04:32:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6128F606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D24E606A326
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 04:38:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D24E606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SQNaR3XX
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DkAxTaf5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794025950; x=1825561950;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1T53sIhZg9iKg5N1Tv8ETyEt+UFopFJW9SxlBsWHluY=;
-  b=SQNaR3XXF6O6hZ3nvlCsZzKrx29gzVe4Q6GeXwGd3o8w966E/KCvYKcu
-   jVpRreUhssLG35YgbT2kcyS6Z5aPioxbhV818pK0qKjOSMSTUDQOACwL8
-   l0zLfblPNRcI+6MoTGIiZ6DQG0DxZJ+exIZ+uptHsdW5GzCaOTTh9C0uU
-   53Gd515ETdLA5yL91GrTDZuSfVaOQh5y19OxNoTRwpBucLGHrbhCl41mD
-   hwQiELDQUXuaTW+UtPFaldSSsJ2NIMnBZrnrhEBPUB7G3Z029sXO54/JO
-   6Mc0zjveAq0WGsQX4XNc+KrcvkStQvEPxqEiE1DCBvzRZX+2CnlbCNGZe
+  t=1794026329; x=1825562329;
+  h=date:from:to:cc:subject:message-id;
+  bh=e5lf75mWCi7BtT0x42XaPZHQJI0+7CnruX2CbRhxn6k=;
+  b=DkAxTaf5/BD3fHLjyEBY/NSFZddMjQbq3B4IqYpqxbuXyxYrxi7e5SdR
+   x+BPVJNXAnzM5KdJERrGeS4w7w1r4OLjl1mP74cV6oW/D5FFA34QxTN1X
+   wvKiH/eYDBsw5aZO3wInRbLbKSxF7qJsQY7Obv5JxHRM/bG5stv+i5VDc
+   uWftm/Vxh0f4O8xu3Hl3INxcwwt/BD6rtjD8rq4g18yQWbutHVEoXQRDI
+   yl5ETO9mRFbTlGFo8dbozGn/eQqSp9eQnN41VpLuEWnbP7pqNJSuNY4dp
+   xYv02EKXAtEoveBLUNzwN9CV1AQaS53KinT2WnazT4W6RwB56cL4cHmi/
    A==;
-X-CSE-ConnectionGUID: aVUlEhNSRmC8wvdVP/IBTQ==
-X-CSE-MsgGUID: +wO/mhrwSLmp3IVd2wau/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2834052"
+X-CSE-ConnectionGUID: hL9YsBztTQa71mKeyUSRbQ==
+X-CSE-MsgGUID: 8kzLmBD5QOG9uCBournqFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2853866"
 X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2834052"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 20:32:29 -0800
-X-CSE-ConnectionGUID: lN9+vu0aS7mdh3U882ioMg==
-X-CSE-MsgGUID: uafI4vHpReeRikmetBX/xw==
+   d="scan'208";a="2853866"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 20:38:49 -0800
+X-CSE-ConnectionGUID: Pw2ww39aRbSuSnorvIxtEg==
+X-CSE-MsgGUID: FsQjxhxLQI6q1eJe74oBxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="9289081"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 06 Nov 2026 20:32:26 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7319099"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 06 Nov 2026 20:38:48 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPY6J-00000000qKV-0DH4;
-	Sat, 07 Nov 2026 04:32:23 +0000
-Date: Sat, 7 Nov 2026 12:31:24 +0800
+	id 1xPYCT-00000000AY3-04FQ;
+	Sat, 07 Nov 2026 04:38:45 +0000
+Date: Sat, 07 Nov 2026 05:38:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Sunil-kumar.Dommati@amd.com,
-	vijendar.mukunda@amd.com, Mario.Limonciello@amd.com,
-	venkataprasad.potturu@amd.com,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for
- ACP7.F
-Message-ID: <202611071205.FSWUFvJs-lkp@intel.com>
-References: <20261106191627.1590542-2-syed.sabakareem@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2026-09 1/1]
+ drivers/vfio/platform/vfio_platform_common.c:778:31: sparse: sparse:
+ incorrect type in return expression (different address spaces)
+Message-ID: <202611070532.90M8GCcp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -89,53 +80,61 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261106191627.1590542-2-syed.sabakareem@amd.com>
 
-Hi Syed,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[cannot apply to linus/master v7.4-rc1 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261107-004611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261106191627.1590542-2-syed.sabakareem%40amd.com
-patch subject: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for ACP7.F
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20261107/202611071205.FSWUFvJs-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071205.FSWUFvJs-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-09
+head:   c0f000c5d6675d24f3ac8c0aa429fe8fad9e5d7a
+commit: 47f17fcb3a7828602729e173d05778d160df4026 [1/1] ANDROID: vfio/platform: Expose reset handler registration
+config: arm64-randconfig-r2310-20261107 (https://download.01.org/0day-ci/archive/20261107/202611070532.90M8GCcp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611070532.90M8GCcp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611071205.FSWUFvJs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611070532.90M8GCcp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vfio/platform/vfio_platform_common.c:778:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/vfio/platform/vfio_platform_common.c:778:31: sparse:     expected void [noderef] __iomem *
+   drivers/vfio/platform/vfio_platform_common.c:778:31: sparse:     got void *
+   drivers/vfio/platform/vfio_platform_common.c:782:31: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/vfio/platform/vfio_platform_common.c:782:31: sparse:     expected void [noderef] __iomem *
+   drivers/vfio/platform/vfio_platform_common.c:782:31: sparse:     got void *
+   drivers/vfio/platform/vfio_platform_common.c:787:39: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
+   drivers/vfio/platform/vfio_platform_common.c:787:39: sparse:     expected void [noderef] __iomem *
+   drivers/vfio/platform/vfio_platform_common.c:787:39: sparse:     got void *
 
->> sound/soc/amd/acp/amd-acp7x-acpi-match.c:394:43: warning: 'acp7x_cs35l63x4_l0u0246' defined but not used [-Wunused-const-variable=]
-     394 | static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+vim +778 drivers/vfio/platform/vfio_platform_common.c
 
-
-vim +/acp7x_cs35l63x4_l0u0246 +394 sound/soc/amd/acp/amd-acp7x-acpi-match.c
-
-   393	
- > 394	static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
-   395		{
-   396			.mask = BIT(0),
-   397			.num_adr = ARRAY_SIZE(cs35l63x4_l0u0246_adr),
-   398			.adr_d = cs35l63x4_l0u0246_adr,
-   399		},
-   400		{}
-   401	};
-   402	
+   769	
+   770	void __iomem *vfio_platform_region_ioaddr(struct device *dev,
+   771						  unsigned int index,
+   772						  resource_size_t *size)
+   773	{
+   774		struct vfio_platform_device *vdev = dev_get_drvdata(dev);
+   775		struct vfio_platform_region *reg;
+   776	
+   777		if (!vdev || index >= vdev->num_regions)
+ > 778			return ERR_PTR(-EINVAL);
+   779	
+   780		reg = &vdev->regions[index];
+   781		if (!(reg->type & VFIO_PLATFORM_REGION_TYPE_MMIO))
+   782			return ERR_PTR(-EINVAL);
+   783	
+   784		if (!reg->ioaddr) {
+   785			reg->ioaddr = ioremap(reg->addr, reg->size);
+   786			if (!reg->ioaddr)
+   787				return ERR_PTR(-ENOMEM);
+   788		}
+   789	
+   790		if (size)
+   791			*size = reg->size;
+   792	
+   793		return reg->ioaddr;
+   794	}
+   795	EXPORT_SYMBOL_GPL(vfio_platform_region_ioaddr);
+   796	
 
 --
 0-DAY CI Kernel Test Service
