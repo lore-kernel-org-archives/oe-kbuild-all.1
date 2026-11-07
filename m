@@ -1,103 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794083481;
-	b=YMzHno8ff2YrDgVCgiwwomHcGiXGOvAAWzOxeDG/q7nSlr4LbaM23HOKbuZbrz7P/bnc
-	 TaXv0Grn9WP7C7QFq+JNxd9+hFZcrzjNfsX0wM//ec862pSlw1RAW7ZOvHA9oQIZjprdA
-	 l0LbXQZGV7kKdIB7WtAdkhqapDJZ9l+uVTrDV70N93bx1jmFwoR28jXU1SBDEU+9JxgVY
-	 OYUEbnC9y6aG6yEzqpEdk+bB+MmUjjGqUcd9cf77Th+5EcrctzWZhJyuIQYKdcBtj9utG
-	 U7j+SeuUlny4CMakme76rRfFcxFERZ7MCLOQ+9I5wnMbK2k6k9ScXJC7tiY+qlAJolg==
+	t=1794083941;
+	b=O2IfFO2w6HcQ11x1rJPTqgPlbG3Hv9iiOrWPUNi8CbzfSXitq1V3X8Ixn8hBRip6FnTr
+	 mLwi4Y4bpisZ66zQUiZgxCv3/2QotuGw8bdqk2yte3vXbXaltrJUcPgiHlzUTrXjguVR1
+	 nccfoIkLPlaWj6seZKcVMzy9RsTvmCxXhMWxN7BiZMHrVWRZZx/fCAPqtNeHQW7h/zq3n
+	 JNwIkxSguQSD2jpNeFSK9ST10Fhq3rLqX+xFuwIzEr6SfN8hCfNHZ52uHy/e9RzPQiRfK
+	 WqcG6h4gePsMZTG4ECC8ydD+gzE4ltkilqdRUFDkm5pPF/2zvKCctnhotqB6646o1Sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794083481;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794083941;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=v6bUcassHdLO/GXw3zM5VIE7wDA3ZUXzoBbv/LJY2ZY=;
-	b=2gyDzc6ZUn4C+R0cbdLs4LcgzGQ6sux07+0OiR4+ls++qT+uQOpWbyVtbyCXqD6Sml8s
-	 SIsZ3e3XMcNMw6alt6293yrHTQuRKRoPX5x2PLtTq9V0dqiVn2W4b6jr/2gsl7nwRtleN
-	 qzNsAvITbgzKqIGsb+PiyuLfrSxFXW+KiEodao6zLTzFeLWpjm3QnYNuY3acw7RuH25rk
-	 cui4HWpn6W4Sc5Kz7GKW9Aa6LaGD8DrvCybDbYI4D0Gd7LjM1qyrKRVdWv7dTVdaHRjfw
-	 Ub+9sw2PcG3Kjco+YcML3Fwyx99W6hON7CvmF89JiwYCRdUSOHmtX83akXqjqO8rHKA==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=KDzq1/3UJPMvmMOXglrbil2kk7gGAUGdMJKtDWtdqBE=;
+	b=tn83XhUgYVjMqP3vPzn4teC+TQQuQWMGujdMmC1uOBpNtOvbZ6huxaXiS6tv6UMpxeUc
+	 3MC0o4Mcnl641+t5RvA1/T/GRcBzRngV02M0VH2PbhlN48uRV8ZkdxuYsYP/7lnTwm6Fm
+	 ZRsFnPXFkkHr5OXkezAJB8rWEl8ijgBplqcpHowIwDctSbhDn+rxrr8Sxrq6U5DhT29+N
+	 0gamC/T0R7bazYIqr5bEZe6q5ZmIKjWVyvfFoa0EjwzrdLmXyA6+CB7zU/WxAIL9susU2
+	 lKvW6+f0H2ZLrdAMWMcq80ytlDuXnUHwdNS/VBercCMe3xYfnQuZX9qRcbKNkrPGehw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QVEjE+63;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eEbQAEqM;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7D0606A326
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 20:31:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B7D0606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2108606A32C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 20:38:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2108606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QVEjE+63
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eEbQAEqM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794083479; x=1825619479;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OahVgGzTA/BbKK0ba5EuajCKzsBQJEMIYUqKxYPZyv0=;
-  b=QVEjE+63IMJ57BjjxDteVkY/7eyoIsrHLdA4f01nWQtVTVAcbZ1JEIF4
-   5cYgoELqtq2kwfyD7IpvvSvPZYygzr0V4J6ttq510/V4mfgD7Md3I636A
-   uwxXbmX/xE73K2I8+/VFR1OD8F5XgGAUVOghjF05aOFNpeSIn/cnGvcZ/
-   g6zxX83Hb6eNwO6irCVnr4KmCfyzN6hq6VDp/eU2WIlylhIQ46M2QT95t
-   swS28f0z2d+ERVyAzIl9xs4I+rfxcGKrHR9bRIZBxL8RmqEYAM6Dm31K0
-   sfxi9hCyWWg+YMFy+Ni/iJuySzTqDJPQKAHem45wsJN/fmtdTwM0EBXYG
-   A==;
-X-CSE-ConnectionGUID: qwwWg5ynSTqKZ+eRsGYO1g==
-X-CSE-MsgGUID: 1N2PQBfJTZ21+iPpPhqTVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2751095"
+  t=1794083939; x=1825619939;
+  h=date:from:to:cc:subject:message-id;
+  bh=mp5/fsallevulxasrGtFWu7D6OTF0C/IQp93XVDhiJA=;
+  b=eEbQAEqMqhLg3RbdItx+4Yselw2G23BVnDlsTFa0HP/y7cz4hSEMcdRG
+   6+acPT36UvZo6GlPdSK2yIPhd1IYaBKZk9ti0cJUtnFkBZ5oXALHVgN7O
+   uc8Mq0RfeKTp0gxbOtqfOnvMNuO0fzzjrmbtmn0r06DR8xp6jmxQZSTzy
+   x3T/4EhN9Fol6qva4OY/sul9kjf5BFTY2JbM/imy3WcPIINsTBqHZAVC1
+   YEMh3PyYJkUPa4D3+4P98C+6034UoCS5SK5J25vNFjAnuhCA3tChksdNY
+   Dg1aQcQ9Hou7maa2deuCN6G4Jy5djS1tHbCRaE8Z7YKX3608wo1ICrLiI
+   w==;
+X-CSE-ConnectionGUID: 4cKDqU20Txu0wJnFaFjrYw==
+X-CSE-MsgGUID: xTV3LBHhQg6IqL52mWcT8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2765225"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2751095"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 12:31:18 -0800
-X-CSE-ConnectionGUID: o7l63MtfQnShQRRzlIJVWg==
-X-CSE-MsgGUID: Lctc+yuNQwKIuKfWJsyFdg==
+   d="scan'208";a="2765225"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 12:38:58 -0800
+X-CSE-ConnectionGUID: P+aiuqMZR7ipR+Dqm/n7+g==
+X-CSE-MsgGUID: maMvULGwRQGIS0eDgN33PA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7876352"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Nov 2026 12:31:12 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="9319866"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa011.fm.intel.com with ESMTP; 07 Nov 2026 12:38:57 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPn47-00000000rX5-3vnH;
-	Sat, 07 Nov 2026 20:31:07 +0000
-Date: Sun, 8 Nov 2026 04:30:15 +0800
+	id 1xPnBe-00000000Aml-1jET;
+	Sat, 07 Nov 2026 20:38:54 +0000
+Date: Sat, 07 Nov 2026 21:38:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Xaver Hugl <xaver.hugl@gmail.com>, Vidith Madhu <vmadhu@nvidia.com>,
-	"Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Fangzhi Zuo <Jerry.Zuo@amd.com>,
-	Daniel Stone <daniels@collabora.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andyshrk@163.com>,
-	Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 20/27] drm/connector: hdmi: Add QMS state validation
- and computation
-Message-ID: <202611080413.OlzAJilt-lkp@intel.com>
-References: <20261105-vrr-limiter-uapi-v2-20-55f4215be2c2@collabora.com>
+To: Sunil V L <sunilvl@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_trace_acpi_support_v1 83/85] Warning:
+ drivers/acpi/property.c:1993 function parameter 'ports_name' not described in
+ 'acpi_graph_get_remote_directional_port'
+Message-ID: <202611072118.FTpcAmPG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -106,34 +80,24 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105-vrr-limiter-uapi-v2-20-55f4215be2c2@collabora.com>
 
-Hi Nicolas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0e8b43b5a5ef2dd52c454158e7fd8a927d796eb4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nicolas-Frattaroli/drm-Add-VRR-state/20261105-165152
-base:   0e8b43b5a5ef2dd52c454158e7fd8a927d796eb4
-patch link:    https://lore.kernel.org/r/20261105-vrr-limiter-uapi-v2-20-55f4215be2c2%40collabora.com
-patch subject: [PATCH v2 20/27] drm/connector: hdmi: Add QMS state validation and computation
-config: loongarch-randconfig-1001-20261108 (https://download.01.org/0day-ci/archive/20261108/202611080413.OlzAJilt-lkp@intel.com/config)
+tree:   https://github.com/avpatel/linux.git riscv_trace_acpi_support_v1
+head:   5f0fc23f88cf06b249de0a44544248099edb14ca
+commit: 6dbf82a69e8d1c65061fbb3a6f9c963b480638a8 [83/85] ACPI: property: Add device graph support
+config: loongarch-randconfig-2200-20261107 (https://download.01.org/0day-ci/archive/20261107/202611072118.FTpcAmPG-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080413.OlzAJilt-lkp@intel.com/reproduce)
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611072118.FTpcAmPG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611080413.OlzAJilt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611072118.FTpcAmPG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/display/drm_hdmi_state_helper.c:1031 function parameter 'conn_state' not described in 'hdmi_validate_qms'
->> Warning: drivers/gpu/drm/display/drm_hdmi_state_helper.c:1031 function parameter 'conn_state' not described in 'hdmi_validate_qms'
+>> Warning: drivers/acpi/property.c:1993 function parameter 'ports_name' not described in 'acpi_graph_get_remote_directional_port'
+>> Warning: drivers/acpi/property.c:1993 function parameter 'ports_name' not described in 'acpi_graph_get_remote_directional_port'
 
 --
 0-DAY CI Kernel Test Service
