@@ -1,86 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794046350;
-	b=kn3b0FIAdPHC2Y0S6ir6hX7joI2xsJA/bz7VAadjV1hvL6JC+jzvd6ICsnVZEK0qL9Jh
-	 B7GwLvWw/6gtTmbnVfIF1bhBb/vzaj5i5H79R+NNCnMHcXSaKAEOaf4Cjrepo8uoViodX
-	 DkzOpeORpAzRn/l6z3gjhXReQqRDxa5oOn+iRZgcuCt5yCcoPhC4nbPRUbZGmJlOLIUJ+
-	 ZSNToXINtu7C7T4eafamBKAmBXxOIs9ohJ+aDFsonisv7ZzBeKum2g6t7aCh5mT6sU4lp
-	 us4Qh0CsKJuN4n71kZmM5bNp4cBNqeCgSuZ/TeOvmYJ1/VlbcQm7rfX44BrXN86YRPQ==
+	t=1794051333;
+	b=4M8X/YKNh/JoPVIpJVvQRwCYSU+04RusFCkvYmb/gpWTOnlFwOcCNXC6E0v7n7R+33hy
+	 F/HWuIYOLOrwtigsFHs5B/Gi8iw+zNe88BqhebU2G3wcVqqkItKWp/13JY8Ncdyv4DfgT
+	 jXLtzGYPG6EnGKNnF9oJMhF4+IOegPPxKheH11RhBkM0mr2kjlVpiFZ221F5+BljL2++2
+	 KW+h0QPpa5f3FXQN4uslE0I/WMgNeeAfVzjxveMNz+tLxq1aW6R1jPOdTmsRic4UD2gxJ
+	 CUGduH3XjbRyKrg4GKW0YZMKPbWiYH7E5+xHGs12v1ojIf3kvZ2NzOOieobsj/8/H9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794046350;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794051333;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=Qw5FjnXXfzwpDGlNW2PfeJtFwV+3pUInVwDZZKmI6fY=;
-	b=owizB7g1d/pA/DS69AUMKPtjmTWmRuAXVRmC8X96L6M2m4U23jubzPkC0s0djpn2sPlr
-	 JsPuV+8/VWtXiunOn+cdcPR1nPUUF6g0+WlWD7KPjDJjq87NJ4znhsY9meOWMadCsay9M
-	 m3mYkV0/p2FEsHESy/GdcSLSNeny8cVjkwGJ+KF/e0PNBYi8hr6NpdVQDgNrli+UBK5HK
-	 YPlCv8Z8sBe02tf44dR5YRzFzmC3jIpjWuFiOaVkphUxStEunGRY/AiChXJ1ShSXz2Wqq
-	 CZIbR5Wv9OgkRVG/MiI5apprH1RXhYd2LxG4pRb5oZowRKlboHkrUzM3jwe0zT76MAw==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=PgKSDG+WEG+/1hqPL+lHWBm2hoHY50/wMHzkE3miLBc=;
+	b=Ss6ylWsKzvAdSN0zTZpRJM2fD6wC/nC3i+zZC1SvgO3Dj+SH4zB7Q2h89yh+gEff10RF
+	 VTrj0MRLUw0zR+K90+ug89zlm5v1dvW+1fRCZ/1EoK3Z/8MOQdHgP4MxPOukhY6xAzV6p
+	 XquH5HkBYERy7hPHlYN2fQ6fFkaY3R2NZQdb4oH1fAwamBaWHcJ84i0PCU2UEj796VbNh
+	 93tuBSaNnaoLCiTkng576NUUbwgELA9HSvSYPNmkZ2dMDiVE/zAcNbv3ovfUNRXGAozUo
+	 rt4+t9OlzHJuKBwcGNTMRuT6ZtuLawTAmCfxLRe4a/IbF6g/kXbao+RGWEc+JYXpwxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=acnxV8t9;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hvHjtAXZ;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C8C606A326;
-	Sat,  7 Nov 2026 10:12:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67C8C606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA8F606A326
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Nov 2026 11:35:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFA8F606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=acnxV8t9
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hvHjtAXZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794046348; x=1825582348;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+0bzElMLRQVQdeuAy6k4sQcLdl/lR0vD4aQMswNIzmg=;
-  b=acnxV8t9A6pr2EtyClRwFU+9heG+e8P7ChrBIO1uM1CHMXlrq6IIrxbQ
-   A6OgOzYyq3H5Q6BDyli8xJgQs8mwMqaBr51ZkKZ08b29LvGFLOdN42wcA
-   O/MFwuqmxY17NLbssro5dJtEb9YtAPjMLEd1MW3IzvvH1KilRbnjvu6kg
-   cSLfIE+yj1RGlLJV6XGqGsgwpPEhU36WLWlZUzbYjEFdJJCPuq+cl7iTU
-   RHCskcGthL7RHWm3tlXQ10gZYnm2EYbmWlsZ093PMgLZuKBHJs51lOegA
-   zBxkF0NbpfnLvX1r8wOjbfHwLpG29zwMGP1mNHHYveuvfjnRCeNcwcjTZ
-   g==;
-X-CSE-ConnectionGUID: fDSZ7vItSmOZGMLs/qdw+g==
-X-CSE-MsgGUID: LF/UhLnMTU+Llro4e9ybzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2892370"
+  t=1794051331; x=1825587331;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0rYoSE6T1+/5PECxC1woLObCEZBLYsc5KN5Rtk3+Plc=;
+  b=hvHjtAXZG3iGUa/0ARmZKrZmkCblNwdhnTIjLIeBCsyWOEms9vvnMHuK
+   hsDggBZQD/86FOHgQWgZSWRorUEUHF6VRDV+2hywUKiJ9QO7Z6fg7fxmt
+   hZ9MIoTWcQTWVUHElIgAgrm1E4NiJ6TiecZl2OWeHKOxtiv1etkmNqstG
+   bxaFY9g31HeRjQxip56qWrpN9IKC+cZpWo3kWQ4WMcnISWfNfOlwDT9ql
+   Lt5MSQyxdlcbeCGUu2ZKioObZ9/LTJCk4K7CYkY53TlHGAuDkPYJnhePL
+   kgXHnab6OkjFz7DpRgxKycDNaC7e/9doCGfcbdOLUt3xw+YCQStmJg+AX
+   Q==;
+X-CSE-ConnectionGUID: yLftd1XsSoexJ2Jy7sGRVw==
+X-CSE-MsgGUID: JlVciGJ3Q2GGp8o5YWFqfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2767679"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2892370"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 02:12:27 -0800
-X-CSE-ConnectionGUID: 2rjWWHb6QYmHb4j4e90Wlw==
-X-CSE-MsgGUID: 5t5VTdhRQMuVE/6lieGArw==
+   d="scan'208";a="2767679"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 03:35:31 -0800
+X-CSE-ConnectionGUID: 3jaVOPPIT1e4lv2yOJz4jA==
+X-CSE-MsgGUID: LXZNFWEFTceMCNNJQjQWxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7498928"
+   d="scan'208";a="7311919"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Nov 2026 02:12:24 -0800
+  by orviesa008.jf.intel.com with ESMTP; 07 Nov 2026 03:35:31 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPdPK-00000000qhD-02IR;
-	Sat, 07 Nov 2026 10:12:22 +0000
-Date: Sat, 7 Nov 2026 18:11:24 +0800
+	id 1xPehj-00000000qlj-41ig;
+	Sat, 07 Nov 2026 11:35:27 +0000
+Date: Sat, 07 Nov 2026 19:35:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Sunil-kumar.Dommati@amd.com, vijendar.mukunda@amd.com,
-	Mario.Limonciello@amd.com, venkataprasad.potturu@amd.com,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	"open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for
- ACP7.F
-Message-ID: <202611071819.8CnKog4h-lkp@intel.com>
-References: <20261106191627.1590542-2-syed.sabakareem@amd.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/configfs-const 31/34]
+ samples/configfs/configfs_sample.c:343:9: warning: initialization discards
+ 'const' qualifier from pointer target type
+Message-ID: <202611071933.6wRnAmF6-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -91,53 +82,43 @@ List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261106191627.1590542-2-syed.sabakareem@amd.com>
 
-Hi Syed,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-sound/for-next]
-[cannot apply to linus/master v7.4-rc1 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261107-004611
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261106191627.1590542-2-syed.sabakareem%40amd.com
-patch subject: [PATCH 1/2] ASoC: amd: acp: add Cirrus SoundWire configs for ACP7.F
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20261107/202611071819.8CnKog4h-lkp@intel.com/config)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071819.8CnKog4h-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/configfs-const
+head:   0e68ea5975531faee86ef390018b5d08916b17db
+commit: bd1e491ccf3cb7d868d2f06405e7419328a27a7d [31/34] macro
+config: x86_64-buildonly-randconfig-1001-20261107 (https://download.01.org/0day-ci/archive/20261107/202611071933.6wRnAmF6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261107/202611071933.6wRnAmF6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611071819.8CnKog4h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611071933.6wRnAmF6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> sound/soc/amd/acp/amd-acp7x-acpi-match.c:394:43: warning: unused variable 'acp7x_cs35l63x4_l0u0246' [-Wunused-const-variable]
-     394 | static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> samples/configfs/configfs_sample.c:343:9: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     343 |         &symlink_child_attr_nlinks,
+         |         ^
+   samples/configfs/configfs_sample.c:411:9: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     411 |         &symlink_children_attr_description,
+         |         ^
 
 
-vim +/acp7x_cs35l63x4_l0u0246 +394 sound/soc/amd/acp/amd-acp7x-acpi-match.c
+vim +/const +343 samples/configfs/configfs_sample.c
 
-   393	
- > 394	static const struct snd_soc_acpi_link_adr acp7x_cs35l63x4_l0u0246[] = {
-   395		{
-   396			.mask = BIT(0),
-   397			.num_adr = ARRAY_SIZE(cs35l63x4_l0u0246_adr),
-   398			.adr_d = cs35l63x4_l0u0246_adr,
-   399		},
-   400		{}
-   401	};
-   402	
+0a51cf54232ecd Breno Leitao 2026-08-26  341  
+0a51cf54232ecd Breno Leitao 2026-08-26  342  static struct configfs_attribute *symlink_child_attrs[] = {
+0a51cf54232ecd Breno Leitao 2026-08-26 @343  	&symlink_child_attr_nlinks,
+0a51cf54232ecd Breno Leitao 2026-08-26  344  	NULL,
+0a51cf54232ecd Breno Leitao 2026-08-26  345  };
+0a51cf54232ecd Breno Leitao 2026-08-26  346  
+
+:::::: The code at line 343 was first introduced by commit
+:::::: 0a51cf54232ecdfb8172ad7943e04e67e401538a samples/configfs: add a subsystem that accepts symlinks
+
+:::::: TO: Breno Leitao <leitao@debian.org>
+:::::: CC: Breno Leitao <leitao@debian.org>
 
 --
 0-DAY CI Kernel Test Service
