@@ -1,86 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794101204;
-	b=TewrQ2bDiUN/bgE9wagh1IiaypHLoTnBTthiGjpC/T1aDLt2+J0VAcxdDl97QvZrJGMR
-	 iUZ70+zuWiqMhpsnPM+netF7edK0T0E8dzo76kFump399tldLdM4lBxTPuwwyyn747KMi
-	 sBdIEkWRrymtne+Z4jnC/ZBZ9xVI3Q/buXlTeEMG7Ma47sBvLETP7C2fFxP0mDIE30M1H
-	 xAmNlg9OpxnOwwd8IM0QcLFnPYseEcz1+IqlpIHDIkMs1avywGVMzuig0bZR2PDy4GIqV
-	 zBiY33piH62JJl2ie2U9LLQBpS9n4Ycveqk33fbvn9fWCqzOtWPgLENrO86NI0O6CCA==
+	t=1794101557;
+	b=U/+aKLBJIDQ3y2NsqQV+7QiLbrABdTildMmTaA3y1MekftsD6sJA5xD8IoTwAAQWVf2T
+	 Tdq8kPZ+aYNEU697i9AfaYTrGUpnf9nvY0qLp3rycN0K1bX3PULb8Qb92ay55+hSlX7IQ
+	 HGl8MuJUtVdJh+Ioum4P31DKAPa2AIhE3YoE1dsuK+uGh5g3/pfw21KLxt6pjH/jjxJ+6
+	 fuSM/516O8JCX1GZGuXaDBiIwG853eouaAMA89x9NX+CVRyEhVn6JLBEgy167h3HrCyb+
+	 OtTnK/t4LeLmD5hr7C3sBD00BLtlXpG2brhspXSvtCTFl0bFWm5iTOAtFF63Ht6jrww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794101204;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794101557;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=oJVbgkrPUFIJoDLSvIi2S4Vsm66yyTPXZFHZ7G6645s=;
-	b=joBZ9fvLC1zQ4VQo3dZZpk0NJ8xv0glyBzQdfSlxJRFAhc6E4icfA6xVGB3A6Hwnr4w+
-	 N6RWd2aQfci3oUYPfzoXGZenbVoZ8O5fc7AJQFvEidZRZtNoMHYn8klGIdaQ6MYs5DyeA
-	 UdLw/t2QcoTBcUr1Fb2thm+eH/pf6m6cUbWk15lj7Z1SdlXS+88aezUy3KPh/RyKuX7Uc
-	 sGJFf2R7FSrh95o5jrsa8bq7Ii7AfhYvu0Lk6/y4oi6DYPfgLrLJ1ywUdG62uGd3JVVhy
-	 g/Sl0nMgfNWAmDroD1smsJeZ7+DonXzj+kzydKBWVfc/75xqfa30UcCRviRzEF93YDQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=d0odrOvnNqzJO4eD1wbkh5ioeEFCAoZM1unEBDSwPOw=;
+	b=QZExMPXfUAaWpRt3iL1FyifP07LDDvAlV65LuAanJyd4qVPAnzWQEpXLRkUHy0a0H7V5
+	 YO0Zh1+gg8bW4dhIgyrlMFmpAXfnraWpvkLEU3qvS4zc1I1ySOcCMZv5g3A++3k7gb948
+	 L0zGdaOsqV54uYFO38VtEpDlLNq9fF74yixSK1cN6+6qjiGbckTUPMqfyzMz2ZarTVde6
+	 NlJ2VZnIkmtg2ZtnkQeg6p9BvSbZ4fJAkjtfdpOYegQZQvsOeMqLOZ5yUpjN7yIRSUYRq
+	 he1WA4zcz60wpzVGW1sPe3joIJ4AAWunR3AS07wOeqaXb1jCH9QqiI3Xxmtbiqv6Qzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TXiaue5N;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CA3nMrHF;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B239606A326
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 01:26:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B239606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A88B606A33A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 01:32:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A88B606A33A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TXiaue5N
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CA3nMrHF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794101203; x=1825637203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=62G6CXvWJYpeXqAlqKEtBedlRvUTL3ZsGFn1+x5tC/Y=;
-  b=TXiaue5N7oZ28bmS21bfLv9cRq2QYlQM3w/yOv8mw6onZF440GIwQpUF
-   R3MEIPCviHoDiCqFagAuOZErAaYWNdYj9KTFx2DPF3wmQLlRz1W210ahP
-   wk0iF/WPZPBA+8fTAx2Ao7mCizHcFW68MBoQuMnLVpobyuxJCGV1giivq
-   HjZXFna99b3keKmUPyfjpAlGhF1n1m5P3Fwva32cINeUGjjsegxIMz7Ye
-   4XtUHhxt3+fz0GEnVTpl7bQr5gDIRwb0XOqeQCQrcJTAMTeCQkkQVXw4K
-   EWeLm1vuysCTt8fMItSLuDSMS/9LT2UguVLwf+PC2EjZRmuQ2y/td73EL
-   g==;
-X-CSE-ConnectionGUID: lrozTn7IRa+R8oJdU7Cgkw==
-X-CSE-MsgGUID: zu5nPRH1Qeq7N3tbQebmJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2772343"
+  t=1794101557; x=1825637557;
+  h=date:from:to:cc:subject:message-id;
+  bh=3XqEm4M889Q7cIdlFta3UH5gq9VJHXos9tQsNTqw/O4=;
+  b=CA3nMrHFUR6i2n8q8mJ9cZMrPhhm16DjqgazsO223SIQH5eXmMDe8JBd
+   0Zb5v8u/gZI9JkI2YgdUJev7jsvXeEtvBIFgWQes3+M5DPkjeO8AWpGmk
+   crg0rAGYAsqtxa/nHtmxuZQ+90G6EEKZM278xN3Xxs3dwEMHxAeuh73uv
+   ZiuwpwRrHgNH4HdKYGsaW8wbz3pj+/XMRLE13j7lvTnAvfDX++OHTFnfR
+   sNi2IO+TNVB7sX15/VZsKDknRAv4COB0KuKHaVYLzhFW36P658aBLpJ9q
+   rvcAbsNx0oRb5Gg3lN6+UVsAr8xWBmsHN3g29ukt96Z85EdwynwYYt8BQ
+   A==;
+X-CSE-ConnectionGUID: DFBiwZZXQsiZwOsqE4zR0Q==
+X-CSE-MsgGUID: oBTHfMekQ5ei6dyh7VQnVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2774509"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2772343"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 17:26:43 -0800
-X-CSE-ConnectionGUID: vybv3uPPTWKHzk1p+7wyMQ==
-X-CSE-MsgGUID: +YDOCgh+Q0u2MwqxxSp20g==
+   d="scan'208";a="2774509"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 17:32:36 -0800
+X-CSE-ConnectionGUID: 1pWvj7dLSxGEjF6tB0+S6Q==
+X-CSE-MsgGUID: PMVUaubwS4KVVSg3iTczbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7579703"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Nov 2026 17:26:38 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7471600"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2026 17:32:35 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPrg3-00000000rsx-1BhI;
-	Sun, 08 Nov 2026 01:26:35 +0000
-Date: Sun, 8 Nov 2026 09:25:58 +0800
+	id 1xPrlo-00000000AwJ-2RUo;
+	Sun, 08 Nov 2026 01:32:32 +0000
+Date: Sun, 08 Nov 2026 02:31:46 +0100
 From: kernel test robot <lkp@intel.com>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, vkoul@kernel.org,
-	alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, yung-chuan.liao@linux.intel.com,
-	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
-	venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
-	Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
-	lee@kernel.org, Vijendar.Mukunda@amd.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 3/4] ASoC: SOF: amd: guard SDW IRQ work scheduling with
- interrupt_enabled flag
-Message-ID: <202611080910.HG54RIuC-lkp@intel.com>
-References: <20261107175339.3547918-4-Vijendar.Mukunda@amd.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:7.4-rc 37/154]
+ drivers/net/ethernet/mediatek/mtk_eth_soc.c:5536 mtk_sgmii_init() warn:
+ inconsistent indenting
+Message-ID: <202611080214.dRIobVGk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -89,121 +80,63 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261107175339.3547918-4-Vijendar.Mukunda@amd.com>
 
-Hi Vijendar,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on vkoul-dmaengine/next linus/master v7.4-rc1 next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vijendar-Mukunda/ASoC-amd-ps-guard-adata-sdw-dereferences-with-NULL-check-in-IRQ-handler/20261107-232226
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20261107175339.3547918-4-Vijendar.Mukunda%40amd.com
-patch subject: [PATCH 3/4] ASoC: SOF: amd: guard SDW IRQ work scheduling with interrupt_enabled flag
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20261108/202611080910.HG54RIuC-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080910.HG54RIuC-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
+head:   674a64f97be4d25967f31216ffe7eaefdabf827f
+commit: 51267acf54375bc00d77b438e7557a1fc0f0017e [37/154] net: pcs: mtk-lynxi: add phya tx rx clock path
+config: arm-randconfig-2200-20261107 (https://download.01.org/0day-ci/archive/20261108/202611080214.dRIobVGk-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 0fa861dbbf46e5a75f621406fd91cb015d8754bf)
+smatch: v0.5.0-9187-g5189e3fb
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611080910.HG54RIuC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611080214.dRIobVGk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/ethernet/mediatek/mtk_eth_soc.c:5536 mtk_sgmii_init() warn: inconsistent indenting
 
-   sound/soc/sof/amd/acp.c: In function 'acp_irq_handler':
->> sound/soc/sof/amd/acp.c:589:55: error: 'struct amd_sdw_manager' has no member named 'interrupt_enabled'
-     589 |                         if (amd_manager && amd_manager->interrupt_enabled)
-         |                                                       ^~
-   sound/soc/sof/amd/acp.c:621:63: error: 'struct amd_sdw_manager' has no member named 'interrupt_enabled'
-     621 |                                 if (amd_manager && amd_manager->interrupt_enabled)
-         |                                                               ^~
+Old smatch warnings:
+drivers/net/ethernet/mediatek/mtk_eth_soc.c:5815 mtk_probe() error: buffer overflow 'eth->irq_pdma' 4 <= 4
 
+vim +5536 drivers/net/ethernet/mediatek/mtk_eth_soc.c
 
-vim +589 sound/soc/sof/amd/acp.c
-
-   566	
-   567	static irqreturn_t acp_irq_handler(int irq, void *dev_id)
-   568	{
-   569		struct amd_sdw_manager *amd_manager;
-   570		struct snd_sof_dev *sdev = dev_id;
-   571		const struct sof_amd_acp_desc *desc = get_chip_info(sdev->pdata);
-   572		struct acp_dev_data *adata = sdev->pdata->hw_pdata;
-   573		unsigned int base = desc->dsp_intr_base;
-   574		unsigned int val;
-   575		int irq_flag = 0, wake_irq_flag = 0;
-   576	
-   577		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET);
-   578		if (val & ACP_DSP_TO_HOST_IRQ) {
-   579			snd_sof_dsp_write(sdev, ACP_DSP_BAR, base + DSP_SW_INTR_STAT_OFFSET,
-   580					  ACP_DSP_TO_HOST_IRQ);
-   581			return IRQ_WAKE_THREAD;
-   582		}
-   583	
-   584		val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat);
-   585		if (val & ACP_SDW0_IRQ_MASK) {
-   586			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_SDW0_IRQ_MASK);
-   587			if (adata->sdw) {
-   588				amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
- > 589				if (amd_manager && amd_manager->interrupt_enabled)
-   590					schedule_work(&amd_manager->amd_sdw_irq_thread);
-   591			}
-   592			irq_flag = 1;
-   593		}
-   594	
-   595		if (val & ACP_ERROR_IRQ_MASK) {
-   596			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat, ACP_ERROR_IRQ_MASK);
-   597			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_sw0_i2s_err_reason, 0);
-   598			/* ACP_SW1_I2S_ERROR_REASON is newly added register from rmb platform onwards */
-   599			switch (adata->pci_rev) {
-   600			case ACP_RMB_PCI_ID:
-   601			case ACP63_PCI_ID:
-   602			case ACP70_PCI_ID:
-   603			case ACP71_PCI_ID:
-   604			case ACP72_PCI_ID:
-   605				snd_sof_dsp_write(sdev, ACP_DSP_BAR, ACP_SW1_I2S_ERROR_REASON, 0);
-   606				break;
-   607			default:
-   608				break;
-   609			}
-   610			snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->acp_error_stat, 0);
-   611			irq_flag = 1;
-   612		}
-   613	
-   614		if (desc->ext_intr_stat1) {
-   615			val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, desc->ext_intr_stat1);
-   616			if (val & ACP_SDW1_IRQ_MASK) {
-   617				snd_sof_dsp_write(sdev, ACP_DSP_BAR, desc->ext_intr_stat1,
-   618						  ACP_SDW1_IRQ_MASK);
-   619				if (adata->sdw) {
-   620					amd_manager = dev_get_drvdata(&adata->sdw->pdev[1]->dev);
-   621					if (amd_manager && amd_manager->interrupt_enabled)
-   622						schedule_work(&amd_manager->amd_sdw_irq_thread);
-   623				}
-   624				irq_flag = 1;
-   625			}
-   626			switch (adata->pci_rev) {
-   627			case ACP70_PCI_ID:
-   628			case ACP71_PCI_ID:
-   629			case ACP72_PCI_ID:
-   630				wake_irq_flag = amd_sof_check_and_handle_acp70_sdw_wake_irq(sdev);
-   631				break;
-   632			}
-   633		}
-   634		if (irq_flag || wake_irq_flag)
-   635			return IRQ_HANDLED;
-   636		else
-   637			return IRQ_NONE;
-   638	}
-   639	
+  5519	
+  5520	static int mtk_sgmii_init(struct mtk_eth *eth)
+  5521	{
+  5522		struct device_node *np;
+  5523		struct regmap *regmap;
+  5524		u32 flags = 0;
+  5525		int i;
+  5526	
+  5527		for (i = 0; i < MTK_MAX_DEVS; i++) {
+  5528			np = of_parse_phandle(eth->dev->of_node, "mediatek,sgmiisys", i);
+  5529			if (!np)
+  5530				break;
+  5531	
+  5532			regmap = syscon_node_to_regmap(np);
+  5533			if (IS_ERR(regmap)) {
+  5534				of_node_put(np);
+  5535	
+> 5536			if (of_property_read_bool(np->parent, "mediatek,phya_trx_ck"))
+  5537				flags |= MTK_SGMII_FLAG_PHYA_TRX_CK;
+  5538	
+  5539			of_node_put(np);
+  5540	
+  5541			if (IS_ERR(regmap))
+  5542				return PTR_ERR(regmap);
+  5543			}
+  5544	
+  5545			eth->sgmii_pcs[i] = mtk_pcs_lynxi_create(eth->dev,
+  5546								 of_fwnode_handle(np),
+  5547								 regmap,
+  5548								 eth->soc->ana_rgc3);
+  5549			of_node_put(np);
+  5550		}
+  5551	
+  5552		return 0;
+  5553	}
+  5554	
 
 --
 0-DAY CI Kernel Test Service
