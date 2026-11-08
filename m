@@ -1,75 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794120721;
-	b=oiPoAGngaH3/j8p7xQhlF/7fXqPcbf1Q4BPTH8is/YosUzVeKCqM1d1VTezwi0N5ARsT
-	 lnZufxMJ/MGyjeYvEW8pF2k+R+Nc9DIY6BT5C7hTIGJhgcFQ0CiN2C5/9LvaMoDzAF3UX
-	 Stl0BdMljbO+I1EDDgD/wuAHeeNnUuPYprkDU7pQi7HEG3luXUu8gNVu31vzSrfO/C3tg
-	 yqNZlOdfShGZUC/onzdh7mUzSHNEDmOV9Exs07o1Uah1kaNu5GTDnlCtzJsjzwXh8AWX5
-	 ZMGZ3Fc+zlH1H2VRtAi1bXN3v4zfUJaVw2Nwdow4QL2++XZLlVUq5UP6dDQ/wE+A8mA==
+	t=1794121986;
+	b=KCGM6vPMncbkDQa1OR6e3gO+cdl8ezk1JkJeVaQ/DPaPzGyLEhpcagAvTMSAvgO01cuy
+	 JBLWWlse1Vs5JPWagLnq/VoYf1zqLf93zfqhlA8UvGzEQIPPgrpKtQitUFn8p7eELjPbV
+	 xu3BkIJnUi1kCyLa/9/CFiJztAdcqLQ6MUnIqBuJhTa0ORqKKNbNswLAtC80sCW3ynlzN
+	 J1oiCnLy/dTx8Ljs/camHw0s/o8PfVESFkIFb2bx1fubGHmCMMFonQzs6khz6GkDCXzHw
+	 M4srx7kRu5JZ0aaRDiWWEQWQWIGNmdCYkQ8cq23sNT0GKD8gExCxkkJD+xu6eE2fnXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794120721;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794121986;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=KRb1bhViL21DbEiIkU3q3undiPnq/SUZBNEEtl74rSo=;
-	b=xAJ6F7Llxjjt2BNXnak7hGcNwb/ScZXfwOducqfNEvKsmAiAS9XWQXUet2LpjvQ3TUDO
-	 W1TYaJt/pMW4/zEwHDms1Bd1qhjk32Gvv9bs+pwnnGTQh/VVuYxwf5KK0brOaGj+s/mMh
-	 jvqP41G54e6wmsllkuvAeaG1oO1YtRd7oroLfjYIY0nI/contw0bnCnoVJ2805Fz60AKM
-	 iU3KWrG4mETarGaClwlP/4zmRzLBI34jfwtXNiqlgo+D2MDVYxmrdgRTEIBo4P9wdDBfO
-	 x9FlLtRC3c6JQhKA0N/+d4ti8kSy7vPkw8/UCB+DbZzM8YamS3GYPubdSQxaBJiuhsA==
+	bh=8Kzy8IWInEFboSRlDioR+c7wmWexSBkZjv0wSLrp5us=;
+	b=aN89yTUILIkKuC3/GkCRmDzTOuV5iEOhWIr7/o+cUVNfIU4qnvyDbTspIbW5tNgUwTO9
+	 ap49yZ1Bgv2ra7T1CeyZo/ZpOCtUaN/oZAWPlzrRQSgf3Sb1KGLCETv26gOvOuEqKIG0T
+	 iEq5/tPL44T6MPxFV75Oi1micCaknnmYgvElwUqOpkit7mF2MW5XzeBvmZ1xRdxe6nMH6
+	 vl92Q/CBaiWRXXWF2V87dEOIKMgGBWR6CcxXPQprfMmfWhmx9EEVFyi7OTbG5oWQusZdF
+	 YQyxqE1/z9OjpGrXc+Ps3jO8upP3rSuYqhHLjHc3IiRpCgp1nMN7n5gKeb4LlSF0W0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdoNdDem;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DWZb33Z8;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF6F606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 06:51:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AF6F606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF20606A31C;
+	Sun,  8 Nov 2026 07:13:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DF20606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdoNdDem
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DWZb33Z8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794120721; x=1825656721;
+  t=1794121984; x=1825657984;
   h=date:from:to:cc:subject:message-id;
-  bh=f7FRfXPWOe6+Wp5R1LdVrToNc1q8I0CFx+dr66ccmJM=;
-  b=EdoNdDemscLBNj8Ud9yWsIDFiBtZcyHzW5MecIi46x9bcc3NXfpht+m5
-   FK+YowuwkpQsoS9b8yeM+4gnFoP4BnIz+aqOGkYecZdOPYv3Sy5t+DJRf
-   xGtc/oNnJjup1+zOyWublLt7xPG6oAb6SREyHsWLKinQ8UXBC+07A4M1w
-   74GHuugXwbUP3bZ3WMXV5BP15ofdtQATVLBCXTiDgT4rg3qLO89CaEd36
-   HAn6gjqe7FOsmZqMfUiZhxAi7WKJWrUup+Cr6DvbmBDYnRCuQ3vfhoG7a
-   K23VIMaO7quKmZBDqCaaxhnpaR8Xu6sV+Epvc8UZ1J5kXBv5XdgYvtO1U
-   w==;
-X-CSE-ConnectionGUID: Y3nKICTARZS79laGD01B+w==
-X-CSE-MsgGUID: UbSBYGx+QNe1Yp6kA0lw/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2759652"
+  bh=bZdv0rzDTA6BdOGNfxKYX7e6ftjGCynvDCw1k5mMAA8=;
+  b=DWZb33Z8FNQDASaysgLWX8Rr7Hx8MJLhIrFUPFjcfEEnmKmNVeCsqmYW
+   hmRNOEJQGZnOiMkvEVbD2qrx3dgumYb+DUIhakP+oK45g9U5x67gQCIyA
+   p8SRAeosOItv4TDuXx9RW4nC661G3w31gozMSA+J459RKf4Rk98rlRorX
+   voXEqxuVdrJwOkc60nvge1B47DNuYMfNzrSRcQMF7zK5wzGbcYo+DY5dn
+   W2CMVZ+ecanecNQCv68jzkTnQ2QqUSp7KGUpd8i2OjJUZsfiEYXmy/KM/
+   z9L0DGKPiSx3Y03QogTsAzPe0LHIeeMwPIJTS19KOBkQgzPvxS7w83+tD
+   Q==;
+X-CSE-ConnectionGUID: jOCG5DBOSc+sNO0yliTgyA==
+X-CSE-MsgGUID: 7xmiDzMPSzKw/ahO6it5XA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2880805"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2759652"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 22:52:00 -0800
-X-CSE-ConnectionGUID: o5/4JfNOSPWdDvqQQHQJSw==
-X-CSE-MsgGUID: l8nr//BsQV+XY6w84Hfufw==
+   d="scan'208";a="2880805"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 23:13:04 -0800
+X-CSE-ConnectionGUID: 8U2cS5AZSUSFah4UpY+Q9g==
+X-CSE-MsgGUID: Iy1kfnsVTh66e4XJT2L/fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7941544"
+   d="scan'208";a="7641235"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Nov 2026 22:51:59 -0800
+  by orviesa002.jf.intel.com with ESMTP; 07 Nov 2026 23:13:01 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPwks-00000000B4G-1mFI;
-	Sun, 08 Nov 2026 06:51:54 +0000
-Date: Sun, 08 Nov 2026 07:51:23 +0100
+	id 1xPx5F-00000000B5X-0PTc;
+	Sun, 08 Nov 2026 07:12:57 +0000
+Date: Sun, 08 Nov 2026 08:12:25 +0100
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.4-rc 39/154] ld.lld: error: undefined
- symbol: mtk_xfi_tphy_valid_ctle
-Message-ID: <202611080729.NuSbXCQX-lkp@intel.com>
+To: Kurt Borja <kuurtb@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
+ David Lechner <dlechner@baylibre.com>
+Subject: [jic23-iio:testing 94/213] ld.lld: error: call to
+ __compiletime_assert_587 marked "dontcall-error": min(count, (sizeof(pins) /
+ sizeof((pins)[0]) + ((int)sizeof(struct
+ {_Static_assert(!(!(!__builtin_types_compatible_p(typeof((pins)),
+ typeof(&(pins)[0])))), "must be array");})))) sig...
+Message-ID: <202611080814.7RmHoQ6e-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,23 +85,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
-head:   674a64f97be4d25967f31216ffe7eaefdabf827f
-commit: 9a052b8df8d2bc4bf7dd144f34dc9aa7d60f0b6b [39/154] net: pcs: mtk-usxgmii: check link status and phy ctle before reset
-config: powerpc64-randconfig-r2107-20261108 (https://download.01.org/0day-ci/archive/20261108/202611080729.NuSbXCQX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080729.NuSbXCQX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   08853c09ea2c89d0f48a67a5268e88d71fcf2263
+commit: b0b43a26dfc946ea2f1478dbe8512478527d1271 [94/213] iio: adc: ti-ads1262: support excitation currents
+config: riscv-randconfig-2002-20261107 (https://download.01.org/0day-ci/archive/20261108/202611080814.7RmHoQ6e-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 0fa861dbbf46e5a75f621406fd91cb015d8754bf)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080814.7RmHoQ6e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611080729.NuSbXCQX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611080814.7RmHoQ6e-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: mtk_xfi_tphy_valid_ctle
-   >>> referenced by pcs-mtk-usxgmii.c:387 (drivers/net/pcs/pcs-mtk-usxgmii.c:387)
-   >>>               drivers/net/pcs/pcs-mtk-usxgmii.o:(mtk_usxgmii_pcs_link_up) in archive vmlinux.a
+>> ld.lld: error: call to __compiletime_assert_587 marked "dontcall-error": min(count, (sizeof(pins) / sizeof((pins)[0]) + ((int)sizeof(struct {_Static_assert(!(!(!__builtin_types_compatible_p(typeof((pins)), typeof(&(pins)[0])))), "must be array");})))) signedness error
 
 --
 0-DAY CI Kernel Test Service
