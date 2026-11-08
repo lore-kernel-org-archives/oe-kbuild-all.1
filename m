@@ -1,92 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794174525;
-	b=t1kOco7oY6tA57bOXuM6FQ5mWb9aLoljhwmxgefDuvqA3kbh72UkPVkQGvYYzCFPjQ1m
-	 O59Wtkg48vCRGBZVx38w+jXb5+7agnJZgyMMwIFZ2af5nxPZ1iDbPx4Y8fyDolP9h9Jcl
-	 xV4BM9xAorxynF66yzluOznVskPNMszPZEmCVwKPSSgPCGyxTP5T57nkogJoGn6lIWSX5
-	 /xNGppXTBB9uNIBUuSjePFCmPgBZTnOJSLCBv2AYtUgvnfgYPU3uAYF30salLIlkAI2HB
-	 iEM8IQoimj68nHeA7YdyY8WS1iELfu6LE6CtpP6cQLkBABGKMWIfgqQEGCw+qwfBWgQ==
+	t=1794176385;
+	b=uRIBw+e/90IzLGRpiU9777LOLBW6vMWwCbhiK2cUeGEWDO6I7SvfXv1ILyhG1K1ILley
+	 I8ajklEsQrUNDccGRVHJD2Oce5kBdSEkzc7B1JMQIRyhhyvAJrKmhNeLEVdrIpZ0Lcl4d
+	 Ne3Y3Yc9xp9/kHp/0r8uRUnPC/kzKwFsxRjiMSjpBWBhbsTV+8JL4SukDYYJLY7VB3/yA
+	 XLMui8udBASzk9A/rBU/oIo5GhVJAwcIJGHyYSUZLTF8qAue75D1V+MSrtJxc8D54ZOzL
+	 jniMnzMPaStgYKdYEVl+316maa0TEXRTjmygpoLJ5CUYV9dhz1aKvjAl5pbP+fYLXHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794174525;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794176385;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=d+hgfVdursC5BkNN1WVdsSZpLzmJ5l76P4zcjf+x04M=;
-	b=tT0wKG0jyl5uXZeBE1dPMpxhS7A92hL1zaJ6TaBygevRgn7nnRwzJezHlg5TbmNLtIiJ
-	 ykrMrNwLg6K58vDlpFinJlCIsAmNq5/hXBqFig89sg9wC29ddos21u+roc9ll+T+URRpR
-	 YARpf9dpNUNB6CU1BPHYDW33CxJBBa8K9cgqsQek/RLGBSst8cTFnIQRgrcekPBYCBGWJ
-	 WCEyIe9mR++pGuboKKFqMTOhBCaGGzCvCfr5RjcjE7Yh2OyOnaezC8Uv8CT7mwT6AqcFA
-	 uHJYT1q/5V/Pa0OiJPLiz2DDoIu5n9Y58VCRCrk1Ki1vSrD+hEiVq+4Z59oLYXYtjxw==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=De0VxvsZdiWZC8218q+0ibGhvvSWEZUbrYa4+qRq8LY=;
+	b=xdOn5FvfH6ejRQOTr1RmZjrQdCriuxg50r7TDbmn5e9x4nLV7tUci704b/eVQ7Hqu08j
+	 MpZ7FJBNF4YA6WJLrMrDHtVxbwbJHTvnbacyeV08eRqoohjBrfjlfE4WhM0/hBuEeXxjs
+	 1nBq/PmCEG5+NJky2v/dguB55eCROQkmPy5f1LKq66z4H070EGyJHtFoRhyoXnwi+njnk
+	 ea5ztB8OgoqEQecjUH9FZnohdSEO8oqujYa75/m5QNG18DHlDxpyq1n7eyS5dMPb18Dwq
+	 muzU4Cm7576M6xWAkEVuWo2k3FYLIBzmcrRa54iOZ/+myo1hLU061HuNM2tNoJIANtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N0v6B1X9;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GQIYliJ8;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC55606A326
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 21:48:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EC55606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E24606A31C;
+	Sun,  8 Nov 2026 22:19:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5E24606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N0v6B1X9
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GQIYliJ8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794174525; x=1825710525;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lyC/gc2As/slOIQA1S8PUGv8GKu8g5O/yBmvasqYDQs=;
-  b=N0v6B1X9zoHZ73972uO4exYw0EJTdWhJlqfA6ezO/HYwV83GGWoigY+H
-   /kJIW0cwvUA1j5RnqAzxEo9/hhYCkQPbVmS9ebMeaFO9OrZDJxsYvN2As
-   ftKK9uH1BYIsgJ7wenrbpXkhKTsVmUUYJfI0l3+75+tTnQylzH+QmKfEk
-   K0XE3/cMA6/WfZbLw6AR8QP/M4FUyJrQva69bp2LFWzX86pZYYLy6/6Jk
-   CyQ7FM+dg7EsGI1sdEqV7sta9JuT/CKn6MiML49+cr5ivPOM9L/A6oTli
-   8ez1A+WvW+u1Y0cYjHJMbO3XRw30Pt9iPzPq714Snu4ICMFWALDDyb0YU
+  t=1794176384; x=1825712384;
+  h=date:from:to:cc:subject:message-id;
+  bh=2dUp/gU9bEKSGpq7f79GNBm8qtt7Hyd4NFuYdfrPHsM=;
+  b=GQIYliJ89tn3AIdCQ6oSaA7zPArIbOwDnhTDdp+Uf7/STxxJ2h5zHmsU
+   ADzaPGYSvebMarYvxpoLDVHledtULcSTayKohDehu5Jfh76Ck4Yk+ws6W
+   NKOhTLfImIbGYlbR1Dl2qWeECsCByJfAetoOiC+vqx6FpTDmcAH0HxBnr
+   vUZsonIMm2rJ2yH67+9jb2+0G04GVekzyOYaiwAdey9bzJRBWbcQHjmM8
+   /Qfx052g3GpzUUrXQfvxKBv+yBvWH4pGtwsQ6RkFjxNlI+iS1lCiG9HHl
+   hsFXOCQLTEw6ZT/w2faMGUL3vERFnfnYogeqWWYr/GYT1nWsL+uVhF8Pc
    g==;
-X-CSE-ConnectionGUID: kPsba26wR3S2pG0KWR0xcA==
-X-CSE-MsgGUID: WCSKwZBUQnG0UdTtOvbNbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2803095"
+X-CSE-ConnectionGUID: BdU7nEk2Szmvp8oaxBRLCA==
+X-CSE-MsgGUID: UWYFjgzhTPCu/sqDLn7ZWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2900995"
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="2803095"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 13:48:45 -0800
-X-CSE-ConnectionGUID: gCsiQnFUR5yxqBbKMgnRAw==
-X-CSE-MsgGUID: xTO+LEHbT3Cze3JGHLwMMw==
+   d="scan'208";a="2900995"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 14:19:43 -0800
+X-CSE-ConnectionGUID: FSEREFM2S3Oor6ChyGZhMg==
+X-CSE-MsgGUID: A6J82uTRSh+/yQKPmqeNvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="7727084"
+   d="scan'208";a="9595884"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Nov 2026 13:48:41 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 08 Nov 2026 14:19:41 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQAkf-00000000tRx-21Y3;
-	Sun, 08 Nov 2026 21:48:37 +0000
-Date: Mon, 9 Nov 2026 05:48:09 +0800
+	id 1xQBEh-00000000tTr-0IFQ;
+	Sun, 08 Nov 2026 22:19:39 +0000
+Date: Mon, 09 Nov 2026 06:18:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Esben Haabendal <esben@geanix.com>,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
-	Pan Chuang <panchuang@vivo.com>,
-	Hemanth Selam <hemanth.selam@gmail.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Nikita Travkin <nikita@trvn.ru>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] iio: light: ltr501: Add support for the
- LTR-659PS-01 proximity sensor
-Message-ID: <202611090518.mm6yt2nO-lkp@intel.com>
-References: <20261108094253.83899-5-clamor95@gmail.com>
+To: Prajwal N <prajwal.n@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_sbi_watchdog_v1 98/98]
+ drivers/watchdog/riscv_sbi_wdt.c:327:16: error: assigning to 'struct
+ imsic_global_config *' from 'const struct imsic_global_config *' discards
+ qualifiers
+Message-ID: <202611090657.vj0OMmgn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -95,40 +82,107 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261108094253.83899-5-clamor95@gmail.com>
 
-Hi Svyatoslav,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v7.4-rc1]
-[cannot apply to jic23-iio/togreg next-20261105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/iio-light-ltr501-Switch-to-read_avail-op-from-manual-attribute-registration/20261108-114250
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20261108094253.83899-5-clamor95%40gmail.com
-patch subject: [PATCH v3 4/4] iio: light: ltr501: Add support for the LTR-659PS-01 proximity sensor
-config: xtensa-randconfig-1000-20261108 (https://download.01.org/0day-ci/archive/20261109/202611090518.mm6yt2nO-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611090518.mm6yt2nO-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_sbi_watchdog_v1
+head:   929bf13433e242a3f255f463b2fb44633e102e0d
+commit: 929bf13433e242a3f255f463b2fb44633e102e0d [98/98] drivers/watchdog: Add RISC-V SBI watchdog driver
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20261109/202611090657.vj0OMmgn-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611090657.vj0OMmgn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611090518.mm6yt2nO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611090657.vj0OMmgn-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-WARNING: modpost: vmlinux: section mismatch in reference: trace_initcall_level+0x28 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
-WARNING: modpost: vmlinux: section mismatch in reference: __arch_xprod_64+0xac (section: .text.unlikely) -> initcall_level_names (section: .init.data)
->> ERROR: modpost: drivers/iio/light/ltr501.ko: symbol 'iio_find_channel_from_si' undefined!
+>> drivers/watchdog/riscv_sbi_wdt.c:327:16: error: assigning to 'struct imsic_global_config *' from 'const struct imsic_global_config *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     327 |                 imsic_global = imsic_get_global_config();
+         |                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +327 drivers/watchdog/riscv_sbi_wdt.c
+
+   298	
+   299	static int sbiwdt_probe(struct platform_device *pdev)
+   300	{
+   301		struct sbiwdt *wdt;
+   302		struct imsic_global_config *imsic_global;
+   303		struct irq_domain *msi_domain;
+   304		struct device *dev = &pdev->dev;
+   305		int rc;
+   306	
+   307		/* Allocate memory for the global watchdog structure */
+   308		wdt = devm_kzalloc(dev, sizeof(*wdt), GFP_KERNEL);
+   309		if (!wdt)
+   310			return -ENOMEM;
+   311	
+   312		platform_set_drvdata(pdev, wdt);
+   313		watchdog_set_drvdata(&wdt->wdd, wdt);
+   314	
+   315		/* Initialiaze watchdog attributes */
+   316		rc = sbiwdt_init_attributes(wdt);
+   317		if (rc) {
+   318			dev_err(dev, "Failed to read SBI watchdog attributes: %d\n", rc);
+   319			return rc;
+   320		}
+   321	
+   322		wdt->wdd.info = &sbiwdt_info;
+   323		wdt->wdd.ops = &sbiwdt_ops;
+   324	
+   325		/* Setup MSI if the capability is available */
+   326		if (wdt->attrs.wdt_capability & SBI_WDT_CAP_MSI_SUPPORT_MASK) {
+ > 327			imsic_global = imsic_get_global_config();
+   328			if (!imsic_global) {
+   329				dev_err(dev, "IMSIC firmware node is unavailable\n");
+   330				return -ENODEV;
+   331			}
+   332	
+   333			msi_domain = irq_find_matching_fwnode(imsic_global->fwnode,
+   334								DOMAIN_BUS_PLATFORM_MSI);
+   335	
+   336			if (!msi_domain) {
+   337				dev_err(dev, "IMSIC platform MSI domain is unavailable\n");
+   338				return -ENODEV;
+   339			}
+   340	
+   341			dev_set_msi_domain(&pdev->dev, msi_domain);
+   342	
+   343			/* MSI setup*/
+   344			rc = platform_device_msi_init_and_alloc_irqs(dev, 1, sbiwdt_msi_write);
+   345			if (rc) {
+   346				dev_err(dev, "Failed to allocate MSIs\n");
+   347				return rc;
+   348			}
+   349	
+   350			wdt->virq = msi_get_virq(dev, 0);
+   351			if (!wdt->virq) {
+   352				dev_err(dev, "Failed to get MSI virtual IRQ: %d\n", wdt->virq);
+   353				return wdt->virq;
+   354			}
+   355	
+   356			rc = devm_request_irq(dev, wdt->virq,
+   357						sbiwdt_pretimeout_handler,
+   358						0, "sbiwdt-pretimeout", wdt);
+   359			if (rc) {
+   360				dev_err(dev, "Failed to request pretimeout IRQ: %d\n", rc);
+   361				return rc;
+   362			}
+   363		}
+   364	
+   365		rc = devm_watchdog_register_device(dev, &wdt->wdd);
+   366		if (rc) {
+   367			dev_err(dev, "Failed to register RISC-V SBI watchdog device\n");
+   368			return rc;
+   369		}
+   370	
+   371		dev_info(&pdev->dev, "RISC-V SBI Watchdog registered\n");
+   372	
+   373		return 0;
+   374	}
+   375	
 
 --
 0-DAY CI Kernel Test Service
