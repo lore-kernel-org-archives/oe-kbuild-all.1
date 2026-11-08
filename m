@@ -1,77 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794106848;
-	b=ho5o8CtrrHreLkbhzJHZv7hkK/vRRyiSHSw8l5yQTwNllBJfsK6WkXleTUQ35CFaadEW
-	 Y34FovuTPpX9VYrdcJRFrQXJSyK8KypHVCE7jha84DjT8XjZSulh40TlDU80XiOwhYbFa
-	 qK/3La/qRvXZ8iE2AKKYckpXW4IHWu/LDMGn56jXUoBJaC3mV90Oi9fFeeWk9MwAW6eVK
-	 /N+FnULm7wvU4HyjIFo0czOU7CvHM5lCy3K20oJCNrHmBsA5hws0q3ZgNP9A2gp/av9Cg
-	 Gl8qMECaxt8D7eVSVARPVsbIJ+CcpV2kmKkCwzfQZBYDEzwpSI+jzO5a4NtEd/wisQA==
+	t=1794107715;
+	b=M+UGVUp2aq7OEXGRN2ILL+96umCmBNQJbORoWJw2A0qYOxcgP0tLv+rDzF2AG2GQZ/fL
+	 tVBmpOaRLo9/euE0zz2H+Ubtm13WlOIz746VtlMmsWj5fDJ4KlQh5IZUsIAke8rSVQzGZ
+	 Fl7nJHm/oPlJjH4M03ZXz7kATz0vduPhVFpK5ZsKS9GjQk5MHNrZKXY6e/pWVRbJrsJi+
+	 XnGJjmXi3VTwcozNaVi6Wac2xTK+ycpJVWYT2kw+XCdqm7jqy2Yf/O4NmNrI2j/2o94SN
+	 f1YPHnEV1fi0wAi/u54Y9hDx2FXfgxEfXeYhLG25WBX2VjsIZca+eW0TDOmGkaDSUeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794106848;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794107715;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=wNdf+pD3YDUeg1yaqPDh926a2mzNbS/VZ3Hx4Nz/L9w=;
-	b=0NRGru/eosNQcTnCO7al9SBxZJfMY1s81IOrEPWh9HO3Q4qDalx0/rQa6CDofGaTWFib
-	 bnF4ym/tRVH9EZTtE+BbG4DS0LeOYstkoV9KI5rn7H8QDwM0C6Qz4o9alKbrVbgHzgwSQ
-	 mA02j+QTkycuCBv1puGADIyZfKotrkC6Y3pBw2ANGCtU8nF34C8ak31SnuvkuPsY77sKh
-	 gtaRtZ4xwFw7qgBalKkBoGvmB5vAcFVJXAxqzyJS/E4EyvV2aZOmlJ+jW9P3gOI9g/2VM
-	 SFF06kqz7A39V/i7tmUmijkd0GuXAhsoJYfmZaHHtdjK6YHqAzWpGRvRfUmut62tCXw==
+	bh=azTv/RWhW5CLrx/wpuFMoJvnLM2aqifEcPriU/f78Zo=;
+	b=NXc+Ze0nGmaRH+w5pip5sQrz1IA5GfcsXQzUv1fVXxyHkcN6IwmGS6wnXYo/Ria86oJ3
+	 EA2hBNTaUAc0iRZT4jgcerY1KLxjSlYdW382n2WgZ69CTAi8pl08+p6YjVGsQI9Nxzfkj
+	 7KdxflHymJzk0L++qOBwzZVQjVej+U2EsjB/mVIdITIQIlGv8HOFhh80AkzucOd/nfoDP
+	 N94Uh1W034NFH832Sz7oqa5g2zezVdK4ze2kl/zv+rCce1EOi+bLH5AtCldRPVq5ZZSDk
+	 osQB3bnDPJnvmWAodnqqX5zVfDHLujpVwjTL8mtZIbA7vv178fgJgbZjVlu7raFf6tA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GeCVVLXR;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eVwFP5EQ;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E280E606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 03:00:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E280E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B64606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 03:15:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15B64606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GeCVVLXR
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eVwFP5EQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794106845; x=1825642845;
+  t=1794107714; x=1825643714;
   h=date:from:to:cc:subject:message-id;
-  bh=E6sSvq8Kl9hBYUJw6xxFujs7ooCsRK7qeDmP6H0DP3Y=;
-  b=GeCVVLXR7ew0hm9BvftAADqYLlNcLFVM56RNQDuGBCC1Pq1gerFe3zeW
-   CsodTH1kh86gCqwYsAUXaN+aVPLvxTFEv2TUIeZZv2GE27wVNqIasT2aD
-   KnrSUblwRn4V/ad41PxveLMgLqT4iCTJDvPM1H6Ar2EogeP9D273mPhBs
-   9tdI2ipYAXnJu1+wVLxmTi211xerDA1fSRMZGtUnrkWrRE2zMUXglvKRi
-   Qb8XoVYIjUqm+VyiXRvqClTsNIhcJ6qhDkEdFo1Bx9gUhxzYPbF7Yzvc0
-   WKnOMuriNDctLA3tv+60PFkrrsUaBR0lriQWnsoePqjyUC0RcwgI6Usu6
+  bh=DGLuX6sS7LOSm2tA7R6LRfEWVwuEo5z8V2/2qHvuU6c=;
+  b=eVwFP5EQqB4vs/PgqcnVg3/h4sAFNQeYc4ovyS0rdfEnBMHWXN11Cp07
+   6TzKn+4yynkHRsMegoMp5Uba7Ip66qAK8hqK6p5TZnlkoLmTXwYO1aeRC
+   CicnGTJSeHtf5Rwr50EhtH7E5SuiiMjGfGM5GvFkoCVecv3YwwN71OGLs
+   84b1ISlo4UjqRj6Ag6aAFBiDJJGcjNU3MPlrQS+DxNUKbZ98V3rZmMRjO
+   80ctJUOTzk9I+UsiQICuK1wwcySPZbm5mEQJfsLyOSqoDlOzVKM1ZpUbx
+   35FQLoCcY1HGlIH/nCgVHiVCGDaSsX79BICZCg9ced9imphwUkmYGf8q1
    Q==;
-X-CSE-ConnectionGUID: gVdfMhRjTTS5AQ+okGhBWg==
-X-CSE-MsgGUID: W9r9FCjwRr+kUxCza4ForA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2754747"
+X-CSE-ConnectionGUID: Hc1DilxjQZqt3ekIfjbNSQ==
+X-CSE-MsgGUID: LZQ0YCwlSZaE4IViMN6nvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2877784"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2754747"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 19:00:45 -0800
-X-CSE-ConnectionGUID: trIyu3xzRomZcigt8hAMoQ==
-X-CSE-MsgGUID: e+bWvQaETzCpZzYVxTxCWQ==
+   d="scan'208";a="2877784"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 19:15:14 -0800
+X-CSE-ConnectionGUID: ufe2G5mOR5uhJFAidX5Vsg==
+X-CSE-MsgGUID: 4iB5ZLGUTJW0C/JzvRotrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7483280"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 07 Nov 2026 19:00:44 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="8026200"
+Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 07 Nov 2026 19:15:12 -0800
+Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPt97-00000000ryP-3HVR;
-	Sun, 08 Nov 2026 03:00:41 +0000
-Date: Sun, 08 Nov 2026 11:00:31 +0800
+	id 1xPtN7-00000000Ayn-44Tm;
+	Sun, 08 Nov 2026 03:15:09 +0000
+Date: Sun, 08 Nov 2026 04:14:31 +0100
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v6 70/80]
- drivers/hwtracing/gtrace/gtrace-core.c:590:8: warning: assignment to 'struct
- gtrace_path_node *' from 'int' makes pointer from integer without a cast
-Message-ID: <202611081022.54wlwEdr-lkp@intel.com>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
+ Alyssa Milburn <amilburn@zall.org>
+Subject: [asahilinux:bits/260-spmi-typec 12/15]
+ drivers/usb/typec/tipd/spmi.c:176:26: warning: cast to smaller integer type
+ 'enum tipd_hw_variant' from 'const void *'
+Message-ID: <202611080428.AAVT8FvP-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,141 +82,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
-head:   f98be19c4d4f657fa0ed2a17aa8ef5ece29fe8dc
-commit: 3889440d4d89d7eed212c92d6b46a87676fac5a9 [70/80] gtrace: Add functions to create/destroy a trace component path
-config: xtensa-randconfig-1000-20261108 (https://download.01.org/0day-ci/archive/20261108/202611081022.54wlwEdr-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081022.54wlwEdr-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/260-spmi-typec
+head:   c062a0671e439cd6cfa9df139ad50ce6d70222bf
+commit: 182351610fe370f1017a17255f3e394f9ee062c4 [12/15] usb: typec: tipd: Add sn201202x support
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20261108/202611080428.AAVT8FvP-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080428.AAVT8FvP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611081022.54wlwEdr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611080428.AAVT8FvP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
-   drivers/hwtracing/gtrace/gtrace-core.c:372:2: error: implicit declaration of function 'kfree'; did you mean 'ida_free'? [-Werror=implicit-function-declaration]
-     kfree(cpriv);
-     ^~~~~
-     ida_free
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
-   drivers/hwtracing/gtrace/gtrace-core.c:416:10: error: implicit declaration of function 'kzalloc'; did you mean 'xa_alloc'? [-Werror=implicit-function-declaration]
-     cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
-             ^~~~~~~
-             xa_alloc
-   drivers/hwtracing/gtrace/gtrace-core.c:416:8: warning: assignment to 'struct gtrace_comp_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
-           ^
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'build_path_walk_fn':
-   drivers/hwtracing/gtrace/gtrace-core.c:590:10: error: implicit declaration of function 'kzalloc_obj'; did you mean 'xa_alloc_bh'? [-Werror=implicit-function-declaration]
-      node = kzalloc_obj(*node);
-             ^~~~~~~~~~~
-             xa_alloc_bh
->> drivers/hwtracing/gtrace/gtrace-core.c:590:8: warning: assignment to 'struct gtrace_path_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      node = kzalloc_obj(*node);
-           ^
-   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_create_path':
->> drivers/hwtracing/gtrace/gtrace-core.c:627:7: warning: assignment to 'struct gtrace_path *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     path = kzalloc(sizeof(*path), GFP_KERNEL);
-          ^
-   cc1: some warnings being treated as errors
+>> drivers/usb/typec/tipd/spmi.c:176:26: warning: cast to smaller integer type 'enum tipd_hw_variant' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+     176 |         data = tipd_hw_variants[(enum tipd_hw_variant)match->data];
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +590 drivers/hwtracing/gtrace/gtrace-core.c
+vim +176 drivers/usb/typec/tipd/spmi.c
 
-   576	
-   577	static int build_path_walk_fn(struct gtrace_component *comp, bool *stop,
-   578				      struct gtrace_connection *stop_conn,
-   579				      void *priv)
-   580	{
-   581		struct build_path_walk_priv *ppriv = priv;
-   582		struct gtrace_path *path = ppriv->path;
-   583		struct gtrace_path_node *node;
-   584	
-   585		if ((!ppriv->sink && gtrace_is_sink(comp->pdata)) ||
-   586		    (ppriv->sink && ppriv->sink == comp))
-   587			*stop = true;
-   588	
-   589		if (*stop) {
- > 590			node = kzalloc_obj(*node);
-   591			if (!node)
-   592				return -ENOMEM;
-   593			INIT_LIST_HEAD(&node->head);
-   594			gtrace_get_component(comp);
-   595			node->comp = comp;
-   596			node->conn = stop_conn;
-   597			list_add(&node->head, &path->comp_list);
-   598		}
-   599	
-   600		return 0;
-   601	}
-   602	
-   603	static void gtrace_release_path_nodes(struct gtrace_path *path)
-   604	{
-   605		struct gtrace_path_node *node, *node1;
-   606	
-   607		list_for_each_entry_safe(node, node1, &path->comp_list, head) {
-   608			list_del(&node->head);
-   609			gtrace_put_component(node->comp);
-   610			kfree(node);
-   611		}
-   612	}
-   613	
-   614	struct gtrace_path *gtrace_create_path(struct gtrace_component *source,
-   615					       struct gtrace_component *sink,
-   616					       enum gtrace_component_mode mode)
-   617	{
-   618		struct build_path_walk_priv priv;
-   619		struct gtrace_path *path;
-   620		int ret = 0;
-   621	
-   622		if (!source || mode >= GTRACE_COMPONENT_MODE_MAX) {
-   623			ret = -EINVAL;
-   624			goto err_out;
-   625		}
-   626	
- > 627		path = kzalloc(sizeof(*path), GFP_KERNEL);
-   628		if (!path) {
-   629			ret = -ENOMEM;
-   630			goto err_out;
-   631		}
-   632		INIT_LIST_HEAD(&path->comp_list);
-   633		path->mode = mode;
-   634		path->trace_id = GTRACE_INVALID_TRACE_ID;
-   635	
-   636		priv.path = path;
-   637		priv.sink = sink;
-   638		ret = gtrace_walk_output_components(source, &priv, build_path_walk_fn);
-   639		if (ret < 0)
-   640			goto err_release_path_nodes;
-   641	
-   642		/* Before proceeding, check that a valid path was built. */
-   643		if (list_empty(&path->comp_list)) {
-   644			ret = -ENODEV;
-   645			goto err_release_path_nodes;
-   646		}
-   647	
-   648		if (!gtrace_path_ready(path)) {
-   649			ret = -EOPNOTSUPP;
-   650			goto err_release_path_nodes;
-   651		}
-   652	
-   653		ret = gtrace_assign_trace_id(path);
-   654		if (ret < 0)
-   655			goto err_release_path_nodes;
-   656	
-   657		return path;
-   658	
-   659	err_release_path_nodes:
-   660		gtrace_release_path_nodes(path);
-   661		kfree(path);
-   662	err_out:
-   663		return ERR_PTR(ret);
-   664	}
-   665	EXPORT_SYMBOL_GPL(gtrace_create_path);
-   666	
+   163	
+   164	static int sn201202x_probe(struct spmi_device *device)
+   165	{
+   166		const struct of_device_id *match;
+   167		const struct tipd_data *data;
+   168		struct sn201202x *sn;
+   169		struct tps6598x *tps;
+   170		int irq_select, irq_sleep, irq_wake;
+   171		int ret;
+   172	
+   173		match = of_match_device(sn201202x_of_match, &device->dev);
+   174		if (!match)
+   175			return -EINVAL;
+ > 176		data = tipd_hw_variants[(enum tipd_hw_variant)match->data];
+   177	
+   178		sn = devm_kzalloc(&device->dev, data->tps_struct_size, GFP_KERNEL);
+   179		if (!sn)
+   180			return -ENOMEM;
+   181		sn->sdev = device;
+   182		tps = &sn->cd.tps;
+   183	
+   184		mutex_init(&tps->lock);
+   185		tps->dev = &device->dev;
+   186		tps->data = data;
+   187	
+   188		tps->irq = of_irq_get_byname(device->dev.of_node, "irq");
+   189		if (tps->irq < 0)
+   190			return tps->irq;
+   191		irq_select = of_irq_get_byname(device->dev.of_node, "select");
+   192		if (irq_select < 0)
+   193			return irq_select;
+   194		irq_sleep = of_irq_get_byname(device->dev.of_node, "sleep");
+   195		if (irq_sleep < 0)
+   196			return irq_sleep;
+   197		irq_wake = of_irq_get_byname(device->dev.of_node, "wake");
+   198		if (irq_wake < 0)
+   199			return irq_wake;
+   200	
+   201		init_completion(&sn->select_completion);
+   202		init_completion(&sn->sleep_completion);
+   203		init_completion(&sn->wake_completion);
+   204	
+   205		ret = devm_request_irq(&device->dev, irq_select, sn201202x_irq,
+   206				       0, NULL, &sn->select_completion);
+   207		if (ret)
+   208			return ret;
+   209		ret = devm_request_irq(&device->dev, irq_sleep, sn201202x_irq,
+   210				       0, NULL, &sn->sleep_completion);
+   211		if (ret)
+   212			return ret;
+   213		ret = devm_request_irq(&device->dev, irq_wake, sn201202x_irq,
+   214				       0, NULL, &sn->wake_completion);
+   215		if (ret)
+   216			return ret;
+   217	
+   218		spmi_device_set_drvdata(device, tps);
+   219		tps->regmap = devm_regmap_init_sn201202x(device, &tps6598x_regmap_config);
+   220		if (IS_ERR(tps->regmap))
+   221			return PTR_ERR(tps->regmap);
+   222	
+   223		ret = spmi_command_wakeup(device);
+   224		if (ret)
+   225			return ret;
+   226		if (!wait_for_completion_timeout(&sn->wake_completion, msecs_to_jiffies(100)))
+   227			return -ETIMEDOUT;
+   228	
+   229		ret = tipd_init(tps);
+   230		if (ret)
+   231			spmi_command_sleep(device);
+   232		return ret;
+   233	}
+   234	
 
 --
 0-DAY CI Kernel Test Service
