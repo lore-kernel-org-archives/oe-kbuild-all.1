@@ -1,76 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794157094;
-	b=OtrjkHSOmQRFuVsD84ZfgGzj9AaqKufDLj8fJFA2Oc6Cxg4iBU0cfM+WV/P3EIFkW6Js
-	 yPRY71tIbt3R/a6aK1eEI2mJlZyofVTDbDWu6Z5tH9UbkFPeU7wDjEO2P0IJA2PonZ2qv
-	 D+0Xdy740jbgDaUthzjUbbjdr6292vDllDUL3Iu9vg4OJPtaeHgH1wBnN81jIOEzOeWf0
-	 vmVSXXlBVRIM8jPKln52wI6B2krzIYAPTz4rDJl4b2yjp4Lu4FGX0Gnl8elTe0GTCP5Yq
-	 FWjJOeq742FhZtZiCLZAQSLzXOErt/1HQIbN7xYBUXYOOLrRTrfKQm1rwjBy/dV0Vyw==
+	t=1794157095;
+	b=kmgrAifqkPcKEY3S0cXeC0WERYEi5h/a4bB/Sxpe5pRPMD/U1tgwbM7sHGdh5QRJytmX
+	 8qpHfN21yieY32tZucJkKNahAqPRz18/Sj3uSABghq9AcdB33eQSADco7tAis7wi6Jk50
+	 kp3wiLy20PI5vt2i1SmQlO2k63k0wdxjl5kWTf4BuVdoO5ZdJhw6/7lFp13wdvu4dd/xM
+	 6bSwGeZxg2Wg3pJHj0bA+u+FYCq2uEdgV6icrB71bePXMgiok4DqJQy9kD6g9nl9KPZAu
+	 vsDr/bBGme9bUHOR/9uAE1jzAz4C8C+8wllJlv3+BJH4oZz8G+fwyZ2maTMM4jBnyZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794157094;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794157095;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=h0aDSAPHPPMv1Y1FWGXMdYDrAXcuOqdHSkS9zIgSVRM=;
-	b=m5kDSJLaUwigeKNRq+DizTDqaVQIqkvRS4g+J+IUIoBiwQysPydqZ/UDiuVmC53K14tJ
-	 VSm+PgGzBX7kLBhdAfxjSHqTHveGHGqZUX90tSnTnNt6079rxHKl8Gb8tmxw1UoZKT/NP
-	 D/YI0eC4tIYSGZ+hKfK7TmUoPtKn06sb3jUhj3DyarzF/e/ABya+pHcrGqWE7dCT/e/B6
-	 A/m/JLJ67m3Xs3y4AOwwlZVzx6CuHju8MgS2QcHBkoAGcMgK7zThTH4huh0tir9EZGmxB
-	 MnQovuzcvIpPLcvxaHlUbkhwihRBklVwJpxvJ9NhToCkSMhRsavoab/zwHUJIa8nMTA==
+	bh=bDAsNNkaCHbKqlZddsh7HAAsR1v85k850P13VQ4cR6o=;
+	b=bscSzNfkj9Lzpklap55uUf3C/f9mlxr9ie6S/re5+hC531HSjlmi8TzBcYz3zfb2yyKJ
+	 DFHFHHBE2Yqlqg32OxUDnKnlhIfaL9FFG7E0CL1Cf8hnoCljIdRxsEiL4Vh/h6r2aKJvj
+	 V4yNVmYrvi9X8sSAT4iSOR/HvAonBHountdWTuKmZlN92q1f/Obv2PgsCOxNaYNeoPv0M
+	 7aZ2FU/6U7vtC7XH55PDZp4//3xKJodfTg7Ryx55+UH5vlyXKgTFVhF1tLV0K0hr/fE7G
+	 lVkMNK45J0R2ogWb1n+T4JeWnxtYYpDd3B7/ndV1jlnA/DtrHdFPgEO4Djzr35ABIbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MOs+dzi5;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m5gloC6F;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E92B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32FB606A320
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 16:58:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E92B606A31C
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A32FB606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MOs+dzi5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m5gloC6F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1794157093; x=1825693093;
   h=date:from:to:cc:subject:message-id;
-  bh=0AXvrP+JH0EQ1N5WFsMoeQQT156TDPGLur17GEaHAPk=;
-  b=MOs+dzi5uSyoVjmF3F5GlwbwSgyT44w8R+JTzZx3ccSSS5e4Qe9uNuPJ
-   K0kUazrjVhy25Pfi2WQxP/32O0MPRxaJul8ScsL5kAJ+jY+9ARetONPu2
-   bxY/l9rA8cZVjz2bGHNMTHiJ83vBbW/9z5aKOE2V9Xdhyhtyj75etBBXf
-   m7JtbVgk/GSUWQPMAmLLj38K5hl3tjPx0rbAs38CjZUd+2JEB9SD+jxrM
-   n8MOu77oMBWrkJOukf4HB9hkXGsXQTZX84T+r5jxOQxWLRliGwQEw/rnQ
-   k3XJRD1HoBwiBjZut9yEC+w1j4Ykx6aQPvNCehlrlm2zdLPXhk2+nios2
-   g==;
-X-CSE-ConnectionGUID: cNBVYolPSWaNCX/9r1a9sg==
-X-CSE-MsgGUID: +kCMozMBT+etAb0dNylAvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2798340"
+  bh=bY01hDl+2ZxpRHdcIEH9jxniRYKwGeWE1vcmls4x9zk=;
+  b=m5gloC6FTJwd/SY45tz/FTGrjqtZhvubRFiMphNqlyBXch3QxLyfShq0
+   DjLiDwqcz0NpIdZZ80rjFuRDJb9Ao+BY8B4QDBJVW1172ZsZEPJnPCjCK
+   tt/mB9J3KBuOlHoUvQJD2LZ8rmg7rWGKV6aRvw2OVlVRBfXtqxWx2sYeA
+   jFX+yNm8F/4Kov9u3GbZRSTmjouxI4ApWze+Vq9UJg7S8ONL4zjnpG4R1
+   xC/lFRjAWgRoYX9r9OKuWu0hajqbzpsHq+8TqayrERegEbZ6lMbZzbrFX
+   GwBZtFpLEzhlUZCc0rvgjLpOq6mezRGClD0smM4xWWdZGZAnPszu7HwiS
+   A==;
+X-CSE-ConnectionGUID: +90u0HE4RTGXarO7G2jGNA==
+X-CSE-MsgGUID: M7weqZFKR3q5uh1uXwHpkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2913065"
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="2798340"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 08:58:12 -0800
-X-CSE-ConnectionGUID: SVZZkgOgS2aRqzu6JomeoQ==
-X-CSE-MsgGUID: //spROmxRPyVeH9fvnvKcw==
+   d="scan'208";a="2913065"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 08:58:13 -0800
+X-CSE-ConnectionGUID: 2l9E10tgTFSl7naCg2HrKw==
+X-CSE-MsgGUID: T6+ftLVEQJaBMadzOCCLkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="8259018"
+   d="scan'208";a="9558176"
 Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Nov 2026 08:58:11 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 08 Nov 2026 08:58:11 -0800
 Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQ6DW-00000000BcB-3oyn;
-	Sun, 08 Nov 2026 16:58:07 +0000
-Date: Sun, 08 Nov 2026 17:57:46 +0100
+	id 1xQ6DW-00000000Bc9-3ag9;
+	Sun, 08 Nov 2026 16:58:06 +0000
+Date: Sun, 08 Nov 2026 17:57:37 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Bryan O'Donoghue" <bod@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bod:linux-7.4-rc1-ife-v1 74/102]
- drivers/media/platform/qcom/camss/camss.c:5110:20: warning: no previous
- prototype for 'vfe_comp_group_output'
-Message-ID: <202611081720.cgoo5h0D-lkp@intel.com>
+To: Vikram Singh <vikram.singh3@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
+ Rajnesh Kanwal <rajnesh.kanwal49@gmail.com>
+Subject: [avpatel:riscv_sbi_watchdog_v1 94/98]
+ include/linux/perf/riscv_pmu.h:155:45: error: parameter name omitted
+Message-ID: <202611081712.Y6IZfpHw-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,46 +81,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bod/linux.git linux-7.4-rc1-ife-v1
-head:   830b5bcc668eb7ef5a2fe17463a2a374d2e45e04
-commit: 67e450935000b5b20b2131b3206edaa95d248227 [74/102] media: qcom: camss: Add helper function vfe_comp_group_output
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20261108/202611081720.cgoo5h0D-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081720.cgoo5h0D-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_sbi_watchdog_v1
+head:   929bf13433e242a3f255f463b2fb44633e102e0d
+commit: b4cc5b9ca0cada8221e31b647640bbae515000a1 [94/98] riscv: pmu: Add driver for Control Transfer Records Ext
+config: riscv-randconfig-r2106-20261108 (https://download.01.org/0day-ci/archive/20261108/202611081712.Y6IZfpHw-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081712.Y6IZfpHw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611081720.cgoo5h0D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611081712.Y6IZfpHw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/media/platform/qcom/camss/camss.c:5110:20: warning: no previous prototype for 'vfe_comp_group_output' [-Wmissing-prototypes]
-    5110 | struct vfe_output *vfe_comp_group_output(struct vfe_device *vfe, unsigned int group)
-         |                    ^~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/riscv/include/asm/kvm_vcpu_pmu.h:12,
+                    from arch/riscv/include/asm/kvm_host.h:27,
+                    from arch/riscv/kernel/asm-offsets.c:13:
+   include/linux/perf/riscv_pmu.h: In function 'riscv_pmu_ctr_sched_task':
+>> include/linux/perf/riscv_pmu.h:155:45: error: parameter name omitted
+     155 | static inline void riscv_pmu_ctr_sched_task(struct perf_event_pmu_context *,
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   At top level:
+>> include/linux/perf/riscv_pmu.h:158:13: warning: 'riscv_pmu_ctr_del' defined but not used [-Wunused-function]
+     158 | static void riscv_pmu_ctr_del(struct perf_event *event) { }
+         |             ^~~~~~~~~~~~~~~~~
+>> include/linux/perf/riscv_pmu.h:157:13: warning: 'riscv_pmu_ctr_add' defined but not used [-Wunused-function]
+     157 | static void riscv_pmu_ctr_add(struct perf_event *event) { }
+         |             ^~~~~~~~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:185: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=3613240060
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1417: prepare0] Error 2 shuffle=3613240060
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3613240060
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3613240060
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/vfe_comp_group_output +5110 drivers/media/platform/qcom/camss/camss.c
+vim +155 include/linux/perf/riscv_pmu.h
 
-  5109	
-> 5110	struct vfe_output *vfe_comp_group_output(struct vfe_device *vfe, unsigned int group)
-  5111	{
-  5112		unsigned int i, j;
-  5113	
-  5114		for (i = 0; i < vfe->res->line_num; i++) {
-  5115			struct vfe_line *line = &vfe->line[i];
-  5116	
-  5117			for (j = 0; j < line->num_outputs; j++) {
-  5118				struct vfe_output *output = &line->output[j];
-  5119	
-  5120				if (output->wm_num && output->comp_group == group)
-  5121					return output;
-  5122			}
-  5123		}
-  5124	
-  5125		return NULL;
-  5126	}
-  5127	
+   151	
+   152	static inline bool riscv_pmu_ctr_valid(struct perf_event *event) { return false; }
+   153	static inline void riscv_pmu_ctr_consume(struct cpu_hw_events *cpuc,
+   154						 struct perf_event *event) { }
+ > 155	static inline void riscv_pmu_ctr_sched_task(struct perf_event_pmu_context *,
+   156						    struct task_struct *task, bool sched_in) { }
+ > 157	static void riscv_pmu_ctr_add(struct perf_event *event) { }
+ > 158	static void riscv_pmu_ctr_del(struct perf_event *event) { }
+   159	static inline void riscv_pmu_ctr_enable(struct perf_event *event) { }
+   160	static inline void riscv_pmu_ctr_disable(struct perf_event *event) { }
+   161	static inline void riscv_pmu_ctr_dying_cpu(void) { }
+   162	static inline void riscv_pmu_ctr_starting_cpu(void) { }
+   163	static inline int riscv_pmu_ctr_init(struct riscv_pmu *riscv_pmu) { return 0; }
+   164	static inline void riscv_pmu_ctr_finish(struct riscv_pmu *riscv_pmu) { }
+   165	
 
 --
 0-DAY CI Kernel Test Service
