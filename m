@@ -1,78 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794111540;
-	b=FsAqwfGCy+nJZN0PY/TdUeGZ95A8+jQz5BFPZfKlhbuXzj6K3AVeQfvoQk/OiJyJ2l6P
-	 sWL6G5r05nlqDuUiyp3c0x5JmBkNAm6Yj60LsBfXUpJSr7zwYa7XCip+9siCgCaFKRkZa
-	 +HM/kbbFh0C57vj+QQXhbGqgZdzgG66gbfWQxHd1RGzraFwKfl4fxYzRrkqYd8nufQ3jm
-	 iOq/p4ACmiFwmR/BffGyrract5fGzTPIJK8Fx9fIirNI3svSICJqM8pjWGJENkPBamKAQ
-	 /dfx3Ml8SbraBumLDJOpRTYYkiZt64fj88Ng/o81X36+PlnA1UogebIza5odOmN97yg==
+	t=1794114844;
+	b=491JccbsRzpB4ot1Am/Az1x/eKTXOx2jGrQ3/GfznlQf09qZhEdGP7wPxMtWbidecTF0
+	 gvFtj1GzQlGZRZrevJ2/tSFIPGW+BIlg6g81NbxMesNhozcWOhRtfwdsW22mKTALPf75P
+	 XPTFdVdYVl+AaD8wG8/niyF89XjoD8OGHCwX/2yg9R0e/XpHWkdlyEYLnUIUmFLJMtPN9
+	 Wlfvaoep2eClJibIYxev0HvlQX0AQTd62Q3+YbWsC6zjvybJZrIrEQ8yAVGUhCgmky7ck
+	 6LkiSE7wWPcnmAG+WxHy7vl5IcCsaJka1i5HvCTHOYnP2JyVwvHArXskr+sObzFR8jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794111540;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794114844;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=BXzIPT1VGG7pH04Vn1iaBUkDRcqwdFbHGifNwjtjK4A=;
-	b=oBsK57maUIwiKxrR6/TLm3GGypJZnhgr7kQMtlSd2eI1KKFXu/I+i90JeFLN0xu4Rwpy
-	 AA/MQoal2bMqlNpao3YCN1uG07j2hJTFGAEy2o3LAZN75N8GbipytTANcdYqx5tOTGGwh
-	 /qV51pbqDKWfuhkwzoi1j/BjR8loLEWv/poDQBaRhPPUDSiwD+kZlzwUqxkUWw1Bmpmob
-	 QKGevUJ55y3z/Yqwh2LpB9HrqJqULi/14cexEGCgkaTtJCQBIOMcactHeHbVvdQz/cMNa
-	 HWpHYaet3hqzDchdR13Yi6urf136V6lAgbTay0PlH8NnipTKMwufuihP4fDlT57qWOA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=G/htg+82caSvwQpCes/2upHgSspm1kzDs/D3FDHUNhY=;
+	b=SOCFOB4RS2lP6qLYGSfbp3gr/LM6gRi1u5yNn9aVnklVD8r2sfXT6zR8e2lAGy0SYJoC
+	 p+/uHQX+BSo/d2YzDsP/de4Vgg6aD8tIs+WCK5FXNO4nt+J8LRclCYR33//ar182igPPL
+	 TVgZdP4RY6TE06luDdBYlqkRLPzdwhJbj8PqDPgGVYrX3+/DCyOyr4uHVQ34N1IWDNm0q
+	 56dpnQOerOdziu9n2BuHB7bvGZUID+TyMXSn5XkL2Zbhs+PPLH3O9m3G1xCASBFkBEVgP
+	 cK2v9j/eQJuTJ5mExbYVYKGiZhVTYB1giI+SRRnx372nGfj0c+R2BQ39dZU/HcheiuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QJUnzpnw;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B+xTJ6hw;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03D4606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 04:18:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B03D4606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BE0606A31A;
+	Sun,  8 Nov 2026 05:14:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3BE0606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QJUnzpnw
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=B+xTJ6hw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794111538; x=1825647538;
-  h=date:from:to:cc:subject:message-id;
-  bh=nCjEhDy18X613AucxPL7Cwc5KpT5kTkSEyWG5NKg/aE=;
-  b=QJUnzpnw0vNHhnncozEBKL8N9qLud9R04ETkGrIel4OQacPvUf5jivmS
-   ytvoHdXGEkKhcM4od2k+JA97hRGyxBRTUXs+ddK4Wzll23i0F43/mXofe
-   sQIQo/YEQpGjkXPMMEwJnz91AJVHiwuh4qJXcBzONWZ79k3S/bczmaoUI
-   R6XI+EtKeRQ/0FIWGE/Cah14xgpcmskpncux3jwo46GIPzm20D6XXLFq9
-   QGx/t9IaanjiZNAx68A38hisUJviC55+T01dF5dLj3HxdJV2iqFb9SiS/
-   mUKqMIHk2B6avf8fgkl9Fhswt+0OTQ4ib54U1R9u7wklgxFdH8+iWAW6o
-   A==;
-X-CSE-ConnectionGUID: 6Ils8tUyT9idYJVXlEb7/g==
-X-CSE-MsgGUID: PW1P0qC4Q9qVLciCxXlYhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2865930"
+  t=1794114842; x=1825650842;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OTaUFugVRZP1qC2U/0ALiQEKDrcWIcToCzjWAKgP0xU=;
+  b=B+xTJ6hwVMgl5Gh68CTpZ77m3OlcNbqmR5Pt2Li/xF9XqjpCtBr9UHOw
+   sXpj1bgqGL53R+wVIh4fAxX+g52Yp6EwbREmNruYwcrIhVsyOe3LBqssH
+   FiVEOMFmsLdlWNdciEVTrxvVcMu8hAE2DLQpsIHd+Za/BC/iyuwWCHmf9
+   X2KIZmTuMQkBihgtrUlUxKmpQAPWo3gdaovolkFJr/Q3LsedozICi4dLW
+   Xx7hHRbHArfHSnc/pdhogsZ1JjSqXMqhjU9BlWCyj69rDofrkU4ntmEte
+   c7viF2u212fMLPTRF8YvuC/zpW4u50WldHEr49EyriaAfHGqEN5RXqLP3
+   g==;
+X-CSE-ConnectionGUID: z+y1vLrQTZ6Q5yeF2KpSYw==
+X-CSE-MsgGUID: E+EnZfHwS1GHwoqKcspuvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2878162"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2865930"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 20:18:57 -0800
-X-CSE-ConnectionGUID: Knzf6gZIRwSXiIrDjlKtKA==
-X-CSE-MsgGUID: Xv4CVFadRdCf54okxS/wgA==
+   d="scan'208";a="2878162"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 21:14:02 -0800
+X-CSE-ConnectionGUID: 6o0RgvbdS+6kv99plMYIKA==
+X-CSE-MsgGUID: llm9UCwsTei6Q0DQQz3frQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7760045"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Nov 2026 20:18:57 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="7423691"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 07 Nov 2026 21:13:58 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPuMm-00000000B0m-34dL;
-	Sun, 08 Nov 2026 04:18:52 +0000
-Date: Sun, 08 Nov 2026 05:18:10 +0100
+	id 1xPvE3-00000000s7z-185F;
+	Sun, 08 Nov 2026 05:13:55 +0000
+Date: Sun, 8 Nov 2026 13:13:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
- Sunil V L <sunilvl@oss.qualcomm.com>
-Subject: [avpatel:riscv_trace_support_v6 54/80]
- drivers/acpi/apei/bert.c:160:25: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202611080529.ydxZCJPn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tim Michals <tcmichals@gmail.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sunxi@lists.linux.dev,
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Tim Michals <tcmichals@gmail.com>
+Subject: Re: [PATCH v3 7/7] remoteproc: sunxi: Add KUnit tests
+Message-ID: <202611081239.zlQqllPm-lkp@intel.com>
+References: <20261101185735.762559-8-tcmichals@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,120 +91,147 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261101185735.762559-8-tcmichals@gmail.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
-head:   f98be19c4d4f657fa0ed2a17aa8ef5ece29fe8dc
-commit: 24380e2e902d4fcc26fe8fb3bd035c9d4701ad84 [54/80] riscv: Select HAVE_ACPI_APEI required for RAS
-config: riscv-randconfig-r2308-20261108 (https://download.01.org/0day-ci/archive/20261108/202611080529.ydxZCJPn-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080529.ydxZCJPn-lkp@intel.com/reproduce)
+Hi Tim,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Michals/dt-bindings-mailbox-Add-Allwinner-A523-message-box/20261101-125729
+base:   7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
+patch link:    https://lore.kernel.org/r/20261101185735.762559-8-tcmichals%40gmail.com
+patch subject: [PATCH v3 7/7] remoteproc: sunxi: Add KUnit tests
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20261108/202611081239.zlQqllPm-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081239.zlQqllPm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611080529.ydxZCJPn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611081239.zlQqllPm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/apei/bert.c:160:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct acpi_bert_region *[assigned] boot_error_region @@
-   drivers/acpi/apei/bert.c:160:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/bert.c:160:25: sparse:     got struct acpi_bert_region *[assigned] boot_error_region
---
-   drivers/acpi/apei/erst.c:292:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *src @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:292:13: sparse:     expected void *src
-   drivers/acpi/apei/erst.c:292:13: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/erst.c:295:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dst @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:295:13: sparse:     expected void *dst
-   drivers/acpi/apei/erst.c:295:13: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/erst.c:297:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
-   drivers/acpi/apei/erst.c:297:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:297:25: sparse:     got void *src
-   drivers/acpi/apei/erst.c:303:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
-   drivers/acpi/apei/erst.c:303:17: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:303:17: sparse:     got void *src
-   drivers/acpi/apei/erst.c:304:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *dst @@
-   drivers/acpi/apei/erst.c:304:17: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:304:17: sparse:     got void *dst
-   drivers/acpi/apei/erst.c:825:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:825:27: sparse:     expected void *
-   drivers/acpi/apei/erst.c:825:27: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:826:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_erange @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:826:20: sparse:     expected struct cper_record_header *rcd_erange
-   drivers/acpi/apei/erst.c:826:20: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:863:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_tmp @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:863:17: sparse:     expected struct cper_record_header *rcd_tmp
-   drivers/acpi/apei/erst.c:863:17: sparse:     got void [noderef] __iomem *
->> drivers/acpi/apei/erst.c:1253:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *static [addressable] [toplevel] vaddr @@     got void * @@
-   drivers/acpi/apei/erst.c:1253:27: sparse:     expected void [noderef] __iomem *static [addressable] [toplevel] vaddr
-   drivers/acpi/apei/erst.c:1253:27: sparse:     got void *
+All errors (new ones prefixed by >>):
 
-vim +160 drivers/acpi/apei/bert.c
+   In file included from include/kunit/device.h:16,
+                    from drivers/remoteproc/sunxi_rproc_kunit.c:29:
+   drivers/remoteproc/sunxi_rproc_kunit.c: In function 'expect_powered_off':
+>> drivers/remoteproc/sunxi_rproc_kunit.c:962:64: error: 'struct dev_pm_info' has no member named 'usage_count'
+     962 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 0);
+         |                                                                ^
+   include/kunit/test.h:840:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:962:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     962 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 0);
+         |         ^~~~~~~~~~~~~~~
+>> drivers/remoteproc/sunxi_rproc_kunit.c:962:64: error: 'struct dev_pm_info' has no member named 'usage_count'
+     962 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 0);
+         |                                                                ^
+   include/kunit/test.h:840:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:962:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     962 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 0);
+         |         ^~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c: In function 'test_prepare_unprepare_order':
+   drivers/remoteproc/sunxi_rproc_kunit.c:977:64: error: 'struct dev_pm_info' has no member named 'usage_count'
+     977 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 1);
+         |                                                                ^
+   include/kunit/test.h:840:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:977:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     977 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 1);
+         |         ^~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:977:64: error: 'struct dev_pm_info' has no member named 'usage_count'
+     977 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 1);
+         |                                                                ^
+   include/kunit/test.h:840:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:977:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+     977 |         KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 1);
+         |         ^~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c: In function 'test_prepare_power_up_failure':
+   drivers/remoteproc/sunxi_rproc_kunit.c:1107:54: error: 'struct dev_pm_info' has no member named 'usage_count'
+    1107 |         KUNIT_EXPECT_EQ(test, atomic_read(&dev->power.usage_count), 0);
+         |                                                      ^
+   include/kunit/test.h:840:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:1107:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+    1107 |         KUNIT_EXPECT_EQ(test, atomic_read(&dev->power.usage_count), 0);
+         |         ^~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:1107:54: error: 'struct dev_pm_info' has no member named 'usage_count'
+    1107 |         KUNIT_EXPECT_EQ(test, atomic_read(&dev->power.usage_count), 0);
+         |                                                      ^
+   include/kunit/test.h:840:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     840 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:1037:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1037 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1034:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1034 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/remoteproc/sunxi_rproc_kunit.c:1107:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+    1107 |         KUNIT_EXPECT_EQ(test, atomic_read(&dev->power.usage_count), 0);
+         |         ^~~~~~~~~~~~~~~
 
-a3e2acc5e37b22 Ying Huang 2016-06-29  115  
-a3e2acc5e37b22 Ying Huang 2016-06-29  116  static int __init bert_init(void)
-a3e2acc5e37b22 Ying Huang 2016-06-29  117  {
-41139ac3cd76c6 Ying Huang 2017-02-20  118  	struct apei_resources bert_resources;
-a3e2acc5e37b22 Ying Huang 2016-06-29  119  	struct acpi_bert_region *boot_error_region;
-a3e2acc5e37b22 Ying Huang 2016-06-29  120  	struct acpi_table_bert *bert_tab;
-a3e2acc5e37b22 Ying Huang 2016-06-29  121  	unsigned int region_len;
-a3e2acc5e37b22 Ying Huang 2016-06-29  122  	acpi_status status;
-a3e2acc5e37b22 Ying Huang 2016-06-29  123  	int rc = 0;
-a3e2acc5e37b22 Ying Huang 2016-06-29  124  
-a3e2acc5e37b22 Ying Huang 2016-06-29  125  	if (acpi_disabled)
-a3e2acc5e37b22 Ying Huang 2016-06-29  126  		return 0;
-a3e2acc5e37b22 Ying Huang 2016-06-29  127  
-a3e2acc5e37b22 Ying Huang 2016-06-29  128  	if (bert_disable) {
-a3e2acc5e37b22 Ying Huang 2016-06-29  129  		pr_info("Boot Error Record Table support is disabled.\n");
-a3e2acc5e37b22 Ying Huang 2016-06-29  130  		return 0;
-a3e2acc5e37b22 Ying Huang 2016-06-29  131  	}
-a3e2acc5e37b22 Ying Huang 2016-06-29  132  
-a3e2acc5e37b22 Ying Huang 2016-06-29  133  	status = acpi_get_table(ACPI_SIG_BERT, 0, (struct acpi_table_header **)&bert_tab);
-a3e2acc5e37b22 Ying Huang 2016-06-29  134  	if (status == AE_NOT_FOUND)
-a3e2acc5e37b22 Ying Huang 2016-06-29  135  		return 0;
-a3e2acc5e37b22 Ying Huang 2016-06-29  136  
-a3e2acc5e37b22 Ying Huang 2016-06-29  137  	if (ACPI_FAILURE(status)) {
-a3e2acc5e37b22 Ying Huang 2016-06-29  138  		pr_err("get table failed, %s.\n", acpi_format_exception(status));
-a3e2acc5e37b22 Ying Huang 2016-06-29  139  		return -EINVAL;
-a3e2acc5e37b22 Ying Huang 2016-06-29  140  	}
-a3e2acc5e37b22 Ying Huang 2016-06-29  141  
-a3e2acc5e37b22 Ying Huang 2016-06-29  142  	rc = bert_check_table(bert_tab);
-a3e2acc5e37b22 Ying Huang 2016-06-29  143  	if (rc) {
-a3e2acc5e37b22 Ying Huang 2016-06-29  144  		pr_err(FW_BUG "table invalid.\n");
-3d995f88adb106 Hanjun Guo 2020-05-07  145  		goto out_put_bert_tab;
-a3e2acc5e37b22 Ying Huang 2016-06-29  146  	}
-a3e2acc5e37b22 Ying Huang 2016-06-29  147  
-a3e2acc5e37b22 Ying Huang 2016-06-29  148  	region_len = bert_tab->region_length;
-41139ac3cd76c6 Ying Huang 2017-02-20  149  	apei_resources_init(&bert_resources);
-41139ac3cd76c6 Ying Huang 2017-02-20  150  	rc = apei_resources_add(&bert_resources, bert_tab->address,
-41139ac3cd76c6 Ying Huang 2017-02-20  151  				region_len, true);
-41139ac3cd76c6 Ying Huang 2017-02-20  152  	if (rc)
-3d995f88adb106 Hanjun Guo 2020-05-07  153  		goto out_put_bert_tab;
-41139ac3cd76c6 Ying Huang 2017-02-20  154  	rc = apei_resources_request(&bert_resources, "APEI BERT");
-41139ac3cd76c6 Ying Huang 2017-02-20  155  	if (rc)
-41139ac3cd76c6 Ying Huang 2017-02-20  156  		goto out_fini;
-a3e2acc5e37b22 Ying Huang 2016-06-29  157  	boot_error_region = ioremap_cache(bert_tab->address, region_len);
-a3e2acc5e37b22 Ying Huang 2016-06-29  158  	if (boot_error_region) {
-a3e2acc5e37b22 Ying Huang 2016-06-29  159  		bert_print_all(boot_error_region, region_len);
-a3e2acc5e37b22 Ying Huang 2016-06-29 @160  		iounmap(boot_error_region);
-a3e2acc5e37b22 Ying Huang 2016-06-29  161  	} else {
-a3e2acc5e37b22 Ying Huang 2016-06-29  162  		rc = -ENOMEM;
-a3e2acc5e37b22 Ying Huang 2016-06-29  163  	}
-a3e2acc5e37b22 Ying Huang 2016-06-29  164  
-41139ac3cd76c6 Ying Huang 2017-02-20  165  	apei_resources_release(&bert_resources);
-41139ac3cd76c6 Ying Huang 2017-02-20  166  out_fini:
-41139ac3cd76c6 Ying Huang 2017-02-20  167  	apei_resources_fini(&bert_resources);
-3d995f88adb106 Hanjun Guo 2020-05-07  168  out_put_bert_tab:
-3d995f88adb106 Hanjun Guo 2020-05-07  169  	acpi_put_table((struct acpi_table_header *)bert_tab);
-a3e2acc5e37b22 Ying Huang 2016-06-29  170  
-a3e2acc5e37b22 Ying Huang 2016-06-29  171  	return rc;
-a3e2acc5e37b22 Ying Huang 2016-06-29  172  }
-a3e2acc5e37b22 Ying Huang 2016-06-29  173  
 
-:::::: The code at line 160 was first introduced by commit
-:::::: a3e2acc5e37b22b6808a0b8e46887c3577de9c9e ACPI / APEI: Add Boot Error Record Table (BERT) support
+vim +962 drivers/remoteproc/sunxi_rproc_kunit.c
 
-:::::: TO: Huang Ying <ying.huang@intel.com>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+   949	
+   950	/* Everything as before prepare(): resets asserted, clocks off, no PM reference */
+   951	static void expect_powered_off(struct kunit *test, struct test_context *ctx,
+   952				       struct mock_providers *mp, bool core_held)
+   953	{
+   954		int i;
+   955	
+   956		KUNIT_EXPECT_TRUE(test, mp->asserted[RST_CFG]);
+   957		KUNIT_EXPECT_TRUE(test, mp->asserted[RST_SRAM]);
+   958		KUNIT_EXPECT_TRUE(test, mp->asserted[RST_DEBUG]);
+   959		KUNIT_EXPECT_EQ(test, mp->asserted[RST_CORE], core_held);
+   960		for (i = 0; i < NR_CLK; i++)
+   961			KUNIT_EXPECT_FALSE_MSG(test, clk_hw_is_prepared(&mp->clk[i].hw), "clock %d", i);
+ > 962		KUNIT_EXPECT_EQ(test, atomic_read(&ctx->priv.dev->power.usage_count), 0);
+   963	}
+   964	
 
 --
 0-DAY CI Kernel Test Service
