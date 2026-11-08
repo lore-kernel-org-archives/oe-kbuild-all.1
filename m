@@ -1,84 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794106398;
-	b=AJWOkiSEREq4aZGCNxIoeBJdd6jfbYoKyAd9mQ9IrNAfxnElFckC46GbOGFYaarp828p
-	 GFbaYd5DTXvNnTEArbqjJsOoDWivfyUkVbsWy+p4O2uR18vZvfzLzZuBG6wmOx5ZSmV2x
-	 bzh+MRGwh2zwccEDVZirAz0VuJAlk6A2IQMBvwdUqZ92PpXkWHZ/U2306m1R9Y4vnk6Jw
-	 69qkXCFvd78hbiMb3rNdG7AhiKwKTFUgNPNjUZZDqBq+4bkInhY30RPPlSOjZ/h0PFWj9
-	 cnslGOUVl6Npe6jUIc3gjk1LKOl3qcbTxAx1sHofWuurEJV6FaHBtB4zrTNaUUMAuFg==
+	t=1794106848;
+	b=ho5o8CtrrHreLkbhzJHZv7hkK/vRRyiSHSw8l5yQTwNllBJfsK6WkXleTUQ35CFaadEW
+	 Y34FovuTPpX9VYrdcJRFrQXJSyK8KypHVCE7jha84DjT8XjZSulh40TlDU80XiOwhYbFa
+	 qK/3La/qRvXZ8iE2AKKYckpXW4IHWu/LDMGn56jXUoBJaC3mV90Oi9fFeeWk9MwAW6eVK
+	 /N+FnULm7wvU4HyjIFo0czOU7CvHM5lCy3K20oJCNrHmBsA5hws0q3ZgNP9A2gp/av9Cg
+	 Gl8qMECaxt8D7eVSVARPVsbIJ+CcpV2kmKkCwzfQZBYDEzwpSI+jzO5a4NtEd/wisQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794106398;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Mime-Version:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Subject:From:
-	 To:Cc:X-Mailer:References:In-Reply-To;
-	bh=22yvN5w4LekXsoG2Jr2gH7s62z7rAEnSkLMnu5caXgw=;
-	b=TbjzcXzP7Uw3LbeY8vIlT59j4hK+Tq7wNg+tl7BNwi9ZobA3/HDs1HECFCBAE5/fYjk8
-	 qXMptFtsN67SrJ0BPK/DXpMFTylDNKuhMyqHCJPwPdZyN+c4mV8RqRsQuQ1rtRa3mXVdP
-	 JV0Vs0PbFUQYo95w6y5NXvrJOBxbQD+6GKdcPRufxmwmOvz08leKd736KM/Y67XpSPZae
-	 EVBZvpEGCSuBFRijL9gjveJC5RU9OL0zZl3aWyyxPp7SFv3kTgwS5gYRhAEotit/UjPxP
-	 WDQ25Zwv+Tw11KIWb3fua17N467bYLJ5RY5c8oO+tZ1fLnJBmJD8Vkiqro3oi5nT8cg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794106848;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=wNdf+pD3YDUeg1yaqPDh926a2mzNbS/VZ3Hx4Nz/L9w=;
+	b=0NRGru/eosNQcTnCO7al9SBxZJfMY1s81IOrEPWh9HO3Q4qDalx0/rQa6CDofGaTWFib
+	 bnF4ym/tRVH9EZTtE+BbG4DS0LeOYstkoV9KI5rn7H8QDwM0C6Qz4o9alKbrVbgHzgwSQ
+	 mA02j+QTkycuCBv1puGADIyZfKotrkC6Y3pBw2ANGCtU8nF34C8ak31SnuvkuPsY77sKh
+	 gtaRtZ4xwFw7qgBalKkBoGvmB5vAcFVJXAxqzyJS/E4EyvV2aZOmlJ+jW9P3gOI9g/2VM
+	 SFF06kqz7A39V/i7tmUmijkd0GuXAhsoJYfmZaHHtdjK6YHqAzWpGRvRfUmut62tCXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=joaOGp2f;
-	arc=none smtp.remote-ip=209.85.210.181
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GeCVVLXR;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A84606A31A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 02:53:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4A84606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E280E606A31A
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 03:00:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E280E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=joaOGp2f
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a06c60065fso37091b3a.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 07 Nov 2026 18:53:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794106397; x=1794711197; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=22yvN5w4LekXsoG2Jr2gH7s62z7rAEnSkLMnu5caXgw=;
-        b=joaOGp2fuo+M9T04z276WQdQR3ISKDSCy6b1Y6o/uQInT76/UGR4VFBwYn1bxT8qIv
-         msuzVNDwHyNXDw7iAl7Zzq33ddsCB2jvazvP8wSizB5FvP7yLdFbhC2vLmcIM0OntitX
-         DxuLBCsBZKfmv5J0nmYxNB5GrN+R709wCnFXQLrzZEqmzix94oQIksX87UIBxjCi4N3E
-         ioLQxkEZA4u8eQ9Jcf0YzJt6O4O5iLRlQQbKnu19cKYRgdi9XqHxFPWIX8k4J4+daRlx
-         Hin18Um4mT6+qIVj/GgBbSGQQE2T2od56AyMIaffyELpbynzSbPjKUWeoAhUDSeTt8v5
-         8c+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794106397; x=1794711197;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=22yvN5w4LekXsoG2Jr2gH7s62z7rAEnSkLMnu5caXgw=;
-        b=M6/pNAoCd2yQ8Q0UOq06z1+QlyYikvwe5pZqeD4mk7riMjiU0C6hng/4tz+tMDp7ce
-         NgqIk3e13Chvaj95sUKJE5RxIis3oxZW3m+zSIl+9reA+P0jXU1Sv3Ut6X2wsm/SsyTK
-         sLyws5nmiFkS4YlzpOo7ggA4rsb/nOasfRa6p8ISuIjj4s6uvH3+cEPZcVr0B4dUVwmw
-         cyx7vjiqz5H5OobHax5s6OZ6+LmNe7/VZKkpe51BxsN+vWh22OQkub64f/oeTIDu43up
-         mLKK5CEdFUAArxFSAxRsjMEdTCBLo3QY0HSp++PJ5LZecoYS8yJz+tS7aEzCbOelZ1C1
-         bOsg==
-X-Gm-Message-State: APuU4Z+EQ0ZcvJe0kaToCXmlaqWklcj0KoR3wufB6osTRcQd+W+hlPYO
-	kVbiTOxRWgIXJ7X7RyWbskjpFp38FVslLOxvrAAY0J+txmTrcUdiQLbQ
-X-Gm-Gg: AYBFou19xf2lgOeiJMGVAAeJ0PCOS+ztSvzFdfgFALl7vzZvrpWE+9a4wVo/xk0kW+Q
-	eLbuc6mgghG6x+5VztkZT/Qnt8yYl+KIU+B7S3Z4p2WBmewedJqaACySdpy1yzwcktCdI/I4MFh
-	d5z7w/22Jq9eReykrwxNAyk9O3S5ZVZYs9m6qFgiyLwgpriZ4kz4fT3lcpHtwnwmhMY193o83hf
-	V6Osz/dDqFp7K26I2ZMuAIDs31OzVqJu2WZISnz14uXnWMbryYtnL4MrCGnFArq29im4ftebrND
-	HOAgLnGWWV9d5U/qIzKQfZ4peFmNLxMAj0Amqjzg4XmELgCBZaQD9+r2P14Q2l9jZzzR2AE2PwK
-	RAzPRevsjeZF4FLUzvTdOU7ovp5JAYro49b34bh6S7drZzzOEuwmTfLPnTF/qtn8kOBxd5Wi+pK
-	QO7QivqB6r9roRICFunPwQjHPYXC5vzYQ00+Fu5gaaE5kNU/UwTmBpGGb0LXk722tWXnnvj96FL
-	iPaDN66rVVMnAFH3GMYFax9JATmI++DhCVQQtjPHtt2qkV1NlPu8aqYSD/Ew4XyI1cgWTkAro5O
-	tsoWnEzVPyrSqeOFQXYh13qBhnErDvXh4L1olDtRMlgWG96o+w4hbdG5bqBiqtgOaM2etxFbHFz
-	9RJm+G4yZx72XsevlBHPrwf2RKwHMMTvLb0Oa6UaxPmr1Gim4TfKup9E=
-X-Received: by 2002:a05:6a20:a123:b0:3e0:e349:f672 with SMTP id adf61e73a8af0-3eed55de967mr494828637.82.1794106396880;
-        Sat, 07 Nov 2026 18:53:16 -0800 (PST)
-Received: from localhost ([153.61.198.254])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b649821abesm193541b3a.34.2026.11.07.18.53.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Nov 2026 18:53:15 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GeCVVLXR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794106845; x=1825642845;
+  h=date:from:to:cc:subject:message-id;
+  bh=E6sSvq8Kl9hBYUJw6xxFujs7ooCsRK7qeDmP6H0DP3Y=;
+  b=GeCVVLXR7ew0hm9BvftAADqYLlNcLFVM56RNQDuGBCC1Pq1gerFe3zeW
+   CsodTH1kh86gCqwYsAUXaN+aVPLvxTFEv2TUIeZZv2GE27wVNqIasT2aD
+   KnrSUblwRn4V/ad41PxveLMgLqT4iCTJDvPM1H6Ar2EogeP9D273mPhBs
+   9tdI2ipYAXnJu1+wVLxmTi211xerDA1fSRMZGtUnrkWrRE2zMUXglvKRi
+   Qb8XoVYIjUqm+VyiXRvqClTsNIhcJ6qhDkEdFo1Bx9gUhxzYPbF7Yzvc0
+   WKnOMuriNDctLA3tv+60PFkrrsUaBR0lriQWnsoePqjyUC0RcwgI6Usu6
+   Q==;
+X-CSE-ConnectionGUID: gVdfMhRjTTS5AQ+okGhBWg==
+X-CSE-MsgGUID: W9r9FCjwRr+kUxCza4ForA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2754747"
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="2754747"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 19:00:45 -0800
+X-CSE-ConnectionGUID: trIyu3xzRomZcigt8hAMoQ==
+X-CSE-MsgGUID: e+bWvQaETzCpZzYVxTxCWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="7483280"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 07 Nov 2026 19:00:44 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPt97-00000000ryP-3HVR;
+	Sun, 08 Nov 2026 03:00:41 +0000
+Date: Sun, 08 Nov 2026 11:00:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
+Subject: [avpatel:riscv_trace_support_v6 70/80]
+ drivers/hwtracing/gtrace/gtrace-core.c:590:8: warning: assignment to 'struct
+ gtrace_path_node *' from 'int' makes pointer from integer without a cast
+Message-ID: <202611081022.54wlwEdr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,48 +81,143 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 08 Nov 2026 02:53:15 +0000
-Message-Id: <DMPHMZT0ORT5.3FFQQHE7YNP6J@gmail.com>
-Subject: Re: [linux-next:master 3430/4145] kernel/bpf/scev.c:736:33-42:
- duplicated argument to && or ||
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "kernel test robot" <lkp@intel.com>, "Alexei Starovoitov"
- <ast@kernel.org>
-Cc: <oe-kbuild-all@lists.linux.dev>
-X-Mailer: aerc 0.20.1-355-gf870624f6c37
-References: <202611080024.A0phXMMa-lkp@intel.com>
-In-Reply-To: <202611080024.A0phXMMa-lkp@intel.com>
 
-On Sat Nov 7, 2026 at 11:54 PM UTC, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-> commit: 28a373cb0f6a579049ffe92747575213a442673f [3430/4145] bpf: Fold su=
-ms of constants and two shifts by 32 in scalar evolution
-> config: hexagon-randconfig-r2101-20261107 (https://download.01.org/0day-c=
-i/archive/20261108/202611080024.A0phXMMa-lkp@intel.com/config)
-> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 0=
-fa861dbbf46e5a75f621406fd91cb015d8754bf)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202611080024.A0phXMMa-lkp=
-@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
->>> kernel/bpf/scev.c:736:33-42: duplicated argument to && or ||
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
+head:   f98be19c4d4f657fa0ed2a17aa8ef5ece29fe8dc
+commit: 3889440d4d89d7eed212c92d6b46a87676fac5a9 [70/80] gtrace: Add functions to create/destroy a trace component path
+config: xtensa-randconfig-1000-20261108 (https://download.01.org/0day-ci/archive/20261108/202611081022.54wlwEdr-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081022.54wlwEdr-lkp@intel.com/reproduce)
 
-...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611081022.54wlwEdr-lkp@intel.com/
 
->    735				if (class =3D=3D BPF_ALU64 && op =3D=3D BPF_RSH && id >=3D 0 &&
->  > 736				    is_imm(scev, id, &imm) && imm =3D=3D 32 &&
->    737				    is_binop(scev, BPF_LSH, reg2expr[dst], &l, &r) &&
->    738				    is_imm(scev, r, &imm) && imm =3D=3D 32)
->    739					return replace_reg(scev, e, dst, expr1(scev, ZEXT32, l));
+All warnings (new ones prefixed by >>):
 
-No. they are not duplicated, but yeah the coding style is questionable.
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
+   drivers/hwtracing/gtrace/gtrace-core.c:372:2: error: implicit declaration of function 'kfree'; did you mean 'ida_free'? [-Werror=implicit-function-declaration]
+     kfree(cpriv);
+     ^~~~~
+     ida_free
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
+   drivers/hwtracing/gtrace/gtrace-core.c:416:10: error: implicit declaration of function 'kzalloc'; did you mean 'xa_alloc'? [-Werror=implicit-function-declaration]
+     cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+             ^~~~~~~
+             xa_alloc
+   drivers/hwtracing/gtrace/gtrace-core.c:416:8: warning: assignment to 'struct gtrace_comp_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+           ^
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'build_path_walk_fn':
+   drivers/hwtracing/gtrace/gtrace-core.c:590:10: error: implicit declaration of function 'kzalloc_obj'; did you mean 'xa_alloc_bh'? [-Werror=implicit-function-declaration]
+      node = kzalloc_obj(*node);
+             ^~~~~~~~~~~
+             xa_alloc_bh
+>> drivers/hwtracing/gtrace/gtrace-core.c:590:8: warning: assignment to 'struct gtrace_path_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      node = kzalloc_obj(*node);
+           ^
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_create_path':
+>> drivers/hwtracing/gtrace/gtrace-core.c:627:7: warning: assignment to 'struct gtrace_path *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     path = kzalloc(sizeof(*path), GFP_KERNEL);
+          ^
+   cc1: some warnings being treated as errors
+
+
+vim +590 drivers/hwtracing/gtrace/gtrace-core.c
+
+   576	
+   577	static int build_path_walk_fn(struct gtrace_component *comp, bool *stop,
+   578				      struct gtrace_connection *stop_conn,
+   579				      void *priv)
+   580	{
+   581		struct build_path_walk_priv *ppriv = priv;
+   582		struct gtrace_path *path = ppriv->path;
+   583		struct gtrace_path_node *node;
+   584	
+   585		if ((!ppriv->sink && gtrace_is_sink(comp->pdata)) ||
+   586		    (ppriv->sink && ppriv->sink == comp))
+   587			*stop = true;
+   588	
+   589		if (*stop) {
+ > 590			node = kzalloc_obj(*node);
+   591			if (!node)
+   592				return -ENOMEM;
+   593			INIT_LIST_HEAD(&node->head);
+   594			gtrace_get_component(comp);
+   595			node->comp = comp;
+   596			node->conn = stop_conn;
+   597			list_add(&node->head, &path->comp_list);
+   598		}
+   599	
+   600		return 0;
+   601	}
+   602	
+   603	static void gtrace_release_path_nodes(struct gtrace_path *path)
+   604	{
+   605		struct gtrace_path_node *node, *node1;
+   606	
+   607		list_for_each_entry_safe(node, node1, &path->comp_list, head) {
+   608			list_del(&node->head);
+   609			gtrace_put_component(node->comp);
+   610			kfree(node);
+   611		}
+   612	}
+   613	
+   614	struct gtrace_path *gtrace_create_path(struct gtrace_component *source,
+   615					       struct gtrace_component *sink,
+   616					       enum gtrace_component_mode mode)
+   617	{
+   618		struct build_path_walk_priv priv;
+   619		struct gtrace_path *path;
+   620		int ret = 0;
+   621	
+   622		if (!source || mode >= GTRACE_COMPONENT_MODE_MAX) {
+   623			ret = -EINVAL;
+   624			goto err_out;
+   625		}
+   626	
+ > 627		path = kzalloc(sizeof(*path), GFP_KERNEL);
+   628		if (!path) {
+   629			ret = -ENOMEM;
+   630			goto err_out;
+   631		}
+   632		INIT_LIST_HEAD(&path->comp_list);
+   633		path->mode = mode;
+   634		path->trace_id = GTRACE_INVALID_TRACE_ID;
+   635	
+   636		priv.path = path;
+   637		priv.sink = sink;
+   638		ret = gtrace_walk_output_components(source, &priv, build_path_walk_fn);
+   639		if (ret < 0)
+   640			goto err_release_path_nodes;
+   641	
+   642		/* Before proceeding, check that a valid path was built. */
+   643		if (list_empty(&path->comp_list)) {
+   644			ret = -ENODEV;
+   645			goto err_release_path_nodes;
+   646		}
+   647	
+   648		if (!gtrace_path_ready(path)) {
+   649			ret = -EOPNOTSUPP;
+   650			goto err_release_path_nodes;
+   651		}
+   652	
+   653		ret = gtrace_assign_trace_id(path);
+   654		if (ret < 0)
+   655			goto err_release_path_nodes;
+   656	
+   657		return path;
+   658	
+   659	err_release_path_nodes:
+   660		gtrace_release_path_nodes(path);
+   661		kfree(path);
+   662	err_out:
+   663		return ERR_PTR(ret);
+   664	}
+   665	EXPORT_SYMBOL_GPL(gtrace_create_path);
+   666	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
