@@ -1,77 +1,92 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794174523;
-	b=UFXSwk2iNMzYTynidKLpuNZjQS6lea2XnQKQL+2jrTBLyQdkukzcQZ6KXcyMGlQjc4gC
-	 +Vm4lef39nsHX+5/BJdBpDQFT3myuA7TWiPN+pAKkVwP8KXs4uA+DD2lM4NubEfq3Nsav
-	 eeAyjYnDq6JdyrB8P4uKZ17U1vxSJs/fKELGcQNYHeckXhNCXqTF0c+nQsuR670UPYA1n
-	 Rd9O0hE610I3wDsW0sdKrlikAsz/y1nl0PEksC/ThJi3fgofScy/tPqAo5COQWaYo4UmI
-	 pHdhcD9HUgrX8Ex5x6hE5/zAovQRGCNMF3sPK+Ko3yeqYVP2jpAS7HnF6f8w4pfdsgA==
+	t=1794174525;
+	b=t1kOco7oY6tA57bOXuM6FQ5mWb9aLoljhwmxgefDuvqA3kbh72UkPVkQGvYYzCFPjQ1m
+	 O59Wtkg48vCRGBZVx38w+jXb5+7agnJZgyMMwIFZ2af5nxPZ1iDbPx4Y8fyDolP9h9Jcl
+	 xV4BM9xAorxynF66yzluOznVskPNMszPZEmCVwKPSSgPCGyxTP5T57nkogJoGn6lIWSX5
+	 /xNGppXTBB9uNIBUuSjePFCmPgBZTnOJSLCBv2AYtUgvnfgYPU3uAYF30salLIlkAI2HB
+	 iEM8IQoimj68nHeA7YdyY8WS1iELfu6LE6CtpP6cQLkBABGKMWIfgqQEGCw+qwfBWgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794174523;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794174525;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=KC3Lhgxu6FP97ncfRy5DbvmCC8uT5+svGn+YcMvoKq0=;
-	b=NftdhwxXpX4MrtERv4PBJdH1yyqAxvJHYxi/UqghEe7b3EOEh7aXK8Ge3q+DKczgpyvA
-	 KT8k/ewD3+aSADeWk5voi7wpOso+4oc91HyCWw8ddSuqqVqg+DrOCW193LhdGJnjWTfxe
-	 Ys13IPQvNUTQoTUJfCyLZck4Gq552G+dw3Ut7aq0LNxs0Es3aFfUuSQxWLgYi606uD8QE
-	 NIaAiGxEt40b6G8SpKKFKWuvpQX6KHEVGWT9W0godhE0KYNDf95FwRhfS/GNzggyubhmZ
-	 xpxKSobb39bqkm8JW9D5BXbXumRPFxH7/5CgOIgWNB4DOPsA2I8BpEYFT++NSiE3k6Q==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=d+hgfVdursC5BkNN1WVdsSZpLzmJ5l76P4zcjf+x04M=;
+	b=tT0wKG0jyl5uXZeBE1dPMpxhS7A92hL1zaJ6TaBygevRgn7nnRwzJezHlg5TbmNLtIiJ
+	 ykrMrNwLg6K58vDlpFinJlCIsAmNq5/hXBqFig89sg9wC29ddos21u+roc9ll+T+URRpR
+	 YARpf9dpNUNB6CU1BPHYDW33CxJBBa8K9cgqsQek/RLGBSst8cTFnIQRgrcekPBYCBGWJ
+	 WCEyIe9mR++pGuboKKFqMTOhBCaGGzCvCfr5RjcjE7Yh2OyOnaezC8Uv8CT7mwT6AqcFA
+	 uHJYT1q/5V/Pa0OiJPLiz2DDoIu5n9Y58VCRCrk1Ki1vSrD+hEiVq+4Z59oLYXYtjxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HcS497RF;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N0v6B1X9;
 	arc=none smtp.remote-ip=192.198.163.12
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4717606D801;
-	Sun,  8 Nov 2026 21:48:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4717606D801
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC55606A326
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 21:48:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EC55606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HcS497RF
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=N0v6B1X9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794174522; x=1825710522;
-  h=date:from:to:cc:subject:message-id;
-  bh=JPe/7MxAOZcsmeDiG9vdDKYFy8tfON5IjkgrNmUK4qU=;
-  b=HcS497RF/RNR0paq6Unl+aiOpootMoLAf/BWUfQoke2rmGBgLtXd5EPz
-   WdIsOYsgH4fInRZv5GL1PltKcoBqPy1aNA7BSs8on2KP3hvmCO5rZ8hIT
-   a3oloPF2xr0rJRO/FQuZ8JLar7EUM0kcsdG+pRuSjNC0ZDewq6qLZb60h
-   4/eml7mGgfyKz1/upsXhQTzxdpJQviiHpBKwr7OfxpTrjBl0TK9QW/8ZE
-   kvJcc1tnKCrQmt7jJfLa2Ar+uc4brAvRlbQPqqCbYHTIj/GX924ZQP4Dg
-   DI+/2QMXrwh30di450iWgTYRjWjpbC7WO0oqG+ZwgutSHKMOQNyV6BuG2
+  t=1794174525; x=1825710525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lyC/gc2As/slOIQA1S8PUGv8GKu8g5O/yBmvasqYDQs=;
+  b=N0v6B1X9zoHZ73972uO4exYw0EJTdWhJlqfA6ezO/HYwV83GGWoigY+H
+   /kJIW0cwvUA1j5RnqAzxEo9/hhYCkQPbVmS9ebMeaFO9OrZDJxsYvN2As
+   ftKK9uH1BYIsgJ7wenrbpXkhKTsVmUUYJfI0l3+75+tTnQylzH+QmKfEk
+   K0XE3/cMA6/WfZbLw6AR8QP/M4FUyJrQva69bp2LFWzX86pZYYLy6/6Jk
+   CyQ7FM+dg7EsGI1sdEqV7sta9JuT/CKn6MiML49+cr5ivPOM9L/A6oTli
+   8ez1A+WvW+u1Y0cYjHJMbO3XRw30Pt9iPzPq714Snu4ICMFWALDDyb0YU
    g==;
-X-CSE-ConnectionGUID: CtJIefNbRA+J53CTWO4ULg==
-X-CSE-MsgGUID: RsHp9YzeTqqTNNXA3Ez7hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2803087"
+X-CSE-ConnectionGUID: kPsba26wR3S2pG0KWR0xcA==
+X-CSE-MsgGUID: WCSKwZBUQnG0UdTtOvbNbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2803095"
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="2803087"
+   d="scan'208";a="2803095"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 13:48:41 -0800
-X-CSE-ConnectionGUID: iPPPmEgjTW+TKhcI68lRyw==
-X-CSE-MsgGUID: b+twWHm3QzqT87E2Iv91dw==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 13:48:45 -0800
+X-CSE-ConnectionGUID: gCsiQnFUR5yxqBbKMgnRAw==
+X-CSE-MsgGUID: xTO+LEHbT3Cze3JGHLwMMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,202,1787036400"; 
-   d="scan'208";a="7727089"
+   d="scan'208";a="7727084"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Nov 2026 13:48:40 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 08 Nov 2026 13:48:41 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQAkf-00000000tRz-25T1;
+	id 1xQAkf-00000000tRx-21Y3;
 	Sun, 08 Nov 2026 21:48:37 +0000
-Date: Mon, 09 Nov 2026 05:48:10 +0800
+Date: Mon, 9 Nov 2026 05:48:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Bryan O'Donoghue" <bod@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bod:linux-7.4-rc1-ife-v1 74/102]
- drivers/media/platform/qcom/camss/camss.c:5110:20: warning: no previous
- prototype for function 'vfe_comp_group_output'
-Message-ID: <202611090518.1PkNdyxL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Esben Haabendal <esben@geanix.com>,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Pan Chuang <panchuang@vivo.com>,
+	Hemanth Selam <hemanth.selam@gmail.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Nikita Travkin <nikita@trvn.ru>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] iio: light: ltr501: Add support for the
+ LTR-659PS-01 proximity sensor
+Message-ID: <202611090518.mm6yt2nO-lkp@intel.com>
+References: <20261108094253.83899-5-clamor95@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,52 +95,40 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108094253.83899-5-clamor95@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bod/linux.git linux-7.4-rc1-ife-v1
-head:   830b5bcc668eb7ef5a2fe17463a2a374d2e45e04
-commit: 67e450935000b5b20b2131b3206edaa95d248227 [74/102] media: qcom: camss: Add helper function vfe_comp_group_output
-config: powerpc64-randconfig-1001-20261108 (https://download.01.org/0day-ci/archive/20261109/202611090518.1PkNdyxL-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611090518.1PkNdyxL-lkp@intel.com/reproduce)
+Hi Svyatoslav,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v7.4-rc1]
+[cannot apply to jic23-iio/togreg next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Svyatoslav-Ryhel/iio-light-ltr501-Switch-to-read_avail-op-from-manual-attribute-registration/20261108-114250
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20261108094253.83899-5-clamor95%40gmail.com
+patch subject: [PATCH v3 4/4] iio: light: ltr501: Add support for the LTR-659PS-01 proximity sensor
+config: xtensa-randconfig-1000-20261108 (https://download.01.org/0day-ci/archive/20261109/202611090518.mm6yt2nO-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611090518.mm6yt2nO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611090518.1PkNdyxL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611090518.mm6yt2nO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/media/platform/qcom/camss/camss.c:5110:20: warning: no previous prototype for function 'vfe_comp_group_output' [-Wmissing-prototypes]
-    5110 | struct vfe_output *vfe_comp_group_output(struct vfe_device *vfe, unsigned int group)
-         |                    ^
-   drivers/media/platform/qcom/camss/camss.c:5110:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    5110 | struct vfe_output *vfe_comp_group_output(struct vfe_device *vfe, unsigned int group)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/vfe_comp_group_output +5110 drivers/media/platform/qcom/camss/camss.c
-
-  5109	
-> 5110	struct vfe_output *vfe_comp_group_output(struct vfe_device *vfe, unsigned int group)
-  5111	{
-  5112		unsigned int i, j;
-  5113	
-  5114		for (i = 0; i < vfe->res->line_num; i++) {
-  5115			struct vfe_line *line = &vfe->line[i];
-  5116	
-  5117			for (j = 0; j < line->num_outputs; j++) {
-  5118				struct vfe_output *output = &line->output[j];
-  5119	
-  5120				if (output->wm_num && output->comp_group == group)
-  5121					return output;
-  5122			}
-  5123		}
-  5124	
-  5125		return NULL;
-  5126	}
-  5127	
+WARNING: modpost: vmlinux: section mismatch in reference: trace_initcall_level+0x28 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: __arch_xprod_64+0xac (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+>> ERROR: modpost: drivers/iio/light/ltr501.ko: symbol 'iio_find_channel_from_si' undefined!
 
 --
 0-DAY CI Kernel Test Service
