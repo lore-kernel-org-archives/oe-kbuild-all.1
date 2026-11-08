@@ -1,75 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794126928;
-	b=ZI6hUKB2c4wGex400KdXFvErzI6fOdUZ7Af3pFkuY+MSAVYbWepVWr3lEFfOzHHUc2au
-	 SBuBQtLDYV9c+/uQUtGraN0GhEhPvj9eciPR4alJ9nEWM4OXK0XWq/dMwRVU2MUDiOFoN
-	 dmCrr01+t9pA6Car5uw/XjP7PLTkObDGkPzjY46qQ5UfALcnp9fdMA8HfKxNC4EWS9YxK
-	 gSZgVYsrBdwqosS8AdqQrHOKs0tv/dVvVlNymEhSLmHOjgS8eqV/RAMTics4uhpw/TkfJ
-	 hHiBmXkxTlc/VjInEiz3+CWHK4Qh9P7Sdrg803MzIqxLhLIRcUH8U2g/he+TWoZioSQ==
+	t=1794131077;
+	b=5SLkn3ve2z1H6jaH75Yv+sWxjZdcGQiZ3PCG2fjbAzYhQFPZP+3pPRGprpVDSsi38Dcc
+	 q9Ifi6XhEhWuEuZ5oh9KDWRwadnOF+eiQQWF8tvlU/WveqCnTsMC+V8kCFFMlCdKPFeuv
+	 3Bmt5686ZBSK+74tcxAih86e4JUEjSMEu4dj5DqtcfzkR4RUk8hh1bdcRHhy9ZTrCRDze
+	 ywuMEnBUOqYLngEo1wAQxbtOouy8EcRP11tP9MpbRSBo0srQK9fbO9J4mrbreHPfX7izc
+	 TMlAGjvX74T0gY9o5nV3e9EYnue9Z1hvvc3k1JOx5LyXUV0uby5OAwoMemrotNNkQBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794126928;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794131077;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=Yfauk5KfzoCAPKUuTaFyVXwDO8iAGtqnm21WkDYwfh0=;
-	b=cVVKnQ0t4ChKwxvipAgWzLg/PVwDyOAQ7ATuF626Q+8swWBzcGZMtsZTDTFaudlj7JLV
-	 4LWRLMOuNudNFQss7AgS8IcdZtmJLuIsu171O9bSxd4w1ZhxjsXpEM2bt29RhPn0GjTmY
-	 fEhh/O3tFcdHkCj7c53IBeMzStfvn3liC+FtmKGmwzWNdJPcQRt4E4v+jR1dcf/oaDNql
-	 mrtaaKZ9lkENXgtOwI5ZPQuIHGE6+kL+0Kk2iC5Y1aOcZolCr6tOCBFwRMDLABx5THL2Z
-	 2jlFqNjd0ZzsXS5hoqUnPmxVbrl/41fy/VCua9/5kyma84nOgGURb3F0MnIe4e+29hQ==
+	bh=8xdc6oFhA3D6PNzPHjgEKoYSX6lIzir2R2AtjueD8oo=;
+	b=ixhdBzY3pO0oAWfH6mmqicN5r22pJbYJFtrel+W8tRkdeClkJB9aZwEnPgADOnIgySfn
+	 b02TE2qfVMJL3Z4KCx/hglC9MEvY1hSSE9d5ALzJDj9E3S1zxrcOux8CAWQqbMtHQDztd
+	 i3uVS3NCnWGcyalhkC6tVfAf17aBkW1saIehuEHSYw4e3pLkaZBDLWqR5w4T2dJ3M5H0y
+	 GHCb8EjmBkCJ5KA3A6I5beqLq4fxS8ttNryVOTqeNDY0yS5RyNpzsr5R/tCbFEVp3A1v9
+	 mJ/u5+RGc7SFlqbkQ3n/VDKqtIQZ/eMcC94nBGRIqN7W1gyvf2Er8JA4t9PaTMVwr+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fvr3bBaV;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lFoBVL68;
+	arc=none smtp.remote-ip=192.198.163.19
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754B9606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 08:35:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 754B9606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89549606A320;
+	Sun,  8 Nov 2026 09:44:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89549606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fvr3bBaV
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lFoBVL68
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794126926; x=1825662926;
+  t=1794131077; x=1825667077;
   h=date:from:to:cc:subject:message-id;
-  bh=QRReOroKM2rdIiE8TyOumsZ3Gz64Yt6XKRGQ8EPxfj8=;
-  b=fvr3bBaViS7N3LleWrch2W4qv3/DAfzTSN0aw4UZlrBWWBhXgqld6los
-   sz6/c2emQZUR9JsgeT2y2zo3BuQX1c06m/J3EyXQs8ZT4QGnsR2VIyUBv
-   H6Z8AzTchP9GTkveTiKjEMqrCZ9O5kOnLs4eFHNty/CIhY4iWkXoQsDqb
-   Gnqy5MZdR3BdefN6KIKmqHvdoxjJdEbksxSveAy7IYl7pF87PSvKg0rlG
-   oUnb6biBMVcvPYj1ulQIeLEjxlYjf2ww5gH59vLuQSfasbnmOTEZBT/4W
-   wd1K9PgnZ7c0Tr1RusIg3yCs8UzqBXoD9e3Ge6IogTNZAh3nQ38KwnIN7
+  bh=sxnmt8PKm22ww+XbISLmzV+R9ssPricG1nEZcy/LEvw=;
+  b=lFoBVL68FaQh0qEYJZsLQW12bEGmtbyRX/mN2dFjJIobBYCWkg4/SrXg
+   0fWPVNoSflLCqK4H+yNYMnFVCU5Xbm2rCN1XEnCqxo1dOQxUG09KdV5LD
+   oPM7UU+KyqIxpvVJufmfMEcRDytzsJXlV4x8ihZqWwyvXgPMwMVn6pGSD
+   tiCzOCDQZxH5hOa4hhO4HtZapZgfHtUvWxYXWi1mF+RICOdhJTJ6HJ7cS
+   r1Zt9UpyU4RIWTt/Fbw+2uKtdUkbJeqoBzBi3cwAILAPS88B13bj/UDm+
+   Q0mWN03PaZsTEndvKdQlzj7CZEqhpUtN00OR7rlhvNjD/fRvIG2DsAVDW
    Q==;
-X-CSE-ConnectionGUID: S3iWoGhjSV+MijS34q7zKw==
-X-CSE-MsgGUID: n89OOvjrQYKozgyJ3NapSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2781277"
+X-CSE-ConnectionGUID: ipcJq1GpQUqtWOe4vyR6jQ==
+X-CSE-MsgGUID: VOwWBCRkQSiSEBzNYWwtxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2986004"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2781277"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 00:35:26 -0800
-X-CSE-ConnectionGUID: L0I1r/8PSTikmm+qoFBeSg==
-X-CSE-MsgGUID: 6LvrtWATTnCQTi476MRchQ==
+   d="scan'208";a="2986004"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 01:44:36 -0800
+X-CSE-ConnectionGUID: jwfsbA3/SlulxZnpxAEb8g==
+X-CSE-MsgGUID: 7qaTJAtmSn6hZdHSRu4eJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="9369696"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 08 Nov 2026 00:35:24 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
+   d="scan'208";a="8070937"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 08 Nov 2026 01:44:35 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPyMz-00000000BLH-2Krw;
-	Sun, 08 Nov 2026 08:35:21 +0000
-Date: Sun, 08 Nov 2026 09:35:12 +0100
+	id 1xPzRv-00000000sj5-3xLT;
+	Sun, 08 Nov 2026 09:44:31 +0000
+Date: Sun, 08 Nov 2026 17:44:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/sound-rust 32/56] error[E0425]: cannot
- find type `Ac97BusOpsTable` in this scope
-Message-ID: <202611080941.9qo4R6Fh-lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
+Subject: [avpatel:riscv_trace_support_v6 68/80]
+ drivers/hwtracing/gtrace/gtrace-core.c:315:2: error: call to undeclared
+ function 'kfree'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202611081715.20y4yygC-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,45 +83,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/sound-rust
-head:   85650012d32d6724c5a416eab5ddc324b945e9f6
-commit: 9c97f088f138c82c1b4f57f1731ac544fa4b47e6 [32/56] ALSA: rust: add AC97 codec abstraction
-config: arm64-randconfig-2200-20261108 (https://download.01.org/0day-ci/archive/20261108/202611080941.9qo4R6Fh-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
+head:   f98be19c4d4f657fa0ed2a17aa8ef5ece29fe8dc
+commit: 568f8d89f93a9f46e7bb83c0e41d30d46429df68 [68/80] hwtracing: gtrace: Initial implementation of gtrace framework
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20261108/202611081715.20y4yygC-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080941.9qo4R6Fh-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081715.20y4yygC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611080941.9qo4R6Fh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611081715.20y4yygC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0425]: cannot find type `Ac97BusOpsTable` in this scope
-   --> rust/doctests_kernel_generated.rs:18624:24
-   |
-   18624 | static MYDRV_AC97_OPS: Ac97BusOpsTable<MyChip> = Ac97BusOpsTable::new();
-   |                        ^^^^^^^^^^^^^^^ not found in this scope
-   |
-   = help: consider importing this struct:
-   kernel::sound::ac97::Ac97BusOpsTable
---
->> error[E0425]: cannot find type `MyChip` in this scope
-   --> rust/doctests_kernel_generated.rs:18624:40
-   |
-   18624 | static MYDRV_AC97_OPS: Ac97BusOpsTable<MyChip> = Ac97BusOpsTable::new();
-   |                                        ^^^^^^ not found in this scope
---
->> error[E0433]: cannot find type `Ac97BusOpsTable` in this scope
-   --> rust/doctests_kernel_generated.rs:18624:50
-   |
-   18624 | static MYDRV_AC97_OPS: Ac97BusOpsTable<MyChip> = Ac97BusOpsTable::new();
-   |                                                  ^^^^^^^^^^^^^^^ use of undeclared type `Ac97BusOpsTable`
-   |
-   = help: consider importing this struct:
-   kernel::sound::ac97::Ac97BusOpsTable
+   In file included from drivers/hwtracing/gtrace/gtrace-core.c:9:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/hwtracing/gtrace/gtrace-core.c:315:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     315 |         kfree(cpriv);
+         |         ^
+>> drivers/hwtracing/gtrace/gtrace-core.c:359:10: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     359 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+         |                 ^
+>> drivers/hwtracing/gtrace/gtrace-core.c:359:8: error: incompatible integer to pointer conversion assigning to 'struct gtrace_comp_priv *' from 'int' [-Wint-conversion]
+     359 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwtracing/gtrace/gtrace-core.c:369:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     369 |                 kfree(cpriv);
+         |                 ^
+   1 warning and 4 errors generated.
+
+
+vim +/kfree +315 drivers/hwtracing/gtrace/gtrace-core.c
+
+   307	
+   308	static void gtrace_component_release(struct device *dev)
+   309	{
+   310		struct gtrace_component *comp = to_gtrace_component(dev);
+   311		struct gtrace_comp_priv *cpriv = to_gtrace_comp_priv(comp);
+   312	
+   313		fwnode_handle_put(comp->dev.fwnode);
+   314		gtrace_free_type_idx(comp);
+ > 315		kfree(cpriv);
+   316	}
+   317	
+   318	struct gtrace_component *gtrace_register_component(struct gtrace_component_id *id,
+   319							   const char *name,
+   320							   struct gtrace_platform_data *pdata)
+   321	{
+   322		struct gtrace_connection *conn;
+   323		struct gtrace_component *comp;
+   324		struct gtrace_comp_priv *cpriv;
+   325		int i, ret = 0;
+   326	
+   327		if (!id || id->type >= GTRACE_COMPONENT_TYPE_MAX) {
+   328			ret = -EINVAL;
+   329			goto err_out;
+   330		}
+   331	
+   332		if (!pdata || !pdata->dev) {
+   333			ret = -EINVAL;
+   334			goto err_out;
+   335		}
+   336	
+   337		for (i = 0; i < pdata->nr_inconns; i++) {
+   338			if (pdata->inconns[i]) {
+   339				ret = -EINVAL;
+   340				goto err_out;
+   341			}
+   342		}
+   343	
+   344		for (i = 0; i < pdata->nr_outconns; i++) {
+   345			conn = pdata->outconns[i];
+   346			if (!conn || conn->src_port < 0 || conn->src_comp ||
+   347			    !device_match_fwnode(pdata->dev, conn->src_fwnode) ||
+   348			    conn->dest_port < 0 || !conn->dest_fwnode || !conn->dest_comp) {
+   349				ret = -EINVAL;
+   350				goto err_out;
+   351			}
+   352		}
+   353	
+   354		if (pdata->bound_cpu >= 0 && !cpu_present(pdata->bound_cpu)) {
+   355			ret = -EINVAL;
+   356			goto err_out;
+   357		}
+   358	
+ > 359		cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+   360		if (!cpriv) {
+   361			ret = -ENOMEM;
+   362			goto err_out;
+   363		}
+   364		comp = &cpriv->comp;
+   365		comp->pdata = pdata;
+   366		comp->id = *id;
+   367		ret = gtrace_alloc_type_idx(comp);
+   368		if (ret) {
+   369			kfree(cpriv);
+   370			goto err_out;
+   371		}
+   372	
+   373		comp->dev.parent = pdata->dev;
+   374		comp->dev.coherent_dma_mask = pdata->dev->coherent_dma_mask;
+   375		comp->dev.release = gtrace_component_release;
+   376		comp->dev.bus = &gtrace_bustype;
+   377		comp->dev.fwnode = fwnode_handle_get(dev_fwnode(pdata->dev));
+   378		dev_set_name(&comp->dev, "%s-%u", name ? name : "comp", cpriv->type_idx);
+   379	
+   380		mutex_lock(&gtrace_mutex);
+   381	
+   382		ret = device_register(&comp->dev);
+   383		if (ret) {
+   384			put_device(&comp->dev);
+   385			goto err_out_unlock;
+   386		}
+   387	
+   388		for (i = 0; i < pdata->nr_outconns; i++) {
+   389			conn = pdata->outconns[i];
+   390			conn->src_comp = comp;
+   391		}
+   392	
+   393		ret = gtrace_setup_inconns_from_outconns(comp);
+   394		if (ret < 0) {
+   395			device_unregister(&comp->dev);
+   396			goto err_out_unlock;
+   397		}
+   398	
+   399		if (comp->pdata->bound_cpu >= 0) {
+   400			gtrace_get_component(comp);
+   401			per_cpu(gtrace_cpu_source_comp, comp->pdata->bound_cpu) = comp;
+   402		}
+   403	
+   404		mutex_unlock(&gtrace_mutex);
+   405	
+   406		return comp;
+   407	
+   408	err_out_unlock:
+   409		mutex_unlock(&gtrace_mutex);
+   410	err_out:
+   411		return ERR_PTR(ret);
+   412	}
+   413	EXPORT_SYMBOL_GPL(gtrace_register_component);
+   414	
 
 --
 0-DAY CI Kernel Test Service
