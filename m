@@ -1,76 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794131738;
-	b=Wtb2Z3Zs+l82GnjQaso2eclRsPVGpr6batspqRStzb2yyqT/+G/gGzC/7W89vizo7sdH
-	 u1uXkEVrCn3ul+zPcPT3ZrPzpCLps8AwVqJZFzrtUi+AicUg6JsYnOCmhMDxyuhDDAu+8
-	 b+9TwKounmBMriGyB+w8uLwblFP3XWE4GPs+5wA0xent1vzduhg+GkWJWa2lXCP8kY1Fh
-	 vP8ibGoikweJVvM8lAbSE2u9EjHHXqqdB0bW5mT4fI0OnC3U6GjTY5iyUSl/GY8HD3I5y
-	 hTJlj9i9iibOkne3Pte2bDbCRjVu2VbMd8I1ke5s6Y5hjSxn3wHDPGu6nzUguM89DCA==
+	t=1794132340;
+	b=pfsTGimoStlKhcJPGN2HX4BhF9wucCu/ScPQnw48XU9vidXqWIKzIvs54H9wNSL6CVdd
+	 eXy/BXecQNC7h6DsLGmJNti4bTDqy7bxsAenNNXf59srxtlPNNJFqsNt55NDngUq+5z9c
+	 8usBx6BWlaqCoWu8rrVgZ81zMKexWWSTUOH0iXExk58qvVIiLCx0xQyDO8wduUFuEgcPR
+	 iHFgnJOnbMxElBTsFv+zEaIHgzADO1c00jrbWmhIWjZ1xchWz9ypYp8txEOLC5iExi+2Z
+	 wJcnbkWAfo/5NitNRgkGxEdsyVF+aLF1nCxQHxFEGQ/4uzLhis620utAYbzfZ18Yhfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794131738;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794132340;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=SynxCGdT+Z2w3INHhTiFX4cziWFsO9obX81nOyn/pIE=;
-	b=ldoc3nkuHsnVIleZ6g7PpLM2d8A818s2/55wbOP7H3ulnHoxU0GGngvwVm3Hkw/itW/y
-	 TTowl1bYsz6eoe8LeH4MMjpYi4wSTxg+k8z71KHFvslGNf2nXScN2ggrZez8/McTl2Xgi
-	 QUVKlydN4gZYZ+QFz33mIyZJtq/6E0ytOwEaU2/fq7n2J44bYeBUKa++5qvi8OeVM0Ltd
-	 kfA+INL9U8DpNGI8RsGpW1IDvLMRA5AeHvRkSu+jaH86DzhQXSwFYgMje3ESrbXihGQZ1
-	 f1gJUH3Ba2+OJ+3AGYjZnicfn7XwnP7P09jC8gUN0JLCbkb1KIOxgzLGq0RnY9wiH6g==
+	bh=UKAjOtGCOQUdb7LDDkMTCenI4sBuR72nwlqbC2lVzSQ=;
+	b=0gRApiTkicG2Gh+4C5PS5Ou4qWYZ7LeOV9A8/5Hk14HCG4NGPuF1HYiNM10ekt+Z9ep1
+	 Y5mK/azV3NF/+KY05xg9GlYUhVzdrf87UmQm8CKzxHy+aDtwHfbjcD4+Qm1qfKk8p5SR4
+	 GJ58DY0VEclyp5jonOiEZ9YIeZRSjva51e+qtlcmHn0Yf2ccSG4XDgzaT+VI9vdjvQlKg
+	 OtZahw0HFuNwbI31EsN9+VJAjCtxIV11C28afpOOAPtudva1FFj88EfXX9BmHjZOT9PLL
+	 T4JLEncNwlVYXhfSk8kFsCprQCl0+qQZwyyGaXpYVnPm0FDxSrWC3OoqrlZT6GvC15Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lfRUtCkl;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L5xnllAv;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE00A606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 09:55:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE00A606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6DC606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Nov 2026 10:05:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D6DC606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lfRUtCkl
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=L5xnllAv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794131737; x=1825667737;
+  t=1794132339; x=1825668339;
   h=date:from:to:cc:subject:message-id;
-  bh=U03Rzv9qek7tdm8vtAEsCsomhWJ3bjnihE+e15X6Sqs=;
-  b=lfRUtCklMXKFqrgoX50CB4bG35PI3uAwcle66YQthqapvpYuGVAtG+uq
-   WhwQ+nHyVRj8fzhICKJPC1rfqZbMSgHDUACA60Z6F7DI1juVG1iimSZtD
-   gHISneVOk9sGwP/Nzgz88PBeezwTztZQ7GeSWBkrM/41kE2hNnKJE1GDQ
-   6wKAcjNxpvoeKsknDR86v71NoTLCQEQ4LX7tVM9xSgD5Fzh8wNMikdFBm
-   ervsdT4X/M9H9dsj6QJzaPJNU9BTanU3t3Fb0bHJ2J4Iv6vYwLS56zwI3
-   TS69OqNz7MLvmP7leYKgfnD1NUvFYMAQq2OpSvLBltNCoV5aiO01523qB
+  bh=W1xKQtOLpoqwR7+qh0E7rb2Ay7oQpO9DaGvHBOIYezQ=;
+  b=L5xnllAv0RxvxJbP8M1Iq17TpFyJFyasAD5mfvuwqT9sdDxqZ2tiMiep
+   JK/J1udVvajrq+GL5I7/YShO6c98PlUjtvNARlGst1yLMQAkK9lCWuldr
+   /LMcyrjt4areVL9flxJnE+tKwLdKdefv8FYbfyuzYY9Fu+6fZ+aB9Guz1
+   BR6reRL2MkoX9/4VF0FNEmJ2/i9iD/tc8Yx6+Vq3CGJkZ4IT/Q8wawMEU
+   NMx9jRxXNuTLbrSe1d+RpBlQ9/PUSRTHxhn6ggP3x7OsGy/9Y3KEG02L7
+   95zcbqvtaXIDuQ7IFTgmU18+oCG02qCwrzjKMDVLwure51/tF9E53zgxG
    A==;
-X-CSE-ConnectionGUID: XDSROOnrQxGKQ5RxvcIiyg==
-X-CSE-MsgGUID: TrBivN/XQzOnpJktcBDSFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2898854"
+X-CSE-ConnectionGUID: zQ3MlTI7TdKOBDuqzNfQcQ==
+X-CSE-MsgGUID: /+ha8+LzSe2L1mfzjGDhsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2762073"
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="2898854"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 01:55:36 -0800
-X-CSE-ConnectionGUID: xshGYXsyRTOtJO7Kb0mIvQ==
-X-CSE-MsgGUID: /wB/AX2FRDWGA12ESsvABA==
+   d="scan'208";a="2762073"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 02:05:38 -0800
+X-CSE-ConnectionGUID: sugdh1KSQ1KQuePBECaGiQ==
+X-CSE-MsgGUID: iV8TJ3tBTcqXncQivB2o6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
-   d="scan'208";a="7513920"
+   d="scan'208";a="7968217"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2026 01:55:35 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 08 Nov 2026 02:05:36 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xPzca-00000000skb-3Lwn;
-	Sun, 08 Nov 2026 09:55:32 +0000
-Date: Sun, 08 Nov 2026 17:54:43 +0800
+	id 1xPzmH-00000000slr-2pga;
+	Sun, 08 Nov 2026 10:05:33 +0000
+Date: Sun, 08 Nov 2026 18:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.4-rc 138/154]
- drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:25: warning: variable 'mac'
- set but not used
-Message-ID: <202611081720.bFJBq2sh-lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Mayuresh Chitale <mayuresh.chitale@oss.qualcomm.com>
+Subject: [avpatel:riscv_trace_support_v6 70/80]
+ drivers/hwtracing/gtrace/gtrace-core.c:590:24: error: implicit declaration of
+ function 'kzalloc_obj'
+Message-ID: <202611081723.0j5O0SXq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,62 +82,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
-head:   674a64f97be4d25967f31216ffe7eaefdabf827f
-commit: aab5d4e842b1b95a85e08dc3da96675a803f676a [138/154] net: mediatek: add proprietary debugfs
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20261108/202611081720.bFJBq2sh-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081720.bFJBq2sh-lkp@intel.com/reproduce)
+tree:   https://github.com/avpatel/linux.git riscv_trace_support_v6
+head:   f98be19c4d4f657fa0ed2a17aa8ef5ece29fe8dc
+commit: 3889440d4d89d7eed212c92d6b46a87676fac5a9 [70/80] gtrace: Add functions to create/destroy a trace component path
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20261108/202611081723.0j5O0SXq-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611081723.0j5O0SXq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611081720.bFJBq2sh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611081723.0j5O0SXq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'mtketh_debug_show':
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:25: warning: variable 'mac' set but not used [-Wunused-but-set-variable=]
-     435 |         struct mtk_mac *mac = 0;
-         |                         ^~~
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_write':
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1810:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable=]
-    1810 |         int ret;
-         |             ^~~
-   drivers/net/ethernet/mediatek/mtk_eth_dbg.c: In function 'hw_lro_auto_tlb_dump_v2':
->> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1903:13: warning: variable 'score' set but not used [-Wunused-but-set-variable=]
-    1903 |         u32 score = 0, ipv4 = 0;
-         |             ^~~~~
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_component_release':
+   drivers/hwtracing/gtrace/gtrace-core.c:372:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+     372 |         kfree(cpriv);
+         |         ^~~~~
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_register_component':
+   drivers/hwtracing/gtrace/gtrace-core.c:416:17: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+         |                 ^~~~~~~
+   drivers/hwtracing/gtrace/gtrace-core.c:416:15: error: assignment to 'struct gtrace_comp_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     416 |         cpriv = kzalloc(sizeof(*cpriv), GFP_KERNEL);
+         |               ^
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'build_path_walk_fn':
+>> drivers/hwtracing/gtrace/gtrace-core.c:590:24: error: implicit declaration of function 'kzalloc_obj' [-Wimplicit-function-declaration]
+     590 |                 node = kzalloc_obj(*node);
+         |                        ^~~~~~~~~~~
+>> drivers/hwtracing/gtrace/gtrace-core.c:590:22: error: assignment to 'struct gtrace_path_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     590 |                 node = kzalloc_obj(*node);
+         |                      ^
+   drivers/hwtracing/gtrace/gtrace-core.c: In function 'gtrace_create_path':
+>> drivers/hwtracing/gtrace/gtrace-core.c:627:14: error: assignment to 'struct gtrace_path *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     627 |         path = kzalloc(sizeof(*path), GFP_KERNEL);
+         |              ^
 
 
-vim +/mac +435 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
+vim +/kzalloc_obj +590 drivers/hwtracing/gtrace/gtrace-core.c
 
-   431	
-   432	static int mtketh_debug_show(struct seq_file *m, void *private)
-   433	{
-   434		struct mtk_eth *eth = m->private;
- > 435		struct mtk_mac *mac = 0;
-   436		int  i = 0;
-   437	
-   438		for (i = 0 ; i < MTK_MAX_DEVS ; i++) {
-   439			if (!eth->mac[i] ||
-   440			    of_phy_is_fixed_link(eth->mac[i]->of_node))
-   441				continue;
-   442			mac = eth->mac[i];
-   443	/* FIXME */
-   444	/*
-   445			while (j < 30) {
-   446				d =  _mtk_mdio_read_c22(eth, mac->phy_dev->addr, j);
-   447	
-   448				seq_printf(m, "phy=%d, reg=0x%08x, data=0x%08x\n",
-   449					   mac->phy_dev->addr, j, d);
-   450				j++;
-   451			}
-   452	*/
-   453		}
-   454		return 0;
-   455	}
-   456	
+   576	
+   577	static int build_path_walk_fn(struct gtrace_component *comp, bool *stop,
+   578				      struct gtrace_connection *stop_conn,
+   579				      void *priv)
+   580	{
+   581		struct build_path_walk_priv *ppriv = priv;
+   582		struct gtrace_path *path = ppriv->path;
+   583		struct gtrace_path_node *node;
+   584	
+   585		if ((!ppriv->sink && gtrace_is_sink(comp->pdata)) ||
+   586		    (ppriv->sink && ppriv->sink == comp))
+   587			*stop = true;
+   588	
+   589		if (*stop) {
+ > 590			node = kzalloc_obj(*node);
+   591			if (!node)
+   592				return -ENOMEM;
+   593			INIT_LIST_HEAD(&node->head);
+   594			gtrace_get_component(comp);
+   595			node->comp = comp;
+   596			node->conn = stop_conn;
+   597			list_add(&node->head, &path->comp_list);
+   598		}
+   599	
+   600		return 0;
+   601	}
+   602	
+   603	static void gtrace_release_path_nodes(struct gtrace_path *path)
+   604	{
+   605		struct gtrace_path_node *node, *node1;
+   606	
+   607		list_for_each_entry_safe(node, node1, &path->comp_list, head) {
+   608			list_del(&node->head);
+   609			gtrace_put_component(node->comp);
+   610			kfree(node);
+   611		}
+   612	}
+   613	
+   614	struct gtrace_path *gtrace_create_path(struct gtrace_component *source,
+   615					       struct gtrace_component *sink,
+   616					       enum gtrace_component_mode mode)
+   617	{
+   618		struct build_path_walk_priv priv;
+   619		struct gtrace_path *path;
+   620		int ret = 0;
+   621	
+   622		if (!source || mode >= GTRACE_COMPONENT_MODE_MAX) {
+   623			ret = -EINVAL;
+   624			goto err_out;
+   625		}
+   626	
+ > 627		path = kzalloc(sizeof(*path), GFP_KERNEL);
+   628		if (!path) {
+   629			ret = -ENOMEM;
+   630			goto err_out;
+   631		}
+   632		INIT_LIST_HEAD(&path->comp_list);
+   633		path->mode = mode;
+   634		path->trace_id = GTRACE_INVALID_TRACE_ID;
+   635	
+   636		priv.path = path;
+   637		priv.sink = sink;
+   638		ret = gtrace_walk_output_components(source, &priv, build_path_walk_fn);
+   639		if (ret < 0)
+   640			goto err_release_path_nodes;
+   641	
+   642		/* Before proceeding, check that a valid path was built. */
+   643		if (list_empty(&path->comp_list)) {
+   644			ret = -ENODEV;
+   645			goto err_release_path_nodes;
+   646		}
+   647	
+   648		if (!gtrace_path_ready(path)) {
+   649			ret = -EOPNOTSUPP;
+   650			goto err_release_path_nodes;
+   651		}
+   652	
+   653		ret = gtrace_assign_trace_id(path);
+   654		if (ret < 0)
+   655			goto err_release_path_nodes;
+   656	
+   657		return path;
+   658	
+   659	err_release_path_nodes:
+   660		gtrace_release_path_nodes(path);
+   661		kfree(path);
+   662	err_out:
+   663		return ERR_PTR(ret);
+   664	}
+   665	EXPORT_SYMBOL_GPL(gtrace_create_path);
+   666	
 
 --
 0-DAY CI Kernel Test Service
