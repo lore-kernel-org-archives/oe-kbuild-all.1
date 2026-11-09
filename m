@@ -1,77 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794233524;
-	b=rHL5wDle9CSAdB4PzFj45WQBzUuXZRy+wk8x7urjl+ox99TTTpVMriXUEYgi9WJd72Tr
-	 jA6hQvaw9zTItqy4obxAFD6EzoTmNjMSFE0zGy376o/cwKzl2Sj2yTnTv6faTljX7ZLyg
-	 7alrxLHFn0cKlTKKqcNYyu23SaRutxqUCYrIZ34dUuJPKs5yhl8njo1i3FtBCtGSAUPSN
-	 gmp4onL7cpc9zKgLVlPstnkegqzjzhXbPWyg+N9aQ77/ADSCdL/2h73maVw/iiiKzzN3n
-	 s70pB94v0yNAH6ZlahNe5rD3PiHEsuVFs2rX7+9rbQcVisp+o2d6T65JJulPJkFceRw==
+	t=1794234293;
+	b=PHP8sLZD7gCQE4cwmVn3EcRDi0jKoMkPUqfnMPkMMYPXtegkmydfqWzT9qsErRX7argc
+	 3+ISw7/a83uG8UP+v3fcoaKkH2rlHfMxgYVCB83ja/R+aTvL3q5cDpyAjLLWObDZJU4Fw
+	 iykOXfd4qJq1qsrIwXKmdMCrn9e4KiKYu9Jo0XYkQZjvImLkRSKptySzudMjItctJMeN5
+	 KGZb/brkGwLvSzkYwbgdF6I479Bl4YgyJlHgJMqiHY019S3Q7qjYQpeaaLk4k6/mDW8Gq
+	 Lt3Ih7if3oW1CFEMDJEmnBPab5DBTsWbJga5CFWbS/djCr0kTLGhIeYsrraXjDmQnxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794233524;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794234293;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=dtN3HfeZUFnPqHLGbWdXMLTdssM9GPNCwqTAXyxjBdg=;
-	b=j/sRMIrASSszMOMLs68A46BiB2W0TKzLRjWmBWSjtSKVQ8S9D/JV+EhVOewpZqqA13Ud
-	 9wi78l4/UrRDvQI8HREuytAal1RpXXilEm/thmqITxdellxioZ4qX2C9WcmeeOBumL/HU
-	 I5kmmqcXA4xEJolJu75oiQmrgiuj4xJ5UJCEnkna9Rdl38kTnwofs8xFYnDvUnTIzQ6Nf
-	 +pGFruzvuHmj4ZzzWfF5crb0sqZ+mqJ5KxHepW4EJRP/6UqPtgI6xQwVNAzndWhk23IaN
-	 vZSfAjlEF26ay55Yaj5OMPelt3u/pOsM57N1JyJ8Fayp1fjanq+a3Atl4dMIYGpOsxQ==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=v6HSjFXSJLHa1/riNv5ClmnINkeHVAwR2RQ2gzA+Q7Q=;
+	b=c2O/8q5bc1RZiFVUDTeH2PCE3ZUohIYQqLjPgFY7ug1AqqB1qqY2HDSkufwNcpy+kqmT
+	 WngFgOAhIM9YKIDSAMZCsxj6GB0Xc6fzRJOUX4InMnTAJA8XEJ/UPJs3mwSWWdQKzSjj+
+	 IyiaPMKYKzb5Eekwhrpxf5FGH4HVtOjMV5OchBUNx/vAl7fTSnXaIVo+iYpVLXC6w2/1U
+	 +7TAtUeZ5e1M+ZlkzGrM1tyhg406kXK9GJkgE6R0n/tnCReD8IPfYTJbbJ1GKLd9OfOUp
+	 VuHvF2ymZ9N8PmyEjwmKWuyaDdAUEnuqTTvkMTby1noqjH3GheUwejO6bOHdHY0AuoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mV5hnysm;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aYbUyxnU;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFED1606A326
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 14:12:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFED1606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624F7606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 14:24:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 624F7606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mV5hnysm
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aYbUyxnU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794233522; x=1825769522;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=aLEfEagxZu8iNBjb4OmmcwdhyYsXXs/14iUnSDdcsG8=;
-  b=mV5hnysmSMRfFMd96tcxf24YJlFsH4Izn8c7+PhlDCw/SIyLUYUmYj5S
-   uN1d1WOKA5Zp7YLMZEL7GwQoRsJ29iRzj5i+OSzxZzDReF1iaNEozZ5Y2
-   vPgPQ5XCVW6ejvF8ULrMT1PRrTofjFMPvhl03I+WGu+b0amxmlRevxghl
-   if718RbAEBzJJezVU+GszUxHyhNHUtt2OJQJDWV8HGr4yt4pBTfN7RNZL
-   gmSH6clTmKtZ14UkAdYQRjeMRUyz3/FC8F4P+dzs4zYAMQRC8giL9EaQs
-   X+CvzaveaEmXb0FVHtJAzd0hJBx+LE9I8/OaTqiaIWHDHTrEeV7yswfPC
-   A==;
-X-CSE-ConnectionGUID: teoZEffiRaOdakQxGuJ2Uw==
-X-CSE-MsgGUID: aITXJPS7Q3S8HEdSTdEWFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2851586"
+  t=1794234292; x=1825770292;
+  h=date:from:to:cc:subject:message-id;
+  bh=BQwpSkk921dZoTyoo3inhENgc0jveGo/dyi2EjzYUdo=;
+  b=aYbUyxnUwJFsNEWzdNpVlIjn9wdyazqn9s2580VQJc6GIOsXHp6hc7OX
+   M/MHMoZgaG3fzHAOERGHHwOoPExmjBGhvCUl6M+r25rgIff/UsvjEQXvJ
+   kTfcgHIE9hRQstuH91IPfJCcAsMrN3g7YVFXGH3ldnEm6pTP4nwiABMC5
+   Yr45+4K4ARgScngfs7xibW5AOdto2AeeUGNa8xWWDPHeLSsPxsa4BJYsM
+   ETPRCjLtw835jmg/i7NAv88dWNw8T8AggPIWGkRqgK1gFX0oREU85nQcV
+   PxcS8P/3Xbe7v+I3PNNfu8xFDg6n7b4+nD/bzxtXJiURyZ7Tz1BFgAGob
+   Q==;
+X-CSE-ConnectionGUID: bu3B4o8iTW+4C2Apol3yLA==
+X-CSE-MsgGUID: 9up1RoDcRLG4gqjQXv6rww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2981952"
 X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="2851586"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 06:12:02 -0800
-X-CSE-ConnectionGUID: 8GF4tJncQf+tDgF99a44ww==
-X-CSE-MsgGUID: bHTn/j41Tx+SNp5bmuDwKQ==
+   d="scan'208";a="2981952"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 06:24:51 -0800
+X-CSE-ConnectionGUID: XhgWiqvtTKK7OkVUJmM5qQ==
+X-CSE-MsgGUID: buUOt80yQZKnLkR/1F456w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="7900804"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Nov 2026 06:12:01 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="7764474"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1db0d17a343c) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 09 Nov 2026 06:24:50 -0800
+Received: from kbuild by 1db0d17a343c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQQ6I-00000000udL-3GX8;
-	Mon, 09 Nov 2026 14:11:58 +0000
-Date: Mon, 09 Nov 2026 22:11:31 +0800
+	id 1xQQIe-000000000L1-3YBZ;
+	Mon, 09 Nov 2026 14:24:44 +0000
+Date: Mon, 09 Nov 2026 15:24:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
+To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:kvmclock13 8/24] arch/x86/kvm/x86.c:1634:undefined
- reference to `__udivdi3'
-Message-ID: <202611092230.n6nRQpUH-lkp@intel.com>
+Subject: [cris:scmi_telemetry_ng_V15 13/35]
+ drivers/firmware/arm_scmi/telemetry.c:1037:26: warning: format '%llX' expects
+ argument of type 'long long unsigned int', but argument 4 has type
+ 'phys_addr_t' {aka 'unsigned int'}
+Message-ID: <202611091504.ef4O1O8S-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,150 +81,156 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   git://git.infradead.org/users/dwmw2/linux kvmclock13
-head:   1cf912d2cfcb64472a25b700313bd0189085d1e6
-commit: 77b511238bef8ff8ec4aeebb23ab9a5b975f34b1 [8/24] KVM: x86: Re-synchr=
-onize TSC after KVM_SET_TSC_KHZ
-config: i386-randconfig-1011-20261109 (https://download.01.org/0day-ci/arch=
-ive/20261109/202611092230.n6nRQpUH-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261109/202611092230.n6nRQpUH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_ng_V15
+head:   d51f22cab86f4ad2f08b4e88803f85fdffd81a62
+commit: be715d5b6657e41ce80f4b150a138ee4c5924d97 [13/35] firmware: arm_scmi: Add Telemetry SHMTI areas enumeration
+config: csky-randconfig-2200-20261109 (https://download.01.org/0day-ci/archive/20261109/202611091504.ef4O1O8S-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+smatch: v0.5.0-9187-g5189e3fb
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611091504.ef4O1O8S-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611092230.n6nRQpUH-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611091504.ef4O1O8S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: arch/x86/kvm/x86.o: in function `kvm_synchronize_tsc_at':
->> arch/x86/kvm/x86.c:1634:(.text+0x10387): undefined reference to `__udivd=
-i3'
+   In file included from include/linux/device.h:15,
+                    from drivers/firmware/arm_scmi/telemetry.c:13:
+   drivers/firmware/arm_scmi/telemetry.c: In function 'scmi_telemetry_area_check':
+   include/linux/printk.h:109:25: warning: format '%llX' expects argument of type 'long long unsigned int', but argument 4 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+     109 | #define FW_BUG          "[Firmware Bug]: "
+         |                         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:452:17: note: in expansion of macro 'dev_err'
+     452 |                 dev_err(dev, FW_BUG "%s phys_addr (0x%llX) pointer too big.\n",
+         |                 ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:452:30: note: in expansion of macro 'FW_BUG'
+     452 |                 dev_err(dev, FW_BUG "%s phys_addr (0x%llX) pointer too big.\n",
+         |                              ^~~~~~
+   include/linux/printk.h:109:25: warning: format '%llX' expects argument of type 'long long unsigned int', but argument 4 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+     109 | #define FW_BUG          "[Firmware Bug]: "
+         |                         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:458:17: note: in expansion of macro 'dev_err'
+     458 |                 dev_err(dev, FW_BUG "%s phys_addr (0x%llX) misaligned.\n",
+         |                 ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:458:30: note: in expansion of macro 'FW_BUG'
+     458 |                 dev_err(dev, FW_BUG "%s phys_addr (0x%llX) misaligned.\n",
+         |                              ^~~~~~
+   include/linux/printk.h:109:25: warning: format '%llX' expects argument of type 'long long unsigned int', but argument 4 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+     109 | #define FW_BUG          "[Firmware Bug]: "
+         |                         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:470:17: note: in expansion of macro 'dev_err'
+     470 |                 dev_err(dev, FW_BUG "%s area (0x%llX/%u) wrap-around.\n",
+         |                 ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:470:30: note: in expansion of macro 'FW_BUG'
+     470 |                 dev_err(dev, FW_BUG "%s area (0x%llX/%u) wrap-around.\n",
+         |                              ^~~~~~
+   drivers/firmware/arm_scmi/telemetry.c: In function 'iter_shmti_process_response':
+>> drivers/firmware/arm_scmi/telemetry.c:1037:26: warning: format '%llX' expects argument of type 'long long unsigned int', but argument 4 has type 'phys_addr_t' {aka 'unsigned int'} [-Wformat=]
+    1037 |                          "SHMTI ID:%u is NOT 64bit aligned (paddr:0x%llX)\n",
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:1036:17: note: in expansion of macro 'dev_warn'
+    1036 |                 dev_warn(ph->dev,
+         |                 ^~~~~~~~
+   drivers/firmware/arm_scmi/telemetry.c:1037:72: note: format string is defined here
+    1037 |                          "SHMTI ID:%u is NOT 64bit aligned (paddr:0x%llX)\n",
+         |                                                                     ~~~^
+         |                                                                        |
+         |                                                                        long long unsigned int
+         |                                                                     %X
 
 
-vim +1634 arch/x86/kvm/x86.c
+vim +1037 drivers/firmware/arm_scmi/telemetry.c
 
-  1561=09
-  1562	/*
-  1563	 * Synchronize the vCPU's TSC against an explicit {host_tsc, ns} ref=
-erence
-  1564	 * point: @value (when non-NULL) is the guest TSC *at* @host_tsc, no=
-t at
-  1565	 * some unspecified "now". The offset is computed against that refer=
-ence,
-  1566	 * so a sampled value stays valid however much time passes between t=
-he
-  1567	 * sampling and this call.
-  1568	 */
-  1569	static void kvm_synchronize_tsc_at(struct kvm_vcpu *vcpu, u64 *value,
-  1570					   u64 host_tsc, s64 ns, bool user_initiated)
-  1571	{
-  1572		u64 data =3D value ? *value : 0;
-  1573		struct kvm *kvm =3D vcpu->kvm;
-  1574		u64 offset, elapsed;
-  1575		unsigned long flags;
-  1576		bool matched =3D false;
-  1577		bool synchronizing =3D false;
-  1578=09
-  1579		raw_spin_lock_irqsave(&kvm->arch.tsc_write_lock, flags);
-  1580=09
-  1581		offset =3D kvm_compute_l1_tsc_offset(vcpu, host_tsc, data);
-  1582=09
-  1583		/*
-  1584		 * The {host_tsc, ns} reference may have been sampled before a
-  1585		 * concurrent synchronization (on another vCPU) opened a newer
-  1586		 * generation. The anchored offset above is still exact, but the
-  1587		 * elapsed time would wrap; clamp it to the generation's origin.
-  1588		 */
-  1589		if (ns < kvm->arch.cur_tsc_nsec)
-  1590			elapsed =3D 0;
-  1591		else
-  1592			elapsed =3D ns - kvm->arch.cur_tsc_nsec;
-  1593=09
-  1594		if (vcpu->arch.virtual_tsc_khz) {
-  1595			if (data =3D=3D 0) {
-  1596				/*
-  1597				 * Force synchronization when creating a vCPU, or when
-  1598				 * userspace explicitly writes a zero value.
-  1599				 */
-  1600				synchronizing =3D true;
-  1601			} else if (kvm->arch.user_set_tsc || !user_initiated) {
-  1602				u64 tsc_exp =3D kvm->arch.cur_tsc_write +
-  1603							nsec_to_cycles(vcpu, elapsed);
-  1604				u64 tsc_hz =3D vcpu->arch.virtual_tsc_khz * 1000LL;
-  1605				u64 window;
-  1606				/*
-  1607				 * Here lies UAPI baggage: when a user-initiated TSC write has
-  1608				 * a small delta (1 second) of virtual cycle time against the
-  1609				 * previously set vCPU, we assume that they were intended to be
-  1610				 * in sync and the delta was only due to the racy nature of the
-  1611				 * legacy API.
-  1612				 *
-  1613				 * This trick falls down when restoring a guest which genuinely
-  1614				 * has been running for less time than the 1 second of imprecision
-  1615				 * which we allow for in the legacy API. In this case, the first
-  1616				 * value written by userspace (on any vCPU) should not be subject
-  1617				 * to this 'correction' to make it sync up with values that only
-  1618				 * come from the kernel's default vCPU creation. Make the 1-second
-  1619				 * slop hack only trigger if the user_set_tsc flag is already set.
-  1620				 *
-  1621				 * A kernel-internal write (a frequency change preserving the
-  1622				 * guest TSC) carries an exact value sampled with its own
-  1623				 * reference point, not a racy userspace one; a vCPU on the
-  1624				 * generation's line still matches it to within arithmetic
-  1625				 * rounding, but one which genuinely diverged (e.g. by a guest
-  1626				 * TSC_ADJUST write) must not be snapped back by up to a
-  1627				 * second. Use a 1ms window for those, unconditionally =E2=80=94
-  1628				 * the sample's exactness owes nothing to the legacy API's
-  1629				 * flag. A frequency *change* still only matches siblings
-  1630				 * converted within 1ms=C2=B7F2/|F1-F2| of the first: values
-  1631				 * preserved from the old frequency genuinely diverge from
-  1632				 * the new generation's line at |F1-F2| per unit time.
-  1633				 */
-> 1634				window =3D user_initiated ? tsc_hz : tsc_hz / 1000;
-  1635				synchronizing =3D data < tsc_exp + window &&
-  1636						data + window > tsc_exp;
-  1637			}
-  1638		}
-  1639=09
-  1640=09
-  1641		/*
-  1642		 * For a reliable TSC, we can match TSC offsets, and for an unstable
-  1643		 * TSC, we add elapsed time in this computation.  We could let the
-  1644		 * compensation code attempt to catch up if we fall behind, but
-  1645		 * it's better to try to match offsets from the beginning.
-  1646	         */
-  1647		if (synchronizing &&
-  1648		    vcpu->arch.virtual_tsc_khz =3D=3D kvm->arch.cur_tsc_khz) {
-  1649			/*
-  1650			 * If synchronizing, extrapolate the generation's value to
-  1651			 * "now": the matching window slides forward with wall time,
-  1652			 * anchored on the generation's origin alone (a matched
-  1653			 * write no longer updates any stored reference point).
-  1654			 */
-  1655			u64 delta =3D nsec_to_cycles(vcpu, elapsed);
-  1656=09
-  1657			data =3D kvm->arch.cur_tsc_write + delta;
-  1658=09
-  1659			if (!kvm_check_tsc_unstable())
-  1660				offset =3D kvm->arch.cur_tsc_offset;
-  1661			else
-  1662				offset =3D kvm_compute_l1_tsc_offset(vcpu, host_tsc, data);
-  1663			matched =3D true;
-  1664		}
-  1665=09
-  1666		__kvm_synchronize_tsc(vcpu, offset, data, ns, matched, user_initiat=
-ed);
-  1667		raw_spin_unlock_irqrestore(&kvm->arch.tsc_write_lock, flags);
-  1668	}
-  1669=09
+   995	
+   996	static int iter_shmti_process_response(const struct scmi_protocol_handle *ph,
+   997					       const void *response,
+   998					       struct scmi_iterator_state *st,
+   999					       void *priv)
+  1000	{
+  1001		const struct scmi_msg_resp_telemetry_shmti_list *r = response;
+  1002		struct telemetry_info *ti = priv;
+  1003		struct telemetry_shmti *shmti;
+  1004		const struct scmi_shmti_desc *desc;
+  1005		void __iomem *addr;
+  1006		phys_addr_t phys_addr;
+  1007		size_t len;
+  1008		int ret;
+  1009	
+  1010		desc = &r->desc[st->loop_idx];
+  1011		shmti = &ti->shmti[st->desc_index + st->loop_idx];
+  1012	
+  1013		shmti->info.sid = le32_to_cpu(desc->id);
+  1014		shmti->flags = le32_to_cpu(desc->flags);
+  1015	
+  1016		ret = scmi_telemetry_area_check(ph->dev, "SHMTI",
+  1017						le32_to_cpu(desc->addr_low),
+  1018						le32_to_cpu(desc->addr_high),
+  1019						le32_to_cpu(desc->length),
+  1020						&phys_addr, &len);
+  1021		if (ret) {
+  1022			dev_err(ph->dev, "Malformed SHMTI ID:%u. Abort.\n",
+  1023				shmti->info.sid);
+  1024			return ret;
+  1025		}
+  1026	
+  1027		if (len < SHMTI_MIN_SIZE || len > SHMTI_MAX_SIZE) {
+  1028			dev_err(ph->dev,
+  1029				FW_BUG "Invalid length for SHMTI ID:%u len:%zu. Abort.\n",
+  1030				shmti->info.sid, len);
+  1031			return -EINVAL;
+  1032		}
+  1033	
+  1034		/* SHMTI base phys_addr SHOULD be 64bit aligned by the SCMI spec */
+  1035		if (!IS_ALIGNED(phys_addr, 8))
+  1036			dev_warn(ph->dev,
+> 1037				 "SHMTI ID:%u is NOT 64bit aligned (paddr:0x%llX)\n",
+  1038				 shmti->info.sid, phys_addr);
+  1039	
+  1040		addr = devm_ioremap(ph->dev, phys_addr, len);
+  1041		if (!addr)
+  1042			return -EADDRNOTAVAIL;
+  1043	
+  1044		shmti->base = addr;
+  1045		shmti->info.len = len;
+  1046		shmti->info.phys = phys_addr;
+  1047		shmti->info.offset = shmti->info.phys & ~PAGE_MASK;
+  1048	
+  1049		ret = scmi_telemetry_shmti_validate(ph->dev, shmti);
+  1050		if (ret)
+  1051			return ret;
+  1052	
+  1053		ti->num_shmti++;
+  1054	
+  1055		return 0;
+  1056	}
+  1057	
 
 --
 0-DAY CI Kernel Test Service
