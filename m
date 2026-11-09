@@ -1,101 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.170
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794254881;
-	b=4wUKaOHJmKaRF+rCSGlyve1fS9ciRUKfj1DaAcrUPMiqCQAsGYixZ8gubnwUrsD4OfaA
-	 xKlfwkcB7RQiocb5WH+5mLwkfHuJ2XwtaSJhhslGr+puhEnmqkz3hCSmi0AGV31dVIrLs
-	 Kh+8vGR7T3nKWNC2bXl732TAHFbYfD/cc8LARBRTNdJV/DDX0KcA9dcVi+gILTZcljRi8
-	 eVLkGjV+FMh2QLWaRepKujCb1P2V7VGDXgfHmnC5kjnzPel1TVj0xs8YF7nEy6RE27+pD
-	 qdR0A+fk5VxpMkxxrgW5E3ppM9mPzRNUUyqne4FaeIzefrXOvIWZH58GQYvl+bVLukg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794254881;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=yeH43vPcTrmxtvR5EDQeUYlZILsKnLUoD+qsoobC8Ks=;
-	b=b88DyL0AVKiRllBc721KRHxzuKqVdapoA7s4ix2gmuzNdBnDUgdvmjqYASGjeOuHWEeY
-	 fAYjGwGbBv0RQUYtyWqyZepeX5qY4LnGWkwcEf9QtM4xbr/9tsmbVAHH5F05Lr0uRxrCE
-	 SHS5UnQQqJQRGd31iTYdlN8WJOf7zARC/u+I0DWfGEDDx/241EWYX6/7lUg5MunN0cjsh
-	 8ilsh+RFpZsAhmnUoJAl/Ds2hv9Fwb8hKMvyPoYhZGnbwoJbCqoSAamc/1Bi/zLJaD80e
-	 pj31zUUGcVzDLXiiDmWKN9EDtXn4WH+10ZUKZj9lD2+DTN+Gm6o00oqvHPnrMYZSlMA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=j9lzOFfV;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.170
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794254943;
+	b=fUPod/XzddQ1fijSFYltsS8PTyzEhISWjcvUPudpVv7nMphAMAe06xk8dGaT412Jbvct
+	 MVV6r/zGtDPtCKD/2Ew6iOcU0e/yBiLpW5GulkwoJrOQMnL6zOlUaaa6rq67Tv8tIK5U6
+	 Uu5LAx53UZHGxMIbNu1GtwYBKllZFcADYc23Mu4MSqyHbBFzqqhcw91D9IjjVjj06icTN
+	 qX5M/eSxw5fLoLLl6uUowGP+kU8AurjU65/ru6uQ2wUEpFI9pw2MdjR7tz+EfiZ64ingq
+	 wmNRywOUKoS2Wh9iAsNvsYtsr5isuTMgsIkBp6PHizZtACZTpC0CklvgYxs0GJAp5Mg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794254943;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=KctrobPWYEwSUCDsU0lDskRvOHLV+0aAUXG3Dlafoi4=;
+	b=O6TPPkZpi+0k7RqjXR/3fkkTUnu5cgpr1ae7AiTO9QOvrp7yBH+gCKGuV0dUyQl4296t
+	 0iZK0e2CFnQzyS9jyFQ6VNBgNZFm122hzQ+gLsHEcdOyBSQda1S4PnIUFVjiiAEPtqWjF
+	 4GScufLtzIIdPjsf/9oGpug23mC8jCPbjK+HEH58HLxmfUH5qvSLEErAZTBKaenRoy8th
+	 RxMc4hvjsmmODSavvMmLcRdCFD5/pY4gQIR3eYB9q2TTaYzMhFK6hraSFNqGaohU0yAN1
+	 SypqeZJO/QB0vW2ciCdw+lmW/pp5d9viLr8ptWmazuuCLR4ugFT3UCc6OOHAy1DALlg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iDENWkMv;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5A7606A325
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 20:08:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A5A7606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0245A606A331
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 20:09:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0245A606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=j9lzOFfV
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so2526408eec.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Nov 2026 12:08:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794254880; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sZzcm7dCwPhpYPxGFtYL2Vm8Fg757P5IEZwy/N4kTn2t1u8Y9KwI/w4pXj6LUd1MFL
-         UwUUFI0g9KuiSbNtmIAYPMNuwA2sohNXC+gYphsCGTh3lZm0NHNj6D9pvUC+IoY75vsH
-         MAPJwg3M39R8j4ODiXfJM4/B6EAhrQpUYCJPrdoOZoIA6DXVbO4PlAyhJ0DT9nBqJuzQ
-         8ejSOSGFVlx5+Ty4z1zbNXW+HdqAq9s9K/0zhkHsC11dpNtYWTp8PUkgfxYRw1Rl53FE
-         lbykGJYT6xbeZ1ZN0kC2wP4mjY01HmnRUkpmamCmKnJnClCXhZOpl4MvKMduqGWS5ogc
-         bpGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yeH43vPcTrmxtvR5EDQeUYlZILsKnLUoD+qsoobC8Ks=;
-        fh=/pM+LrZ/ax6CmavRBCf83cV76lFVlD5+ECYNjR9LyAM=;
-        b=q9GbcHgO+9uNJoFZVBcNsnncsNU+vP5DJxOdQreE4l0C1SASi94+Q7tucaqLdusSpk
-         XKfPUd+tw2J8R1cCsLTTTire3vDv8fBiaccgDoJe462QvigWsgnDoMn9HsosABpkFiIb
-         piLUTWss+m0xxrFcdqOJA/bllAxOxvVtCnLgbi2PqA/SFdbu6L5tiNoLo1G63Sdm54oy
-         zDq2zAEfNBxDuZWVhpQJePE1e6nHIKVt4Z91W7hvDNZefpOvz0fjjNy/OFJi2cNptJ8Q
-         H0CUaiio5C4nKNEGaLVW8JUVCz90Cu7EnC8WbM6sDKWpgBLlIuO5pWpjeh6azBeB2YN6
-         iHiQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794254880; x=1794859680; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=yeH43vPcTrmxtvR5EDQeUYlZILsKnLUoD+qsoobC8Ks=;
-        b=j9lzOFfVaKwRfzXUQaNXy0PO0HUJqb28QlscX2HY1eTKzskqCfqoECJPFfzLSVAjyT
-         FGWrsVHUt2iOQNrQmPVpLQHZAhUnEulVAMD11iaHPo0RG7O1lwj+nYmF4Qbnvn5aeSgl
-         SiWEFGGtG5AXR13peT6/OLmZVPbAGNQhEPbLg5R6Wp8mrGL90eVu8BTHjwu+zQt52rd+
-         rGALNgWDUfFCZCOSogdGTnfdX/UWHv2FHILqHbW+Uj8qFIKGFVR7Aeds+u55yt/VNayW
-         VHYqlkI3eS5AXvaYpHDjpUN5eSjmPHt+2+PjiO70nEMSovXnShgzo4wp0L6i16T9PMa9
-         nJuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794254880; x=1794859680;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yeH43vPcTrmxtvR5EDQeUYlZILsKnLUoD+qsoobC8Ks=;
-        b=rY6XwdA8uC/iGKBhBo2/tzvMTk/EsYLJ6sBcHdn2fkdXyS5PICe2lLgjyTXRGBh9c/
-         f7JJ3pkLl4weaLCT3QgvjNN987Wv+olPbHIxAxaPMyEcONeV5nLaHF132aPqXY2po9iY
-         EBEmECz/Kro1BeHYC1hKUrz7O4S6J9/b2ZbBPuP3n1F2terRb4fOzn1Ic3HkkSPV2FQB
-         Az3D+okjYqeyIPquI8HZSl7OXU7w/nGH5wkP7yPzbIW8JrUAsF4455/Tz2Vu/jb2BZE9
-         1/BWUAv953NvLRgvoHo1gARVvk9rqt8GAghy/2Ic1wpvpYCVwXSRgLnGYoctyCS9cTGg
-         ifTA==
-X-Forwarded-Encrypted: i=1; AL+hErELs9ygJlvILOnd1/B14j6NOyrmuHd2S2lK57eauo2/86KCi+YVq+X39PuRdhaxTrS5b2VvS0ONOucJxj8B@lists.linux.dev
-X-Gm-Message-State: APuU4Z9NWB75TPr0NA1qsdeKXFvs9O80rtOt4aNQXZrCRu77o4l6aI83
-	w+BzYYPpJ49Hc0rsYYAJBaYjbJIrpKy62yauek+wB2PNAnbf/pMlC7R1B40Lo8oDbQHoA3Utwjb
-	5d019JhUch1/KmefUxnWzVYmZTAdu0l0=
-X-Gm-Gg: AYBFou0gYuis6hEymxOAlMV81MIXjFuP453Cc3y/sVzH4PONCAjYmz/klBePwzzZYx3
-	Jut4M1XEuUO7sgFEJkuGAeqhfeqSZTf+OqSZS1Ey0A1hbrLF6Ll/54p/fGDbr5yX+bertRoO66I
-	KtczoKzh+sq4BBQk5EqVuAmFLNnKEfngNl/QZoEUfihuDV/AHD0AFKrZZ8AH868IWM7BXDw6NwU
-	8W/h42bM1sXmbBra0ZOAg3hlTkBusK2mMxcYL3KIRwB1wVb0eTnA0oKEqJBJXfmmHoK1DBM/XBH
-	qzFjhUvfEG5bZ+IhEBv6flzzvMIgiF3jM5hTZ94YKbViCOYBYXKmlYOjYnGMPgZewFgC96ws27h
-	27PGvB+7G+FWN1EVvvKu3Y58vstVi6+e2KComO2c2KCnbHznD8nKa9swyYmiCi0SjvizNg2Lw+E
-	TZf+VJ3j7AbyAU0rzTPuwIbdKW2nyBgdFmFpBZARzmC+h0tru3nq8=
-X-Received: by 2002:a05:693c:639b:20b0:369:ef92:bd7b with SMTP id
- 5a478bee46e88-3752021a4b3mr405313eec.41.1794254879591; Mon, 09 Nov 2026
- 12:07:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iDENWkMv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794254943; x=1825790943;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pEe8ZQEP3LK/ykVmviX1NKx7J77jZvukhYATfQ7CaP4=;
+  b=iDENWkMvY1zl4NrB4/XbZFLhgjL8QawX0hRszp5vLCw9UCDRYbwwTN8y
+   HQBXEMr8ImXmIUXTZZ14iCftwm+1V+xJ0U6eLFk6FTxy/yoRSlAC5piEF
+   cEq0e5hJcGBXGkpKSV5q5Z9Dnce5oxc8nXvv6LhyV8HJSEw50mKGIQnxc
+   9BDKK5jlcCInBqpLCItHINcGxCWvtgmZbFs2TW1V7/sVfDCCdQJmgfuuc
+   pHi8YluLPcrwJE54o15GIzTxirwRp+XqkzNSuxpRQs+skJf9pN0gjR5DP
+   +EtyyQitC8I5ZUbmaQ3V+cB4YdG+C7D1fYjeimkkSWOU00AW0VPci3SEL
+   A==;
+X-CSE-ConnectionGUID: n5FsG2+vRnaKSc+Z9WJg/Q==
+X-CSE-MsgGUID: l7JLJAOcQfa1Jp6f1pp1Qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2982671"
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="2982671"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 12:09:02 -0800
+X-CSE-ConnectionGUID: osi9n8QgQkuTHopdGK1QtQ==
+X-CSE-MsgGUID: 3DupIJkiTHqILqlt1RCvJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="8272637"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 09 Nov 2026 12:09:00 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xQVfl-00000000vG3-2LpF;
+	Mon, 09 Nov 2026 20:08:57 +0000
+Date: Tue, 10 Nov 2026 04:08:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: xujiahao <xujiahao@cmss.chinamobile.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	xujiahao <xujiahao@cmss.chinamobile.com>
+Subject: Re: [PATCH v2] Input: sidewinder - use scnprintf() for the port names
+Message-ID: <202611100328.QAelfSpD-lkp@intel.com>
+References: <20261109010548.438699-1-xujiahao@cmss.chinamobile.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -105,59 +84,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261108094253.83899-5-clamor95@gmail.com> <202611090518.mm6yt2nO-lkp@intel.com>
- <avInQ08dVrsc-Rbo@ashevche-desk.local>
-In-Reply-To: <avInQ08dVrsc-Rbo@ashevche-desk.local>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 9 Nov 2026 22:07:47 +0200
-X-Gm-Features: AclHuK-uW4-VZbHI3Cd7Hqy4mW6DNnwVcXugR9i4sn8vPx7NjzrQMM_Kf1jGWpY
-Message-ID: <CAPVz0n1FqXV-XXyBJpnp1ivd+uk6+zGvngobQZfUXMNBBPyORA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] iio: light: ltr501: Add support for the
- LTR-659PS-01 proximity sensor
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Esben Haabendal <esben@geanix.com>, 
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>, 
-	Pan Chuang <panchuang@vivo.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
-	Antoniu Miclaus <antoniu.miclaus@analog.com>, Nikita Travkin <nikita@trvn.ru>, 
-	oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109010548.438699-1-xujiahao@cmss.chinamobile.com>
 
-=D0=BF=D0=BD, 9 =D0=BB=D0=B8=D1=81=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 22:04=
- Andy Shevchenko <andriy.shevchenko@intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Mon, Nov 09, 2026 at 05:48:09AM +0800, kernel test robot wrote:
-> >
-> > kernel test robot noticed the following build errors:
->
-> ...
->
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> >
-> > WARNING: modpost: vmlinux: section mismatch in reference: trace_initcal=
-l_level+0x28 (section: .text.unlikely) -> initcall_level_names (section: .i=
-nit.data)
-> > WARNING: modpost: vmlinux: section mismatch in reference: __arch_xprod_=
-64+0xac (section: .text.unlikely) -> initcall_level_names (section: .init.d=
-ata)
-> > >> ERROR: modpost: drivers/iio/light/ltr501.ko: symbol 'iio_find_channe=
-l_from_si' undefined!
->
-> Forgot to import namespace?
->
+Hi xujiahao,
 
-It is not exported in the core
+kernel test robot noticed the following build errors:
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/dr=
-ivers/iio/industrialio-core.c?h=3Dnext-20261109#n319
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v7.4-rc2 next-20261109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+url:    https://github.com/intel-lab-lkp/linux/commits/xujiahao/Input-sidewinder-use-scnprintf-for-the-port-names/20261109-090548
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20261109010548.438699-1-xujiahao%40cmss.chinamobile.com
+patch subject: [PATCH v2] Input: sidewinder - use scnprintf() for the port names
+config: i386-randconfig-1006-20261109 (https://download.01.org/0day-ci/archive/20261110/202611100328.QAelfSpD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100328.QAelfSpD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611100328.QAelfSpD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: drivers/input/joystick/sidewinder.o: in function `sw_3dp_id':
+>> drivers/input/joystick/sidewinder.c:542:(.text+0x1630): undefined reference to `__umoddi3'
+>> ld: drivers/input/joystick/sidewinder.c:540:(.text+0x1652): undefined reference to `__udivdi3'
+
+
+vim +542 drivers/input/joystick/sidewinder.c
+
+   519	
+   520	/*
+   521	 * sw_3dp_id() translates the 3DP id into a human legible string.
+   522	 * Unfortunately I don't know how to do this for the other SW types.
+   523	 */
+   524	
+   525	static void sw_3dp_id(unsigned char *buf, char *comment, size_t size)
+   526	{
+   527		int i;
+   528		char pnp[8], rev[9];
+   529	
+   530		for (i = 0; i < 7; i++)						/* ASCII PnP ID */
+   531			pnp[i] = sw_get_bits(buf, 24+8*i, 8, 1);
+   532	
+   533		for (i = 0; i < 8; i++)						/* ASCII firmware revision */
+   534			rev[i] = sw_get_bits(buf, 88+8*i, 8, 1);
+   535	
+   536		pnp[7] = rev[8] = 0;
+   537	
+   538		scnprintf(comment, size, " [PnP %d.%02d id %s rev %s]",
+   539			  (int)(((sw_get_bits(buf, 8, 6, 1) << 6) |	/* Two 6-bit values */
+ > 540				  sw_get_bits(buf, 16, 6, 1)) / 100),
+   541			  (int)(((sw_get_bits(buf, 8, 6, 1) << 6) |
+ > 542				  sw_get_bits(buf, 16, 6, 1)) % 100),
+   543			  pnp, rev);
+   544	}
+   545	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
