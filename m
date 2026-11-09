@@ -1,78 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794217630;
-	b=AN+u8EVwCZW0b0KXCWTMl9BBQj8inTzcMHT9GkyEbAkVG/yIjUFrUUQvVBKv1Kg1RT5F
-	 uAvAzCPd/3oRh5yViSQCGR346Dlr41EuHM1aZWT61t5dMmYfy9hTxxBR4uJa7mdEEe9zs
-	 VwAZx+5u0wC0U1iiwvc4eNweReLGI3XLHFxOi1Pz9BXC003b3zGA1tg6J9UyLqLKdNmc7
-	 dV+O/Us0zinxCA4ARQi5YV5l5y9248ZRu3fe2/1Ku1DoSXXJjc25N5Gy4bs8/MceyQDFN
-	 1vkBGOrCcpd5HdDmfTWQfEInl/VeSKCqMgm4VACKBI3URUJGX1dRt4glMA3CEfn5KCA==
+	t=1794219961;
+	b=c4eX8+i/LYV39CdrNayYQj85Vxp2yfRMiQwwnvpRc9IF9HVOljftESfG5Ddy8QDmTm5f
+	 OeCPs+E6MMjGFl36eagrMIm0yzp3RhDdt6eHsPVX9Si4zltCQwQN1fYuYdTz7qmpWa7iL
+	 XIEJygX11QtpCgWj2hgv+Qg4DADUtz/PzVmMG1RUozukwbPE35MVtLI5SzRqvOWt/VZQ8
+	 QgP8udD5l3FlZ6oRqlrp9/4sWnVSxovFAecqc8mSV3EY3ja0qAnwHpocVbmXMh2ocA04g
+	 D33T5NU61y520fh8txCegpa5HILIJnFiAGtUxLRJSxaS2x+CT9weuu03gPE18/XGgrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794217630;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794219961;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=bj7YqZW7OhqkZSq1qIpSToyGD3v53NFWV52Jy0MWo4I=;
-	b=2TanlbRX85vqPEb8ErD0qbO7+xNn72gqFen2hF5rZ6NwqGpctnrbr0tAW3pbcDoqAelZ
-	 eukVbfmLI1fn9KVafxe4SBLzsC1zwvJ/Zmv1x/QirI6Y1dJpbhNhmrM0049fjdLKhXlZ+
-	 hL6bNAmHzt+sckwOD0ZJaMpYMYPOtoYdYBGENaE+0QrrmQLFtIXGzJjt8pQYA3HzFnB88
-	 VWrNIt5Xq4CDRI0GHI16qrL6sWpmT5ctytDlRahKhADaUhLkq58ohBMRuE1p1FrGpZmMl
-	 KiyHDuwYuARfPufnH2uR+iM6rP6oCK/jlhI3NlqYjJj0p0SoWA/xnAbCU6UKAlQmMSg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=uAYylga/6dqg9lHD3Vdh/9mixkw0gaI4seUq+mB8lOw=;
+	b=EZLcNvRFgRxNij6ny8rvGcC/wBOQm4P1hEXC+enHR1aXSEFI9vUiDwlQkc+3qRYhsOis
+	 C6FontSbQSuSembc04X6zKmU5Dk96/vRK10pOPfAM85s9I5f3RvxRH1Z3HlZgFolFAh35
+	 oy1G6fzGxrhysTb7WgSpLCl+jwSwu7gjvqi3z07hKJ2gNPmpJP/+2pRfhaS4jNFMAaySs
+	 94c+dFzCcXb05aybG/pg6Jr/VjGP9wJE/qYdi26g8+jnTy5jTcgdixsicF4ElV7ua7LKa
+	 +je7Cc7ZICEorzzsycG3e+/PW7NzmWp1/HxYIPcZv8oW30HI56Me1siQfKzHlUsHxfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZwOHD8MK;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FBXpmJM+;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B071B606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 09:47:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B071B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0CF606A323
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 10:25:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C0CF606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZwOHD8MK
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FBXpmJM+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794217628; x=1825753628;
-  h=date:from:to:cc:subject:message-id;
-  bh=vNgzPi08eIXVBghQh7DY7XvhpcJC7nYQfPJ11deufOQ=;
-  b=ZwOHD8MK+8IcdayCtb/PNw6x44knNFCd8q8CUJhfNRl8B71N+nDQIduP
-   qBOUQePFSXg6L3Qd9I3JUeb7S6UW6tSLnIDKYn38cjslx+FESVfvlBT57
-   Y/31N0prBlkOqysXn4lCKexwk4yHlFDDmmZuZzRAVqyXuTji81kSggrwF
-   5UsTU6uko8x+3DLhZLcd5rtM8UOlqjxbPSg3aJCLZavGho0FCxK7L20Sj
-   jxd5ne5myWNwrZn5F4fv265mduncSNQkLOySKhDmuk3o9kzI9rfA+i2JQ
-   uG+ETS3SyOOD1j4c417q/bN8p45JKjtZKSh/aEZCRph27AZnPqcjDRTzv
-   Q==;
-X-CSE-ConnectionGUID: OvURmVPVTfKaSwQ9xVE6ug==
-X-CSE-MsgGUID: jZfwL1JPRHS/eynasSBOCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2937871"
+  t=1794219961; x=1825755961;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wZAgkrCqpZY89StHkZpGHI9uL51IbXkKoxUcszLReIg=;
+  b=FBXpmJM+sB6KMbXaH544q9Z+rLH0QwEXVfk08lAq5njkcp85gRR32OHe
+   K12sNYAXShvd3xVQM0wd33AVKrHiVMgL/gKsGdrGvzup7Vlk6XCmRPtRC
+   XAnzkZ//s2egs3lV24afpzxQsN+mgx7vdPgo4KZI3GFNJ/6OvnIL8UXuz
+   7LJXeRJ0jn6Ya+YLuQz/vEd10Rgwy4Z18JbVD1EwwZIpkeLeMxg5PafHE
+   IMERRA/61gTXHFKuaVQNYKc/3dDPWgqzWky9SAg+P38QJ2HQdqCvkOv8s
+   t0qSa6ac1nGmHGeZgxe1SHnVkO0M4/YrH/rALvrkG85qqF4Pw1szDWkIs
+   w==;
+X-CSE-ConnectionGUID: MuGkAJceQcKOdprpWGYprQ==
+X-CSE-MsgGUID: /mFbrGLQTkSxKzQTwttSxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2977705"
 X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="2937871"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 01:47:08 -0800
-X-CSE-ConnectionGUID: UWQPtfr6S5eKhiAlqXbsgA==
-X-CSE-MsgGUID: HXcXUnjbTturI7E0kUL/Bw==
+   d="scan'208";a="2977705"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 02:26:00 -0800
+X-CSE-ConnectionGUID: BKWDyFRaQdGW/Pc1ghWc4g==
+X-CSE-MsgGUID: 61ARG1fcRcGHnD1LWexdOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
-   d="scan'208";a="9578185"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1db0d17a343c) ([10.211.93.152])
-  by fmviesa012.fm.intel.com with ESMTP; 09 Nov 2026 01:47:07 -0800
-Received: from kbuild by 1db0d17a343c with local (Exim 4.98.2)
+   d="scan'208";a="7993579"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2026 02:25:55 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQLxr-000000000IN-18PG;
-	Mon, 09 Nov 2026 09:46:59 +0000
-Date: Mon, 09 Nov 2026 10:45:59 +0100
+	id 1xQMZT-00000000uKJ-3T8v;
+	Mon, 09 Nov 2026 10:25:51 +0000
+Date: Mon, 9 Nov 2026 18:25:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.4-rc 53/154]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000
- (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202611091022.YzgdZluV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Syed Saba Kareem <syed.sabakareem@amd.com>, broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sunil-kumar.Dommati@amd.com,
+	vijendar.mukunda@amd.com, Mario.Limonciello@amd.com,
+	venkataprasad.potturu@amd.com,
+	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Siva Subramanian Ravi Saravanan <sravisar@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 3/6] ASoC: soc-acpi: move common function topology
+ helpers
+Message-ID: <202611091824.N70ZD8Wt-lkp@intel.com>
+References: <20261108193119.2308421-4-syed.sabakareem@amd.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,76 +94,169 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108193119.2308421-4-syed.sabakareem@amd.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
-head:   674a64f97be4d25967f31216ffe7eaefdabf827f
-commit: 27f001efb4287e35dee43fa0982c4dde508a35dd [53/154] arm64: dts: mt7988: re-add sgmiisys
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261109/202611091022.YzgdZluV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611091022.YzgdZluV-lkp@intel.com/reproduce)
+Hi Syed,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[cannot apply to linus/master v7.4-rc2 next-20261105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Syed-Saba-Kareem/ASoC-amd-acp-add-SoundWire-speaker-quirks-for-Dell-platforms/20261109-010030
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261108193119.2308421-4-syed.sabakareem%40amd.com
+patch subject: [PATCH v3 3/6] ASoC: soc-acpi: move common function topology helpers
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261109/202611091824.N70ZD8Wt-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611091824.N70ZD8Wt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611091022.YzgdZluV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611091824.N70ZD8Wt-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: pcie-2-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: pcie-3-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcie-2-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcie-3-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+All warnings (new ones prefixed by >>):
+
+   sound/soc/soc-acpi.c:36:1: error: redefinition of 'snd_soc_acpi_find_machine'
+      36 | snd_soc_acpi_find_machine(struct snd_soc_acpi_mach *machines)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/soc-acpi.c:11:
+   include/sound/soc-acpi.h:40:1: note: previous definition of 'snd_soc_acpi_find_machine' with type 'struct snd_soc_acpi_mach *(struct snd_soc_acpi_mach *)'
+      40 | snd_soc_acpi_find_machine(struct snd_soc_acpi_mach *machines)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-acpi.c: In function 'snd_soc_acpi_find_package':
+   sound/soc/soc-acpi.c:60:36: error: implicit declaration of function 'acpi_fetch_acpi_dev'; did you mean 'acpi_match_acpi_device'? [-Werror=implicit-function-declaration]
+      60 |         struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
+         |                                    ^~~~~~~~~~~~~~~~~~~
+         |                                    acpi_match_acpi_device
+>> sound/soc/soc-acpi.c:60:36: warning: initialization of 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/soc-acpi.c:66:25: error: invalid use of undefined type 'struct acpi_device'
+      66 |         if (adev && adev->status.present && adev->status.functional) {
+         |                         ^~
+   sound/soc/soc-acpi.c:66:49: error: invalid use of undefined type 'struct acpi_device'
+      66 |         if (adev && adev->status.present && adev->status.functional) {
+         |                                                 ^~
+   sound/soc/soc-acpi.c:82:26: error: implicit declaration of function 'acpi_extract_package' [-Werror=implicit-function-declaration]
+      82 |                 status = acpi_extract_package(myobj,
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-acpi.c: At top level:
+   sound/soc/soc-acpi.c:97:6: error: redefinition of 'snd_soc_acpi_find_package_from_hid'
+      97 | bool snd_soc_acpi_find_package_from_hid(const u8 hid[ACPI_ID_LEN],
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/soc-acpi.c:11:
+   include/sound/soc-acpi.h:46:1: note: previous definition of 'snd_soc_acpi_find_package_from_hid' with type 'bool(const u8 *, struct snd_soc_acpi_package_context *)' {aka '_Bool(const unsigned char *, struct snd_soc_acpi_package_context *)'}
+      46 | snd_soc_acpi_find_package_from_hid(const u8 hid[ACPI_ID_LEN],
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-acpi.c:111:27: error: redefinition of 'snd_soc_acpi_codec_list'
+     111 | struct snd_soc_acpi_mach *snd_soc_acpi_codec_list(void *arg)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/soc-acpi.c:11:
+   include/sound/soc-acpi.h:53:41: note: previous definition of 'snd_soc_acpi_codec_list' with type 'struct snd_soc_acpi_mach *(void *)'
+      53 | static inline struct snd_soc_acpi_mach *snd_soc_acpi_codec_list(void *arg)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +60 sound/soc/soc-acpi.c
+
+95f098014815b33 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2015-11-05   6  
+78d8db3cfe94397 sound/soc/soc-acpi.c                    Syed Saba Kareem     2026-11-09   7  #include <linux/device.h>
+261e90829fe2f0a sound/soc/soc-acpi.c                    Paul Gortmaker       2019-04-13   8  #include <linux/export.h>
+78d8db3cfe94397 sound/soc/soc-acpi.c                    Syed Saba Kareem     2026-11-09   9  #include <linux/firmware.h>
+261e90829fe2f0a sound/soc/soc-acpi.c                    Paul Gortmaker       2019-04-13  10  #include <linux/module.h>
+7feb2f786a46d34 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12 @11  #include <sound/soc-acpi.h>
+95f098014815b33 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2015-11-05  12  
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  13  static bool snd_soc_acpi_id_present(struct snd_soc_acpi_mach *machine)
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  14  {
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  15  	const struct snd_soc_acpi_codecs *comp_ids = machine->comp_ids;
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  16  	int i;
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  17  
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  18  	if (machine->id[0]) {
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  19  		if (acpi_dev_present(machine->id, NULL, -1))
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  20  			return true;
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  21  	}
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  22  
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  23  	if (comp_ids) {
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  24  		for (i = 0; i < comp_ids->num_codecs; i++) {
+28c916ade1bd420 sound/soc/soc-acpi.c                    Hans de Goede        2021-11-18  25  			if (acpi_dev_present(comp_ids->codecs[i], NULL, -1)) {
+28c916ade1bd420 sound/soc/soc-acpi.c                    Hans de Goede        2021-11-18  26  				strscpy(machine->id, comp_ids->codecs[i], ACPI_ID_LEN);
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  27  				return true;
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  28  			}
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  29  		}
+28c916ade1bd420 sound/soc/soc-acpi.c                    Hans de Goede        2021-11-18  30  	}
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  31  
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  32  	return false;
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  33  }
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  34  
+7feb2f786a46d34 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  35  struct snd_soc_acpi_mach *
+7feb2f786a46d34 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  36  snd_soc_acpi_find_machine(struct snd_soc_acpi_mach *machines)
+95f098014815b33 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2015-11-05  37  {
+7feb2f786a46d34 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  38  	struct snd_soc_acpi_mach *mach;
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  39  	struct snd_soc_acpi_mach *mach_alt;
+95f098014815b33 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2015-11-05  40  
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  41  	for (mach = machines; mach->id[0] || mach->comp_ids; mach++) {
+cafa39b650ec3ba sound/soc/soc-acpi.c                    Brent Lu             2021-10-30  42  		if (snd_soc_acpi_id_present(mach)) {
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  43  			if (mach->machine_quirk) {
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  44  				mach_alt = mach->machine_quirk(mach);
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  45  				if (!mach_alt)
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  46  					continue; /* not full match, ignore */
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  47  				mach = mach_alt;
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  48  			}
+a3e620f8422832a sound/soc/soc-acpi.c                    Keyon Jie            2018-11-16  49  
+7827d66946ad3af sound/soc/intel/common/sst-match-acpi.c Naveen M             2017-05-15  50  			return mach;
+7827d66946ad3af sound/soc/intel/common/sst-match-acpi.c Naveen M             2017-05-15  51  		}
+7827d66946ad3af sound/soc/intel/common/sst-match-acpi.c Naveen M             2017-05-15  52  	}
+95f098014815b33 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2015-11-05  53  	return NULL;
+95f098014815b33 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2015-11-05  54  }
+7feb2f786a46d34 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  55  EXPORT_SYMBOL_GPL(snd_soc_acpi_find_machine);
+8ceffd229f0ef13 sound/soc/intel/common/sst-match-acpi.c Vinod Koul           2016-02-08  56  
+7feb2f786a46d34 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  57  static acpi_status snd_soc_acpi_find_package(acpi_handle handle, u32 level,
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  58  					     void *context, void **ret)
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  59  {
+ff4865b3c8cd746 sound/soc/soc-acpi.c                    Rafael J. Wysocki    2022-01-26 @60  	struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
+59ce3233a538fc2 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2021-04-16  61  	acpi_status status;
+7feb2f786a46d34 sound/soc/soc-acpi.c                    Pierre-Louis Bossart 2017-10-12  62  	struct snd_soc_acpi_package_context *pkg_ctx = context;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  63  
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  64  	pkg_ctx->data_valid = false;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  65  
+ff4865b3c8cd746 sound/soc/soc-acpi.c                    Rafael J. Wysocki    2022-01-26  66  	if (adev && adev->status.present && adev->status.functional) {
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  67  		struct acpi_buffer buffer = {ACPI_ALLOCATE_BUFFER, NULL};
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  68  		union acpi_object  *myobj = NULL;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  69  
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  70  		status = acpi_evaluate_object_typed(handle, pkg_ctx->name,
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  71  						NULL, &buffer,
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  72  						ACPI_TYPE_PACKAGE);
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  73  		if (ACPI_FAILURE(status))
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  74  			return AE_OK;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  75  
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  76  		myobj = buffer.pointer;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  77  		if (!myobj || myobj->package.count != pkg_ctx->length) {
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  78  			kfree(buffer.pointer);
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  79  			return AE_OK;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  80  		}
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  81  
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  82  		status = acpi_extract_package(myobj,
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  83  					pkg_ctx->format, pkg_ctx->state);
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  84  		if (ACPI_FAILURE(status)) {
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  85  			kfree(buffer.pointer);
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  86  			return AE_OK;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  87  		}
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  88  
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  89  		kfree(buffer.pointer);
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  90  		pkg_ctx->data_valid = true;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  91  		return AE_CTRL_TERMINATE;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  92  	}
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  93  
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  94  	return AE_OK;
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  95  }
+3421894765a345c sound/soc/intel/common/sst-match-acpi.c Pierre-Louis Bossart 2016-11-12  96  
 
 --
 0-DAY CI Kernel Test Service
