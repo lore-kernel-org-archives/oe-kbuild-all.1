@@ -1,80 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794258858;
-	b=kdEZQS+A7+LYeFk85Dic4jymIohi4u2Uc0wIB3zKQY8Mox0n0zs8C3eC3vwr+saQcigA
-	 zZL1/cvy9u14xAh8ocgADt9kKLZUATk/PBkkEjK/zwuOdfjN2rKfNp2zItkhi6/ITh3Jv
-	 5Th66/iy8MArwZ3aQ8m7spu2WoCnV0eX+K5t+fS6LyQd3OH6Nt/SGarIxx1wtT38W53fx
-	 6fYEcYqd9RjIXqUPAVafCxaR7dFQdrHBeIrEW9T3jMVqrjZHebExYrlrN/BOvJiN/lB3h
-	 FHUO02wIfc8eFdpyDJlKjmgdqRAPx2S7FJI17AxAHg+lLKxrGbZLxoIoXC/IUaTj0ow==
+	t=1794262701;
+	b=BSfjMLhDZwMsM8DdfV6M+XAthwIJ2PG6K9vhA1C1Rqcexr+Bvo4wGxNDEvtXRQZBbPCp
+	 aG6KQ5suPuKPai3s8l2X2oJGOTUlS1vaRtvvIOX+c8zDHELNHmPuJ8UPLxBoz2CmP3ilC
+	 czTe98q8l+H3s0X6u7Y9wE5DicIxvrFt9qmf5r7NlSQZgGRYWQKZ+feiOerSSKqhkzNi5
+	 Wt+eA3KVqCD8qq5j2UYs3I4JFl748X3trmlfQKVfugQ9QxBpQbm7iCvDA2kn+qBxHkj5Z
+	 2cAijVvLZKuHtcT7nV5/aH2FS7rxVJWkAQARzb6lSBMa50Wxq+THzKWzNSUX445IX4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794258858;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794262701;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=1NtsNuj46Dzk0jkhcJogOuPuCcF1LqC48vhpTmVcMPk=;
-	b=edow1OFH57AaY7brwQW+qosT8D2yFhbhztBI3+SRf8HVzfUDZjU3HMa0QPzh/AIj5cLp
-	 +PcELoydJght3+HlmZkJGI37+dayKrbJn2JjS+OvukwbUQT31FPxSNs8CbRjQZ+9YInvr
-	 r0UgRdHpBVVH+qLzNqNCv9ZOHdFLJV+6zzDkd6AWlC/Ar/FHz6R+Ckkr3ZloPCJ6prilp
-	 aD6irtmY+KTe3+zfZ1EOqgjV14MZfiJBpw9VP6y5VJRDjV572AekaKUmSRTYlyqsZ/8JF
-	 FCt3/N/maDK4XkPmaBXIeZqTALlkyLuCfEX2TVu6m2Phz/HWapIHgCheXgdjh4Dhm+g==
+	bh=c9eJFkB1A2V/YM9JwIyEGfv/PGOIESHseQrXfeJUqyE=;
+	b=NB+kE8LRftZtVo8d2eAG9xLvmJJ32uK8xwWx59tArp9rnXoCJqJVOmPNbSzAnu29Nh1w
+	 XxJ7OtHUnPcnTY2r3cHfG316tZa/FpGAo1W0+bvLmqS3KXkRPFHrt9y+VY855cKFZsDDt
+	 d4/C4wiy6+LLUG4u69Z+i1Dco1PRWiUxVV/vQOiyOR+f3Wd+LwZRJ/W5qCC0o2J+Dso1b
+	 BUg71ExMVb7GS+c4cMQO7vpflRuF0W+bgho5DBdD5dd1kSEJ3etHOB6I+3oa6LZnZALL2
+	 +edg4Jpnj5m1MPQ/qELznitq2EToFBbQylKyjAbJ5KDj44RE+XoeXJIDCUXCw4NWpqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ePZizGX4;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fqs0Wigu;
+	arc=none smtp.remote-ip=198.175.65.14
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F4A606A321
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 21:14:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75F4A606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9EF606A321;
+	Mon,  9 Nov 2026 22:18:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A9EF606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ePZizGX4
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fqs0Wigu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794258858; x=1825794858;
+  t=1794262701; x=1825798701;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uBbJGX0ROzFfOyISdoSsTEY5cGeOybtEFrw6eFurM4s=;
-  b=ePZizGX4LcbOhDoC8BPGPvx8lz1+wohv3KF9qrJcBY9UMGUWAEGneqAz
-   gKF1fjODBxBWO52FY7aCHHnjX8B/olwWl+BfUjJJXQWPf4imtHQWP5aHj
-   YR+LYv2Qs2F8VxGfQYCDYowQsVxg0KWiy4jADz1zWvEbKkybCw0jWo0mj
-   06UbTWocolFXdkwuMmU5+IvfJUHTYTSC/+/AKlX4TwyitnQxbuaHdfeNQ
-   mPLwDxNZMlotdOev7tUC5s9zGXuUYl97po8/NOGs/6hLc++nSwtbabwg8
-   jgmB7gEDWzT8+VoQDb8PDoZ3HyOhZf4Cm+FpVNQ/gci3lEmKvOBe+8tDa
-   Q==;
-X-CSE-ConnectionGUID: OjQKj9wWSTaACD84mpyu6A==
-X-CSE-MsgGUID: A0Odt7VKR7adcJYmtxM1+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3079958"
+  bh=aK30euBbuDTMMaEp6ls7Vv/1SJLD5Mq+6g69iv5YITc=;
+  b=fqs0Wiguve1RNqiD28X1sK8POY3mt/rL89mAUGJTZk37AC6koc1xT4pb
+   +Hx7p1S1X5PrfrGe/bUjUGXCxXiILBHtP6JiCDZR8N6nL5Yjp7Ex1l6EH
+   27D5XCXWWCOO/kUKnC2TfklY8TA6HrScKX+C1bovXjvyYTu02wZSYh4zs
+   IJuFBFk+hIrBffrx/9muz7lYw1tscOR8+DsiYVYKbstODssVJp13zCIKA
+   7qLsKg6w7OLYzxetp25G1tKhXxP/D2NqhlTJDZZ/JtcDYHgB0eddInqTo
+   EheFYf3mGutaLw8WyVXAjOJ0BRA5SB864SCdbB0WJZYnvtw+QlSz5Np2f
+   g==;
+X-CSE-ConnectionGUID: LkpRpCEURmiZLZEbXr69Fw==
+X-CSE-MsgGUID: +aJvRF+IRZSKwO+a8ytvlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2891785"
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="3079958"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 13:14:17 -0800
-X-CSE-ConnectionGUID: /UmNdik9RoqjUpV3TogPcQ==
-X-CSE-MsgGUID: +V8aMcX/RJGH558EwhsCmg==
+   d="scan'208";a="2891785"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 14:18:20 -0800
+X-CSE-ConnectionGUID: uRWsm7i9QwiwhY7dhOj8yA==
+X-CSE-MsgGUID: sRE96BBBQGe1ftnOsgoHNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="7854540"
+   d="scan'208";a="7851116"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Nov 2026 13:14:12 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Nov 2026 14:18:18 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQWgo-00000000vLX-3BBm;
-	Mon, 09 Nov 2026 21:14:06 +0000
-Date: Tue, 10 Nov 2026 05:13:25 +0800
+	id 1xQXgs-00000000vQl-3fQU;
+	Mon, 09 Nov 2026 22:18:14 +0000
+Date: Tue, 10 Nov 2026 06:17:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laurijssen <lauserve@gmail.com>, linux-kernel@vger.kernel.org,
-	pjw@kernel.org, akpm@linux-foundation.org, jannh@google.com,
-	brauner@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Laurijssen <laurijssen@protonmail.com>
-Subject: Re: [PATCH] SYS: add utsname_set_field to reuse code in
- setdomainname and sethostname
-Message-ID: <202611100542.gPwF4AkM-lkp@intel.com>
-References: <20261109114421.8414-1-laurijssen@protonmail.com>
+To: Chenghai Huang <huangchenghai2@huawei.com>, herbert@gondor.apana.org.au,
+	davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	liulongfang@huawei.com, qianweili@huawei.com,
+	wangzhou1@hisilicon.com, linwenkai6@hisilicon.com
+Subject: Re: [PATCH 2/4] crypto: engine - add acomp support
+Message-ID: <202611100606.eXBh5Nlt-lkp@intel.com>
+References: <20261109073556.2517351-3-huangchenghai2@huawei.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,49 +87,35 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261109114421.8414-1-laurijssen@protonmail.com>
+In-Reply-To: <20261109073556.2517351-3-huangchenghai2@huawei.com>
 
-Hi Laurijssen,
+Hi Chenghai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on brauner-vfs/vfs.all linus/master v7.4-rc2 next-20261109]
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on linus/master v7.4-rc2 next-20261109]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Laurijssen/SYS-add-utsname_set_field-to-reuse-code-in-setdomainname-and-sethostname/20261109-124421
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20261109114421.8414-1-laurijssen%40protonmail.com
-patch subject: [PATCH] SYS: add utsname_set_field to reuse code in setdomainname and sethostname
-config: nios2-randconfig-1000-20261110 (https://download.01.org/0day-ci/archive/20261110/202611100542.gPwF4AkM-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100542.gPwF4AkM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chenghai-Huang/crypto-engine-clear-busy-and-recheck-running-in-the-retry-pump-loop/20261109-153553
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20261109073556.2517351-3-huangchenghai2%40huawei.com
+patch subject: [PATCH 2/4] crypto: engine - add acomp support
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20261110/202611100606.eXBh5Nlt-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100606.eXBh5Nlt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611100542.gPwF4AkM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611100606.eXBh5Nlt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   nios2-linux-ld: kernel/sys.o: in function `__do_sys_sethostname':
-   kernel/sys.c:1424:(.text+0x1c8c): undefined reference to `utsname_set_field'
->> kernel/sys.c:1424:(.text+0x1c8c): relocation truncated to fit: R_NIOS2_CALL26 against `utsname_set_field'
-   nios2-linux-ld: kernel/sys.o: in function `__do_sys_setdomainname':
-   kernel/sys.c:1457:(.text+0x1ccc): undefined reference to `utsname_set_field'
-   kernel/sys.c:1457:(.text+0x1ccc): relocation truncated to fit: R_NIOS2_CALL26 against `utsname_set_field'
-
-
-vim +1424 kernel/sys.c
-
-  1421	
-  1422	SYSCALL_DEFINE2(sethostname, char __user *, name, int, len)
-  1423	{
-> 1424		return utsname_set_field(name, len, UTS_PROC_HOSTNAME);
-  1425	}
-  1426	
+>> ERROR: modpost: crypto/crypto_engine.ko: symbol 'crypto_register_acomp' undefined!
+>> ERROR: modpost: crypto/crypto_engine.ko: symbol 'crypto_unregister_acomp' undefined!
 
 --
 0-DAY CI Kernel Test Service
