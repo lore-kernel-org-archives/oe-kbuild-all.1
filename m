@@ -1,81 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794262701;
-	b=BSfjMLhDZwMsM8DdfV6M+XAthwIJ2PG6K9vhA1C1Rqcexr+Bvo4wGxNDEvtXRQZBbPCp
-	 aG6KQ5suPuKPai3s8l2X2oJGOTUlS1vaRtvvIOX+c8zDHELNHmPuJ8UPLxBoz2CmP3ilC
-	 czTe98q8l+H3s0X6u7Y9wE5DicIxvrFt9qmf5r7NlSQZgGRYWQKZ+feiOerSSKqhkzNi5
-	 Wt+eA3KVqCD8qq5j2UYs3I4JFl748X3trmlfQKVfugQ9QxBpQbm7iCvDA2kn+qBxHkj5Z
-	 2cAijVvLZKuHtcT7nV5/aH2FS7rxVJWkAQARzb6lSBMa50Wxq+THzKWzNSUX445IX4g==
+	t=1794264637;
+	b=SeP26x0/CcCaRbgX0c0XLA+jMeRB5t5vIMFKj6+TOfZQGyf9nosi0yEnYVbruHy8ErUq
+	 nEbaOvzsH5yxl7VeR8NIak5JyqSb+ZEsCZBvdPDgdYMUjjxI/AErzWecA1vFQ0fYdonT5
+	 jmtkVlryQrEaQwnY6TRbanxtCvhxZPgvCHyaFX9rUenT/NVUtowbcw2Ee1VGU4WiwMOup
+	 WHstQo8+vg9GH6rfEvGWMSmyJYqMi+zF/cLYj04FpL5sLTnq72Y+fv5FS/Gl4jCXd2hV6
+	 QiOWRT6EpdB9sHOvQi0lYYifWRzYC59x2cJgNBC9sYjs7W7ze6u3LSz80sIWRO2d8cg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794262701;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794264637;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=c9eJFkB1A2V/YM9JwIyEGfv/PGOIESHseQrXfeJUqyE=;
-	b=NB+kE8LRftZtVo8d2eAG9xLvmJJ32uK8xwWx59tArp9rnXoCJqJVOmPNbSzAnu29Nh1w
-	 XxJ7OtHUnPcnTY2r3cHfG316tZa/FpGAo1W0+bvLmqS3KXkRPFHrt9y+VY855cKFZsDDt
-	 d4/C4wiy6+LLUG4u69Z+i1Dco1PRWiUxVV/vQOiyOR+f3Wd+LwZRJ/W5qCC0o2J+Dso1b
-	 BUg71ExMVb7GS+c4cMQO7vpflRuF0W+bgho5DBdD5dd1kSEJ3etHOB6I+3oa6LZnZALL2
-	 +edg4Jpnj5m1MPQ/qELznitq2EToFBbQylKyjAbJ5KDj44RE+XoeXJIDCUXCw4NWpqw==
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=SwWS0eZdIXdUK1uTO+uVDmraMNMmJaKG736k5gmUwtc=;
+	b=JLeJLul9BustCKntfqLBhI1Al/6igUqC0RHd0gzClgCpiIWFc2a2nmHSsdMZ06a04YCt
+	 BCNZx0pfFmKaBHPGurh7b3CFgSzmdpF6Idcs/6+IoUOlDYgLTJEY69IImAnFz30EHwokT
+	 RRD9pnsLjmIAJMpUtctWqXiP6e/za9uke2jRP0Qw3n2Jr56yu3RHStaOpqN8zZCL+kCjS
+	 mssrD7BEmWYtoCq7dNwxYeF0qj0yreCbyqzv7hVOv9jsmhBUZRYuVmUIA5yt3m5ehFR0p
+	 9H6Ia4aEj64FiGPTE51EnBB5E3x1xv96C0iOe8512Z6LqHOV/hDWgeu7vJDi83a0KBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fqs0Wigu;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T7Ks1coY;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9EF606A321;
-	Mon,  9 Nov 2026 22:18:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A9EF606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AF2606A321;
+	Mon,  9 Nov 2026 22:50:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0AF2606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fqs0Wigu
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T7Ks1coY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794262701; x=1825798701;
+  t=1794264636; x=1825800636;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aK30euBbuDTMMaEp6ls7Vv/1SJLD5Mq+6g69iv5YITc=;
-  b=fqs0Wiguve1RNqiD28X1sK8POY3mt/rL89mAUGJTZk37AC6koc1xT4pb
-   +Hx7p1S1X5PrfrGe/bUjUGXCxXiILBHtP6JiCDZR8N6nL5Yjp7Ex1l6EH
-   27D5XCXWWCOO/kUKnC2TfklY8TA6HrScKX+C1bovXjvyYTu02wZSYh4zs
-   IJuFBFk+hIrBffrx/9muz7lYw1tscOR8+DsiYVYKbstODssVJp13zCIKA
-   7qLsKg6w7OLYzxetp25G1tKhXxP/D2NqhlTJDZZ/JtcDYHgB0eddInqTo
-   EheFYf3mGutaLw8WyVXAjOJ0BRA5SB864SCdbB0WJZYnvtw+QlSz5Np2f
-   g==;
-X-CSE-ConnectionGUID: LkpRpCEURmiZLZEbXr69Fw==
-X-CSE-MsgGUID: +aJvRF+IRZSKwO+a8ytvlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2891785"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=u1dBGJ1G/PX1r4fCBcZn5nfQWlbbjKRuj9l+gMhFhqc=;
+  b=T7Ks1coY9WNSsWPYxvdF3BZGYwPz8kU6qnUgkZnw1wtNg/zmkKsS5mZ2
+   444gGnwtM/b9/pHahESsmITC62yCAcpiZHkht7M+7A2oDz+3cVBYh/YJz
+   gTPkfF6euLtI/bWAJaZVb5OiM5X8X202m65xe8OcQ2ucjKcPHOS9CiNQ9
+   KdYJNke81c+wm02y8qJgCEYAQxWPdM7YzVhLGCjnek4lRaFSpqA2tAfUX
+   Gb3Khmh9itBvvaCrA8FP+6EOtEfKqDzG/rjCEB3iVYcs2knr8vOO6yMx5
+   bBh8LkKYWqcrTdpAoCqLX6CMDnQON4hBIwHVKDHoSw4Ce9RAmGMm5v0Tv
+   Q==;
+X-CSE-ConnectionGUID: iqBO2Az2SOaE8LfJT9jWWw==
+X-CSE-MsgGUID: ni/JnaaISgWo6ny0re90PA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2899159"
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="2891785"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 14:18:20 -0800
-X-CSE-ConnectionGUID: uRWsm7i9QwiwhY7dhOj8yA==
-X-CSE-MsgGUID: sRE96BBBQGe1ftnOsgoHNg==
+   d="scan'208";a="2899159"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 14:50:35 -0800
+X-CSE-ConnectionGUID: h+ESVRPhRN6PE1B+o1Vusg==
+X-CSE-MsgGUID: hrIGUffwSOeAiAeq+aTOKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="7851116"
+   d="scan'208";a="7798859"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Nov 2026 14:18:18 -0800
+  by orviesa008.jf.intel.com with ESMTP; 09 Nov 2026 14:50:32 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQXgs-00000000vQl-3fQU;
-	Mon, 09 Nov 2026 22:18:14 +0000
-Date: Tue, 10 Nov 2026 06:17:59 +0800
+	id 1xQYC6-00000000vUR-1xFV;
+	Mon, 09 Nov 2026 22:50:30 +0000
+Date: Tue, 10 Nov 2026 06:50:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chenghai Huang <huangchenghai2@huawei.com>, herbert@gondor.apana.org.au,
-	davem@davemloft.net
+To: =?iso-8859-1?Q?Adri=E1n_Garc=EDa?= Casado <adriangarciacasado42@gmail.com>,
+	Nilesh Javali <njavali@marvell.com>,
+	Manish Rangankar <mrangankar@marvell.com>,
+	"Martin K . Petersen" <mkp@kernel.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	liulongfang@huawei.com, qianweili@huawei.com,
-	wangzhou1@hisilicon.com, linwenkai6@hisilicon.com
-Subject: Re: [PATCH 2/4] crypto: engine - add acomp support
-Message-ID: <202611100606.eXBh5Nlt-lkp@intel.com>
-References: <20261109073556.2517351-3-huangchenghai2@huawei.com>
+	GR-ETH-Storage-Upstream@marvell.com,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	=?iso-8859-1?Q?Adri=E1n_Garc=EDa?= Casado <adriangarciacasado42@gmail.com>
+Subject: Re: [PATCH] scsi: qedi: Add __printf to debug helpers and fix format
+ strings
+Message-ID: <202611100645.IuoveOp3-lkp@intel.com>
+References: <20261109141738.1624579-1-adriangarciacasado42@gmail.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -85,37 +89,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20261109073556.2517351-3-huangchenghai2@huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261109141738.1624579-1-adriangarciacasado42@gmail.com>
 
-Hi Chenghai,
+Hi Adrián,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on linus/master v7.4-rc2 next-20261109]
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v7.4-rc2 next-20261109]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chenghai-Huang/crypto-engine-clear-busy-and-recheck-running-in-the-retry-pump-loop/20261109-153553
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20261109073556.2517351-3-huangchenghai2%40huawei.com
-patch subject: [PATCH 2/4] crypto: engine - add acomp support
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20261110/202611100606.eXBh5Nlt-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100606.eXBh5Nlt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Garc-a-Casado/scsi-qedi-Add-__printf-to-debug-helpers-and-fix-format-strings/20261109-151738
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20261109141738.1624579-1-adriangarciacasado42%40gmail.com
+patch subject: [PATCH] scsi: qedi: Add __printf to debug helpers and fix format strings
+config: i386-randconfig-1002-20261109 (https://download.01.org/0day-ci/archive/20261110/202611100645.IuoveOp3-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100645.IuoveOp3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611100606.eXBh5Nlt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611100645.IuoveOp3-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: crypto/crypto_engine.ko: symbol 'crypto_register_acomp' undefined!
->> ERROR: modpost: crypto/crypto_engine.ko: symbol 'crypto_unregister_acomp' undefined!
+>> drivers/scsi/qedi/qedi_main.c:1489:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+    1488 |                   "NVM BUF addr=0x%p dma=0x%llx.\n", qedi->iscsi_image,
+         |                                            ~~~~
+         |                                            %x
+    1489 |                   qedi->nvm_buf_dma);
+         |                   ^~~~~~~~~~~~~~~~~
+   drivers/scsi/qedi/qedi_dbg.h:79:13: note: expanded from macro 'QEDI_INFO'
+      78 |                 qedi_dbg_info(pdev, __func__, __LINE__, level, fmt,     \
+         |                                                                ~~~
+      79 |                               ## __VA_ARGS__)
+         |                                  ^~~~~~~~~~~
+   1 warning generated.
+
+
+vim +1489 drivers/scsi/qedi/qedi_main.c
+
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1477  
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1478  static int qedi_alloc_nvm_iscsi_cfg(struct qedi_ctx *qedi)
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1479  {
+750afb08ca7131 Luis Chamberlain 2019-01-04  1480  	qedi->iscsi_image = dma_alloc_coherent(&qedi->pdev->dev,
+872e192fab6438 Colin Ian King   2019-03-27  1481  					       sizeof(struct qedi_nvm_iscsi_image),
+750afb08ca7131 Luis Chamberlain 2019-01-04  1482  					       &qedi->nvm_buf_dma, GFP_KERNEL);
+c77a2fa3ff8f73 Nilesh Javali    2018-08-29  1483  	if (!qedi->iscsi_image) {
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1484  		QEDI_ERR(&qedi->dbg_ctx, "Could not allocate NVM BUF.\n");
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1485  		return -ENOMEM;
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1486  	}
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1487  	QEDI_INFO(&qedi->dbg_ctx, QEDI_LOG_INFO,
+c77a2fa3ff8f73 Nilesh Javali    2018-08-29  1488  		  "NVM BUF addr=0x%p dma=0x%llx.\n", qedi->iscsi_image,
+c57ec8fb7c0253 Nilesh Javali    2017-06-27 @1489  		  qedi->nvm_buf_dma);
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1490  
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1491  	return 0;
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1492  }
+c57ec8fb7c0253 Nilesh Javali    2017-06-27  1493  
 
 --
 0-DAY CI Kernel Test Service
