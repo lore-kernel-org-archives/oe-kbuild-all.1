@@ -1,78 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794253083;
-	b=DUQJyWAGWblnY7YC+28H12s4Wv14FQbAqpJ8X8Ere7i6VYXzIVTUMep3BDYdx8v4LTX7
-	 uXqL+kqZk2bglJmCK+EV03gBs/Bv2UT4L/R4yyK2LdMEkacwLwIwBt/PwvXJ3U1fELJQW
-	 0QZgmK9nShfUvEdyNYehsg/qZ4358qd0vN2gewSBrYYmJWBEqIynTqNQY94qU8wWIFc1q
-	 rA+URlQi707+rUrvvAzTALnstu28X7e0Rtx1UG+qg6Ab+l2uaeF0TvlNEH13JcxZLJDun
-	 40hvdHkWl+NhN8PsB1svQd8KvoIuVG0iWf+xv2GNUMcmD/omnfrFwX7Tdly3IIsmztA==
+	t=1794254667;
+	b=EQUtVmR1Yl7CphKhu4hWsF1GN+Elwa3vZG6rUhAbSeEW5+i5mtVG1r3kxxO4FOCRdKek
+	 jaynnQDkZt0sHltJ4Ma9Ogq7nL4TEFfPaE+8tnV6Z8c708udTQ8Bf17yFMz/LJuLLK86f
+	 CS4Xlz/8JmB7evfxjVvzbx8EGuShslSqmx2U/z0OwTSc5Bbb2+vT+hb4dao48H1gF2ISN
+	 S/8LE70h1tQD35jf/BgZMqFTkpZJpg7lT7NiJ8/f/wc4K2LBAJCjgz4sY1gw9a3A5M1Dx
+	 uYaoPQ8y30BjD4idGI77+L0ApLTIq5sJDDLQ2f9wovVjD1tDBmfhixg5ytGF6plD2yw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794253083;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794254667;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=is+9N6EH7ZEUTc2+bilHmINOWqiOtCqFbbnGadcFv2Y=;
-	b=lrETx/opw57qrdAdByUMzvIuizjxT3LrI7YqZplCFMYbsuenC6zdZCeKvKSWlYudLlVH
-	 I7P9xAYTHdyvEU4CvevlBWd7OsVuyDLSqO++ILs10lqf9HZ2Xw4dOqPmdqKDplM3YBJl2
-	 Hod5N0po0KYxWS+7Jxrd6wBk4tgxdpBPOVd2RODxkoNTe0cR3mzTRB94FMht/VOL2x/6r
-	 5wY4sGEfItp0w9KApj+b6sbBiT1OqobYj8LWbNrPOo8K3mzr0QE4hK+YIMZOzzW+msmAl
-	 3uHrGEbv6IE3aSwGjA6LaE0OB5iaVSFhm35qwhhL8r7nvsPLurPrfyhugPkS1KkwoGA==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=Vc+dZRhEnWsVxPlrVW5h2JVBBuMyg6wqhQAZPv+Cc00=;
+	b=WQV1hKgcDHzNlOOBreDz+X/aOXp5REXj11//AasiZQqOfXII4AtBctvnS8FA+VS+K23U
+	 NeN2wsmFklp7FCAHaRnipykkC/hFTlReJ5zaMkRI0kHkRMqq4T0ptwCq1LiEQMfAAURqP
+	 cmEMZfLIAzRqpn0tYsOGiWb/R/RUNQ+asNuLzEvl6HZv6YhFO6AZoHRNefJ4wCeht/2mj
+	 grPNX5Tb3czp77cvsksc4hEe3YggzYNrYyJJvm3Pmd+ihNmiAL7g8CNqIuq7JOdrT5Uki
+	 dDcJX8JY6ZvmPeiEa2NBMlWS//0vDkpko5ZwmnPDDUwYGqBcc8OYHhJsxsRFMURmihw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J73jff5v;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Lccmq6Mv;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7D1606A321
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 19:38:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A7D1606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937DD606A326
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Nov 2026 20:04:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 937DD606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=J73jff5v
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Lccmq6Mv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794253083; x=1825789083;
-  h=date:from:to:cc:subject:message-id;
-  bh=pWclAGcOpDHqr0v3M2XbgydUQAxMs5joCV3lan8FO8Q=;
-  b=J73jff5vd2+8r40oauDI5RsH0m+W6tgFu7hw8BuzYrq4Iyc45tED7WiY
-   Ma2T+oy5T2157Svv5CvGSgZhARTPNZ0cnWQHM22PUBjTOIUBToFdGdBPi
-   2agNbW5uJm9dBI3PS2h4bQd0odaQkXcO7WiXU7TtZkT3+VudDGB3sPRdY
-   L6ZGgAgvgpn/Z4xfhgv9xjU52wzTdjVs6VArzOGSgIda9pJVZuXV+ds5M
-   1EFgURGeL44Jifxduqb0XFK8JkGHDNFTs+Kkut5+r0Vby80zgCiomBLBu
-   8mESbwR8fVbk5u4Cp5DRd78ObkAkgMSzOPwWQxd1qw7YDyX75UmBejCaQ
+  t=1794254666; x=1825790666;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g4Nda6C5LTbhP3/hHBb5kb6b+JW0Lu9VYvlI8h5XX1o=;
+  b=Lccmq6Mv3nNnNIqTVVfG/ygjEnUKoW/2+UHW/YL+ZPSoEnv5AYcKBV17
+   f3hRkg6gXySwTByZjlqFT1yj0c+zJdMydR1LOZ68U79Q6DMKnFDXXj3rC
+   3+8TiykYS1ja+lgx37X1o7yd5sdf8IRk8gfYDDlUAdsK5Iq0BkkoI4kv+
+   2UVTLEYZNghJJoOzWSqPo7fnYGFIcPqnHDicNfKAeKjJzsNn9b30tsCuX
+   qMKmxMK+iG+ynjvVrCkRTEm63a+09cfYMwU9TJ3i8AlcpD9GGEJtMhJ3U
+   I3H72KAO0JC3zjVohxCchi3TozVz4aTmXIgCvdaCNoKkJSeEvdK9sPjKn
    Q==;
-X-CSE-ConnectionGUID: xKUdYlPDRJu7GnNCgduCIg==
-X-CSE-MsgGUID: 9IyEN+zxR8y2KdMpok5scA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3015302"
+X-CSE-ConnectionGUID: 7f0u8G7CSxKtSQLPwgWvoQ==
+X-CSE-MsgGUID: 7NqiRHAYRFyIYcobJwSSsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3028596"
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="3015302"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 11:38:02 -0800
-X-CSE-ConnectionGUID: RohIu2L1Tqe3u4sPr033Lw==
-X-CSE-MsgGUID: 3LC6bipTTTOlYuqdpIH+lg==
+   d="scan'208";a="3028596"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 12:04:26 -0800
+X-CSE-ConnectionGUID: mK6i+P+TRwGQxeuUhAfjyQ==
+X-CSE-MsgGUID: FaCxj2x2RbiWni+54uojhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="8284155"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1db0d17a343c) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Nov 2026 11:38:01 -0800
-Received: from kbuild by 1db0d17a343c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xQVBm-000000000SV-0yWw;
-	Mon, 09 Nov 2026 19:37:58 +0000
-Date: Mon, 09 Nov 2026 20:37:43 +0100
-From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Yeoreum Yun <yeoreum.yun@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>
-Subject: [sudeep-holla:for-next/arm_fw/updates 2/2]
- drivers/firmware/arm/smccc/smccc.c:21:21: sparse: sparse: symbol
- 'smccc_soc_id_version' was not declared. Should it be static?
-Message-ID: <202611092008.peLqOBq7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+   d="scan'208";a="9814465"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 12:04:21 -0800
+Date: Mon, 9 Nov 2026 22:04:19 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Svyatoslav Ryhel <clamor95@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Esben Haabendal <esben@geanix.com>,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
+	Pan Chuang <panchuang@vivo.com>,
+	Hemanth Selam <hemanth.selam@gmail.com>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Nikita Travkin <nikita@trvn.ru>, oe-kbuild-all@lists.linux.dev,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] iio: light: ltr501: Add support for the
+ LTR-659PS-01 proximity sensor
+Message-ID: <avInQ08dVrsc-Rbo@ashevche-desk.local>
+References: <20261108094253.83899-5-clamor95@gmail.com>
+ <202611090518.mm6yt2nO-lkp@intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,42 +93,29 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202611090518.mm6yt2nO-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Sudeep,
+On Mon, Nov 09, 2026 at 05:48:09AM +0800, kernel test robot wrote:
+> 
+> kernel test robot noticed the following build errors:
 
-First bad commit (maybe != root cause):
+...
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git for-next/arm_fw/updates
-head:   49c49ca0c4d02848a9576f72c4741c38c5ba09de
-commit: 49c49ca0c4d02848a9576f72c4741c38c5ba09de [2/2] firmware: arm: Group interface drivers under arm/
-config: arm64-randconfig-r2311-20261109 (https://download.01.org/0day-ci/archive/20261109/202611092008.peLqOBq7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.3.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261109/202611092008.peLqOBq7-lkp@intel.com/reproduce)
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+> WARNING: modpost: vmlinux: section mismatch in reference: trace_initcall_level+0x28 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+> WARNING: modpost: vmlinux: section mismatch in reference: __arch_xprod_64+0xac (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+> >> ERROR: modpost: drivers/iio/light/ltr501.ko: symbol 'iio_find_channel_from_si' undefined!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611092008.peLqOBq7-lkp@intel.com/
+Forgot to import namespace?
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/firmware/arm/smccc/smccc.c:21:21: sparse: sparse: symbol 'smccc_soc_id_version' was not declared. Should it be static?
->> drivers/firmware/arm/smccc/smccc.c:22:21: sparse: sparse: symbol 'smccc_soc_id_revision' was not declared. Should it be static?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-vim +/smccc_soc_id_version +21 drivers/firmware/arm/smccc/smccc.c
 
-f2ae97062a48b1 drivers/firmware/smccc/smccc.c Sudeep Holla       2020-05-18  19  
-a37e31fc97efe7 drivers/firmware/smccc/smccc.c Andre Przywara     2021-01-06  20  bool __ro_after_init smccc_trng_available = false;
-35727af2b15d98 drivers/firmware/smccc/smccc.c Shanker Donthineni 2023-03-18 @21  s32 __ro_after_init smccc_soc_id_version = SMCCC_RET_NOT_SUPPORTED;
-35727af2b15d98 drivers/firmware/smccc/smccc.c Shanker Donthineni 2023-03-18 @22  s32 __ro_after_init smccc_soc_id_revision = SMCCC_RET_NOT_SUPPORTED;
-a37e31fc97efe7 drivers/firmware/smccc/smccc.c Andre Przywara     2021-01-06  23  
-
-:::::: The code at line 21 was first introduced by commit
-:::::: 35727af2b15d98a2dd2811d631d3a3886111312e irqchip/gicv3: Workaround for NVIDIA erratum T241-FABRIC-4
-
-:::::: TO: Shanker Donthineni <sdonthineni@nvidia.com>
-:::::: CC: Marc Zyngier <maz@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
