@@ -1,78 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794341503;
-	b=jPpqSj8C+FKwR1/yGCTjDFABonLWDGaUEM9nrLdJDqgSEvVWrXs7XOcB2/qENjhgB2Cl
-	 9KKb9DJz73xdhASRW9aK3yc+1q0atUYpdPdyEt2KwdcG4kzCy3aHjE92GRLadFr4XX/ko
-	 Ue5KnsJ15fQcob3gho8OjxYzWEteuPRFbw8NxsynED9LBqC2miXMGO2KPs3VnOztCEADF
-	 TqWtg0KSC1s2Y3z1+FNZuY23TxyC2vEIsHztORnddLlvCh+EjFlc02WOCOjVxoCIPApHn
-	 /CI7JKvVcnOd/38rTw4Hdrc05WdTiq1lUoSBRDbryulC7PtMyx3ufzPsZ0TvRKJwQPQ==
+	t=1794341942;
+	b=r/QnmiP+id8+VrCTCV2ksh2k24UnjGWh/lsdIFF1CK/JhQW//q2Zxkafv9iA1DyLNdsZ
+	 JxmlzDv0zX9gc/iCgrm/BEF0LgarfUzbE+tSHg7wcNQvEqbPIT41bdlb0Guxdhk1p2bch
+	 E+2ghAHMG+PGmMAbe28U/Sh9sbJ0y0E7QnwSMZePzXh/CbIFC92pIJrj9GSwtO9lS2Mg1
+	 CJGDFGm1ujn5lt0/6rUKvjLqnfLwIDOJQhGWCBGqVAnKbxTAf0m9RPmSFSZrKbk2APPKB
+	 5LvQ/IAwdITt/X5tAhHe723FThqIhZQXy69u51sQvQU1HNSyGpo7i+iezpx5Par2hPQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794341503;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794341942;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=tADm6mLsTGFjZBCm4PWVqDLhGRUyDxetfS4lsaWSWPU=;
-	b=CUFYRFslq9RcIrrLRCH6nnfEeuJouhKFt69xze3xriFgtdIqYDLYIqZyLS1JTtFxhXFu
-	 iDLCRMdCdshVIm9e2oRzH7+Eiqc1Sn/WS9mCqWkd/5ILhQmgCYSgsdehA2F+q+TIDEevP
-	 wzoxG1sV9uepN2S6eGPHmKHijI7zeW1+bbFs6ftXQh3rBJBKHM0KEuZ3/A0neJqD3d43o
-	 ouSq00HHwImWl6Mg8/x4UrOWfnCv2UFaiDI6BJ1ZAslBXEQkx/o/m8GQek1bJwINbJ+aD
-	 hVraRtoyyxZtkc5FPzB6uuxO9DNR49rgZEnnwVUXsqLg5JYDloVpOYV75n84REQ7OXg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=juK68wZhByXSKADyyYfPmjuuJBwSajAS7el5mvid4ZY=;
+	b=Ul5OsP+HywsKXH+3qswQF+Oqjhuk9xptm04QkKZ/RlCK3y0l20vSNFQwrCZDeF+DdkA+
+	 JJgn+5roLzLWLetP6+DEYYnV6I85qCO243Jal09wMoPZuaiClI+IWqo/DxNc3ONSCuKrS
+	 E+Y3NzczHi51RR6kfJca08DEKfvCXlm9cRxAIMQrnHbtQ0bi7I8ocnNgZI3uRrxuDzXcu
+	 /gdOHSe6LnKe91FeeiNpogujKl1e6d2JbASUXJeev9C4fiGaOwwjufjttfBqaIwOEqZOx
+	 nV654Y1BZ1KCKqit0d/IeTRPMBKdgIoSHWFGzNZttyymrjz8RCKU3zYoq74peex2S2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nNN9vXLr;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TrF6p9up;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF87D606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 20:11:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF87D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45D0606A320;
+	Tue, 10 Nov 2026 20:19:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A45D0606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nNN9vXLr
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TrF6p9up
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794341502; x=1825877502;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pAEq4yLaLnQuqdYu3xTBupF7zCd1gxSUTvNCNxLgQx8=;
-  b=nNN9vXLrJN5jGxbpO9qD6bUYSik/sZwGBMKGaA+bEY4XkdPFgjKJrsp0
-   Sxh85moSFcnkWxMTFMKuP5JyKiHGP2G84RGz0FzQ2fAmz12JSon7qZEPl
-   uSftzcZgMwiqE/dWud+kx60J/Mmy2s1/ia7GRK6Hzu+S8x2DHmCaQgeeZ
-   R+dThhRdu1Ct+URuDS9WGADCj9vQ/MNledJZ6iYrsJuI9hUOrUCZSy9rL
-   n84M0vJxrs0quZQrmD17TB3rufST5G6dPgGggtmhvwjnfnf9/wqVJLAI1
-   OSpCu6duhIf9lgruliTSCfxRq2sfE8+SnPqg0bgV76CJeRG8mxKJRHw/M
-   w==;
-X-CSE-ConnectionGUID: eoIDtcKHQ8idgF/hQh6sEg==
-X-CSE-MsgGUID: HzzkoiFdR7qeFR5+w67AGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3136336"
+  t=1794341941; x=1825877941;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xSTSWZR6Nw1Z+uKRJrpUe5ksHZNU7RF77FI0Rq6jAFw=;
+  b=TrF6p9upz55gT8BQeYYjjNpJle9fkjhw5+HTKzUgDf9aYr3L9XemR8Wy
+   GwMC8p+Fa4XvJxWdXa/rbWr3pIXqmHOGooQjp70KTkW/FM9MXvryBDR/I
+   XGDlsfzONY9wCmdbE1BFyI2jasCVQrjyHkWDQZ9IuYe7fNnLRIKLhvWHw
+   qb0PFm9/ZlcRJUj7qQwpM+e/bmC1pz76/02VTn301IAcqpHj4SPys4Myf
+   3kLFW3ebxRSHYzIx+KPDYzQjWziP52kGRqPjKxlwCHQ7qPud4rWhZ5hnY
+   ALdUdzfw57t0n48wZa5ZW2aJZSlxCDEzAOFWQWM+NWTrozOUx0gO9TMto
+   g==;
+X-CSE-ConnectionGUID: RtjKAoRGRXab3bpufyco8A==
+X-CSE-MsgGUID: VKrrpjBsQKqo+k1HvdFllw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3097349"
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="3136336"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 12:11:42 -0800
-X-CSE-ConnectionGUID: Na9XcZu3RFqfiSgHneD4EQ==
-X-CSE-MsgGUID: rBd17iGqTBm0lSFEo42xuw==
+   d="scan'208";a="3097349"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 12:19:00 -0800
+X-CSE-ConnectionGUID: 19vcfB1bRk6BSkk74uN2TQ==
+X-CSE-MsgGUID: YIXuxEJYSZG7ApbTiRH9ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="8110834"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2026 12:11:40 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8555566"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 10 Nov 2026 12:18:56 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQsBp-000000000Lb-0rP7;
-	Tue, 10 Nov 2026 20:11:33 +0000
-Date: Tue, 10 Nov 2026 21:10:30 +0100
+	id 1xQsIu-00000000xRr-14R8;
+	Tue, 10 Nov 2026 20:18:52 +0000
+Date: Wed, 11 Nov 2026 04:18:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:bpf-napi 37/46] net/ipv4/tcp_output.c:3307:
- undefined reference to `__tcp_bpf_tx_defer'
-Message-ID: <202611102113.Mdm4eGif-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andreas Kemnade <andreas@kemnade.info>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Thomas Richard <thomas.richard@bootlin.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Paul Walmsley <paul@pwsan.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sicelo <absicsz@gmail.com>, linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Andreas Kemnade <andreas@kemnade.info>
+Subject: Re: [PATCH 1/3] bus: ti-sysc: fix I2C quirk for OMAP3 variants
+Message-ID: <202611110448.h78DkY1D-lkp@intel.com>
+References: <20261110-i2c-sysc-v1-1-8945eb1d38f0@kemnade.info>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,125 +96,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110-i2c-sysc-v1-1-8945eb1d38f0@kemnade.info>
 
-tree:   https://github.com/kkdwivedi/linux bpf-napi
-head:   447e73927e821b61da411e58b9444d831373f359
-commit: 7a9d3d30a1aaf04d812c1ccb01d50db1cb62083b [37/46] tcp: Let a BPF kth=
-read do the xmit work of sockets assigned to it
-config: xtensa-randconfig-2000-20261110 (https://download.01.org/0day-ci/ar=
-chive/20261110/202611102113.Mdm4eGif-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261110/202611102113.Mdm4eGif-lkp@intel.com/reproduce)
+Hi Andreas,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7475ea8b58616b33c04afb976cf0fbaad9dd63fb]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Kemnade/bus-ti-sysc-fix-I2C-quirk-for-OMAP3-variants/20261110-114612
+base:   7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+patch link:    https://lore.kernel.org/r/20261110-i2c-sysc-v1-1-8945eb1d38f0%40kemnade.info
+patch subject: [PATCH 1/3] bus: ti-sysc: fix I2C quirk for OMAP3 variants
+config: arm64-randconfig-1000-20261110 (https://download.01.org/0day-ci/archive/20261111/202611110448.h78DkY1D-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110448.h78DkY1D-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611102113.Mdm4eGif-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611110448.h78DkY1D-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: de=
-fined in discarded section `.exit.text' of fs/fuse/inode.o
-   `.exit.text' referenced in section `__jump_table' of fs/fuse/inode.o: de=
-fined in discarded section `.exit.text' of fs/fuse/inode.o
-   `.exit.text' referenced in section `__jump_table' of drivers/target/targ=
-et_core_configfs.o: defined in discarded section `.exit.text' of drivers/ta=
-rget/target_core_configfs.o
-   `.exit.text' referenced in section `__jump_table' of drivers/target/targ=
-et_core_configfs.o: defined in discarded section `.exit.text' of drivers/ta=
-rget/target_core_configfs.o
-   `.exit.text' referenced in section `__jump_table' of net/bluetooth/6lowp=
-an.o: defined in discarded section `.exit.text' of net/bluetooth/6lowpan.o
-   `.exit.text' referenced in section `__jump_table' of net/bluetooth/6lowp=
-an.o: defined in discarded section `.exit.text' of net/bluetooth/6lowpan.o
-   `.exit.text' referenced in section `__jump_table' of net/bluetooth/6lowp=
-an.o: defined in discarded section `.exit.text' of net/bluetooth/6lowpan.o
-   `.exit.text' referenced in section `__jump_table' of net/bluetooth/6lowp=
-an.o: defined in discarded section `.exit.text' of net/bluetooth/6lowpan.o
-   `.exit.text' referenced in section `__jump_table' of net/bluetooth/6lowp=
-an.o: defined in discarded section `.exit.text' of net/bluetooth/6lowpan.o
-   `.exit.text' referenced in section `__jump_table' of net/bluetooth/6lowp=
-an.o: defined in discarded section `.exit.text' of net/bluetooth/6lowpan.o
-   drivers/clocksource/timer-mediatek.o: in function `mtk_timer_probe':
-   drivers/clocksource/timer-mediatek.c:356:(.text+0x50a): dangerous reloca=
-tion: windowed longcall crosses 1GB boundary; return may fail: *UND*
-   `.exit.text' referenced in section `__jump_table' of net/netfilter/ipset=
-/ip_set_core.o: defined in discarded section `.exit.text' of net/netfilter/=
-ipset/ip_set_core.o
-   `.exit.text' referenced in section `__jump_table' of net/netfilter/ipset=
-/ip_set_core.o: defined in discarded section `.exit.text' of net/netfilter/=
-ipset/ip_set_core.o
-   xtensa-linux-ld: net/ipv4/tcp_output.o: in function `tcp_write_xmit':
->> net/ipv4/tcp_output.c:3307: undefined reference to `__tcp_bpf_tx_defer'
-   xtensa-linux-ld: net/ipv4/tcp_output.o: in function `__tcp_push_pending_=
-frames':
->> include/net/tcp.h:764: undefined reference to `__tcp_bpf_tx_defer'
-   xtensa-linux-ld: net/ipv4/tcp_output.o: in function `__tcp_push_pending_=
-frames':
-   net/ipv4/tcp_output.c:3327: undefined reference to `__tcp_bpf_tx_defer'
-   xtensa-linux-ld: net/ipv4/tcp_output.o: in function `tcp_push_one':
->> include/net/tcp.h:764: undefined reference to `__tcp_bpf_tx_defer'
-   xtensa-linux-ld: net/ipv4/tcp_output.o: in function `tcp_xmit_retransmit=
-_queue.part.91':
-   net/ipv4/tcp_output.c:1328: undefined reference to `__tcp_bpf_tx_defer'
-   xtensa-linux-ld: net/ipv4/tcp_output.o:include/net/tcp.h:764: more undef=
-ined references to `__tcp_bpf_tx_defer' follow
-   `.exit.text' referenced in section `__jump_table' of net/ceph/ceph_commo=
-n.o: defined in discarded section `.exit.text' of net/ceph/ceph_common.o
-   `.exit.text' referenced in section `__jump_table' of net/ceph/ceph_commo=
-n.o: defined in discarded section `.exit.text' of net/ceph/ceph_common.o
-
-
-vim +3307 net/ipv4/tcp_output.c
-
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3300 =20
-a762a9800752f0 David S. Miller         2005-07-05  3301  /* Push out any pe=
-nding frames which were held back due to
-a762a9800752f0 David S. Miller         2005-07-05  3302   * TCP_CORK or att=
-empt at coalescing tiny packets.
-a762a9800752f0 David S. Miller         2005-07-05  3303   * The socket must=
- be locked by the caller.
-a762a9800752f0 David S. Miller         2005-07-05  3304   */
-9e412ba7632f71 Ilpo J=C3=A4rvinen           2007-04-20  3305  void __tcp_pu=
-sh_pending_frames(struct sock *sk, unsigned int cur_mss,
-9e412ba7632f71 Ilpo J=C3=A4rvinen           2007-04-20  3306  			       int=
- nonagle)
-a762a9800752f0 David S. Miller         2005-07-05 @3307  {
-726e07a8a38168 Ilpo J=C3=A4rvinen           2008-12-05  3308  	/* If we are=
- closed, the bytes will have to remain here.
-726e07a8a38168 Ilpo J=C3=A4rvinen           2008-12-05  3309  	 * In time c=
-losedown will finish, we empty the write queue and
-726e07a8a38168 Ilpo J=C3=A4rvinen           2008-12-05  3310  	 * all will =
-be happy.
-726e07a8a38168 Ilpo J=C3=A4rvinen           2008-12-05  3311  	 */
-726e07a8a38168 Ilpo J=C3=A4rvinen           2008-12-05  3312  	if (unlikely=
-(sk->sk_state =3D=3D TCP_CLOSE))
-726e07a8a38168 Ilpo J=C3=A4rvinen           2008-12-05  3313  		return;
-726e07a8a38168 Ilpo J=C3=A4rvinen           2008-12-05  3314 =20
-7a9d3d30a1aaf0 Kumar Kartikeya Dwivedi 2026-11-10  3315  	if (tcp_bpf_tx_de=
-fer(sk, nonagle))
-7a9d3d30a1aaf0 Kumar Kartikeya Dwivedi 2026-11-10  3316  		return;
-7a9d3d30a1aaf0 Kumar Kartikeya Dwivedi 2026-11-10  3317 =20
-99a1dec70d5acb Mel Gorman              2012-07-31  3318  	if (tcp_write_xmi=
-t(sk, cur_mss, nonagle, 0,
-7450aaf61f0ae2 Eric Dumazet            2015-11-30  3319  			   sk_gfp_mask(=
-sk, GFP_ATOMIC)))
-9e412ba7632f71 Ilpo J=C3=A4rvinen           2007-04-20  3320  		tcp_check_p=
-robe_timer(sk);
-a762a9800752f0 David S. Miller         2005-07-05  3321  }
-a762a9800752f0 David S. Miller         2005-07-05  3322 =20
-
-:::::: The code at line 3307 was first introduced by commit
-:::::: a762a9800752f05fa8768bb0ac35d0e7f1bcfe7f [TCP]: Kill extra cwnd vali=
-date in __tcp_push_pending_frames().
-
-:::::: TO: David S. Miller <davem@davemloft.net>
-:::::: CC: David S. Miller <davem@davemloft.net>
+>> Warning: drivers/bus/ti-sysc.c:169 struct member 'revision_doubleword' not described in 'sysc'
+>> Warning: drivers/bus/ti-sysc.c:169 struct member 'revision_doubleword' not described in 'sysc'
 
 --
 0-DAY CI Kernel Test Service
