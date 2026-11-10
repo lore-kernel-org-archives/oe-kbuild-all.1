@@ -1,76 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794272403;
-	b=x0D5eWKkVEX+c1IzwOqXlpZHRtiqfwx9G+d3RlzmXumQ3O238nrhNKKj5IwNQZymHqih
-	 13BucGS2fqWpvQcTh5+wMxGQIvLD0Xu9o+e7nmP7fypu2g7GrNHbCBzmYpI2BTLnVbxQo
-	 NHNdW8m/iuG9oxVhw3tD0EJgfJBDerePALdfhLsd9uTb4uzzRpYCg3smI5rbE5XUAqHhS
-	 D2lzQtvtjlN1XHyj7yDRVWsf+UXdWu+dw3P/Ecz8rSby1s8AkXMsDVlOE15fidqIbFteD
-	 LxGz1f9rxYwZe3eGumxBAq5ZydQjxgJ0aAbEm3m0YdVY7bNYBLOblFyb3M+JJJ/fE+g==
+	t=1794276320;
+	b=4vLdz+GKZeoOgaTozLZKYauzTJo6yPzSxXhETOssSI1TOqRDK/+PE7tl5Yk/efwXyfYT
+	 LxMrfdUM9Mikw5IU19oQh6CpuYH2h373Rqhi27yWRNSuaJWmJDx7C8rHtz0LF9lCBTV2p
+	 tOmLB+qOM2MKvQVpn4nkTpOWpVlqOuuFJkRtzy1RNqdeHso7uyazyQ9MGIHtilV4lscxR
+	 vX8rbVlrmjs6aceZ7Yaf2MyZFJ2RD9b1mdycDjWgwKyTp+KtvLxBx4ELPSxlHeEXg7mn1
+	 8FW99o04fU6QEkdthYKo2UaOTqzKf41pCezYPsscBUktSrD3iInZGo1ZEj2BUJG+MFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794272403;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794276320;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=hsPZOAtu45VxH523UYKhhTxrsFgVf6mgJiyFE4P3qtw=;
-	b=F3NAnnLC2nY/0jnSIH0042rArB9dCoONdBdzg1dNJjqaQM8SNnaVtlWVWtqiXRwQPbqg
-	 kMS3Wc/vyozk0Y4zruKeJGi/V2gVoQbuPA1EO/OmdNXIvgFv47VyJYDyIW9WXNI8Mp3mX
-	 WKL3t3wYzGz4Rmip/sHy01H7Hztd3JVQT1Xb3wFnZfHSR8TPMJuNIhvPmRZ3RpyFOG677
-	 7IZOd0AK5JZdgDkXES05lhAPJKDS5GDy/pLurWbojU0hWTfRE47zKg7rpNJ0WHKuIdJre
-	 x3Z+HhAO/+2odN//6Rna9vHSGmQP6kG1oZmI0L+3/mFuT4VTIEk1Nfh2IPTDZC1nDmg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=PHi2s2f16mLfxcR4BhP+bBJMxU0LcZFpYGFigSfV9Kc=;
+	b=1go86l/q7omTIww7RnkF19TqrkGOa3wsT0f/dW1sRpOKhkMU96KqCRgHnvLpcN7mkCoN
+	 K+77LjDXIpgZE+Rft92PDgkSkFmwpShG+IubZ6qe8OMvU71BTgDBPKA+LZIKB/6bzuH/P
+	 kJE/8ZEaj82AJqnQ2Z1f3ugv/FmaUDR73wXcsidUxWe7gF/zFrOCj+KVtDz/+16lWdZWO
+	 xqM3N3OnmFV+doHz4KNPaFO8ee5a8S9Z4Z8aNBAhZs3XBwocrxt8zotVbfrg16QU1RvSp
+	 KNoMW0MGEzFeXBbKgZJlpsUr1txPX8FgqhKtmbWzLqfGQwRIoOUVG02uDH07d7tl6Xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hBGOIc+D;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PNExLYqp;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2983606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 00:59:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2983606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2747606A31C;
+	Tue, 10 Nov 2026 02:05:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2747606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hBGOIc+D
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PNExLYqp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794272400; x=1825808400;
-  h=date:from:to:cc:subject:message-id;
-  bh=QzdUpnpDT5+MH/vsrvIsmqRPb0Kg+BmeYqsxABOag+Y=;
-  b=hBGOIc+DA6lReOVrI46eZlv3pj7wJPE4rZPKv8b3ylOhtamwzS079Poz
-   akGSSsyVQbtpXqrj7XNFIzesx1wDR6wyQEP+oItKKkQbc1XekJyqh9W4Z
-   +T/EuVxb9QC/TJWV9Q6upu/eCFGuuooVtFBoxxOruxSPGmEy2MAvvDE/M
-   M8V5F9DAuJl+go/SJqbTE4kF1dSyvg2qRwCuHIM3DqRW+9MT/vSUg/w5V
-   mMEVowhpTQerVz4oUNBX1upaglhQBqgsyE8J28+BC0DlgTunn2u6b26wP
-   UR5TEHDZaiuLxBGO1DPYXCPdMcZWutJYw8nNYYCjHSkTP+AxB3zU/59dB
-   A==;
-X-CSE-ConnectionGUID: fezHr+hHT1Shny1tvZz9PQ==
-X-CSE-MsgGUID: PeRQyiUFRGKq4fvytyJ72A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3094713"
+  t=1794276319; x=1825812319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JH5OURTQMWE/CgnqxOwW+e2/FmEhQm7dl5QFh/wnna0=;
+  b=PNExLYqphRkAGY4JS7CQaWowBvdEenHF93a0U941BZlFEs2yaa8nTi/P
+   kRsVCbA5y3qMh030z5hY4clmALEdhVYBfWmLywnQbDg8O3RmqlcFqsA/C
+   r7B4jlWgg/Ro1bovqDCY/yBes9WOvG7cpsHmxdK8YUZDmo7+tBtI5SN8f
+   90dU3z9S8SMf+eZRja3aKWudIzZICjj/NWu8cPiaoADQwaVOtQXZkuYZ7
+   B2yvRAZC5niCpUuMNDVQHbda1gyrNHBpm5FOWIbDDD9zPtlU0RX31u79H
+   tvU3hHbRpNoYocvMmtDsofCneLJOeAxM1RMyhFYEljHOiy+fX6tcnLuTz
+   g==;
+X-CSE-ConnectionGUID: 1J6SLMDGRyGrocpK3mdVrg==
+X-CSE-MsgGUID: AHWkKlfKQe+sjpnuMUIXzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3049262"
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="3094713"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 16:59:59 -0800
-X-CSE-ConnectionGUID: 5NBdP3Z6QTWD6bsNr1C15g==
-X-CSE-MsgGUID: zWnS3mEsT5me+RPVRSEH2A==
+   d="scan'208";a="3049262"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 18:05:18 -0800
+X-CSE-ConnectionGUID: /OxRHji+Q2y9+mcZM02zYQ==
+X-CSE-MsgGUID: oGV6OJz6TbGQxzY2j+rwaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="9759307"
+   d="scan'208";a="8332004"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa012.fm.intel.com with ESMTP; 09 Nov 2026 16:59:57 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 09 Nov 2026 18:05:15 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQaDL-00000000vfl-0Fhc;
-	Tue, 10 Nov 2026 00:59:55 +0000
-Date: Tue, 10 Nov 2026 08:59:46 +0800
+	id 1xQbEW-00000000vkN-2Vje;
+	Tue, 10 Nov 2026 02:05:12 +0000
+Date: Tue, 10 Nov 2026 10:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 54/54] mm/vmscan.c:4613:6:
- warning: no previous prototype for function 'isolate_page'
-Message-ID: <202611100829.s2QldOZg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Chenghai Huang <huangchenghai2@huawei.com>, herbert@gondor.apana.org.au,
+	davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	liulongfang@huawei.com, qianweili@huawei.com,
+	wangzhou1@hisilicon.com, linwenkai6@hisilicon.com
+Subject: Re: [PATCH 2/4] crypto: engine - add acomp support
+Message-ID: <202611100938.hePDEbMz-lkp@intel.com>
+References: <20261109073556.2517351-3-huangchenghai2@huawei.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,95 +84,43 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109073556.2517351-3-huangchenghai2@huawei.com>
 
-Hi yipeng,
+Hi Chenghai,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   3f0fd7f6624d7b99bd8d93cbcfe0241bc92d6448
-commit: 54677afc8eb1da47f2eebb6f5c810cd4b6db23dc [54/54] ANDROID: mm: export isolate_folio and reclaim_pages
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261110/202611100829.s2QldOZg-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100829.s2QldOZg-lkp@intel.com/reproduce)
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v7.4-rc2 next-20261109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chenghai-Huang/crypto-engine-clear-busy-and-recheck-running-in-the-retry-pump-loop/20261109-153553
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20261109073556.2517351-3-huangchenghai2%40huawei.com
+patch subject: [PATCH 2/4] crypto: engine - add acomp support
+config: arm-gemini_defconfig (https://download.01.org/0day-ci/archive/20261110/202611100938.hePDEbMz-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project b3e2466a7ef2bbc97d31230c3bf39a6fa50a608a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100938.hePDEbMz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611100829.s2QldOZg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611100938.hePDEbMz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
-   In file included from include/linux/compiler_types.h:80:
-   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      24 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:372:9: note: previous definition is here
-     372 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   mm/vmscan.c:917:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
-     917 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^
-   mm/vmscan.c:917:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     917 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         | ^
-         | static 
-   mm/vmscan.c:1391:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1391 |         int err;
-         |             ^
->> mm/vmscan.c:4613:6: warning: no previous prototype for function 'isolate_page' [-Wmissing-prototypes]
-    4613 | bool isolate_page(struct lruvec *lruvec, struct page *page, struct scan_control *sc)
-         |      ^
-   mm/vmscan.c:4613:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    4613 | bool isolate_page(struct lruvec *lruvec, struct page *page, struct scan_control *sc)
-         | ^
-         | static 
-   4 warnings generated.
-
-
-vim +/isolate_page +4613 mm/vmscan.c
-
-  4612	
-> 4613	bool isolate_page(struct lruvec *lruvec, struct page *page, struct scan_control *sc)
-  4614	{
-  4615		bool success;
-  4616	
-  4617		/* unmapping inhibited */
-  4618		if (!sc->may_unmap && page_mapped(page))
-  4619			return false;
-  4620	
-  4621		/* swapping inhibited */
-  4622		if (!(sc->may_writepage && (sc->gfp_mask & __GFP_IO)) &&
-  4623		    (PageDirty(page) ||
-  4624		     (PageAnon(page) && !PageSwapCache(page))))
-  4625			return false;
-  4626	
-  4627		/* raced with release_pages() */
-  4628		if (!get_page_unless_zero(page))
-  4629			return false;
-  4630	
-  4631		/* raced with another isolation */
-  4632		if (!TestClearPageLRU(page)) {
-  4633			put_page(page);
-  4634			return false;
-  4635		}
-  4636	
-  4637		/* see the comment on MAX_NR_TIERS */
-  4638		if (!PageReferenced(page))
-  4639			set_mask_bits(&page->flags, LRU_REFS_MASK | LRU_REFS_FLAGS, 0);
-  4640	
-  4641		/* for shrink_page_list() */
-  4642		ClearPageReclaim(page);
-  4643		ClearPageReferenced(page);
-  4644	
-  4645		success = lru_gen_del_page(lruvec, page, true);
-  4646		VM_WARN_ON_ONCE_PAGE(!success, page);
-  4647	
-  4648		return true;
-  4649	}
-  4650	EXPORT_SYMBOL_GPL(isolate_page);
-  4651	
+>> ld.lld: error: undefined symbol: crypto_register_acomp
+   >>> referenced by crypto_engine.c
+   >>>               crypto/crypto_engine.o:(crypto_engine_register_acomp) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: crypto_unregister_acomp
+   >>> referenced by crypto_engine.c
+   >>>               crypto/crypto_engine.o:(crypto_engine_unregister_acomp) in archive vmlinux.a
 
 --
 0-DAY CI Kernel Test Service
