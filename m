@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794308569;
-	b=IMnmHPfDm/X7XmDAbsuC5bieCYsmrJGhDXw11gO3zN4r7DvOeH0SC8XHRKQvN/+P0UWL
-	 jrPxM4VOHVw9hM705sNXnJxeiohrG5JgB/zD83oUk2WssIiYSwhtXJkNoLpQd34qjeaF8
-	 PKSTgovvXKnA5el8vscyJA2qWFrUQRRZaMBV8fvIjQz87q3Yszd80/MW+lpzsbOgofjIT
-	 9V9CYryfcOdicmAFgL7KPfL68jhdpIENm+FymlDwkGF/tCIVcXROxmf9uIO329LMLV5ul
-	 yvUtnq7lNFx6jRo1G/8G1QPRgJVw45/MMPO1XfQ/Q8Me9VhGYB5BmAJNmnRned3plng==
+	t=1794309234;
+	b=Va0mVRKoFNR0DRW1O5r1cLCsFD7WwJwEN/k+8McgN5/fQeEj99fAnFrFzH7AS2/Ez49r
+	 TN4V4sitB2sMYJfeKttS+gQM3OzxjiOYcZtYwWK2zemH18UX9zcdC0YQ1bRb/4nosTpWr
+	 oIsqsHuJPC7X9G1Cbn2gk8aqK2T1XfZqsJRHiF6yW4jUVwya1C3lnlmW5beLl2X74WFCF
+	 vB4L+rhn4+G4+4FTPd4xqaQPhTh67cO5lof3EqnjQRBdHn3w0DFPMjpgkpoBGMQCMmtJd
+	 Y1wUk4A9lkNjNTyo/2VatP8O9VQFKmBw/gcDr8u9yx4igqY6vfqb8GlAYd8MCxupinw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794308569;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794309234;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=wEGSf+/hfTCuh8Nt4NVGGLnTln5lo8lnKGzyaYzEY+g=;
-	b=3bvkHsTUak1vKqZRMqQ8fc14YEPK/DJVCUXencpoZOKGAGy/PsPoMDBjb8yi1DTBeO2E
-	 Lv6dfFIwiOWhfdR6SMpZA5cr9eOYWzfbc0rnszMvG5Q2dtuG7QMVR13Elddjksn4mkaue
-	 WIomBOVzlTGqOfL4uMTuIwFqFL3gOAo209KSXeZjVp3BUiT6jZYDK5P9Q14Ply1IUdWhl
-	 HND1IgF8rnjGwkoTVRI9e3IYLDUZQ1pztNogYHJg+3/YyzG2+/Khicfb5s4iaZAwGXVMB
-	 RpwNmgC+cgg1cYbOXZCN65Q2XvWRT8uiLwQmIvte+vwvP1IVEmfy1owQztXkNS5N2Ug==
+	bh=1ddw33IRhP/2JwGXS8pr/OEmMOA3/AlgOlVfVT3jdAg=;
+	b=DKyynWGkQNcdZijWj/PoWE59FcoAXLAZPrsxZXnpw6mHvPHtzhHUDAbZhQyRX6sBFejM
+	 u9UJPzyCGZR5UmTNhj3CCziHDGzw79EjQ+9AIFxAcR1U18EOtPBpxXHjC+2g0Nt9zS/9g
+	 zte2XyJ5F0+XRJj/VF5uZyO5qBsV7qsOB5TNydLL1vXT4zs+OHp2KXHcG6gHl+PT+TeBF
+	 cV7ijCpS7wqnKw9LkEyqjC4XBUVHhV642CH8efXCYdH+/k4HehFO9nok4rIowJcyoz6Dd
+	 kShVTCFkQVIfxxKt0nWxOSSTPSVOyn9jLR6zEysGHXI/mJWm9b+83dDehMbNOKZq8vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UnesdDuB;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ge8kgWs0;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E006606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 11:02:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E006606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1F9606A326;
+	Tue, 10 Nov 2026 11:13:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C1F9606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UnesdDuB
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ge8kgWs0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794308568; x=1825844568;
+  t=1794309233; x=1825845233;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=L6tv8Puv3bmo8paZD0sDn+ZLcVAqdz6eZBaI9jgbL0w=;
-  b=UnesdDuBblTCK+bPTqBZeS9X7Ms2hRufAAUF6541Vkh8/jx4SSHODGo4
-   mD9is/kTMXTpsrs918hCdsSDwb2JUwSmB5ozlAkGAviNoamJU8+DSUFz0
-   RBvNxbEku7qFZy9uZUmozrF6P2YOwtpuGrJpPVAfT1HZrFr7AmvSxFCrj
-   iGF3V3CpZPjWXPhKX079hoZx6ShiYD4603X8fQ8Xuz9xkeavbSyYRbDoc
-   A+R5yaVLisYnmjE0VRFLCYCWPmZezDVSiRHvAFNXDbgUwl43ZfbfqVNkK
-   QyCiZ1X+SCRMhs4WthoC9kG7zksQaxx1g8U/J/zTam5Ec/2hVvLYakfwl
-   w==;
-X-CSE-ConnectionGUID: AF0tj3MYQoCtkMpxiIHBLw==
-X-CSE-MsgGUID: jBsgBqfDSiyVKxXaZam2ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3081138"
+  bh=Q151x58OOoxplNHV2tNqcg1F9gUopr/bQY46SxbANQE=;
+  b=Ge8kgWs03JlnGdcfz/d9HojFTQdUrse3JcB2FxS9aNoEr9UHfLc4EXHR
+   eV7YTz5TfKQNN5ldy2HdLXEqUyMfPiYUwk7nS607h4CUtPvaVz8PJDBcA
+   tbMBnwvhupP3gvTuXRg0xF59yl0t1u7B833HxTlI7LXbSsdwHTnzdoJEA
+   ZTex85wK8O9EA/alphufXQ8KVKJtpGpsH9H37kmgg9HscMdwHKWzRoilY
+   pHWA2NV1sArQzTOu4Nx1xPNbYjlpZ8h23SLCL19qR4hn52t42PjPMJ3Sg
+   OAiUqf4DRApmMIVJ2MPNgXRZA9Y19yDF50CvC67vWZL2CBVTC1jfqxWAQ
+   Q==;
+X-CSE-ConnectionGUID: 6SATrQ2nQo6u+TTawhBICQ==
+X-CSE-MsgGUID: QGbeeNonR8G1Xvg0uRvO4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2929472"
 X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="3081138"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 03:02:47 -0800
-X-CSE-ConnectionGUID: AfKwJFtXRUaeBRQ8UJaCtg==
-X-CSE-MsgGUID: F5s46HDrQNeOiooQ8dtksQ==
+   d="scan'208";a="2929472"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 03:13:52 -0800
+X-CSE-ConnectionGUID: nQhW5sMRTXe0+WPQEFVfgw==
+X-CSE-MsgGUID: Jr4gJxw2Sk+1AP3yIDtnrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="8164732"
+   d="scan'208";a="9903373"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Nov 2026 03:02:46 -0800
+  by fmviesa011.fm.intel.com with ESMTP; 10 Nov 2026 03:13:49 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQjcg-00000000wfT-3pqp;
-	Tue, 10 Nov 2026 11:02:42 +0000
-Date: Tue, 10 Nov 2026 19:01:53 +0800
+	id 1xQjnO-00000000wh1-3pUd;
+	Tue, 10 Nov 2026 11:13:46 +0000
+Date: Tue, 10 Nov 2026 19:13:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] rtc: Don't lose a minute-resolution alarm that rounds
- down into the past
-Message-ID: <202611101839.fRQuN29G-lkp@intel.com>
-References: <20261110-rtc-minute-alarm-v1-1-be9d7c5227a1@gmail.com>
+To: Armin Wolf <W_Armin@gmx.de>, hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bifangknt@qq.com, nicokessler@icloud.com, sre@kernel.org,
+	linux-pm@vger.kernel.org, wse@tuxedocomputers.com
+Subject: Re: [PATCH 5/9] platform/x86: uniwill-laptop: Expose raw battery
+ capacity to userspace
+Message-ID: <202611101928.MbCyLNXk-lkp@intel.com>
+References: <20261110001725.851443-6-W_Armin@gmx.de>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,116 +88,161 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-rtc-minute-alarm-v1-1-be9d7c5227a1@gmail.com>
+In-Reply-To: <20261110001725.851443-6-W_Armin@gmx.de>
 
-Hi Arun,
+Hi Armin,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 7485659ecb81d5fce3a3edf2cae9fcb29c17b1cd]
+[auto build test ERROR on sre-power-supply/for-next]
+[also build test ERROR on linus/master v7.4-rc2 next-20261109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arun-Iyengar-via-B4-Relay/rtc-Don-t-lose-a-minute-resolution-alarm-that-rounds-down-into-the-past/20261110-071347
-base:   7485659ecb81d5fce3a3edf2cae9fcb29c17b1cd
-patch link:    https://lore.kernel.org/r/20261110-rtc-minute-alarm-v1-1-be9d7c5227a1%40gmail.com
-patch subject: [PATCH] rtc: Don't lose a minute-resolution alarm that rounds down into the past
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20261110/202611101839.fRQuN29G-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611101839.fRQuN29G-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Armin-Wolf/power-supply-core-Add-power_supply_has_property_direct/20261110-010643
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
+patch link:    https://lore.kernel.org/r/20261110001725.851443-6-W_Armin%40gmx.de
+patch subject: [PATCH 5/9] platform/x86: uniwill-laptop: Expose raw battery capacity to userspace
+config: i386-randconfig-1009-20261110 (https://download.01.org/0day-ci/archive/20261110/202611101928.MbCyLNXk-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611101928.MbCyLNXk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611101839.fRQuN29G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611101928.MbCyLNXk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/timer.h:6,
-                    from include/linux/uprobes.h:18,
-                    from include/linux/mm_types.h:16,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/topology.h:34,
-                    from include/linux/irq.h:19,
-                    from arch/parisc/include/asm/hardirq.h:13,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/rtc.h:18,
-                    from drivers/rtc/interface.c:11:
-   drivers/rtc/interface.c: In function 'rtc_set_alarm':
->> drivers/rtc/interface.c:562:60: warning: integer overflow in expression of type 'long int' results in '-129542144' [-Woverflow]
-     562 |                         alarm_time = ktime_add_ns(down, 60 * NSEC_PER_SEC);
-         |                                                            ^
-   include/linux/ktime.h:60:50: note: in definition of macro 'ktime_add_ns'
-      60 | #define ktime_add_ns(kt, nsval)         ((kt) + (nsval))
-         |                                                  ^~~~~
+>> drivers/platform/x86/uniwill/uniwill-acpi.c:2148:3: error: cannot jump from this goto statement to its label
+    2148 |                 goto err_remove;
+         |                 ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:2150:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    2150 |         guard(mutex)(&data->battery_lock);
+         |         ^
+   include/linux/cleanup.h:416:2: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:299:3: note: expanded from macro 'CLASS'
+     299 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:19:1: note: expanded from here
+      19 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:25:1: note: expanded from here
+      25 | __UNIQUE_ID_unlock_362
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:2150:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:416:15: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
+     165 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:13:1: note: expanded from here
+      13 | __UNIQUE_ID_guard_361
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:2139:3: error: cannot jump from this goto statement to its label
+    2139 |                 goto err_free;
+         |                 ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:2150:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    2150 |         guard(mutex)(&data->battery_lock);
+         |         ^
+   include/linux/cleanup.h:416:2: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:299:3: note: expanded from macro 'CLASS'
+     299 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:19:1: note: expanded from here
+      19 | class_mutex_constructor
+         | ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:25:1: note: expanded from here
+      25 | __UNIQUE_ID_unlock_362
+         | ^
+   drivers/platform/x86/uniwill/uniwill-acpi.c:2150:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
+   include/linux/cleanup.h:416:15: note: expanded from macro 'guard'
+     416 |         CLASS(_name, __UNIQUE_ID(guard))
+         |                      ^
+   include/linux/compiler.h:165:2: note: expanded from macro '__UNIQUE_ID'
+     165 |         __PASTE(__UNIQUE_ID_,                                   \
+         |         ^
+   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
+      16 | #define __PASTE(a, b) ___PASTE(a, b)
+         |                       ^
+   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
+      15 | #define ___PASTE(a, b) a##b
+         |                        ^
+   <scratch space>:13:1: note: expanded from here
+      13 | __UNIQUE_ID_guard_361
+         | ^
+   2 errors generated.
 
 
-vim +562 drivers/rtc/interface.c
+vim +2148 drivers/platform/x86/uniwill/uniwill-acpi.c
 
-   512	
-   513	int rtc_set_alarm(struct rtc_device *rtc, struct rtc_wkalrm *alarm)
-   514	{
-   515		ktime_t alarm_time;
-   516		int err;
-   517	
-   518		if (!rtc->ops)
-   519			return -ENODEV;
-   520		else if (!test_bit(RTC_FEATURE_ALARM, rtc->features))
-   521			return -EINVAL;
-   522	
-   523		err = rtc_valid_tm(&alarm->time);
-   524		if (err != 0)
-   525			return err;
-   526	
-   527		err = rtc_valid_range(rtc, &alarm->time);
-   528		if (err)
-   529			return err;
-   530	
-   531		err = mutex_lock_interruptible(&rtc->ops_lock);
-   532		if (err)
-   533			return err;
-   534		if (rtc->aie_timer.enabled)
-   535			rtc_timer_remove(rtc, &rtc->aie_timer);
-   536	
-   537		alarm_time = rtc_tm_to_ktime(alarm->time);
-   538		if (test_bit(RTC_FEATURE_ALARM_RES_MINUTE, rtc->features) &&
-   539		    alarm->time.tm_sec) {
-   540			ktime_t down = ktime_sub_ns(alarm_time,
-   541						    (u64)alarm->time.tm_sec * NSEC_PER_SEC);
-   542			struct rtc_time tm;
-   543			ktime_t now;
-   544	
-   545			err = __rtc_read_time(rtc, &tm);
-   546			if (err)
-   547				goto unlock;
-   548			now = rtc_tm_to_ktime(tm);
-   549	
-   550			/*
-   551			 * Round down so we never miss a deadline. If that puts an alarm
-   552			 * that is still in the future into the past, the timer would
-   553			 * expire right away and the hardware alarm would never be
-   554			 * armed: whoever relies on it, e.g. to wake the system from
-   555			 * suspend, would wait forever. Round up to the next minute
-   556			 * instead. An alarm already in the past is left alone, it is
-   557			 * handled by __rtc_set_alarm.
-   558			 */
-   559			if (ktime_after(down, now) || !ktime_after(alarm_time, now))
-   560				alarm_time = down;
-   561			else
- > 562				alarm_time = ktime_add_ns(down, 60 * NSEC_PER_SEC);
-   563		}
-   564	
-   565		rtc->aie_timer.node.expires = alarm_time;
-   566		rtc->aie_timer.period = 0;
-   567		if (alarm->enabled)
-   568			err = rtc_timer_enqueue(rtc, &rtc->aie_timer);
-   569	
-   570	unlock:
-   571		mutex_unlock(&rtc->ops_lock);
-   572	
-   573		return err;
-   574	}
-   575	EXPORT_SYMBOL_GPL(rtc_set_alarm);
-   576	
+  2125	
+  2126	static int uniwill_add_battery(struct power_supply *battery, struct acpi_battery_hook *hook)
+  2127	{
+  2128		struct uniwill_data *data = container_of(hook, struct uniwill_data, hook);
+  2129		struct uniwill_battery_entry *entry;
+  2130		const struct power_supply_ext *ext;
+  2131		int ret;
+  2132	
+  2133		entry = kzalloc_obj(*entry);
+  2134		if (!entry)
+  2135			return -ENOMEM;
+  2136	
+  2137		ret = device_create_file(&battery->dev, &data->charge_full_raw_attr);
+  2138		if (ret < 0)
+  2139			goto err_free;
+  2140	
+  2141		if (power_supply_has_property_direct(battery, POWER_SUPPLY_PROP_CYCLE_COUNT))
+  2142			ext = &data->standard_extension;
+  2143		else
+  2144			ext = &data->cycle_count_extension;
+  2145	
+  2146		ret = power_supply_register_extension(battery, ext, data->dev, data);
+  2147		if (ret < 0)
+> 2148			goto err_remove;
+  2149	
+  2150		guard(mutex)(&data->battery_lock);
+  2151	
+  2152		entry->battery = battery;
+  2153		list_add(&entry->head, &data->batteries);
+  2154	
+  2155		return 0;
+  2156	
+  2157	err_remove:
+  2158		device_remove_file(&battery->dev, &data->charge_full_raw_attr);
+  2159	
+  2160	err_free:
+  2161		kfree(entry);
+  2162	
+  2163		return ret;
+  2164	}
+  2165	
 
 --
 0-DAY CI Kernel Test Service
