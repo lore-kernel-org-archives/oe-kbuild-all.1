@@ -1,84 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794270951;
-	b=XBrUJraJhXgINdAGAT7U2f7srjG2i+Su0nS8oyM23GNzXLuw/lHT/v/7TLAj7sUKoaiT
-	 o6AOCOVyf0XTqRoZs6TgnlRe5l43KfrzNEc7+KlFrgcr7+8S6I+7UUrLkXwqD2tagotdb
-	 nS+P6RY8eef5poqwfGcNV1kDf3KtAT/XtYVw0Ge1pztUpkPwQAgOj5cvr+RZW2JJIF3/y
-	 J1l1j0V3kFCWNVUnqgt+7dlQQapckavEUZ1KKafILnvpfcJ4DaptIRHyeKUILLyV77jS9
-	 IaecO9R4QlGGBhLWZ3nARtWQZXp1RbbjnExWOCJQradWVvz3NXbf9ICzveGyNKzWCSg==
+	t=1794272403;
+	b=x0D5eWKkVEX+c1IzwOqXlpZHRtiqfwx9G+d3RlzmXumQ3O238nrhNKKj5IwNQZymHqih
+	 13BucGS2fqWpvQcTh5+wMxGQIvLD0Xu9o+e7nmP7fypu2g7GrNHbCBzmYpI2BTLnVbxQo
+	 NHNdW8m/iuG9oxVhw3tD0EJgfJBDerePALdfhLsd9uTb4uzzRpYCg3smI5rbE5XUAqHhS
+	 D2lzQtvtjlN1XHyj7yDRVWsf+UXdWu+dw3P/Ecz8rSby1s8AkXMsDVlOE15fidqIbFteD
+	 LxGz1f9rxYwZe3eGumxBAq5ZydQjxgJ0aAbEm3m0YdVY7bNYBLOblFyb3M+JJJ/fE+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794270951;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794272403;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=I1Cw3ZoxmSAJzaDBuoQ87U0eYP8SSK99naonS/OmSmU=;
-	b=icLHtTozHskXq/samWgaTu7D3nhi0eSrkxR7UOEFdjPtM92ndK/zBjF0TTp3RG1J84+i
-	 DL4s3kuYMDYcWMQcBpjJZpCTZtNQXf5TE31epvYt3WLhu2BtzWWja0LhTtxAFOVJsl6EH
-	 Vqw6aZbkRkA2FmWURlHPR01eehVp5dxfm9smXY8iK7a6IHuUZBmKFbQ7rXUeE6mdzJWNo
-	 r07jYgDAEj2LQ1svNXppIaUk/SYApvvbvErUbx1d1kbldXJLTLWM++EWd5OS4skz/1zyg
-	 M2FCL+wzqtVGVCfrylytxy+HJDnBY3DpMnPtOLi/8FCf41UHvB07oSEmwF4bi6GfG9A==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=hsPZOAtu45VxH523UYKhhTxrsFgVf6mgJiyFE4P3qtw=;
+	b=F3NAnnLC2nY/0jnSIH0042rArB9dCoONdBdzg1dNJjqaQM8SNnaVtlWVWtqiXRwQPbqg
+	 kMS3Wc/vyozk0Y4zruKeJGi/V2gVoQbuPA1EO/OmdNXIvgFv47VyJYDyIW9WXNI8Mp3mX
+	 WKL3t3wYzGz4Rmip/sHy01H7Hztd3JVQT1Xb3wFnZfHSR8TPMJuNIhvPmRZ3RpyFOG677
+	 7IZOd0AK5JZdgDkXES05lhAPJKDS5GDy/pLurWbojU0hWTfRE47zKg7rpNJ0WHKuIdJre
+	 x3Z+HhAO/+2odN//6Rna9vHSGmQP6kG1oZmI0L+3/mFuT4VTIEk1Nfh2IPTDZC1nDmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=il4JdFAg;
-	arc=none smtp.remote-ip=198.175.65.14
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hBGOIc+D;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9316606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 00:35:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9316606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2983606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 00:59:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2983606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=il4JdFAg
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=hBGOIc+D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794270951; x=1825806951;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5q6GQndC+NFUHcCSRf9aZxmvO/DSxUMmi0ovrumTT6A=;
-  b=il4JdFAgWWGlGaa/Qu0J/suor4f5xIPptV2kg/PSTSveiMAMRYbGLaMa
-   j/y3cRYxjU359M+INQd/Atsns2fGVIGu18Ua+MdHKQV5rkLUGS6luawF3
-   Nzn9ZAxqpl8uZp5kKFQjktspLhBLQU7Oo2o4R9RBvf4LrTT/U2BkSwESg
-   y9uNJXIMY2kvaBQF2zHrw2B4ZM/+A7tu/1fwaYWp4ebYwzLrmMpMQ95xC
-   bT54otvMj4XoCuMRbHt+TmIU2RA3TJ8g791i5qZ0hXbdvFqaEKjSVafPK
-   vW4ARaDCCIpsdtVHyL5JHPOgTn11LiehmW3Xazr2L6fq04lg6VEuzypij
-   g==;
-X-CSE-ConnectionGUID: Ljo180jaSUuF/Fygvnk8Gg==
-X-CSE-MsgGUID: 0S2vWhr+S5qtLdXLUc0tPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2899940"
+  t=1794272400; x=1825808400;
+  h=date:from:to:cc:subject:message-id;
+  bh=QzdUpnpDT5+MH/vsrvIsmqRPb0Kg+BmeYqsxABOag+Y=;
+  b=hBGOIc+DA6lReOVrI46eZlv3pj7wJPE4rZPKv8b3ylOhtamwzS079Poz
+   akGSSsyVQbtpXqrj7XNFIzesx1wDR6wyQEP+oItKKkQbc1XekJyqh9W4Z
+   +T/EuVxb9QC/TJWV9Q6upu/eCFGuuooVtFBoxxOruxSPGmEy2MAvvDE/M
+   M8V5F9DAuJl+go/SJqbTE4kF1dSyvg2qRwCuHIM3DqRW+9MT/vSUg/w5V
+   mMEVowhpTQerVz4oUNBX1upaglhQBqgsyE8J28+BC0DlgTunn2u6b26wP
+   UR5TEHDZaiuLxBGO1DPYXCPdMcZWutJYw8nNYYCjHSkTP+AxB3zU/59dB
+   A==;
+X-CSE-ConnectionGUID: fezHr+hHT1Shny1tvZz9PQ==
+X-CSE-MsgGUID: PeRQyiUFRGKq4fvytyJ72A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3094713"
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="2899940"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 16:35:50 -0800
-X-CSE-ConnectionGUID: sKXdmChySgC0LQPhZyro7A==
-X-CSE-MsgGUID: NngWVEzQR9iAH9NEKm5K7w==
+   d="scan'208";a="3094713"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 16:59:59 -0800
+X-CSE-ConnectionGUID: 5NBdP3Z6QTWD6bsNr1C15g==
+X-CSE-MsgGUID: zWnS3mEsT5me+RPVRSEH2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="8140979"
+   d="scan'208";a="9759307"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Nov 2026 16:35:49 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 09 Nov 2026 16:59:57 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQZpy-00000000vdX-04Jo;
-	Tue, 10 Nov 2026 00:35:46 +0000
-Date: Tue, 10 Nov 2026 08:35:41 +0800
+	id 1xQaDL-00000000vfl-0Fhc;
+	Tue, 10 Nov 2026 00:59:55 +0000
+Date: Tue, 10 Nov 2026 08:59:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Adri=E1n_Garc=EDa?= Casado <adriangarciacasado42@gmail.com>,
-	Nilesh Javali <njavali@marvell.com>,
-	Manish Rangankar <mrangankar@marvell.com>,
-	"Martin K . Petersen" <mkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, GR-ETH-Storage-Upstream@marvell.com,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	=?iso-8859-1?Q?Adri=E1n_Garc=EDa?= Casado <adriangarciacasado42@gmail.com>
-Subject: Re: [PATCH] scsi: qedi: Add __printf to debug helpers and fix format
- strings
-Message-ID: <202611100825.B5pebp4Q-lkp@intel.com>
-References: <20261109141738.1624579-1-adriangarciacasado42@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 54/54] mm/vmscan.c:4613:6:
+ warning: no previous prototype for function 'isolate_page'
+Message-ID: <202611100829.s2QldOZg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -87,154 +79,95 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20261109141738.1624579-1-adriangarciacasado42@gmail.com>
 
-Hi Adri=E1n,
+Hi yipeng,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on mkp-scsi/for-next linus/master v7.4-rc2 next-20=
-261109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   3f0fd7f6624d7b99bd8d93cbcfe0241bc92d6448
+commit: 54677afc8eb1da47f2eebb6f5c810cd4b6db23dc [54/54] ANDROID: mm: export isolate_folio and reclaim_pages
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261110/202611100829.s2QldOZg-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project fc9576e3b179738d99c5babe5cd9d6c1f883e0db)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611100829.s2QldOZg-lkp@intel.com/reproduce)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Garc-a-Casado=
-/scsi-qedi-Add-__printf-to-debug-helpers-and-fix-format-strings/20261109-15=
-1738
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-n=
-ext
-patch link:    https://lore.kernel.org/r/20261109141738.1624579-1-adriangar=
-ciacasado42%40gmail.com
-patch subject: [PATCH] scsi: qedi: Add __printf to debug helpers and fix fo=
-rmat strings
-config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261110=
-/202611100825.B5pebp4Q-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261110/202611100825.B5pebp4Q-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611100825.B5pebp4Q-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611100829.s2QldOZg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/scsi/qedi/qedi.h:19,
-                    from drivers/scsi/qedi/qedi_main.c:27:
-   drivers/scsi/qedi/qedi_main.c: In function 'qedi_alloc_nvm_iscsi_cfg':
->> drivers/scsi/qedi/qedi_main.c:1488:19: warning: format '%llx' expects ar=
-gument of type 'long long unsigned int', but argument 7 has type 'dma_addr_=
-t' {aka 'unsigned int'} [-Wformat=3D]
-    1488 |                   "NVM BUF addr=3D0x%p dma=3D0x%llx.\n", qedi->i=
-scsi_image,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1489 |                   qedi->nvm_buf_dma);
-         |                   ~~~~~~~~~~~~~~~~~
-         |                       |
-         |                       dma_addr_t {aka unsigned int}
-   drivers/scsi/qedi/qedi_dbg.h:78:64: note: in definition of macro 'QEDI_I=
-NFO'
-      78 |                 qedi_dbg_info(pdev, __func__, __LINE__, level, f=
-mt,     \
-         |                                                                ^=
-~~
-   drivers/scsi/qedi/qedi_main.c:1488:47: note: format string is defined he=
-re
-    1488 |                   "NVM BUF addr=3D0x%p dma=3D0x%llx.\n", qedi->i=
-scsi_image,
-         |                                            ~~~^
-         |                                               |
-         |                                               long long unsigned=
- int
-         |                                            %x
-   drivers/scsi/qedi/qedi_main.c: In function 'qedi_alloc_global_queues':
-   drivers/scsi/qedi/qedi_main.c:1754:1: error: could not split insn
-    1754 | }
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:372:9: note: previous definition is here
+     372 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   mm/vmscan.c:917:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
+     917 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^
+   mm/vmscan.c:917:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     917 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
          | ^
-   (insn 194 569 196 (set (reg:SI 3 a3 [orig:400 _253 ] [400])
-           (xor:SI (reg:SI 2 a2 [orig:401 random_kmalloc_seed ] [401])
-               (const:SI (plus:SI (symbol_ref:SI ("*.LANCHOR0") [flags 0x18=
-2])
-                       (const_int 625 [0x271]))))) "include/linux/slab.h":7=
-62:52 288 {cskyv2_xorsi3}
-        (expr_list:REG_DEAD (reg:SI 2 a2 [orig:401 random_kmalloc_seed ] [4=
-01])
-           (nil)))
-   during RTL pass: final
-   drivers/scsi/qedi/qedi_main.c:1754:1: internal compiler error: in final_=
-scan_insn_1, at final.cc:2823
-   0x7f356d763d64 __libc_start_main
-   	???:0
-   ../lib/gcc/csky-linux/16.2.0/ -D __KERNEL__ -D KBUILD_EXTRA_WARN1 -D CSK=
-YCPU_DEF_NAME=3D"ck807f" -D MODULE -D KBUILD_BASENAME=3D"qedi_main" -D KBUI=
-LD_MODNAME=3D"qedi" -D __KBUILD_MODNAME=3Dqedi -include include/linux/compi=
-ler-version.h -include include/linux/kconfig.h -include include/linux/compi=
-ler_types.h -MMD drivers/scsi/qedi/.qedi_main.o.d drivers/scsi/qedi/qedi_ma=
-in.c -quiet -dumpdir drivers/scsi/qedi/ -dumpbase qedi_main.c -dumpbase-ext=
- .c -mlittle-endian -mcpu=3Dck807 -mfloat-abi=3Dsoft -mdiv -mno-stack-size =
--O2 -Wall -Wextra -Werror=3Dimplicit-function-declaration -Werror=3Dimplici=
-t-int -Werror=3Dreturn-type -Werror=3Dstrict-prototypes -Wno-format-securit=
-y -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing=
--declarations -Wmissing-prototypes -Wframe-larger-than=3D1280 -Wno-main -Wn=
-o-type-limits -Wdangling-pointer=3D0 -Wvla-larger-than=3D1 -Wno-pointer-sig=
-n -Wcast-function-type -Wno-unterminated-string-initialization -Warray-boun=
-ds=3D0 -Wstringop-overflow=3D0 -Walloc-size-larger-than=3D18446744073709551=
-615EiB -Wimplicit-fallthrough=3D5 -Werror=3Ddate-time -Werror=3Dincompatibl=
-e-pointer-types -Werror=3Ddesignated-init -Wenum-conversion -Wunused -Wsugg=
-est-attribute=3Dformat -Wmissing-include-dirs -Wunused-const-variable=3D2 -=
-Wno-missing-field-initializers -Wno-shift-negative-value -Wno-maybe-uniniti=
-alized -Wno-sign-compare -Wno-unused-parameter -Wno-error=3Dreturn-type -Wr=
-eturn-type -Wundef -std=3Dgnu11 -p -fmacro-prefix-map=3D=3D -fshort-wchar -=
-fno-common -fno-PIE -fno-strict-aliasing -fms-extensions -fno-tree-vectoriz=
-e -fno-delete-null-pointer-checks -fno-allow-store-data-races -fno-reorder-=
-blocks -fno-ipa-cp-clone -fno-partial-inlining -fstack-protector-strong -ft=
-rivial-auto-var-init=3Dpattern -fzero-init-padding-bits=3Dall -fno-stack-cl=
-ash-protection -fdiagnostics-show-context=3D2 -fzero-call-used-regs=3Dused-=
-gpr -fno-inline-functions-called-once -fstrict-flex-arrays=3D3 -fno-strict-=
-overflow -fstack-check=3Dno -fconserve-stack -fno-builtin-wcslen -funsigned=
--char -falign-functions=3D64 -o -
-   Please submit a full bug report, with preprocessed source (by using -fre=
-port-bug).
-   Please include the complete backtrace with any bug report.
-   See <https://gcc.gnu.org/bugs/> for instructions.
+         | static 
+   mm/vmscan.c:1391:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+    1391 |         int err;
+         |             ^
+>> mm/vmscan.c:4613:6: warning: no previous prototype for function 'isolate_page' [-Wmissing-prototypes]
+    4613 | bool isolate_page(struct lruvec *lruvec, struct page *page, struct scan_control *sc)
+         |      ^
+   mm/vmscan.c:4613:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    4613 | bool isolate_page(struct lruvec *lruvec, struct page *page, struct scan_control *sc)
+         | ^
+         | static 
+   4 warnings generated.
 
 
-vim +1488 drivers/scsi/qedi/qedi_main.c
+vim +/isolate_page +4613 mm/vmscan.c
 
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1477 =20
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1478  static int qedi_alloc_nv=
-m_iscsi_cfg(struct qedi_ctx *qedi)
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1479  {
-750afb08ca71310 Luis Chamberlain 2019-01-04  1480  	qedi->iscsi_image =3D d=
-ma_alloc_coherent(&qedi->pdev->dev,
-872e192fab64388 Colin Ian King   2019-03-27  1481  					       sizeof(struc=
-t qedi_nvm_iscsi_image),
-750afb08ca71310 Luis Chamberlain 2019-01-04  1482  					       &qedi->nvm_b=
-uf_dma, GFP_KERNEL);
-c77a2fa3ff8f73d Nilesh Javali    2018-08-29  1483  	if (!qedi->iscsi_image)=
- {
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1484  		QEDI_ERR(&qedi->dbg_ct=
-x, "Could not allocate NVM BUF.\n");
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1485  		return -ENOMEM;
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1486  	}
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1487  	QEDI_INFO(&qedi->dbg_ct=
-x, QEDI_LOG_INFO,
-c77a2fa3ff8f73d Nilesh Javali    2018-08-29 @1488  		  "NVM BUF addr=3D0x%p=
- dma=3D0x%llx.\n", qedi->iscsi_image,
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1489  		  qedi->nvm_buf_dma);
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1490 =20
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1491  	return 0;
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1492  }
-c57ec8fb7c02532 Nilesh Javali    2017-06-27  1493 =20
+  4612	
+> 4613	bool isolate_page(struct lruvec *lruvec, struct page *page, struct scan_control *sc)
+  4614	{
+  4615		bool success;
+  4616	
+  4617		/* unmapping inhibited */
+  4618		if (!sc->may_unmap && page_mapped(page))
+  4619			return false;
+  4620	
+  4621		/* swapping inhibited */
+  4622		if (!(sc->may_writepage && (sc->gfp_mask & __GFP_IO)) &&
+  4623		    (PageDirty(page) ||
+  4624		     (PageAnon(page) && !PageSwapCache(page))))
+  4625			return false;
+  4626	
+  4627		/* raced with release_pages() */
+  4628		if (!get_page_unless_zero(page))
+  4629			return false;
+  4630	
+  4631		/* raced with another isolation */
+  4632		if (!TestClearPageLRU(page)) {
+  4633			put_page(page);
+  4634			return false;
+  4635		}
+  4636	
+  4637		/* see the comment on MAX_NR_TIERS */
+  4638		if (!PageReferenced(page))
+  4639			set_mask_bits(&page->flags, LRU_REFS_MASK | LRU_REFS_FLAGS, 0);
+  4640	
+  4641		/* for shrink_page_list() */
+  4642		ClearPageReclaim(page);
+  4643		ClearPageReferenced(page);
+  4644	
+  4645		success = lru_gen_del_page(lruvec, page, true);
+  4646		VM_WARN_ON_ONCE_PAGE(!success, page);
+  4647	
+  4648		return true;
+  4649	}
+  4650	EXPORT_SYMBOL_GPL(isolate_page);
+  4651	
 
 --
 0-DAY CI Kernel Test Service
