@@ -1,75 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794334632;
-	b=C6H6PmDoc9oFPp1WW5xrEKA69pf+Jn5s59hoKokCiOYC/TjW57e0jMrgkkNpG5CC1Y7p
-	 cSR4F3MoCDcxTQfdpLv3lD8RnZoy1g5Dk/Pv671K5EKrzyAgo1J4nFH/e/V3BxbPEXqq9
-	 t7hlpXb+0obgcbWS+EfGJQ4zUANPpDp2N/baQlZCTtJ+vWHwIWOlT7sFbryyYO7uUhdW5
-	 j3FxyqIoHuYSs3GraeuXuRzZiabZApGP2NcswQBpF31brhce+Zyn3ih7cFj0WGJzj8S+D
-	 c/hdNlLiRFfUqllFRwAOAd7XK0yd4RB9yJ0V7j2FN+3w16hCcez1NeV1jPhyza8Ofpw==
+	t=1794334635;
+	b=gcpC4R0fuV1gKhLb8kXnfrxZE7vhzT3OmQt+QmuW7Hmjyxk48AJ/I0T/JSj3r3aqr5m2
+	 a16KPNljUvUzZqwYzDrMIk0NppeGLZL23lTdF1lNwRL/ut0gI6FHz2N0J8p3zLv7m+j74
+	 wQZeZW6522O4adT1+8D8qJdj+4yEaF3tmyUlJWPZE0fly4TnMwBr7AOJQIQtVkJl3BVF6
+	 Rh7tPu2pc493bmPCk8ZtFIB7XRHy3jYVaLiqWN3mIzDxK7XGh5zuXLMoLeqQcaIbe4JlL
+	 QXL+bn7+q9y/SUrv8GGBHtdrHTSizgZSZpEJBQgzjM3smXYL57sx/k9NaN0g9zlupqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794334632;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794334635;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=h3dJdR6q8Gg07FqWwDDcruBAIQmzdQdrIuc+cX+hWH4=;
-	b=gm3Y+9TAj26q8YFZ8FtncKg9OJklMQIHXj893YSkyypuMfjb6fe6sgtFvunDizODqL9Y
-	 gr6cD+nZHastPLVY/FCY3aFf6rSQzoSZfJoviuFa2Cizzo+K/pwgFiDRj5/jXrXGySYkD
-	 MzKdlQMtJfjQEnQcjeN5zZ6i4ZdefuMa1PiZDMnNtG0M4zqWzVe4VcOZ0rNC3b5+LZTko
-	 W9w1DXmcCITX+IQ5udT6qQuvAjs/EFNRKtuX3qsYGLojp3qXipr0Bx6MudjzUw66bPqAS
-	 RSU7ELxG1fazYRuugtfOIp0oeOL+5w9I26KBMdlecNL+MLZgwag5XX1ZA+O+g/XLtgg==
+	bh=uVW86SaIsVQ1pRfuXiCieb6sjN02/CSz/lkj8IUV8/I=;
+	b=PYqEVTUvTLLC6uidWT18drEiCWDxhaT6HTQ60PdA4x8U/z0zN4F2o7ouxgZqvHHjzOpS
+	 DsYYVpgXBAMPjXOnSlXfdehtCy1YKylCzoLXn/lkuuGvM2WzGocPrfQbRQp2ai3PKKJF/
+	 8KvbFImukdqbA0Puim+vDzrhXwcjX41VS0Y873oKdDuTVQw4L6V0yNx1/iog7syd/QlGJ
+	 61r31BROjl/gljpSab4aBEWYtZQUbCLB2BBKYI3tQaW3C4rlCk1iJpfJWOI4ROl3cBUol
+	 f2y56WizoftVtj6Qsi/Cu7/e7EdQ0Nyc0FtCHg0pW59G27iisl+j5XJYpnD9+DQfk0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVlK8irN;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DHO5EuYw;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64D2606A321
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 18:17:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E64D2606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C707606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 18:17:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C707606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GVlK8irN
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DHO5EuYw
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794334632; x=1825870632;
+  t=1794334633; x=1825870633;
   h=date:from:to:cc:subject:message-id;
-  bh=CiwWBG4nAJyYLMBfIQ2Z3DVF1R9ZtH/iEWWaOFVokW8=;
-  b=GVlK8irN3vByMKllwom6T8frJjlai23auPLt8TXrZJPRvgs3s2tyKLGv
-   vA+mt5sYgt+jhSc/4/7zLhssvIFYCaG3VFBCb43EicfYho3ggKetP21il
-   USbYE+jurIY+h/EPKz/gsYH2zIuv9YqSsOpL/K0gBTamm3XWJu/Harihj
-   VzXLL1skd68k+Nz7s6bV+wN2MPh3ZJu/xMvBPzlY8KtkGHFZvp/VHNJf7
-   Aja9Mzx7GxLMj8SP5LfE7pfX+Pq+Xw+HWCf/YaToN+Tyz2dbsM5QZ/geh
-   9u41BXe4xKHjsOzGFBsUCJ0j3nFKlBVaIAbD/a7pxgRzb56yNkDxoz+Y6
+  bh=4HfgLbOM3A/ev4u8W2Hzd/Y/C0hVfaFcq/wgf+gEoKU=;
+  b=DHO5EuYw9wCWXUs9uUhKECe8ap94TiTFWXirrNo1dBAKazL+xkfmWl8d
+   gIWlY/0YphMPifk9z9dFUKhYIOgLnr9HNgkiD7t233mYYwYbNNd/c6pBf
+   SCqo3WzTregs/o23tGyOf0uXOiIFSU3xNJkqIyagKNW2ElBf049c5nfPd
+   UAHgJ+McXTGMzQKB3M8P0PKr685zPQCjSQDADqwzNI7K2VzBfDVvkNCuZ
+   NZcAmBUQDccXk7K0rKNiSvDKv1eXGJ+llWZehE6drS2qLrHBOQ+Nb+36Z
+   SujwMY17bGI67ELN295Vv+cs0YsMVJhAnvf09K6NVax+qLO+5YHa/QpJF
    Q==;
-X-CSE-ConnectionGUID: kWxIXDOCRcOA5uxeTAJ6Xg==
-X-CSE-MsgGUID: Z64/jlRdT3ujT5J4poSX+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3133170"
+X-CSE-ConnectionGUID: Jkrv3vAvR4KnQTGokoG+xw==
+X-CSE-MsgGUID: SSfwKkF4SfuaQD9knFzi9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3112030"
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="3133170"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 10:17:12 -0800
-X-CSE-ConnectionGUID: pzXXNpGQQbqPmjWjvVA7Iw==
-X-CSE-MsgGUID: 5iZ8hf9rRwGb4c/IiVswjQ==
+   d="scan'208";a="3112030"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 10:17:12 -0800
+X-CSE-ConnectionGUID: GlJXzI56S6i2HfV891mHeQ==
+X-CSE-MsgGUID: uCVtrcNwSZSLR8uxhBhpLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="8084624"
+   d="scan'208";a="8085574"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 10 Nov 2026 10:17:11 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2026 10:17:11 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQqP6-000000000KP-0P6e;
+	id 1xQqP6-000000000KN-0ES8;
 	Tue, 10 Nov 2026 18:17:08 +0000
-Date: Tue, 10 Nov 2026 19:16:26 +0100
+Date: Tue, 10 Nov 2026 19:16:39 +0100
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:cancellations 26/40] nios2-linux-ld:
- kernel/bpf/unwind.c:120:undefined reference to `bpf_sk_release_proto'
-Message-ID: <202611101909.eGWaYd4t-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Nathan Chancellor <nathan@kernel.org>
+Subject: WARNING: modpost: vmlinux: section mismatch in reference:
+ __arch_xprod_64+0xf4 (section: .text.unlikely) -> set_reset_devices (section:
+ .init.text)
+Message-ID: <202611101916.F9L97HFD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,27 +85,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-Hi Kumar,
+Hi Arnd,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://github.com/kkdwivedi/linux cancellations
-head:   cebd6c9fc9adb0f84623f6e93f543666457c22cd
-commit: 5b4b4bea5a56b8a366601921eebec6cc6ae26343 [26/40] bpf: Add frame descriptor tables and release what they list when unwinding
-config: nios2-randconfig-2001-20261110 (https://download.01.org/0day-ci/archive/20261110/202611101909.eGWaYd4t-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611101909.eGWaYd4t-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b3dfbde62cf1981c4638939c159dfd087b7a72e9
+commit: 94bfc7f3b0c7c33331ba4ff6cc64ff309dfcbce8 err.h: use __always_inline on all error pointer helpers
+date:   5 months ago
+config: xtensa-randconfig-r2111-20261108 (https://download.01.org/0day-ci/archive/20261110/202611101916.F9L97HFD-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611101916.F9L97HFD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: 94bfc7f3b0c7 ("err.h: use __always_inline on all error pointer helpers")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611101909.eGWaYd4t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611101916.F9L97HFD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   nios2-linux-ld: kernel/bpf/unwind.o: in function `bpf_unwind_release':
-   kernel/bpf/unwind.c:120:(.text+0x258): undefined reference to `bpf_sk_release_proto'
->> nios2-linux-ld: kernel/bpf/unwind.c:120:(.text+0x25c): undefined reference to `bpf_sk_release_proto'
+WARNING: modpost: vmlinux: section mismatch in reference: strcpy.isra.0+0x30 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+WARNING: modpost: vmlinux: section mismatch in reference: __arch_xprod_64+0xf0 (section: .text.unlikely) -> initcall_level_names (section: .init.data)
+>> WARNING: modpost: vmlinux: section mismatch in reference: __arch_xprod_64+0xf4 (section: .text.unlikely) -> set_reset_devices (section: .init.text)
 
 --
 0-DAY CI Kernel Test Service
