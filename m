@@ -1,77 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794341438;
-	b=HJLNu5ePxJZbGG9YnwXqkq9AHLtFodmgD46ng0wI0eY5lGjr28IKkn8jHA3qHssB8ZO9
-	 I8Egr87xKwSo8KEAwe85bM+B/KPEHWD4eYBb6gr6LYAcGN1lyQV7DjozlOzV5ZOhe+pIT
-	 BXXeaDOr1FTk23oTIBcSd0bpZm34Z373aYzMdDEJdt+6jiWuWPDkv2tRtOym/4YjyPdCM
-	 GJguqbh+vTvc1HgzE4Cu922Dhj7ZCIkAUyeIpcQgkOeluJdcVkFsFLUKVky3e/aYJels6
-	 ny9hwjBgO6FiA65xsl9aOI4a8+IMkB+7fGwh2FcvP68ly8Ys4BCOYOoSMZqQI1oLg0w==
+	t=1794341439;
+	b=gS6P6QA1PhMJUgtGgRuQctLKV6CkeTbxYWSv4aW7k+EX/FYBuIfoyLm/zus3tSLv3s9k
+	 vn8Q2+gv8fBnoaLymivqAP8PrKul6pxKsoa2GtUcsYc1tzkdnMv4vS653d0YQDRjnDUWG
+	 +6ENkSUs8CYvwU1HymHkicKCLhYaPIu3PyeQ5dTbOdLn8D1yIPWA9bhTaqVptiqGT7jKT
+	 P8cK7tD4S/5Bo4w2BEKMhjXxhgK4h0W6leKALipNEe1mFdrD1gsXRSRs9dmTXo8mfsYzD
+	 Y8YNlK3pMpCw/eL7SMwBVr8tubR1LjWu0vFWro4kr7ITyjehRnUMP0yr0BfDQyKwHvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794341438;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794341439;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=mguWoGMfeCS+DDnWKnDdE+1JVNhqt2gk6moOKQ5OlTs=;
-	b=Pq8Wfl5DwiGrd2wRwBIGKcpC7uL988dd/3lTtsGpGm5HomZlQFdGOnYfpJYCOrRxXk6i
-	 WTFLkcQWIDZevuw0EI1/v/g4e4uTvWy/eU1nRIcz5Z5DDO3gJWLZLy2jaydzT1f+wWCYv
-	 l7BmZc/1jr5hkh+VEG84/XJcUPVF2/Dal/6MDGrSq0rtyOsYYylT+mXv69yrG0E/02nm2
-	 dVrzyCmJYW7lr3F75mOE9Wf1Yz26KhTGgtHRatkIGMd+Ns8CwktnJAPICItf59eu8G+52
-	 xYWb87yliQFCDLojYTusziIo2X0QY2fxPvopS5+rnj+De/Ly3TYdNJnsnCel5LN90Ng==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=/jEibsnfOhq53pcn1HiaaJkoHXzuLU7yFDgeQJJTaRw=;
+	b=MrTXz19TUHgVGAD+Z4lScqEa+Y+GPwfy++fGkOjii3P75Hlhc90abz8oDSF7LdpLE9Sc
+	 TXlmvBbugyVMGMraujAyb5/gdZf0vyzQD/OKVzlv6L7agZqWLV5KwFEp/b9tSMBGTXRif
+	 IAjg8aCfnEuxpA4vbzlstNH34Vj9qzYOP3QCadVSFc31hJFOUj4eKGFcIrs56cIUUfH/6
+	 o2ElhptvpY3AeMgruaCeCrW4P+Y45yjityOPjP+Q8fgQ6ol3LKenFH0GoD+xqfW6I33No
+	 +ZByN9C7y9RTl3XKXI1/+qaOm9LZnssrgJu04rbINZe78VqpoIsgBHtVyYGIDXHFkew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g1id1pZ8;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TIOjfGiN;
 	arc=none smtp.remote-ip=192.198.163.8
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5278606A321
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 20:10:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5278606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5CE606A323
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Nov 2026 20:10:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D5CE606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=g1id1pZ8
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TIOjfGiN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794341437; x=1825877437;
-  h=date:from:to:cc:subject:message-id;
-  bh=jNeUuympBlp815zZn15HqOovv6XzqvCOBvU1fUIZoLc=;
-  b=g1id1pZ8E9TZxrVYzWKv+aMT1s2QfLY6vi1ORFys3W5qjlD+MYIOab35
-   tyL7G4LTnKvoiEL/ALGimTOH3vSw01qq+S6B744zEuiDa3icwPsWiFQlE
-   b7dnyGxpcwaSy4NSanEBEZTM9ibjXswB7W4A3eSZRXnzWWDi9fezoUnuh
-   h9h/mATFefnxAW7Xdr9gDPjKKdtcI/IjVe0lok25yzu6TKRimC2v7Cekj
-   JJaIgQ/YsTgz1LL68Ap0l4Xs3+0Cx5RKUsI7c/kM/p++N1vT9ilLWCBth
-   d61UhGXdNmAMYlKFdE9SrDQqm9Ub1ju/0yQsI63t+kwbpx2IVdRGTm808
-   Q==;
-X-CSE-ConnectionGUID: uShNvMVDRmG/tnWt0kMcjA==
-X-CSE-MsgGUID: tJuL5xLUTjijx0m1orm1CQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="2992506"
+  t=1794341439; x=1825877439;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cnRXsx5b3aMehScCppNNLV/+Zngl9LJYjFZmJW5aZNQ=;
+  b=TIOjfGiNEI2TzWdxGXQ/8V7VpkMcL2PcHg7RQv1AQ6gvYPB5OEhelLQz
+   L25GZogJHwjwVJNAlBi+IScyoIX7/j82x4zsiXn99MvDfrAK9Drm4bH0e
+   Gg+J0Jhl6zUhaWodbMbcUMhdSgCmMObV2PnHP+VJy1NWAEIkpM2Flmz3r
+   h7ApflPTKYmPYL8sFJnW0BoyHOJdusVzTlB1z2H5oYodZuyVoBXVcPyLw
+   EFiwgYBlRV401iQFTMWZhRWwdk/60ceeM5UQ9PezACFEsc05eZOdV+xKN
+   tDb49jzhzBb8nxdS8BLLvZtdsOcLLS+2cExdEtzZQnmiNLliRfZeVYs+i
+   A==;
+X-CSE-ConnectionGUID: cBbHVWg1T1ebD7IpKzzqfA==
+X-CSE-MsgGUID: l1fj5d2nRU+pivj2OqUGHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="2992507"
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="2992506"
+   d="scan'208";a="2992507"
 Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 12:10:36 -0800
-X-CSE-ConnectionGUID: mcyj+yHKSseAmy5OnybUpg==
-X-CSE-MsgGUID: cU9CNVwfQtiwOG9TMEfOOw==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 12:10:37 -0800
+X-CSE-ConnectionGUID: Sw+j9A+7Trm/KVsAOpfe4g==
+X-CSE-MsgGUID: 0IjkBFPoRQSXc1HWCY8ACw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="10118108"
+   d="scan'208";a="10118110"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa013.fm.intel.com with ESMTP; 10 Nov 2026 12:10:34 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 10 Nov 2026 12:10:35 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQsAo-000000000LT-2r7x;
-	Tue, 10 Nov 2026 20:10:30 +0000
-Date: Tue, 10 Nov 2026 21:10:29 +0100
+	id 1xQsAr-000000000LW-0fwz;
+	Tue, 10 Nov 2026 20:10:33 +0000
+Date: Tue, 10 Nov 2026 21:10:27 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <linux@weissschuh.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-03 2/2]
- arch/arm64/kvm/hyp/nvhe/psci-relay.c:28:40: warning: 'enum
- pkvm_psci_notification' declared inside parameter list will not be visible
- outside of this definition or declaration
-Message-ID: <202611102152.VYIBQedM-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/vdso-no-fallback 10/11]
+ lib/vdso/gettimeofday.c:451:11: error: 'EINVAL' undeclared
+Message-ID: <202611102115.MJcc4qUZ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,76 +79,85 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-Hi Quentin,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-03
-head:   ab1b4fc5ca8eed85eb9259015586db20a639526a
-commit: 68d457650f79d4b9f8f23b82a8d0a06c4c74419d [2/2] ANDROID: KVM: arm64: Notify pKVM modules of PSCI events
-config: arm64-randconfig-r2105-20261110 (https://download.01.org/0day-ci/archive/20261110/202611102152.VYIBQedM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611102152.VYIBQedM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-no-fallback
+head:   3b966bf4e9676dd99abe071691e72e14fd05fe73
+commit: 090f60ded7da81c15e516570a3d5b89de9d00587 [10/11] getres: fallback
+config: powerpc64-randconfig-2000-20261110 (https://download.01.org/0day-ci/archive/20261110/202611102115.MJcc4qUZ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611102115.MJcc4qUZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611102152.VYIBQedM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611102115.MJcc4qUZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/hyp/nvhe/psci-relay.c:28:40: warning: 'enum pkvm_psci_notification' declared inside parameter list will not be visible outside of this definition or declaration
-      28 | static void (*pkvm_psci_notifier)(enum pkvm_psci_notification, struct user_pt_regs *);
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:35: warning: 'enum pkvm_psci_notification' declared inside parameter list will not be visible outside of this definition or declaration
-      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:58: error: parameter 1 ('notif') has incomplete type
-      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:13: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
-         |             ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'pkvm_psci_notify':
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:32:22: error: type of formal parameter 1 is incomplete
-      32 |   pkvm_psci_notifier(notif, &host_ctxt->regs);
-         |                      ^~~~~
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c: At top level:
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:35:51: warning: 'enum pkvm_psci_notification' declared inside parameter list will not be visible outside of this definition or declaration
-      35 | int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:35:5: warning: no previous prototype for '__pkvm_register_psci_notifier' [-Wmissing-prototypes]
-      35 | int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_cpu_suspend':
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:191:19: error: 'PKVM_PSCI_CPU_SUSPEND' undeclared (first use in this function); did you mean 'KVM_PSCI_FN_CPU_SUSPEND'?
-     191 |  pkvm_psci_notify(PKVM_PSCI_CPU_SUSPEND, host_ctxt);
-         |                   ^~~~~~~~~~~~~~~~~~~~~
-         |                   KVM_PSCI_FN_CPU_SUSPEND
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:191:19: note: each undeclared identifier is reported only once for each function it appears in
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function 'psci_system_suspend':
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:222:19: error: 'PKVM_PSCI_SYSTEM_SUSPEND' undeclared (first use in this function); did you mean 'KVM_CAP_ARM_SYSTEM_SUSPEND'?
-     222 |  pkvm_psci_notify(PKVM_PSCI_SYSTEM_SUSPEND, host_ctxt);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                   KVM_CAP_ARM_SYSTEM_SUSPEND
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c: In function '__kvm_host_psci_cpu_entry':
-   arch/arm64/kvm/hyp/nvhe/psci-relay.c:249:19: error: 'PKVM_PSCI_CPU_ENTRY' undeclared (first use in this function)
-     249 |  pkvm_psci_notify(PKVM_PSCI_CPU_ENTRY, host_ctxt);
-         |                   ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from <command-line>:
+   lib/vdso/gettimeofday.c: In function '__cvdso_clock_getres_common':
+>> lib/vdso/gettimeofday.c:451:11: error: 'EINVAL' undeclared (first use in this function)
+      return -EINVAL;
+              ^~~~~~
+   lib/vdso/gettimeofday.c:451:11: note: each undeclared identifier is reported only once for each function it appears in
+   make[3]: *** [arch/powerpc/kernel/vdso/Makefile:96: arch/powerpc/kernel/vdso/vgettimeofday-32.o] Error 1 shuffle=1950352311
+   make[3]: Target 'include/generated/vdso32-offsets.h' not remade because of errors.
+   make[2]: *** [arch/powerpc/Makefile:395: vdso_prepare] Error 2 shuffle=1950352311
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1950352311
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1950352311
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +28 arch/arm64/kvm/hyp/nvhe/psci-relay.c
+vim +/EINVAL +451 lib/vdso/gettimeofday.c
 
-    27	
-  > 28	static void (*pkvm_psci_notifier)(enum pkvm_psci_notification, struct user_pt_regs *);
-    29	static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
-    30	{
-    31		if (smp_load_acquire(&pkvm_psci_notifier))
-    32			pkvm_psci_notifier(notif, &host_ctxt->regs);
-    33	}
-    34	
+   442	
+   443	static __always_inline
+   444	int __cvdso_clock_getres_common(const struct vdso_time_data *vd, clockid_t clock,
+   445					struct __kernel_timespec *res)
+   446	{
+   447		u32 msk;
+   448		u64 ns;
+   449	
+   450		if (!vdso_clockid_valid(clock))
+ > 451			return -EINVAL;
+   452	
+   453		if (vdso_is_timens_clock(&vd->hres_coarse))
+   454			vd = vdso_timens_data(vd);
+   455	
+   456		/*
+   457		 * Convert the clockid to a bitmask and use it to check which
+   458		 * clocks are handled in the VDSO directly.
+   459		 */
+   460		msk = 1U << clock;
+   461		if (msk & (VDSO_HRES | VDSO_RAW)) {
+   462			/*
+   463			 * Preserves the behaviour of posix_get_hrtimer_res().
+   464			 */
+   465			ns = READ_ONCE(vd->hrtimer_res);
+   466		} else if (msk & VDSO_COARSE) {
+   467			/*
+   468			 * Preserves the behaviour of posix_get_coarse_res().
+   469			 */
+   470			ns = LOW_RES_NSEC;
+   471		} else if (msk & VDSO_AUX) {
+   472			ns = aux_clock_resolution_ns();
+   473		} else if (msk & vdso_alarmclock_mask(vd)) {
+   474			ns = READ_ONCE(vd->hrtimer_res);
+   475		} else {
+   476			return -EINVAL;
+   477		}
+   478	
+   479		if (likely(res)) {
+   480			res->tv_sec = 0;
+   481			res->tv_nsec = ns;
+   482		}
+   483		return 0;
+   484	}
+   485	
 
 --
 0-DAY CI Kernel Test Service
