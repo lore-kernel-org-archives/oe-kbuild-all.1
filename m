@@ -1,88 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794363083;
-	b=4V7lmZ1P6Rgy6pWcW/Tvu1juG97qQoHj/sCtIE6hWnPu1LaS+YhlsM1DIHFl5D56qSkM
-	 6hGbAI+GXHpjdZLOodNOWtxwxi0mXthpr4LFmu3Sn2rR1Z4pZGXdxkaLKnekYZ4uAD5Uc
-	 b91wlKlO4ZR10d6p+ZP0SBqnB0/32xVu6zPIpsCUWMkrGS3MIazuf5RO/QpT1yrO72Dn+
-	 5Yf8bHZvTBmyakDQ3CoEuagath1gEJ4+D+Sz5KHOcJhD8a5EZKZhHxcUpYaH2fb4wzC3y
-	 s1/5YSJV1bKr15rJnphwiZHLwLCETzIkMZz+MFn8f23iL2b9jIYCf6k8q30aIXdBKZw==
+	t=1794363680;
+	b=vTsFXpV7UfSvNbdMkEZtuYcuJHHkIkbmQpR15DSjk8yrzKcILDR5UC8YbcyINWOTH7Ww
+	 tgFemg2bpP7j5vxiS7ykCG8uG/tLIZkapmT4C0tYhd/Fo6wCf5ZQzwYYmOBxixHGDriBx
+	 6oIRG/mswSC53KqfMqXYc+2SM9W6CeSjMiGqwIVEAL8l6yuKEAfBdp8/akXxezXDCec9P
+	 Grhyxit9kdMw9uTMSIoyQ1G1Tu7JknVWZ9fwsR665lGlTblVmnKNsLK/ZFgIBLr56incn
+	 1eu8OwS312LrXr344JniuhwHbpPP9G07aC7i4rApJPENphDwPH7s7sdxet6TB3kYYvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794363083;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794363680;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=ySVn32+21zYg7Tj5ZrVgbfGHI6nDULtj/EICklOEM+0=;
-	b=fXV88z/ykDT1tmMRv8sIK+bJ31j7BbVx9rTM1KZTbYZIZpTI0pk3peXlyhQ/Zk4kvcKX
-	 lFcQRnbTS3n3bAM75tNTcZ75SN4yTXUtd+kcLPuXj1a0cmOqqnhx4l5nfyu/exWysVRZA
-	 3SlHpqBfTtdhjqgTgLzvjinXr9aiJxA7bOSWb9ZNz4eDhkxsYfJe5SgzW+oswdIdehBAW
-	 R0FlRVt3C0IuZB5gK5hiXnEJ8DuRJgm/dCqQ8d0GCfjQTm9h6INQktJHVZSZPLaI+cTsE
-	 dq9Mwaiecr3yDIw6VAOO2NBrJ0jJ0oOSr+kYSNzqOawCnrhqXf46fbO+DTnJ82kYz4w==
+	bh=jWIl+ok0LbJ19byLo3dH0duNZ9w4DvvvkmxQAxf7nIc=;
+	b=K9IiQMkuJKfKbdlUFN5YcL8+ro4u8Y2bo+oa836ceMcoLjDTjjAcHTZOKpUNum/POtpw
+	 sWY0M6iRq8vBodzsajMHKQTLRguDK3F1WWiN5S4yeAs3GG2YE8BOwrSoWd4yOQeP9hdxZ
+	 AyRHxWKNR4Fun1rJrS2spEn8WJJbtopyVlPfm8F4kZbb3AsASgJ+zhDLynmFZ2/6o2gHz
+	 IXdTOEGypVShWKdOBqCRyVKNyStkEO1sNxIg7AQy24he/1jWugAoFldaoifym1eWwbvfN
+	 6qEIAW1pF1F+X6HRQTJeIBxNKbqQyRrNZzp240tspjTi+Uic31kby3AdzlsKOEW+lQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RQSeL3GN;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Ir/R1h08";
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA650606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 02:11:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA650606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D924606A320;
+	Wed, 11 Nov 2026 02:21:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D924606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RQSeL3GN
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ir/R1h08
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794363083; x=1825899083;
+  t=1794363680; x=1825899680;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YIl9mNbtsYzhplOgGa0cGhEfEaFtNRnooftTOeSQs1A=;
-  b=RQSeL3GNx4WR18CTswrPgiR/5xj04UUzPAc4iPgfFadPPjoVocucnqGy
-   Sqj3UKN21Vi60+PLVaLWlYhdXUVvQW0pwt1LPjuV4TNGoMcxN7KHNTJHP
-   6aFHW2PC1H6+gsmsBpnivzY7uCod/j1W1VN6plb9GbCxCm+Nv6ewt+l/h
-   dqscC8BLWKczrFeJd4x5muQ2u0jHbGxSXGwtCgbk1VZclC0VInDW0lIaC
-   bUeGQPuofmORonULsgzRNOBijc80HJUTfBsIqkqsWO20Ugj+ywOPJvuN/
-   Ste1qalVgAJ+QE+X5nKOgNngLqyYjlRy+ekyXV9FrUVvz7XYFvu/dCBaG
-   g==;
-X-CSE-ConnectionGUID: K3gevEEwRjmjy98nOkOc/A==
-X-CSE-MsgGUID: 8hciEK7tTdWi/fXOug9J5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3150130"
-X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="3150130"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 18:11:22 -0800
-X-CSE-ConnectionGUID: KWKSWiA6RYG2k7q5uu9mdQ==
-X-CSE-MsgGUID: WcxeZuelSJ60aUdbvg1pug==
+  bh=rvOSeQ39NBfasCqukJ3UzPVt4fIxoPRRFZUOJCqReNs=;
+  b=Ir/R1h08Gzb3HriUfFNccs+s24IZCXGHKT4i/bHJp5dk2KyCEmZOld0W
+   iPzX82iK8tnWV8x8NdmOas6urmfyiueroLw1bZoyydHwaTkEUrUFRIm88
+   K8vOk7XTvAB5KOo9pSGDip04S6zKZ1MgypetsffvQ0NIDMVAmHytuHGsW
+   gsIXa7Fb0/pmwcVg4w5EQJCv7/9NV2Qws2SkLOHgfwaN73WL41gg6mYEm
+   1WWZ0sUk9woQVTIGBFLgnwYYNagvhWREAmWFJq/MSlhXtPqqZ23T/FHTL
+   KaBPjcWj+DXPdZhesDd77t7oHl+Kigeum1g2fqIF6P9DBGt0Wy7E1ECRO
+   Q==;
+X-CSE-ConnectionGUID: fh8AzQ0DQn2z1XkMFSNxfw==
+X-CSE-MsgGUID: xCCth0aETiW84eanNhaCSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3153915"
+X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
+   d="scan'208";a="3153915"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 18:21:19 -0800
+X-CSE-ConnectionGUID: s8pgxb4ITw21UwrhpOPJ5g==
+X-CSE-MsgGUID: AL16Hv83ShS6CQy8vh+/+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,206,1787036400"; 
-   d="scan'208";a="8472020"
+X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
+   d="scan'208";a="8643053"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2026 18:11:17 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 10 Nov 2026 18:21:17 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQxns-00000000xt8-1mQS;
-	Wed, 11 Nov 2026 02:11:12 +0000
-Date: Wed, 11 Nov 2026 10:10:53 +0800
+	id 1xQxxa-00000000xtt-3Hs2;
+	Wed, 11 Nov 2026 02:21:14 +0000
+Date: Wed, 11 Nov 2026 10:20:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Daniele Alessandrelli <daniele.alessandrelli@gmail.com>,
-	"Paul J. Murphy" <paul.j.murphy@intel.com>,
-	Martina Krasteva <martinax.krasteva@intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Gyula Kelemen <gyula.kelemen@advasolutions.com>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 3/8] media: i2c: ov9282: fix flash duration to/from
- microseconds conversion
-Message-ID: <202611110928.rZQK4WSx-lkp@intel.com>
-References: <20261110-ov9282-fixes-v3-3-cb6df80cbc22@linux.dev>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] pstore: Use match_string() helper to simplify the
+ code
+Message-ID: <202611110914.EoazwrWL-lkp@intel.com>
+References: <20261110151844.661926-1-andriy.shevchenko@linux.intel.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -94,33 +88,55 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-ov9282-fixes-v3-3-cb6df80cbc22@linux.dev>
+In-Reply-To: <20261110151844.661926-1-andriy.shevchenko@linux.intel.com>
 
-Hi Richard,
+Hi Andy,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 7475ea8b58616b33c04afb976cf0fbaad9dd63fb]
+[auto build test WARNING on kees/for-next/pstore]
+[also build test WARNING on kees/for-next/kspp aegl/next linus/master v7.4-rc2 next-20261109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Leitner/media-i2c-ov9282-handle-error-from-exposure-range-update/20261110-141010
-base:   7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-patch link:    https://lore.kernel.org/r/20261110-ov9282-fixes-v3-3-cb6df80cbc22%40linux.dev
-patch subject: [PATCH v3 3/8] media: i2c: ov9282: fix flash duration to/from microseconds conversion
-config: i386-buildonly-randconfig-1004-20261111 (https://download.01.org/0day-ci/archive/20261111/202611110928.rZQK4WSx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110928.rZQK4WSx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pstore-Use-match_string-helper-to-simplify-the-code/20261110-161844
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
+patch link:    https://lore.kernel.org/r/20261110151844.661926-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 1/1] pstore: Use match_string() helper to simplify the code
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20261111/202611110914.EoazwrWL-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110914.EoazwrWL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611110928.rZQK4WSx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611110914.EoazwrWL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/media/i2c/ov9282.o: in function `ov9282_set_ctrl':
->> ov9282.c:(.text+0x9af): undefined reference to `__udivdi3'
-   ld: drivers/media/i2c/ov9282.o: in function `ov9282_try_ctrl':
-   ov9282.c:(.text+0xe20): undefined reference to `__udivdi3'
+>> fs/pstore/platform.c:134:13: warning: if statement has empty body [-Wempty-body]
+     134 |         if (i >= 0);
+         |                    ^
+   fs/pstore/platform.c:134:13: note: put the semicolon on a separate line to silence this warning
+   1 warning generated.
+
+
+vim +134 fs/pstore/platform.c
+
+   128	
+   129	enum pstore_type_id pstore_name_to_type(const char *name)
+   130	{
+   131		int i;
+   132	
+   133		i = match_string(pstore_type_names, PSTORE_TYPE_MAX, name);
+ > 134		if (i >= 0);
+   135			return i;
+   136	
+   137		return PSTORE_TYPE_MAX;
+   138	}
+   139	EXPORT_SYMBOL_GPL(pstore_name_to_type);
+   140	
 
 --
 0-DAY CI Kernel Test Service
