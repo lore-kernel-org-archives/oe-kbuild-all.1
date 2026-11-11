@@ -1,83 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794435070;
-	b=VEcLa9noLgjSThwBFIMrZlRQpCDT/3dKyJwD+YBjKVzLowQcCDp8FQob0yLfaUBaqQIt
-	 z37w3IzgR2BBb3nZAjYMiUVnSv3cGh+Jnv0EyFRCg7pmM2P63/WAvrxv3mmtr37YJ/x3Q
-	 EemEMy2/ujyLcxQPat5T+KgJmfmHWchOzcWCY2ZsvJeL2WLotnNX0pDJoD7qGsaVqo0lu
-	 61qHqg/ycri2/+yWeTC2XMyQpk42iAqpJtRnFFNG+WlSGAT4DPCPBuyBA0Jg7lq21pIvX
-	 Ja9vQVYXvwUxUh4sA55zTz4Uypn5U1fumgLXg14SuX4gPyIyd4+7a3jO4HgsZ0z7KLw==
+	t=1794436147;
+	b=j2Xng9tpUwMMiQnn155jENbhoeRwD+jVlA8pzeA45IKoOwVg+IIOcvtWVS807U02hBxE
+	 1T9RIEvF2ozuHlZzO78w7bkL81ED0UM2KL0/UuBJF0u/Kmbd7q1wri4MBKTzlcn0rBOX5
+	 ZV/gOtfL+yKGE6a468X2pBv1rC9xWJIDnyBv2oxClL3rVf6K1hXKLl/NsXLjv/KMy5AuQ
+	 C77B8rTuh28GkrgqpEPF4rnWig2bRxWPBq4B5gXmDmP5fY2sOjvLyVwdbZ9U6931c/7Ru
+	 /FMIk9YtXnhDMNdt7aA7ErB0Lw1N7jWmo7hu8jpUn1oNk0SeBgWhsgB3nYIdbo4SetA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794435070;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794436147;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=B7bvA7Nju/BDOIqnk/HwpcSYfoLqp80hSTWFZMw6p4A=;
-	b=R3jfTd6x9Wa+6QZBu2z9yQilW/1a9F4XybP/tWE5BrVYONl0o384h6Xd+hyDEQ9oUHFI
-	 NOtkbY9FJTeEkMOZiEhaBohV/mcWZ/h2TXV2Qg4DVuxrOm5OtGvj7iFpOknBlQrEJxHB8
-	 qesDg/BNe6/uHA3egX44wA+BjCJotYY0F+tW5PS0Nhx+xmval2xdafSMP+sEhEvLZYDJo
-	 IV5gwq7uySjBiOcspw5GTxzCjdGledlakS7Y+5liUAafW319o50uDefR0QgJOW452d/h/
-	 4hfvqCWl85zolbVorKvtCTaJW0eUlkoJdnmpQidEjZTIMO0ZmwczXwcg2tA58DnWU5Q==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=TkpxNJcc0hHgIkt/cUlO0/3ztUfSZKSF43jTTn4fUBc=;
+	b=uM63Gd+0yMh8fECSTXBM1D4cF9wvna9eWElrVp13P1durgdT5lbc1LRXYAGENNWd9/I8
+	 33ApixbBr0KpG7CsiLhd3U7TcDiV41TT5jSNAN/QiSNqXjqN3zkhM2nqMNUoVzON/6b22
+	 wu0FDqk/l6ec9+5MSuEsMHNBS7MeVhYRXckFqpylDAI4sHmtIeDSALdmFJPKivCylc907
+	 c51q/S6eesnvU17lRAjxkUt2t93LY2bR+cxwnUDcVf54g4aiWnBImrkkDx9sPb4wcyTt4
+	 EcP7DsVadIk7stm6pso/MiPrnK/F+kwafAdXSt8zk3QxLlJdRGHwLxOG+4WwMMAZeww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a4Mict27;
-	arc=none smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iqi0Ygqu;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26B7606A321;
-	Wed, 11 Nov 2026 22:11:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F26B7606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6447606A326
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 22:29:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6447606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a4Mict27
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iqi0Ygqu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794435070; x=1825971070;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eedleuqF5kugMdESWoTLW26GExhkbpI898Czm7AFt8w=;
-  b=a4Mict27tCl20JlFLDUpRoYbG8ktQW62NvXrZq45EYcNWsuH58+nXjNZ
-   I4NbkdIs8Qqor5cjv34syMtYtplILix0GlkzBfiyDJ2x/sj3F/a7P18u7
-   rcyIhmWvG/sI8TIec5d2D2sgJivZvkrE+/Sh0UcVklcZcRJ2spbvjLK5j
-   SzOMpAUJT5IlQYj2iRkORbvCjNxwkYpdaE+G5QY+a0Aa76bWFLjwTHr+U
-   SpIJd2snioj0G1imVlZcFEkv2RzYmBhv3A4er3bI8rO7cotQnX0CxcbZQ
-   3AGlKtePtghP7r9ldAn9tMD0g1SwSqBHXYQQLkzxa7NSuldG5P2pwxGs/
-   w==;
-X-CSE-ConnectionGUID: 1n/tiNmOTF+38iIQFOKXSA==
-X-CSE-MsgGUID: uWLavXDFS623bGpYXYnkbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3112815"
+  t=1794436147; x=1825972147;
+  h=date:from:to:cc:subject:message-id;
+  bh=ORrUupl54Hi4WwSujWQ0g5qiamapo+IzUgTDzm0qdm8=;
+  b=iqi0Ygqu+F8l0jbVwUvm3EJgw2VbH6Oxeccbvpx35+whrltw7AShiu9Y
+   cZ3M8FtCCgcc4i5xZAmA0nNGdap0Q3G4yfkHTtBNeMbOQzocl4iVgXvw1
+   auG0NHHVlZaaYe3YmYe5MrEwErjmb0MrKnk8BCyUCpQyeTLFfwaIC02v7
+   t1s6AR2eqyaYBBORtl2hHZacjVtzSuR876Ednqf2fe9JbHiabGUI9rt+D
+   5xvYIpVNKPbYOdrjZoks00eMbTw6sFIV1lOSqEoFR43BlfTyv6DVZr2tY
+   kak6Y+9GuGn7sWejANDM+nOyG7T9bokveXv6TQeky+UXlDkQfFYEoLYEz
+   Q==;
+X-CSE-ConnectionGUID: jmpVosyrRJybKyhBmgq9tA==
+X-CSE-MsgGUID: vUsD7O/LQ1K1s6OxZBAA/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3119654"
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3112815"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 14:11:09 -0800
-X-CSE-ConnectionGUID: FWC1MddSSaaUikIEMciXUw==
-X-CSE-MsgGUID: //nFZiDgQZqlx0MDR+ZoNA==
+   d="scan'208";a="3119654"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 14:29:04 -0800
+X-CSE-ConnectionGUID: fUv5rdlfT1uwwTwCYxl/ig==
+X-CSE-MsgGUID: lAY+V1TgSpi2YUpOY9IRwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="8500724"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 11 Nov 2026 14:11:07 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="10288452"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa011.fm.intel.com with ESMTP; 11 Nov 2026 14:29:03 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRGX1-00000000ztr-2qYG;
-	Wed, 11 Nov 2026 22:11:03 +0000
-Date: Thu, 12 Nov 2026 06:10:37 +0800
+	id 1xRGoP-000000000fD-1lxG;
+	Wed, 11 Nov 2026 22:29:01 +0000
+Date: Wed, 11 Nov 2026 23:28:53 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jun Yao <yaojun8558363@gmail.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, davem@davemloft.net,
-	edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, steffen.klassert@secunet.com,
-	herbert@gondor.apana.org.au, dsahern@kernel.org, idosch@nvidia.com,
-	Jun Yao <yaojun8558363@gmail.com>
-Subject: Re: [PATCH] xfrm: avoid stale tunnel pointers in deferred input
- callbacks
-Message-ID: <202611120624.jcKHEACy-lkp@intel.com>
-References: <20261111094629.230568-1-yaojun8558363@gmail.com>
+To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kkdwivedi:cancellations-backup/frame-slots 28/34] undefined
+ reference to `bpf_sk_release_proto'
+Message-ID: <202611112324.w8h2KkBL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -86,90 +79,25 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111094629.230568-1-yaojun8558363@gmail.com>
 
-Hi Jun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on klassert-ipsec-next/master]
-[also build test ERROR on klassert-ipsec/master net/main net-next/main linus/master v7.4-rc2 next-20261110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jun-Yao/xfrm-avoid-stale-tunnel-pointers-in-deferred-input-callbacks/20261111-174629
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
-patch link:    https://lore.kernel.org/r/20261111094629.230568-1-yaojun8558363%40gmail.com
-patch subject: [PATCH] xfrm: avoid stale tunnel pointers in deferred input callbacks
-config: mips-xway_defconfig (https://download.01.org/0day-ci/archive/20261112/202611120624.jcKHEACy-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120624.jcKHEACy-lkp@intel.com/reproduce)
+tree:   https://github.com/kkdwivedi/linux cancellations-backup/frame-slots
+head:   57f1029f852dc5be270836c5ca820f32cdb62637
+commit: 870dec4c95cf19c79626c22a410e1c90303bc1ff [28/34] bpf: Add frame descriptors and release what their slots hold when unwinding
+config: parisc-randconfig-r2301-20261111 (https://download.01.org/0day-ci/archive/20261111/202611112324.w8h2KkBL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.3.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611112324.w8h2KkBL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611120624.jcKHEACy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611112324.w8h2KkBL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/core/sock.c:134:
-   include/net/xfrm.h:777:9: error: call to undeclared function 'skb_ext_add'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     777 |         return skb_ext_add(skb, SKB_EXT_XFRM_TUNNEL);
-         |                ^
-   include/net/xfrm.h:777:26: error: use of undeclared identifier 'SKB_EXT_XFRM_TUNNEL'; did you mean 'SKB_GSO_UDP_TUNNEL'?
-     777 |         return skb_ext_add(skb, SKB_EXT_XFRM_TUNNEL);
-         |                                 ^~~~~~~~~~~~~~~~~~~
-         |                                 SKB_GSO_UDP_TUNNEL
-   include/linux/skbuff.h:697:2: note: 'SKB_GSO_UDP_TUNNEL' declared here
-     697 |         SKB_GSO_UDP_TUNNEL = 1 << 10,
-         |         ^
-   In file included from net/core/sock.c:134:
->> include/net/xfrm.h:777:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct xfrm_tunnel_info *' [-Wint-conversion]
-     777 |         return skb_ext_add(skb, SKB_EXT_XFRM_TUNNEL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/xfrm.h:783:9: error: call to undeclared function 'skb_ext_find'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     783 |         return skb_ext_find(skb, SKB_EXT_XFRM_TUNNEL);
-         |                ^
-   include/net/xfrm.h:783:27: error: use of undeclared identifier 'SKB_EXT_XFRM_TUNNEL'; did you mean 'SKB_GSO_UDP_TUNNEL'?
-     783 |         return skb_ext_find(skb, SKB_EXT_XFRM_TUNNEL);
-         |                                  ^~~~~~~~~~~~~~~~~~~
-         |                                  SKB_GSO_UDP_TUNNEL
-   include/linux/skbuff.h:697:2: note: 'SKB_GSO_UDP_TUNNEL' declared here
-     697 |         SKB_GSO_UDP_TUNNEL = 1 << 10,
-         |         ^
-   In file included from net/core/sock.c:134:
->> include/net/xfrm.h:783:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'const struct xfrm_tunnel_info *' [-Wint-conversion]
-     783 |         return skb_ext_find(skb, SKB_EXT_XFRM_TUNNEL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/xfrm.h:788:19: error: use of undeclared identifier 'SKB_EXT_XFRM_TUNNEL'; did you mean 'SKB_GSO_UDP_TUNNEL'?
-     788 |         skb_ext_del(skb, SKB_EXT_XFRM_TUNNEL);
-         |                          ^~~~~~~~~~~~~~~~~~~
-         |                          SKB_GSO_UDP_TUNNEL
-   include/linux/skbuff.h:697:2: note: 'SKB_GSO_UDP_TUNNEL' declared here
-     697 |         SKB_GSO_UDP_TUNNEL = 1 << 10,
-         |         ^
-   7 errors generated.
-
-
-vim +777 include/net/xfrm.h
-
-   773	
-   774	static inline struct xfrm_tunnel_info *
-   775	xfrm_tunnel_info_add(struct sk_buff *skb)
-   776	{
- > 777		return skb_ext_add(skb, SKB_EXT_XFRM_TUNNEL);
-   778	}
-   779	
-   780	static inline const struct xfrm_tunnel_info *
-   781	xfrm_tunnel_info(const struct sk_buff *skb)
-   782	{
- > 783		return skb_ext_find(skb, SKB_EXT_XFRM_TUNNEL);
-   784	}
-   785	
+   hppa-linux-ld: kernel/bpf/unwind.o: in function `bpf_unwind_release':
+>> (.text+0x7ac): undefined reference to `bpf_sk_release_proto'
+>> hppa-linux-ld: (.text+0x7b0): undefined reference to `bpf_sk_release_proto'
 
 --
 0-DAY CI Kernel Test Service
