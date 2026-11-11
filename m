@@ -1,76 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794423360;
-	b=h4ZeR0bA7ORpGVsGDjRBanCN/kw+gqL9audtBDbPmIMFdTaDyaEsuYwBvHfSl9mx1vcr
-	 9NkpM0rXKt/ARJeWL2Q3K9e7CCT0UatsYretHiuve7CnMfUGneCKx21utC0pRiK+2rRi2
-	 QlEzC3bZVvlSBesIPYJHPceiNoDBlM4bi8yrfztpD6wuZx/74yhI37YCrqQfVcuzH5Eam
-	 lwGi8e/6HtqqxYmKVMjnuMGDzwwp/CkgKGk6AJK23Iwx0W9rN4+wcBDMXEfIcAmlFJMko
-	 61UowAuuJdpjbPWvvDoj72uTTiyR4V5a8TyFrv+JFVbpS21pVluJdTPiDS52gnzW/DA==
+	t=1794425510;
+	b=zTzhBXIaZfGr7ddzeXlxBQx8OYFkD9M4ml6YTAtmgF1OZa7iFDwVyx+Q1pQfhxkJPoPc
+	 +FV8WDmQS/OHm/Parj9RFqczaC869/T+JGGSIlj/bmYgXdyzV8IZytvIabB5CUvyqR0os
+	 5ipcJea5uEDaZ1GNNAh2EC+8t6V3LUl4GI4JiaErkVv7XGmPmRF73YdOYB8BuO8OKS9o9
+	 Z8opGOZPqHaT1M1Y4hO+n/PL9IkXEfhN2YYvPxFDH32ETuD6zMHGbBrISAhicHlJZVBKo
+	 vMyWZkhCthvCiuX+V9VTQVy0gnaMIshOCrI0aFBuaQlv813SamK8M1EyjlvIy+OArqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794423360;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794425510;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=ntg5scnlgeho/3Q0/bAW7xkWv8d8aOENXz/22OAkkhY=;
-	b=gLu2yQeNzwY6+4cDPQNhxGGmYuZR2D23vPBlaRk3882/PKlW9P+z8NUCB6YTGt0yyCQq
-	 KZuxTHpD1PyimsFXKbZoBzevWUAn6atTHbKlbhNGniS8O/p5hZO9KfNyG0pji8M8djF7D
-	 ViVALBa/5FwxLpDRBuxz19aOC1q8QuhXLQjIVneSXJkktKdrANG59IlYGf4NID2nCGgKv
-	 +gb8qC8PvdqYOhLR+rizEreijeng+RsTsZY+u6GixbH7+Q7ZSaK1F0XFNb4vnd8pahX8h
-	 D6pfhGkiudzAuCLwsBxKBSef4U+OobYcXdnesVpzNTswrPygL6ELi5DG77XYLVlWvDA==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Ihmjpaq362zzdxmp/sT8AuTP1S4oabw2RE04rYS9y5E=;
+	b=UyLlX54nb+HsxRaJyYBSjC2qxHenKuRxjRpWWeEat4l2H6xa8ksmDCzCn6gK/bSHwQOO
+	 HCmlBRF0nV/TqeH9rj1t8nOf9Ded5fSjLJCp2ZeFzfEAQo5Jl0UOlub9o731C9pfE1TWN
+	 lBGroGzaa5CH9deZAoqmmzMB1RGvXL7N7ve60nNHkyi7imw3ryaBsZjuIRs+9HbgzKtkH
+	 52Y7VrEQAqDY4BJY3bVqMJHdk3h+OgIYhpV8H3hgiVn9J28lEF9qQVyn3p+7X2SoRKQkp
+	 Xsh8HKePT7blYNK36xUzoBurpLlpNM103p2C7cVEnI7HuXqbb0OtSlm5LTPggig43Nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EyeuDJJR;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T0dFk7c9;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5F0606A324
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 18:55:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E5F0606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12F9606A333;
+	Wed, 11 Nov 2026 19:31:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A12F9606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EyeuDJJR
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T0dFk7c9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794423360; x=1825959360;
-  h=date:from:to:cc:subject:message-id;
-  bh=dohUDYJ+3FhODm5USKCeoP5EQ+p95F0tFOJotApQZf0=;
-  b=EyeuDJJRhoM2kRZbZEIEkBWHZFGA82iK6YM5sIpYgu6Kdxb5XWPon9zY
-   rQbRypBhOja3J8DmqHxovlXWPxBVHJAddmPWiDbpKFMN5Wav9jld2sEB1
-   qhQg2e3d2Vse+FVsmePlkWMfobXJZAF4RIMca8rVKSYVjjaqOngTaPcdr
-   I6UEvi3f8pxOvC7EeClM6xsXKIMfzP7KkYtdjCEM0kF5SInJSldxShJPV
-   uqAknxcr74ZmKp0O8zB+ZA8atIFMLEPJ7vhqqrAWzbhun8hmS+SyuTgsU
-   QbktjY9yO1ozmOdCZbbPYltYEM+H6DzWjRrRGEA31srh+z60R5arwG10J
-   w==;
-X-CSE-ConnectionGUID: j15CDg+UQBW3VfsRup4Xfg==
-X-CSE-MsgGUID: BJKysb9bRQqSepVnUPGJKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3107327"
+  t=1794425510; x=1825961510;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DcTofesJFT1jeKz+4gvXAC2F9ujJKAM96Sgs1nkt01o=;
+  b=T0dFk7c9m3m7kFV4rOmhFdAQVhA4EAKbMnU6tKzTmHNAY9tSf3moFCM2
+   KkW5lZZ0vJm/Sdy3Mpyq97CUwZeVBDRGwU55IDYyn3+QWvUnibJ475new
+   XNKJRvOONmrAXiN9Ya6Kas+JuQQcSNLY0T5XGbySWLtI0ZbEr4mYBKIlO
+   xRn9rPoLbS+RM9SnsWUCkSSxCbP0QcvT5mmziO/mvcQGZRzzoeKxSAeBF
+   rAdgh2ioWxHtf0/etD4GifkhI9WuSA6XFkBsr2UIznCeuNn1y3TkuGOpJ
+   pLTwhmpP6xYYJU8SN6iEfRpQMa2nax60vhzL2L2FswsxD8TRKsUpHjr0q
+   Q==;
+X-CSE-ConnectionGUID: iyKSmpnzSlyDwx4qiwLvmQ==
+X-CSE-MsgGUID: LWMCpU3qTT6ccSin4DAGpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3099043"
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3107327"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 10:55:59 -0800
-X-CSE-ConnectionGUID: IB9dLc8iRDmhr+nsC/MWHQ==
-X-CSE-MsgGUID: b6J60d99Q1iI7iW2Z9ffWw==
+   d="scan'208";a="3099043"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 11:31:49 -0800
+X-CSE-ConnectionGUID: 7Qov/K15S6C/fBiJhfO24g==
+X-CSE-MsgGUID: l+vjy1i3SXmfMFLMolRq8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="8572785"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Nov 2026 10:55:57 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8820410"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 11 Nov 2026 11:31:44 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRDUB-000000000e3-0pGD;
-	Wed, 11 Nov 2026 18:55:55 +0000
-Date: Wed, 11 Nov 2026 19:55:37 +0100
+	id 1xRE2n-00000000zZl-2KpJ;
+	Wed, 11 Nov 2026 19:31:41 +0000
+Date: Thu, 12 Nov 2026 03:30:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:cancellations-backup/frame-slots 28/34]
- mips-linux-ld: unwind.c:undefined reference to `bpf_sk_release_proto'
-Message-ID: <202611111945.2bSvbdQR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Xueqin Luo <luoxueqin@kylinos.cn>, rafael@kernel.org,
+	viresh.kumar@linaro.org, sudeep.holla@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	zhanjie9@hisilicon.com, christian.loehle@arm.com,
+	zhenglifeng1@huawei.com, sumitg@nvidia.com, lenb@kernel.org,
+	maciej.wieczor-retman@intel.com, pawel.chmielewski@intel.com,
+	gregkh@linuxfoundation.org, dakr@kernel.org, johan@kernel.org,
+	ionela.voinescu@arm.com, pierre.gondois@arm.com,
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
+	driver-core@lists.linux.dev, Xueqin Luo <luoxueqin@kylinos.cn>
+Subject: Re: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity()
+ for runtime updates
+Message-ID: <202611120358.5eM3xOiA-lkp@intel.com>
+References: <20261111085022.1229866-4-luoxueqin@kylinos.cn>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -79,25 +90,49 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111085022.1229866-4-luoxueqin@kylinos.cn>
 
-tree:   https://github.com/kkdwivedi/linux cancellations-backup/frame-slots
-head:   57f1029f852dc5be270836c5ca820f32cdb62637
-commit: 870dec4c95cf19c79626c22a410e1c90303bc1ff [28/34] bpf: Add frame descriptors and release what their slots hold when unwinding
-config: mips-randconfig-r2302-20261111 (https://download.01.org/0day-ci/archive/20261111/202611111945.2bSvbdQR-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111945.2bSvbdQR-lkp@intel.com/reproduce)
+Hi Xueqin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.4-rc2]
+[cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge next-20261110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xueqin-Luo/cpufreq-cppc-Add-update_limits-support-for-Highest-Performance-changes/20261111-165020
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20261111085022.1229866-4-luoxueqin%40kylinos.cn
+patch subject: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611111945.2bSvbdQR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611120358.5eM3xOiA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mips-linux-ld: kernel/bpf/unwind.o: in function `bpf_unwind_release':
-   unwind.c:(.text+0x2e4): undefined reference to `bpf_sk_release_proto'
->> mips-linux-ld: unwind.c:(.text+0x2f8): undefined reference to `bpf_sk_release_proto'
+>> drivers/base/arch_topology.c:232:21: warning: unused variable 'raw_capacity_lock' [-Wunused-variable]
+     232 | static DEFINE_MUTEX(raw_capacity_lock);
+         |                     ^~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/raw_capacity_lock +232 drivers/base/arch_topology.c
+
+   230	
+   231	static u32 *raw_capacity;
+ > 232	static DEFINE_MUTEX(raw_capacity_lock);
+   233	
 
 --
 0-DAY CI Kernel Test Service
