@@ -1,77 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794364079;
-	b=JjSqwOiFSnFmMQLpPx2T6KllErexoQgz7ZAmHUMKJ4eNSKcJ6xdonpj57pHWHbfhaE1e
-	 c3toeCRpIHfg1GqED7mhqxfo2/LyL58wxs73PdNlkp/mbcswNi3wmjxvSiTuvsktzCPk7
-	 8LyAGIgoc1S5d9BC0Fgc3xQm+ISTdHLaYzjxZO+136Pu71UbajK6Sl+W9uGc9cHmQsw8v
-	 X/OHgQVVb4GV+INx6jCHAh8x/gKJMmrkkH/nl4c/YnFf8BNJ3QCaynpEOx+a2ANf+SZBc
-	 cbWyw+Vf2wShh4ikk/WJW6IHdHsDlh1g287g1WOYUmyDbvNfzKRB9pUwz47Ik3xPVSQ==
+	t=1794364419;
+	b=JruJjsGBtuaeMFIMtC++YmchqbqOfTsTm+zs/aFp+IRAlHUKDj7D86DMpXdUUGfwFDXw
+	 g1oxm7WtYoeSpstu3mQM6SdD0J+pdZ6mpw1vQC81vQkdiD4d7GWMl//Zb5JQoN/ltUWIn
+	 Oiif5qG2TtX4UqSEpIm9wuvqPPnTlyRdJRvoolsggS6nxKMFrJf1vlGnVnjWKYfVgkRIY
+	 kUmpB1h2IMpzkrbS7yyOMtMy0lOtLYSdtE3iAhRBd0LUJudJVgGblF42OsHorJLqCPA3C
+	 xk1PhAnvEaFOpzPhyPPgnFywES0JSz1pp7vb8nV2b0aQ8iSHyzb6Bb4igdXfNVTEmdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794364079;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794364419;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=0zb7HlZnDMDbxDoAmYF/iP8I+0BwZa8x0rK3cX+fjC0=;
-	b=zP9aUhHh8MplocaDMDQw7lAMKqrajVOxuDeB3n0PjNJtNXeoW+ToWRmPV1z4Uo+W9/NF
-	 r5C0+ibg2GSvCKkFFyu+lQgiws5MrEG0krAPS0AR2ws3vNNCm8xvry+VSv3oc0S5nZzGJ
-	 i1shc9hbAyp/9L6pGAmXexoT83FSCvWOgrYcLmmHJ8NMqPLJFTNqqh9SAtIB8qGnWmMYG
-	 VeDAVfD/lhP4vLve6REbWDRbmZen+0WTFkYTYjaFEHRFFO4Tn8ZMDCrOufV3IgfM6iJbi
-	 NU0ZIEDmmRJQD2Tmyq+s6S6I1ZQKTyVpV/9VLraZV6TdnCyWPBTOkTpCxq4haMf5iAA==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Ol9buaURzmW+aC8m44JQOZJHBB9zfvr6i45XcRPM0I0=;
+	b=qtfj9aaQE1zUzJXtB6G+sULUXjSPYa0cBm4hi/5fa7hIq6v64vw2HsUtJBbY1L2hl1B0
+	 G/YKELVAphgUHF0lv+YR8yxM1+bBfDr2SU0XoSB4d6Bk6CIQfVKB/jRHOmVy82gA1qkUS
+	 XzZGn95m2VmvfVhWS/N2ycr/3jibyVki9kVfnMvszrRc/Pw3HhYOIp8TFmVuQEbOPUjw/
+	 KSf7qTOlWvaYy4695In5uxLcDztt/dRfkl3/LtMxBsAB6yUeWw+a4sieXtF2v7WD+Zoil
+	 ugOH1A159XvcIKDiY8ISvFjfWaL5ddkSaCddfYWYv2oKyST19sSjlLnS9jbZwWw+2Ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="mEcXRZD/";
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NlvdoeO5;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7A3606A336
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 02:27:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B7A3606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A508606A324
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 02:33:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A508606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mEcXRZD/
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NlvdoeO5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794364079; x=1825900079;
-  h=date:from:to:cc:subject:message-id;
-  bh=RzotaPg0qoIoI2WYmwsQT+HjREpD5b8S4lV8DhBsm3M=;
-  b=mEcXRZD/1GOxaj+qNWrwAeE9hCRNTDRQ5B+ft+lO1OudbTMMuHSfwYcK
-   4WbDrgZoEFiylM9QoVeV9c71Q707jfdc8NoM4+UJDgHn4pzlDGueEeLMS
-   jKtq8R2dhJ/ybkE55WEcDRAUAGyd5bI5/jWFybqjkUxen1V5aZT1kt950
-   Jkjuj0huW2UmGFWq3VIaY/nENnuhs9E4cIkhizx3eIdxyh9ESVKbMqHcf
-   MMH8CC60O45YJhdC1fhVHBmEdfXE3SXLioOSMIxyNisPVf85Gp9Icayxz
-   wL+GWTWOYoKrv0PzmuEzogkq3+bt3mTKAlwXD4L6rk/m7+6jLvXAKeu9P
-   w==;
-X-CSE-ConnectionGUID: wi4v7A+xSie7YU/9mDRwhg==
-X-CSE-MsgGUID: GXj5FZIVSS25qNX5qxxKXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3034396"
+  t=1794364418; x=1825900418;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=s50BGaztiCB0EzWNAhapCTAYgc3gMULj1sAImxm0lKM=;
+  b=NlvdoeO5eUgQOMgM1GIxwW6Y9y65iMT//kIdxByMcEQpnqva4v8i1ett
+   N8N7j3qOsQ9c1pI9bSk2F3YYY9tLspX49uzA1xmL6v7NZYLddzdMeGH0n
+   U07XyImgYmJWY14uk1Fl2w7PNH9eAf+4sbV4TZNQsst7uWah9c5FEy+a0
+   nrxqPbvNHO/luLwTxjVLh58OEmW/2U+V0jcm28zK73CYUilTqVyGNFcso
+   XjxL93Fk6Ug/Z2C7wqgTVwI2bvXqNT0X3vGGAQpIv66VnXTXkGZOIjuuY
+   VohAs2wk9cHtOGKE6PkQ2IpoyR1TSa/BZztAbdhl1dmwhtRrJ4fAaLsJZ
+   g==;
+X-CSE-ConnectionGUID: w4eiVkqFT/WxZl+eVLbBVQ==
+X-CSE-MsgGUID: 51g92nwpSeOX7Lr8AmVSJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3154558"
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="3034396"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 18:27:57 -0800
-X-CSE-ConnectionGUID: 1YFO4XO3Qkac6c7OwYxgJw==
-X-CSE-MsgGUID: s71DbjkjQB2ceNdIEQzOyg==
+   d="scan'208";a="3154558"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 18:33:38 -0800
+X-CSE-ConnectionGUID: f4snPYusRHCUXzwqjL+OLg==
+X-CSE-MsgGUID: V60PV1sLSSuuWsGufj2wSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="8341739"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 10 Nov 2026 18:27:56 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8219921"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Nov 2026 18:33:37 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQy41-000000000Ug-2J0R;
-	Wed, 11 Nov 2026 02:27:53 +0000
-Date: Wed, 11 Nov 2026 03:27:05 +0100
+	id 1xQy9V-00000000xw3-3Vdd;
+	Wed, 11 Nov 2026 02:33:33 +0000
+Date: Wed, 11 Nov 2026 10:33:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:7.4-rc 53/154]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000
- (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202611110340.ufRNvjYM-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 9/22]
+ drivers/platform/x86/acer-wmi-battery.c:292:16: error: implicit declaration
+ of function 'devm_battery_hook_register'; did you mean
+ 'acpi_battery_hook_register'?
+Message-ID: <202611111027.YYwIlIDB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,76 +84,80 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 7.4-rc
-head:   674a64f97be4d25967f31216ffe7eaefdabf827f
-commit: 27f001efb4287e35dee43fa0982c4dde508a35dd [53/154] arm64: dts: mt7988: re-add sgmiisys
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261111/202611110340.ufRNvjYM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110340.ufRNvjYM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
+ bleeding-edge
+head:   51bafe2e7302403a43ba45415bf9a268a7fcaa05
+commit: fafe4f5166bc3d43e28967efb9ea82b1f456b798 [9/22] Merge branch 'acpi-=
+battery' into bleeding-edge
+config: x86_64-randconfig-1011-20261111 (https://download.01.org/0day-ci/ar=
+chive/20261111/202611111027.YYwIlIDB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261111/202611111027.YYwIlIDB-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611110340.ufRNvjYM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611111027.YYwIlIDB-lkp@i=
+ntel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: pcie-2-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: pcie-3-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-4e.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcie-2-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcie-3-hog: 'oneOf' conditional failed, one must be fixed:
-   	'input' is a required property
-   	'output-high' is a required property
-   	'output-low' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+All errors (new ones prefixed by >>):
+
+   drivers/platform/x86/acer-wmi-battery.c: In function 'acer_wmi_battery_p=
+robe':
+>> drivers/platform/x86/acer-wmi-battery.c:292:16: error: implicit declarat=
+ion of function 'devm_battery_hook_register'; did you mean 'acpi_battery_ho=
+ok_register'? [-Wimplicit-function-declaration]
+     292 |         return devm_battery_hook_register(&data->wdev->dev, &dat=
+a->hook);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                acpi_battery_hook_register
+
+
+vim +292 drivers/platform/x86/acer-wmi-battery.c
+
+c72dd9994952eb Jelle van der Waa 2026-09-13  275 =20
+c72dd9994952eb Jelle van der Waa 2026-09-13  276  static int acer_wmi_batte=
+ry_probe(struct wmi_device *wdev, const void *context)
+c72dd9994952eb Jelle van der Waa 2026-09-13  277  {
+c72dd9994952eb Jelle van der Waa 2026-09-13  278  	struct acer_wmi_battery_=
+data *data;
+c72dd9994952eb Jelle van der Waa 2026-09-13  279 =20
+4dd10fbbeb9c33 Kees Cook         2026-10-28  280  	data =3D devm_kzalloc_ob=
+j(&wdev->dev, *data);
+c72dd9994952eb Jelle van der Waa 2026-09-13  281  	if (!data)
+c72dd9994952eb Jelle van der Waa 2026-09-13  282  		return -ENOMEM;
+c72dd9994952eb Jelle van der Waa 2026-09-13  283 =20
+c72dd9994952eb Jelle van der Waa 2026-09-13  284  	dev_set_drvdata(&wdev->d=
+ev, data);
+c72dd9994952eb Jelle van der Waa 2026-09-13  285  	data->wdev =3D wdev;
+c72dd9994952eb Jelle van der Waa 2026-09-13  286  	data->battery_ext =3D he=
+alth_mode ? &acer_wmi_battery_extension_v2
+c72dd9994952eb Jelle van der Waa 2026-09-13  287  					: &acer_wmi_battery_=
+extension_v1;
+c72dd9994952eb Jelle van der Waa 2026-09-13  288  	data->hook.name =3D "Ace=
+r Battery Extension";
+c72dd9994952eb Jelle van der Waa 2026-09-13  289  	data->hook.add_battery =
+=3D acer_battery_add;
+c72dd9994952eb Jelle van der Waa 2026-09-13  290  	data->hook.remove_batter=
+y =3D acer_battery_remove;
+c72dd9994952eb Jelle van der Waa 2026-09-13  291 =20
+c72dd9994952eb Jelle van der Waa 2026-09-13 @292  	return devm_battery_hook=
+_register(&data->wdev->dev, &data->hook);
+c72dd9994952eb Jelle van der Waa 2026-09-13  293  }
+c72dd9994952eb Jelle van der Waa 2026-09-13  294 =20
+
+:::::: The code at line 292 was first introduced by commit
+:::::: c72dd9994952eb09442827caecb945474ae3072b platform/x86: add Acer batt=
+ery control driver
+
+:::::: TO: Jelle van der Waa <jelle@vdwaa.nl>
+:::::: CC: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
 
 --
 0-DAY CI Kernel Test Service
