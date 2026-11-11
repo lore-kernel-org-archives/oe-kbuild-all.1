@@ -1,88 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794393026;
-	b=z+LRqBhiLFn6ZoXA9QlEegNPqXumb+YyPEi6RdWAnZcUiW5ldgUlNjnTDMLjJ6X6ExV3
-	 p7BHOi/D6ALMNyvSyFmS4ekRN5rGBJHsxN3rOq1c11uMpXbhPUQL0LunFl49UMVbLNE57
-	 jgQ9zxfFD+nzgQ+KHEWn6id9iAV9eFcJ0JGUlATsnumzOetopL6DVgcmrgCUuezWyCezO
-	 1nP7vE4j5Wbg8zSZ7Glsrklry4mKl5pMjbgsRB+CkjTFyNz4SarDbXHK5TSTPeTYwXuq4
-	 QPQHtUMLlP1jMzxNvT0XvnysYPP2DWd9w+cXefVsbnqTS+q5AM0H2L4twvFELi+734g==
+	t=1794394000;
+	b=M9GTeagxDqyFOpqqo+xXzCq2aHnrpjTajF8cgeLyEmY6LeZ/QI2SDKGA624PDw5orZoQ
+	 mIgnPJZH3idZnPVXJJJt96wTYfGt8Aze7EcpqVBa9Yeu/9ePjPRKKq4FRsiXeL3PdtVTY
+	 S6R9qAp9FUovCtddbGIAU9Rot8GMTxp1B6M3+VbraJgrha1QcFY42bDZekJaFXlRyGL/k
+	 0g5j9xM+qTes3U9ncwG+yifNJ4YsZzWHdmrjQwIudUJ/hLOA2E4zFjUzF38ZI+mQgYRHs
+	 rJJcMzzeuYSkVwv+8t/XxRw5v8ZxFEYl/H2hGR43x3Y7kuB5V2F6Up5W0AH2Efypw8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794393026;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794394000;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=sYUhvtEWMAMuteE3xX7bfSNMU3ZCaEPn0Wha78DIitM=;
-	b=l7BmODG+HdP+AKkh2rZiw5+wldfEvzH2dRZa6JatPY4jvMqgXlcomL8KZs9MLtpkUHJ4
-	 dY1F1xYltvYz1T2ORLCQl0o1pI5eMj0DmboBnpkB+i2pDArKwqI1PENQ7SuELFP34S7aM
-	 +lhQ5r95RJea+uYixNbaPE4fVhjCJDZxWisLTkZsjiPkgs3LypXz/9Pp6G4IL+q/GXLzi
-	 Om1YuAzbN7ugblYbLbHAFIJ2zbbRjlgtVl5CcrYxE2Kb3Id9WKB6zH8QlubA1Xy09HXOm
-	 DtpFExezkkcjOa+zGNF5XUEAo9hTQj+B211AmiMKIPmPV46qCFYgY9OmeBjvIMLh22g==
+	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=ZS416nY8ExP39YQ01I5vRj/eYSpgEwqrVtZE/+h8ulw=;
+	b=AeJ6zUef0Gm3PZIRa+ombQFS1A20vF3ZUrGWmLpVIYZNrufvJt6PvtI3RvnHBrfMD8Ip
+	 Y0UEeaib2ILmiahxVyIt3CqzoTs/6narjpU8iLhZea+2yHuN7a3Gxj38HgV27Rr2P1+JP
+	 CD/c79Ivgrjcd3h+NZipsRp3Fh5562tfknSdlmk41iBNR3GmVEYhWNzjtM/HP7c7Sp4T6
+	 8DyAze3dOUU+QQKIMJM+r/EEzodRk91+DbfwanuYxJz3gQP3R7TtuajRsFRedCNrktggY
+	 /rMYkUrs74uJahWMxYpCQTa1+CiEa61HMtCr3WnBK7JSb21kotf+NJ6uLsi4Xid1c+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="MWH/mfvL";
-	arc=none smtp.remote-ip=192.198.163.11
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=INpYfB4S;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9338606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 10:30:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9338606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E379606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 10:46:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E379606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=MWH/mfvL
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=INpYfB4S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794393026; x=1825929026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bNqrsPF0ia1G50zFa+Tnq3jn+4/kOWd7VD+Y20U/Zzg=;
-  b=MWH/mfvLF2CZc1OpTpMiuqqwihVUUINa8ru5m5KCS9uhOhlqHxnilFYR
-   RwWSmGRorHB6oedqWIAKpyq524UW1U3wJm0rvLFv1BJUNNozrTTFq/Tu2
-   a2lezlqmdhEUMc9FbynYUdEwfEQcxHJeLwNDwmWoFRuFmG08IE8SSQ9Hv
-   HUDCj42Ot3U1Pg3mL7Snm7yZSgcxciqFNzcKLjlXnf2/7/l73QjKGOOPW
-   ORWHcLQGOJsy9X6oK3LP0FNcSl4+cpV0p8kXfKz1k/53ZX5uuw6GEUyaA
-   pEavgizp/xdf0iUuY+1Crxy/rhYP5Kr4a0qanmL0nFqR6gEzq6EJwRHbm
-   g==;
-X-CSE-ConnectionGUID: L90kP7nTQam/qryGLZ9Adg==
-X-CSE-MsgGUID: zlbkXBYNSs2zlCyx7OwZXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3082295"
+  t=1794393999; x=1825929999;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YoP1oiZhXdLsMGk4xqxz+pquVXQMtRV9gUudtX59dYo=;
+  b=INpYfB4S1gjHyJUtm4jY6BWTO7yi8ortQL1RRXlVx64SyxfHsuM6jAbL
+   XbZBAsk6Xjs/houAEycdsN9dVuYvxEbpBw7dahZCbJycPjamiAxjTgQMX
+   R9fskUBs4lQmtximxkz33BahTO6+jMSfmUHHYegkJe++OcMU/uSz0pd1D
+   bA+UPRomggh/lzyqAdEAlI3dpH+rsCEYGkGoezyOS5BYGOfiE59+weeBh
+   Re8cYscqXL3kTWRuxufQVNNSINlcR8rEPrgCv3x3+6pGOF5xNKZIeUZ8s
+   s3uGKqJ77zW/l0FhQd6k2VSw4ptxVvlufub5Lo/DQdSAFu4ot6n29aWjY
+   Q==;
+X-CSE-ConnectionGUID: KCBkHS8kQoClcpeZDOO81w==
+X-CSE-MsgGUID: GfS6rYDjRriAa3qdZZtnmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3196717"
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="3082295"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 02:30:25 -0800
-X-CSE-ConnectionGUID: mc7HGpepRX+UTL9JgAXiKw==
-X-CSE-MsgGUID: tfr4/1ryScifVe4B7dwdaw==
+   d="scan'208";a="3196717"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 02:46:38 -0800
+X-CSE-ConnectionGUID: IUTHcJ0dSwCzeGQxiw1KUQ==
+X-CSE-MsgGUID: y29INZLbSl+4RRe+xKlFdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="8364221"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Nov 2026 02:30:22 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="8220207"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 11 Nov 2026 02:46:36 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xR5as-00000000yf5-3Boq;
-	Wed, 11 Nov 2026 10:30:18 +0000
-Date: Wed, 11 Nov 2026 18:29:49 +0800
+	id 1xR5qb-000000000Yt-2AHk;
+	Wed, 11 Nov 2026 10:46:33 +0000
+Date: Wed, 11 Nov 2026 11:46:22 +0100
 From: kernel test robot <lkp@intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Daniele Alessandrelli <daniele.alessandrelli@gmail.com>,
-	"Paul J. Murphy" <paul.j.murphy@intel.com>,
-	Martina Krasteva <martinax.krasteva@intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Gyula Kelemen <gyula.kelemen@advasolutions.com>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 3/8] media: i2c: ov9282: fix flash duration to/from
- microseconds conversion
-Message-ID: <202611111848.aTw1f2PZ-lkp@intel.com>
-References: <20261110-ov9282-fixes-v3-3-cb6df80cbc22@linux.dev>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 9/22]
+ drivers/platform/x86/hp/hp-wmi.c:1057:16: error: implicit declaration of
+ function 'devm_battery_hook_register'; did you mean
+ 'acpi_battery_hook_register'?
+Message-ID: <202611111143.CWKE7ewK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -92,32 +85,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261110-ov9282-fixes-v3-3-cb6df80cbc22@linux.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
+ bleeding-edge
+head:   51bafe2e7302403a43ba45415bf9a268a7fcaa05
+commit: fafe4f5166bc3d43e28967efb9ea82b1f456b798 [9/22] Merge branch 'acpi-=
+battery' into bleeding-edge
+config: x86_64-randconfig-2003-20261111 (https://download.01.org/0day-ci/ar=
+chive/20261111/202611111143.CWKE7ewK-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20261111/202611111143.CWKE7ewK-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7475ea8b58616b33c04afb976cf0fbaad9dd63fb]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Leitner/media-i2c-ov9282-handle-error-from-exposure-range-update/20261110-141010
-base:   7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-patch link:    https://lore.kernel.org/r/20261110-ov9282-fixes-v3-3-cb6df80cbc22%40linux.dev
-patch subject: [PATCH v3 3/8] media: i2c: ov9282: fix flash duration to/from microseconds conversion
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20261111/202611111848.aTw1f2PZ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111848.aTw1f2PZ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611111848.aTw1f2PZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611111143.CWKE7ewK-lkp@i=
+ntel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: drivers/media/i2c/ov9282.ko: symbol '__udivdi3' undefined!
+   drivers/platform/x86/hp/hp-wmi.c: In function 'hp_wmi_charge_control_set=
+up':
+>> drivers/platform/x86/hp/hp-wmi.c:1057:16: error: implicit declaration of=
+ function 'devm_battery_hook_register'; did you mean 'acpi_battery_hook_reg=
+ister'? [-Wimplicit-function-declaration]
+    1057 |         return devm_battery_hook_register(dev, &hp_wmi_charge_ba=
+ttery_hook);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                acpi_battery_hook_register
+
+
+vim +1057 drivers/platform/x86/hp/hp-wmi.c
+
+929433336e0a6e Shang En Sim 2026-09-30  1033 =20
+929433336e0a6e Shang En Sim 2026-09-30  1034  static int __init hp_wmi_char=
+ge_control_setup(struct device *dev)
+929433336e0a6e Shang En Sim 2026-09-30  1035  {
+929433336e0a6e Shang En Sim 2026-09-30  1036  	enum power_supply_charge_beh=
+aviour behaviour;
+929433336e0a6e Shang En Sim 2026-09-30  1037  	int ret;
+929433336e0a6e Shang En Sim 2026-09-30  1038 =20
+929433336e0a6e Shang En Sim 2026-09-30  1039  	if (!dmi_check_system(hp_wmi=
+_charge_control_quirks))
+929433336e0a6e Shang En Sim 2026-09-30  1040  		return 0;
+929433336e0a6e Shang En Sim 2026-09-30  1041 =20
+929433336e0a6e Shang En Sim 2026-09-30  1042  	/*
+929433336e0a6e Shang En Sim 2026-09-30  1043  	 * Firmware retains inhibit =
+across reboot, so seed from GBCO rather
+929433336e0a6e Shang En Sim 2026-09-30  1044  	 * than assuming auto.
+929433336e0a6e Shang En Sim 2026-09-30  1045  	 */
+929433336e0a6e Shang En Sim 2026-09-30  1046  	ret =3D hp_wmi_charge_mode_r=
+ead();
+929433336e0a6e Shang En Sim 2026-09-30  1047  	if (ret < 0)
+929433336e0a6e Shang En Sim 2026-09-30  1048  		return 0;
+929433336e0a6e Shang En Sim 2026-09-30  1049 =20
+929433336e0a6e Shang En Sim 2026-09-30  1050  	ret =3D hp_wmi_charge_mode_t=
+o_behaviour(ret, &behaviour);
+929433336e0a6e Shang En Sim 2026-09-30  1051  	if (ret)
+929433336e0a6e Shang En Sim 2026-09-30  1052  		return 0;
+929433336e0a6e Shang En Sim 2026-09-30  1053 =20
+929433336e0a6e Shang En Sim 2026-09-30  1054  	scoped_guard(mutex, &hp_wmi_=
+charge_lock)
+929433336e0a6e Shang En Sim 2026-09-30  1055  		hp_wmi_charge_behaviour =3D =
+behaviour;
+929433336e0a6e Shang En Sim 2026-09-30  1056 =20
+929433336e0a6e Shang En Sim 2026-09-30 @1057  	return devm_battery_hook_reg=
+ister(dev, &hp_wmi_charge_battery_hook);
+929433336e0a6e Shang En Sim 2026-09-30  1058  }
+929433336e0a6e Shang En Sim 2026-09-30  1059  #else
+929433336e0a6e Shang En Sim 2026-09-30  1060  static int __init hp_wmi_char=
+ge_control_setup(struct device *dev)
+929433336e0a6e Shang En Sim 2026-09-30  1061  {
+929433336e0a6e Shang En Sim 2026-09-30  1062  	return 0;
+929433336e0a6e Shang En Sim 2026-09-30  1063  }
+929433336e0a6e Shang En Sim 2026-09-30  1064  #endif
+929433336e0a6e Shang En Sim 2026-09-30  1065 =20
+
+:::::: The code at line 1057 was first introduced by commit
+:::::: 929433336e0a6e5014af7b8849f369712d2c8964 platform/x86: hp-wmi: add c=
+harge_behaviour support for Spectre 8C15/8C17
+
+:::::: TO: Shang En Sim <sim@shangen.org>
+:::::: CC: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
 
 --
 0-DAY CI Kernel Test Service
