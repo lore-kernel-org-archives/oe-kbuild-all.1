@@ -1,80 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794394000;
-	b=M9GTeagxDqyFOpqqo+xXzCq2aHnrpjTajF8cgeLyEmY6LeZ/QI2SDKGA624PDw5orZoQ
-	 mIgnPJZH3idZnPVXJJJt96wTYfGt8Aze7EcpqVBa9Yeu/9ePjPRKKq4FRsiXeL3PdtVTY
-	 S6R9qAp9FUovCtddbGIAU9Rot8GMTxp1B6M3+VbraJgrha1QcFY42bDZekJaFXlRyGL/k
-	 0g5j9xM+qTes3U9ncwG+yifNJ4YsZzWHdmrjQwIudUJ/hLOA2E4zFjUzF38ZI+mQgYRHs
-	 rJJcMzzeuYSkVwv+8t/XxRw5v8ZxFEYl/H2hGR43x3Y7kuB5V2F6Up5W0AH2Efypw8g==
+	t=1794394719;
+	b=gW7qFymlavBDm5PC9RuDxLoexqNcwz6Byhh3H/fXhckC4ZzmxxLOcbJS3mRmjSERSAVw
+	 wq0HGLT8bqXH3YGbG6ERTRAqsVJHnPnd+mNzMI+u4oE9mqRtmUQSfiWYk0re9EtTblhiZ
+	 v6/CTbe9UBuXtGNzuXBWriM6FTqxcv4fxfovRP8mQeAXg+r/DivnJLKcHSqib/L/Rn0T/
+	 qYuOMOMu4EubMPxnccQ/8LEgL8qMOZA96D4W2PHe21GPoignOBSpY/MfOMvxxhdvX8NKy
+	 nvt0p0r9uT88Du2iCu+AFeVrfd8MUSeRHHUT3hWljvbi3CEqzZEBtoBTDs4S1NU25lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794394000;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794394719;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ZS416nY8ExP39YQ01I5vRj/eYSpgEwqrVtZE/+h8ulw=;
-	b=AeJ6zUef0Gm3PZIRa+ombQFS1A20vF3ZUrGWmLpVIYZNrufvJt6PvtI3RvnHBrfMD8Ip
-	 Y0UEeaib2ILmiahxVyIt3CqzoTs/6narjpU8iLhZea+2yHuN7a3Gxj38HgV27Rr2P1+JP
-	 CD/c79Ivgrjcd3h+NZipsRp3Fh5562tfknSdlmk41iBNR3GmVEYhWNzjtM/HP7c7Sp4T6
-	 8DyAze3dOUU+QQKIMJM+r/EEzodRk91+DbfwanuYxJz3gQP3R7TtuajRsFRedCNrktggY
-	 /rMYkUrs74uJahWMxYpCQTa1+CiEa61HMtCr3WnBK7JSb21kotf+NJ6uLsi4Xid1c+Q==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=kSmKORHIznP2iEfvaiO4HINHU9HMAOlzpvFwaH8xUzk=;
+	b=NFrcmdY+OdYcbagxqJi+pMtws4sr8pX89dYMhLUqgY4ePMXph9Jk3t342R/PFjVZsgm6
+	 ZSL/pWXUw0wUI77uS5onTZ+NavSyAoInDa+ugOmemDgaBoCGHT9oAa+l9tw6JgfWmpBWZ
+	 EndzOPtei6vWOEDhMTJL1UkFPZkTu0qSGxzg3o+5YIAorsZoXcDtDV2JxsIW7AxZO7f90
+	 jnRsrBifctpMCBHLQZb/3OPJS/DsykTv7c6W58gcDGaVSMoYCzv3OYTddS8aDCq36IsH7
+	 6JxsFXbOo1kL/UhvfC/ToVwacugz9LiCvI8TM6b0AWjMcamn4+ExNeIeMdnGIjejmpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=INpYfB4S;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DL21XwfJ;
+	arc=none smtp.remote-ip=192.198.163.16
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E379606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 10:46:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E379606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86094606A31C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 10:58:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86094606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=INpYfB4S
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DL21XwfJ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794393999; x=1825929999;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=YoP1oiZhXdLsMGk4xqxz+pquVXQMtRV9gUudtX59dYo=;
-  b=INpYfB4S1gjHyJUtm4jY6BWTO7yi8ortQL1RRXlVx64SyxfHsuM6jAbL
-   XbZBAsk6Xjs/houAEycdsN9dVuYvxEbpBw7dahZCbJycPjamiAxjTgQMX
-   R9fskUBs4lQmtximxkz33BahTO6+jMSfmUHHYegkJe++OcMU/uSz0pd1D
-   bA+UPRomggh/lzyqAdEAlI3dpH+rsCEYGkGoezyOS5BYGOfiE59+weeBh
-   Re8cYscqXL3kTWRuxufQVNNSINlcR8rEPrgCv3x3+6pGOF5xNKZIeUZ8s
-   s3uGKqJ77zW/l0FhQd6k2VSw4ptxVvlufub5Lo/DQdSAFu4ot6n29aWjY
-   Q==;
-X-CSE-ConnectionGUID: KCBkHS8kQoClcpeZDOO81w==
-X-CSE-MsgGUID: GfS6rYDjRriAa3qdZZtnmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3196717"
+  t=1794394719; x=1825930719;
+  h=date:from:to:cc:subject:message-id;
+  bh=751en+njc4XTTqqDYBpcKPs0cAembFxHBQbr0DS4SWg=;
+  b=DL21XwfJJdu6bAL+xUlJgegRgsH75Jj8EGSoOeGtjXaGROgIMQzjsMUW
+   T6jsLdNMnZv2hC480xuzAf589e/aB62qAX0bRD16Gz04DyBYjVQgFBIIg
+   mgNxrwg2o8K7hgbFJQTUt+zNDp7NNMicPzYo4E9HNifuKQqOY57Oe/HZX
+   6EgEdqCIvQl7zylKFH8GZWxIqRETNM3DSPxJEqn5vqRvha+qnU3zJps5K
+   GLbzeoM5eBsCLj5mSWW/A8oR4jRDpXmAjURjNmaxVZAZVzUlgD/zxk7CP
+   VmUZcoA4uE7LM9IRAKdgsp4zorBcy9s88G2lHB09kProoc1mcp5Q07bHz
+   A==;
+X-CSE-ConnectionGUID: Eqb1E8ZTRe68FMWB2JgmAQ==
+X-CSE-MsgGUID: bqTqunCbQO2URUUJ0BjWGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3193755"
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="3196717"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 02:46:38 -0800
-X-CSE-ConnectionGUID: IUTHcJ0dSwCzeGQxiw1KUQ==
-X-CSE-MsgGUID: y29INZLbSl+4RRe+xKlFdg==
+   d="scan'208";a="3193755"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 02:58:38 -0800
+X-CSE-ConnectionGUID: mjW7Y8VzQyad1qnTGqIPWg==
+X-CSE-MsgGUID: VI0x2WrgRZqVcPRPKgPIxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="8220207"
+   d="scan'208";a="8369715"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 11 Nov 2026 02:46:36 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 11 Nov 2026 02:58:36 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xR5qb-000000000Yt-2AHk;
-	Wed, 11 Nov 2026 10:46:33 +0000
-Date: Wed, 11 Nov 2026 11:46:22 +0100
+	id 1xR62E-000000000Yx-1cT5;
+	Wed, 11 Nov 2026 10:58:34 +0000
+Date: Wed, 11 Nov 2026 11:57:41 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 9/22]
- drivers/platform/x86/hp/hp-wmi.c:1057:16: error: implicit declaration of
- function 'devm_battery_hook_register'; did you mean
- 'acpi_battery_hook_register'?
-Message-ID: <202611111143.CWKE7ewK-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1]
+ arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for
+ '__hyp_trace_find_event_name'
+Message-ID: <202611111121.fzhlxS0p-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,93 +80,104 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- bleeding-edge
-head:   51bafe2e7302403a43ba45415bf9a268a7fcaa05
-commit: fafe4f5166bc3d43e28967efb9ea82b1f456b798 [9/22] Merge branch 'acpi-=
-battery' into bleeding-edge
-config: x86_64-randconfig-2003-20261111 (https://download.01.org/0day-ci/ar=
-chive/20261111/202611111143.CWKE7ewK-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261111/202611111143.CWKE7ewK-lkp@intel.com/reproduce)
+Hi Vincent,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   153de33f91d69c9aa60925e5e2d0949a4318591f
+commit: 12aaf60a831904372fbd91490acdeb2c4ab3cf78 [1/1] ANDROID: KVM: arm64: Allow registration of pKVM module hyp events
+config: arm64-randconfig-r2305-20261111 (https://download.01.org/0day-ci/archive/20261111/202611111121.fzhlxS0p-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+sparse: v0.6.5-rc1-21-g84ec0658
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111121.fzhlxS0p-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611111143.CWKE7ewK-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611111121.fzhlxS0p-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/platform/x86/hp/hp-wmi.c: In function 'hp_wmi_charge_control_set=
-up':
->> drivers/platform/x86/hp/hp-wmi.c:1057:16: error: implicit declaration of=
- function 'devm_battery_hook_register'; did you mean 'acpi_battery_hook_reg=
-ister'? [-Wimplicit-function-declaration]
-    1057 |         return devm_battery_hook_register(dev, &hp_wmi_charge_ba=
-ttery_hook);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                acpi_battery_hook_register
+>> arch/arm64/kvm/hyp_events.c:235:19: warning: no previous prototype for '__hyp_trace_find_event_name' [-Wmissing-prototypes]
+     235 | struct hyp_event *__hyp_trace_find_event_name(const char *name,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:247:19: warning: no previous prototype for 'hyp_trace_find_event_name' [-Wmissing-prototypes]
+     247 | struct hyp_event *hyp_trace_find_event_name(const char *name)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +1057 drivers/platform/x86/hp/hp-wmi.c
+vim +/__hyp_trace_find_event_name +235 arch/arm64/kvm/hyp_events.c
 
-929433336e0a6e Shang En Sim 2026-09-30  1033 =20
-929433336e0a6e Shang En Sim 2026-09-30  1034  static int __init hp_wmi_char=
-ge_control_setup(struct device *dev)
-929433336e0a6e Shang En Sim 2026-09-30  1035  {
-929433336e0a6e Shang En Sim 2026-09-30  1036  	enum power_supply_charge_beh=
-aviour behaviour;
-929433336e0a6e Shang En Sim 2026-09-30  1037  	int ret;
-929433336e0a6e Shang En Sim 2026-09-30  1038 =20
-929433336e0a6e Shang En Sim 2026-09-30  1039  	if (!dmi_check_system(hp_wmi=
-_charge_control_quirks))
-929433336e0a6e Shang En Sim 2026-09-30  1040  		return 0;
-929433336e0a6e Shang En Sim 2026-09-30  1041 =20
-929433336e0a6e Shang En Sim 2026-09-30  1042  	/*
-929433336e0a6e Shang En Sim 2026-09-30  1043  	 * Firmware retains inhibit =
-across reboot, so seed from GBCO rather
-929433336e0a6e Shang En Sim 2026-09-30  1044  	 * than assuming auto.
-929433336e0a6e Shang En Sim 2026-09-30  1045  	 */
-929433336e0a6e Shang En Sim 2026-09-30  1046  	ret =3D hp_wmi_charge_mode_r=
-ead();
-929433336e0a6e Shang En Sim 2026-09-30  1047  	if (ret < 0)
-929433336e0a6e Shang En Sim 2026-09-30  1048  		return 0;
-929433336e0a6e Shang En Sim 2026-09-30  1049 =20
-929433336e0a6e Shang En Sim 2026-09-30  1050  	ret =3D hp_wmi_charge_mode_t=
-o_behaviour(ret, &behaviour);
-929433336e0a6e Shang En Sim 2026-09-30  1051  	if (ret)
-929433336e0a6e Shang En Sim 2026-09-30  1052  		return 0;
-929433336e0a6e Shang En Sim 2026-09-30  1053 =20
-929433336e0a6e Shang En Sim 2026-09-30  1054  	scoped_guard(mutex, &hp_wmi_=
-charge_lock)
-929433336e0a6e Shang En Sim 2026-09-30  1055  		hp_wmi_charge_behaviour =3D =
-behaviour;
-929433336e0a6e Shang En Sim 2026-09-30  1056 =20
-929433336e0a6e Shang En Sim 2026-09-30 @1057  	return devm_battery_hook_reg=
-ister(dev, &hp_wmi_charge_battery_hook);
-929433336e0a6e Shang En Sim 2026-09-30  1058  }
-929433336e0a6e Shang En Sim 2026-09-30  1059  #else
-929433336e0a6e Shang En Sim 2026-09-30  1060  static int __init hp_wmi_char=
-ge_control_setup(struct device *dev)
-929433336e0a6e Shang En Sim 2026-09-30  1061  {
-929433336e0a6e Shang En Sim 2026-09-30  1062  	return 0;
-929433336e0a6e Shang En Sim 2026-09-30  1063  }
-929433336e0a6e Shang En Sim 2026-09-30  1064  #endif
-929433336e0a6e Shang En Sim 2026-09-30  1065 =20
-
-:::::: The code at line 1057 was first introduced by commit
-:::::: 929433336e0a6e5014af7b8849f369712d2c8964 platform/x86: hp-wmi: add c=
-harge_behaviour support for Spectre 8C15/8C17
-
-:::::: TO: Shang En Sim <sim@shangen.org>
-:::::: CC: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+   231	
+   232	#define nr_events(__start, __stop) \
+   233		(((unsigned long)__stop - (unsigned long)__start) / sizeof(*__start))
+   234	
+ > 235	struct hyp_event *__hyp_trace_find_event_name(const char *name,
+   236						      struct hyp_event *start,
+   237						      struct hyp_event *end)
+   238	{
+   239		for (; start < end; start++) {
+   240			if (!strncmp(name, start->name, HYP_EVENT_NAME_MAX))
+   241				return start;
+   242		}
+   243	
+   244		return NULL;
+   245	}
+   246	
+ > 247	struct hyp_event *hyp_trace_find_event_name(const char *name)
+   248	{
+   249		struct hyp_event_table *table;
+   250		struct hyp_event *event =
+   251			__hyp_trace_find_event_name(name, __hyp_events_start,
+   252						    __hyp_events_end);
+   253	
+   254		if (event)
+   255			return event;
+   256	
+   257		rcu_read_lock();
+   258		table = rcu_dereference(mod_event_tables.tables);
+   259	
+   260		for (int i = 0; i < mod_event_tables.nr_tables; i++) {
+   261			struct hyp_event *end = table->start + table->nr_events;
+   262	
+   263			event = __hyp_trace_find_event_name(name, table->start, end);
+   264			if (event)
+   265				break;
+   266		}
+   267	
+   268		rcu_read_unlock();
+   269	
+   270		return event;
+   271	}
+   272	
 
 --
 0-DAY CI Kernel Test Service
