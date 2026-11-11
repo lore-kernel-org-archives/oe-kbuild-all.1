@@ -1,79 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794383659;
-	b=TaYdHHCEzE8rrCMH94Cb6WfImGNfhNiCjxMIrBHK2LE474TmKtEvr6WTqkyaHqgrrSJM
-	 Rz5v2/LEPrxHXr6QS/enZzqLrhzmsRg/gS9t6ckNb4mrLkXN1EmZ9FskPQdNT+s89PgKp
-	 A3Xa9gMKFNRS2BaII2EWoqU3hhIMaj6P9SC6R2AcGrEyc5Sxry9KnUk5SOMK1QTgT+A+X
-	 IlQtRZ+A0xcQnhYZ0emoqK1MyU2skvl5IagKqeBrI4p6Hku1SKa9Gb49Q2uFFCQvDrHo2
-	 otbWxnNOii1vvTYKd4Maesgg8tseHnEGTdqFge1GzaDH/rddrGFoHA3ZL5SLrFm9Nbw==
+	t=1794385844;
+	b=smMUhWVxgMHn9B6Zkk25FE1zlzTU0yxxM53g8bsVYSNGbWfB/jzTsKTxp7jB7dKc2q0K
+	 0l/4oeSeNAgqwFusWg/eApb5wnU0uT791mH3lwQi0r+lX6xTD3yd+5lBVHdhicozs+0ha
+	 PHh4gRktPKt+7uxHt+Y5aXOQiJa2da/szhDCctSA68U7wvpd7T0Bm85ddyegdjXSrP9V7
+	 5hMY4moVLKrx3C9uIe2sSfoNplzA9qbIjaHwTm4wo7nmrWQZXD/4tcm8W7avb19ldVQK3
+	 uez0Vl6x5/QXN3RP2dOQKAAP4Geg2i1FwN8unb5rd5RfHviEOh1ogScb8ZDPKG19CIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794383659;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794385844;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=HncIg01mr318xmpCtEx3AJ24a4eymqrvq4CUphLSmHk=;
-	b=xxsgngW7vPYrk493izEgcDNA/5HuiA35yKfD5HRd35Cs8CysIaYkKU1TLyybH0Rkwtjw
-	 c60QcNNHpAfU+gPx2Hgu2auo/TULi0cmv1gvR/zIwS8+BGt+oYXzDzG8YISGT6fmDBBQq
-	 RaQkCaENvjzaSzc7Z6BQkrUf1mtE/oixmxjla9N5KcWTXkEYB70XS3Y9anOkn7/xYMfuL
-	 xXAwpmWGxsqRy+geXXMVvW9+TwHHAFwcAY8sueVh2K1cK7w9xWftWlKvjsRnBzKhbTTDY
-	 fCQoCmfdXyFZsaGSP+Z3nG1Ukcgaqsd+cwaFYUpLxCuCfmDhtRoLPk68dLrxK/vpOAg==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=bzVyeI9qrDs9f50HIpMMKW+PxG6EQ/AHtxhq3EOoh7A=;
+	b=va0ROnD0TbntEl4OF3xc57oO12CBp0aiJROOU/4/Ng3b9/Gy6pij8/mYTz7Ys23fS8to
+	 1XN1ruhL/m2al/uERyNBlwhNJq0ErRZz1BjuUrWtbcPxF9V9B4LllcHl+7PwjHnmX07bU
+	 /ItO+yQddWFGF2OIcLPYpLw7oq2UI69YUeNDl0d76q2YHuFfc7o2gT7Wm31tkP5rdoPa2
+	 ZFQ0WNMGRy/hBhoS31p8TGzzp8w4RNtDEGhqHZ5Xlj0kl0ts7GchQidSpoMt6S659yO8y
+	 RleUyOzPZu294kDF7EOrtfnNpNR9qnVWSdNYAxlY6WcO8FTAD24X1PVBkTfmf93kcsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PeutG58o;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YouwjhdU;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9A6606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 07:54:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B9A6606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED71606A332;
+	Wed, 11 Nov 2026 08:30:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0ED71606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PeutG58o
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YouwjhdU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794383658; x=1825919658;
-  h=date:from:to:cc:subject:message-id;
-  bh=uPlOr2SEJwh3y0JAhClSySFnxvQfvY7oMErj6VOfrUM=;
-  b=PeutG58oQHnTeKOyoDFWWB/u6bhCZRsg48sReBNtJTCYkyPyWMBZfU6D
-   HyJfj+oTdCERhuivQovv5zVkr7YzI/fmvAf13Lh29InqE4bFds7uogI+R
-   +eY2Cm9yX6wC2/LyHAhh8ztxur7gucYzy8tZKlfVjVZsfLI7mD/Y7AMqE
-   kzFzwmksGKe2noH3LIumL6z7vB6z1DybLsa7970yb++BHm7GhDPcWH92p
-   GPCI/rLEpaqc/sFN9VCrwOzNN4ccx/geJIMMM8y23p0SbDJ+LsYpU0xER
-   31dYf9rPWQfRGA4M6Y0v0MkU83Y6TLIa9Pfhw0CznLG3Va+QwH6TmLGhD
-   w==;
-X-CSE-ConnectionGUID: 85+gTYDST0mTh7FXm79vOg==
-X-CSE-MsgGUID: MkGm27fXTduzbzKgL33X6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3236806"
+  t=1794385843; x=1825921843;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H0W8Zz8PVKmFdE5ZMrV+luI9PVA/1Nk64TB2CjqQiwY=;
+  b=YouwjhdUuoiI2fkISg8U9HBQjro5UGXZtQXDxSKGuy5yslxhxGyf1toT
+   iNmV5HMmtcCFVXozud4ghm6+1TWN7grlSTr/YKrKnSw5FY+DGll9iuOwM
+   I0sruQ3yZr7bJ/hCy2dO/03Mc8G2byva+6sIDuNinhI128WSjacjyPYCU
+   kxrKkaklkUnz5DmiYGWClbStFz1rySeIfrNAib8hzKYFZv7tdi/qW9Tru
+   3CwdXLaceO+m2kvkCOFf0i2WJiZrNVEfyBQ2KHNWHQ77vAS9pSpIOR1yu
+   PwkAEDybmzzoWMuD0Uo1Hh8xSVNNalSeTQPln7ncjvdAyJDh9ZkBddc64
+   A==;
+X-CSE-ConnectionGUID: 1Ze2V9/YS/ujzzmc/DFAbg==
+X-CSE-MsgGUID: tFpBBgtsRJmnBVmT3vTf3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3048392"
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="3236806"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 23:54:17 -0800
-X-CSE-ConnectionGUID: zGOj4KndSiafHNmwcTHNqA==
-X-CSE-MsgGUID: UgrRYgFDSJ2GBi1c7Bp45Q==
+   d="scan'208";a="3048392"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 00:30:42 -0800
+X-CSE-ConnectionGUID: OHTFHgqTQ6e4jUbhOUFXiQ==
+X-CSE-MsgGUID: RyF6L6LNQ7SkOiIf3oliag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="8673401"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Nov 2026 23:54:14 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8441282"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Nov 2026 00:30:39 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xR39o-000000000XT-1vTJ;
-	Wed, 11 Nov 2026 07:54:12 +0000
-Date: Wed, 11 Nov 2026 08:53:32 +0100
+	id 1xR3j2-00000000yQt-1Loh;
+	Wed, 11 Nov 2026 08:30:36 +0000
+Date: Wed, 11 Nov 2026 16:30:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peng Fan <peng.fan@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Frank Li <Frank.Li@nxp.com>
-Subject: [linux-next:master 5703/6082]
- arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: gpio@2d000000
- (fsl,imx8ulp-gpio): clock-names: ['gpio', 'port'] is too long
-Message-ID: <202611110848.XSxrGclM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nd@arm.com,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v2 16/28] drm/panthor: Add AM_RESOURCE_GROUP support
+Message-ID: <202611111629.kkrg6syk-lkp@intel.com>
+References: <20261110153907.3241978-17-karunika.choo@arm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,1450 +87,131 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110153907.3241978-17-karunika.choo@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   793807ca13bf3072fc6d16ce6d90e9ab9beff2a5
-commit: cebd1c0961d802092bdb68c591d4007b1b662296 [5703/6082] dt-bindings: gpio: vf610: fix clock requirements per SoC
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20261111/202611110848.XSxrGclM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 16.2.0
-dtschema: 2026.10.dev5+gd1fbcafd6
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110848.XSxrGclM-lkp@intel.com/reproduce)
+Hi Karunika,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-tip/drm-tip next-20261110]
+[cannot apply to linux-review/Karunika-Choo/drm-panthor-Ignore-EOPNOTSUPP-for-shader-present-nvmem-lookup/20260922-214455 daeinki-drm-exynos/exynos-drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v7.4-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Karunika-Choo/drm-panthor-Ignore-EOPNOTSUPP-for-shader-present-nvmem-lookup/20261110-153822
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20261110153907.3241978-17-karunika.choo%40arm.com
+patch subject: [PATCH v2 16/28] drm/panthor: Add AM_RESOURCE_GROUP support
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261111/202611111629.kkrg6syk-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111629.kkrg6syk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611110848.XSxrGclM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611111629.kkrg6syk-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: gpio@2d000000 (fsl,imx8ulp-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: gpio@2d000000 (fsl,imx8ulp-gpio): clocks: [[19, 21], [19, 9]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: gpio@2d010000 (fsl,imx8ulp-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: gpio@2d010000 (fsl,imx8ulp-gpio): clocks: [[19, 22], [19, 10]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: gpio@2e200000 (fsl,imx8ulp-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-9x9-evk.dtb: gpio@2e200000 (fsl,imx8ulp-gpio): clocks: [[41, 18], [41, 18]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
---
->> arch/arm64/boot/dts/freescale/imx8ulp-evk.dtb: gpio@2d000000 (fsl,imx8ulp-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-evk.dtb: gpio@2d000000 (fsl,imx8ulp-gpio): clocks: [[19, 21], [19, 9]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-evk.dtb: gpio@2d010000 (fsl,imx8ulp-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-evk.dtb: gpio@2d010000 (fsl,imx8ulp-gpio): clocks: [[19, 22], [19, 10]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-evk.dtb: gpio@2e200000 (fsl,imx8ulp-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx8ulp-evk.dtb: gpio@2e200000 (fsl,imx8ulp-gpio): clocks: [[41, 18], [41, 18]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
---
->> arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-11x11-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-11x11-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-11x11-frdm.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-11x11-frdm.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dts:202.10-242.4: Warning (avoid_unnecessary_addr_size): /soc@0/bus@42000000/spi@425e0000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
->> arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-frdm-s.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-lino-verdin-dahlia.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-lino-verdin-dahlia.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dahlia.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dahlia.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dahlia.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dahlia.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dahlia.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-lino-verdin-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-lino-verdin-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-lino-verdin-dev.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-phyboard-segin.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-phyboard-segin.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-toradex-osm-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-toradex-osm-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-toradex-osm-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-toradex-osm-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-toradex-osm-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-toradex-osm-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-toradex-osm-dev.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba93xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba93xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba93xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba93xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba93xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba93xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba93xxca.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-var-dart-sonata.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-var-dart-sonata.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-dart-sonata.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-dart-sonata.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-dart-sonata.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-dart-sonata.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-dart-sonata.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-var-som-symphony.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-var-som-symphony.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-som-symphony.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-som-symphony.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-som-symphony.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-som-symphony.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-var-som-symphony.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-kontron-bl-osm-s.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-lino-verdin-dahlia.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-lino-verdin-dahlia.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dahlia.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dahlia.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dahlia.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dahlia.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dahlia.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-lino-verdin-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-lino-verdin-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-lino-verdin-dev.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-toradex-osm-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-toradex-osm-dev.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-toradex-osm-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-toradex-osm-dev.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-toradex-osm-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-toradex-osm-dev.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-toradex-osm-dev.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-var-dart-sonata.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-var-dart-sonata.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-dart-sonata.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-dart-sonata.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-dart-sonata.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-dart-sonata.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-dart-sonata.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93w-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93w-evk.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-evk.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-evk.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-evk.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93w-frdm.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx943-evk.dtb: gpio@43810000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx943-evk.dtb: gpio@43810000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk.dtb: gpio@43820000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk.dtb: gpio@43820000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk.dtb: gpio@43840000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk.dtb: gpio@43840000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk.dtb: gpio@43850000 (fsl,imx94-gpio): 'clocks' is a required property
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-15x15-ab2.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-ab2.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-ab2.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-ab2.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-ab2.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-ab2.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-ab2.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-frdm.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts:55.18-58.4: Warning (unique_unit_address_if_enabled): /memory@80000000: duplicate unit-address (also used in node /cm7-cpu@80000000)
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-19x19-frdm-pro.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-19x19-frdm-pro.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-frdm-pro.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-frdm-pro.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-frdm-pro.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-frdm-pro.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-frdm-pro.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-clover.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-aquila-dev.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-navq.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-navq.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-navq.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-navq.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-navq.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-navq.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-navq.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-toradex-osm-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-toradex-osm-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-osm-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-osm-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-osm-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-osm-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-osm-dev.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-toradex-smarc-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-toradex-smarc-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-smarc-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-smarc-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-smarc-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-smarc-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-toradex-smarc-dev.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596la-mba95xxca.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-tqma9596sa-mb-smarc-2.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-var-dart-sonata.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-var-dart-sonata.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-var-dart-sonata.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-var-dart-sonata.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-var-dart-sonata.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-var-dart-sonata.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-var-dart-sonata.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dahlia.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dahlia.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dahlia.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dahlia.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dahlia.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dahlia.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dahlia.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-dev.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-ivy.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-mallow.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-mallow.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-mallow.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-mallow.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-mallow.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-mallow.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-mallow.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-yavia.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-zinnia.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-zinnia.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-zinnia.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-zinnia.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-zinnia.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-zinnia.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-nonwifi-zinnia.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dahlia.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dahlia.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dahlia.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dahlia.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dahlia.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dahlia.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dahlia.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dev.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dev.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dev.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-dev.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-ivy.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-mallow.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-mallow.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-mallow.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-mallow.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-mallow.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-mallow.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-mallow.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-yavia.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-zinnia.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-verdin-wifi-zinnia.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-zinnia.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-zinnia.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-zinnia.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-zinnia.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-verdin-wifi-zinnia.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-mqs.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie0-ep.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-evk-pcie1-ep.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-libra-rdk-fpsc.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-libra-rdk-fpsc.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-libra-rdk-fpsc.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-libra-rdk-fpsc.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-libra-rdk-fpsc.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-libra-rdk-fpsc.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-libra-rdk-fpsc.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx95.dtsi:1878.16-1907.5: Warning (unit_address_vs_reg): /soc/bus@4c100000: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/freescale/imx95-19x19-verdin-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-19x19-verdin-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-verdin-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-verdin-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-verdin-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-verdin-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[25, 119], [25, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-19x19-verdin-evk.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx952.dtsi:348.6-1539.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/freescale/imx952-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx952-evk.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
-   arch/arm64/boot/dts/freescale/imx952.dtsi:348.6-1539.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/freescale/imx952-frdm.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx952-frdm.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-frdm.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-frdm.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-frdm.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-frdm.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-frdm.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-tianma-tm050rdh03.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-11x11-evk-mqs.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-11x11-evk-mqs.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk-mqs.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk-mqs.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk-mqs.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk-mqs.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-11x11-evk-mqs.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-9x9-qsb-can1.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-9x9-qsb-can1.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-can1.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-can1.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-can1.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-can1.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-9x9-qsb-can1.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-phyboard-segin-peb-av-18.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-phyboard-segin-peb-av-18.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin-peb-av-18.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin-peb-av-18.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin-peb-av-18.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin-peb-av-18.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-phyboard-segin-peb-av-18.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-lvds-tm070jvhg33.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[3, 117], [3, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[3, 118], [3, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[3, 119], [3, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx91-tqma9131-mba91xxca-rgb-cdtech-dc44.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-can1.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-can1.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-can1.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-can1.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-can1.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-can1.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-can1.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-i3c.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-ontat-kd50g21-40nt-a1.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-ontat-kd50g21-40nt-a1.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-ontat-kd50g21-40nt-a1.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-ontat-kd50g21-40nt-a1.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-ontat-kd50g21-40nt-a1.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-ontat-kd50g21-40nt-a1.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-ontat-kd50g21-40nt-a1.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-tianma-tm050rdh03.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-9x9-qsb-tianma-tm050rdh03.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-11x11-evk-dy1212w-4856.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-11x11-evk-dy1212w-4856.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-dy1212w-4856.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-dy1212w-4856.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-dy1212w-4856.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-dy1212w-4856.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-dy1212w-4856.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-11x11-evk-mqs.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-11x11-evk-mqs.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-mqs.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-mqs.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-mqs.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-mqs.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-evk-mqs.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-11x11-frdm-pixpaper.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-14x14-evk-mqs.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-14x14-evk-mqs.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk-mqs.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk-mqs.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk-mqs.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk-mqs.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-14x14-evk-mqs.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash-jtag.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash-jtag.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-jtag.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-jtag.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-jtag.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-jtag.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-jtag.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash-peb-wlbt-07.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash-peb-wlbt-07.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-peb-wlbt-07.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-peb-wlbt-07.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-peb-wlbt-07.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-peb-wlbt-07.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-peb-wlbt-07.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash-pwm-fan.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-nash-pwm-fan.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-pwm-fan.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-pwm-fan.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-pwm-fan.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-pwm-fan.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-nash-pwm-fan.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-av-02.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-av-02.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-av-02.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-av-02.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-av-02.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-av-02.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-av-02.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-eval-01.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phyboard-segin-peb-wlbt-05.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-phycore-rpmsg.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-phycore-rpmsg.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phycore-rpmsg.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phycore-rpmsg.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phycore-rpmsg.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phycore-rpmsg.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-phycore-rpmsg.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-lvds-tm070jvhg33.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-rgb-cdtech-dc44.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba91xxca-rgb-cdtech-dc44.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca-lvds-tm070jvhg33.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-lvds-tm070jvhg33.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-ezurio-wlan.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-ezurio-wlan.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-ezurio-wlan.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-ezurio-wlan.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-ezurio-wlan.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-ezurio-wlan.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-ezurio-wlan.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-lvds-tm070jvhg33.dtb: gpio@43810000 (fsl,imx93-gpio): clocks: [[6, 117], [6, 117]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-lvds-tm070jvhg33.dtb: gpio@43820000 (fsl,imx93-gpio): clocks: [[6, 118], [6, 118]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-lvds-tm070jvhg33.dtb: gpio@43830000 (fsl,imx93-gpio): clocks: [[6, 119], [6, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla-mini-lvds-tm070jvhg33.dtb: gpio@47400000 (fsl,imx93-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx943-evk-pcie0-ep.dtb: gpio@43810000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx943-evk-pcie0-ep.dtb: gpio@43810000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie0-ep.dtb: gpio@43820000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie0-ep.dtb: gpio@43820000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie0-ep.dtb: gpio@43840000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie0-ep.dtb: gpio@43840000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie0-ep.dtb: gpio@43850000 (fsl,imx94-gpio): 'clocks' is a required property
---
->> arch/arm64/boot/dts/freescale/imx943-evk-pcie1-ep.dtb: gpio@43810000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx943-evk-pcie1-ep.dtb: gpio@43810000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie1-ep.dtb: gpio@43820000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie1-ep.dtb: gpio@43820000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie1-ep.dtb: gpio@43840000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie1-ep.dtb: gpio@43840000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-pcie1-ep.dtb: gpio@43850000 (fsl,imx94-gpio): 'clocks' is a required property
---
->> arch/arm64/boot/dts/freescale/imx943-evk-sdwifi.dtb: gpio@43810000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx943-evk-sdwifi.dtb: gpio@43810000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-sdwifi.dtb: gpio@43820000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-sdwifi.dtb: gpio@43820000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-sdwifi.dtb: gpio@43840000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-sdwifi.dtb: gpio@43840000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-sdwifi.dtb: gpio@43850000 (fsl,imx94-gpio): 'clocks' is a required property
---
->> arch/arm64/boot/dts/freescale/imx943-evk-mqs.dtb: gpio@43810000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx943-evk-mqs.dtb: gpio@43810000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-mqs.dtb: gpio@43820000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-mqs.dtb: gpio@43820000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-mqs.dtb: gpio@43840000 (fsl,imx94-gpio): 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-mqs.dtb: gpio@43840000 (fsl,imx94-gpio): 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx943-evk-mqs.dtb: gpio@43850000 (fsl,imx94-gpio): 'clocks' is a required property
---
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[24, 119], [24, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx95-15x15-evk-pcie0-ep.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
---
->> arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: gpio@43810000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
->> arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: gpio@43810000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: gpio@43820000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: gpio@43820000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: gpio@43840000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: gpio@43840000 (fsl,imx95-gpio): clocks: [[2, 119], [2, 119]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-vf610.yaml
-   arch/arm64/boot/dts/freescale/imx952-evk-mqs.dtb: gpio@43850000 (fsl,imx95-gpio): clock-names: ['gpio', 'port'] is too long
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:341:12: error: call to undeclared function 'irq_get_irq_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     341 |         irqdata = irq_get_irq_data(irq);
+         |                   ^
+   drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:341:12: note: did you mean 'irq_set_irq_wake'?
+   include/linux/interrupt.h:486:12: note: 'irq_set_irq_wake' declared here
+     486 | extern int irq_set_irq_wake(unsigned int irq, unsigned int on);
+         |            ^
+>> drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:341:10: error: incompatible integer to pointer conversion assigning to 'struct irq_data *' from 'int' [-Wint-conversion]
+     341 |         irqdata = irq_get_irq_data(irq);
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c:343:15: error: call to undeclared function 'irqd_get_trigger_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     343 |                 irq_flags = irqd_get_trigger_type(irqdata);
+         |                             ^
+   3 errors generated.
+
+
+vim +/irq_get_irq_data +341 drivers/gpu/drm/panthor/arbitration/panthor_resource_group.c
+
+   284	
+   285	static int resource_group_init(struct panthor_arbitration *adev, int i)
+   286	{
+   287		struct panthor_resource_group *rg;
+   288		struct device *dev = adev->dev;
+   289		struct irq_data *irqdata;
+   290		struct resource *res;
+   291		void __iomem *iomem;
+   292		u32 irq_flags = 0;
+   293		char *name;
+   294		int irq;
+   295		int ret;
+   296	
+   297		if (adev->rg[i])
+   298			return dev_warn_probe(dev, -ENODEV,
+   299					      "resource-group %u already present", i);
+   300	
+   301		rg = devm_kzalloc(dev, sizeof(*rg), GFP_KERNEL);
+   302		if (!rg)
+   303			return -ENOMEM;
+   304	
+   305		name = devm_kasprintf(dev, GFP_KERNEL, "rg%d", i);
+   306		if (!name)
+   307			return -ENOMEM;
+   308	
+   309		res = platform_get_resource_byname(to_platform_device(dev),
+   310						   IORESOURCE_MEM, name);
+   311		if (!res)
+   312			return -ENODEV;
+   313	
+   314		iomem = devm_ioremap_resource(dev, res);
+   315		if (IS_ERR(iomem))
+   316			return dev_err_probe(dev, PTR_ERR(iomem), "%s: Failed to ioremap", name);
+   317	
+   318		rg->name = name;
+   319		rg->dev = dev;
+   320		rg->iomem = iomem;
+   321	
+   322		spin_lock_init(&rg->irq_lock);
+   323		rg->irq_suspended = true;
+   324	
+   325		rg->wq = devm_alloc_ordered_workqueue(dev, "panthor-%s-wq", WQ_FREEZABLE, name);
+   326		if (!rg->wq)
+   327			return -ENOMEM;
+   328	
+   329		INIT_DELAYED_WORK(&rg->msg_retry_work, rg_retry_messages);
+   330	
+   331		for (int i = 0; i < AM_ARB_MAX_AW_COUNT; i++)
+   332			panthor_am_msg_init(&rg->aw_data[i].msg,
+   333					    rg->iomem + AM_RG_AW_MESSAGE(i));
+   334	
+   335		irq = platform_get_irq_byname(to_platform_device(dev), name);
+   336		if (irq < 0)
+   337			return irq;
+   338	
+   339		rg->irq = irq;
+   340	
+ > 341		irqdata = irq_get_irq_data(irq);
+   342		if (irqdata)
+ > 343			irq_flags = irqd_get_trigger_type(irqdata);
+   344	
+   345		ret = devm_request_irq(
+   346			dev, irq, rg_irq_raw_handler, irq_flags | IRQF_SHARED,
+   347			devm_kasprintf(dev, GFP_KERNEL, "panthor-%s-irq", name), rg);
+   348		if (ret)
+   349			return ret;
+   350	
+   351		adev->rg[i] = rg;
+   352	
+   353		rg_irq_resume(rg);
+   354	
+   355		rg_handshake_init(rg);
+   356	
+   357		return 0;
+   358	}
+   359	
 
 --
 0-DAY CI Kernel Test Service
