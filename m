@@ -1,88 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794372473;
-	b=HZqx4ssyWPwKELf0IQRIYI8DYYJRpdIm0ft7ltDx1ag6Q+d/AXB+J4YDUGjoQb4AiVq2
-	 9XA8CIXny4Ov6LVbQrIsi1hx71cCDbOKqClRuOdwYKOq8ggWcdmTBapnmhATqW+5CfW8k
-	 j726PxD06sazHs5flxCl7ZV5eP7LOK0vPBV75P1x9cBprHIuzSJ8wfv0JcTZ4dtld0g/w
-	 9PSdvqFVW1bKL+Ttj4sLUcl7+369uh7l8FbBUQlOoeiALdFAqr/xLznFRVwQtruJdS8kH
-	 IkkJPCqmOafXZO04S/DDD6DlXO5b2/DpkGCd3wbeMgayNDDdoM7LHur143W14uJfP4A==
+	t=1794375866;
+	b=OeTbXTSPkuKrWRh540zzmfnAeFMJG2zot4D+K4qv27jD/rQVuGKSt52lMbm03foiju5f
+	 wxiB0SEwvUk81qsvQhmMdv6zKVcLWmVFaJXyfbQP6pdJQe7Iv+vWXK4o19NlcfJuc4s09
+	 z3sZHxrqQq8IQPfsRQOZUCo4H6kZkH0IJoQnTn5JgIj917MGG6quH+yyDldIBrNUw2I21
+	 3HynR270JuZPnPFnSDZCjs8G3wOsxPPIKewgOrXC/wj9xkkd1/mXN9tysGkX2JlZ8hZZc
+	 Mb8WMfjiqlqK27grqDooP6/P8TiPmz+GqgYqHbSUdXNt4MFO319IMFklidzsdor5ZVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794372473;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794375866;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To;
-	bh=nnLOvLkvC3FCuX73j8/Sz/J/jXxuH3kNSAmEVAzkdWw=;
-	b=1q/I63iPSWf+kC8lBTXzLgHvJmbGTtjeIOHGYrg/ZOB0b0qkUlnJfNQma1tx9CbgdNPq
-	 K53C0DeOUYmnJuTvyZfJtwBaCPPrltspisElNR+/+48gIzceJuMs5Z0M6WP83OlaaOai6
-	 cU5OqKu3ATsRC8n7ccliYQWSZ62x2odXtpg0ECp00QQ4LNN6JlZw3lhe8OahTGZxO1CE0
-	 INnp+01xWxXdTmAa6EIN+m7GCCxUvi9F+zxQobk+03oRaW9mskeTgdI1ZvxaLeAaLfBl2
-	 itbSOt4qVFetN34fy9HtrLiPqNUgn5X3wtlM/g9vDd2LNOcSWribpOolNzgBj5sjLxw==
+	bh=WTRyMQ4Lc0T6kGlkAYG+t8u+v1HZ4rZFkpvq/UuTA4c=;
+	b=BrNO3sL1TIzFLqqLba9kUcwXsjzpq7yZOEFGM4URHwa9UTArzzpzgn7nS/Av/I/SDvTL
+	 G/vTA4hS68A6ILk/LkCjGpy769gkg8lXAe0tAtAQt6TlsC5oM0yAwCDiUviYKjxn1/9dm
+	 0aZG1itVKVkssmvpTdto+ZSSbxYo/qCsLuB0TMPx8tcQZec6KNd7WPwgX80fWgG0XQJ7o
+	 VgbqExWZYz6mbDH9qNxquzvsXu0Kcabu2PrW9Yoh0jSHu4hYj64LZpTMEYfjVFaaR5HE1
+	 hlHakdGCqClKUoH+OtfipPlrBrkJREA/mxWxsKnydf/G0ATg+BEhKjO88f9I2oISDEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kymZKhON;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m6KcVsVN;
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D530B606A320
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 04:47:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D530B606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC585606A31C;
+	Wed, 11 Nov 2026 05:44:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC585606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kymZKhON
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m6KcVsVN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794372472; x=1825908472;
+  t=1794375866; x=1825911866;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jLMhntaC4N/0al64g9oViVfrYTAAZHkHOXPQag0q/Ro=;
-  b=kymZKhON69bC1ahtVV6T1JEgNlrW0inCR6Ac2Z6TCCuL11yfg9AFBmNS
-   0xFqwAsF5FuT5UnlgE4xqEDXYc4V/nSBgpxguhABSzbqJfIKMBF8RcyU3
-   QQg2VBWEsQdL00urGD0aEuW4PVJi1lYb21dSHTx/XeJXv6LhAUXVxRxvz
-   wGSXhmNipx7D4XvfxsaauSuKkfXuTUrcXPGSDERh6isDCzLKcEjp6B3a6
-   RYRl25/drogSxNufT48Iru4hJo1Od/18MD8hxfYtm++Y3wO0n3QMxEpjk
-   uyLf48VXMk9cnaOPd4lZacbz3SjMqHyzaFYgLrJfc/zTWgZKBABA9fpz4
+  bh=N90weQI6DNfG9GLV/hBEqDcGtXwR/CCbY3cT0MFAMJk=;
+  b=m6KcVsVNCa24QEXjRmyhaS9Ce9+MyxOk1NWbM3YaIeQx+jvyYVcjBhOg
+   ypWmnOAM8owwXrFnqddyPy29leyX6LsPAwQVZ+YPyxLZ8ir6IHYUrlo/V
+   hQzjObSgXtLqTz2mo/2esfjQD3K0vQaowv+OmlpWO68S+mLT8mOdUPPgm
+   mbTNBmEU8oAOESzSA35JJd5Gg/bPebl+wIYTT5wCDjMirgADChCWzaV7a
+   9aHCo80T8pZor/J/0oFzbrkt/0VC7N1kE/sVVk6xEBiFXI8yn93Tebvxs
+   kkqaLsdoWpdhJjaIK1pVnlhzgyYLSgCq8CP+iDVta8iya44XfcPE69wOC
    A==;
-X-CSE-ConnectionGUID: f1yjWEp2TmiUb0MCz2uV2Q==
-X-CSE-MsgGUID: CSiKMDDBTtCBJxLYkT7ksw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3222882"
+X-CSE-ConnectionGUID: GvlpkJwZT6y6UAqNiuCMZg==
+X-CSE-MsgGUID: OBjEFjDeSp6lT6RmZc7ojQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3021388"
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="3222882"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 20:47:51 -0800
-X-CSE-ConnectionGUID: o3gCRP/hT8SPoSB6SsbScw==
-X-CSE-MsgGUID: ZsTNSzd6QXSmKEP5Qe3lNw==
+   d="scan'208";a="3021388"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 21:44:04 -0800
+X-CSE-ConnectionGUID: gxO1fCV/QI6o9nIVSOaVBA==
+X-CSE-MsgGUID: LRDd3qJKSxi/LqUBiyuDug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="8484697"
+   d="scan'208";a="10214917"
 Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Nov 2026 20:47:47 -0800
+  by fmviesa013.fm.intel.com with ESMTP; 10 Nov 2026 21:44:01 -0800
 Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xR0FN-00000000y6t-0BPB;
-	Wed, 11 Nov 2026 04:47:45 +0000
-Date: Wed, 11 Nov 2026 12:46:57 +0800
+	id 1xR17l-00000000yDb-2Pp8;
+	Wed, 11 Nov 2026 05:43:57 +0000
+Date: Wed, 11 Nov 2026 13:43:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Daniele Alessandrelli <daniele.alessandrelli@gmail.com>,
-	"Paul J. Murphy" <paul.j.murphy@intel.com>,
-	Martina Krasteva <martinax.krasteva@intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Bryan O'Donoghue <bod@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Gyula Kelemen <gyula.kelemen@advasolutions.com>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 6/8] media: i2c: ov9282: recalculate strobe span on
- HBLANK change
-Message-ID: <202611111252.5aHBFhG6-lkp@intel.com>
-References: <20261110-ov9282-fixes-v3-6-cb6df80cbc22@linux.dev>
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nd@arm.com,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>, linux-kernel@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v2 14/28] drm/panthor: Add AM_PARTITION_CONTROL support
+Message-ID: <202611111301.KUTVMgUg-lkp@intel.com>
+References: <20261110153907.3241978-15-karunika.choo@arm.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -94,34 +90,119 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-ov9282-fixes-v3-6-cb6df80cbc22@linux.dev>
+In-Reply-To: <20261110153907.3241978-15-karunika.choo@arm.com>
 
-Hi Richard,
+Hi Karunika,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 7475ea8b58616b33c04afb976cf0fbaad9dd63fb]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-tip/drm-tip next-20261110]
+[cannot apply to linux-review/Karunika-Choo/drm-panthor-Ignore-EOPNOTSUPP-for-shader-present-nvmem-lookup/20260922-214455 daeinki-drm-exynos/exynos-drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v7.4-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Leitner/media-i2c-ov9282-handle-error-from-exposure-range-update/20261110-141010
-base:   7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-patch link:    https://lore.kernel.org/r/20261110-ov9282-fixes-v3-6-cb6df80cbc22%40linux.dev
-patch subject: [PATCH v3 6/8] media: i2c: ov9282: recalculate strobe span on HBLANK change
-config: i386-buildonly-randconfig-1004-20261111 (https://download.01.org/0day-ci/archive/20261111/202611111252.5aHBFhG6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111252.5aHBFhG6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Karunika-Choo/drm-panthor-Ignore-EOPNOTSUPP-for-shader-present-nvmem-lookup/20261110-153822
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20261110153907.3241978-15-karunika.choo%40arm.com
+patch subject: [PATCH v2 14/28] drm/panthor: Add AM_PARTITION_CONTROL support
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261111/202611111301.KUTVMgUg-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611111301.KUTVMgUg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611111252.5aHBFhG6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611111301.KUTVMgUg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/media/i2c/ov9282.o: in function `ov9282_set_ctrl':
-   ov9282.c:(.text+0xc91): undefined reference to `__udivdi3'
->> ld: ov9282.c:(.text+0xf2f): undefined reference to `__udivdi3'
-   ld: drivers/media/i2c/ov9282.o: in function `ov9282_try_ctrl':
-   ov9282.c:(.text+0x10a0): undefined reference to `__udivdi3'
+>> drivers/gpu/drm/panthor/arbitration/panthor_partition_control.c:328:12: error: call to undeclared function 'irq_get_irq_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     328 |         irqdata = irq_get_irq_data(irq);
+         |                   ^
+   drivers/gpu/drm/panthor/arbitration/panthor_partition_control.c:328:12: note: did you mean 'irq_set_irq_wake'?
+   include/linux/interrupt.h:486:12: note: 'irq_set_irq_wake' declared here
+     486 | extern int irq_set_irq_wake(unsigned int irq, unsigned int on);
+         |            ^
+>> drivers/gpu/drm/panthor/arbitration/panthor_partition_control.c:328:10: error: incompatible integer to pointer conversion assigning to 'struct irq_data *' from 'int' [-Wint-conversion]
+     328 |         irqdata = irq_get_irq_data(irq);
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/panthor/arbitration/panthor_partition_control.c:330:15: error: call to undeclared function 'irqd_get_trigger_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     330 |                 irq_flags = irqd_get_trigger_type(irqdata);
+         |                             ^
+   3 errors generated.
+
+
+vim +/irq_get_irq_data +328 drivers/gpu/drm/panthor/arbitration/panthor_partition_control.c
+
+   278	
+   279	static int partition_control_init(struct panthor_arbitration *adev, int i)
+   280	{
+   281		struct panthor_partition_control *pc;
+   282		struct device *dev = adev->dev;
+   283		struct irq_data *irqdata;
+   284		struct resource *res;
+   285		void __iomem *iomem;
+   286		u32 irq_flags = 0;
+   287		char *name;
+   288		int irq;
+   289		int ret;
+   290	
+   291		if (adev->pc[i])
+   292			return dev_warn_probe(dev, -ENODEV,
+   293					      "partition %u already present", i);
+   294	
+   295		pc = devm_kzalloc(dev, sizeof(*pc), GFP_KERNEL);
+   296		if (!pc)
+   297			return -ENOMEM;
+   298	
+   299		name = devm_kasprintf(dev, GFP_KERNEL, "pc%d", i);
+   300		if (!name)
+   301			return -ENOMEM;
+   302	
+   303		res = platform_get_resource_byname(to_platform_device(dev),
+   304						   IORESOURCE_MEM, name);
+   305		if (!res)
+   306			return -ENODEV;
+   307	
+   308		iomem = devm_ioremap_resource(dev, res);
+   309		if (IS_ERR(iomem))
+   310			return dev_err_probe(dev, PTR_ERR(iomem), "%s: Failed to ioremap", name);
+   311	
+   312		pc->name = name;
+   313		pc->dev = dev;
+   314		pc->iomem = iomem;
+   315	
+   316		spin_lock_init(&pc->irq_lock);
+   317		pc->irq_suspended = true;
+   318	
+   319		spin_lock_init(&pc->lock);
+   320		pc->current_aw = AW_UNASSIGNED;
+   321	
+   322		irq = platform_get_irq_byname(to_platform_device(dev), name);
+   323		if (irq < 0)
+   324			return irq;
+   325	
+   326		pc->irq = irq;
+   327	
+ > 328		irqdata = irq_get_irq_data(irq);
+   329		if (irqdata)
+ > 330			irq_flags = irqd_get_trigger_type(irqdata);
+   331	
+   332		ret = devm_request_irq(
+   333			dev, irq, partition_irq_raw_handler, irq_flags | IRQF_SHARED,
+   334			devm_kasprintf(dev, GFP_KERNEL, "panthor-%s-irq", name), pc);
+   335		if (ret)
+   336			return ret;
+   337	
+   338		adev->pc[i] = pc;
+   339	
+   340		partition_irq_resume(pc);
+   341	
+   342		return 0;
+   343	}
+   344	
 
 --
 0-DAY CI Kernel Test Service
