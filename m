@@ -1,78 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794367145;
-	b=ZFvueZ1eVCFfxmRKAwX9tMF9bJC6+CMb61u+33TpICDiRa7lhpTIJVFzbgqvolI0NHGE
-	 NK97wiQifEb+G6irnqhcz9IyEoUrB99uRrm13SBC3aas/x41E7LfyfbF3qpjvZwqo77+W
-	 vBK7g09AnisExWT6dYPzoDBIKw1RBG99xCBzTAzPyLqfxnzDUdzAtA9qORiBWfpYvMT35
-	 G/gqpbHCViknBbLDKKviHKAtLoqXdS6Fr8c8lBm7qtVAkNTgp7a2CPozn7G5K3j0YFMes
-	 iNyzYWAzPo/5nvKnEChLEbauuIRXORsJnOsEUlKIgldv23iKGQ6QjpI3Xnt0/Agw1QA==
+	t=1794369548;
+	b=NDRGVij4K88WglRLeGfhdxsaJtSp+sMxTTlPYq8AEQAhxQWcN5mAuBOAMGOKl1JY2r51
+	 4u4teF7RaiUFq1t3gc/wZpIzBYukV9H4XziLfiw1LRixOS305YkdYWWPnei5HhQtAF/Fg
+	 iR0AZZ4q+AhuZeRP5vnmv6jgVYgi17LjntJVFiiTuhWsdKj+QY2l5lOKDsGZIQ6hm1uFF
+	 BZKobD/r5phISpV9bn1Fdq1E8Zk8eOrp2fEDjlpU0RZYFRzLaluhmCDJdRJqi+qCTjeeE
+	 hIHidmdhGs9QF0Vg8LYWjl1VxUT/l/sKeni9BW56JKUQkty9MzX444PlMfwoWTmYCdg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794367145;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794369548;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Oajcfd7gL40HtbQPlq7GELUU7/AxMWPGrwqQ+//Yylc=;
-	b=GhHKc1/bCSNKr56i9aCEk6nuU4seGHb4QlwNW3iQfXnMdZdFI5HCyQ1Sy8OUfZJNh6tj
-	 6Y7VkUVaLcI6b1IpjZsIhiARsTKvI88dlmZjTnVYWpCw2D/SE4mBKSrp7QT0KM5tTTaXM
-	 G9zNFKzGslg/T6Ol45Uze/GGAn8Nwh3egTD4gTlLcgSMb3RN1wP8/A4w9CM1VYLnd7B1J
-	 FfDgwmkoLQ9sNd+7444ZEK4gDaGeuoXVC+ACr5E29iCuFJVYxFUGEXeKCx5KIBV0J69nd
-	 3x4TJU+CODE15ZrL5PwKIQJDYG5QegQKQUO7FstOVWFzew+kZr0QAYe89ff6qbit4rg==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=VJCeOh5b6JgpUubVuQHRCU0HfFrMWXIlXDQA1Oylnd0=;
+	b=AZdYZib+NWJLyhY1hRnzEk/OIoA3VaMHjJxrmC/eJykpBmv8wZ4vDkodldo+wAZ/wt5/
+	 muXoOKXclXEKOMw3cLtunwfzBjZ9wdIcP0stA1U6BLpc0ptDwQ1xKxsg9hNYkE+R1tq6S
+	 ODv99GDzg7Y2BeMJCu/UxErTNo2FQ8jrbHeGETzw9NRdWmuYCluvPimMHoU3F6TYD/Tas
+	 LkqqKRXfSaMdOckSq0KRb6qZ3rW+fAZOHiH22BWDEIjSyQxbHdZcb0QTGjQz4fQutRz1q
+	 NkoAO9r0MRJV+Qt2EQ+AsDQjuC1/eGJui96zZJVWjwOw+N3lH6/f1txK4UfahPU7d6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GRWn9Ocm;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FiKjd7IF;
+	arc=none smtp.remote-ip=192.198.163.11
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A58606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 03:19:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02A58606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C755606A32D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Nov 2026 03:59:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C755606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GRWn9Ocm
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FiKjd7IF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794367143; x=1825903143;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rCwB/dU1ertceB81UIG33YT+zntE6yQCNQ8WL2cJjlM=;
-  b=GRWn9OcmjOr8EH0qCJw2SNZ2PkJc4mMyM9QL5ltGVmSJhpvKfnwKCcC7
-   wQY6O99haVSRqWH5sgcs84+aY7+8cAbD0CaZZzq/34wUesdC2d8rzrqlo
-   Ad0Ue5viy6T4Pa0x+r+Jt1uC16waCYS/IDNOCocbNlQlFcISFHhUjx3jj
-   YWmL+kR7jYvp5pOOSGB3d+uqw4URMP9U3v2V8gr3u9DRnEXug1SOuXb3f
-   95RmLVG/xnYzliDDALUfcRxmTpqSJGj80iGpANPLP7P4Wt0N1CX7hSz81
-   TyzG/CFsfoU80vB7+hoOWWzfJu3xCkwVcZkysTUHLMu3aVBxTVMAJyhms
-   w==;
-X-CSE-ConnectionGUID: kF6w2E9RQfGjWG4SGD2gJg==
-X-CSE-MsgGUID: KFvBQQYoS3OrW3gwSYg2zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3162066"
+  t=1794369547; x=1825905547;
+  h=date:from:to:cc:subject:message-id;
+  bh=xfZBUQRbdG1TTTJ1L2g/3dCQQJSe0Dn6x4S+qTqaloo=;
+  b=FiKjd7IFsVieV0SJvd3g+jpnaYVMZg3q+UTg4hZjQC1R4aB+njy6kN0R
+   2kNpa0YuU+DcbqESYdBI9AeETTPOIChnmhawnMv59EdIGLDrlGt7cU5yP
+   GXzpZPEo0KSWy0R5fyK8mvaDK9CF0B3I1Qt6FOaUlWQnVQ5a02UFlbtYw
+   9QYruktl+41e98TRieApoo5OSaOKp1S1NTjFCq0gi/FTZyNpdU5mJOe7B
+   AN8KIRYM7v3LS6CESFiUQ+N61eHkebDGbMz7aq1bWZAC2Sj67vf/zuY7x
+   XrgwJcgyr/f4O8yE3Usa5DJBTtF5FHgDoFQYPP+DMvMD9p6vNqkBx3am8
+   g==;
+X-CSE-ConnectionGUID: pY8HtaT7Spe6EnoQUI0h7g==
+X-CSE-MsgGUID: Iy+dXBqhSh2Zb7pyHoF+nw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11962"; a="3054147"
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="3162066"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 19:19:02 -0800
-X-CSE-ConnectionGUID: lDAILT8qRxqe4fD5qzejbw==
-X-CSE-MsgGUID: qI3wLG3CRxGD6kT+Q/TOsQ==
+   d="scan'208";a="3054147"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 19:59:06 -0800
+X-CSE-ConnectionGUID: 7e2Pu2rzQAa3MBfkYHYKtA==
+X-CSE-MsgGUID: MXmfCGVaQPywKiBNN58ZyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,207,1787036400"; 
-   d="scan'208";a="10105119"
+   d="scan'208";a="10055360"
 Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa011.fm.intel.com with ESMTP; 10 Nov 2026 19:19:00 -0800
+  by fmviesa012.fm.intel.com with ESMTP; 10 Nov 2026 19:59:06 -0800
 Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xQyrR-000000000VL-3xKg;
-	Wed, 11 Nov 2026 03:18:57 +0000
-Date: Wed, 11 Nov 2026 04:18:03 +0100
+	id 1xQzUE-000000000Vj-2nle;
+	Wed, 11 Nov 2026 03:59:02 +0000
+Date: Wed, 11 Nov 2026 04:58:49 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18-2026-06 1/1]
- drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:70:20: error: initializing 'struct
- amdgpu_bo *' with an expression of incompatible type 'void'
-Message-ID: <202611110457.HebkMiWE-lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: ERROR: modpost: vmlinux: local symbol 'inc_ucount' was
+ exported
+Message-ID: <202611110401.EVdRdo6b-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,368 +79,226 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi Vamsidhar,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android17-6.18-2026-=
-06
-head:   b81607b966ddcff8bff6e54967323da47a250f45
-commit: ad36ecd6081db9827f1ebaa41671b0b336fd83bf [1/1] ANDROID: GKI: Enable=
- HMM_MIRROR config for all arch
-config: arm-randconfig-r2310-20261110 (https://download.01.org/0day-ci/arch=
-ive/20261111/202611110457.HebkMiWE-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd7080=
-29e0b2869e80abe31ddb175f7c35361f90)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   067c5c24cef23d913b67eaaf71ae67e7169a6620
+commit: b604897764047229c6a931e1980cac1b2197d9d2 binfmt_misc: correctly account pre-opened interpreters
+date:   3 months ago
+config: loongarch-randconfig-r2301-20261110 (https://download.01.org/0day-ci/archive/20261111/202611110401.EVdRdo6b-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 16.2.0
 sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20261111/202611110457.HebkMiWE-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261111/202611110401.EVdRdo6b-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
+| Fixes: b60489776404 ("binfmt_misc: correctly account pre-opened interpreters")
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611110457.HebkMiWE-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611110401.EVdRdo6b-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:70:61: error: no member named 'n=
-otifier' in 'struct amdgpu_bo'
-      70 |         struct amdgpu_bo *bo =3D container_of(mni, struct amdgpu=
-_bo, notifier);
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~^~~~~~~~~
-   include/linux/container_of.h:21:49: note: expanded from macro 'container=
-_of'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) |=
-|       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~=
-~~~~~~~~~
-      22 |                       __same_type(*(ptr), void),                =
-        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-      23 |                       "pointer type mismatch in container_of()")=
-;       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:537:74: note: expanded from macro '__same=
-_type'
-     537 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a)=
-, typeof(b))
-         |                                                                 =
-         ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_asser=
-t'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
-GS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_ass=
-ert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:70:25: error: no member named 'n=
-otifier' in 'amdgpu_bo'
-      70 |         struct amdgpu_bo *bo =3D container_of(mni, struct amdgpu=
-_bo, notifier);
-         |                                ^                                =
-   ~~~~~~~~
-   include/linux/container_of.h:24:21: note: expanded from macro 'container=
-_of'
-      24 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:70:20: error: initializing 'stru=
-ct amdgpu_bo *' with an expression of incompatible type 'void'
-      70 |         struct amdgpu_bo *bo =3D container_of(mni, struct amdgpu=
-_bo, notifier);
-         |                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:79:2: error: call to undeclared =
-function 'mmu_interval_set_seq'; ISO C99 and later do not support implicit =
-function declarations [-Wimplicit-function-declaration]
-      79 |         mmu_interval_set_seq(mni, cur_seq);
-         |         ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:107:61: error: no member named '=
-notifier' in 'struct amdgpu_bo'
-     107 |         struct amdgpu_bo *bo =3D container_of(mni, struct amdgpu=
-_bo, notifier);
-         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~^~~~~~~~~
-   include/linux/container_of.h:21:49: note: expanded from macro 'container=
-_of'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) |=
-|       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~=
-~~~~~~~~~
-      22 |                       __same_type(*(ptr), void),                =
-        \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-      23 |                       "pointer type mismatch in container_of()")=
-;       \
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:537:74: note: expanded from macro '__same=
-_type'
-     537 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a)=
-, typeof(b))
-         |                                                                 =
-         ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_asser=
-t'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_AR=
-GS__, #expr)
-         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_ass=
-ert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:107:25: error: no member named '=
-notifier' in 'amdgpu_bo'
-     107 |         struct amdgpu_bo *bo =3D container_of(mni, struct amdgpu=
-_bo, notifier);
-         |                                ^                                =
-   ~~~~~~~~
-   include/linux/container_of.h:24:21: note: expanded from macro 'container=
-_of'
-      24 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^                        ~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:107:20: error: initializing 'str=
-uct amdgpu_bo *' with an expression of incompatible type 'void'
-     107 |         struct amdgpu_bo *bo =3D container_of(mni, struct amdgpu=
-_bo, notifier);
-         |                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:135:7: error: call to undeclared=
- function 'mmu_interval_notifier_insert'; ISO C99 and later do not support =
-implicit function declarations [-Wimplicit-function-declaration]
-     135 |                 r =3D mmu_interval_notifier_insert(&bo->notifier=
-, current->mm,
-         |                     ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:135:7: note: did you mean 'vma_i=
-nterval_tree_insert'?
-   include/linux/mm.h:3372:6: note: 'vma_interval_tree_insert' declared here
-    3372 | void vma_interval_tree_insert(struct vm_area_struct *node,
-         |      ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:135:41: error: no member named '=
-notifier' in 'struct amdgpu_bo'
-     135 |                 r =3D mmu_interval_notifier_insert(&bo->notifier=
-, current->mm,
-         |                                                   ~~  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:139:41: error: no member named '=
-notifier' in 'struct amdgpu_bo'
-     139 |                 r =3D mmu_interval_notifier_insert(&bo->notifier=
-, current->mm, addr,
-         |                                                   ~~  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:148:7: error: no member named 'n=
-otifier' in 'struct amdgpu_bo'
-     148 |                 bo->notifier.mm =3D NULL;
-         |                 ~~  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:162:11: error: no member named '=
-notifier' in 'struct amdgpu_bo'
-     162 |         if (!bo->notifier.mm)
-         |              ~~  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:164:2: error: call to undeclared=
- function 'mmu_interval_notifier_remove'; ISO C99 and later do not support =
-implicit function declarations [-Wimplicit-function-declaration]
-     164 |         mmu_interval_notifier_remove(&bo->notifier);
-         |         ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:164:2: note: did you mean 'vma_i=
-nterval_tree_remove'?
-   include/linux/mm.h:3377:6: note: 'vma_interval_tree_remove' declared here
-    3377 | void vma_interval_tree_remove(struct vm_area_struct *node,
-         |      ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:164:36: error: no member named '=
-notifier' in 'struct amdgpu_bo'
-     164 |         mmu_interval_notifier_remove(&bo->notifier);
-         |                                       ~~  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:165:6: error: no member named 'n=
-otifier' in 'struct amdgpu_bo'
-     165 |         bo->notifier.mm =3D NULL;
-         |         ~~  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:207:29: error: call to undeclare=
-d function 'mmu_interval_read_begin'; ISO C99 and later do not support impl=
-icit function declarations [-Wimplicit-function-declaration]
-     207 |                 hmm_range->notifier_seq =3D mmu_interval_read_be=
-gin(notifier);
-         |                                           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c:242:6: error: call to undeclared=
- function 'mmu_interval_read_retry'; ISO C99 and later do not support impli=
-cit function declarations [-Wimplicit-function-declaration]
-     242 |         r =3D mmu_interval_read_retry(hmm_range->notifier,
-         |             ^
-   17 errors generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for XFRM_OFFLOAD
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_XFRM_OFFLOAD_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=3Dy] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=3Dn] && CAN_DEV [=3Dn] && CAN_NETLINK [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=3Dy] && SND [=3Dn] && SND_JACK [=3Dy]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=3Dn] && WIRELESS [=3Dn] && PROC_FS [=3Dy] && WEXT_=
-CORE [=3Dy]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=3Dy] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=3Dn] && WIRELESS [=3Dn]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=3Dn] && MEMORY_BALLOON [=3Dy]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=3Dy] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=3Dn] && WIRELESS [=3Dn]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=3Dn] && WIRELESS [=3Dn] && (CFG80211_WEXT [=3Dn] |=
-| WIRELESS_EXT [=3Dy])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=3Dy] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=3Dy] && SND [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=3Dy]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=3Dn]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=3Dy]
-
-
-vim +70 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c
-
-c1420a5dd4dd2a drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c James Zhu       2022=
--11-17  55 =20
-1ed3d2567c800e drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Christian K=C3=B6nig=
- 2017-09-05  56  /**
-d9483ecd327b75 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
- 2022-11-09  57   * amdgpu_hmm_invalidate_gfx - callback to notify about mm=
- change
-1ed3d2567c800e drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Christian K=C3=B6nig=
- 2017-09-05  58   *
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  59   * @mni: the range (mm) is about to update
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  60   * @range: details on the invalidation
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  61   * @cur_seq: Value to pass to mmu_interval_set_seq()
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Alex Deucher    2015=
--04-20  62   *
-ad7f0b6334fe3c drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Christian K=C3=B6nig=
- 2018-06-05  63   * Block for operations on BOs to finish and mark pages as=
- accessed and
-ad7f0b6334fe3c drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Christian K=C3=B6nig=
- 2018-06-05  64   * potentially dirty.
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Alex Deucher    2015=
--04-20  65   */
-d9483ecd327b75 drivers/gpu/drm/amd/amdgpu/amdgpu_hmm.c Christian K=C3=B6nig=
- 2022-11-09  66  static bool amdgpu_hmm_invalidate_gfx(struct mmu_interval_=
-notifier *mni,
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  67  				      const struct mmu_notifier_range *range,
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  68  				      unsigned long cur_seq)
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Alex Deucher    2015=
--04-20  69  {
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12 @70  	struct amdgpu_bo *bo =3D container_of(mni, struct amdgpu_bo, n=
-otifier);
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  71  	struct amdgpu_device *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
-7ab7e8a4096d2a drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jack Xiao       2015=
--04-27  72  	long r;
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Alex Deucher    2015=
--04-20  73 =20
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  74  	if (!mmu_notifier_range_blockable(range))
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  75  		return false;
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Alex Deucher    2015=
--04-20  76 =20
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  77  	mutex_lock(&adev->notifier_lock);
-81fa1af31b5d79 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  78 =20
-81fa1af31b5d79 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  79  	mmu_interval_set_seq(mni, cur_seq);
-81fa1af31b5d79 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  80 =20
-0cc848a75b742c drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Christian K=C3=B6nig=
- 2021-11-09  81  	r =3D dma_resv_wait_timeout(bo->tbo.base.resv, DMA_RESV_U=
-SAGE_BOOKKEEP,
-7bc80a5462c37e drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Christian K=C3=B6nig=
- 2021-11-09  82  				  false, MAX_SCHEDULE_TIMEOUT);
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  83  	mutex_unlock(&adev->notifier_lock);
-7ab7e8a4096d2a drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jack Xiao       2015=
--04-27  84  	if (r <=3D 0)
-7ab7e8a4096d2a drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jack Xiao       2015=
--04-27  85  		DRM_ERROR("(%ld) failed to wait for user bo\n", r);
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  86  	return true;
-d38ceaf99ed015 drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Alex Deucher    2015=
--04-20  87  }
-62914a99dee5ac drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c  Jason Gunthorpe 2019=
--11-12  88 =20
-
-:::::: The code at line 70 was first introduced by commit
-:::::: 62914a99dee5ac51253a84e7d4a05c18f0c77535 drm/amdgpu: Use mmu_interva=
-l_insert instead of hmm_mirror
-
-:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+ERROR: modpost: vmlinux: local symbol 'param_set_bint' was exported
+ERROR: modpost: vmlinux: local symbol 'param_ops_bint' was exported
+ERROR: modpost: vmlinux: local symbol 'param_array_ops' was exported
+ERROR: modpost: vmlinux: local symbol 'param_set_copystring' was exported
+ERROR: modpost: vmlinux: local symbol 'param_get_string' was exported
+ERROR: modpost: vmlinux: local symbol 'param_ops_string' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_param_lock' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_param_unlock' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_should_stop' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_should_park' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_freezable_should_stop' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_func' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_data' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_parkme' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_complete_and_exit' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_create_on_node' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_bind' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_create_on_cpu' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_unpark' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_park' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_stop' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_stop_put' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_affine_preferred' was exported
+ERROR: modpost: vmlinux: local symbol '__kthread_init_worker' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_worker_fn' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_create_worker_on_node' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_create_worker_on_cpu' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_queue_work' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_delayed_work_timer_fn' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_queue_delayed_work' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_flush_work' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_mod_delayed_work' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_cancel_work_sync' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_cancel_delayed_work_sync' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_flush_worker' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_destroy_worker' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_use_mm' was exported
+ERROR: modpost: vmlinux: local symbol 'kthread_unuse_mm' was exported
+ERROR: modpost: vmlinux: local symbol 'net_ns_tree' was exported
+ERROR: modpost: vmlinux: local symbol '__ns_tree_remove' was exported
+ERROR: modpost: vmlinux: local symbol 'atomic_notifier_chain_register' was exported
+ERROR: modpost: vmlinux: local symbol 'atomic_notifier_chain_register_unique_prio' was exported
+ERROR: modpost: vmlinux: local symbol 'atomic_notifier_chain_unregister' was exported
+ERROR: modpost: vmlinux: local symbol 'atomic_notifier_call_chain' was exported
+ERROR: modpost: vmlinux: local symbol 'blocking_notifier_chain_register' was exported
+ERROR: modpost: vmlinux: local symbol 'blocking_notifier_chain_register_unique_prio' was exported
+ERROR: modpost: vmlinux: local symbol 'blocking_notifier_chain_unregister' was exported
+ERROR: modpost: vmlinux: local symbol 'blocking_notifier_call_chain_robust' was exported
+ERROR: modpost: vmlinux: local symbol 'blocking_notifier_call_chain' was exported
+ERROR: modpost: vmlinux: local symbol 'raw_notifier_chain_register' was exported
+ERROR: modpost: vmlinux: local symbol 'raw_notifier_chain_unregister' was exported
+ERROR: modpost: vmlinux: local symbol 'raw_notifier_call_chain_robust' was exported
+ERROR: modpost: vmlinux: local symbol 'raw_notifier_call_chain' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_notifier_chain_register' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_notifier_chain_unregister' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_notifier_call_chain' was exported
+ERROR: modpost: vmlinux: local symbol 'srcu_init_notifier_head' was exported
+ERROR: modpost: vmlinux: local symbol 'register_die_notifier' was exported
+ERROR: modpost: vmlinux: local symbol 'unregister_die_notifier' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_kobj' was exported
+ERROR: modpost: vmlinux: local symbol '__put_cred' was exported
+ERROR: modpost: vmlinux: local symbol 'get_task_cred' was exported
+ERROR: modpost: vmlinux: local symbol 'prepare_creds' was exported
+ERROR: modpost: vmlinux: local symbol 'commit_creds' was exported
+ERROR: modpost: vmlinux: local symbol 'abort_creds' was exported
+ERROR: modpost: vmlinux: local symbol 'cred_fscmp' was exported
+ERROR: modpost: vmlinux: local symbol 'prepare_kernel_cred' was exported
+ERROR: modpost: vmlinux: local symbol 'set_security_override' was exported
+ERROR: modpost: vmlinux: local symbol 'set_create_files_as' was exported
+ERROR: modpost: vmlinux: local symbol 'cad_pid' was exported
+ERROR: modpost: vmlinux: local symbol 'reboot_mode' was exported
+ERROR: modpost: vmlinux: local symbol 'emergency_restart' was exported
+ERROR: modpost: vmlinux: local symbol 'register_reboot_notifier' was exported
+ERROR: modpost: vmlinux: local symbol 'unregister_reboot_notifier' was exported
+ERROR: modpost: vmlinux: local symbol 'devm_register_reboot_notifier' was exported
+ERROR: modpost: vmlinux: local symbol 'register_restart_handler' was exported
+ERROR: modpost: vmlinux: local symbol 'unregister_restart_handler' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_restart' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_halt' was exported
+ERROR: modpost: vmlinux: local symbol 'register_sys_off_handler' was exported
+ERROR: modpost: vmlinux: local symbol 'unregister_sys_off_handler' was exported
+ERROR: modpost: vmlinux: local symbol 'devm_register_sys_off_handler' was exported
+ERROR: modpost: vmlinux: local symbol 'devm_register_power_off_handler' was exported
+ERROR: modpost: vmlinux: local symbol 'devm_register_restart_handler' was exported
+ERROR: modpost: vmlinux: local symbol 'register_platform_power_off' was exported
+ERROR: modpost: vmlinux: local symbol 'unregister_platform_power_off' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_can_power_off' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_power_off' was exported
+ERROR: modpost: vmlinux: local symbol 'orderly_poweroff' was exported
+ERROR: modpost: vmlinux: local symbol 'orderly_reboot' was exported
+ERROR: modpost: vmlinux: local symbol '__hw_protection_trigger' was exported
+ERROR: modpost: vmlinux: local symbol 'async_schedule_node_domain' was exported
+ERROR: modpost: vmlinux: local symbol 'async_schedule_node' was exported
+ERROR: modpost: vmlinux: local symbol 'async_synchronize_full' was exported
+ERROR: modpost: vmlinux: local symbol 'async_synchronize_full_domain' was exported
+ERROR: modpost: vmlinux: local symbol 'async_synchronize_cookie_domain' was exported
+ERROR: modpost: vmlinux: local symbol 'async_synchronize_cookie' was exported
+ERROR: modpost: vmlinux: local symbol 'current_is_async' was exported
+ERROR: modpost: vmlinux: local symbol 'smpboot_register_percpu_thread' was exported
+ERROR: modpost: vmlinux: local symbol 'smpboot_unregister_percpu_thread' was exported
+>> ERROR: modpost: vmlinux: local symbol 'inc_ucount' was exported
+>> ERROR: modpost: vmlinux: local symbol 'dec_ucount' was exported
+ERROR: modpost: vmlinux: local symbol 'regset_get' was exported
+ERROR: modpost: vmlinux: local symbol 'regset_get_alloc' was exported
+ERROR: modpost: vmlinux: local symbol 'groups_alloc' was exported
+ERROR: modpost: vmlinux: local symbol 'groups_free' was exported
+ERROR: modpost: vmlinux: local symbol 'groups_sort' was exported
+ERROR: modpost: vmlinux: local symbol 'set_groups' was exported
+ERROR: modpost: vmlinux: local symbol 'set_current_groups' was exported
+ERROR: modpost: vmlinux: local symbol 'in_group_p' was exported
+ERROR: modpost: vmlinux: local symbol 'in_egroup_p' was exported
+ERROR: modpost: vmlinux: local symbol '__trace_set_current_state' was exported
+ERROR: modpost: vmlinux: local symbol '__trace_set_need_resched' was exported
+ERROR: modpost: vmlinux: local symbol '___migrate_enable' was exported
+ERROR: modpost: vmlinux: local symbol 'migrate_disable' was exported
+ERROR: modpost: vmlinux: local symbol 'migrate_enable' was exported
+ERROR: modpost: vmlinux: local symbol 'set_cpus_allowed_ptr' was exported
+ERROR: modpost: vmlinux: local symbol 'kick_process' was exported
+ERROR: modpost: vmlinux: local symbol 'wake_up_process' was exported
+ERROR: modpost: vmlinux: local symbol 'single_task_running' was exported
+ERROR: modpost: vmlinux: local symbol 'kstat' was exported
+ERROR: modpost: vmlinux: local symbol 'kernel_cpustat' was exported
+ERROR: modpost: vmlinux: local symbol 'preempt_count_add' was exported
+ERROR: modpost: vmlinux: local symbol 'preempt_count_sub' was exported
+ERROR: modpost: vmlinux: local symbol 'schedule' was exported
+ERROR: modpost: vmlinux: local symbol 'preempt_schedule' was exported
+ERROR: modpost: vmlinux: local symbol 'preempt_schedule_notrace' was exported
+ERROR: modpost: vmlinux: local symbol 'default_wake_function' was exported
+ERROR: modpost: vmlinux: local symbol '__cond_resched_lock' was exported
+ERROR: modpost: vmlinux: local symbol '__cond_resched_rwlock_read' was exported
+ERROR: modpost: vmlinux: local symbol '__cond_resched_rwlock_write' was exported
+ERROR: modpost: vmlinux: local symbol 'io_schedule_timeout' was exported
+ERROR: modpost: vmlinux: local symbol 'io_schedule' was exported
+ERROR: modpost: vmlinux: local symbol 'sched_show_task' was exported
+ERROR: modpost: vmlinux: local symbol '__might_sleep' was exported
+ERROR: modpost: vmlinux: local symbol '__might_resched' was exported
+ERROR: modpost: vmlinux: local symbol '__cant_sleep' was exported
+ERROR: modpost: vmlinux: local symbol 'sched_smt_present' was exported
+ERROR: modpost: vmlinux: local symbol 'play_idle_precise' was exported
+ERROR: modpost: vmlinux: local symbol 'get_cpu_idle_time_us' was exported
+ERROR: modpost: vmlinux: local symbol 'get_cpu_iowait_time_us' was exported
+ERROR: modpost: vmlinux: local symbol 'task_cputime_adjusted' was exported
+ERROR: modpost: vmlinux: local symbol 'set_user_nice' was exported
+ERROR: modpost: vmlinux: local symbol 'sched_setattr_nocheck' was exported
+ERROR: modpost: vmlinux: local symbol 'sched_set_fifo' was exported
+ERROR: modpost: vmlinux: local symbol 'sched_set_fifo_low' was exported
+ERROR: modpost: vmlinux: local symbol 'sched_set_normal' was exported
+ERROR: modpost: vmlinux: local symbol 'yield' was exported
+ERROR: modpost: vmlinux: local symbol 'yield_to' was exported
+ERROR: modpost: vmlinux: local symbol 'sched_clock' was exported
+ERROR: modpost: vmlinux: local symbol 'cpufreq_add_update_util_hook' was exported
+ERROR: modpost: vmlinux: local symbol 'cpufreq_remove_update_util_hook' was exported
+ERROR: modpost: vmlinux: local symbol 'avenrun' was exported
+ERROR: modpost: vmlinux: local symbol 'complete' was exported
+ERROR: modpost: vmlinux: local symbol 'complete_all' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_timeout' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_io' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_io_timeout' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_interruptible' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_interruptible_timeout' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_killable' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_state' was exported
+ERROR: modpost: vmlinux: local symbol 'wait_for_completion_killable_timeout' was exported
+ERROR: modpost: vmlinux: local symbol 'try_wait_for_completion' was exported
+ERROR: modpost: vmlinux: local symbol 'completion_done' was exported
+ERROR: modpost: vmlinux: local symbol '__init_swait_queue_head' was exported
+ERROR: modpost: vmlinux: local symbol 'swake_up_locked' was exported
+ERROR: modpost: vmlinux: local symbol 'swake_up_one' was exported
+ERROR: modpost: vmlinux: local symbol 'swake_up_all' was exported
+ERROR: modpost: vmlinux: local symbol 'prepare_to_swait_exclusive' was exported
+ERROR: modpost: vmlinux: local symbol 'prepare_to_swait_event' was exported
+ERROR: modpost: vmlinux: local symbol 'finish_swait' was exported
+ERROR: modpost: vmlinux: local symbol 'bit_waitqueue' was exported
+ERROR: modpost: vmlinux: local symbol 'wake_bit_function' was exported
+ERROR: modpost: vmlinux: local symbol '__wait_on_bit' was exported
+ERROR: modpost: vmlinux: local symbol 'out_of_line_wait_on_bit' was exported
+ERROR: modpost: vmlinux: local symbol 'out_of_line_wait_on_bit_timeout' was exported
+ERROR: modpost: vmlinux: local symbol '__wait_on_bit_lock' was exported
+ERROR: modpost: vmlinux: local symbol 'out_of_line_wait_on_bit_lock' was exported
+ERROR: modpost: vmlinux: local symbol '__wake_up_bit' was exported
+ERROR: modpost: vmlinux: local symbol 'wake_up_bit' was exported
+ERROR: modpost: vmlinux: local symbol '__var_waitqueue' was exported
+ERROR: modpost: vmlinux: local symbol 'init_wait_var_entry' was exported
+ERROR: modpost: vmlinux: local symbol 'wake_up_var' was exported
+ERROR: modpost: vmlinux: local symbol 'bit_wait' was exported
+ERROR: modpost: vmlinux: local symbol 'bit_wait_io' was exported
+ERROR: modpost: vmlinux: local symbol 'bit_wait_timeout' was exported
+ERROR: modpost: vmlinux: local symbol '__init_waitqueue_head' was exported
+ERROR: modpost: vmlinux: local symbol 'add_wait_queue' was exported
+ERROR: modpost: vmlinux: local symbol 'add_wait_queue_exclusive' was exported
+ERROR: modpost: vmlinux: local symbol 'add_wait_queue_priority' was exported
+ERROR: modpost: vmlinux: local symbol 'add_wait_queue_priority_exclusive' was exported
+ERROR: modpost: vmlinux: local symbol 'remove_wait_queue' was exported
+ERROR: modpost: vmlinux: local symbol '__wake_up' was exported
+ERROR: modpost: vmlinux: local symbol '__wake_up_locked' was exported
+ERROR: modpost: vmlinux: local symbol '__wake_up_locked_key' was exported
+ERROR: modpost: vmlinux: local symbol '__wake_up_sync_key' was exported
+ERROR: modpost: vmlinux: local symbol '__wake_up_locked_sync_key' was exported
+ERROR: modpost: vmlinux: local symbol '__wake_up_sync' was exported
+ERROR: modpost: vmlinux: local symbol 'prepare_to_wait' was exported
+ERROR: modpost: vmlinux: local symbol 'prepare_to_wait_exclusive' was exported
 
 --
 0-DAY CI Kernel Test Service
