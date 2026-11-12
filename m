@@ -1,75 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794491993;
-	b=Mbcon43DovkUrSCiNtrGX+s4W6HNy7EfITVoJzLoNwemgCF7bVoQc8Rwt2XdQRo01sxJ
-	 kp0dzruHUtIXZBKZzpWIgfw8E+N7mKycbkJZp8FGe+/h7/xqgrnMRORYFwzs/MAMtExGE
-	 e6vppFoPwv0Yva5wF5bCpPtp0DH0T2GgKzDh2R8RQUve1ghSkk3JCdtfTnXdEbPilnRcK
-	 sytkaoPnPjlUVEzwG1K9QHgg5J71RF1lPzKAvXcmc7NkWUMRyHfM0Nyvgm/hqe/Yre12C
-	 bfyppXLaeUOxgOC/X1vwz9sLCJvoogR5lfhN9Ij/t3OXhJUDrz0kHpEkDHSQRDmZWxQ==
+	t=1794492519;
+	b=BMu55uBhvYawqkTBN2rdIz0BlzVDIYfqRg4bhamMhb4x6cQv5BwBwF1pLrvS1Q54b1fZ
+	 D4I4o3BooOmtR0IPe/kHOWQL42hj5djthyn4Szpvwx82FkYVyCKnV+am0AUz9iyCjtREu
+	 P6K4ZAoKAgYDjpuc0q/WFLamJriY3fCJv6CaZ5BL0/nRiADRAWC36viN6UWiE4pjxiSiW
+	 l7dkE9WIMPhAFwWEy/yNLZc/HQOKIQjQCnpmPRgzsXHAEIkX/JDQR3s00KpL+2dpwFjjY
+	 C6YoQtJ/d7JARXXRJsc1NYL6QGtCSlMr3qPpss7NMpdSPKPAs4ZLS3J4DyiKHTp0qHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794491993;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794492519;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=sXMon5ptlVBDPOtcDHNO53xu0lbZNgWaEvakWp58sJw=;
-	b=qwC3u2fjs1Cqe+29v8GVjZdHurO3S5znV5xSDPqd8Xe5f2J668u2CsUgXngirCTZk5vf
-	 Pb4tKplNQLhrvhLlYdJxhh65eUTsQiyZ+i6YGV4uPWxPNh6GKqFp16k/6ClL8vlfQyZtO
-	 bgTQzGsO3/9xqg4m5OJG3455Bj2hhMPicsBCtx5Ug83+PqgsJIluobkRO4kTDyf7fP22n
-	 3iWvZr/ZwlosIpHujuyrzApFcaUaaZvnQn5zIee3kLn/DhdBHyrodL601QZVWQwtJWhmd
-	 KcL6lOGhCVDSfqQ9x4G/V0p7VL2YZoUHehCDqFa2gJ0DDKyC6TSIWmUua1/j7PCEm9w==
+	bh=u6hrnQlUFJ0j1Kt1QzD32SpNYGONMMRqGyVefSEDKHA=;
+	b=4RbH08Izen9NmM+R1+X7ubAVjlAMdtBrpWbGNMFoQAI8q2kdCG26tl7iXP0o4pSzeZ31
+	 XOIBZx2Q0FYixCkKYHZKqdp1G6qJH/AE/64qIDPdSsqD0LWspmz6PICJ6laaYdpYvS70v
+	 n0GB0YMk4H3/bgxSAkjC8JNNhTebJr/fr/TQli89q5ZTaR5YzgCnNUfQX9+BB/4BPSGBS
+	 B3Xj/sxdO4Y50nHTBkTIxog6Lo8ouNGlQF+tr5sAp1hP21/suvLcLcf3oGXWYLNUyh0mw
+	 Pw2jgZcwBMxecF+dFxGq/JlNJaKuVTtbkJjrFhZphYZaafgdg0kVWn7sBNz6Is5/Yyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DvkxDeiG;
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j11rphcu;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F772606A32D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 13:59:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F772606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DC1606A321
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 14:08:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4DC1606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DvkxDeiG
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=j11rphcu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794491992; x=1826027992;
+  t=1794492518; x=1826028518;
   h=date:from:to:cc:subject:message-id;
-  bh=jXKAhNTHnDtiyKDD6ukmiQ5mcE6FuLY9tDVcUgQiHyE=;
-  b=DvkxDeiGJDLEYJuXwQQX7c8kkGh8CwXkJzq3T/P6ULm08MLYrLqZbAhv
-   QTM4brEyN3fakYyPka2igl3VgrVCs3uX7NkIdpNh5XlUfSrhK1ckGNpKh
-   guSQxviO+XXZV4IFAAdsBMBD3ZNrdVAwb9cy+DGHckiMP9OvZGSoLo1OZ
-   Z/nmn0l88BCLcacMw8IPr1/zbXQZrhehoDXTSeY2HDb4J0d5hh6vog+pb
-   bt6tAoqKoT1ZDeYi6fN6AFyBNsTrkQCZRTmmHPOYtwm6z7jG+VOYKVkgb
-   aoZYtc1C+J9loj7eywe7hD0Ncvod0t0kx7VQ+tn5d9TS1Yi2lzq9V5fD+
-   g==;
-X-CSE-ConnectionGUID: ZduYsqy4TyGi26AT346riQ==
-X-CSE-MsgGUID: mN9EBwtaTiSPQrK+1goy3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3285407"
+  bh=xgHsCuGElqqM/ZC6QT/E2aUp6saRBdlkGKs5Ybpzps4=;
+  b=j11rphcuazhQKx3E4fCTQ7TJSrm6H9VigSluESIuh1C8umys9eUCv5YK
+   bYDWvc6Dx0g/amvtK9BdxqylvwYfJOZnJWPkJAAcLl3WYpAr4fe+UQH4I
+   9ueC/KC2Nf+VQRMagbQqsrTcRHQR5gky7MXSpRuF+0GrxSlPvg4PtKFn5
+   txShHaKb/3aku5cUwHTTYY29dsQCmkskka/ElVFh2kU8E8Q2Z0amglM2c
+   uXttT+Hfm8kPLbaxs/v7gIdKloX9DbnNNexLyuQSsXpURDiiynystVvSB
+   FDxtUo5nhD4N96j5WQf3O5+ZmTwGHqTiTCZBWXx7suwVtUs0OTEQN2hvQ
+   w==;
+X-CSE-ConnectionGUID: lPPkFOw4S06Qa9+l6o25xw==
+X-CSE-MsgGUID: TdBNuVomS5mpCDe+izHT+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3278989"
 X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3285407"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 05:59:52 -0800
-X-CSE-ConnectionGUID: daz4IbiHQHiJxVWWc8fPgA==
-X-CSE-MsgGUID: QLtnzx+XSf2tQPwXnzDlgg==
+   d="scan'208";a="3278989"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 06:08:38 -0800
+X-CSE-ConnectionGUID: QfkQO2NTRA2y9KJveIukXQ==
+X-CSE-MsgGUID: +EmG/R8ZRKCjalIN6wWnvQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="9230133"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Nov 2026 05:59:51 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8997901"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 12 Nov 2026 06:08:37 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRVLA-000000000tH-1JtV;
-	Thu, 12 Nov 2026 13:59:48 +0000
-Date: Thu, 12 Nov 2026 14:59:24 +0100
+	id 1xRVTe-000000011Rt-2Aur;
+	Thu, 12 Nov 2026 14:08:34 +0000
+Date: Thu, 12 Nov 2026 22:07:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Theodore Ts'o" <tytso@mit.edu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org
-Subject: [tytso-ext4:pu 4/50] fs/ext4/xattr-test.c:854:9: sparse:
- sparse: incorrect type in initializer (different base types)
-Message-ID: <202611121411.rRCBX7mS-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 2/2] mm/swap.c:488: warning:
+ Function parameter or member 'vma_flags' not described in
+ '__lru_cache_add_inactive_or_unevictable'
+Message-ID: <202611122150.N0yw9vdi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,146 +81,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git pu
-head:   246d715a48c25a74ac372dda5e10d8f69f89b50a
-commit: 64b5dfde9364204d0284d8800174ba8bb23d963f [4/50] ext4: add KUnit tests for fs/ext4/xattr.c
-config: m68k-randconfig-r2311-20261112 (https://download.01.org/0day-ci/archive/20261112/202611121411.rRCBX7mS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-sparse: v0.6.5-rc1-21-g84ec0658
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611121411.rRCBX7mS-lkp@intel.com/reproduce)
+Hi Laurent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   1fff066d713e51b675a78a9d50b68af5f108220d
+commit: cbff8f39079ffd607e894aede8590d69cb6ba803 [2/2] FROMLIST: mm: introduce __lru_cache_add_active_or_unevictable
+config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20261112/202611122150.N0yw9vdi-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611122150.N0yw9vdi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611121411.rRCBX7mS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611122150.N0yw9vdi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/ext4/xattr-test.c:854:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le32 const __left @@
-   fs/ext4/xattr-test.c:854:9: sparse:     expected long long left_value
-   fs/ext4/xattr-test.c:854:9: sparse:     got restricted __le32 const __left
->> fs/ext4/xattr-test.c:854:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le32 const __right @@
-   fs/ext4/xattr-test.c:854:9: sparse:     expected long long right_value
-   fs/ext4/xattr-test.c:854:9: sparse:     got restricted __le32 const __right
-   fs/ext4/xattr-test.c:999:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __le32 const __left @@
-   fs/ext4/xattr-test.c:999:9: sparse:     expected long long left_value
-   fs/ext4/xattr-test.c:999:9: sparse:     got restricted __le32 const __left
-   fs/ext4/xattr-test.c:999:9: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long right_value @@     got restricted __le32 const __right @@
-   fs/ext4/xattr-test.c:999:9: sparse:     expected long long right_value
-   fs/ext4/xattr-test.c:999:9: sparse:     got restricted __le32 const __right
+All warnings (new ones prefixed by >>):
 
-vim +854 fs/ext4/xattr-test.c
+>> mm/swap.c:488: warning: Function parameter or member 'vma_flags' not described in '__lru_cache_add_inactive_or_unevictable'
+>> mm/swap.c:488: warning: Excess function parameter 'vma' description in '__lru_cache_add_inactive_or_unevictable'
 
-   784	
-   785	/*
-   786	 * Test 3: In-inode (ibody) get/set, flags validation, EXT4_STATE_NEW handling,
-   787	 * superblock feature update, and identical-value fastpath.
-   788	 */
-   789	static void test_xattr_ibody_basic_and_flags(struct kunit *test)
-   790	{
-   791		struct xattr_test_ctx *ctx = test->priv;
-   792		struct inode *inode = &ctx->primary.ei.vfs_inode;
-   793		struct ext4_inode *raw_inode = (struct ext4_inode *)ctx->primary.raw_buf;
-   794		char long_name[260];
-   795		char buf[32];
-   796		unsigned int prev_dirty;
-   797		int ret;
-   798	
-   799		/* Fresh inode without EXT4_STATE_XATTR returns -ENODATA */
-   800		ret = ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER, "missing",
-   801				     buf, sizeof(buf));
-   802		KUNIT_EXPECT_EQ(test, ret, -ENODATA);
-   803	
-   804		/* Parameter validation: NULL name -> -EINVAL, >255 name -> -ERANGE */
-   805		ret = ext4_xattr_set_handle(NULL, inode, EXT4_XATTR_INDEX_USER,
-   806					    NULL, "v", 1, 0);
-   807		KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-   808	
-   809		memset(long_name, 'x', sizeof(long_name) - 1);
-   810		long_name[sizeof(long_name) - 1] = '\0';
-   811		ret = ext4_xattr_set_handle(NULL, inode, EXT4_XATTR_INDEX_USER,
-   812					    long_name, "v", 1, 0);
-   813		KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-   814	
-   815		/* Forced shutdown check on get and set */
-   816		set_bit(EXT4_FLAGS_SHUTDOWN, &ctx->sbi.s_ext4_flags);
-   817		KUNIT_EXPECT_EQ(test,
-   818				ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER, "k",
-   819					       buf, sizeof(buf)),
-   820				-EIO);
-   821		KUNIT_EXPECT_EQ(test,
-   822				ext4_xattr_set_handle(NULL, inode,
-   823						      EXT4_XATTR_INDEX_USER, "k",
-   824						      "v", 1, 0),
-   825				-EIO);
-   826		clear_bit(EXT4_FLAGS_SHUTDOWN, &ctx->sbi.s_ext4_flags);
-   827	
-   828		/* XATTR_REPLACE on non-existent attribute returns -ENODATA */
-   829		ret = ext4_xattr_set_handle(NULL, inode, EXT4_XATTR_INDEX_USER,
-   830					    "no_such", "val", 3, XATTR_REPLACE);
-   831		KUNIT_EXPECT_EQ(test, ret, -ENODATA);
-   832	
-   833		/* Deleting non-existent attribute without XATTR_REPLACE succeeds (0) */
-   834		ret = ext4_xattr_set_handle(NULL, inode, EXT4_XATTR_INDEX_USER,
-   835					    "no_such", NULL, 0, 0);
-   836		KUNIT_EXPECT_EQ(test, ret, 0);
-   837	
-   838		/*
-   839		 * Verify EXT4_STATE_NEW causes ext4_xattr_set_handle() to zero the raw
-   840		 * inode and clear EXT4_STATE_NEW.
-   841		 */
-   842		memset(raw_inode, 0x5a, TEST_INODE_SIZE);
-   843		ext4_set_inode_state(inode, EXT4_STATE_NEW);
-   844		KUNIT_EXPECT_FALSE(test,
-   845				   ext4_has_feature_xattr(&ctx->sb));
-   846	
-   847		ret = ext4_xattr_set_handle(NULL, inode, EXT4_XATTR_INDEX_USER,
-   848					    "key1", "hello", 5, XATTR_CREATE);
-   849		KUNIT_ASSERT_EQ(test, ret, 0);
-   850		KUNIT_EXPECT_EQ(test,
-   851				ext4_test_inode_state(inode, EXT4_STATE_NEW), 0);
-   852		KUNIT_EXPECT_NE(test,
-   853				ext4_test_inode_state(inode, EXT4_STATE_XATTR), 0);
- > 854		KUNIT_EXPECT_EQ(test, IHDR(inode, raw_inode)->h_magic,
-   855				cpu_to_le32(EXT4_XATTR_MAGIC));
-   856		/* Setting first xattr enables EXT4_FEATURE_COMPAT_EXT_ATTR on sb */
-   857		KUNIT_EXPECT_TRUE(test, ext4_has_feature_xattr(&ctx->sb));
-   858	
-   859		/* XATTR_CREATE on existing attribute returns -EEXIST */
-   860		ret = ext4_xattr_set_handle(NULL, inode, EXT4_XATTR_INDEX_USER,
-   861					    "key1", "other", 5, XATTR_CREATE);
-   862		KUNIT_EXPECT_EQ(test, ret, -EEXIST);
-   863	
-   864		/* Query length (NULL buffer), too small buffer (-ERANGE), and read */
-   865		ret = ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER, "key1", NULL, 0);
-   866		KUNIT_EXPECT_EQ(test, ret, 5);
-   867	
-   868		ret = ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER, "key1", buf, 4);
-   869		KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-   870	
-   871		memset(buf, 0, sizeof(buf));
-   872		ret = ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER, "key1",
-   873				     buf, sizeof(buf));
-   874		KUNIT_EXPECT_EQ(test, ret, 5);
-   875		KUNIT_EXPECT_MEMEQ(test, buf, "hello", 5);
-   876	
-   877		/* Direct ext4_xattr_ibody_get() check */
-   878		memset(buf, 0, sizeof(buf));
-   879		ret = ext4_xattr_ibody_get(inode, EXT4_XATTR_INDEX_USER, "key1",
-   880					   buf, sizeof(buf));
-   881		KUNIT_EXPECT_EQ(test, ret, 5);
-   882		KUNIT_EXPECT_MEMEQ(test, buf, "hello", 5);
-   883	
-   884		/*
-   885		 * Setting the exact same value triggers the ext4_xattr_value_same()
-   886		 * fastpath and skips dirtying the inode location.
-   887		 */
-   888		prev_dirty = ctx->mark_iloc_dirty_calls;
-   889		ret = ext4_xattr_set_handle(NULL, inode, EXT4_XATTR_INDEX_USER,
-   890					    "key1", "hello", 5, XATTR_REPLACE);
-   891		KUNIT_EXPECT_EQ(test, ret, 0);
-   892		KUNIT_EXPECT_EQ(test, ctx->mark_iloc_dirty_calls, prev_dirty);
-   893	}
-   894	
+
+vim +488 mm/swap.c
+
+^1da177e4c3f415 Linus Torvalds  2005-04-16  477  
+00501b531c47239 Johannes Weiner 2014-08-08  478  /**
+b518154e59aab3a Joonsoo Kim     2020-08-11  479   * lru_cache_add_inactive_or_unevictable
+00501b531c47239 Johannes Weiner 2014-08-08  480   * @page:  the page to be added to LRU
+00501b531c47239 Johannes Weiner 2014-08-08  481   * @vma:   vma in which page is mapped for determining reclaimability
+00501b531c47239 Johannes Weiner 2014-08-08  482   *
+b518154e59aab3a Joonsoo Kim     2020-08-11  483   * Place @page on the inactive or unevictable LRU list, depending on its
+12eab4289d3203b Miaohe Lin      2020-10-13  484   * evictability.
+00501b531c47239 Johannes Weiner 2014-08-08  485   */
+cbff8f39079ffd6 Laurent Dufour  2018-04-17  486  void __lru_cache_add_inactive_or_unevictable(struct page *page,
+cbff8f39079ffd6 Laurent Dufour  2018-04-17  487  					 unsigned long vma_flags)
+00501b531c47239 Johannes Weiner 2014-08-08 @488  {
+b518154e59aab3a Joonsoo Kim     2020-08-11  489  	bool unevictable;
+b518154e59aab3a Joonsoo Kim     2020-08-11  490  
+00501b531c47239 Johannes Weiner 2014-08-08  491  	VM_BUG_ON_PAGE(PageLRU(page), page);
+00501b531c47239 Johannes Weiner 2014-08-08  492  
+cbff8f39079ffd6 Laurent Dufour  2018-04-17  493  	unevictable = (vma_flags & (VM_LOCKED | VM_SPECIAL)) == VM_LOCKED;
+b518154e59aab3a Joonsoo Kim     2020-08-11  494  	if (unlikely(unevictable) && !TestSetPageMlocked(page)) {
+0964730bf46b4e2 Hugh Dickins    2020-09-18  495  		int nr_pages = thp_nr_pages(page);
+00501b531c47239 Johannes Weiner 2014-08-08  496  		/*
+00501b531c47239 Johannes Weiner 2014-08-08  497  		 * We use the irq-unsafe __mod_zone_page_stat because this
+00501b531c47239 Johannes Weiner 2014-08-08  498  		 * counter is not modified from interrupt context, and the pte
+00501b531c47239 Johannes Weiner 2014-08-08  499  		 * lock is held(spinlock), which implies preemption disabled.
+00501b531c47239 Johannes Weiner 2014-08-08  500  		 */
+0964730bf46b4e2 Hugh Dickins    2020-09-18  501  		__mod_zone_page_state(page_zone(page), NR_MLOCK, nr_pages);
+0964730bf46b4e2 Hugh Dickins    2020-09-18  502  		count_vm_events(UNEVICTABLE_PGMLOCKED, nr_pages);
+00501b531c47239 Johannes Weiner 2014-08-08  503  	}
+9c4e6b1a7027f10 Shakeel Butt    2018-02-21  504  	lru_cache_add(page);
+00501b531c47239 Johannes Weiner 2014-08-08  505  }
+00501b531c47239 Johannes Weiner 2014-08-08  506  
+
+:::::: The code at line 488 was first introduced by commit
+:::::: 00501b531c4723972aa11d6d4ebcf8d6552007c8 mm: memcontrol: rewrite charge API
+
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 --
 0-DAY CI Kernel Test Service
