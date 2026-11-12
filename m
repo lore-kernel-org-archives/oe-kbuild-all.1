@@ -1,79 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794467997;
-	b=dkj79cLymN2XHcFOxs9Tq2zhnHZJ8ccvhOmcetgprRA1ptajZDjUUq81PyQGS7YboUlU
-	 sKzm7RwEupY2i1KJxJEPo3m06dLjq/szI15jZ1l0x7wR96fbLM1MCXZogCU4svogrf+kQ
-	 xiWRkSxCTfC0zme7OQ0x7KEAp6yRmVXQvX78sefD5c5Z+trB7TM5xYmQ/RSS7qZzpp0Gm
-	 KBpKLEdJx46zWerg/qC5PEdAOEhtUmBkLXAg29lm5BomwcT+Qoccun9Gc4h/rsK7ncgRQ
-	 becoKkYamxosdmkSY/8YnNJJy28AG2+L6gmqLgKJ4uGwQ+50hOa4HnFzc9T4L8q87ng==
+	t=1794472239;
+	b=hvXnjYwyQQ0luPRnQiHM5kxAvHQMbZpn+nrc0dp0T9Xi0TjIF9UL0j14Lm7ZbjZSKXvJ
+	 neFRYKqoQQ7asLraEnAhgupnRSeTExB4cx8HYZNpAqvO5RLlfPgstdlcX4/yzJxbyUY6K
+	 xI17PAsXVCxVxuI8uU6PztyW8/MvyxpABK4BaSWrQuW8yIwLGI5Xd1FiEuMkEgKCHaw0O
+	 fScmhEoN62af7s6asddrHv/uuXZpYxgohP+XLAYNIZigzb8bGOE2y7Kw7wQyNaPu+JeSy
+	 pHecomtknRLFkU3q0x8HdBQcPOgpoYo/SIxjH/zo96Jj71DcAyyDjv55M/imrIsHxBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794467997;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794472239;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=DVACGbGNHBtcm/0Nbz5G0HtQkPqsPD5JfquRUGzCh/c=;
-	b=l4u177VmkUYoWKWJfVWGdnK87NzQASpWWP6COx/qhYaJFuZ3EABAZAfj9LaZblRugMp/
-	 5y0Lc+GEE0TsZtGPLANjDXQRA+MrBEG/w560PB6FBEpVayMb9+8TjiaXD9bXUTAIoKKrV
-	 pI9cDP6clorwqGi6hkB919nkZCMEyAJ+nLqfgTctSGRP+HW75yDxyaLp1HFGpH1Mnn3fS
-	 IKvh/ZJigNT0CtIhJGDh++6vOlru5eEv4jH+Fjn0eFX2gOWCsmXhwNhm6tyzMHoR5Ggcw
-	 Y9jM6s84Sw/RMz0ix9y2nhsQxu9BrxOFN+++Or1hORRG367wQw0hw2dlDwq9u3iAm7A==
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=3ttdl4uS6vb9HZYMMShzXdvnlciviGDehqbfbQ5BCqM=;
+	b=T1/AgDXeAM1g1dU9cqQopK5I6IWR7t9D9Jmxk3aBE8V/Eb3PtSiJRA9+coqlbhy4nsII
+	 lrlTGzEuBZM8yXgR4jXP/RLUbkVxyT84WOKRSgn8KlrMpWS8u+eZ7rXT9n2dWtNUmx968
+	 KfIUBGE6UTfBncyM3Bu1MZEl91pw5wNPM6mljH/FZXlSMmIzzxEMqoQHrQv1KB1BXhR6Z
+	 h0hFvgb3KrLwP5mehHwKN2K+sOUDEhjaVpdgkO+XrmeR6CYtPSvypNb1+0+MDoIp9xu9E
+	 wzw1YKoHELxCftKhYwn/cNo8EypKGsu1a/7nXW8EcWAA9THyFSYL/cP8oZ0ixD7tx4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SshltGCd;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EoCEJ4WY;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BBA606A32E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 07:19:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98BBA606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4687F606A327
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 08:30:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4687F606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SshltGCd
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EoCEJ4WY
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794467997; x=1826003997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2cdtIIHZj8CQC1ncUZLn/5+gMzqBZDoS4BxGqUcxg7U=;
-  b=SshltGCdf+MSLfUPNj6/8Begjl4xbjnv40prR8vC7umlp/TjpKAaakxr
-   2HGyRQifTKJDTcPiMKTeJkBZlxPNK/IZTcMbjmFDPiBSkEVDjkLvSHgrI
-   cjhgV3w1KuYNHQhfHwlrNkx03rTlECM1hcv5uqDqv890QEeHhb5cCkEey
-   S7FDb2b+ynWvuNUNgxZL8lNCvd/gEHd1BvlnjCHhsXFcuWdn/KOQ40Qel
-   00lRjE/lcJgjyXvvNxQmryOfms21fP1dd1spSuftRwg56rCCC51Y+2C2O
-   Ae6OtIS1XHRD0y4nyEJwlV0NshJU0Y8PUve7onMPaIIKMloWFP42yNKUY
+  t=1794472238; x=1826008238;
+  h=date:from:to:cc:subject:message-id;
+  bh=OIdUg0Px0CN0kxD/tVsSuCpgrxbMkd9n4yuwwEnAzdM=;
+  b=EoCEJ4WYMAxF9t+E31lToq9TZyNkXZzCdenm7x6oK/XdXlVGFCHWfnIf
+   s1980jpceOAaEr8HO3emhdFCZ+u7k5cSls+w/4sZeGMiKoBsIjmhFY0Da
+   I+bAXNce9MmfPFGeBXL0ELTJYGupgiQP2GkYIYOHwXZ6UkeEskrpztXwz
+   Fs/hPmqskN4X4w6TxrFi8d5THDQY9EBmIe4kESV8eDbzaEd5oFvcuye6G
+   bTjZSo9J1fyH/KbcBsw7jeKMW7JFTP+wmCQhMCNh6GSbfk+sFO79KtUOX
+   a9++w5xee6N0277Do10M0jv2ZvDuWKt5fYzAl6DuJ5IiVwsAIFE3yltDV
    A==;
-X-CSE-ConnectionGUID: oKubHVygQ32yRdOCwTR0Lg==
-X-CSE-MsgGUID: RQmZ1/iiRN64B3bdERgNqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3330220"
+X-CSE-ConnectionGUID: CsDtBfDGQTeppQTIaMLS2w==
+X-CSE-MsgGUID: w1ObQhj+S9aqr21YM8q5KQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3244436"
 X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3330220"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 23:19:57 -0800
-X-CSE-ConnectionGUID: fGF6UM2xR6WaQHSeBAGPzg==
-X-CSE-MsgGUID: m6z6aB4rSHSc/nghqeMdZA==
+   d="scan'208";a="3244436"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 00:30:38 -0800
+X-CSE-ConnectionGUID: 87xmXpO9TyGXH/njHPbwEQ==
+X-CSE-MsgGUID: PTE3krhjR++hJKYDIfom0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="8411683"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Nov 2026 23:19:54 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="8556262"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Nov 2026 00:30:36 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRP66-000000010dj-1BNl;
-	Thu, 12 Nov 2026 07:19:50 +0000
-Date: Thu, 12 Nov 2026 15:19:12 +0800
+	id 1xRQCX-000000000qB-3vFU;
+	Thu, 12 Nov 2026 08:30:33 +0000
+Date: Thu, 12 Nov 2026 09:29:54 +0100
 From: kernel test robot <lkp@intel.com>
-To: Daniil Demakov <t3127430@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniil Demakov <t3127430@gmail.com>
-Subject: Re: [PATCH] staging: sm750fb: make g_fbmode array static const char
- * const
-Message-ID: <202611121516.RxKsWLPi-lkp@intel.com>
-References: <20261109115857.19492-1-t3127430@gmail.com>
+To: "Theodore Ts'o" <tytso@mit.edu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org
+Subject: [tytso-ext4:pu 4/50] fs/ext4/xattr-test.c:1531:13: warning:
+ stack frame size (2912) exceeds limit (2048) in
+ 'test_xattr_credits_usage_expand_and_delete'
+Message-ID: <202611120955.8LvZI7rV-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -82,265 +80,156 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109115857.19492-1-t3127430@gmail.com>
 
-Hi Daniil,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniil-Demakov/staging-sm750fb-make-g_fbmode-array-static-const-char-const/20261109-115857
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20261109115857.19492-1-t3127430%40gmail.com
-patch subject: [PATCH] staging: sm750fb: make g_fbmode array static const char * const
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20261112/202611121516.RxKsWLPi-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611121516.RxKsWLPi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git pu
+head:   246d715a48c25a74ac372dda5e10d8f69f89b50a
+commit: 64b5dfde9364204d0284d8800174ba8bb23d963f [4/50] ext4: add KUnit tests for fs/ext4/xattr.c
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20261112/202611120955.8LvZI7rV-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120955.8LvZI7rV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611121516.RxKsWLPi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611120955.8LvZI7rV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_set_fbinfo':
->> drivers/staging/sm750fb/sm750.c:762:33: error: assignment of read-only location 'g_fbmode[index]'
-     762 |                 g_fbmode[index] = g_def_fbmode;
-         |                                 ^
-   drivers/staging/sm750fb/sm750.c:764:41: error: assignment of read-only location 'g_fbmode[index]'
-     764 |                         g_fbmode[index] = g_fbmode[0];
-         |                                         ^
-   drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
->> drivers/staging/sm750fb/sm750.c:877:45: error: assignment of read-only location 'g_fbmode[0]'
-     877 |                                 g_fbmode[0] = opt;
-         |                                             ^
-   drivers/staging/sm750fb/sm750.c:881:45: error: assignment of read-only location 'g_fbmode[1]'
-     881 |                                 g_fbmode[1] = opt;
-         |                                             ^
+>> fs/ext4/xattr-test.c:1531:13: warning: stack frame size (2912) exceeds limit (2048) in 'test_xattr_credits_usage_expand_and_delete' [-Wframe-larger-than]
+    1531 | static void test_xattr_credits_usage_expand_and_delete(struct kunit *test)
+         |             ^
+   1 warning generated.
 
 
-vim +762 drivers/staging/sm750fb/sm750.c
+vim +/test_xattr_credits_usage_expand_and_delete +1531 fs/ext4/xattr-test.c
 
-81dee67e215b23 Sudip Mukherjee      2015-03-03  696  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  697  static int lynxfb_set_fbinfo(struct fb_info *info, int index)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  698  {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  699  	int i;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  700  	struct lynxfb_par *par;
-e359b6a863e19f Mike Rapoport        2015-10-26  701  	struct sm750_dev *sm750_dev;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  702  	struct lynxfb_crtc *crtc;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  703  	struct lynxfb_output *output;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  704  	struct fb_var_screeninfo *var;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  705  	struct fb_fix_screeninfo *fix;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  706  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  707  	const struct fb_videomode *pdb[] = {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  708  		lynx750_ext, NULL, vesa_modes,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  709  	};
-81dee67e215b23 Sudip Mukherjee      2015-03-03  710  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
-d0856045f0e9fc Hungyu Lin           2026-04-01  711  	static const char * const fix_id[2] = {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  712  		"sm750_fb1", "sm750_fb2",
-81dee67e215b23 Sudip Mukherjee      2015-03-03  713  	};
-81dee67e215b23 Sudip Mukherjee      2015-03-03  714  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  715  	int ret, line_length;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  716  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  717  	ret = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  718  	par = (struct lynxfb_par *)info->par;
-e359b6a863e19f Mike Rapoport        2015-10-26  719  	sm750_dev = par->dev;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  720  	crtc = &par->crtc;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  721  	output = &par->output;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  722  	var = &info->var;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  723  	fix = &info->fix;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  724  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  725  	/* set index */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  726  	par->index = index;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  727  	output->channel = &crtc->channel;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  728  	sm750fb_set_drv(par);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  729  
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  730  	/*
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  731  	 * set current cursor variable and proc pointer,
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  732  	 * must be set after crtc member initialized
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  733  	 */
-fdc234d85210d9 Benjamin Philip      2021-07-28  734  	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
-1be54c03f7519c Jad Keskes           2026-06-19  735  	crtc->cursor.mmio = sm750_dev->mmio +
-e359b6a863e19f Mike Rapoport        2015-10-26  736  		0x800f0 + (int)crtc->channel * 0x140;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  737  
-cd33da26036ea5 Christopher Carbone  2022-08-23  738  	crtc->cursor.max_h = 64;
-cd33da26036ea5 Christopher Carbone  2022-08-23  739  	crtc->cursor.max_w = 64;
-39f9137268ee3d Benjamin Philip      2021-07-26  740  	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
-f50b4602fea62f Jennifer Guo         2026-05-09  741  	crtc->cursor.vstart = sm750_dev->vmem + crtc->cursor.offset;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  742  
-3de08a2d14ff8c Lorenzo Stoakes      2015-03-20  743  	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  744  	if (!g_hwcursor)
-52d0744d751d8f Arnd Bergmann        2016-11-09  745  		sm750_hw_cursor_disable(&crtc->cursor);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  746  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  747  	/* set info->fbops, must be set before fb_find_mode */
-e359b6a863e19f Mike Rapoport        2015-10-26  748  	if (!sm750_dev->accel_off) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  749  		/* use 2d acceleration */
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  750  		if (!g_hwcursor)
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  751  			info->fbops = &lynxfb_ops_accel;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  752  		else
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  753  			info->fbops = &lynxfb_ops_accel_with_cursor;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  754  	} else {
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  755  		if (!g_hwcursor)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  756  			info->fbops = &lynxfb_ops;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  757  		else
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  758  			info->fbops = &lynxfb_ops_with_cursor;
-f7c8a046577e09 Thomas Zimmermann    2023-11-27  759  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  760  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  761  	if (!g_fbmode[index]) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03 @762  		g_fbmode[index] = g_def_fbmode;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  763  		if (index)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  764  			g_fbmode[index] = g_fbmode[0];
-81dee67e215b23 Sudip Mukherjee      2015-03-03  765  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  766  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  767  	for (i = 0; i < 3; i++) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  768  		ret = fb_find_mode(var, info, g_fbmode[index],
-81dee67e215b23 Sudip Mukherjee      2015-03-03  769  				   pdb[i], cdb[i], NULL, 8);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  770  
-db7fb3588ab492 Artem Lytkin         2026-02-23  771  		if (ret == 1 || ret == 2)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  772  			break;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  773  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  774  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  775  	/* set par */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  776  	par->info = info;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  777  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  778  	/* set info */
-e3a3f9f5123683 Mike Rapoport        2015-10-26  779  	line_length = ALIGN((var->xres_virtual * var->bits_per_pixel / 8),
-e3a3f9f5123683 Mike Rapoport        2015-10-26  780  			    crtc->line_pad);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  781  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  782  	info->pseudo_palette = &par->pseudo_palette[0];
-cc59bde1c920ab Benjamin Philip      2021-07-28  783  	info->screen_base = crtc->v_screen;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  784  	info->screen_size = line_length * var->yres_virtual;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  785  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  786  	/* set info->fix */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  787  	fix->type = FB_TYPE_PACKED_PIXELS;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  788  	fix->type_aux = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  789  	fix->xpanstep = crtc->xpanstep;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  790  	fix->ypanstep = crtc->ypanstep;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  791  	fix->ywrapstep = crtc->ywrapstep;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  792  	fix->accel = FB_ACCEL_SMI;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  793  
-8c475735085a7d Tim Wassink          2025-12-21  794  	strscpy(fix->id, fix_id[index], sizeof(fix->id));
-81dee67e215b23 Sudip Mukherjee      2015-03-03  795  
-fdc234d85210d9 Benjamin Philip      2021-07-28  796  	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  797  	/*
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  798  	 * according to mmap experiment from user space application,
-81dee67e215b23 Sudip Mukherjee      2015-03-03  799  	 * fix->mmio_len should not larger than virtual size
-81dee67e215b23 Sudip Mukherjee      2015-03-03  800  	 * (xres_virtual x yres_virtual x ByPP)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  801  	 * Below line maybe buggy when user mmap fb dev node and write
-81dee67e215b23 Sudip Mukherjee      2015-03-03  802  	 * data into the bound over virtual size
-d11ac7cbcc266c Sudip Mukherjee      2015-08-07  803  	 */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  804  	fix->smem_len = crtc->vidmem_size;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  805  	info->screen_size = fix->smem_len;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  806  	fix->line_length = line_length;
-e359b6a863e19f Mike Rapoport        2015-10-26  807  	fix->mmio_start = sm750_dev->vidreg_start;
-e359b6a863e19f Mike Rapoport        2015-10-26  808  	fix->mmio_len = sm750_dev->vidreg_size;
-b610e1193a917f Matej Dujava         2020-04-30  809  
-b610e1193a917f Matej Dujava         2020-04-30  810  	lynxfb_set_visual_mode(info);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  811  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  812  	/* set var */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  813  	var->activate = FB_ACTIVATE_NOW;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  814  	var->accel_flags = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  815  	var->vmode = FB_VMODE_NONINTERLACED;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  816  
-61c507cf652da1 Michel von Czettritz 2015-03-26  817  	ret = fb_alloc_cmap(&info->cmap, 256, 0);
-61c507cf652da1 Michel von Czettritz 2015-03-26  818  	if (ret < 0) {
-fbab250eb51d6d Artem Lytkin         2026-02-07  819  		dev_err(info->device, "Could not allocate memory for cmap.\n");
-81dee67e215b23 Sudip Mukherjee      2015-03-03  820  		goto exit;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  821  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  822  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  823  exit:
-81dee67e215b23 Sudip Mukherjee      2015-03-03  824  	lynxfb_ops_check_var(var, info);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  825  	return ret;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  826  }
-81dee67e215b23 Sudip Mukherjee      2015-03-03  827  
-b7c885194b81a0 Lucas Costa          2026-09-22  828  static void lynxfb_unset_fbinfo(struct fb_info *info)
-b7c885194b81a0 Lucas Costa          2026-09-22  829  {
-b7c885194b81a0 Lucas Costa          2026-09-22  830  	fb_dealloc_cmap(&info->cmap);
-b7c885194b81a0 Lucas Costa          2026-09-22  831  }
-b7c885194b81a0 Lucas Costa          2026-09-22  832  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  833  /*	chip specific g_option configuration routine */
-700591a9adc8b1 Mike Rapoport        2015-10-26  834  static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
-81dee67e215b23 Sudip Mukherjee      2015-03-03  835  {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  836  	char *opt;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  837  	int swap;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  838  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  839  	swap = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  840  
-523200db5cb01f Hungyu Lin           2026-05-30  841  	sm750_dev->init_parm.chip_clock = 0;
-523200db5cb01f Hungyu Lin           2026-05-30  842  	sm750_dev->init_parm.mem_clock = 0;
-523200db5cb01f Hungyu Lin           2026-05-30  843  	sm750_dev->init_parm.master_clock = 0;
-45a337c12624fc Jennifer Guo         2026-05-09  844  	sm750_dev->init_parm.power_mode = 0;
-45a337c12624fc Jennifer Guo         2026-05-09  845  	sm750_dev->init_parm.reset_memory = 1;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  846  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  847  	/* defaultly turn g_hwcursor on for both view */
-81dee67e215b23 Sudip Mukherjee      2015-03-03  848  	g_hwcursor = 3;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  849  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  850  	if (!src || !*src) {
-c56de0967a658c Elise Lennion        2016-10-31  851  		dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
-81dee67e215b23 Sudip Mukherjee      2015-03-03  852  		goto NO_PARAM;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  853  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  854  
-0fa96e39279988 Sudip Mukherjee      2015-03-10  855  	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
-c56de0967a658c Elise Lennion        2016-10-31  856  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
-c56de0967a658c Elise Lennion        2016-10-31  857  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  858  
-144634a6b42146 Katie Dunne          2017-02-19  859  		if (!strncmp(opt, "swap", strlen("swap"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  860  			swap = 1;
-144634a6b42146 Katie Dunne          2017-02-19  861  		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
-1757d106a9ce8c Mike Rapoport        2015-10-26  862  			sm750_dev->nocrt = 1;
-144634a6b42146 Katie Dunne          2017-02-19  863  		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
-94c938a0c15863 Shubham Chakraborty  2026-04-07  864  			sm750_dev->pnltype = SM750_DOUBLE_TFT;
-144634a6b42146 Katie Dunne          2017-02-19  865  		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
-94c938a0c15863 Shubham Chakraborty  2026-04-07  866  			sm750_dev->pnltype = SM750_DUAL_TFT;
-144634a6b42146 Katie Dunne          2017-02-19  867  		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
-94c938a0c15863 Shubham Chakraborty  2026-04-07  868  			sm750_dev->pnltype = SM750_24TFT;
-144634a6b42146 Katie Dunne          2017-02-19  869  		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  870  			g_hwcursor &= ~0x1;
-144634a6b42146 Katie Dunne          2017-02-19  871  		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  872  			g_hwcursor &= ~0x2;
-144634a6b42146 Katie Dunne          2017-02-19  873  		} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  874  			g_hwcursor = 0;
-144634a6b42146 Katie Dunne          2017-02-19  875  		} else {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  876  			if (!g_fbmode[0]) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03 @877  				g_fbmode[0] = opt;
-cee9ba1c30d051 Abdul Rauf           2017-01-08  878  				dev_info(&sm750_dev->pdev->dev,
-cee9ba1c30d051 Abdul Rauf           2017-01-08  879  					 "find fbmode0 : %s\n", g_fbmode[0]);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  880  			} else if (!g_fbmode[1]) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  881  				g_fbmode[1] = opt;
-cee9ba1c30d051 Abdul Rauf           2017-01-08  882  				dev_info(&sm750_dev->pdev->dev,
-cee9ba1c30d051 Abdul Rauf           2017-01-08  883  					 "find fbmode1 : %s\n", g_fbmode[1]);
-81dee67e215b23 Sudip Mukherjee      2015-03-03  884  			} else {
-c56de0967a658c Elise Lennion        2016-10-31  885  				dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
-81dee67e215b23 Sudip Mukherjee      2015-03-03  886  			}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  887  		}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  888  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  889  
-81dee67e215b23 Sudip Mukherjee      2015-03-03  890  NO_PARAM:
-e359b6a863e19f Mike Rapoport        2015-10-26  891  	if (sm750_dev->revid != SM750LE_REVISION_ID) {
-d352778979d2ee Ahmet Sezgin Duran   2026-05-21  892  		if (g_dualview) {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  893  			if (swap)
-1757d106a9ce8c Mike Rapoport        2015-10-26  894  				sm750_dev->dataflow = sm750_dual_swap;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  895  			else
-1757d106a9ce8c Mike Rapoport        2015-10-26  896  				sm750_dev->dataflow = sm750_dual_normal;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  897  		} else {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  898  			if (swap)
-1757d106a9ce8c Mike Rapoport        2015-10-26  899  				sm750_dev->dataflow = sm750_simul_sec;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  900  			else
-1757d106a9ce8c Mike Rapoport        2015-10-26  901  				sm750_dev->dataflow = sm750_simul_pri;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  902  		}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  903  	} else {
-81dee67e215b23 Sudip Mukherjee      2015-03-03  904  		/* SM750LE only have one crt channel */
-1757d106a9ce8c Mike Rapoport        2015-10-26  905  		sm750_dev->dataflow = sm750_simul_sec;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  906  		/* sm750le do not have complex attributes */
-1757d106a9ce8c Mike Rapoport        2015-10-26  907  		sm750_dev->nocrt = 0;
-81dee67e215b23 Sudip Mukherjee      2015-03-03  908  	}
-81dee67e215b23 Sudip Mukherjee      2015-03-03  909  }
-81dee67e215b23 Sudip Mukherjee      2015-03-03  910  
+  1526	
+  1527	/*
+  1528	 * Test 10: ext4_get_inode_usage(), credit calculation, handle credit check,
+  1529	 * ext4_expand_extra_isize_ea(), and ext4_xattr_delete_inode().
+  1530	 */
+> 1531	static void test_xattr_credits_usage_expand_and_delete(struct kunit *test)
+  1532	{
+  1533		struct xattr_test_ctx *ctx = test->priv;
+  1534		struct inode *inode = &ctx->primary.ei.vfs_inode;
+  1535		struct ext4_inode *raw = (struct ext4_inode *)ctx->primary.raw_buf;
+  1536		journal_t fake_journal = {
+  1537			.j_revoke_records_per_block = 64,
+  1538		};
+  1539		handle_t fake_handle = {
+  1540			.h_reserved = 1,
+  1541			.h_journal = &fake_journal,
+  1542			.h_total_credits = 1,
+  1543		};
+  1544		const size_t large_len = 1000;
+  1545		char *large_val;
+  1546		char val28[28];
+  1547		char buf[64];
+  1548		qsize_t usage = 0;
+  1549		int credits_create, credits_replace, credits_out = -1;
+  1550		int ret;
+  1551	
+  1552		large_val = kunit_kmalloc(test, large_len, GFP_KERNEL);
+  1553		KUNIT_ASSERT_NOT_NULL(test, large_val);
+  1554		memset(large_val, 'L', large_len);
+  1555	
+  1556		/*
+  1557		 * 1. Credit calculation and insufficient handle credits check
+  1558		 */
+  1559		credits_create = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
+  1560							  100, true);
+  1561		KUNIT_EXPECT_GT(test, credits_create, 0);
+  1562	
+  1563		ext4_set_feature_ea_inode(&ctx->sb);
+  1564		credits_create = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
+  1565							  1500, true);
+  1566		credits_replace = __ext4_xattr_set_credits(&ctx->sb, inode, NULL,
+  1567							   1500, false);
+  1568		KUNIT_EXPECT_GT(test, credits_replace, credits_create);
+  1569	
+  1570		/* Without a journal (s_journal == NULL), credits_out is 0 */
+  1571		ret = ext4_xattr_set_credits(inode, 1500, true, &credits_out);
+  1572		KUNIT_EXPECT_EQ(test, ret, 0);
+  1573		KUNIT_EXPECT_EQ(test, credits_out, 0);
+  1574	
+  1575		/* With s_journal set, ext4_xattr_set_credits() returns credits_create */
+  1576		ctx->sbi.s_journal = &fake_journal;
+  1577		ret = ext4_xattr_set_credits(inode, 1500, true, &credits_out);
+  1578		ctx->sbi.s_journal = NULL;
+  1579		KUNIT_EXPECT_EQ(test, ret, 0);
+  1580		KUNIT_EXPECT_EQ(test, credits_out, credits_create);
+  1581	
+  1582		/* Handle with only 1 buffer credit (< credits) fails with -ENOSPC */
+  1583		ret = ext4_xattr_set_handle(&fake_handle, inode, EXT4_XATTR_INDEX_USER,
+  1584					    "k", "v", 1, XATTR_CREATE);
+  1585		KUNIT_EXPECT_EQ(test, ret, -ENOSPC);
+  1586	
+  1587		/*
+  1588		 * 2. ext4_expand_extra_isize_ea():
+  1589		 * Put "keep" (4B -> 24B total) and "evict" (28B -> 52B total) in
+  1590		 * ibody (88B usable, leaving 12B free).
+  1591		 * First expand i_extra_isize from 32 -> 40 (8 bytes <= 12B free):
+  1592		 * shifts ibody entries in-place without allocating an external block.
+  1593		 * Then expand i_extra_isize from 40 -> 72 (32 bytes > 4B free):
+  1594		 * "keep" (24 + 4 = 28 < 32) is too small alone, so "evict" (52 + 4 >= 32)
+  1595		 * is moved to an external xattr block while "keep" stays in ibody!
+  1596		 */
+  1597		ext4_clear_feature_ea_inode(&ctx->sb);
+  1598		ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "keep",
+  1599				     "1234", 4, XATTR_CREATE);
+  1600		KUNIT_ASSERT_EQ(test, ret, 0);
+  1601		memset(val28, 'E', sizeof(val28));
+  1602		ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "evict",
+  1603				     val28, sizeof(val28), XATTR_CREATE);
+  1604		KUNIT_ASSERT_EQ(test, ret, 0);
+  1605		KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
+  1606	
+  1607		/* In-place ibody shift (32 -> 40) */
+  1608		ret = ext4_expand_extra_isize_ea(inode, 40, raw, NULL);
+  1609		KUNIT_ASSERT_EQ(test, ret, 0);
+  1610		KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_extra_isize, (u16)40);
+  1611		KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
+  1612	
+  1613		/* Eviction of "evict" to external block (40 -> 72) */
+  1614		ret = ext4_expand_extra_isize_ea(inode, 72, raw, NULL);
+  1615		KUNIT_ASSERT_EQ(test, ret, 0);
+  1616		KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_extra_isize, (u16)72);
+  1617		KUNIT_EXPECT_NE(test, EXT4_I(inode)->i_file_acl, 0ULL);
+  1618	
+  1619		/* Both "keep" (in ibody) and "evict" (in external block) remain readable */
+  1620		KUNIT_EXPECT_EQ(test,
+  1621				ext4_xattr_ibody_get(inode, EXT4_XATTR_INDEX_USER,
+  1622						     "keep", buf, sizeof(buf)),
+  1623				4);
+  1624		KUNIT_EXPECT_EQ(test,
+  1625				ext4_xattr_get(inode, EXT4_XATTR_INDEX_USER,
+  1626					       "evict", buf, sizeof(buf)),
+  1627				28);
+  1628	
+  1629		/*
+  1630		 * 3. ext4_get_inode_usage() and ext4_xattr_delete_inode():
+  1631		 * Add a 1000-byte EA inode attribute ("large_ea") and check that
+  1632		 * ext4_get_inode_usage() accounts for 1 (parent inode) + 1 (EA inode)
+  1633		 * = 2 inodes, and ext4_xattr_delete_inode() frees the external block
+  1634		 * and drops the EA inode reference to 0.
+  1635		 */
+  1636		ext4_set_feature_ea_inode(&ctx->sb);
+  1637		ret = ext4_xattr_set(inode, EXT4_XATTR_INDEX_USER, "large_ea",
+  1638				     large_val, large_len, XATTR_CREATE);
+  1639		KUNIT_ASSERT_EQ(test, ret, 0);
+  1640	
+  1641		down_read(&EXT4_I(inode)->xattr_sem);
+  1642		ret = ext4_get_inode_usage(inode, &usage);
+  1643		up_read(&EXT4_I(inode)->xattr_sem);
+  1644		KUNIT_ASSERT_EQ(test, ret, 0);
+  1645		KUNIT_EXPECT_EQ(test, usage, (qsize_t)2);
+  1646	
+  1647		ret = ext4_xattr_delete_inode(NULL, inode, 0);
+  1648		KUNIT_ASSERT_EQ(test, ret, 0);
+  1649		KUNIT_EXPECT_EQ(test, EXT4_I(inode)->i_file_acl, 0ULL);
+  1650		KUNIT_EXPECT_EQ(test, ctx->ea_inodes[0].ei.vfs_inode.i_nlink, 0U);
+  1651	}
+  1652	
 
 --
 0-DAY CI Kernel Test Service
