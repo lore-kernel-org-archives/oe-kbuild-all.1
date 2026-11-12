@@ -1,76 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794499584;
-	b=wKKjJs1IL5Xf/7XlxmlE7kJdcDy1gN0ayMAFOnnnPBaEy6Tgliybn1Su4TfXqa1XxsNG
-	 8yOzjhkox9ydAkfuuMt7jVK1P5MNLuTpR2O74HobEFoGGdrJAs6gdscYFAsMrNAL/Fzw3
-	 iTIaqqdN9u7fWU78VblyrzsJKF85oZg1QrEieG6+Xub0khiAKUXOCKcAIQCffWEeFhDCv
-	 TxKh3TZkcqTRtEYl4xrVsdAjxyihoWCN6+yOx92qrdpDsL1H4xO6YHL2TsK6oyCOYowAz
-	 gHvNY7BB2RUmbgygjD1Q3zeysRmsUnW6HXH64E5b6VLRMQ6XHXCIRSXuDcvTl7oDMuA==
+	t=1794500037;
+	b=UUkOAETYrKnP1nNMn3T5bZ/PBXbR4DkWhos5GCjkUKj9iB4bigAcp8X9/GyENUdG4pht
+	 yiEYvq5l/YHEleo/V7vTXBw0eftpFcWXXiKm0J8hycQCVnAM3q5ZHa65qxPTkEO1S5YvW
+	 q0vpfHUu2lBKFtc4qwmb1+EBoHO3iAb2O1z0oWK870zCD5Ssl4+9MvhBkW78bM/hUFWEZ
+	 7YhWoG/uLjuw99FW1c4Zvhf0ocZdZvZd0ASTy+nerRVQrHTdful98EhDqVGsU6LCjqlM9
+	 kWsS2ZYYl+NjG7l7eQFtC1NFi5/lW5/jm3S0mWdnGTIkAhtxSCK9DtYMz6+qs7Mni6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794499584;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794500037;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
 	 Cc:Subject:Message-ID:User-Agent;
-	bh=3l+OQc0sj7Cqms0QiG56zxl/FKhVTfg+wB/xoAJPbMA=;
-	b=3XOwpSzaGSNumC0ekuSLdF8ZlGA0D/f+nkNPFd3zgA75S7x2JpEvuVSeVV+ha0Ou/2LH
-	 6FGeW4wSO+c5+MnPbxlxsXWifCnSUywL+Jixc5VpAHX4AUQq6WGSb+M/RGPq1/gOwi1kl
-	 mFiFLskPOJKIxKjhjsZ15ip8Mr1i+v2rpncaMamBNqO0XnZ8yWAVepCDAV8sgEHlAcYIZ
-	 Sc1D5D7Vh9dQ3nd3R0in3azI+C9iPh8knrqitM3ghlJ6bGvOyuBisKTU3cNJX7It4VXyd
-	 5S5DalPy/GPEc+IcslINz5reWErbC/WXuuuyS+cQ7KLMlmq76mPbqCuXQjsfspQ7ejg==
+	bh=LthzWfEC124fDXhxxb7TKkvHBdQTMoBMWVWmXPjNNEE=;
+	b=X1NMjv2M4akWcsD2nccbifZRsTEe31gi6mAsKA7XPO8+2jv44okpRzgbTOuIwp+f7LzI
+	 t4TUnBGmC6b6mb4e1Q/l0JWiig2pYVDqNdwNwNqz73lHxMK+0hb+YHEMSnOkrC/d3ue5N
+	 d9xUo1ZhQgzfFcyZSMfinVVaBKbC15I8964FXB7HjR6OjAkQ8z4wsr2spakSpqifaWPvM
+	 R6wN5SWH4UbK3C5AP4hnJRB4NQhu9alDNO0EADBN8igHOxoQCf3TWVQD9Sybjs6Cjq9Rt
+	 tC5FrzFiMFzHrkt42R2dXU7vRtQ1G1ALMsVfOyTI3rgNpe6YfFChQ88yF6mheFnEt1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OOyDWUux;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JV8yxfLI;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A77606A331;
-	Thu, 12 Nov 2026 16:06:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57A77606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FF2606A321
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 16:13:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34FF2606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=OOyDWUux
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JV8yxfLI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794499585; x=1826035585;
+  t=1794500036; x=1826036036;
   h=date:from:to:cc:subject:message-id;
-  bh=KG15XREHPQl3eGAflNNpwQhr+nUda6Lpeg33e6DxBS4=;
-  b=OOyDWUuxTue7slxbVG4XnjYJSZPqMu19iUy2gD0mrFslk05JTaorLs6K
-   TpszUngNfFhIUOfXv6P+3qWlGRzUNYaAVLkZ19ZbNeZC5XeKtDn5T2AiM
-   Gw+HvgHShyUuzmYzRzNFaTGaMx1aw0IAQIr1BLdBYRBgt+Egv/juXMO2l
-   LXVpN/g97c3+nEbSFBdlEteSYXjXrwVNZgQqIzaKsnMKO02SyjmkBTPIa
-   SM8A5B0DWQdvMq6DRPhYP1zPvG1XoH9H/k8Tg2cAXo9pKnMCowrvu1z/M
-   Siv2SbQDRf1J75gbcVt1EU8zbUPS9tp7wygra1z5p3/yf/3tJaBHMGQUB
+  bh=22YHB9n+yqNCci9ux/d9N1Yow3GHWiA61XCC+/HjUMg=;
+  b=JV8yxfLImeLeSqS3eBsOL1r/TPyIuFOesUZze4PI4ruW2dSfMHl2/Prp
+   ecQs4JNpImAKPh4Vn+6woQp2TdqOuRzRewNtwxy1uTa/39JA8OsPv8CrN
+   ZRgPxqQ4hq+cejBMDnAL9UOs2U8rBEyZii4IxGdVpCUGkHWuLK7I5pPLf
+   Xkb3tQjoJSMd2bGX9iuBxv/jZenwG6s6gWrfLXUIAVYBVmMJjY3iFUbT4
+   Z6EjguZu6VjcFjH+JYsibvA1gZ4o0ChCHQWgeOIQmnnxM0GaLxLW4cIK6
+   Xl5xDFZMyKqkRjZiei/KdxKyWEhkYX/uUHHSm4Z6GCSIb1hcsebWD7BJa
    g==;
-X-CSE-ConnectionGUID: Y2yppC5GTbW6Jw6KNN6K0A==
-X-CSE-MsgGUID: mlIkKvnnTq+hn8KFk6zVdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3287573"
+X-CSE-ConnectionGUID: r1Wxrs35RDql8sfJoSBW4w==
+X-CSE-MsgGUID: tKDA2ZhiSyqAPbYak5MrIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11964"; a="3334227"
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="3287573"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 08:06:24 -0800
-X-CSE-ConnectionGUID: UaPmiAp7Rji80FbtkPHIYQ==
-X-CSE-MsgGUID: U0anjnn/Roa6sWDTcmavIg==
+   d="scan'208";a="3334227"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 08:13:56 -0800
+X-CSE-ConnectionGUID: R2uEZanGRRizFbVdumGUsQ==
+X-CSE-MsgGUID: CsN856+aR0e3/SIjwUphUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,210,1787036400"; 
-   d="scan'208";a="8565473"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Nov 2026 08:06:22 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+   d="scan'208";a="8586503"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 12 Nov 2026 08:13:54 -0800
+Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRXJb-000000011gj-2vml;
-	Thu, 12 Nov 2026 16:06:19 +0000
-Date: Fri, 13 Nov 2026 00:05:38 +0800
+	id 1xRXQu-000000000uv-0Tb8;
+	Thu, 12 Nov 2026 16:13:52 +0000
+Date: Thu, 12 Nov 2026 17:13:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:thread-safety 441/444]
- net/bluetooth/hidp/core.c:318:2: warning: releasing mutex
- 'hid->driver_data->report_mutex' that was not held
-Message-ID: <202611122321.CxbSh9MK-lkp@intel.com>
+To: "Theodore Ts'o" <tytso@mit.edu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org
+Subject: [tytso-ext4:pu 9/50] fs/ext4/fast_commit-test.c:1145:1:
+ warning: the frame size of 1568 bytes is larger than 1280 bytes
+Message-ID: <202611121719.IZvD7hCQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,126 +80,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
 
-tree:   https://github.com/bvanassche/linux thread-safety
-head:   31d2f6adb5d0feeb2be269c03dc5bb6245e05a88
-commit: 3d606dbf0b3cbf6ee5188f36136fc48d9a7f4182 [441/444] treewide: Annotate interruptible and killable locks with range acquire
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261112/202611122321.CxbSh9MK-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project c628d639fc66f8e6d8ab1f0cc6b1df38f974e020)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611122321.CxbSh9MK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git pu
+head:   246d715a48c25a74ac372dda5e10d8f69f89b50a
+commit: 781558b8eddee2d9384ea3f0ed4901b8b329cb24 [9/50] ext4: add KUnit tests for fs/ext4/fast_commit.c
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20261112/202611121719.IZvD7hCQ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611121719.IZvD7hCQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611122321.CxbSh9MK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611121719.IZvD7hCQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/bluetooth/hidp/core.c:318:2: warning: releasing mutex 'hid->driver_data->report_mutex' that was not held [-Wthread-safety-analysis]
-     318 |         mutex_unlock(&session->report_mutex);
-         |         ^
-   net/bluetooth/hidp/core.c:324:2: warning: releasing mutex 'hid->driver_data->report_mutex' that was not held [-Wthread-safety-analysis]
-     324 |         mutex_unlock(&session->report_mutex);
-         |         ^
-   net/bluetooth/hidp/core.c:389:2: warning: releasing mutex 'hid->driver_data->report_mutex' that was not held [-Wthread-safety-analysis]
-     389 |         mutex_unlock(&session->report_mutex);
-         |         ^
-   3 warnings generated.
+   fs/ext4/fast_commit-test.c: In function 'test_fc_init_and_eligibility':
+>> fs/ext4/fast_commit-test.c:1145:1: warning: the frame size of 1568 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    1145 | }
+         | ^
 
 
-vim +318 net/bluetooth/hidp/core.c
+vim +1145 fs/ext4/fast_commit-test.c
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  242  
-0ff1731a1ae51e Alan Ott         2011-01-18  243  static int hidp_get_raw_report(struct hid_device *hid,
-0ff1731a1ae51e Alan Ott         2011-01-18  244  		unsigned char report_number,
-0ff1731a1ae51e Alan Ott         2011-01-18  245  		unsigned char *data, size_t count,
-0ff1731a1ae51e Alan Ott         2011-01-18  246  		unsigned char report_type)
-0ff1731a1ae51e Alan Ott         2011-01-18  247  {
-0ff1731a1ae51e Alan Ott         2011-01-18  248  	struct hidp_session *session = hid->driver_data;
-0ff1731a1ae51e Alan Ott         2011-01-18  249  	struct sk_buff *skb;
-0ff1731a1ae51e Alan Ott         2011-01-18  250  	size_t len;
-0ff1731a1ae51e Alan Ott         2011-01-18  251  	int numbered_reports = hid->report_enum[report_type].numbered;
-794d175698f0e7 David Rheinsberg 2011-08-26  252  	int ret;
-0ff1731a1ae51e Alan Ott         2011-01-18  253  
-fd86c9becc1154 Karl Relton      2013-02-20  254  	if (atomic_read(&session->terminate))
-fd86c9becc1154 Karl Relton      2013-02-20  255  		return -EIO;
-fd86c9becc1154 Karl Relton      2013-02-20  256  
-0ff1731a1ae51e Alan Ott         2011-01-18  257  	switch (report_type) {
-0ff1731a1ae51e Alan Ott         2011-01-18  258  	case HID_FEATURE_REPORT:
-0ff1731a1ae51e Alan Ott         2011-01-18  259  		report_type = HIDP_TRANS_GET_REPORT | HIDP_DATA_RTYPE_FEATURE;
-0ff1731a1ae51e Alan Ott         2011-01-18  260  		break;
-0ff1731a1ae51e Alan Ott         2011-01-18  261  	case HID_INPUT_REPORT:
-0ff1731a1ae51e Alan Ott         2011-01-18  262  		report_type = HIDP_TRANS_GET_REPORT | HIDP_DATA_RTYPE_INPUT;
-0ff1731a1ae51e Alan Ott         2011-01-18  263  		break;
-0ff1731a1ae51e Alan Ott         2011-01-18  264  	case HID_OUTPUT_REPORT:
-0ff1731a1ae51e Alan Ott         2011-01-18  265  		report_type = HIDP_TRANS_GET_REPORT | HIDP_DATA_RTYPE_OUPUT;
-0ff1731a1ae51e Alan Ott         2011-01-18  266  		break;
-0ff1731a1ae51e Alan Ott         2011-01-18  267  	default:
-0ff1731a1ae51e Alan Ott         2011-01-18  268  		return -EINVAL;
-0ff1731a1ae51e Alan Ott         2011-01-18  269  	}
-0ff1731a1ae51e Alan Ott         2011-01-18  270  
-0ff1731a1ae51e Alan Ott         2011-01-18  271  	if (mutex_lock_interruptible(&session->report_mutex))
-0ff1731a1ae51e Alan Ott         2011-01-18  272  		return -ERESTARTSYS;
-0ff1731a1ae51e Alan Ott         2011-01-18  273  
-0ff1731a1ae51e Alan Ott         2011-01-18  274  	/* Set up our wait, and send the report request to the device. */
-0ff1731a1ae51e Alan Ott         2011-01-18  275  	session->waiting_report_type = report_type & HIDP_DATA_RTYPE_MASK;
-0ff1731a1ae51e Alan Ott         2011-01-18  276  	session->waiting_report_number = numbered_reports ? report_number : -1;
-0ff1731a1ae51e Alan Ott         2011-01-18  277  	set_bit(HIDP_WAITING_FOR_RETURN, &session->flags);
-0ff1731a1ae51e Alan Ott         2011-01-18  278  	data[0] = report_number;
-41edc0c0341604 David Rheinsberg 2013-04-06  279  	ret = hidp_send_ctrl_message(session, report_type, data, 1);
-8bb3537095f107 Dan Elkouby      2019-09-06  280  	if (ret < 0)
-794d175698f0e7 David Rheinsberg 2011-08-26  281  		goto err;
-0ff1731a1ae51e Alan Ott         2011-01-18  282  
-0ff1731a1ae51e Alan Ott         2011-01-18  283  	/* Wait for the return of the report. The returned report
-0ff1731a1ae51e Alan Ott         2011-01-18  284  	   gets put in session->report_return.  */
-e3492dc3760ceb David Rheinsberg 2013-04-06  285  	while (test_bit(HIDP_WAITING_FOR_RETURN, &session->flags) &&
-e3492dc3760ceb David Rheinsberg 2013-04-06  286  	       !atomic_read(&session->terminate)) {
-0ff1731a1ae51e Alan Ott         2011-01-18  287  		int res;
-0ff1731a1ae51e Alan Ott         2011-01-18  288  
-0ff1731a1ae51e Alan Ott         2011-01-18  289  		res = wait_event_interruptible_timeout(session->report_queue,
-e3492dc3760ceb David Rheinsberg 2013-04-06  290  			!test_bit(HIDP_WAITING_FOR_RETURN, &session->flags)
-e3492dc3760ceb David Rheinsberg 2013-04-06  291  				|| atomic_read(&session->terminate),
-0ff1731a1ae51e Alan Ott         2011-01-18  292  			5*HZ);
-0ff1731a1ae51e Alan Ott         2011-01-18  293  		if (res == 0) {
-0ff1731a1ae51e Alan Ott         2011-01-18  294  			/* timeout */
-794d175698f0e7 David Rheinsberg 2011-08-26  295  			ret = -EIO;
-794d175698f0e7 David Rheinsberg 2011-08-26  296  			goto err;
-0ff1731a1ae51e Alan Ott         2011-01-18  297  		}
-0ff1731a1ae51e Alan Ott         2011-01-18  298  		if (res < 0) {
-0ff1731a1ae51e Alan Ott         2011-01-18  299  			/* signal */
-794d175698f0e7 David Rheinsberg 2011-08-26  300  			ret = -ERESTARTSYS;
-794d175698f0e7 David Rheinsberg 2011-08-26  301  			goto err;
-0ff1731a1ae51e Alan Ott         2011-01-18  302  		}
-0ff1731a1ae51e Alan Ott         2011-01-18  303  	}
-0ff1731a1ae51e Alan Ott         2011-01-18  304  
-0ff1731a1ae51e Alan Ott         2011-01-18  305  	skb = session->report_return;
-0ff1731a1ae51e Alan Ott         2011-01-18  306  	if (skb) {
-0ff1731a1ae51e Alan Ott         2011-01-18  307  		len = skb->len < count ? skb->len : count;
-0ff1731a1ae51e Alan Ott         2011-01-18  308  		memcpy(data, skb->data, len);
-0ff1731a1ae51e Alan Ott         2011-01-18  309  
-0ff1731a1ae51e Alan Ott         2011-01-18  310  		kfree_skb(skb);
-0ff1731a1ae51e Alan Ott         2011-01-18  311  		session->report_return = NULL;
-0ff1731a1ae51e Alan Ott         2011-01-18  312  	} else {
-0ff1731a1ae51e Alan Ott         2011-01-18  313  		/* Device returned a HANDSHAKE, indicating  protocol error. */
-0ff1731a1ae51e Alan Ott         2011-01-18  314  		len = -EIO;
-0ff1731a1ae51e Alan Ott         2011-01-18  315  	}
-0ff1731a1ae51e Alan Ott         2011-01-18  316  
-0ff1731a1ae51e Alan Ott         2011-01-18  317  	clear_bit(HIDP_WAITING_FOR_RETURN, &session->flags);
-0ff1731a1ae51e Alan Ott         2011-01-18 @318  	mutex_unlock(&session->report_mutex);
-0ff1731a1ae51e Alan Ott         2011-01-18  319  
-0ff1731a1ae51e Alan Ott         2011-01-18  320  	return len;
-0ff1731a1ae51e Alan Ott         2011-01-18  321  
-794d175698f0e7 David Rheinsberg 2011-08-26  322  err:
-0ff1731a1ae51e Alan Ott         2011-01-18  323  	clear_bit(HIDP_WAITING_FOR_RETURN, &session->flags);
-0ff1731a1ae51e Alan Ott         2011-01-18  324  	mutex_unlock(&session->report_mutex);
-794d175698f0e7 David Rheinsberg 2011-08-26  325  	return ret;
-0ff1731a1ae51e Alan Ott         2011-01-18  326  }
-0ff1731a1ae51e Alan Ott         2011-01-18  327  
-
-:::::: The code at line 318 was first introduced by commit
-:::::: 0ff1731a1ae51e8e48cd559d70db536281c47f8e HID: bt: Add support for hidraw HIDIOCGFEATURE and HIDIOCSFEATURE
-
-:::::: TO: Alan Ott <alan@signal11.us>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+  1067	
+  1068	/* =========================================================================
+  1069	 * 1. Initialization, Eligibility, and Snapshot Stat Helpers
+  1070	 * =========================================================================
+  1071	 */
+  1072	
+  1073	static void test_fc_init_and_eligibility(struct kunit *test)
+  1074	{
+  1075		struct fc_test_ctx *ctx = test->priv;
+  1076		struct super_block *sb = ctx->sb;
+  1077		struct inode *inode = get_mock_inode(ctx, TEST_FILE1_INO);
+  1078		struct ext4_inode_info *ei = EXT4_I(inode);
+  1079		journal_t tmp_journal = {};
+  1080		atomic64_t max_stat = ATOMIC64_INIT(0);
+  1081		int snap_err = EXT4_FC_SNAP_ERR_NONE;
+  1082	
+  1083		/*
+  1084		 * 1) ext4_fc_init sets j_fc_replay_callback unconditionally, but sets
+  1085		 *    j_fc_cleanup_callback only when JOURNAL_FAST_COMMIT is enabled.
+  1086		 */
+  1087		clear_opt2(sb, JOURNAL_FAST_COMMIT);
+  1088		ext4_fc_init(sb, &tmp_journal);
+  1089		KUNIT_EXPECT_NOT_NULL(test, tmp_journal.j_fc_replay_callback);
+  1090		KUNIT_EXPECT_NULL(test, tmp_journal.j_fc_cleanup_callback);
+  1091	
+  1092		set_opt2(sb, JOURNAL_FAST_COMMIT);
+  1093		ext4_fc_init(sb, &tmp_journal);
+  1094		KUNIT_EXPECT_NOT_NULL(test, tmp_journal.j_fc_replay_callback);
+  1095		KUNIT_EXPECT_NOT_NULL(test, tmp_journal.j_fc_cleanup_callback);
+  1096	
+  1097		/* 2) ext4_fc_init_inode clears state and resets ranges */
+  1098		ei->i_fc_lblk_start = 42;
+  1099		ei->i_fc_lblk_len = 10;
+  1100		ext4_set_inode_state(inode, EXT4_STATE_FC_COMMITTING);
+  1101		ext4_set_inode_state(inode, EXT4_STATE_FC_REQUEUE);
+  1102		ext4_fc_init_inode(inode);
+  1103		KUNIT_EXPECT_EQ(test, ei->i_fc_lblk_start, 0U);
+  1104		KUNIT_EXPECT_EQ(test, ei->i_fc_lblk_len, 0U);
+  1105		KUNIT_EXPECT_FALSE(test,
+  1106				   ext4_test_inode_state(inode, EXT4_STATE_FC_COMMITTING));
+  1107		KUNIT_EXPECT_FALSE(test,
+  1108				   ext4_test_inode_state(inode, EXT4_STATE_FC_REQUEUE));
+  1109		KUNIT_EXPECT_TRUE(test, list_empty(&ei->i_fc_list));
+  1110		KUNIT_EXPECT_TRUE(test, list_empty(&ei->i_fc_dilist));
+  1111		KUNIT_EXPECT_NULL(test, ei->i_fc_snap);
+  1112	
+  1113		/* 3) ext4_fc_disabled and ext4_fc_eligible transitions */
+  1114		KUNIT_EXPECT_FALSE(test, ext4_fc_disabled_test(sb));
+  1115		KUNIT_EXPECT_TRUE(test, ext4_fc_eligible_test(sb));
+  1116	
+  1117		ctx->sbi->s_mount_state |= EXT4_FC_REPLAY;
+  1118		KUNIT_EXPECT_TRUE(test, ext4_fc_disabled_test(sb));
+  1119		KUNIT_EXPECT_FALSE(test, ext4_fc_eligible_test(sb));
+  1120		ctx->sbi->s_mount_state &= ~EXT4_FC_REPLAY;
+  1121	
+  1122		ext4_set_mount_flag(sb, EXT4_MF_FC_INELIGIBLE);
+  1123		KUNIT_EXPECT_FALSE(test, ext4_fc_disabled_test(sb));
+  1124		KUNIT_EXPECT_FALSE(test, ext4_fc_eligible_test(sb));
+  1125		ext4_clear_mount_flag(sb, EXT4_MF_FC_INELIGIBLE);
+  1126	
+  1127		clear_opt2(sb, JOURNAL_FAST_COMMIT);
+  1128		KUNIT_EXPECT_TRUE(test, ext4_fc_disabled_test(sb));
+  1129		KUNIT_EXPECT_FALSE(test, ext4_fc_eligible_test(sb));
+  1130		set_opt2(sb, JOURNAL_FAST_COMMIT);
+  1131	
+  1132		/* 4) ext4_fc_set_snap_err preserves first error */
+  1133		ext4_fc_set_snap_err_test(&snap_err, EXT4_FC_SNAP_ERR_ES_MISS);
+  1134		KUNIT_EXPECT_EQ(test, snap_err, (int)EXT4_FC_SNAP_ERR_ES_MISS);
+  1135		ext4_fc_set_snap_err_test(&snap_err, EXT4_FC_SNAP_ERR_NOMEM);
+  1136		KUNIT_EXPECT_EQ(test, snap_err, (int)EXT4_FC_SNAP_ERR_ES_MISS);
+  1137	
+  1138		/* 5) ext4_fc_snap_stats_update_max monotonically updates max */
+  1139		ext4_fc_snap_stats_update_max_test(&max_stat, 100);
+  1140		KUNIT_EXPECT_EQ(test, atomic64_read(&max_stat), 100LL);
+  1141		ext4_fc_snap_stats_update_max_test(&max_stat, 50);
+  1142		KUNIT_EXPECT_EQ(test, atomic64_read(&max_stat), 100LL);
+  1143		ext4_fc_snap_stats_update_max_test(&max_stat, 250);
+  1144		KUNIT_EXPECT_EQ(test, atomic64_read(&max_stat), 250LL);
+> 1145	}
+  1146	
 
 --
 0-DAY CI Kernel Test Service
