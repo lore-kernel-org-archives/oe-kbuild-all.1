@@ -1,77 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794450264;
-	b=wadtu/J9EfVQqFV1yprcoUUDLi9g9TN51xcV90TDPNCpWZqPxP1g7YAMZ8eagXGz23h2
-	 MMaNhoA7j5HmAHZSc0ZekxYiFHe5DzwFdUrAOauhWrA6ammtLkm0SDUvsbv0E/aDBy/sJ
-	 gzBJ1Hs1J15aXbn62urLzuV7oOtcohJrJzJELlTdObGizRtlCgEqRNpqWkW0ZHnAlJFFA
-	 q1teYuO2Nh39V8tfbQKgHo5hudU78w9DPxAcyNSlhxqRlTAn+l7j2GUm1jhmkN/e4+nUt
-	 2ubPkPgM3KMaV0ZS/iQBpf8r4OkSac1SxiEER7Uum9YsY3M/qhrRkq1TByOKBgLMVtw==
+	t=1794454458;
+	b=tNQV3xlcaEkPDSsq2eIu693DXrzCVAL6qZZ2YTbpGUwx4epnm4lw5Ro1cfTsSuWt9ryL
+	 45neYQSVtfZAkAgFxCZ/ToLKhnTSBTyvmOjh1U6dS/x6dNL2PjOYUeBTiKdaOoOJl3kFK
+	 VOExN6D7nMFfeknYE1vdkG3ukooBwC9wCOvxcfXVcRFv/ofLw+gB0Uuk+WUgX0VJA44KY
+	 aqLvOrkdA3NRCapVBooOrA2biajnb0N+3bJAlnhO/wiQUbc3kAtoQvmsRbT00rSyx6HGD
+	 etzvUBI1etm1xmgwnIHlJ1LUXCVXfiEqNxvsBYUt9M/yF+TM2t8DZ5sc+kCthy3S0gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794450264;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794454458;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=6iEp1RcAExs3M2B96Cr0Ngj7G/YzPS34fVZFttA+c9o=;
-	b=nJ++FSq8CFeCj2Yr5EfXz24jJKMP0wWojcwvr0+1bcLDZlRagOx5SBIIBVLE0PRiMt2j
-	 mLKYpM20yHmg4lxx7IjuXFwE3cIw1XxcxTIOCBkX4MTLBX8dyIZcLbvTr9t6vU99G7hr+
-	 3A6qHW2DavKvDyjLdb0+6L4/EyRw8PtpB4eq02JRRcYnvokwYO3Pd0le9sJmFGkL3mquJ
-	 RQbt6qRuYaw5MkZ+OWp7PZCDSdzfQtlQFw+mTd/D0/3lxuJ95LlQ+OLbIqi4vO1QvS7hh
-	 O6GJ0C0JvHpLzM9QN2Tbw0Lt/KcKdbXupp1vvA0C7WHPlPJGsF2hsc9nfaFvaI62h8A==
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=qltfbcsF9HQ3GEp10diTEWN3lrzzyngznvD5CvyLmTs=;
+	b=Xx1Ojl7b4Y9OD9vdhxUxPkUt77qPc2kUAaobukPqCKDfJ6zIj/plgf7wxWoFDN7tkAHh
+	 Kx8eJA0b/oM5QEShEGsWIfMYkyA7iD/Oe7YZsPpDBf4LTle9lUDMgvh9QbKY1+XRWf27F
+	 gCUqMPyMhpDcoHFaT+cOsCWOZc/c3t2fNDtrjE9CK41pDBBXRmTP4loYfy7slHA81NCuf
+	 aZlFQP9MIKY7EHh6Cb79LIpcDpsOKg6pmWbAcUYjXrNhK8D4hEmn3i1xP1+SMB2x59Hld
+	 PjdjUu3PnCeB5HvLE7Uz/NLbvnbEKZ6heqU6WMGv9oU32Q8Ik1GjEaX/hh+9xk/0DEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=intel.com;
 	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FAZrGhV2;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="l6I/TPzl";
+	arc=none smtp.remote-ip=198.175.65.13
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E47606A327
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 02:24:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5E47606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5BF606A32A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 03:34:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE5BF606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FAZrGhV2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=l6I/TPzl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794450264; x=1825986264;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ulhv5imC8/f1eo/AxFjsOo+ktXyro7iaXhJZ4kND9iY=;
-  b=FAZrGhV2/FcYQnIEdYUkYVqEnsLhHCnR1vsXhtd4QEZC3ttiVG5OPHMo
-   NXjfv61OJevP5HDOBInZU4+IIVnTnvf5DMkSALWd5ryWOZz5E+FkXUu4X
-   UTxCJm1A+MGZu32VdHPBoxCB6DqozNnkdPgh/PV29UDTj+4/rvAWCTAj3
-   n0XFqZzzP3bAta8j+y6ipRJCDT0jHCRpO94hcZDbHhEA2OT9y0iI1eHcA
-   0fI1sNUbY+1B15DB245QkRlObIxH7s4hpafjQGNKii//xx3KmaN9tSbe6
-   No7O6aYJLUQCuO1kqNtN2HllBgqDuqKn0g8ChhH5NuTxnEvsdEO60Ddo5
-   Q==;
-X-CSE-ConnectionGUID: BAArCnAURCa+ev76a60zSQ==
-X-CSE-MsgGUID: ESLncS8oTSOk4AW9QflUbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3132571"
+  t=1794454456; x=1825990456;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f0y9Vr7K76YEZcGrtRuHpPo2vPqWm4P/EyLiLucbYm8=;
+  b=l6I/TPzl7CelkxVyFBqsm7BdvECgDLwEr8kiTkwCyIWzCkSZJmxEdk0w
+   LAsnx2dzlnk8MlDZpwWla4VyPDF3FmW7ZKzxLfGBHyliGwEBNjgivG/89
+   eKK+DjSPYg99l7GMsNtZKOWn0pHda7f1IhYUtQ1lFuqil2KdWyuK4XCHu
+   QGE92hLW4cykSPUVU2/5IBCOtHRUDtOPud0yiQMZm6zqgNhVk3eb0tW0W
+   kquUREZurnexj7JymUX73sIEpRL8cpyh0xnObZuplII8HepKlN/Cemhvq
+   Qyy9zvDMOs6yabXzWKJDKi4+WO+aUD+e7Yn3ZL78UeQmc8a+Gi++Lxg1W
+   g==;
+X-CSE-ConnectionGUID: c6EcCGvBTYqU0oaQk2AUGg==
+X-CSE-MsgGUID: sma7bYZ2TVKTNjmgfj4wRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3113000"
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="3132571"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 18:24:23 -0800
-X-CSE-ConnectionGUID: yEyr7d8gTWCW9omW8YLhrg==
-X-CSE-MsgGUID: cdgg3LZeRPyHoUxLGAyv8Q==
+   d="scan'208";a="3113000"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 19:34:15 -0800
+X-CSE-ConnectionGUID: vcv+fLE/TI2epReFetZjRg==
+X-CSE-MsgGUID: Xx7CmS43SUCw/t8jjn4/Hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,208,1787036400"; 
-   d="scan'208";a="8421582"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 11 Nov 2026 18:24:22 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
+   d="scan'208";a="8864236"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 11 Nov 2026 18:53:29 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1xRKU7-000000000md-1PMJ;
-	Thu, 12 Nov 2026 02:24:19 +0000
-Date: Thu, 12 Nov 2026 03:24:05 +0100
+	id 1xRKwF-000000010JL-0IWR;
+	Thu, 12 Nov 2026 02:53:23 +0000
+Date: Thu, 12 Nov 2026 10:53:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-riscv64 1/1]
- drivers/staging/android/ashmem-legacy.c:397:17: warning: variable 'inode' set
- but not used
-Message-ID: <202611120306.aAN5eSXz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Paul Cercueil <paul.cercueil@bootlin.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Sunil Kovvuri Goutham <sgoutham@marvell.com>,
+	Tanmay Jagdale <tanmay@marvell.com>,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Paul Cercueil <paul.cercueil@bootlin.com>
+Subject: Re: [PATCH v2 6/6] spi: cadence-xspi: Add workaround for old Marvell
+ firmwares
+Message-ID: <202611121026.JlDpURlH-lkp@intel.com>
+References: <20261111103541.100848-7-paul.cercueil@bootlin.com>
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -80,191 +89,79 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111103541.100848-7-paul.cercueil@bootlin.com>
 
-Hi Isaac,
+Hi Paul,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
-head:   feccd7a4aac57b2b98a459c7903fd026e54a2b32
-commit: 97f1681cbca0ccce07e5c9ef0b450ea340867291 [1/1] ANDROID: staging: ashmem: Cleanup kconfig options and rename source files
-config: arm64-randconfig-2200-20261112 (https://download.01.org/0day-ci/archive/20261112/202611120306.aAN5eSXz-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 8621950157210c1fa68f20f0614cb51310ec9dff)
-smatch: v0.5.0-9187-g5189e3fb
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120306.aAN5eSXz-lkp@intel.com/reproduce)
+[auto build test ERROR on broonie-spi/for-next]
+[also build test ERROR on linus/master v7.4-rc2 next-20261110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/spi-cadence-xspi-Properly-handle-errors-in-transfer_one_message/20261111-113536
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20261111103541.100848-7-paul.cercueil%40bootlin.com
+patch subject: [PATCH v2 6/6] spi: cadence-xspi: Add workaround for old Marvell firmwares
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20261112/202611121026.JlDpURlH-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611121026.JlDpURlH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611120306.aAN5eSXz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611121026.JlDpURlH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/staging/android/ashmem-legacy.c:397:17: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
-     397 |                 struct inode *inode;
-         |                               ^
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y] && 64BIT [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_SVA
-   Depends on [n]: IOMMU_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_IOMMU_CONFIGS [=y] && (ARM64 [=y] || X86)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=y] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+>> drivers/spi/spi-cadence-xspi.c:1234:40: error: array type has incomplete element type 'struct acpi_platform_list'
+    1234 | static const struct acpi_platform_list mrvl_platform_list[] = {
+         |                                        ^~~~~~~~~~~~~~~~~~
+>> drivers/spi/spi-cadence-xspi.c:1239:25: error: 'all_versions' undeclared here (not in a function)
+    1239 |                 .pred = all_versions,
+         |                         ^~~~~~~~~~~~
+   drivers/spi/spi-cadence-xspi.c: In function 'cdns_is_marvell':
+>> drivers/spi/spi-cadence-xspi.c:1249:24: error: implicit declaration of function 'acpi_match_platform_list' [-Werror=implicit-function-declaration]
+    1249 |                 return acpi_match_platform_list(mrvl_platform_list) >= 0;
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
+   At top level:
+>> drivers/spi/spi-cadence-xspi.c:1234:40: warning: 'mrvl_platform_list' defined but not used [-Wunused-variable]
+    1234 | static const struct acpi_platform_list mrvl_platform_list[] = {
+         |                                        ^~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/inode +397 drivers/staging/android/ashmem-legacy.c
+vim +1234 drivers/spi/spi-cadence-xspi.c
 
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  365  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  366  static int ashmem_mmap(struct file *file, struct vm_area_struct *vma)
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  367  {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  368  	static struct file_operations vmfile_fops;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  369  	struct ashmem_area *asma = file->private_data;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  370  	int ret = 0;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  371  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  372  	mutex_lock(&ashmem_mutex);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  373  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  374  	/* user needs to SET_SIZE before mapping */
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  375  	if (!asma->size) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  376  		ret = -EINVAL;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  377  		goto out;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  378  	}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  379  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  380  	/* requested mapping size larger than object size */
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  381  	if (vma->vm_end - vma->vm_start > PAGE_ALIGN(asma->size)) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  382  		ret = -EINVAL;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  383  		goto out;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  384  	}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  385  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  386  	/* requested protection bits must match our allowed protection mask */
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  387  	if ((vma->vm_flags & ~calc_vm_prot_bits(asma->prot_mask, 0)) &
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  388  	    calc_vm_prot_bits(PROT_MASK, 0)) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  389  		ret = -EPERM;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  390  		goto out;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  391  	}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  392  	vm_flags_clear(vma, calc_vm_may_flags(~asma->prot_mask));
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  393  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  394  	if (!asma->file) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  395  		char *name = ASHMEM_NAME_DEF;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  396  		struct file *vmfile;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26 @397  		struct inode *inode;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  398  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  399  		if (asma->name[ASHMEM_NAME_PREFIX_LEN] != '\0')
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  400  			name = asma->name;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  401  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  402  		/* ... and allocate the backing shmem file */
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  403  		vmfile = shmem_file_setup(name, asma->size, vma->vm_flags);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  404  		if (IS_ERR(vmfile)) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  405  			ret = PTR_ERR(vmfile);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  406  			goto out;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  407  		}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  408  		vmfile->f_mode |= FMODE_LSEEK;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  409  		inode = file_inode(vmfile);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  410  		lockdep_set_class(&inode->i_rwsem, &backing_shmem_inode_class);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  411  		asma->file = vmfile;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  412  		/*
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  413  		 * override mmap operation of the vmfile so that it can't be
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  414  		 * remapped which would lead to creation of a new vma with no
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  415  		 * asma permission checks. Have to override get_unmapped_area
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  416  		 * as well to prevent VM_BUG_ON check for f_ops modification.
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  417  		 */
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  418  		if (!vmfile_fops.mmap) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  419  			vmfile_fops = *vmfile->f_op;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  420  			vmfile_fops.mmap = ashmem_vmfile_mmap;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  421  			vmfile_fops.get_unmapped_area =	mm_get_unmapped_area;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  422  		}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  423  		vmfile->f_op = &vmfile_fops;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  424  	}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  425  	get_file(asma->file);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  426  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  427  	/*
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  428  	 * XXX - Reworked to use shmem_zero_setup() instead of
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  429  	 * shmem_set_file while we're in staging. -jstultz
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  430  	 */
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  431  	if (vma->vm_flags & VM_SHARED) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  432  		ret = shmem_zero_setup(vma);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  433  		if (ret) {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  434  			fput(asma->file);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  435  			goto out;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  436  		}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  437  	} else {
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  438  		vma_set_anonymous(vma);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  439  	}
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  440  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  441  	vma_set_file(vma, asma->file);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  442  	/* XXX: merge this with the get_file() above if possible */
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  443  	fput(asma->file);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  444  
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  445  out:
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  446  	mutex_unlock(&ashmem_mutex);
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  447  	return ret;
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  448  }
-4b3275bbb3dda0 drivers/staging/android/ashmem.c Isaac J. Manjarres 2026-03-26  449  
-
-:::::: The code at line 397 was first introduced by commit
-:::::: 4b3275bbb3dda0062c3ba6146b6f56a9234c64da Revert "ANDROID: ashmem: Remove C version of the ashmem driver"
-
-:::::: TO: Isaac J. Manjarres <isaacmanjarres@google.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+  1233	
+> 1234	static const struct acpi_platform_list mrvl_platform_list[] = {
+  1235		{
+  1236			.oem_id = "MRVL  ",
+  1237			.oem_table_id = "CN10K",
+  1238			.table = ACPI_SIG_DSDT,
+> 1239			.pred = all_versions,
+  1240		},
+  1241		{ }
+  1242	};
+  1243	
+  1244	static inline bool cdns_is_marvell(struct device *dev)
+  1245	{
+  1246		const char *compatible;
+  1247	
+  1248		if (has_acpi_companion(dev))
+> 1249			return acpi_match_platform_list(mrvl_platform_list) >= 0;
+  1250	
+  1251		if (of_machine_read_compatible(&compatible, 0) < 0)
+  1252			return false; /* shouldn't actually happen */
+  1253	
+  1254		return strstarts(compatible, "marvell,");
+  1255	}
+  1256	
 
 --
 0-DAY CI Kernel Test Service
