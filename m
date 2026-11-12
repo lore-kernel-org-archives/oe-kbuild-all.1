@@ -1,78 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794455788;
-	b=hDnqxvLaG0XB6j1qlpzrFjoj3K+505TpNXX9m0kx15I1LST+stZCKgi0V6gCNjULOYql
-	 S8FqfDVUFIbasQfmLeZ+QfMg+EyZ/ieHzbilKijQRNvVFvQmfYM9vQkEAQiU/MIXJDgRj
-	 YYOPseLu4HOgBBShfPi3od9ygLAytpQ3PYnpHsXlY189GOKWONJznRtSeic0XgFdUHxyu
-	 TZD4Fu6CS6eiZM0+JMazMvOJuRCe9firrtu6jcxhOLO2bd1GmWGeA3M8BeX3Iv8H2rssl
-	 bufuIPZxVF9KVJ6nvQJ24Rn+7O+FGP3CvJeXG8lKtnLw0bPvRb00BUarqRyEUC2SSHQ==
+	t=1794460418;
+	b=oJt2ootcN3OeYbSyG7pJnMEdHToAX8Zb9/cxXGzoubsq+vyMimUs1ofoahfHHMVQxMWS
+	 YXWzZKtLQgV3A3JsF5ctw2pvKjivaAkswJws80567ajZT/kIH/Y4zSdp5BcF7FHT+qafO
+	 yxrlf6GiO5Kz3aROox5RecSRaLD/Hb2QsCb4glDMaxxCs3HjPYTcIZT5IxjYMOEEEpcws
+	 ndJ/a8bDfapgRJX8GyA2YI+iT1XHCae3Z03kz7SsbI+Z+PhYTebVJxRNW5AuqnEp5xHps
+	 MGAhxZdlNgGYg6FnylM1jg0HkRpjEV7f2TXj6X5LHGB13ZLJR03pefwq3fSqmR5CoyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794455788;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=6GssXKttDMVy2Z0Ups0u4mss2pxQ72pnbqnLBNLyVG4=;
-	b=sPuV2IZFfA1bDbL5ROea0W3yockC5SxUuBLkm1MVeVFMFVs6byZbTY60DSMX/nRCBdNk
-	 B27/j+vmGKvHEd7FD7qW4DRGuXeOGq02EDmUbsK9054pPdk8X0yO8OQ9SFAPbg3oJ7pqT
-	 5VOFcwf48S651Aa1O/9XoZ+820b+Dk0AqEDxnB/gNsFFNz+wDvhDuYGkxTKcsUZrZR1JN
-	 tWGRd35Qwr6ivsM274pCtRUobDBrzBkUKQiUdnt6sO4w6vQAE9U6sAb03nASgYMyVWucv
-	 C3PTSNg8CFqmQEIyL+/ho8oBL3LvaWkUoJIy0r78GxFciKz9AIRVm2P5jopxsj22pog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794460418;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=cRUDGnLfO0bI/ZKYLMo/IPOSFBGiK0gdMvTEjCrwYl8=;
+	b=VawNoU9ogTZt/9xn/+Pk+J5Hqi/T0oLWAKwlXA/5uFTgOvzSR6BWyUNdA9v2oSpbCChm
+	 guEoJt+KUgJNMNeDcIGIfhD5mfLrHu8zur5tNBVWLsAw2K0Pa884sBCZTS8fc7Aw3jkid
+	 LYMjKwP/JAj4RD5lOQCkujcK03e/nYizhR/BEo+qcNBq22owvxOx3W2leTqFMMaHUqgdG
+	 gYZmQPKo6F6hsLvPNFpifxxPKj0FvCntnouBg9TFaloFJvftuoYDhtjKb6deOMsh/mKn5
+	 NGEGA5aLegWvlKmv43bBjxmRSssyxLe9KXkkzVqMy9R1cCPJvXcj0VCMNNNijjs0fgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lcnGtgqi;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B9C606A31C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Nov 2026 03:56:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10B9C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lcnGtgqi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794455787; x=1825991787;
-  h=date:from:to:cc:subject:message-id;
-  bh=baH2/vFX8r1sy0eMq4emH9RCG3/ilnrtGu/AD6gLbVg=;
-  b=lcnGtgqiumiqjw8oD4O+zOFDDFoedJy66Uy0YbwSWf6ZUASsMToAOfq4
-   Vlb/a8i4X3kMXYuP+aVR6mXEsNBnru7UN0whsLDRdixIzFA6pvG8YRPPb
-   qZl7Pmv5QIq7CiVpuenemEivA5P1TYUQgfu0R5IDrmxgSqloQajKLYs/+
-   Q4Y9dtk/3121dR6dIZfIwiAw+/jZ8oZ/YAxl0fqBSVK9QZ9j82ZbV5/+g
-   5gWysqtzLHtiYMAcWRbCMGStPdA9quEI8n98aO+oyWawVgmvdyOsHBhNY
-   t8iJ2HOvJ3CXeX9WRiaIsPztyKaJAWaJqy3UUCm84r0iFF+f9/VrjsTPG
-   Q==;
-X-CSE-ConnectionGUID: NGbYYM/URDWyjl67BogOzA==
-X-CSE-MsgGUID: jwfI+H29RlO6KWlUgxEjcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3227064"
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3227064"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 19:56:27 -0800
-X-CSE-ConnectionGUID: vTuj68cTRYKV17BJRQW60Q==
-X-CSE-MsgGUID: DzK6auGNQs2rusp1IOxmXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="8419257"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 11 Nov 2026 19:56:25 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xRLvC-000000000nn-20kY;
-	Thu, 12 Nov 2026 03:56:22 +0000
-Date: Thu, 12 Nov 2026 04:55:59 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2026-09 8/8]
- include/linux/compiler_types.h:557:45: error: call to
- '__compiletime_assert_527' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(struct z_erofs_map_header) != 8
-Message-ID: <202611120456.w89UAMqR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56C8606A323;
+	Thu, 12 Nov 2026 05:13:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A56C8606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: ca2f8160de5711f19a56ed5b684f684d-20261112
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:5fdecb04-0666-42c4-9ebb-c02f989342c4,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:7db8b62,CLOUDID:68529bbf875d0f11b69a9fa443e77b28,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|136|865|898,TC:nil,Content:0|15|52
+	|99,EDM:-3|-100,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
+	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: ca2f8160de5711f19a56ed5b684f684d-20261112
+X-User: luoxueqin@kylinos.cn
+Received: from [10.42.13.56] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <luoxueqin@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 766716511; Thu, 12 Nov 2026 13:13:26 +0800
+Message-ID: <c6227bc2-beff-40f0-a76f-f2e296de5081@kylinos.cn>
+Date: Thu, 12 Nov 2026 13:11:43 +0800
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Post: <mailto:oe-kbuild-all@lists.linux.dev>
@@ -81,69 +61,74 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:oe-kbuild-all+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity()
+ for runtime updates
+To: kernel test robot <lkp@intel.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, sudeep.holla@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ zhanjie9@hisilicon.com, christian.loehle@arm.com, zhenglifeng1@huawei.com,
+ sumitg@nvidia.com, lenb@kernel.org, maciej.wieczor-retman@intel.com,
+ pawel.chmielewski@intel.com, gregkh@linuxfoundation.org, dakr@kernel.org,
+ johan@kernel.org, ionela.voinescu@arm.com, pierre.gondois@arm.com,
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
+ driver-core@lists.linux.dev
+References: <20261111085022.1229866-4-luoxueqin@kylinos.cn>
+ <202611120358.5eM3xOiA-lkp@intel.com>
+Content-Language: en-US
+From: luoxueqin <luoxueqin@kylinos.cn>
+In-Reply-To: <202611120358.5eM3xOiA-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2026-09
-head:   7cc7455426123221ba503e4251c3e829baf3a56c
-commit: fba340769f186c3e8448148a5524c8f34daeb468 [8/8] erofs: add encoded extent on-disk definition
-config: arm-randconfig-2000-20261112 (https://download.01.org/0day-ci/archive/20261112/202611120456.w89UAMqR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120456.w89UAMqR-lkp@intel.com/reproduce)
+Thanks for the report. Fixed: the mutex is now defined inside the
+CONFIG_ACPI_CPPC_LIB block, next to its only user, so ACPI-less
+configs no longer warn. It will be folded into the next revision of
+the series.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611120456.w89UAMqR-lkp@intel.com/
+在 2026/11/12 03:30, kernel test robot 写道:
+> Hi Xueqin,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on driver-core/driver-core-testing]
+> [also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v7.4-rc2]
+> [cannot apply to rafael-pm/linux-next rafael-pm/bleeding-edge next-20261110]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Xueqin-Luo/cpufreq-cppc-Add-update_limits-support-for-Highest-Performance-changes/20261111-165020
+> base:   driver-core/driver-core-testing
+> patch link:    https://lore.kernel.org/r/20261111085022.1229866-4-luoxueqin%40kylinos.cn
+> patch subject: [PATCH v6 3/3] arch_topology: Add topology_update_cpu_capacity() for runtime updates
+> config: arm-defconfig (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/config)
+> compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project e73e336290028f26553b46c9fba844c13da38c9c)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261112/202611120358.5eM3xOiA-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202611120358.5eM3xOiA-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> drivers/base/arch_topology.c:232:21: warning: unused variable 'raw_capacity_lock' [-Wunused-variable]
+>       232 | static DEFINE_MUTEX(raw_capacity_lock);
+>           |                     ^~~~~~~~~~~~~~~~~
+>     1 warning generated.
+> 
+> 
+> vim +/raw_capacity_lock +232 drivers/base/arch_topology.c
+> 
+>     230	
+>     231	static u32 *raw_capacity;
+>   > 232	static DEFINE_MUTEX(raw_capacity_lock);
+>     233	
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
-   In function 'erofs_check_ondisk_layout_definitions',
-       inlined from 'erofs_module_init' at fs/erofs/super.c:934:2:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_527' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct z_erofs_map_header) != 8
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   fs/erofs/erofs_fs.h:449:9: note: in expansion of macro 'BUILD_BUG_ON'
-     449 |         BUILD_BUG_ON(sizeof(struct z_erofs_map_header) != 8);
-         |         ^~~~~~~~~~~~
-
-
-vim +/__compiletime_assert_527 +557 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
-
-:::::: The code at line 557 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
